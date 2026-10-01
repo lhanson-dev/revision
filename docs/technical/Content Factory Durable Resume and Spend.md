@@ -1,6 +1,6 @@
 # Content Factory Durable Resume and Spend
 
-**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4; completion-first cost-control semantics proposed on 28 September 2026  
+**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4; completion-first cost-control semantics proposed on 28 September 2026; AQA 7132 fast-path question and Learn/Practice runners now use bounded exact-fingerprint resume  
 **Related initiative:** GitHub Issue #169  
 **Normative cost authority:** `60-business-operations/Content Factory Bootstrap Cost Strategy.md`, as amended by `60-business-operations/Content Factory Completion-First Cost Control Amendment.md`
 
@@ -159,6 +159,33 @@ The workflow still:
 - preserves deterministic and independent assurance requirements; and
 - cannot use cost pressure to weaken content quality or trust controls.
 
+## AQA 7132 fast-path slice resume
+
+The AQA 7132 fast-path slice runners are lighter-weight than the general Issue-backed orchestration, but they obey the same core invariant: **accepted work is reused only when its current governed inputs reconstruct the exact accepted fingerprint**.
+
+### Questions
+
+The first all-batch question run (`36857736736`) ended with accepted work that existed only in the retained Actions artifacts. PR #478 therefore added an explicit `resume_run_id` path to the questions workflow. The workflow restores the prior main-run artifact, reconstructs the current question/reviewer unit, and reuses a prior accepted question only when the current fingerprint still matches. Changed teaching, changed plan inputs, software-invalid content, unresolved blocking work or missing evidence remains a cache miss and is regenerated/reviewed. Provider reservations use the shared concurrency-safe budget wrapper, so parallel calls fail closed before the configured batch ceiling.
+
+### Learn + Practice
+
+Learn/Practice accepted assets and their ledgers are already committed to the repository. No separate recovery artifact is required. The resume-safe runner therefore:
+
+1. loads the current batch Blueprint and current Subject Foundation teaching;
+2. schema-validates the committed accepted node;
+3. rebuilds the current `buildSliceUnit` fingerprint from the current expectation, teaching and committed output;
+4. requires a prior `passed` or `logged` ledger entry with the exact same fingerprint and no software-blocking finding;
+5. passes exact matches to the shared fast-path runner, which returns `reused` before any provider call; and
+6. treats every missing, corrupt, software-invalid or fingerprint-stale node as a cache miss that must be generated and freshly reviewed.
+
+This means a Foundation change invalidates only the Learn/Practice nodes whose teaching input actually changed. After PR #478, provider-free assurance proves that batch `3.8-3.9` has three reusable nodes and two stale nodes (BUS-FND-007 and BUS-FND-008), while batch `3.10` has four reusable nodes and one stale node (BUS-STR-009).
+
+### Exact-course T8 ledger
+
+Fresh T8 run `36870063233` on main `d7b08d2` reviewed all 42 sections because the repository did not contain a durable T8 ledger, even though the runner already supported exact-fingerprint reuse. PR #481 persists that fresh ledger plus a compact run receipt under `content-factory/runs/aqa-7132-course-gate/`. Future T8 runs can therefore reuse unchanged sections while still re-reviewing any section whose current fingerprint changes.
+
+These fast-path additions do not replace the general durable-worker architecture. They are bounded stage-specific recovery mechanisms using evidence already canonical for those stages.
+
 ## Provider independence
 
 The durable checkpoint model is semantic rather than provider-loyal. Provider/model identity remains execution provenance. A different provider route may be introduced only after satisfying the governed quality, reliability, privacy, rights and worker-contract requirements for that role.
@@ -178,6 +205,8 @@ Durable-store tests prove:
 
 Q5 assurance separately proves dependency-aware replay and narrow invalidation across content-head changes.
 
+The AQA 7132 fast-path tests additionally prove that current committed Learn/Practice assets classify into exact reusable versus stale sets before any live provider execution. The live evidence summary records `reused_unchanged`, `regenerated_or_reviewed` and the provider budget snapshot.
+
 ## Deliberate limitations
 
 - The durable checkpoint backend remains GitHub Issues for the current v0.x proof stage and is replaceable under the existing architecture.
@@ -186,7 +215,8 @@ Q5 assurance separately proves dependency-aware replay and narrow invalidation a
 - Opening another execution slice is a deliberate resume action; the workflow does not recursively buy unlimited slices inside one attempt.
 - Cost pause/resume does not approve educational content, remove expert review or change publication eligibility.
 - Provider switching remains separately subject to worker-role qualification rather than being automatic fallback.
+- The AQA fast-path stage-specific resume mechanisms depend on retained canonical evidence: committed Learn/Practice assets + ledgers, or an explicitly selected prior question-run artifact. Missing/corrupt evidence fails closed to fresh work rather than being guessed.
 
 ## Documentation impact
 
-This record now reflects completion-first cost-control semantics: spend remains cumulative, each explicit attempt is bounded, and cost exhaustion pauses rather than making content educationally fail. Historical pilot evidence is not rewritten.
+This record reflects completion-first cost-control semantics and the bounded AQA 7132 fast-path resume implementations. Spend remains cumulative, each explicit attempt is bounded, and exact-fingerprint reuse prevents unchanged accepted work from being repurchased. Historical pilot and run evidence is not rewritten.

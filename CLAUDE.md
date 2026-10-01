@@ -1,6 +1,6 @@
 # CLAUDE.md — Revision
 
-Read this at the start of every session. It is short on purpose. It applies to every AI tool that works on this repo (Claude, ChatGPT, Codex or anything else), not just Claude; `AGENTS.md` points here.
+Read this at the start of every session. It applies to every AI tool that works on this repo (Claude, ChatGPT, Codex or anything else); `AGENTS.md` points here.
 
 ## Who you are working with
 
@@ -23,8 +23,8 @@ The first course is **AQA A-level Business 7132 (2027 exams)**.
 
 ## Governance that still applies
 
-- Follow `START_HERE.md` and `AUTHORITY_HIERARCHY.md`.
-- Work on a branch and open a PR for every change.
+- Follow `START_HERE.md`, `INDEX.md`, `AUTHORITY_HIERARCHY.md`, `KNOWLEDGE_ARCHITECTURE.md` and `70-ai-operating-system/AI Agent Constitution.md`.
+- Work on a branch and open a PR for every governed change.
 - **Stop before every merge.** Every merge into `main` needs Lee's explicit approval for that specific PR.
 
 ## The Content Factory process (fast path)
@@ -38,22 +38,20 @@ The governing process is `80-company-workflows/Content Factory Fast-Path Process
 - **Max two review rounds per item**, then escalate to Lee.
 - **Failures stay small**: one failed item or AI call never stops a whole run; fixes recheck only what changed and its dependants.
 
-## Rules for you (these exist because the first six weeks drifted)
+## Rules for you
 
 1. Do not propose architecture changes unless a check has failed because of the architecture. Name the failed check.
 2. Do not write new standards, amendments or ADRs to fix a single defect. Log the fix in one line in the run log.
 3. Do not ask an AI reviewer to "find any problems". Use the fixed checklist for that stage.
 4. Do not treat a weak citation as blocking. Log it for the next source batch.
 5. Do not start a third review round on the same issue. Add it to the escalation list for Lee.
-6. Do not regenerate or re-review anything whose inputs haven't changed.
+6. Do not regenerate or re-review anything whose inputs have not changed.
 7. Do not let one failed AI call stop a run. Retry up to 3 times, mark that item failed, continue.
 8. Prefer a software check over an AI judgement whenever the answer can be computed or looked up.
-9. When unsure whether something blocks, ask: would a student learn something wrong, or miss something examinable? If not, it doesn't block.
+9. When unsure whether something blocks, ask: would a student learn something wrong, or miss something examinable? If not, it does not block.
 10. AQA material stays `REFERENCE_ONLY`: use it to establish requirements and assessment structure, never as teaching copy, and never paraphrase past-paper questions.
 
-## Where things are (read these, not the whole repo)
-
-The repo has a lot of historical process documentation. Most of it is evidence, not instructions. For factory work, start with:
+## Where things are
 
 | What | Where |
 | --- | --- |
@@ -61,38 +59,49 @@ The repo has a lot of historical process documentation. Most of it is evidence, 
 | Architecture decision | `decisions/ADR-0028-subject-knowledge-foundation-and-course-projection.md` |
 | Trial stages T1–T12 | `docs/technical/Content Factory Subject Foundation Trial.md` |
 | Exact-course gate (T8) | `docs/technical/Content Factory AQA Exact-Course Assurance.md` |
-| Business Subject Foundation versions | `research/business-subject-foundation/` (v0.1–v0.8) |
+| Durable resume and spend implementation | `docs/technical/Content Factory Durable Resume and Spend.md` |
+| Business Subject Foundation versions | `research/business-subject-foundation/` |
 | AQA 7132 specification mapping | `research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs` |
 | T8 deterministic package | `scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs` |
-| T8 gate runner (fast-path rules) | `scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts`, `scripts/assurance/aqa-business-7132-course-gate.ts` |
-| Fast-path review rules (checklists, blocking, rounds, retries) | `src/content-factory/fast-path-review.ts` |
-| AQA 7132 named items and item-level coverage check | `research/aqa-business-7132/2027/NAMED_ITEMS.json`, `scripts/assurance/check-aqa-business-7132-item-coverage.mjs` |
+| T8 gate runner | `scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts`, `scripts/assurance/aqa-business-7132-course-gate.ts` |
+| Fast-path review rules | `src/content-factory/fast-path-review.ts` |
+| AQA 7132 named items / coverage | `research/aqa-business-7132/2027/NAMED_ITEMS.json`, `scripts/assurance/check-aqa-business-7132-item-coverage.mjs` |
+| Run log | `content-factory/RUN_LOG.md` |
 
 How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 2 Spec mapping = T4–T5 · 3 Course + Exam Truth = T6–T7 · 4 Course gate = T8 · 5 Blueprint = T9 · 6 Learn + Practice = T10 · 7–8 Exam questions and mocks = T11 · Release = T12.
 
-## Current state (as of 30 September 2026 — verify on `main` before acting)
+## Current state (as of 1 October 2026 — verify on `main` before acting)
 
-- Business Subject Foundation: 81 nodes in 9 domains, current version v0.8 (plus the BUS-PEO-010 fix, PR #447). The old v0.8 reassurance loop is closed; accuracy of the changed nodes is now checked inside the T8 gate.
-- AQA 7132 mapping: 42 requirements at specification-subsection level (3.1.1, 3.5.4 …), all mapped to nodes.
-- Item-level coverage (step 2, PR #448): named items in `research/aqa-business-7132/2027/NAMED_ITEMS.json` (344 after the Founder spot-check of 3.5 and 3.8), each formula with its AQA calculation convention (none flagged now: gearing and ARR confirmed by Lee 30 September; profit for the year decided by Claude on Lee's delegation 1 October, to be checked by the content reviewer). Software check `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`. Currently 344/344 covered, no gaps.
-- Foundation fixes are additive, in `research/business-subject-foundation/v0.8-t8-remediation/FAST_PATH_FIXES.json` (no new Foundation version per fix); fixed nodes are listed in `changedSinceAssurance` and checked by the T8 gate's accuracy question.
-- T8 gate (step 3, PR #452) runs under the fast-path rules: per section, software first (dependency freshness, item coverage, prerequisite closure), fixed checklist, rule-decided blocking, 3 retries, two-round limit, Founder escalation. Ledger: `content-factory/runs/aqa-7132-course-gate/`.
-- The T8 package (mapping → Course Truth → Exam Truth → runtime adapter → review bundle) is built from the current Foundation (v0.8), with no hard-coded fingerprints. The course node set is mapped nodes plus prerequisites (79 nodes; BUS-MKT-001 restored), which resolves old T8 finding 1.
-- T8 last result: **`ai_assured`, can progress** (30 September, GitHub Actions run 36790228166 on commit 7cd13ee). Software checks and the official-source check passed. Of 42 sections: 32 passed, 10 passed with logged notes (8 out of scope, 2 weak citation: 3.6.2 and 3.9.2), 0 blocking, 0 escalated, 0 failed. Blockers went 12 → 8 → 3 → 3 → 0 over five runs; every finding was verified against the text and fixed additively in `FAST_PATH_FIXES.json`. "AI-assured" means it passed the fixed AI checklists, not that an expert has checked it. Lee will have all content reviewed by a person once it is finalised and live on the website, in context (1 October); Claude audited the UK-law wording (redundancy, Equality Act 2010, trade unions, patents and copyright) and fixed one overstatement.
-- Only an OpenAI key is configured; the second-provider reviews in the process are not yet possible.
-- No learner assets have yet been produced by the current (ADR-0028) model. Older AQA content in `content/business/` comes from the superseded whole-course model.
+- **Approved main:** PR #478 is merged at `d7b08d2d62ecba886f72bee6a42a7acb21dc6ca8`.
+- **Business Subject Foundation:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. `QUESTION_ESCALATION_FIXES.json` now deepens BUS-FND-007 (takeover-specific failure mechanisms), BUS-FND-008 (synergy definition/mechanisms) and BUS-STR-009 (crisis management). Current Subject Foundation fingerprint is `f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94`.
+- **AQA 7132 mapping:** 42 specification subsections; item-level coverage remains 344/344 with no gaps.
+- **Fresh T8 proof on the new Foundation:** GitHub Actions run **36870063233** on approved main `d7b08d2` is `ai_assured`, `can_progress=true`. Of 42 sections: 31 passed, 11 passed with logged notes, 0 blocking, 0 escalated, 0 failed. The official AQA source check passed. Conservative provider spend was **$1.041614** of the $12 cap. Exact-course Foundation fingerprint: `adebfcea045279cf82dd9b99a7e0ef1cbd03403d31ea09535d160be45f89a07d`. Artifact 11166648011 / digest `sha256:4e598428e8a777a8e8589af749b4c6af5864d54151984194882a25e193e29ab9` expires 31 October 2026.
+- **T8 reuse observation:** run 36870063233 re-reviewed all 42 sections (`reused_unchanged=0`) because no durable T8 ledger was committed on main. PR #481 persists the fresh ledger and receipt so future exact-fingerprint T8 runs can reuse unchanged sections. This is a resume-evidence defect, not an educational finding.
+- **Learn + Practice:** the whole course was built in run 36852926789 (74/74 accepted, about $4.40). The Foundation changes make only BUS-FND-007, BUS-FND-008 and BUS-STR-009 dependent assets stale. PR #481 fixes the Learn/Practice runner so it reconstructs each committed asset against the current Blueprint + Foundation **before** any provider generation: exact passed/logged fingerprint matches are reused; only stale/missing nodes are regenerated and reviewed. Provider-free tests prove the expected refresh scope is 2 stale nodes in batch 3.8–3.9 and 1 stale node in batch 3.10; the other seven nodes in those two batches are reusable.
+- **AQA 3.5 questions:** complete, 14/14 accepted in run 36830719185 and committed.
+- **Remaining course questions:** first all-batch run **36857736736** on old main `18c2e713` accepted **128/231** before provider credit exhaustion. Conservative recorded spend was about **$23.82**. PR #478 added exact-fingerprint artifact resume, concurrency-safe $6 batch reservations, correct two-round escalation handling, and the three Founder-approved fixes. OpenAI API credit has been restored.
+- **Question escalations are resolved:** 3.8–3.9 q04 (takeover), q07 (synergy) and 3.10 q09 (crisis management) are Founder-decided `fix`, recorded against their exact prior fingerprints. Do not reopen the same dispute unless changed inputs produce a genuinely new finding.
+- **Human review:** no course content has qualified-human approval yet. Lee will arrange a person to review the finished course in context on the live site.
+- **Second provider:** only OpenAI is configured; second-provider checks in the process cannot yet run.
 
 ## The plan
 
-1. ~~Lock in the fast-path process (ADR-0029, process doc, this file).~~ Done 30 September 2026.
-2. ~~Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.~~ Done 30 September 2026 (PR #448).
-3. ~~Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.~~ Done for the T8 gate 30 September 2026 (PR #452); later stages reuse `src/content-factory/fast-path-review.ts`.
-4. ~~Rerun the T8 gate under the new rules and resolve the open findings.~~ Done 30 September 2026 (run 36790228166, `ai_assured`).
-5. **Built, awaiting Lee's review:** take AQA 3.5 (financial performance) through Blueprint, Learn, Practice, 10–15 exam-style questions and marking. Blueprint done and merged (35/35 items treated, `content-factory/slices/aqa-7132-3.5/BLUEPRINT.json`). Learn + Practice done for all 12 nodes (run 36828203219, 1 October: 12/12 accepted, $0.68 of the $6 cap; software proved every calculation, named-item coverage and required treatments; one fixed-checklist AI review each; assets in `content-factory/slices/aqa-7132-3.5/learn-practice/`, workflow `content-factory-aqa-business-7132-slice-learn-practice.yml`). The content is short (about 5,800 words for the whole slice) and only one node has been read by a person so far, so depth is the thing to judge in the student review. Exam-style questions and marking (5c) done (run 36830719185, 1 October: 14 questions, 72 marks, 14/14 accepted, $0.61 of the $6 cap; all 12 named formulas covered, quantitative 37.5%; software proved calculations and mark schemes, each question answered blind, then one fixed-checklist review; questions in `content-factory/slices/aqa-7132-3.5/questions/`, workflow `content-factory-aqa-business-7132-slice-questions.yml`). The whole 3.5 slice is built by the fast path for $1.29 of AI spend. Nothing has been checked by an expert yet; Lee will have a person review all content in context on the live site once it is finalised, so the next job is to run the rest of 7132 (step 6).
-6. **In progress:** run the rest of 7132 through the same harness (Lee skipped the slice-by-slice review: a person will review all the content in context on the live site once it is finalised; Lee approved batch runs at up to $6 each on 1 October). Built: all 39 named formulas in the software checker, batch blueprints for 7 course batches plus a top-up batch (`content-factory/slices/aqa-7132-batches.json`, one folder per batch under `content-factory/slices/`), and the batch-aware Learn + Practice workflow. **Learn + Practice run for all batches 1 October (run 36852926789): 74 nodes (67 new plus the 7-node 3.5 top-up), 74/74 accepted, 0 blocking, 0 escalated, 0 failed, about $4.40 of AI spend; assets in `content-factory/slices/aqa-7132-<batch>/learn-practice/`, ledgers in `content-factory/runs/aqa-7132-slice-<batch>/`.** Next: questions per batch (question-plan builder and batch-aware workflow still to build), whole-paper mocks and a final T8 rerun.
-7. Start a second Business board and measure reuse.
+1. ~~Lock in the fast-path process.~~ Done.
+2. ~~Split the AQA course into named items and prove item-level coverage.~~ Done: 344/344.
+3. ~~Implement fixed-checklist fast-path assurance.~~ Done.
+4. ~~Pass the exact-course T8 gate.~~ Fresh proof after PR #478: run 36870063233, `ai_assured`.
+5. ~~Build the complete AQA 3.5 proof slice.~~ Done: Learn + Practice + 14 AQA-style practice questions.
+6. **In progress — finish AQA 7132:**
+   - get PR #481 green and Founder-approved;
+   - after merge, run Learn + Practice only for batches `3.8-3.9` and `3.10`; verify exact reuse of the seven unchanged nodes and fresh generation/review only for BUS-FND-007, BUS-FND-008 and BUS-STR-009;
+   - commit the three refreshed accepted node assets and new evidence/ledgers;
+   - resume Questions with `batch=all` and `resume_run_id=36857736736`; unchanged accepted questions must be reused, while stale/unresolved work is generated/reviewed;
+   - commit the final accepted question set and evidence;
+   - build whole-paper mocks and prove the course-wide quantitative/exam-structure constraints;
+   - run the final release assurance required by the pipeline.
+7. Start a second Business board and measure Foundation reuse.
 
-Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (date · item · what · why · which check).
+Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (`date · item · what · why · which check`).
 
 ## Design system (learner app)
 
@@ -107,10 +116,10 @@ Decisions and behaviour rules for the learner app are in `docs/design/decisions/
 
 ## Switching between AI tools
 
-Lee uses more than one AI tool (currently Claude and ChatGPT/Codex) and must be able to stop in one and pick up in another at any point. The repo, not any chat history, is the shared memory. So:
+Lee uses more than one AI tool and must be able to stop in one and pick up in another at any point. The repo, not chat history, is the shared memory.
 
-1. **Start from the repo.** Begin every session by reading this file, the Fast-Path Process doc and the latest entries in `content-factory/RUN_LOG.md`, then check `main` and open PRs. Do not rely on what a previous chat said.
-2. **Log as you go.** Every fix or decision gets one line in `RUN_LOG.md` (`date · item · what · why · which check`) in the same PR as the change, so a session that stops suddenly still leaves a trail.
-3. **Finish on something pushed.** End every session with the work on a pushed branch or open PR, never only on a local machine or in a chat. If work is unfinished, add a run log line starting `HANDOVER ·` saying what is done, what is next, and the branch or PR name.
-4. **Keep "Current state" current.** When something significant lands (a gate result, a version merged, a slice finished), update the "Current state" section above in the same PR.
-5. **Same rules, whichever tool.** The rules above apply unchanged. A new tool is not a reason to revisit the architecture or the process.
+1. **Start from the repo.** Read this file, the Fast-Path Process and the latest `content-factory/RUN_LOG.md` entries, then check `main` and open PRs.
+2. **Log as you go.** Every fix or decision gets one run-log line in the same PR.
+3. **Finish on something pushed.** End with work on a pushed branch or open PR. If unfinished, add a `HANDOVER ·` run-log entry.
+4. **Keep Current state current.** When a significant gate result, version or slice lands, update this section in the same PR.
+5. **Same rules, whichever tool.** Changing AI tools is not a reason to revisit the architecture or process.

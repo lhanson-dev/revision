@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.10",
+  "blueprint_fingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 13,
+    "marks": 90,
+    "quantitative_marks": 3,
+    "formulas": 1,
+    "items": 15,
+    "nodes": 5,
+    "estimated_spend_usd": 0.78
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "total-float"
+      ],
+      "formulaIds": [
+        "total_float"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the total float. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q02",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "critical-path"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Critical path\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q03",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "amending-network-diagrams"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Amending network diagrams\". Mark scheme is level-based."
+    },
+    {
+      "id": "q04",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "network-analysis"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Network analysis\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q05",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "barriers-to-change"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Barriers to change\". Mark scheme is level-based."
+    },
+    {
+      "id": "q06",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "internal-and-external-causes-of-change"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Internal and external causes of change\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q07",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "incremental-versus-disruptive-change",
+        "restructuring"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Incremental versus disruptive change\" and \"Restructuring\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q08",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "delayering",
+        "knowledge-and-information-management"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Delayering\" and \"Knowledge and information management\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q09",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "strategic-drift",
+        "crisis-management"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Strategic drift\" and \"Crisis management\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q10",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "lewin-s-force-field-analysis"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Lewin's force field analysis\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q11",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "kotter-and-schlesinger-reasons-for-resistance"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Kotter and Schlesinger: reasons for resistance\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q12",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "kotter-and-schlesinger-methods-of-overcoming-resistance"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Kotter and Schlesinger: methods of overcoming resistance\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q13",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "lewin-s-force-field-analysis",
+        "kotter-and-schlesinger-reasons-for-resistance",
+        "kotter-and-schlesinger-methods-of-overcoming-resistance"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Lewin's force field analysis\" and \"Kotter and Schlesinger: reasons for resistance\" and \"Kotter and Schlesinger: methods of overcoming resistance\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

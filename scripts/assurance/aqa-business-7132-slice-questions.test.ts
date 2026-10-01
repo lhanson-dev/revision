@@ -1,4 +1,4 @@
-// AQA 7132 slice production, step 5c: exam-style questions with mark schemes for section 3.5 under the fast-path rules (ADR-0029).
+// AQA 7132 slice production, step 5c: exam-style questions with mark schemes for one batch (3.5 by default) under the fast-path rules (ADR-0029).
 // Always-on tests are software only. The live run (provider spend, capped) only runs when the proof flag is set, post-merge on main.
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
@@ -13,7 +13,9 @@ import {
   type ClassifiedFinding,
   type Ledger,
 } from '../../src/content-factory/fast-path-review'
+import { withSharedProviderBudget } from '../../src/content-factory/openai-shared-provider-budget'
 import type { Blueprint } from './aqa-business-7132-slice-learn-practice'
+import type { QuestionPlanFile } from './aqa-business-7132-question-plan'
 import {
   BLIND_ANSWER_INSTRUCTIONS,
   QUESTIONS_CHECKLIST,
@@ -32,6 +34,7 @@ import {
   validateQuestion,
   type BlindAnswer,
   type Question,
+  type QuestionSpec,
   type QuestionTeaching,
   type QuestionUnit,
   type ResolvedSpec,
@@ -41,11 +44,48 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
 const proofEnabled = env.CONTENT_FACTORY_AQA_7132_SLICE_QUESTIONS === '1'
+// The batch to run live (default: the first slice, 3.5). Batches are listed in content-factory/slices/aqa-7132-batches.json; their plans are built by software.
+const BATCH = env.CONTENT_FACTORY_SLICE_BATCH?.trim() || '3.5'
 const BLUEPRINT = 'content-factory/slices/aqa-7132-3.5/BLUEPRINT.json'
-const OUTPUT = '.artifacts/content-factory-aqa-business-7132-slice-3.5-questions'
-const QUESTIONS_DIR = 'content-factory/slices/aqa-7132-3.5/questions'
+const BATCH_BLUEPRINT = `content-factory/slices/aqa-7132-${BATCH}/BLUEPRINT.json`
+const OUTPUT = `.artifacts/content-factory-aqa-business-7132-slice-${BATCH}-questions`
+const QUESTIONS_DIR = `content-factory/slices/aqa-7132-${BATCH}/questions`
+const RUN_DIR = `content-factory/runs/aqa-7132-slice-${BATCH}-questions`
+const RETAINED_BLIND_ANSWERS_DIR = `${RUN_DIR}/blind-answers`
+const RESUME_CHECKPOINT = `${RUN_DIR}/resume-checkpoint.json`
 // Committed between runs so unchanged questions are reused and review rounds are counted.
-const LEDGER = 'content-factory/runs/aqa-7132-slice-3.5-questions/ledger.json'
+const LEDGER = `${RUN_DIR}/ledger.json`
+
+type ResumeCheckpoint = {
+  schema_version: 1
+  source_run_id: number
+  reviewed_commit: string
+  batch: string
+  summary: unknown
+  ledger: Ledger
+  accepted_units: Record<string, { question_record: { question: unknown }; blind_answer: unknown }>
+}
+
+let resumeCheckpointPromise: Promise<ResumeCheckpoint | null> | null = null
+async function readResumeCheckpoint(): Promise<ResumeCheckpoint | null> {
+  if (!resumeCheckpointPromise) {
+    resumeCheckpointPromise = readFile(RESUME_CHECKPOINT, 'utf8').then((text) => {
+      const parsed = JSON.parse(text) as ResumeCheckpoint
+      if (parsed.schema_version !== 1 || parsed.batch !== BATCH || parsed.ledger.stage !== QUESTIONS_CHECKLIST.stage || parsed.ledger.checklist_version !== QUESTIONS_CHECKLIST.version) return null
+      return parsed
+    }).catch(() => null)
+  }
+  return resumeCheckpointPromise
+}
+
+// Section 3.5 keeps its hand-written plan; every other batch uses its committed plan, which must be built from the current blueprint.
+async function planFor(batch: string): Promise<readonly QuestionSpec[]> {
+  if (batch === '3.5') return QUESTION_PLAN
+  const file = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/QUESTION_PLAN.json`, 'utf8')) as QuestionPlanFile
+  const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
+  if (file.blueprint_fingerprint !== blueprint.courseKnowledgeModelFingerprint) throw new Error(`question_plan_stale:${batch}`)
+  return file.questions
+}
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -80,7 +120,44 @@ async function readLedger(): Promise<Ledger> {
   try {
     return JSON.parse(await readFile(LEDGER, 'utf8')) as Ledger
   } catch {
+    const checkpoint = await readResumeCheckpoint()
+    if (checkpoint) return checkpoint.ledger
     return { schema_version: 1, stage: QUESTIONS_CHECKLIST.stage, checklist_version: QUESTIONS_CHECKLIST.version, units: {} }
+  }
+}
+
+function retainedQuestionUnit(input: {
+  spec: ResolvedSpec
+  question: Question
+  blind: BlindAnswer
+  teaching: QuestionTeaching[]
+  previous: Ledger['units'][string] | undefined
+}) {
+  if (!input.previous || !['passed', 'logged'].includes(input.previous.outcome)) return null
+  if (input.blind.question_id !== input.spec.id || validateQuestion(input.question, input.spec).length > 0) return null
+  const unit = buildQuestionUnit({ spec: input.spec, question: input.question, blind: input.blind, teaching: input.teaching })
+  return unit.fingerprint === input.previous.fingerprint ? unit : null
+}
+
+async function readRetainedQuestionUnit(input: { spec: ResolvedSpec; teaching: QuestionTeaching[]; ledger: Ledger }): Promise<{ question: Question; blind: BlindAnswer; unit: QuestionUnit } | null> {
+  const previous = input.ledger.units[input.spec.id]
+  if (!previous || !['passed', 'logged'].includes(previous.outcome)) return null
+  const accept = (questionValue: unknown, blindValue: unknown) => {
+    const question = questionSchema.parse(questionValue)
+    const blind = blindAnswerSchema.parse(blindValue)
+    const unit = retainedQuestionUnit({ spec: input.spec, question, blind, teaching: input.teaching, previous })
+    return unit ? { question, blind, unit } : null
+  }
+  try {
+    const record = JSON.parse(await readFile(`${QUESTIONS_DIR}/${input.spec.id}.json`, 'utf8')) as { question: unknown }
+    return accept(record.question, JSON.parse(await readFile(`${RETAINED_BLIND_ANSWERS_DIR}/${input.spec.id}.json`, 'utf8')))
+  } catch {
+    try {
+      const saved = (await readResumeCheckpoint())?.accepted_units[input.spec.id]
+      return saved ? accept(saved.question_record.question, saved.blind_answer) : null
+    } catch {
+      return null
+    }
   }
 }
 
@@ -212,6 +289,19 @@ describe('AQA 7132 slice questions (software checks)', () => {
     expect(checklistInstructions(QUESTIONS_CHECKLIST)).toContain('Do not look for other problems')
   })
 
+  it('reuses a retained accepted question only when its exact review fingerprint still matches current inputs', async () => {
+    const plan = await resolved()
+    const spec = plan.find((s) => s.id === 'q04')!
+    const question = validShort(spec)
+    const blind: BlindAnswer = { question_id: 'q04', answer_text: 'Gross profit £100,000 and operating profit £70,000.', numbers: [{ label: 'gross profit', value: 100000 }, { label: 'operating profit', value: 70000 }] }
+    const teaching: QuestionTeaching[] = [{ subject_id: 'BUS-FIN-003', teaching_content: { fact: 'same' }, quantitative_content: {}, source_ids: ['SRC-A'] }]
+    const unit = buildQuestionUnit({ spec, question, blind, teaching })
+    const previous: Ledger['units'][string] = { fingerprint: unit.fingerprint, outcome: 'passed', consecutive_blocking_rounds: 0, findings: [], updated_at: '2026-10-01T00:00:00Z' }
+    expect(retainedQuestionUnit({ spec, question, blind, teaching, previous })?.fingerprint).toBe(unit.fingerprint)
+    expect(retainedQuestionUnit({ spec, question, blind, teaching: [{ ...teaching[0], teaching_content: { fact: 'changed' } }], previous })).toBeNull()
+    expect(retainedQuestionUnit({ spec, question, blind, teaching, previous: { ...previous, outcome: 'failed' } })).toBeNull()
+  })
+
   it('reports whole-set facts: marks, quantitative share, formulas not yet covered', async () => {
     const plan = await resolved()
     const spec = plan.find((s) => s.id === 'q04')!
@@ -223,20 +313,26 @@ describe('AQA 7132 slice questions (software checks)', () => {
   })
 
   it('keeps every committed question valid against its plan (software re-proof, no AI)', async () => {
-    if (!existsSync(QUESTIONS_DIR)) return
-    for (const spec of await resolved()) {
-      const path = `${QUESTIONS_DIR}/${spec.id}.json`
-      if (!existsSync(path)) continue
-      const record = JSON.parse(await readFile(path, 'utf8')) as { question: unknown }
-      const question = questionSchema.parse(record.question)
-      expect(validateQuestion(question, spec), spec.id).toEqual([])
+    const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
+    for (const batch of ['3.5', ...config.batches.map((b) => b.id), config.top_up.id]) {
+      const dir = `content-factory/slices/aqa-7132-${batch}/questions`
+      if (!existsSync(dir)) continue
+      const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
+      for (const spec of resolvePlan(blueprint, await planFor(batch))) {
+        const path = `${dir}/${spec.id}.json`
+        if (!existsSync(path)) continue
+        const record = JSON.parse(await readFile(path, 'utf8')) as { question: unknown }
+        const question = questionSchema.parse(record.question)
+        expect(validateQuestion(question, spec), `${batch}/${spec.id}`).toEqual([])
+      }
     }
   })
 
   const proofIt = proofEnabled ? it : it.skip
 
   proofIt('writes each planned question, has it answered blind, proves what software can, reviews with a fixed checklist, and never unlocks learner publication', async () => {
-    const plan = await resolved()
+    const questionPlan = await planFor(BATCH)
+    const plan = resolvePlan(JSON.parse(await readFile(BATCH_BLUEPRINT, 'utf8')) as Blueprint, questionPlan)
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     await mkdir(`${OUTPUT}/questions`, { recursive: true })
@@ -249,14 +345,15 @@ describe('AQA 7132 slice questions (software checks)', () => {
       return { subject_id: subjectId, title: node.title ?? null, teaching_content: node.teaching_content ?? {}, quantitative_content: node.quantitative_content ?? {}, source_ids: rows.get(subjectId)?.subject_truth_sources ?? [] }
     })
 
-    const provider = createOpenAIFoundationLiveProvider({
+    const maxSpendUsd = positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 6)
+    const provider = createOpenAIFoundationLiveProvider(withSharedProviderBudget({
       apiKey: requiredEnv('OPENAI_API_KEY'),
-      maxSpendUsd: positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 6),
+      maxSpendUsd,
       // Reasoning tokens count towards the output limit, so generation gets medium effort and a large budget.
       generation: model(20_000, 'medium'),
       independentReview: model(8_000, 'high'),
       maxRetries: 0,
-    })
+    }))
 
     const generate = (spec: ResolvedSpec) => async (payload: Record<string, unknown>) => {
       const execution = await provider.run({ workerId: 'content-factory.aqa-7132.slice-questions-generate', contractVersion: QUESTIONS_CHECKLIST.version, routeKind: 'generation', strictOutput: true, outputSchema: questionSchema, instructions: QUESTION_GENERATION_INSTRUCTIONS, payload })
@@ -276,19 +373,29 @@ describe('AQA 7132 slice questions (software checks)', () => {
 
     const questions = new Map<string, Question>()
     const generationFailures: Array<{ id: string; error: string }> = []
-    const buildUnits = async (targets: ResolvedSpec[], feedback: Map<string, ClassifiedFinding[]>) => {
+    const buildUnits = async (targets: ResolvedSpec[], feedback: Map<string, ClassifiedFinding[]>, ledgerForReuse: Ledger, allowRetained: boolean) => {
       const units: QuestionUnit[] = []
       let next = 0
       const worker = async () => {
         while (next < targets.length) {
           const spec = targets[next++]
-          const produced = await produceQuestion({ spec, teaching: teachingFor(spec), generate: generate(spec), feedback: feedback.get(spec.id) })
+          const teaching = teachingFor(spec)
+          if (allowRetained) {
+            const retained = await readRetainedQuestionUnit({ spec, teaching, ledger: ledgerForReuse })
+            if (retained) {
+              questions.set(spec.id, retained.question)
+              await writeFile(`${OUTPUT}/blind-answers/${spec.id}.json`, `${JSON.stringify(retained.blind, null, 2)}\n`)
+              units.push(retained.unit)
+              continue
+            }
+          }
+          const produced = await produceQuestion({ spec, teaching, generate: generate(spec), feedback: feedback.get(spec.id) })
           if (!produced.output) { generationFailures.push({ id: spec.id, error: produced.error ?? 'generation failed' }); continue }
           const blind = await answerBlind(produced.output)
           if (!blind.answer) { generationFailures.push({ id: spec.id, error: `blind answer failed: ${blind.error}` }); continue }
           questions.set(spec.id, produced.output)
           await writeFile(`${OUTPUT}/blind-answers/${spec.id}.json`, `${JSON.stringify(blind.answer, null, 2)}\n`)
-          units.push(buildQuestionUnit({ spec, question: produced.output, blind: blind.answer, teaching: teachingFor(spec) }))
+          units.push(buildQuestionUnit({ spec, question: produced.output, blind: blind.answer, teaching }))
         }
       }
       await Promise.all(Array.from({ length: Math.min(4, targets.length) }, worker))
@@ -302,35 +409,56 @@ describe('AQA 7132 slice questions (software checks)', () => {
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: `${execution.status}: ${'error' in execution ? execution.error : ''}` }
     }
 
-    // Round 1.
+    // Round 1: exact-fingerprint accepted artifacts are reused without generation, blind answering or re-review. Anything already blocking after two review rounds is escalated without another provider call.
     let ledger = await readLedger()
-    const units1 = await buildUnits(plan, new Map())
+    const preEscalated = plan.flatMap((spec) => {
+      const previous = ledger.units[spec.id]
+      return previous?.outcome === 'blocking' && previous.consecutive_blocking_rounds >= 2
+        ? [{ unit_id: spec.id, status: 'escalated' as const, findings: previous.findings }]
+        : []
+    })
+    if (preEscalated.length) {
+      const now = new Date().toISOString()
+      ledger = {
+        ...ledger,
+        units: {
+          ...ledger.units,
+          ...Object.fromEntries(preEscalated.map((outcome) => {
+            const previous = ledger.units[outcome.unit_id]!
+            return [outcome.unit_id, { ...previous, outcome: 'escalated' as const, updated_at: now }]
+          })),
+        },
+      }
+    }
+    const preEscalatedIds = new Set(preEscalated.map((outcome) => outcome.unit_id))
+    const units1 = await buildUnits(plan.filter((spec) => !preEscalatedIds.has(spec.id)), new Map(), ledger, true)
     let run = await runReviewUnits({ units: units1, ledger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
     ledger = run.ledger
+    if (preEscalated.length) run = { ...run, outcomes: [...run.outcomes, ...preEscalated].sort((a, b) => a.unit_id.localeCompare(b.unit_id)) }
 
     // Round 2 (the last): regenerate only questions that blocked, with the findings fed back.
     const blocked = run.outcomes.filter((o) => o.status === 'blocking')
     if (blocked.length) {
       const feedback = new Map<string, ClassifiedFinding[]>(blocked.map((o) => [o.unit_id, o.findings]))
-      const units2 = await buildUnits(plan.filter((spec) => feedback.has(spec.id)), feedback)
+      const units2 = await buildUnits(plan.filter((spec) => feedback.has(spec.id)), feedback, ledger, false)
       const second = await runReviewUnits({ units: units2, ledger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
       ledger = second.ledger
-      run = { ...second, outcomes: [...run.outcomes.filter((o) => !feedback.has(o.unit_id)), ...second.outcomes] }
+      run = { ...second, outcomes: [...run.outcomes.filter((o) => !feedback.has(o.unit_id)), ...second.outcomes].sort((a, b) => a.unit_id.localeCompare(b.unit_id)) }
     }
 
     const outcomes = run.outcomes
-    const accepted = outcomes.filter((o) => ['passed', 'logged', 'reused'].includes(o.status))
+    const accepted = outcomes.filter((o) => o.status === 'passed' || o.status === 'logged' || (o.status === 'reused' && ['passed', 'logged'].includes(o.previous)))
     const acceptedQuestions: Question[] = []
     for (const outcome of accepted) {
       const question = questions.get(outcome.unit_id)
       const spec = plan.find((s) => s.id === outcome.unit_id)!
       if (!question) continue
       acceptedQuestions.push(question)
-      await writeFile(`${OUTPUT}/questions/${spec.id}.json`, `${JSON.stringify({ id: spec.id, label: 'AQA-style practice (Revision-authored, not an AQA question)', confidence_label: confidenceLabel(spec), target_item_ids: spec.items.map((i) => i.id), target_node_ids: spec.nodeIds, question }, null, 2)}\n`)
+      await writeFile(`${OUTPUT}/questions/${spec.id}.json`, `${JSON.stringify({ id: spec.id, batch: BATCH, label: 'AQA-style practice (Revision-authored, not an AQA question)', confidence_label: confidenceLabel(spec), target_item_ids: spec.items.map((i) => i.id), target_node_ids: spec.nodeIds, question }, null, 2)}\n`)
     }
     for (const [id, question] of questions) await writeFile(`${OUTPUT}/questions/${id}.latest.json`, `${JSON.stringify(question, null, 2)}\n`)
 
-    const facts = setChecks(acceptedQuestions, QUESTION_PLAN)
+    const facts = setChecks(acceptedQuestions, questionPlan)
     const summary = {
       planned: plan.length,
       accepted: accepted.length,
@@ -342,17 +470,18 @@ describe('AQA 7132 slice questions (software checks)', () => {
     }
     await writeFile(`${OUTPUT}/ledger.json`, `${JSON.stringify(ledger, null, 2)}\n`)
     await writeFile(`${OUTPUT}/escalations.json`, `${JSON.stringify(escalationEntries(ledger), null, 2)}\n`)
-    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary('AQA 7132 slice 3.5: exam-style questions', outcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.id}: ${f.error}`).join('\n')}\n` : ''}\n## Whole set\n- ${facts.questions} questions, ${facts.totalMarks} marks, quantitative ${facts.quantitativePercent}% (minimum 10%: ${facts.quantitativeShareOk ? 'met' : 'NOT met'})\n- formulas not covered: ${facts.missingFormulas.join(', ') || 'none'}\n`)
+    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary(`AQA 7132 batch ${BATCH}: exam-style questions`, outcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.id}: ${f.error}`).join('\n')}\n` : ''}\n## Whole set\n- ${facts.questions} questions, ${facts.totalMarks} marks, quantitative ${facts.quantitativePercent}% (minimum 10%: ${facts.quantitativeShareOk ? 'met' : 'NOT met'})\n- formulas not covered: ${facts.missingFormulas.join(', ') || 'none'}\n`)
     const evidence = {
       schema_version: 1,
       artifact_type: 'aqa_7132_slice_questions_fast_path',
       recorded_at: new Date().toISOString(),
-      slice: '3.5',
+      slice: BATCH,
       reviewed_commit: env.CONTENT_FACTORY_SLICE_REVIEWED_COMMIT ?? null,
       checklist: QUESTIONS_CHECKLIST,
       summary,
-      provider_budget: provider.budgetSnapshot?.() ?? null,
-      gates: { ai_assured_questions: summary.all_questions_accepted && facts.quantitativeShareOk && facts.missingFormulas.length === 0, qualified_human_review_status: 'pending', learner_publication_eligible: false },
+      provider_budget: { ...(provider.budgetSnapshot?.() ?? {}), maxSpendUsd },
+      // The 10% quantitative share is an Exam Truth floor for the whole qualification, so it only gates the 3.5 slice (which has most of the formulas); other batches report it.
+      gates: { ai_assured_questions: summary.all_questions_accepted && (BATCH !== '3.5' || facts.quantitativeShareOk) && facts.missingFormulas.length === 0, qualified_human_review_status: 'pending', learner_publication_eligible: false },
     }
     await writeFile(`${OUTPUT}/slice-questions-proof.json`, `${JSON.stringify(evidence, null, 2)}\n`)
     await writeFile(`${OUTPUT}/summary.json`, `${JSON.stringify({ ...summary, provider_budget: evidence.provider_budget }, null, 2)}\n`)

@@ -1,4 +1,4 @@
-// AQA 7132 slice production, step 5c: original exam-style questions with mark schemes for one slice (first slice: section 3.5), under the fast-path rules (ADR-0029).
+// AQA 7132 slice production, step 5c: original exam-style questions with mark schemes for one batch (first slice: section 3.5; other batches use plans from aqa-business-7132-question-plan.ts), under the fast-path rules (ADR-0029).
 // The plan (what each question must test, how many marks, which command word) is fixed in software so coverage is guaranteed; the AI only writes each question and mark scheme to its spec.
 // Software then proves what it can (arithmetic, marks add up, mark scheme agrees with the calculation, numbers are in the stem). Each question is answered blind by a fresh reviewer call,
 // then a fixed checklist is answered by one more call that sees the blind answer. Questions are "AQA-style practice", never AQA questions.
@@ -205,8 +205,9 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
 export type QuestionTeaching = { subject_id: string; title?: string | null; teaching_content: unknown; quantitative_content: unknown; source_ids: string[] }
 export type ResolvedSpec = QuestionSpec & { items: BlueprintItem[]; nodeIds: string[] }
 
-export function resolvePlan(blueprint: Blueprint): ResolvedSpec[] {
-  return QUESTION_PLAN.map((spec) => {
+// The plan is the hand-written 3.5 plan by default; other batches pass their committed plan (built by aqa-business-7132-question-plan.ts).
+export function resolvePlan(blueprint: Blueprint, plan: readonly QuestionSpec[] = QUESTION_PLAN): ResolvedSpec[] {
+  return plan.map((spec) => {
     const items = spec.itemSuffixes.map((suffix) => {
       const item = blueprint.items.find((candidate) => candidate.id.endsWith(`:${suffix}`))
       if (!item) throw new Error(`question_plan_item_missing:${spec.id}:${suffix}`)

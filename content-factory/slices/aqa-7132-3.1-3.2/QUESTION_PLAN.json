@@ -1,0 +1,820 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.1-3.2",
+  "blueprint_fingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 51,
+    "marks": 229,
+    "quantitative_marks": 8,
+    "formulas": 4,
+    "items": 73,
+    "nodes": 16,
+    "estimated_spend_usd": 3.06
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "extrapolation"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Extrapolation\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q02",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "risk-and-uncertainty-in-investment"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Risk and uncertainty in investment\". Mark scheme is level-based."
+    },
+    {
+      "id": "q03",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "expected-value",
+        "net-gain"
+      ],
+      "formulaIds": [
+        "expected_value",
+        "net_gain"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate expected value and then net gain (the second may use the answer to the first). Show working. Use the AQA calculation convention supplied for each item."
+    },
+    {
+      "id": "q04",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "risk"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Risk\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q05",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "uncertainty",
+        "opportunity-cost"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Uncertainty\" and \"Opportunity cost\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q06",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "decision-trees"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Decision trees\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q07",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "market-conditions"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Market conditions\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q08",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "gdp",
+        "taxation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"GDP\" and \"Taxation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q09",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "exchange-rates",
+        "inflation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Exchange rates\" and \"Inflation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q10",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "fiscal-policy",
+        "monetary-policy"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Fiscal policy\" and \"Monetary policy\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q11",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "interpreting-uk-and-global-economic-data"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Interpreting UK and global economic data\". Mark scheme is level-based."
+    },
+    {
+      "id": "q12",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "competition-law"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Competition law\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q13",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "fair-trade"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Fair trade\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q14",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "environmental-legislation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Environmental legislation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q15",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "technological-change"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Technological change\". Mark scheme is level-based."
+    },
+    {
+      "id": "q16",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "triple-bottom-line"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Triple Bottom Line\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "total-costs",
+        "unit-cost-average-cost"
+      ],
+      "formulaIds": [
+        "total_costs",
+        "unit_cost_average_cost"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate total costs and then unit cost (average cost) (the second may use the answer to the first). Show working. Use the AQA calculation convention supplied for each item."
+    },
+    {
+      "id": "q18",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "fixed-costs"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Fixed costs\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q19",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "variable-costs"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Variable costs\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q20",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "relationship-between-mission-and-objectives",
+        "why-businesses-set-objectives"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Relationship between mission and objectives\" and \"Why businesses set objectives\". Mark scheme is level-based."
+    },
+    {
+      "id": "q21",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "sole-trader"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Sole trader\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q22",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "private-limited-company",
+        "public-limited-company"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Private limited company\" and \"Public limited company\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q23",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "private-and-public-sector",
+        "not-for-profit-organisations"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Private and public sector\" and \"Not-for-profit organisations\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q24",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "social-enterprise",
+        "limited-and-unlimited-liability"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Social enterprise\" and \"Limited and unlimited liability\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q25",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "ordinary-share-capital",
+        "role-of-shareholders-and-why-they-invest"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Ordinary share capital\" and \"Role of shareholders and why they invest\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q26",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "effects-of-ownership-on-mission-objectives-and-decisions",
+        "reasons-for-choosing-or-changing-business-form"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Effects of ownership on mission, objectives and decisions\" and \"Reasons for choosing or changing business form\". Mark scheme is level-based."
+    },
+    {
+      "id": "q27",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "influences-on-share-price"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Influences on share price\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q28",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "types-of-business-objective-profit-growth-survival-cash-flow"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Types of business objective (profit, growth, survival, cash flow)\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q29",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "why-businesses-exist",
+        "mission-statement"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Why businesses exist\" and \"Mission statement\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q30",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "social-and-ethical-objectives"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Social and ethical objectives\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q31",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-mission"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on mission\". Mark scheme is level-based."
+    },
+    {
+      "id": "q32",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "stakeholder-needs"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Stakeholder needs\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q33",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "stakeholder-versus-shareholder-concept"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Stakeholder versus shareholder concept\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q34",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "stakeholder-overlap-and-conflict",
+        "communication-and-consultation-with-stakeholders"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Stakeholder overlap and conflict\" and \"Communication and consultation with stakeholders\". Mark scheme is level-based."
+    },
+    {
+      "id": "q35",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "stakeholder-mapping-power-and-interest"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Stakeholder mapping (power and interest)\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q36",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "competition-effects-on-costs-and-demand"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Competition effects on costs and demand\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q37",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "incomes-and-demand",
+        "interest-rates"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Incomes and demand\" and \"Interest rates\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q38",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "demographic-factors",
+        "environmental-issues"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Demographic factors\" and \"Environmental issues\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q39",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "scientific-decision-making",
+        "intuitive-decision-making"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Scientific decision making\" and \"Intuitive decision making\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q40",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "reward",
+        "labour-market-legislation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Reward\" and \"Labour market legislation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q41",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "government-enterprise-policy",
+        "role-of-regulators"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Government enterprise policy\" and \"Role of regulators\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q42",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "infrastructure",
+        "demographic-change-and-migration"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Infrastructure\" and \"Demographic change and migration\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q43",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "consumer-lifestyle-and-buying-behaviour"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Consumer lifestyle and buying behaviour\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q44",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-decisions-mission-ethics-environment-resources"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on decisions (mission, ethics, environment, resources)\". Mark scheme is level-based."
+    },
+    {
+      "id": "q45",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "employer-employee-communication",
+        "leadership-communication-and-structure-in-implementation"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Employer-employee communication\" and \"Leadership, communication and structure in implementation\". Mark scheme is level-based."
+    },
+    {
+      "id": "q46",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "management-versus-leadership"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Management versus leadership\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q47",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "autocratic-leadership",
+        "paternalistic-leadership"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Autocratic leadership\" and \"Paternalistic leadership\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q48",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "democratic-leadership",
+        "laissez-faire-leadership"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Democratic leadership\" and \"Laissez-faire leadership\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q49",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-management-style"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on management style\". Mark scheme is level-based."
+    },
+    {
+      "id": "q50",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "tannenbaum-schmidt-continuum"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Tannenbaum-Schmidt continuum\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q51",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "stakeholder-mapping-power-and-interest",
+        "stakeholder-overlap-and-conflict",
+        "communication-and-consultation-with-stakeholders"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Stakeholder mapping (power and interest)\" and \"Stakeholder overlap and conflict\" and \"Communication and consultation with stakeholders\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

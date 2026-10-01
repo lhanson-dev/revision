@@ -1,25 +1,66 @@
 name: Content Factory AQA Business 7132 Slice Questions
 
-# Step 5c of the plan: original exam-style questions with mark schemes for one slice (first slice: AQA 7132 section 3.5), under the fast-path rules.
-# The plan is fixed in software. The AI writes each question to its spec, a fresh call answers it blind, software proves what it can,
-# and one fixed-checklist review judges the rest. Live spend is capped and only runs from main, after merge.
+# Step 5c of the plan: original exam-style questions with mark schemes for AQA 7132, one batch per job (batches are listed in
+# content-factory/slices/aqa-7132-batches.json; section 3.5 was the first slice and keeps its hand-written plan, the other batches
+# use the plan in content-factory/slices/aqa-7132-<batch>/QUESTION_PLAN.json, built by software). The AI writes each question to its
+# spec, a fresh call answers it blind, software proves what it can, and one fixed-checklist review judges the rest.
+# Each batch job has its own $6 spend cap. Live spend only runs from main, after merge.
 
 on:
   workflow_dispatch:
+    inputs:
+      batch:
+        description: "Batch id from content-factory/slices/aqa-7132-batches.json (for example 3.3), 3.5-topup for the top-up questions, 3.5 for the first slice, or 'all' for every course batch plus the top-up (not 3.5, which is already built)"
+        required: true
+        default: all
+      resume_run_id:
+        description: "Optional earlier run id to resume from. Accepted questions are reused only when their exact current fingerprint still matches."
+        required: false
+        default: ''
 
 permissions:
   contents: read
-
-concurrency:
-  group: content-factory-aqa-business-7132-slice-questions
-  cancel-in-progress: false
+  actions: read
 
 jobs:
-  slice-questions:
-    name: Write, answer blind, prove and review the slice questions
+  prepare:
+    name: List the batches to run
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    outputs:
+      batches: ${{ steps.list.outputs.batches }}
+    steps:
+      - name: Checkout exact approved main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+      - name: Read the batch list
+        id: list
+        env:
+          REQUESTED_BATCH: ${{ inputs.batch }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('content-factory/slices/aqa-7132-batches.json', 'utf8'));
+            const all = [...config.batches.map((b) => b.id), config.top_up.id];
+            const requested = (process.env.REQUESTED_BATCH || 'all').trim();
+            const chosen = requested === 'all' ? all : requested === config.already_built.id ? [requested] : all.filter((id) => id === requested);
+            if (!chosen.length) { console.error('Unknown batch ' + requested); process.exit(1); }
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'batches=' + JSON.stringify(chosen) + '\n');
+          "
+
+  slice-questions:
+    name: Batch ${{ matrix.batch }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: content-factory-aqa-business-7132-questions-${{ matrix.batch }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        batch: ${{ fromJSON(needs.prepare.outputs.batches) }}
     steps:
       - name: Checkout exact approved main
         uses: actions/checkout@v6
@@ -38,20 +79,109 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Write, answer blind, prove and review the questions
+      - name: Restore previous batch evidence for exact-fingerprint resume
+        if: ${{ inputs.resume_run_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+          BATCH: ${{ matrix.batch }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RESUME_RUN_ID}")"
+          workflow_name="$(jq -r '.name' <<<"$meta")"
+          head_branch="$(jq -r '.head_branch' <<<"$meta")"
+          head_sha="$(jq -r '.head_sha' <<<"$meta")"
+          if [[ "$workflow_name" != "Content Factory AQA Business 7132 Slice Questions" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} is from unexpected workflow: ${workflow_name}" >&2
+            exit 1
+          fi
+          if [[ "$head_branch" != "main" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} was not run from main: ${head_branch}" >&2
+            exit 1
+          fi
+          artifact="content-factory-aqa-business-7132-questions-${BATCH}-${head_sha}"
+          target=".artifacts/resume-${BATCH}"
+          mkdir -p "$target"
+          gh run download "$RESUME_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact" --dir "$target"
+          test -f "$target/ledger.json"
+          test -d "$target/questions"
+          test -d "$target/blind-answers"
+
+          RESUME_HEAD_SHA="$head_sha" RESUME_TARGET="$target" node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          import path from 'node:path'
+
+          const batch = process.env.BATCH
+          const target = process.env.RESUME_TARGET
+          const runId = Number(process.env.RESUME_RUN_ID)
+          const reviewedCommit = process.env.RESUME_HEAD_SHA
+          const ledger = JSON.parse(fs.readFileSync(path.join(target, 'ledger.json'), 'utf8'))
+          const decisionsPath = 'content-factory/runs/aqa-7132-question-founder-decisions.json'
+          let appliedDecisions = 0
+          if (fs.existsSync(decisionsPath)) {
+            const decisionFile = JSON.parse(fs.readFileSync(decisionsPath, 'utf8'))
+            for (const decision of decisionFile.decisions ?? []) {
+              if (decision.batch !== batch || decision.decision !== 'fix') continue
+              const entry = ledger.units?.[decision.unit_id]
+              if (!entry || entry.fingerprint !== decision.prior_fingerprint) continue
+              entry.founder_decision = {
+                decision: 'fix',
+                note: decision.note,
+                decided_at: decisionFile.decided_at,
+              }
+              // The explicit Founder fix decision closes the old two-round dispute. The changed inputs must still pass a fresh review.
+              entry.consecutive_blocking_rounds = 0
+              appliedDecisions++
+            }
+          }
+          const acceptedUnits = {}
+          const latestUnits = {}
+          for (const [id, entry] of Object.entries(ledger.units ?? {})) {
+            const blindPath = path.join(target, 'blind-answers', `${id}.json`)
+            if (!fs.existsSync(blindPath)) continue
+            const blind = JSON.parse(fs.readFileSync(blindPath, 'utf8'))
+            const latestPath = path.join(target, 'questions', `${id}.latest.json`)
+            if (fs.existsSync(latestPath)) {
+              latestUnits[id] = { question: JSON.parse(fs.readFileSync(latestPath, 'utf8')), blind_answer: blind }
+            }
+            if (!['passed', 'logged'].includes(entry.outcome)) continue
+            const acceptedPath = path.join(target, 'questions', `${id}.json`)
+            if (!fs.existsSync(acceptedPath)) continue
+            const accepted = JSON.parse(fs.readFileSync(acceptedPath, 'utf8'))
+            acceptedUnits[id] = { question_record: { question: accepted.question }, blind_answer: blind }
+          }
+          const checkpoint = {
+            schema_version: 1,
+            source_run_id: runId,
+            reviewed_commit: reviewedCommit,
+            batch,
+            summary: null,
+            ledger,
+            accepted_units: acceptedUnits,
+            latest_units: latestUnits,
+          }
+          const runDir = `content-factory/runs/aqa-7132-slice-${batch}-questions`
+          fs.mkdirSync(runDir, { recursive: true })
+          fs.writeFileSync(path.join(runDir, 'resume-checkpoint.json'), `${JSON.stringify(checkpoint)}\n`)
+          console.log(`Resume checkpoint: ${Object.keys(acceptedUnits).length} accepted, ${Object.keys(latestUnits).length} generated units, ${appliedDecisions} Founder fix decision(s) applied.`)
+          NODE
+          echo "Restored ${artifact} for fingerprint-checked resume."
+
+      - name: Write, answer blind, prove and review the batch questions
         env:
           CONTENT_FACTORY_AQA_7132_SLICE_QUESTIONS: '1'
+          CONTENT_FACTORY_SLICE_BATCH: ${{ matrix.batch }}
           CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '6'
           CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npx vitest run scripts/assurance/aqa-business-7132-slice-questions.test.ts --reporter=verbose
 
-      - name: Upload slice question evidence
+      - name: Upload batch question evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: content-factory-aqa-business-7132-slice-3-5-questions-${{ github.sha }}
-          path: .artifacts/content-factory-aqa-business-7132-slice-3.5-questions/
+          name: content-factory-aqa-business-7132-questions-${{ matrix.batch }}-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-slice-${{ matrix.batch }}-questions/
           if-no-files-found: warn
           retention-days: 30
