@@ -1,6 +1,6 @@
 # Learner redesign v2: data model proposal
 
-**For:** Lee (Founder) · **Status:** proposal for decision, nothing built · **Date:** 1 October 2026
+**For:** Lee (Founder) · **Status:** proposal for decision, nothing built · **Date:** 1 October 2026 · **Revised** after Lee's feedback the same day (see "What changed after your feedback")
 **PR:** 2 of the learner redesign (plan only, no code, no database changes)
 
 ## What this is
@@ -9,26 +9,36 @@ The v2 screens need some information the app does not store today. This document
 
 **Nothing here is built.** No feature that needs new data starts until you approve the matching part.
 
+## What changed after your feedback
+
+Lee's comments of 1 October changed this document as follows.
+
+1. **Ask REV is a pop-up, not a page.** It opens over whatever the student is doing. On a phone, where there is no room, it takes over the whole screen and closes back to the same place. No separate Ask REV page. (Section 10.2.)
+2. **Ask REV should be efficient and use the model cleverly.** A real model sits behind it, but many questions are answered without a paid call: from what the app already knows, or straight from approved course content. The model is used when it is actually needed. (Section 10.3.)
+3. **Exam answers should be kept and used.** I had proposed deleting written answers after 30 days. That was wrong for what you want: progress data and "here is what you got wrong" both need the submitted answer and the feedback on it. Section 7 is rewritten.
+4. **Theme wording explained** in plain English (section 9).
+5. **Your answers recorded:** test Claude Sonnet 5.5 (final model still open); a vetted fixed safeguarding message is acceptable; keep REV conversations for 12 months with delete-any-time. (Section 13.)
+
 ## The short version
 
 1. **Most of what v2 needs already exists.** Exam dates, weekly study time, planning preferences, answers (as evidence), course membership and an activity log are all stored and protected per student.
-2. **Eight things are genuinely new:** the subject catalogue in the database, "Coming soon" requests, accepted plan sessions, the retry queue, exam attempts with autosave, the theme preference, suggestion "Not now" events, and REV conversations.
-3. **Real REV answers are the biggest piece.** Today Ask REV is not a language model. It is scripted replies built from planner data. v2 needs a real model behind a new server-side function. I recommend Claude Sonnet 5.5 at roughly **1 US cent per question**, with safety rules enforced by software, not just by the prompt.
-4. **I recommend building in small steps.** Each screen PR can ship its honest empty state first, and gets its data only when you approve that part. Section 11 maps each screen to its data.
+2. **Genuinely new:** the subject catalogue in the database, "Coming soon" requests, accepted plan sessions, the retry queue, saved exam answers with feedback, the theme preference, suggestion "Not now" events, and REV conversations.
+3. **Real REV answers are the biggest piece.** Today Ask REV is not a language model; it is scripted replies built from planner data. v2 needs a real model behind a new server-side function, used cleverly so many questions need no paid call. I recommend testing Claude Sonnet 5.5 for the hard questions, with safety rules enforced by software.
+4. **I recommend building in small steps.** Each screen PR can ship its honest empty state first and get its data only when you approve that part. Section 11 maps each screen to its data.
 
 ## 1. What exists today (verified in the repo)
 
 | What | Where it lives | Notes |
 | --- | --- | --- |
 | Which courses a student has | `learner_courses` (student, course id, date added) plus an event log | Only courses we offer. No "Coming soon" |
-| Answers and results | `learning_evidence`: one row per flashcard rating, multiple-choice answer, exam question (marks), or exam attempt (marks) | Stores marks and the option picked. It does **not** store written answer text |
+| Answers and results | `learning_evidence`: one row per flashcard rating, multiple-choice answer, exam question (marks), or exam attempt (marks) | **The marks ARE stored**, and they already feed readiness and progress. What is not stored is the written answer text, or which marking points were missed |
 | Exam and test dates | `revision_assessments` (title, date, type, importance, scope) | Already supports exam dates |
 | Weekly study time | `revision_availability_profiles` (seven daily values, timezone) plus `revision_availability_exceptions` (a specific date) | Already supports "study time" |
 | "Prefer this subject this week" | `revision_planning_preferences` | Used by the current Ask REV |
 | What the student did with suggestions | `revision_activity_events` (offered, started, meaningfully engaged, completed, chose an alternative) | Partly covers suggestion history |
 | The plan itself | **Not stored.** The planner rebuilds it every time from the above | A deliberate design (see the planner implementation doc) |
 | Subjects, boards, levels, courses | **In code** (content packs under `content/`), not in the database | No hue or letter mark anywhere yet |
-| Theme (light, dark, system) | The browser's local storage only | Not saved per student, lost on a new device |
+| Theme (light, dark, system) | The browser's local storage only | Remembered on that one device and browser, not on the student's account (see section 9) |
 | Exam answers while typing | In the page's memory only | A refresh loses them. No autosave |
 | Onboarding progress | `account_experience_state` and `student_first_use_events` | Current onboarding order differs from v2 |
 | Ask REV | Scripted text assembled in `PlannerRevScreen.tsx` from planner reason codes | **No model call anywhere in the app** |
@@ -89,7 +99,7 @@ Free text means we may store whatever a student types, so I would cap its length
 
 ## 6. Answers and the retry queue
 
-**Answers:** every answer already becomes an evidence row with marks or the option picked. That is enough for status labels and readiness. **I do not propose storing written answer text by default** (see section 7).
+**Marks and results are already saved.** Every answer becomes an evidence row with the marks or the option picked, and that already feeds the status labels and readiness. So "how did the student do" is already in the progress data for marks. What is missing is the next level down: **which points they got and which they missed**, and the answer itself. Section 7 adds those.
 
 **Retry queue** ("This will come back later"): when a student gets a practice question wrong, it should return later. Proposal: one table with student, the question, when they first missed it, when it is next due, how many tries, and its state (waiting, due, cleared).
 - Re-asks are scheduled by a simple spacing rule (for example the next day, then three days, then a week), written in code and tested, not chosen by a model.
@@ -97,24 +107,36 @@ Free text means we may store whatever a student types, so I would cap its length
 
 **Honesty check:** "Just started" versus "Not started" (decisions §1) needs "has this student answered anything in this topic". That already comes from the evidence rows, so no new data.
 
-## 7. Exam attempts, autosave and the examiner checklist
+## 7. Exam answers, feedback, autosave and the examiner checklist
 
-**Today:** a timed paper lives in the page. A refresh or a dropped connection loses the answers.
+**Today:** a written answer exists only in the page while the student types. A refresh loses it. After submission only the marks are kept (as evidence), so the app cannot show "here is what you missed" later, or learn from it.
 
-**Proposal:** two small tables.
-- **Exam attempts:** student, paper, mode (practice or timed), when it started, the time limit, and state (in progress, submitted, abandoned).
-- **Draft answers:** attempt, question, the text so far, last saved time. Saved automatically every few seconds while typing.
+**What you asked for:** understand how the student did on exam questions, include it in progress, and help them with what they got wrong. Your existing, already-approved standard for this is **Assisted Exam Answer Marking** (a "Mark my answer" button, feedback on where marks were earned and missed, and the rule that the first submitted attempt is preserved and never silently overwritten). This proposal supplies the data that standard needs.
 
-When the student submits, marks go into the existing evidence rows as now. The draft text is then **deleted after a short period** (I propose 30 days, so a student can look back at a recent paper; decision below). Written work is among the most sensitive data we hold, so the default is to keep it as briefly as is useful.
+**Proposal: keep four things, all private to the student.**
+1. **Exam attempts:** student, paper, mode (practice or timed), start time, time limit, state (in progress, submitted, abandoned).
+2. **Drafts (autosave):** the text so far, saved every few seconds, so a refresh or dropped connection loses nothing. Drafts are temporary: deleted 30 days after the attempt ends.
+3. **Submitted answers:** the answer exactly as submitted. It cannot be edited afterwards. A resubmission after improving is a new attempt linked to the first, so students can see improvement.
+4. **Feedback on each answer:** for each approved mark-scheme point, covered or missed (and the words that showed it, where covered); the marks awarded and available; how the marking was done (the student marked it themselves, the examiner checklist, or assisted marking); a plain-English "what would make it stronger"; and which version of the marking basis was used.
 
-**Confirm-before-leaving** a running timed paper is a screen rule. The attempt record is what lets "stay" and "leave" both be safe.
+**How this feeds progress:**
+- Marks keep going into the existing evidence rows, so readiness and status labels work as now.
+- The **missed points** let the app say, for example, "you keep missing the evaluation point in finance questions", and REV can use it to suggest the next thing to do. It would also let Progress show which skills are weak, not just which topics.
+- **Honesty about weight:** the readiness engine already limits how confident it can be when written answers are self-marked (it cannot reach "high" confidence without independently marked evidence). Feedback from the examiner checklist or assisted marking is only as reliable as its testing, so each record says how it was marked and readiness keeps treating them differently until the release gates pass.
 
-**Examiner checklist:**
-- The points come from the approved mark scheme content in the course content, **never from a model**.
+**How long we keep it:**
+- Submitted answers and their feedback: kept **for as long as the student has the account**, because progress and review depend on them. The student can delete an answer's text at any time; the marks and the progress they produced remain (removing the words, not the result). This replaces my earlier 30-day proposal.
+- Drafts: 30 days.
+- Written work is some of the most sensitive data we hold, so it is private by default: no parent, teacher or admin browsing, and never used to train a model (Privacy §2, §3). Retention periods still need the legal review in Privacy §7 and §12.
+
+**Confirm-before-leaving** a running timed paper is a screen rule; the saved attempt is what makes both "stay" and "leave" safe.
+
+**Examiner checklist** (the "what examiners look for" guide):
+- The points come from the approved mark scheme content, **never from a model**.
 - Deciding whether an answer covers a point needs judgement. Proposal: a model is asked, for each approved point, "does this answer cover it, and which words show it?" Software then **checks that the quoted words really appear in the student's answer**. That check is what makes "why this ticked" trustworthy and stops invented ticks.
-- Ticks are calculated live and **not stored**. There is nothing new to keep.
+- In practice mode ticks show live as the student writes; the final result is saved as the feedback record above when they submit.
 - **Release gate:** a fixed set of real marked answers, kept in the repo as test files, is run against the checklist before it goes live. **You still need to say who supplies the marked answers** (open item 2).
-- **The switch:** I recommend the checklist's on/off switch is a setting **in the code**, off by default, not a database setting. Turning it on then needs a PR, which needs your approval. That makes the release gate impossible to skip by accident.
+- **The switch:** I recommend the checklist's on/off switch is a setting **in the code**, off by default, not a database setting. Turning it on then needs a PR, which needs your approval, so the release gate cannot be skipped by accident.
 
 ## 8. Suggestion dismissals ("Not now")
 
@@ -124,9 +146,11 @@ When the student submits, marks go into the existing evidence rows as now. The d
 
 ## 9. Theme preference
 
-**Today** the choice is stored in the browser only.
+**What "theme" means:** the look of the app: light, dark, or "follow my device". 
 
-**Proposal:** one small preferences table: student, theme (light, dark or system), default **system**. The browser still applies it instantly and remembers it locally for speed; the saved value wins once the student is signed in. I would keep it separate from the existing `profiles` table, which is used for admin and test-user flags.
+**What I meant by "isn't saved per student":** today, when a student picks dark mode, the app remembers it only inside that one web browser on that one device. If they sign in on their phone, on a school computer, or after clearing their browser, the app forgets and goes back to the default. "Saved per student" means we store the choice on their account, so it follows them to every device they sign in on.
+
+**Proposal:** one small preferences table: student, theme (light, dark or system), default **system**. The browser still applies the choice instantly and remembers it locally for speed; the saved value wins once the student is signed in. I would keep it separate from the existing `profiles` table, which is used for admin and test-user flags. It is a tiny, low-risk change and not urgent.
 
 ## 10. Real REV answers
 
@@ -136,19 +160,47 @@ This is the part that most needs your decision. It also changes what the app is,
 
 Ask REV does not call a model. It builds sentences from planner facts and can apply a short-term subject preference. Decisions §2 says "no canned replies anywhere", so real answers need new server-side machinery.
 
-### 10.2 How it would work
+### 10.2 How Ask REV appears (decided)
 
-A new **server-side function** (alongside the existing planner and admin functions):
+Ask REV is a **pop-up conversation** that opens over the page the student is on, so it never takes them away from what they are doing. It is there to help, not to be a destination.
+- **Desktop and tablet:** a panel or window over the page. The page behind stays where it was.
+- **Phone:** there is not room for a pop-up, so it takes over the whole screen, with a clear close button that returns to exactly where they were.
+- **No separate Ask REV page.** The design system's Ask REV screen becomes the content of the pop-up. The current app has an "Expand" link to a full page; PR 12 decides whether to retire it.
+- It opens from the sidebar, rail or tab-bar REV button, and from "Stuck? Ask REV" inside Learn and Practice, carrying where the student is.
+- It is not available during a timed paper.
 
+Behind it, a **server-side function** (alongside the existing planner and admin functions):
 1. The student's message goes to the function with their sign-in token. The function checks who they are and only reads that student's own data.
-2. The function gathers **context** (10.4).
-3. It sends the message and context to the model, with REV's rules (10.5).
-4. It checks the reply against the safety rules in software (10.6), then returns it.
-5. It records a log entry (10.8).
+2. It runs the safety screen (10.7).
+3. It chooses the cheapest route that can answer well (10.3).
+4. If a model is used, it gathers the context (10.5) and calls the model with REV's rules (10.6).
+5. It checks the reply against the safety rules in software, then returns it.
+6. It records a log entry (10.9).
 
 The model key exists only on the server, never in the browser.
 
-### 10.3 Which model
+### 10.3 Answering cleverly: not every question needs a paid call
+
+You want REV to be a really efficient coach that can answer anything to do with the subject content, without paying a model for questions the content already answers. I propose a ladder. The app tries the cheapest route that can answer well and only moves up when it has to.
+
+| Step | What it handles | Paid? | How |
+| --- | --- | --- | --- |
+| 1. What the app already knows | "What should I do today?", "How am I doing in finance?", "When is my exam?", "What did I get wrong last time?" | No | Built by software from the student's real data (plan, status labels, exam dates, feedback records) in REV's voice |
+| 2. Approved course content | "What is break-even?", "What's the formula for ROCE?", "What are the types of ...?" | No | Software searches the approved Learn content (definitions, key ideas, worked examples, common mix-ups). If one passage clearly answers it, REV shows that passage with a short lead-in and an "Open in Learn" link |
+| 3. A small, cheap model | Simple content questions that need a little explaining, rewording or a quick example, using the passage found in step 2 | Yes, cheapest model | For example Claude Haiku 4.5 |
+| 4. A stronger model | "I don't get it", step-by-step help, working out an answer together, exam technique, explaining what the student got wrong, anything unusual, anything the app is unsure about | Yes | Claude Sonnet 5.5 |
+
+Rules that keep this safe and honest:
+- **When in doubt, go up.** A step only answers when its match is clearly strong, with a threshold we test and tune. A wrong or irrelevant free answer is worse than a paid right one.
+- **"That's not what I meant"** is always offered on a free answer and sends the question up a step.
+- **The safety rules apply at every step** (10.7). Any message that looks like distress, or that the app cannot confidently match, goes straight to the model path rather than being answered from content.
+- **Nothing is invented at the free steps.** They only show or arrange approved content and the student's own data. The sentences around them are the only words the app writes, and I would keep that small and varied so it does not feel samey.
+- **Reusing earlier model answers for other students** (a shared cache) could save more, but it needs rules about privacy, checking quality and expiring answers when content changes. Student questions are private data, so using them to build something shared needs its own governance (Privacy §3). **I recommend leaving this out at launch** and revisiting it with real usage data.
+- **We measure it.** The log (10.9) records which step answered each question and how often students pressed "not what I meant", so we can tune the thresholds. The free-step share is something we find out in testing; I cannot promise a number yet (10.11 gives an illustration).
+
+Today, only the content under `content/` is in the app's runtime. The newer Content Factory material is not yet published there, so steps 2 to 4 can use it only after a publishing step, which is a Content Factory job and not part of this proposal.
+
+### 10.4 Which model
 
 Current prices (per million tokens, US dollars, from the Anthropic price list cached on 25 September 2026; I have not re-checked them today):
 
@@ -158,11 +210,11 @@ Current prices (per million tokens, US dollars, from the Anthropic price list ca
 | **Claude Sonnet 5.5** | $2 | $10 | **Recommended.** Strong tutoring and instruction-following at a low price |
 | Claude Opus 5.5 | $4 | $20 | Strongest. Probably more than a revision question needs |
 
-**Recommendation: Sonnet 5.5**, with thinking set low for ordinary chat (faster and cheaper) and kept in reserve for harder questions. We should include the provider's built-in fallback option for requests it declines, so a student is not left with nothing. I would test Haiku 4.5 against Sonnet on a fixed set of real questions before launch and only switch if it matches on the safeguarding and "don't answer the exam" tests.
+**Where we are (Lee, 1 October):** the final choice is still open, and Lee is happy to **test with Claude Sonnet 5.5**. So the plan is: build and test with Sonnet 5.5 for the stronger step of the ladder (step 4) and try Haiku 4.5 for the cheap step (step 3), on a fixed set of real questions, before deciding. Thinking is set low for ordinary chat (faster and cheaper) and kept in reserve for harder questions. We should include the provider's built-in fallback option for requests it declines, so a student is not left with nothing. Haiku only takes a step if it matches Sonnet on the safeguarding and "don't answer the exam" tests.
 
 **Important:** the only AI key configured today is OpenAI, used by the Content Factory. Using Claude for REV means adding an Anthropic key as a server secret. Alternatively we could stay with OpenAI. **I recommend one provider for REV that you have read the data terms for**, and I cannot verify those terms for you.
 
-### 10.4 What REV is given
+### 10.5 What REV is given
 
 REV is only given what it needs for this question:
 
@@ -173,11 +225,11 @@ REV is only given what it needs for this question:
 
 For anything outside their courses, REV answers from general knowledge and says so when it is unsure (decisions §2).
 
-### 10.5 REV's rules
+### 10.6 REV's rules
 
 The voice and rules in your decisions file go into a fixed instruction block (older student, never claims to be human, honest about uncertainty, suits a teenager). This block is the same for everyone, so it is cheap to reuse.
 
-### 10.6 How the safety rules are enforced
+### 10.7 How the safety rules are enforced
 
 A prompt alone is not enough for rules that matter. I propose layers:
 
@@ -195,11 +247,11 @@ A prompt alone is not enough for rules that matter. I propose layers:
 
 **Fixed text is not a "canned reply" in the sense you ruled out** (fake answers to look helpful). It is a vetted safety message. **Please confirm that reading.** If you disagree, the model would write these replies and software would only check they contain the required support details.
 
-### 10.7 If the model is down or refuses
+### 10.8 If the model is down or refuses
 
 REV says plainly that it cannot answer right now and the student can carry on revising. It never substitutes a made-up answer.
 
-### 10.8 What is stored and logged
+### 10.9 What is stored and logged
 
 **Conversations (private to the student):** the messages, kept so a chat can continue and so "REV noticed" can return later. Only the student can read them. Admins cannot browse them. Proposal: keep for **12 months** from the last message, and let the student delete any conversation at any time. This is a starting position that needs legal review (Privacy §7, §12).
 
@@ -209,11 +261,11 @@ REV says plainly that it cannot answer right now and the student can carry on re
 
 **Never:** training an AI model on this data, sharing with parents or teachers, or putting message text in ordinary application logs (Security Standard).
 
-### 10.9 Limits
+### 10.10 Limits
 
 A per-student daily cap (I suggest 60 questions), a maximum message length, and a monthly spending alarm. These stop accidents and abuse, and keep cost predictable.
 
-### 10.10 Rough running cost
+### 10.11 Rough running cost
 
 These are estimates from stated assumptions, to be replaced by measured numbers once it runs.
 
@@ -231,13 +283,15 @@ These are estimates from stated assumptions, to be replaced by measured numbers 
 | 1,000 | about $1,000 to $1,700 |
 | 10,000 | about $10,000 to $17,000 |
 
-A light user (one question a day) costs about a third of that; a heavy user (15 a day) about five times. Examiner-checklist checks add roughly half a US cent per submitted answer. Safeguarding ratings are part of the same call, so they add nothing. Server running costs for the function itself are small by comparison. **These figures matter for pricing:** the free tier needs a lower daily cap than paid plans (a Subscription Plans question, not decided here).
+**With the ladder (section 10.3).** The table above assumes every question goes to a model. With the ladder, many do not. As an *illustration only* (the real split is found in testing): if 40% of questions are answered free from the app's data and approved content, 20% by the cheap model and 40% by Sonnet 5.5, the cost per student at 90 questions a month falls to about **$0.50 to $0.85**, roughly half. If only 20% are free the saving is smaller; if 60% are free it is larger. The saving depends on how good the content search is and how cautious the thresholds are, so please treat it as a target to measure, not a promise.
 
-### 10.11 Test before launch
+A light user (one question a day) costs about a third of that; a heavy user (15 a day) about five times. Examiner-checklist and answer-feedback checks add roughly half a US cent to one US cent per submitted answer (they read the answer and the mark scheme points, so they are bigger than a chat question). Safeguarding ratings are part of the same call, so they add nothing. Server running costs for the function itself are small by comparison. **These figures matter for pricing:** the free tier needs a lower daily cap than paid plans (a Subscription Plans question, not decided here).
 
-Like the examiner checklist, REV answers get a **release gate**: a fixed set of test conversations covering ordinary questions, off-topic questions, attempts to get an exam answer, attempts to write coursework, and a range of safeguarding messages. It must pass before real answers go live. Who writes and judges the safeguarding set is part of open item 4 and should involve someone qualified.
+### 10.12 Test before launch
 
-### 10.12 Things I cannot settle
+Like the examiner checklist, REV answers get a **release gate**: a fixed set of test conversations covering ordinary questions, off-topic questions, attempts to get an exam answer, attempts to write coursework, and a range of safeguarding messages. It must also test the ladder: questions that should be answered free must be answered correctly and not wrongly matched, and questions that should go to a model must not be answered from content. It must pass before real answers go live. Who writes and judges the safeguarding set is part of open item 4 and should involve someone qualified.
+
+### 10.13 Things I cannot settle
 
 - The provider's current data-retention and no-training terms (Privacy §3, §12).
 - Whether students under 16 need parental consent for an AI feature. That is a legal question for professional advice, not a design one.
@@ -253,9 +307,9 @@ Like the examiner checklist, REV answers get a **release gate**: a fixed set of 
 | 7 | Courses and overview | Catalogue (hue, mark) | Yes: code table until the catalogue exists |
 | 8 | Learn | None (Quick check is unscored; content block is PR 3) | Yes |
 | 9 | Practice | Retry queue | Partly: feedback bar works; retry needs the table |
-| 10 | Exam Prep | Exam attempts and drafts | Partly: papers and timer work; autosave needs the tables |
-| 11 | Progress | None (engine mapping you still need to confirm) | Yes |
-| 12 | Ask REV | REV function and conversations | No: this is the dependency |
+| 10 | Exam Prep | Exam attempts, drafts, submitted answers and feedback | Partly: papers and timer work; autosave, saved answers and "what you missed" need the tables |
+| 11 | Progress | None for the three measures (engine mapping you still need to confirm); missed-point skill insights need the feedback records from PR 10 | Yes for the three measures |
+| 12 | Ask REV (pop-up; full screen on phone) | REV function and conversations. The free steps of the ladder (what the app knows, approved content) can ship first | Partly: steps 1 and 2 need no model; steps 3 and 4 need the function and key |
 | 13 | Onboarding | Catalogue; Coming-soon requests | Partly: catalogue from code |
 | 14 | Empty states | None | Yes |
 
@@ -267,7 +321,7 @@ Like the examiner checklist, REV answers get a **release gate**: a fixed set of 
 | Coming-soon requests | Student-owned | Low to medium | Free text; cap length |
 | Accepted sessions | Student-owned | Low | |
 | Retry queue | Student-owned | Low | |
-| Exam attempts and drafts | Student-owned | **Medium** | Written work; short retention |
+| Exam attempts, drafts, submitted answers and feedback | Student-owned, private | **Medium to high** | Written work. Drafts 30 days; submitted answers kept while the account exists, deletable by the student |
 | Theme preference | Student-owned | Low | |
 | Two new activity event types | Change to an existing constraint | Low | Additive |
 | REV conversations and messages | Student-owned, private | **High** | Most sensitive data we hold |
@@ -276,20 +330,30 @@ Like the examiner checklist, REV answers get a **release gate**: a fixed set of 
 
 Each migration would be its own PR, with the database assurance tests, and each needs your explicit approval before merging.
 
-## 13. Decisions I need from you
+## 13. Decisions
+
+### Decided by Lee on 1 October 2026
+
+- **Ask REV is a pop-up conversation** over the current page; full-screen takeover on phones; no separate page (section 10.2).
+- **Ask REV is a real model used cleverly**, answering from the app's data and approved content where it can and paying for a model only when needed (section 10.3).
+- **Model:** the final choice is open; test with Claude Sonnet 5.5 (section 10.4).
+- **Vetted fixed safeguarding text** is acceptable and is not a "canned reply" in the sense ruled out (section 10.7).
+- **REV conversations are kept for 12 months from the last message**, and the student can delete any conversation at any time. Still subject to the legal review in Privacy §12 (section 10.9).
+- **Exam answers and feedback are kept** so progress and "what you got wrong" can use them (section 7).
+
+### Still to decide
 
 1. **Catalogue in the database** (section 3): build it at onboarding time? *Recommend yes.*
 2. **Coming-soon launch notices** (section 4): in-app only, no email at launch? *Recommend yes.*
 3. **Accepted sessions** (section 5): add the table so "Add to Thursday" works? *Recommend yes.*
-4. **Draft answer retention** (section 7): 30 days after submission? *Recommend yes, pending legal review.*
+4. **Exam answer retention** (section 7): submitted answers and feedback kept while the account exists, the student can delete the text, drafts deleted after 30 days? *Recommend yes, pending legal review.*
 5. **Checklist switch** (section 7): a code setting, off by default, so turning it on needs your PR approval? *Recommend yes.*
-6. **Model and provider for REV** (10.3): Claude Sonnet 5.5, with a Haiku comparison test first? Or stay with OpenAI? *Recommend Sonnet 5.5, once you have read the provider's data terms.*
-7. **Safeguarding fixed text** (10.6): is a vetted fixed safety message acceptable under "no canned replies"? *Recommend yes.*
-8. **Conversation retention** (10.8): 12 months from last message, student can delete any time? *Recommend yes, pending legal review.*
-9. **Flagged messages** (10.8): keep only that a flag fired, or also the message for a short review period? *Recommend keep only that a flag fired, until a safeguarding reviewer says otherwise.*
-10. **Daily question cap** (10.9): 60 a day to start? *Recommend yes, lower on the free tier once plans are decided.*
+6. **Provider** (section 10.4): once testing is done, Claude or OpenAI, after you have read the provider's data terms? *Recommend deciding after the test.*
+7. **Flagged messages** (section 10.9): keep only that a flag fired, or also the message for a short review period? *Recommend keep only that a flag fired, until a safeguarding reviewer says otherwise.*
+8. **Daily question cap** (section 10.10): 60 a day to start? *Recommend yes, lower on the free tier once plans are decided.*
+9. **Shared answer cache** (section 10.3): leave out at launch? *Recommend yes.*
 
-If you approve in a different order, tell me which and I will start with the one that unblocks the next screen. **My suggested order:** theme and suggestion events (small, low risk), then the catalogue, then accepted sessions and the retry queue, then exam attempts, with the REV function last because it carries the most risk and needs the longest testing.
+If you approve in a different order, tell me which and I will start with the one that unblocks the next screen. **My suggested order:** theme and suggestion events (small, low risk), then the catalogue, then accepted sessions and the retry queue, then exam attempts and feedback, with the REV function last because it carries the most risk and needs the longest testing. The free steps of the ladder (what the app knows, approved content) can ship before the model does.
 
 ## 14. What I did not check
 
