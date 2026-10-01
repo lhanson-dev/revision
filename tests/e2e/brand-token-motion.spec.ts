@@ -174,9 +174,9 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
     barIterations: 'infinite',
   })
   expect(await readMotionSnapshot(page, 'thinking')).toMatchObject({
-    haloDuration: '1.8s',
+    haloDuration: '1.4s',
     haloIterations: 'infinite',
-    barDuration: '1.8s',
+    barDuration: '1.4s',
     barIterations: 'infinite',
   })
   expect(await readMotionSnapshot(page, 'responding')).toMatchObject({

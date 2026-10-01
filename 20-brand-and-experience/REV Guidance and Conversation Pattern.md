@@ -4,14 +4,14 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.2"
+version: "2.0"
 owner: "Founder"
-effective_date: "2026-09-22"
-last_reviewed: "2026-09-22"
+effective_date: "2026-10-01"
+last_reviewed: "2026-10-01"
 content_review_status: "founder-approved"
-source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context"]
+source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context", "REV's jobs, voice and suggestion rules", "REV answering questions", "REV safeguarding launch rule"]
 depends_on: ["Product Strategy", "Product UX Principles", "Visual Brand System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Course Overview Progress Signals"]
-supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces", "REV Guidance and Conversation Pattern v1.1 Topics Secure terminology"]
+supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces", "REV Guidance and Conversation Pattern v1.1 Topics Secure terminology", "REV Guidance and Conversation Pattern v1.2 Topic Knowledge progress pair on REV-led headers", "REV Guidance and Conversation Pattern v1.2 five-state REV model in the learner app (Completed state)"]
 ---
 # REV Guidance and Conversation Pattern
 
@@ -45,6 +45,69 @@ and
 
 The first path is **proactive guidance**. The second path is **reactive conversation**.
 
+## REV's three jobs
+
+Founder decision, 1 October 2026. REV has three jobs:
+
+1. **Suggest** what to do next, based on the student's progress, and always say why.
+2. **Answer** questions whenever the student asks.
+3. **Coach**: be a positive, motivating presence.
+
+## Who REV is
+
+- REV feels like **an older student who got top marks in these subjects**, not a teacher.
+- **Relatable, not try-hard:** everyday words, contractions, short sentences. No slang that dates quickly.
+- **Encouraging and honest:** celebrates real progress with specifics, never gives empty praise, and frames weak areas as the next thing to sort.
+- **Shares the shortcuts:** memory tricks, what examiners look for, how to structure answers.
+- **Calm about exams.**
+- **Never pretends to be human.** REV never claims to have sat exams, been to school or had personal experiences.
+
+| A teacher would say | REV says |
+| --- | --- |
+| You should revise break-even before your examination. | Break-even's on Paper 1 and it's worth nailing. Want to do 10 minutes on it now? |
+| Your answer lacked sufficient evaluation. | Good analysis. To get the top marks, finish with a judgement: which factor matters most, and why? |
+| Well done on completing the task. | That's your best score on finance yet. You're getting this. |
+
+These examples show voice only. Real REV copy is built from the student's real data; never show these example topics or scores to a student unless they are true for that student. The voice rules are also in `Tone of Voice Framework.md`.
+
+## Suggestion rules
+
+- **Every REV card includes a reason taken from real data.** No reason, no card: show the screen's empty state instead.
+- **The topic is chosen by rules, not by a language model.** A model may only reword the reason.
+- Priority order, using the progress statuses (Got it, Nearly there, Needs work, Just started, Not started) from `Claims and Progress Governance.md`:
+  1. An exam within **14 days** covers a topic marked Needs work.
+  2. A topic marked Needs work, then Nearly there.
+  3. A topic with an exam coming that has not been studied for **7 or more days**.
+  4. The next unstarted topic in course order.
+- The 14-day and 7-day windows are starting values, to be tuned after testing (open item, Founder to decide).
+- **Suggest something else** moves to the next candidate. **Not now** hides that suggestion until tomorrow. The same topic is not suggested twice in a day unless the student asks.
+- The recommendation logic that already exists in the planner must be reconciled with this order when the Home screen is rebuilt; the order above governs the learner-facing result.
+
+## Answering questions
+
+- REV answers questions **for real from launch**. There are no canned or fake replies anywhere.
+- REV helps with anything the student asks, not only their courses. Questions about their courses are answered from the **approved course content**, using the context of what the student is reading or practising.
+- REV **never answers a scored or timed exam question for the student**, and never writes assessed coursework. It helps them work it out.
+- When REV is not sure, it says so rather than guessing.
+- Answers suit a teenage audience.
+
+## Safeguarding (launch rule)
+
+- If a student says they are really struggling, REV replies kindly and briefly, suggests talking to a teacher, parent or another trusted adult, points to UK support such as Childline and Shout, then offers to carry on with their revision.
+- REV is not a support service. It does not counsel or hold long conversations about wellbeing.
+- If a student may be in immediate danger, REV gives emergency help (999) straight away.
+- **Alerting a parent or school is not part of launch.** It needs a full safeguarding review first (open item, Founder).
+
+## Deferred: "REV noticed"
+
+"REV noticed" pattern cards are out for launch. The session and answer history is kept so they can come back later with a higher evidence bar than five data points (open item, Founder).
+
+## Where and how Ask REV appears
+
+Founder decision, 1 October 2026: Ask REV is a **pop-up conversation** over the current page, and takes over the full screen on phones. There is no separate Ask REV page. See `Global Learner Navigation.md`.
+
+Ask REV is **a real model, used efficiently.** Questions the app can answer from the student's own data or from approved course content should be answered that way, without a paid model call; a model is used when judgement, explanation or coaching is needed. The detailed approach is in the learner v2 data model proposal (`docs/design/learner-redesign-v2/data-model-proposal.md`) and is a proposal until approved. The "no canned or fake replies" rule is unchanged: free answers must be built only from real data and approved content.
+
 ## Shared primary learner-header conversation strip
 
 The compact conversational treatment is a shared learner-header pattern.
@@ -65,7 +128,7 @@ The conversation strip:
 - must carry the current page/course/topic context where available;
 - must not create a second chat implementation, memory store, identity or workspace;
 - should remain visually secondary to the page's dominant job;
-- should reuse the approved Calm Teal, Manrope and REV identity language; and
+- should reuse the approved Calm Teal, Manrope and REV identity language (display headings may use Bricolage Grotesque per `Visual Brand System.md`); and
 - may be compact on pages where a full proactive REV recommendation is not appropriate.
 
 `Primary learner page header` means the main orientation/header region for a material learner destination. It does not mean every subsection heading, card title, modal, exam question, task panel or administrative surface.
@@ -88,7 +151,7 @@ The conversational input must open the same contextual REV conversation layer al
 
 ## Proactive guidance rules
 
-REV recommendations must come from governed deterministic or otherwise approved recommendation/planning logic. A prominent REV treatment does not permit unconstrained generative judgement to replace the underlying recommendation model.
+REV recommendations must come from governed deterministic or otherwise approved recommendation/planning logic (see Suggestion rules above). A prominent REV treatment does not permit unconstrained generative judgement to replace the underlying recommendation model.
 
 The recommendation must:
 
@@ -114,9 +177,9 @@ with the shared conversational strip beneath.
 
 On constrained screens the progress region may stack beneath the recommendation and above the Ask REV strip.
 
-For Course Overview, the governed progress pair is **Exam Readiness** and **Topic Knowledge** as defined in `10-product-governance/Course Overview Progress Signals.md`.
+Progress context on REV-led headers uses the governed measures from `Claims and Progress Governance.md`: **Topics covered**, **Understanding** and **Exam readiness**, kept separate and never blended into one percentage. Exam readiness is an engine-produced value or "Not enough evidence yet"; REV-led headers never show a predicted grade.
 
-`Topic Knowledge` is an evidence-backed judgement of how well the learner currently knows and can use each topic. Its learner-facing bands are Low / Medium / Good, with an insufficient-evidence state where Revision cannot yet make a responsible judgement. It is not a content-viewing or simple activity counter.
+The earlier Course Overview pair of Exam Readiness and Topic Knowledge (Low / Medium / Good) is superseded by these three measures from 1 October 2026. `Course Overview Progress Signals.md` carries a pointer to this change.
 
 ## Conversation rules
 
@@ -141,9 +204,9 @@ REV-led decision surfaces and shared learner-header conversation treatments use 
 They must use:
 
 - the canonical three-bar **Living E** where the feature composition includes REV presence;
-- the approved Resting / Listening / Thinking / Responding / Completed state model where those states are genuine;
+- the learner-app REV state model (Waiting, Listening, Thinking, Responding) where those states are genuine, as set out in `Visual Brand System.md`. Waiting is the Resting state; the Completed state is not used in the learner app;
 - the soft glow/halo language from the current REV system;
-- Manrope and the Calm Teal role-token system;
+- Manrope (body) and the Calm Teal role-token system, with Bricolage Grotesque for display headings;
 - the governed compact **Powered by REV** treatment on proactive REV-led decision surfaces; and
 - the same Light/Dark identity logic as the wider learner product.
 
@@ -184,7 +247,7 @@ Course Overview uses **course scope**.
 
 REV should recommend the most useful next action inside the selected course, using course-level evidence and approved course recommendation logic. It should explain the reason and provide the direct start action.
 
-On desktop, Course Overview should keep the recommendation dominant on the left and show the concise **Exam Readiness + Topic Knowledge** progress panel separately on the right. The Topic Knowledge summary should use the same governed Low / Medium / Good topic model and should roll up transparently rather than invent a competing score.
+On desktop, Course Overview should keep the recommendation dominant on the left and show the concise three-measure progress panel (Topics covered, Understanding, Exam readiness) separately on the right. Roll-ups must be transparent rather than inventing a competing score.
 
 The shared `Got something else on your mind?` / `Ask REV anything…` strip sits beneath the decision area.
 
@@ -226,6 +289,15 @@ The existing persistent tablet/mobile Ask REV dock remains governed and should n
 - Focus, touch-target and contrast rules from the Interface System and WCAG 2.2 AA baseline remain applicable.
 
 ## Documentation impact
+
+Version 2.0 records the Founder decisions of 1 October 2026 for the learner redesign v2.1 (effective on merge of the design-system v2.1 PR; full record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`):
+
+- REV's three jobs, who REV is (with the teacher-versus-REV examples), the suggestion rules, answering questions and the safeguarding launch rule are added.
+- "REV noticed" is deferred for launch.
+- The Course Overview Exam Readiness plus Topic Knowledge pair is replaced by the three measures. This also supersedes the 22 September 2026 Topic Knowledge terminology below.
+- The Completed Living E state is not used in the learner app.
+
+Open items for the Founder: the 14-day and 7-day suggestion windows, the safeguarding review before any parent or school alerts, and the "REV noticed" evidence bar.
 
 Version 1.2 records the Founder-approved decision of 22 September 2026 to use **Topic Knowledge** rather than `Topics Secure` as the plain learner-facing knowledge-progress concept. Topic Knowledge uses Low / Medium / Good topic bands, remains distinct from evidence confidence and Exam Readiness, and can roll up transparently to subject/course progress.
 

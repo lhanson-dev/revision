@@ -221,10 +221,10 @@
 .rev-presence[data-state="listening"] .rev-e-bar-one { animation: revListenA 1.5s ease-in-out infinite; }
 .rev-presence[data-state="listening"] .rev-e-bar-two { animation: revListenB 1.5s ease-in-out infinite; }
 .rev-presence[data-state="listening"] .rev-e-bar-three { animation: revListenC 1.5s ease-in-out infinite; }
-.rev-presence[data-state="thinking"] .rev-halo { animation: revHaloThink 1.8s ease-in-out infinite; }
-.rev-presence[data-state="thinking"] .rev-e-bar-one { animation: revThinkA 1.8s ease-in-out infinite; }
-.rev-presence[data-state="thinking"] .rev-e-bar-two { animation: revThinkB 1.8s .12s ease-in-out infinite; }
-.rev-presence[data-state="thinking"] .rev-e-bar-three { animation: revThinkC 1.8s .24s ease-in-out infinite; }
+.rev-presence[data-state="thinking"] .rev-halo { animation: revHaloThink var(--rev-thinking-loop, 1.4s) ease-in-out infinite; }
+.rev-presence[data-state="thinking"] .rev-e-bar-one { animation: revThinkA var(--rev-thinking-loop, 1.4s) ease-in-out infinite; }
+.rev-presence[data-state="thinking"] .rev-e-bar-two { animation: revThinkB var(--rev-thinking-loop, 1.4s) .12s ease-in-out infinite; }
+.rev-presence[data-state="thinking"] .rev-e-bar-three { animation: revThinkC var(--rev-thinking-loop, 1.4s) .24s ease-in-out infinite; }
 .rev-presence[data-state="responding"] .rev-halo { animation: revHaloRespond .8s ease-out 1; }
 .rev-presence[data-state="responding"] .rev-e-bar-one { animation: revRespondA .8s ease-out 1; }
 .rev-presence[data-state="responding"] .rev-e-bar-two { animation: revRespondB .8s ease-out 1; }

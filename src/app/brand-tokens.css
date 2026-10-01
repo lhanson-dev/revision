@@ -263,3 +263,182 @@
     --type-h2-line: 34px;
   }
 }
+
+/* ==========================================================================
+   Learner redesign v2.1: subject palette, learning status, display type and
+   layout geometry. Founder-approved 1 Oct 2026 (docs/design/decisions/2026-10-01-learner-redesign-v2.md).
+   Source values: docs/design/learner-redesign-v2/ (design system tokens).
+   Three colour roles never mix: brand teal; learning status (teal, yellow,
+   coral, neutral: always icon + text); subjects (their own palette, never teal,
+   yellow or coral). Subject hex values live ONLY in this block: page CSS and
+   components read them through src/app/subject-palette.ts and var(--subject-*).
+   ========================================================================== */
+
+.planner-runtime,
+.auth-shell,
+.loading-shell,
+.first-use-shell {
+  /* Display type: Bricolage Grotesque 800 for headings and big numbers (always with a system fallback). */
+  --font-family-display: "Bricolage Grotesque", Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --tracking-display: -0.025em;
+  --tracking-eyebrow: 0.12em;
+
+  /* Learning status: Got it / Nearly there / Needs work / Just started / Not started.
+     Always rendered as icon + text on the tint. Coral means "look at this", never error red. */
+  --learning-status-gotit: var(--rv-teal);
+  --learning-status-gotit-tint: var(--rv-soft);
+  --learning-status-gotit-ink: var(--rv-accent);
+  --learning-status-gotit-on: var(--rv-teal-text);
+  --learning-status-nearly: var(--rv-yellow);
+  --learning-status-nearly-tint: var(--rv-sun-soft);
+  --learning-status-nearly-ink: var(--rv-sun-text);
+  --learning-status-nearly-on: #3d2b00;
+  --learning-status-needswork: var(--rv-coral);
+  --learning-status-needswork-tint: var(--rv-coral-soft);
+  --learning-status-needswork-ink: var(--rv-coral-text);
+  --learning-status-needswork-on: #3a130a;
+  --learning-status-started: #9aaba8;
+  --learning-status-started-tint: #edf2f0;
+  --learning-status-started-ink: #4f6268;
+  --learning-status-notstarted: var(--rv-line);
+  --learning-status-notstarted-tint: #edf2f0;
+  --learning-status-notstarted-ink: #4f6268;
+
+  /* Focus ring used by the v2 components: 2px teal border plus a soft ring. */
+  --rv-focus-border: 2px solid var(--rv-teal);
+
+  /* Layout geometry. Breakpoints are reference values (CSS cannot use variables in @media):
+     1160 laptop, 1100 stack, 960 rail, 620 tab bar, 390 small phone. */
+  --layout-canvas-padded-max: 1180px;
+  --layout-focus-measure: 820px;
+  --layout-min: 320px;
+  --sidebar-width: 248px;
+  --rail-width: 84px;
+  --tabbar-height: 76px;
+  --gutter-desktop: 40px;
+  --gutter-laptop: 28px;
+  --gutter-tablet: 24px;
+  --gutter-phone: 20px;
+  --touch-min: 44px;
+
+  /* REV Living E thinking loop (Founder decision 1 Oct 2026; inside the 1.4 to 2.2s standard range). */
+  --rev-thinking-loop: 1.4s;
+
+  /* Subject palette: solid / tint / ink / on. Solids are the same in both themes. */
+  /* Science · GCSE Combined Science (Sc) */
+  --subject-violet: #855bdc;
+  --subject-violet-on: #ffffff;
+  --subject-violet-tint: #f1edfe;
+  --subject-violet-ink: #7152b5;
+  /* Biology (Bi) */
+  --subject-violet-bio: #ad74dd;
+  --subject-violet-bio-on: #21132c;
+  --subject-violet-bio-tint: #f5ecfe;
+  --subject-violet-bio-ink: #814caa;
+  /* Chemistry (Ch) */
+  --subject-violet-chem: #6d3cb3;
+  --subject-violet-chem-on: #ffffff;
+  --subject-violet-chem-tint: #f2edfe;
+  --subject-violet-chem-ink: #7551b3;
+  /* Physics (Ph) */
+  --subject-violet-phys: #7679de;
+  --subject-violet-phys-on: #161731;
+  --subject-violet-phys-tint: #edeffe;
+  --subject-violet-phys-ink: #5b5abc;
+  /* Business (GCSE + A-level) (B) */
+  --subject-blue: #236bcf;
+  --subject-blue-on: #ffffff;
+  --subject-blue-tint: #e8f1fe;
+  --subject-blue-ink: #2a67bd;
+  /* Maths (M) */
+  --subject-sky: #4caad7;
+  --subject-sky-on: #001e2c;
+  --subject-sky-tint: #e0f4ff;
+  --subject-sky-ink: #08729a;
+  /* English (En) */
+  --subject-magenta: #cd2e8b;
+  --subject-magenta-on: #ffffff;
+  --subject-magenta-tint: #ffe9f3;
+  --subject-magenta-ink: #a53c75;
+  /* English Language (EL) */
+  --subject-magenta-lang: #e34d83;
+  --subject-magenta-lang-on: #2d0f19;
+  --subject-magenta-lang-tint: #ffeaef;
+  --subject-magenta-lang-ink: #aa3a62;
+  /* English Literature (Li) */
+  --subject-magenta-lit: #9b2d8c;
+  --subject-magenta-lit-on: #ffffff;
+  --subject-magenta-lit-tint: #fee9f9;
+  --subject-magenta-lit-ink: #9a418c;
+  /* Psychology (Ps) */
+  --subject-umber: #8a5d3e;
+  --subject-umber-on: #ffffff;
+  --subject-umber-tint: #ffece0;
+  --subject-umber-ink: #8a5d3e;
+  /* History (H) */
+  --subject-plum: #603367;
+  --subject-plum-on: #ffffff;
+  --subject-plum-tint: #fbe9fd;
+  --subject-plum-ink: #84548b;
+  /* Geography (G) */
+  --subject-green: #3a9742;
+  --subject-green-on: #09200b;
+  --subject-green-tint: #e4f6e3;
+  --subject-green-ink: #167b26;
+  /* Modern Languages (La) */
+  --subject-olive: #858932;
+  --subject-olive-on: #1b1d00;
+  --subject-olive-tint: #f0f3db;
+  --subject-olive-ink: #6b6f0e;
+  /* Computer Science (Cs) */
+  --subject-slate: #5a6b7d;
+  --subject-slate-on: #ffffff;
+  --subject-slate-tint: #e6f2fe;
+  --subject-slate-ink: #5a6b7d;
+  /* Economics (Ec) */
+  --subject-navy: #234077;
+  --subject-navy-on: #ffffff;
+  --subject-navy-tint: #e9f1fe;
+  --subject-navy-ink: #4868a2;
+}
+
+.planner-runtime[data-theme="dark"],
+.auth-shell[data-theme="dark"],
+.loading-shell[data-theme="dark"],
+.first-use-shell[data-theme="dark"] {
+  --learning-status-started: #4d6368;
+  --learning-status-started-tint: #1b2a2f;
+  --learning-status-started-ink: #a9bcbc;
+  --learning-status-notstarted-tint: #1b2a2f;
+  --learning-status-notstarted-ink: #a9bcbc;
+  --subject-violet-tint: #302846;
+  --subject-violet-ink: #b6a3f0;
+  --subject-violet-bio-tint: #352643;
+  --subject-violet-bio-ink: #c49ee7;
+  --subject-violet-chem-tint: #312746;
+  --subject-violet-chem-ink: #b9a2ee;
+  --subject-violet-phys-tint: #292a49;
+  --subject-violet-phys-ink: #a3a9f6;
+  --subject-blue-tint: #1c2e49;
+  --subject-blue-ink: #85b3f7;
+  --subject-sky-tint: #083245;
+  --subject-sky-ink: #60bdeb;
+  --subject-magenta-tint: #422232;
+  --subject-magenta-ink: #e694bb;
+  --subject-magenta-lang-tint: #44212c;
+  --subject-magenta-lang-ink: #eb93ac;
+  --subject-magenta-lit-tint: #3e2339;
+  --subject-magenta-lit-ink: #dc96ce;
+  --subject-umber-tint: #432610;
+  --subject-umber-ink: #d7a583;
+  --subject-plum-tint: #3b243e;
+  --subject-plum-ink: #cf9cd7;
+  --subject-green-tint: #1b351c;
+  --subject-green-ink: #84c485;
+  --subject-olive-tint: #2f300c;
+  --subject-olive-ink: #b3b862;
+  --subject-slate-tint: #162f48;
+  --subject-slate-ink: #a1b3c7;
+  --subject-navy-tint: #1e2d49;
+  --subject-navy-ink: #8eb1f1;
+}

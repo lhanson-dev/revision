@@ -1,0 +1,19 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Core" subtitle="Button, Chip (incl. Coming soon), Tag, ProgressBar, Segmented, Card, Icon" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../../components/_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../core/Icon.jsx','../core/Button.jsx','../core/Chip.jsx','../core/Tag.jsx','../core/ProgressBar.jsx','../core/Segmented.jsx','../core/Card.jsx'], ({Icon,Button,Chip,Tag,ProgressBar,Segmented,Card,Stat}) => {
+  const Row = p => <div style={{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}}>{p.children}</div>;
+  return <div style={{display:'flex',flexDirection:'column',gap:16}}>
+    <Row><Button size="lg" iconRight="arrowRight">Start practice</Button><Button variant="ink">Continue</Button><Button variant="secondary" icon="plus">Add course</Button><Button variant="soft" size="sm">Practice</Button><Button disabled size="sm">Disabled</Button></Row>
+    <Row><Chip>Draw the graph</Chip><Chip selected>GCSE</Chip><Chip selected solid hue="blue">Business</Chip><Chip selected solid hue="violet">Combined Science</Chip><Chip comingSoon>Sociology</Chip><Chip comingSoon selected>Eduqas</Chip><Tag hue="neutral">Not scored</Tag></Row>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}><ProgressBar value={40} hue="blue" label="4 of 10 topics"/><ProgressBar value={25} hue="violet-bio" label="3 of 12 topics"/><ProgressBar value={3} segments={5}/><Segmented options={['Day','Week','Month']} value="Week"/></div>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1.4fr',gap:12}}><Card eyebrow="Next exam"><Stat value="23" unit="days" caption="Business Paper 1 mock · Thu 22 Oct"/></Card>
+      <Card title="Icons"><Row>{['home','plan','progress','courses','check','arrowRight','plus','close','bolt','clock','moon','lock','gotit','nearly','needswork','started','notstarted'].map(n => <span key={n} style={{color:'var(--tx2)'}}><Icon name={n}/></span>)}</Row></Card></div>
+  </div>;
+});
+</script></body></html>

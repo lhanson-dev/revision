@@ -4,12 +4,12 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
-effective_date: "2026-08-20"
-last_reviewed: "2026-08-21"
+effective_date: "2026-10-01"
+last_reviewed: "2026-10-01"
 review_cadence: "quarterly"
-content_review_status: "reviewed"
+content_review_status: "founder-approved"
 source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "REV visual presence", "REV motion", "responsive navigation treatment", "typography system", "spacing and shape system", "controls and forms", "surface families", "iconography", "subject accents", "data visualisation", "asset naming and lifecycle"]
 depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture", "Core Product Messaging", "Claims and Progress Governance"]
 supersedes: null
@@ -41,6 +41,8 @@ The system therefore defines **what is fixed, what is bounded and what is free**
 
 **Manrope** is the approved primary Revision typeface for brand and product use.
 
+**Bricolage Grotesque** (weight 800) is the approved display typeface for learner-app headings and big numbers (Founder decision, 1 October 2026). Manrope remains the typeface for body text, labels, buttons and everything else. Both are always set with a system fallback. Display type uses tracking of −0.02 to −0.03em. The wordmark and Living E are unchanged.
+
 ### Core identity
 
 REV's approved core identity is the **Living E**:
@@ -50,7 +52,7 @@ REV's approved core identity is the **Living E**:
 - the character should feel calm, intelligent, present and responsive;
 - glow is subtle and atmospheric, not neon spectacle;
 - the three bars remain clear at small sizes; and
-- the same symbol adapts across app icon, persistent mobile/tablet Ask REV dock, conversation presence and larger homepage treatments.
+- the same symbol adapts across app icon, the raised REV control in the phone tab bar, conversation presence and larger homepage treatments.
 
 Do not create a separate mascot, robot, face or character for REV. Compact sizes may reduce halo detail while preserving the three-bar identity.
 
@@ -174,6 +176,8 @@ Use a small role-based hierarchy rather than arbitrary local font sizes.
 | Button | 15px | 15px | 600 | 20 | Button and prominent action label |
 | Caption | 12px | 12px | 500/600 | 16 | Metadata / timestamps / helper metadata |
 
+**Learner app display roles (v2.1).** Headings and big numbers in the learner app use Bricolage Grotesque 800 through `--font-family-display`: H1 `clamp(34px, 2.4vw + 18px, 46px)`, H2 `clamp(26px, 1.2vw + 18px, 32px)`, hero numbers `clamp(40px, 3vw + 18px, 56px)`. The role table above still governs sizes for marketing, Admin and screens not yet migrated; screen redesign PRs move each learner screen onto the display roles.
+
 Learner body copy remains 16px minimum. Marketing may use display roles more freely; Admin may use Body S where density helps, but inputs should remain 16px where practical. Avoid routine weights above 700.
 
 ## Spacing and responsive layout
@@ -280,7 +284,7 @@ Revision uses named surface families rather than one universal card.
 - **REV:** REV conversation, recommendation and AI presence only; 32px for hero/major treatments, 20px compact. Ordinary product cards must not borrow the halo simply to appear important.
 - **Status / feedback:** success, warning, error and information; 14–20px radius with approved semantic surface + strong foreground + icon + text.
 - **Exam / performance:** timed work, marks, paper readiness and performance evidence; 20px radius, calm structure, Deep Teal/Graphite anchors and restrained support accents.
-- **Subject accent:** neutral main surface with a small icon tile, edge marker, chip or illustration detail for subject recognition.
+- **Subject accent:** a neutral surface with the subject letter mark, or a solid subject-colour panel (course cards, Plan blocks), per `Subject Accent Colour System.md`.
 - **Pricing / upgrade:** package value and entitlement boundary; 20px ordinary / 32px featured plan. Locked states explain learner value and entitlement rather than relying on faded UI or a padlock alone.
 
 Within an approved family, layout, illustration, accent placement and composition may vary. Shared typography, semantic colours, interaction states and accessibility rules provide coherence.
@@ -304,9 +308,11 @@ Approved recurring motifs are the REV soft halo, Living-E line echoes, restraine
 
 ## Subject differentiation
 
-Subject identity combines **name + icon + optional accent**. Approved recognition accents may use Soft Aqua Accent, Sage, Stone Blue, Warm Sand, Mist and Primary Teal as a shared brand accent.
+Subject identity is the subject **name plus its letter mark and fixed hue**, governed by `Subject Accent Colour System.md` (version 2.0, Founder decision of 1 October 2026). Each top-level subject has one hue in a dedicated subject palette, shown as a solid with the letter mark on course card panels, Plan blocks and tiles. Subjects never use teal, yellow or coral, and never use Success, Warning or Error colours. Colour alone is never sufficient: the name and letter mark always appear.
 
-Do not use Success, Warning or Error colours as subject identities. Colour alone is never sufficient. No fixed subject-to-colour mapping is approved; introduce one only if user testing shows it materially improves recognition.
+Sage, Stone Blue, Warm Sand and Mist remain brand supporting surfaces. They are no longer subject identities.
+
+**Three colour roles never mix:** brand teal (Revision, REV, primary actions, links, focus); learning status (teal, yellow, coral, neutral, always icon plus text, see `Claims and Progress Governance.md`); and subjects (their own palette).
 
 ## Data visualisation
 
@@ -342,30 +348,20 @@ Home is learner-wide rather than paper-specific. REV should be able to identify 
 
 ### Global navigation
 
-Concept art never overrides Information Architecture or `Global Learner Navigation.md`.
+Concept art never overrides Information Architecture or `Global Learner Navigation.md`, which holds the full navigation rules (updated 1 October 2026).
 
-The governed learner-wide destinations are:
+The governed learner-wide destinations are Home, Plan, Progress and Courses. REV is reached through Ask REV (see `Global Learner Navigation.md` for how Ask REV opens).
 
-- Home
-- Plan
-- Progress
-- Subjects
+Layout bands (full rules in `docs/design-system/RESPONSIVE.md`):
 
-REV is a persistent global action rather than a peer destination.
+- **Above 960px:** the persistent 248px left sidebar, with REV identity and Ask REV receiving the strongest branded emphasis and the account control at the bottom.
+- **621 to 960px:** an 84px icon rail.
+- **620px and below:** a bottom tab bar with REV raised in the centre.
+- **Exam Prep:** all navigation is hidden (focus mode) at every size.
 
-Desktop uses the governed persistent left rail, with REV identity and Ask REV receiving the strongest branded emphasis and the account control at the bottom.
+The page scrolls down, never sideways, at every width from 320px. Content sits in one centred 1100px canvas.
 
-Mobile and supported tablet widths use:
-
-- a compact Calm Teal top bar with a **two-line menu control at the top left**;
-- a left-side navigation drawer containing Home, Plan, Progress and Subjects, with account utilities lower in the drawer; and
-- a fixed bottom **Ask REV** dock as the only persistent bottom learner action.
-
-The responsive drawer uses ordinary/elevated Revision surfaces, rounded-line icons, clear active state and restrained overlay depth. It must not become a dense enterprise sidebar simply because it can hold more links.
-
-The persistent Ask REV dock uses the Living E, an explicit `Ask REV` label, safe-area spacing and a bounded floating/raised surface. It should be distinctive and easy to reach without becoming neon, sci-fi or decorative AI theatre. The dock must leave sufficient page clearance so it does not obscure content or controls.
-
-A five-item persistent tablet/mobile bottom navigation is not part of the current approved system.
+The tab bar uses Revision's own icons, a clear active state that does not rely on colour alone, safe-area spacing, and reserves page space so it never covers content. The raised REV control uses the Living E and must remain distinctive without becoming neon, sci-fi or decorative AI theatre.
 
 ### Contextual subject and course navigation
 
@@ -458,11 +454,13 @@ REV motion communicates genuine product state rather than ambient spectacle:
 
 - **Resting:** stable bars with a subtle 6–8s halo breathe.
 - **Listening:** soft ripple/equalised confirmation on a 1.2–1.8s rhythm.
-- **Thinking:** controlled bar stagger/halo-ring activity on a 1.4–2.2s loop; never imply completion percentage or time remaining.
+- **Thinking:** controlled bar stagger/halo-ring activity on a 1.4–2.2s loop; the learner app uses **1.4s** (Founder decision, 1 October 2026; `--rev-thinking-loop`). Never imply completion percentage or time remaining.
 - **Responding:** left-to-right or centre-out pulse, state entry around 600–900ms; response text must not wait for the animation.
 - **Completed:** bars settle, halo briefly expands/softens and returns to Resting over 700–1000ms; no default confetti/gamified celebration.
 
-When reduced motion is enabled, remove loops and use static state variants with instant swaps or opacity changes of about 100–150ms maximum. Context/text must make state understandable without animation.
+When reduced motion is enabled, remove loops and use static state variants with instant swaps or opacity changes of about 100–150ms maximum. Context/text must make state understandable without animation: the mark stays still and shows a text label (for example "REV is thinking"). Every state is also given as text for screen readers.
+
+**Learner-app state names (v2.1).** The learner app presents four states: **Waiting** (slow breathing), **Listening** (the student is typing), **Thinking** and **Responding** (settles as the answer appears, then returns to Waiting). Waiting corresponds to Resting above. The Completed state is not used in the learner app: Responding settles directly back to Waiting. The Living E is always gently moving in the learner app and appears on REV cards, Ask REV, the REV navigation entry and the Home hero only.
 
 REV motion must remain lightweight, avoid layout shift and never block interaction or materially delay first useful paint. Implementation technology is an engineering decision; this system governs appearance and behaviour.
 
@@ -593,3 +591,18 @@ These production tasks must not silently reinterpret the approved grammar. Mater
 Founder approval focuses on the **brand grammar and representative range**, not every future composition. New creative treatments may be produced within approved foundations/families.
 
 The target is **one coherent Revision brand with controlled foundations and deliberate creative range**.
+
+## Documentation impact
+
+Version 1.1 records the Founder decisions of 1 October 2026 for the learner redesign v2.1 (effective on merge of the design-system v2.1 PR; full record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`):
+
+- Bricolage Grotesque 800 added for learner-app headings and big numbers; Manrope remains the body typeface.
+- Subject differentiation replaced: fixed saturated hues with letter marks (see `Subject Accent Colour System.md` v2.0).
+- Three colour roles (brand, learning status, subject) defined as never mixing.
+- Global navigation summary updated to the sidebar, icon rail and bottom tab bar model; Exam Prep focus mode added. `Global Learner Navigation.md` is the detailed authority.
+- Living E thinking loop set to 1.4s in the learner app; four learner-app state names added.
+- Responsive layout rules adopted as `docs/design-system/RESPONSIVE.md`.
+
+The wording in this document that still describes the retired drawer and Ask REV dock has been replaced. Historical evidence and prior audits remain historically true.
+
+See also: `docs/design-system/RESPONSIVE.md` (layout and breakpoint rules).

@@ -4,10 +4,10 @@ document_id: "revision-educational-treatment-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.2"
+version: "1.3"
 owner: "Founder"
-effective_date: "2026-09-30"
-last_reviewed: "2026-09-30"
+effective_date: "2026-10-01"
+last_reviewed: "2026-10-01"
 content_review_status: "founder-approved"
 source_of_truth_for: ["educational treatment visual semantics", "cross-subject treatment consistency", "subject-accent parameterisation of educational treatments", "shared educational treatment extension rules", "in-reading quick check treatment"]
 depends_on: ["Visual Brand System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint", "Claims and Progress Governance"]
@@ -43,7 +43,7 @@ Consistency includes, where applicable:
 
 Founder approved on 30 September 2026. Version 1.2 promotes this document from proposed to active authority and adds the **Quick check** treatment family.
 
-Quick check is approved at authority level but is not yet implemented. Its implementation must follow the New treatment rule and Documentation impact sections below.
+Quick check is approved at authority level. The reusable component exists in `src/app/ui/` (design-system v2.1); the content block that feeds it is added through the Content Factory process, and the Learn screen wiring follows in the Learn PR. Implementation must follow the New treatment rule and Documentation impact sections below.
 
 ## Founder-approved operating rules
 
@@ -67,7 +67,7 @@ Consistency must create familiarity without turning educational content into tem
 
 Subject identity is allowed to parameterise restrained recognition cues through the governed Subject Accent Colour System.
 
-For example, a Key Idea in Business may use the Business Sage accent while the same Key Idea treatment in Economics uses the Economics Stone Blue accent.
+For example, a Key Idea in Business uses the Business subject colour (blue) as its restrained cue while the same Key Idea treatment in Economics uses the Economics colour (navy). Subject colours and letter marks are governed by `Subject Accent Colour System.md`.
 
 The following must not vary merely because the subject changes:
 
@@ -164,18 +164,20 @@ Quick check passes the New treatment rule because its educational job is materia
 
 Expected pattern:
 
-- small controlled label that says the check is not scored;
+- small controlled label that says **Not scored** (a tag, in the v2.1 design a neutral dashed card);
 - one short question about content the learner has just read on the same page, never about content not yet taught;
 - a small set of answer choices, or a short recall prompt with a reveal;
 - immediate feedback that explains why an answer is right or not, rather than only marking it;
-- the learner may try again, and a wrong first answer is treated as normal learning rather than failure;
+- the learner may try again, and a wrong first answer is treated as normal learning rather than failure. Correct feedback uses the teal "Got it" colours and wrong uses coral ("look at this"), never error red, and always with an icon and text;
 - quiet supporting surface, distinct from the Worked Example anatomy;
 - subject accent may appear as a restrained cue only; and
 - no points, streaks, sounds, celebratory animation or other gamified reward.
 
 Use normally one, and at most two, quick checks per teaching page. Place each one after the explanation it checks, not at the top of the page.
 
-Evidence boundary: a quick check is a learning activity. It must not be treated as scored Practice, mastery or readiness evidence, and it must not change progress or readiness by itself. Whether and how quick check activity may be recorded or used as a planning signal is governed by `Claims and Progress Governance`, not by this document.
+Evidence boundary (Founder decision, 1 October 2026): a quick check is an **unscored** learning activity. It **never changes status, Topics covered or readiness.** It must not be treated as scored Practice, mastery or readiness evidence. The reusable component has no way to record an answer. Whether quick check activity could ever be recorded as a planning signal would be a separate Founder decision under `Claims and Progress Governance`.
+
+The in-app wording after an answer ends with a plain sentence that the check does not count towards progress. Instant feedback explains why; another try is allowed.
 
 Accessibility: choices must be real buttons or radio controls reachable by keyboard; feedback must be announced to assistive technology (for example through a polite live region); and correctness must not be shown by colour alone, so feedback always includes text and an icon or equivalent cue.
 
@@ -255,3 +257,5 @@ Implementation assurance should also verify that content renderers do not requir
 This authority extends the existing Visual Brand System and Subject Accent Colour System by defining the semantic consistency contract for recurring educational treatments.
 
 It does not itself implement the components. Production implementation must update the Interface System component registry, technical implementation documentation and visual/browser assurance in the same governed implementation change.
+
+Version 1.3 (Founder authorisation of 1 October 2026, effective on merge of the design-system v2.1 PR) adds the unscored Quick check rules above (Not scored label, never changes status, Topics covered or readiness), replaces the Sage / Stone Blue example with the v2.1 subject colours, and records that the Quick check component now exists. The Content Factory schema change for the quick-check block is a separate, Founder-approved piece of work (PR 3).

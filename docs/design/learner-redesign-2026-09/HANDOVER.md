@@ -1,5 +1,8 @@
 # Revision learner redesign: handover for Claude Code
 
+> **SUPERSEDED on 1 October 2026.** This 30 September 2026 Claude Code handover is replaced by the learner redesign v2.1: decisions in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`, design values and tracker in `docs/design/learner-redesign-v2/`. Its findings stay here as historical evidence. Do not build from it. Where it conflicts with the v2.1 decisions (for example the navigation drawer, Ask REV dock, pale subject accents and Manrope-only typography), follow the v2.1 decisions.
+
+
 **From:** Claude (Cowork design review session) · **For:** a Claude Code session on `lhanson-dev/revision` · **Date:** 30 September 2026 · **Owner:** Lee (Founder)
 
 This brief covers everything needed to put the approved design review into the learner app. The work is split into small pull requests. Read sections 0–2 before touching code.

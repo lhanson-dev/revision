@@ -1,0 +1,13 @@
+<!-- @dsCard group="Components" viewport="700x620" name="Navigation" subtitle="Desktop sidebar" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../core/Icon.jsx','../core/ProgressBar.jsx','../rev/RevMark.jsx','../navigation/Sidebar.jsx'], ({Sidebar}) => {
+  function Demo(){ const [a,setA]=React.useState('home'); return <div style={{height:580,display:'flex',gap:20}}><Sidebar active={a} onNavigate={setA}/><div style={{font:'600 14px/1.5 var(--font-body)',color:'var(--tx2)',maxWidth:260}}>Click items to switch. Active = teal tint + 3px bar. Ask REV turns deep when active.</div></div>; }
+  return <Demo/>;
+});
+</script></body></html>

@@ -4,10 +4,10 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.4"
+version: "1.5"
 owner: "Founder"
-effective_date: "2026-08-23"
-last_reviewed: "2026-08-25"
+effective_date: "2026-10-01"
+last_reviewed: "2026-10-01"
 review_cadence: "quarterly"
 content_review_status: "founder-approved"
 source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "compact REV product wordmark", "Powered by REV treatment", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
@@ -187,6 +187,8 @@ The inverse treatment is a colour/surface adaptation of the same Living E, not a
 
 Persistent **Ask REV** is one branded CTA pattern across desktop, tablet and mobile learner shells.
 
+*Placement note (1 October 2026):* where the Ask REV control sits in the sidebar, the 84px icon rail and the phone tab bar is set by `Global Learner Navigation.md`. The labelled CTA described here applies to the sidebar and any labelled placement. In the icon rail and the raised tab-bar control the Living E stands alone with the accessible name `Ask REV`, as in the v2.1 design. This is flagged for the Founder's review in the design-system v2.1 PR.
+
 The control must use:
 
 - the same Primary Teal CTA surface family;
@@ -220,3 +222,5 @@ Do not:
 ## Documentation impact
 
 Version 1.4 promotes the Founder-approved compact REV product wordmark and `Powered by REV` Home attribution into governed identity treatment, and clarifies that the Returning Student Home halo must retain a visibly near-white/aqua luminous centre. Version 1.3's persistent Ask REV CTA finish, the app-icon, favicon, Living E and semantic REV-state rules remain otherwise unchanged.
+
+Version 1.5 (Founder authorisation of 1 October 2026, effective on merge of the design-system v2.1 PR) adds the placement note above and records that the Living E's learner-app states are Waiting (Resting), Listening, Thinking and Responding, with a 1.4s thinking loop and a text label under reduced motion (see `Visual Brand System.md` v1.1). The wordmark, app icon, favicon and halo rules are unchanged. The Manrope wordmark rule is unchanged: Bricolage Grotesque applies to learner-app headings and numbers, not to the wordmark.

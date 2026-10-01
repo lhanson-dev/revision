@@ -17,11 +17,11 @@ export interface RevSuggestionAction {
 }
 
 export interface RevSuggestionCardProps {
-  /** Small uppercase label, e.g. "REV suggests · 45 min", "REV noticed", "REV's advice". */
+  /** Small uppercase label, e.g. "REV suggests · 45 min". ("REV noticed" cards are not part of launch.) */
   eyebrow: string
   /** Optional headline, used by the larger Home variant. */
   title?: string
-  /** The suggestion. It must say why, using the learner's own data. */
+  /** The suggestion. Every REV card gives a reason taken from real data. No reason, no card: show the empty state instead. */
   reason: string
   /** Optional Learn → Practice → Exam Prep session list. */
   steps?: readonly RevSuggestionStep[]
@@ -69,3 +69,6 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
     </article>
   )
 }
+
+/** The design system calls this component RevCard. It is the same component: one REV card, not two. */
+export { RevSuggestionCard as RevCard }
