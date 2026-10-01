@@ -78,9 +78,10 @@ async function seedSyntheticSession(page: Page) {
 }
 
 async function readThemeSnapshot(page: Page) {
+  await expect(page.locator('.rev-suggestion-card__primary')).toBeVisible()
   return page.evaluate(() => {
     const runtime = document.querySelector<HTMLElement>('.planner-runtime')
-    const send = document.querySelector<HTMLElement>('.living-home-send')
+    const send = document.querySelector<HTMLElement>('.rev-suggestion-card__primary')
     if (!runtime || !send) throw new Error('Brand token assurance could not find the learner runtime.')
     const runtimeStyle = getComputedStyle(runtime)
     const sendStyle = getComputedStyle(send)
@@ -144,7 +145,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
   expect(light.backgroundColor).toBe('rgb(250, 252, 251)')
   expect(light.backgroundImage).toBe('none')
   expect(light.actionBackground).toBe('rgb(43, 182, 163)')
-  expect(light.actionText).toBe('rgb(19, 32, 38)')
+  expect(light.actionText).toBe('rgb(15, 47, 54)')
 
   await page.evaluate((key) => localStorage.setItem(key, 'dark'), themeKey)
   await page.reload()
@@ -154,7 +155,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
   expect(dark.backgroundColor).toBe('rgb(15, 32, 36)')
   expect(dark.backgroundImage).toBe('none')
   expect(dark.actionBackground).toBe('rgb(43, 182, 163)')
-  expect(dark.actionText).toBe('rgb(19, 32, 38)')
+  expect(dark.actionText).toBe('rgb(15, 47, 54)')
 })
 
 test('REV motion uses governed timings, genuine listening state and reduced-motion fallback', async ({ page }) => {

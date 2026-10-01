@@ -141,7 +141,7 @@ async function themeStyles(locator: Locator, kind: 'surface' | 'accent') {
   }, kind)
 }
 
-async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action') {
+async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action' | '--rv-deep') {
   return locator.evaluate((element, requestedRole) => {
     const style = getComputedStyle(element)
     const probe = document.createElement('span')
@@ -166,43 +166,29 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
-  const overviewRecommendation = page.locator('.course-overview-recommendation')
-  await expect(overviewRecommendation).toBeVisible()
-  await expect(overviewRecommendation.locator('.rev-presence-hero')).toHaveCount(1)
-  await expect(overviewRecommendation.getByText('Powered by', { exact: true })).toBeVisible()
-  await expect(overviewRecommendation.getByRole('heading', { name: /with a quick check$/i })).toBeVisible()
-  await expect(overviewRecommendation.getByText(/A quick check is the best starting point because REV has no scored evidence/i)).toBeVisible()
-  await expect(overviewRecommendation.getByRole('button', { name: 'Why this?', exact: true })).toHaveCount(0)
-  await expect(overviewRecommendation.getByText('Evidence is still limited, so this recommendation is based on coverage and the results available so far rather than a readiness score.', { exact: true })).toHaveCount(0)
+  const hero = page.locator('.course-overview-hero')
+  await expect(hero).toBeVisible()
+  await expect(hero.getByText('Exam readiness', { exact: true })).toBeVisible()
+  await expect(hero.getByText('Exam date', { exact: true })).toBeVisible()
+  await expect(hero.getByText(/\d+ days|1 day|Today/)).toBeVisible()
 
-  const progressPanel = overviewRecommendation.locator('.course-overview-progress-panel')
-  await expect(progressPanel).toBeVisible()
-  await expect(progressPanel.getByText('Exam date', { exact: true })).toBeVisible()
-  await expect(progressPanel.getByText('10 Jun 2099', { exact: true })).toBeVisible()
-  await expect(progressPanel.getByText(/\d+ days to go|1 day to go|Today/)).toBeVisible()
-  await expect(progressPanel.getByText('Exam readiness', { exact: true })).toBeVisible()
-  await expect(progressPanel.getByText('Topic knowledge', { exact: true })).toBeVisible()
-  await expect(progressPanel.getByText('Not enough evidence', { exact: true })).toBeVisible()
-  await expect(overviewRecommendation.getByText('Got something else on your mind?', { exact: true })).toBeVisible()
+  const path = page.locator('.course-overview-path')
+  await expect(path.getByRole('heading', { name: 'Your path' })).toBeVisible()
+  await expect(path.getByText('Topic knowledge · Not enough evidence').first()).toBeVisible()
 
-  if (!isResponsiveLayout(page)) {
-    const recommendationBox = await overviewRecommendation.locator('.course-overview-recommendation-copy').boundingBox()
-    const progressBox = await progressPanel.boundingBox()
-    expect(recommendationBox).not.toBeNull()
-    expect(progressBox).not.toBeNull()
-    expect(progressBox!.x).toBeGreaterThan(recommendationBox!.x)
-  }
+  const advice = page.locator('.course-overview-side .rev-suggestion-card')
+  await expect(advice).toBeVisible()
+  await expect(advice.getByText('REV’s advice', { exact: true })).toBeVisible()
+  await expect(advice.getByText(/A quick check is the best starting point because REV has no scored evidence/i)).toBeVisible()
+  await expect(advice.getByRole('button', { name: /^Start quick check$/i })).toBeVisible()
 
-  const recommendationSurface = await backgroundRoleStyles(overviewRecommendation, '--color-inverse-action')
-  expect(recommendationSurface.actual).toBe(recommendationSurface.expected)
-  expect(recommendationSurface.actual).not.toBe('rgb(255, 255, 255)')
+  const adviceSurface = await backgroundRoleStyles(advice, '--rv-deep')
+  expect(adviceSurface.actual).toBe(adviceSurface.expected)
+  expect(adviceSurface.actual).not.toBe('rgb(255, 255, 255)')
 
-  const courseRevForm = overviewRecommendation.locator('.course-overview-rev-form')
-  await courseRevForm.getByRole('textbox').fill('Help me with this course')
-  await courseRevForm.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  await advice.getByRole('button', { name: 'Ask REV about this course' }).click()
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(revDialog).toBeVisible()
-  await expect(revDialog.locator('.planner-rev-input input')).toHaveValue('Help me with this course')
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
   await expect(revDialog).toHaveCount(0)
 

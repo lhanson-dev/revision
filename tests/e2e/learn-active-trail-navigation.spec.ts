@@ -124,7 +124,7 @@ async function clickNavigation(page: Page, label: string) {
 test('Learn uses an active-trail contents tree and page navigation returns to the top', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
 
   await clickNavigation(page, 'Courses')
   await clickNavigation(page, 'AQA AS Business')
@@ -186,7 +186,7 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
 test('Learn removes redundant singleton levels but preserves meaningful group-to-page hierarchy', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
 
   await clickNavigation(page, 'Courses')
   await clickNavigation(page, 'AQA A-level Business')
@@ -217,7 +217,7 @@ test('Learn removes redundant singleton levels but preserves meaningful group-to
 test('Learn uses the shared course-section and body canvas while constraining only prose measure', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
 
   await clickNavigation(page, 'Courses')
   await clickNavigation(page, 'AQA A-level Business')

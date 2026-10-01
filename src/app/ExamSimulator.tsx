@@ -328,7 +328,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <>
             <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>
             <nav className="question-nav" aria-label="Exam questions">
-              {exam.questions.map((item, index) => <button key={item.id} className={index === questionIndex ? 'active' : ''} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button>)}
+              {exam.questions.map((item, index) => <button key={item.id} className={`${index === questionIndex ? 'active' : ''}${answers[item.id]?.trim() ? ' answered' : ''}`.trim()} aria-label={`Question ${index + 1}, ${item.marks} marks${answers[item.id]?.trim() ? ', answered' : ''}`} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button>)}
             </nav>
             {question && (
               <article className="exam-question-sheet">
@@ -337,6 +337,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 <label className="answer-label">Your answer
                   <textarea rows={14} value={answers[question.id] ?? ''} onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write as you would in the exam." />
                 </label>
+                <p className="exam-word-count">{(answers[question.id] ?? '').trim() ? (answers[question.id] ?? '').trim().split(/\s+/).length : 0} words</p>
                 <div className="exam-nav-actions">
                   <button className="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</button>
                   {questionIndex < exam.questions.length - 1 && <button className="primary" onClick={() => setQuestionIndex((index) => index + 1)}>Next question</button>}
