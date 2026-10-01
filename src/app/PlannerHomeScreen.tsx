@@ -9,6 +9,7 @@ import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-pro
 import { learnerCourseRoute, routeHash } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
 import { buildCourseTiles, nextExam, sessionSteps } from './home-view'
+import { HomeSetupEmpty } from './HomeSetupEmpty'
 import { RevPresence } from './RevPresence'
 import { Icon, RevSuggestionCard } from './ui'
 
@@ -131,6 +132,8 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
     setRefreshKey((value) => value + 1)
   }
 
+  const showSetup = !error && !loading && (programme.length === 0 || !firstTask)
+
   if (activeTask) {
     return (
       <HomeFocusedActivity
@@ -156,7 +159,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
         </button>
       </header>
 
-      <div className="home-v2-grid">
+      <div className={`home-v2-grid${showSetup ? ' home-v2-grid--setup' : ''}`}>
         <div className="home-v2-main">
           {error && (
             <div className="returning-home-empty">
@@ -168,20 +171,15 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
 
           {!error && loading && <p className="home-v2-loading" role="status">Working out the most useful place to start…</p>}
 
-          {!error && !loading && programme.length === 0 && (
-            <div className="returning-home-empty">
-              <h3>Add a course to get your first useful recommendation.</h3>
-              <p>Revision only plans from the courses you actually study. It will not invent work from the wider catalogue.</p>
-              <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenCourses}>Add a course</button></div>
-            </div>
-          )}
-
-          {!error && !loading && programme.length > 0 && !firstTask && (
-            <div className="returning-home-empty">
-              <h3>Your courses are ready, but there is not a supported activity to push forward yet.</h3>
-              <p>Open Plan or Courses to choose useful work. Revision will keep the recommendation evidence-based rather than manufacture a priority.</p>
-              <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenPlan}>Open Plan</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
-            </div>
+          {showSetup && (
+            <HomeSetupEmpty
+              courseCount={programme.length}
+              hasExamDates={(setup?.assessments.length ?? 0) > 0}
+              hasStudyTimes={Boolean(setup?.availability)}
+              onOpenCourses={onOpenCourses}
+              onOpenPlan={onOpenPlan}
+              onOpenRev={onOpenRev}
+            />
           )}
 
           {!error && !loading && firstTask && (
@@ -221,7 +219,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
           )}
         </div>
 
-        <aside className="home-v2-side" aria-label="Coming up">
+        {!showSetup && <aside className="home-v2-side" aria-label="Coming up">
           {exam && (
             <section className="home-v2-exam">
               <p className="home-v2-eyebrow">Next exam</p>
@@ -234,7 +232,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
             <p>{planSummary(tasks)}</p>
             <button type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
           </section>
-        </aside>
+        </aside>}
       </div>
     </main>
   )

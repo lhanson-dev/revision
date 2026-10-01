@@ -10,6 +10,7 @@ import {
   type ModuleLearningState,
 } from './catalogue-model'
 import { assignSubjectColours } from './home-view'
+import { RevPresence } from './RevPresence'
 import { adaptersForProgramme, projectLearnerProgramme } from './learner-programme'
 import { Button, EmptyState, LoadingState, Status } from './ui'
 
@@ -85,11 +86,22 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
         <EmptyState title="Add a course to build your progress view" description="Add the courses you’re studying and your progress will build here as you work." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
       ) : (
         <>
-          <div className="progress-overview">
+          <div className="progress-overview" data-empty={evidence.length === 0 ? 'true' : undefined}>
             <article><small>Topics covered</small><strong>{evidencedTopics} / {totalTopics}</strong><p>Topics where you’ve done at least one scored activity.</p></article>
             <article><small>Scored activities</small><strong>{evidence.length}</strong><p>Questions and checks you’ve completed and had marked.</p></article>
             <article><small>Exam readiness</small><strong>{readinessAvailable} / {allStates.length}</strong><p>Courses with enough varied work for a readiness estimate. Keep practising to unlock it.</p></article>
           </div>
+
+          {evidence.length === 0 && (
+            <section className="progress-empty-card" aria-labelledby="progress-empty-title">
+              <RevPresence size="compact" decorative />
+              <div>
+                <h2 id="progress-empty-title">The more you revise, the better my suggestions get</h2>
+                <p>After a few sessions I’ll show your strong and weak topics here, and tell you what to do next.</p>
+              </div>
+              <Button onClick={onOpenCourses}>Start first session</Button>
+            </section>
+          )}
 
           <section className="home-section" aria-labelledby="course-progress-list-title">
             <div className="section-heading"><div><p className="eyebrow">Active programme</p><h2 id="course-progress-list-title">Progress by course</h2></div></div>
