@@ -168,13 +168,19 @@ test('course overview uses the governed REV feature treatment and semantic dark 
 
   const hero = page.locator('.course-overview-hero')
   await expect(hero).toBeVisible()
-  await expect(hero.getByText('Exam readiness', { exact: true })).toBeVisible()
   await expect(hero.getByText('Exam date', { exact: true })).toBeVisible()
   await expect(hero.getByText(/\d+ days|1 day|Today/)).toBeVisible()
 
+  // The three progress measures sit under the hero, never blended into one percentage.
+  const measures = page.locator('.ui-progress-measures')
+  await expect(measures.getByRole('heading', { name: 'Topics covered' })).toBeVisible()
+  await expect(measures.getByRole('heading', { name: 'Understanding' })).toBeVisible()
+  await expect(measures.getByRole('heading', { name: 'Exam readiness' })).toBeVisible()
+  await expect(measures.getByText('Not enough evidence yet')).toBeVisible()
+
   const path = page.locator('.course-overview-path')
   await expect(path.getByRole('heading', { name: 'Your path' })).toBeVisible()
-  await expect(path.getByText('Topic knowledge · Not enough evidence').first()).toBeVisible()
+  await expect(path.getByText('Not started').first()).toBeVisible()
 
   const advice = page.locator('.course-overview-side .rev-suggestion-card')
   await expect(advice).toBeVisible()

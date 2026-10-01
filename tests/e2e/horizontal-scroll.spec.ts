@@ -38,7 +38,7 @@ const learnerRoutes: ReadonlyArray<{ name: string; hash: string }> = [
  * in that PR. Do not add entries to get a build passing: fix the layout.
  */
 const knownOverflow: Readonly<Record<string, readonly number[]>> = {
-  'Course overview': [320], // 336px wide in a 320px window. Fixed by the Courses overview PR (PR 7).
+  // None left: Course overview at 320px was fixed in PR 7 (1 Oct 2026).
 }
 
 async function seedSyntheticSession(page: Page) {

@@ -39,3 +39,6 @@
   .courses-tile { grid-row: auto; flex-direction: row; align-items: center; padding: 14px 20px; }
   .courses-tile b { font-size: 36px; }
 }
+
+/* Controls are at least 48px. */
+.courses-remove-action { min-height: 48px; }

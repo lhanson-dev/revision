@@ -3,7 +3,7 @@ import type { ModuleLearningState } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { courseIdForLearningState } from './planner-model'
 import { resolveSubjectIdentity, type SubjectHue } from './subject-palette'
-import { topicLearningStatus } from './topic-status'
+import { understandingCounts } from './topic-status'
 import type { LearningStatus } from './ui'
 
 export type SubjectColour = { name: string; fill: string; text: string }
@@ -63,14 +63,7 @@ export function buildCourseTiles(programme: readonly LearnerProgrammeCourse[], s
   return programme.map(({ course, subject }) => {
     const identity = resolveSubjectIdentity(subject.id, subject.name)
     const courseStates = states.filter((state) => courseIdForLearningState(state) === course.id)
-    const counts: Partial<Record<LearningStatus, number>> = {}
-    courseStates.forEach((state) => {
-      state.topicKnowledge.topics.forEach((topic) => {
-        const answered = state.evidence.some((item) => item.topicId === topic.topicId)
-        const status = topicLearningStatus(topic.band, answered)
-        counts[status] = (counts[status] ?? 0) + 1
-      })
-    })
+    const counts = understandingCounts(courseStates)
     return {
       courseId: course.id,
       subjectName: subject.name,
