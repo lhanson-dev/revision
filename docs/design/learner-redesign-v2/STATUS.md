@@ -45,7 +45,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | PR | Branch | What | State |
 | --- | --- | --- | --- |
 | PR 1 | `claude/revision-v2-learner-redesign-3rigil` (asked for as `design-system-v2.1`) | Standards, tokens, building blocks, guardrails, docs | Open, awaiting Lee's review |
-| PR 2 | `docs/learner-v2-data-model` | Data model proposal (plan only, no code) | Not started |
+| PR 2 | `docs/learner-v2-data-model` | Data model proposal (plan only, no code) | Open, awaiting Lee's approval to merge the document. Lee agreed all its recommendations on 1 Oct. Each migration it describes is a separate PR needing its own approval |
 | PR 3 | Content Factory | Quick-check block in the Learn content schema | Waiting for Lee to say go |
 
 ## Known issues found by the new checks
