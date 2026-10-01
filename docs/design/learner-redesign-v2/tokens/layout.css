@@ -1,0 +1,22 @@
+/* Layout geometry, matching the live site (src/app/brand-tokens.css + interface-layout.css).
+   Rule: content reflows vertically; the page itself never scrolls horizontally. */
+:root {
+  --layout-min: 320px;                 /* smallest supported viewport */
+  --layout-learner-canvas-max: 1100px; /* one stable content canvas for every learner screen */
+  --layout-canvas-padded-max: 1180px;  /* canvas + 2 × 40px gutters */
+  --layout-prose-measure: 760px;       /* reading width: Learn cards, Practice, Ask REV */
+  --layout-focus-measure: 820px;       /* Practice / Exam question column */
+
+  /* Breakpoints (max-width). CSS can't use vars in @media, so these are reference values. */
+  --bp-laptop: 1160px;  /* sidebar stays, gutters shrink to 28px */
+  --bp-stack: 1100px;   /* two-column grids collapse to one column */
+  --bp-tablet: 960px;   /* sidebar → 84px icon rail */
+  --bp-phone: 620px;    /* rail → bottom tab bar, gutters 20px */
+  --bp-small: 390px;    /* smallest phone tweaks */
+
+  --gutter-desktop: 40px;
+  --gutter-laptop: 28px;
+  --gutter-tablet: 24px;
+  --gutter-phone: 20px;
+  --tabbar-height: 76px;
+}

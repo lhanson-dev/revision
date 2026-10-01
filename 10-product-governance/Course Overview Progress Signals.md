@@ -13,6 +13,8 @@ source_of_truth_for: ["Course Overview progress panel", "Topic Knowledge learner
 depends_on: ["Course Learning Blueprint", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Product UX Principles", "Product System Model"]
 supersedes: ["Course Learning Blueprint Overview wording that specifies Reviewed plus Exam Readiness as the concise Overview progress pair", "Course Overview Progress Signals v1.0 Topics Secure terminology"]
 ---
+> **Superseded in part** (1 October 2026, Founder): the Exam Readiness plus Topic Knowledge (Low / Medium / Good) pair is replaced by the three measures Topics covered, Understanding and Exam readiness, with the five status labels. See `40-evidence-and-trust/Claims and Progress Governance.md` (v0.4) and `docs/design/decisions/2026-10-01-learner-redesign-v2.md`.
+
 # Course Overview Progress Signals
 
 ## Purpose

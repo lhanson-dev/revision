@@ -1,5 +1,7 @@
 # Adaptive Revision Planning
 
+> **Pointer** (1 October 2026, Founder): REV's next-topic priority order and the Not now / Suggest something else rules are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md` (v2.0). Reconcile this document's planner logic with that order when the Home and Plan screens are rebuilt.
+
 **Status:** Active authority — v0.5 Founder-approved  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  

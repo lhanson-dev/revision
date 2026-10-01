@@ -2,7 +2,8 @@ name: Content Factory AQA Business 7132 Slice Learn and Practice
 
 # Learn + Practice for AQA 7132 under the fast-path rules, one batch of course nodes per job (batches are listed in
 # content-factory/slices/aqa-7132-batches.json; section 3.5 was the first slice). Software proves what it can (arithmetic,
-# coverage of named items, required treatments), then one fixed-checklist AI review per node. Each batch job has its own
+# coverage of named items, required treatments), then one fixed-checklist AI review per node. Committed accepted assets
+# are exact-fingerprint checked before any provider generation so unchanged nodes are reused. Each batch job has its own
 # $6 spend cap. Live spend only runs from main, after merge.
 
 on:
@@ -73,15 +74,15 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Generate, prove and review the batch
+      - name: Reuse unchanged nodes, then generate, prove and review stale nodes
         env:
-          CONTENT_FACTORY_AQA_7132_SLICE_LEARN_PRACTICE: '1'
+          CONTENT_FACTORY_AQA_7132_SLICE_LEARN_PRACTICE_RESUME: '1'
           CONTENT_FACTORY_SLICE_BATCH: ${{ matrix.batch }}
           CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '6'
           CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npx vitest run scripts/assurance/aqa-business-7132-slice-learn-practice.test.ts --reporter=verbose
+        run: npx vitest run scripts/assurance/aqa-business-7132-slice-learn-practice.test.ts scripts/assurance/aqa-business-7132-slice-learn-practice-resume.test.ts --reporter=verbose
 
       - name: Upload batch evidence and generated assets
         if: always()

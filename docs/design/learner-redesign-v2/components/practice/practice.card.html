@@ -1,0 +1,18 @@
+<!-- @dsCard group="Components" viewport="700x470" name="Practice" subtitle="AnswerOption states, FeedbackBar correct / wrong" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../rev/RevMark.jsx','../practice/AnswerOption.jsx','../practice/FeedbackBar.jsx'], ({AnswerOption,FeedbackBar}) =>
+  <div style={{display:'flex',flexDirection:'column',gap:10}}>
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+      <AnswerOption letter="A">It rises</AnswerOption><AnswerOption letter="B" state="selected">It falls</AnswerOption>
+      <AnswerOption letter="C" state="correct">It falls</AnswerOption><AnswerOption letter="D" state="wrong">It stays the same</AnswerOption>
+    </div>
+    <div style={{borderRadius:16,overflow:'hidden'}}><FeedbackBar correct>Higher price → bigger contribution per cup → fewer cups needed.</FeedbackBar></div>
+    <div style={{borderRadius:16,overflow:'hidden'}}><FeedbackBar correct={false}>Break-even falls — each sale covers more fixed cost.</FeedbackBar></div>
+  </div>);
+</script></body></html>

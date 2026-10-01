@@ -1,5 +1,7 @@
 # Course Learning Blueprint
 
+> **Pointer** (1 October 2026, Founder): learner-facing progress now uses the three measures (Topics covered, Understanding, Exam readiness) and five status labels. Where this document says Reviewed, Topic Knowledge or Low / Medium / Good, read `40-evidence-and-trust/Claims and Progress Governance.md` (v0.4).
+
 **Status:** Active product authority — approved and merged in PR #351  
 **Owner:** Founder / Product / Educational Content  
 **Purpose:** Define the qualification-agnostic learning-design model that transforms an Approved Course Foundation into coherent Learn, Practice and Exam Prep experiences.
