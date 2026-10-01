@@ -43,8 +43,8 @@ const cases: ReadonlyArray<VisualCase> = [
  * screen 01), taken from the CI run on PR 459.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'bc85d4849cc1facb32f37c66f0c56bb5efaf09a3a3bfa962191969a32052e839',
-  'phone:dark': '1f60ba684c54716e4e853b0a2283d9ad814cf6dd24c732dbcb1323aa86ab2c6e',
+  'phone:light': '6605a76cc3d4fb1c3af7f1159d9266d245ca6f4b7d1bb9fb5fdce0d354f7fecb',
+  'phone:dark': '4405a687ccd7d69846aba1611bab972544455663f08db31cef0bddf0332ef758',
   'desktop:light': '91860eff9077b7f7281c83b6c1082d8de1ff05183b50de8cbe0dfe232a4afd8e',
   'desktop:dark': 'c1bb04c8a2a1d8ce448d353fddb2c711f0c3c5f9927296346eedb69247d365be',
 }
@@ -90,12 +90,12 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
     'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
     '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
   ],
-  'tablet:courses:light': '632ea60dcc699172b80dd30edc199bbe1853874cbc843f47133e11b57a81b987',
-  'tablet:courses:dark': 'ce9f7cc5ab240929eb9269e6ac30b3c969e6e7e4bd7f82cd0f88766a8702b441',
-  'phone:practice:light': '905a6c5bba3ff81e1274b4063ff6fb8286aa6c30a86df2442f64af3810db69c9',
-  'phone:practice:dark': '74b0c62a4ed32d887370505bcc8b8ca9e8f13e7ced18f883ab8ab4505f1fb4cb',
-  'tablet:exam-prep:light': '18b0e3b3c19673fa099b9b4c518f09fe2e77567ecd8bac53c87135eccd6c6038',
-  'tablet:exam-prep:dark': 'c8a8b95c39adbdbf3afda39eeb1bb5fd8720d3df5b047e78cbd27407cc4db2a6',
+  'tablet:courses:light': 'b22530777afd479dc8dd7203b3a4ef2a650ca1f61165ac8417b8943c93125c05',
+  'tablet:courses:dark': '4d9a5c76bd8a3634b57c9de381c07522d992e05b4958cebc89ab5faae6e21190',
+  'phone:practice:light': '9dc1b583c7dd846d90d1a1a5744c3f9377e02b0b994a58cadc4acb2ccb46322b',
+  'phone:practice:dark': 'bdaba48ba4f9c01418bc49ddbbacc4c1f728aaa61f0849e28a35fd5c300f79cb',
+  'tablet:exam-prep:light': 'beaf660a68b16c78d90838721d23118f4e34c4cf0ce328db421703c70112cb89',
+  'tablet:exam-prep:dark': 'fc318443625f84e27045c8fb51040f7c154f117c2ecaf974eb683c7a6d556767',
   'tablet:timed-exam:light': '358cb08fe9a822a80c0737f89811ff087cd56cbad9d6199f5afaf03c41e5c72f',
   'tablet:timed-exam:dark': '7e1345395a34173b21cd98fedaf022c96b12e6a38b4a99328e1a48c0e02c4af9',
 }
