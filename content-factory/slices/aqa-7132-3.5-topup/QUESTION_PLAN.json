@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.5-topup",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [
+    "aqa-7132-3.5.1:gross-profit",
+    "aqa-7132-3.5.1:operating-profit",
+    "aqa-7132-3.5.1:profit-for-the-year",
+    "aqa-7132-3.5.2:cash-flow-forecast",
+    "aqa-7132-3.5.2:contribution-per-unit",
+    "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even",
+    "aqa-7132-3.5.2:gross-profit-margin",
+    "aqa-7132-3.5.2:operating-profit-margin",
+    "aqa-7132-3.5.2:profit-for-the-year-margin",
+    "aqa-7132-3.5.2:timing-of-payables-and-receivables",
+    "aqa-7132-3.5.2:total-contribution",
+    "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+    "aqa-7132-3.5.3:crowdfunding",
+    "aqa-7132-3.5.3:debt-factoring",
+    "aqa-7132-3.5.3:internal-versus-external-finance",
+    "aqa-7132-3.5.3:loans",
+    "aqa-7132-3.5.3:overdrafts",
+    "aqa-7132-3.5.3:retained-profits",
+    "aqa-7132-3.5.3:share-capital",
+    "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+    "aqa-7132-3.5.3:venture-capital",
+    "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit",
+    "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+    "aqa-7132-3.5.4:ways-to-improve-profit-and-profitability"
+  ],
+  "summary": {
+    "questions": 9,
+    "marks": 31,
+    "quantitative_marks": 9,
+    "formulas": 5,
+    "items": 9,
+    "nodes": 7,
+    "estimated_spend_usd": 0.54
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "short-and-long-term-performance"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Short- and long-term performance\". Mark scheme is level-based."
+    },
+    {
+      "id": "q02",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "revenue"
+      ],
+      "formulaIds": [
+        "revenue"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the revenue. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q03",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "profit"
+      ],
+      "formulaIds": [
+        "profit"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the profit. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q04",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "market-capitalisation"
+      ],
+      "formulaIds": [
+        "market_capitalisation"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the market capitalisation. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q05",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "dividends"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Dividends\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q06",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "income-statement"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Income statement\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q07",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "return-on-capital-employed"
+      ],
+      "formulaIds": [
+        "return_on_capital_employed"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the return on capital employed. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q08",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "limitations-of-ratio-analysis"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Limitations of ratio analysis\". Mark scheme is level-based."
+    },
+    {
+      "id": "q09",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "gearing"
+      ],
+      "formulaIds": [
+        "gearing"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the gearing. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    }
+  ]
+}
