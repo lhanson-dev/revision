@@ -1,0 +1,18 @@
+{
+  "question_id": "q05",
+  "answer_text": "Profit for the year = operating profit − net finance costs − taxation\n= £480,000 − £36,000 − £84,000\n= £360,000\n\nProfit for the year margin = (profit for the year ÷ revenue) × 100\n= (£360,000 ÷ £2,400,000) × 100\n= 15%",
+  "numbers": [
+    {
+      "label": "profit_before_tax",
+      "value": 444000
+    },
+    {
+      "label": "profit_for_the_year",
+      "value": 360000
+    },
+    {
+      "label": "profit_for_the_year_margin_percent",
+      "value": 15
+    }
+  ]
+}

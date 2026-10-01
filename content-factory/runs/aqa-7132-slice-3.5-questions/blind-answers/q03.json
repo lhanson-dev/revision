@@ -1,0 +1,18 @@
+{
+  "question_id": "q03",
+  "answer_text": "A — contribution per unit = £18.00 − £11.50 = £6.50.",
+  "numbers": [
+    {
+      "label": "selling_price_per_unit",
+      "value": 18
+    },
+    {
+      "label": "variable_cost_per_unit",
+      "value": 11.5
+    },
+    {
+      "label": "contribution_per_unit",
+      "value": 6.5
+    }
+  ]
+}

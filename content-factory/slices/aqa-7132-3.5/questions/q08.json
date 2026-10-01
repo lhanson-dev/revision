@@ -1,0 +1,77 @@
+{
+  "id": "q08",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:variance-analysis"
+  ],
+  "target_node_ids": [
+    "bus-fin-007"
+  ],
+  "question": {
+    "id": "q08",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 3,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Northside Cycles is reviewing its monthly budget for replacement parts used in repairs.",
+    "stem": "In April, Northside Cycles budgeted £18,500 for replacement parts. Actual spending on replacement parts was £21,200.\n\nCalculate the replacement-parts cost variance using actual cost − budgeted cost. State whether the variance is favourable or adverse for profit.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Calculates the variance by subtracting budgeted cost from actual cost.",
+          "accept": [
+            "£21,200 − £18,500",
+            "21,200 − 18,500"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States the variance is £2,700.",
+          "accept": [
+            "£2,700",
+            "2700"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Correctly identifies the cost variance as adverse for profit because actual spending exceeded the budget.",
+          "accept": [
+            "£2,700 adverse",
+            "adverse cost variance",
+            "adverse because costs were £2,700 above budget"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Variance = actual cost − budgeted cost\n= £21,200 − £18,500\n= £2,700 adverse\n\nIt is adverse for profit because replacement-parts spending was above budget."
+    },
+    "calcs": [
+      {
+        "label": "Replacement-parts cost variance",
+        "formula_id": "variance",
+        "inputs": [
+          {
+            "name": "actual",
+            "value": 21200
+          },
+          {
+            "name": "budgeted",
+            "value": 18500
+          }
+        ],
+        "stated_answer": 2700,
+        "unit": "£"
+      }
+    ]
+  }
+}

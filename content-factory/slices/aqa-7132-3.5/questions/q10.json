@@ -1,0 +1,72 @@
+{
+  "id": "q10",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Reviewed",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:cash-flow-versus-profit",
+    "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+  ],
+  "target_node_ids": [
+    "bus-fin-001",
+    "bus-fin-005",
+    "bus-fin-006",
+    "bus-fin-010"
+  ],
+  "question": {
+    "id": "q10",
+    "family": "SHORT_ANSWER",
+    "command_word": "Explain",
+    "marks": 4,
+    "ao_tags": [
+      "AO1",
+      "AO3"
+    ],
+    "context": "Mersey Homeware Ltd made a profit of £28,000 in April. During the month, it sold £45,000 of goods to retail customers on 60-day credit terms. It also had to pay £31,000 to suppliers for stock after 30 days.",
+    "stem": "Explain why Mersey Homeware Ltd can be profitable in April but still run short of cash.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Explains that profit is not the same as cash available in the business.",
+          "accept": [
+            "Profit is an accounting measure whereas cash flow records cash received and paid.",
+            "A business can record revenue and profit without receiving cash immediately."
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Applies the delayed receipt of cash from customers.",
+          "accept": [
+            "The £45,000 credit sales may be included in April revenue/profit, but customers will not pay for 60 days.",
+            "The customer receipts are delayed until a later month."
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Applies the earlier payment requirement to suppliers.",
+          "accept": [
+            "Suppliers must be paid after 30 days, before the customers' 60-day payments are received.",
+            "Mersey Homeware has a cash outflow for stock before it receives the cash from retail customers."
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Explains the resulting liquidity pressure.",
+          "accept": [
+            "The timing gap means cash may leave the business before it enters, so it may lack cash to pay obligations despite making a profit.",
+            "It could be unable to pay bills when due because receivables have not yet been collected."
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Mersey Homeware's £28,000 profit includes revenue from the £45,000 of goods sold in April, even though the customers have 60 days before they pay. However, the business must pay suppliers for stock after 30 days. Therefore, cash can leave the business before the customer cash is received, creating a cash shortage and making it difficult to pay bills despite the recorded profit."
+    },
+    "calcs": []
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "id": "q11",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:operating-profit-margin"
+  ],
+  "target_node_ids": [
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q11",
+    "family": "DATA_RESPONSE",
+    "command_word": "Calculate",
+    "marks": 4,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Moorland Homeware Ltd sells kitchen and dining products through shops and its website.",
+    "stem": "Calculate Moorland Homeware Ltd's operating profit margin for each year. Give each answer as a percentage.",
+    "table": {
+      "title": "Moorland Homeware Ltd: income statement extract",
+      "columns": [
+        "Year",
+        "Revenue",
+        "Operating profit"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "2024",
+            "£1,250,000",
+            "£187,500"
+          ]
+        },
+        {
+          "cells": [
+            "2025",
+            "£1,500,000",
+            "£270,000"
+          ]
+        }
+      ]
+    },
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 2,
+          "descriptor": "Calculates the operating profit margin for 2024.",
+          "accept": [
+            "Uses operating profit ÷ revenue × 100.",
+            "£187,500 ÷ £1,250,000 × 100 = 15%.",
+            "15 percent."
+          ]
+        },
+        {
+          "marks": 2,
+          "descriptor": "Calculates the operating profit margin for 2025.",
+          "accept": [
+            "Uses operating profit ÷ revenue × 100.",
+            "£270,000 ÷ £1,500,000 × 100 = 18%.",
+            "18 percent."
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "2024: (£187,500 ÷ £1,250,000) × 100 = 15%\n2025: (£270,000 ÷ £1,500,000) × 100 = 18%"
+    },
+    "calcs": [
+      {
+        "label": "2024 operating profit margin",
+        "formula_id": "operating_profit_margin",
+        "inputs": [
+          {
+            "name": "operating_profit",
+            "value": 187500
+          },
+          {
+            "name": "revenue",
+            "value": 1250000
+          }
+        ],
+        "stated_answer": 15,
+        "unit": "percent"
+      },
+      {
+        "label": "2025 operating profit margin",
+        "formula_id": "operating_profit_margin",
+        "inputs": [
+          {
+            "name": "operating_profit",
+            "value": 270000
+          },
+          {
+            "name": "revenue",
+            "value": 1500000
+          }
+        ],
+        "stated_answer": 18,
+        "unit": "percent"
+      }
+    ]
+  }
+}

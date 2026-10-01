@@ -1,0 +1,18 @@
+{
+  "question_id": "q09",
+  "answer_text": "Total contribution = contribution per bicycle × number sold\n= £7.50 × 18,400\n= £138,000",
+  "numbers": [
+    {
+      "label": "contribution per bicycle (£)",
+      "value": 7.5
+    },
+    {
+      "label": "bicycles sold",
+      "value": 18400
+    },
+    {
+      "label": "total contribution (£)",
+      "value": 138000
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "question_id": "q07",
+  "answer_text": "Break-even output = Fixed costs ÷ contribution per bottle\n= £90,000 ÷ £15\n= 6,000 bottles\n\nMargin of safety = Actual output − break-even output\n= 7,500 − 6,000\n= 1,500 bottles",
+  "numbers": [
+    {
+      "label": "break_even_output_bottles",
+      "value": 6000
+    },
+    {
+      "label": "margin_of_safety_bottles",
+      "value": 1500
+    }
+  ]
+}

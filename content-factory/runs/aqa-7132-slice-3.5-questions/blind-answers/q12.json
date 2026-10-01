@@ -1,0 +1,30 @@
+{
+  "question_id": "q12",
+  "answer_text": "A bank loan would allow the founders to retain all ordinary shares and therefore decision-making control. By contrast, issuing shares for £600,000 would give new investors 30% ownership, leaving the founders with 70%. Although this is still a majority, the founders would permanently share future profits and votes.\n\nAssuming equal annual repayments are calculated as an annuity, the loan repayment would be £600,000 × [0.07 ÷ (1 − 1.07^-10)] = £85,427 per year. This is lower than last year's £180,000 net cash from operations, so the business may be able to service the debt while using the new capacity to meet growing demand. Once the loan is repaid, the founders keep all future profits, whereas shareholders could receive dividends indefinitely if these are declared.\n\nHowever, loan repayments and interest are compulsory, unlike dividends on new ordinary shares, which can be withheld. Winter operating cash flow was only £20,000 over three months, so seasonal sales could create a cash-flow problem if a repayment falls when cash receipts are low. The equipment is also security: failure to repay could put the assembly equipment at risk. In addition, the loan costs approximately £254,265 in interest over 10 years. As the capacity may take 10 years to be fully used, demand may not generate sufficient extra cash quickly enough.\n\nOverall, the loan is attractive because it preserves control and the annual operating cash flow currently appears sufficient, but it is riskier than shares because of fixed repayments, winter cash shortages and the security requirement. Northshore should choose the loan only if it can maintain a cash reserve or arrange repayments to match its seasonal cash inflows.",
+  "numbers": [
+    {
+      "label": "annual_loan_repayment",
+      "value": 85427
+    },
+    {
+      "label": "total_loan_repayments",
+      "value": 854265
+    },
+    {
+      "label": "total_interest_cost",
+      "value": 254265
+    },
+    {
+      "label": "first_year_interest",
+      "value": 42000
+    },
+    {
+      "label": "first_year_principal_repayment",
+      "value": 43427
+    },
+    {
+      "label": "founders_shareholding_after_issue_percent",
+      "value": 70
+    }
+  ]
+}

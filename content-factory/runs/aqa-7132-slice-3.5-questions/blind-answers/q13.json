@@ -1,0 +1,26 @@
+{
+  "question_id": "q13",
+  "answer_text": "Harbour & Hearth could improve cash flow by accelerating receipts from hotel customers. Its June net cash flow is £74,000 − £100,000 = −£26,000, so £18,000 opening cash becomes a £8,000 overdraft. It could contact hotels before invoices fall due, chase overdue amounts promptly and offer a small early-payment discount where this releases cash. Collecting £8,000 early would remove the forecast shortfall; this is 40% of the £20,000 of June credit receipts due from hotels.\n\nHowever, hotels normally receive 60 days’ credit, so demanding earlier payment could damage relationships with customers that the business wants to retain. Discounts would also reduce profit, and some hotels may be unable or unwilling to pay sooner. Tighter credit terms would mainly improve future cash flow rather than guarantee cash in June. Nevertheless, targeted credit control is likely to be preferable to indiscriminately shortening credit because it could obtain the relatively small £8,000 needed while maintaining good customers’ normal terms.\n\nA second method is to clear some of the £30,000 of slow-selling winter inventory, for example through online promotions or bundles. This turns stock into cash sooner rather than waiting for gradual sales over four months. Cash proceeds of £8,000 would cover the June shortfall; this is equivalent to 26.7% of the inventory value (£8,000 ÷ £30,000 × 100). It would also reduce storage requirements and the risk that winter products become even harder to sell.\n\nThe drawback is that discounting may reduce the profit made on the stock and could make customers wait for future sales rather than buy at full price. There is also no certainty that a clearance will raise enough cash before June payments are due. Overall, the best immediate approach is to pursue early payment from selected hotel customers, because the required cash is only £8,000 and this avoids late payment to the key supplier, which may threaten access to popular products. A carefully targeted stock clearance should support this if customer collections are insufficient, rather than being the main response.",
+  "numbers": [
+    {
+      "label": "june_net_cash_flow",
+      "value": -26000
+    },
+    {
+      "label": "june_forecast_closing_cash_balance",
+      "value": -8000
+    },
+    {
+      "label": "cash_shortfall_to_cover",
+      "value": 8000
+    },
+    {
+      "label": "required_early_collection_as_percentage_of_june_credit_receipts",
+      "value": 40
+    },
+    {
+      "label": "cash_needed_as_percentage_of_slow_selling_inventory_value",
+      "value": 26.7
+    }
+  ]
+}

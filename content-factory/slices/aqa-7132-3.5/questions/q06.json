@@ -1,0 +1,76 @@
+{
+  "id": "q06",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:return-on-investment"
+  ],
+  "target_node_ids": [
+    "bus-fin-001"
+  ],
+  "question": {
+    "id": "q06",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 3,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice question.",
+    "stem": "Oak & Ember Furniture invests in a new cutting machine. In its first year, the machine generates a return of £36,000. The machine cost £240,000. Calculate the return on investment (ROI) for the cutting machine. Give your answer as a percentage.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Uses the return from the investment and the cost of the investment in the correct order.",
+          "accept": [
+            "£36,000 ÷ £240,000 × 100",
+            "36,000 / 240,000 × 100"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Calculates the decimal return as 0.15 before converting it to a percentage.",
+          "accept": [
+            "0.15",
+            "15 / 100"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States that the return on investment is 15%.",
+          "accept": [
+            "15%",
+            "15 per cent"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "ROI = return from investment ÷ cost of investment × 100\n= £36,000 ÷ £240,000 × 100\n= 15%"
+    },
+    "calcs": [
+      {
+        "label": "Return on investment for the cutting machine",
+        "formula_id": "return_on_investment",
+        "inputs": [
+          {
+            "name": "return_from_investment",
+            "value": 36000
+          },
+          {
+            "name": "cost_of_investment",
+            "value": 240000
+          }
+        ],
+        "stated_answer": 15,
+        "unit": "percent"
+      }
+    ]
+  }
+}

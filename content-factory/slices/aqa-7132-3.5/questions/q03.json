@@ -1,0 +1,73 @@
+{
+  "id": "q03",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:contribution-per-unit"
+  ],
+  "target_node_ids": [
+    "bus-fin-003"
+  ],
+  "question": {
+    "id": "q03",
+    "family": "MCQ",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Willow Bakehouse sells boxed brownies to local cafés.",
+    "stem": "Willow Bakehouse charges cafés £18.00 for each boxed brownie. The variable cost is £11.50 per boxed brownie. Calculate the contribution per unit.",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "£6.50"
+      },
+      {
+        "label": "B",
+        "text": "£11.50"
+      },
+      {
+        "label": "C",
+        "text": "£18.00"
+      },
+      {
+        "label": "D",
+        "text": "£29.50"
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct because contribution per unit = selling price per unit − variable cost per unit = £18.00 − £11.50 = £6.50.",
+        "B is incorrect because £11.50 is the variable cost per unit, not the contribution.",
+        "C is incorrect because £18.00 is the selling price per unit, not the contribution.",
+        "D is incorrect because it adds the selling price and variable cost instead of subtracting the variable cost from the selling price."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Contribution per unit = £18.00 − £11.50 = £6.50."
+    },
+    "calcs": [
+      {
+        "label": "Contribution per boxed brownie",
+        "formula_id": "contribution_per_unit",
+        "inputs": [
+          {
+            "name": "selling_price_per_unit",
+            "value": 18
+          },
+          {
+            "name": "variable_cost_per_unit",
+            "value": 11.5
+          }
+        ],
+        "stated_answer": 6.5,
+        "unit": "£ per unit"
+      }
+    ]
+  }
+}

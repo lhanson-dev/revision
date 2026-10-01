@@ -1,0 +1,101 @@
+{
+  "id": "q07",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:break-even-output",
+    "aqa-7132-3.5.2:margin-of-safety"
+  ],
+  "target_node_ids": [
+    "bus-fin-004"
+  ],
+  "question": {
+    "id": "q07",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 4,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice question.",
+    "stem": "Northshore Refill Co sells reusable household-cleaning bottles. Each bottle sells for £42 and has a variable cost of £27, so the contribution per bottle is £15. Fixed costs are £90,000 per year. Actual output this year is 7,500 bottles.\n\nCalculate:\n1. the break-even output\n2. the margin of safety.\n\nShow your workings.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Uses fixed costs divided by contribution per unit to calculate break-even output.",
+          "accept": [
+            "£90,000 ÷ £15",
+            "fixed costs ÷ contribution per unit"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Calculates break-even output as 6,000 bottles.",
+          "accept": [
+            "6,000 units",
+            "6000 bottles"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Uses actual output minus break-even output to calculate the margin of safety.",
+          "accept": [
+            "7,500 − 6,000",
+            "actual output minus break-even output"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Calculates the margin of safety as 1,500 bottles.",
+          "accept": [
+            "1,500 units",
+            "1500 bottles"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Break-even output = fixed costs ÷ contribution per unit\n= £90,000 ÷ £15\n= 6,000 bottles.\n\nMargin of safety = actual output − break-even output\n= 7,500 − 6,000\n= 1,500 bottles."
+    },
+    "calcs": [
+      {
+        "label": "Break-even output",
+        "formula_id": "break_even_output",
+        "inputs": [
+          {
+            "name": "fixed_costs",
+            "value": 90000
+          },
+          {
+            "name": "contribution_per_unit",
+            "value": 15
+          }
+        ],
+        "stated_answer": 6000,
+        "unit": "units"
+      },
+      {
+        "label": "Margin of safety",
+        "formula_id": "margin_of_safety",
+        "inputs": [
+          {
+            "name": "actual_output",
+            "value": 7500
+          },
+          {
+            "name": "break_even_output",
+            "value": 6000
+          }
+        ],
+        "stated_answer": 1500,
+        "unit": "units"
+      }
+    ]
+  }
+}
