@@ -11,7 +11,7 @@
       "3.5.4"
     ]
   },
-  "courseKnowledgeModelFingerprint": "e4a3ca790b3b7b2f07450f82b83658b6f12fdc1d38f9f1daf023885dfa59148c",
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
   "nodes": [
     {
       "nodeId": "bus-evi-005",
@@ -636,7 +636,7 @@
       "label": "Profit for the year",
       "kind": "formula",
       "aqaConvention": "operating profit - net finance costs - taxation",
-      "conventionStatus": "to_confirm_against_aqa_mark_scheme",
+      "conventionStatus": "confirmed",
       "taughtBy": [
         "bus-fin-012",
         "bus-fin-010"
@@ -1809,8 +1809,6 @@
     "treated": 35,
     "gaps": [],
     "nodesMissingFromCourse": [],
-    "conventionsToConfirm": [
-      "aqa-7132-3.5.1:profit-for-the-year"
-    ]
+    "conventionsToConfirm": []
   }
 }

@@ -4,13 +4,11 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "9e7833b0726a4cab06c57043f17efb98c015d861f93a59b6e75eab4e60035e9d",
+  "foundation_fingerprint": "390c40161666ff44c65d2d601e222bf81fbc0dff76e896f28557315895e85b87",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
-    "conventions_to_confirm": [
-      "aqa-7132-3.5.1:profit-for-the-year"
-    ],
+    "conventions_to_confirm": [],
     "covered": 344,
     "found_in_unmapped_node": 0,
     "mentioned_not_taught": 0,
@@ -2055,7 +2053,7 @@
         }
       ],
       "aqa_convention": "operating profit - net finance costs - taxation",
-      "convention_status": "to_confirm_against_aqa_mark_scheme"
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:budgets-income-expenditure-profit",
