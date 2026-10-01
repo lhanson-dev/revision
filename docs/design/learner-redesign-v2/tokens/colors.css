@@ -1,0 +1,98 @@
+/* Revision colour tokens (v2.1).
+   Teal = brand, REV, primary actions, links, focus. Never a subject.
+   Teal / yellow / coral = status only. Subjects use the separate subject palette below.
+   Solids are theme-independent; tints, inks and neutrals swap in dark. */
+:root {
+  /* Neutrals */
+  --bg: #f3f7f5;
+  --sf: #ffffff;
+  --line: #dde8e4;
+  --tx: #132026;
+  --tx2: #4f6268;
+  --canvas: #e6ebe9;
+
+  /* Brand teal */
+  --teal: #2bb6a3; --teal-tint: #e2f3ef; --teal-ink: #0f7a6d; --teal-on: #0f2f36;
+  /* Status hues */
+  --coral: #ff7a59; --coral-tint: #ffe7df; --coral-ink: #b13d1f; --coral-on: #3a130a;
+  --yellow: #ffc53d; --yellow-tint: #fff1c9; --yellow-ink: #7a5600; --yellow-on: #3d2b00;
+  --neutral: #9aaba8; --neutral-tint: #edf2f0; --neutral-ink: #4f6268; --neutral-on: #132026;
+
+  /* Status roles: always icon + text on the tint */
+  --status-gotit: var(--teal);     --status-gotit-tint: var(--teal-tint);     --status-gotit-ink: var(--teal-ink);
+  --status-nearly: var(--yellow);  --status-nearly-tint: var(--yellow-tint);  --status-nearly-ink: var(--yellow-ink);
+  --status-needswork: var(--coral);--status-needswork-tint: var(--coral-tint);--status-needswork-ink: var(--coral-ink);
+  --status-started: var(--neutral);--status-started-tint: var(--neutral-tint);--status-started-ink: var(--neutral-ink);
+  --status-notstarted: var(--line);--status-notstarted-tint: var(--neutral-tint);--status-notstarted-ink: var(--neutral-ink);
+
+  /* Subject palette: solid / tint / ink / on. One hue per top-level subject; variants for split subjects. */
+  --violet: #855bdc; --violet-tint: #f1edfe; --violet-ink: #7152b5; --violet-on: #ffffff;
+  --violet-bio: #ad74dd; --violet-bio-tint: #f5ecfe; --violet-bio-ink: #814caa; --violet-bio-on: #21132c;
+  --violet-chem: #6d3cb3; --violet-chem-tint: #f2edfe; --violet-chem-ink: #7551b3; --violet-chem-on: #ffffff;
+  --violet-phys: #7679de; --violet-phys-tint: #edeffe; --violet-phys-ink: #5b5abc; --violet-phys-on: #161731;
+  --blue: #236bcf; --blue-tint: #e8f1fe; --blue-ink: #2a67bd; --blue-on: #ffffff;
+  --sky: #4caad7; --sky-tint: #e0f4ff; --sky-ink: #08729a; --sky-on: #001e2c;
+  --magenta: #cd2e8b; --magenta-tint: #ffe9f3; --magenta-ink: #a53c75; --magenta-on: #ffffff;
+  --magenta-lang: #e34d83; --magenta-lang-tint: #ffeaef; --magenta-lang-ink: #aa3a62; --magenta-lang-on: #2d0f19;
+  --magenta-lit: #9b2d8c; --magenta-lit-tint: #fee9f9; --magenta-lit-ink: #9a418c; --magenta-lit-on: #ffffff;
+  --umber: #8a5d3e; --umber-tint: #ffece0; --umber-ink: #8a5d3e; --umber-on: #ffffff;
+  --plum: #603367; --plum-tint: #fbe9fd; --plum-ink: #84548b; --plum-on: #ffffff;
+  --green: #3a9742; --green-tint: #e4f6e3; --green-ink: #167b26; --green-on: #09200b;
+  --olive: #858932; --olive-tint: #f0f3db; --olive-ink: #6b6f0e; --olive-on: #1b1d00;
+  --slate: #5a6b7d; --slate-tint: #e6f2fe; --slate-ink: #5a6b7d; --slate-on: #ffffff;
+  --navy: #234077; --navy-tint: #e9f1fe; --navy-ink: #4868a2; --navy-on: #ffffff;
+
+  /* REV surface (only REV uses this) */
+  --deep: #0f2f36;
+  --rev-label: #7fe3d3;
+  --rev-text: #e8f3f0;
+  --rev-muted: #b7cfcc;
+  --rev-row: rgba(255, 255, 255, 0.08);
+  --rev-row-active: rgba(255, 255, 255, 0.14);
+  --rev-button: rgba(255, 255, 255, 0.1);
+  --halo-mid: rgba(43, 182, 163, 0.08);
+
+  /* Semantic aliases */
+  --surface-page: var(--bg);
+  --surface-card: var(--sf);
+  --border: var(--line);
+  --text-primary: var(--tx);
+  --text-secondary: var(--tx2);
+  --brand: var(--teal);
+  --brand-on: var(--teal-on);
+  --link: var(--teal-ink);
+  --soft: var(--teal-tint);
+  --acc: var(--teal-ink);
+
+  --shadow-frame: 0 20px 60px rgba(15, 47, 54, 0.14);
+}
+
+[data-theme="dark"] {
+  --bg: #0b1518;
+  --sf: #121f24;
+  --line: #233639;
+  --tx: #e8f3f0;
+  --tx2: #9db1b2;
+  --canvas: #050b0d;
+  --teal-tint: #163430; --teal-ink: #52d6c2;
+  --coral-tint: #3b231d; --coral-ink: #ffab94;
+  --yellow-tint: #372d14; --yellow-ink: #ffd97a;
+  --neutral: #4d6368; --neutral-tint: #1b2a2f; --neutral-ink: #a9bcbc;
+  --violet-tint: #302846; --violet-ink: #b6a3f0;
+  --violet-bio-tint: #352643; --violet-bio-ink: #c49ee7;
+  --violet-chem-tint: #312746; --violet-chem-ink: #b9a2ee;
+  --violet-phys-tint: #292a49; --violet-phys-ink: #a3a9f6;
+  --blue-tint: #1c2e49; --blue-ink: #85b3f7;
+  --sky-tint: #083245; --sky-ink: #60bdeb;
+  --magenta-tint: #422232; --magenta-ink: #e694bb;
+  --magenta-lang-tint: #44212c; --magenta-lang-ink: #eb93ac;
+  --magenta-lit-tint: #3e2339; --magenta-lit-ink: #dc96ce;
+  --umber-tint: #432610; --umber-ink: #d7a583;
+  --plum-tint: #3b243e; --plum-ink: #cf9cd7;
+  --green-tint: #1b351c; --green-ink: #84c485;
+  --olive-tint: #2f300c; --olive-ink: #b3b862;
+  --slate-tint: #162f48; --slate-ink: #a1b3c7;
+  --navy-tint: #1e2d49; --navy-ink: #8eb1f1;
+  --deep: #0a2b2d;
+  --halo-mid: rgba(43, 182, 163, 0.14);
+}

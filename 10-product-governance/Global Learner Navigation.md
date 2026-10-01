@@ -1,8 +1,8 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.10 proposal pending governed merge  
+**Status:** Active authority — v0.11, Founder-approved 1 October 2026 (effective on merge of the design-system v2.1 PR)  
 **Owner:** Founder  
-**Founder direction approved:** 2026-08-22; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
+**Founder direction approved:** 2026-08-22; learner redesign v2.1 navigation (icon rail, bottom tab bar, Exam Prep focus mode) approved 2026-10-01; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
 **Purpose:** Define the governed global learner navigation model, learner-course contextual expansion and persistent REV access pattern across desktop, tablet and mobile.
 
 ## Authority relationship
@@ -11,11 +11,41 @@ This document is the specific product authority for global learner navigation, c
 
 Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
 
+**v0.11 (1 October 2026) supersedes the tablet/mobile drawer and the persistent Ask REV dock** (v0.5 to v0.10 wording on those) with the sidebar, icon rail and bottom tab bar described in *Learner redesign v2.1 layout bands* below, and **lifts the v0.5 ban on a bottom tab bar** by explicit Founder decision. Where older text below describes the drawer or dock, the v2.1 section governs. The Courses hierarchy, focused-section expansion and course-management rules remain in force.
+
 This v0.10 direction retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar, the v0.6 progressive disclosure of account utilities, the v0.7 decision that the active academic branch may expand contextually, the v0.8 move from Subjects to Courses and the v0.9 permission for the active focused section to expose deeper governed academic contents.
 
 It additionally makes the active focused-section row itself a disclosure control where it owns deeper contextual contents. That hierarchy opens by default from route context, but the learner may collapse or reopen those descendants without navigating away from the current page. This keeps the navigation predictable and gives the learner control over a long contextual tree without changing academic location.
 
 Subject remains valid academic metadata and a useful way to organise course discovery, but it is no longer a required everyday navigation hop for a learner opening a course they already study.
+
+## Learner redesign v2.1 layout bands
+
+*Founder-approved 1 October 2026. Full responsive rules: `docs/design-system/RESPONSIVE.md`.*
+
+| Width | Navigation |
+| --- | --- |
+| Above 960px | Persistent 248px **left sidebar**: wordmark, Ask REV, Home, Plan, Progress, Courses (with the existing course branch expansion), account control at the bottom |
+| 621 to 960px | 84px **icon rail**: Ask REV and the four destinations as icons, each with an accessible name |
+| 620px and below | **Bottom tab bar** with the Living E / REV control **raised in the centre**: Home and Plan on one side, Courses and Progress on the other |
+
+- The page scrolls down, never sideways, from 320px up. Content sits in one centred 1100px canvas.
+- The active destination is shown without relying on colour alone and carries `aria-current="page"`.
+- Controls are 48px high (touch targets at least 44px). The tab bar reserves space and respects the device safe area so it never covers content.
+- On tablet and phone the sidebar's course branch (saved courses and focused sections) is reached through Courses and the course's own section navigation rather than a drawer. The exact pattern is set by the shell PR (PR 4) and must keep the course-hierarchy rules in this document.
+
+### Exam Prep focus mode
+
+- In Exam Prep, **all navigation is hidden** at every size (focus mode).
+- **Leaving a running timed paper asks for confirmation first.** The student can stay, or leave knowing the consequence (for example that the timer and answers so far are kept or lost, as the Exam Prep screen defines).
+
+### Open: how Ask REV opens
+
+The design shows a full Ask REV page. The rules in this document say Ask REV opens as a contextual overlay without leaving the current task. **Which of these applies (overlay, page, or both) is a pending Founder decision.** Until it is made, the existing contextual overlay behaviour and the "do not require a learner to leave their current task" guardrail stay in force, and the navigation components accept a separate "open Ask REV" action so either outcome is possible.
+
+### Open: account utilities in the rail and tab bar
+
+Profile, Settings, Admin and Log out live in the sidebar account control on desktop. Where they live in the icon rail and tab bar is not covered by the Founder decisions and is raised for decision in the shell PR (PR 4).
 
 ## Core decision
 
@@ -327,7 +357,7 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 
 ## Guardrails
 
-- Do not restore the five-item tablet/mobile bottom navigation without a new Founder-approved authority change.
+- ~~Do not restore the five-item tablet/mobile bottom navigation without a new Founder-approved authority change.~~ **Lifted 1 October 2026:** the v2.1 bottom tab bar is the Founder-approved phone navigation. Do not add further items beyond Home, Plan, Courses, Progress and the raised REV control without a new Founder-approved change.
 - Do not add Subjects back as a fifth peer destination alongside Courses without a new Founder-approved authority change.
 - Do not present the full published catalogue as though every course belongs to the learner.
 - Do not turn the desktop rail or mobile drawer into an always-expanded sitemap or dumping ground for unrelated tools.
@@ -341,8 +371,8 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 - Do not delete historic learning evidence merely because a learner removes a course from the active programme.
 - Do not make REV a separate assistant relationship at different product levels.
 - Do not require a learner to leave their current task merely to ask REV a contextual question.
-- Do not duplicate Ask REV in the mobile drawer merely because the drawer has space.
-- Do not expose the tablet/mobile account utility stack by default when the drawer first opens; use the compact learner account control as progressive disclosure.
+- Do not duplicate Ask REV as a second ordinary tab alongside the raised REV control.
+- Do not expose a stack of account utilities by default; use the compact learner account control as progressive disclosure wherever account utilities appear.
 - Do not duplicate Profile and Settings as permanent desktop rail rows.
 - Do not attach Profile or Settings to the right screen edge as though they are Ask REV.
 - Do not expose Admin unless the authenticated user has governed administrator permission.
@@ -360,3 +390,7 @@ Focused-section nested expansion is an extension of the same governed learner na
 ## Documentation impact
 
 This v0.10 direction requires the Courses hierarchy, focused-section contextual expansion and active focused-section disclosure behaviour to remain aligned across `Information Architecture.md`, applicable focused-section authority such as `Learn MVP Experience.md`, planning/journey authority, the canonical learner-shell technical documentation, route/catalogue implementation, persistence/RLS implementation and responsive browser assurance. Historical Design Acceptance evidence remains historically true and should be appended/superseded rather than rewritten.
+
+## Documentation impact (v0.11)
+
+Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The tablet/mobile drawer, the persistent Ask REV dock and the ban on a bottom tab bar are superseded. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Open for the Founder: how Ask REV opens, and where account utilities live in the rail and tab bar.

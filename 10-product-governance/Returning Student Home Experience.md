@@ -13,6 +13,8 @@ source_of_truth_for: ["returning Student Home hierarchy", "Returning Student Hom
 depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Visual Brand System", "Global Learner Navigation", "Identity Asset Usage Rules"]
 supersedes: ["Core User Journeys returning-student example requiring course-open then mode selection", "Information Architecture Home clause describing Today's plan as necessarily smaller than REV guidance", "Adaptive Revision Planning clause describing Today's plan as necessarily smaller than the Home recommendation"]
 ---
+> **Pointer** (1 October 2026, Founder): REV suggestion rules (reason required, rule-chosen topic, priority order, Suggest something else, Not now) are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md` (v2.0). Home is rebuilt in the Home screen PR; each screen shows its set-up empty state until it has real data.
+
 # Returning Student Home Experience
 
 ## Purpose

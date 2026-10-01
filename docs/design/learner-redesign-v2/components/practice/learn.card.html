@@ -1,0 +1,14 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Learn & Exam Prep" subtitle="QuickCheck (Not scored) + ExaminerGuide (practice mode only)" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../../components/_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../core/Icon.jsx','../practice/AnswerOption.jsx','../practice/QuickCheck.jsx','../practice/ExaminerGuide.jsx'], ({QuickCheck,ExaminerGuide}) =>
+  <div style={{display:'grid',gridTemplateColumns:'1.3fr 1fr',gap:16,alignItems:'start'}}>
+    <QuickCheck question="Contribution per unit is…" options={['Selling price − variable cost','Selling price − fixed cost']} answer={0} explain="It's what each sale adds towards covering fixed costs."/>
+    <ExaminerGuide points={[['Defines break-even accurately',true],['Uses the figures from the case study',true],['Explains the effect on the business',false],['Reaches a supported judgement',false]]}/>
+  </div>);
+</script></body></html>

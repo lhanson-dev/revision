@@ -1,0 +1,13 @@
+<!-- @dsCard group="Brand" viewport="700x200" subtitle="REV's signature. Always gently moving: waiting, listening, thinking, responding." name="Living E" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../components/_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../components/rev/RevMark.jsx'], ({RevMark}) => {
+  const B = ({s,l,dark}) => <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10,padding:'18px 10px',borderRadius:20,background:dark?'var(--deep)':'var(--sf)',boxShadow:dark?'none':'inset 0 0 0 1px var(--line)'}}><RevMark size={64} state={s} halo={s==='waiting'} onDark={dark}/><span style={{font:'800 13px var(--font-body)',color:dark?'var(--rev-text)':'var(--tx)'}}>{l}</span></div>;
+  return <div style={{display:'grid',gridTemplateColumns:'repeat(4,minmax(0,1fr))',gap:12}}><B s="waiting" l="Waiting"/><B s="listening" l="Listening" dark/><B s="thinking" l="Thinking" dark/><B s="responding" l="Responding" dark/></div>;
+});
+</script></body></html>

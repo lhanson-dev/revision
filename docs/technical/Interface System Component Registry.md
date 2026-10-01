@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete; Learn educational treatment extension In Progress under #381  
+**Status:** Design-system v2.1 components added (1 October 2026; not yet used by screens); B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete; Learn educational treatment extension In Progress under #381  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `20-brand-and-experience/Educational Treatment System.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -64,6 +64,16 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `Icon` | Controlled rounded-line product icon | inline/compact/standard/large | Living E identity, emoji controls or page-local icon libraries |
 | `BrandAsset` | Canonical Revision identity asset selection | wordmark, Living E resting, Living E nav | redrawing or approximating identity marks |
 | `EducationalTreatment` | Shared learner-facing anatomy for recurring educational meanings | `key-idea`, `example`, `worked-example`, `relationship`, `comparison`, `quantitative`, `misconception`, `recap` | ordinary explanatory prose, semantic status messages, page-local subject-specific variants or template stuffing |
+| `StatusBadge` | Learning status (Got it, Nearly there, Needs work, Just started, Not started) as icon plus text | `sm` / `md` | Success/Warning/Error feedback (use `Status`) or subject colour |
+| `UnderstandingBar` | Understanding measure: stacked status bar with text labels | `counts` per status; labels on/off; `sm` / `md` | A single blended percentage |
+| `HueProgressBar` | Topics covered bar in a subject hue (or brand teal) | `value`, `hue`, `valueText`, `sm` / `md` | Showing status (it never uses a status colour) |
+| `ProgressMeasures` | The three measures together: Topics covered, Understanding, Exam readiness | `hue`, `covered`, `total`, `understanding`, `readiness?`, `stack` | A predicted grade, or hard-coded numbers |
+| `SubjectBadge` | Subject letter mark from the catalogue | `hue`, `mark`, `tile` / `plan` / `panel`, `onSolid` | Subject identity without the subject name beside it |
+| `RevMark` | Living E with four states (waiting, listening, thinking, responding) and text for every state | `state`, `size`, `onSettled` | Decoration outside REV cards, Ask REV, REV nav and the Home hero |
+| `RevCard` (`RevSuggestionCard`) | REV suggestion with a reason | eyebrow, title, reason (required), steps, actions, `hero` | A card with no real reason (show the empty state) |
+| `QuickCheck` | Unscored check inside Learn, labelled Not scored | question, options, correct option, explanation | Anything that records an answer or changes progress |
+| `ExaminerGuide` | "What examiners look for" checklist with why each point ticked | `points`, `mode` (`practice` / `timed`) | Showing a mark or grade; timed papers (renders nothing) |
+| `AppShell` / `Sidebar` / `Rail` / `TabBar` | Page shell: sidebar above 960px, icon rail 621 to 960px, tab bar at 620px and below, focus mode with no navigation | `items`, `active`, `onNavigate`, `onAskRev`, `focus`, `stickyFooter` | Admin, or any screen that invents its own top-level frame |
 
 ## Educational treatment contract
 

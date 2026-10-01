@@ -1,6 +1,6 @@
 # Claims and Progress Governance
 
-**Status:** Draft authority candidate — v0.3  
+**Status:** Draft authority candidate — v0.4. The sections marked *Learner v2.1* are Founder-approved (decisions of 1 October 2026, effective on merge of the design-system v2.1 PR; record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`).  
 **Purpose:** Define what Revision may and may not claim about student progress, understanding, mastery, exam readiness, estimated grades and whether a student is on track.
 
 ## Core principle
@@ -11,13 +11,64 @@ The product must not turn activity into achievement, confidence into certainty, 
 
 Any important learner-facing judgement should make clear what it means, what evidence supports it and what the student should do next.
 
+## Learner v2.1: the three measures, status labels and readiness
+
+*Learner v2.1, Founder-approved 1 October 2026.*
+
+### The three measures
+
+Progress is shown as **three separate measures, never one blended percentage**:
+
+1. **Topics covered** (x of y): the coverage signal. It replaces the learner-facing word "Reviewed" and keeps the meaning set out in sections 4 and 11 below: it is a record of meaningful encounter, not understanding and not an achievement score. How a topic counts as covered is defined in the data layer and must obey section 4.
+2. **Understanding**: a stacked bar showing how many topics are at each status, with text labels, for example "1 got it · 2 nearly there · 1 needs work · 6 not started".
+3. **Exam readiness**: only ever an engine-produced value, or "Not enough evidence yet" plus what would unlock it.
+
+Course Progress and the global Progress page use the same three measures and the same names. Every progress screen opens with a plain summary sentence and one next action before any numbers. "How this is worked out" is an optional disclosure of no more than three plain sentences. The learner-facing bands Low / Medium / Good (Topic Knowledge) and the "Building" readiness state are retired from learner-facing copy in favour of the labels below.
+
+### Status labels
+
+Five fixed labels, always shown as an icon plus text, never colour alone:
+
+| Label | Meaning | Colour |
+| --- | --- | --- |
+| Got it | Evidence says the topic is secure | Teal |
+| Nearly there | Developing | Yellow |
+| Needs work | Needs attention. A "look at this", never error red | Coral |
+| Just started | Not enough evidence yet, but at least one answer in the topic | Neutral |
+| Not started | No answers in the topic | Neutral |
+
+- Yellow means **Nearly there** only. Dates and "coming up" are neutral text with a clock icon.
+- No new thresholds are invented for the labels: they come from the readiness engine's existing states. **Proposed mapping, pending Founder confirmation:** the engine's topic knowledge bands good, medium and low map to Got it, Nearly there and Needs work; the not-enough-evidence band maps to Just started when the student has answered anything in the topic, otherwise Not started. Until confirmed, the data layer must not ship its own mapping.
+- **Just started versus Not started** is decided by whether the student has any answers in the topic, not by the evidence threshold.
+
+### Exam readiness: no predicted grade
+
+For the learner app launch, no predicted grade (for example "Grade 6–7") is shown until the Founder decides the format and the engine supports it (open item). This narrows section 2 below for now: the permission to give an estimated grade where evidence supports it remains the long-term rule, but it is not used in the learner app until that decision is made.
+
+### Examiner checklist ("What examiners look for")
+
+- Points tick automatically as the student's answer covers each one.
+- It is labelled as **a guide to what examiners look for, never a mark or predicted grade.**
+- It is shown in practice mode only and **hidden during timed mock papers.**
+- The points come from the **approved mark scheme content**, never invented by a model.
+- Students can see **why each point ticked.**
+- **Release gate:** before it goes live, it is tested against a set of real marked answers to check it ticks the right points. Until the gate passes it stays behind a switch that is off. Who supplies the marked answers is an open Founder item.
+
+### Quick check
+
+A Quick check is unscored. It never changes status, Topics covered or readiness (see `Educational Treatment System.md`).
+
+### Honest data
+
+No number, date, name or topic is hard-coded from mockups or sample content. Coverage, understanding and readiness stay separate. Each screen shows its set-up empty state until that screen has real data, then switches to the real view; there is no global "three sessions" rule.
+
 ## Learner-facing progress hierarchy
 
 Revision should distinguish the learner's **content exposure** from their **demonstrated performance**.
 
-### Reviewed
+### Reviewed (learner-facing name: Topics covered)
 
-`Reviewed` is a secondary orientation signal answering:
+`Reviewed`, shown to learners as **Topics covered** (Learner v2.1), is a secondary orientation signal answering:
 
 **How much of the relevant learning material have I meaningfully been through?**
 
@@ -27,7 +78,7 @@ Reviewed is not an achievement score. A learner must not be penalised, blocked o
 
 ### Exam Readiness
 
-`Exam Readiness` is the primary learner-facing demonstrated-performance signal answering:
+`Exam Readiness` (shown as **Exam readiness**) is the primary learner-facing demonstrated-performance signal answering:
 
 **Based on the available evidence, how ready does the learner currently appear to be to perform on this material under the relevant exam demands?**
 
@@ -235,3 +286,7 @@ Before presenting a progress or outcome claim, Revision should be able to answer
 ## Documentation impact
 
 This v0.3 clarification establishes Reviewed as a secondary content-exposure signal and Exam Readiness as the primary demonstrated-performance signal. Product-system, learner-navigation and Content Factory authorities must remain aligned with these semantics. Historical progress evidence must not be rewritten.
+
+## Documentation impact (Learner v2.1)
+
+Version 0.4 records the Founder decisions of 1 October 2026: the three measures, the five status labels and their colours, Just started versus Not started, readiness with no predicted grade for the learner app launch, the examiner checklist rules and release gate, and the unscored Quick check. "Reviewed" is renamed Topics covered for learners; Low / Medium / Good and "Building" are retired from learner-facing copy. The engine mapping to the five labels is proposed and awaits Founder confirmation. `Course Overview Progress Signals.md`, `Learn MVP Experience.md`, `Course Learning Blueprint.md` and `Returning Student Home Experience.md` carry pointers to this change.

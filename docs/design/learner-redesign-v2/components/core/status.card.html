@@ -1,0 +1,18 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Status" subtitle="StatusBadge (5 states) + UnderstandingBar, light and dark" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../../components/_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../core/Icon.jsx','../core/StatusBadge.jsx','../core/UnderstandingBar.jsx'], ({StatusBadge,UnderstandingBar}) => {
+  const Panel = ({dark}) => <div data-theme={dark?'dark':undefined} style={{padding:18,borderRadius:20,background:'var(--sf)',boxShadow:'inset 0 0 0 1px var(--line)',display:'flex',flexDirection:'column',gap:14}}>
+    <div style={{font:'800 12px/1 var(--font-body)',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--tx2)'}}>{dark?'Dark':'Light'}</div>
+    <div style={{display:'flex',flexWrap:'wrap',gap:8}}>{['gotit','nearly','needswork','started','notstarted'].map(s => <StatusBadge key={s} status={s}/>)}</div>
+    <div style={{display:'flex',flexWrap:'wrap',gap:6}}>{['gotit','nearly','needswork','started','notstarted'].map(s => <StatusBadge key={s} status={s} size="sm"/>)}</div>
+    <UnderstandingBar counts={{gotit:1,nearly:2,needswork:1,started:1,notstarted:5}}/>
+  </div>;
+  return <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}><Panel/><Panel dark/></div>;
+});
+</script></body></html>
