@@ -61,6 +61,14 @@ export function subjectIdentity(subjectId: string): SubjectIdentity | null {
   return subjectIdentities[subjectId] ?? null
 }
 
+/** Hue used when the subject map has no entry yet: a neutral hue, never teal, yellow or coral. */
+export const FALLBACK_HUE: SubjectHue = 'slate'
+
+/** The hue and letter mark to show for a subject. A subject with no entry yet gets the neutral hue and its first letter. */
+export function resolveSubjectIdentity(subjectId: string, subjectName: string): SubjectIdentity {
+  return subjectIdentity(subjectId) ?? { hue: FALLBACK_HUE, mark: fallbackMark(subjectName) }
+}
+
 /** CSS custom property names for a hue. Use them as `var(...)` in component styles. */
 export function subjectColourVars(hue: SubjectHue) {
   return {

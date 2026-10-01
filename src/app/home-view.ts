@@ -2,7 +2,7 @@ import type { RevisionAssessment } from '../services/planning/planner-service'
 import type { ModuleLearningState } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { courseIdForLearningState } from './planner-model'
-import { fallbackMark, subjectIdentity, type SubjectHue } from './subject-palette'
+import { resolveSubjectIdentity, type SubjectHue } from './subject-palette'
 import { topicLearningStatus } from './topic-status'
 import type { LearningStatus } from './ui'
 
@@ -59,12 +59,9 @@ export type HomeCourseTile = {
   total: number
 }
 
-/** Hue used when the subject map has no entry yet: a neutral hue, never teal, yellow or coral. */
-const FALLBACK_HUE: SubjectHue = 'slate'
-
 export function buildCourseTiles(programme: readonly LearnerProgrammeCourse[], states: readonly ModuleLearningState[]): HomeCourseTile[] {
   return programme.map(({ course, subject }) => {
-    const identity = subjectIdentity(subject.id)
+    const identity = resolveSubjectIdentity(subject.id, subject.name)
     const courseStates = states.filter((state) => courseIdForLearningState(state) === course.id)
     const counts: Partial<Record<LearningStatus, number>> = {}
     courseStates.forEach((state) => {
@@ -77,8 +74,8 @@ export function buildCourseTiles(programme: readonly LearnerProgrammeCourse[], s
     return {
       courseId: course.id,
       subjectName: subject.name,
-      hue: identity?.hue ?? FALLBACK_HUE,
-      mark: identity?.mark ?? fallbackMark(subject.name),
+      hue: identity.hue,
+      mark: identity.mark,
       counts,
       covered: courseStates.reduce((sum, state) => sum + state.evidencedTopics, 0),
       total: courseStates.reduce((sum, state) => sum + state.topicCount, 0),
