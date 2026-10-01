@@ -11,7 +11,7 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 import type { Ledger } from '../../src/content-factory/fast-path-review'
 
 describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
-  it('proves only the three Foundation-changed nodes are stale in the affected committed batches', async () => {
+  it('proves every affected-batch node is reusable after the targeted refresh is committed', async () => {
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     const teachingFor = (nodeId: string): SliceTeaching => {
@@ -30,13 +30,11 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     const cases = [
       {
         batch: '3.8-3.9',
-        reusable: ['bus-fnd-002', 'bus-str-004', 'bus-str-007'],
-        stale: ['bus-fnd-007', 'bus-fnd-008'],
+        reusable: ['bus-fnd-002', 'bus-fnd-007', 'bus-fnd-008', 'bus-str-004', 'bus-str-007'],
       },
       {
         batch: '3.10',
-        reusable: ['bus-evi-008', 'bus-ext-007', 'bus-mkt-001', 'bus-mod-005'],
-        stale: ['bus-str-009'],
+        reusable: ['bus-evi-008', 'bus-ext-007', 'bus-mkt-001', 'bus-mod-005', 'bus-str-009'],
       },
     ] as const
 
@@ -55,7 +53,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       }
 
       expect(reusable.sort(), `${testCase.batch} reusable`).toEqual([...testCase.reusable].sort())
-      expect(stale.sort(), `${testCase.batch} stale`).toEqual([...testCase.stale].sort())
+      expect(stale, `${testCase.batch} stale`).toEqual([])
     }
   })
 })
