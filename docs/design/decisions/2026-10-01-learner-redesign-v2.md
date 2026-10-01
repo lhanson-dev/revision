@@ -162,3 +162,5 @@ Recorded as given. These add to the decisions above and do not change them.
 4. **Model:** still to decide; happy to test with Claude Sonnet 5.5.
 5. **REV safeguarding replies may use vetted fixed text** (this is not a "canned reply").
 6. **REV conversations are kept for 12 months from the last message**, and the student can delete them at any time.
+7. **Status-label mapping confirmed:** good topic knowledge is Got it; medium is Nearly there; low is Needs work; not-enough-evidence is Just started if the student has answered anything in the topic, otherwise Not started.
+8. **Data model recommendations agreed** (all items in the PR 2 proposal, including the theme being saved per student so it is the same on every device). Detail: `docs/design/learner-redesign-v2/data-model-proposal.md`.

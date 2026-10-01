@@ -15,12 +15,12 @@ How to read it: **Foundations** means the design values, building blocks and che
 | F4 | Smarter Plan | Not started | PR 6 | Week first, Day/Week/Month, REV-added sessions, study time, exam dates | Planned sessions and study time need new data (PR 2 proposal) |
 | F5 | Practice feedback bar and retry queue | Answer option styling (inside Quick check) | PR 9 | Feedback bar, retry queue | Retry queue needs new data (PR 2 proposal) |
 | F6 | Exam Prep focus mode and examiner checklist | Examiner guide component; shell has a focus mode that hides navigation | PR 10 | Papers, timer, confirm before leaving a running paper, checklist behind a switch that stays off until the release gate passes | Who supplies marked answers for the release gate (open item 2) |
-| F7 | Progress: three measures | Status labels, understanding bar, three-measure component | PR 11 | Course and global Progress screens; engine mapping to the five labels | Confirm the engine mapping (see Decisions below). Exam readiness format (open item 1) |
+| F7 | Progress: three measures | Status labels, understanding bar, three-measure component | PR 11 | Course and global Progress screens; engine mapping to the five labels | Exam readiness format (open item 1) |
 | F8 | Ask REV with real answers (pop-up; full screen on phone) | REV mark with four states and text for every state | PR 12 | Real model answers, prompt chips, safeguarding | The model (test Claude Sonnet 5.5), cost and logging, in the PR 2 proposal |
 | F9 | Onboarding | Not started | PR 13 | Level, subjects, board, dates, time, first plan | Coming-soon requests need new data (PR 2 proposal) |
 | F10 | Empty states | Not started | PR 14 | Per-screen sweep | None |
 | F11 | Subject colours and letter marks | Palette tokens, central subject map, letter-mark badge | PR 1 | Use them on course cards and Plan blocks | Catalogue columns `hue` and `mark` (PR 2 proposal) |
-| F12 | Light, dark or system theme | Tokens for both themes | PR 4 | Theme control, saved per student, system as default | Theme preference needs new data (PR 2 proposal) |
+| F12 | Light, dark or system theme | Tokens for both themes | PR 4 | Theme control, saved per student so it is the same on every device, system as default | Saving per student needs the preferences table (PR 2 proposal, agreed; awaiting its approval) |
 | F13 | Quick check (Learn, Not scored) | Quick check component | PR 3, PR 8 | Content schema block (PR 3), Learn wiring (PR 8) | Lee to say go for PR 3 (Content Factory work) |
 | F14 | Living E states | Four states, 1.4s thinking loop, text for every state | PR 4, PR 12 | Living E in navigation (PR 4), Ask REV states (PR 12) | None |
 
@@ -59,7 +59,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 ## Decisions pending (Lee)
 
 1. ~~Ask REV: a page, an overlay, or both?~~ **Decided 1 Oct:** a pop-up over the page; full screen on phones; no separate page.
-2. **Engine to label mapping.** Proposed: good topic knowledge is Got it; medium is Nearly there; low is Needs work; not enough evidence is Just started if the student has answered anything in the topic, otherwise Not started. Not written into the standards as final until you confirm.
+2. ~~Engine to label mapping.~~ **Confirmed 1 Oct.** Mapping: good topic knowledge is Got it; medium is Nearly there; low is Needs work; not enough evidence is Just started if the student has answered anything in the topic, otherwise Not started. 
 3. Open items 1 to 5 from the decisions file (readiness format, marked answers for the checklist, suggestion windows, safeguarding review before any parent or school alerts, "REV noticed" evidence bar).
 
 ## Decision log (design work)
@@ -74,3 +74,4 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-01 | Branch | PR 1 uses the session branch `claude/revision-v2-learner-redesign-3rigil` | Session setup; Lee approved |
 | 2026-10-01 | Ask REV | Pop-up conversation over the page; full screen on phones; no separate page; real model used efficiently (answer from data and approved content first); safeguarding may use vetted fixed text; conversations kept 12 months, student can delete | Lee, later on 1 Oct. Standards and decision record updated |
 | 2026-10-01 | Exam answers | Keep submitted answers and per-point feedback so progress and "what you got wrong" can use them | Lee; detail in the PR 2 proposal (awaiting its approval) |
+| 2026-10-01 | Status-label mapping and data model | Lee confirmed the engine-to-label mapping, agreed all PR 2 recommendations, and agreed the theme is saved per student | Lee, 1 Oct. Standards and decision record updated |

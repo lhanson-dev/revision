@@ -38,7 +38,7 @@ Five fixed labels, always shown as an icon plus text, never colour alone:
 | Not started | No answers in the topic | Neutral |
 
 - Yellow means **Nearly there** only. Dates and "coming up" are neutral text with a clock icon.
-- No new thresholds are invented for the labels: they come from the readiness engine's existing states. **Proposed mapping, pending Founder confirmation:** the engine's topic knowledge bands good, medium and low map to Got it, Nearly there and Needs work; the not-enough-evidence band maps to Just started when the student has answered anything in the topic, otherwise Not started. Until confirmed, the data layer must not ship its own mapping.
+- No new thresholds are invented for the labels: they come from the readiness engine's existing states. **Mapping (Founder-confirmed 1 October 2026):** the engine's topic knowledge bands good, medium and low map to Got it, Nearly there and Needs work; the not-enough-evidence band maps to Just started when the student has answered anything in the topic, otherwise Not started.
 - **Just started versus Not started** is decided by whether the student has any answers in the topic, not by the evidence threshold.
 
 ### Exam readiness: no predicted grade
@@ -289,4 +289,4 @@ This v0.3 clarification establishes Reviewed as a secondary content-exposure sig
 
 ## Documentation impact (Learner v2.1)
 
-Version 0.4 records the Founder decisions of 1 October 2026: the three measures, the five status labels and their colours, Just started versus Not started, readiness with no predicted grade for the learner app launch, the examiner checklist rules and release gate, and the unscored Quick check. "Reviewed" is renamed Topics covered for learners; Low / Medium / Good and "Building" are retired from learner-facing copy. The engine mapping to the five labels is proposed and awaits Founder confirmation. `Course Overview Progress Signals.md`, `Learn MVP Experience.md`, `Course Learning Blueprint.md` and `Returning Student Home Experience.md` carry pointers to this change.
+Version 0.4 records the Founder decisions of 1 October 2026: the three measures, the five status labels and their colours, Just started versus Not started, readiness with no predicted grade for the learner app launch, the examiner checklist rules and release gate, and the unscored Quick check. "Reviewed" is renamed Topics covered for learners; Low / Medium / Good and "Building" are retired from learner-facing copy. The engine mapping to the five labels was confirmed by the Founder on 1 October 2026. `Course Overview Progress Signals.md`, `Learn MVP Experience.md`, `Course Learning Blueprint.md` and `Returning Student Home Experience.md` carry pointers to this change.
