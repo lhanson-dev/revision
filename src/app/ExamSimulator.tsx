@@ -18,6 +18,26 @@ type SessionOverlay = 'paused' | 'stop-confirm' | null
 const emptyMarks = (): Marks => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 const aoKeys: AoKey[] = ['ao1', 'ao2', 'ao3', 'ao4']
 
+/**
+ * The notice read out to screen readers as time runs down. It only changes at 10, 5 and 1 minutes, so the
+ * clock itself is not read every second: the text stays the same between those points.
+ */
+export function timeNoticeFor(secondsRemaining: number): string {
+  if (secondsRemaining <= 0) return ''
+  if (secondsRemaining <= 60) return 'Under 1 minute left.'
+  if (secondsRemaining <= 300) return 'Under 5 minutes left.'
+  if (secondsRemaining <= 600) return 'Under 10 minutes left.'
+  return ''
+}
+
+/** Plain-words state of a question in the grid, for everyone, not only for people who see colour. */
+export function questionState(input: { answered: boolean; flagged: boolean; current: boolean }): string {
+  const parts = [input.answered ? 'answered' : 'not answered']
+  if (input.flagged) parts.push('flagged for review')
+  if (input.current) parts.push('current question')
+  return parts.join(', ')
+}
+
 function attemptId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
@@ -58,6 +78,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [practiceMarks, setPracticeMarks] = useState<Marks>(emptyMarks)
   const [practiceSaved, setPracticeSaved] = useState(false)
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
+  // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
+  const [flagged, setFlagged] = useState<Record<string, boolean>>({})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
   const totalPausedMs = useRef(0)
@@ -65,6 +87,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
   const answeredCount = exam.questions.filter((item) => answers[item.id]?.trim()).length
+  const unansweredNumbers = exam.questions.flatMap((item, index) => (answers[item.id]?.trim() ? [] : [index + 1]))
+  const flaggedNumbers = exam.questions.flatMap((item, index) => (flagged[item.id] ? [index + 1] : []))
   const currentMarks = question ? marks[question.id] ?? emptyMarks() : emptyMarks()
   const practiceTotal = aoKeys.reduce((sum, key) => sum + practiceMarks[key], 0)
   const pLabel = paperLabel(exam)
@@ -138,6 +162,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setQuestionIndex(0)
     setAnswers({})
     setMarks({})
+    setFlagged({})
     setSecondsRemaining(exam.durationMinutes * 60)
     setResult(null)
     setSubmissionIds({})
@@ -320,16 +345,40 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <div className="exam-session-controls">
             {!finishedWriting && <button className="exam-control" type="button" onClick={() => beginInterruption('paused')}>Pause</button>}
             {!finishedWriting && <button className="exam-control exam-control-stop" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</button>}
-            <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'} aria-live="polite">{formatTime(secondsRemaining)}</div>
+            <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
+              {secondsRemaining <= 600 && <Icon name="clock" size="inline" />}
+              <span>{formatTime(secondsRemaining)}</span>
+              {secondsRemaining <= 600 && <small className="timer-note">Under 10 min</small>}
+            </div>
+            <p className="exam-time-notice" role="status" aria-live="polite">{started && !finishedWriting ? timeNoticeFor(secondsRemaining) : ''}</p>
           </div>
         </div>
 
         {!finishedWriting ? (
           <>
             <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>
-            <nav className="question-nav" aria-label="Exam questions">
-              {exam.questions.map((item, index) => <button key={item.id} className={`${index === questionIndex ? 'active' : ''}${answers[item.id]?.trim() ? ' answered' : ''}`.trim()} aria-label={`Question ${index + 1}, ${item.marks} marks${answers[item.id]?.trim() ? ', answered' : ''}`} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button>)}
+            <nav className="question-nav question-grid" aria-label="Exam questions">
+              {exam.questions.map((item, index) => {
+                const answered = Boolean(answers[item.id]?.trim())
+                const isFlagged = Boolean(flagged[item.id])
+                const current = index === questionIndex
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`${current ? 'active' : ''}${answered ? ' answered' : ''}${isFlagged ? ' flagged' : ''}`.trim()}
+                    aria-current={current ? 'true' : undefined}
+                    aria-label={`Question ${index + 1}, ${item.marks} marks, ${questionState({ answered, flagged: isFlagged, current })}`}
+                    onClick={() => setQuestionIndex(index)}
+                  >
+                    <b>{index + 1}</b>
+                    <span>{item.marks}m</span>
+                    <i aria-hidden="true">{isFlagged ? <Icon name="flag" size="inline" /> : answered ? <Icon name="check" size="inline" /> : null}</i>
+                  </button>
+                )
+              })}
             </nav>
+            <p className="question-grid-key" aria-hidden="true"><span><Icon name="check" size="inline" /> Answered</span><span><Icon name="flag" size="inline" /> Flagged</span><span className="question-grid-key-current">Current: dark</span></p>
             {question && (
               <article className="exam-question-sheet">
                 <div className="practice-meta">Question {questionIndex + 1} of {exam.questions.length} · {question.marks} marks</div>
@@ -338,6 +387,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                   <textarea rows={14} value={answers[question.id] ?? ''} onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write as you would in the exam." />
                 </label>
                 <p className="exam-word-count">{(answers[question.id] ?? '').trim() ? (answers[question.id] ?? '').trim().split(/\s+/).length : 0} words</p>
+                <button type="button" className="exam-flag-toggle" aria-pressed={Boolean(flagged[question.id])} onClick={() => setFlagged((current) => ({ ...current, [question.id]: !current[question.id] }))}>
+                  <Icon name="flag" size="inline" />{flagged[question.id] ? 'Flagged for review (tap to remove)' : 'Flag for review'}
+                </button>
+                {(unansweredNumbers.length > 0 || flaggedNumbers.length > 0) && (
+                  <p className="exam-finish-check">
+                    Before you finish:
+                    {unansweredNumbers.length > 0 && <> not answered: question {unansweredNumbers.join(', ')}.</>}
+                    {flaggedNumbers.length > 0 && <> flagged: question {flaggedNumbers.join(', ')}.</>}
+                  </p>
+                )}
                 <div className="exam-nav-actions">
                   <button className="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</button>
                   {questionIndex < exam.questions.length - 1 && <button className="primary" onClick={() => setQuestionIndex((index) => index + 1)}>Next question</button>}
