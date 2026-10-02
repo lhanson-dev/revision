@@ -10,11 +10,11 @@ export const COURSE_GATE_CHECKLIST: Checklist = {
   checks: [
     {
       id: 'mapping_sense',
-      question: 'For each named item listed for this section, does a mapped node actually teach it, rather than only sharing a topic with it?',
+      question: 'For each named item listed for this section, does the effective exact-course projection provide what downstream teaching must cover, using mapped Subject Foundation teaching plus any supplied course-specific presentation convention, rather than only sharing a topic?',
     },
     {
       id: 'depth',
-      question: 'Is the teaching for this section at A-level depth: not too shallow for the named items, and not beyond what the course requires?',
+      question: 'Is the effective exact-course projection for this section at A-level depth: not too shallow for the named items, and not beyond what the course requires? Treat supplied course-specific presentation conventions as Course Truth obligations, not reusable Subject Foundation teaching.',
     },
     {
       id: 'calculation_convention',
@@ -91,11 +91,23 @@ export function buildCourseGateUnits(bundle: CourseGateBundle, coverage: Coverag
     const nodeSources = [...new Set(mappedNodes.flatMap((node) => node.promotion_truth_source_ids ?? []))]
       .map((id) => sources.get(id)).filter((source): source is NonNullable<typeof source> => Boolean(source))
       .map((source) => ({ id: source.id, title: source.title ?? '', url: source.url ?? '' }))
+    const namedItems = coverage.covered.filter((item) => item.section === section)
+    // Calculation conventions are checked against reusable teaching by calculation_convention.
+    // Non-formula presentation conventions are board-specific Course Truth obligations and must not be copied into the reusable Foundation.
+    const presentationConventions = namedItems
+      .filter((item) => item.aqa_convention && item.kind !== 'formula')
+      .map(({ id, label, kind, aqa_convention, convention_status }) => ({ id, label, kind, aqa_convention, convention_status }))
     const payload = {
       unit_id: section,
       requirement: { section, title: requirement.title, summary: requirement.rights_safe_requirement_summary, required_course_facets: requirement.required_course_facets ?? [], required_quantitative_methods: requirement.required_quantitative_methods ?? [] },
-      named_items: coverage.covered.filter((item) => item.section === section).map(({ id, label, kind, aqa_convention }) => (aqa_convention ? { id, label, kind, aqa_convention } : { id, label, kind })),
+      named_items: namedItems.map(({ id, label, kind, aqa_convention }) => (aqa_convention ? { id, label, kind, aqa_convention } : { id, label, kind })),
       mapped_nodes: mappedNodes.map((node) => ({ ...node, changed_since_last_assurance: changedNodeIds.has(node.subject_id) })),
+      ...(presentationConventions.length ? {
+        course_specific_projection: {
+          ownership: 'Course Truth / Specification Mapping; do not copy into reusable Subject Foundation teaching.',
+          teaching_obligations: presentationConventions,
+        },
+      } : {}),
       sources: nodeSources,
     }
     return {
@@ -110,7 +122,8 @@ export function buildCourseGateUnits(bundle: CourseGateBundle, coverage: Coverag
 
 export const COURSE_GATE_INSTRUCTIONS = [
   'You are a fresh reviewer for one section of the AQA A-level Business 7132 (2027) course map.',
-  'You receive: the section summary (Revision wording, not AQA text), the named items the section requires, the Subject Foundation nodes mapped to it, and the sources those nodes cite.',
+  'You receive: the section summary (Revision wording, not AQA text), the named items the section requires, the Subject Foundation nodes mapped to it, any course-specific presentation obligations owned by Course Truth, and the sources the reusable nodes cite.',
+  'For mapping_sense and depth, review the effective exact-course projection. If course_specific_projection.teaching_obligations is supplied, treat those entries as valid course-specific obligations for downstream teaching; do not require them to be duplicated inside reusable mapped_nodes.',
   'Use only the supplied material. Do not browse and do not add awarding-body facts from memory.',
   'Set unit_id to the supplied unit_id.',
 ].join('\n')
