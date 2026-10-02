@@ -129,18 +129,35 @@ const magnitudeMultiplier = {
   billion: 1_000_000_000,
 } as const
 
+const numberTokenPattern = /-?(?:[£$€]\s*)?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi
+
+type ParsedNumberToken = { normalised: number; unscaled: number; magnitude?: keyof typeof magnitudeMultiplier }
+
+function parsedNumberTokens(text: string): ParsedNumberToken[] {
+  return [...text.matchAll(numberTokenPattern)]
+    .map((match) => {
+      const numeric = match[0].match(/\d[\d,]*(?:\.\d+)?/)
+      if (!numeric) return null
+      const sign = match[0].trimStart().startsWith('-') ? -1 : 1
+      const unscaled = sign * Number(numeric[0].replace(/,/g, ''))
+      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
+      return { normalised: unscaled * (magnitude ? magnitudeMultiplier[magnitude] : 1), unscaled, magnitude }
+    })
+    .filter((value): value is ParsedNumberToken => Boolean(value) && Number.isFinite(value.normalised))
+}
+
 // Every number written in the text, as a value. Commas, currency and percent signs are ignored;
 // explicit magnitude words are normalised so £61.20 million is compared as 61,200,000.
 export function numbersIn(text: string): number[] {
-  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi)]
-    .map((match) => {
-      const numeric = match[0].match(/-?\d[\d,]*(?:\.\d+)?/)
-      if (!numeric) return Number.NaN
-      const base = Number(numeric[0].replace(/,/g, ''))
-      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
-      return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)
-    })
-    .filter((value) => Number.isFinite(value))
+  return parsedNumberTokens(text).map((value) => value.normalised)
+}
+
+function unscaledMagnitudeNumbersIn(text: string): number[] {
+  return parsedNumberTokens(text).filter((value) => Boolean(value.magnitude)).map((value) => value.unscaled)
+}
+
+function isRatioUnit(unit: string) {
+  return /^(?:%|percent|percentage)$/i.test(unit.trim())
 }
 
 function questionText(question: Question) {
@@ -194,15 +211,20 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   const calcFormulas = question.calcs.map((calc) => calc.formula_id)
   for (const formulaId of spec.formulaIds.filter((formula) => !calcFormulas.includes(formula))) findings.push(softwareFinding('plan_formula_missing', [id], `no calculation for planned formula ${formulaId}`, `Add a calculation using ${formulaId}.`))
   for (const calc of question.calcs.filter((c) => !spec.formulaIds.includes(c.formula_id))) findings.push(softwareFinding('plan_formula_unexpected', [id], `calculation uses ${calc.formula_id}, which this question does not test`, 'Only calculate the planned formulas.'))
-  const stemNumbers = numbersIn(questionText(question))
+  const questionBody = questionText(question)
+  const stemNumbers = numbersIn(questionBody)
+  const unscaledStemMagnitudeNumbers = unscaledMagnitudeNumbersIn(questionBody)
   const schemeNumbers = numbersIn(markSchemeText(question))
   for (const calc of question.calcs) {
     const problem = checkCalculation(calc)
     if (problem) findings.push(softwareFinding('calculation_recomputes', [id], `${calc.label}: ${problem}`, 'Correct the numbers so the stated answer recomputes.'))
     // Every input must be given in the question (or be the answer to an earlier calculation in it), or the question is unanswerable.
+    // Ratio/percentage calculations may intentionally use a common display scale such as £48 million and £54 million;
+    // in that case the unscaled 48 and 54 are equivalent inputs because the common magnitude cancels in the ratio.
     const earlierAnswers = question.calcs.filter((other) => other !== calc).map((other) => other.stated_answer)
+    const suppliedNumbers = [...stemNumbers, ...earlierAnswers, ...(isRatioUnit(calc.unit) ? unscaledStemMagnitudeNumbers : [])]
     for (const input of calc.inputs) {
-      if (![...stemNumbers, ...earlierAnswers].some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
+      if (!suppliedNumbers.some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
     }
     if (!schemeNumbers.some((value) => near(value, calc.stated_answer))) findings.push(softwareFinding('mark_scheme_answer', [id], `${calc.label}: the mark scheme never states the answer ${calc.stated_answer}`, 'State the correct answer in the mark scheme.'))
   }
