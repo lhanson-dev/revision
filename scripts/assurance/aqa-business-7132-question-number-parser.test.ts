@@ -9,7 +9,7 @@ describe('AQA 7132 question number parsing regressions', () => {
 
   it('accepts equivalent full-value and same-unit shorthand for magnitude words', () => {
     const values = numbersIn('The market grew from £48 million to £54 million.')
-    expect(values).toEqual(expect.arrayContaining([48, 48000000, 54, 54000000]))
+    expect(values).toEqual([48000000, 54000000])
   })
 
   it('accepts the retained market-growth question when calculations use millions as the unit scale', () => {

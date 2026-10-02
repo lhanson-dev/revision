@@ -2,7 +2,7 @@
   "schema_version": 1,
   "builder_version": "question-plan-v1",
   "batch": "3.5-topup",
-  "blueprint_fingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
+  "blueprint_fingerprint": "b72959042e3ee0e232e0acd1cdc03ab578dc8c939ea5d6acba139865ba4a375f",
   "excluded_item_ids": [
     "aqa-7132-3.5.1:gross-profit",
     "aqa-7132-3.5.1:operating-profit",

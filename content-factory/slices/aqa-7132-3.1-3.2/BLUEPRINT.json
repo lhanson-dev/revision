@@ -9,7 +9,7 @@
       "3.2"
     ]
   },
-  "courseKnowledgeModelFingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
+  "courseKnowledgeModelFingerprint": "b72959042e3ee0e232e0acd1cdc03ab578dc8c939ea5d6acba139865ba4a375f",
   "nodes": [
     {
       "nodeId": "bus-evi-002",
@@ -531,7 +531,7 @@
       "label": "Mission statement",
       "kind": "concept",
       "taughtBy": [
-        "bus-fnd-005"
+        "bus-fnd-001"
       ]
     },
     {
