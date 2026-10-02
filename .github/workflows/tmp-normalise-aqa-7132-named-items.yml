@@ -1,0 +1,55 @@
+name: Temporary normalise AQA 7132 named-item diff
+
+on:
+  push:
+    branches: [fix/aqa-7132-t8-two-blockers]
+
+permissions:
+  contents: write
+
+jobs:
+  normalise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/aqa-7132-t8-two-blockers
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Restore compact source formatting and apply only semantic edits
+        run: |
+          git show origin/main:research/aqa-business-7132/2027/NAMED_ITEMS.json > research/aqa-business-7132/2027/NAMED_ITEMS.json
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('research/aqa-business-7132/2027/NAMED_ITEMS.json')
+          text = p.read_text()
+          old_item = '    {"id": "aqa-7132-3.10.3:network-analysis", "section": "3.10.3", "label": "Network analysis", "kind": "model", "match": ["network analysis", "network diagram", "critical path analysis"]},'
+          new_item = '    {"id": "aqa-7132-3.10.3:network-analysis", "section": "3.10.3", "label": "Network analysis", "kind": "model", "match": ["network analysis", "network diagram", "critical path analysis"], "aqa_convention": "Use an activity-on-arrow network. Show each activity letter above its connecting arrow and its duration below. Show each event as a split circle with the event number on the left, earliest event time in the upper-right and latest event time in the lower-right.", "convention_status": "confirmed"},'
+          old_note = '  "convention_note": "aqa_convention records the calculation convention a student should use for AQA 7132, in Revision\'s own words (AQA\'s specification pages give no formulas). convention_status \'to_confirm_against_aqa_mark_scheme\' marks conventions where textbooks differ and an AQA mark scheme (REFERENCE_ONLY) should confirm the version recorded."'
+          new_note = '  "convention_note": "aqa_convention records a calculation or presentation convention a student should use for AQA 7132, in Revision\'s own words. convention_status \'to_confirm_against_aqa_mark_scheme\' marks conventions where evidence is not yet sufficient to confirm the version recorded."'
+          if text.count(old_item) != 1: raise SystemExit('network-analysis row target not found exactly once')
+          if text.count(old_note) != 1: raise SystemExit('convention note target not found exactly once')
+          p.write_text(text.replace(old_item, new_item).replace(old_note, new_note))
+          PY
+      - name: Reprove deterministic dependants
+        run: |
+          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
+          CONTENT_FACTORY_WRITE_SLICE_BLUEPRINT=1 npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts
+          CONTENT_FACTORY_WRITE_BATCH_BLUEPRINTS=1 npx vitest run scripts/assurance/aqa-business-7132-batch-blueprint.test.ts
+          CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts
+          npx vitest run scripts/assurance/aqa-business-7132-post-merge-t8-remediation.test.ts scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts
+      - name: Commit clean diff and remove temporary runner
+        run: |
+          rm .github/workflows/tmp-normalise-aqa-7132-named-items.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git commit -m 'Keep AQA 7132 named-item diff focused'
+          git push origin HEAD:fix/aqa-7132-t8-two-blockers
