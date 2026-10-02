@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "1c9acebd49a83b39e26c9a1525de93919a06ec83c1aeaf99ac299ad35efe7423",
+  "foundation_fingerprint": "542e5da2856af6adfe180f026240f2fcb49b505ddbc386af7ab7be41c0451383",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -421,6 +421,10 @@
       "kind": "concept",
       "status": "covered",
       "taught_by": [
+        {
+          "node": "BUS-FND-009",
+          "matched": "market conditions"
+        },
         {
           "node": "BUS-EXT-001",
           "matched": "market conditions"
@@ -5057,7 +5061,9 @@
           "node": "BUS-STR-009",
           "matched": "network analysis"
         }
-      ]
+      ],
+      "aqa_convention": "Use an activity-on-arrow network. Show each activity letter above its connecting arrow and its duration below. Show each event as a split circle with the event number on the left, earliest event time in the upper-right and latest event time in the lower-right.",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.10.3:amending-network-diagrams",

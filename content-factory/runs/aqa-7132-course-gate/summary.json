@@ -1,22 +1,22 @@
 {
-  "run_id": 36870063233,
-  "artifact_id": 11166648011,
-  "artifact_digest": "sha256:4e598428e8a777a8e8589af749b4c6af5864d54151984194882a25e193e29ab9",
-  "reviewed_commit": "d7b08d2d62ecba886f72bee6a42a7acb21dc6ca8",
-  "subject_foundation_fingerprint": "f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94",
-  "exact_course_foundation_fingerprint": "adebfcea045279cf82dd9b99a7e0ef1cbd03403d31ea09535d160be45f89a07d",
-  "final_state": "ai_assured",
-  "passed": 31,
+  "run_id": 37024423431,
+  "artifact_id": 11235345412,
+  "artifact_digest": "sha256:b45810b71d7f0f644129ad18a37414fa2cff77b648be8663ee7572cfa5667cb9",
+  "reviewed_commit": "22519cb71ac09b4481621f670aea3b447ea9214a",
+  "subject_foundation_fingerprint": "1c9acebd49a83b39e26c9a1525de93919a06ec83c1aeaf99ac299ad35efe7423",
+  "exact_course_foundation_fingerprint": "1aa3ad6f9b23bfcf30353730327f2c9b7033b46bb52535502a3ace87ebcbe3a4",
+  "final_state": "fail_hold",
+  "passed": 29,
   "logged": 11,
-  "blocking": 0,
+  "blocking": 2,
   "escalated": 0,
   "failed": 0,
-  "reused_unchanged": 0,
-  "can_progress": true,
+  "reused_unchanged": 31,
+  "can_progress": false,
   "official_source_check_ok": true,
   "provider_budget": {
     "max_spend_usd": 12,
-    "conservative_consumed_usd": 1.041614
+    "conservative_consumed_usd": 0.354888
   },
-  "recorded_at": "2026-10-01T13:40:30.599Z"
+  "recorded_at": "2026-10-02T15:06:23.647Z"
 }

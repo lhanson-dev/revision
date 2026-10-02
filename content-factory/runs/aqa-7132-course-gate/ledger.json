@@ -1,1 +1,518 @@
-{"schema_version":1,"stage":"aqa-7132-course-gate","checklist_version":"course-gate-v1","units":{"3.1.1":{"fingerprint":"b56474479f30228f3f1e23aa398b6b150397adddee91b54562c24efd30d92904","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.1.2":{"fingerprint":"e3ee23f0a5e3da3beb1a859cc2eff1020623bdb0392557ffc0f7e862eb9de441","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["bus-fin-012"],"finding":"The mapped profitability and shareholder-ratio node goes beyond the scope of section 3.1.2.","evidence":"BUS-FIN-012 teaches gross margin, operating margin, capital employed, ROCE, ROE, EPS and profit-for-the-year margin. None is a named item or required quantitative method for this section, whose only specified calculation is market capitalisation.","contradicting_source_id":null,"proposed_fix":"Remove BUS-FIN-012 from the section mapping, or retain only a clearly separated cross-reference that is not presented as required teaching for 3.1.2.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.1.3":{"fingerprint":"b314d80115f281e2ce2d52b69b38713ca46ea5c2a3173f3814008be72cab289e","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.2.1":{"fingerprint":"fc7b4a6988709fae138ed61be5df42bf60fbd31cd192ecc30a30882a14a5e934","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.2.2":{"fingerprint":"c79dd7da80f17554339018900db07597bed80837ff4a72cbc48573de56f08a85","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.2.3":{"fingerprint":"d9552df51926c7048e87ecf2b8112ec85a9243ab1714a6dd0ac664a068dccdf8","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.3.1":{"fingerprint":"7fcdf1c5b0e41487d391957033f53f6560d1fa21f850c3c6a6b6cf35a3fac209","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"accuracy","category":"weak_citation","affected_ids":["BUS-MKT-002","BUS-FND-005"],"finding":"Accuracy of the changed nodes cannot be assured from the supplied citation material because it contains no claim-level evidence or excerpts to verify the definitions, facts, formulas and causal claims.","evidence":"The only supplied evidence for BUS-MKT-002 is SRC-OER-LOUIS-BUSINESS-2022, and for BUS-FND-005 is SRC-OER-LOUIS-BUSINESS-2022 plus SRC-ONS-MANAGEMENT; each source record supplies only an id, title and URL.","contradicting_source_id":null,"proposed_fix":"Provide claim-level source extracts or assurance evidence for the changed content, particularly the quantitative definitions and formulae in BUS-MKT-002 and the definitions, factual assertions and causal relationships in BUS-FND-005.","disposition":"logged","reason":"weak_citation is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.3.2":{"fingerprint":"d5067c684f26d1945db353cddf389a231777d7d79fb501829d38c35befaa4bc3","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["BUS-MKT-008"],"finding":"The elasticity node goes beyond the stated section requirement by making PED and YED calculation part of the teaching and expected understanding.","evidence":"The supplied requirement includes \"PED_YED_interpretation_without_required_calculation\". BUS-MKT-008 lists PED and YED formulae and worked examples, and its applications and evidence of understanding include \"calculate/interpret PED and YED\".","contradicting_source_id":null,"proposed_fix":"Retain conceptual interpretation of PED and YED, including signs, relative elasticity and revenue implications, but remove or clearly designate the formulae, worked calculations and calculation expectations as non-required extension material.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.3.3":{"fingerprint":"0d4d3d5bb1ed4c08af93272cbe7628d84157353a12bf7837efdf97beb6b4ed31","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.3.4":{"fingerprint":"267b38310c832f08d6181851bb15ba28604b18ba9347cfd612cf6eecdd98dd0b","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.4.1":{"fingerprint":"962c657dba89e7cac153f215eac8306d43a454a3b477cacd3c25a6617ebc9f9f","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.4.2":{"fingerprint":"87dde987b77f9b588d17d70f954fa0e616866279afb3b2d5a6d681ea3d127994","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["bus-peo-001"],"finding":"The mapped workforce node substantially exceeds the required operational-performance-data coverage for this section.","evidence":"BUS-PEO-001 includes workforce planning, job design, flexible and hybrid work, turnover, absence, hard and soft HRM, and detailed redundancy rules, whereas the named items require labour productivity, unit cost, capacity, capacity utilisation and use of operations data in decisions.","contradicting_source_id":null,"proposed_fix":"Remove BUS-PEO-001 from this section mapping, or expose only its labour-productivity definition and output-per-employee calculation as a narrowly scoped extract.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.4.3":{"fingerprint":"1ed7abb55f89806b5a5e61e54daef9ac667e963eabd64a03e7b02830580374d9","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.4.4":{"fingerprint":"072b675dffb2a407598043cc3dbe41e640c15249289f5635c1e0a408007bd8e9","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.4.5":{"fingerprint":"69c7470bf6203f38dc8027dbca7814c7d23f4301b14efbb6d710138dfbe14064","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.5.1":{"fingerprint":"72dc6726c8113edf167305e97a72ca8231cc18efb5f82dbdb8c5ff0effd7f5e9","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.5.2":{"fingerprint":"0eda60a563ae31bbb125ef8820427b295f0f9b933ff28a0b6916b4827f54be3d","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["bus-fin-012"],"finding":"The profitability-ratios node teaches ROE and EPS even though neither is a named item nor a required quantitative method for this section.","evidence":"BUS-FIN-012 is labelled \"CORE_LEVEL3_WITH_OPTIONAL_EXTENSIONS\" and states \"EPS/ROE selectable by course\", while the supplied section requires gross profit margin, operating profit margin and profit-for-the-year margin only.","contradicting_source_id":null,"proposed_fix":"Retain the three required profit-margin methods in the section pathway, but move ROE and EPS material to an explicitly optional extension or to a section where those measures are required.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.5.3":{"fingerprint":"1ccd0d9900bf53a7af801d09b37925b1ffc5aa19e41efb6f278d549259c2233e","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.5.4":{"fingerprint":"c1093be4a4ce456027980d4547d38e8775ddcf785b4969926e40abbde4546be3","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.6.1":{"fingerprint":"a0483dfe0183590a0eac926c9f1f94ee0cbca75aebaf9575cfa945cb65b6c18e","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["bus-peo-001","bus-peo-005","bus-peo-011"],"finding":"The mapped teaching exceeds the scope of section 3.6.1 by embedding extensive content from other people-management areas.","evidence":"BUS-PEO-001 includes detailed statutory redundancy and consultation rules; BUS-PEO-005 teaches named motivation theories; and BUS-PEO-011 includes trade unions, collective bargaining, grievances, works councils and Handy's culture types. These go beyond the supplied section summary and named items on HR objectives, workforce planning, engagement, talent, training, diversity, values, and hard/soft HRM.","contradicting_source_id":null,"proposed_fix":"Retain the directly relevant material on workforce requirements, engagement/involvement, talent, training, diversity, value alignment and hard/soft HRM. Move detailed employment-law, motivation-theory, employee-relations and culture-framework teaching to their relevant sections or mark it as optional cross-reference material.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.6.2":{"fingerprint":"26c6702a7040da36411c00e0ab6e1e1474169ab0a7c3e5f65e6d427608b66acc","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"accuracy","category":"weak_citation","affected_ids":["bus-peo-001"],"finding":"Precise UK redundancy-law claims in the changed node are not supported by an identifiable supplied source.","evidence":"BUS-PEO-001 states specific continuous-service, redundancy-number, site and 90-day consultation conditions. Its promotion_truth_source_ids are SRC-OER-LOUIS-BUSINESS-2022, SRC-ONS-MANAGEMENT, SRC-ONS-PRODUCTIVITY and SRC-OER-HARD-SOFT-HRM-2024; the supplied source metadata does not identify a source for these UK legal requirements.","contradicting_source_id":null,"proposed_fix":"Add a supplied authoritative legal source that confirms each stated redundancy rule, or remove the detailed legal thresholds from this node and retain only course-relevant workforce-performance content.","disposition":"logged","reason":"weak_citation is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.6.3":{"fingerprint":"29910907cf6a3d66f0e6ba1ce9d5ae5882332a83a2b431dcc6ea22ee36c4afcc","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"accuracy","category":"weak_citation","affected_ids":["bus-peo-001"],"finding":"Specific UK statutory redundancy rules are included without a supplied source that can substantiate the legal eligibility and consultation-threshold claims.","evidence":"BUS-PEO-001 states that employees normally need two years of service for statutory redundancy pay and that proposed redundancies of 20 or more employees at one site within 90 days require consultation. Its listed sources are SRC-OER-LOUIS-BUSINESS-2022, SRC-ONS-MANAGEMENT, SRC-ONS-PRODUCTIVITY and SRC-OER-HARD-SOFT-HRM-2024; none is identified in the supplied material as a UK employment-law or statutory-redundancy authority.","contradicting_source_id":null,"proposed_fix":"Either remove the detailed statutory legal thresholds from this node, or add a supplied authoritative UK employment-law source that specifically supports the redundancy-pay eligibility and collective-consultation statements.","disposition":"logged","reason":"weak_citation is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.6.4":{"fingerprint":"5784e620194c9c4a23268f1de619e91abd49d87123c7fde966a4f75efb9f08cb","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.6.5":{"fingerprint":"79d8dc396f487dbfae69919472dc5564d65e8e6b7c9e3b20b170317a57171e5c","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.1":{"fingerprint":"28a5866d10c2408d07724c132cdf9767123728abce0ac6d4aa5d892c7a71f7c3","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.2":{"fingerprint":"d1684d186bc6d4bdd06da3cbd206b77f06388e954dd5c89766f5a1126b5da9b3","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.3":{"fingerprint":"694ba6e616a4ed544fba0e5feb8d372e41d366315063758c98c15d5f867810c2","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["BUS-EVI-005","BUS-STR-002","BUS-EXT-006"],"finding":"The mapping includes substantial teaching beyond the required overall-performance items, so the section is broader than necessary.","evidence":"BUS-EVI-005 includes confidence intervals, sampling error and survey-method limitations; BUS-STR-002 includes competitive advantage and Porter's generic strategies; BUS-EXT-006 includes net zero, greenwashing, ESG reporting, fair trade, environmental legislation and environmental objectives. The supplied section summary and named items require functional performance evidence, core competences, short-/long-term performance and Triple Bottom Line.","contradicting_source_id":null,"proposed_fix":"Restrict this section's delivery to the relevant extracts: functional KPI interpretation, core competences, time-horizon trade-offs and the people-planet-profit Triple Bottom Line. Move or separately tag the confidence-interval, generic-strategy, ESG, net-zero, fair-trade and environmental-legislation material for sections that explicitly require it.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.4":{"fingerprint":"f6f6e5e66468b91ff0c21eba0028d44dbdb8785eed5d4aaf4fd77111b645c7d7","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.5":{"fingerprint":"833982dfc417988d1115d8aad414e7f56f39472b15659e371f9adbeb49f088db","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.6":{"fingerprint":"9fd3ae90f57076a015dd12daa3ad946b73c9900ab9cd287c39e2253042249464","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.7":{"fingerprint":"271107bfca2a2d9aec59344225aff74d6a1967c544da6e0938dabd4e6448ef5f","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.7.8":{"fingerprint":"6914027720ca82da7f4c5625e86192360e2d937fa00c4415d5c941c50d7b261f","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.8.1":{"fingerprint":"d8769585e8a3b3d4fbb7b671b8cef70591c06a0fa07181b78c5eb975294d7a72","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.8.2":{"fingerprint":"96fdbff7dd64784e60c088a480085b174cf9439cc88ddaa3ed60a24fcfad460d","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.9.1":{"fingerprint":"9ecf36549180b707488612bdbcac4d129a28ccfac13e4f8df5572eeabb3f128f","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.9.2":{"fingerprint":"794cfa17967ba3e9045a23b7665de0e0677a0b08ade0d69bfc0a59401e02e309","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["bus-str-008"],"finding":"The innovation mapping contains teaching beyond the supplied 3.9.2 scope.","evidence":"BUS-STR-008 includes extended teaching on digital transformation, AI, disruptive technology, big data and data mining, whereas the supplied section summary specifies product/process innovation, Kaizen, R&D, intrapreneurship, benchmarking, patents/copyright and functional impact.","contradicting_source_id":null,"proposed_fix":"Retain the innovation, R&D, product/process innovation, IP and pressures-for-innovation material for this section, but remove or separately map the digital-transformation, AI, big-data and data-mining content.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.9.3":{"fingerprint":"755c652c02fd083af9793ad79a198fe0746b625d4d59a6de0680c51d99a83c6b","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.9.4":{"fingerprint":"7a1b61a13c0208eae3831d6bb3ad2449577f49acee07ef7f277c5e02b7048f7c","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.10.1":{"fingerprint":"f09fda9b0278949f22021716be81f050ccd70abec3d9e1ec8d4dd18e9b303352","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.10.2":{"fingerprint":"f79f21736f36d89b73b48ef8f6382b0894f4e97cd369083b0f9cc3d19810fc6a","outcome":"logged","consecutive_blocking_rounds":0,"findings":[{"check_id":"depth","category":"out_of_scope","affected_ids":["BUS-PEO-011","BUS-STR-009"],"finding":"The mapped teaching exceeds the section's required coverage of Handy's culture types, influences on culture, and reasons/problems of changing culture.","evidence":"BUS-PEO-011 includes extensive teaching on employee voice, wellbeing, employee relations, collective bargaining, grievances, trade unions, workforce diversity and consultation. BUS-STR-009 includes broad organisational-change content, including implementation methods, restructuring, knowledge management, crisis management, strategic drift and Kotter-Schlesinger response options.","contradicting_source_id":null,"proposed_fix":"Restrict section delivery to the Handy culture facet, culture influences, and culture-change reasons and problems. Treat the broader employee-relations and organisational-change material as separate linked enrichment or map it only to sections that explicitly require it.","disposition":"logged","reason":"out_of_scope is logged, not blocking"}],"updated_at":"2026-10-01T13:40:28.951Z"},"3.10.3":{"fingerprint":"90c49a76eabbe0439505a7dafeeebdeb63fb81400b74e5bc1c6157ac49b3585b","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"},"3.10.4":{"fingerprint":"7c9b7b436137c3ca45080050eb4446639b8b7095c1d2a4dc6c7448fd1d24e8f9","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T13:40:28.951Z"}}}
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-course-gate",
+  "checklist_version": "course-gate-v1",
+  "units": {
+    "3.1.1": {
+      "fingerprint": "bfd14e27e10f780b3a8a343da9a7a828a25089e44e343d053f6fdcfee7d5145f",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.1.2": {
+      "fingerprint": "e3ee23f0a5e3da3beb1a859cc2eff1020623bdb0392557ffc0f7e862eb9de441",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "bus-fin-012"
+          ],
+          "finding": "The mapped profitability and shareholder-ratio node goes beyond the scope of section 3.1.2.",
+          "evidence": "BUS-FIN-012 teaches gross margin, operating margin, capital employed, ROCE, ROE, EPS and profit-for-the-year margin. None is a named item or required quantitative method for this section, whose only specified calculation is market capitalisation.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Remove BUS-FIN-012 from the section mapping, or retain only a clearly separated cross-reference that is not presented as required teaching for 3.1.2.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.1.3": {
+      "fingerprint": "95f0caf332cd365532ef56950e053a25b12d7ed05e23c3348175b94d00a5135d",
+      "outcome": "blocking",
+      "consecutive_blocking_rounds": 1,
+      "findings": [
+        {
+          "check_id": "mapping_sense",
+          "category": "missing_examinable_item",
+          "affected_ids": [
+            "aqa-7132-3.1.3:market-conditions",
+            "BUS-EXT-001",
+            "BUS-EXT-002"
+          ],
+          "finding": "Market conditions are not directly taught by the mapped nodes.",
+          "evidence": "BUS-EXT-001 is framed around economic conditions and macroeconomic-policy transmission, while BUS-EXT-002 is framed around competition, market power, consumer protection and regulation. Neither provides a definition or dedicated explanation of market conditions as a distinct named item.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add a mapped node or explicit teaching that defines market conditions and traces how changes in those conditions affect business decisions; distinguish this clearly from competition and general macroeconomic conditions.",
+          "disposition": "blocking",
+          "reason": "failed mapping_sense"
+        },
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "BUS-EXT-006"
+          ],
+          "finding": "The environmental teaching substantially exceeds the supplied section's named scope.",
+          "evidence": "BUS-EXT-006 teaches net zero, ESG reporting, environmental claims, lifecycle analysis and the Triple Bottom Line. These are not named items or required facets in the supplied 3.1.3 requirement, which specifies environmental issues and fair trade.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the environmental-issues and fair-trade teaching needed for this section, and move net zero, ESG reporting, green-claims analysis, lifecycle analysis and Triple Bottom Line to optional extension material or separately mapped content.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.2.1": {
+      "fingerprint": "fc7b4a6988709fae138ed61be5df42bf60fbd31cd192ecc30a30882a14a5e934",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.2.2": {
+      "fingerprint": "2a1d04b9fc49e34669147da782c80a8707d88b2cc155f7cbbf33f7dcfea65fcb",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.2.3": {
+      "fingerprint": "d9552df51926c7048e87ecf2b8112ec85a9243ab1714a6dd0ac664a068dccdf8",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.3.1": {
+      "fingerprint": "7fcdf1c5b0e41487d391957033f53f6560d1fa21f850c3c6a6b6cf35a3fac209",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "accuracy",
+          "category": "weak_citation",
+          "affected_ids": [
+            "BUS-MKT-002",
+            "BUS-FND-005"
+          ],
+          "finding": "Accuracy of the changed nodes cannot be assured from the supplied citation material because it contains no claim-level evidence or excerpts to verify the definitions, facts, formulas and causal claims.",
+          "evidence": "The only supplied evidence for BUS-MKT-002 is SRC-OER-LOUIS-BUSINESS-2022, and for BUS-FND-005 is SRC-OER-LOUIS-BUSINESS-2022 plus SRC-ONS-MANAGEMENT; each source record supplies only an id, title and URL.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Provide claim-level source extracts or assurance evidence for the changed content, particularly the quantitative definitions and formulae in BUS-MKT-002 and the definitions, factual assertions and causal relationships in BUS-FND-005.",
+          "disposition": "logged",
+          "reason": "weak_citation is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.3.2": {
+      "fingerprint": "d5067c684f26d1945db353cddf389a231777d7d79fb501829d38c35befaa4bc3",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "BUS-MKT-008"
+          ],
+          "finding": "The elasticity node goes beyond the stated section requirement by making PED and YED calculation part of the teaching and expected understanding.",
+          "evidence": "The supplied requirement includes \"PED_YED_interpretation_without_required_calculation\". BUS-MKT-008 lists PED and YED formulae and worked examples, and its applications and evidence of understanding include \"calculate/interpret PED and YED\".",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain conceptual interpretation of PED and YED, including signs, relative elasticity and revenue implications, but remove or clearly designate the formulae, worked calculations and calculation expectations as non-required extension material.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.3.3": {
+      "fingerprint": "0d4d3d5bb1ed4c08af93272cbe7628d84157353a12bf7837efdf97beb6b4ed31",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.3.4": {
+      "fingerprint": "267b38310c832f08d6181851bb15ba28604b18ba9347cfd612cf6eecdd98dd0b",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.4.1": {
+      "fingerprint": "70eee082a90f74cbec12134a81e63f9d19568717fb0ac8f239534401ff895723",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "BUS-EXT-006"
+          ],
+          "finding": "BUS-EXT-006 contains substantial sustainability, regulatory and reporting content beyond the required operational-objectives material.",
+          "evidence": "The section summary requires environmental objectives and added value. BUS-EXT-006 additionally teaches net zero, ESG reporting, greenwashing, lifecycle analysis, fair trade, environmental legislation and the Triple Bottom Line.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the definition, operational uses and trade-offs of environmental objectives for this section. Move or separately map ESG, net-zero, claims, fair-trade, legislation and Triple Bottom Line material to sections that explicitly require sustainability, external influences or corporate responsibility.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.4.2": {
+      "fingerprint": "b63aae9f7d53b21ce5f3f331d131e5726c33c36cf8984b1c1fc7c08f48ff7dec",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "accuracy",
+          "category": "weak_citation",
+          "affected_ids": [
+            "bus-peo-001"
+          ],
+          "finding": "Detailed changed claims about UK statutory redundancy pay eligibility, collective-consultation thresholds and unfair-dismissal risk are not adequately supported by the supplied source set.",
+          "evidence": "BUS-PEO-001 states specific legal thresholds and process requirements, but its promotion_truth_source_ids are SRC-OER-LOUIS-BUSINESS-2022, SRC-ONS-MANAGEMENT, SRC-ONS-PRODUCTIVITY and SRC-OER-HARD-SOFT-HRM-2024. None is identified as a statutory-employment-law or redundancy guidance source.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add an appropriate supplied legal/statutory source for these claims, or remove the specific legal thresholds and retain only non-statutory discussion of redundancy's operational and people consequences.",
+          "disposition": "logged",
+          "reason": "weak_citation is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.4.3": {
+      "fingerprint": "1ed7abb55f89806b5a5e61e54daef9ac667e963eabd64a03e7b02830580374d9",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.4.4": {
+      "fingerprint": "072b675dffb2a407598043cc3dbe41e640c15249289f5635c1e0a408007bd8e9",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.4.5": {
+      "fingerprint": "69c7470bf6203f38dc8027dbca7814c7d23f4301b14efbb6d710138dfbe14064",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.5.1": {
+      "fingerprint": "72dc6726c8113edf167305e97a72ca8231cc18efb5f82dbdb8c5ff0effd7f5e9",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.5.2": {
+      "fingerprint": "0eda60a563ae31bbb125ef8820427b295f0f9b933ff28a0b6916b4827f54be3d",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "bus-fin-012"
+          ],
+          "finding": "The profitability-ratios node teaches ROE and EPS even though neither is a named item nor a required quantitative method for this section.",
+          "evidence": "BUS-FIN-012 is labelled \"CORE_LEVEL3_WITH_OPTIONAL_EXTENSIONS\" and states \"EPS/ROE selectable by course\", while the supplied section requires gross profit margin, operating profit margin and profit-for-the-year margin only.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the three required profit-margin methods in the section pathway, but move ROE and EPS material to an explicitly optional extension or to a section where those measures are required.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.5.3": {
+      "fingerprint": "1ccd0d9900bf53a7af801d09b37925b1ffc5aa19e41efb6f278d549259c2233e",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.5.4": {
+      "fingerprint": "c1093be4a4ce456027980d4547d38e8775ddcf785b4969926e40abbde4546be3",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.6.1": {
+      "fingerprint": "a0483dfe0183590a0eac926c9f1f94ee0cbca75aebaf9575cfa945cb65b6c18e",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "bus-peo-001",
+            "bus-peo-005",
+            "bus-peo-011"
+          ],
+          "finding": "The mapped teaching exceeds the scope of section 3.6.1 by embedding extensive content from other people-management areas.",
+          "evidence": "BUS-PEO-001 includes detailed statutory redundancy and consultation rules; BUS-PEO-005 teaches named motivation theories; and BUS-PEO-011 includes trade unions, collective bargaining, grievances, works councils and Handy's culture types. These go beyond the supplied section summary and named items on HR objectives, workforce planning, engagement, talent, training, diversity, values, and hard/soft HRM.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the directly relevant material on workforce requirements, engagement/involvement, talent, training, diversity, value alignment and hard/soft HRM. Move detailed employment-law, motivation-theory, employee-relations and culture-framework teaching to their relevant sections or mark it as optional cross-reference material.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.6.2": {
+      "fingerprint": "26c6702a7040da36411c00e0ab6e1e1474169ab0a7c3e5f65e6d427608b66acc",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "accuracy",
+          "category": "weak_citation",
+          "affected_ids": [
+            "bus-peo-001"
+          ],
+          "finding": "Precise UK redundancy-law claims in the changed node are not supported by an identifiable supplied source.",
+          "evidence": "BUS-PEO-001 states specific continuous-service, redundancy-number, site and 90-day consultation conditions. Its promotion_truth_source_ids are SRC-OER-LOUIS-BUSINESS-2022, SRC-ONS-MANAGEMENT, SRC-ONS-PRODUCTIVITY and SRC-OER-HARD-SOFT-HRM-2024; the supplied source metadata does not identify a source for these UK legal requirements.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add a supplied authoritative legal source that confirms each stated redundancy rule, or remove the detailed legal thresholds from this node and retain only course-relevant workforce-performance content.",
+          "disposition": "logged",
+          "reason": "weak_citation is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.6.3": {
+      "fingerprint": "29910907cf6a3d66f0e6ba1ce9d5ae5882332a83a2b431dcc6ea22ee36c4afcc",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "accuracy",
+          "category": "weak_citation",
+          "affected_ids": [
+            "bus-peo-001"
+          ],
+          "finding": "Specific UK statutory redundancy rules are included without a supplied source that can substantiate the legal eligibility and consultation-threshold claims.",
+          "evidence": "BUS-PEO-001 states that employees normally need two years of service for statutory redundancy pay and that proposed redundancies of 20 or more employees at one site within 90 days require consultation. Its listed sources are SRC-OER-LOUIS-BUSINESS-2022, SRC-ONS-MANAGEMENT, SRC-ONS-PRODUCTIVITY and SRC-OER-HARD-SOFT-HRM-2024; none is identified in the supplied material as a UK employment-law or statutory-redundancy authority.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Either remove the detailed statutory legal thresholds from this node, or add a supplied authoritative UK employment-law source that specifically supports the redundancy-pay eligibility and collective-consultation statements.",
+          "disposition": "logged",
+          "reason": "weak_citation is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.6.4": {
+      "fingerprint": "5784e620194c9c4a23268f1de619e91abd49d87123c7fde966a4f75efb9f08cb",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.6.5": {
+      "fingerprint": "79d8dc396f487dbfae69919472dc5564d65e8e6b7c9e3b20b170317a57171e5c",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.1": {
+      "fingerprint": "28a5866d10c2408d07724c132cdf9767123728abce0ac6d4aa5d892c7a71f7c3",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.2": {
+      "fingerprint": "d1684d186bc6d4bdd06da3cbd206b77f06388e954dd5c89766f5a1126b5da9b3",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.3": {
+      "fingerprint": "694ba6e616a4ed544fba0e5feb8d372e41d366315063758c98c15d5f867810c2",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "BUS-EVI-005",
+            "BUS-STR-002",
+            "BUS-EXT-006"
+          ],
+          "finding": "The mapping includes substantial teaching beyond the required overall-performance items, so the section is broader than necessary.",
+          "evidence": "BUS-EVI-005 includes confidence intervals, sampling error and survey-method limitations; BUS-STR-002 includes competitive advantage and Porter's generic strategies; BUS-EXT-006 includes net zero, greenwashing, ESG reporting, fair trade, environmental legislation and environmental objectives. The supplied section summary and named items require functional performance evidence, core competences, short-/long-term performance and Triple Bottom Line.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Restrict this section's delivery to the relevant extracts: functional KPI interpretation, core competences, time-horizon trade-offs and the people-planet-profit Triple Bottom Line. Move or separately tag the confidence-interval, generic-strategy, ESG, net-zero, fair-trade and environmental-legislation material for sections that explicitly require it.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.4": {
+      "fingerprint": "999d2faa839d3ad73cbc0a8e6dfe49bc8cc2b01443dd8d3f8c688230be1555a3",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.7.5": {
+      "fingerprint": "833982dfc417988d1115d8aad414e7f56f39472b15659e371f9adbeb49f088db",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.6": {
+      "fingerprint": "973c50183a0478768b7f1f95378f59adc23e7929bf17e288fe34dc86c2d1b634",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.7.7": {
+      "fingerprint": "271107bfca2a2d9aec59344225aff74d6a1967c544da6e0938dabd4e6448ef5f",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.7.8": {
+      "fingerprint": "6914027720ca82da7f4c5625e86192360e2d937fa00c4415d5c941c50d7b261f",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.8.1": {
+      "fingerprint": "d8769585e8a3b3d4fbb7b671b8cef70591c06a0fa07181b78c5eb975294d7a72",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.8.2": {
+      "fingerprint": "96fdbff7dd64784e60c088a480085b174cf9439cc88ddaa3ed60a24fcfad460d",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.9.1": {
+      "fingerprint": "9ecf36549180b707488612bdbcac4d129a28ccfac13e4f8df5572eeabb3f128f",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.9.2": {
+      "fingerprint": "794cfa17967ba3e9045a23b7665de0e0677a0b08ade0d69bfc0a59401e02e309",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "out_of_scope",
+          "affected_ids": [
+            "bus-str-008"
+          ],
+          "finding": "The innovation mapping contains teaching beyond the supplied 3.9.2 scope.",
+          "evidence": "BUS-STR-008 includes extended teaching on digital transformation, AI, disruptive technology, big data and data mining, whereas the supplied section summary specifies product/process innovation, Kaizen, R&D, intrapreneurship, benchmarking, patents/copyright and functional impact.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the innovation, R&D, product/process innovation, IP and pressures-for-innovation material for this section, but remove or separately map the digital-transformation, AI, big-data and data-mining content.",
+          "disposition": "logged",
+          "reason": "out_of_scope is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.9.3": {
+      "fingerprint": "755c652c02fd083af9793ad79a198fe0746b625d4d59a6de0680c51d99a83c6b",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.9.4": {
+      "fingerprint": "7a1b61a13c0208eae3831d6bb3ad2449577f49acee07ef7f277c5e02b7048f7c",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T13:40:28.951Z"
+    },
+    "3.10.1": {
+      "fingerprint": "72148fb8afb775911159bd29d431f6c6aefa7c37841a866f378c0b0a1b6f2966",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.10.2": {
+      "fingerprint": "aaa330b767a3141dfad34a0d52854f3a329eed5d96bd662bb044f6843da174f1",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.10.3": {
+      "fingerprint": "a40b51a280f07f463dd06ec963144d775f5ca16bdb827d45bf895a0db0c9bd83",
+      "outcome": "blocking",
+      "consecutive_blocking_rounds": 1,
+      "findings": [
+        {
+          "check_id": "depth",
+          "category": "missing_examinable_item",
+          "affected_ids": [
+            "bus-evi-008",
+            "aqa-7132-3.10.3:network-analysis"
+          ],
+          "finding": "The mapped CPA teaching does not state or demonstrate the required AQA network-diagram presentation convention.",
+          "evidence": "BUS-EVI-008 says students should \"draw/interpret a simple precedence network\" and refers to the \"course's network convention\", but gives no presentation convention or worked diagram using it.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add explicit teaching and a worked network diagram using the required presentation convention, once that convention is supplied to the content map.",
+          "disposition": "blocking",
+          "reason": "failed depth"
+        },
+        {
+          "check_id": "accuracy",
+          "category": "wrong_teaching",
+          "affected_ids": [
+            "bus-evi-008",
+            "aqa-7132-3.10.3:critical-path"
+          ],
+          "finding": "The definition of a critical activity is inaccurate because it describes it as having \"zero or lowest relevant float\". An activity with a positive float may be near-critical, but it is not critical merely because its float is the lowest positive value.",
+          "evidence": "BUS-EVI-008 elsewhere correctly states that an activity with zero total float is critical, but its definition broadens this to \"zero or lowest relevant float\", creating a contradictory classification rule.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Define a critical activity as one with zero total float in the stated deterministic network. Describe activities with small positive float as near-critical or as requiring monitoring, rather than as critical.",
+          "disposition": "logged",
+          "reason": "accuracy finding without a supplied contradicting source"
+        }
+      ],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    },
+    "3.10.4": {
+      "fingerprint": "19027ba67ec7962fc691977eef10ab09f86d6af3784cdcf9baa9d80df725da6a",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-02T15:06:21.189Z"
+    }
+  }
+}

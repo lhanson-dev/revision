@@ -2,7 +2,7 @@
   "schema_version": 1,
   "builder_version": "question-plan-v1",
   "batch": "3.10",
-  "blueprint_fingerprint": "6e8ac6e5bfb546493e94859480d13008ce512702f7ab058f48de94669d74626d",
+  "blueprint_fingerprint": "0ee2a90360b1453399a98eb350ae7d6a3d6354570b8a6c4acdddce34cc795fcd",
   "excluded_item_ids": [],
   "summary": {
     "questions": 13,
