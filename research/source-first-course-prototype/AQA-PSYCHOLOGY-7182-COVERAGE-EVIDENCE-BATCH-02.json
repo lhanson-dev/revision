@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_named_coverage_in_progress",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "scope": "Second evidence batch, prioritising compulsory topics only.",
+  "evidence": [
+    {
+      "requirementId": "PSY-03-01",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/"],
+      "supports": "Harlow's monkey attachment work and the comfort/security conclusion.",
+      "remaining": "Lorenz is not adequately covered by the inspected accepted source."
+    },
+    {
+      "requirementId": "PSY-03-02",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/"],
+      "supports": "Bowlby's attachment theory, primary-caregiver bond, secure base and persistence of attachment across life.",
+      "remaining": "AQA-specific monotropic theory, critical-period detail and internal working model still need explicit reusable evidence."
+    },
+    {
+      "requirementId": "PSY-03-03",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/"],
+      "supports": "Ainsworth Strange Situation, secure/avoidant/resistant classifications and cultural variation, including van IJzendoorn-related evidence.",
+      "remaining": "Foundation transformation and final named-item verification only."
+    },
+    {
+      "requirementId": "PSY-05-01",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+        "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/"
+      ],
+      "supports": "Pavlov and classical conditioning; Skinner, operant conditioning and reinforcement/punishment mechanisms.",
+      "remaining": "Foundation transformation only; no new subject research currently indicated."
+    },
+    {
+      "requirementId": "PSY-05-02",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
+        "https://opentextbc.ca/h5ppsychology/chapter/learning-approaches/"
+      ],
+      "supports": "Bandura, observational learning/modeling, imitation, attention/retention/reproduction/motivation and vicarious reinforcement/punishment.",
+      "remaining": "The exact AQA use of identification needs explicit named confirmation."
+    },
+    {
+      "requirementId": "PSY-05-05",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/freud-and-the-psychodynamic-perspective/"],
+      "supports": "Unconscious processes, id/ego/superego, repression, denial, displacement and the psychosexual stages are directly treated in one accepted CC BY source.",
+      "remaining": "Foundation transformation and concise AQA alignment only."
+    },
+    {
+      "requirementId": "PSY-06-03",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/the-endocrine-system/"],
+      "supports": "Major endocrine glands, hormones and endocrine-system function.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-06-04",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/what-is-stress/"],
+      "supports": "Fight-or-flight physiology, sympathetic-system activation and adrenaline/noradrenaline release.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-07-04",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/"],
+      "supports": "Correlation coefficients, strength/direction of relationships and the distinction between correlation and causal experimental evidence.",
+      "remaining": "Foundation transformation and use of AQA co-variable terminology."
+    },
+    {
+      "requirementId": "PSY-07-06",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/approaches-to-research/"],
+      "supports": "Case-study method, depth, limitations and generalisability considerations.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-07-14",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/"],
+      "supports": "Independent/dependent variables, manipulation and experimental/control groups.",
+      "remaining": "Extraneous variables and operationalisation need a stronger accepted-source match within this prototype corpus."
+    },
+    {
+      "requirementId": "PSY-07-16",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/"],
+      "supports": "Participant and experimenter bias are explicitly discussed as threats to findings.",
+      "remaining": "Exact AQA demand-characteristics and investigator-effects framing needs explicit reusable evidence."
+    },
+    {
+      "requirementId": "PSY-07-17",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/ethics/"],
+      "supports": "Informed consent, withdrawal, confidentiality, deception, debriefing and harm-minimisation principles.",
+      "remaining": "The AQA requirement explicitly references the BPS code; the inspected source uses North American governance, so a BPS-compatible reusable/reference route still needs resolving."
+    },
+    {
+      "requirementId": "PSY-07-18",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/"],
+      "supports": "Peer-review purpose, quality control, design/method/statistical challenge and replication role.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-07-29",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/"],
+      "supports": "Correlation coefficients, positive/negative direction, strength and non-causal interpretation.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-08-01",
+      "status": "partial",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/history-of-psychology/"],
+      "supports": "Male/gender bias in psychology's historical evidence base and the risk of applying Western findings across cultures.",
+      "remaining": "Universality, androcentrism, alpha/beta bias, ethnocentrism and cultural relativism need a more exact reusable-source treatment."
+    },
+    {
+      "requirementId": "PSY-08-03",
+      "status": "covered_candidate",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/what-is-lifespan-development/"],
+      "supports": "Nature/nurture contributions and explicit reciprocal interaction between genetic and environmental influences.",
+      "remaining": "Foundation transformation and AQA interactionism terminology."
+    }
+  ],
+  "batchSummary": {
+    "requirementsReviewed": 17,
+    "coveredCandidate": 10,
+    "partial": 7,
+    "gap": 0,
+    "uncertain": 0,
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0
+  },
+  "aggregateProgressAfterBatch": {
+    "allNamedRequirements": 118,
+    "allRequirementsReviewed": 33,
+    "allCoveredCandidate": 14,
+    "allPartial": 19,
+    "allGap": 0,
+    "allUncertain": 0,
+    "allUnreviewed": 85,
+    "compulsoryNamedRequirements": 71,
+    "compulsoryRequirementsReviewed": 29,
+    "compulsoryCoveredCandidate": 13,
+    "compulsoryPartial": 16,
+    "compulsoryUnreviewed": 42
+  }
+}
