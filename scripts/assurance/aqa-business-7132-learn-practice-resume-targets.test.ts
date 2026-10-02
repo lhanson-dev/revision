@@ -27,12 +27,12 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       }
     }
 
-    const cases = [
+    const cases: Array<{ batch: string; stale: string[] }> = [
       { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-009'] },
       { batch: '3.4', stale: ['bus-ops-001'] },
       { batch: '3.8-3.9', stale: [] },
       { batch: '3.10', stale: ['bus-str-009'] },
-    ] as const
+    ]
 
     for (const testCase of cases) {
       const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
@@ -40,6 +40,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       const reusable: string[] = []
       const stale: string[] = []
       const expectedNodeIds = expectationsFromBlueprint(blueprint).map((expectation) => expectation.nodeId).sort()
+      const expectedStale = new Set(testCase.stale)
 
       for (const expectation of expectationsFromBlueprint(blueprint)) {
         const output = nodeOutputSchema.parse(JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/learn-practice/${expectation.nodeId}.json`, 'utf8')))
@@ -49,8 +50,8 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
         ;(exactMatch ? reusable : stale).push(expectation.nodeId)
       }
 
-      expect(stale.sort(), `${testCase.batch} stale`).toEqual([...testCase.stale].sort())
-      expect(reusable.sort(), `${testCase.batch} reusable`).toEqual(expectedNodeIds.filter((nodeId) => !testCase.stale.includes(nodeId as never)))
+      expect(stale.sort(), `${testCase.batch} stale`).toEqual([...expectedStale].sort())
+      expect(reusable.sort(), `${testCase.batch} reusable`).toEqual(expectedNodeIds.filter((nodeId) => !expectedStale.has(nodeId)))
     }
   })
 })
