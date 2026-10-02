@@ -53,14 +53,17 @@ A requirement is `course_truth_ready` only when:
 
 Topic shards may be added incrementally. The course is **not complete** until the manifest reports all 118 requirements as `course_truth_ready` and the run contract's independent assurance has passed.
 
-## Current starting position
+## Current continuation position
 
-The predecessor proof remains historical evidence. The student-pilot continuation starts from:
+The predecessor proof remains historical evidence. After targeted continuation addenda 05 and 06:
 
-- 118 / 118 named requirements reviewed;
-- after targeted continuation closure, 58 covered candidates, 60 partials and 0 outright gaps;
-- 118 / 118 requirements with some reusable source support;
-- £0 paid source/licence spend recorded to date; and
-- no permission to treat source coverage alone as Course Truth completion.
+- 118 / 118 named requirements have some reusable source support;
+- the live source-review baseline is 60 covered candidates, 58 partials and 0 outright gaps;
+- 14 / 118 requirements have so far been transformed into `course_truth_ready` records;
+- Social Influence is 4 / 4 Course Truth-ready;
+- Forensic Psychology is 4 / 4 Course Truth-ready;
+- Addiction is 6 / 6 Course Truth-ready;
+- £0 paid source/licence spend is recorded to date; and
+- source coverage alone is explicitly not treated as Course Truth completion.
 
-The first retained shards reuse the already source-complete Social Influence and Forensic Psychology transformations, plus the newly closed Prochaska requirement, rather than regenerating those subjects from scratch.
+These first retained shards reuse predecessor evidence and add targeted rights-clear evidence only where a real depth or rights residual remained. They do not regenerate already-supported subject knowledge from scratch.
