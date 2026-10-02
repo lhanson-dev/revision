@@ -1,0 +1,74 @@
+{
+  "schemaVersion":1,
+  "status":"experimental_whole_course_metrics",
+  "checkedDate":"2026-10-02",
+  "course":"AQA A-level Psychology 7182",
+  "definitions": {
+    "sourceCoveredCandidate":"All named subject elements for the requirement have a rights-clear reusable evidence route in the current prototype; production quality is not implied.",
+    "partial":"Commercially reusable subject evidence exists for a substantial part of the requirement, but one or more named elements still need targeted sourcing or bounded synthesis.",
+    "gap":"No current commercial-compatible reusable source route has yet been established for the named requirement.",
+    "sourceSupported":"sourceCoveredCandidate + partial; means the requirement is not being built from zero, not that it is complete."
+  },
+  "compulsory": {
+    "namedRequirements":71,
+    "reviewed":71,
+    "sourceCoveredCandidateBeforeRepresentativeBridgeClosure":33,
+    "partialsBeforeRepresentativeBridgeClosure":38,
+    "representativeSocialInfluencePartialsClosed":3,
+    "currentSourceCoveredCandidate":36,
+    "currentPartial":35,
+    "currentGap":0
+  },
+  "options": {
+    "namedRequirements":47,
+    "reviewed":47,
+    "sourceCoveredCandidate":18,
+    "partial":28,
+    "gap":1,
+    "groups": {
+      "group1":{"requirements":14,"sourceCoveredCandidate":5,"partial":9,"gap":0},
+      "group2":{"requirements":18,"sourceCoveredCandidate":8,"partial":10,"gap":0},
+      "group3":{"requirements":15,"sourceCoveredCandidate":5,"partial":9,"gap":1}
+    }
+  },
+  "wholeCourse": {
+    "namedRequirements":118,
+    "reviewed":118,
+    "sourceCoveredCandidate":54,
+    "partial":63,
+    "gap":1,
+    "sourceSupported":117,
+    "sourceCoveredCandidatePercent":45.8,
+    "partialPercent":53.4,
+    "gapPercent":0.8,
+    "sourceSupportedPercent":99.2
+  },
+  "economics": {
+    "paidProviderSpendGbp":0,
+    "paidSourceLicenceSpendGbp":0,
+    "aiCreatedUnsupportedSubjectTruthPercent":0,
+    "aiAssistedTransformationUsed":true,
+    "elapsedWorkingTime":"not reliably measurable retrospectively across multi-chat governed execution",
+    "manualWorkObserved":[
+      "official course-scope extraction and paraphrase into stable requirement IDs",
+      "source discovery",
+      "source-rights verification",
+      "named-requirement mapping",
+      "targeted gap searches",
+      "provenance recording",
+      "conservative coverage classification"
+    ]
+  },
+  "singleRemainingGap": {
+    "requirementId":"PSY-17-06",
+    "description":"Prochaska six-stage behaviour-change model",
+    "reason":"The model is easy to locate publicly, but the convenient explanatory sources inspected so far use non-commercial licences. A factual lead exists in the original research literature, but a commercial-compatible reusable source route has not yet been established.",
+    "rejectedConvenientSources":["StatPearls CC BY-NC-ND", "Sussex/OpenPress CC BY-NC-SA"]
+  },
+  "interpretation": {
+    "positiveSignal":"117/118 named requirements already have some commercial-compatible reusable subject evidence. This strongly supports the hypothesis that Psychology does not need to be researched or generated from zero.",
+    "importantLimit":"Only 54/118 are source-complete candidates at the current evidence threshold. The other 63 source-supported requirements still need named-element synthesis or targeted source closure, so 99.2% source support must not be represented as 99.2% finished Foundation coverage.",
+    "specialistSignal":"Options are more fragmented than the compulsory representative topic. The likely production problem is targeted source orchestration and rights verification, not absence of reusable subject truth.",
+    "nextProof":"Resolve a small sample of option partials plus the single remaining gap, then measure transformation into structured Foundation nodes. If closure remains cheap, the useful next investment is automation of source discovery/rights/mapping rather than more general-purpose AI generation."
+  }
+}
