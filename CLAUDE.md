@@ -143,3 +143,13 @@ Lee uses more than one AI tool and must be able to stop in one and pick up in an
 3. **Finish on something pushed.** End with work on a pushed branch or open PR. If unfinished, add a `HANDOVER ·` run-log entry.
 4. **Keep Current state current.** When a significant gate result, version or slice lands, update this section in the same PR.
 5. **Same rules, whichever tool.** Changing AI tools is not a reason to revisit the architecture or process.
+
+## Question escalation fixes — 2 October 2026
+
+- Question resume run **36925676050** accepted **219/231** questions and reused **116** unchanged questions without re-review. Clean batches were 3.6, 3.8-3.9 and 3.5-topup. Recorded spend was about **$4.49**.
+- Founder decision: **fix all ten** two-round question findings: 3.1-3.2 q20/q24/q25/q38/q41, 3.4 q01, 3.7 q04/q05/q07 and 3.10 q10. Exact prior fingerprints and fix instructions are in `content-factory/runs/aqa-7132-question-founder-decisions.json`.
+- `QUESTION_ESCALATION_FIXES_2.json` adds only the four mapped Foundation teaching corrections required by those decisions: BUS-FND-001 (mission/objectives), BUS-FND-009 (environmental issues), BUS-OPS-001 (environmental objectives), BUS-STR-009 (Lewin force field analysis).
+- Deterministic false blockers are fixed for 3.1-3.2 q03 (`-£60,000`) and 3.3 q02 (calculation inputs expressed in millions). Final answer/key comparisons remain magnitude-normalised.
+- The question resume runner now feeds the retained two-round findings into the first Founder-directed regeneration. Do not start a third review of the old unchanged question; the changed question/teaching receives a fresh review under the Founder decision.
+- **Next after PR #502 is green and Founder-approved/merged:** fresh T8 assurance for the changed Foundation teaching, targeted Learn + Practice refresh for only stale dependants, then resume Questions from run `36925676050`. Do not repurchase or re-review the 219 accepted questions unless their exact inputs changed.
+- No normative process or architecture changed. Qualified human review and learner publication approval are still pending.

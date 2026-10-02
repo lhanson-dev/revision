@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "course_id": "aqa:aqa-a-level:7132",
+  "source_run_id": 36925676050,
   "decided_at": "2026-10-01",
   "decided_by": "Founder",
   "decisions": [
@@ -24,6 +25,86 @@
       "prior_fingerprint": "54ff0a67d7f79c123e207e609122618464434905ba87a6514b428774c40a3591",
       "decision": "fix",
       "note": "Add crisis-management teaching to BUS-STR-009, then regenerate and review the dependent question rather than removing the examinable item."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q20",
+      "prior_fingerprint": "c46c606fbedb535fb6bb9e644d6ffe9530a401f9783d2f024a1a9a4290c09ed6",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Deepen the mapped BUS-FND-001 teaching with the mission/objective relationship and the purposes of objectives, then regenerate the question against that teaching."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q24",
+      "prior_fingerprint": "3287a256a8703f58a6057e6ceac2e3d1995b267c7df56c7855891054a2acc995",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate so the question genuinely assesses social-enterprise knowledge and limited versus unlimited liability, with marking points aligned to the Explain task and valid alternative reasons credited."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q25",
+      "prior_fingerprint": "ab01d65f7389c282bc59ce57c9b62994832b73e4d34169ced9de4c59d25a2330",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate the mark scheme so an open Explain question about ordinary share capital and why shareholders invest credits valid shareholder-return routes such as dividends and capital gain."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q38",
+      "prior_fingerprint": "529eadb905a173046ce5a2256440b7a03a24599196e7748a47fbe5a134843573",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Deepen the mapped BUS-FND-009 teaching with environmental issues and business transmission mechanisms, then regenerate the dependent question."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q41",
+      "prior_fingerprint": "3e6e5b968a2a7a546200bc14bb01ec5b9bb6a2a75435879512bcf90a63e7a24a",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate without giving away the regulator's role in the scenario; require the learner to use regulator knowledge to explain the business effect."
+    },
+    {
+      "batch": "3.4",
+      "unit_id": "q01",
+      "prior_fingerprint": "1dd465543652880d0d49ccf4ce81646fe13dc6f54dd0221864b5e167cdcd4e76",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Deepen the mapped BUS-OPS-001 teaching with environmental objectives and operational examples, then regenerate the dependent question."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q04",
+      "prior_fingerprint": "24538e8c5dd1b93937476e3ecf790281838893ed05bdd99c0b8182df5574e8a9",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate so the learner must use knowledge of emerging economies as well as globalisation, and align all marking points to the requested explanation rather than generic export effects."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q05",
+      "prior_fingerprint": "6d013a6ce14e8780cba4cc71703778356ac52aaba0f14c06b1c25e6c66154f95",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate without describing licensing so explicitly that the scenario gives the answer away; the learner must identify and explain the relevant route using taught knowledge."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q07",
+      "prior_fingerprint": "e09df4d8b9f26c7e11ae5946f30b3f459de15cc72815a04c8cd11184ac663bb4",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Regenerate so multinational knowledge is genuinely assessed and the mark scheme rewards explanation rather than repetition of facts supplied in the question."
+    },
+    {
+      "batch": "3.10",
+      "unit_id": "q10",
+      "prior_fingerprint": "db32a0442758b056a8455db226c8de26d392aaa1a73a29dbaf2098be613dac32",
+      "decision": "fix",
+      "decided_at": "2026-10-02",
+      "note": "Add explicit Lewin force field analysis teaching to BUS-STR-009, including driving and restraining forces and the model's limits, then regenerate and review the dependent question."
     }
   ]
 }

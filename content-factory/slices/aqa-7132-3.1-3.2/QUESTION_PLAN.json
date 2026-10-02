@@ -2,11 +2,11 @@
   "schema_version": 1,
   "builder_version": "question-plan-v1",
   "batch": "3.1-3.2",
-  "blueprint_fingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
+  "blueprint_fingerprint": "ef1c764aaae9d748d1b91d4bba6f61fa77973b8f34cf2c015839d0b2df1205b5",
   "excluded_item_ids": [],
   "summary": {
     "questions": 51,
-    "marks": 229,
+    "marks": 226,
     "quantitative_marks": 8,
     "formulas": 4,
     "items": 73,
@@ -312,6 +312,20 @@
     },
     {
       "id": "q20",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "mission-statement"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Mission statement\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q21",
       "family": "DATA_RESPONSE",
       "marks": 6,
       "commandWord": "Analyse",
@@ -328,7 +342,7 @@
       "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Relationship between mission and objectives\" and \"Why businesses set objectives\". Mark scheme is level-based."
     },
     {
-      "id": "q21",
+      "id": "q22",
       "family": "MCQ",
       "marks": 1,
       "commandWord": "Identify",
@@ -342,7 +356,7 @@
       "brief": "Multiple choice: one question that tests \"Sole trader\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
     },
     {
-      "id": "q22",
+      "id": "q23",
       "family": "SHORT_ANSWER",
       "marks": 4,
       "commandWord": "Explain",
@@ -358,7 +372,7 @@
       "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Private limited company\" and \"Public limited company\". The mark scheme credits knowledge and its application to the scenario."
     },
     {
-      "id": "q23",
+      "id": "q24",
       "family": "SHORT_ANSWER",
       "marks": 4,
       "commandWord": "Explain",
@@ -374,7 +388,7 @@
       "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Private and public sector\" and \"Not-for-profit organisations\". The mark scheme credits knowledge and its application to the scenario."
     },
     {
-      "id": "q24",
+      "id": "q25",
       "family": "SHORT_ANSWER",
       "marks": 4,
       "commandWord": "Explain",
@@ -390,7 +404,7 @@
       "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Social enterprise\" and \"Limited and unlimited liability\". The mark scheme credits knowledge and its application to the scenario."
     },
     {
-      "id": "q25",
+      "id": "q26",
       "family": "SHORT_ANSWER",
       "marks": 4,
       "commandWord": "Explain",
@@ -406,7 +420,7 @@
       "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Ordinary share capital\" and \"Role of shareholders and why they invest\". The mark scheme credits knowledge and its application to the scenario."
     },
     {
-      "id": "q26",
+      "id": "q27",
       "family": "DATA_RESPONSE",
       "marks": 6,
       "commandWord": "Analyse",
@@ -423,7 +437,7 @@
       "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Effects of ownership on mission, objectives and decisions\" and \"Reasons for choosing or changing business form\". Mark scheme is level-based."
     },
     {
-      "id": "q27",
+      "id": "q28",
       "family": "MCQ",
       "marks": 1,
       "commandWord": "Identify",
@@ -437,7 +451,7 @@
       "brief": "Multiple choice: one question that tests \"Influences on share price\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
     },
     {
-      "id": "q28",
+      "id": "q29",
       "family": "MCQ",
       "marks": 1,
       "commandWord": "Identify",
@@ -451,22 +465,6 @@
       "brief": "Multiple choice: one question that tests \"Types of business objective (profit, growth, survival, cash flow)\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
     },
     {
-      "id": "q29",
-      "family": "SHORT_ANSWER",
-      "marks": 4,
-      "commandWord": "Explain",
-      "ao": [
-        "AO1",
-        "AO2"
-      ],
-      "itemSuffixes": [
-        "why-businesses-exist",
-        "mission-statement"
-      ],
-      "formulaIds": [],
-      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Why businesses exist\" and \"Mission statement\". The mark scheme credits knowledge and its application to the scenario."
-    },
-    {
       "id": "q30",
       "family": "SHORT_ANSWER",
       "marks": 4,
@@ -476,10 +474,11 @@
         "AO2"
       ],
       "itemSuffixes": [
+        "why-businesses-exist",
         "social-and-ethical-objectives"
       ],
       "formulaIds": [],
-      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Social and ethical objectives\". The mark scheme credits knowledge and its application to the scenario."
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Why businesses exist\" and \"Social and ethical objectives\". The mark scheme credits knowledge and its application to the scenario."
     },
     {
       "id": "q31",

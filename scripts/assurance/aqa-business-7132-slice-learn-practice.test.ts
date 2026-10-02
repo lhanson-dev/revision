@@ -215,8 +215,11 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     expect(checklistInstructions(SLICE_CHECKLIST)).toContain('Do not look for other problems')
   })
 
-  it('keeps every committed Learn + Practice asset valid against its blueprint (software re-proof, no AI)', async () => {
+  it('keeps every committed Learn + Practice asset valid against its blueprint, except the explicitly pending ownership refresh (software re-proof, no AI)', async () => {
     const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
+    // BUS-FND-001 has newly taken ownership of the mission-statement item. Its old committed output is deliberately stale until the governed targeted refresh runs.
+    // The separate resume-target regression proves the full exact-fingerprint stale scope; every other software-invalid committed asset still fails here.
+    const pendingTargetedRefresh = new Set(['3.1-3.2/bus-fnd-001'])
     // The top-up batch rebuilds some 3.5 nodes; its output replaces those node files in the 3.5 folder, so those files must satisfy both blueprints.
     const checks = [{ id: '3.5', blueprint: '3.5' }, ...config.batches.map((batch) => ({ id: batch.id, blueprint: batch.id })), { id: '3.5', blueprint: config.top_up.id }]
     for (const check of checks) {
@@ -230,7 +233,13 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
         const path = `${dir}/${expectation.nodeId}.json`
         if (!existsSync(path)) continue
         const output = nodeOutputSchema.parse(JSON.parse(await readFile(path, 'utf8')))
-        expect(validateNodeOutput(output, expectation), `${check.id}/${expectation.nodeId}`).toEqual([])
+        const findings = validateNodeOutput(output, expectation)
+        const key = `${check.blueprint}/${expectation.nodeId}`
+        if (pendingTargetedRefresh.has(key)) {
+          expect(findings.length, `${key} must remain stale until targeted refresh`).toBeGreaterThan(0)
+          continue
+        }
+        expect(findings, `${check.id}/${expectation.nodeId}`).toEqual([])
       }
     }
   })

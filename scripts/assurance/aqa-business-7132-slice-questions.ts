@@ -129,18 +129,31 @@ const magnitudeMultiplier = {
   billion: 1_000_000_000,
 } as const
 
+type ParsedNumber = { raw: number; normalized: number }
+
+function parsedNumbersIn(text: string): ParsedNumber[] {
+  return [...text.matchAll(/(?<sign>-)?\s*[£$€]?\s*(?<number>\d[\d,]*(?:\.\d+)?)(?:\s*(?<magnitude>thousand|million|billion)\b)?/gi)]
+    .map((match) => {
+      const literal = match.groups?.number
+      if (!literal) return { raw: Number.NaN, normalized: Number.NaN }
+      const sign = match.groups?.sign === '-' ? -1 : 1
+      const raw = sign * Number(literal.replace(/,/g, ''))
+      const magnitude = match.groups?.magnitude?.toLowerCase() as keyof typeof magnitudeMultiplier | undefined
+      return { raw, normalized: raw * (magnitude ? magnitudeMultiplier[magnitude] : 1) }
+    })
+    .filter((value) => Number.isFinite(value.raw) && Number.isFinite(value.normalized))
+}
+
 // Every number written in the text, as a value. Commas, currency and percent signs are ignored;
 // explicit magnitude words are normalised so £61.20 million is compared as 61,200,000.
 export function numbersIn(text: string): number[] {
-  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi)]
-    .map((match) => {
-      const numeric = match[0].match(/-?\d[\d,]*(?:\.\d+)?/)
-      if (!numeric) return Number.NaN
-      const base = Number(numeric[0].replace(/,/g, ''))
-      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
-      return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)
-    })
-    .filter((value) => Number.isFinite(value))
+  return parsedNumbersIn(text).map((value) => value.normalized)
+}
+
+// Calculation inputs can legitimately be stored in the scale used by a formula (for example 54 when the stem says £54 million).
+// For input-presence checks only, compare both the written-scale value and its normalised magnitude. Answer checks continue to use only normalised values.
+export function inputNumbersIn(text: string): number[] {
+  return [...new Set(parsedNumbersIn(text).flatMap((value) => [value.raw, value.normalized]))]
 }
 
 function questionText(question: Question) {
@@ -194,7 +207,7 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   const calcFormulas = question.calcs.map((calc) => calc.formula_id)
   for (const formulaId of spec.formulaIds.filter((formula) => !calcFormulas.includes(formula))) findings.push(softwareFinding('plan_formula_missing', [id], `no calculation for planned formula ${formulaId}`, `Add a calculation using ${formulaId}.`))
   for (const calc of question.calcs.filter((c) => !spec.formulaIds.includes(c.formula_id))) findings.push(softwareFinding('plan_formula_unexpected', [id], `calculation uses ${calc.formula_id}, which this question does not test`, 'Only calculate the planned formulas.'))
-  const stemNumbers = numbersIn(questionText(question))
+  const stemInputNumbers = inputNumbersIn(questionText(question))
   const schemeNumbers = numbersIn(markSchemeText(question))
   for (const calc of question.calcs) {
     const problem = checkCalculation(calc)
@@ -202,7 +215,7 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
     // Every input must be given in the question (or be the answer to an earlier calculation in it), or the question is unanswerable.
     const earlierAnswers = question.calcs.filter((other) => other !== calc).map((other) => other.stated_answer)
     for (const input of calc.inputs) {
-      if (![...stemNumbers, ...earlierAnswers].some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
+      if (![...stemInputNumbers, ...earlierAnswers].some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
     }
     if (!schemeNumbers.some((value) => near(value, calc.stated_answer))) findings.push(softwareFinding('mark_scheme_answer', [id], `${calc.label}: the mark scheme never states the answer ${calc.stated_answer}`, 'State the correct answer in the mark scheme.'))
   }

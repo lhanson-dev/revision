@@ -11,7 +11,7 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 import type { Ledger } from '../../src/content-factory/fast-path-review'
 
 describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
-  it('proves the refreshed affected batches are fully reusable with no stale nodes', async () => {
+  it('proves only Foundation- or ownership-changed dependant nodes are stale', async () => {
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     const teachingFor = (nodeId: string): SliceTeaching => {
@@ -27,22 +27,20 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       }
     }
 
-    const cases = [
-      {
-        batch: '3.8-3.9',
-        reusable: ['bus-fnd-002', 'bus-fnd-007', 'bus-fnd-008', 'bus-str-004', 'bus-str-007'],
-      },
-      {
-        batch: '3.10',
-        reusable: ['bus-evi-008', 'bus-ext-007', 'bus-mkt-001', 'bus-mod-005', 'bus-str-009'],
-      },
-    ] as const
+    const cases: Array<{ batch: string; stale: string[] }> = [
+      { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-005', 'bus-fnd-009'] },
+      { batch: '3.4', stale: ['bus-ops-001'] },
+      { batch: '3.8-3.9', stale: [] },
+      { batch: '3.10', stale: ['bus-str-009'] },
+    ]
 
     for (const testCase of cases) {
       const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
       const ledger = JSON.parse(await readFile(`content-factory/runs/aqa-7132-slice-${testCase.batch}/ledger.json`, 'utf8')) as Ledger
       const reusable: string[] = []
       const stale: string[] = []
+      const expectedNodeIds = expectationsFromBlueprint(blueprint).map((expectation) => expectation.nodeId).sort()
+      const expectedStale = new Set(testCase.stale)
 
       for (const expectation of expectationsFromBlueprint(blueprint)) {
         const output = nodeOutputSchema.parse(JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/learn-practice/${expectation.nodeId}.json`, 'utf8')))
@@ -52,8 +50,8 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
         ;(exactMatch ? reusable : stale).push(expectation.nodeId)
       }
 
-      expect(reusable.sort(), `${testCase.batch} reusable`).toEqual([...testCase.reusable].sort())
-      expect(stale, `${testCase.batch} stale`).toEqual([])
+      expect(stale.sort(), `${testCase.batch} stale`).toEqual([...expectedStale].sort())
+      expect(reusable.sort(), `${testCase.batch} reusable`).toEqual(expectedNodeIds.filter((nodeId) => !expectedStale.has(nodeId)))
     }
   })
 })

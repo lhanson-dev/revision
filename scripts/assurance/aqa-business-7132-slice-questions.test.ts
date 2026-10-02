@@ -26,6 +26,7 @@ import {
   blindPayload,
   buildQuestionUnit,
   confidenceLabel,
+  inputNumbersIn,
   numbersIn,
   produceQuestion,
   questionSchema,
@@ -125,6 +126,12 @@ async function readLedger(): Promise<Ledger> {
     if (checkpoint) return checkpoint.ledger
     return { schema_version: 1, stage: QUESTIONS_CHECKLIST.stage, checklist_version: QUESTIONS_CHECKLIST.version, units: {} }
   }
+}
+
+function founderFixFeedback(ledger: Ledger) {
+  return new Map<string, ClassifiedFinding[]>(Object.entries(ledger.units).flatMap(([id, entry]) =>
+    entry.founder_decision?.decision === 'fix' && entry.findings.length ? [[id, entry.findings] as const] : [],
+  ))
 }
 
 function retainedQuestionUnit(input: {
@@ -316,9 +323,11 @@ describe('AQA 7132 slice questions (software checks)', () => {
     expect(validateQuestion({ ...base, mark_scheme: { ...base.mark_scheme, type: 'points' } }, spec).map((f) => f.check_id)).toContain('levels_required')
   })
 
-  it('extracts numbers from text with commas, currency, percent signs and magnitude words', () => {
+  it('extracts numbers from text with commas, currency, percent signs, signs and magnitude words', () => {
     expect(numbersIn('Revenue £250,000, margin 33.3% and a loss of -1,200.50')).toEqual([250000, 33.3, -1200.5])
+    expect(numbersIn('The downside is -£60,000.')).toEqual([-60000])
     expect(numbersIn('Values are £61.20 million, 2.5 thousand and 1 billion.')).toEqual([61200000, 2500, 1000000000])
+    expect(inputNumbersIn('The market was £48 million and is now £54 million.')).toEqual([48, 48000000, 54, 54000000])
   })
 
   it('accepts the retained 3.5-topup q04 market-capitalisation answer written in millions', () => {
@@ -342,6 +351,23 @@ describe('AQA 7132 slice questions (software checks)', () => {
     const failing = await produceQuestion({ spec, teaching, generate: async () => { calls++; return { ok: false, error: 'timeout' } } })
     expect(calls).toBe(3)
     expect(failing).toMatchObject({ output: null, attempts: 3, error: 'timeout' })
+  })
+
+  it('feeds a Founder fix decision back into the first regenerated question attempt', () => {
+    const finding: ClassifiedFinding = {
+      check_id: 'question_validity', category: 'broken_question', affected_ids: ['q04'], finding: 'old two-round issue', evidence: 'review finding', contradicting_source_id: null, proposed_fix: 'fix it this specific way', disposition: 'blocking', reason: 'failed question_validity',
+    }
+    const ledger: Ledger = {
+      schema_version: 1,
+      stage: QUESTIONS_CHECKLIST.stage,
+      checklist_version: QUESTIONS_CHECKLIST.version,
+      units: {
+        q04: {
+          fingerprint: 'prior', outcome: 'escalated', consecutive_blocking_rounds: 0, findings: [finding], founder_decision: { decision: 'fix', note: 'Founder chose fix', decided_at: '2026-10-02' }, updated_at: '2026-10-02T00:00:00Z',
+        },
+      },
+    }
+    expect(founderFixFeedback(ledger).get('q04')).toEqual([finding])
   })
 
   it('hides the mark scheme and teaching from the blind answerer, and builds a unit whose fingerprint tracks the content', async () => {
@@ -539,7 +565,7 @@ describe('AQA 7132 slice questions (software checks)', () => {
       }
     }
     const preEscalatedIds = new Set(preEscalated.map((outcome) => outcome.unit_id))
-    const units1 = await buildUnits(plan.filter((spec) => !preEscalatedIds.has(spec.id)), new Map(), ledger, true)
+    const units1 = await buildUnits(plan.filter((spec) => !preEscalatedIds.has(spec.id)), founderFixFeedback(ledger), ledger, true)
     // A latest candidate blocked only by the old software checker is exact-fingerprint unchanged, but its old blocking ledger entry must not be reused now that current software clears it. Dropping only that entry gives the unchanged candidate its first AI review without repurchasing generation or blind answering.
     const roundOneLedger = forceFreshReviewIds.size
       ? { ...ledger, units: Object.fromEntries(Object.entries(ledger.units).filter(([id]) => !forceFreshReviewIds.has(id))) }

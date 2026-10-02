@@ -127,7 +127,7 @@ jobs:
               entry.founder_decision = {
                 decision: 'fix',
                 note: decision.note,
-                decided_at: decisionFile.decided_at,
+                decided_at: decision.decided_at ?? decisionFile.decided_at,
               }
               // The explicit Founder fix decision closes the old two-round dispute. The changed inputs must still pass a fresh review.
               entry.consecutive_blocking_rounds = 0
