@@ -235,7 +235,7 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
 
   await page.goto(`${appPath}#/progress`)
   const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .progress-course-card').first()
-  await expect(courseCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
+  await expect(courseCard).toHaveCSS('background-color', 'rgb(18, 31, 36)')
   await expect(courseCard).toHaveCSS('border-radius', '24px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)
