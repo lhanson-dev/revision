@@ -11,7 +11,7 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 import type { Ledger } from '../../src/content-factory/fast-path-review'
 
 describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
-  it('proves only Foundation-changed dependant nodes are stale', async () => {
+  it('proves only Foundation- or ownership-changed dependant nodes are stale', async () => {
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     const teachingFor = (nodeId: string): SliceTeaching => {
@@ -28,7 +28,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     }
 
     const cases: Array<{ batch: string; stale: string[] }> = [
-      { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-009'] },
+      { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-005', 'bus-fnd-009'] },
       { batch: '3.4', stale: ['bus-ops-001'] },
       { batch: '3.8-3.9', stale: [] },
       { batch: '3.10', stale: ['bus-str-009'] },
