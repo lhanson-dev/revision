@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_compulsory_named_review_complete",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "scope": "Fourth evidence batch. Completes the first source-level review of all remaining compulsory named requirements.",
+  "evidence": [
+    {
+      "requirementId": "PSY-01-04",
+      "status": "gap",
+      "sources": [],
+      "supports": "No accepted reusable source inspected in the targeted pass covered the AQA combination of minority-influence consistency, commitment and flexibility closely enough to count.",
+      "remaining": "Find a commercially reusable minority-influence source or create a bounded original bridge from independently verified research facts."
+    },
+    {
+      "requirementId": "PSY-03-04",
+      "status": "partial",
+      "sources": ["https://doi.org/10.1007/s00787-026-02968-x"],
+      "supports": "Current CC BY 4.0 longitudinal evidence from the English and Romanian adoptee cohort supports the institutional-deprivation/adoptee component and long-run outcomes.",
+      "remaining": "Bowlby's maternal-deprivation theory itself and the exact theory-to-evidence teaching link still need a commercially reusable source or bounded original bridge."
+    },
+    {
+      "requirementId": "PSY-03-05",
+      "status": "covered_candidate",
+      "sources": [
+        "https://socialsci.libretexts.org/Courses/Western_Technical_College/ECE%3A_Infant_and_Toddler_Development/01%3A_Introduction_to_Infant_and_Toddler_Development/1.11%3A_Bowlby%27s_Attachment_Theory_%28Ainsworth%29",
+        "https://www.mdpi.com/1660-4601/18/11/5770/html"
+      ],
+      "supports": "CC BY material explains Bowlby's internal working model as a prototype for future relationships and links attachment models from childhood into adult attachment patterns.",
+      "remaining": "Foundation transformation and exact AQA framing only."
+    },
+    {
+      "requirementId": "PSY-05-07",
+      "status": "covered_candidate",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/summary-of-introduction-to-psychology/",
+        "https://opentextbc.ca/h5ppsychology/chapter/history-of-psychology/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/learning-approaches/"
+      ],
+      "supports": "The accepted CC BY sources place behaviourist, psychodynamic, humanistic, cognitive and biological perspectives side-by-side and explicitly contrast several assumptions such as determinism, reductionism, observable behaviour and internal processes.",
+      "remaining": "Revision should author the final comparison structure rather than copy a single source's taxonomy."
+    },
+    {
+      "requirementId": "PSY-07-01",
+      "status": "partial",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
+        "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/ethics-in-research/"
+      ],
+      "supports": "Accepted CC BY sources distinguish experiments from naturalistic/descriptive research and provide a clear quasi-experiment example.",
+      "remaining": "The exact four-way AQA lab/field/natural/quasi classification needs a tighter reusable source or a bounded synthesis."
+    },
+    {
+      "requirementId": "PSY-07-02",
+      "status": "partial",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/"],
+      "supports": "Naturalistic and structured observation, unobtrusive observation and observer effects are directly treated.",
+      "remaining": "Controlled versus naturalistic, covert versus overt and participant versus non-participant need complete named coverage."
+    },
+    {
+      "requirementId": "PSY-07-03",
+      "status": "partial",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/"],
+      "supports": "Surveys are described as questionnaires delivered on paper/electronically or verbally, and the text also recognises in-depth interviews.",
+      "remaining": "Structured versus unstructured interviews need explicit reusable treatment."
+    },
+    {
+      "requirementId": "PSY-07-05",
+      "status": "covered_candidate",
+      "sources": ["https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods"],
+      "supports": "The CC BY 4.0 source defines content analysis, gives media/document examples and explains its use in secondary/archival research.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-07-07",
+      "status": "partial",
+      "sources": ["https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/"],
+      "supports": "The source separates research questions, hypotheses and theory and explains a hypothesis as a prediction tested by research.",
+      "remaining": "The AQA-specific convention for stating aims and explicitly distinguishing aims from hypotheses needs a small bridge."
+    },
+    {
+      "requirementId": "PSY-07-08",
+      "status": "gap",
+      "sources": [],
+      "supports": "No accepted source in this pass explicitly covered directional versus non-directional hypotheses at the required teaching level.",
+      "remaining": "Target a commercially reusable methods source or author a bounded bridge from verified methodological definitions."
+    },
+    {
+      "requirementId": "PSY-07-09",
+      "status": "partial",
+      "sources": [
+        "https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/"
+      ],
+      "supports": "CC BY material covers population/sample, random, systematic and stratified sampling plus generalisability and sampling bias concerns.",
+      "remaining": "Opportunity and volunteer sampling need explicit reusable coverage."
+    },
+    {
+      "requirementId": "PSY-07-10",
+      "status": "gap",
+      "sources": [],
+      "supports": "The accepted corpus did not provide a sufficiently direct treatment of pilot studies and their purpose.",
+      "remaining": "Target a commercially reusable methods source or create a bounded original explanation."
+    },
+    {
+      "requirementId": "PSY-07-11",
+      "status": "partial",
+      "sources": ["https://stats.libretexts.org/Courses/Fresno_City_College/Introduction_to_Business_Statistics_-_OER_-_Spring_2023/01%3A_Sampling_and_Data/1.05%3A_Experimental_Design_and_Ethics"],
+      "supports": "The CC BY example includes a within-participant/repeated-treatment design and random assignment between order groups.",
+      "remaining": "AQA's repeated-measures, independent-groups and matched-pairs terminology and trade-offs need a dedicated reusable source."
+    },
+    {
+      "requirementId": "PSY-07-12",
+      "status": "partial",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/"],
+      "supports": "The accepted text requires clear behavioural criteria/categories for observational recording and discusses structured versus naturalistic observation.",
+      "remaining": "Event sampling and time sampling need explicit reusable coverage."
+    },
+    {
+      "requirementId": "PSY-07-13",
+      "status": "partial",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
+        "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/psych-in-real-life-blirtatiousness-questionnaires-and-validity/"
+      ],
+      "supports": "Accepted CC BY material covers questionnaire/self-report construction concerns and survey/interview modes.",
+      "remaining": "Open versus closed question design and structured/unstructured interview design still need exact source coverage."
+    },
+    {
+      "requirementId": "PSY-07-15",
+      "status": "partial",
+      "sources": [
+        "https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/"
+      ],
+      "supports": "Random assignment/allocation and experimental/control groups are directly explained in CC BY sources.",
+      "remaining": "Counterbalancing, broader randomisation and standardisation need explicit reusable teaching coverage."
+    },
+    {
+      "requirementId": "PSY-07-19",
+      "status": "gap",
+      "sources": [],
+      "supports": "No accepted source found in this pass treated economic implications of psychological research as the AQA requirement intends.",
+      "remaining": "This is likely a small original bridge after the exact AQA scope is interpreted from reference-only material and examples are independently verified."
+    },
+    {
+      "requirementId": "PSY-07-20",
+      "status": "covered_candidate",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/"],
+      "supports": "The CC BY source directly defines test-retest and inter-rater reliability and explains consistency/replicability.",
+      "remaining": "Revision should add source-backed improvement techniques in the final teaching treatment."
+    },
+    {
+      "requirementId": "PSY-07-21",
+      "status": "partial",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/"],
+      "supports": "Validity as measurement accuracy plus face, ecological and construct validity are explicitly covered.",
+      "remaining": "Concurrent and temporal validity and the AQA improvement techniques need targeted support."
+    },
+    {
+      "requirementId": "PSY-07-22",
+      "status": "partial",
+      "sources": [
+        "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/"
+      ],
+      "supports": "Objectivity, empiricism, replicability/verifiability, falsifiability, theories and hypothesis testing are covered by commercially reusable psychology texts.",
+      "remaining": "Paradigms and paradigm shifts need a separate reusable source or bounded bridge."
+    },
+    {
+      "requirementId": "PSY-07-23",
+      "status": "partial",
+      "sources": ["https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/"],
+      "supports": "The CC BY source explains the conventional Introduction, Methods, Results and Discussion/Conclusion structure of psychology research reports.",
+      "remaining": "Abstract and referencing conventions need explicit reusable coverage."
+    },
+    {
+      "requirementId": "PSY-07-24",
+      "status": "covered_candidate",
+      "sources": ["https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods"],
+      "supports": "The CC BY source explicitly distinguishes quantitative numerical data from qualitative subjective/natural-setting data and situates both within research methods.",
+      "remaining": "Foundation transformation into psychology examples."
+    },
+    {
+      "requirementId": "PSY-07-25",
+      "status": "partial",
+      "sources": ["https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods"],
+      "supports": "Primary data and secondary-data analysis are explicitly distinguished in CC BY material.",
+      "remaining": "Meta-analysis needs explicit reusable coverage."
+    },
+    {
+      "requirementId": "PSY-07-27",
+      "status": "covered_candidate",
+      "sources": [
+        "https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/02%3A_Descriptive_Statistics",
+        "https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/12%3A_Linear_Regression_and_Correlation/12.03%3A_Scatter_Plots"
+      ],
+      "supports": "CC BY 4.0 OpenStax-derived pages cover tables, bar graphs, histograms, other graphical summaries and scatterplots.",
+      "remaining": "Foundation transformation and AQA-specific choice examples only."
+    },
+    {
+      "requirementId": "PSY-07-30",
+      "status": "covered_candidate",
+      "sources": ["https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques"],
+      "supports": "CC BY 4.0 material explicitly defines nominal, ordinal and interval levels of measurement.",
+      "remaining": "Foundation transformation into psychology examples."
+    },
+    {
+      "requirementId": "PSY-07-31",
+      "status": "partial",
+      "sources": [
+        "https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods",
+        "https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods"
+      ],
+      "supports": "Content analysis is directly explained as systematic analysis of existing media/documents.",
+      "remaining": "The coding procedure itself needs a more explicit reusable source."
+    },
+    {
+      "requirementId": "PSY-07-32",
+      "status": "covered_candidate",
+      "sources": ["https://stats.libretexts.org/Workbench/Statistics_for_Behavioral_Science_Majors/12%3A_Nonparametric_Tests"],
+      "supports": "The commercially reusable CC BY-SA source family includes a dedicated sign-test section with when/how to use it and worked calculations.",
+      "remaining": "ShareAlike must be handled correctly if licensed expression is adapted; Revision can independently author the teaching explanation from the verified statistical facts."
+    },
+    {
+      "requirementId": "PSY-08-02",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/history-of-psychology/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/learning-approaches/"
+      ],
+      "supports": "The accepted CC BY texts explicitly contrast deterministic behaviourist/psychodynamic positions with humanistic personal control and discuss environmental versus internal influences.",
+      "remaining": "Hard versus soft determinism and the exact biological/environmental/psychic taxonomy require a tighter source or bounded synthesis."
+    },
+    {
+      "requirementId": "PSY-08-04",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/history-of-psychology/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/summary-of-introduction-to-psychology/"
+      ],
+      "supports": "The accepted CC BY texts explicitly discuss behaviourism as reductionist and Gestalt/humanistic approaches as holistic or whole-person alternatives.",
+      "remaining": "AQA's levels-of-explanation framing and the named biological/environmental forms of reductionism need explicit source support."
+    },
+    {
+      "requirementId": "PSY-08-05",
+      "status": "gap",
+      "sources": [],
+      "supports": "No accepted commercially reusable source in the targeted pass covered the idiographic-versus-nomothetic distinction closely enough.",
+      "remaining": "Find a rights-clear source or create a small independently verified bridge."
+    },
+    {
+      "requirementId": "PSY-08-06",
+      "status": "gap",
+      "sources": [],
+      "supports": "No accepted commercially reusable source in the targeted pass covered social sensitivity in psychological research as the AQA requirement intends.",
+      "remaining": "Find a rights-clear source or create a small independently verified bridge with suitable examples."
+    }
+  ],
+  "batchSummary": {
+    "requirementsReviewed": 31,
+    "coveredCandidate": 8,
+    "partial": 17,
+    "gap": 6,
+    "uncertain": 0,
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0
+  },
+  "aggregateProgressAfterBatch": {
+    "allNamedRequirements": 118,
+    "allRequirementsReviewed": 75,
+    "allCoveredCandidate": 28,
+    "allPartial": 41,
+    "allGap": 6,
+    "allUncertain": 0,
+    "allUnreviewed": 43,
+    "compulsoryNamedRequirements": 71,
+    "compulsoryRequirementsReviewed": 71,
+    "compulsoryCoveredCandidate": 27,
+    "compulsoryPartial": 38,
+    "compulsoryGap": 6,
+    "compulsoryUnreviewed": 0
+  },
+  "preliminaryInterpretation": {
+    "viabilitySignal": "promising_but_not_proven",
+    "reason": "The reusable-source route supplies a substantial subject-knowledge base across every compulsory topic, but most named requirements still need either AQA-specific supplementation or a small bridge. Six compulsory requirements currently remain genuine source gaps. The next prototype stage should quantify how small those bridges are before any whole-course economics claim is made.",
+    "nextStep": "Classify the 38 partial and 6 gap compulsory requirements by bridge size, then build a bounded structured Foundation slice from reusable sources to measure transformation cost and quality."
+  }
+}
