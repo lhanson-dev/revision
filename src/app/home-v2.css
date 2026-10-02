@@ -85,3 +85,6 @@
 .home-v2-rest-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .home-v2-rest-actions button { min-height: 48px; padding: 0 20px; border: 1px solid var(--rv-line); border-radius: 999px; background: var(--rv-surface); color: var(--rv-accent); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
 .home-v2-rest-actions button:focus-visible { outline: 2px solid var(--rv-teal); box-shadow: var(--rv-ring); }
+
+/* Confirms "Add to Thursday" in words, announced to screen readers. */
+.home-v2-plan-note { margin: 0; padding: 14px 18px; border-radius: var(--rv-radius-card); background: var(--rv-soft); color: var(--rv-text); font-weight: 700; font-size: 15px; line-height: 1.4; }

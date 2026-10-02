@@ -3,6 +3,14 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { PlannerItem, PlannerScheduledDay } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
+  loadPlannedSessions,
+  movePlannedSession,
+  removePlannedSession,
+  setPlannedSessionStatus,
+  type PlannedSession,
+  type PlannedSessionStatus,
+} from '../services/planning/planned-session-service'
+import {
   archiveAssessment,
   loadPlannerSetup,
   recordPlannerActivityEvent,
@@ -21,6 +29,9 @@ import { createCourseLearningState, createModuleLearningState, paperLabel, type 
 import { RevPresence } from './RevPresence'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
+import { activityWord, addDays, bookedMinutesByDate } from './accepted-sessions'
+import { dayKey as localDateKey } from './rev-suggestions'
+import { learnerCourseRoute, routeHash } from './navigation'
 import { resolveSubjectIdentity } from './subject-palette'
 import { subjectAccentKey } from './subject-accents'
 import { Button, EmptyState, Icon, LoadingState, PageHeader, SegmentedControl, SelectField, Status, SubjectBadge, Surface, TextField } from './ui'
@@ -139,6 +150,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [exceptions, setExceptions] = useState<RevisionAvailabilityException[]>([])
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
+  // Sessions the student accepted. Null means the table cannot be read yet, so Plan shows none and says nothing about it.
+  const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
+  const [moveOpenId, setMoveOpenId] = useState<string | null>(null)
+  const [moveDate, setMoveDate] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
@@ -195,6 +210,16 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return () => { active = false }
   }, [client, programme, userId])
 
+  // Accepted sessions load on their own so a slow or missing table never holds up the plan.
+  useEffect(() => {
+    let active = true
+    const startKey = localDateKey(new Date())
+    loadPlannedSessions(client, userId, startKey, addDays(startKey, 27))
+      .then((sessions) => { if (active) setPlannedSessions(sessions) })
+      .catch(() => { if (active) setPlannedSessions(null) })
+    return () => { active = false }
+  }, [client, userId])
+
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => assessments.filter((assessment) => {
     if (assessment.courseId) return activeCourseIds.has(assessment.courseId)
@@ -210,8 +235,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   )
 
   const snapshot = useMemo(
-    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences),
-    [learningStates, activeAssessments, availability, exceptions, preferences],
+    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, new Date(), plannedSessions ?? []),
+    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions],
   )
 
   const weekDays = snapshot?.schedule.slice(0, 7) ?? []
@@ -220,8 +245,12 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
   const setupComplete = !setupMissingExams && !setupMissingAvailability
+  const bookedByDate = useMemo(() => bookedMinutesByDate(plannedSessions ?? []), [plannedSessions])
+  // The planner works with the study time left after accepted sessions; the student sees their full study time for each day.
+  const dayCapacity = (day: PlannerScheduledDay) => day.availableMinutes + (bookedByDate.get(day.date) ?? 0)
+  const sessionsOn = (date: string) => (plannedSessions ?? []).filter((session) => session.plannedDate === date && session.status !== 'skipped')
   const currentWeekMinutes = weekDays.length > 0
-    ? weekDays.reduce((sum, day) => sum + day.availableMinutes, 0)
+    ? weekDays.reduce((sum, day) => sum + dayCapacity(day), 0)
     : totalWeeklyMinutes(availability)
 
   function updateWeeklyDay(day: keyof RevisionWeeklyAvailability, delta: number) {
@@ -341,6 +370,57 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     else onOpenCourses()
   }
 
+  function topicLabelFor(courseId: string, topicId: string) {
+    const state = learningStates.find((candidate) => courseIdForLearningState(candidate) === courseId && candidate.adapter.getTopic(topicId))
+    return state?.adapter.getTopic(topicId)?.shortTitle ?? topicId
+  }
+
+  function startSession(session: PlannedSession) {
+    const section = session.activityType === 'learn' ? 'learn' : session.activityType === 'exam_prep' ? 'exam-prep' : 'practice'
+    window.location.assign(routeHash(learnerCourseRoute(session.courseId, section)))
+  }
+
+  function replaceSession(updated: PlannedSession) {
+    setPlannedSessions((current) => (current ?? []).map((session) => (session.sessionId === updated.sessionId ? updated : session)))
+  }
+
+  async function changeSessionStatus(session: PlannedSession, status: PlannedSessionStatus) {
+    setMessage('')
+    try {
+      replaceSession(await setPlannedSessionStatus(client, userId, session.sessionId, status))
+      setMessage(status === 'done' ? 'Marked as done.' : status === 'skipped' ? 'Skipped. That topic can be suggested again.' : 'Back on your plan.')
+    } catch (error: unknown) {
+      setMessage(error instanceof Error ? error.message : 'Could not update that session.')
+    }
+  }
+
+  async function moveSession(session: PlannedSession) {
+    if (!moveDate) {
+      setMessage('Choose a day to move it to.')
+      return
+    }
+    setMessage('')
+    try {
+      replaceSession(await movePlannedSession(client, userId, session.sessionId, moveDate))
+      setMoveOpenId(null)
+      setMoveDate('')
+      setMessage('Moved.')
+    } catch (error: unknown) {
+      setMessage(error instanceof Error ? error.message : 'Could not move that session.')
+    }
+  }
+
+  async function deleteSession(session: PlannedSession) {
+    setMessage('')
+    try {
+      await removePlannedSession(client, userId, session.sessionId)
+      setPlannedSessions((current) => (current ?? []).filter((item) => item.sessionId !== session.sessionId))
+      setMessage('Removed from your plan.')
+    } catch (error: unknown) {
+      setMessage(error instanceof Error ? error.message : 'Could not remove that session.')
+    }
+  }
+
   function submitRevPrompt(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!onOpenRev) return
@@ -435,18 +515,52 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     </button>
   }
 
+  /** A session the student accepted: shown in the subject's colour, marked REV PICK when it came from a REV suggestion. */
+  function renderSession(session: PlannedSession, compact = false) {
+    const programmeCourse = programme.find((item) => item.course.id === session.courseId)
+    const subjectId = programmeCourse?.subject.id ?? ''
+    const name = programmeCourse?.subject.name ?? courseLabel(programme, session.courseId)
+    const { hue, mark } = resolveSubjectIdentity(subjectId, name)
+    const done = session.status === 'done'
+    const topic = topicLabelFor(session.courseId, session.topicId)
+    return <article className={`plan-task plan-session ${compact ? 'plan-task-compact' : ''}`} key={session.sessionId} data-status={session.status} data-added-by={session.addedBy} style={{ '--plan-solid': done ? 'var(--rv-surface)' : `var(--subject-${hue})`, '--plan-on': done ? 'var(--rv-text)' : `var(--subject-${hue}-on)` } as CSSProperties}>
+      <span className="plan-task-subject"><SubjectBadge hue={hue} mark={mark} size="plan" onSolid={!done} />{name}</span>
+      <strong>{topic}</strong>
+      <span>{activityWord(session.activityType)} · {session.minutes} mins</span>
+      <span className="plan-session-tags">
+        {session.addedBy === 'rev' && <span className="plan-session-tag"><RevPresence size="compact" decorative />REV pick</span>}
+        {done && <span className="plan-session-tag"><Icon name="check" size="compact" />Done</span>}
+      </span>
+      <details className="plan-session-menu">
+        <summary>Options<span className="sr-only"> for {topic}</span></summary>
+        <div className="plan-session-actions">
+          {!done && <Button size="compact" variant="secondary" onClick={() => startSession(session)}>Start</Button>}
+          {!done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'done')}>Mark done</Button>}
+          {done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'planned')}>Put back on plan</Button>}
+          <Button size="compact" variant="secondary" onClick={() => { setMoveOpenId(moveOpenId === session.sessionId ? null : session.sessionId); setMoveDate('') }} aria-expanded={moveOpenId === session.sessionId}>Move it</Button>
+          {moveOpenId === session.sessionId && <div className="plan-session-move">
+            <TextField label="Move to" type="date" min={todayIso} value={moveDate} onChange={(event) => setMoveDate(event.target.value)} />
+            <Button size="compact" onClick={() => void moveSession(session)}>Move</Button>
+          </div>}
+          {!done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'skipped')}>Skip</Button>}
+          <Button size="compact" variant="secondary" onClick={() => void deleteSession(session)}>Remove</Button>
+        </div>
+      </details>
+    </article>
+  }
+
   function renderDayView() {
     const day = weekDays[0]
     return <section className="plan-view-panel" aria-labelledby="plan-day-title">
-      <div className="plan-view-heading"><div><p className="eyebrow">Today</p><h2 id="plan-day-title">{day ? formatDate(day.date, { weekday: 'long', day: 'numeric', month: 'long' }) : 'Today'}</h2></div><strong>{day ? formatDuration(day.availableMinutes) : formatDuration(0)} available</strong></div>
-      {!day || day.items.length === 0 ? <EmptyState title="Nothing useful needs scheduling here yet" description="Revision will keep checking as your evidence, exam dates and available time change." /> : <div className="plan-day-list">{day.items.map((item) => renderTask(item))}</div>}
+      <div className="plan-view-heading"><div><p className="eyebrow">Today</p><h2 id="plan-day-title">{day ? formatDate(day.date, { weekday: 'long', day: 'numeric', month: 'long' }) : 'Today'}</h2></div><strong>{day ? formatDuration(dayCapacity(day)) : formatDuration(0)} available</strong></div>
+      {!day || (day.items.length === 0 && sessionsOn(day.date).length === 0) ? <EmptyState title="Nothing useful needs scheduling here yet" description="Revision will keep checking as your evidence, exam dates and available time change." /> : <div className="plan-day-list">{sessionsOn(day.date).map((session) => renderSession(session))}{day.items.map((item) => renderTask(item))}</div>}
     </section>
   }
 
   function renderWeekView() {
     return <section className="plan-view-panel" aria-labelledby="plan-week-title">
       <div className="plan-view-heading"><div><p className="eyebrow">Current outlook</p><h2 id="plan-week-title">{weekRange(weekDays)}</h2></div><span>Your plan will adapt as you work.</span></div>
-      {weekDays.length > 0 && weekDays.every((day) => day.items.length === 0) && (
+      {weekDays.length > 0 && weekDays.every((day) => day.items.length === 0 && sessionsOn(day.date).length === 0) && (
         <div className="plan-blank-card plan-blank-card--week">
           <RevPresence size="compact" decorative />
           <strong>Your week’s a blank page</strong>
@@ -456,8 +570,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       )}
       <div className="plan-week-grid">
         {weekDays.map((day) => <article className="plan-week-day" key={day.date} data-today={day.date === todayIso ? 'true' : undefined}>
-          <header><strong>{day.date === todayIso ? 'Today' : formatDate(day.date, { weekday: 'short' })}</strong><span className="plan-week-day-number">{formatDate(day.date, { day: 'numeric' })}</span><b>{formatDuration(day.availableMinutes)}</b></header>
-          <div className="plan-week-day-items">{day.items.length > 0 ? day.items.map((item) => renderTask(item, true)) : <p className="plan-no-task">No planned task</p>}</div>
+          <header><strong>{day.date === todayIso ? 'Today' : formatDate(day.date, { weekday: 'short' })}</strong><span className="plan-week-day-number">{formatDate(day.date, { day: 'numeric' })}</span><b>{formatDuration(dayCapacity(day))}</b></header>
+          <div className="plan-week-day-items">{day.items.length + sessionsOn(day.date).length > 0 ? <>{sessionsOn(day.date).map((session) => renderSession(session, true))}{day.items.map((item) => renderTask(item, true))}</> : <p className="plan-no-task">No planned task</p>}</div>
         </article>)}
       </div>
     </section>
@@ -472,6 +586,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
           const items = days.flatMap((day) => day.items)
           const bySubject = new Map<string, number>()
           items.forEach((item) => bySubject.set(item.subjectId, (bySubject.get(item.subjectId) ?? 0) + item.estimatedMinutes))
+          days.forEach((day) => sessionsOn(day.date).forEach((session) => {
+            const subjectId = programme.find((entry) => entry.course.id === session.courseId)?.subject.id
+            if (subjectId) bySubject.set(subjectId, (bySubject.get(subjectId) ?? 0) + session.minutes)
+          }))
           const focus = [...bySubject.entries()].sort((left, right) => right[1] - left[1]).slice(0, 3)
           const start = days[0]?.date ?? ''
           const end = days[days.length - 1]?.date ?? ''

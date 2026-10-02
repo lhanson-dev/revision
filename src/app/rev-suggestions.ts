@@ -124,8 +124,10 @@ export function rankSuggestions(
   assessments: readonly RevisionAssessment[],
   programme: readonly LearnerProgrammeCourse[],
   now: Date,
+  /** Topics already on the student's plan (course:topic). REV does not suggest what is already planned. */
+  alreadyPlanned: ReadonlySet<string> = new Set(),
 ): RevSuggestion[] {
-  const candidates = buildCandidates(states, assessments, now)
+  const candidates = buildCandidates(states, assessments, now).filter((candidate) => !alreadyPlanned.has(`${candidate.courseId}:${candidate.topicId}`))
   const topicName = (candidate: Candidate) => candidate.state.adapter.getTopic(candidate.topicId)?.shortTitle ?? 'this topic'
   const statusWord = (candidate: Candidate) => learningStatusMeta[candidate.status].label
   const out: RevSuggestion[] = []

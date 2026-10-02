@@ -100,3 +100,7 @@
 .rev-suggestion-card h3.rev-suggestion-card__title { color: var(--rv-on-deep); }
 .rev-suggestion-card p.rev-suggestion-card__reason { color: var(--rv-on-deep); }
 .rev-suggestion-card h3.rev-suggestion-card__title + p.rev-suggestion-card__reason { color: var(--rv-on-deep-muted); }
+
+/* "Add to Thursday": an outlined pill beside the main button. */
+.rev-suggestion-card__plan { min-height: 48px; padding: 0 20px; border: 2px solid var(--rv-teal); border-radius: var(--radius-pill); background: transparent; color: inherit; font: inherit; font-size: 15px; font-weight: 800; line-height: 1; cursor: pointer; }
+.rev-suggestion-card__plan:focus-visible { outline: 2px solid var(--rv-on-deep-label); outline-offset: 2px; }

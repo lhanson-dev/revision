@@ -31,6 +31,8 @@ export interface RevSuggestionCardProps {
   secondaryAction?: RevSuggestionAction
   /** A quiet third choice, e.g. "Not now". */
   tertiaryAction?: RevSuggestionAction
+  /** Puts the suggestion on the student's plan, e.g. "Add to Thursday". */
+  planAction?: RevSuggestionAction
   /** `hero` is the larger Home treatment with a headline and a big start button. */
   variant?: 'default' | 'hero'
   className?: string
@@ -42,7 +44,7 @@ const stepStateLabel: Record<RevSuggestionStepState, string> = {
   upcoming: 'Later',
 }
 
-export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction, secondaryAction, tertiaryAction, variant = 'default', className }: RevSuggestionCardProps) {
+export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction, secondaryAction, tertiaryAction, planAction, variant = 'default', className }: RevSuggestionCardProps) {
   return (
     <article className={classNames('rev-suggestion-card', variant === 'hero' && 'rev-suggestion-card--hero', className)}>
       <header className="rev-suggestion-card__head">
@@ -62,9 +64,10 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
           ))}
         </ol>
       )}
-      {(primaryAction || secondaryAction || tertiaryAction) && (
+      {(primaryAction || planAction || secondaryAction || tertiaryAction) && (
         <div className="rev-suggestion-card__actions">
           {primaryAction && <button type="button" className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}{variant === 'hero' && <Icon name="arrow-right" size="inline" />}</button>}
+          {planAction && <button type="button" className="rev-suggestion-card__plan" onClick={planAction.onClick}>{planAction.label}</button>}
           {secondaryAction && <button type="button" className="rev-suggestion-card__secondary" onClick={secondaryAction.onClick}>{secondaryAction.label}</button>}
           {tertiaryAction && <button type="button" className="rev-suggestion-card__secondary" onClick={tertiaryAction.onClick}>{tertiaryAction.label}</button>}
         </div>

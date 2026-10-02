@@ -151,6 +151,7 @@ jobs:
           supabase test db supabase/tests/learner-plan-assurance.test.sql
           supabase test db supabase/tests/starting-check-assurance.test.sql
           supabase test db supabase/tests/student-first-use-assurance.test.sql
+          supabase test db supabase/tests/learner-planned-sessions-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
       # The Supabase CLI pulls the Edge runtime from public ECR, whose anonymous
