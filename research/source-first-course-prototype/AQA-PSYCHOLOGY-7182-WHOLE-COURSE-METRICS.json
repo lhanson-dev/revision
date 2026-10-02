@@ -1,5 +1,5 @@
 {
-  "schemaVersion":1,
+  "schemaVersion":2,
   "status":"experimental_whole_course_metrics",
   "checkedDate":"2026-10-02",
   "course":"AQA A-level Psychology 7182",
@@ -10,36 +10,27 @@
     "sourceSupported":"sourceCoveredCandidate + partial; means the requirement is not being built from zero, not that it is complete."
   },
   "compulsory": {
-    "namedRequirements":71,
-    "reviewed":71,
+    "namedRequirements":71,"reviewed":71,
     "sourceCoveredCandidateBeforeRepresentativeBridgeClosure":33,
     "partialsBeforeRepresentativeBridgeClosure":38,
     "representativeSocialInfluencePartialsClosed":3,
-    "currentSourceCoveredCandidate":36,
-    "currentPartial":35,
-    "currentGap":0
+    "currentSourceCoveredCandidate":36,"currentPartial":35,"currentGap":0
   },
   "options": {
-    "namedRequirements":47,
-    "reviewed":47,
-    "sourceCoveredCandidate":18,
-    "partial":28,
-    "gap":1,
+    "namedRequirements":47,"reviewed":47,
+    "sourceCoveredCandidate":20,"partial":26,"gap":1,
     "groups": {
       "group1":{"requirements":14,"sourceCoveredCandidate":5,"partial":9,"gap":0},
       "group2":{"requirements":18,"sourceCoveredCandidate":8,"partial":10,"gap":0},
-      "group3":{"requirements":15,"sourceCoveredCandidate":5,"partial":9,"gap":1}
-    }
+      "group3":{"requirements":15,"sourceCoveredCandidate":7,"partial":7,"gap":1}
+    },
+    "difficultOptionClosure":"Forensic Psychology improved from 1 covered / 3 partial to 3 covered / 1 partial after targeted rights-clear evidence and alignment reconciliation."
   },
   "wholeCourse": {
-    "namedRequirements":118,
-    "reviewed":118,
-    "sourceCoveredCandidate":54,
-    "partial":63,
-    "gap":1,
-    "sourceSupported":117,
-    "sourceCoveredCandidatePercent":45.8,
-    "partialPercent":53.4,
+    "namedRequirements":118,"reviewed":118,
+    "sourceCoveredCandidate":56,"partial":61,"gap":1,"sourceSupported":117,
+    "sourceCoveredCandidatePercent":47.5,
+    "partialPercent":51.7,
     "gapPercent":0.8,
     "sourceSupportedPercent":99.2
   },
@@ -49,26 +40,23 @@
     "aiCreatedUnsupportedSubjectTruthPercent":0,
     "aiAssistedTransformationUsed":true,
     "elapsedWorkingTime":"not reliably measurable retrospectively across multi-chat governed execution",
-    "manualWorkObserved":[
-      "official course-scope extraction and paraphrase into stable requirement IDs",
-      "source discovery",
-      "source-rights verification",
-      "named-requirement mapping",
-      "targeted gap searches",
-      "provenance recording",
-      "conservative coverage classification"
-    ]
+    "manualWorkObserved":["official course-scope extraction and paraphrase into stable requirement IDs", "source discovery", "source-rights verification", "named-requirement mapping", "targeted gap searches", "provenance recording", "conservative coverage classification"]
   },
   "singleRemainingGap": {
     "requirementId":"PSY-17-06",
     "description":"Prochaska six-stage behaviour-change model",
-    "reason":"The model is easy to locate publicly, but the convenient explanatory sources inspected so far use non-commercial licences. A factual lead exists in the original research literature, but a commercial-compatible reusable source route has not yet been established.",
+    "reason":"The model is easy to locate factually, but convenient explanatory sources inspected so far use non-commercial licences. Original scholarly records confirm the model but have not been promoted to OPEN reusable corpus without a commercial-compatible rights basis.",
     "rejectedConvenientSources":["StatPearls CC BY-NC-ND", "Sussex/OpenPress CC BY-NC-SA"]
   },
+  "narrowRightsResidual": {
+    "requirementId":"PSY-16-04",
+    "description":"custodial token-economy treatment",
+    "reason":"A highly relevant 2026 forensic-inpatient study is openly available under a Creative Commons licence, but accessible metadata did not establish the exact licence flavour. It remains uncounted until commercial compatibility is verified."
+  },
   "interpretation": {
-    "positiveSignal":"117/118 named requirements already have some commercial-compatible reusable subject evidence. This strongly supports the hypothesis that Psychology does not need to be researched or generated from zero.",
-    "importantLimit":"Only 54/118 are source-complete candidates at the current evidence threshold. The other 63 source-supported requirements still need named-element synthesis or targeted source closure, so 99.2% source support must not be represented as 99.2% finished Foundation coverage.",
-    "specialistSignal":"Options are more fragmented than the compulsory representative topic. The likely production problem is targeted source orchestration and rights verification, not absence of reusable subject truth.",
-    "nextProof":"Resolve a small sample of option partials plus the single remaining gap, then measure transformation into structured Foundation nodes. If closure remains cheap, the useful next investment is automation of source discovery/rights/mapping rather than more general-purpose AI generation."
+    "positiveSignal":"117/118 named requirements already have some commercial-compatible reusable subject evidence. Targeted difficult-option work also moved two Forensic requirements from partial to source-covered without paid generation.",
+    "importantLimit":"Only 56/118 are source-complete candidates at the current threshold. Sixty-one source-supported requirements still need named-element synthesis or targeted source closure; 99.2% source support is not 99.2% finished Foundation coverage.",
+    "specialistSignal":"Options are more fragmented than the compulsory representative topic, but targeted searching can close specialist residuals. The likely production bottleneck is source orchestration and rights verification rather than absence of reusable subject truth.",
+    "nextProof":"Verify/resolve the token-economy rights residual and decide whether the Prochaska gap is best solved by a new OPEN source, a licensed source or a narrowly governed original bridge. Then build one difficult-option structured Foundation slice to measure transformation cost."
   }
 }
