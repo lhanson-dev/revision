@@ -133,6 +133,7 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Content Factory governing process (fast path) / frozen ADR-0028 architecture / what blocks / two-round limit / failure handling → `80-company-workflows/Content Factory Fast-Path Process.md` (adopted by `decisions/ADR-0029-content-factory-fast-path-and-architecture-freeze.md`; takes precedence over earlier Content Factory standards on those points)
+- Source-first course prototype experimental exception / independent prototype operating boundary → `80-company-workflows/Source-First Course Prototype Experimental Exception.md`; prototype method/evidence → `research/source-first-course-prototype/`
 - Content Factory run log (one line per fix or decision) → `content-factory/RUN_LOG.md`
 - AQA 7132 named specification items / item-level coverage check and current gap report → `research/aqa-business-7132/2027/NAMED_ITEMS.json`, `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`, `research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json`
 - AI session instructions for this repo (all tools) → `CLAUDE.md`, with `AGENTS.md` pointing to it for Codex and other agents
