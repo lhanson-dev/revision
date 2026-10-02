@@ -1,4 +1,5 @@
 import type { TopicKnowledgeBand } from '../engine/knowledge/topic-knowledge'
+import type { ModuleLearningState } from './catalogue-model'
 import type { LearningStatus } from './ui'
 
 /**
@@ -13,4 +14,17 @@ export function topicLearningStatus(band: TopicKnowledgeBand, hasAnsweredAnythin
     case 'low': return 'needswork'
     case 'not-enough-evidence': return hasAnsweredAnything ? 'started' : 'notstarted'
   }
+}
+
+/** How many of a course's topics are in each status (the Understanding measure). Every topic is counted once. */
+export function understandingCounts(states: readonly ModuleLearningState[]): Partial<Record<LearningStatus, number>> {
+  const counts: Partial<Record<LearningStatus, number>> = {}
+  states.forEach((state) => {
+    state.topicKnowledge.topics.forEach((topic) => {
+      const answered = state.evidence.some((item) => item.topicId === topic.topicId)
+      const status = topicLearningStatus(topic.band, answered)
+      counts[status] = (counts[status] ?? 0) + 1
+    })
+  })
+  return counts
 }

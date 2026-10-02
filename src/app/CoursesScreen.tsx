@@ -7,8 +7,8 @@ import {
   type LearnerCourseMembership,
 } from '../services/courses/learner-course-service'
 import type { CatalogueSubject } from './catalogue-model'
-import { assignSubjectColours, subjectInitials } from './home-view'
 import type { CSSProperties } from 'react'
+import { resolveSubjectIdentity } from './subject-palette'
 import { allCatalogueCourses, projectLearnerProgramme } from './learner-programme'
 import { Button, EmptyState, ModalShell, OverlayBackdrop, Status, TextField } from './ui'
 
@@ -51,12 +51,6 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
     })
   }, [activeIds, allCourses, query])
 
-  const subjectColours = useMemo(() => assignSubjectColours(programme.courses.map((item) => item.subject.id)), [programme.courses])
-  const initialsBySubject = useMemo(() => {
-    const subjects = [...new Map(programme.courses.map((item) => [item.subject.id, item.subject.name])).entries()]
-    const letters = subjectInitials(subjects.map(([, name]) => name))
-    return new Map(subjects.map(([id], index) => [id, letters[index]]))
-  }, [programme.courses])
   const boardCount = new Set(programme.courses.map((item) => item.course.examBoardName)).size
 
   const pendingRemoval = programme.courses.find((item) => item.course.id === removeCourseId)
@@ -164,10 +158,12 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
         />
       ) : (
         <section className="courses-grid" aria-label="Your active courses">
-          {programme.courses.map(({ course, subject, label }) => (
+          {programme.courses.map(({ course, subject, label }) => {
+            const { hue, mark } = resolveSubjectIdentity(subject.id, subject.name)
+            return (
             <article className="course-card courses-programme-card" key={course.id}>
-              <div className="courses-tile" aria-hidden="true" style={{ '--tile-fill': subjectColours.get(subject.id)?.fill, '--tile-text': subjectColours.get(subject.id)?.text } as CSSProperties}>
-                <b>{initialsBySubject.get(subject.id)}</b>
+              <div className="courses-tile" aria-hidden="true" style={{ '--tile-fill': `var(--subject-${hue})`, '--tile-text': `var(--subject-${hue}-on)` } as CSSProperties}>
+                <b>{mark}</b>
                 <span>{course.examBoardName}<br />{course.qualificationName}</span>
               </div>
               <div className="courses-programme-card-copy">
@@ -181,7 +177,8 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
                 <Button onClick={() => onOpenCourse(course.id, 'courses_index')}>Open course</Button>
               </div>
             </article>
-          ))}
+            )
+          })}
         </section>
       )}
 

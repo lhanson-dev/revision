@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
-import { topicKnowledgeLabel } from '../engine/knowledge/topic-knowledge'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
 import {
@@ -26,8 +25,9 @@ import {
 } from './catalogue-model'
 import { findCatalogueCourse } from './learner-programme'
 import type { PaperSection } from './navigation'
-import { assignSubjectColours } from './home-view'
-import { Button, LoadingState, RevSuggestionCard, Status } from './ui'
+import { resolveSubjectIdentity } from './subject-palette'
+import { topicLearningStatus, understandingCounts } from './topic-status'
+import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge, SubjectBadge } from './ui'
 
 type CourseExperienceScreenProps = {
   client: SupabaseClient
@@ -254,13 +254,13 @@ export function CourseExperienceScreen({
     const recommendationTopic = state.recommendationTopic
     const recommendationSection: CourseSection = recommendation?.activity === 'exam-question' ? 'exam-prep' : 'practice'
     const nextExam = findNextCourseExam(examAssessments, course, catalogue, memberships)
-    const activeSubjectIds = catalogue.filter((item) => item.courses.some((candidate) => memberships.some((membership) => membership.courseId === candidate.id))).map((item) => item.id)
-    const subjectColour = assignSubjectColours(activeSubjectIds.includes(subject.id) ? activeSubjectIds : [...activeSubjectIds, subject.id]).get(subject.id)
+    const { hue, mark } = resolveSubjectIdentity(subject.id, subject.name)
+    const understanding = understandingCounts([state])
     const weakSpots = state.topicKnowledge.topics
       .filter((item) => item.band === 'low')
       .sort((left, right) => (left.score ?? 0) - (right.score ?? 0))
       .slice(0, 3)
-      .map((item) => ({ topicId: item.topicId, score: item.score, title: adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId }))
+      .map((item) => ({ topicId: item.topicId, title: adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId }))
 
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
@@ -269,16 +269,27 @@ export function CourseExperienceScreen({
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
 
         {section === 'overview' && <div className="paper-section-content course-overview-content course-overview-v2">
-          <section className="course-overview-hero" aria-label={`${subject.name} at a glance`} style={{ '--tile-fill': subjectColour?.fill, '--tile-text': subjectColour?.text } as CSSProperties}>
-            <div>
-              <p className="course-overview-hero-eyebrow">{course.examBoardName} · {course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}</p>
-              <p className="course-overview-hero-facts">{topics.length} topics · {state.topicKnowledge.distribution.good} strong</p>
+          <section className="course-overview-hero" aria-label={`${subject.name} at a glance`} style={{ '--hero-solid': `var(--subject-${hue})`, '--hero-on': `var(--subject-${hue}-on)` } as CSSProperties}>
+            <div className="course-overview-hero-id">
+              <SubjectBadge hue={hue} mark={mark} size="panel" onSolid />
+              <div>
+                <p className="course-overview-hero-eyebrow">{course.examBoardName} · {course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}</p>
+                <p className="course-overview-hero-facts">{subject.name} · {topics.length} topics</p>
+              </div>
             </div>
             <dl className="course-overview-hero-stats">
-              <div><dt>Exam readiness</dt><dd>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</dd></div>
               <div><dt>Exam date</dt><dd>{examDateStatus === 'ready' && nextExam ? examCountdownShort(nextExam.assessmentDate) : 'Not set'}</dd></div>
             </dl>
           </section>
+
+          <ProgressMeasures
+            hue={hue}
+            covered={state.evidencedTopics}
+            total={state.topicCount}
+            understanding={understanding}
+            readiness={state.readiness.score === null ? null : `${state.readiness.score}%`}
+            readinessNote={state.readiness.score === null ? state.readiness.progress.nextStep : `Worked out from ${state.readiness.evidenceCount} scored attempts across ${state.readiness.familyCount} kinds of activity. Confidence: ${state.readiness.confidence}.`}
+          />
 
           <div className="course-overview-columns">
             <section className="course-overview-path" aria-labelledby="course-topics-title">
@@ -290,7 +301,7 @@ export function CourseExperienceScreen({
                   const isNext = recommendation?.topicId === topic.id
                   return <li key={topic.id} data-band={band} data-next={isNext ? 'true' : undefined}>
                     <span className="course-overview-path-mark" aria-hidden="true">{band === 'good' ? '✓' : index + 1}</span>
-                    <span className="course-overview-path-copy"><strong>{topic.shortTitle}</strong><small>Topic knowledge · {topicKnowledgeLabel(band)}</small></span>
+                    <span className="course-overview-path-copy"><strong>{topic.shortTitle}</strong><StatusBadge status={topicLearningStatus(band, state.evidence.some((entry) => entry.topicId === topic.id))} size="sm" /></span>
                     {isNext && sections.includes(recommendationSection) && <Button size="compact" onClick={() => onOpenCourseSection(course.id, recommendationSection)}>Continue</Button>}
                   </li>
                 })}
@@ -301,7 +312,7 @@ export function CourseExperienceScreen({
               {weakSpots.length > 0 && <section className="course-overview-weak" aria-labelledby="course-weak-title">
                 <h2 id="course-weak-title">Weak spots</h2>
                 <ul>
-                  {weakSpots.map((item) => <li key={item.topicId}><span>{item.title}</span><b>{item.score === null ? 'Low' : `${Math.round(item.score)}%`}</b><span className="course-overview-weak-bar" aria-hidden="true"><span style={{ width: `${item.score ?? 0}%` }} /></span></li>)}
+                  {weakSpots.map((item) => <li key={item.topicId}><span>{item.title}</span><StatusBadge status="needswork" size="sm" /></li>)}
                 </ul>
                 {sections.includes('practice') && <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'practice')}>Practise these</Button>}
               </section>}
