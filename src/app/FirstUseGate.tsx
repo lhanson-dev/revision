@@ -40,6 +40,7 @@ import { buildCatalogue, type CatalogueCourse } from './catalogue-model'
 import { allCatalogueCourses, findCatalogueCourse } from './learner-programme'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 import { OnboardingCourseChoice } from './OnboardingCourseChoice'
+import { OnboardingPlanSetup } from './OnboardingPlanSetup'
 import { BrandAsset, Button, Icon, SelectField, Status } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
@@ -178,6 +179,8 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
   const [loadedEvidenceKey, setLoadedEvidenceKey] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  /** Courses just added, while the student sets exam dates and study time before the first plan. */
+  const [planSetupCourseIds, setPlanSetupCourseIds] = useState<string[] | null>(null)
   const [startingOption, setStartingOption] = useState<number | null>(null)
   const [overrideTopicId, setOverrideTopicId] = useState('')
   const [showAlternatives, setShowAlternatives] = useState(false)
@@ -342,10 +345,23 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
       }
       setMemberships(added)
       setLoadedEvidenceKey('')
-      setAccountState(await setFirstUseStage(supabase, user.id, 'course_ready'))
+      setPlanSetupCourseIds(added.map((item) => item.courseId))
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : 'Could not add that course.')
       void recordFirstUseEventBestEffort(supabase, user.id, 'onboarding_error', firstCourseId, { stage: 'course' })
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function finishPlanSetup() {
+    if (!user) return
+    setBusy(true)
+    try {
+      setAccountState(await setFirstUseStage(supabase, user.id, 'course_ready'))
+      setPlanSetupCourseIds(null)
+    } catch (reason: unknown) {
+      setError(reason instanceof Error ? reason.message : 'Could not continue.')
     } finally {
       setBusy(false)
     }
@@ -503,6 +519,18 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
             <ExperienceChoice title="Parent" description="Support a Student and understand how revision is going." available={false} />
             <ExperienceChoice title="Teacher" description="Support classes and Students with Revision." available={false} />
           </div>
+        </section>
+      </main>
+    )
+  }
+
+  if (planSetupCourseIds && user) {
+    const chosen = catalogueCourses.filter((item) => planSetupCourseIds.includes(item.course.id))
+    return (
+      <main className="first-use-shell" data-theme={theme}>
+        <BrandAsset asset="wordmark" className="first-use-brand" alt="Revision" />
+        <section className="first-use-card first-use-course-screen" aria-labelledby="first-course-heading">
+          <OnboardingPlanSetup client={supabase} userId={user.id} courses={chosen} onDone={() => void finishPlanSetup()} />
         </section>
       </main>
     )

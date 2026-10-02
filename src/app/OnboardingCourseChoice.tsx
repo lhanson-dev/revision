@@ -51,7 +51,7 @@ export function OnboardingCourseChoice({ courses, learner, busy, error, onAdd }:
       <div className="first-use-heading">
         <p className="eyebrow">Welcome, {learner}</p>
         <h1 id="first-course-heading">Add your courses</h1>
-        <p className="onb-choice__step">Step {stepNumber} of 3</p>
+        <p className="onb-choice__step">Step {stepNumber} of 5</p>
       </div>
       <div className="first-use-rev-note"><strong>REV</strong><span>I only need enough to get you into useful revision. You can add more courses later.</span></div>
       {error && <Status tone="error">{error}</Status>}

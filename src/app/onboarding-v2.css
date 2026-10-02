@@ -17,3 +17,13 @@
 .onb-choice__subject > legend { display: flex; align-items: center; gap: 10px; padding: 0 6px; font-weight: 800; }
 .onb-choice__single { margin: 0; font-weight: 700; color: var(--rv-text); overflow-wrap: anywhere; }
 .onb-choice__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Steps 4 and 5: exam dates and weekly study time. */
+.onb-dates { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.onb-time { display: grid; gap: 8px; }
+.onb-time__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 6px 16px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.onb-time__row--all { border-style: dashed; }
+.onb-time__stepper { display: flex; align-items: center; gap: 10px; }
+.onb-time__stepper span { min-width: 72px; text-align: center; font-weight: 800; }
+.onb-time__stepper button { width: 48px; height: 48px; border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); background: var(--rv-surface); color: var(--rv-text); font: inherit; font-size: 22px; font-weight: 800; cursor: pointer; }
+.onb-time__stepper button:focus-visible { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
