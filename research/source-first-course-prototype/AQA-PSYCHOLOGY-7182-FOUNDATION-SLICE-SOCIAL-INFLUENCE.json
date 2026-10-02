@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_foundation_slice",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "topic": "Social influence",
+  "purpose": "Test source-first transformation from reusable corpus evidence into structured subject knowledge without creating learner-facing copy.",
+  "scopePolicy": {
+    "aqaRole": "REFERENCE_ONLY alignment",
+    "teachingTruthRole": "OPEN reusable sources only",
+    "publicationStatus": "not learner-ready"
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-01-01",
+      "bridgeClass": "small_bridge",
+      "status": "experimental_structured_candidate",
+      "structuredKnowledge": {
+        "coreConcepts": [
+          "Conformity involves changing behaviour or expressed judgement in response to real or perceived group pressure.",
+          "Normative social influence arises from wanting social approval or avoiding rejection.",
+          "Informational social influence arises when a person treats others as evidence about what is correct, especially under uncertainty.",
+          "Asch-style conformity varies with majority size and unanimity; dissent can substantially reduce conformity."
+        ],
+        "bridgeNeeded": [
+          "Explicitly distinguish compliance from internalisation in the final course treatment.",
+          "Add the task-difficulty effect using a rights-clear source or independently verified research evidence."
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["conformity", "normative influence", "informational influence", "Asch majority size", "unanimity/dissent"]
+        }
+      ]
+    },
+    {
+      "requirementId": "PSY-01-02",
+      "bridgeClass": "medium_bridge",
+      "status": "experimental_structured_candidate_with_open_items",
+      "structuredKnowledge": {
+        "coreConcepts": [
+          "Milgram's obedience studies demonstrated that ordinary participants could obey an authority figure even when the instructed action appeared harmful.",
+          "Situational conditions alter obedience: proximity to the learner and physical location of the study affect compliance with the authority's instructions.",
+          "Remote or less immediate authority can reduce obedience relative to direct, proximal authority."
+        ],
+        "bridgeNeeded": [
+          "Agentic-state explanation.",
+          "Legitimacy-of-authority explanation.",
+          "Uniform as a situational variable.",
+          "Authoritarian-personality explanation."
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Milgram obedience", "location", "proximity/contact", "remote authority"]
+        }
+      ]
+    },
+    {
+      "requirementId": "PSY-01-03",
+      "bridgeClass": "small_bridge",
+      "status": "experimental_structured_candidate_with_open_item",
+      "structuredKnowledge": {
+        "coreConcepts": [
+          "Locus of control describes whether a person tends to attribute outcomes primarily to their own actions or to external forces.",
+          "An internal locus of control is associated with a stronger sense of personal agency than an external locus of control."
+        ],
+        "bridgeNeeded": [
+          "Connect locus of control and social support specifically to resistance to social influence using a rights-clear source."
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/learning-approaches/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["internal locus of control", "external locus of control"]
+        }
+      ]
+    },
+    {
+      "requirementId": "PSY-01-04",
+      "bridgeClass": "none",
+      "status": "experimental_structured_candidate",
+      "structuredKnowledge": {
+        "coreConcepts": [
+          "Minority influence depends strongly on the behavioural style of the minority rather than simply its size.",
+          "Consistency over time and internal agreement make a minority position appear stable and deliberate.",
+          "Commitment or investment in a position can signal that the minority view is sincerely held rather than opportunistic.",
+          "Influence is weakened when consistency becomes rigid; some openness and flexibility can make the minority more persuasive while preserving a coherent position."
+        ],
+        "bridgeNeeded": []
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.911654",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["temporal consistency", "internal consensus", "investment/commitment", "open-mindedness/flexibility"]
+        }
+      ]
+    }
+  ],
+  "sliceMetrics": {
+    "namedRequirements": 4,
+    "noBridge": 1,
+    "smallBridge": 2,
+    "mediumBridge": 1,
+    "sourceGap": 0,
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0,
+    "manualInterventions": [
+      "Official AQA scope checked and paraphrased into structured requirement IDs.",
+      "Reusable-source rights verified before evidence was counted.",
+      "Source claims were separated from unresolved bridge items instead of generating missing content."
+    ]
+  },
+  "prototypeLearning": {
+    "works": [
+      "Open sources can be transformed directly into a reusable structured subject layer for substantial portions of a topic.",
+      "A requirement can remain usable even when one or more AQA-specific named elements need a bridge; covered material does not need to be regenerated.",
+      "Rights and provenance can remain attached at requirement level without adopting the existing Content Factory orchestration."
+    ],
+    "notYetProven": [
+      "Quality of the final learner-facing explanation.",
+      "Cost and reliability of producing the remaining bridge content at whole-course scale.",
+      "Whether all option topics show the same favourable source-first economics."
+    ],
+    "nextStep": "Resolve the open bridge items for this slice with the cheapest valid route, then transform the completed slice into one representative Foundation node set and measure the amount of original synthesis required."
+  }
+}
