@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94",
+  "foundation_fingerprint": "fcaf7020618f5354d1bf7b17473126335734f929f33551ea8276f6eab9ca7560",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -50,6 +50,10 @@
       "status": "covered",
       "taught_by": [
         {
+          "node": "BUS-FND-001",
+          "matched": "mission"
+        },
+        {
           "node": "BUS-FND-005",
           "matched": "mission statement"
         }
@@ -64,7 +68,7 @@
       "taught_by": [
         {
           "node": "BUS-FND-001",
-          "matched": "objectives"
+          "matched": "mission and objectives"
         },
         {
           "node": "BUS-FND-005",
@@ -1434,7 +1438,7 @@
       "taught_by": [
         {
           "node": "BUS-OPS-001",
-          "matched": "sustainab"
+          "matched": "environmental objective"
         },
         {
           "node": "BUS-EXT-006",
