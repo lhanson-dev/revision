@@ -39,6 +39,18 @@ const targetedShortAnswerBrief = (group: BlueprintItem[]): string | null => {
   return null
 }
 
+const targetedPairBrief = (group: BlueprintItem[]): string | null => {
+  const suffixes = group.map(suffixOf)
+  const is = (...wanted: string[]) => suffixes.length === wanted.length && wanted.every((value, index) => suffixes[index] === value)
+  if (is('social-enterprise', 'limited-and-unlimited-liability')) return 'Short answer: give a business-form context that requires the student to use both social-enterprise knowledge and limited/unlimited liability. Do not state the relevant ownership/liability conclusion in the scenario. Ask for an explanation that connects the organisation purpose or reinvestment model to the liability consequence. The mark scheme must credit any valid explanation route that answers the question rather than requiring one stock phrase.'
+  if (is('ordinary-share-capital', 'role-of-shareholders-and-why-they-invest')) return 'Short answer: give a shareholder-investment context and ask the student to explain why an investor might buy ordinary shares. The answer must require ordinary-share-capital/shareholder knowledge. The mark scheme must accept valid routes such as dividends, capital gain from a higher share price, ownership/voting influence where relevant, and other supported shareholder-return reasons; do not require one preselected benefit.'
+  if (is('government-enterprise-policy', 'role-of-regulators')) return 'Short answer: give a business context involving government support and a separate regulatory constraint, but do not name or describe the regulator role so explicitly that the target knowledge is supplied. Ask the student to explain one effect of government enterprise policy and one role of a regulator. The mark scheme must require the student to supply and apply the regulator function.'
+  if (is('globalisation', 'emerging-economies')) return 'Short answer: give a global expansion context involving a recognisable emerging economy without stating the opportunity. Ask the student to explain one opportunity created by growth in an emerging economy and connect it to globalisation. A generic overseas-growth answer is insufficient: the mark scheme must require an emerging-economy mechanism such as rising incomes, urbanisation, market growth or expanding consumer demand applied to the context.'
+  if (is('exporting', 'licensing')) return 'Short answer: give an international-entry context in which licensing is a plausible route, but do not describe the arrangement using wording that effectively defines licensing or gives the answer away. Ask the student to explain why licensing rather than exporting could be suitable. The mark scheme must require the learner to supply licensing knowledge and apply a valid advantage or trade-off to the context.'
+  if (is('multinationals', 'local-responsiveness-versus-cost-reduction-pressure')) return 'Short answer: give a business operating across several countries, but do not state the definition or label multinational. Ask the student to explain how being a multinational creates a tension between local responsiveness and cost reduction. The mark scheme must require multinational knowledge plus an applied explanation of adaptation versus standardisation/cost pressure, not reward repeating a fact supplied by the scenario.'
+  return null
+}
+
 // Formula questions: a formula that feeds another formula in the same node (the second needs the first's answer as an input) goes in one 4-mark question;
 // the rest are single-formula questions, alternating between a 1-mark multiple choice (simple two-input formulas only) and a 3-mark short answer.
 function formulaDrafts(formulaItems: BlueprintItem[], soloCounter: { value: number }): Draft[] {
@@ -98,7 +110,7 @@ function otherDrafts(items: BlueprintItem[]): Draft[] {
   }
   for (let index = 0; index < remaining.length; index += 2) {
     const group = remaining.slice(index, index + 2)
-    drafts.push({ family: 'SHORT_ANSWER', marks: 4, commandWord: 'Explain', ao: ['AO1', 'AO2'], itemSuffixes: group.map(suffixOf), formulaIds: [], brief: targetedShortAnswerBrief(group) ?? `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.` })
+    drafts.push({ family: 'SHORT_ANSWER', marks: 4, commandWord: 'Explain', ao: ['AO1', 'AO2'], itemSuffixes: group.map(suffixOf), formulaIds: [], brief: targetedPairBrief(group) ?? targetedShortAnswerBrief(group) ?? `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.` })
   }
   for (let index = 0; index < skills.length; index += 2) {
     const group = skills.slice(index, index + 2)

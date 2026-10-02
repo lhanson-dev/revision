@@ -59,6 +59,9 @@ export function buildBatchBlueprints(input: {
   examYear: number
   // The blueprint already built for the first slice (3.5): its nodes are rebuilt in the top-up batch if they teach items from other sections.
   builtBlueprint: Blueprint
+  // Preserve an existing committed item owner when it remains a valid current teaching candidate.
+  // This prevents additive teaching improvements from reshuffling downstream question identities.
+  previousBlueprints?: Map<string, Blueprint>
 }) {
   const ckmIds = new Set(input.ckm.nodes.map((node) => node.id))
   const mappedBy = (prefixes: string[]) => unique(input.mapping.requirements
@@ -78,14 +81,26 @@ export function buildBatchBlueprints(input: {
   const builtId = input.config.already_built.id
   const builtSections = input.config.already_built.sections
   const taughtBy = new Map(input.coverage.map((entry) => [entry.id, (entry.taught_by ?? []).map((t) => t.node.toLowerCase()).filter((id) => ckmIds.has(id))]))
+  const previousOwner = new Map<string, string>()
+  for (const blueprint of input.previousBlueprints?.values() ?? []) {
+    for (const item of blueprint.items) {
+      const nodeId = item.taughtBy[0]
+      if (nodeId) previousOwner.set(item.id, nodeId)
+    }
+  }
   const itemOwner = new Map<string, string>()
   const uncovered: Array<{ id: string; builtNodes: string[] }> = []
   for (const item of input.namedItems) {
     if (builtSections.some((prefix) => item.section.startsWith(`${prefix}.`))) continue
     const candidates = taughtBy.get(item.id) ?? []
-    const fresh = candidates.find((id) => owner.get(id) !== builtId)
+    const previous = previousOwner.get(item.id)
+    const stablePrevious = previous && candidates.includes(previous) ? previous : undefined
+    const fresh = stablePrevious && owner.get(stablePrevious) !== builtId ? stablePrevious : candidates.find((id) => owner.get(id) !== builtId)
     if (fresh) itemOwner.set(item.id, fresh)
-    else uncovered.push({ id: item.id, builtNodes: candidates })
+    else {
+      const builtNodes = stablePrevious ? [stablePrevious, ...candidates.filter((id) => id !== stablePrevious)] : candidates
+      uncovered.push({ id: item.id, builtNodes })
+    }
   }
 
   const assemble = (batchId: string, sections: string[], nodeIds: string[], items: BlueprintItem[]): BatchBlueprint => {

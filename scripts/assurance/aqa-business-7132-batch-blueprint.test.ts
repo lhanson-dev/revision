@@ -20,8 +20,12 @@ function build() {
   const ckm = readJson<{ fingerprint: string; nodes: Array<{ id: string }> }>(CKM_PATH)
   const namedItems = readJson<{ items: NamedItem[] }>('research/aqa-business-7132/2027/NAMED_ITEMS.json').items
   const coverage = readJson<{ covered: CoverageEntry[] }>('research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json').covered
-  const result = buildBatchBlueprints({ config, ckm, namedItems, coverage, mapping, courseId: config.course_id, examYear: 2027, builtBlueprint: readJson<Blueprint>('content-factory/slices/aqa-7132-3.5/BLUEPRINT.json') })
-  return { config, ckm, namedItems, ...result }
+  const previousBlueprints = new Map<string, Blueprint>([
+    ...config.batches.map((batch) => [batch.id, readJson<Blueprint>(blueprintPath(batch.id))] as const),
+    [config.top_up.id, readJson<Blueprint>(blueprintPath(config.top_up.id))] as const,
+  ])
+  const result = buildBatchBlueprints({ config, ckm, namedItems, coverage, mapping, courseId: config.course_id, examYear: 2027, builtBlueprint: readJson<Blueprint>('content-factory/slices/aqa-7132-3.5/BLUEPRINT.json'), previousBlueprints })
+  return { config, ckm, namedItems, coverage, previousBlueprints, ...result }
 }
 
 describe('AQA 7132 course batch blueprints (software only)', () => {
@@ -42,6 +46,19 @@ describe('AQA 7132 course batch blueprints (software only)', () => {
     const assigned = [...built.blueprints.values()].flatMap((blueprint) => blueprint.items.map((item) => item.id))
     expect(new Set(assigned).size).toBe(assigned.length)
     expect(assigned.length + built.uncovered.length).toBe(outside.length)
+  })
+
+  it('preserves a committed item owner while it remains a valid current teaching candidate', () => {
+    const candidatesByItem = new Map(built.coverage.map((entry) => [entry.id, (entry.taught_by ?? []).map((candidate) => candidate.node.toLowerCase())]))
+    for (const previous of built.previousBlueprints.values()) {
+      for (const item of previous.items) {
+        if (built.config.already_built.sections.some((prefix) => item.section.startsWith(`${prefix}.`))) continue
+        const owner = item.taughtBy[0]
+        if (!owner || !(candidatesByItem.get(item.id) ?? []).includes(owner)) continue
+        const currentOwner = built.itemOwner.get(item.id) ?? built.uncovered.find((entry) => entry.id === item.id)?.builtNodes[0]
+        expect(currentOwner, item.id).toBe(owner)
+      }
+    }
   })
 
   it('rebuilds the already-built nodes that teach items from other sections, in a top-up batch', () => {

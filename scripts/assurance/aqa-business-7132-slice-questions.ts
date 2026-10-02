@@ -130,17 +130,26 @@ const magnitudeMultiplier = {
 } as const
 
 // Every number written in the text, as a value. Commas, currency and percent signs are ignored;
-// explicit magnitude words are normalised so £61.20 million is compared as 61,200,000.
+// explicit magnitude words are normalised so £61.20 million is returned as 61,200,000.
+// A minus sign before a currency symbol is preserved, so -£60,000 is parsed as -60,000 rather than +60,000.
 export function numbersIn(text: string): number[] {
-  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi)]
+  return [...text.matchAll(/([\-−]?)\s*[£$€]?\s*(\d[\d,]*(?:\.\d+)?)(?:\s*(thousand|million|billion)\b)?/gi)]
     .map((match) => {
-      const numeric = match[0].match(/-?\d[\d,]*(?:\.\d+)?/)
-      if (!numeric) return Number.NaN
-      const base = Number(numeric[0].replace(/,/g, ''))
-      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
+      const sign = match[1] ? -1 : 1
+      const base = sign * Number(match[2].replace(/,/g, ''))
+      const magnitude = match[3]?.toLowerCase() as keyof typeof magnitudeMultiplier | undefined
       return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)
     })
     .filter((value) => Number.isFinite(value))
+}
+
+// Calculation inputs may intentionally use the same displayed magnitude unit. Keep numbersIn() canonical,
+// but accept both the fully normalised and same-unit shorthand representations when proving input presence.
+function inputNumbersIn(text: string): number[] {
+  const shorthand = [...text.matchAll(/([\-−]?)\s*[£$€]?\s*(\d[\d,]*(?:\.\d+)?)\s*(thousand|million|billion)\b/gi)]
+    .map((match) => (match[1] ? -1 : 1) * Number(match[2].replace(/,/g, '')))
+    .filter((value) => Number.isFinite(value))
+  return [...numbersIn(text), ...shorthand]
 }
 
 function questionText(question: Question) {
@@ -194,7 +203,7 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   const calcFormulas = question.calcs.map((calc) => calc.formula_id)
   for (const formulaId of spec.formulaIds.filter((formula) => !calcFormulas.includes(formula))) findings.push(softwareFinding('plan_formula_missing', [id], `no calculation for planned formula ${formulaId}`, `Add a calculation using ${formulaId}.`))
   for (const calc of question.calcs.filter((c) => !spec.formulaIds.includes(c.formula_id))) findings.push(softwareFinding('plan_formula_unexpected', [id], `calculation uses ${calc.formula_id}, which this question does not test`, 'Only calculate the planned formulas.'))
-  const stemNumbers = numbersIn(questionText(question))
+  const stemNumbers = inputNumbersIn(questionText(question))
   const schemeNumbers = numbersIn(markSchemeText(question))
   for (const calc of question.calcs) {
     const problem = checkCalculation(calc)
