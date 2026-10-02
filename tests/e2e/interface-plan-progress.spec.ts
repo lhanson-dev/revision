@@ -167,31 +167,25 @@ test('Plan missing-input state uses the governed interface grammar and asks only
   await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Progress by course' })).toBeVisible()
 
-  const scoredActivities = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').filter({ hasText: 'Scored activities' })
-  await expect(scoredActivities).toBeVisible()
-  await expect(scoredActivities.locator('strong')).toHaveText('0')
+  // Every Progress screen opens with a plain sentence and the three separate measures.
+  const main = page.locator('main[aria-labelledby="global-progress-title"]')
+  await expect(main.getByRole('region', { name: 'Progress summary' })).toBeVisible()
+  await expect(main.getByRole('heading', { name: 'Topics covered' }).first()).toBeVisible()
+  await expect(main.getByRole('heading', { name: 'Understanding' }).first()).toBeVisible()
+  await expect(main.getByRole('heading', { name: 'Exam readiness' }).first()).toBeVisible()
 
   const progressSection = page.locator('main[aria-labelledby="global-progress-title"] > .home-section').first()
   await expect(progressSection).toHaveCSS('border-top-width', '0px')
   await expect(progressSection).toHaveCSS('box-shadow', 'none')
   await expect(progressSection).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
 
-  const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
-  // Redesign v2: with no evidence yet the tiles are the dashed empty state (no fill), with 24px corners.
-  await expect(summaryTile).toHaveCSS('border-radius', '24px')
-  await expect(summaryTile).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
-  await expect(summaryTile).toHaveCSS('box-shadow', 'none')
-
-  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
+  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .progress-course-card').first()
   await expect(courseCard).toHaveCSS('border-radius', '24px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
 
-  const progressAction = courseCard.getByRole('button', { name: 'Open course progress' })
-  await expect(progressAction).toHaveClass(/ui-button--primary/)
+  const progressAction = courseCard.getByRole('button', { name: /^Open .* progress$/ })
   await expect(progressAction).toHaveCSS('min-height', '48px')
   await expect(progressAction).toHaveCSS('border-radius', '14px')
-  await expect(progressAction).toHaveCSS('background-color', 'rgb(43, 182, 163)')
-  await expect(progressAction).toHaveCSS('color', 'rgb(19, 32, 38)')
   await expectNoPageOverflow(page)
 })
 
@@ -240,12 +234,8 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)
-  const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
-  await expect(summaryTile).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
-  await expect(summaryTile).toHaveCSS('border-radius', '24px')
-
-  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
-  await expect(courseCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
+  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .progress-course-card').first()
+  await expect(courseCard).toHaveCSS('background-color', 'rgb(18, 31, 36)')
   await expect(courseCard).toHaveCSS('border-radius', '24px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)

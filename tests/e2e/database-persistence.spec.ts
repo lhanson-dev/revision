@@ -96,11 +96,9 @@ test.describe('database-backed learner persistence', () => {
     await page.reload()
     await expect(page.locator('.practice-workspace')).toBeVisible()
     await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Progress' }).click()
-    await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
-
-    const scoredActivities = page.locator('.progress-overview article').filter({ hasText: 'Scored activities' })
-    await expect(scoredActivities.locator('strong')).toHaveText('1')
-    await expect(page.getByText(/1 scored activity/).first()).toBeVisible()
+    await expect(page.getByRole('region', { name: 'Progress summary' })).toBeVisible()
+    await expect(page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).locator('.ui-progress-measure__number')).toHaveText('1')
+    await expect(page.getByText(/^\d+ answers?$/).first()).toBeVisible()
 
     // Removal changes active programme context but must not erase learning history.
     await page.goto(`${appPath}#/courses`)
@@ -132,6 +130,6 @@ test.describe('database-backed learner persistence', () => {
     await readdDialog.getByRole('listitem').filter({ hasText: 'AQA AS Business' }).getByRole('button', { name: 'Add' }).click()
     await page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first().getByRole('button', { name: 'Open course' }).click()
     await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Progress' }).click()
-    await expect(page.locator('.progress-overview article').filter({ hasText: 'Scored activities' }).locator('strong')).toHaveText('1')
+    await expect(page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).locator('.ui-progress-measure__number')).toHaveText('1')
   })
 })

@@ -23,7 +23,9 @@ import {
   type CourseSection,
   type ModuleLearningState,
 } from './catalogue-model'
-import { findCatalogueCourse } from './learner-programme'
+import { findCatalogueCourse, type LearnerProgrammeCourse } from './learner-programme'
+import { ProgressIntro } from './ProgressIntro'
+import { nextProgressAction, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor, type ProgressNextAction } from './progress-summary'
 import type { PaperSection } from './navigation'
 import { resolveSubjectIdentity } from './subject-palette'
 import { topicLearningStatus, understandingCounts } from './topic-status'
@@ -132,13 +134,39 @@ function withPreferredTopic(adapter: LearningContentAdapter, topicId?: string | 
   }
 }
 
-function ProgressSummary({ state, label }: { state: ModuleLearningState; label: string }) {
+function ProgressPanel({ states, programmeCourse, topics, onAction }: {
+  states: readonly ModuleLearningState[]
+  programmeCourse: LearnerProgrammeCourse
+  topics: ReturnType<LearningContentAdapter['listTopics']>
+  onAction: (action: ProgressNextAction) => void
+}) {
+  const [now] = useState(() => new Date())
+  const measures = progressMeasuresFor(states)
+  const readiness = states.length === 1 ? readinessFor(states[0]) : readinessAcross(states)
+  const action = nextProgressAction(states, [programmeCourse], now)
+  const { hue } = resolveSubjectIdentity(programmeCourse.subject.id, programmeCourse.subject.name)
+  const knowledge = new Map(states.flatMap((state) => state.topicKnowledge.topics.map((item) => [item.topicId, { band: item.band, answered: state.evidence.some((entry) => entry.topicId === item.topicId), count: state.evidence.filter((entry) => entry.topicId === item.topicId).length }] as const)))
   return (
-    <div className="progress-overview">
-      <article><small>Evidence coverage</small><strong>{state.evidencedTopics} / {state.topicCount}</strong><p>Topics with at least one recorded learning result.</p></article>
-      <article><small>Scored activities</small><strong>{state.readiness.evidenceCount}</strong><p>Evidence used by this readiness model.</p></article>
-      <article><small>{label}</small><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong><p>{state.readiness.score === null ? 'More varied evidence is needed before showing a score.' : `${state.readiness.confidence} confidence based on the evidence available.`}</p></article>
-    </div>
+    <>
+      <ProgressIntro sentence={progressSummarySentence(measures, action?.topicName ?? null)} action={action} onAction={onAction} />
+      <ProgressMeasures hue={hue} covered={measures.covered} total={measures.total} understanding={measures.understanding} readiness={readiness.value} readinessNote={readiness.note} />
+      <section className="home-section" aria-labelledby="course-topic-progress-title">
+        <div className="section-heading"><div><p className="eyebrow">Topic by topic</p><h2 id="course-topic-progress-title">Where you are in each topic</h2></div></div>
+        <ul className="progress-topic-list">
+          {topics.map((topic) => {
+            const item = knowledge.get(topic.id)
+            const status = topicLearningStatus(item?.band ?? 'not-enough-evidence', item?.answered ?? false)
+            const count = item?.count ?? 0
+            return (
+              <li key={topic.id}>
+                <span className="progress-topic-list__name"><strong>{topic.shortTitle}</strong><small>{count === 0 ? 'No answers yet' : `${count} ${count === 1 ? 'answer' : 'answers'}`}</small></span>
+                <StatusBadge status={status} size="sm" />
+              </li>
+            )
+          })}
+        </ul>
+      </section>
+    </>
   )
 }
 
@@ -349,9 +377,7 @@ export function CourseExperienceScreen({
         </div>}
 
         {section === 'progress' && <div className="paper-section-content">
-          <section className="progress-section-heading"><p className="eyebrow">{label} progress</p><h2>What the evidence says</h2><p>Shared syllabus coverage is counted once at course level. Exam attempts from individual papers still contribute evidence to the course picture.</p></section>
-          <ProgressSummary state={state} label="Course readiness" />
-          <section className="home-section" aria-labelledby="course-topic-progress-title"><div className="section-heading"><div><p className="eyebrow">Topic evidence</p><h2 id="course-topic-progress-title">Where you have evidence</h2></div></div><div className="topic-list-grid">{topics.map((topic) => { const count = state.evidence.filter((item) => item.topicId === topic.id).length; return <article key={topic.id}><span className={`evidence-dot ${count > 0 ? 'has-evidence' : ''}`} aria-hidden="true"></span><div><strong>{topic.shortTitle}</strong><p>{count === 0 ? 'No scored evidence yet' : `${count} scored ${count === 1 ? 'activity' : 'activities'}`}</p></div></article> })}</div></section>
+          <ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenCourseSection(course.id, action.section)} />
         </div>}
       </main>
     )
@@ -391,7 +417,7 @@ export function CourseExperienceScreen({
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>)}</div>}
-      {section === 'progress' && <div className="paper-section-content"><ProgressSummary state={state} label="Component readiness" /></div>}
+      {section === 'progress' && <div className="paper-section-content"><ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenModuleSection(course.id, adapter.manifest.id, action.section)} /></div>}
     </main>
   )
 }

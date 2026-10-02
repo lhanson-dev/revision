@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
@@ -9,10 +9,13 @@ import {
   type CatalogueSubject,
   type ModuleLearningState,
 } from './catalogue-model'
-import { assignSubjectColours } from './home-view'
+import { ProgressIntro } from './ProgressIntro'
 import { RevPresence } from './RevPresence'
+import { nextProgressAction, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor } from './progress-summary'
+import { resolveSubjectIdentity } from './subject-palette'
 import { adaptersForProgramme, projectLearnerProgramme } from './learner-programme'
-import { Button, EmptyState, LoadingState, Status } from './ui'
+import type { CourseSection } from './navigation'
+import { Button, EmptyState, LoadingState, ProgressMeasures, Status, SubjectBadge } from './ui'
 
 type ProgrammeProgressScreenProps = {
   client: SupabaseClient
@@ -21,6 +24,7 @@ type ProgrammeProgressScreenProps = {
   memberships: readonly LearnerCourseMembership[]
   onOpenCourses: () => void
   onOpenCourseProgress: (courseId: string) => void
+  onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
 function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['courses'], evidence: readonly LearningEvidence[]) {
@@ -39,7 +43,7 @@ function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['cou
   return states
 }
 
-export function ProgrammeProgressScreen({ client, userId, catalogue, memberships, onOpenCourses, onOpenCourseProgress }: ProgrammeProgressScreenProps) {
+export function ProgrammeProgressScreen({ client, userId, catalogue, memberships, onOpenCourses, onOpenCourseProgress, onOpenCourseSection }: ProgrammeProgressScreenProps) {
   const programme = useMemo(() => projectLearnerProgramme(catalogue, memberships), [catalogue, memberships])
   const adapters = useMemo(() => adaptersForProgramme(programme.courses), [programme.courses])
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
@@ -66,18 +70,18 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   }, [adapters, client, userId])
 
   const grouped = useMemo(() => courseStates(programme.courses, evidence), [evidence, programme.courses])
-  const allStates = grouped.flatMap((item) => item.states)
-  const subjectColours = useMemo(() => assignSubjectColours(programme.courses.map((item) => item.subject.id)), [programme.courses])
-  const subjectIdByCourse = useMemo(() => new Map(programme.courses.map((item) => [item.course.id, item.subject.id])), [programme.courses])
-  const totalTopics = allStates.reduce((sum, state) => sum + state.topicCount, 0)
-  const evidencedTopics = allStates.reduce((sum, state) => sum + state.evidencedTopics, 0)
-  const readinessAvailable = allStates.filter((state) => state.readiness.score !== null).length
+  const allStates = useMemo(() => grouped.flatMap((item) => item.states), [grouped])
+  const [now] = useState(() => new Date())
+  const measures = useMemo(() => progressMeasuresFor(allStates), [allStates])
+  const readiness = useMemo(() => readinessAcross(allStates), [allStates])
+  const nextAction = useMemo(() => nextProgressAction(allStates, programme.courses, now), [allStates, programme.courses, now])
+  const nextTopicName = nextAction?.topicName ?? null
 
   if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
 
   return (
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
-      <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="global-progress-title">Progress</h1><p>What your answers so far show across the courses you’re studying.</p></header>
+      <header className="page-heading"><p className="eyebrow">Across your courses</p><h1 id="global-progress-title">Progress</h1></header>
 
       {error && <Status tone="warning">{error}</Status>}
       {programme.unknownCourseIds.length > 0 && <Status tone="warning">A saved course no longer resolves to the published catalogue. Its historical evidence is preserved, but it is excluded from this active programme view.</Status>}
@@ -86,11 +90,9 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
         <EmptyState title="Add a course to build your progress view" description="Add the courses you’re studying and your progress will build here as you work." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
       ) : (
         <>
-          <div className="progress-overview" data-empty={evidence.length === 0 ? 'true' : undefined}>
-            <article><small>Topics covered</small><strong>{evidencedTopics} / {totalTopics}</strong><p>Topics where you’ve done at least one scored activity.</p></article>
-            <article><small>Scored activities</small><strong>{evidence.length}</strong><p>Questions and checks you’ve completed and had marked.</p></article>
-            <article><small>Exam readiness</small><strong>{readinessAvailable} / {allStates.length}</strong><p>Courses with enough varied work for a readiness estimate. Keep practising to unlock it.</p></article>
-          </div>
+          <ProgressIntro sentence={progressSummarySentence(measures, nextTopicName)} action={nextAction} onAction={(action) => onOpenCourseSection(action.courseId, action.section)} />
+
+          <ProgressMeasures covered={measures.covered} total={measures.total} understanding={measures.understanding} readiness={readiness.value} readinessNote={readiness.note} />
 
           {evidence.length === 0 && (
             <section className="progress-empty-card" aria-labelledby="progress-empty-title">
@@ -105,17 +107,20 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
 
           <section className="home-section" aria-labelledby="course-progress-list-title">
             <div className="section-heading"><div><p className="eyebrow">Active programme</p><h2 id="course-progress-list-title">Progress by course</h2></div></div>
-            <div className="subject-list">
+            <div className="progress-course-list">
               {grouped.map((item) => {
-                const topics = item.states.reduce((sum, state) => sum + state.topicCount, 0)
-                const evidenced = item.states.reduce((sum, state) => sum + state.evidencedTopics, 0)
-                const scoredStates = item.states.filter((state) => state.readiness.score !== null)
-                const averageReadiness = scoredStates.length === 0 ? null : Math.round(scoredStates.reduce((sum, state) => sum + (state.readiness.score ?? 0), 0) / scoredStates.length)
+                const itemMeasures = progressMeasuresFor(item.states)
+                const subject = programme.courses.find((entry) => entry.course.id === item.courseId)?.subject
+                const { hue, mark } = resolveSubjectIdentity(subject?.id ?? item.courseId, subject?.name ?? item.label)
+                const courseReadiness = item.states.length === 1 ? readinessFor(item.states[0]) : readinessAcross(item.states)
                 return (
-                  <article className="course-card global-progress-card" key={item.courseId} style={{ '--tile-fill': subjectColours.get(subjectIdByCourse.get(item.courseId) ?? '')?.fill } as CSSProperties}>
-                    <div><span className="tag">{evidenced} / {topics} topics evidenced</span><h3>{item.label}</h3><p>{averageReadiness === null ? 'Readiness is still building from varied evidence.' : `${averageReadiness}% current supported readiness across the available course/component evidence.`}</p></div>
-                    <span className="progress-course-bar" role="progressbar" aria-label={`${item.label} topics evidenced`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={topics === 0 ? 0 : Math.round((evidenced / topics) * 100)}><span style={{ width: `${topics === 0 ? 0 : Math.round((evidenced / topics) * 100)}%` }} /></span>
-                    <Button onClick={() => onOpenCourseProgress(item.courseId)}>Open course progress</Button>
+                  <article className="progress-course-card" key={item.courseId} aria-labelledby={`progress-course-${item.courseId}`}>
+                    <header className="progress-course-card__head">
+                      <SubjectBadge hue={hue} mark={mark} />
+                      <h3 id={`progress-course-${item.courseId}`}>{item.label}</h3>
+                    </header>
+                    <ProgressMeasures hue={hue} stack covered={itemMeasures.covered} total={itemMeasures.total} understanding={itemMeasures.understanding} readiness={courseReadiness.value} readinessNote={courseReadiness.note} />
+                    <Button variant="secondary" onClick={() => onOpenCourseProgress(item.courseId)}>Open {item.label} progress</Button>
                   </article>
                 )
               })}
