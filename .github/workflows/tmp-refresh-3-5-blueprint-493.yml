@@ -1,0 +1,36 @@
+name: Temporary refresh AQA 3.5 Blueprint for PR 493
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/tmp-refresh-3-5-blueprint-493.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Regenerate original 3.5 Blueprint from current Foundation and Course Truth
+        run: CONTENT_FACTORY_WRITE_SLICE_BLUEPRINT=1 npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts --reporter=dot
+      - name: Prove only the derived 3.5 Blueprint changed
+        run: |
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          test "$changed" = "content-factory/slices/aqa-7132-3.5/BLUEPRINT.json"
+      - name: Commit generated Blueprint
+        run: |
+          git config user.name "revision-content-factory"
+          git config user.email "revision-content-factory@users.noreply.github.com"
+          git add content-factory/slices/aqa-7132-3.5/BLUEPRINT.json
+          git commit -m "Refresh AQA 3.5 Blueprint fingerprint"
+          git push origin HEAD:${{ github.head_ref }}
