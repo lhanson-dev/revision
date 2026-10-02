@@ -1,6 +1,6 @@
 # Plan
 
-**Status:** built in PR 6 (draft, awaiting Founder review).
+**Status:** built in PR 6 (merged, #490); accepted sessions added in PR 8 (draft, awaiting Founder review).
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1, 8, 9), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 5), `10-product-governance/Adaptive Revision Planning.md`.
 
 ## What the student sees
@@ -12,10 +12,20 @@
 - On a phone or tablet the week becomes a day list, one day under the other. The page never scrolls sideways.
 - The set-up empty states (no exams yet, no study time yet) are unchanged.
 
+## Accepted sessions (PR 8)
+
+Sessions the student puts on their plan are stored (table `learner_planned_sessions`, see `docs/technical/Learner Planned Sessions Implementation.md`) and shown on their day:
+
+- Each is a block in the subject's colour with the subject mark, the topic, the activity and the minutes.
+- A session that came from a REV suggestion carries a **REV pick** tag. A session the student added carries none.
+- A **Done** session is shown in a plain surface with a **Done** tag (not faded, so the words stay readable).
+- Each has an **Options** menu: **Start** (opens the course section), **Mark done** (or **Put back on plan**), **Move it** (choose another day), **Skip** and **Remove**.
+- The derived plan works around them: an accepted session takes its minutes off that day's study time, and its topic is not suggested again elsewhere until it is done or skipped. Days still show the student's full study time.
+- If the table cannot be read (for example it has not been applied to the database yet), Plan simply shows no accepted sessions and says nothing about it.
+
 ## What did not change, and why
 
 - The plan is still **worked out fresh each time** from exam dates, study time and the student's evidence. Nothing about how topics are chosen has changed.
-- **Not built, because it needs the accepted-sessions table** (data model proposal, section 5; its own migration PR needing approval): "Add to Thursday" and "Move it" from a REV card, the "REV PICK" label on REV-added sessions, and faded "done" sessions. Until that table exists Plan shows no REV-added marker, so nothing is claimed that is not true.
 - **Not built, because the plan works in days, not time slots:** "REV picks the next free slot inside the student's study times" and not double-booking a slot. Study time is a number of minutes per day, so there are no slots to double-book.
 
 ## Data used

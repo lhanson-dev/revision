@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
+import { addPlannedSession, loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { tasksFromPlanner, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { learnerCourseRoute, routeHash } from './navigation'
-import { buildPlannerSnapshot } from './planner-model'
+import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-model'
+import { addDays, dayWord, nextFreeDay, plannedTopicKeys, sessionActivityForTask } from './accepted-sessions'
 import { buildCourseTiles, nextExam } from './home-view'
 import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty } from './HomeSetupEmpty'
@@ -65,6 +67,9 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   const [refreshKey, setRefreshKey] = useState(0)
   const [notNow, setNotNow] = useState<NotNowRecord | null>(() => readNotNow(userId))
   const [skipped, setSkipped] = useState<string[]>([])
+  // Accepted sessions. If the table is not available yet, `plannedSessions` stays null and "Add to" is not offered.
+  const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
+  const [planNote, setPlanNote] = useState('')
 
   useEffect(() => {
     let active = true
@@ -95,10 +100,20 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
     return () => { active = false }
   }, [client, programme, refreshKey, userId])
 
+  // Accepted sessions load on their own: Home never waits for them. If they cannot be read, Home simply does not offer "Add to".
+  useEffect(() => {
+    let active = true
+    const todayKey = dayKey(new Date())
+    loadPlannedSessions(client, userId, todayKey, addDays(todayKey, 27))
+      .then((sessions) => { if (active) setPlannedSessions(sessions) })
+      .catch(() => { if (active) setPlannedSessions(null) })
+    return () => { active = false }
+  }, [client, userId, refreshKey])
+
   const snapshot = useMemo(() => setup
-    ? buildPlannerSnapshot(learningStates, setup.assessments, setup.availability, setup.exceptions, setup.preferences)
+    ? buildPlannerSnapshot(learningStates, setup.assessments, setup.availability, setup.exceptions, setup.preferences, new Date(), plannedSessions ?? [])
     : null,
-  [learningStates, setup])
+  [learningStates, plannedSessions, setup])
 
   const plannerTasks = useMemo(
     () => snapshot ? tasksFromPlanner(snapshot.today, learningStates, programme) : [],
@@ -107,13 +122,19 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   const today = useMemo(() => new Date(), [])
   // REV's suggestion is chosen by the rules in rev-suggestions.ts, not by the planner or a model.
   const ranked = useMemo(
-    () => setup ? rankSuggestions(learningStates, setup.assessments, programme, today) : [],
-    [learningStates, programme, setup, today],
+    () => setup ? rankSuggestions(learningStates, setup.assessments, programme, today, plannedTopicKeys(plannedSessions ?? [])) : [],
+    [learningStates, plannedSessions, programme, setup, today],
   )
   const hiddenToday = activeNotNow(notNow, today)
   const pick = pickSuggestion(ranked, hiddenToday, skipped)
   const suggestion = pick.suggestion
   const firstTask = suggestion?.task ?? null
+  const planDay = useMemo(() => {
+    if (!firstTask || !setup || plannedSessions === null) return null
+    const days = plannerDaysFromAvailability(setup.availability, setup.exceptions, setup.assessments, today)
+    return nextFreeDay(days, plannedSessions, firstTask.estimatedMinutes, dayKey(today))
+  }, [firstTask, plannedSessions, setup, today])
+  const planDayLabel = planDay ? dayWord(planDay, dayKey(today)) : 'plan'
   const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [learningStates, programme])
   const exam = useMemo(() => setup ? nextExam(setup.assessments, today) : null, [setup, today])
   const todayLabel = today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
@@ -153,6 +174,28 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   function suggestSomethingElse() {
     if (!suggestion) return
     setSkipped(pickSuggestion(ranked, hiddenToday, [...skipped, suggestion.key]).skipped)
+  }
+
+  async function addToPlan() {
+    if (!suggestion || !firstTask || !setup || plannedSessions === null) return
+    const days = plannerDaysFromAvailability(setup.availability, setup.exceptions, setup.assessments, today)
+    const date = nextFreeDay(days, plannedSessions, firstTask.estimatedMinutes, dayKey(today))
+    try {
+      const saved = await addPlannedSession(client, userId, {
+        plannedDate: date,
+        courseId: firstTask.courseId,
+        topicId: firstTask.topicId,
+        activityType: sessionActivityForTask(firstTask.activityType),
+        minutes: firstTask.estimatedMinutes,
+        addedBy: 'rev',
+        recommendationId: firstTask.id,
+      })
+      setPlannedSessions((current) => [...(current ?? []), saved])
+      setSkipped([])
+      setPlanNote(`Added ${firstTask.topicLabel} to ${dayWord(date, dayKey(today))}. You can move it on Plan.`)
+    } catch (caught: unknown) {
+      setPlanNote(caught instanceof Error ? caught.message : 'Could not add that to your plan.')
+    }
   }
 
   function hideUntilTomorrow() {
@@ -223,6 +266,8 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
             />
           )}
 
+          {planNote && <p className="home-v2-plan-note" role="status" aria-live="polite">{planNote}</p>}
+
           {!error && !loading && suggestion && firstTask && (
             <RevSuggestionCard
               className="home-v2-hero"
@@ -231,6 +276,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
               title={firstTask.topicLabel}
               reason={`Why: ${suggestion.reason}`}
               primaryAction={{ label: `Start ${firstTask.estimatedMinutes} min`, onClick: () => void startTask(firstTask) }}
+              planAction={plannedSessions === null ? undefined : { label: `Add to ${planDayLabel}`, onClick: () => void addToPlan() }}
               secondaryAction={{ label: 'Suggest something else', onClick: suggestSomethingElse }}
               tertiaryAction={{ label: 'Not now', onClick: hideUntilTomorrow }}
             />

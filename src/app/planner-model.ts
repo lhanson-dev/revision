@@ -1,3 +1,5 @@
+import type { PlannedSession } from '../services/planning/planned-session-service'
+import { applyAcceptedSessionsToDays, withoutPlannedTopics } from './accepted-sessions'
 import { evidencePercentage } from '../engine/evidence/evidence'
 import type { ModuleLearningState } from './catalogue-model'
 import type {
@@ -206,9 +208,11 @@ export function buildPlannerSnapshot(
   exceptions: readonly RevisionAvailabilityException[],
   preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
+  acceptedSessions: readonly PlannedSession[] = [],
 ): PlannerResult | null {
-  const candidates = plannerCandidatesFromLearningState(states, assessments, preferences, now)
-  const days = plannerDaysFromAvailability(availability, exceptions, assessments, now)
+  // Sessions the student accepted are already placed: the derived plan works around them.
+  const candidates = withoutPlannedTopics(plannerCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
+  const days = applyAcceptedSessionsToDays(plannerDaysFromAvailability(availability, exceptions, assessments, now), acceptedSessions)
   if (candidates.length === 0 || days.length === 0) return null
   return buildAdaptivePlan(candidates, days)
 }

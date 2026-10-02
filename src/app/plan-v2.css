@@ -46,7 +46,8 @@
    Colours come only from the --subject-* tokens; nothing here is a raw colour. */
 .plan-task { border-left-width: 1px; border-color: transparent; background: var(--plan-solid, var(--rv-surface)); color: var(--plan-on, var(--rv-text)); min-height: 48px; }
 .plan-task .plan-task-subject, .plan-task strong, .plan-task > span:not(.plan-task-subject), .plan-task > small { color: var(--plan-on, var(--rv-text)); }
-.plan-task > span:not(.plan-task-subject), .plan-task > small { opacity: .9; }
+/* No fading on text over a solid subject colour: it dropped below the WCAG contrast minimum. */
+.plan-task > span:not(.plan-task-subject), .plan-task > small { opacity: 1; }
 .plan-task-subject { display: inline-flex; align-items: center; gap: 8px; }
 .plan-task:hover, .plan-task:focus-visible { border-color: var(--plan-on, var(--rv-line)); }
 .plan-task:focus-visible { outline: 2px solid var(--plan-on, var(--rv-teal)); outline-offset: -4px; box-shadow: none; }
@@ -62,3 +63,18 @@
 /* The chevron on a solid session takes the on-colour so it stays visible. "7h 15m available" is no longer cut off. */
 .plan-task .plan-task-arrow { color: var(--plan-on, var(--rv-text-2)); }
 .plan-overview-item strong { overflow: visible; text-overflow: clip; white-space: normal; }
+
+/* Sessions the student accepted ("Add to Thursday"), with REV PICK, Done and an Options menu. */
+.plan-session { cursor: default; display: grid; align-content: start; }
+.plan-session[data-status="done"] { border: 1px dashed var(--rv-line); }
+.plan-session-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
+.plan-session-tags:empty { display: none; }
+.plan-session-tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 6px; border-radius: 999px; background: var(--plan-on, var(--rv-text)); color: var(--plan-solid, var(--rv-surface)) !important; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: 1 !important; }
+.plan-session-tag .rev-presence, .plan-session-tag .ui-icon { width: 16px; height: 16px; }
+.plan-session-menu { margin-top: 4px; }
+.plan-session-menu > summary { display: flex; align-items: center; min-height: 48px; cursor: pointer; font-weight: 800; font-size: 14px; color: var(--plan-on, var(--rv-text)); text-decoration: underline; list-style-position: inside; }
+.plan-session-menu > summary:focus-visible { outline: 2px solid var(--plan-on, var(--rv-teal)); outline-offset: 2px; }
+.plan-session-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 8px; }
+.plan-session-actions .ui-button { min-height: 48px; }
+.plan-session-move { display: flex; flex-direction: column; gap: 8px; width: 100%; padding: 10px; border-radius: var(--rv-radius-row); background: var(--rv-surface); color: var(--rv-text); }
+.plan-session-menu .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

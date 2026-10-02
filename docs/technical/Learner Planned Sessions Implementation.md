@@ -1,6 +1,6 @@
 # Learner Planned Sessions Implementation
 
-**Status:** migration written in its own PR, awaiting Founder approval. Not applied to production. No screen uses it yet.
+**Status:** migration merged to `main` (PR #494, Founder approved 2 October 2026). **Not applied to production**: merging does not apply it. Plan and Home use it from PR 8 and stay quiet while the table is missing.
 **Decision:** `docs/design/learner-redesign-v2/data-model-proposal.md`, section 5 (agreed by the Founder, 1 October 2026).
 
 ## What it is
@@ -46,6 +46,6 @@ The same topic and activity cannot be `planned` twice on one day (once it is don
 
 The table is new and nothing reads it. To undo: `drop table public.learner_planned_sessions;`. Accepted sessions the student has made would be lost, so this should only be done before any screen uses it.
 
-## Next
+## Used by
 
-Wire it into Plan and Home: "Add to Thursday", "Move it", the REV PICK label, faded done sessions, and the planner treating an accepted session as already placed. That is a separate PR.
+Plan and Home (PR 8): `src/app/accepted-sessions.ts` holds the rules (what an accepted session does to a day's study time, which topics are not suggested again, the next free day). The planner takes accepted sessions as an optional input. If the table cannot be read, both screens behave exactly as before.

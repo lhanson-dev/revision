@@ -55,3 +55,10 @@ Before and after, same data, in `docs/design/learner-redesign-v2/screenshots/pr-
 - Cross-device "Not now" and a record of suggestions shown (suggestion-events migration).
 - "Add to plan" and guided session steps (Plan, PR 6).
 - The sample-colour palette in `home-view.ts` stays for Plan, Courses and Progress until their PRs; Home no longer uses it.
+
+## Add to plan (PR 8)
+
+- REV's card has an **Add to Thursday** button (the day is the next one with enough study time left after sessions already on the plan; with no study time set it offers tomorrow). Pressing it saves a session on that day, marked as a REV suggestion, and says so in words: "Added Finance to Thursday. You can move it on Plan."
+- A topic already on the plan is not suggested again until it is done or skipped.
+- If the sessions table cannot be read yet, the button is not shown and nothing is said about it.
+- The student can move, finish, skip or remove the session on Plan.
