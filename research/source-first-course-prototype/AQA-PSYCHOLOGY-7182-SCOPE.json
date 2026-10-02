@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_reference_alignment",
+  "checkedDate": "2026-10-02",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstTeaching": "September 2025",
+    "firstAlevelExams": "Summer 2027",
+    "linear": true
+  },
+  "sourcePolicy": {
+    "classification": "REFERENCE_ONLY",
+    "purpose": "Structured course-scope and assessment alignment facts only.",
+    "restriction": "AQA wording is not reusable teaching corpus. Requirement descriptions below are compact structured paraphrases for coverage checking; downstream reusable subject knowledge must come from OPEN, REVISION_OWNED or appropriately LICENSED sources."
+  },
+  "officialSources": [
+    {
+      "role": "overview",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182"
+    },
+    {
+      "role": "at_a_glance",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/specification-at-a-glance"
+    },
+    {
+      "role": "paper1",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology"
+    },
+    {
+      "role": "paper2",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context"
+    },
+    {
+      "role": "paper3",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology"
+    },
+    {
+      "role": "scheme",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/scheme-of-assessment"
+    },
+    {
+      "role": "maths",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/mathematical-requirements-and-exemplifications"
+    }
+  ],
+  "assessment": {
+    "totalMarks": 288,
+    "papers": [
+      {
+        "paper": 1,
+        "name": "Introductory Topics in Psychology",
+        "durationMinutes": 120,
+        "marks": 96,
+        "weightPercent": 33.3,
+        "scope": "compulsory topics 1–4"
+      },
+      {
+        "paper": 2,
+        "name": "Psychology in Context",
+        "durationMinutes": 120,
+        "marks": 96,
+        "weightPercent": 33.3,
+        "scope": "compulsory topics 5–7"
+      },
+      {
+        "paper": 3,
+        "name": "Issues and Options in Psychology",
+        "durationMinutes": 120,
+        "marks": 96,
+        "weightPercent": 33.3,
+        "scope": "topic 8 plus one topic from each option group: 9–11, 12–14 and 15–17"
+      }
+    ],
+    "minimumMathematicalSkillsPercent": 10,
+    "researchMethodsApproxPercent": "25–30",
+    "assessmentObjectivesApproxPercent": {
+      "AO1": "30–33",
+      "AO2": "30–33",
+      "AO3": "36–38"
+    }
+  },
+  "inventorySummary": {
+    "topicCount": 17,
+    "namedRequirementCount": 118,
+    "compulsoryNamedRequirementCount": 71,
+    "optionNamedRequirementCount": 47
+  },
+  "topics": [
+    {
+      "number": 1,
+      "name": "Social influence",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-01-01",
+          "requirement": "Conformity: internalisation and compliance; informational and normative social influence; Asch variables of group size, unanimity and task difficulty.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-01-02",
+          "requirement": "Obedience: agentic state, legitimacy of authority, Milgram proximity and location variables, uniform, and the authoritarian personality.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-01-03",
+          "requirement": "Resistance to social influence: social support and locus of control.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-01-04",
+          "requirement": "Minority influence: consistency, commitment and flexibility.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "name": "Memory",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-02-01",
+          "requirement": "Multi-store model: sensory register, short-term memory and long-term memory; coding, capacity and duration of each store.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-02-02",
+          "requirement": "Working memory model: central executive, phonological loop, visuospatial sketchpad and episodic buffer; coding and capacity.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-02-03",
+          "requirement": "Forgetting: proactive and retroactive interference, and retrieval failure caused by absent cues.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-02-04",
+          "requirement": "Eyewitness testimony: leading questions, post-event discussion, anxiety and the cognitive interview.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "name": "Attachment",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-03-01",
+          "requirement": "Animal studies of attachment: Lorenz and Harlow.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-03-02",
+          "requirement": "Attachment explanations: learning theory and Bowlby’s monotropic theory, including critical period and internal working model.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-03-03",
+          "requirement": "Ainsworth’s Strange Situation; secure, insecure-avoidant and insecure-resistant attachment; cultural variation including van IJzendoorn.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-03-04",
+          "requirement": "Bowlby’s maternal deprivation theory; institutionalisation effects including the English and Romanian Adoptees project.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-03-05",
+          "requirement": "Influence of early attachment on childhood and adult relationships, including the internal working model.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "name": "Clinical Psychology and Mental Health",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-04-01",
+          "requirement": "Definitions of mental health: deviation from ideal mental health, deviation from social/cultural norms, failure to function adequately and statistical infrequency.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-04-02",
+          "requirement": "Behavioural, emotional and cognitive characteristics of phobias, depression and OCD.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-04-03",
+          "requirement": "Behavioural explanation and treatment of phobias: two-process model; classical and operant conditioning; systematic desensitisation; relaxation/hierarchy; flooding.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-04-04",
+          "requirement": "Cognitive explanation and treatment of depression: Beck’s negative triad, Ellis’s ABC model and CBT including challenging irrational thoughts.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-04-05",
+          "requirement": "Biological explanation and treatment of OCD: genetic and neural explanations and drug therapy.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Approaches in Psychology",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-05-01",
+          "requirement": "Behaviourist approach: classical conditioning and Pavlov; operant conditioning, reinforcement and Skinner.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-02",
+          "requirement": "Social learning theory: imitation, identification, vicarious reinforcement, mediational processes and Bandura.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-03",
+          "requirement": "Cognitive approach: internal mental processes, schemas, models and inference.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-04",
+          "requirement": "Biological approach: genotype, phenotype, evolution, biological structures, neurochemistry and cognitive neuroscience.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-05",
+          "requirement": "Psychodynamic approach: unconscious, id/ego/superego, repression/denial/displacement and psychosexual stages.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-06",
+          "requirement": "Humanistic psychology: free will, self-actualisation, Maslow, congruence and conditions of worth.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-05-07",
+          "requirement": "Comparison of psychological approaches.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "name": "Biopsychology",
+      "group": "compulsory",
+      "requirements": [
+        {
+          "id": "PSY-06-01",
+          "requirement": "Nervous system divisions: central and peripheral systems, including somatic and autonomic divisions.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-06-02",
+          "requirement": "Sensory, relay and motor neurons; synaptic transmission, neurotransmitters, excitation and inhibition.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-06-03",
+          "requirement": "Endocrine system: glands and hormones.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-06-04",
+          "requirement": "Fight-or-flight response, including adrenaline.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-06-05",
+          "requirement": "Methods of studying the brain: fMRI, EEG, ERPs and post-mortem examination.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        },
+        {
+          "id": "PSY-06-06",
+          "requirement": "Localisation and hemispheric lateralisation: cortical centres, Broca’s and Wernicke’s areas, split-brain research, plasticity and functional recovery after trauma.",
+          "officialScopeSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+          "coverageStatus": "pending_named_corpus_match"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Research methods",
+      "group": "compulsory",
+      "requirements": [
+        {"id":"PSY-07-01","requirement":"Experimental method: laboratory, field, natural and quasi-experiments.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-02","requirement":"Observational techniques: naturalistic/controlled, covert/overt and participant/non-participant observation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-03","requirement":"Self-report techniques: questionnaires and structured/unstructured interviews.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-04","requirement":"Correlations: co-variables and distinction between correlation and experiment.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-05","requirement":"Content analysis.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-06","requirement":"Case studies.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-07","requirement":"Aims: stating aims and distinguishing aims from hypotheses.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-08","requirement":"Hypotheses: directional and non-directional.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-09","requirement":"Sampling: population versus sample; random, systematic, stratified, opportunity and volunteer methods; bias and generalisation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-10","requirement":"Pilot studies and the purpose of piloting.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-11","requirement":"Experimental designs: repeated measures, independent groups and matched pairs.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-12","requirement":"Observational design: behavioural categories, event sampling and time sampling.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-13","requirement":"Questionnaire construction: open/closed questions and interview design.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-14","requirement":"Variables: independent, dependent and extraneous variables; manipulation, control and operationalisation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-15","requirement":"Control techniques: random allocation, counterbalancing, randomisation, standardisation and control groups.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-16","requirement":"Demand characteristics and investigator effects.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-17","requirement":"Research ethics: BPS code, ethical issues in study design/conduct and ways of dealing with them.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-18","requirement":"Role of peer review in science.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-19","requirement":"Economic implications of psychological research.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-20","requirement":"Reliability: test-retest and inter-observer reliability and ways to improve reliability.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-21","requirement":"Validity: face, concurrent, ecological and temporal validity; measurement and improvement.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-22","requirement":"Features of science: objectivity, empirical method, replicability, falsifiability, theory construction, hypothesis testing, paradigms and paradigm shifts.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-23","requirement":"Scientific reporting: abstract, introduction, method, results, discussion and referencing.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-24","requirement":"Quantitative versus qualitative data and data-collection techniques.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-25","requirement":"Primary and secondary data, including meta-analysis.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-26","requirement":"Descriptive statistics: mean, median, mode, range, standard deviation, percentages and positive/negative/zero correlations.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-27","requirement":"Presentation of quantitative data: graphs, tables, scattergrams, bar charts and histograms.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-28","requirement":"Distributions: normal and skewed distributions and their characteristics.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-29","requirement":"Correlation analysis and interpretation, including correlation coefficients.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-30","requirement":"Levels of measurement: nominal, ordinal and interval.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-31","requirement":"Coding in content analysis.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-32","requirement":"Sign test: when to use it and calculation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-33","requirement":"Probability and significance: statistical tables, critical values, Type I and Type II errors.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-07-34","requirement":"Choice of inferential test: Spearman’s rho, Pearson’s r, Wilcoxon, Mann–Whitney, related t-test, unrelated t-test and Chi-squared, including level-of-measurement/design factors.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 8,
+      "name": "Issues and debates in Psychology",
+      "group": "compulsory",
+      "requirements": [
+        {"id":"PSY-08-01","requirement":"Gender and cultural bias: universality, androcentrism, alpha/beta bias, ethnocentrism and cultural relativism.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-08-02","requirement":"Free will and determinism: hard/soft, biological/environmental/psychic determinism and causal explanation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-08-03","requirement":"Nature–nurture debate and interactionism.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-08-04","requirement":"Holism and reductionism: levels of explanation, biological reductionism and environmental stimulus-response reductionism.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-08-05","requirement":"Idiographic and nomothetic approaches.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-08-06","requirement":"Social sensitivity in psychological research.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Relationships",
+      "group": "option_1",
+      "requirements": [
+        {"id":"PSY-09-01","requirement":"Attraction: self-disclosure, physical attractiveness and matching hypothesis, filter theory, social demography, attitude similarity and complementarity.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-09-02","requirement":"Romantic relationship theories: social exchange, equity, Rusbult investment model and Duck’s phase model of breakdown.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-09-03","requirement":"Online relationships: self-disclosure, deception and absence of gating.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-09-04","requirement":"Parasocial relationships: levels, absorption-addiction model and attachment explanation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Gender",
+      "group": "option_1",
+      "requirements": [
+        {"id":"PSY-10-01","requirement":"Chromosomes and hormones in biological sex, including testosterone, oestrogen and oxytocin; DSD including AIS, Klinefelter’s and Turner syndromes.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-10-02","requirement":"Gender identities including binary, non-binary and gender fluid; Bem Sex Role Inventory.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-10-03","requirement":"Biological explanations of gender development, including chromosomes and hormones.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-10-04","requirement":"Cognitive explanations: Kohlberg, gender identity/stability/constancy, and Martin & Halverson gender schema theory.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-10-05","requirement":"Social learning theory of gender development; cultural and media influence on gender roles.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-10-06","requirement":"Gender incongruence: biological and social/cultural explanations.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 11,
+      "name": "Cognition and development",
+      "group": "option_1",
+      "requirements": [
+        {"id":"PSY-11-01","requirement":"Piaget: schemas, assimilation, accommodation, equilibration, developmental stages, object permanence, conservation, egocentrism and class inclusion.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-11-02","requirement":"Vygotsky: zone of proximal development and scaffolding.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-11-03","requirement":"Baillargeon: early infant knowledge of the physical world and violation-of-expectation research.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-11-04","requirement":"Social cognition development: Selman perspective-taking, theory of mind, Sally-Anne study and mirror-neuron system.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 12,
+      "name": "Schizophrenia",
+      "group": "option_2",
+      "requirements": [
+        {"id":"PSY-12-01","requirement":"Symptoms: hallucinations/delusions, speech poverty/avolition; diagnosis issues including co-morbidity, culture/gender bias and symptom overlap.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-12-02","requirement":"Biological explanations: genetics, neural correlates and dopamine hypothesis.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-12-03","requirement":"Psychological explanations: family dysfunction and cognitive explanations including dysfunctional thought processing.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-12-04","requirement":"Drug therapy: typical and atypical antipsychotics.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-12-05","requirement":"CBT and family therapy for schizophrenia.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-12-06","requirement":"Interactionist explanation/treatment and the diathesis–stress model.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 13,
+      "name": "Eating behaviour",
+      "group": "option_2",
+      "requirements": [
+        {"id":"PSY-13-01","requirement":"Food preferences: evolutionary account including neophobia/taste aversion, and learning including social/cultural influences.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-13-02","requirement":"Neural/hormonal control of eating: hypothalamus, ghrelin and leptin.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-13-03","requirement":"Biological explanations of anorexia nervosa: genetic and neural.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-13-04","requirement":"Psychological explanations of anorexia: family systems, social learning and cognitive accounts.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-13-05","requirement":"Biological explanations of obesity: genetic and neural.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-13-06","requirement":"Psychological explanations of obesity: restraint theory, disinhibition and boundary model.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 14,
+      "name": "Stress",
+      "group": "option_2",
+      "requirements": [
+        {"id":"PSY-14-01","requirement":"Stress physiology: general adaptation syndrome, HPA system, sympathomedullary pathway and cortisol.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-14-02","requirement":"Stress and illness: immunosuppression and cardiovascular disorders.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-14-03","requirement":"Sources of stress: life changes, daily hassles and workplace workload/control.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-14-04","requirement":"Stress measurement: SRRS, Hassles and Uplifts Scale, physiological measures and skin conductance response.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-14-05","requirement":"Individual differences: personality types A/B/C and hardiness (commitment, challenge, control).","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-14-06","requirement":"Managing/coping: drug therapy, stress inoculation, biofeedback, gender differences, social support and instrumental/emotional/esteem support.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 15,
+      "name": "Aggression",
+      "group": "option_3",
+      "requirements": [
+        {"id":"PSY-15-01","requirement":"Neural/hormonal mechanisms: limbic system, serotonin and testosterone; genetic factors including MAOA.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-15-02","requirement":"Ethological account: innate releasing mechanisms and fixed action patterns; evolutionary explanations.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-15-03","requirement":"Social psychological accounts: frustration-aggression, social learning and de-individuation.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-15-04","requirement":"Institutional aggression in prisons: dispositional and situational explanations.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-15-05","requirement":"Media influences including computer games; desensitisation, disinhibition and cognitive priming.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 16,
+      "name": "Forensic Psychology",
+      "group": "option_3",
+      "requirements": [
+        {"id":"PSY-16-01","requirement":"Offender profiling: typology organised/disorganised; data-driven investigative psychology; geographical profiling.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-16-02","requirement":"Biological explanations of offending: genetic and neural explanations.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-16-03","requirement":"Psychological explanations: Eysenck criminal personality, moral reasoning, cognitive distortions including hostile attribution bias/minimisation, and differential association.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-16-04","requirement":"Dealing with offending: aims/effects of custodial sentencing, behaviour modification in custody, anger management and restorative justice.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    },
+    {
+      "number": 17,
+      "name": "Addiction",
+      "group": "option_3",
+      "requirements": [
+        {"id":"PSY-17-01","requirement":"Addiction description: physical/psychological dependence, tolerance and withdrawal.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-17-02","requirement":"Risk factors: genetic vulnerability, personality and social influences.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-17-03","requirement":"Nicotine addiction: neurochemistry/dopamine and learning theory including cue reactivity.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-17-04","requirement":"Gambling addiction: learning theory including partial/variable reinforcement and cognitive bias.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-17-05","requirement":"Reducing addiction: drug therapy, aversion therapy, covert sensitisation and CBT.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"},
+        {"id":"PSY-17-06","requirement":"Prochaska six-stage behaviour-change model.","officialScopeSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology","coverageStatus":"pending_named_corpus_match"}
+      ]
+    }
+  ]
+}
