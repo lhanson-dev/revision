@@ -165,6 +165,8 @@ The two findings are intentionally fixed at different layers:
 
 The failed run ledger is retained because the fast-path rule preserves valid item-level evidence even when another item blocks. A fresh post-merge T8 run must therefore review only units whose exact fingerprints change; it must not repurchase unchanged section reviews. No learner-publication, qualified-human-review or `foundation_approved` gate is changed.
 
+Committed Learn/Practice assets follow the same fail-closed rule: repository-wide software re-proof treats an asset as current only when its accepted ledger fingerprint reconstructs exactly from the current Blueprint, Foundation teaching, sources and asset bytes. Fingerprint-stale assets are not reclassified as valid and are not regenerated before T8; the targeted resume proof records them for the post-T8 refresh.
+
 ### Documentation impact
 
 No normative authority or ADR change is required. This is a bounded implementation/evidence correction under the existing Subject Knowledge Foundation / Course Projection and Fast-Path authorities. Historical T8 evidence remains unchanged; the run log appends the new failure and fixes.
