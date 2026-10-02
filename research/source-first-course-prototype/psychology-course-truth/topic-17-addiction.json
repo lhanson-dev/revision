@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_in_progress",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 17,
+  "topic": "Addiction",
+  "group": "option_3",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-17-06",
+      "boardAlignment": {
+        "summary": "Prochaska six-stage behaviour-change model.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The transtheoretical or stages-of-change model treats intentional behaviour change as a staged and potentially iterative process rather than a single event.",
+          "Precontemplation describes a stage in which there is no current intention to change the target behaviour.",
+          "Contemplation describes recognising or considering the case for change without yet taking action.",
+          "Preparation describes intending and planning to act in the near future.",
+          "Action describes active modification of the target behaviour.",
+          "Maintenance describes sustaining the changed behaviour and managing the risk of relapse.",
+          "Termination describes a state in which the target behaviour is no longer desired and temptation to return is absent or very low."
+        ],
+        "modelsResearchAndRelationships": [
+          "The stages describe different readiness states and can guide the type of support that is appropriate at different points in behaviour change.",
+          "Relapse or movement between stages means the model is better understood as dynamic than as a guaranteed one-way progression."
+        ],
+        "evaluationAndLimits": [
+          "The six-stage model should not be taught as a rigid ladder through which everyone progresses once and in the same order.",
+          "Termination is less commonly reached or emphasised in some applications, so maintenance and relapse management remain important practical endpoints."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Being aware of a problem does not by itself place someone in the action stage.",
+          "Relapse does not invalidate the model; movement backwards or renewed cycling can occur.",
+          "The stages describe readiness for change rather than guaranteeing successful behaviour change."
+        ],
+        "dependencies": ["behaviour change", "motivation", "relapse", "maintenance"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3390/ijerph19095124",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["six stages", "stage-level meanings", "maintenance", "termination", "relapse interpretation"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.1090024",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["transtheoretical model", "ordered six-stage structure", "behaviour-change framing"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact AQA naming is retained only as board alignment. The teaching structure is independently authored from the accepted open evidence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "remainingRequirementIds": [
+    "PSY-17-01",
+    "PSY-17-02",
+    "PSY-17-03",
+    "PSY-17-04",
+    "PSY-17-05"
+  ],
+  "topicReadiness": {
+    "namedRequirements": 6,
+    "courseTruthReady": 1,
+    "remaining": 5,
+    "materialSubjectTruthGapsKnown": 0,
+    "materialRightsBlockersKnown": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "historicalCoverageInputs": [
+      "../AQA-PSYCHOLOGY-7182-OPTION-GROUP-3-COVERAGE.json",
+      "../AQA-PSYCHOLOGY-7182-DIFFICULT-OPTION-RECONCILIATION.json"
+    ],
+    "newContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-05.md",
+    "transformation": "Converted the newly rights-cleared PSY-17-06 evidence into Course Truth while leaving the five other Addiction requirements explicitly in progress."
+  }
+}
