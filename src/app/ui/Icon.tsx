@@ -31,6 +31,7 @@ export type IconName =
   | 'trending'
   | 'pencil'
   | 'retry'
+  | 'flag'
   | 'clock'
   | 'status-gotit'
   | 'status-nearly'
@@ -72,6 +73,7 @@ const drawings: Record<IconName, ReactNode> = {
   trash: <><path d="M4 7h16M9 3h6l1 4H8l1-4Z" /><path d="m7 7 1 14h8l1-14M10 11v6M14 11v6" /></>,
   clock: <><circle cx="12" cy="12" r="8" /><path d="M12 8v4l2.5 2" /></>,
   /* Learning status icons: shape carries the meaning, never colour alone. */
+  flag: <path d="M6 21V4.5M6 4.5h11l-2.4 4.25L17 13H6" />,
   'status-gotit': <><circle cx="12" cy="12" r="9" /><path d="m8 12.4 2.8 2.8 5.4-5.6" /></>,
   'status-nearly': <><circle cx="12" cy="12" r="9" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></>,
   'status-needswork': <path d="M6 21V4.5M6 4.5h11l-2.4 4.25L17 13H6" />,

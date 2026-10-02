@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
@@ -120,4 +121,72 @@ test('stop exam requires confirmation and lets the learner either continue or di
 
   await expect(page.locator('.exam-session-page')).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Full 90-minute exam' }).first()).toBeVisible()
+})
+
+test('question grid wraps (no sideways scroll), is 48px or more, and says answered, flagged and current in words', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await openAsPaper2Exam(page)
+
+  const grid = page.getByRole('navigation', { name: 'Exam questions' })
+  const first = grid.getByRole('button').first()
+  await expect(first).toHaveAttribute('aria-current', 'true')
+  await expect(first).toHaveAccessibleName(/^Question 1, \d+ marks, not answered, current question$/)
+
+  // The grid never needs to scroll sideways, and every square is a comfortable target.
+  expect(await grid.evaluate((element) => element.scrollWidth <= element.clientWidth + 1)).toBe(true)
+  for (const box of await grid.getByRole('button').evaluateAll((buttons) => buttons.map((button) => button.getBoundingClientRect().height))) {
+    expect(box).toBeGreaterThanOrEqual(48)
+  }
+
+  await page.getByLabel('Your answer').fill('Revenue minus costs gives profit.')
+  await expect(first).toHaveAccessibleName(/^Question 1, \d+ marks, answered, current question$/)
+
+  await page.getByRole('button', { name: 'Flag for review' }).click()
+  await expect(first).toHaveAccessibleName(/^Question 1, \d+ marks, answered, flagged for review, current question$/)
+  await expect(page.getByRole('button', { name: /Flagged for review/ })).toHaveAttribute('aria-pressed', 'true')
+
+  // What to check before finishing: unanswered questions and flagged ones, by number.
+  await expect(page.getByText(/Before you finish:.*not answered: question 2/)).toBeVisible()
+  await expect(page.getByText(/flagged: question 1\./)).toBeVisible()
+})
+
+test('the exam clock is not read out every second; time notices are announced politely instead', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await openAsPaper2Exam(page)
+
+  await expect(page.locator('.timer')).not.toHaveAttribute('aria-live', /./)
+  const notice = page.locator('.exam-time-notice')
+  await expect(notice).toHaveAttribute('role', 'status')
+  await expect(notice).toHaveAttribute('aria-live', 'polite')
+  await expect(notice).toHaveText('')
+})
+
+test('the timed exam page meets the automated WCAG A/AA baseline with a flagged question', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await openAsPaper2Exam(page)
+  await page.getByRole('button', { name: 'Flag for review' }).click()
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
+})
+
+test('low time shows a clock icon and words in coral and never makes the exam page scroll sideways', async ({ page }) => {
+  test.setTimeout(90_000) // running the fake clock through 81 minutes takes a while
+  await page.clock.install()
+  await seedSyntheticSession(page)
+  await page.setViewportSize({ width: 320, height: 700 })
+  await openAsPaper2Exam(page)
+  await page.clock.runFor(81 * 60 * 1000)
+
+  const timer = page.locator('.timer')
+  await expect(timer).toHaveClass(/warning/)
+  await expect(timer.getByText('Under 10 min')).toBeVisible()
+  await expect(timer.locator('svg')).toBeVisible()
+  // Heard once at 10 minutes, not every second.
+  await expect(page.locator('.exam-time-notice')).toHaveText(/minutes? left\./)
+
+  const overflow = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth, barRight: document.querySelector('.exam-sticky-bar')?.getBoundingClientRect().right ?? 0 }))
+  expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth)
+  expect(overflow.barRight).toBeLessThanOrEqual(overflow.clientWidth + 1)
+  const colour = await timer.evaluate((element) => getComputedStyle(element).color)
+  expect(colour).not.toMatch(/rgb\(255, 1[89]\d, ?\d+\)|yellow/i)
 })
