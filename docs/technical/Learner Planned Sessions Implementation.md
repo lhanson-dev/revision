@@ -1,6 +1,6 @@
 # Learner Planned Sessions Implementation
 
-**Status:** migration merged to `main` (PR #494, Founder approved 2 October 2026). **Not applied to production**: merging does not apply it. Plan and Home use it from PR 8 and stay quiet while the table is missing.
+**Status:** migration merged to `main` (PR #494, Founder approved 2 October 2026). **Not applied to production**: merging does not apply it. The steps, the read-only before/after checks and the rollback are in `Learner Planned Sessions Production Runbook.md`; applying needs the Founder's explicit instruction. Plan and Home use it from PR 8 and stay quiet while the table is missing.
 **Decision:** `docs/design/learner-redesign-v2/data-model-proposal.md`, section 5 (agreed by the Founder, 1 October 2026).
 
 ## What it is
