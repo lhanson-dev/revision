@@ -1,0 +1,66 @@
+name: Temporary update Content Factory handover for PR 493
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/tmp-update-content-factory-handover-493.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Update current Content Factory state and plan
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('CLAUDE.md')
+          text = p.read_text()
+          start = text.index('## Current state (')
+          end = text.index('\nKeep a single run log', start)
+          replacement = '''## Current state (as of 2 October 2026 — verify on `main` before acting)
+
+- **Approved main:** inspect the current head before acting; learner-redesign PRs continue to land alongside Content Factory work. PR #493 has been explicitly integrated with the current reviewed `main` before its final CI pass.
+- **Business Subject Foundation:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. Earlier question fixes deepen BUS-FND-007 (takeover), BUS-FND-008 (synergy) and BUS-STR-009 (crisis management). PR #493 additionally deepens the nodes actually mapped to the newly escalated items: BUS-FND-001 (mission/objectives framework), BUS-FND-009 (environmental-issues mechanisms), BUS-OPS-001 (environmental objectives) and BUS-STR-009 (Lewin force-field analysis, including driving and restraining forces).
+- **AQA 7132 mapping:** 42 specification subsections; item-level coverage remains **344/344 with zero gaps**. The machine-generated coverage report for PR #493 records Subject Foundation fingerprint `1e5d430ec5bb108153d673185b449c512393375151945040ddd805fde7073423`.
+- **Fresh pre-#493 T8 proof:** run 36870063233 on `d7b08d2` was `ai_assured`, `can_progress=true`: 31 passed, 11 logged, 0 blocking, 0 escalated, 0 failed; official AQA source check passed; conservative spend $1.041614. Because PR #493 changes Foundation teaching, a fresh T8 proof is required after it merges before dependent content is refreshed.
+- **Learn + Practice whole-course build:** run 36852926789 accepted 74/74 nodes for about $4.40. The earlier targeted refresh (runs 36886805167 and 36886951118) proved exact-fingerprint resume live: seven unchanged nodes reused, three refreshed, 10/10 accepted, $0.221142 combined spend.
+- **Question resume run 36925676050:** ran from main after provider credit was restored and after the first parser repair. It accepted **219/231** questions, with **116 reused without re-review**, for about **$4.49**. Batches 3.6, 3.8-3.9 and 3.5-topup completed cleanly. Twelve questions remained unresolved: ten reached the governed two-review limit and two were false software blockers.
+- **Founder decision on the ten escalations:** Lee said **“Fix all 10”** on 2 October. The exact prior fingerprints and item-specific instructions are in `content-factory/runs/aqa-7132-question-founder-decisions.json`. They are 3.1-3.2 q20/q24/q25/q38/q41, 3.4 q01, 3.7 q04/q05/q07 and 3.10 q10. Do not run a third review on their unchanged prior inputs; the approved fixes create changed inputs that may receive a fresh review.
+- **Two deterministic question-checker defects:** 3.1-3.2 q03 used `-£60,000` and the parser lost the minus; 3.3 q02 displayed `£48 million`/`£54 million` while its calculation correctly stored 48/54 in “millions”. PR #493 preserves canonical numeric parsing while accepting same-unit magnitude shorthand only for input-presence proof, with dedicated regressions. These correct retained candidates must not be repurchased unnecessarily.
+- **Stable Blueprint ownership:** PR #493 makes batch Blueprint regeneration preserve the existing committed item owner whenever that owner remains a valid current teaching candidate. This prevents additive teaching improvements from reshuffling item groups and renumbering downstream questions. An explicit proof compared every question in all eight generated plans with `main` and confirmed **all existing question identities remain stable**.
+- **Targeted Learn + Practice dependency set after PR #493:** exact-fingerprint proof shows only four nodes become stale: 3.1-3.2 `BUS-FND-001` and `BUS-FND-009`, 3.4 `BUS-OPS-001`, and 3.10 `BUS-STR-009`. 3.8-3.9 has no new stale Learn/Practice node. Refresh only those four after fresh T8 assurance.
+- **PR #493:** `content/aqa-7132-fix-question-escalations` records the ten Founder fixes, four mapped Foundation deepenings, the two parser corrections, stable Blueprint ownership, regenerated derived Blueprints/question plans with stable IDs, current coverage evidence and regression tests. It does **not** regenerate paid Learn/Practice or questions and does not publish learner content.
+- **Human review:** no course content has qualified-human approval yet. Lee will arrange a person to review the finished course in context on the live site.
+- **Second provider:** only OpenAI is configured; second-provider checks in the process cannot yet run.
+
+## The plan
+
+1. ~~Lock in the fast-path process.~~ Done.
+2. ~~Split the AQA course into named items and prove item-level coverage.~~ Done: 344/344.
+3. ~~Implement fixed-checklist fast-path assurance.~~ Done.
+4. ~~Pass the exact-course T8 gate for the prior Foundation state.~~ Done: run 36870063233; rerun required after PR #493 because Foundation teaching changed.
+5. ~~Build the complete AQA 3.5 proof slice.~~ Done: Learn + Practice + 14 AQA-style practice questions.
+6. **In progress — finish AQA 7132:**
+   - get PR #493 green and Founder-approved/merged;
+   - run a fresh T8 assurance on the new Foundation state;
+   - run targeted Learn + Practice refresh only for `BUS-FND-001`, `BUS-FND-009`, `BUS-OPS-001` and `BUS-STR-009`; preserve every exact-fingerprint reusable node;
+   - commit those refreshed Learn + Practice assets/evidence in a governed PR and obtain separate Founder merge approval;
+   - resume Questions with `batch=all` and `resume_run_id=36925676050`; preserve the 219 accepted questions, salvage the two software-only retained candidates where current software clears them, and generate/review only the ten Founder-approved fixes plus any genuinely stale dependants;
+   - commit the final accepted question set and evidence in a governed PR with separate Founder approval;
+   - build whole-paper realistic practice papers and prove course-wide quantitative/exam-structure constraints;
+   - run final release assurance required by the pipeline.
+7. Start a second Business board and measure Foundation reuse.
+'''
+          p.write_text(text[:start] + replacement + text[end:])
+          PY
+          git config user.name "revision-governance"
+          git config user.email "revision-governance@users.noreply.github.com"
+          git add CLAUDE.md
+          git commit -m "Update AQA 7132 question-fix handover"
+          git push origin HEAD:${{ github.head_ref }}
