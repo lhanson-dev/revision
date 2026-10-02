@@ -106,6 +106,13 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   const [saving, setSaving] = useState(false)
   const [responding, setResponding] = useState(false)
   const respondingTimer = useRef<number | null>(null)
+  const logRef = useRef<HTMLDivElement | null>(null)
+
+  // Keep the newest message in view as the conversation grows.
+  useEffect(() => {
+    const log = logRef.current
+    if (log) log.scrollTop = log.scrollHeight
+  }, [messages.length])
 
   useEffect(() => {
     window.sessionStorage.removeItem('revision:rev-draft')
@@ -303,7 +310,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
         </div>
       </header>
 
-      <div className="rev-chat__log" tabIndex={0} role="log" aria-label="Conversation with REV" aria-live="polite">
+      <div ref={logRef} className="rev-chat__log" tabIndex={0} role="log" aria-label="Conversation with REV" aria-live="polite">
         <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p></div>
         {messages.map((message) => (
           <div key={message.id} className={`rev-chat__message rev-chat__message--${message.speaker}${message.safety ? ' rev-chat__message--safety' : ''}`}>
