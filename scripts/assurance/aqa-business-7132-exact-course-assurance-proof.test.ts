@@ -115,6 +115,7 @@ async function readLedger(): Promise<Ledger> {
   for (const decision of decisionFile.decisions ?? []) {
     const entry = ledger.units[decision.unit_id]
     if (!entry) throw new Error(`course_gate_founder_decision_missing_ledger_unit:${decision.unit_id}`)
+    if (entry.fingerprint !== decision.reviewed_unit_fingerprint) throw new Error(`course_gate_founder_decision_fingerprint_mismatch:${decision.unit_id}`)
     entry.founder_decision = { decision: decision.decision, note: decision.note, decided_at: decision.decided_at }
   }
   return ledger
@@ -128,8 +129,9 @@ describe('AQA Business 7132 T8 exact-course gate (fast path)', () => {
     expect(checklistInstructions(COURSE_GATE_CHECKLIST)).toContain('Do not look for other problems')
   })
 
-  it('loads the Founder decision that closes the second 3.10.3 blocking round before changed-input review', async () => {
+  it('loads the exact-fingerprint Founder decision that closes the second 3.10.3 blocking round before changed-input review', async () => {
     const ledger = await readLedger()
+    expect(ledger.units['3.10.3']?.fingerprint).toBe('2a7e73795a939bd8724409616f26a7bcec03c20dfe64d4d4bc4752d8353d811e')
     expect(ledger.units['3.10.3']?.founder_decision?.decision).toBe('fix')
     expect(ledger.units['3.10.3']?.founder_decision?.note).toContain('effective exact-course projection')
   })
