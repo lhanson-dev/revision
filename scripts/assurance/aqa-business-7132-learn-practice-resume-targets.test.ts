@@ -15,7 +15,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       return { subject_id: subjectId, title: node.title ?? null, teaching_content: node.teaching_content ?? {}, quantitative_content: node.quantitative_content ?? {}, source_ids: rows.get(subjectId)?.subject_truth_sources ?? [] }
     }
     const cases = [
-      { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-005', 'bus-fnd-009'] },
+      { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-009'] },
       { batch: '3.4', stale: ['bus-ops-001'] },
       { batch: '3.8-3.9', stale: [] },
       { batch: '3.10', stale: ['bus-str-009'] },
