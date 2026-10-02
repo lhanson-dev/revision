@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 16,
+  "topic": "Forensic Psychology",
+  "group": "option_3",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-16-01",
+      "boardAlignment": {
+        "summary": "Offender profiling through typology-led, data-driven investigative and geographical approaches.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Offender profiling uses behavioural and contextual evidence to infer useful characteristics or patterns relevant to an unknown offender.",
+          "A typology-led profiling route starts from pre-existing categories and asks how well the case fits them.",
+          "A data-driven route builds inferences from observed crime features, behavioural consistency across offences and empirical patterns rather than beginning with a fixed offender category.",
+          "Geographical profiling uses spatial patterns in offence locations to estimate an offender's likely activity base or movement pattern."
+        ],
+        "modelsResearchAndRelationships": [
+          "Organised/disorganised typologies illustrate a category-led profiling tradition.",
+          "Investigative-psychology and crime-linkage work use empirical behavioural patterns and consistency to support data-driven inference.",
+          "Geographical profiling is a specialised data-driven approach based on spatial behaviour."
+        ],
+        "evaluationAndLimits": [
+          "Profiling methods are probabilistic investigative aids rather than deterministic diagnoses.",
+          "Claims about offender characteristics must be evaluated against empirical reliability, behavioural consistency and the quality of the data used."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A profile does not identify an offender with certainty.",
+          "Typology-led and data-driven approaches differ in starting assumptions and evidence use; they should not be collapsed into a single method."
+        ],
+        "dependencies": ["research methods", "behavioural consistency", "spatial behaviour", "probabilistic inference"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1007/s11896-025-09776-0",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["organised/disorganised profiling", "offender-profile concepts", "limitations"]
+        },
+        {
+          "url": "https://doi.org/10.1002/jip.1531",
+          "classification": "OPEN",
+          "licence": "commercial-compatible open source retained by predecessor proof",
+          "supports": ["crime linkage", "behavioural consistency", "data-driven empirical inference"]
+        },
+        {
+          "url": "https://doi.org/10.1007/s11896-023-09596-0",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["geographical profiling", "spatial behavioural inference"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision maps the AQA alignment labels commonly described as top-down and bottom-up to typology-led versus data-driven/geographical profiling. The labels remain board alignment; the explanatory content is independently structured from open evidence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-16-02",
+      "boardAlignment": {
+        "summary": "Genetic and neural explanations of offending behaviour.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Genetic explanations examine whether inherited variation contributes to differences in antisocial or offending risk.",
+          "Neural explanations examine brain structure, function and related biological systems associated with antisocial behaviour.",
+          "Biological effects are probabilistic rather than deterministic."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genetic vulnerability operates alongside environmental exposure and developmental context, making gene-environment interaction central to responsible interpretation.",
+          "Neurobiological associations can help explain risk mechanisms but do not establish an inevitable pathway from a biological characteristic to offending."
+        ],
+        "evaluationAndLimits": [
+          "Association is not sufficient evidence of biological determinism or simple one-way causation.",
+          "Ethical interpretation must avoid presenting group-level biological risk findings as individual predictions of criminality."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A genetic contribution does not mean there is a single 'crime gene'.",
+          "Brain differences associated with antisocial behaviour are not proof that biology alone caused an offence."
+        ],
+        "dependencies": ["biopsychology", "genotype and phenotype", "gene-environment interaction", "correlation and causation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1177/0956797617744542",
+          "classification": "OPEN",
+          "licence": "commercial-compatible open source retained by predecessor proof",
+          "supports": ["genetic/polygenic influence on antisocial behaviour"]
+        },
+        {
+          "url": "https://doi.org/10.1186/s40163-015-0018-5",
+          "classification": "OPEN",
+          "licence": "commercial-compatible open source retained by predecessor proof",
+          "supports": ["neurobiology and criminal/antisocial behaviour"]
+        },
+        {
+          "url": "https://doi.org/10.1016/j.tics.2023.08.013",
+          "classification": "OPEN",
+          "licence": "commercial-compatible open source retained by predecessor proof",
+          "supports": ["brain-environment relationships in antisocial behaviour", "non-deterministic interpretation"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-16-03",
+      "boardAlignment": {
+        "summary": "Personality, social-learning and cognitive explanations of offending.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Personality-based explanations link enduring traits to differences in offending risk; Eysenck-style accounts are one historically influential example.",
+          "Differential association treats criminal behaviour as learned through interaction with others, including exposure to definitions and norms favourable to offending.",
+          "Cognitive explanations examine characteristic ways of interpreting and justifying events, including hostile attribution bias and offence-supportive distortions.",
+          "Minimisation and justification can reduce perceived responsibility or harm and form part of offence-supportive cognition.",
+          "Moral reasoning accounts examine how judgements about right, wrong, harm and responsibility may relate to offending behaviour."
+        ],
+        "modelsResearchAndRelationships": [
+          "Personality, social-learning and cognitive explanations operate at different explanatory levels and may make complementary rather than mutually exclusive contributions."
+        ],
+        "evaluationAndLimits": [
+          "No single psychological explanation should be treated as sufficient for all offending behaviour.",
+          "Offence-supportive cognition can be associated with offending without proving that a cognitive distortion alone caused an offence."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Differential association is a social-learning explanation, not a claim that all association with offenders causes crime.",
+          "Minimisation and hostile attribution bias are distinct cognitive patterns and should not be treated as interchangeable labels."
+        ],
+        "dependencies": ["social learning", "personality", "cognition", "moral reasoning"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://openoregon.pressbooks.pub/criminologyintro1e/chapter/4-4-crime-in-the-mind/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Eysenck-style personality explanation", "psychological explanations of crime"]
+        },
+        {
+          "url": "https://openoregon.pressbooks.pub/criminologyintro1e/chapter/6-2-crime-as-learned-behavior/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["differential association", "crime as learned behaviour"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2016.00795",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["hostile attribution bias"]
+        },
+        {
+          "url": "https://doi.org/10.1002/ab.21908",
+          "classification": "OPEN",
+          "licence": "commercial-compatible open source retained by predecessor proof",
+          "supports": ["distorted cognition", "moral reasoning"]
+        },
+        {
+          "url": "https://doi.org/10.5204/ijcjsd.3770",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["minimisation", "justification of offending behaviour"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision retains the explanations as separate but potentially complementary accounts rather than creating a single causal model."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-16-04",
+      "boardAlignment": {
+        "summary": "Custodial sentencing, behaviour modification in custody, anger management and restorative justice.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Custodial sentencing can serve punishment and public-protection purposes while also producing psychological and social consequences for imprisoned people.",
+          "Rehabilitation aims to reduce future offending by changing behaviour, skills, cognition or social functioning rather than relying on punishment alone.",
+          "A token economy is a contingency-management application of operant conditioning in which clearly defined desirable behaviours are followed by exchangeable tokens or other conditioned reinforcers.",
+          "Anger-management interventions target recognition and regulation of anger-related responses associated with aggressive behaviour.",
+          "Restorative justice focuses on harm, responsibility, victim-offender processes and repair."
+        ],
+        "modelsResearchAndRelationships": [
+          "Token economies have been used in residential, inpatient, school and correctional settings; correctional/forensic examples include young-offender facilities and prison contingency-management work.",
+          "Token-economy effectiveness depends on operationally defined target behaviours, contingent reinforcement, suitable reinforcers and consistent implementation by staff.",
+          "Restorative approaches and anger-management programmes target different mechanisms and outcomes from simple custodial punishment."
+        ],
+        "evaluationAndLimits": [
+          "The 2024 token-economy review found generally supportive results for aggression management but substantial methodological limitations in much of the evidence base.",
+          "Custodial interventions should be evaluated for behavioural outcomes, psychological effects, implementation quality and reoffending rather than assuming that punishment or participation alone demonstrates rehabilitation."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A token economy is not simply giving rewards at random; reinforcement is contingent on specified target behaviour.",
+          "Restorative justice is not equivalent to removing responsibility or punishment; its distinctive focus is harm, accountability and repair.",
+          "Evidence of short-term institutional behaviour change should not automatically be treated as evidence of reduced long-term reoffending."
+        ],
+        "dependencies": ["operant conditioning", "reinforcement", "behaviour modification", "aggression", "rehabilitation", "research evaluation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://openwa.pressbooks.pub/crimjust1/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["custody", "rehabilitation", "restorative justice context"]
+        },
+        {
+          "url": "https://doi.org/10.5964/ejop.3995",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["psychological effects of imprisonment"]
+        },
+        {
+          "url": "https://doi.org/10.32388/D1SDI8",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["anger-management evidence"],
+          "caution": "Preprint/review evidence; use with corroboration and do not overstate certainty."
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2023.1162286",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["restorative justice"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.812629",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["victim-offender mediation"]
+        },
+        {
+          "url": "https://doi.org/10.5812/mejrh-142886",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["token-economy mechanism", "contingent reinforcement", "correctional/forensic use", "prison evidence", "implementation conditions", "methodological limitations"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The token-economy source closes the predecessor proof's rights residual; the previously unverified 2026 lead is not required to establish reusable subject truth for this requirement."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 4,
+    "courseTruthReady": 4,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInput": "../AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-FORENSIC.json",
+    "newContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-05.md",
+    "transformation": "Reused existing structured knowledge and source mappings, then closed the explicit token-economy rights residual with a newly verified CC BY 4.0 source."
+  }
+}
