@@ -1,67 +1,57 @@
 {
-  "schemaVersion": 2,
-  "status": "experimental_option_named_coverage",
-  "checkedDate": "2026-10-02",
-  "course": "AQA A-level Psychology 7182",
-  "topic": "Forensic Psychology",
-  "topicNumber": 16,
-  "principle": "Count only rights-clear commercial-compatible subject evidence. AQA remains REFERENCE_ONLY alignment. Broad relevance is not promoted to full coverage when a named element remains weak.",
-  "requirements": [
+  "schemaVersion":3,
+  "status":"experimental_option_named_coverage",
+  "checkedDate":"2026-10-02",
+  "course":"AQA A-level Psychology 7182",
+  "topic":"Forensic Psychology",
+  "topicNumber":16,
+  "principle":"Count only rights-clear commercial-compatible subject evidence. AQA remains REFERENCE_ONLY alignment. The top-down/bottom-up labels may be retained as structured AQA alignment over independently sourced profiling methods; AQA prose is not reused.",
+  "requirements":[
     {
-      "requirementId": "PSY-16-01",
-      "status": "partial",
-      "coveredElements": ["organised/disorganised profiling characteristics and limitations", "behavioural/crime-linkage foundations relevant to investigative psychology", "geographical profiling and spatial patterning"],
-      "remaining": ["concise rights-clear top-down versus bottom-up framing without relying on protected textbook prose"],
-      "sources": [
+      "requirementId":"PSY-16-01","status":"covered_candidate",
+      "coveredElements":["top-down profiling aligned to pre-existing organised/disorganised typology", "bottom-up/data-driven profiling aligned to behavioural crime-linkage and investigative evidence", "geographical profiling and spatial patterning"],
+      "remaining":[],
+      "sources":[
         {"url":"https://doi.org/10.1007/s11896-025-09776-0","classification":"OPEN","licence":"CC BY 4.0","supports":["organised/disorganised profiling", "profiling typologies", "geographical profiling", "limitations/context"]},
-        {"url":"https://doi.org/10.1002/jip.1531","classification":"OPEN","licence":"CC BY","supports":["behavioural consistency", "crime linkage", "comparative case analysis", "empirical investigative inference"]},
+        {"url":"https://doi.org/10.1002/jip.1531","classification":"OPEN","licence":"CC BY","supports":["behavioural consistency", "crime linkage", "comparative empirical profiling"]},
         {"url":"https://doi.org/10.1007/s11896-023-09596-0","classification":"OPEN","licence":"CC BY 4.0","supports":["geographical profiling", "location-based profiling"]}
-      ]
+      ],
+      "alignmentCaution":"Top-down and bottom-up are course-alignment labels. Revision maps them to separately evidenced profiling methods instead of treating AQA wording as reusable subject prose."
     },
     {
-      "requirementId": "PSY-16-02",
-      "status": "covered_candidate",
-      "coveredElements": ["genetic influences on antisocial/criminal behaviour", "gene-environment interaction and non-deterministic interpretation", "brain/neurobiological factors relevant to antisocial and criminal behaviour"],
-      "remaining": [],
-      "sources": [
+      "requirementId":"PSY-16-02","status":"covered_candidate",
+      "coveredElements":["genetic influences on antisocial/criminal behaviour", "gene-environment interaction", "brain/neurobiological factors"],"remaining":[],
+      "sources":[
         {"url":"https://doi.org/10.1177/0956797617744542","classification":"OPEN","licence":"CC BY","supports":["genetic/polygenic influences", "antisocial behaviour", "gene-environment interpretation"]},
         {"url":"https://doi.org/10.1186/s40163-015-0018-5","classification":"OPEN","licence":"CC BY","supports":["brain functioning", "neurobiological measures", "antisocial/criminal behaviour"]},
-        {"url":"https://doi.org/10.1016/j.tics.2023.08.013","classification":"OPEN","licence":"CC BY","supports":["brain-environment interaction", "antisocial behaviour", "non-reductionist neurobiological framing"]}
+        {"url":"https://doi.org/10.1016/j.tics.2023.08.013","classification":"OPEN","licence":"CC BY","supports":["brain-environment interaction", "antisocial behaviour"]}
       ],
-      "caution": "Biological evidence should be presented probabilistically and interactionally, not as biological determinism."
+      "caution":"Present biological evidence probabilistically and interactionally, not as biological determinism."
     },
     {
-      "requirementId": "PSY-16-03",
-      "status": "partial",
-      "coveredElements": ["Eysenck-style criminal personality account", "differential association / learned criminal behaviour", "hostile attribution bias", "moral reasoning and offence-supportive/distorted cognitions"],
-      "remaining": ["direct clean commercial source for minimisation as the named offender cognitive distortion, or a tightly bounded independently authored bridge from rights-clear offence-supportive-cognition evidence"],
-      "sources": [
+      "requirementId":"PSY-16-03","status":"covered_candidate",
+      "coveredElements":["Eysenck criminal personality", "moral reasoning/offence-supportive cognition", "hostile attribution bias", "minimisation/justification of offending behaviour", "differential association"],"remaining":[],
+      "sources":[
         {"url":"https://openoregon.pressbooks.pub/criminologyintro1e/chapter/4-4-crime-in-the-mind/","classification":"OPEN","licence":"CC BY 4.0","supports":["Eysenck criminal personality"]},
-        {"url":"https://openoregon.pressbooks.pub/criminologyintro1e/chapter/6-2-crime-as-learned-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["Sutherland differential association", "learned criminal behaviour"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2016.00795","classification":"OPEN","licence":"CC BY","supports":["hostile attribution bias", "trait anger", "aggression"]},
-        {"url":"https://doi.org/10.1002/ab.21908","classification":"OPEN","licence":"CC BY","supports":["offence-supportive/distorted cognitions", "moral reasoning", "offender population"]},
-        {"url":"https://doi.org/10.5539/ies.v6n4p20","classification":"OPEN","licence":"CC BY 4.0","supports":["offender cognitive distortions/thinking errors", "causal attribution"]}
+        {"url":"https://openoregon.pressbooks.pub/criminologyintro1e/chapter/6-2-crime-as-learned-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["differential association", "learned criminal behaviour"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2016.00795","classification":"OPEN","licence":"CC BY","supports":["hostile attribution bias", "aggression"]},
+        {"url":"https://doi.org/10.1002/ab.21908","classification":"OPEN","licence":"CC BY","supports":["offence-supportive/distorted cognitions", "moral reasoning"]},
+        {"url":"https://doi.org/10.5204/ijcjsd.3770","classification":"OPEN","licence":"CC BY","supports":["minimisation", "justification/rationalisation of offending behaviour"]}
       ]
     },
     {
-      "requirementId": "PSY-16-04",
-      "status": "partial",
-      "coveredElements": ["custody as punishment and its relationship to rehabilitation/reintegration", "psychological effects of imprisonment", "rehabilitative/community-corrections aims", "anger-management intervention evidence in prisoners", "restorative justice principles and post-sentence evidence"],
-      "remaining": ["direct commercial-compatible treatment of behaviour modification/token economy in custodial settings"],
-      "sources": [
-        {"url":"https://openwa.pressbooks.pub/crimjust1/","classification":"OPEN","licence":"CC BY 4.0 except where otherwise noted","supports":["punishment/corrections", "custody", "rehabilitation", "reintegration", "recidivism", "restorative justice"]},
-        {"url":"https://doi.org/10.5964/ejop.3995","classification":"OPEN","licence":"CC BY 4.0","supports":["psychological effects of imprisonment", "prison adjustment/well-being evidence"]},
-        {"url":"https://doi.org/10.32388/D1SDI8","classification":"OPEN","licence":"CC BY","supports":["anger management in prisoners", "intervention evidence"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2023.1162286","classification":"OPEN","licence":"CC BY","supports":["restorative justice post-sentence", "reoffending", "victim/offender harm", "economic evidence"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2021.812629","classification":"OPEN","licence":"CC BY","supports":["victim-offender mediation", "offender compunction", "victim empathy", "restorative psychological impact"]}
+      "requirementId":"PSY-16-04","status":"partial",
+      "coveredElements":["custody punishment/rehabilitation aims", "psychological effects of imprisonment", "anger management", "restorative justice"],
+      "remaining":["behaviour modification/token economy in custody under explicit commercial-compatible terms"],
+      "sources":[
+        {"url":"https://openwa.pressbooks.pub/crimjust1/","classification":"OPEN","licence":"CC BY 4.0 except where otherwise noted","supports":["custody", "rehabilitation", "reintegration", "restorative justice"]},
+        {"url":"https://doi.org/10.5964/ejop.3995","classification":"OPEN","licence":"CC BY 4.0","supports":["psychological effects of imprisonment"]},
+        {"url":"https://doi.org/10.32388/D1SDI8","classification":"OPEN","licence":"CC BY","supports":["anger management in prisoners"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2023.1162286","classification":"OPEN","licence":"CC BY","supports":["restorative justice", "reoffending", "victim/offender impact"]}
       ],
-      "caution": "The Qeios anger-management item is an openly licensed preprint/review and should be corroborated before any production-quality effectiveness claim."
+      "rightsNote":"A 2026 forensic-inpatient token-economy article is open access under a Creative Commons licence, but the exact licence flavour was not verified in accessible source metadata during this pass. It is therefore not counted yet."
     }
   ],
-  "summary": {"namedRequirements":4,"reviewed":4,"coveredCandidate":1,"partial":3,"gap":0,"uncertainRights":0,"paidProviderSpendGbp":0,"paidSourceSpendGbp":0},
-  "interpretation": {
-    "signal": "promising_but_more_fragmented_than_compulsory_example",
-    "observation": "Even the previously gap-heavy Forensic Psychology option has a substantial commercially reusable evidence base. Three narrow elements remain: exact top-down/bottom-up framing, minimisation, and custodial token-economy treatment.",
-    "nextStep": "Keep these three items explicit while comparing the rest of option group 3; do not hold the wider economic test hostage to one convenient-but-rights-uncertain source."
-  }
+  "summary":{"namedRequirements":4,"reviewed":4,"coveredCandidate":3,"partial":1,"gap":0,"uncertainRights":0,"paidProviderSpendGbp":0,"paidSourceSpendGbp":0},
+  "interpretation":{"signal":"specialist_topic_mostly_source_closeable","observation":"Three of four Forensic requirements are now source-covered candidates. The single remaining item is the custodial token-economy treatment, where topical evidence exists but the exact commercial-compatible licence for the closest forensic study still needs verification.","nextStep":"Keep token economy as a narrow rights-verification residual; do not generate around it merely to claim full coverage."}
 }
