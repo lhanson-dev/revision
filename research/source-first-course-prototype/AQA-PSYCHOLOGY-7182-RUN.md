@@ -1,32 +1,18 @@
 # Prototype Run — AQA A-level Psychology 7182
 
 **Prototype:** Source-First Course Prototype  
-**Status:** In progress — all 118 named requirements reviewed; representative Social influence slice source-complete  
+**Status:** Psychology proof complete — recommendation: `iterate`  
 **Started:** 2 October 2026  
+**Completed:** 2 October 2026  
 **Purpose:** First independent proof of the source-first Foundation method
 
 ## Run instruction
 
-Do not run this course through the current Content Factory workflow.
+This was deliberately **not** run through the current Content Factory workflow. The experiment follows `research/source-first-course-prototype/README.md` and the approved Source-First Course Prototype experimental exception.
 
-Use `research/source-first-course-prototype/README.md` as the operating instruction for this experiment. Existing Content Factory material may be consulted for reusable technical components, but its process, stages, assurance ceremony and orchestration are not acceptance criteria for this run.
+## Question tested
 
-## Question to answer
-
-Can a comprehensive AQA A-level Psychology 7182 Foundation candidate be created quickly and at very low variable cost by using existing high-quality material that is free and explicitly permits commercial reuse/adaptation and AI-assisted processing?
-
-## Acceptance focus
-
-This proof is about Foundation economics and coverage, not learner-asset production.
-
-The run must establish:
-
-1. what knowledge AQA 7182 requires;
-2. which commercially reusable source set can supply that knowledge;
-3. how much of the required knowledge can be supplied from those sources without new subject research/generation;
-4. which genuine gaps remain;
-5. how cheaply and quickly those gaps can be resolved; and
-6. whether the method appears reusable for the next new subject.
+Can a comprehensive AQA A-level Psychology 7182 Foundation candidate be made materially faster and cheaper by starting from high-quality material that is free and explicitly permits commercial reuse/adaptation and AI-assisted processing, then using AI mainly for structuring, reconciliation and genuine gaps?
 
 ## Course identity
 
@@ -36,141 +22,129 @@ The run must establish:
 - Specification: 7182
 - First teaching: September 2025
 - First A-level exams: summer 2027
-- Official awarding-body material role: scope/alignment/reference, not assumed reusable teaching copy
+- AQA role: `REFERENCE_ONLY` scope/alignment, not reusable teaching corpus
 
-## Source acceptance rule
+## What was completed
 
-A source can supply the reusable subject corpus only when its rights basis explicitly supports the intended commercial use. Public availability is not permission. AQA remains `REFERENCE_ONLY`; the reusable subject layer uses OPEN, REVISION_OWNED or appropriately LICENSED evidence only.
-
-## Working state
-
-### A. Exact scope — complete first pass
+### Exact scope
 
 `AQA-PSYCHOLOGY-7182-SCOPE.json` records **118 stable named requirement IDs** across 17 topics:
 
 - 71 compulsory requirements;
 - 47 option requirements.
 
-### B. Source discovery — broad + targeted passes complete enough for whole-course economics
+### Source discovery and rights
 
-The prototype has accepted broad CC BY psychology, neuroscience and abnormal-psychology resources plus targeted open research/statistics/criminal-justice sources. Convenient sources with non-commercial restrictions have been rejected rather than counted.
+The prototype established a reusable source base across broad Psychology, neuroscience, abnormal Psychology, statistics, developmental Psychology, criminal justice and targeted open research.
 
-Targeted evidence is retained in the source register and addenda, including `PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-04.md` for closure of the representative Social influence bridges.
+Rights were treated fail-closed. Convenient but non-commercial sources were rejected rather than counted, including current OpenStax Psychology 2e, multiple NC Research Methods resources, Noba and other topic-specific NC material.
 
-### C. Rights verification — active / fail-closed
+### Named coverage
 
-AQA remains reference-only. Current OpenStax Psychology 2e, several Research Methods textbooks, Noba, convenient social-psychology materials and other NC sources were excluded where their terms did not support Revision's intended commercial route.
+All **118/118 named requirements** received a first named-source review.
 
-The prototype has deliberately retained one remaining source gap rather than treating a publicly accessible non-commercial source as permission.
+Current state after targeted difficult-option reconciliation is recorded in `AQA-PSYCHOLOGY-7182-WHOLE-COURSE-METRICS.json`:
 
-### D. Named coverage — 118/118 reviewed
-
-Current whole-course state is recorded in `AQA-PSYCHOLOGY-7182-WHOLE-COURSE-METRICS.json`.
-
-After closing the representative Social influence bridges:
-
-- **118/118 named requirements reviewed**;
-- **54 source-covered candidates**;
-- **63 partial / bounded synthesis requirements**;
-- **1 remaining source gap**;
+- **56 source-covered candidates**;
+- **61 partial / bounded synthesis requirements**;
+- **1 current source gap**;
 - **117/118 requirements have some commercial-compatible reusable subject evidence**.
 
-The one current source gap is `PSY-17-06` — Prochaska's six-stage behaviour-change model. The model is publicly easy to find, but the convenient explanatory sources inspected so far carry non-commercial terms and are not counted.
+The one source gap is `PSY-17-06` — Prochaska's six-stage behaviour-change model. The model is easy to identify factually, but the convenient explanatory sources inspected carry non-commercial terms and are not counted as reusable corpus.
 
-This distinction matters: **117/118 source-supported is not the same as 117/118 finished Foundation coverage**. Sixty-three requirements still need one or more named elements closed or synthesised.
+### Representative Foundation transformation
 
-### E. Bridge / gap strategy
+Two structured Foundation slices were produced:
 
-The compulsory first pass initially found 38 bounded bridges and zero source-domain gaps. The Social influence proof then closed three of those bridges entirely with rights-clear sources.
+1. `AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-SOCIAL-INFLUENCE.json`
+   - 4/4 named requirements source-complete;
+   - no unsupported new subject truth required;
+   - paid provider spend £0;
+   - paid source spend £0.
 
-Option-group first passes now show:
+2. `AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-FORENSIC.json`
+   - deliberately tests a more fragmented specialist option;
+   - 3/4 named requirements source-complete;
+   - 1 narrow rights residual: custodial token-economy evidence exists, but the exact Creative Commons licence of the closest forensic study was not verified as commercial-compatible;
+   - whole-topic generation required: 0;
+   - paid provider spend £0;
+   - paid source spend £0.
 
-- **Option group 1 — Relationships / Gender / Cognition & development:** 14/14 reviewed; 5 covered candidates, 9 partials, 0 gaps.
-- **Option group 2 — Schizophrenia / Eating behaviour / Stress:** 18/18 reviewed; 8 covered candidates, 10 partials, 0 gaps.
-- **Option group 3 — Aggression / Forensic Psychology / Addiction:** 15/15 reviewed; 5 covered candidates, 9 partials, 1 gap.
+The Forensic slice is important because it demonstrates that source fragmentation increases manual search/provenance work without necessarily requiring whole-topic generation.
 
-The previously gap-heavy Forensic Psychology topic is not source-empty. It is more fragmented: one of four requirements is currently source-covered and three have narrow outstanding elements. This is useful evidence about expected manual/source-orchestration cost.
+## Current measures
 
-### F. Representative Foundation candidate — Social influence source-complete
-
-`AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-SOCIAL-INFLUENCE.json` now records a source-complete structured slice for all four Social influence requirements.
-
-Current slice result:
-
-- 4/4 named requirements have rights-clear subject evidence;
-- 0/4 require unsupported new subject truth;
-- 0 require further source discovery;
-- AI was used as a transformation/structuring/reconciliation layer, not as the source of unsupported Psychology knowledge;
-- paid provider spend: **£0**;
-- paid source spend: **£0**.
-
-This demonstrates that a representative topic containing previously small and medium bridges can be completed by targeted open-source discovery plus structured synthesis rather than whole-topic generation.
-
-### G. Current measures
-
-| Measure | Current result |
+| Measure | Result |
 | --- | --- |
-| Exact named course scope | 118 requirements across 17 topics |
+| Exact named course scope | 118 requirements / 17 topics |
 | Named coverage review | **118/118** |
-| Current source-covered candidates | **54/118 (45.8%)** |
-| Current partial / bounded synthesis | **63/118 (53.4%)** |
-| Current source gap | **1/118 (0.8%)** |
+| Source-covered candidates | **56/118 (47.5%)** |
+| Source-supported partials | **61/118 (51.7%)** |
+| Current source gaps | **1/118 (0.8%)** |
 | Requirements with some reusable subject evidence | **117/118 (99.2%)** |
-| Representative structured Foundation slice | Social influence — source-complete |
-| AI-created unsupported subject truth | **0% so far** |
+| Representative structured slices | Social influence + Forensic Psychology |
+| AI-created unsupported subject truth | **0%** |
 | Paid AI/provider spend | **£0** |
 | Paid source/licence spend | **£0** |
-| Manual interventions | source/licence verification, requirement mapping, targeted search, provenance review, conservative classification |
+| Main manual work | source discovery, rights verification, named mapping, targeted reconciliation, provenance |
 
-Elapsed working time is not being invented retrospectively because this prototype has been executed across multiple governed chat/repository interactions rather than a single timed job. A future automated run should instrument elapsed active work directly.
+Elapsed active working time cannot be honestly reconstructed because this proof ran across multiple governed chat/repository interactions rather than a single instrumented job. A subsequent experiment must record active elapsed time automatically from start to finish.
 
-## Current economics signal
+## What the proof establishes
 
-The source-first hypothesis is now **strongly supported on source availability, but not yet fully proven on production throughput**.
+### Supported
 
-The strongest evidence is not that 45.8% of named requirements are already source-complete. It is that **117 of 118 requirements already have a commercially reusable subject-knowledge route**, meaning Psychology does not appear to need to be researched or generated from zero.
+The original economic hypothesis is strongly supported on **source availability**.
 
-The remaining cost problem is therefore narrower:
+Psychology does not appear to need to be researched or generated from zero. Commercial-compatible reusable material already provides at least some subject knowledge for **117 of 118 named requirements**.
 
-- rights verification;
-- targeted source discovery for exact named models;
-- reconciliation of fragmented sources;
-- structured synthesis/alignment;
-- and quality validation of the resulting Foundation nodes.
+The representative slices also show that AI can be used mainly as a transformation layer — structuring, reconciling, mapping and independently phrasing supported subject truth — rather than paying it to rediscover a whole course.
 
-Specialist option topics are noticeably more fragmented than the representative compulsory topic. That means automation should prioritise **source discovery + rights classification + requirement mapping**, not simply pay a model to generate an entire course.
+### Not yet proven
 
-## Next proof
+The proof does **not** establish:
 
-Do not expand infrastructure yet.
+- production-ready educational quality across all 118 requirements;
+- final learner-facing Learn/Practice/Exam Prep quality;
+- exact fully automated elapsed time per course;
+- the final cost of closing all 61 partials;
+- that every subject will have the same quality of open-source ecosystem; or
+- that the current production Content Factory should be replaced immediately.
 
-The next useful experiment is to close a small, deliberately difficult sample from the specialist options — including the single `PSY-17-06` source gap and one or two Forensic/Aggression partials — then transform those into structured Foundation nodes. If that remains cheap and controlled, the source-first production hypothesis will be strong enough for a Founder `promote / iterate / reject` decision or a final narrow automation proof.
+The clearest remaining scalability risk is **manual source orchestration and rights verification**, especially for specialist option material. That is now a more important problem than raw subject-knowledge availability.
 
-## Cost discipline
+## Recommendation — `iterate`
 
-No paid AI call is required until it has a specific job that cannot be done more cheaply by source discovery, deterministic processing or reuse.
+Do **not** return to the current Content Factory for the next test, and do not manually close all 61 Psychology partials merely to obtain a prettier percentage.
 
-Track actual variable cost rather than theoretical token estimates wherever possible.
+The next experiment should automate only the parts the Psychology proof showed are repetitive and expensive in human attention:
 
-## Stop conditions
+1. exact course-scope extraction into stable named requirements;
+2. discovery of broad candidate OER plus targeted gap sources;
+3. licence/right classification with fail-closed handling;
+4. deterministic requirement-to-source matching;
+5. production of a coverage/bridge report;
+6. transformation of source-complete requirements into a minimal structured Foundation schema; and
+7. measurement of elapsed active time, provider spend, paid-source spend and manual interventions from the start.
 
-Stop and report rather than building more infrastructure when any of these becomes true:
+Then run that minimal automation on a **second materially different course/subject**. The purpose of the second run is not another long research exercise; it is to measure repeatability and economics under instrumentation.
 
-- accepted free/commercially reusable sources cover too little of the subject to make the method attractive;
-- licensing uncertainty prevents safe use of the sources needed for broad coverage;
-- Foundation quality requires enough original research/generation that the expected economics no longer improve materially on the existing process; or
-- the source-first method has been sufficiently proven and the next useful step is productisation/automation rather than more prototype work.
+### Why not `promote` yet
 
-## Output still required before final recommendation
+The source-first principle is promising enough to continue, but production promotion would be premature because throughput has not been measured cleanly and Psychology may have an unusually rich open-resource ecosystem.
 
-The proof should finish with:
+### Why not `reject`
 
-- retained source register — present;
-- whole-course scope/coverage map — present for first pass;
-- representative structured Foundation candidate — present for Social influence;
-- measured cost/intervention evidence — variable spend present; retrospective elapsed time deliberately unavailable;
-- targeted difficult-option closure evidence — next;
-- identified risks and gaps — active;
-- recommendation: `promote`, `iterate`, or `reject` — pending final difficult-option proof.
+Rejection is not supported by the evidence. The experiment reached whole-course named coverage with only one unresolved source gap and **£0 paid provider / £0 paid source spend**, while also demonstrating structured Foundation transformation for both a broad compulsory topic and a fragmented specialist option.
 
-No result from this run should be labelled an approved production Course Foundation solely because the prototype completed.
+## Founder decision boundary
+
+This research recommendation does not automatically promote or change production authority.
+
+The Founder should choose one of the experiment's governed end states:
+
+- **promote** — define a production successor/replacement process;
+- **iterate** — authorise the minimal automated second-course proof described above; or
+- **reject** — stop the source-first route and retain the current production approach.
+
+Until that decision, these outputs remain experimental research and are not a production-approved Course Foundation.
