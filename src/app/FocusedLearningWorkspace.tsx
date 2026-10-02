@@ -3,7 +3,8 @@ import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
-import { Button, Icon, SegmentedControl, SelectField, TextAreaField } from './ui'
+import { clearRetried, dueRetry, queueMissed, type RetryEntry } from './practice-retry'
+import { Button, FeedbackBar, Icon, SegmentedControl, SelectField, TextAreaField } from './ui'
 
 export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
 
@@ -95,7 +96,9 @@ export function FocusedLearningWorkspace({
     return topics[0]?.id ?? ''
   })
   const [mode, setMode] = useState<WorkspaceMode | null>(null)
-  const [attempts, setAttempts] = useState(0)
+  // The retry queue for this session: a missed question comes back after at least 3 other answers.
+  const [retryQueue, setRetryQueue] = useState<RetryEntry[]>([])
+  const [retryId, setRetryId] = useState<string | null>(null)
   const [sessionAnswered, setSessionAnswered] = useState(0)
   const [sessionCorrect, setSessionCorrect] = useState(0)
   const [sessionStart] = useState(() => Date.now())
@@ -132,7 +135,10 @@ export function FocusedLearningWorkspace({
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
   const card = cards[cardIndex % Math.max(cards.length, 1)]
-  const question = questions[questionIndex % Math.max(questions.length, 1)]
+  const regularQuestion = questions[questionIndex % Math.max(questions.length, 1)]
+  const retryQuestionItem = retryId ? questions.find((item) => item.id === retryId) : undefined
+  const question = retryQuestionItem ?? regularQuestion
+  const isRetry = Boolean(retryQuestionItem)
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
   const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
@@ -182,7 +188,8 @@ export function FocusedLearningWorkspace({
     setShowAnswer(false)
     setSelectedOption(null)
     setChecked(false)
-    setAttempts(0)
+    setRetryQueue([])
+    setRetryId(null)
   }
 
   function changeMode(nextMode: WorkspaceMode) {
@@ -209,31 +216,25 @@ export function FocusedLearningWorkspace({
 
   async function checkAnswer() {
     if (!question || selectedOption === null || checked) return
-    // Only the first answer to a question is scored. A retry after seeing the explanation is practice.
-    if (attempts === 0) {
-      const evidence = createMultipleChoiceEvidence({
-        id: evidenceId('mcq'),
-        moduleId: adapter.manifest.id,
-        topicId: question.topic,
-        contentId: question.id,
-        selectedOption,
-        correctOption: question.correctOption,
-      })
-      try {
-        await onRecordEvidence(evidence)
-      } catch {
-        return
-      }
-      setSessionAnswered((count) => count + 1)
-      if (selectedOption === question.correctOption) setSessionCorrect((count) => count + 1)
+    // Every answer is saved as normal evidence, including a retry that comes back later in the session.
+    const evidence = createMultipleChoiceEvidence({
+      id: evidenceId('mcq'),
+      moduleId: adapter.manifest.id,
+      topicId: question.topic,
+      contentId: question.id,
+      selectedOption,
+      correctOption: question.correctOption,
+    })
+    try {
+      await onRecordEvidence(evidence)
+    } catch {
+      return
     }
-    setAttempts((count) => count + 1)
+    const correct = selectedOption === question.correctOption
+    setSessionAnswered((count) => count + 1)
+    if (correct) setSessionCorrect((count) => count + 1)
+    setRetryQueue((queue) => (correct ? clearRetried(queue, question.id) : queueMissed(queue, question.id, sessionAnswered + 1)))
     setChecked(true)
-  }
-
-  function retryQuestion() {
-    setSelectedOption(null)
-    setChecked(false)
   }
 
   async function recordExamQuestion() {
@@ -255,10 +256,11 @@ export function FocusedLearningWorkspace({
   }
 
   function nextQuestion() {
-    setQuestionIndex((index) => index + 1)
+    // Leaving a regular question moves on through the topic; leaving a retry keeps the place in the topic.
+    if (!isRetry) setQuestionIndex((index) => index + 1)
+    setRetryId(dueRetry(retryQueue, sessionAnswered)?.questionId ?? null)
     setSelectedOption(null)
     setChecked(false)
-    setAttempts(0)
   }
 
   function nextFormula() {
@@ -317,7 +319,7 @@ export function FocusedLearningWorkspace({
   const quickCheckTask = question ? (
     <div className="pw-task">
       <div className="pw-task-meta">
-        <span>Question {(questionIndex % questions.length) + 1} of {questions.length}</span>
+        <span>{isRetry ? 'Another go at one you missed' : `Question ${(questionIndex % questions.length) + 1} of ${questions.length}`}</span>
       </div>
       <div className="pw-progress" aria-hidden="true">
         {questions.map((item, index) => {
@@ -344,23 +346,19 @@ export function FocusedLearningWorkspace({
       {!checked && <div className="pw-actions"><Button disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button></div>}
       <div className="pw-feedback-region" aria-live="polite">
         {checked && (
-          <div className={`pw-feedback ${selectedOption === question.correctOption ? 'is-correct' : 'is-retry'}`}>
-            <strong><Icon name={selectedOption === question.correctOption ? 'check' : 'retry'} size="compact" />{selectedOption === question.correctOption ? 'Correct' : 'Not quite'}</strong>
-            <p>{question.explanation}</p>
-            {attempts > 1 && <p className="pw-feedback-note">Your first answer to this question is the one that was recorded.</p>}
-          </div>
+          selectedOption === question.correctOption
+            ? (
+              <FeedbackBar tone="correct" title={isRetry ? 'You’ve got it this time' : 'Correct'} explanation={question.explanation} note={isRetry ? 'That one is off your list.' : undefined}>
+                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
+              </FeedbackBar>
+            )
+            : (
+              <FeedbackBar tone="wrong" title="Not quite" explanation={question.explanation} note="This will come back later in this session.">
+                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
+              </FeedbackBar>
+            )
         )}
       </div>
-      {checked && (
-        <div className="pw-actions">
-          {selectedOption === question.correctOption
-            ? <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
-            : <>
-                <Button onClick={retryQuestion}>Try again <Icon name="arrow-right" size="compact" /></Button>
-                <Button variant="tertiary" onClick={nextQuestion}>Next question</Button>
-              </>}
-        </div>
-      )}
     </div>
   ) : null
 

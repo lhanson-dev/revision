@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { AppShell } from './AppShell'
 import { ExaminerGuide } from './ExaminerGuide'
+import { FeedbackBar } from './FeedbackBar'
 import { learningStatusMeta, learningStatusOrder } from './learning-status'
 import { ProgressMeasures } from './ProgressMeasures'
 import { QuickCheck } from './QuickCheck'
@@ -146,5 +147,35 @@ describe('app shell', () => {
 
   it('marks the current destination for assistive technology', () => {
     expect(render('desktop')).toContain('aria-current="page"')
+  })
+})
+
+describe('feedback bar', () => {
+  it('right answers are teal and wrong answers coral, each with an icon and words, never error red or yellow', () => {
+    const right = renderToStaticMarkup(<FeedbackBar tone="correct" title="Correct" explanation="Because revenue minus costs is profit." />)
+    const wrong = renderToStaticMarkup(<FeedbackBar tone="wrong" title="Not quite" explanation="Fixed costs do not change with output." />)
+    expect(right).toContain('ui-feedback-bar--correct')
+    expect(wrong).toContain('ui-feedback-bar--wrong')
+    for (const markup of [right, wrong]) {
+      expect(markup).toContain('<svg')
+      expect(markup).not.toMatch(/error|warning|danger/i)
+    }
+    expect(right).toContain('Correct')
+    expect(wrong).toContain('Not quite')
+  })
+
+  it('shows the content\'s explanation, an optional note and the next step', () => {
+    const markup = renderToStaticMarkup(
+      <FeedbackBar tone="wrong" title="Not quite" explanation="Fixed costs do not change with output." note="This will come back later in this session."><button type="button">Next question</button></FeedbackBar>,
+    )
+    expect(markup).toContain('Fixed costs do not change with output.')
+    expect(markup).toContain('This will come back later in this session.')
+    expect(markup).toContain('Next question')
+  })
+
+  it('leaves out the note and actions when there are none', () => {
+    const markup = renderToStaticMarkup(<FeedbackBar tone="correct" title="Correct" explanation="Yes." />)
+    expect(markup).not.toContain('ui-feedback-bar__note')
+    expect(markup).not.toContain('ui-feedback-bar__actions')
   })
 })

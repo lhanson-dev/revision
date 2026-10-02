@@ -102,3 +102,8 @@
 .planner-runtime .pw-feedback.is-retry strong,
 .planner-runtime .pw-feedback.is-correct p,
 .planner-runtime .pw-feedback.is-retry p { color: var(--rv-teal-text); }
+
+/* The feedback bar sits above the phone tab bar, and below the question on every screen. */
+@media (max-width: 620px) {
+  .planner-runtime .pw-feedback-region { bottom: calc(var(--tabbar-height) + 12px + env(safe-area-inset-bottom)); }
+}
