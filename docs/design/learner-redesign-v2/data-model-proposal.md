@@ -97,6 +97,8 @@ Free text means we may store whatever a student types, so I would cap its length
 **Choice:** accepted-sessions table now, or keep Plan fully derived and drop "Add to Thursday" for launch.
 **Recommendation:** add the table; the v2 Plan and REV card depend on it (F1, F4).
 
+**Build status (2 October 2026):** the table, `learner_planned_sessions`, is in its own migration PR (`supabase/migrations/20261002060000_add_learner_planned_sessions.sql`), with database assurance in `supabase/tests/learner-planned-sessions-assurance.test.sql` and a service layer in `src/services/planning/planned-session-service.ts`. No screen uses it yet. Minutes are limited to 5 to 240, the activity is learn, practice or exam prep, and the same topic and activity cannot be planned twice on one day. Wiring it into Plan and Home ("Add to Thursday", "Move it", the REV PICK label, faded done sessions, the planner treating an accepted session as already placed) is the next PR.
+
 ## 6. Answers and the retry queue
 
 **Marks and results are already saved.** Every answer becomes an evidence row with the marks or the option picked, and that already feeds the status labels and readiness. So "how did the student do" is already in the progress data for marks. What is missing is the next level down: **which points they got and which they missed**, and the answer itself. Section 7 adds those.
