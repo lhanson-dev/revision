@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { PlannerReasonCode } from '../engine/planning/planning'
 import { loadPlannerSetup, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
@@ -7,6 +7,9 @@ import { createCourseLearningState, createModuleLearningState, type ModuleLearni
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot } from './planner-model'
 import { RevPresence, type RevPresenceState } from './RevPresence'
+import type { CourseSection } from './navigation'
+import { answerExams, answerProgress, answerToday, CANNOT_ANSWER_YET, classifyQuestion, promptChips, SAFEGUARDING_FOLLOW_ON, safeguardingReply, screenForSafeguarding, type RevAnswer } from './rev-answers'
+import { Button } from './ui'
 
 interface PlannerRevScreenProps {
   client: SupabaseClient
@@ -15,12 +18,19 @@ interface PlannerRevScreenProps {
   onOpenPlan: () => void
   onOpenCourses: () => void
   onOpenCourse: (courseId: string) => void
+  onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
 type ConversationMessage = {
   id: string
   speaker: 'rev' | 'learner'
   text: string
+  /** Extra lines under the text (for the fixed safety message: the support list). */
+  list?: string[]
+  /** A closing line after the list. */
+  after?: string
+  safety?: boolean
+  action?: RevAnswer['action']
 }
 
 type PendingPreference = {
@@ -83,7 +93,7 @@ function mentionedProgrammeItems(programme: readonly LearnerProgrammeCourse[], t
   return programme.filter((item) => normalized.includes(item.subject.name.toLocaleLowerCase()))
 }
 
-export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse }: PlannerRevScreenProps) {
+export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection }: PlannerRevScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [input, setInput] = useState(() => window.sessionStorage.getItem('revision:rev-draft') ?? '')
@@ -94,9 +104,21 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [pendingPreference, setPendingPreference] = useState<PendingPreference | null>(null)
   const [saving, setSaving] = useState(false)
+  const [responding, setResponding] = useState(false)
+  const respondingTimer = useRef<number | null>(null)
+  const logRef = useRef<HTMLDivElement | null>(null)
+
+  // Keep the newest message in view as the conversation grows.
+  useEffect(() => {
+    const log = logRef.current
+    if (log) log.scrollTop = log.scrollHeight
+  }, [messages.length])
 
   useEffect(() => {
     window.sessionStorage.removeItem('revision:rev-draft')
+    return () => {
+      if (respondingTimer.current !== null) window.clearTimeout(respondingTimer.current)
+    }
   }, [])
 
   useEffect(() => {
@@ -156,9 +178,9 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   const revVisualState: RevPresenceState = loading
     ? 'thinking'
-    : saving
+    : saving || responding
       ? 'responding'
-      : inputFocused
+      : inputFocused && input.length > 0
         ? 'listening'
         : 'resting'
 
@@ -166,25 +188,41 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     setMessages((current) => [...current, message])
   }
 
-  function submitConversation(event: React.FormEvent) {
-    event.preventDefault()
-    const text = input.trim()
+  function reply(message: Omit<ConversationMessage, 'id' | 'speaker'>) {
+    appendMessage({ id: crypto.randomUUID(), speaker: 'rev', ...message })
+    setResponding(true)
+    if (respondingTimer.current !== null) window.clearTimeout(respondingTimer.current)
+    respondingTimer.current = window.setTimeout(() => setResponding(false), 1400)
+  }
+
+  function submitText(raw: string) {
+    const text = raw.trim()
     if (!text) return
     appendMessage({ id: crypto.randomUUID(), speaker: 'learner', text })
     setInput('')
 
-    const matches = mentionedProgrammeItems(programme, text)
-    if (matches.length === 0) {
-      appendMessage({
-        id: crypto.randomUUID(),
-        speaker: 'rev',
-        text: programme.length === 0
-          ? 'You do not have an active course yet. Add one in Courses and I can use it as programme context.'
-          : 'I can help change the plan, but I need to know which active course you mean. Use the course or qualification name shown in Courses.',
-      })
+    // 1. Safety first: a student who is struggling gets fixed, vetted text, never a model or a plan change.
+    const concern = screenForSafeguarding(text)
+    if (concern) {
+      const fixed = safeguardingReply(concern)
+      reply({ text: fixed.paragraphs.join(' '), list: fixed.support, after: SAFEGUARDING_FOLLOW_ON, safety: true })
       return
     }
 
+    // 2. Questions REV can answer from the student's own plan, results and exam dates.
+    const now = new Date()
+    const wantsPlanChange = /\b(focus|prioriti[sz]e|more|less|reduce|ease off|pause|not today)\b/i.test(text) && mentionedProgrammeItems(programme, text).length > 0
+    if (!wantsPlanChange) {
+      const kind = classifyQuestion(text)
+      if (kind === 'today') return reply(answerToday(learningStates, programme, now))
+      if (kind === 'progress') return reply(answerProgress(learningStates, programme, text))
+      if (kind === 'exams') return reply(answerExams(activeAssessments, programme, now))
+      // 3. Anything else: say honestly that this is not possible yet. Never a made-up answer.
+      return reply({ text: CANNOT_ANSWER_YET })
+    }
+
+    // 4. A plan change: the student confirms before anything is saved.
+    const matches = mentionedProgrammeItems(programme, text)
     const selected = matches[0]
     const sameSubjectCourses = programme.filter((item) => item.subject.id === selected.subject.id)
     if (sameSubjectCourses.length > 1) {
@@ -197,7 +235,6 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     }
 
     const preferenceType = preferenceIntent(text)
-    const now = new Date()
     const startsOn = localDate(now)
     const endsOn = plusDays(now, 6)
     const currentTop = snapshot?.today[0]
@@ -260,45 +297,59 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     setPendingPreference(null)
   }
 
+  const chips = promptChips(programme, activeAssessments.length > 0)
+  const learnerHasAsked = messages.some((message) => message.speaker === 'learner')
+
   return (
-    <main className="dashboard screen-dashboard page-screen rev-page planner-rev-page" aria-labelledby="planner-rev-title">
-      <header className="page-heading">
-        <p className="eyebrow">Your intelligent revision guide</p>
-        <h1 id="planner-rev-title">REV</h1>
-        <p>Talk through your plan, ask why something is recommended, or change what you focus on this week.</p>
+    <main className="rev-chat" aria-labelledby="planner-rev-title">
+      <header className="rev-chat__head">
+        <RevPresence state={revVisualState} size="compact" />
+        <div>
+          <h1 id="planner-rev-title" className="rev-chat__title">How can I help?</h1>
+          <p className="rev-chat__state" aria-hidden="true">{revVisualState === 'thinking' ? 'REV is thinking' : revVisualState === 'responding' ? 'REV is responding' : revVisualState === 'listening' ? 'REV is listening' : 'REV is ready'}</p>
+        </div>
       </header>
 
-      <section className="rev-hero rev-page-hero" aria-labelledby="planner-rev-conversation-title">
-        <div className="rev-copy planner-rev-copy">
-          <div className="rev-pill">REV</div>
-          <h2 id="planner-rev-conversation-title">How can I help?</h2>
-          <div className="planner-conversation" aria-live="polite">
-            <div className="planner-message-bubble rev"><p>{loading ? 'I’m checking your active courses, plan and evidence…' : opening}</p></div>
-            {messages.map((message) => <div key={message.id} className={`planner-message-bubble ${message.speaker}`}><p>{message.text}</p></div>)}
+      <div ref={logRef} className="rev-chat__log" tabIndex={0} role="log" aria-label="Conversation with REV" aria-live="polite">
+        <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p></div>
+        {messages.map((message) => (
+          <div key={message.id} className={`rev-chat__message rev-chat__message--${message.speaker}${message.safety ? ' rev-chat__message--safety' : ''}`}>
+            <span className="rev-chat__who">{message.speaker === 'rev' ? 'REV says' : 'You said'}</span>
+            <p>{message.text}</p>
+            {message.list && <ul className="rev-chat__support">{message.list.map((line) => <li key={line}>{line}</li>)}</ul>}
+            {message.after && <p>{message.after}</p>}
+            {message.action && <Button size="compact" onClick={() => onOpenCourseSection(message.action!.courseId, message.action!.section)}>{message.action.label}</Button>}
           </div>
+        ))}
+      </div>
 
-          {pendingPreference && (
-            <div className="planner-rev-confirm">
-              <strong>Apply this change?</strong>
-              <p>{pendingPreference.preferenceType === 'prefer_subject' ? `Give ${pendingPreference.label} more weight` : `Reduce ${pendingPreference.label}`} for the next 7 days. This changes planning priority, not mastery or readiness.</p>
-              <div className="inline-actions"><button className="primary" disabled={saving} onClick={() => void confirmPreference()}>Yes, adjust my plan</button><button className="secondary" disabled={saving} onClick={cancelPreference}>Keep it as it is</button></div>
-            </div>
-          )}
-
-          <form className="planner-rev-input" onSubmit={submitConversation}>
-            <label htmlFor="rev-plan-message">Talk to REV about your plan</label>
-            <div><input id="rev-plan-message" value={input} maxLength={240} placeholder={programme[0] ? `e.g. focus more on ${programme[0].course.qualificationName} this week` : 'Add a course first, then ask REV about your plan'} onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} onChange={(event) => setInput(event.target.value)} /><button className="rev-primary" type="submit" disabled={loading || saving}>Send</button></div>
-          </form>
-
-          <div className="rev-actions">
-            <button className="rev-secondary" onClick={onOpenPlan}>Open my full plan</button>
-            {topItem?.courseId ? <button className="rev-secondary" onClick={() => onOpenCourse(topItem.courseId!)}>Open {topLabel}</button> : <button className="rev-secondary" onClick={onOpenCourses}>Show my courses</button>}
-          </div>
+      {pendingPreference && (
+        <div className="rev-chat__confirm">
+          <strong>Apply this change?</strong>
+          <p>{pendingPreference.preferenceType === 'prefer_subject' ? `Give ${pendingPreference.label} more weight` : `Reduce ${pendingPreference.label}`} for the next 7 days. This changes planning priority, not your results or readiness.</p>
+          <div className="rev-chat__confirm-actions"><Button disabled={saving} onClick={() => void confirmPreference()}>Yes, adjust my plan</Button><Button variant="secondary" disabled={saving} onClick={cancelPreference}>Keep it as it is</Button></div>
         </div>
-        <RevPresence state={revVisualState} size="conversation" />
-      </section>
+      )}
 
-      <p className="quiet-note">REV suggests; you decide. Nothing in your plan changes until you say so.</p>
+      {!learnerHasAsked && chips.length > 0 && (
+        <div className="rev-chat__chips" role="group" aria-label="Things you can ask">
+          {chips.map((chip) => <button key={chip} type="button" className="rev-chat__chip" disabled={loading || saving} onClick={() => submitText(chip)}>{chip}</button>)}
+        </div>
+      )}
+
+      <form className="rev-chat__composer" onSubmit={(event) => { event.preventDefault(); submitText(input) }}>
+        <label className="rev-chat__label" htmlFor="rev-message">Message REV</label>
+        <div className="rev-chat__composer-row">
+          <input id="rev-message" className="rev-chat__input" value={input} maxLength={240} autoComplete="off" placeholder="Ask REV…" onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} onChange={(event) => setInput(event.target.value)} />
+          <Button type="submit" disabled={loading || saving || input.trim().length === 0}>Send</Button>
+        </div>
+      </form>
+
+      <p className="rev-chat__note">REV suggests; you decide. Nothing in your plan changes until you say so. This chat isn’t saved after you close it.</p>
+      <div className="rev-chat__links">
+        <Button variant="secondary" onClick={onOpenPlan}>Open my plan</Button>
+        {topItem?.courseId ? <Button variant="secondary" onClick={() => onOpenCourse(topItem.courseId!)}>Open {topLabel}</Button> : <Button variant="secondary" onClick={onOpenCourses}>Show my courses</Button>}
+      </div>
     </main>
   )
 }

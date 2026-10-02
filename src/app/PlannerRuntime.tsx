@@ -23,7 +23,6 @@ import {
   parseRoute,
   planRoute,
   progressRoute,
-  revRoute,
   routeBelongsToCourses,
   routeHash,
   type AppRoute,
@@ -244,9 +243,11 @@ export function PlannerRuntime() {
     setRevPanelOpen(true)
   }
 
-  function expandRev() {
+  /** Ask REV is always a pop-up over the page: the old #/rev link opens it over Home. */
+  const revOpen = revPanelOpen || route.kind === 'rev'
+  function closeRev() {
     setRevPanelOpen(false)
-    window.location.hash = routeHash(revRoute())
+    if (route.kind === 'rev') navigate(homeRoute())
   }
 
   function openAccountModal(section: AccountSection) {
@@ -300,12 +301,10 @@ export function PlannerRuntime() {
     screen = <main className="loading-shell">Loading your courses…</main>
   } else if (route.kind !== 'admin' && programmeError) {
     screen = <main className="dashboard screen-dashboard page-screen"><Status tone="error">{programmeError} Revision will not substitute the published catalogue for your programme.</Status></main>
-  } else if (route.kind === 'home') {
+  } else if (route.kind === 'home' || route.kind === 'rev') {
     screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'plan') {
     screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenRev={openRev} />
-  } else if (route.kind === 'rev') {
-    screen = <PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject') {
     screen = <CoursesScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onMembershipsChange={setMemberships} onOpenCourse={(courseId) => openCourse(courseId, 'courses_index')} />
   } else if (route.kind === 'progress') {
@@ -348,7 +347,7 @@ export function PlannerRuntime() {
         </div>
       </aside>}
 
-      {showRail && <Rail items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revPanelOpen} onOpenMenu={openMobileMenu} menuOpen={menuOpen} />}
+      {showRail && <Rail items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} onOpenMenu={openMobileMenu} menuOpen={menuOpen} />}
 
       {showPhoneChrome && <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button></header>}
 
@@ -356,20 +355,20 @@ export function PlannerRuntime() {
 
       <div className="runtime-screen">{screen}</div>
 
-      {showPhoneChrome && route.kind !== 'admin' && <TabBar items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revPanelOpen || route.kind === 'rev'} />}
+      {showPhoneChrome && route.kind !== 'admin' && <TabBar items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} />}
 
 
-      {revPanelOpen && programmeResolved && !programmeError && <>
-        <OverlayBackdrop className="runtime-rev-backdrop" label="Close Ask REV" onClick={() => setRevPanelOpen(false)} />
+      {revOpen && programmeResolved && !programmeError && <>
+        <OverlayBackdrop className="runtime-rev-backdrop" label="Close Ask REV" onClick={closeRev} />
         <DrawerShell
           className="runtime-rev-panel"
           label="Ask REV"
-          onDismiss={() => setRevPanelOpen(false)}
-          initialFocusSelector=".planner-rev-input input"
+          onDismiss={closeRev}
+          initialFocusSelector=".rev-chat__input"
           returnFocusSelector=".runtime-ask-rev, .ui-rail__ask-rev, .ui-tabbar__ask-rev"
         >
-          <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={() => setRevPanelOpen(false)}><Icon name="close" size="compact" /></IconButton></div></header>
-          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} /></div>
+          <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={closeRev}><Icon name="close" size="compact" /></IconButton></div></header>
+          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} /></div>
         </DrawerShell>
       </>}
 
