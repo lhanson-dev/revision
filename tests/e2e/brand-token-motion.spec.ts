@@ -195,7 +195,9 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
   await openAskRev(page)
   const revInput = page.getByRole('dialog', { name: 'Ask REV' }).getByLabel('Message REV')
   await expect(revInput).toBeVisible()
+  // Listening means the student is typing: focusing the box alone is not enough.
   await revInput.focus()
+  await revInput.pressSequentially('hi')
   await expect(page.locator('.runtime-rev-panel .rev-presence')).toHaveAttribute('data-state', 'listening')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })

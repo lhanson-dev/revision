@@ -246,6 +246,8 @@ test('dark theme is coherent across the complete learner application and account
   await page.goto(`${appPath}#/rev`)
   await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', 'dark')
   await auditRuntime(page, 'REV')
+  // Ask REV is a pop-up over Home: close it before using the account menu behind it.
+  await page.getByRole('dialog', { name: 'Ask REV' }).getByRole('button', { name: 'Close Ask REV' }).click()
 
   if (isResponsiveLayout(page)) {
     await page.getByRole('button', { name: 'Open menu' }).click()
