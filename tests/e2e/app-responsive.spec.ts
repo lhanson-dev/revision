@@ -303,7 +303,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(revDialog.getByRole('heading', { name: 'Ask REV' })).toBeVisible()
   await expect(revDialog.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
-  await expect(revDialog.getByLabel('Talk to REV about your plan')).toBeVisible()
+  await expect(revDialog.getByLabel('Message REV')).toBeVisible()
   await expectNoPageOverflow(page)
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
 

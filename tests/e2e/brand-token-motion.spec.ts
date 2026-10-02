@@ -193,13 +193,13 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
   })
 
   await openAskRev(page)
-  const revInput = page.getByRole('dialog', { name: 'Ask REV' }).getByLabel('Talk to REV about your plan')
+  const revInput = page.getByRole('dialog', { name: 'Ask REV' }).getByLabel('Message REV')
   await expect(revInput).toBeVisible()
   await revInput.focus()
-  await expect(page.locator('.runtime-rev-panel .rev-presence-conversation')).toHaveAttribute('data-state', 'listening')
+  await expect(page.locator('.runtime-rev-panel .rev-presence')).toHaveAttribute('data-state', 'listening')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const reducedMotion = await page.locator('.runtime-rev-panel .rev-presence-conversation .rev-halo').evaluate((halo) => {
+  const reducedMotion = await page.locator('.runtime-rev-panel .rev-presence .rev-halo').evaluate((halo) => {
     const style = getComputedStyle(halo)
     return { name: style.animationName, duration: style.animationDuration }
   })
