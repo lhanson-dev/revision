@@ -99,12 +99,16 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
  * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
  * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
+ * Tablet Courses re-pinned on 1 October 2026 with Founder approval (Lee: "OK, update them" to the PR 7
+ * before/after screenshots) for Courses v2 (PR 7): course cards in the subject's solid colour with its
+ * letter mark. Digests taken from the PR 7 CI run 36931767297 (the "Expected value" lines), not from
+ * a local browser. Screenshots reviewed: docs/design/learner-redesign-v2/screenshots/pr-07/.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '1c50c552c8143e7d3ec126c872609ae2995b34a8f0d1e2d335f354f09a24af9c',
   'desktop:plan:dark': '2f588de2425292428b3eedb6a63552a7ff658e1fe63520c3b15f2c281e8bebeb',
-  'tablet:courses:light': 'c76a8a5e5eb5ffa7b1245b9303dcb2aa38a5d09dc5dd0762c003cfe976061d7c',
-  'tablet:courses:dark': '48b518057a05a3053897da8a60fc7cd9bb5344578c29524dd2d5f0dd63293cf2',
+  'tablet:courses:light': '3e4717b19b8c3b116352bf12799cc8753155583f7a0c6df3d6aa00d1b7074a87',
+  'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
   'phone:practice:light': '7e9733b00c8a89cb44d9f646bcd1ebb0bf7a1a1c3436d944e948b9e1aea6431f',
   'phone:practice:dark': '3d822a0deac105cfabcd79ce70bc3ca3867f7f4217702808523074f2bd3f278a',
   'tablet:exam-prep:light': 'b23ad3ca7b74b2b9d31630573113d4c51f4186939dbff2f30b39400bfcd930d5',

@@ -9,14 +9,16 @@
   flex-wrap: wrap;
   padding: 28px 30px;
   border-radius: var(--rv-radius-hero);
-  background: var(--tile-fill, var(--rv-teal));
-  color: var(--tile-text, var(--rv-teal-text));
+  background: var(--hero-solid, var(--rv-surface));
+  color: var(--hero-on, var(--rv-text));
 }
 .course-overview-hero p { margin: 0; }
 .course-overview-hero-eyebrow { font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
 .course-overview-hero-facts { margin-top: 8px !important; font-weight: 700; font-size: 18px; }
-.course-overview-hero-stats { display: flex; gap: 12px; margin: 0; }
-.course-overview-hero-stats div { min-width: 104px; padding: 14px 18px; border-radius: 20px; background: var(--rv-surface); text-align: center; }
+.course-overview-hero-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.course-overview-hero-id > div { min-width: 0; }
+.course-overview-hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; max-width: 100%; }
+.course-overview-hero-stats div { min-width: 0; flex: 1 1 104px; padding: 14px 18px; border-radius: 20px; background: var(--rv-surface); text-align: center; }
 .course-overview-hero-stats dt { order: 2; font-weight: 700; font-size: 12px; }
 .course-overview-hero-stats dd { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -.02em; }
 .course-overview-hero-stats div { display: flex; flex-direction: column; }
@@ -35,7 +37,7 @@
 .course-overview-path li[data-next="true"] { background: var(--rv-deep); border-color: var(--rv-deep); color: var(--rv-on-deep); }
 .course-overview-path li[data-next="true"] .course-overview-path-mark { background: var(--rv-on-deep-tint-2); color: var(--rv-on-deep); }
 .course-overview-path li[data-next="true"] small { color: var(--rv-on-deep-muted); }
-.course-overview-path li[data-band="not-enough-evidence"]:not([data-next="true"]) { opacity: .85; }
+/* Rows are no longer dimmed for topics with little evidence: the status label carries the meaning and must stay readable (WCAG contrast). */
 
 .course-overview-weak { display: flex; flex-direction: column; gap: 4px; padding: 22px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
 .course-overview-weak ul { display: flex; flex-direction: column; gap: 14px; margin: 0 0 14px; padding: 0; list-style: none; }
@@ -53,3 +55,20 @@
 /* Stat boxes are solid surfaces so their small labels stay readable on any subject colour. */
 .course-overview-hero .course-overview-hero-stats dt { color: var(--rv-text-2); }
 .course-overview-hero .course-overview-hero-stats dd { color: var(--rv-text); }
+
+/* The status badge sits at the end of each path row and each weak spot; its icon and words carry the meaning. */
+.course-overview-path li { flex-wrap: wrap; }
+.course-overview-path-copy { flex: 1 1 140px; }
+.course-overview-weak li { align-items: center; }
+.course-overview-path li button, .course-overview-weak .ui-button { min-height: 48px; }
+/* Progress measures sit between the hero and the path. */
+.course-overview-v2 .ui-progress-measures { margin: 0; }
+
+/* On a phone the course tabs wrap onto a second row instead of scrolling sideways (scroll down, never sideways). */
+@media (max-width: 620px) {
+  .planner-runtime .course-nav { position: static; flex-wrap: wrap; overflow-x: visible; }
+  .planner-runtime .course-nav button { flex: 1 1 auto; min-height: 48px; }
+}
+
+/* A status badge keeps its own width instead of stretching across the row. */
+.course-overview-path-copy .ui-status-badge { align-self: flex-start; }
