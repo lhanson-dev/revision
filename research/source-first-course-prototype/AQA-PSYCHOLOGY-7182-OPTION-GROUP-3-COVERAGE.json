@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_option_group_named_coverage",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "optionGroup": 3,
+  "topics": [15,16,17],
+  "principle": "Conservative first pass. A requirement is covered_candidate only when the named elements have commercially reusable subject evidence; otherwise the remaining named elements stay explicit.",
+  "requirements": [
+    {
+      "requirementId":"PSY-15-01","topic":"Aggression","status":"covered_candidate",
+      "coveredElements":["neural/biological aggression mechanisms", "serotonergic/limbic foundations", "testosterone", "MAOA/genetic interaction"],
+      "remaining":[],
+      "sources":[
+        {"url":"https://doi.org/10.3389/fnbeh.2020.00093","classification":"OPEN","licence":"CC BY 4.0","supports":["testosterone", "MAOA", "aggression"]},
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC5488346/","classification":"OPEN","licence":"CC BY","supports":["MAOA", "gene-environment interaction", "aggression"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-15-02","topic":"Aggression","status":"partial",
+      "coveredElements":["fixed action patterns/sign stimuli in aggressive animal behaviour", "evolutionary accounts of aggression"],
+      "remaining":["commercial-compatible psychology source explicitly using the AQA innate-releasing-mechanism terminology, or a bounded independent bridge from rights-clear ethology/behavioural-biology facts"],
+      "sources":[
+        {"url":"https://openstax.org/books/biology-2e/pages/45-7-behavioral-biology-proximate-and-ultimate-causes-of-behavior","classification":"REFERENCE_CANDIDATE_REQUIRES_CURRENT_RIGHTS_CHECK","supports":["fixed action pattern", "stickleback aggressive sign stimulus"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2019.01914","classification":"OPEN","licence":"CC BY","supports":["evolutionary aggression", "human aggression"]}
+      ],
+      "caution":"Do not count the current OpenStax page as reusable corpus until its current commercial/AI terms are verified for this specific Biology edition; current OpenStax Psychology 2e is already rejected under separate current terms."
+    },
+    {
+      "requirementId":"PSY-15-03","topic":"Aggression","status":"partial",
+      "coveredElements":["social-learning/modeling foundations", "deindividuation evidence", "frustration as a precursor to aggressive responding"],
+      "remaining":["one clean commercial-compatible source or bounded synthesis for the named frustration-aggression hypothesis in its classic and revised forms"],
+      "sources":[
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/observational-learning/","classification":"OPEN","licence":"CC BY 4.0","supports":["observational learning", "modeling", "vicarious learning"]},
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC3799631/","classification":"OPEN","licence":"CC BY","supports":["frustration", "anger", "aggression"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-15-04","topic":"Aggression","status":"partial",
+      "coveredElements":["prison/custodial environmental effects and adjustment evidence", "individual differences relevant to aggression/offending"],
+      "remaining":["direct rights-clear treatment comparing dispositional and situational explanations of institutional aggression in prisons"],
+      "sources":[
+        {"url":"https://doi.org/10.5964/ejop.3995","classification":"OPEN","licence":"CC BY 4.0","supports":["psychological effects of imprisonment", "institutional environment"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-15-05","topic":"Aggression","status":"partial",
+      "coveredElements":["media/game violence research", "social-learning mechanisms", "desensitisation as a testable proposed mechanism"],
+      "remaining":["clean synthesis of disinhibition and cognitive priming with evidence-quality caveats"],
+      "sources":[
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/aggression/","classification":"OPEN","licence":"CC BY 4.0","supports":["aggression foundations", "social/media factors"]}
+      ],
+      "caution":"Open studies give mixed results for media-violence mechanisms. A production Foundation must distinguish proposed mechanisms from settled causal claims."
+    },
+
+    {
+      "requirementId":"PSY-16-01","topic":"Forensic Psychology","status":"partial","coveredElements":["organised/disorganised profiling", "behavioural crime-linkage/investigative foundations", "geographical profiling"],"remaining":["exact top-down versus bottom-up framing from rights-clear evidence or bounded independent synthesis"],"sourceArtifact":"AQA-PSYCHOLOGY-7182-OPTION-COVERAGE-FORENSIC.json"},
+    {"requirementId":"PSY-16-02","topic":"Forensic Psychology","status":"covered_candidate","coveredElements":["genetic explanations", "neural/brain explanations", "gene/environment qualification"],"remaining":[],"sourceArtifact":"AQA-PSYCHOLOGY-7182-OPTION-COVERAGE-FORENSIC.json"},
+    {"requirementId":"PSY-16-03","topic":"Forensic Psychology","status":"partial","coveredElements":["Eysenck criminal personality", "moral reasoning/distorted cognition", "hostile attribution bias", "differential association"],"remaining":["minimisation as named offender cognitive distortion"],"sourceArtifact":"AQA-PSYCHOLOGY-7182-OPTION-COVERAGE-FORENSIC.json"},
+    {"requirementId":"PSY-16-04","topic":"Forensic Psychology","status":"partial","coveredElements":["custody aims/effects", "anger management", "restorative justice"],"remaining":["behaviour modification/token economy in custody under explicit commercial-compatible terms"],"sourceArtifact":"AQA-PSYCHOLOGY-7182-OPTION-COVERAGE-FORENSIC.json"},
+
+    {
+      "requirementId":"PSY-17-01","topic":"Addiction","status":"covered_candidate",
+      "coveredElements":["physical/psychological dependence", "tolerance", "withdrawal"],"remaining":[],
+      "sources":[{"url":"https://opentextbc.ca/h5ppsychology/chapter/substance-use-and-abuse/","classification":"OPEN","licence":"CC BY 4.0","supports":["dependence", "tolerance", "withdrawal", "substance-use foundations"]}]
+    },
+    {
+      "requirementId":"PSY-17-02","topic":"Addiction","status":"partial",
+      "coveredElements":["biological/genetic vulnerability", "social/environmental influence"],
+      "remaining":["one coherent rights-clear personality-risk treatment matching the named course requirement"],
+      "sources":[{"url":"https://opentextbc.ca/h5ppsychology/chapter/substance-use-and-abuse/","classification":"OPEN","licence":"CC BY 4.0","supports":["biological and environmental addiction risk foundations"]}]
+    },
+    {
+      "requirementId":"PSY-17-03","topic":"Addiction","status":"covered_candidate",
+      "coveredElements":["nicotine reinforcement/reward and dopamine", "cue reactivity/learned cue effects"],"remaining":[],
+      "sources":[
+        {"url":"https://doi.org/10.3389/fpsyg.2016.00374","classification":"OPEN","licence":"CC BY","supports":["cue reactivity", "nicotine addiction"]},
+        {"url":"https://doi.org/10.3389/fnmol.2022.925272","classification":"OPEN","licence":"CC BY","supports":["nicotine reinforcement", "dopamine/reward mechanisms"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-17-04","topic":"Addiction","status":"covered_candidate",
+      "coveredElements":["partial/variable reinforcement and persistence", "gambling cognitive biases"],"remaining":[],
+      "sources":[
+        {"url":"https://doi.org/10.3389/fpsyg.2016.00046","classification":"OPEN","licence":"CC BY","supports":["reinforcement schedules", "partial reinforcement extinction effect", "gambling"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2023.1089608","classification":"OPEN","licence":"CC BY","supports":["gambling cognitive biases"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-17-05","topic":"Addiction","status":"partial",
+      "coveredElements":["drug-treatment and CBT foundations", "covert sensitisation in alcohol-treatment evidence"],
+      "remaining":["commercial-compatible evidence specifically sufficient for aversion therapy as the named addiction intervention"],
+      "sources":[
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/substance-use-and-abuse/","classification":"OPEN","licence":"CC BY 4.0","supports":["addiction treatment foundations"]},
+        {"url":"https://www.rmj.org.pk/?mno=302643623","classification":"OPEN","licence":"CC BY 4.0 at journal/article level as inspected","supports":["covert sensitisation", "alcohol treatment"]}
+      ]
+    },
+    {
+      "requirementId":"PSY-17-06","topic":"Addiction","status":"gap",
+      "coveredElements":[],
+      "remaining":["commercial-compatible reusable source for Prochaska's six-stage behaviour-change model, or a source-rights-safe factual route before independent synthesis"],
+      "rejectedConvenientSources":[
+        {"url":"https://www.ncbi.nlm.nih.gov/sites/books/NBK556005/","reason":"CC BY-NC-ND 4.0; commercial reuse prohibited"},
+        {"url":"https://openpress.sussex.ac.uk/publicinterestcommunication/chapter/understanding-audiences/","reason":"relevant figure/material marked CC BY-NC-SA; commercial reuse prohibited"}
+      ],
+      "referenceEvidence":[{"url":"https://pubmed.ncbi.nlm.nih.gov/10170434/","role":"confirms six-stage model as a factual lead but does not itself establish commercial reuse rights for the source expression"}]
+    }
+  ],
+  "summary": {
+    "namedRequirements":15,
+    "reviewed":15,
+    "coveredCandidate":5,
+    "partial":9,
+    "gap":1,
+    "uncertainRights":0,
+    "paidProviderSpendGbp":0,
+    "paidSourceSpendGbp":0
+  },
+  "topicSummary": {
+    "Aggression":{"requirements":5,"coveredCandidate":1,"partial":4,"gap":0},
+    "Forensic Psychology":{"requirements":4,"coveredCandidate":1,"partial":3,"gap":0},
+    "Addiction":{"requirements":6,"coveredCandidate":3,"partial":2,"gap":1}
+  },
+  "economicsInterpretation": {
+    "signal":"specialist_options_more_fragmented_but_still_source_rich",
+    "observation":"The hardest option group has reusable subject evidence for 14 of 15 named requirements without paid content. Five are already source-covered candidates; nine need bounded specialist synthesis. One named model, Prochaska's six stages, remains a genuine rights-safe source gap after convenient NC sources were rejected.",
+    "consequence":"The source-first hypothesis remains viable, but specialist options have a higher source-fragmentation/manual-search cost than the representative compulsory topic. Automation should therefore optimise targeted source discovery and rights verification rather than assume one-textbook coverage.",
+    "nextStep":"Review option groups 1 and 2 at the same named-requirement level, then calculate whole-course option coverage before deciding whether to source the final narrow gaps or create original bridges."
+  }
+}
