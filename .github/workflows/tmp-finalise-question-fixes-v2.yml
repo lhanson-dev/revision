@@ -1,0 +1,109 @@
+name: Temporary finalise question fixes v2
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/tmp-finalise-question-fixes-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Patch parser and targeted question briefs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('scripts/assurance/aqa-business-7132-slice-questions.ts')
+          text = p.read_text()
+          start = text.index('// Every number written in the text, as a value.')
+          end = text.index('\nfunction questionText', start)
+          block = '''// Every number written in the text, as a value. Commas, currency and percent signs are ignored;\n// explicit magnitude words are normalised so £61.20 million is returned as 61,200,000.\n// A minus sign before a currency symbol is preserved, so -£60,000 is parsed as -60,000 rather than +60,000.\nexport function numbersIn(text: string): number[] {\n  return [...text.matchAll(/([\\-−]?)\\s*[£$€]?\\s*(\\d[\\d,]*(?:\\.\\d+)?)(?:\\s*(thousand|million|billion)\\b)?/gi)]\n    .map((match) => {\n      const sign = match[1] ? -1 : 1\n      const base = sign * Number(match[2].replace(/,/g, ''))\n      const magnitude = match[3]?.toLowerCase() as keyof typeof magnitudeMultiplier | undefined\n      return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)\n    })\n    .filter((value) => Number.isFinite(value))\n}\n\n// Calculation inputs may intentionally use the same displayed magnitude unit. Keep numbersIn() canonical,\n// but accept both the fully normalised and same-unit shorthand representations when proving input presence.\nfunction inputNumbersIn(text: string): number[] {\n  const shorthand = [...text.matchAll(/([\\-−]?)\\s*[£$€]?\\s*(\\d[\\d,]*(?:\\.\\d+)?)\\s*(thousand|million|billion)\\b/gi)]\n    .map((match) => (match[1] ? -1 : 1) * Number(match[2].replace(/,/g, '')))\n    .filter((value) => Number.isFinite(value))\n  return [...numbersIn(text), ...shorthand]\n}\n'''
+          text = text[:start] + block + text[end:]
+          text = text.replace('const stemNumbers = numbersIn(questionText(question))', 'const stemNumbers = inputNumbersIn(questionText(question))')
+          p.write_text(text)
+
+          p = Path('scripts/assurance/aqa-business-7132-question-number-parser.test.ts')
+          text = p.read_text().replace("expect(values).toEqual(expect.arrayContaining([48, 48000000, 54, 54000000]))", "expect(values).toEqual([48000000, 54000000])")
+          p.write_text(text)
+
+          p = Path('scripts/assurance/aqa-business-7132-question-plan.ts')
+          text = p.read_text()
+          marker = '// Formula questions:'
+          if 'const targetedPairBrief' not in text:
+            pair = '''const targetedPairBrief = (group: BlueprintItem[]): string | null => {\n  const suffixes = group.map(suffixOf)\n  const is = (...wanted: string[]) => suffixes.length === wanted.length && wanted.every((value, index) => suffixes[index] === value)\n  if (is('social-enterprise', 'limited-and-unlimited-liability')) return 'Short answer: give a business-form context that requires the student to use both social-enterprise knowledge and limited/unlimited liability. Do not state the relevant ownership/liability conclusion in the scenario. Ask for an explanation that connects the organisation purpose or reinvestment model to the liability consequence. The mark scheme must credit any valid explanation route that answers the question rather than requiring one stock phrase.'\n  if (is('ordinary-share-capital', 'role-of-shareholders-and-why-they-invest')) return 'Short answer: give a shareholder-investment context and ask the student to explain why an investor might buy ordinary shares. The answer must require ordinary-share-capital/shareholder knowledge. The mark scheme must accept valid routes such as dividends, capital gain from a higher share price, ownership/voting influence where relevant, and other supported shareholder-return reasons; do not require one preselected benefit.'\n  if (is('government-enterprise-policy', 'role-of-regulators')) return 'Short answer: give a business context involving government support and a separate regulatory constraint, but do not name or describe the regulator role so explicitly that the target knowledge is supplied. Ask the student to explain one effect of government enterprise policy and one role of a regulator. The mark scheme must require the student to supply and apply the regulator function.'\n  if (is('globalisation', 'emerging-economies')) return 'Short answer: give a global expansion context involving a recognisable emerging economy without stating the opportunity. Ask the student to explain one opportunity created by growth in an emerging economy and connect it to globalisation. A generic overseas-growth answer is insufficient: the mark scheme must require an emerging-economy mechanism such as rising incomes, urbanisation, market growth or expanding consumer demand applied to the context.'\n  if (is('exporting', 'licensing')) return 'Short answer: give an international-entry context in which licensing is a plausible route, but do not describe the arrangement using wording that effectively defines licensing or gives the answer away. Ask the student to explain why licensing rather than exporting could be suitable. The mark scheme must require the learner to supply licensing knowledge and apply a valid advantage or trade-off to the context.'\n  if (is('multinationals', 'local-responsiveness-versus-cost-reduction-pressure')) return 'Short answer: give a business operating across several countries, but do not state the definition or label multinational. Ask the student to explain how being a multinational creates a tension between local responsiveness and cost reduction. The mark scheme must require multinational knowledge plus an applied explanation of adaptation versus standardisation/cost pressure, not reward repeating a fact supplied by the scenario.'\n  return null\n}\n\n'''
+            text = text.replace(marker, pair + marker)
+          old = "brief: targetedShortAnswerBrief(group) ?? `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.`"
+          new = "brief: targetedPairBrief(group) ?? targetedShortAnswerBrief(group) ?? `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.`"
+          if old not in text:
+            raise SystemExit('short-answer brief anchor missing')
+          text = text.replace(old, new)
+          p.write_text(text)
+          PY
+
+          cat > scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts <<'EOF'
+          import { readFile } from 'node:fs/promises'
+          import { describe, expect, it } from 'vitest'
+          import { buildSliceUnit, expectationsFromBlueprint, nodeOutputSchema, type Blueprint, type SliceTeaching } from './aqa-business-7132-slice-learn-practice'
+          import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v08.mjs'
+          import type { Ledger } from '../../src/content-factory/fast-path-review'
+
+          describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
+            it('proves only the Founder-changed Foundation dependants are stale before refresh', async () => {
+              const candidate = await loadBusinessSubjectFoundationCandidate()
+              const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
+              const teachingFor = (nodeId: string): SliceTeaching => {
+                const subjectId = nodeId.toUpperCase()
+                const node = candidate.nodes.get(subjectId)
+                if (!node) throw new Error(`foundation_node_missing:${subjectId}`)
+                return { subject_id: subjectId, title: node.title ?? null, teaching_content: node.teaching_content ?? {}, quantitative_content: node.quantitative_content ?? {}, source_ids: rows.get(subjectId)?.subject_truth_sources ?? [] }
+              }
+              const cases = [
+                { batch: '3.1-3.2', stale: ['bus-fnd-001', 'bus-fnd-009'] },
+                { batch: '3.4', stale: ['bus-ops-001'] },
+                { batch: '3.8-3.9', stale: [] },
+                { batch: '3.10', stale: ['bus-str-009'] },
+              ] as const
+              for (const testCase of cases) {
+                const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
+                const ledger = JSON.parse(await readFile(`content-factory/runs/aqa-7132-slice-${testCase.batch}/ledger.json`, 'utf8')) as Ledger
+                const reusable: string[] = []
+                const stale: string[] = []
+                for (const expectation of expectationsFromBlueprint(blueprint)) {
+                  const output = nodeOutputSchema.parse(JSON.parse(await readFile(`content-factory/slices/aqa-7132-${testCase.batch}/learn-practice/${expectation.nodeId}.json`, 'utf8')))
+                  const unit = buildSliceUnit({ nodeId: expectation.nodeId, expectation, teaching: teachingFor(expectation.nodeId), output })!
+                  const previous = ledger.units[expectation.nodeId]
+                  const exactMatch = Boolean(previous && ['passed', 'logged'].includes(previous.outcome) && previous.fingerprint === unit.fingerprint && unit.softwareFindings.length === 0)
+                  ;(exactMatch ? reusable : stale).push(expectation.nodeId)
+                }
+                expect(stale.sort(), `${testCase.batch} stale`).toEqual([...testCase.stale].sort())
+                const staleSet = new Set<string>(testCase.stale)
+                expect(reusable.sort(), `${testCase.batch} reusable`).toEqual(blueprint.nodes.map((node) => node.nodeId).filter((id) => !staleSet.has(id)).sort())
+              }
+            })
+          })
+          EOF
+      - name: Regenerate derived artifacts and check
+        run: |
+          CONTENT_FACTORY_WRITE_BATCH_BLUEPRINTS=1 npx vitest run scripts/assurance/aqa-business-7132-batch-blueprint.test.ts --reporter=dot
+          CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts --reporter=dot
+          npx vitest run scripts/assurance/aqa-business-7132-question-number-parser.test.ts scripts/assurance/aqa-business-7132-slice-questions.test.ts scripts/assurance/aqa-business-7132-batch-blueprint.test.ts scripts/assurance/aqa-business-7132-question-plan.test.ts scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts --reporter=dot
+      - name: Commit generated changes
+        run: |
+          git config user.name "revision-content-factory"
+          git config user.email "revision-content-factory@users.noreply.github.com"
+          git add scripts/assurance/aqa-business-7132-slice-questions.ts scripts/assurance/aqa-business-7132-question-number-parser.test.ts scripts/assurance/aqa-business-7132-question-plan.ts scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts content-factory/slices/aqa-7132-*/BLUEPRINT.json content-factory/slices/aqa-7132-*/QUESTION_PLAN.json content-factory/slices/aqa-7132-batches-report.json
+          git commit -m "Finalise targeted AQA 7132 question fixes"
+          git push origin HEAD:${{ github.head_ref }}
