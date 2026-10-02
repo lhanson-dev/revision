@@ -1,0 +1,182 @@
+name: Temporary AQA 7132 T8 blocker remediation
+
+on:
+  push:
+    branches: [fix/aqa-7132-t8-two-blockers]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  remediate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/aqa-7132-t8-two-blockers
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Download retained failed T8 evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/t8-fail
+          mkdir -p /tmp/t8-fail
+          gh run download 37024423431 --repo lhanson-dev/revision --name content-factory-aqa-business-7132-exact-course-assurance-proof-22519cb71ac09b4481621f670aea3b447ea9214a --dir /tmp/t8-fail
+      - name: Apply bounded remediation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+
+          # 1. Reusable subject fix: keep it in its own post-merge T8 overlay rather than rewriting historical question-escalation evidence.
+          overlay = {
+            'schema_version': 1,
+            'candidate_version': 'v0.8-t8-exact-course-remediation',
+            'purpose': 'Additive reusable Business teaching required by blocking findings from fresh post-merge T8 exact-course assurance. These entries deepen existing nodes only; they do not replace prior teaching or carry awarding-body-specific conventions.',
+            'rights_boundary': "Revision-authored teaching supported by each node's registered promotion-eligible source. No awarding-body wording.",
+            'fixes': [{
+              'subject_id': 'BUS-FND-009',
+              'run_log': '3.1.3 Market conditions definition needed after post-#499 T8 fail-hold',
+              'source_ids': ['SRC-OER-LOUIS-BUSINESS-2022'],
+              'add': {
+                'definitions': [
+                  "market conditions: the current state of demand and competition in a market, including whether demand is growing or shrinking, how price-sensitive customers are, how many and how strong competitors are, and how easy it is for buyers to switch. Favourable conditions can allow higher sales, prices or margins; weak demand or intense rivalry can reduce demand, force prices down and increase spending needed to win or retain customers. The effect depends on the business's product, costs, differentiation and target customers."
+                ]
+              }
+            }]
+          }
+          (root / 'research/business-subject-foundation/v0.8-t8-remediation/POST_MERGE_T8_FIXES.json').write_text(json.dumps(overlay, indent=2) + '\n')
+
+          # 2. Compose the new overlay into the current v0.8 candidate and fingerprint.
+          loader_path = root / 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
+          loader = loader_path.read_text()
+          loader = loader.replace(
+            "const QUESTION_ESCALATION_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/QUESTION_ESCALATION_FIXES.json'\n",
+            "const QUESTION_ESCALATION_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/QUESTION_ESCALATION_FIXES.json'\n// Fresh post-merge T8 blockers are retained separately from the historical question-escalation fix set.\nconst POST_MERGE_T8_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/POST_MERGE_T8_FIXES.json'\n"
+          )
+          loader = loader.replace(
+            "const [fastPathFixesRaw, questionEscalationFixesRaw]=await Promise.all([readFile(FAST_PATH_FIXES_PATH,'utf8'),readFile(QUESTION_ESCALATION_FIXES_PATH,'utf8')])\n  const fastPathFixes=JSON.parse(fastPathFixesRaw)\n  const questionEscalationFixes=JSON.parse(questionEscalationFixesRaw)\n  if (fastPathFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION || questionEscalationFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected fast-path fixes identity')\n  const fastPathFixedNodeIds=applyFastPathFixes(nodes,rows,fastPathFixes)\n  const questionEscalationFixedNodeIds=applyFastPathFixes(nodes,rows,questionEscalationFixes)\n  // Nodes whose teaching changed since their last assurance: checked by the T8 course gate's accuracy question.\n  const changedSinceAssurance=[...new Set([...freshScope,...fastPathFixedNodeIds,...questionEscalationFixedNodeIds])].sort()",
+            "const [fastPathFixesRaw, questionEscalationFixesRaw, postMergeT8FixesRaw]=await Promise.all([readFile(FAST_PATH_FIXES_PATH,'utf8'),readFile(QUESTION_ESCALATION_FIXES_PATH,'utf8'),readFile(POST_MERGE_T8_FIXES_PATH,'utf8')])\n  const fastPathFixes=JSON.parse(fastPathFixesRaw)\n  const questionEscalationFixes=JSON.parse(questionEscalationFixesRaw)\n  const postMergeT8Fixes=JSON.parse(postMergeT8FixesRaw)\n  if (fastPathFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION || questionEscalationFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION || postMergeT8Fixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected fast-path fixes identity')\n  const fastPathFixedNodeIds=applyFastPathFixes(nodes,rows,fastPathFixes)\n  const questionEscalationFixedNodeIds=applyFastPathFixes(nodes,rows,questionEscalationFixes)\n  const postMergeT8FixedNodeIds=applyFastPathFixes(nodes,rows,postMergeT8Fixes)\n  // Nodes whose teaching changed since their last assurance: checked by the T8 course gate's accuracy question.\n  const changedSinceAssurance=[...new Set([...freshScope,...fastPathFixedNodeIds,...questionEscalationFixedNodeIds,...postMergeT8FixedNodeIds])].sort()"
+          )
+          loader = loader.replace(
+            "['v0.8-question-escalation-fixes.json',questionEscalationFixesRaw]])",
+            "['v0.8-question-escalation-fixes.json',questionEscalationFixesRaw],['v0.8-post-merge-t8-fixes.json',postMergeT8FixesRaw]])"
+          )
+          loader = loader.replace(
+            "fastPathFixes,questionEscalationFixes,changedSinceAssurance}",
+            "fastPathFixes,questionEscalationFixes,postMergeT8Fixes,changedSinceAssurance}"
+          )
+          required = ['POST_MERGE_T8_FIXES_PATH', 'postMergeT8FixedNodeIds', 'v0.8-post-merge-t8-fixes.json', 'postMergeT8Fixes,changedSinceAssurance']
+          missing = [x for x in required if x not in loader]
+          if missing: raise SystemExit(f'loader replacement failed: {missing}')
+          loader_path.write_text(loader)
+
+          # 3. Board-specific network presentation stays in AQA Course Truth / named-item convention metadata.
+          mapping_path = root / 'research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'
+          mapping = mapping_path.read_text()
+          old = 'Leadership, communication and structure; network analysis diagrams, amendments, critical path and total float.'
+          new = 'Leadership, communication and structure; network analysis using the AQA activity-on-arrow presentation (activity letter above the connecting arrow, duration below; each event circle shows the event number on the left, earliest event time upper-right and latest event time lower-right), amendments, critical path and total float.'
+          if mapping.count(old) != 1: raise SystemExit(f'expected one 3.10.3 summary, found {mapping.count(old)}')
+          mapping = mapping.replace(old, new)
+          old_rights = "quantitative_skills_url:'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business', verified_on:'2026-09-28'"
+          new_rights = "quantitative_skills_url:'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business', network_analysis_teaching_guide_url:'https://www.aqa.org.uk/resources/business/as-and-a-level/business-7131-7132/teach/teaching-guide-network-analysis', network_analysis_sample_paper_url:'https://filestore.aqa.org.uk/resources/business/AQA-71321-SQP.PDF', verified_on:'2026-10-02'"
+          if old_rights not in mapping: raise SystemExit('mapping rights/source replacement target not found')
+          mapping_path.write_text(mapping.replace(old_rights, new_rights))
+
+          items_path = root / 'research/aqa-business-7132/2027/NAMED_ITEMS.json'
+          items_doc = json.loads(items_path.read_text())
+          network = next(x for x in items_doc['items'] if x['id'] == 'aqa-7132-3.10.3:network-analysis')
+          network['aqa_convention'] = 'Use an activity-on-arrow network. Show each activity letter above its connecting arrow and its duration below. Show each event as a split circle with the event number on the left, earliest event time in the upper-right and latest event time in the lower-right.'
+          network['convention_status'] = 'confirmed'
+          items_doc['convention_note'] = "aqa_convention records a calculation or presentation convention a student should use for AQA 7132, in Revision's own words. convention_status 'to_confirm_against_aqa_mark_scheme' marks conventions where evidence is not yet sufficient to confirm the version recorded."
+          items_path.write_text(json.dumps(items_doc, indent=2) + '\n')
+
+          # 4. Persist useful per-section evidence from the failed run so exact-fingerprint reuse works on the rerun.
+          fail = Path('/tmp/t8-fail')
+          (root / 'content-factory/runs/aqa-7132-course-gate/ledger.json').write_text((fail / 'ledger.json').read_text())
+          proof = json.loads((fail / 'exact-course-assurance-proof.json').read_text())
+          summary = {
+            'run_id': 37024423431,
+            'artifact_id': 11235345412,
+            'artifact_digest': 'sha256:b45810b71d7f0f644129ad18a37414fa2cff77b648be8663ee7572cfa5667cb9',
+            'reviewed_commit': proof['reviewed_commit'],
+            'subject_foundation_fingerprint': proof['official_source_check'] and '1c9acebd49a83b39e26c9a1525de93919a06ec83c1aeaf99ac299ad35efe7423',
+            'exact_course_foundation_fingerprint': proof['exact_course_foundation_fingerprint'],
+            'final_state': proof['final_state'],
+            'passed': len(proof['summary']['passed']),
+            'logged': len(proof['summary']['logged']),
+            'blocking': len(proof['summary']['blocking']),
+            'escalated': len(proof['summary']['escalated']),
+            'failed': len(proof['summary']['failed']),
+            'reused_unchanged': len(proof['summary']['reused_unchanged']),
+            'can_progress': proof['summary']['can_progress'],
+            'official_source_check_ok': proof['official_source_check']['ok'],
+            'provider_budget': {
+              'max_spend_usd': proof['provider_budget']['maxSpendUsd'],
+              'conservative_consumed_usd': proof['provider_budget']['conservativeConsumedUsd']
+            },
+            'recorded_at': proof['recorded_at']
+          }
+          (root / 'content-factory/runs/aqa-7132-course-gate/summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+
+          # 5. Append-only run record.
+          log_path = root / 'content-factory/RUN_LOG.md'
+          log = log_path.read_text().rstrip() + '\n'
+          entries = [
+            "2026-10-02 · T8 course gate (AQA 7132) fresh post-#499 run 37024423431 on 22519cb · Result fail_hold: 29 passed, 11 logged, 2 blocking (3.1.3 market conditions; 3.10.3 AQA network-diagram presentation), 31 exact-input sections reused; official AQA source check passed; spend $0.354888 of $12 · Fresh dependency check exposed one reusable Foundation gap and one course-specific convention gap · T8 fast-path gate",
+            "2026-10-02 · BUS-FND-009 · Added explicit market-conditions definition and business effects in POST_MERGE_T8_FIXES.json · 3.1.3 fresh T8 reviewer found the named examinable concept was not directly taught · Missing examinable reusable subject knowledge; accuracy via fresh T8 review",
+            "2026-10-02 · AQA 7132 3.10.3 Course Truth · Recorded AQA activity-on-arrow network-diagram presentation convention in Revision-authored wording and attached it to the existing Network analysis named item, with official AQA teaching-guide/sample-paper references · 3.10.3 fresh T8 reviewer found the board-specific presentation convention absent from the supplied exact-course truth · Course-specific depth/alignment; fresh T8 review"
+          ]
+          for entry in entries:
+            if entry not in log: log += entry + '\n'
+          log_path.write_text(log)
+
+          # 6. Technical record only; no normative process or architecture changes.
+          doc_path = root / 'docs/technical/Content Factory Business Subject Foundation v0.8 T8 Remediation.md'
+          doc = doc_path.read_text().rstrip() + '\n'
+          heading = '## Post-#499 T8 fail-hold and bounded follow-up — 2 October 2026'
+          if heading not in doc:
+            doc += f'''\n\n{heading}\n\nFresh exact-course proof run `37024423431` ran on exact `main` SHA `22519cb71ac09b4481621f670aea3b447ea9214a`. Deterministic assurance and the official AQA source check passed. The fixed-checklist review reused 31 unchanged section fingerprints, freshly reviewed 11 sections, and returned `fail_hold` on two blocking gaps. Conservative provider spend was US$0.354888 of the US$12 cap.\n\nThe two findings are intentionally fixed at different layers:\n\n- **3.1.3 market conditions** is reusable Business knowledge. `POST_MERGE_T8_FIXES.json` adds one source-bound definition to `BUS-FND-009`, and the v0.8 loader includes that overlay in the candidate fingerprint and `changedSinceAssurance` set.\n- **3.10.3 network-diagram presentation** is an AQA-specific convention. It remains outside the reusable Business Foundation. The AQA mapping states the rights-safe activity-on-arrow presentation convention and the existing `network-analysis` named item carries it as `aqa_convention`, so downstream Blueprint/Learn/Practice generation receives the exact course convention without treating it as universal subject truth. The official AQA network-analysis teaching guide and sample Paper 1 are retained as REFERENCE_ONLY alignment evidence.\n\nThe failed run ledger is retained because the fast-path rule preserves valid item-level evidence even when another item blocks. A fresh post-merge T8 run must therefore review only units whose exact fingerprints change; it must not repurchase unchanged section reviews. No learner-publication, qualified-human-review or `foundation_approved` gate is changed.\n\n### Documentation impact\n\nNo normative authority or ADR change is required. This is a bounded implementation/evidence correction under the existing Subject Knowledge Foundation / Course Projection and Fast-Path authorities. Historical T8 evidence remains unchanged; the run log appends the new failure and fixes.\n'''
+          doc_path.write_text(doc)
+
+          # 7. Regression proof for the architectural boundary and downstream convention carriage.
+          test_path = root / 'scripts/assurance/aqa-business-7132-post-merge-t8-remediation.test.ts'
+          test_path.write_text("""import { readFileSync } from 'node:fs'\nimport { describe, expect, it } from 'vitest'\nimport mapping from '../../research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'\nimport { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v08.mjs'\n\ndescribe('AQA 7132 post-#499 T8 remediation', () => {\n  it('teaches market conditions in reusable Business truth without leaking the AQA diagram convention into the Foundation', async () => {\n    const candidate = await loadBusinessSubjectFoundationCandidate()\n    const node = candidate.nodes.get('BUS-FND-009')\n    expect(node?.teaching_content?.definitions?.some((definition: string) => definition.startsWith('market conditions:'))).toBe(true)\n    expect(candidate.changedSinceAssurance).toContain('BUS-FND-009')\n    expect(JSON.stringify([...candidate.nodes.values()])).not.toContain('activity-on-arrow')\n  })\n\n  it('keeps the network presentation convention in exact AQA Course Truth and carries it into named-item metadata', () => {\n    const requirement = mapping.requirements.find((row: { source_section: string }) => row.source_section === '3.10.3')\n    expect(requirement?.gap_classification).toBe('D_COURSE_SPECIFIC_REQUIREMENT')\n    expect(requirement?.required_course_facets).toContain('AQA_network_diagram_presentation_convention')\n    expect(requirement?.rights_safe_requirement_summary).toContain('activity-on-arrow')\n    expect(requirement?.rights_safe_requirement_summary).toContain('earliest event time')\n    expect(requirement?.rights_safe_requirement_summary).toContain('latest event time')\n    expect(mapping.rights_and_sources.network_analysis_teaching_guide_url).toContain('aqa.org.uk')\n    expect(mapping.rights_and_sources.network_analysis_sample_paper_url).toContain('filestore.aqa.org.uk')\n\n    const named = JSON.parse(readFileSync('research/aqa-business-7132/2027/NAMED_ITEMS.json', 'utf8')) as { items: Array<{ id: string; aqa_convention?: string; convention_status?: string }> }\n    const item = named.items.find((entry) => entry.id === 'aqa-7132-3.10.3:network-analysis')\n    expect(item?.convention_status).toBe('confirmed')\n    expect(item?.aqa_convention).toContain('activity-on-arrow')\n    expect(item?.aqa_convention).toContain('event number on the left')\n  })\n})\n""")
+          PY
+      - name: Regenerate deterministic dependent evidence
+        run: |
+          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
+          CONTENT_FACTORY_WRITE_SLICE_BLUEPRINT=1 npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts
+          CONTENT_FACTORY_WRITE_BATCH_BLUEPRINTS=1 npx vitest run scripts/assurance/aqa-business-7132-batch-blueprint.test.ts
+          CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts
+      - name: Prove bounded remediation
+        run: |
+          node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
+          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --gate
+          npx vitest run \
+            scripts/assurance/aqa-business-7132-post-merge-t8-remediation.test.ts \
+            scripts/assurance/aqa-business-7132-course-gate.test.ts \
+            scripts/assurance/aqa-business-7132-section-blueprint.test.ts \
+            scripts/assurance/aqa-business-7132-batch-blueprint.test.ts \
+            scripts/assurance/aqa-business-7132-question-plan.test.ts \
+            scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts
+      - name: Commit result and remove temporary runner
+        run: |
+          rm .github/workflows/tmp-aqa-7132-t8-two-blockers.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git status --short
+          git commit -m 'Resolve post-merge AQA 7132 T8 blockers'
+          git push origin HEAD:fix/aqa-7132-t8-two-blockers
