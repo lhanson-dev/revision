@@ -347,7 +347,7 @@
     {"id": "aqa-7132-3.10.2:influences-on-organisational-culture", "section": "3.10.2", "label": "Influences on organisational culture", "kind": "skill", "match": ["culture"]},
     {"id": "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture", "section": "3.10.2", "label": "Reasons for and problems of changing culture", "kind": "skill", "match": ["changing culture", "culture change", "cultural change"]},
     {"id": "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation", "section": "3.10.3", "label": "Leadership, communication and structure in implementation", "kind": "skill", "match": ["implementation", "implement"]},
-    {"id": "aqa-7132-3.10.3:network-analysis", "section": "3.10.3", "label": "Network analysis", "kind": "model", "match": ["network analysis", "network diagram", "critical path analysis"]},
+    {"id": "aqa-7132-3.10.3:network-analysis", "section": "3.10.3", "label": "Network analysis", "kind": "model", "match": ["network analysis", "network diagram", "critical path analysis"], "aqa_convention": "Use an activity-on-arrow network. Show each activity letter above its connecting arrow and its duration below. Show each event as a split circle with the event number on the left, earliest event time in the upper-right and latest event time in the lower-right.", "convention_status": "confirmed"},
     {"id": "aqa-7132-3.10.3:amending-network-diagrams", "section": "3.10.3", "label": "Amending network diagrams", "kind": "skill", "match": ["network diagram", "amend"]},
     {"id": "aqa-7132-3.10.3:critical-path", "section": "3.10.3", "label": "Critical path", "kind": "concept", "match": ["critical path"]},
     {"id": "aqa-7132-3.10.3:total-float", "section": "3.10.3", "label": "Total float", "kind": "formula", "match": ["total float", "float"], "aqa_convention": "latest finish time - duration - earliest start time", "convention_status": "confirmed"},
@@ -358,5 +358,5 @@
     {"id": "aqa-7132-3.10.4:contingency-planning", "section": "3.10.4", "label": "Contingency planning", "kind": "concept", "match": ["contingency"]},
     {"id": "aqa-7132-3.10.4:crisis-management", "section": "3.10.4", "label": "Crisis management", "kind": "concept", "match": ["crisis"]}
   ],
-  "convention_note": "aqa_convention records the calculation convention a student should use for AQA 7132, in Revision's own words (AQA's specification pages give no formulas). convention_status 'to_confirm_against_aqa_mark_scheme' marks conventions where textbooks differ and an AQA mark scheme (REFERENCE_ONLY) should confirm the version recorded."
+  "convention_note": "aqa_convention records a calculation or presentation convention a student should use for AQA 7132, in Revision's own words. convention_status 'to_confirm_against_aqa_mark_scheme' marks conventions where evidence is not yet sufficient to confirm the version recorded."
 }
