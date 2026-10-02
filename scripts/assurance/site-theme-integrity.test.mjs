@@ -29,6 +29,7 @@ const semanticLayers = [
   'onboarding-v2.css',
   'progress-v2.css',
   'rev-chat-v2.css',
+  'ask-rev-v2.css',
   'shell-v2.css',
   'interface-plan-progress.css',
   'interface-subjects-course.css',

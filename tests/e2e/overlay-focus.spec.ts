@@ -152,7 +152,7 @@ test('shared learner overlays own initial focus, containment, inertness, Escape 
 
   let dialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(dialog).toBeVisible()
-  await expect(dialog.getByLabel('Talk to REV about your plan')).toBeFocused()
+  await expect(dialog.getByLabel('Message REV')).toBeFocused()
   await expect(page.locator('.runtime-screen')).toHaveAttribute('inert', '')
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden')
   await expectFocusContained(page, dialog)
