@@ -103,3 +103,46 @@ After the Psychology proof, the Founder should receive evidence sufficient to ch
 - **reject** — retain the current Content Factory approach because the source-first method did not produce sufficient coverage/quality/economic benefit.
 
 No automatic promotion occurs.
+
+## Founder decision — end-to-end Psychology student-pilot iteration
+
+**Decision date:** 2 October 2026  
+**Decision:** `iterate`
+
+The Founder has clarified that the experiment's useful success criterion is not a partial Foundation or a source-coverage percentage in isolation. The experimental approach must now prove whether it can take one exact course all the way from reusable source evidence to a **complete, restricted-pilot-ready learner course in Revision**.
+
+Accordingly, the next authorised experiment remains **AQA A-level Psychology 7182**. Revision must not move to a second subject merely to improve repeatability evidence before this end-to-end course-production path has been tested.
+
+The active continuation run is:
+
+`research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md`
+
+This continuation remains inside the Source-First Course Prototype and remains independent of the current Content Factory by default. It may selectively reuse current production schemas, learner-course infrastructure, assurance controls or Content Factory components only where they make the path to a trustworthy student pilot materially faster, cheaper, simpler or safer.
+
+The end-to-end iteration must attempt to produce, for the exact Psychology course:
+
+1. complete source-traceable Course Truth with no unresolved material knowledge or rights gaps for the intended pilot scope;
+2. complete Exam Truth sufficient to generate authentic Revision-owned exam preparation and assessment assets;
+3. a Course Learning Blueprint derived from Course Truth and Exam Truth;
+4. complete learner-facing Learn, Practice and Exam Prep assets required for the intended pilot scope, including purposeful visuals where educationally justified;
+5. Marking Packs and learner-evidence mappings where written assessed work is represented as markable;
+6. deterministic and independent educational/assessment assurance with no unresolved blocking or material findings;
+7. integration into the canonical Revision course catalogue and ordinary learner routes without a Psychology-specific learner application fork; and
+8. verified restricted-pilot use by a test student, with activity/evidence recorded against the correct academic identities.
+
+The restricted-pilot publication boundary in `80-company-workflows/Content Pack Production and Assurance Workflow.md` and the applicable controls in `80-company-workflows/Content Accuracy Assurance Gate.md` remain the publication gate. Qualified human subject review remains required before the course is treated as a wider commercial teaching benchmark; it is not required merely to complete a tightly restricted Founder-authorised pilot where the governing publication authority permits that state.
+
+The experiment must instrument the remaining Psychology work from its start and report at least:
+
+- elapsed active working time;
+- AI/provider spend;
+- paid source/licence spend;
+- manual interventions and their causes;
+- reusable-source contribution;
+- AI-created bridge/gap contribution;
+- assurance defects and remediation effort; and
+- total variable cost from this continuation to restricted-pilot readiness.
+
+The original Psychology source proof remains historical evidence and must not be rewritten to imply that it already delivered a production-ready course. Its `iterate` recommendation is superseded only in **how the iteration is sequenced**: finish Psychology end-to-end first, measure that path, then decide whether to run a materially different second course or promote/reject the method.
+
+No automatic production promotion occurs from completing this continuation. Any proposal to replace the current production Content Factory remains a separate Founder-approved governance decision.
