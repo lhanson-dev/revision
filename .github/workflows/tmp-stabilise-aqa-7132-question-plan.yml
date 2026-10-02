@@ -1,0 +1,189 @@
+name: Temporary stabilise AQA 7132 question plan refresh
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  stabilise:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'content/aqa-7132-resolve-question-escalations' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact PR head branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Apply durable question-plan rebase and metadata corrections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          plan = Path('scripts/assurance/aqa-business-7132-question-plan.ts')
+          text = plan.read_text()
+          marker = "// Software proof that a plan covers its blueprint. An empty list means the plan is sound.\n"
+          addition = r'''// Refresh a committed plan without churning durable question identities when the existing
+          // question design is still sound against the current Blueprint. This is deliberately different
+          // from bootstrap generation: exact accepted-question resume is keyed by question id, so an
+          // ownership-only Blueprint change must not renumber unrelated valid questions. If any current
+          // coverage invariant fails, fall back to a fresh deterministic build.
+          export function refreshQuestionPlan(input: { blueprint: Blueprint; batch: string; current?: QuestionPlanFile | null; excludeItemIds?: ReadonlySet<string>; essay?: boolean }): QuestionPlanFile {
+            const rebuilt = buildQuestionPlan({ blueprint: input.blueprint, batch: input.batch, excludeItemIds: input.excludeItemIds, essay: input.essay })
+            const current = input.current
+            if (!current) return rebuilt
+            const sameContract = current.schema_version === 1
+              && current.builder_version === QUESTION_PLAN_BUILDER_VERSION
+              && current.batch === input.batch
+              && JSON.stringify([...current.excluded_item_ids].sort()) === JSON.stringify(rebuilt.excluded_item_ids)
+            if (!sameContract || checkQuestionPlan(input.blueprint, current).length > 0) return rebuilt
+
+            const excluded = new Set(rebuilt.excluded_item_ids)
+            const plannedItems = input.blueprint.items.filter((item) => !excluded.has(item.id))
+            const questions = current.questions
+            const marks = questions.reduce((sum, question) => sum + question.marks, 0)
+            const quantitativeMarks = questions.filter((question) => question.formulaIds.length > 0).reduce((sum, question) => sum + question.marks, 0)
+            return {
+              ...current,
+              blueprint_fingerprint: input.blueprint.courseKnowledgeModelFingerprint,
+              excluded_item_ids: rebuilt.excluded_item_ids,
+              summary: {
+                questions: questions.length,
+                marks,
+                quantitative_marks: quantitativeMarks,
+                formulas: new Set(questions.flatMap((question) => question.formulaIds)).size,
+                items: plannedItems.length,
+                nodes: input.blueprint.nodes.length,
+                estimated_spend_usd: Number((questions.length * ESTIMATED_USD_PER_QUESTION).toFixed(2)),
+              },
+            }
+          }
+
+          '''
+          if addition.strip() not in text:
+              if marker not in text:
+                  raise SystemExit('question-plan insertion marker not found')
+              text = text.replace(marker, addition + marker, 1)
+          plan.write_text(text)
+
+          test = Path('scripts/assurance/aqa-business-7132-question-plan.test.ts')
+          text = test.read_text()
+          old_import = "import { ESTIMATED_USD_PER_QUESTION, buildQuestionPlan, checkQuestionPlan, type QuestionPlanFile } from './aqa-business-7132-question-plan'"
+          new_import = "import { ESTIMATED_USD_PER_QUESTION, buildQuestionPlan, checkQuestionPlan, refreshQuestionPlan, type QuestionPlanFile } from './aqa-business-7132-question-plan'"
+          if old_import in text:
+              text = text.replace(old_import, new_import, 1)
+          elif new_import not in text:
+              raise SystemExit('question-plan test import marker not found')
+          old_plan = "      const plan = buildQuestionPlan({ blueprint: target.blueprint, batch: target.id, excludeItemIds: target.excludeItemIds, essay: target.essay })"
+          new_plan = "      const current = existsSync(planPath(target.id)) ? readJson<QuestionPlanFile>(planPath(target.id)) : null\n      const plan = refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current, excludeItemIds: target.excludeItemIds, essay: target.essay })"
+          if old_plan in text:
+              text = text.replace(old_plan, new_plan, 1)
+          elif new_plan not in text:
+              raise SystemExit('question-plan test plan marker not found')
+          old_det = "        expect(buildQuestionPlan({ blueprint: target.blueprint, batch: target.id, excludeItemIds: target.excludeItemIds, essay: target.essay })).toEqual(plan)"
+          new_det = "        expect(refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current, excludeItemIds: target.excludeItemIds, essay: target.essay })).toEqual(plan)"
+          if old_det in text:
+              text = text.replace(old_det, new_det, 1)
+          elif new_det not in text:
+              raise SystemExit('question-plan deterministic marker not found')
+          anchor = "  it('catches a plan that misses an item, a formula or a node', () => {"
+          regression = r'''  it('preserves durable question identities when a still-valid committed plan is rebased to a refreshed Blueprint', () => {
+            const target = targets.find((candidate) => candidate.id === '3.1-3.2')!
+            const current = readJson<QuestionPlanFile>(planPath(target.id))
+            const staleFingerprint = { ...current, blueprint_fingerprint: 'stale-blueprint-fingerprint' }
+            expect(checkQuestionPlan(target.blueprint, staleFingerprint)).toEqual([])
+            const refreshed = refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current: staleFingerprint, excludeItemIds: target.excludeItemIds, essay: target.essay })
+            expect(refreshed.questions).toEqual(current.questions)
+            expect(refreshed.blueprint_fingerprint).toBe(target.blueprint.courseKnowledgeModelFingerprint)
+          })
+
+          '''
+          if regression.strip() not in text:
+              if anchor not in text:
+                  raise SystemExit('question-plan regression marker not found')
+              text = text.replace(anchor, regression + anchor, 1)
+          test.write_text(text)
+
+          resume = Path('scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts')
+          text = resume.read_text()
+          old = "        stale: ['bus-fnd-001', 'bus-fnd-009'],"
+          new = "        stale: ['bus-fnd-001', 'bus-fnd-005', 'bus-fnd-009'],"
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif new not in text:
+              raise SystemExit('resume target marker not found')
+          resume.write_text(text)
+
+          asset = Path('content-factory/slices/aqa-7132-3.1-3.2/learn-practice/bus-fnd-001.json')
+          data = json.loads(asset.read_text())
+          mission = 'aqa-7132-3.1.1:mission-statement'
+          learn_ids = data['learn']['sections'][0]['item_ids']
+          if mission not in learn_ids:
+              learn_ids.append(mission)
+          practice_ids = data['practice']['items'][0]['item_ids']
+          if mission not in practice_ids:
+              practice_ids.append(mission)
+          asset.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
+
+          docs = Path('docs/technical/Content Factory Durable Resume and Spend.md')
+          text = docs.read_text()
+          anchor = "A prior accepted question is reused only when the current fingerprint still matches; changed teaching, changed plan inputs, unresolved AI blocking work or missing/corrupt evidence remains a cache miss.\n"
+          paragraph = "\nQuestion-plan refresh also preserves durable question identities. When a committed plan still satisfies the current Blueprint coverage checker under the same builder/batch/exclusion contract, the software rebases that plan by updating its Blueprint fingerprint and derived summary without renumbering or regrouping question specs. If the committed plan no longer satisfies current coverage, refresh falls back to a fresh deterministic build. This prevents ownership-only Blueprint changes from invalidating unrelated accepted questions while still failing closed on genuine coverage changes.\n"
+          if paragraph.strip() not in text:
+              if anchor not in text:
+                  raise SystemExit('durable resume docs marker not found')
+              text = text.replace(anchor, anchor + paragraph, 1)
+          docs.write_text(text)
+          PY
+
+      - name: Rewrite current question plans by software only
+        env:
+          CONTENT_FACTORY_WRITE_QUESTION_PLANS: '1'
+        run: npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts --reporter=verbose
+
+      - name: Run targeted deterministic assurance
+        run: npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts scripts/assurance/aqa-business-7132-slice-learn-practice.test.ts scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts scripts/assurance/aqa-business-7132-batch-blueprint.test.ts --reporter=verbose
+
+      - name: Commit exact deterministic fixes and remove this temporary workflow
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          rm .github/workflows/tmp-stabilise-aqa-7132-question-plan.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/assurance/aqa-business-7132-question-plan.ts \
+                  scripts/assurance/aqa-business-7132-question-plan.test.ts \
+                  scripts/assurance/aqa-business-7132-learn-practice-resume-targets.test.ts \
+                  content-factory/slices/aqa-7132-3.1-3.2/learn-practice/bus-fnd-001.json \
+                  content-factory/slices/aqa-7132-3.1-3.2/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.3/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.4/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.6/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.7/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.8-3.9/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.10/QUESTION_PLAN.json \
+                  content-factory/slices/aqa-7132-3.5-topup/QUESTION_PLAN.json \
+                  docs/technical/Content\ Factory\ Durable\ Resume\ and\ Spend.md \
+                  .github/workflows/tmp-stabilise-aqa-7132-question-plan.yml
+          git diff --cached --check
+          git diff --cached --quiet && { echo "No changes to commit"; exit 1; }
+          git commit -m "Preserve AQA 7132 question identities on Blueprint refresh"
+          git push origin "HEAD:${HEAD_BRANCH}"
