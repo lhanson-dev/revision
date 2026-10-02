@@ -1,0 +1,21 @@
+{
+  "benchmarkVersion": "fi007-7131-paper2-layer0-v1",
+  "referenceSetStatus": "incomplete",
+  "marker": {
+    "role": "",
+    "independentOfCaseAuthoring": true,
+    "markingDate": "",
+    "notes": "Do not include personal names or unnecessary personal data."
+  },
+  "references": [
+    {"answerId":"TC-09A","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":false,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-09B","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":false,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-09C","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":false,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-16A","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":false,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-16B","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":true,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-16C","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":true,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-20A","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":false,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-20B","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":true,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""},
+    {"answerId":"TC-20C","referenceMark":null,"referenceLevelOrBand":null,"referenceAoJudgements":null,"referenceReasoningSummary":"","secondReviewRequired":true,"secondReviewMark":null,"adjudicatedMark":null,"reviewNotes":""}
+  ]
+}
