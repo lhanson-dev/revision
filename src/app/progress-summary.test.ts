@@ -50,7 +50,11 @@ describe('Progress summary', () => {
   it('shows readiness only as the engine produced it, or as not enough evidence with what unlocks it', () => {
     const none = readinessFor(createCourseLearningState(business.course, []))
     expect(none.value).toBeNull()
-    expect(none.note.length).toBeGreaterThan(10)
+    expect(none.note).toContain('haven’t answered anything')
+    expect(none.note).not.toMatch(/flashcards/)
+    const some = readinessFor(createCourseLearningState(business.course, weak(topics[0])))
+    expect(some.value).toBeNull()
+    expect(some.note).toMatch(/flashcards|varied|evidence|activity/i)
     const across = readinessAcross([createCourseLearningState(business.course, [])])
     expect(across.value).toBeNull()
   })
