@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "status": "experimental_foundation_slice",
+  "schemaVersion": 2,
+  "status": "experimental_foundation_slice_source_complete",
   "checkedDate": "2026-10-02",
   "course": "AQA A-level Psychology 7182",
   "topic": "Social influence",
@@ -10,70 +10,121 @@
     "teachingTruthRole": "OPEN reusable sources only",
     "publicationStatus": "not learner-ready"
   },
+  "transformationPolicy": {
+    "aiRole": [
+      "structure source-supported subject knowledge",
+      "reconcile overlapping evidence",
+      "independently phrase concise subject statements",
+      "map supported knowledge to AQA named requirements"
+    ],
+    "aiMustNot": [
+      "invent unsupported subject truth",
+      "treat AQA wording as reusable teaching prose",
+      "hide source uncertainty or disagreement"
+    ]
+  },
   "requirements": [
     {
       "requirementId": "PSY-01-01",
-      "bridgeClass": "small_bridge",
-      "status": "experimental_structured_candidate",
+      "previousBridgeClass": "small_bridge",
+      "currentBridgeClass": "none_source_complete",
+      "status": "experimental_structured_candidate_source_complete",
       "structuredKnowledge": {
         "coreConcepts": [
-          "Conformity involves changing behaviour or expressed judgement in response to real or perceived group pressure.",
-          "Normative social influence arises from wanting social approval or avoiding rejection.",
-          "Informational social influence arises when a person treats others as evidence about what is correct, especially under uncertainty.",
-          "Asch-style conformity varies with majority size and unanimity; dissent can substantially reduce conformity."
+          "Conformity is a change in behaviour or expressed judgement in response to real or perceived group pressure.",
+          "Compliance is an outward response to a request or social pressure and does not necessarily imply private agreement.",
+          "Internalisation involves adopting a norm or position from an internal motive rather than merely responding to external monitoring or sanction.",
+          "Normative social influence reflects concern with social approval or rejection; informational social influence reflects reliance on others as evidence about what is correct, especially when the situation is uncertain.",
+          "Asch-style conformity changes with majority size and unanimity; the presence of a dissenter can sharply reduce conformity.",
+          "More difficult or ambiguous judgement tasks tend to increase informational dependence and can increase conformity."
         ],
-        "bridgeNeeded": [
-          "Explicitly distinguish compliance from internalisation in the final course treatment.",
-          "Add the task-difficulty effect using a rights-clear source or independently verified research evidence."
-        ]
+        "remainingSourceBridge": []
       },
       "sourceEvidence": [
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["conformity", "normative influence", "informational influence", "Asch majority size", "unanimity/dissent"]
+          "supports": ["conformity", "compliance", "normative influence", "informational influence", "majority size", "unanimity/dissent"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2023.1153809",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["norm internalisation", "internal versus externally enforced norm-following"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2020.02254",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["task difficulty/ambiguity", "informational influence", "conformity"]
         }
       ]
     },
     {
       "requirementId": "PSY-01-02",
-      "bridgeClass": "medium_bridge",
-      "status": "experimental_structured_candidate_with_open_items",
+      "previousBridgeClass": "medium_bridge",
+      "currentBridgeClass": "none_source_complete",
+      "status": "experimental_structured_candidate_source_complete",
       "structuredKnowledge": {
         "coreConcepts": [
-          "Milgram's obedience studies demonstrated that ordinary participants could obey an authority figure even when the instructed action appeared harmful.",
-          "Situational conditions alter obedience: proximity to the learner and physical location of the study affect compliance with the authority's instructions.",
-          "Remote or less immediate authority can reduce obedience relative to direct, proximal authority."
+          "Milgram's obedience studies show that ordinary participants can follow instructions from an authority even when the instructed action appears harmful.",
+          "Situational conditions alter obedience: proximity to the learner and the perceived authority/status of the setting affect compliance with instructions.",
+          "The agentic-state account proposes that people may define themselves as carrying out an authority's wishes rather than acting fully autonomously, reducing experienced personal responsibility; modern evidence also gives reasons not to treat this as a complete explanation.",
+          "Legitimacy of authority concerns whether an authority is perceived as proper and entitled to influence behaviour; perceived legitimacy can support voluntary acceptance of authority.",
+          "Uniforms and other authority-linked symbols can act as status and authority cues and can increase compliance relative to non-authority signals.",
+          "Authoritarian-disposition accounts emphasise submission to established leaders, aggression toward norm violators and conventionalism as traits or attitudes relevant to obedience, but contemporary evidence cautions against treating authoritarianism as a fixed or sufficient cause."
         ],
-        "bridgeNeeded": [
-          "Agentic-state explanation.",
-          "Legitimacy-of-authority explanation.",
-          "Uniform as a situational variable.",
-          "Authoritarian-personality explanation."
-        ]
+        "remainingSourceBridge": [],
+        "alignmentCaution": "The exact AQA packaging of agentic state, legitimacy, uniform and authoritarian personality is an alignment choice. The reusable sources provide the underlying subject knowledge; Revision authors the mapping rather than copying AQA prose."
       },
       "sourceEvidence": [
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["Milgram obedience", "location", "proximity/contact", "remote authority"]
+          "supports": ["Milgram obedience", "proximity/contact", "location/status context"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2025.1613507",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["agentic-state account", "obedience", "qualifications to the account"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.595731",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["perceived legitimacy", "voluntary acceptance of authority"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2017.00062",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["uniform/status/authority cues", "authority-linked compliance evidence"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpos.2022.929991",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["authoritarian submission", "authoritarian aggression", "conventionalism", "context dependence"]
         }
       ]
     },
     {
       "requirementId": "PSY-01-03",
-      "bridgeClass": "small_bridge",
-      "status": "experimental_structured_candidate_with_open_item",
+      "previousBridgeClass": "small_bridge",
+      "currentBridgeClass": "none_source_complete",
+      "status": "experimental_structured_candidate_source_complete",
       "structuredKnowledge": {
         "coreConcepts": [
-          "Locus of control describes whether a person tends to attribute outcomes primarily to their own actions or to external forces.",
-          "An internal locus of control is associated with a stronger sense of personal agency than an external locus of control."
+          "Locus of control concerns whether people tend to attribute outcomes mainly to their own actions or to external forces.",
+          "A stronger internal locus of control is associated with lower conformity than a stronger external locus of control in the inspected open evidence, although context matters.",
+          "Social support can reduce conformity: in Asch-style settings, the presence of another person who dissents from the majority can sharply reduce conformity by breaking unanimity.",
+          "Resistance to social influence can therefore be supported both by personal agency-related tendencies and by evidence that others are willing to resist the majority."
         ],
-        "bridgeNeeded": [
-          "Connect locus of control and social support specifically to resistance to social influence using a rights-clear source."
-        ]
+        "remainingSourceBridge": [],
+        "alignmentCaution": "The final sentence is Revision-authored synthesis of two independently supported mechanisms; it should not be represented as a direct quotation or single-study finding."
       },
       "sourceEvidence": [
         {
@@ -81,21 +132,34 @@
           "classification": "OPEN",
           "licence": "CC BY 4.0",
           "supports": ["internal locus of control", "external locus of control"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2026.1704912",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["internal locus of control associated with lower conformity", "external locus associated with higher conformity", "contextual qualification"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["dissenter/social support breaks unanimity", "reduced conformity"]
         }
       ]
     },
     {
       "requirementId": "PSY-01-04",
-      "bridgeClass": "none",
-      "status": "experimental_structured_candidate",
+      "previousBridgeClass": "none",
+      "currentBridgeClass": "none_source_complete",
+      "status": "experimental_structured_candidate_source_complete",
       "structuredKnowledge": {
         "coreConcepts": [
           "Minority influence depends strongly on the behavioural style of the minority rather than simply its size.",
           "Consistency over time and internal agreement make a minority position appear stable and deliberate.",
           "Commitment or investment in a position can signal that the minority view is sincerely held rather than opportunistic.",
-          "Influence is weakened when consistency becomes rigid; some openness and flexibility can make the minority more persuasive while preserving a coherent position."
+          "Influence is weakened when consistency becomes rigidity; some openness and flexibility can make a minority more persuasive while preserving a coherent position."
         ],
-        "bridgeNeeded": []
+        "remainingSourceBridge": []
       },
       "sourceEvidence": [
         {
@@ -109,29 +173,37 @@
   ],
   "sliceMetrics": {
     "namedRequirements": 4,
-    "noBridge": 1,
-    "smallBridge": 2,
-    "mediumBridge": 1,
-    "sourceGap": 0,
+    "requirementsWithRightsClearSubjectEvidence": 4,
+    "requirementsRequiringUnsupportedNewSubjectTruth": 0,
+    "requirementsStillNeedingSourceDiscovery": 0,
     "paidProviderSpendGbp": 0,
     "paidSourceSpendGbp": 0,
+    "sourceDiscoveryPasses": 2,
+    "acceptedSourceRecordsUsed": 9,
+    "rejectedConvenientNonCommercialSourcesInBridgePass": 2,
     "manualInterventions": [
-      "Official AQA scope checked and paraphrased into structured requirement IDs.",
-      "Reusable-source rights verified before evidence was counted.",
-      "Source claims were separated from unresolved bridge items instead of generating missing content."
-    ]
+      "Official AQA scope checked and paraphrased into stable requirement IDs.",
+      "Reusable-source licences were verified before evidence was counted.",
+      "Convenient non-commercial sources were rejected even where they closely matched AQA terminology.",
+      "Claims were separated into direct source support, Revision-authored alignment/synthesis and explicit cautions.",
+      "AI-assisted structuring and independent phrasing were used only after the subject evidence existed."
+    ],
+    "elapsedWorkingTime": "not reliably measurable retrospectively across multi-chat governed execution",
+    "aiCreatedGapContentPercent": 0,
+    "aiAssistedTransformation": true
   },
   "prototypeLearning": {
     "works": [
-      "Open sources can be transformed directly into a reusable structured subject layer for substantial portions of a topic.",
-      "A requirement can remain usable even when one or more AQA-specific named elements need a bridge; covered material does not need to be regenerated.",
+      "A representative AQA topic can be made source-complete using commercially reusable material without buying a textbook or generating unsupported subject knowledge.",
+      "Broad OER plus targeted open research is sufficient to close both small and medium AQA-specific bridges in this slice.",
+      "AI is useful as a low-cost structuring, reconciliation and phrasing layer after evidence discovery rather than as the primary source of truth.",
       "Rights and provenance can remain attached at requirement level without adopting the existing Content Factory orchestration."
     ],
-    "notYetProven": [
-      "Quality of the final learner-facing explanation.",
-      "Cost and reliability of producing the remaining bridge content at whole-course scale.",
-      "Whether all option topics show the same favourable source-first economics."
+    "remainingUncertainty": [
+      "Whether the same economics hold across the 47 option requirements, especially Forensic Psychology.",
+      "Whether a complete Foundation representation for a more specialist topic remains equally source-light.",
+      "Learner-facing educational quality has not been tested in this prototype slice."
     ],
-    "nextStep": "Resolve the open bridge items for this slice with the cheapest valid route, then transform the completed slice into one representative Foundation node set and measure the amount of original synthesis required."
+    "nextStep": "Run the named-source pass across all 47 option requirements, beginning with the previously gap-heavy Forensic Psychology option. This is now more informative than creating another compulsory slice because compulsory source availability has already been demonstrated and option coverage is the largest remaining uncertainty."
   }
 }
