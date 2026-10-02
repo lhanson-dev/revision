@@ -182,7 +182,7 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await expectWcagBaseline(page, 'Timed exam')
 
   await page.goto(`${appPath}#/courses/aqa%3Aaqa-as%3A7131/progress`)
-  await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Progress summary' })).toBeVisible()
   await expectWcagBaseline(page, 'Course Progress')
 
   await navigateGlobally(page, 'Progress')

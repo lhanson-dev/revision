@@ -1,21 +1,26 @@
 /* Progress, redesign v2 (design_handoff_revision_v2 screen 08): coloured stat tiles and subject-coloured bars. */
 .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 { font-family: var(--rv-font-display); font-weight: 800; font-size: 46px; line-height: 1.02; letter-spacing: -.025em; }
 
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article { border: 0; border-radius: var(--rv-radius-card); padding: 24px; }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article:nth-child(1) { background: var(--rv-violet-soft); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article:nth-child(2) { background: var(--rv-sun-soft); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article:nth-child(3) { background: var(--rv-soft); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview small { font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--rv-text-2); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview strong { font-family: var(--rv-font-display); font-weight: 800; font-size: 48px; line-height: 1.05; letter-spacing: -.03em; color: var(--rv-text); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview p { color: var(--rv-text-2); font-weight: 600; }
+/* Every Progress screen opens with a plain sentence and one next action, before any numbers. */
+.progress-intro { margin-bottom: 16px; display: grid; gap: 14px; padding: 24px 28px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.progress-intro__sentence { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 24px; line-height: 1.2; letter-spacing: -.02em; color: var(--rv-text); overflow-wrap: anywhere; }
+.progress-intro__action { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.progress-intro__why { margin: 0; flex: 1 1 240px; min-width: 0; font-weight: 600; color: var(--rv-text-2); }
+.progress-intro__how summary { min-height: 48px; display: inline-flex; align-items: center; font-weight: 700; color: var(--rv-text-2); cursor: pointer; }
+.progress-intro__how p { margin: 4px 0; font-weight: 600; color: var(--rv-text-2); max-width: 68ch; }
 
-.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; border-radius: var(--rv-radius-card); }
-.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary { width: auto; }
-.progress-course-bar { grid-column: 1 / -1; grid-row: 2; display: block; height: 8px; border-radius: var(--rv-radius-bar); background: var(--rv-line); overflow: hidden; }
-.progress-course-bar span { display: block; height: 100%; border-radius: var(--rv-radius-bar); background: var(--tile-fill, var(--rv-teal)); }
+.progress-course-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+.progress-course-card { display: grid; gap: 16px; align-content: start; padding: 20px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); min-width: 0; }
+.progress-course-card__head { display: flex; align-items: center; gap: 12px; }
+.progress-course-card__head h3 { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 20px; line-height: 1.2; overflow-wrap: anywhere; }
+
+.progress-topic-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.progress-topic-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 8px 16px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.progress-topic-list__name { display: grid; min-width: 0; }
+.progress-topic-list__name strong { overflow-wrap: anywhere; }
+.progress-topic-list__name small { color: var(--rv-text-2); font-weight: 600; }
 
 /* Empty state, redesign v2 screen 14: dashed tiles and a REV card that invites the first session. */
-.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview[data-empty="true"] article { background: transparent; border: 2px dashed var(--rv-line); }
 .progress-empty-card { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 28px 32px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-hero); background: var(--rv-surface); }
 .progress-empty-card .rev-presence { width: 72px; height: 72px; flex: none; }
 .progress-empty-card > div { flex: 1 1 320px; min-width: 0; }
