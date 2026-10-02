@@ -39,6 +39,7 @@ import { supabase } from '../services/supabase/browser-client'
 import { buildCatalogue, type CatalogueCourse } from './catalogue-model'
 import { allCatalogueCourses, findCatalogueCourse } from './learner-programme'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
+import { OnboardingCourseChoice } from './OnboardingCourseChoice'
 import { BrandAsset, Button, Icon, SelectField, Status } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
@@ -46,7 +47,6 @@ const catalogueCourses = allCatalogueCourses(catalogue)
 const themeStorageKey = 'revision:theme'
 
 type ThemeName = 'light' | 'dark'
-type CatalogueCourseItem = ReturnType<typeof allCatalogueCourses>[number]
 type StarterTarget = { topicId: string; activity: FirstUseActivity }
 
 function currentTheme(): ThemeName {
@@ -71,10 +71,6 @@ function firstName(user: User | null) {
 
 function firstUseAdapter(course: CatalogueCourse): LearningContentAdapter {
   return course.sharedLearning ? course.learningAdapter : course.modules[0] ?? course.learningAdapter
-}
-
-function unique(values: readonly string[]) {
-  return [...new Set(values)].sort((left, right) => left.localeCompare(right))
 }
 
 function eligibleStarterTopicIds(adapter: LearningContentAdapter) {
@@ -134,14 +130,6 @@ function feedbackCopy(evidence: LearningEvidence | null) {
   return { title: 'Your first useful revision is complete.', body: 'Revision now has real learning evidence to use when deciding what should come next.' }
 }
 
-function courseIdentity(item: CatalogueCourseItem) {
-  const { course, subject } = item
-  const boardNeeded = !course.qualificationName.toLocaleLowerCase().includes(course.examBoardName.toLocaleLowerCase())
-  return [subject.name, course.qualificationName, boardNeeded ? course.examBoardName : null, `Specification ${course.specificationCode}`]
-    .filter(Boolean)
-    .join(' · ')
-}
-
 function ExperienceChoice({
   title,
   description,
@@ -190,10 +178,6 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
   const [loadedEvidenceKey, setLoadedEvidenceKey] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
-  const [qualification, setQualification] = useState('')
-  const [subjectId, setSubjectId] = useState('')
-  const [examBoard, setExamBoard] = useState('')
-  const [courseId, setCourseId] = useState('')
   const [startingOption, setStartingOption] = useState<number | null>(null)
   const [overrideTopicId, setOverrideTopicId] = useState('')
   const [showAlternatives, setShowAlternatives] = useState(false)
@@ -268,29 +252,6 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
     return () => { active = false }
   }, [accountState?.onboardingCompletedAt, adapter, user])
 
-  const qualificationOptions = useMemo(() => unique(catalogueCourses.map((item) => item.course.qualificationName)), [])
-  const effectiveQualification = qualification || (qualificationOptions.length === 1 ? qualificationOptions[0] : '')
-  const qualificationCourses = useMemo(
-    () => effectiveQualification ? catalogueCourses.filter((item) => item.course.qualificationName === effectiveQualification) : [],
-    [effectiveQualification],
-  )
-  const subjectOptions = useMemo(() => {
-    const byId = new Map(qualificationCourses.map((item) => [item.subject.id, item.subject.name]))
-    return [...byId.entries()].sort((left, right) => left[1].localeCompare(right[1]))
-  }, [qualificationCourses])
-  const effectiveSubjectId = subjectId || (subjectOptions.length === 1 ? subjectOptions[0][0] : '')
-  const subjectCourses = useMemo(
-    () => effectiveSubjectId ? qualificationCourses.filter((item) => item.subject.id === effectiveSubjectId) : [],
-    [effectiveSubjectId, qualificationCourses],
-  )
-  const examBoardOptions = useMemo(() => unique(subjectCourses.map((item) => item.course.examBoardName)), [subjectCourses])
-  const effectiveExamBoard = examBoard || (examBoardOptions.length === 1 ? examBoardOptions[0] : '')
-  const boardCourses = useMemo(
-    () => effectiveExamBoard ? subjectCourses.filter((item) => item.course.examBoardName === effectiveExamBoard) : [],
-    [effectiveExamBoard, subjectCourses],
-  )
-  const resolvedCourseItem = boardCourses.length === 1 ? boardCourses[0] : boardCourses.find((item) => item.course.id === courseId) ?? null
-
   const selectedStartingQuestions = useMemo(() => adapter ? selectStartingCheckQuestions(adapter) : [], [adapter])
   const answeredStartingIds = useMemo(() => new Set(startingEvidence.map((item) => item.questionId)), [startingEvidence])
   const currentStartingQuestion = selectedStartingQuestions.find((question) => !answeredStartingIds.has(question.id)) ?? null
@@ -360,20 +321,31 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
     }
   }
 
-  async function addFirstCourse() {
-    if (!user || !resolvedCourseItem) return
+  async function addCourses(courseIds: string[]) {
+    if (!user || courseIds.length === 0) return
+    const [firstCourseId, ...otherCourseIds] = courseIds
     setBusy(true)
     setError('')
     try {
-      const membership = await addLearnerCourse(supabase, user.id, resolvedCourseItem.course.id)
-      setMemberships([membership])
+      // The first course is the one the starting check and first recommendation use.
+      const first = await addLearnerCourse(supabase, user.id, firstCourseId)
+      const added = [first]
+      void recordLearnerCourseEventBestEffort(supabase, user.id, 'course_added', firstCourseId, { source: 'first_use' })
+      void recordFirstUseEventBestEffort(supabase, user.id, 'first_course_added', firstCourseId)
+      for (const courseId of otherCourseIds) {
+        try {
+          added.push(await addLearnerCourse(supabase, user.id, courseId))
+          void recordLearnerCourseEventBestEffort(supabase, user.id, 'course_added', courseId, { source: 'first_use' })
+        } catch {
+          // An extra course that fails to save does not stop the student getting started; they can add it from Courses.
+        }
+      }
+      setMemberships(added)
       setLoadedEvidenceKey('')
-      void recordLearnerCourseEventBestEffort(supabase, user.id, 'course_added', resolvedCourseItem.course.id, { source: 'first_use' })
-      void recordFirstUseEventBestEffort(supabase, user.id, 'first_course_added', resolvedCourseItem.course.id)
       setAccountState(await setFirstUseStage(supabase, user.id, 'course_ready'))
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : 'Could not add that course.')
-      void recordFirstUseEventBestEffort(supabase, user.id, 'onboarding_error', resolvedCourseItem.course.id, { stage: 'course' })
+      void recordFirstUseEventBestEffort(supabase, user.id, 'onboarding_error', firstCourseId, { stage: 'course' })
     } finally {
       setBusy(false)
     }
@@ -541,41 +513,7 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
       <main className="first-use-shell" data-theme={theme}>
         <BrandAsset asset="wordmark" className="first-use-brand" alt="Revision" />
         <section className="first-use-card first-use-course-screen" aria-labelledby="first-course-heading">
-          <div className="first-use-heading"><p className="eyebrow">Welcome, {learner}</p><h1 id="first-course-heading">Add your first course</h1><p>Start with one course so Revision can make your first recommendation relevant. You can add the rest later.</p></div>
-          <div className="first-use-rev-note"><strong>REV</strong><span>I only need enough course context to get you into useful revision.</span></div>
-          {error && <Status tone="error">{error}</Status>}
-          <div className="first-use-course-fields">
-            {qualificationOptions.length > 1 ? (
-              <SelectField label="Qualification" value={qualification} onChange={(event) => { setQualification(event.target.value); setSubjectId(''); setExamBoard(''); setCourseId('') }}>
-                <option value="">Choose qualification</option>{qualificationOptions.map((value) => <option key={value} value={value}>{value}</option>)}
-              </SelectField>
-            ) : effectiveQualification ? <div className="first-use-auto-choice"><span>Qualification</span><strong>{effectiveQualification}</strong></div> : null}
-
-            {effectiveQualification && (subjectOptions.length > 1 ? (
-              <SelectField label="Subject" value={subjectId} onChange={(event) => { setSubjectId(event.target.value); setExamBoard(''); setCourseId('') }}>
-                <option value="">Choose subject</option>{subjectOptions.map(([id, name]) => <option key={id} value={id}>{name}</option>)}
-              </SelectField>
-            ) : subjectOptions[0] ? <div className="first-use-auto-choice"><span>Subject</span><strong>{subjectOptions[0][1]}</strong></div> : null)}
-
-            {effectiveSubjectId && (examBoardOptions.length > 1 ? (
-              <SelectField label="Exam board" value={examBoard} onChange={(event) => { setExamBoard(event.target.value); setCourseId('') }}>
-                <option value="">Choose exam board</option>{examBoardOptions.map((value) => <option key={value} value={value}>{value}</option>)}
-              </SelectField>
-            ) : effectiveExamBoard ? <div className="first-use-auto-choice"><span>Exam board</span><strong>{effectiveExamBoard}</strong></div> : null)}
-
-            {effectiveExamBoard && boardCourses.length > 1 && (
-              <SelectField label="Course" value={courseId} onChange={(event) => setCourseId(event.target.value)}>
-                <option value="">Choose course</option>{boardCourses.map((item) => <option key={item.course.id} value={item.course.id}>{item.label} · {item.course.specificationCode}</option>)}
-              </SelectField>
-            )}
-          </div>
-
-          {resolvedCourseItem && (
-            <div className="first-use-course-confirmation">
-              <div><span className="tag">{resolvedCourseItem.course.examBoardName} · {resolvedCourseItem.course.specificationCode}</span><strong>{resolvedCourseItem.label}</strong><span>{courseIdentity(resolvedCourseItem)}</span></div>
-              <Button size="large" disabled={busy} onClick={() => void addFirstCourse()}>Add this course</Button>
-            </div>
-          )}
+          <OnboardingCourseChoice courses={catalogueCourses} learner={learner} busy={busy} error={error} onAdd={(ids) => void addCourses(ids)} />
         </section>
       </main>
     )

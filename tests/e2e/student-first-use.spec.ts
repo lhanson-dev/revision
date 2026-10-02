@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page, type Route } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
@@ -210,11 +211,19 @@ async function expectNoPageOverflow(page: Page) {
 
 async function chooseStudentAndAddAlevelBusiness(page: Page) {
   await page.getByRole('button', { name: /^Student\b/ }).click()
-  await expect(page.getByRole('heading', { name: 'Add your first course' })).toBeVisible()
-  await page.getByLabel('Qualification').selectOption({ label: 'AQA A-level' })
-  await expect(page.getByText('Business', { exact: true })).toBeVisible()
-  await expect(page.getByText('AQA', { exact: true })).toBeVisible()
-  await page.getByRole('button', { name: 'Add this course' }).click()
+  await expect(page.getByRole('heading', { name: 'Add your courses' })).toBeVisible()
+  // Step 1: level. Only levels with a live course are offered; with one, it is already chosen.
+  await expect(page.getByText('Step 1 of 3')).toBeVisible()
+  await expect(page.getByRole('radio', { name: /A-level/ })).toBeChecked()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // Step 2: subjects at that level.
+  await expect(page.getByText('Step 2 of 3')).toBeVisible()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // Step 3: exam board (and AS or full A-level) for each subject.
+  await expect(page.getByText('Step 3 of 3')).toBeVisible()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
   await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
   await expect(page.getByText('Course added', { exact: true })).toBeVisible()
 }
@@ -305,4 +314,56 @@ test('account choice remains compact, accessible and themed across supported vie
     const heights = await choices.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))
     expect(Math.max(...heights)).toBeLessThanOrEqual(110)
   }
+})
+
+test('course choice goes Level, then subjects, then exam board, keeps picks when going back, and needs a pick before adding', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Flow runs once; layout is checked at every width below.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+
+  await expect(page.getByText('Only courses that are ready to study are shown here.')).toBeVisible()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // At least one subject is needed to go on.
+  await expect(page.getByRole('button', { name: 'Continue' })).toBeDisabled()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+
+  // Business has both AS and A-level, so the student chooses; nothing is added until they do.
+  const add = page.getByRole('button', { name: /^Add\s*courses?$/ })
+  await expect(add).toBeDisabled()
+  await page.getByRole('radio', { name: /AQA AS/ }).check()
+  await expect(page.getByRole('button', { name: 'Add 1 course' })).toBeEnabled()
+
+  // Going back keeps the subject picked.
+  await page.getByRole('button', { name: 'Back' }).click()
+  await expect(page.getByRole('checkbox', { name: 'Business' })).toBeChecked()
+  expect(state.memberships).toHaveLength(0)
+})
+
+test('course choice is usable, accessible and never scrolls sideways from 320px to 1440px', async ({ page }) => {
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+
+  for (const width of [320, 390, 820, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await expectNoPageOverflow(page)
+  }
+  await expect(page.locator('.onb-card').first()).toHaveCSS('min-height', '56px')
+  let result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.setViewportSize({ width: 320, height: 900 })
+  await expectNoPageOverflow(page)
+  result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expectNoPageOverflow(page)
+  result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
 })
