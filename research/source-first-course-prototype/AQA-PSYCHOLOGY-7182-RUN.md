@@ -1,8 +1,8 @@
 # Prototype Run — AQA A-level Psychology 7182
 
-**Prototype:** Source-First Course Prototype
-**Status:** In progress — compulsory named-source review complete; representative Foundation slice started
-**Started:** 2 October 2026
+**Prototype:** Source-First Course Prototype  
+**Status:** In progress — all 118 named requirements reviewed; representative Social influence slice source-complete  
+**Started:** 2 October 2026  
 **Purpose:** First independent proof of the source-first Foundation method
 
 ## Run instruction
@@ -38,134 +38,113 @@ The run must establish:
 - First A-level exams: summer 2027
 - Official awarding-body material role: scope/alignment/reference, not assumed reusable teaching copy
 
-Course dates/options/cohort details should be resolved from current official AQA information as part of the run rather than copied from historical Content Factory assumptions.
-
 ## Source acceptance rule
 
-A source can supply the reusable subject corpus only when its rights basis explicitly supports the intended commercial use.
+A source can supply the reusable subject corpus only when its rights basis explicitly supports the intended commercial use. Public availability is not permission. AQA remains `REFERENCE_ONLY`; the reusable subject layer uses OPEN, REVISION_OWNED or appropriately LICENSED evidence only.
 
-Record for every accepted source:
+## Working state
 
-- title/provider;
-- URL;
-- edition/version/date where relevant;
-- licence or public-domain basis;
-- whether commercial reuse is permitted;
-- whether adaptation is permitted;
-- attribution/share-alike obligations;
-- evidence URL for the rights basis;
-- subject areas covered; and
-- any restrictions or uncertainty.
+### A. Exact scope — complete first pass
 
-Sources with non-commercial restrictions must not be counted as reusable commercial corpus coverage.
+`AQA-PSYCHOLOGY-7182-SCOPE.json` records **118 stable named requirement IDs** across 17 topics:
 
-Sources with unclear rights may be useful leads but must be recorded as rejected/pending rather than assumed usable.
+- 71 compulsory requirements;
+- 47 option requirements.
 
-## Working stages
+### B. Source discovery — broad + targeted passes complete enough for whole-course economics
 
-### A. Exact scope
+The prototype has accepted broad CC BY psychology, neuroscience and abnormal-psychology resources plus targeted open research/statistics/criminal-justice sources. Convenient sources with non-commercial restrictions have been rejected rather than counted.
 
-Compile a compact structured checklist of required AQA 7182 knowledge/topics and major assessment facts from current official information.
+Targeted evidence is retained in the source register and addenda, including `PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-04.md` for closure of the representative Social influence bridges.
 
-Do not copy large amounts of awarding-body prose into the reusable corpus.
+### C. Rights verification — active / fail-closed
 
-**Current state:** complete for the first pass. `AQA-PSYCHOLOGY-7182-SCOPE.json` records 118 stable named requirement IDs across 17 topics, including 71 compulsory requirements and 47 option requirements.
+AQA remains reference-only. Current OpenStax Psychology 2e, several Research Methods textbooks, Noba, convenient social-psychology materials and other NC sources were excluded where their terms did not support Revision's intended commercial route.
 
-### B. Source discovery
+The prototype has deliberately retained one remaining source gap rather than treating a publicly accessible non-commercial source as permission.
 
-Search broadly for free high-quality psychology resources with commercial-compatible licences.
+### D. Named coverage — 118/118 reviewed
 
-Prioritise whole textbooks/corpora because one broad reusable source is operationally more valuable than dozens of fragmented pages.
+Current whole-course state is recorded in `AQA-PSYCHOLOGY-7182-WHOLE-COURSE-METRICS.json`.
 
-**Current state:** broad source discovery plus three targeted addenda completed. The prototype has accepted multiple CC BY psychology, neuroscience, abnormal-psychology, statistics and targeted research sources. Non-commercial sources that would otherwise be attractive have been rejected rather than counted.
+After closing the representative Social influence bridges:
 
-### C. Rights verification
+- **118/118 named requirements reviewed**;
+- **54 source-covered candidates**;
+- **63 partial / bounded synthesis requirements**;
+- **1 remaining source gap**;
+- **117/118 requirements have some commercial-compatible reusable subject evidence**.
 
-Verify the actual licence at source. Search-result snippets, third-party descriptions and general website availability are insufficient.
+The one current source gap is `PSY-17-06` — Prochaska's six-stage behaviour-change model. The model is publicly easy to find, but the convenient explanatory sources inspected so far carry non-commercial terms and are not counted.
 
-**Current state:** active and fail-closed. AQA remains `REFERENCE_ONLY`; sources including current OpenStax Psychology 2e and the Atlantic OER Research Methods in Psychology & Neuroscience book were excluded from reusable commercial corpus use because their current licences/terms do not support the intended commercial route.
+This distinction matters: **117/118 source-supported is not the same as 117/118 finished Foundation coverage**. Sixty-three requirements still need one or more named elements closed or synthesised.
 
-### D. Coverage test
+### E. Bridge / gap strategy
 
-Map accepted reusable sources to the AQA scope.
+The compulsory first pass initially found 38 bounded bridges and zero source-domain gaps. The Social influence proof then closed three of those bridges entirely with rights-clear sources.
 
-Classify each required area as:
+Option-group first passes now show:
 
-- `covered` — reusable sources appear sufficient to build the Foundation;
-- `partial` — relevant reusable material exists but needs supplementation/deepening;
-- `gap` — no adequate accepted source yet; or
-- `uncertain` — source/rights/requirement needs resolution.
+- **Option group 1 — Relationships / Gender / Cognition & development:** 14/14 reviewed; 5 covered candidates, 9 partials, 0 gaps.
+- **Option group 2 — Schizophrenia / Eating behaviour / Stress:** 18/18 reviewed; 8 covered candidates, 10 partials, 0 gaps.
+- **Option group 3 — Aggression / Forensic Psychology / Addiction:** 15/15 reviewed; 5 covered candidates, 9 partials, 1 gap.
 
-**Current state:** the compulsory course has completed its first named-requirement review. After targeted gap reconciliation:
+The previously gap-heavy Forensic Psychology topic is not source-empty. It is more fragmented: one of four requirements is currently source-covered and three have narrow outstanding elements. This is useful evidence about expected manual/source-orchestration cost.
 
-- compulsory named requirements: **71/71 reviewed**;
-- source-covered candidates: **33**;
-- partial / bridge requirements: **38**;
-- unresolved source gaps: **0**;
-- unknown/uncertain rights blockers: **0** for the compulsory set.
+### F. Representative Foundation candidate — Social influence source-complete
 
-The remaining 47 option requirements are not yet fully reviewed at named-requirement level.
+`AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-SOCIAL-INFLUENCE.json` now records a source-complete structured slice for all four Social influence requirements.
 
-### E. Gap strategy
+Current slice result:
 
-For each `partial` or `gap` area, choose the lowest-cost valid route:
+- 4/4 named requirements have rights-clear subject evidence;
+- 0/4 require unsupported new subject truth;
+- 0 require further source discovery;
+- AI was used as a transformation/structuring/reconciliation layer, not as the source of unsupported Psychology knowledge;
+- paid provider spend: **£0**;
+- paid source spend: **£0**.
 
-1. find another accepted reusable source;
-2. use permitted primary/public-domain material;
-3. create a small amount of original bridge/gap content with AI from accepted factual inputs; or
-4. record a blocker if trustworthy content cannot be established cheaply.
+This demonstrates that a representative topic containing previously small and medium bridges can be completed by targeted open-source discovery plus structured synthesis rather than whole-topic generation.
 
-Do not regenerate already-covered areas merely for stylistic consistency.
-
-**Current state:** `AQA-PSYCHOLOGY-7182-COMPULSORY-BRIDGE-PLAN.json` classifies the 38 incomplete compulsory requirements as:
-
-- **24 small bridges** — one or two named elements, terminology/alignment links or short synthesis remain;
-- **14 medium bridges** — several named elements or a specialist model remain, but not whole-topic creation;
-- **0 source-domain gaps**.
-
-No paid model call has been needed to reach this point.
-
-### F. Foundation candidate
-
-Only after source coverage is understood, transform the accepted knowledge into the minimum structured Foundation representation needed to test completeness and reuse.
-
-The schema may borrow useful existing Revision structures but must not inherit unnecessary Content Factory orchestration.
-
-**Current state:** started. `AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-SOCIAL-INFLUENCE.json` is the first representative structured slice. It deliberately contains:
-
-- one no-bridge requirement;
-- two small-bridge requirements; and
-- one medium-bridge requirement.
-
-The slice keeps reusable source knowledge, provenance and unresolved bridge items separate rather than silently filling gaps. It is experimental structured subject knowledge, not learner-facing content.
-
-### G. Measure
-
-Record final headline measures:
+### G. Current measures
 
 | Measure | Current result |
 | --- | --- |
 | Exact named course scope | 118 requirements across 17 topics |
-| Compulsory named coverage review | 71/71 reviewed |
-| Compulsory source-covered candidates | 33/71 |
-| Compulsory bridge requirements | 38/71: 24 small, 14 medium |
-| Compulsory unresolved source gaps | 0 |
-| Option named-requirement review | 4/47 reviewed incidentally; full option pass pending |
-| Representative structured Foundation slice | Social influence slice created |
-| AI-created gap content | 0 so far |
-| AI/provider spend | £0 |
-| Paid source/licence spend | £0 |
-| Manual interventions | source/licence verification, requirement mapping, bridge classification, provenance review |
+| Named coverage review | **118/118** |
+| Current source-covered candidates | **54/118 (45.8%)** |
+| Current partial / bounded synthesis | **63/118 (53.4%)** |
+| Current source gap | **1/118 (0.8%)** |
+| Requirements with some reusable subject evidence | **117/118 (99.2%)** |
+| Representative structured Foundation slice | Social influence — source-complete |
+| AI-created unsupported subject truth | **0% so far** |
+| Paid AI/provider spend | **£0** |
+| Paid source/licence spend | **£0** |
+| Manual interventions | source/licence verification, requirement mapping, targeted search, provenance review, conservative classification |
 
-Elapsed working time remains to be recorded as a final run measure because this prototype has been executed across multiple governed chat/repository interactions rather than a single timed job. Do not invent a duration retrospectively.
+Elapsed working time is not being invented retrospectively because this prototype has been executed across multiple governed chat/repository interactions rather than a single timed job. A future automated run should instrument elapsed active work directly.
 
 ## Current economics signal
 
-The source-first hypothesis is **promising but not yet proven**.
+The source-first hypothesis is now **strongly supported on source availability, but not yet fully proven on production throughput**.
 
-The key improvement over the original coarse map is that the compulsory course no longer appears to require whole-topic generation or paid-source acquisition. Every compulsory requirement now has either reusable source support or a bounded synthesis/alignment route. Most remaining work is narrow: 24 small bridges and 14 medium bridges.
+The strongest evidence is not that 45.8% of named requirements are already source-complete. It is that **117 of 118 requirements already have a commercially reusable subject-knowledge route**, meaning Psychology does not appear to need to be researched or generated from zero.
 
-That is materially different from recreating 71 compulsory requirements from zero, but it is not yet sufficient to claim a scalable production cost. The next proof must measure the work required to close the representative Social influence bridges and turn the structured slice into a complete Foundation node set without sacrificing educational quality.
+The remaining cost problem is therefore narrower:
+
+- rights verification;
+- targeted source discovery for exact named models;
+- reconciliation of fragmented sources;
+- structured synthesis/alignment;
+- and quality validation of the resulting Foundation nodes.
+
+Specialist option topics are noticeably more fragmented than the representative compulsory topic. That means automation should prioritise **source discovery + rights classification + requirement mapping**, not simply pay a model to generate an entire course.
+
+## Next proof
+
+Do not expand infrastructure yet.
+
+The next useful experiment is to close a small, deliberately difficult sample from the specialist options — including the single `PSY-17-06` source gap and one or two Forensic/Aggression partials — then transform those into structured Foundation nodes. If that remains cheap and controlled, the source-first production hypothesis will be strong enough for a Founder `promote / iterate / reject` decision or a final narrow automation proof.
 
 ## Cost discipline
 
@@ -182,15 +161,16 @@ Stop and report rather than building more infrastructure when any of these becom
 - Foundation quality requires enough original research/generation that the expected economics no longer improve materially on the existing process; or
 - the source-first method has been sufficiently proven and the next useful step is productisation/automation rather than more prototype work.
 
-## Output
+## Output still required before final recommendation
 
 The proof should finish with:
 
-- a source register;
-- a course-scope/coverage map;
-- a structured Foundation candidate or representative Foundation slice sufficient to demonstrate the method;
-- measured time/cost/intervention evidence;
-- identified risks and gaps; and
-- a recommendation: `promote`, `iterate`, or `reject` the source-first method.
+- retained source register — present;
+- whole-course scope/coverage map — present for first pass;
+- representative structured Foundation candidate — present for Social influence;
+- measured cost/intervention evidence — variable spend present; retrospective elapsed time deliberately unavailable;
+- targeted difficult-option closure evidence — next;
+- identified risks and gaps — active;
+- recommendation: `promote`, `iterate`, or `reject` — pending final difficult-option proof.
 
 No result from this run should be labelled an approved production Course Foundation solely because the prototype completed.
