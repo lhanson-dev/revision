@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "course_id": "aqa:aqa-a-level:7132",
-  "decided_at": "2026-10-01",
+  "decided_at": "2026-10-02",
   "decided_by": "Founder",
   "decisions": [
     {
@@ -24,6 +24,76 @@
       "prior_fingerprint": "54ff0a67d7f79c123e207e609122618464434905ba87a6514b428774c40a3591",
       "decision": "fix",
       "note": "Add crisis-management teaching to BUS-STR-009, then regenerate and review the dependent question rather than removing the examinable item."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q20",
+      "prior_fingerprint": "6100bb835083285182808802c43ae0178b4aa1617b10ec3ce9178630f7df9400",
+      "decision": "fix",
+      "note": "Deepen the Foundation node mapped to mission and objectives, then regenerate and review the question against the corrected teaching."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q24",
+      "prior_fingerprint": "c758ae70a4063f073127da61897e33eba1f4427573ae3125021803671b3b8d4b",
+      "decision": "fix",
+      "note": "Regenerate and review the question so it validly assesses social enterprise and liability without removing the examinable content."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q25",
+      "prior_fingerprint": "6e06f24d26c55ac6e539511ab9718821b96674218a866304ed9131a6c8b13f74",
+      "decision": "fix",
+      "note": "Repair the question and mark scheme so ordinary share capital and the role of shareholders are assessed accurately and unambiguously."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q38",
+      "prior_fingerprint": "b714155531843079506a7eb32898dd4677bd7ae7a1a0d881807b107b8c044a30",
+      "decision": "fix",
+      "note": "Deepen the mapped external-environment teaching on environmental issues, then regenerate and review the dependent question."
+    },
+    {
+      "batch": "3.1-3.2",
+      "unit_id": "q41",
+      "prior_fingerprint": "12e06dc8e3a443150c34cb4e0b865b50178bbbb6cace4a4ffdc682d542c0fa36",
+      "decision": "fix",
+      "note": "Repair the question and mark scheme so the intended target is assessed without unsupported assumptions or answer-giving wording."
+    },
+    {
+      "batch": "3.4",
+      "unit_id": "q01",
+      "prior_fingerprint": "ddc84308daee73a78385b7d93cec19c4a55dc45ea61e66fd806a459ef22667cf",
+      "decision": "fix",
+      "note": "Add environmental-objective teaching to the Foundation node actually mapped by the Blueprint, then regenerate and review the dependent question."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q04",
+      "prior_fingerprint": "bd2c9655a47ec021be9aeacf301a2ba82b5dd9e1d122f57d6b535c864017a7f",
+      "decision": "fix",
+      "note": "Regenerate the question so emerging economies are genuinely assessed rather than merely present in the context."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q05",
+      "prior_fingerprint": "5735f6b645d0347715268fe2fd10f52ba9d488798364baea1be75c7bfcf6e81f",
+      "decision": "fix",
+      "note": "Regenerate the question so licensing is assessed without the scenario giving away the answer."
+    },
+    {
+      "batch": "3.7",
+      "unit_id": "q07",
+      "prior_fingerprint": "4a176b2e54ccc31defabda6ced7c78149174836955219586078878694dd7bdd6",
+      "decision": "fix",
+      "note": "Regenerate the question so multinational business is genuinely assessed without answer-giving wording."
+    },
+    {
+      "batch": "3.10",
+      "unit_id": "q10",
+      "prior_fingerprint": "35d4fecfc85b156a72738cb45cde6f2c94020874bfe1b57bbdb00fe8bca06009",
+      "decision": "fix",
+      "note": "Add explicit Lewin force-field teaching on driving and restraining forces and its use and limits, then regenerate and review the dependent question."
     }
   ]
 }
