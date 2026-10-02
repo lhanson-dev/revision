@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_bridge_plan",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "basis": "Current compulsory status after AQA-PSYCHOLOGY-7182-COMPULSORY-GAP-RECONCILIATION.json.",
+  "classification": {
+    "small_bridge": "Underlying subject knowledge is already well covered. One or two named AQA elements, terminology links, or a short alignment/application explanation remain.",
+    "medium_bridge": "Several named elements or a specialist model remain. Requires a targeted source/synthesis pass, but not whole-topic generation.",
+    "source_gap": "No rights-clear subject-knowledge route remains after targeted research. None currently identified in the compulsory course."
+  },
+  "smallBridges": [
+    {"requirementId":"PSY-01-01","remaining":"Task-difficulty effect and exact internalisation/compliance framing."},
+    {"requirementId":"PSY-01-03","remaining":"Connect social support explicitly to resistance to social influence; locus-of-control subject knowledge is already sourced."},
+    {"requirementId":"PSY-02-03","remaining":"Cue-dependent retrieval failure as the named AQA forgetting mechanism."},
+    {"requirementId":"PSY-03-01","remaining":"Lorenz alongside already sourced Harlow evidence."},
+    {"requirementId":"PSY-04-01","remaining":"Deviation from ideal mental health; other definition families are sourced."},
+    {"requirementId":"PSY-04-03","remaining":"Two-process explanation and flooding; systematic desensitisation/exposure is sourced."},
+    {"requirementId":"PSY-05-02","remaining":"Explicit identification link within otherwise sourced Bandura/social-learning treatment."},
+    {"requirementId":"PSY-05-03","remaining":"Explicit theoretical/computer-model and inference framing within sourced cognitive approach."},
+    {"requirementId":"PSY-06-02","remaining":"Relay-neuron terminology and explicit excitation/inhibition link."},
+    {"requirementId":"PSY-06-05","remaining":"ERP method alongside sourced fMRI, EEG and post-mortem methods."},
+    {"requirementId":"PSY-07-01","remaining":"Tight four-way lab/field/natural/quasi classification."},
+    {"requirementId":"PSY-07-03","remaining":"Structured versus unstructured interview distinction."},
+    {"requirementId":"PSY-07-07","remaining":"AQA aim-versus-hypothesis convention."},
+    {"requirementId":"PSY-07-09","remaining":"Opportunity and volunteer sampling alongside sourced random/systematic/stratified methods."},
+    {"requirementId":"PSY-07-12","remaining":"Event sampling and time sampling."},
+    {"requirementId":"PSY-07-13","remaining":"Open/closed questions and concise interview-design link."},
+    {"requirementId":"PSY-07-15","remaining":"Counterbalancing and standardisation alongside sourced random allocation/control groups."},
+    {"requirementId":"PSY-07-16","remaining":"Map sourced participant/experimenter bias to demand-characteristics and investigator-effects terminology."},
+    {"requirementId":"PSY-07-17","remaining":"BPS-code alignment over already sourced ethical principles; use BPS/AQA as reference-only where needed rather than copying protected wording."},
+    {"requirementId":"PSY-07-19","remaining":"Short economic-implications application bridge; AQA explicitly indicates no separate body of subject teaching is required."},
+    {"requirementId":"PSY-07-23","remaining":"Abstract and referencing conventions alongside sourced IMRaD report structure."},
+    {"requirementId":"PSY-07-25","remaining":"Meta-analysis alongside sourced primary/secondary data."},
+    {"requirementId":"PSY-07-31","remaining":"Explicit coding procedure within already sourced content-analysis treatment."},
+    {"requirementId":"PSY-07-33","remaining":"Critical-value/table mechanics alongside sourced significance and Type I/II errors."}
+  ],
+  "mediumBridges": [
+    {"requirementId":"PSY-01-02","remaining":"Agentic state, legitimacy of authority, uniform and authoritarian-personality explanation around already sourced Milgram/situational evidence."},
+    {"requirementId":"PSY-02-04","remaining":"Post-event discussion, anxiety and cognitive interview around sourced leading-question/suggestibility evidence."},
+    {"requirementId":"PSY-03-02","remaining":"Monotropic theory, critical period and internal-working-model synthesis around sourced Bowlby attachment theory."},
+    {"requirementId":"PSY-03-04","remaining":"Bowlby maternal-deprivation theory and explicit theory-to-institutionalisation evidence link; ERA evidence is sourced."},
+    {"requirementId":"PSY-05-06","remaining":"Free will, congruence and conditions of worth around sourced Maslow/Rogers/self-actualisation material."},
+    {"requirementId":"PSY-06-06","remaining":"Complete cortical-centre list, split-brain research, plasticity and functional recovery around sourced language lateralisation."},
+    {"requirementId":"PSY-07-02","remaining":"Complete naturalistic/controlled, covert/overt and participant/non-participant observation taxonomy."},
+    {"requirementId":"PSY-07-11","remaining":"Repeated-measures, independent-groups and matched-pairs designs plus their practical distinctions/trade-offs."},
+    {"requirementId":"PSY-07-21","remaining":"Concurrent and temporal validity plus improvement techniques around sourced face/ecological/construct validity."},
+    {"requirementId":"PSY-07-22","remaining":"Paradigms and paradigm shifts within otherwise sourced scientific-process concepts."},
+    {"requirementId":"PSY-07-34","remaining":"Full named test set and AQA decision rules: Spearman, Pearson, Wilcoxon, Mann–Whitney, related/unrelated t and Chi-squared with design/measurement selection."},
+    {"requirementId":"PSY-08-01","remaining":"Universality, androcentrism, alpha/beta bias, ethnocentrism and cultural relativism as one coherent AQA issues/debates treatment."},
+    {"requirementId":"PSY-08-02","remaining":"Hard/soft determinism and biological/environmental/psychic taxonomy around sourced determinism/free-will perspectives."},
+    {"requirementId":"PSY-08-04","remaining":"Levels of explanation and named biological/environmental reductionism around sourced holistic/reductionist contrasts."}
+  ],
+  "sourceGaps": [],
+  "summary": {
+    "compulsoryNamedRequirements": 71,
+    "noBridgeNeededCoveredCandidates": 33,
+    "smallBridge": 24,
+    "mediumBridge": 14,
+    "sourceGap": 0,
+    "paidProviderSpendGbpToReachThisPlan": 0,
+    "paidSourceSpendGbpToReachThisPlan": 0
+  },
+  "economicsInterpretation": {
+    "signal": "stronger_than_coarse_map",
+    "observation": "The remaining work is predominantly bounded synthesis rather than discovery or whole-topic creation: 24 of 38 incomplete compulsory requirements are small bridges and 14 are medium bridges; none remains a whole-source gap.",
+    "notYetProven": "This classification does not yet prove production cost or quality. A representative structured Foundation slice must be built from the source-first evidence and measured before extrapolating to a whole course.",
+    "nextProof": "Build one representative structured Foundation slice that includes at least one covered candidate, one small bridge and one medium bridge; record provenance, manual interventions, elapsed-work proxy and paid spend."
+  }
+}

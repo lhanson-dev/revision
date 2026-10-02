@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_named_coverage_in_progress",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "method": "Requirement-level evidence is recorded only where a current OPEN source was inspected closely enough to support a conservative coverage judgement. Unreviewed requirements remain pending in AQA-PSYCHOLOGY-7182-SCOPE.json.",
+  "statusDefinitions": {
+    "covered_candidate": "Open reusable sources appear sufficient to supply the underlying subject knowledge for this named requirement; final Foundation transformation/quality is not yet asserted.",
+    "partial": "Open reusable sources support material parts of the named requirement but at least one AQA-named element still needs targeted evidence or original bridge content.",
+    "gap": "No adequate accepted reusable source has yet been found for the named requirement.",
+    "uncertain": "A plausible source exists but rights or substantive sufficiency has not been resolved."
+  },
+  "evidence": [
+    {
+      "requirementId": "PSY-01-01",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/"
+      ],
+      "supports": "Asch, conformity/compliance, normative and informational social influence, majority size and dissent/unanimity effects.",
+      "remaining": "AQA task-difficulty treatment and exact internalisation/compliance framing need explicit named-item confirmation."
+    },
+    {
+      "requirementId": "PSY-01-02",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/"
+      ],
+      "supports": "Milgram obedience study and situational variation including location, proximity/contact and remote authority.",
+      "remaining": "Agentic state, legitimacy of authority, uniform and authoritarian-personality explanation need targeted open sources."
+    },
+    {
+      "requirementId": "PSY-02-01",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/how-memory-functions/"
+      ],
+      "supports": "Atkinson-Shiffrin sensory, short-term and long-term stores plus duration/capacity/encoding discussion sufficient for a Foundation base.",
+      "remaining": "Transform into Revision structure and verify exact AQA emphasis; no new subject research currently indicated."
+    },
+    {
+      "requirementId": "PSY-02-03",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/problems-with-memory/"
+      ],
+      "supports": "Proactive and retroactive interference and retrieval failure at a general level.",
+      "remaining": "Specific cue-dependent forgetting treatment needs a targeted source pass."
+    },
+    {
+      "requirementId": "PSY-02-04",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/problems-with-memory/"
+      ],
+      "supports": "Eyewitness unreliability, suggestibility, leading-question effects and improved neutral interviewing/line-up practice.",
+      "remaining": "AQA post-event discussion, anxiety and cognitive-interview treatment require explicit named evidence."
+    },
+    {
+      "requirementId": "PSY-04-03",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/"
+      ],
+      "supports": "Exposure-based treatment and systematic desensitisation with relaxation and graded anxiety-provoking stimuli.",
+      "remaining": "Two-process explanation and flooding need explicit named evidence."
+    },
+    {
+      "requirementId": "PSY-05-06",
+      "status": "partial",
+      "sources": [
+        "https://pressbooks.cuny.edu/jjcpsy101/chapter/humanistic-approaches/"
+      ],
+      "supports": "Maslow, self-actualisation, Rogers and self-concept as a reusable humanistic base.",
+      "remaining": "Free will, congruence and conditions of worth need explicit named-item confirmation from accepted sources."
+    },
+    {
+      "requirementId": "PSY-06-06",
+      "status": "partial",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/the-brain-and-spinal-cord/"
+      ],
+      "supports": "Broca/Wernicke language localisation and left-hemisphere specialisation.",
+      "remaining": "Full cortical-centre list, split-brain research, plasticity and functional recovery still need named evidence."
+    },
+    {
+      "requirementId": "PSY-07-26",
+      "status": "covered_candidate",
+      "sources": [
+        "https://usq.pressbooks.pub/statisticsforresearchstudents/"
+      ],
+      "supports": "Descriptive-statistics instruction including central tendency, spread/variability and foundational numerical summaries.",
+      "remaining": "Foundation transformation and direct check of every AQA-listed statistic."
+    },
+    {
+      "requirementId": "PSY-07-28",
+      "status": "covered_candidate",
+      "sources": [
+        "https://usq.pressbooks.pub/statisticsforresearchstudents/part/chapter-1/"
+      ],
+      "supports": "Normality and distribution checking as part of the reusable statistics textbook.",
+      "remaining": "AQA-specific wording for positive/negative skew and interpretation should be verified during transformation."
+    },
+    {
+      "requirementId": "PSY-07-33",
+      "status": "partial",
+      "sources": [
+        "https://usq.pressbooks.pub/statisticsforresearchstudents/chapter/statistical-power/"
+      ],
+      "supports": "Statistical significance context plus explicit Type I and Type II errors and statistical power.",
+      "remaining": "AQA critical-value/table use needs a targeted source."
+    },
+    {
+      "requirementId": "PSY-07-34",
+      "status": "partial",
+      "sources": [
+        "https://usq.pressbooks.pub/statisticsforresearchstudents/"
+      ],
+      "supports": "The reusable textbook explicitly includes Mann-Whitney U and Wilcoxon signed-rank plus broader test-choice/statistical-analysis material.",
+      "remaining": "Need exact reusable coverage for Spearman, Pearson, related/unrelated t and Chi-squared plus AQA design/measurement choice rules."
+    },
+    {
+      "requirementId": "PSY-14-01",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/what-is-stress/"
+      ],
+      "supports": "Selye stress response, sympathetic activation/adrenaline, HPA axis and cortisol are directly covered.",
+      "remaining": "Transform and align terminology; no broad new subject research currently indicated."
+    },
+    {
+      "requirementId": "PSY-16-01",
+      "status": "partial",
+      "sources": [
+        "https://doi.org/10.1108/JCP-07-2023-0043",
+        "https://doi.org/10.1007/s11896-023-09596-0",
+        "https://doi.org/10.1007/s11896-025-09776-0"
+      ],
+      "supports": "Commercially reusable research now supplies current offender-profiling context, geographical profiling and empirical offender-profile categorisation.",
+      "remaining": "A directly reusable teaching source for organised/disorganised typology and the data-driven investigative-psychology approach is still needed."
+    },
+    {
+      "requirementId": "PSY-16-03",
+      "status": "partial",
+      "sources": [
+        "https://minnstate.pressbooks.pub/criminology/chapter/__unknown__-4/",
+        "https://minnstate.pressbooks.pub/criminology/chapter/__unknown__-6/"
+      ],
+      "supports": "Item-level CC BY material on Eysenck's criminal-personality theory and Sutherland's differential association theory.",
+      "remaining": "The host book is NC overall, so only explicitly re-licensed sections may be used. Moral reasoning, hostile attribution/minimisation and a complete AQA synthesis remain open."
+    },
+    {
+      "requirementId": "PSY-16-04",
+      "status": "partial",
+      "sources": [
+        "https://openwa.pressbooks.pub/crimjust1/",
+        "https://openwa.pressbooks.pub/crimjust1/chapter/wa3-4/"
+      ],
+      "supports": "CC BY criminal-justice material covers punishment/rehabilitation and restorative-justice foundations.",
+      "remaining": "Custodial psychological effects, behaviour modification and anger management need targeted psychology sources."
+    }
+  ],
+  "summary": {
+    "requirementsReviewed": 16,
+    "coveredCandidate": 4,
+    "partial": 12,
+    "gap": 0,
+    "uncertain": 0,
+    "unreviewedNamedRequirements": 102,
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0
+  }
+}
