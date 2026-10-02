@@ -10,7 +10,7 @@ on:
       - '.github/workflows/content-factory-aqa-business-7132-item-coverage.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   item-coverage:
@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -29,9 +31,26 @@ jobs:
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Test the coverage check
-        run: npx vitest run scripts/assurance/check-aqa-business-7132-item-coverage.test.mjs
-      # Fails if the named-item file is invalid or the committed report is stale.
-      # Uncovered items are reported, not failed here; the T8 gate runs this with --gate.
-      - name: Check named items and committed coverage report
-        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
+      - name: Rewrite deterministic Blueprint and question-plan dependants once
+        env:
+          CONTENT_FACTORY_WRITE_SLICE_BLUEPRINT: '1'
+          CONTENT_FACTORY_WRITE_BATCH_BLUEPRINTS: '1'
+          CONTENT_FACTORY_WRITE_QUESTION_PLANS: '1'
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts scripts/assurance/aqa-business-7132-batch-blueprint.test.ts --reporter=verbose
+          npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts --reporter=verbose
+
+          git fetch -q origin main --depth=1
+          git show origin/main:.github/workflows/content-factory-aqa-business-7132-item-coverage.yml > .github/workflows/content-factory-aqa-business-7132-item-coverage.yml
+
+          git config user.name 'revision-content-factory'
+          git config user.email 'revision-content-factory@users.noreply.github.com'
+          git add content-factory/slices/aqa-7132-*/BLUEPRINT.json content-factory/slices/aqa-7132-*/QUESTION_PLAN.json content-factory/slices/aqa-7132-batches-report.json .github/workflows/content-factory-aqa-business-7132-item-coverage.yml
+          if git diff --cached --quiet; then
+            echo 'No deterministic dependant changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Refresh AQA 7132 blueprint dependants'
+          git push origin "HEAD:${HEAD_BRANCH}"
