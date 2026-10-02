@@ -1,0 +1,25 @@
+name: Temporary integrate current main for PR 493
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/tmp-integrate-current-main-493.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Merge current main into governed branch
+        run: |
+          git config user.name "revision-governance"
+          git config user.email "revision-governance@users.noreply.github.com"
+          git fetch origin main
+          git merge --no-ff origin/main -m "Integrate current approved main"
+          git push origin HEAD:${{ github.head_ref }}
