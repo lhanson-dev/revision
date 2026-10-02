@@ -1,9 +1,9 @@
 # Learner redesign v2: status tracker
 
-**Updated:** 1 October 2026 (PR 8, Plan and Home accepted sessions). Every later redesign PR updates this file.
+**Updated:** 1 October 2026 (PR 9, Practice feedback bar and retry). Every later redesign PR updates this file.
 **Decisions:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. **Start here:** `00-START-HERE.md`.
 
-**Merged to `main` with Lee's approval:** PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). PR 5 (#487, Home), PR 6 (#490, Plan), PR 7 (#492, Courses and Course Overview), accepted-sessions migration (#494, merged but not applied to production). PR 3 (Content Factory) is waiting for Lee's go.
+**Merged to `main` with Lee's approval:** PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). PR 5 (#487, Home), PR 6 (#490, Plan), PR 7 (#492, Courses and Course Overview), accepted-sessions migration (#494, merged but not applied to production), PR 8 (#495, Plan and Home accepted sessions). PR 3 (Content Factory) is waiting for Lee's go.
 
 How to read it: **Foundations** means the design values, building blocks and checks exist but no screen uses them yet. **Not started** means nothing is built. Nothing is "done" until a PR is merged by Lee.
 
@@ -14,8 +14,8 @@ How to read it: **Foundations** means the design values, building blocks and che
 | F1 | REV suggests (with a reason, chosen by rules) | REV card component; the four-step rules in `src/app/rev-suggestions.ts`; Home shows the rules' choice with its reason, "Suggest something else" and "Not now" (PR 5, merged) | PR 1, PR 5 | "Not now" is kept for the browser session only until the suggestion-events table exists. REV-added sessions and "Add to plan" come with Plan (PR 6) | The 14-day and 7-day windows (tune after testing). Home's card now follows the four rules, not the planner: Lee to confirm that is right (see PR 5) |
 | F2 | Guided session (Learn, Practice, Exam Prep) | Step list inside the REV card | PR 1 | Session flow on Home | None |
 | F3 | "REV noticed" patterns | Deferred for launch. Session and answer history to be kept | n/a | Comes back later | When it returns and its evidence bar (open item 5) |
-| F4 | Smarter Plan | Week first, Day / Week / Month, today highlighted, solid subject colours and letter marks, study time and exam dates (PR 6, merged); accepted sessions with REV pick, Done, Move it, Skip, Remove and "Add to Thursday" from REV's card (PR 8, open) | PR 6, PR 8 | Needs the sessions table applied to the database before students see it | Accepted sessions need new data (PR 2 proposal, own migration PR) |
-| F5 | Practice feedback bar and retry queue | Answer option styling (inside Quick check) | PR 9 | Feedback bar, retry queue | Retry queue needs new data (PR 2 proposal) |
+| F4 | Smarter Plan | Week first, Day / Week / Month, today highlighted, solid subject colours and letter marks, study time and exam dates (PR 6, merged); accepted sessions with REV pick, Done, Move it, Skip, Remove and "Add to Thursday" from REV's card (PR 8, merged) | PR 6, PR 8 | Needs the sessions table applied to the database before students see it | Accepted sessions need new data (PR 2 proposal, own migration PR) |
+| F5 | Practice feedback bar and retry queue | Feedback bar component; answer option styling; in-session retry (a missed question returns after 3 others) (PR 9, open) | PR 9 | Carrying missed questions to another day | Needs the retry-queue table (PR 2 proposal, own migration PR) |
 | F6 | Exam Prep focus mode and examiner checklist | Examiner guide component; shell has a focus mode that hides navigation | PR 10 | Papers, timer, confirm before leaving a running paper, checklist behind a switch that stays off until the release gate passes | Who supplies marked answers for the release gate (open item 2) |
 | F7 | Progress: three measures | Status labels, understanding bar, three-measure component; engine band to label mapping in `src/app/topic-status.ts`; Home course tiles show Topics covered and Understanding (PR 5) | PR 11 | Course and global Progress screens; engine mapping to the five labels | Exam readiness format (open item 1) |
 | F8 | Ask REV with real answers (pop-up; full screen on phone) | REV mark with four states and text for every state | PR 12 | Real model answers, prompt chips, safeguarding | The model (test Claude Sonnet 5.5), cost and logging, in the PR 2 proposal |
@@ -35,7 +35,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | Plan | `design/plan` | Merged in PR 6 (#490): week first with Day / Week / Month, today highlighted, sessions in solid subject colours with letter marks (were brand teal), next exam as neutral text with a clock, 48px study-time buttons, week becomes a day list on phone and tablet | PR 6 | "Add to Thursday", REV PICK label and faded done sessions need the accepted-sessions table (own migration PR). Free-slot picking does not apply: the plan works in days. Doc: `docs/features/plan.md` |
 | Courses and Course Overview | `design/courses-overview` | Merged in PR 7 (#492): subject-colour cards with letter marks, three separate progress measures on the overview (Topics covered, Understanding, Exam readiness: engine value or "Not enough evidence yet"), status badges on every topic, weak spots without percentages, course tabs wrap on phones, 320px sideways scroll fixed | PR 7 | Topics covered and Understanding on the Courses list cards (needs the list to load answers). Doc: `docs/features/courses.md` |
 | Learn | `design/learn` | Not started | PR 8 | Everything |
-| Practice | `design/practice` | Not started | PR 9 | Everything |
+| Practice | `design/practice` | Built in PR 9 (open, draft): feedback bar (teal right, coral wrong, content's explanation, icon and words), a missed question comes back after 3 others in the session, retries saved as real answers | PR 9 | Carrying missed questions to another day needs the retry-queue table (own migration PR). Doc: `docs/features/practice.md` |
 | Exam Prep | `design/exam-prep` | Not started | PR 10 | Everything |
 | Progress | `design/progress` | Not started | PR 11 | Everything |
 | Ask REV | `design/ask-rev` | Not started | PR 12 | Everything: pop-up shell, full screen on phone, real answers via the "ladder" in the PR 2 proposal |
@@ -50,7 +50,8 @@ How to read it: **Foundations** means the design values, building blocks and che
 | PR 2 (#482) | `docs/learner-v2-data-model` | Data model proposal (plan only, no code) | Merged (#482), Lee approved. Lee agreed all its recommendations on 1 Oct. Each migration it describes is a separate PR needing its own approval |
 | PR 3 | Content Factory | Quick-check block in the Learn content schema | Waiting for Lee to say go |
 | PR 4 (#486) | `design/shell-navigation` | Shell and navigation | Merged, Lee approved |
-| PR 8 | `design/plan-home-sessions` | Plan and Home accepted sessions ("Add to Thursday", REV pick, done, move, skip, remove) | Open as a draft |
+| PR 9 | `design/practice` | Practice feedback bar and in-session retry | Open as a draft |
+| PR 8 (#495) | `design/plan-home-sessions` | Plan and Home accepted sessions ("Add to Thursday", REV pick, done, move, skip, remove) | Merged, Lee approved |
 | PR 7 (#492) | `design/courses-overview` | Courses and Course Overview | Merged, Lee approved |
 | PR 6 (#490) | `design/plan` | Plan | Merged, Lee approved |
 | PR 5 (#487) | `claude/friendly-clarke-gp8bca` | Home | Merged, Lee approved |
@@ -93,3 +94,4 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-01 | Course Overview | Readiness shows the engine value or "Not enough evidence yet" with what unlocks it (was "Building"); topics use the five status labels; per-topic percentages removed; rows no longer dimmed (contrast) | Decisions file sections 1 and 3 |
 | 2026-10-02 | Accepted sessions | Migration PR for the `learner_planned_sessions` table (student's own accepted sessions; the plan itself stays derived), with RLS, database tests and a service layer. No screen uses it yet; Plan and Home wiring is the next PR | Data model proposal section 5, agreed by Lee 1 Oct; Lee asked to start it 2 Oct |
 | 2026-10-02 | Plan and Home sessions | "Add to Thursday" on REV's card; accepted sessions on Plan with REV pick, Done, Move it, Skip, Remove; the plan works around them; both screens stay quiet if the table cannot be read. Found and fixed a contrast problem from PR 6 (text on solid session colours was faded to 90%) | Data model proposal section 5; Lee asked for it 2 Oct |
+| 2026-10-02 | Practice feedback | Wrong answers use coral (the old block was a solid orange panel with Try again); a missed question is queued and returns after at least 3 others, in the session only, and the wording says so. Retried answers are saved as normal evidence (data model proposal section 6) | Decisions file section 7; Lee asked for PR 9 |
