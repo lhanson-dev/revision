@@ -1,0 +1,35 @@
+/* Ask REV conversation, redesign v2 (PR 12): a pop-up over the page, a full screen on a phone. */
+.rev-chat { display: grid; gap: 16px; align-content: start; padding: 20px; min-width: 0; color: var(--rv-text); }
+.rev-chat__head { display: flex; align-items: center; gap: 14px; }
+.rev-chat__head .rev-presence { width: 56px; height: 56px; flex: none; }
+.rev-chat__title { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; }
+/* The state is always given in words to screen readers (the mark's label). It is shown on screen when motion is off. */
+.rev-chat__state { display: none; margin: 2px 0 0; font-weight: 700; color: var(--rv-text-2); }
+@media (prefers-reduced-motion: reduce) { .rev-chat__state { display: block; } }
+
+.rev-chat__log { display: grid; gap: 10px; max-height: min(52vh, 460px); overflow-y: auto; padding-right: 2px; }
+.rev-chat__message { display: grid; gap: 8px; justify-items: start; max-width: 92%; padding: 12px 16px; border-radius: 20px; font-weight: 600; line-height: 1.55; overflow-wrap: anywhere; }
+.rev-chat__message p { margin: 0; }
+.rev-chat__message--rev { justify-self: start; background: var(--rv-surface); border: 1px solid var(--rv-line); color: var(--rv-text); }
+.rev-chat__message--learner { justify-self: end; background: var(--rv-text); color: var(--rv-bg); }
+.rev-chat__message--safety { border: 2px solid var(--rv-line); }
+.rev-chat__who { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.rev-chat__support { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+
+.rev-chat__confirm { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.rev-chat__confirm p { margin: 0; color: var(--rv-text-2); font-weight: 600; }
+.rev-chat__confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.rev-chat__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rev-chat__chip { min-height: 48px; padding: 0 18px; border: 1px solid var(--rv-line); border-radius: var(--radius-pill); background: var(--rv-surface); color: var(--rv-text); font: inherit; font-weight: 700; cursor: pointer; text-align: left; }
+.rev-chat__chip:hover:not(:disabled) { border-color: var(--rv-teal); }
+.rev-chat__chip:focus-visible { outline: 0; box-shadow: var(--rv-ring); }
+
+.rev-chat__composer { display: grid; gap: 6px; }
+.rev-chat__label { font-weight: 800; font-size: 13px; color: var(--rv-text-2); }
+.rev-chat__composer-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.rev-chat__input { min-width: 0; min-height: 48px; padding: 0 20px; border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); background: var(--rv-surface); color: var(--rv-text); font: inherit; font-weight: 600; }
+.rev-chat__input:focus-visible { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
+
+.rev-chat__note { margin: 0; font-weight: 600; color: var(--rv-text-2); }
+.rev-chat__links { display: flex; flex-wrap: wrap; gap: 8px; }
