@@ -103,6 +103,10 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * before/after screenshots) for Courses v2 (PR 7): course cards in the subject's solid colour with its
  * letter mark. Digests taken from the PR 7 CI run 36931767297 (the "Expected value" lines), not from
  * a local browser. Screenshots reviewed: docs/design/learner-redesign-v2/screenshots/pr-07/.
+ * Tablet timed-exam re-pinned on 2 October 2026 with Founder approval (Lee: "pictures OK, update the PR 10
+ * baselines") for Exam Prep v2 (PR 10): question grid with a key, Flag for review, pre-finish note. Digests
+ * taken from the PR 10 CI run 36976555836 (the "Expected value" lines). Screenshots reviewed:
+ * docs/design/learner-redesign-v2/screenshots/pr-11/pr-10-tablet-*.png.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '1c50c552c8143e7d3ec126c872609ae2995b34a8f0d1e2d335f354f09a24af9c',
@@ -113,8 +117,8 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'phone:practice:dark': '3d822a0deac105cfabcd79ce70bc3ca3867f7f4217702808523074f2bd3f278a',
   'tablet:exam-prep:light': 'b23ad3ca7b74b2b9d31630573113d4c51f4186939dbff2f30b39400bfcd930d5',
   'tablet:exam-prep:dark': '958067a41a8c1d3b5596853a8fdc6f2200b392bc08ae0e01b0e28ac31c3c55f4',
-  'tablet:timed-exam:light': '6121d7ca86804199e07e847984bb03d02d43617198b5531e7d17b8da8ab6c25e',
-  'tablet:timed-exam:dark': '848c385e7e0aa086f9f34d3c2f8a7bf60a3f7b262e6d3864a80b5ad0f604c6fd',
+  'tablet:timed-exam:light': 'fa731ad5fa60d5651f2467c97ab41f3344ea4d9c1065a1e404c1299873ee163f',
+  'tablet:timed-exam:dark': '93fc319e8b030ae0058f2608663454de1b3c2ce52397c754d00368cf56322ea0',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
