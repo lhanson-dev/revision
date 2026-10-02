@@ -129,18 +129,20 @@ const magnitudeMultiplier = {
   billion: 1_000_000_000,
 } as const
 
-// Every number written in the text, as a value. Commas, currency and percent signs are ignored;
-// explicit magnitude words are normalised so £61.20 million is compared as 61,200,000.
+// Every number written in the text, as a value. Commas, currency and percent signs are ignored.
+// Explicit magnitude words return both their fully normalised value and their same-unit shorthand, so
+// £54 million can validly support a calculation expressed as either 54,000,000 or 54 (millions).
+// A minus sign before a currency symbol is preserved, so -£60,000 is parsed as -60,000 rather than +60,000.
 export function numbersIn(text: string): number[] {
-  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi)]
-    .map((match) => {
-      const numeric = match[0].match(/-?\d[\d,]*(?:\.\d+)?/)
-      if (!numeric) return Number.NaN
-      const base = Number(numeric[0].replace(/,/g, ''))
-      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
-      return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)
+  return [...text.matchAll(/([\-−]?)\s*[£$€]?\s*(\d[\d,]*(?:\.\d+)?)(?:\s*(thousand|million|billion)\b)?/gi)]
+    .flatMap((match) => {
+      const sign = match[1] ? -1 : 1
+      const base = sign * Number(match[2].replace(/,/g, ''))
+      if (!Number.isFinite(base)) return []
+      const magnitude = match[3]?.toLowerCase() as keyof typeof magnitudeMultiplier | undefined
+      if (!magnitude) return [base]
+      return [base * magnitudeMultiplier[magnitude], base]
     })
-    .filter((value) => Number.isFinite(value))
 }
 
 function questionText(question: Question) {
