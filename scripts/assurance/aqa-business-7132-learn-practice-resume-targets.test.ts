@@ -30,7 +30,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     const cases = [
       {
         batch: '3.1-3.2',
-        stale: ['bus-fnd-001', 'bus-fnd-009'],
+        stale: ['bus-fnd-001', 'bus-fnd-005', 'bus-fnd-009'],
       },
       {
         batch: '3.4',

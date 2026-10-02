@@ -160,6 +160,42 @@ export function buildQuestionPlan(input: { blueprint: Blueprint; batch: string; 
   }
 }
 
+// Refresh a committed plan without churning durable question identities when the existing
+// question design is still sound against the current Blueprint. This is deliberately different
+// from bootstrap generation: exact accepted-question resume is keyed by question id, so an
+// ownership-only Blueprint change must not renumber unrelated valid questions. If any current
+// coverage invariant fails, fall back to a fresh deterministic build.
+export function refreshQuestionPlan(input: { blueprint: Blueprint; batch: string; current?: QuestionPlanFile | null; excludeItemIds?: ReadonlySet<string>; essay?: boolean }): QuestionPlanFile {
+  const rebuilt = buildQuestionPlan({ blueprint: input.blueprint, batch: input.batch, excludeItemIds: input.excludeItemIds, essay: input.essay })
+  const current = input.current
+  if (!current) return rebuilt
+  const sameContract = current.schema_version === 1
+    && current.builder_version === QUESTION_PLAN_BUILDER_VERSION
+    && current.batch === input.batch
+    && JSON.stringify([...current.excluded_item_ids].sort()) === JSON.stringify(rebuilt.excluded_item_ids)
+  if (!sameContract || checkQuestionPlan(input.blueprint, current).length > 0) return rebuilt
+
+  const excluded = new Set(rebuilt.excluded_item_ids)
+  const plannedItems = input.blueprint.items.filter((item) => !excluded.has(item.id))
+  const questions = current.questions
+  const marks = questions.reduce((sum, question) => sum + question.marks, 0)
+  const quantitativeMarks = questions.filter((question) => question.formulaIds.length > 0).reduce((sum, question) => sum + question.marks, 0)
+  return {
+    ...current,
+    blueprint_fingerprint: input.blueprint.courseKnowledgeModelFingerprint,
+    excluded_item_ids: rebuilt.excluded_item_ids,
+    summary: {
+      questions: questions.length,
+      marks,
+      quantitative_marks: quantitativeMarks,
+      formulas: new Set(questions.flatMap((question) => question.formulaIds)).size,
+      items: plannedItems.length,
+      nodes: input.blueprint.nodes.length,
+      estimated_spend_usd: Number((questions.length * ESTIMATED_USD_PER_QUESTION).toFixed(2)),
+    },
+  }
+}
+
 // Software proof that a plan covers its blueprint. An empty list means the plan is sound.
 export function checkQuestionPlan(blueprint: Blueprint, plan: { questions: readonly QuestionSpec[]; excluded_item_ids?: readonly string[] }): string[] {
   const problems: string[] = []
