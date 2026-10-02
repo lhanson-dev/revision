@@ -26,6 +26,7 @@ const semanticLayers = [
   'exam-v2.css',
   'auth-v2.css',
   'first-use-v2.css',
+  'onboarding-v2.css',
   'progress-v2.css',
   'rev-chat-v2.css',
   'ask-rev-v2.css',

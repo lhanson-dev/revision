@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page, type Route } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
@@ -210,11 +211,24 @@ async function expectNoPageOverflow(page: Page) {
 
 async function chooseStudentAndAddAlevelBusiness(page: Page) {
   await page.getByRole('button', { name: /^Student\b/ }).click()
-  await expect(page.getByRole('heading', { name: 'Add your first course' })).toBeVisible()
-  await page.getByLabel('Qualification').selectOption({ label: 'AQA A-level' })
-  await expect(page.getByText('Business', { exact: true })).toBeVisible()
-  await expect(page.getByText('AQA', { exact: true })).toBeVisible()
-  await page.getByRole('button', { name: 'Add this course' }).click()
+  await expect(page.getByRole('heading', { name: 'Add your courses' })).toBeVisible()
+  // Step 1: level. Only levels with a live course are offered; with one, it is already chosen.
+  await expect(page.getByText('Step 1 of 5')).toBeVisible()
+  await expect(page.getByRole('radio', { name: /A-level/ })).toBeChecked()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // Step 2: subjects at that level.
+  await expect(page.getByText('Step 2 of 5')).toBeVisible()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // Step 3: exam board (and AS or full A-level) for each subject.
+  await expect(page.getByText('Step 3 of 5')).toBeVisible()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+  // Steps 4 and 5: exam dates and weekly study time, both optional here and changeable on Plan.
+  await expect(page.getByText('Step 4 of 5')).toBeVisible()
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await expect(page.getByText('Step 5 of 5')).toBeVisible()
+  await page.getByRole('button', { name: 'Skip for now' }).click()
   await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
   await expect(page.getByText('Course added', { exact: true })).toBeVisible()
 }
@@ -305,4 +319,138 @@ test('account choice remains compact, accessible and themed across supported vie
     const heights = await choices.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height)))
     expect(Math.max(...heights)).toBeLessThanOrEqual(110)
   }
+})
+
+test('course choice goes Level, then subjects, then exam board, keeps picks when going back, and needs a pick before adding', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Flow runs once; layout is checked at every width below.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+
+  await expect(page.getByText('Only courses that are ready to study are shown here.')).toBeVisible()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  // At least one subject is needed to go on.
+  await expect(page.getByRole('button', { name: 'Continue' })).toBeDisabled()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+
+  // Business has both AS and A-level, so the student chooses; nothing is added until they do.
+  const add = page.getByRole('button', { name: /^Add\s*courses?$/ })
+  await expect(add).toBeDisabled()
+  await page.getByRole('radio', { name: /AQA AS/ }).check()
+  await expect(page.getByRole('button', { name: 'Add 1 course' })).toBeEnabled()
+
+  // Going back keeps the subject picked.
+  await page.getByRole('button', { name: 'Back' }).click()
+  await expect(page.getByRole('checkbox', { name: 'Business' })).toBeChecked()
+  expect(state.memberships).toHaveLength(0)
+})
+
+test('course choice is usable, accessible and never scrolls sideways from 320px to 1440px', async ({ page }) => {
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+
+  for (const width of [320, 390, 820, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await expectNoPageOverflow(page)
+  }
+  await expect(page.locator('.onb-card').first()).toHaveCSS('min-height', '56px')
+  let result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.setViewportSize({ width: 320, height: 900 })
+  await expectNoPageOverflow(page)
+  result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expectNoPageOverflow(page)
+  result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+})
+
+test('onboarding saves exam dates and weekly study time with the plan, and both can be skipped or changed later on Plan', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Flow runs once; layout is checked at every width.')
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  const assessments: Array<Record<string, unknown>> = []
+  const profiles: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    if (route.request().method() === 'POST') {
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      assessments.push(body)
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify({ assessment_id: `a-${assessments.length}`, user_id: syntheticUserId, subject_id: body.subject_id, course_id: body.course_id, module_id: null, assessment_type: body.assessment_type, title: body.title, assessment_date: body.assessment_date, relative_importance: body.relative_importance, scope: {}, is_active: true }) })
+    } else {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+    }
+  })
+  await page.route('**/rest/v1/revision_availability_profiles**', async (route) => {
+    if (route.request().method() === 'POST') {
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      profiles.push(body)
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify({ user_id: syntheticUserId, weekday_minutes: 0, weekend_minutes: 0, monday_minutes: body.monday_minutes, tuesday_minutes: body.tuesday_minutes, wednesday_minutes: body.wednesday_minutes, thursday_minutes: body.thursday_minutes, friday_minutes: body.friday_minutes, saturday_minutes: body.saturday_minutes, sunday_minutes: body.sunday_minutes, timezone: 'Europe/London' }) })
+    } else {
+      await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: 'null' })
+    }
+  })
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+
+  // Step 4: dates are chosen on the calendar (past days cannot be picked) and saved against the right course.
+  await expect(page.getByText('Step 4 of 5')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Save dates and continue' })).toBeDisabled()
+  await page.getByRole('button', { name: /^Paper 1 date/ }).click()
+  const picker = page.getByRole('dialog', { name: 'Choose paper 1 date' })
+  await expect(picker.locator('.ui-date-day:disabled').first()).toBeVisible()
+  await picker.getByRole('button', { name: 'Next month' }).click()
+  const next = new Date(); next.setDate(1); next.setMonth(next.getMonth() + 1)
+  const iso = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`
+  await picker.locator('.ui-date-day:not(.ui-date-day--outside)').first().click()
+  await page.getByRole('button', { name: 'Save dates and continue' }).click()
+  await expect(page.getByText('Step 5 of 5')).toBeVisible()
+  expect(assessments).toHaveLength(1)
+  expect(assessments[0]).toMatchObject({ course_id: aLevelCourseId, assessment_date: iso, assessment_type: 'public_exam' })
+
+  // Step 5: study time. Nothing can be saved until some time is set; "every day" sets all seven days.
+  await expect(page.getByRole('button', { name: 'Save and continue' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Increase Mon study time' })).toHaveCSS('height', '48px')
+  await page.getByRole('button', { name: 'Increase every day by 15 minutes' }).click()
+  await page.getByRole('button', { name: 'Increase Sat study time' }).click()
+  await expect(page.getByText('That’s 2h a week.')).toBeVisible()
+  await page.getByRole('button', { name: 'Save and continue' }).click()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
+  expect(profiles).toHaveLength(1)
+  expect(profiles[0]).toMatchObject({ monday_minutes: 15, saturday_minutes: 30, sunday_minutes: 15 })
+})
+
+test('exam dates and study time steps never scroll sideways and pass the accessibility check', async ({ page }) => {
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+  for (const width of [320, 390, 820, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await expectNoPageOverflow(page)
+  }
+  let result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await page.setViewportSize({ width: 320, height: 900 })
+  await expectNoPageOverflow(page)
+  result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  expect(result.violations.map((item) => item.id)).toEqual([])
 })
