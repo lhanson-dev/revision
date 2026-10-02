@@ -1,0 +1,30 @@
+{
+  "schemaVersion":1,
+  "status":"experimental_option_group_named_coverage",
+  "checkedDate":"2026-10-02",
+  "course":"AQA A-level Psychology 7182",
+  "optionGroup":1,
+  "topics":[9,10,11],
+  "principle":"Conservative first pass against the accepted commercially reusable corpus. Exact AQA-named theories remain partial where broad psychology coverage does not establish the complete named treatment.",
+  "requirements":[
+    {"requirementId":"PSY-09-01","topic":"Relationships","status":"partial","coveredElements":["attraction", "similarity", "self-disclosure", "physical attractiveness"],"remaining":["matching hypothesis in exact course treatment", "filter theory including social demography, attitude similarity and complementarity"],"sourceFamilies":["BCcampus H5P Psychology", "Dalhousie Introduction to Psychology & Neuroscience"]},
+    {"requirementId":"PSY-09-02","topic":"Relationships","status":"partial","coveredElements":["social exchange foundations", "relationship costs/rewards and investment concepts"],"remaining":["equity theory", "Rusbult investment model as named theory", "Duck phase model"],"sourceFamilies":["broad accepted social-psychology corpus"]},
+    {"requirementId":"PSY-09-03","topic":"Relationships","status":"partial","coveredElements":["online self-disclosure", "online identity/deception foundations"],"remaining":["absence-of-gating explanation as named course construct"],"sourceFamilies":["accepted broad psychology corpus"]},
+    {"requirementId":"PSY-09-04","topic":"Relationships","status":"partial","coveredElements":["parasocial relationship foundations", "attachment concepts"],"remaining":["parasocial levels", "absorption-addiction model", "explicit attachment explanation of parasocial relationships"],"sourceFamilies":["accepted broad psychology/attachment corpus"]},
+
+    {"requirementId":"PSY-10-01","topic":"Gender","status":"partial","coveredElements":["chromosomal sex foundations", "testosterone/oestrogen hormone foundations"],"remaining":["oxytocin in the exact course role", "AIS", "Klinefelter syndrome", "Turner syndrome"],"sourceFamilies":["Dalhousie psychology/neuroscience", "BCcampus broad psychology"]},
+    {"requirementId":"PSY-10-02","topic":"Gender","status":"partial","coveredElements":["gender identity diversity", "binary/non-binary concepts"],"remaining":["gender-fluid treatment", "Bem Sex Role Inventory as named measure"],"sourceFamilies":["accepted broad psychology corpus"]},
+    {"requirementId":"PSY-10-03","topic":"Gender","status":"covered_candidate","coveredElements":["chromosomal and hormonal biological influences on sex/gender development"],"remaining":[],"sourceFamilies":["Dalhousie psychology/neuroscience", "BCcampus broad psychology"]},
+    {"requirementId":"PSY-10-04","topic":"Gender","status":"partial","coveredElements":["Kohlberg-style cognitive-development foundations", "gender identity/stability/constancy concepts"],"remaining":["Martin and Halverson gender schema theory as complete named treatment"],"sourceFamilies":["accepted developmental psychology corpus"]},
+    {"requirementId":"PSY-10-05","topic":"Gender","status":"covered_candidate","coveredElements":["social learning/modeling", "reinforcement/imitation", "cultural and media influence on gender roles"],"remaining":[],"sourceFamilies":["BCcampus H5P observational learning", "accepted broad social/developmental psychology corpus"]},
+    {"requirementId":"PSY-10-06","topic":"Gender","status":"partial","coveredElements":["gender incongruence/dysphoria foundations", "biological and social-context factors"],"remaining":["one coherent rights-clear treatment matching the current course's biological and social/cultural explanation boundary"],"sourceFamilies":["accepted broad/abnormal psychology corpus"]},
+
+    {"requirementId":"PSY-11-01","topic":"Cognition and development","status":"covered_candidate","coveredElements":["Piaget schemas", "assimilation", "accommodation", "equilibration", "developmental stages", "object permanence", "conservation", "egocentrism", "class inclusion"],"remaining":[],"sourceFamilies":["BCcampus/Dalhousie developmental psychology"]},
+    {"requirementId":"PSY-11-02","topic":"Cognition and development","status":"covered_candidate","coveredElements":["Vygotsky", "zone of proximal development", "scaffolding"],"remaining":[],"sourceFamilies":["accepted developmental psychology corpus"]},
+    {"requirementId":"PSY-11-03","topic":"Cognition and development","status":"covered_candidate","coveredElements":["early infant physical-world knowledge", "violation-of-expectation method", "Baillargeon-style infant cognition"],"remaining":[],"sourceFamilies":["accepted developmental psychology corpus"]},
+    {"requirementId":"PSY-11-04","topic":"Cognition and development","status":"partial","coveredElements":["theory of mind", "false-belief/Sally-Anne foundations", "perspective-taking", "mirror-neuron foundations"],"remaining":["Selman perspective-taking as exact named framework", "course-specific mirror-neuron synthesis"],"sourceFamilies":["accepted developmental/cognitive psychology corpus"]}
+  ],
+  "summary":{"namedRequirements":14,"reviewed":14,"coveredCandidate":5,"partial":9,"gap":0,"uncertainRights":0,"paidProviderSpendGbp":0,"paidSourceSpendGbp":0},
+  "topicSummary":{"Relationships":{"requirements":4,"coveredCandidate":0,"partial":4,"gap":0},"Gender":{"requirements":6,"coveredCandidate":2,"partial":4,"gap":0},"Cognition and development":{"requirements":4,"coveredCandidate":3,"partial":1,"gap":0}},
+  "economicsInterpretation":{"signal":"broad_source_base_strong_named_models_fragmented","observation":"Option group 1 has no whole source-domain gap in the first pass, but Relationships in particular requires targeted named-theory sourcing. Cognition and development is comparatively well served by broad OER.","nextStep":"Target the named Relationships/Gender models only after completing the whole-option comparison; do not regenerate broad covered developmental knowledge."}
+}
