@@ -1,0 +1,370 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-03",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 3,
+  "topic": "Attachment",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-03-01",
+      "boardAlignment": {
+        "summary": "Animal research relevant to attachment, including Lorenz's imprinting work and Harlow's surrogate-mother studies.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Imprinting is a rapid form of early social learning studied especially in precocial birds, in which exposure during an early sensitive period can strongly shape later following and social preferences.",
+          "Contact comfort refers to the soothing and security value of physical contact, illustrated by infant rhesus monkeys preferring a soft cloth surrogate over a wire surrogate that supplied food."
+        ],
+        "modelsResearchAndRelationships": [
+          "Lorenz's gosling work helped establish the idea that early social experience can strongly organise species-relevant following behaviour.",
+          "Harlow's surrogate-mother studies challenged simple feeding-based explanations by showing that infant monkeys spent more time with a soft cloth surrogate than with a wire food-providing surrogate.",
+          "Both research programmes influenced later thinking about attachment, but they investigate different species, mechanisms and developmental systems."
+        ],
+        "evaluationAndLimits": [
+          "Lorenz's original critical-period and irreversibility claims were stronger than later evidence supports; sensitive-period effects are more graded and species-dependent.",
+          "Harlow's procedures involved severe deprivation and an artificial captive environment, which limits direct generalisation to ordinary human attachment and raises major ethical concerns."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Imprinting in birds is not identical to human attachment.",
+          "Harlow's findings do not show that food is irrelevant to infant survival or caregiving; they show that feeding alone is insufficient to explain attachment preference in the studied monkeys."
+        ],
+        "dependencies": [
+          "learning",
+          "evolution and ethology",
+          "caregiver contact",
+          "species differences"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Harlow rhesus-monkey studies",
+            "cloth versus wire surrogate preference",
+            "contact comfort and security"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.1033746",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "Lorenz imprinting",
+            "following response",
+            "critical/sensitive-period history",
+            "qualifications to irreversibility",
+            "influence on Bowlby"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision presents Lorenz and Harlow together because the exact course groups them as animal studies of attachment; it does not imply that imprinting and primate attachment are the same process."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-03-02",
+      "boardAlignment": {
+        "summary": "Explanations of attachment through learning and Bowlby's biologically grounded theory, including early-period and internal-working-model concepts.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "A conditioning explanation treats attachment-related responses as partly learned through associations and reinforcement.",
+          "In classical conditioning, a caregiver can become a predictor of biologically significant outcomes such as food, comfort or relief from distress.",
+          "In operant conditioning, behaviours that obtain proximity, support or relief can be strengthened by their consequences.",
+          "Bowlby's attachment theory treats humans as biologically prepared to form selective protective bonds with familiar caregivers rather than regarding attachment as a by-product of feeding alone.",
+          "An internal working model is a developing representation of the self, attachment figures and expected relationship support, built from repeated relationship experience."
+        ],
+        "modelsResearchAndRelationships": [
+          "Bowlby defined attachment in terms of organised proximity-seeking toward a specific attachment figure and linked attachment to evolutionary protection and secure-base functions.",
+          "Bowlby's theory was influenced by ethology and imprinting but adapted those ideas to the slower and more complex development of human attachment.",
+          "Modern learning accounts show that classical and operant learning can contribute to expectations about caregiver availability without requiring attachment to be explained entirely by food-based reinforcement.",
+          "Early attachment development is especially sensitive to experience, but Bowlby's mature formulation is better represented by sensitive periods than by an absolute irreversible deadline."
+        ],
+        "evaluationAndLimits": [
+          "A purely feeding-centred learning account is too narrow to explain evidence that attachment preferences can centre on comfort and protection rather than the food provider.",
+          "The term 'monotropy' is useful as course alignment for Bowlby's emphasis on selective attachment, but contemporary evidence recognises that children can form meaningful attachments with multiple regular caregivers.",
+          "Internal working models can influence later expectations and behaviour but should not be treated as permanently fixed scripts."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Classical and operant conditioning are mechanisms of learning, not proof that all attachment is learned from feeding.",
+          "A sensitive period indicates heightened developmental opportunity or vulnerability, not a guaranteed irreversible cut-off.",
+          "Selective attachment to a primary figure does not mean that every other caregiver relationship is psychologically unimportant."
+        ],
+        "dependencies": [
+          "classical conditioning",
+          "operant conditioning",
+          "evolution",
+          "proximity seeking",
+          "internal working models"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1007/s10567-021-00377-x",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "classical conditioning applied to attachment",
+            "operant conditioning applied to attachment",
+            "biological preparedness",
+            "caregiver availability and safety learning",
+            "internal working models"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.1033746",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "Bowlby and ethology",
+            "specific attachment figure",
+            "proximity seeking",
+            "sensitive periods",
+            "staged selective attachment development"
+          ]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Courses/Western_Technical_College/ECE%3A_Infant_and_Toddler_Development/01%3A_Introduction_to_Infant_and_Toddler_Development/1.11%3A_Bowlby%27s_Attachment_Theory_%28Ainsworth%29",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Bowlby internal working model",
+            "relationship expectations",
+            "later-relationship relevance"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "AQA's historical 'monotropic theory' and 'critical period' labels are preserved as alignment while the subject-truth fields use the more precise evidence-supported distinctions between selective attachment, multiple caregivers and sensitive periods."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-03-03",
+      "boardAlignment": {
+        "summary": "Ainsworth's Strange Situation, principal attachment classifications and cultural variation in attachment patterns.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The Strange Situation is a structured observational procedure designed to assess infant-caregiver attachment behaviour across separations, reunions and interactions with an unfamiliar adult.",
+          "Secure attachment is generally characterised by using the caregiver as a secure base, showing distress or reduced exploration when separated, and effective comfort or recovery on reunion.",
+          "Insecure-avoidant attachment is characterised by relatively low overt proximity seeking and avoidance or limited contact on reunion.",
+          "Insecure-resistant/ambivalent attachment is characterised by strong proximity seeking combined with difficulty being soothed and resistant or angry behaviour on reunion."
+        ],
+        "modelsResearchAndRelationships": [
+          "Ainsworth's classifications use patterns across behaviours such as exploration, separation response, stranger response and reunion behaviour rather than one isolated action.",
+          "Cross-cultural research finds both recurring attachment patterns and variation in their relative frequency across samples and settings."
+        ],
+        "evaluationAndLimits": [
+          "Cultural variation does not by itself show that one culture produces 'better' attachment; caregiving norms, sampling and the meaning of separation can affect observed behaviour.",
+          "Attachment classification is an assessment of a relationship pattern in a particular context, not a complete or immutable personality label for a child."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A child who shows little overt distress in the Strange Situation should not automatically be described as securely attached.",
+          "Cultural differences in classification frequencies should not be treated as evidence of cultural deficiency."
+        ],
+        "dependencies": [
+          "caregiver sensitivity",
+          "secure base",
+          "separation and reunion",
+          "cultural context"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Ainsworth Strange Situation",
+            "secure attachment",
+            "avoidant attachment",
+            "resistant/ambivalent attachment",
+            "cultural variation including van IJzendoorn-related evidence"
+          ]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-03-04",
+      "boardAlignment": {
+        "summary": "Bowlby's maternal-deprivation account and the developmental effects of institutionalisation, including English and Romanian adoptee evidence.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Bowlby's maternal-deprivation work historically argued that prolonged disruption or absence of a continuous affectionate early caregiving relationship could have serious developmental consequences.",
+          "Separation means physical absence from an attachment figure; deprivation refers more specifically to loss or lack of stable, responsive attachment care. The two should not be treated as synonymous.",
+          "Institutional deprivation describes early environments in which children can lack stable, individualised and responsive caregiving because of features such as high child-to-caregiver ratios or repeated caregiver turnover."
+        ],
+        "modelsResearchAndRelationships": [
+          "Bowlby's early work drew attention to children without stable family care and helped establish early caregiving continuity as a developmental research problem.",
+          "The English and Romanian Adoptees research provides longitudinal evidence about outcomes after severe early institutional deprivation followed by adoption into family care.",
+          "Outcomes vary: severe and prolonged early deprivation can be associated with persistent difficulties, but later supportive care and individual differences matter."
+        ],
+        "evaluationAndLimits": [
+          "The strongest historical maternal-deprivation claims were based on limited evidence and should not be presented as a deterministic rule that separation from the biological mother inevitably causes lasting damage.",
+          "Modern attachment thinking places greater emphasis on stable, familiar, responsive caregiving and safe-haven availability rather than the sex or biological status of one caregiver.",
+          "Institutionalisation evidence cannot be reduced to 'maternal absence' because institutional settings can differ in stimulation, nutrition, caregiver stability and many other developmental conditions."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Brief separation with high-quality substitute care is not equivalent to severe institutional deprivation.",
+          "Adoption after deprivation does not produce identical outcomes in every child.",
+          "Maternal deprivation is a historical theoretical claim that requires evaluation, not a modern diagnosis."
+        ],
+        "dependencies": [
+          "attachment security",
+          "caregiver stability",
+          "institutional care",
+          "developmental timing"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1007/s00787-026-02968-x",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "English and Romanian adoptee cohort",
+            "early institutional deprivation",
+            "long-term outcomes",
+            "variation after adoption"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.1192/bjb.2026.10253",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Bowlby's 1951 maternal-deprivation work",
+            "historical evidence limitations",
+            "institutional care context",
+            "later emphasis on familiar responsive caregivers and safe-haven availability"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision explicitly separates the historical maternal-deprivation claim from the broader modern evidence on stable responsive caregiving and institutional deprivation."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-03-05",
+      "boardAlignment": {
+        "summary": "Influence of early attachment on later childhood and adult relationships, including internal-working-model explanations.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "An internal working model is a set of expectations about the self, others and relationships that develops from repeated attachment experience.",
+          "Attachment-related expectations can influence how later social situations are interpreted and how people seek, accept or avoid support."
+        ],
+        "modelsResearchAndRelationships": [
+          "Bowlby's continuity proposal suggests that early relationship experience can provide a template for later relationships rather than operating as an isolated infancy-only event.",
+          "Research linking childhood and adult attachment patterns is consistent with continuity for some people while also showing that later experiences can modify attachment-related expectations."
+        ],
+        "evaluationAndLimits": [
+          "Associations between early and later attachment do not prove that early attachment alone causes later relationship outcomes.",
+          "Internal working models are updateable; later supportive or adverse relationships can alter expectations and behaviour."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Early insecure attachment does not predetermine unsuccessful adult relationships.",
+          "Continuity is a probabilistic developmental tendency, not an irreversible life trajectory."
+        ],
+        "dependencies": [
+          "internal working models",
+          "attachment classifications",
+          "social development",
+          "adult relationships"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Courses/Western_Technical_College/ECE%3A_Infant_and_Toddler_Development/01%3A_Introduction_to_Infant_and_Toddler_Development/1.11%3A_Bowlby%27s_Attachment_Theory_%28Ainsworth%29",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "internal working model",
+            "relationship template",
+            "later relationships"
+          ]
+        },
+        {
+          "url": "https://www.mdpi.com/1660-4601/18/11/5770/html",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "childhood-to-adult attachment patterns",
+            "adult attachment relationships",
+            "continuity and variation"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision frames continuity probabilistically so the course can teach the examinable internal-working-model relationship without implying developmental determinism."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 5,
+    "courseTruthReady": 5,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInputs": [
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-02.json",
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-04.json",
+      "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-02.md"
+    ],
+    "targetedContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-08.md",
+    "transformation": "Reused already accepted Attachment evidence, added rights-clear targeted sources for Lorenz, attachment learning/sensitive-period depth and maternal-deprivation history, and preserved modern qualifications rather than copying board wording."
+  }
+}
