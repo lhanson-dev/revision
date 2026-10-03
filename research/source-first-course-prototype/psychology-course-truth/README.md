@@ -55,14 +55,15 @@ Topic shards may be added incrementally. The course is **not complete** until th
 
 ## Current continuation position
 
-The predecessor proof remains historical evidence. After targeted continuation addenda 05, 06, 07 and 08:
+The predecessor proof remains historical evidence. After targeted continuation addenda 05 through 09:
 
 - 118 / 118 named requirements have some reusable source support;
-- the live source-review baseline is 65 covered candidates, 53 partials and 0 outright gaps;
-- 23 / 118 requirements have so far been transformed into `course_truth_ready` records;
+- the live source-review baseline is 67 covered candidates, 51 partials and 0 outright gaps;
+- 28 / 118 requirements have so far been transformed into `course_truth_ready` records;
 - Social Influence is 4 / 4 Course Truth-ready;
 - Memory is 4 / 4 Course Truth-ready;
 - Attachment is 5 / 5 Course Truth-ready;
+- Clinical Psychology and Mental Health is 5 / 5 Course Truth-ready;
 - Forensic Psychology is 4 / 4 Course Truth-ready;
 - Addiction is 6 / 6 Course Truth-ready;
 - £0 paid source/licence spend is recorded to date; and
