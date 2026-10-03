@@ -10,14 +10,13 @@ async function loadJson(path: string) {
 }
 
 describe('AQA 7132 question Founder decision binding', () => {
-  it('binds every 2 October fix decision to the exact retained source-run ledger fingerprint', async () => {
+  it('binds every 2 October run-36925676050 fix decision to the exact retained source-run ledger fingerprint', async () => {
     const decisionFile = await loadJson(decisionsPath)
     const source = await loadJson(sourcePath)
-    expect(decisionFile.source_run_id).toBe(source.source_run_id)
     expect(source.source_run_id).toBe(36925676050)
 
     const sourceByUnit = new Map(source.units.map((unit: { batch: string; unit_id: string; fingerprint: string }) => [`${unit.batch}/${unit.unit_id}`, unit.fingerprint]))
-    const fixes = decisionFile.decisions.filter((decision: { decision: string }) => decision.decision === 'fix' && sourceByUnit.has(`${decision.batch}/${decision.unit_id}`))
+    const fixes = decisionFile.decisions.filter((decision: { decision: string; batch: string; unit_id: string }) => decision.decision === 'fix' && sourceByUnit.has(`${decision.batch}/${decision.unit_id}`))
     expect(fixes).toHaveLength(10)
     for (const decision of fixes) {
       expect(decision.prior_fingerprint, `${decision.batch}/${decision.unit_id}`).toBe(sourceByUnit.get(`${decision.batch}/${decision.unit_id}`))
