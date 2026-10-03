@@ -17,16 +17,16 @@
   "sourceReviewBaseline": {
     "namedRequirements": 118,
     "requirementsWithSomeReusableSourceSupport": 118,
-    "coveredCandidates": 62,
-    "partial": 56,
+    "coveredCandidates": 65,
+    "partial": 53,
     "gap": 0,
-    "note": "This is the live continuation source-review baseline after targeted addenda 05, 06 and 07. It is diagnostic evidence, not Course Truth completion."
+    "note": "This is the live continuation source-review baseline after targeted addenda 05, 06, 07 and 08. It is diagnostic evidence, not Course Truth completion."
   },
   "courseTruthProgress": {
     "namedRequirements": 118,
-    "courseTruthReadyRequirements": 18,
-    "remainingRequirements": 100,
-    "courseTruthReadyPercent": 15.3,
+    "courseTruthReadyRequirements": 23,
+    "remainingRequirements": 95,
+    "courseTruthReadyPercent": 19.5,
     "materialSubjectTruthGapsKnown": 0,
     "materialRightsBlockersKnown": 0,
     "learnerAssetReady": false,
@@ -47,6 +47,14 @@
       "path": "topic-02-memory.json",
       "namedRequirements": 4,
       "courseTruthReady": 4,
+      "status": "topic_complete_candidate"
+    },
+    {
+      "topicNumber": 3,
+      "topic": "Attachment",
+      "path": "topic-03-attachment.json",
+      "namedRequirements": 5,
+      "courseTruthReady": 5,
       "status": "topic_complete_candidate"
     },
     {
@@ -74,7 +82,7 @@
   },
   "nextWork": {
     "priority": "Complete remaining Course Truth requirements by reusing predecessor evidence and closing depth-specific partials without regenerating already-supported subject truth.",
-    "remainingPartialSourceReviewCases": 56,
+    "remainingPartialSourceReviewCases": 53,
     "rule": "Source-supported does not equal Course Truth ready. Each requirement must meet the working readiness contract in README.md."
   },
   "publicationBoundary": "Experimental only. No learner-facing publication, restricted-pilot approval or production foundation approval is implied by this manifest."
