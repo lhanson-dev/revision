@@ -31,7 +31,11 @@ export type ReadinessData = {
 
 /** The readiness of one course or paper, exactly as the engine produced it. */
 export function readinessFor(state: ModuleLearningState): ReadinessData {
-  if (state.readiness.score === null) return { value: null, note: state.readiness.progress.nextStep }
+  if (state.readiness.score === null) {
+    // Nothing answered yet: the engine's "include activities beyond flashcards" advice makes no sense here.
+    if (state.readiness.evidenceCount === 0) return { value: null, note: 'You haven’t answered anything here yet. Once you have, I’ll show how ready you are.' }
+    return { value: null, note: state.readiness.progress.nextStep }
+  }
   return {
     value: `${state.readiness.score}%`,
     note: `Worked out from ${state.readiness.evidenceCount} scored attempts across ${state.readiness.familyCount} kinds of activity. Confidence: ${state.readiness.confidence}.`,

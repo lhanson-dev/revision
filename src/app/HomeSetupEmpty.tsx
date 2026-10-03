@@ -19,6 +19,13 @@ export function nextSetupAction(props: Pick<HomeSetupEmptyProps, 'courseCount' |
   return { step: 3, headline: 'Tell me when you can study and I’ll fit the work around it.', label: 'Choose study times', target: 'plan' as const }
 }
 
+/** The "Your plan" card on Home when no session is planned: says what is missing, from what is actually saved. */
+export function planCardEmptyCopy(props: Pick<HomeSetupEmptyProps, 'hasExamDates' | 'hasStudyTimes'>) {
+  if (!props.hasExamDates) return { text: 'Add your exam dates and I’ll start building your plan.', label: 'Add exam dates' }
+  if (!props.hasStudyTimes) return { text: 'Tell me when you can study and I’ll fit sessions around it.', label: 'Choose study times' }
+  return { text: 'Nothing is planned yet. Sessions appear here as you work and REV learns what to suggest.', label: 'View full plan' }
+}
+
 export function HomeSetupEmpty({ courseCount, hasExamDates, hasStudyTimes, onOpenCourses, onOpenPlan, onOpenRev }: HomeSetupEmptyProps) {
   const next = nextSetupAction({ courseCount, hasExamDates, hasStudyTimes })
   const steps: SetupStep[] = [
