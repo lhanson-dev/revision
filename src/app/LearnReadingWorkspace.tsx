@@ -1,6 +1,6 @@
 import type { LearnBlock, LearnChapter, LearnGroup, LearnPage } from '../../content/learn-schema'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
-import { Button, EducationalTreatment } from './ui'
+import { Button, EducationalTreatment, QuickCheck } from './ui'
 
 type LearnReadingWorkspaceProps = {
   adapter: LearningContentAdapter
@@ -155,6 +155,11 @@ function renderTreatment(block: Exclude<LearnBlock, { type: 'explanation' | 'rec
   if (block.type === 'relationship') return renderRelationship(block, key)
   if (block.type === 'comparison') return renderComparison(block, key)
   if (block.type === 'quantitative') return renderQuantitative(block, key)
+
+  if (block.type === 'quick-check') {
+    // Unscored: QuickCheck has no answer callback and writes nothing, so it cannot touch progress.
+    return <QuickCheck key={key} question={block.question} options={block.options} correctOptionId={block.correctOptionId} explanation={block.explanation} />
+  }
 
   return (
     <EducationalTreatment kind="misconception" label={block.label} title={block.title} key={key}>
