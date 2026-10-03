@@ -25,7 +25,7 @@ Answers are built by software from the student's own plan, results and exam date
 
 ## Safeguarding (launch rule)
 
-Every message is checked first by a plain-text screen. If a student says they are really struggling, REV replies with **fixed, vetted text**: kind, brief, suggests a teacher, parent or trusted adult, lists **Childline (0800 1111)** and **Shout (text SHOUT to 85258)**, and offers to carry on revising. If the message suggests danger, the reply leads with **999**. No model is involved, nothing is sent to a parent or school, and no plan change is offered. **The names and numbers are unverified: Lee or a safeguarding reviewer must check them before launch** (data model proposal 10.13). The screen is a starting list of phrases, to be extended and tested with the release gate (proposal 10.12).
+Every message is checked first by a plain-text screen. If a student says they are really struggling, REV replies with **fixed, vetted text**: kind, brief, suggests a teacher, parent or trusted adult, lists **Childline (0800 1111)** and **Shout (text SHOUT to 85258)**, and offers to carry on revising. If the message suggests danger, the reply leads with **999**. No model is involved, nothing is sent to a parent or school, and no plan change is offered. **The names and numbers were verified by Lee on 3 October 2026** (999, Childline 0800 1111, Shout text SHOUT to 85258; the Samaritans are not listed). Any later change to them needs the same check (data model proposal 10.13). The screen is a starting list of phrases, to be extended and tested with the release gate (proposal 10.12).
 
 ## Not built here (and why)
 
