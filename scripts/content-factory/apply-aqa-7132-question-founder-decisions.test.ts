@@ -9,6 +9,13 @@ async function loadJson(path: string) {
   return JSON.parse(await readFile(path, 'utf8'))
 }
 
+function onlyDecision(decisionFile: { decisions: Array<{ batch: string; unit_id: string }> }, batch: string, unitId: string) {
+  return {
+    ...decisionFile,
+    decisions: decisionFile.decisions.filter((decision) => decision.batch === batch && decision.unit_id === unitId),
+  }
+}
+
 describe('AQA 7132 question Founder decision binding', () => {
   it('binds every 2 October run-36925676050 fix decision to the exact retained source-run ledger fingerprint', async () => {
     const decisionFile = await loadJson(decisionsPath)
@@ -24,7 +31,8 @@ describe('AQA 7132 question Founder decision binding', () => {
   })
 
   it('applies an exact decision and resets only the old two-round counter', async () => {
-    const decisionFile = await loadJson(decisionsPath)
+    const allDecisions = await loadJson(decisionsPath)
+    const decisionFile = onlyDecision(allDecisions, '3.10', 'q10')
     const source = await loadJson(sourcePath)
     const unit = source.units.find((entry: { batch: string; unit_id: string }) => entry.batch === '3.10' && entry.unit_id === 'q10')
     const ledger = {
@@ -51,7 +59,8 @@ describe('AQA 7132 question Founder decision binding', () => {
   })
 
   it('fails loudly instead of silently re-escalating an exhausted dispute with a mismatched decision fingerprint', async () => {
-    const decisionFile = await loadJson(decisionsPath)
+    const allDecisions = await loadJson(decisionsPath)
+    const decisionFile = onlyDecision(allDecisions, '3.10', 'q10')
     const ledger = {
       schema_version: 1,
       stage: 'aqa-7132-slice-questions',
@@ -71,7 +80,8 @@ describe('AQA 7132 question Founder decision binding', () => {
   })
 
   it('does not reuse an old decision against a genuinely changed fresh-review fingerprint', async () => {
-    const decisionFile = await loadJson(decisionsPath)
+    const allDecisions = await loadJson(decisionsPath)
+    const decisionFile = onlyDecision(allDecisions, '3.10', 'q10')
     const ledger = {
       schema_version: 1,
       stage: 'aqa-7132-slice-questions',
