@@ -48,7 +48,7 @@ export type SafeguardingReply = { paragraphs: string[]; support: string[] }
 
 /**
  * Vetted fixed text (Founder decision 1 Oct: fixed safeguarding text is not a "canned reply").
- * The support names and numbers must be checked by Lee or a safeguarding reviewer before launch.
+ * The support names and numbers (999, Childline 0800 1111, Shout 85258) were verified by Lee on 3 October 2026.
  */
 export function safeguardingReply(level: SafeguardingLevel): SafeguardingReply {
   const support = [

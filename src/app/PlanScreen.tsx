@@ -613,7 +613,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
       <Surface variant="quiet" className="plan-adaptive-explainer">
         <Icon name="plan" />
-        <div><strong>Your plan adapts as you go</strong><p>Revision uses your exam dates, the time you realistically have available and evidence from how you're getting on to decide what is most useful to work on. As you revise and Revision gets stronger evidence about where you're strong and where you need more work, your plan updates automatically.</p>{explanationOpen && <p className="plan-adaptive-detail">It considers things such as how close your exams are, what they cover, where your performance evidence suggests more work would help, what you're already strong at, competing subjects and the time you have available.</p>}</div>
+        <div><strong>Your plan adapts as you go</strong>{(setupComplete || explanationOpen) && <p>Revision uses your exam dates, the time you realistically have available and evidence from how you're getting on to decide what is most useful to work on. As you revise and Revision gets stronger evidence about where you're strong and where you need more work, your plan updates automatically.</p>}{explanationOpen && <p className="plan-adaptive-detail">It considers things such as how close your exams are, what they cover, where your performance evidence suggests more work would help, what you're already strong at, competing subjects and the time you have available.</p>}</div>
         <button type="button" className="plan-explainer-toggle" onClick={() => setExplanationOpen((open) => !open)} aria-expanded={explanationOpen}>How does this work? <span aria-hidden="true">⌄</span></button>
       </Surface>
 

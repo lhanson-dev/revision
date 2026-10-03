@@ -12,7 +12,7 @@ import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-mod
 import { addDays, dayWord, nextFreeDay, plannedTopicKeys, sessionActivityForTask } from './accepted-sessions'
 import { buildCourseTiles, nextExam } from './home-view'
 import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
-import { HomeSetupEmpty } from './HomeSetupEmpty'
+import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
 import { RevPresence } from './RevPresence'
 import { Icon, RevSuggestionCard, SubjectBadge, UnderstandingBar } from './ui'
 
@@ -29,7 +29,6 @@ interface PlannerHomeScreenProps {
 
 function planSummary(tasks: readonly HomeTask[]) {
   const minutes = tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0)
-  if (tasks.length === 0) return 'A useful next step will appear here as Revision learns more.'
   return `${minutes} minutes · ${tasks.length} focused ${tasks.length === 1 ? 'activity' : 'activities'}`
 }
 
@@ -136,6 +135,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   }, [firstTask, plannedSessions, setup, today])
   const planDayLabel = planDay ? dayWord(planDay, dayKey(today)) : 'plan'
   const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [learningStates, programme])
+  const planCard = planCardEmptyCopy({ hasExamDates: (setup?.assessments.length ?? 0) > 0, hasStudyTimes: Boolean(setup?.availability) })
   const exam = useMemo(() => setup ? nextExam(setup.assessments, today) : null, [setup, today])
   const todayLabel = today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -326,8 +326,8 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
           )}
           <section className="home-v2-plan-link">
             <p className="home-v2-eyebrow">Your plan</p>
-            <p>{planSummary(plannerTasks)}</p>
-            <button type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
+            <p>{plannerTasks.length === 0 ? planCard.text : planSummary(plannerTasks)}</p>
+            <button type="button" onClick={onOpenPlan}>{plannerTasks.length === 0 ? planCard.label : 'View full plan'} <Icon name="arrow-right" size="inline" /></button>
           </section>
         </aside>}
       </div>
