@@ -1,0 +1,30 @@
+name: Temporary materialise AQA 7132 question plans
+on:
+  push:
+    branches: [fix/aqa-7132-final-question-blockers]
+    paths: ['.github/workflows/temp-materialise-aqa-7132-question-plans.yml']
+permissions:
+  contents: write
+jobs:
+  materialise:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/aqa-7132-final-question-blockers
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.0
+          cache: npm
+      - run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Materialise question plans
+        run: CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts
+      - name: Commit generated plans
+        run: |
+          if git diff --quiet -- content-factory/slices; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add content-factory/slices
+          git commit -m 'Refresh AQA 7132 question-plan fingerprints'
+          git push origin HEAD:fix/aqa-7132-final-question-blockers
