@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-03",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 5,
+  "topic": "Approaches in Psychology",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-05-01",
+      "boardAlignment": {
+        "summary": "Behaviourist approach, including classical conditioning, Pavlov, operant conditioning, reinforcement and Skinner.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Behaviourism explains behaviour primarily through learning from environmental contingencies and places strong emphasis on observable, measurable behaviour.",
+          "Classical conditioning is learning through association between stimuli, so that a previously neutral stimulus can come to elicit a conditioned response.",
+          "Operant conditioning is learning through consequences: reinforcement increases the future probability of behaviour, while punishment is intended to reduce it.",
+          "Positive reinforcement adds a desirable consequence; negative reinforcement removes or prevents an aversive consequence."
+        ],
+        "modelsResearchAndRelationships": [
+          "Pavlov's work on conditioned reflexes provides a classic demonstration of classical conditioning.",
+          "Skinner's experimental work emphasised how reinforcement contingencies shape operant behaviour.",
+          "Behaviourism contributed methods and learning principles that remain important even though contemporary psychology also studies cognition, biology and social context."
+        ],
+        "evaluationAndLimits": [
+          "Behaviourist methods support controlled testing of learning principles, but strict behaviourism can under-represent internal mental processes and biological constraints.",
+          "Learning histories influence behaviour without implying that every behaviour is produced only by direct conditioning."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Negative reinforcement is not punishment; it increases behaviour by removing or avoiding something aversive.",
+          "Classical conditioning primarily concerns stimulus associations, whereas operant conditioning concerns behaviour-consequence relationships."
+        ],
+        "dependencies": ["learning", "environment", "reinforcement", "scientific measurement"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["classical conditioning", "Pavlov", "conditioned responses"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["operant conditioning", "reinforcement", "Skinner", "punishment"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-02",
+      "boardAlignment": {
+        "summary": "Social learning theory, including modelling, imitation, identification, vicarious reinforcement and mediational processes, with Bandura evidence.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social learning theory explains how behaviour can be acquired through observing other people rather than only through direct reinforcement.",
+          "A model is a person or symbolic representation whose behaviour is observed; imitation is reproduction of observed behaviour.",
+          "Identification describes the model being experienced as relevant or self-relevant to the observer, which can make modelling more influential.",
+          "Vicarious reinforcement occurs when observing a model being rewarded increases motivation to perform the observed behaviour.",
+          "Attention, retention, reproduction and motivation are mediational processes affecting whether observed behaviour is learned and performed."
+        ],
+        "modelsResearchAndRelationships": [
+          "Bandura's Bobo-doll research demonstrated that children can reproduce aggressive behaviour observed in adult models.",
+          "Observed consequences affect performance: models who are rewarded, punished or left without consequence can influence the observer's later behaviour differently.",
+          "Perceived similarity and identification can affect how relevant a model is to the observer."
+        ],
+        "evaluationAndLimits": [
+          "Social learning theory adds cognition and social context to direct-conditioning accounts, but observation does not guarantee imitation.",
+          "Laboratory modelling evidence demonstrates mechanisms under controlled conditions but behaviour outside the laboratory is shaped by many interacting models, incentives and identities."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Learning can occur without immediate imitation; acquisition and performance are distinct.",
+          "Identification is not simply copying; it concerns the observer's relationship or perceived similarity to the model."
+        ],
+        "dependencies": ["observational learning", "cognition", "reinforcement", "social context"]
+      },
+      "sourceEvidence": [
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/","classification":"OPEN","licence":"CC BY 4.0","supports":["observational learning","modelling","imitation","attention","retention","reproduction","motivation","vicarious reinforcement","Bandura/Bobo-doll evidence"]},
+        {"url":"https://doi.org/10.3389/feduc.2022.1066341","classification":"OPEN","licence":"CC BY","supports":["identification with models","perceived similarity","vicarious learning and model relevance"]}
+      ],
+      "revisionSynthesis": ["Revision distinguishes identification from imitation so the exact-course term is not reduced to simple copying."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-03",
+      "boardAlignment": {
+        "summary": "Cognitive approach, including internal mental processes, schemas, theoretical/computer models and inference from observable evidence.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Cognitive psychology studies internal mental processes such as attention, perception, memory, language, reasoning and decision-making.",
+          "A schema is an organised knowledge structure that helps interpret information and guide expectations.",
+          "A theoretical model is a simplified explanatory representation of a mental process.",
+          "Computer or computational models formalise assumptions about information processing so their consequences can be simulated or tested.",
+          "Because internal mental processes are not directly observable in the same way as overt behaviour, psychologists infer them from empirical evidence such as performance, errors, reaction times, reports and neural or physiological measures."
+        ],
+        "modelsResearchAndRelationships": [
+          "The cognitive revolution restored mental processes as legitimate objects of scientific study and drew on computer science, linguistics and neuroscience.",
+          "Information-processing models compare predicted patterns with observed behaviour to evaluate whether a proposed mental mechanism is plausible.",
+          "Schemas can make processing efficient while also shaping interpretation and biasing expectations."
+        ],
+        "evaluationAndLimits": [
+          "Models are useful simplifications and should not be mistaken for literal replicas of the mind or brain.",
+          "Inference from behaviour can support theories of unobservable processes, but different models can sometimes explain the same behavioural result, so converging evidence matters."
+        ],
+        "misconceptionsAndBoundaries": [
+          "The cognitive approach is not the claim that the brain literally works like an ordinary computer.",
+          "An inferred mental process is a testable theoretical construct, not something directly observed merely because behaviour is observed."
+        ],
+        "dependencies": ["scientific inference", "information processing", "schemas", "cognitive neuroscience"]
+      },
+      "sourceEvidence": [
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/history-of-psychology/","classification":"OPEN","licence":"CC BY 4.0","supports":["cognitive revolution","computer science influence","computer models of reasoning/problem solving"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/contemporary-psychology/","classification":"OPEN","licence":"CC BY 4.0","supports":["cognitive psychology","mental processes and behaviour"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/what-is-cognition/","classification":"OPEN","licence":"CC BY 4.0","supports":["cognition","schemas","information processing"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/","classification":"OPEN","licence":"CC BY 4.0","supports":["mind not directly observable","use of empirical behaviour/evidence to understand mental processes"]}
+      ],
+      "revisionSynthesis": ["Revision maps the source-supported modelling and evidence logic to the exact course's 'inference' terminology."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-04",
+      "boardAlignment": {
+        "summary": "Biological approach, including genes, phenotype, evolution, biological structures, neurochemistry and cognitive neuroscience.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The biological approach explains psychological characteristics partly through genes, nervous and endocrine systems, brain structure/function, neurochemistry and evolutionary processes.",
+          "A genotype is an organism's genetic constitution; phenotype refers to observable characteristics produced through interaction between genetic and environmental influences.",
+          "Evolution by natural selection can shape inherited psychological and behavioural predispositions when they affect survival or reproduction across generations.",
+          "Neurotransmitters and hormones are chemical signalling systems that can influence behaviour and cognition.",
+          "Cognitive neuroscience studies relationships between neural processes and cognitive functions using converging behavioural and brain-based methods."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genes influence probabilities and developmental pathways rather than specifying most complex behaviours in isolation.",
+          "Brain systems interact in networks, so psychological functions should not generally be assigned to one structure without qualification.",
+          "Biological explanations can be integrated with cognitive, learning and social explanations rather than treated as mutually exclusive."
+        ],
+        "evaluationAndLimits": [
+          "Biological methods provide objective measurements but associations between a biological marker and behaviour do not automatically establish causal direction.",
+          "Reduction to genes or neurochemistry alone can omit environmental and psychological mechanisms."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Genetic influence does not mean genetic determinism.",
+          "Evolutionary explanations concern population-level selection over generations, not individuals choosing adaptive behaviours."
+        ],
+        "dependencies": ["genetics", "neuroscience", "evolution", "neurochemistry"]
+      },
+      "sourceEvidence": [
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/introduction-to-biological-basis-of-behaviour/","classification":"OPEN","licence":"CC BY 4.0","supports":["biological psychology","brain methods and neural mechanisms"]},
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/the-biological-approach/","classification":"OPEN","licence":"CC BY 4.0","supports":["genetic and biological influences","evolutionary and neural perspectives"]}
+      ],
+      "revisionSynthesis": ["The exact genotype/phenotype/neurochemistry/cognitive-neuroscience grouping follows AQA alignment; causal cautions are retained in the subject truth."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-05",
+      "boardAlignment": {
+        "summary": "Psychodynamic approach, including the unconscious, personality structure, defence mechanisms and psychosexual development.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Freud's psychodynamic approach proposes that behaviour is influenced by unconscious motives and conflicts as well as conscious thought.",
+          "The id represents instinctual drives and immediate gratification; the ego negotiates with reality; the superego represents internalised standards and ideals.",
+          "Defence mechanisms are proposed unconscious strategies for managing conflict or anxiety; classic examples include repression, denial and displacement.",
+          "Freud's psychosexual stage theory proposes that early development passes through oral, anal, phallic, latency and genital stages, with unresolved conflicts potentially influencing later personality."
+        ],
+        "modelsResearchAndRelationships": [
+          "Psychodynamic theory links early relationships and developmental conflict to later personality and symptoms.",
+          "Repression involves excluding threatening material from conscious awareness; denial rejects an unacceptable reality; displacement redirects an impulse or emotion toward a safer target."
+        ],
+        "evaluationAndLimits": [
+          "Psychodynamic theory has been historically influential, but many core constructs are difficult to operationalise and test directly.",
+          "Contemporary psychology does not require acceptance of Freud's psychosexual stages in order to recognise that unconscious processing and early experience can matter."
+        ],
+        "misconceptionsAndBoundaries": [
+          "The psychodynamic 'unconscious' is a specific theoretical framework and should not be treated as identical to every modern finding about non-conscious processing.",
+          "Defence mechanisms are theoretical constructs, not directly observed physical mechanisms."
+        ],
+        "dependencies": ["unconscious processes", "development", "personality", "conflict and anxiety"]
+      },
+      "sourceEvidence": [
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/history-of-psychology/","classification":"OPEN","licence":"CC BY 4.0","supports":["Freud","unconscious","psychodynamic history"]},
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/freud-and-the-psychodynamic-perspective/","classification":"OPEN","licence":"CC BY 4.0","supports":["id/ego/superego","defence mechanisms","psychosexual stages","early experience"]}
+      ],
+      "revisionSynthesis": [],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-06",
+      "boardAlignment": {
+        "summary": "Humanistic psychology, including free will, self-actualisation, Maslow, congruence and conditions of worth.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Humanistic psychology emphasises subjective experience, personal agency, meaning and the capacity for growth.",
+          "Maslow's hierarchy describes needs ranging from basic physiological and safety needs through belonging and esteem toward self-actualisation, the development of a person's potential.",
+          "Rogers distinguishes the real/experienced self from an ideal self; congruence is closer alignment between self-concept and lived experience, while incongruence is discrepancy between them.",
+          "Conditions of worth are requirements for acceptance or value that can be internalised and restrict authentic experience and self-directed growth.",
+          "Unconditional positive regard is acceptance that does not make personal worth contingent on meeting specified conditions."
+        ],
+        "modelsResearchAndRelationships": [
+          "Humanistic accounts treat self-actualisation as an ongoing growth process rather than a fixed endpoint.",
+          "Free will/self-determination expresses the humanistic commitment to agency and choice, contrasting with strongly deterministic versions of behaviourism and psychodynamic theory.",
+          "Rogers's model links conditional acceptance to conditions of worth and potential incongruence, whereas a supportive environment can facilitate more authentic growth."
+        ],
+        "evaluationAndLimits": [
+          "The humanistic emphasis on agency corrects overly mechanistic accounts of behaviour, but free will is a theoretical and philosophical commitment that is difficult to demonstrate as an all-or-none empirical property.",
+          "Ideas such as self-actualisation can be valuable but are influenced by cultural assumptions about what a good or fulfilled life looks like."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Humanistic free will does not mean people act independently of biology, learning or social constraints.",
+          "Congruence does not mean perfect agreement with an idealised image; it concerns authenticity and reduced discrepancy between experience and self-concept."
+        ],
+        "dependencies": ["self-concept", "motivation", "agency", "positive regard"]
+      },
+      "sourceEvidence": [
+        {"url":"https://pressbooks.cuny.edu/jjcpsy101/chapter/humanistic-approaches/","classification":"OPEN","licence":"CC BY 4.0","supports":["Maslow","self-actualisation","Rogers","real/ideal self","congruence","unconditional positive regard","free will/self-determination"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2020.01706","classification":"OPEN","licence":"CC BY","supports":["organismic growth","conditional/unconditional positive regard","conditions of worth","authenticity and autonomy"]}
+      ],
+      "revisionSynthesis": ["Revision keeps free will as the approach's theoretical stance while explicitly avoiding the unsupported claim that human behaviour is unconstrained."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-05-07",
+      "boardAlignment": {
+        "summary": "Comparison of the principal psychological approaches.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Psychological approaches differ in what they treat as the most useful level and mechanism of explanation: learned behaviour, observed social models and cognition, internal information processing, biological systems, unconscious conflict, or conscious agency and growth.",
+          "They also differ in characteristic methods, assumptions about determinism and reductionism, and the weight they give to nature, nurture, conscious and non-conscious processes."
+        ],
+        "modelsResearchAndRelationships": [
+          "Behaviourism emphasises environmental learning and observable behaviour; social learning theory adds observational learning and mediating cognition.",
+          "The cognitive approach models internal information processing; the biological approach explains behaviour through genetic, neural, chemical and evolutionary mechanisms.",
+          "Psychodynamic theory emphasises unconscious conflict and early experience; humanistic psychology emphasises agency, subjective meaning and growth.",
+          "Modern psychological explanations can combine levels rather than requiring one approach to exclude all others."
+        ],
+        "evaluationAndLimits": [
+          "Comparisons are most informative when tied to a specific claim, method or behaviour rather than ranking whole approaches as simply correct or incorrect.",
+          "Different approaches can generate complementary explanations at different levels."
+        ],
+        "misconceptionsAndBoundaries": [
+          "An approach is not a single study or treatment.",
+          "Evidence for one mechanism does not automatically falsify mechanisms operating at another level."
+        ],
+        "dependencies": ["all PSY-05 approach requirements", "issues and debates", "levels of explanation"]
+      },
+      "sourceEvidence": [
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/history-of-psychology/","classification":"OPEN","licence":"CC BY 4.0","supports":["historical development and contrasts among behaviourist, cognitive, humanistic and psychodynamic approaches"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/learning-approaches/","classification":"OPEN","licence":"CC BY 4.0","supports":["behaviourist, cognitive/social-cognitive and humanistic contrasts"]},
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/contemporary-psychology/","classification":"OPEN","licence":"CC BY 4.0","supports":["contemporary cognitive, biological and other psychological perspectives"]}
+      ],
+      "revisionSynthesis": ["Revision authors the comparison matrix conceptually rather than inheriting any one source's taxonomy."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 7,
+    "courseTruthReady": 7,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInputs": ["../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-02.json","../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-04.json"],
+    "targetedContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-10.md",
+    "transformation": "Reused broad accepted CC BY psychology texts and added narrow identification/conditions-of-worth evidence only where the historical bridge plan required it."
+  }
+}
