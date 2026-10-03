@@ -1,0 +1,38 @@
+{
+  "schemaVersion":1,
+  "status":"experimental_difficult_option_reconciliation",
+  "checkedDate":"2026-10-02",
+  "course":"AQA A-level Psychology 7182",
+  "purpose":"Record targeted closure after the all-option first pass without rewriting the historical first-pass artifacts.",
+  "changes":[
+    {
+      "requirementId":"PSY-16-01",
+      "previousStatus":"partial",
+      "currentStatus":"covered_candidate",
+      "reason":"AQA's reference-only top-down/bottom-up alignment can be mapped to rights-clear subject evidence for pre-existing typology-based profiling versus data-driven behavioural/geographical profiling without reusing AQA teaching prose."
+    },
+    {
+      "requirementId":"PSY-16-03",
+      "previousStatus":"partial",
+      "currentStatus":"covered_candidate",
+      "reason":"A CC BY 2026 criminal-justice study explicitly discusses minimisation and justification of offending behaviour, completing the previously missing named cognitive-distortion element alongside already accepted Eysenck, moral-reasoning, hostile-attribution and differential-association evidence.",
+      "source":"https://doi.org/10.5204/ijcjsd.3770"
+    },
+    {
+      "requirementId":"PSY-16-04",
+      "previousStatus":"partial",
+      "currentStatus":"partial",
+      "reason":"Psychological effects of custody are now directly supported by CC BY 4.0 evidence. Token economy in a custodial/forensic setting remains rights-incomplete because the closest 2026 article is described as Creative Commons open access but the exact commercial-compatible licence flavour was not verified in accessible metadata."
+    },
+    {
+      "requirementId":"PSY-17-06",
+      "previousStatus":"gap",
+      "currentStatus":"gap",
+      "reason":"The six-stage model is easy to identify factually, but the convenient explanatory sources inspected remain non-commercial. PubMed/original-article records are retained as factual leads, not promoted to OPEN reusable corpus without a rights-safe route."
+    }
+  ],
+  "currentOptionGroup3Status":{"namedRequirements":15,"coveredCandidate":7,"partial":7,"gap":1},
+  "currentForensicStatus":{"namedRequirements":4,"coveredCandidate":3,"partial":1,"gap":0},
+  "economics":{"paidProviderSpendGbp":0,"paidSourceLicenceSpendGbp":0},
+  "interpretation":"Targeted searching can close specialist option residuals without broad regeneration, but rights verification can become the bottleneck even where highly relevant material is publicly visible."
+}

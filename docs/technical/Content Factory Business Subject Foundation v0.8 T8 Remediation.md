@@ -152,3 +152,37 @@ Only a new exact-course T8 PASS can unlock controlled internal learner-asset der
 ## Documentation impact
 
 No normative authority change is required: the remediation and provider recovery follow the current Subject Knowledge Foundation / Course Projection, AI-Assured Foundation Gate, Testing & Assurance and Content Factory bootstrap-cost authorities. No ADR is required because the architecture boundary, assurance gates and spend ceiling are unchanged. This document records implementation and assurance behaviour only; historical v0.7, failed v0.8 and provider-failure evidence remain unchanged.
+
+
+## Post-#499 T8 fail-hold and bounded follow-up — 2 October 2026
+
+Fresh exact-course proof run `37024423431` ran on exact `main` SHA `22519cb71ac09b4481621f670aea3b447ea9214a`. Deterministic assurance and the official AQA source check passed. The fixed-checklist review reused 31 unchanged section fingerprints, freshly reviewed 11 sections, and returned `fail_hold` on two blocking gaps. Conservative provider spend was US$0.354888 of the US$12 cap.
+
+The two findings are intentionally fixed at different layers:
+
+- **3.1.3 market conditions** is reusable Business knowledge. `POST_MERGE_T8_FIXES.json` adds one source-bound definition to `BUS-FND-009`, and the v0.8 loader includes that overlay in the candidate fingerprint and `changedSinceAssurance` set.
+- **3.10.3 network-diagram presentation** is an AQA-specific convention. It remains outside the reusable Business Foundation. The AQA mapping states the rights-safe activity-on-arrow presentation convention and the existing `network-analysis` named item carries it as `aqa_convention`, so downstream Blueprint/Learn/Practice generation receives the exact course convention without treating it as universal subject truth. The official AQA network-analysis teaching guide and sample Paper 1 are retained as REFERENCE_ONLY alignment evidence.
+
+The failed run ledger is retained because the fast-path rule preserves valid item-level evidence even when another item blocks. A fresh post-merge T8 run must therefore review only units whose exact fingerprints change; it must not repurchase unchanged section reviews. No learner-publication, qualified-human-review or `foundation_approved` gate is changed.
+
+Committed Learn/Practice assets follow the same fail-closed rule: repository-wide software re-proof treats an asset as current only when its accepted ledger fingerprint reconstructs exactly from the current Blueprint, Foundation teaching, sources and asset bytes. Fingerprint-stale assets are not reclassified as valid and are not regenerated before T8; the targeted resume proof records them for the post-T8 refresh.
+
+### Documentation impact
+
+No normative authority or ADR change is required. This is a bounded implementation/evidence correction under the existing Subject Knowledge Foundation / Course Projection and Fast-Path authorities. Historical T8 evidence remains unchanged; the run log appends the new failure and fixes.
+
+## 3.10.3 second-round escalation and projection correction — 2 October 2026
+
+Fresh proof run `37044623003` on exact `main` SHA `2c455560995553188c3e4b42f9729a47928f1bd1` confirmed that the reusable `BUS-FND-009` market-conditions fix works: section 3.1.3 passed. Section 3.10.3 remained the sole blocker and reached its second blocking review round. The reviewer could see the confirmed AQA activity-on-arrow convention in the named-item/Course Truth material, but the T8 `mapping_sense` and `depth` wording still required the mapped reusable Foundation node itself to teach the convention.
+
+That requirement was an implementation mismatch with the approved Subject Knowledge Foundation / Course Projection boundary, not a new Business-knowledge gap. The Founder chose the Fast-Path `fix` option after the second blocking round: keep the AQA-specific network presentation convention in exact Course Truth / Specification Mapping and change T8 to review the **effective exact-course projection** instead of requiring the convention to be duplicated into `BUS-EVI-008`.
+
+The T8 course-gate implementation therefore supplies non-formula board-specific presentation conventions as `course_specific_projection.teaching_obligations` alongside the mapped reusable nodes. The fixed reviewer contract tells `mapping_sense` and `depth` to judge that combined exact-course projection. Formula conventions remain on the existing `calculation_convention` path. Because the extra projection payload is conditional, unchanged sections retain their existing fingerprints; with the current AQA 7132 data, only 3.10.3 gains this new presentation-obligation payload.
+
+The second-round failure ledger is preserved unchanged as historical evidence. The Founder decision is retained separately in `content-factory/runs/aqa-7132-course-gate/founder-decisions.json` and overlaid by the T8 runner. That closes the old unchanged-input dispute and permits a fresh review only after the 3.10.3 input fingerprint changes; it does not create a prohibited third review of the same input.
+
+A fresh post-merge T8 proof on the then-current `main` is still required before the exact course can regain `ai_assured` / controlled-internal-production status. `foundation_approved`, qualified-human-review and learner-publication gates remain unchanged.
+
+### Documentation impact
+
+No normative authority or ADR change is required. The correction makes the T8 implementation conform to the already-approved Course Projection and Fast-Path authorities; it does not alter the architecture, rights boundary, spend ceiling or release gates.

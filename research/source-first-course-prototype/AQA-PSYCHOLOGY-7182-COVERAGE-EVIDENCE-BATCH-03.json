@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_named_coverage_in_progress",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "scope": "Third evidence batch, continuing compulsory requirements only.",
+  "evidence": [
+    {
+      "requirementId": "PSY-01-03",
+      "status": "partial",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/learning-approaches/"],
+      "supports": "Rotter's internal/external locus of control is directly covered in an accepted CC BY source.",
+      "remaining": "Resistance through social support still needs explicit reusable evidence, and the locus material must be connected carefully to resistance rather than merely personality."
+    },
+    {
+      "requirementId": "PSY-02-02",
+      "status": "covered_candidate",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/how-memory-functions/",
+        "https://opentextbc.ca/h5ppsychology/chapter/how-memory-functions/"
+      ],
+      "supports": "Baddeley and Hitch working-memory model, central executive, phonological loop, visuospatial sketchpad and episodic buffer, including limited working-memory capacity.",
+      "remaining": "Foundation transformation and exact AQA coding/capacity emphasis."
+    },
+    {
+      "requirementId": "PSY-04-01",
+      "status": "partial",
+      "sources": [
+        "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/01%3A_Understanding_Abnormal_Behavior/1.03%3A_What_Are_Mental_Disorders",
+        "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_%28Lumen%29/06%3A_Case_Studies_of_Fictional_Characters/6.19%3A_The_Nature_of_Mental_Disorders"
+      ],
+      "supports": "Statistical infrequency/deviance, social and cultural norms, dysfunction and impairment are explicitly treated in accepted CC BY Lumen material.",
+      "remaining": "Deviation from ideal mental health needs a separate explicit reusable source."
+    },
+    {
+      "requirementId": "PSY-04-02",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/anxiety-disorders/",
+        "https://opentextbc.ca/h5ppsychology/chapter/mood-disorders/",
+        "https://opentextbc.ca/h5ppsychology/chapter/obsessive-compulsive-and-related-disorders/"
+      ],
+      "supports": "Core phobia, major-depression and OCD symptoms are covered across accepted CC BY sources, including fear/avoidance, mood/cognitive changes, obsessions and compulsions.",
+      "remaining": "Revision transformation should explicitly organise the source-backed material into AQA's behavioural/emotional/cognitive categories."
+    },
+    {
+      "requirementId": "PSY-04-04",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/mood-disorders/",
+        "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/"
+      ],
+      "supports": "Beck's negative self/world/future pattern, Ellis/ABC-style cognitive model and CBT challenging dysfunctional or irrational thoughts.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-04-05",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/obsessive-compulsive-and-related-disorders/",
+        "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/05%3A_Obsessive_Compulsive_Disorder_and_Stressor_Related_Disorders/5.15%3A_Treatment_for_OCD_and_Related_Disorders"
+      ],
+      "supports": "OCD genetic evidence, neural/circuit explanations and medication treatment including serotonin-reuptake approaches are directly covered by accepted CC BY material.",
+      "remaining": "Foundation transformation and AQA terminology alignment only."
+    },
+    {
+      "requirementId": "PSY-05-03",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/what-is-cognition/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/contemporary-psychology/"
+      ],
+      "supports": "Cognitive psychology as the study of internal thinking processes and schema as a mental construct for organising/interpreting information.",
+      "remaining": "The AQA emphasis on theoretical/computer models and inference from behaviour needs more explicit reusable evidence."
+    },
+    {
+      "requirementId": "PSY-05-04",
+      "status": "covered_candidate",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/human-genetics/",
+        "https://opentextbc.ca/h5ppsychology/chapter/contemporary-psychology/",
+        "https://opentextbc.ca/h5ppsychology/chapter/cells-of-the-nervous-system/"
+      ],
+      "supports": "Genotype/phenotype, evolution, nervous-system structures, neurotransmission/neurochemistry and biological/neuroscience approaches to behaviour are covered across accepted CC BY sources.",
+      "remaining": "Foundation transformation should make the cognitive-neuroscience link explicit."
+    },
+    {
+      "requirementId": "PSY-06-01",
+      "status": "covered_candidate",
+      "sources": ["https://opentextbc.ca/h5ppsychology/chapter/parts-of-the-nervous-system/"],
+      "supports": "Central and peripheral nervous systems plus somatic and autonomic subdivisions are directly covered.",
+      "remaining": "Foundation transformation only."
+    },
+    {
+      "requirementId": "PSY-06-02",
+      "status": "partial",
+      "sources": [
+        "https://opentextbc.ca/h5ppsychology/chapter/parts-of-the-nervous-system/",
+        "https://opentextbc.ca/h5ppsychology/chapter/cells-of-the-nervous-system/"
+      ],
+      "supports": "Sensory and motor neurons, action potentials, synaptic transmission, neurotransmitters, receptors and reuptake are directly covered.",
+      "remaining": "AQA relay-neuron terminology plus explicit excitation/inhibition treatment need named-source confirmation."
+    },
+    {
+      "requirementId": "PSY-06-05",
+      "status": "partial",
+      "sources": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/studying-the-brain/",
+        "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/neurodegenerative-diseases/"
+      ],
+      "supports": "fMRI, EEG and post-mortem examination are directly covered in the accepted CC BY neuroscience textbook, with uses and limitations.",
+      "remaining": "Event-related potentials (ERPs) are not yet adequately covered by an accepted source in the registered corpus."
+    }
+  ],
+  "batchSummary": {
+    "requirementsReviewed": 11,
+    "coveredCandidate": 6,
+    "partial": 5,
+    "gap": 0,
+    "uncertain": 0,
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0
+  },
+  "aggregateProgressAfterBatch": {
+    "allNamedRequirements": 118,
+    "allRequirementsReviewed": 44,
+    "allCoveredCandidate": 20,
+    "allPartial": 24,
+    "allGap": 0,
+    "allUncertain": 0,
+    "allUnreviewed": 74,
+    "compulsoryNamedRequirements": 71,
+    "compulsoryRequirementsReviewed": 40,
+    "compulsoryCoveredCandidate": 19,
+    "compulsoryPartial": 21,
+    "compulsoryUnreviewed": 31
+  }
+}

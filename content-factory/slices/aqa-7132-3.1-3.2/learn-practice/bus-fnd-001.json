@@ -9,7 +9,8 @@
         "body": "A business combines scarce inputs such as people, finance, materials, technology and knowledge. Its processes transform these inputs into outputs, which then affect customers, employees, owners, suppliers and communities. A mission gives broad direction to the organisation’s intended purpose, while objectives make that direction usable in decisions. Objectives should reflect that business performance has financial and non-financial dimensions, rather than assuming that short-term profit is the only aim.",
         "item_ids": [
           "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
-          "aqa-7132-3.1.1:why-businesses-set-objectives"
+          "aqa-7132-3.1.1:why-businesses-set-objectives",
+          "aqa-7132-3.1.1:mission-statement"
         ]
       },
       {
@@ -108,7 +109,8 @@
         "id": "bus-fnd-001-p1",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
+          "aqa-7132-3.1.1:mission-statement"
         ],
         "prompt": "State the difference between a mission and an objective.",
         "answer": "A mission gives broad purpose or direction; an objective is a more specific priority that guides decisions and progress.",

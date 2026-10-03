@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_compulsory_gap_reconciled",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "supersedesForCurrentStatus": [
+    "AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-04.json"
+  ],
+  "principle": "Historical batch evidence is preserved. This artifact records later source discoveries and current status only.",
+  "changes": [
+    {
+      "requirementId": "PSY-01-04",
+      "previousStatus": "gap",
+      "currentStatus": "covered_candidate",
+      "reason": "Prislin (2022), CC BY, supplies the underlying minority behavioural-style knowledge through temporal consistency, investment/commitment and open-mindedness/flexibility.",
+      "sources": ["https://doi.org/10.3389/fpsyg.2022.911654"]
+    },
+    {
+      "requirementId": "PSY-07-08",
+      "previousStatus": "gap",
+      "currentStatus": "covered_candidate",
+      "reason": "Perezgonzalez (2015), CC BY, explicitly distinguishes directional and non-directional hypotheses and their statistical directionality.",
+      "sources": ["https://doi.org/10.3389/fpsyg.2015.00223"]
+    },
+    {
+      "requirementId": "PSY-07-10",
+      "previousStatus": "gap",
+      "currentStatus": "covered_candidate",
+      "reason": "Seetahul et al. (2026 preprint), CC BY 4.0, directly explains pilot-study purpose before a main study across design, measurement, manipulation, sampling and analysis.",
+      "sources": ["https://doi.org/10.31234/osf.io/t968e_v2"]
+    },
+    {
+      "requirementId": "PSY-07-19",
+      "previousStatus": "gap",
+      "currentStatus": "partial",
+      "bridgeClass": "small_alignment_bridge",
+      "reason": "Current AQA reference material says no separate subject teaching is required; students apply already-learned Psychology to economic consequences. This therefore needs a small independently authored alignment/application bridge, not a new subject corpus.",
+      "sources": ["https://www.aqa.org.uk/resources/psychology/as-and-a-level/psychology/teach/economic-implications-of-psychological-research"]
+    },
+    {
+      "requirementId": "PSY-08-05",
+      "previousStatus": "gap",
+      "currentStatus": "covered_candidate",
+      "reason": "Kaiser et al. (2026), CC BY 4.0, directly contrasts idiographic within-person analysis with nomothetic group/generalising approaches.",
+      "sources": ["https://doi.org/10.1007/s10608-025-10672-4"]
+    },
+    {
+      "requirementId": "PSY-08-06",
+      "previousStatus": "gap",
+      "currentStatus": "covered_candidate",
+      "reason": "Babacan & Babacan, CC BY, provides reusable subject knowledge on socially sensitive research and its potential consequences for participants, represented groups and wider stakeholders.",
+      "sources": ["https://doi.org/10.25120/etropic.12.1.2013.3393"]
+    },
+    {
+      "requirementId": "PSY-07-14",
+      "previousStatus": "partial",
+      "currentStatus": "covered_candidate",
+      "reason": "The accepted Dalhousie CC BY 4.0 text explicitly defines independent/dependent variables, confounding variables and operational definitions, completing the previously missing variable concepts when combined with the earlier manipulation/control evidence.",
+      "sources": ["https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/"]
+    }
+  ],
+  "currentCompulsoryStatus": {
+    "namedRequirements": 71,
+    "reviewed": 71,
+    "coveredCandidate": 33,
+    "partial": 38,
+    "gap": 0,
+    "uncertain": 0,
+    "unreviewed": 0
+  },
+  "economicsSignal": {
+    "paidProviderSpendGbp": 0,
+    "paidSourceSpendGbp": 0,
+    "interpretation": "All compulsory requirements now have either reusable source support or a bounded alignment/synthesis route. Source discovery alone has not required paid generation or paid content. The remaining economics question is the size and cost of the 38 bridges, not whether the compulsory course lacks accessible subject truth."
+  }
+}
