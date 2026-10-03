@@ -2,7 +2,7 @@
 // Run with CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 to rewrite the committed plans; otherwise the test checks they are current and sound.
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { ESTIMATED_USD_PER_QUESTION, buildQuestionPlan, checkQuestionPlan, type QuestionPlanFile } from './aqa-business-7132-question-plan'
+import { ESTIMATED_USD_PER_QUESTION, buildQuestionPlan, checkQuestionPlan, refreshQuestionPlan, type QuestionPlanFile } from './aqa-business-7132-question-plan'
 import { FORMULA_LIBRARY, formulaIdForItem, type Blueprint } from './aqa-business-7132-slice-learn-practice'
 
 const CONFIG = 'content-factory/slices/aqa-7132-batches.json'
@@ -23,7 +23,8 @@ const targets = [
 describe('AQA 7132 question plans (software only)', () => {
   for (const target of targets) {
     describe(`batch ${target.id}`, () => {
-      const plan = buildQuestionPlan({ blueprint: target.blueprint, batch: target.id, excludeItemIds: target.excludeItemIds, essay: target.essay })
+      const current = existsSync(planPath(target.id)) ? readJson<QuestionPlanFile>(planPath(target.id)) : null
+      const plan = refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current, excludeItemIds: target.excludeItemIds, essay: target.essay })
 
       it('covers every planned item, every formula and every owner node, and stays inside the spend cap', () => {
         expect(checkQuestionPlan(target.blueprint, plan)).toEqual([])
@@ -35,13 +36,23 @@ describe('AQA 7132 question plans (software only)', () => {
       })
 
       it('is deterministic and matches the committed plan (rewrite with CONTENT_FACTORY_WRITE_QUESTION_PLANS=1)', () => {
-        expect(buildQuestionPlan({ blueprint: target.blueprint, batch: target.id, excludeItemIds: target.excludeItemIds, essay: target.essay })).toEqual(plan)
+        expect(refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current, excludeItemIds: target.excludeItemIds, essay: target.essay })).toEqual(plan)
         if (write) writeFileSync(planPath(target.id), `${JSON.stringify(plan, null, 2)}\n`)
         expect(existsSync(planPath(target.id)), `${planPath(target.id)} is missing: run with CONTENT_FACTORY_WRITE_QUESTION_PLANS=1`).toBe(true)
         expect(readJson<QuestionPlanFile>(planPath(target.id))).toEqual(plan)
       })
     })
   }
+
+  it('preserves durable question identities when a still-valid committed plan is rebased to a refreshed Blueprint', () => {
+  const target = targets.find((candidate) => candidate.id === '3.1-3.2')!
+  const current = readJson<QuestionPlanFile>(planPath(target.id))
+  const staleFingerprint = { ...current, blueprint_fingerprint: 'stale-blueprint-fingerprint' }
+  expect(checkQuestionPlan(target.blueprint, staleFingerprint)).toEqual([])
+  const refreshed = refreshQuestionPlan({ blueprint: target.blueprint, batch: target.id, current: staleFingerprint, excludeItemIds: target.excludeItemIds, essay: target.essay })
+  expect(refreshed.questions).toEqual(current.questions)
+  expect(refreshed.blueprint_fingerprint).toBe(target.blueprint.courseKnowledgeModelFingerprint)
+})
 
   it('catches a plan that misses an item, a formula or a node', () => {
     const target = targets.find((t) => t.id === '3.4')!

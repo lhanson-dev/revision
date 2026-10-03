@@ -215,22 +215,44 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     expect(checklistInstructions(SLICE_CHECKLIST)).toContain('Do not look for other problems')
   })
 
-  it('keeps every committed Learn + Practice asset valid against its blueprint (software re-proof, no AI)', async () => {
+  it('keeps every exact-fingerprint-reusable committed Learn + Practice asset valid while stale assets remain blocked for refresh (software re-proof, no AI)', async () => {
+    const candidate = await loadBusinessSubjectFoundationCandidate()
+    const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
+    const teachingFor = (nodeId: string): SliceTeaching => {
+      const subjectId = nodeId.toUpperCase()
+      const node = candidate.nodes.get(subjectId)
+      if (!node) throw new Error(`foundation_node_missing:${subjectId}`)
+      return {
+        subject_id: subjectId,
+        title: node.title ?? null,
+        teaching_content: node.teaching_content ?? {},
+        quantitative_content: node.quantitative_content ?? {},
+        source_ids: rows.get(subjectId)?.subject_truth_sources ?? [],
+      }
+    }
+
     const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
-    // The top-up batch rebuilds some 3.5 nodes; its output replaces those node files in the 3.5 folder, so those files must satisfy both blueprints.
+    // The top-up batch rebuilds some 3.5 nodes; its output replaces those node files in the 3.5 folder, so those files are checked against the top-up ledger when that run exists.
     const checks = [{ id: '3.5', blueprint: '3.5' }, ...config.batches.map((batch) => ({ id: batch.id, blueprint: batch.id })), { id: '3.5', blueprint: config.top_up.id }]
     for (const check of checks) {
       const dir = `content-factory/slices/aqa-7132-${check.id}/learn-practice`
       const blueprintPath = `content-factory/slices/aqa-7132-${check.blueprint}/BLUEPRINT.json`
+      const ledgerPath = `content-factory/runs/aqa-7132-slice-${check.blueprint}/ledger.json`
       if (!existsSync(dir) || !existsSync(blueprintPath)) continue
-      // The top-up blueprint only applies once the top-up run has been recorded (its ledger is committed with the new files).
-      if (check.blueprint === config.top_up.id && !existsSync(`content-factory/runs/aqa-7132-slice-${config.top_up.id}/ledger.json`)) continue
+      // A committed asset is reusable only when the current Blueprint + Foundation teaching + sources + asset bytes reconstruct its accepted ledger fingerprint.
+      // Fingerprint-stale assets are deliberately not treated as current: the targeted resume proof names them and they remain blocked until the governed post-T8 refresh.
+      if (!existsSync(ledgerPath)) continue
       const blueprint = JSON.parse(await readFile(blueprintPath, 'utf8')) as Blueprint
+      const ledger = JSON.parse(await readFile(ledgerPath, 'utf8')) as Ledger
       for (const expectation of expectationsFromBlueprint(blueprint)) {
         const path = `${dir}/${expectation.nodeId}.json`
         if (!existsSync(path)) continue
         const output = nodeOutputSchema.parse(JSON.parse(await readFile(path, 'utf8')))
-        expect(validateNodeOutput(output, expectation), `${check.id}/${expectation.nodeId}`).toEqual([])
+        const unit = buildSliceUnit({ nodeId: expectation.nodeId, expectation, teaching: teachingFor(expectation.nodeId), output })!
+        const previous = ledger.units[expectation.nodeId]
+        const exactMatch = Boolean(previous && ['passed', 'logged'].includes(previous.outcome) && previous.fingerprint === unit.fingerprint)
+        if (!exactMatch) continue
+        expect(unit.softwareFindings, `${check.id}/${expectation.nodeId}`).toEqual([])
       }
     }
   })

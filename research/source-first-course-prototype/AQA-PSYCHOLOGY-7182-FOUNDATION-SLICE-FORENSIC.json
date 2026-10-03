@@ -1,0 +1,88 @@
+{
+  "schemaVersion":1,
+  "status":"experimental_difficult_option_foundation_slice",
+  "checkedDate":"2026-10-02",
+  "course":"AQA A-level Psychology 7182",
+  "topic":"Forensic Psychology",
+  "purpose":"Test whether a source-fragmented specialist option can still be transformed into a compact structured Foundation layer without whole-topic generation.",
+  "scopePolicy":{"aqaRole":"REFERENCE_ONLY alignment","teachingTruthRole":"OPEN reusable sources only","publicationStatus":"not learner-ready"},
+  "requirements":[
+    {
+      "requirementId":"PSY-16-01","status":"experimental_structured_candidate_source_complete",
+      "structuredKnowledge":{
+        "coreConcepts":[
+          "Offender profiling uses behavioural and contextual evidence to infer useful characteristics or patterns relevant to an unknown offender.",
+          "A typology-led profiling route starts from pre-existing categories such as organised/disorganised patterns and asks how well the case fits them.",
+          "A data-driven route builds inferences from observed crime features, behavioural consistency across offences and empirical patterns rather than beginning with a fixed offender category.",
+          "Geographical profiling uses spatial patterns in offence locations to estimate an offender's likely activity base or movement pattern.",
+          "Profiling methods are probabilistic investigative aids, not deterministic diagnoses; empirical support and limitations must be evaluated."
+        ],
+        "alignmentNote":"Revision maps the AQA top-down label to typology-led profiling and the bottom-up label to data-driven investigative/geographical methods. The labels are alignment facts; the explanations are independently structured from OPEN evidence."
+      },
+      "sources":["https://doi.org/10.1007/s11896-025-09776-0","https://doi.org/10.1002/jip.1531","https://doi.org/10.1007/s11896-023-09596-0"]
+    },
+    {
+      "requirementId":"PSY-16-02","status":"experimental_structured_candidate_source_complete",
+      "structuredKnowledge":{
+        "coreConcepts":[
+          "Antisocial and criminal behaviour can show measurable genetic influence, but genetic effects are probabilistic rather than deterministic.",
+          "Genetic vulnerability operates alongside environmental exposure and developmental context; gene-environment interaction is therefore central to responsible interpretation.",
+          "Neurobiological research examines brain structure/function and related biological systems associated with antisocial behaviour.",
+          "Biological findings describe risk and association, not an inevitable pathway from biology to offending."
+        ]
+      },
+      "sources":["https://doi.org/10.1177/0956797617744542","https://doi.org/10.1186/s40163-015-0018-5","https://doi.org/10.1016/j.tics.2023.08.013"]
+    },
+    {
+      "requirementId":"PSY-16-03","status":"experimental_structured_candidate_source_complete",
+      "structuredKnowledge":{
+        "coreConcepts":[
+          "Personality-based explanations link enduring traits to differences in offending risk; Eysenck-style accounts are one historically influential example.",
+          "Differential association treats criminal behaviour as learned through interaction with others, including exposure to definitions and norms favourable to offending.",
+          "Cognitive explanations examine characteristic ways of interpreting and justifying events, including hostile attribution bias and offence-supportive distortions.",
+          "Minimisation and justification can reduce perceived responsibility or harm and form part of offence-supportive cognition.",
+          "Moral reasoning accounts examine how judgments about right, wrong, harm and responsibility may relate to offending behaviour."
+        ],
+        "caution":"These are competing/complementary explanations. The Foundation should not collapse personality, learning and cognition into one causal model."
+      },
+      "sources":["https://openoregon.pressbooks.pub/criminologyintro1e/chapter/4-4-crime-in-the-mind/","https://openoregon.pressbooks.pub/criminologyintro1e/chapter/6-2-crime-as-learned-behavior/","https://doi.org/10.3389/fpsyg.2016.00795","https://doi.org/10.1002/ab.21908","https://doi.org/10.5204/ijcjsd.3770"]
+    },
+    {
+      "requirementId":"PSY-16-04","status":"experimental_structured_candidate_with_rights_residual",
+      "structuredKnowledge":{
+        "coreConcepts":[
+          "Custodial sentencing can serve punishment and public-protection purposes while also creating psychological and social consequences for imprisoned people.",
+          "Rehabilitation aims to reduce future offending by changing behaviour, skills, cognition or social functioning rather than relying on punishment alone.",
+          "Anger-management interventions target recognition and regulation of anger-related responses associated with aggressive behaviour.",
+          "Restorative justice focuses on harm, responsibility, victim-offender processes and repair, with outcomes evaluated in relation to both participants and reoffending."
+        ],
+        "rightsResidual":[
+          "Behaviour modification/token economy in a custodial/forensic setting: highly relevant 2026 open-access evidence exists, but the exact Creative Commons licence flavour has not been verified as commercially compatible and is therefore not yet reusable corpus evidence."
+        ]
+      },
+      "sources":["https://openwa.pressbooks.pub/crimjust1/","https://doi.org/10.5964/ejop.3995","https://doi.org/10.32388/D1SDI8","https://doi.org/10.3389/fpsyg.2023.1162286","https://doi.org/10.3389/fpsyg.2021.812629"],
+      "uncountedLead":"https://doi.org/10.1108/JFP-11-2024-0069"
+    }
+  ],
+  "sliceMetrics":{
+    "namedRequirements":4,
+    "sourceCompleteCandidates":3,
+    "requirementsWithRightsResidual":1,
+    "wholeTopicGenerationRequired":0,
+    "paidProviderSpendGbp":0,
+    "paidSourceSpendGbp":0,
+    "aiCreatedUnsupportedSubjectTruthPercent":0,
+    "aiAssistedTransformation":true,
+    "sourceFragmentation":"high relative to Social influence",
+    "manualInterventions":["targeted multi-source search", "licence checking", "alignment-label separation", "reconciliation of psychological and criminal-justice sources", "explicit retention of unverified token-economy rights residual"]
+  },
+  "prototypeLearning":{
+    "works":[
+      "A specialist option can still be represented compactly even when evidence comes from many sources rather than one textbook.",
+      "Source fragmentation increases search/provenance work but does not necessarily require original subject research.",
+      "A narrow rights residual can remain explicit without blocking transformation of the rest of the topic."
+    ],
+    "constraint":"The manual effort of finding, licensing and reconciling fragmented specialist sources is now the clearest scalability risk.",
+    "nextStep":"Treat source discovery, licence classification and requirement-to-source mapping as the principal automation opportunity. Keep the token-economy and Prochaska items as explicit unresolved residuals until a commercial-compatible route is established or a deliberate original-content decision is made."
+  }
+}
