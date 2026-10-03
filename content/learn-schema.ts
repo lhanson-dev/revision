@@ -86,6 +86,30 @@ const recapBlockSchema = z.object({
   items: z.array(z.string().min(1)).min(1),
 })
 
+/**
+ * Quick check: an unscored check inside a Learn page (decisions file section 6).
+ * It is teaching, not evidence: it never changes status, Topics covered or readiness, and the student may try again.
+ * The explanation says why the right answer is right and is shown for right and wrong answers alike.
+ */
+const quickCheckBlockSchema = z.object({
+  type: z.literal('quick-check'),
+  question: z.string().min(1),
+  options: z.array(z.object({
+    id: slugSchema,
+    text: z.string().min(1),
+  })).min(2).max(6),
+  correctOptionId: slugSchema,
+  explanation: z.string().min(1),
+}).superRefine((block, ctx) => {
+  const ids = block.options.map((option) => option.id)
+  if (new Set(ids).size !== ids.length) {
+    ctx.addIssue({ code: 'custom', path: ['options'], message: 'Quick check option ids must be unique.' })
+  }
+  if (!ids.includes(block.correctOptionId)) {
+    ctx.addIssue({ code: 'custom', path: ['correctOptionId'], message: 'correctOptionId must be the id of one of the options.' })
+  }
+})
+
 export const learnBlockSchema = z.discriminatedUnion('type', [
   explanationBlockSchema,
   keyIdeaBlockSchema,
@@ -95,6 +119,7 @@ export const learnBlockSchema = z.discriminatedUnion('type', [
   comparisonBlockSchema,
   quantitativeBlockSchema,
   misconceptionBlockSchema,
+  quickCheckBlockSchema,
   recapBlockSchema,
 ])
 
