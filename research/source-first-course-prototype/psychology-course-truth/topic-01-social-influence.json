@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 1,
+  "topic": "Social influence",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-01-01",
+      "boardAlignment": {
+        "summary": "Conformity types and explanations, including majority variables affecting conformity.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Conformity is a change in behaviour or expressed judgement in response to real or perceived group pressure.",
+          "Compliance is an outward response to a request or social pressure and does not necessarily imply private agreement.",
+          "Internalisation involves adopting a norm or position from an internal motive rather than merely responding to external monitoring or sanction.",
+          "Normative social influence reflects concern with social approval or rejection, while informational social influence reflects reliance on others as evidence about what is correct, especially under uncertainty."
+        ],
+        "modelsResearchAndRelationships": [
+          "Asch-style conformity varies with majority size and unanimity; a dissenter can sharply reduce conformity.",
+          "More difficult or ambiguous judgement tasks tend to increase informational dependence and can increase conformity."
+        ],
+        "evaluationAndLimits": [
+          "Conformity is context-sensitive; majority structure, ambiguity and social motives alter the probability of conforming rather than determining behaviour in every case."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Compliance should not be treated as evidence that a person privately accepts the majority position.",
+          "Normative and informational influence are explanatory mechanisms and can operate together rather than being mutually exclusive categories."
+        ],
+        "dependencies": ["social norms", "social approval", "uncertainty", "group unanimity"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["conformity", "compliance", "normative social influence", "informational social influence", "majority size", "unanimity and dissent"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2023.1153809",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["norm internalisation", "internal versus externally enforced norm-following"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2020.02254",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["task difficulty and ambiguity", "informational influence", "conformity"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The board-specific grouping of conformity types, explanations and Asch variables is treated as alignment; the explanatory prose is independently structured from open evidence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-01-02",
+      "boardAlignment": {
+        "summary": "Obedience explanations and situational/dispositional variables, including Milgram-related evidence.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Obedience involves following a direct instruction or command from a person perceived to hold authority.",
+          "The agentic-state account proposes that people may define themselves as carrying out an authority's wishes rather than acting fully autonomously, reducing experienced personal responsibility.",
+          "Legitimacy of authority concerns whether an authority is perceived as proper and entitled to influence behaviour.",
+          "Uniforms and other authority-linked symbols can act as status and authority cues."
+        ],
+        "modelsResearchAndRelationships": [
+          "Milgram's obedience studies show that ordinary participants can follow authority instructions even when the instructed action appears harmful.",
+          "Situational conditions alter obedience: proximity to the learner and the perceived authority/status of the setting affect compliance with instructions.",
+          "Authoritarian-disposition accounts emphasise submission to established leaders, aggression toward norm violators and conventionalism as traits or attitudes relevant to obedience."
+        ],
+        "evaluationAndLimits": [
+          "Modern evidence gives reasons not to treat the agentic-state account as a complete explanation of obedience.",
+          "Authoritarianism should not be treated as a fixed or sufficient cause; situational and contextual influences remain important."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Obedience is not synonymous with conformity: obedience is organised around a direct authority instruction rather than majority pressure alone.",
+          "A uniform is an authority/status cue, not a guarantee that a person will obey."
+        ],
+        "dependencies": ["authority", "responsibility", "social influence", "personality and attitudes"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Milgram obedience", "proximity/contact", "location/status context"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2025.1613507",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["agentic-state account", "obedience", "qualifications to the account"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.595731",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["perceived legitimacy", "voluntary acceptance of authority"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2017.00062",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["uniform/status/authority cues", "authority-linked compliance evidence"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpos.2022.929991",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["authoritarian submission", "authoritarian aggression", "conventionalism", "context dependence"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact AQA packaging of agentic state, legitimacy, uniform and authoritarian personality is board alignment. Revision keeps the open subject evidence separate and maps it to that alignment."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-01-03",
+      "boardAlignment": {
+        "summary": "Resistance to social influence through social support and locus of control.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Locus of control concerns whether people tend to attribute outcomes mainly to their own actions or to external forces.",
+          "Social support can reduce conformity when another person resists or dissents from the majority."
+        ],
+        "modelsResearchAndRelationships": [
+          "A stronger internal locus of control is associated with lower conformity than a stronger external locus of control in the inspected open evidence, although context matters.",
+          "In Asch-style settings, a dissenter can sharply reduce conformity by breaking unanimity."
+        ],
+        "evaluationAndLimits": [
+          "Locus of control is associated with resistance but should not be treated as a deterministic personality switch; context and the form of social pressure matter."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Social support does not require another person to give the objectively correct answer; breaking unanimity can itself reduce majority pressure.",
+          "Internal locus of control does not mean that a person is immune to social influence."
+        ],
+        "dependencies": ["conformity", "unanimity", "individual differences"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/learning-approaches/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["internal locus of control", "external locus of control"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2026.1704912",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["internal locus of control associated with lower conformity", "external locus associated with higher conformity", "contextual qualification"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/conformity-compliance-and-obedience/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["dissenter/social support breaks unanimity", "reduced conformity"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The relationship between social support and locus of control as two routes to resistance is Revision-authored synthesis of independently supported mechanisms."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-01-04",
+      "boardAlignment": {
+        "summary": "Minority influence through consistency, commitment and flexibility.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Minority influence concerns how a smaller or initially less dominant position can affect majority judgements, attitudes or behaviour.",
+          "Consistency over time and internal agreement make a minority position appear stable and deliberate.",
+          "Commitment or investment in a position can signal that the minority view is sincerely held rather than opportunistic.",
+          "Some openness and flexibility can make a minority more persuasive while preserving a coherent position."
+        ],
+        "modelsResearchAndRelationships": [
+          "Minority influence depends strongly on behavioural style rather than simply the numerical size of the minority.",
+          "Consistency that becomes inflexible rigidity can weaken influence, making the interaction between consistency and flexibility important."
+        ],
+        "evaluationAndLimits": [
+          "Consistency, commitment and flexibility should be treated as interacting influence conditions rather than guaranteed causes of conversion."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A minority is not influential merely because it remains unchanged; rigid repetition can reduce persuasiveness.",
+          "Commitment is evidence about behavioural style, not proof that the minority position is correct."
+        ],
+        "dependencies": ["conformity", "group influence", "persuasion"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.911654",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["temporal consistency", "internal consensus", "investment/commitment", "open-mindedness/flexibility"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 4,
+    "courseTruthReady": 4,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInput": "../AQA-PSYCHOLOGY-7182-FOUNDATION-SLICE-SOCIAL-INFLUENCE.json",
+    "transformation": "Reused existing source-complete structured knowledge and expanded it into the Course Truth field structure without adding unsupported subject claims."
+  }
+}

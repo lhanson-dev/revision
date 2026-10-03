@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-03",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 4,
+  "topic": "Clinical Psychology and Mental Health",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-04-01",
+      "boardAlignment": {
+        "summary": "Alternative definitions of mental health or abnormality, including positive-health, social/cultural, functional and statistical standards.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Statistical infrequency defines a characteristic as unusual when it occurs relatively rarely in a population distribution.",
+          "Deviation from social or cultural norms considers whether behaviour breaches expectations or conventions that operate in a relevant social context.",
+          "Failure to function adequately focuses on clinically meaningful dysfunction, distress or difficulty meeting important everyday demands.",
+          "Deviation from ideal mental health evaluates functioning against positive criteria rather than only the presence of symptoms or unusual behaviour.",
+          "Jahoda's positive-mental-health framework includes positive attitudes toward the self, growth and self-actualisation, integration, autonomy, realistic perception and environmental mastery."
+        ],
+        "modelsResearchAndRelationships": [
+          "The four definition families ask different questions: how unusual a characteristic is, how it relates to social expectations, whether it disrupts functioning, and how far functioning falls short of a positive ideal.",
+          "A positive-health standard makes clear that mental health is not simply the absence of diagnosed disorder."
+        ],
+        "evaluationAndLimits": [
+          "Statistical rarity is not sufficient for disorder because unusual characteristics can be neutral or desirable.",
+          "Social norms differ across cultures, groups and historical periods, creating a risk that norm deviation is confused with pathology.",
+          "Functional impairment is context-dependent and may coexist with periods of apparently effective performance.",
+          "Ideal-mental-health criteria are useful positive standards but can be demanding enough that psychologically healthy people fail to meet every criterion at all times."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Being statistically unusual does not automatically mean being mentally unwell.",
+          "Breaking a social convention is not, by itself, evidence of a psychological disorder.",
+          "Positive mental health and mental illness should not be treated as exact opposites on one simple scale."
+        ],
+        "dependencies": [
+          "culture",
+          "functioning and distress",
+          "population distributions",
+          "positive psychological functioning"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/01%3A_Understanding_Abnormal_Behavior/1.03%3A_What_Are_Mental_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "statistical infrequency/deviance",
+            "social and cultural norms",
+            "dysfunction and impairment"
+          ]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_%28Lumen%29/06%3A_Case_Studies_of_Fictional_Characters/6.19%3A_The_Nature_of_Mental_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "statistical deviance",
+            "norm-based definitions",
+            "dysfunction and contextual limitations"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.758623",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "Jahoda positive mental health",
+            "positive attitudes toward self",
+            "growth and self-actualisation",
+            "integration",
+            "autonomy",
+            "perception of reality",
+            "environmental mastery"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision presents the four definitions as complementary lenses rather than competing diagnostic tests, preserving the limitations of each."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-04-02",
+      "boardAlignment": {
+        "summary": "Behavioural, emotional and cognitive characteristics of phobias, depression and obsessive-compulsive disorder.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "A specific phobia involves marked fear or anxiety linked to a particular object or situation, commonly accompanied by avoidance or endurance with intense distress.",
+          "Depressive disorders involve persistent low mood and/or loss of interest or pleasure together with changes that can affect thinking, motivation, activity, sleep, appetite and everyday functioning.",
+          "Obsessive-compulsive disorder involves recurrent intrusive obsessions and/or compulsions performed to reduce distress or prevent feared outcomes, often at significant cost to time and functioning."
+        ],
+        "modelsResearchAndRelationships": [
+          "Phobias can be organised educationally into behavioural features such as avoidance, emotional features such as intense fear/anxiety, and cognitive features such as threat-focused beliefs or expectations.",
+          "Depression can be organised into behavioural changes such as reduced activity or disrupted routines, emotional features such as persistent sadness or loss of pleasure, and cognitive features such as hopelessness, self-critical thinking or concentration difficulty.",
+          "OCD can be organised into behavioural compulsions, emotional distress/anxiety and cognitive obsessions or threat-related interpretations."
+        ],
+        "evaluationAndLimits": [
+          "Behavioural, emotional and cognitive categories are a teaching structure; real symptoms interact and do not occur in identical combinations for every person.",
+          "A characteristic should not be treated as diagnostic in isolation. Clinical assessment considers pattern, severity, duration, distress, impairment and alternative explanations."
+        ],
+        "misconceptionsAndBoundaries": [
+          "OCD is not simply a preference for order or cleanliness; obsessions and compulsions are distressing, difficult to control and/or impairing.",
+          "Depression is not equivalent to ordinary short-lived sadness.",
+          "Phobic avoidance can reduce short-term distress while contributing to longer-term persistence of fear."
+        ],
+        "dependencies": [
+          "clinical impairment",
+          "anxiety and fear",
+          "mood",
+          "obsessions and compulsions"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/anxiety-disorders/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "phobia symptoms",
+            "fear/anxiety",
+            "avoidance"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/mood-disorders/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "depression symptoms",
+            "mood and cognitive changes",
+            "functional effects"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/obsessive-compulsive-and-related-disorders/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "obsessions",
+            "compulsions",
+            "OCD distress and impairment"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "The behavioural/emotional/cognitive grouping is exact-course alignment applied to source-supported clinical characteristics; it is not asserted as a separate diagnostic taxonomy."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-04-03",
+      "boardAlignment": {
+        "summary": "Behavioural explanation and treatment of phobias through conditioning, systematic desensitisation and flooding.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The two-process model separates acquisition of fear through classical conditioning from maintenance through operant reinforcement of avoidance or escape.",
+          "Classical conditioning can give a previously neutral cue fear-evoking properties when it becomes associated with an aversive event.",
+          "Avoidance can be negatively reinforced because escaping or avoiding the feared cue reduces anxiety in the short term, increasing the likelihood of future avoidance.",
+          "Systematic desensitisation is graduated exposure through a fear hierarchy, traditionally combined with relaxation or counterconditioning.",
+          "Flooding is prolonged exposure to a highly feared stimulus or situation without the gradual progression characteristic of systematic desensitisation."
+        ],
+        "modelsResearchAndRelationships": [
+          "Avoidance can maintain phobic fear by preventing or limiting corrective experience with the feared stimulus.",
+          "Exposure-based treatment repeatedly confronts feared cues without the expected harmful outcome, allowing fear responses and threat expectancies to change.",
+          "Systematic desensitisation typically progresses from lower- to higher-anxiety items; flooding begins at a high level of feared exposure and is maintained long enough for distress and/or threat learning to change."
+        ],
+        "evaluationAndLimits": [
+          "Conditioning mechanisms explain important routes to phobia but are not sufficient to explain every case; biological preparedness, cognition, modelling and information transfer can also contribute.",
+          "Exposure therapy is effective overall, but treatment outcome and mechanism are not guaranteed or identical across clients.",
+          "Modern exposure accounts include extinction, inhibitory learning, expectancy change and avoidance reduction rather than assuming that fear is simply erased."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Negative reinforcement increases avoidance because relief follows it; it is not punishment.",
+          "Systematic desensitisation and flooding are both exposure-based but differ materially in graded versus high-intensity delivery.",
+          "Successful exposure creates new learning and need not delete the original fear association completely."
+        ],
+        "dependencies": [
+          "classical conditioning",
+          "operant conditioning",
+          "negative reinforcement",
+          "extinction and inhibitory learning"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "classical conditioning",
+            "conditioned fear mechanism"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "operant conditioning",
+            "negative reinforcement"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "exposure-based treatment",
+            "systematic desensitisation",
+            "relaxation",
+            "graded anxiety-provoking stimuli"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.1002/pan3.10514",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "conditioning contributions to phobia",
+            "avoidance/escape maintenance",
+            "systematic desensitisation",
+            "flooding as high-intensity prolonged exposure",
+            "habituation/extinction/inhibitory-learning qualifications"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact 'two-process model' packaging is board alignment. Revision derives its acquisition/maintenance explanation from independently supported conditioning and avoidance mechanisms."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-04-04",
+      "boardAlignment": {
+        "summary": "Cognitive explanations and treatment of depression, including Beck, Ellis and cognitive behavioural therapy.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Cognitive explanations of depression focus on persistent maladaptive patterns of interpretation, belief and attention that can contribute to depressed mood and behaviour.",
+          "Beck's cognitive account emphasises a negative pattern of beliefs about the self, the world or current experience, and the future.",
+          "Ellis's ABC framework distinguishes an activating event, the beliefs through which the event is interpreted, and emotional or behavioural consequences.",
+          "Cognitive behavioural therapy aims to identify and test unhelpful beliefs and thinking patterns while developing more adaptive cognitive and behavioural responses."
+        ],
+        "modelsResearchAndRelationships": [
+          "The same event can have different emotional consequences depending partly on how it is interpreted.",
+          "CBT uses collaborative examination of thoughts and assumptions rather than treating every negative thought as fact.",
+          "Behavioural change can be used alongside cognitive restructuring because activity, avoidance, reinforcement and thought patterns interact."
+        ],
+        "evaluationAndLimits": [
+          "Cognitive vulnerability can contribute to depression without being its sole cause; biological, social and environmental influences also matter.",
+          "The effectiveness of CBT is consistent with cognitive and behavioural mechanisms being clinically useful targets, but treatment success alone does not prove that one cognitive model completely explains the origin of depression."
+        ],
+        "misconceptionsAndBoundaries": [
+          "CBT is not simply 'thinking positively'; it involves identifying, evaluating and testing specific thoughts, beliefs and behaviour patterns.",
+          "An activating event does not mechanically produce one emotional consequence independent of interpretation and context."
+        ],
+        "dependencies": [
+          "cognition",
+          "beliefs and schemas",
+          "depression symptoms",
+          "behavioural activation and coping"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/mood-disorders/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "depression",
+            "Beck negative cognitive pattern",
+            "cognitive vulnerability"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "cognitive therapy/CBT",
+            "challenging dysfunctional or irrational thoughts",
+            "cognitive and behavioural treatment components"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact Beck/Ellis/CBT grouping follows course alignment; Revision independently phrases the cognitive mechanism and maintains a multifactorial causation caution."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-04-05",
+      "boardAlignment": {
+        "summary": "Biological explanations and drug treatment of obsessive-compulsive disorder, including genetic and neural accounts.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Biological accounts of OCD examine inherited vulnerability and differences in neural systems involved in repetitive behaviour, threat monitoring and cognitive control.",
+          "Genetic risk is polygenic and probabilistic: multiple genetic variants can contribute small effects, interacting with environmental and developmental factors rather than determining OCD by themselves.",
+          "Neural explanations focus on atypical functioning within interacting brain circuits and neurotransmitter systems rather than one single defective brain area.",
+          "Drug treatments such as selective serotonin reuptake inhibitors alter serotonin signalling and can reduce OCD symptoms for many patients."
+        ],
+        "modelsResearchAndRelationships": [
+          "Family and genetic evidence supports an inherited component to OCD vulnerability, while incomplete concordance is consistent with non-genetic influences also mattering.",
+          "Circuit and neurotransmitter findings provide biological mechanisms that can be investigated alongside psychological explanations.",
+          "Medication can be used alone or alongside psychological therapy depending on clinical need and response."
+        ],
+        "evaluationAndLimits": [
+          "A genetic association is evidence of vulnerability, not inevitability.",
+          "Neural differences observed in OCD may reflect causes, consequences, compensatory changes or combinations of these, so simple causal claims require caution.",
+          "Medication response supports the clinical relevance of neurochemical systems but does not prove that OCD is caused by a single neurotransmitter imbalance."
+        ],
+        "misconceptionsAndBoundaries": [
+          "There is no single 'OCD gene'.",
+          "Serotonin should not be taught as a one-variable explanation of a complex disorder.",
+          "Drug treatment can reduce symptoms without resolving every psychological or environmental contributor."
+        ],
+        "dependencies": [
+          "genes and environment",
+          "neural circuits",
+          "neurotransmission",
+          "OCD symptoms and treatment"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/obsessive-compulsive-and-related-disorders/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "OCD genetic evidence",
+            "neural/circuit explanations",
+            "biological vulnerability"
+          ]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/05%3A_Obsessive_Compulsive_Disorder_and_Stressor_Related_Disorders/5.15%3A_Treatment_for_OCD_and_Related_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "drug therapy",
+            "serotonin-reuptake approaches",
+            "OCD treatment context"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision uses probabilistic language for genes and neural mechanisms so the exact course can cover biological explanations without converting associations into deterministic claims."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 5,
+    "courseTruthReady": 5,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInputs": [
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE.json",
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-03.json"
+    ],
+    "targetedContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-09.md",
+    "transformation": "Reused the accepted abnormal-psychology corpus, added narrowly targeted CC BY evidence for Jahoda's positive-health criteria and flooding/two-process depth, and kept clinical explanations probabilistic rather than deterministic."
+  }
+}

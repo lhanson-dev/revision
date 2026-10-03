@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_in_progress",
+  "checkedDate": "2026-10-03",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "authority": {
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md",
+    "scope": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-SCOPE.json"
+  },
+  "sourceReviewBaseline": {
+    "namedRequirements": 118,
+    "requirementsWithSomeReusableSourceSupport": 118,
+    "coveredCandidates": 70,
+    "partial": 48,
+    "gap": 0,
+    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 10. It is diagnostic evidence, not Course Truth completion."
+  },
+  "courseTruthProgress": {
+    "namedRequirements": 118,
+    "courseTruthReadyRequirements": 35,
+    "remainingRequirements": 83,
+    "courseTruthReadyPercent": 29.7,
+    "materialSubjectTruthGapsKnown": 0,
+    "materialRightsBlockersKnown": 0,
+    "learnerAssetReady": false,
+    "courseTruthComplete": false
+  },
+  "topicShards": [
+    {"topicNumber":1,"topic":"Social influence","path":"topic-01-social-influence.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":2,"topic":"Memory","path":"topic-02-memory.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":3,"topic":"Attachment","path":"topic-03-attachment.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
+    {"topicNumber":4,"topic":"Clinical Psychology and Mental Health","path":"topic-04-clinical-psychology-and-mental-health.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
+    {"topicNumber":5,"topic":"Approaches in Psychology","path":"topic-05-approaches-in-psychology.json","namedRequirements":7,"courseTruthReady":7,"status":"topic_complete_candidate"},
+    {"topicNumber":16,"topic":"Forensic Psychology","path":"topic-16-forensic-psychology.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":17,"topic":"Addiction","path":"topic-17-addiction.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"}
+  ],
+  "economics": {
+    "paidSourceLicenceSpendGbp": 0,
+    "paidProviderSpendGbpRecordedForContinuationClosures": 0,
+    "activeWorkingTime": "not yet instrumented reliably enough to report as a numeric value",
+    "wallClockMeasurement": "continuation began 2026-10-02; completion timestamp pending"
+  },
+  "nextWork": {
+    "priority": "Complete remaining Course Truth requirements by reusing predecessor evidence and closing depth-specific partials without regenerating already-supported subject truth.",
+    "remainingPartialSourceReviewCases": 48,
+    "rule": "Source-supported does not equal Course Truth ready. Each requirement must meet the working readiness contract in README.md."
+  },
+  "publicationBoundary": "Experimental only. No learner-facing publication, restricted-pilot approval or production foundation approval is implied by this manifest."
+}
