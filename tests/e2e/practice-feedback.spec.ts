@@ -117,6 +117,8 @@ test('Practice feedback bar explains why, uses teal for right and coral for wron
   for (; answers < 8 && !missedPrompt; answers += 1) {
     const prompt = (await page.locator('.pw-question legend').textContent()) ?? ''
     await answerOption(page, 0)
+    // Wait for the feedback bar before deciding right or wrong; isVisible() does not wait and raced the render.
+    await expect(page.locator('.ui-feedback-bar')).toBeVisible()
     const wrong = page.getByText('Not quite', { exact: true })
     if (await wrong.isVisible()) {
       missedPrompt = prompt
