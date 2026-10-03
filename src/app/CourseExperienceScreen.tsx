@@ -315,8 +315,8 @@ export function CourseExperienceScreen({
             covered={state.evidencedTopics}
             total={state.topicCount}
             understanding={understanding}
-            readiness={state.readiness.score === null ? null : `${state.readiness.score}%`}
-            readinessNote={state.readiness.score === null ? state.readiness.progress.nextStep : `Worked out from ${state.readiness.evidenceCount} scored attempts across ${state.readiness.familyCount} kinds of activity. Confidence: ${state.readiness.confidence}.`}
+            readiness={readinessFor(state).value}
+            readinessNote={readinessFor(state).note}
           />
 
           <div className="course-overview-columns">
