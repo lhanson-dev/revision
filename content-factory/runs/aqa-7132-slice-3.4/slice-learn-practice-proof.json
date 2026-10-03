@@ -1,9 +1,9 @@
 {
-  "schema_version": 1,
-  "artifact_type": "aqa_7132_slice_learn_practice_fast_path",
-  "recorded_at": "2026-10-01T11:06:12.713Z",
+  "schema_version": 2,
+  "artifact_type": "aqa_7132_slice_learn_practice_fast_path_resume",
+  "recorded_at": "2026-10-03T07:31:16.381Z",
   "slice": "3.4",
-  "reviewed_commit": "28e006ae1512d1e329a4c92c5714272359b3369f",
+  "reviewed_commit": "8e7f881f237e20a0a424476b6d093a1741b89005",
   "checklist": {
     "stage": "aqa-7132-slice-learn-practice",
     "version": "slice-learn-practice-v1",
@@ -34,6 +34,21 @@
   "summary": {
     "nodes": 11,
     "accepted": 11,
+    "reused_unchanged": [
+      "bus-ops-002",
+      "bus-ops-003",
+      "bus-ops-004",
+      "bus-ops-005",
+      "bus-ops-006",
+      "bus-ops-007",
+      "bus-ops-008",
+      "bus-ops-009",
+      "bus-peo-001",
+      "bus-str-008"
+    ],
+    "regenerated_or_reviewed": [
+      "bus-ops-001"
+    ],
     "blocking": [],
     "escalated": [],
     "failed": [],
@@ -41,7 +56,7 @@
   },
   "provider_budget": {
     "maxSpendUsd": 6,
-    "conservativeConsumedUsd": 0.60386
+    "conservativeConsumedUsd": 0.093856
   },
   "gates": {
     "ai_assured_nodes": true,
