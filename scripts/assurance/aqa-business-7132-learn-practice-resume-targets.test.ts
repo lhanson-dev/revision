@@ -11,7 +11,7 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 import type { Ledger } from '../../src/content-factory/fast-path-review'
 
 describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
-  it('proves the retained targeted refresh assets are exact-fingerprint reusable', async () => {
+  it('proves the retained targeted refresh assets are exact-fingerprint reusable except for current changed dependants', async () => {
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     const teachingFor = (nodeId: string): SliceTeaching => {
@@ -30,7 +30,7 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     const cases = [
       {
         batch: '3.1-3.2',
-        stale: [],
+        stale: ['bus-fnd-009'],
       },
       {
         batch: '3.4',
