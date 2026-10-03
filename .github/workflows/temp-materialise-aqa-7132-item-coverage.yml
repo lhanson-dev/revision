@@ -1,0 +1,44 @@
+name: Temporary materialise AQA 7132 item coverage
+
+on:
+  push:
+    branches:
+      - fix/aqa-7132-final-question-blockers
+    paths:
+      - '.github/workflows/temp-materialise-aqa-7132-item-coverage.yml'
+      - 'research/business-subject-foundation/v0.8-t8-remediation/QUESTION_ESCALATION_FIXES.json'
+      - 'research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json'
+
+permissions:
+  contents: write
+
+jobs:
+  materialise:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v6
+        with:
+          ref: fix/aqa-7132-final-question-blockers
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.0
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Materialise exact item coverage report
+        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
+      - name: Commit generated report when changed
+        run: |
+          if git diff --quiet -- research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json; then
+            echo 'Coverage report already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json
+          git commit -m 'Refresh AQA 7132 item coverage evidence'
+          git push origin HEAD:fix/aqa-7132-final-question-blockers
