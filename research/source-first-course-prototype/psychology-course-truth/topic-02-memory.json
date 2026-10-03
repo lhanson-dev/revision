@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-03",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 2,
+  "topic": "Memory",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-02-01",
+      "boardAlignment": {
+        "summary": "Multi-store memory model, including the main stores and how their coding, capacity and duration differ.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The multi-store model distinguishes sensory memory, short-term memory and long-term memory as functionally different stages or stores in memory processing.",
+          "Sensory memory briefly retains incoming sensory information; attended information can enter short-term memory, and information that is encoded and retained can contribute to long-term memory.",
+          "Short-term memory has limited capacity and relatively brief duration without active maintenance, whereas long-term memory can retain information over much longer periods and has a much larger practical capacity.",
+          "Coding refers to the form in which information is represented. Different memory systems can show different coding tendencies, so coding, capacity and duration are distinct properties rather than interchangeable labels."
+        ],
+        "modelsResearchAndRelationships": [
+          "The Atkinson-Shiffrin framework is useful for separating broad memory functions and information flow between sensory, short-term and long-term memory.",
+          "Later memory research, including working-memory accounts, shows that short-term processing is more differentiated than a single undivided temporary store."
+        ],
+        "evaluationAndLimits": [
+          "The multi-store model is a simplified functional model rather than a literal map of three physical boxes in the brain.",
+          "The distinction between memory systems remains useful, but later evidence supports multiple forms of long-term memory and multiple components within working memory."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Information does not automatically pass through every store into long-term memory; attention, encoding and retrieval conditions matter.",
+          "Long-term memory should not be described as perfectly permanent or error-free simply because its duration and capacity are much greater than short-term memory."
+        ],
+        "dependencies": [
+          "attention",
+          "encoding",
+          "retrieval",
+          "working memory"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/how-memory-functions/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Atkinson-Shiffrin model",
+            "sensory memory",
+            "short-term memory",
+            "long-term memory",
+            "encoding",
+            "capacity and duration distinctions"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "The board-specific requirement to compare coding, capacity and duration is alignment; the explanatory structure is independently authored from the open memory source."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-02-02",
+      "boardAlignment": {
+        "summary": "Working-memory model, including the central executive, phonological loop, visuospatial sketchpad and episodic buffer.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Working memory is a limited-capacity system for temporarily holding and manipulating information needed for ongoing tasks.",
+          "The central executive coordinates attention and allocates processing between working-memory components rather than acting as a large storage system.",
+          "The phonological loop supports temporary processing of speech-based and auditory-verbal information.",
+          "The visuospatial sketchpad supports temporary processing of visual and spatial information.",
+          "The episodic buffer provides a limited-capacity interface that can integrate information from different working-memory components and long-term memory into coherent episodes."
+        ],
+        "modelsResearchAndRelationships": [
+          "Baddeley and Hitch's working-memory model replaced the idea of one undifferentiated short-term store with interacting components that can support partly separate tasks.",
+          "Dual-task findings and selective impairments are consistent with the idea that verbal and visuospatial processing can draw on partly distinct working-memory resources."
+        ],
+        "evaluationAndLimits": [
+          "The component model explains why some simultaneous tasks interfere strongly while others interfere less, but the central executive is a broad control concept whose exact mechanisms are more difficult to specify.",
+          "Working-memory capacity is limited, but it should not be reduced to one fixed number that applies identically to every component, task and individual."
+        ],
+        "misconceptionsAndBoundaries": [
+          "The phonological loop is not simply 'short-term memory'; it is one specialised component within a wider working-memory system.",
+          "The episodic buffer is not a permanent store; it temporarily binds information and links working memory with long-term memory."
+        ],
+        "dependencies": [
+          "attention",
+          "short-term memory",
+          "long-term memory",
+          "encoding"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/how-memory-functions/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "Baddeley and Hitch working-memory model",
+            "central executive",
+            "phonological loop",
+            "visuospatial sketchpad",
+            "episodic buffer",
+            "limited capacity"
+          ]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/how-memory-functions/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "working memory",
+            "short-term processing",
+            "memory-system relationships"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision keeps the exact component list as course alignment while using open psychology sources for the independently phrased functional explanation."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-02-03",
+      "boardAlignment": {
+        "summary": "Forgetting through interference and retrieval failure when appropriate cues are absent or ineffective.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Proactive interference occurs when older learning disrupts the retrieval or learning of newer information.",
+          "Retroactive interference occurs when newer learning disrupts retrieval of older information.",
+          "Retrieval failure occurs when stored information is not successfully accessed because available retrieval cues do not sufficiently match or distinguish the target memory.",
+          "Encoding specificity describes the principle that retrieval is more effective when cues or contextual features available at recall overlap meaningfully with those present when the memory was encoded."
+        ],
+        "modelsResearchAndRelationships": [
+          "Interference is most likely when competing memories are similar enough to create confusion or competition.",
+          "Context and other retrieval cues can improve access to a memory when they recreate diagnostically useful features of the original encoding conditions.",
+          "Cue effectiveness depends on cue-target overlap and distinctiveness; merely presenting any cue does not guarantee successful recall."
+        ],
+        "evaluationAndLimits": [
+          "A retrieval failure should not automatically be interpreted as evidence that the memory trace has been erased; information can remain stored yet temporarily inaccessible.",
+          "Context-dependent recall is a conditional effect rather than a universal rule. Encoding-retrieval match can help, but matching nominal context does not guarantee functional retrieval."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Proactive and retroactive interference differ in the direction of disruption: old-on-new versus new-on-old.",
+          "Cue-dependent forgetting does not mean that every forgotten item will return if the original physical setting is recreated."
+        ],
+        "dependencies": [
+          "encoding",
+          "retrieval",
+          "long-term memory",
+          "context",
+          "competition between memories"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/problems-with-memory/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "proactive interference",
+            "retroactive interference",
+            "retrieval failure"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.5964/ejop.v15i3.1767",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "encoding-specificity principle",
+            "better recall under congruent encoding and retrieval conditions",
+            "limits across contexts"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2017.01830",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "encoding-retrieval specificity",
+            "retrieval cues",
+            "cue-target match",
+            "cue distinctiveness",
+            "mental reinstatement of context"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision combines independently supported interference and cue-retrieval mechanisms under the exact-course forgetting requirement; no claim that all forgetting shares one mechanism is implied."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-02-04",
+      "boardAlignment": {
+        "summary": "Eyewitness testimony: effects of questioning, post-event discussion and anxiety, plus cognitive-interview techniques.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/introductory-topics-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Eyewitness memory is reconstructive and can be influenced by information encountered after an event.",
+          "Leading questions can alter a witness's report by suggesting details, assumptions or interpretations that were not independently retrieved from the original event.",
+          "Post-event discussion can produce memory conformity when co-witness information is incorporated into, or influences, an individual's later account.",
+          "Stress and anxiety can alter attention and memory formation, but their effects on eyewitness accuracy vary with intensity, timing, task demands and the type of information being remembered.",
+          "The cognitive interview is a structured interviewing approach designed to support fuller, accurate recall while minimising unnecessary interviewer contamination."
+        ],
+        "modelsResearchAndRelationships": [
+          "Co-witness research demonstrates that discussion can transmit errors between witnesses, although collaboration can also sometimes support error correction; the key point is that another person's account can influence later memory reports.",
+          "The four classic cognitive-interview mnemonics are mental reinstatement of context, report everything, recall in a different order and recall from a different perspective.",
+          "Context reinstatement is grounded in encoding-retrieval specificity, and 'report everything' encourages witnesses to provide details they might otherwise omit.",
+          "Repeated cognitive interviewing can elicit additional correct information with relatively little loss of overall accuracy under controlled conditions."
+        ],
+        "evaluationAndLimits": [
+          "The relation between anxiety or acute stress and eyewitness performance is not a simple rule that 'more anxiety always means worse memory'; stress can alter attention and downstream memory in different ways.",
+          "A cognitive interview can improve retrieval but does not guarantee accuracy, and interviewer behaviour, witness characteristics and the particular event can affect statement quality.",
+          "Post-event discussion effects should be distinguished from leading-question effects: both can introduce post-event information, but the social source and mechanism of influence differ."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Confidence in an eyewitness account is not, by itself, proof that every recalled detail is accurate.",
+          "The cognitive interview is not a technique for pressuring a witness to produce more details or to guess when unsure.",
+          "Post-event discussion does not inevitably create false memories; it creates an additional source of information that can influence later reporting."
+        ],
+        "dependencies": [
+          "reconstructive memory",
+          "retrieval cues",
+          "social influence",
+          "attention",
+          "stress"
+        ]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/problems-with-memory/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "eyewitness unreliability",
+            "suggestibility",
+            "leading-question effects",
+            "neutral interviewing principles"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2018.00284",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "co-witness discussion",
+            "memory conformity/social contagion",
+            "error adoption and error-pruning qualifications"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.666724",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "acute stress",
+            "attention",
+            "eyewitness memory distortions",
+            "non-simple stress-memory relationship"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2018.02181",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "four cognitive-interview mnemonics",
+            "interviewer/witness variation",
+            "interview quality"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0076305",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "cognitive interview",
+            "context reinstatement and report-everything use",
+            "additional correct recall across repeated interviews",
+            "accuracy qualification"
+          ]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision separates the exact AQA eyewitness categories from the underlying open evidence and explicitly avoids treating anxiety effects or cognitive-interview benefits as deterministic."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 4,
+    "courseTruthReady": 4,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "primaryHistoricalInputs": [
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE.json",
+      "../AQA-PSYCHOLOGY-7182-COVERAGE-EVIDENCE-BATCH-03.json"
+    ],
+    "targetedContinuationEvidence": "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-07.md",
+    "transformation": "Reused already accepted Memory evidence, added rights-clear targeted sources only for the two documented depth bridges, and transformed the supported knowledge into Course Truth fields without using AQA prose as teaching corpus."
+  }
+}
