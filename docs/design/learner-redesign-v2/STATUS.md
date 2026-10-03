@@ -23,7 +23,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | F10 | Empty states | Per-screen sweep done for a new student with one course and no answers, and for a student with no course: Home plan card says what is missing, readiness says "no answers yet" plainly, Plan leads with its steps (PR 14) | PR 14 | Founder review. Empty states for later features (saved conversations, retry queue across days) arrive with their data | None |
 | F11 | Subject colours and letter marks | Palette tokens, central subject map, letter-mark badge; used on Home course cards (PR 5) | PR 1, PR 5 | Plan blocks, Courses, Progress | Catalogue columns `hue` and `mark` (PR 2 proposal) |
 | F12 | Light, dark or system theme | Tokens for both themes; Appearance control now Light / Dark / System (System default) in Settings | PR 4 | Theme control, saved per student so it is the same on every device, system as default | Saving per student needs the preferences table (PR 2 proposal, agreed; awaiting its approval) |
-| F13 | Quick check (Learn, Not scored) | Quick check component | PR 3, PR 8 | Content schema block (PR 3), Learn wiring (PR 8) | Lee to say go for PR 3 (Content Factory work) |
+| F13 | Quick check (Learn, Not scored) | Quick check component (PR 1); `quick-check` block added to the Learn content schema and drawn on Learn pages (PR 3). No page has one yet | PR 3 | Founder review. Quick-check content for pages is Content Factory work, done page by page through its process | None |
 | F14 | Living E states | Four states, 1.4s thinking loop, text for every state; Living E in the sidebar Ask REV button, the rail and the raised tab-bar control (PR 4) | PR 4, PR 12 | Ask REV states in the conversation (PR 12) | None |
 
 ## Screens
@@ -40,7 +40,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | Progress | `design/progress` | Merged in PR 11 (#498): summary sentence, one next action with reason, three measures, topic statuses | PR 11 | Founder review; predicted grade not built (open item 1) |
 | Ask REV | `design/ask-rev` | Merged in PR 12 (#500) | PR 12 | Model answers, approved-content answers, saved conversations (each needs its own approval) |
 | Sign-in and onboarding | `design/onboarding` | Merged in PR 13 (#501): Level, subjects, exam board, then optional exam dates and weekly study time | PR 13 | "Coming soon" requests (need the requests table) |
-| Empty-state sweep | `design/empty-states` | Draft PR open | PR 14 | Founder review. Doc: `docs/features/empty-states.md` |
+| Empty-state sweep | `design/empty-states` | Merged in PR 14 (#503): Home plan card names what is missing, readiness with no answers says so plainly, Plan leads with its set-up steps | PR 14 | Empty states for features with no data yet come with those features. Doc: `docs/features/empty-states.md` |
 
 ## Phase 1 PRs
 
@@ -48,7 +48,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | --- | --- | --- | --- |
 | PR 1 (#480) | `claude/revision-v2-learner-redesign-3rigil` | Standards, tokens, building blocks, guardrails, docs | Merged, Lee approved |
 | PR 2 (#482) | `docs/learner-v2-data-model` | Data model proposal (plan only, no code) | Merged (#482), Lee approved. Lee agreed all its recommendations on 1 Oct. Each migration it describes is a separate PR needing its own approval |
-| PR 3 | Content Factory | Quick-check block in the Learn content schema | Waiting for Lee to say go |
+| PR 3 | `design/learn-quick-check-schema` | Quick-check block in the Learn content schema (Content Factory change, Lee said go 3 Oct) | Open as a draft |
 | PR 4 (#486) | `design/shell-navigation` | Shell and navigation | Merged, Lee approved |
 | PR 10 | `design/exam-prep` | Exam Prep timed paper: question grid, flag for review, calmer timer | Open as a draft |
 | PR 9 (#496) | `design/practice` | Practice feedback bar and in-session retry | Merged, Lee approved |
@@ -103,4 +103,5 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-02 | Empty-state sweep | Looked at every screen as a brand-new student (one course, no answers) and as a student with no course. Changed only what read badly or was not honest: Home plan card names what is missing (exam dates, then study time) with a 48px button, replacing "A useful next step will appear here"; readiness with no answers says "You haven't answered anything here yet" instead of advice about flashcards; Plan shows its two set-up steps first with the long explanation behind "How does this work?". Screens that were already honest were left alone | Decisions file section 8 (per-screen empty states) and section 9 (honest data) |
 | 2026-10-02 | Visual baselines for PR 14 | Desktop Home and Plan (light and dark) re-pinned after Lee OK'd the before/after pictures ("OK baselines"). Digests are from CI runs 36989259361 and 36990097836, which agree | `CLAUDE.md`: baselines change only after the Founder OKs the pictures, using CI's browser |
 | 2026-10-02 | Accepted sessions in production | Prepared a runbook and read-only before/after checks for applying the `learner_planned_sessions` table to production (`docs/technical/Learner Planned Sessions Production Runbook.md`, `supabase/tests/learner-planned-sessions-verification.sql`). Nothing applied; applying needs Lee's explicit instruction in the chat | Merging a migration does not apply it (`supabase/README.md`); the table is new and empty, so risk is low, and the screens work without it |
+| 2026-10-03 | Learn Quick check block | Lee said go for PR 3. Added an optional `quick-check` block to the Learn content schema (question, 2 to 6 options, correct option, explanation) and drew it on Learn pages with the existing Not scored card. No existing content changed and no page has a quick check yet; the block holds no score or evidence fields | Decisions file section 6; Content Factory change approved there |
 | 2026-10-03 | Ask REV safeguarding text | Lee verified the support names and numbers in the fixed safeguarding text (999, Childline 0800 1111, Shout text SHOUT to 85258) after seeing the exact words: "numbers verified". The phrase screen is still a starting list and still needs testing with the release gate; alerting a parent or school still needs its own safeguarding review | Closes the "unverified numbers" launch item; the other safeguarding items stay open |
