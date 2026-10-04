@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       resume_run_id:
-        description: 'Latest prior live run id to resume. After the first pilot starts, the spend/evidence chain must remain linear.'
+        description: 'Latest prior evidence-bearing live run id to resume. The spend/evidence chain must remain linear.'
         required: false
         default: ''
 
@@ -98,23 +98,32 @@ jobs:
           RESUME_RUN_ID: ${{ inputs.resume_run_id }}
         run: |
           set -euo pipefail
-          latest_prior="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/content-factory-aqa-business-7132-mock-generation.yml/runs?event=workflow_dispatch&branch=main&per_page=20" --jq "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID})] | sort_by(.created_at) | reverse | .[0].id // empty")"
+          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/content-factory-aqa-business-7132-mock-generation.yml/runs?event=workflow_dispatch&branch=main&per_page=20")"
+          mapfile -t prior_runs < <(jq -r "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID})] | sort_by(.created_at) | reverse | .[].id" <<<"$runs")
+          latest_prior=''
+          for run_id in "${prior_runs[@]}"; do
+            artifact_count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts" --jq '[.artifacts[] | select(.name | startswith("content-factory-aqa-business-7132-mock-generation-"))] | length')"
+            if [[ "$artifact_count" -gt 0 ]]; then
+              latest_prior="$run_id"
+              break
+            fi
+          done
           if [[ -z "$latest_prior" ]]; then
             if [[ -n "$RESUME_RUN_ID" ]]; then
-              echo "No prior live dispatch exists, so resume_run_id=${RESUME_RUN_ID} is invalid." >&2
+              echo "No prior evidence-bearing live run exists, so resume_run_id=${RESUME_RUN_ID} is invalid." >&2
               exit 1
             fi
-            echo 'No prior live dispatch exists; this is the first pilot run.'
+            echo 'No prior generation evidence exists; this is the first spend-bearing pilot run.'
           else
             if [[ -z "$RESUME_RUN_ID" ]]; then
-              echo "Prior live run ${latest_prior} exists. Supply that exact run as resume_run_id so the US$8 pilot cap cannot reset." >&2
+              echo "Prior evidence-bearing run ${latest_prior} exists. Supply that exact run as resume_run_id so the US$8 pilot cap cannot reset." >&2
               exit 1
             fi
             if [[ "$RESUME_RUN_ID" != "$latest_prior" ]]; then
-              echo "Resume must continue the latest prior live run ${latest_prior}; ${RESUME_RUN_ID} would fork the spend/evidence chain." >&2
+              echo "Resume must continue latest evidence-bearing run ${latest_prior}; ${RESUME_RUN_ID} would fork the spend/evidence chain." >&2
               exit 1
             fi
-            echo "Linear resume chain confirmed from run ${latest_prior}."
+            echo "Linear resume chain confirmed from evidence-bearing run ${latest_prior}."
           fi
 
       - name: Restore prior exact-plan evidence
