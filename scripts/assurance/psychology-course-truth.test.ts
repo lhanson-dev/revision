@@ -71,6 +71,9 @@ type Manifest = {
 const ROOT = process.cwd()
 const PROTOTYPE = join(ROOT, 'research/source-first-course-prototype')
 const COURSE_TRUTH = join(PROTOTYPE, 'psychology-course-truth')
+const VERIFIED_SOURCE_LICENCES = new Map<string, string>([
+  ['https://stats.libretexts.org/Workbench/Statistics_for_Behavioral_Science_Majors/12%3A_Nonparametric_Tests', 'CC BY-SA 1.0'],
+])
 
 function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T
@@ -140,6 +143,11 @@ describe('AQA Psychology 7182 source-first Course Truth candidate', () => {
           expect(source.licence?.trim().length ?? 0, `${requirement.requirementId} source missing licence`).toBeGreaterThan(0)
           expect(source.licence ?? '', `${requirement.requirementId} contains non-commercial/unknown evidence`).not.toMatch(/\bNC\b|NON[- ]?COMMERCIAL|UNKNOWN/i)
           expect(source.supports?.length ?? 0, `${requirement.requirementId} source does not say what it supports`).toBeGreaterThan(0)
+
+          const verifiedLicence = source.url ? VERIFIED_SOURCE_LICENCES.get(source.url) : undefined
+          if (verifiedLicence) {
+            expect(source.licence, `${requirement.requirementId} has stale licence metadata for ${source.url}`).toBe(verifiedLicence)
+          }
         }
 
         expect(requirement.readiness?.courseTruthStatus, requirement.requirementId).toBe('course_truth_ready')
