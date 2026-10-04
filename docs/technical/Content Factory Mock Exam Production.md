@@ -34,7 +34,9 @@ The active Course/Exam Truth materialiser and current official AQA references ag
 
 All papers can assess the full course. The qualification is linear and all papers are taken in the same series. The overall minimum quantitative-skills weighting is 10% of A-level marks. Published AO ranges remain owned by Exam Truth rather than duplicated as prompt lore.
 
-Paper 1 has an important accounting distinction: the paper contains four 25-mark essay options (100 printed optional marks) but the candidate attempts only two of them (50 marks). Whole-paper validation therefore uses **attempted raw marks**, not a naive sum of every printed question tariff.
+There is an important AO unit trap: the component values in Exam Truth such as AO1 `7132/1: 9–11` are **qualification percentage points contributed by that paper**, not 9–11% of the 100-mark paper. `MOCK_PROFILE.json` records that unit explicitly so the paper planner must convert the published ranges into compatible component mark targets rather than silently under-allocating AO demand.
+
+Paper 1 also has an important mark-accounting distinction: the paper contains four 25-mark essay options (100 printed optional marks) but the candidate attempts only two of them (50 marks). Whole-paper validation therefore uses **attempted raw marks**, not a naive sum of every printed question tariff.
 
 ## Rights boundary
 
@@ -44,9 +46,9 @@ The first mock set will prefer synthetic businesses and synthetic data. This avo
 
 ## Qualification Mock Profile
 
-`content-factory/mock-exams/aqa-7132/MOCK_PROFILE.json` is the first qualification profile.
+`content-factory/mock-exams/aqa-7132/MOCK_PROFILE.json` is the first qualification profile. `content-factory/mock-exams/aqa-7132/CALIBRATION.json` retains only rights-safe derived specimen-paper metadata used to calibrate realistic variable tariffs and command patterns.
 
-It deliberately separates:
+The profile deliberately separates:
 
 - `invariant` facts that software may fail closed against; and
 - `calibration` guidance used to shape a realistic mock without claiming future AQA papers must repeat a historical pattern.
@@ -139,9 +141,9 @@ Learner wording must identify the papers as Revision-authored realistic practice
 This branch introduces only the lowest-risk pre-spend foundation:
 
 1. governed mock-production authority;
-2. the AQA 7132 versioned Mock Profile;
+2. the AQA 7132 versioned Mock Profile and calibration metadata;
 3. provider-free deterministic profile validation;
-4. a provider-free GitHub Action for exact-head validation;
+4. the provider-free GitHub Action `Content Factory AQA Business 7132 Mock Profile` for exact-head validation;
 5. documentation/index/run-log updates.
 
 It does **not** create learner mock content, call an AI provider, publish mocks or alter the learner UI.
@@ -152,4 +154,4 @@ After Founder-approved merge, the next governed change can add the deterministic
 
 Normative impact: adds an explicit mock-paper workflow authority because the Fast Path previously named mocks but did not define whole-paper production rules.
 
-Technical impact: adds a qualification Mock Profile and provider-free validation/action. No existing Course Truth, Exam Truth, Foundation, learner content, routes, persistence or historical evidence are modified.
+Technical impact: adds a qualification Mock Profile, rights-safe calibration metadata and provider-free validation/action. No existing Course Truth, Exam Truth, Foundation, learner content, routes, persistence or historical evidence are modified.
