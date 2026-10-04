@@ -4,10 +4,10 @@ import { fastPathFlashcards } from './fast-path-flashcards'
 import { aqaBusinessQuestionBank } from './fast-path-questions'
 
 describe('AQA Business 7132 Fast-Path learner release', () => {
-  it('publishes all assured Foundation teaching through Learn', () => {
+  it('publishes every exact-course Fast-Path teaching asset through Learn', () => {
     const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
-    expect(pages).toHaveLength(81)
-    expect(new Set(pages.map((page) => page.id)).size).toBe(81)
+    expect(pages).toHaveLength(79)
+    expect(new Set(pages.map((page) => page.id)).size).toBe(79)
     expect(pages.every((page) => page.blocks.length > 0)).toBe(true)
   })
 
