@@ -60,7 +60,7 @@ jobs:
           tech.write_text(text)
 
           log = Path('content-factory/RUN_LOG.md')
-          line = '2026-10-04 · AQA 7132 T12 restricted-pilot website release · Promote 81 assured Learn nodes, Foundation-native guided Practice and 245 accepted Revision-authored AQA-style questions into the canonical learner content packs; retain 231 Action-only accepted questions with exact provenance and reuse the 14 committed 3.5 questions · Founder requested the assured course content be put on the website before mock production; zero blocking/escalated/failed items in the promoted evidence chain; qualified human subject review remains pending under conditional-pass claim limits · Fast-Path T12 / Content Accuracy Assurance Gate\n'
+          line = '2026-10-04 · AQA 7132 T12 restricted-pilot website release · Promote 79 exact-course Learn nodes projected from the 81-node Business Foundation, Foundation-native guided Practice and 245 accepted Revision-authored AQA-style questions into the canonical learner content packs; retain 231 Action-only accepted questions with exact provenance and reuse the 14 committed 3.5 questions · Founder requested the assured course content be put on the website before mock production; zero blocking/escalated/failed items in the promoted evidence chain; qualified human subject review remains pending under conditional-pass claim limits · Fast-Path T12 / Content Accuracy Assurance Gate\n'
           current = log.read_text()
           if line not in current:
             log.write_text(current.rstrip() + '\n' + line)
@@ -95,4 +95,4 @@ jobs:
           git commit -m 'Wire assured AQA 7132 content into learner site'
           git push origin HEAD:release/aqa-7132-fast-path-content
 
-# rerun after normalising legacy 3.5 batch metadata
+# rerun after exact-course node-count correction
