@@ -17,16 +17,16 @@
   "sourceReviewBaseline": {
     "namedRequirements": 118,
     "requirementsWithSomeReusableSourceSupport": 118,
-    "coveredCandidates": 80,
-    "partial": 38,
+    "coveredCandidates": 83,
+    "partial": 35,
     "gap": 0,
-    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 14. It is diagnostic evidence, not Course Truth completion."
+    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 15. It is diagnostic evidence, not Course Truth completion."
   },
   "courseTruthProgress": {
     "namedRequirements": 118,
-    "courseTruthReadyRequirements": 57,
-    "remainingRequirements": 61,
-    "courseTruthReadyPercent": 48.3,
+    "courseTruthReadyRequirements": 63,
+    "remainingRequirements": 55,
+    "courseTruthReadyPercent": 53.4,
     "materialSubjectTruthGapsKnown": 0,
     "materialRightsBlockersKnown": 0,
     "learnerAssetReady": false,
@@ -42,6 +42,7 @@
     {"topicNumber":8,"topic":"Issues and Debates in Psychology","path":"topic-08-issues-and-debates-in-psychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
     {"topicNumber":11,"topic":"Cognition and Development","path":"topic-11-cognition-and-development.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
     {"topicNumber":12,"topic":"Schizophrenia","path":"topic-12-schizophrenia.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":13,"topic":"Eating Behaviour","path":"topic-13-eating-behaviour.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
     {"topicNumber":16,"topic":"Forensic Psychology","path":"topic-16-forensic-psychology.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
     {"topicNumber":17,"topic":"Addiction","path":"topic-17-addiction.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"}
   ],
@@ -53,7 +54,7 @@
   },
   "nextWork": {
     "priority": "Complete remaining Course Truth requirements by reusing predecessor evidence and closing depth-specific partials without regenerating already-supported subject truth.",
-    "remainingPartialSourceReviewCases": 38,
+    "remainingPartialSourceReviewCases": 35,
     "rule": "Source-supported does not equal Course Truth ready. Each requirement must meet the working readiness contract in README.md."
   },
   "publicationBoundary": "Experimental only. No learner-facing publication, restricted-pilot approval or production foundation approval is implied by this manifest."
