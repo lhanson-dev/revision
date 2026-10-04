@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
+import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
@@ -126,7 +127,11 @@ export function FocusedLearningWorkspace({
     : sectionModes[section]
   const copy = sectionHeading(section, adapter.manifest.paper.number, contextLabel)
   const topic = adapter.getTopic(topicId)
-  const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
+  const cards = useMemo(() => {
+    const curated = adapter.listFlashcards(topicId)
+    if (adapter.manifest.examBoard.id !== 'aqa' || adapter.manifest.specificationCode !== '7132') return curated
+    return [...curated, ...fastPathFlashcards.filter((card) => card.topic === topicId)]
+  }, [adapter, topicId])
   const questions = useMemo(() => adapter.listQuestions(topicId), [adapter, topicId])
   const links = useMemo(() => adapter.listTopicLinks(topicId), [adapter, topicId])
   const formulas = adapter.listFormulas()

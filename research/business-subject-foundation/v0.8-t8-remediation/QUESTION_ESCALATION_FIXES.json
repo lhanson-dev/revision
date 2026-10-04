@@ -77,6 +77,16 @@
           "Lewin's force field analysis: a framework for analysing change by identifying driving forces that push in favour of a proposed change and restraining forces that resist or obstruct it. Managers can list the relevant forces, assess their relative strength and consider whether to reinforce important drivers or reduce important restraints before deciding how to implement the change. The framework is an aid to judgement rather than a guarantee that change will succeed, because the importance of forces can be difficult to measure and can change over time."
         ]
       }
+    },
+    {
+      "subject_id": "BUS-FND-009",
+      "run_log": "3.7.4 Role of regulators teaching needed after q41 fresh post-decision review",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "regulators: public bodies or agencies that oversee compliance with rules and standards in particular markets or activities. Depending on their legal powers they may issue or administer requirements and guidance, monitor compliance, investigate potential breaches and take or seek enforcement action. Regulation can protect customers, workers, competition or the wider public while creating compliance costs or operational constraints for businesses; meeting required standards can also support trust and a level playing field."
+        ]
+      }
     }
   ]
 }

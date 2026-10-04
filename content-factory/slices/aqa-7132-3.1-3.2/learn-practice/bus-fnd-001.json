@@ -1,66 +1,68 @@
 {
   "node_id": "bus-fnd-001",
   "learn": {
-    "title": "Business activity, value creation and objectives",
+    "title": "Mission, objectives and purposeful business activity",
     "sections": [
       {
         "treatment": "core_explanation",
-        "heading": "Business activity creates value through a whole system",
-        "body": "A business combines scarce inputs such as people, finance, materials, technology and knowledge. Its processes transform these inputs into outputs, which then affect customers, employees, owners, suppliers and communities. A mission gives broad direction to the organisation’s intended purpose, while objectives make that direction usable in decisions. Objectives should reflect that business performance has financial and non-financial dimensions, rather than assuming that short-term profit is the only aim.",
+        "heading": "Mission and objectives guide business activity",
+        "body": "Business activity uses scarce resources to create goods or services that people value. A mission statement sets out the broad, long-term purpose and direction of the business. Objectives convert this direction into specific, measurable priorities or targets. They help a business decide how to use people, finance, materials, technology and information. A business may have several objectives, rather than pursuing short-term profit alone.",
         "item_ids": [
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
-          "aqa-7132-3.1.1:why-businesses-set-objectives",
-          "aqa-7132-3.1.1:mission-statement"
-        ]
-      },
-      {
-        "treatment": "comparison",
-        "heading": "Mission and objectives: broad direction versus decision focus",
-        "body": "A mission is broad: it communicates the intended purpose or direction of the business. Objectives are more specific priorities used to guide choices and assess whether activity is moving in the intended direction. For example, a business focused on customer value may set objectives relating to quality, speed, retention, financial sustainability or cash. Revenue is not automatically an objective that proves value creation, because higher sales may be accompanied by weaker margins, cash, quality or customer loyalty.",
-        "item_ids": [
+          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ]
       },
       {
-        "treatment": "process_sequence",
-        "heading": "From purpose to outcomes",
-        "body": "Use this sequence to connect organisational direction to results: mission or intended purpose → objectives → value proposition → resource and process requirements → outputs → customer and stakeholder response → financial and non-financial outcomes → feedback into later decisions. Feedback matters: if a decision improves sales but damages service quality or cash, objectives may need reviewing or the process may need redesigning.",
+        "treatment": "comparison",
+        "heading": "Mission statement versus objectives",
+        "body": "A mission is broad and long term: it explains what the organisation is for and the direction it intends to follow. An objective is narrower, specific and measurable: it gives a priority or target that can guide action and later be monitored. For example, a mission to provide affordable healthy food could lead to objectives about price, product mix, customer reach or growth. The mission provides the direction; objectives make that direction operational.",
         "item_ids": [
+          "aqa-7132-3.1.1:mission-statement",
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "From purpose to review",
+        "body": "A useful decision sequence is: 1. establish the broad mission; 2. set objectives that fit that mission; 3. allocate scarce resources and coordinate decisions around the objectives; 4. monitor actual performance against the targets; 5. take corrective action if results differ from the target. This process links a business’s stated direction to day-to-day choices.",
+        "item_ids": [
+          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ]
       },
       {
         "treatment": "relationship_causal_chain",
-        "heading": "Why objectives affect business decisions",
-        "body": "Clear objectives help a business decide which trade-offs are acceptable. For instance, an objective to improve personalised service may lead to more labour or capacity. This can improve customer value, occupancy, price or loyalty, but it also raises costs and cash requirements. The business must judge whether the likely benefits support its financial sustainability. Thus, objectives connect a stated direction to resource allocation and to consequences across the business.",
+        "heading": "How objectives affect performance",
+        "body": "Clear objectives → managers understand priorities → scarce resources can be allocated consistently → functions can coordinate their decisions → performance can be compared with measurable standards → corrective action is possible. However, objectives may conflict. For instance, improving service quality may require more labour or capacity, increasing costs and current cash needs. Managers must judge the trade-off using the business’s mission, financial sustainability and stakeholder effects.",
         "item_ids": [
-          "aqa-7132-3.1.1:why-businesses-set-objectives",
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
+          "aqa-7132-3.1.1:why-businesses-set-objectives"
         ]
       },
       {
         "treatment": "example_non_example",
-        "heading": "Objectives must be considered across the system",
-        "body": "Example: a premium hotel intends to provide a high-quality, personalised stay. An objective to improve service quality could justify employing more staff if it helps achieve stronger occupancy, prices or loyalty and remains financially sustainable. Non-example: claiming that the hotel has succeeded simply because sales rose, without checking labour costs, cash, service quality or whether guests return. Another non-example is treating an operations decision as unrelated to marketing, finance and people decisions.",
+        "heading": "Recognising aligned objectives",
+        "body": "Example: a premium hotel has a mission based on personalised service. An objective to improve guest loyalty is consistent because it supports the intended customer experience. The hotel might invest in additional staff, then monitor whether occupancy, price or loyalty improves enough to justify the cost. Non-example: describing a target to cut staffing without considering whether this damages personalised service does not show that the objective has been tested against the mission or wider consequences.",
         "item_ids": [
-          "aqa-7132-3.1.1:why-businesses-set-objectives",
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
+          "aqa-7132-3.1.1:mission-statement",
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
+          "aqa-7132-3.1.1:why-businesses-set-objectives"
         ]
       },
       {
         "treatment": "misconception_repair",
-        "heading": "Do not reduce all objectives to immediate profit",
-        "body": "Misconception: every business exists only to maximise short-term profit. Repair: financial viability is important, but a commercial business may pursue several objectives. Short-term cost cutting can also reduce capability or quality and harm future demand, resilience or stated social purposes. Likewise, more sales do not necessarily mean better performance if margins, cash, quality or returns deteriorate.",
+        "heading": "Objectives are not just short-term profit targets",
+        "body": "It is incorrect to assume every business has only one purpose: maximising short-term profit. Financial viability is important, but a commercial business can pursue several objectives, including growth, customer reach, service quality or resilience. Objectives can conflict, and cutting costs may reduce capability or quality and weaken future demand. Similarly, rising sales alone do not prove improved performance if margins, cash, service quality or customer returns worsen.",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ]
       },
       {
         "treatment": "connection_synoptic_link",
-        "heading": "A synoptic lens for mission and objectives",
-        "body": "Mission and objectives link every business function. Marketing promises value to customers; operations must deliver it; people provide capability; finance considers cost, margin and cash; and strategy weighs stakeholder effects and the time horizon. When evaluating an objective, trace its effects on resource use, customer value, cost, quality, speed, flexibility, cash and risk. Ask whether an apparent improvement merely transfers a cost or risk elsewhere.",
+        "heading": "A whole-business link",
+        "body": "Mission and objectives connect all business functions. A customer-focused objective can affect marketing’s value proposition, operations’ process design, people management’s staffing needs and finance’s cash requirements. For example, offering greater product variety may raise customer value but also increase operational complexity. A strong judgement considers resource use, customer value, cost, quality, speed, flexibility, cash, risk and stakeholder effects rather than viewing one function in isolation.",
         "item_ids": [
           "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
           "aqa-7132-3.1.1:why-businesses-set-objectives"
@@ -69,20 +71,16 @@
     ],
     "key_terms": [
       {
+        "term": "mission statement",
+        "definition": "A broad, long-term statement explaining what a business is for and the direction it intends to follow."
+      },
+      {
+        "term": "objective",
+        "definition": "A specific, measurable priority or target that guides business decisions and can be used to monitor performance."
+      },
+      {
         "term": "business activity",
         "definition": "The organised use of resources to create and exchange goods or services."
-      },
-      {
-        "term": "input",
-        "definition": "A resource used in business activity."
-      },
-      {
-        "term": "transformation",
-        "definition": "Activities that convert inputs into outputs."
-      },
-      {
-        "term": "output",
-        "definition": "The good, service or result produced."
       },
       {
         "term": "value creation",
@@ -93,12 +91,8 @@
         "definition": "The part of created value converted by the organisation into revenue, margin, cash or another benefit."
       },
       {
-        "term": "mission",
-        "definition": "A broad statement of an organisation’s intended purpose or direction."
-      },
-      {
-        "term": "objective",
-        "definition": "A specific priority used to guide decisions and assess progress towards the organisation’s direction."
+        "term": "stakeholder",
+        "definition": "A person or group affected by, or able to affect, a business and its activities."
       }
     ],
     "worked_examples": []
@@ -109,79 +103,79 @@
         "id": "bus-fnd-001-p1",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
           "aqa-7132-3.1.1:mission-statement"
         ],
-        "prompt": "State the difference between a mission and an objective.",
-        "answer": "A mission gives broad purpose or direction; an objective is a more specific priority that guides decisions and progress.",
-        "explanation": "The mission provides the overall direction, while objectives translate that direction into usable decision priorities.",
+        "prompt": "Define a mission statement.",
+        "answer": "A broad, long-term statement of what a business is for and the direction it intends to follow.",
+        "explanation": "A mission gives overall purpose and direction; it is not a short, measurable target.",
         "calc": null
       },
       {
         "id": "bus-fnd-001-p2",
-        "capability": "compare_justify",
+        "capability": "discrimination",
         "item_ids": [
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
-          "aqa-7132-3.1.1:why-businesses-set-objectives"
+          "aqa-7132-3.1.1:mission-statement",
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
         ],
-        "prompt": "Compare a mission with objectives, and explain why a business needs both.",
-        "answer": "A mission gives overall direction, whereas objectives focus decisions on particular outcomes. A business needs both so resources and processes can be chosen consistently with its intended purpose.",
-        "explanation": "Broad purpose alone does not show how to make trade-offs about quality, cost, speed, cash or risk. Objectives provide that focus.",
+        "prompt": "A café says, “We exist to make healthy food accessible locally.” It also sets a target to widen customer reach. Identify which is the mission and which is the objective.",
+        "answer": "The statement about making healthy food accessible is the mission; widening customer reach is the objective.",
+        "explanation": "The mission is the broad purpose. The objective is a more focused priority that can be made measurable and used to guide action.",
         "calc": null
       },
       {
         "id": "bus-fnd-001-p3",
-        "capability": "contextual_application",
+        "capability": "procedure_execution",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ],
-        "prompt": "A meal-delivery business wants to provide fast, convenient deliveries. Give one objective it could use and explain one operational implication.",
-        "answer": "It could set an objective to improve delivery speed. It may need more delivery capacity or better process design, which could increase costs or cash needs.",
-        "explanation": "Objectives influence resource allocation. Faster delivery may create customer value but must be weighed against financial sustainability.",
+        "prompt": "Put these stages in a logical order: monitor performance against targets; allocate resources; take corrective action; set objectives consistent with the mission; establish the mission.",
+        "answer": "Establish the mission; set objectives consistent with the mission; allocate resources; monitor performance against targets; take corrective action.",
+        "explanation": "A business needs a direction before setting priorities, then can act on them, review results and respond to any gap.",
         "calc": null
       },
       {
         "id": "bus-fnd-001-p4",
-        "capability": "discrimination",
+        "capability": "contextual_application",
         "item_ids": [
-          "aqa-7132-3.1.1:why-businesses-set-objectives"
+          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
         ],
-        "prompt": "Which statement is the best reason for setting objectives? A: They guarantee profit. B: They help guide choices between competing uses of scarce resources. C: They make finance, marketing and operations independent. D: They prove that sales growth creates value.",
-        "answer": "B",
-        "explanation": "Resources have alternative uses, so objectives help a business make trade-offs. They cannot guarantee profit, and business functions remain interdependent.",
+        "prompt": "A premium hotel’s mission is to provide personalised service. Give one objective that would be consistent with this mission and explain why.",
+        "answer": "An objective to improve guest loyalty would be consistent, because repeat guests can indicate that personalised service is valued.",
+        "explanation": "The objective supports the hotel’s stated direction. It should be made specific and measurable before being used to monitor performance.",
         "calc": null
       },
       {
         "id": "bus-fnd-001-p5",
-        "capability": "misconception_diagnostic",
-        "item_ids": [
-          "aqa-7132-3.1.1:why-businesses-set-objectives"
-        ],
-        "prompt": "A manager says, ‘Sales increased, so the business must be meeting its objectives.’ What is the flaw in this conclusion?",
-        "answer": "Sales growth alone is insufficient: margins, cash, quality, customer retention and risk may have worsened.",
-        "explanation": "Revenue is not the same as profit, cash generation or sustainable value creation.",
-        "calc": null
-      },
-      {
-        "id": "bus-fnd-001-p6",
-        "capability": "procedure_execution",
-        "item_ids": [
-          "aqa-7132-3.1.1:relationship-between-mission-and-objectives"
-        ],
-        "prompt": "Put these stages into a logical order: customer response; objectives; outputs; mission or intended purpose; resource and process requirements.",
-        "answer": "Mission or intended purpose → objectives → resource and process requirements → outputs → customer response.",
-        "explanation": "Objectives turn broad direction into requirements for resources and processes, which create outputs and then customer responses.",
-        "calc": null
-      },
-      {
-        "id": "bus-fnd-001-p7",
         "capability": "reasoning_chain",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ],
-        "prompt": "A premium hotel sets an objective to increase personalised service and employs more staff. Explain a chain of effects that management should consider before deciding this is successful.",
-        "answer": "More staff may improve service quality and customer value, which could support loyalty, occupancy or price. However, labour costs and cash needs rise, so the extra benefits must justify the additional cost.",
-        "explanation": "A sound judgement traces both customer and financial effects rather than looking at one outcome only.",
+        "prompt": "Explain one way a clear objective can improve decision-making when resources are scarce.",
+        "answer": "It gives managers a priority for allocating limited resources, so decisions across functions are more likely to support the same outcome.",
+        "explanation": "Objectives provide direction and coordination. They help managers choose between alternative uses of scarce finance, labour, materials or capacity.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-001-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.1.1:mission-statement",
+          "aqa-7132-3.1.1:why-businesses-set-objectives"
+        ],
+        "prompt": "Which is more useful for checking whether a business has achieved a particular priority: its mission statement or its objectives? Justify your answer.",
+        "answer": "Objectives are more useful because they are specific and measurable, so actual performance can be compared with a target. The mission remains useful because it gives the broad direction for choosing the objectives.",
+        "explanation": "A mission is intentionally broad. Monitoring and corrective action require measurable standards, which objectives provide.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-001-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.1.1:why-businesses-set-objectives"
+        ],
+        "prompt": "A student says, “If sales rise, the business must be performing better, so its only objective should be to maximise sales.” Is this correct?",
+        "answer": "No. Sales can rise while margins, cash flow, service quality or customer returns deteriorate. Businesses can have several objectives and must consider trade-offs.",
+        "explanation": "Revenue is not the same as profit, cash generation or long-term value. Higher sales may also place pressure on capacity and service quality.",
         "calc": null
       },
       {
@@ -191,9 +185,9 @@
           "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
           "aqa-7132-3.1.1:why-businesses-set-objectives"
         ],
-        "prompt": "A retailer cuts customer-service staff to meet a short-term cost objective. Select the best evaluation. A: The decision is automatically successful because costs fall. B: The decision should be judged only by this month’s sales. C: The decision may conflict with its wider direction if lower service reduces customer value, loyalty or future demand. D: Customer service is unrelated to financial outcomes.",
-        "answer": "C",
-        "explanation": "Cost reductions can damage capability and quality. The decision should be evaluated against objectives, the time horizon, stakeholder effects and financial sustainability.",
+        "prompt": "A meal-delivery business promises speed and convenience. It plans to cut delivery staff costs to improve short-term profit. Select the best next step: A) assume lower costs always improve value; B) assess whether slower delivery could reduce customer value, retention and future revenue; C) treat operations and marketing as unrelated; D) use sales revenue alone to judge success.",
+        "answer": "B) Assess whether slower delivery could reduce customer value, retention and future revenue.",
+        "explanation": "A cost reduction in one area can create quality, speed and demand effects elsewhere. The business should evaluate the trade-off against its objectives and financial sustainability.",
         "calc": null
       }
     ]

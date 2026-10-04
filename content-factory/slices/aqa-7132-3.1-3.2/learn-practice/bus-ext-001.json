@@ -5,88 +5,87 @@
     "sections": [
       {
         "treatment": "core_explanation",
-        "heading": "Economic conditions affect businesses through transmission channels",
-        "body": "Market conditions are shaped partly by economic growth, inflation, interest rates, labour-market conditions, taxation and public spending. A useful analysis does not stop at the economic headline. Trace how the change affects household or business behaviour, then demand, costs, finance or confidence, and finally the particular firm's decisions and performance. Effects vary with the business model, debt level, cash holdings, customer income sensitivity, pricing power and contracts.",
+        "heading": "Economic conditions affect firms through transmission channels",
+        "body": "GDP, inflation, interest rates, taxation, government spending and exchange rates do not affect every business in the same way. Start with the economic change, then identify how households or businesses alter their behaviour. Finally, link this to the firm’s demand, costs, finance, capacity or confidence. For example, real GDP growth may raise incomes and demand overall, but sales may not rise for a business whose customers are cutting discretionary spending or whose market is already weak.",
         "item_ids": [
-          "aqa-7132-3.1.3:market-conditions",
+          "aqa-7132-3.7.5:gdp",
           "aqa-7132-3.7.5:inflation",
-          "aqa-7132-3.7.5:taxation"
+          "aqa-7132-3.7.5:taxation",
+          "aqa-7132-3.7.5:exchange-rates",
+          "aqa-7132-3.7.5:fiscal-policy",
+          "aqa-7132-3.7.5:monetary-policy"
         ]
       },
       {
         "treatment": "comparison",
-        "heading": "Fiscal policy, monetary policy and exchange-rate exposure",
-        "body": "Fiscal policy means government decisions about taxation and public spending. It can alter households' disposable income and demand from public-sector procurement. Monetary policy affects interest rates and wider financial conditions, influencing borrowing costs, saving incentives, consumption and investment. Exchange-rate changes affect firms differently: a weaker pound can help an exporter by making UK output relatively cheaper abroad, but can increase costs for an importer buying overseas inputs. Therefore, no policy or exchange-rate movement has one universal business effect.",
+        "heading": "Compare fiscal policy and monetary policy",
+        "body": "Fiscal policy consists of government decisions about taxation and public spending. A reduction in income tax can increase households’ disposable income, while higher public spending can directly increase demand for suppliers to the public sector. Monetary policy affects interest rates and wider financial conditions. A higher interest rate can make borrowing more expensive and saving more attractive, reducing some consumption and investment. Both policies can affect demand, but fiscal policy can also change procurement demand directly, whereas monetary policy has a particularly important effect on borrowing and saving decisions.",
         "item_ids": [
           "aqa-7132-3.7.5:fiscal-policy",
           "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.7.5:exchange-rates"
+          "aqa-7132-3.7.5:taxation"
         ]
       },
       {
         "treatment": "connection_synoptic_link",
-        "heading": "Link economic conditions to finance and strategy",
-        "body": "Economic analysis connects to finance and investment decisions. Higher interest rates can raise finance costs for a geared business, increasing risk and making investment less attractive. The same rise may increase interest income for a cash-rich firm. Inflation may raise input and wage costs, but the outcome for profit depends on whether the business can raise selling prices without losing too much demand. Managers may respond by reviewing prices, delaying investment, finding alternative suppliers or changing capacity plans.",
+        "heading": "Connect macroeconomic conditions to finance and strategy",
+        "body": "Macroeconomic analysis links to finance, marketing and operations. Higher interest rates can raise finance costs for a highly geared firm, increasing risk and discouraging investment. Inflation can raise wage and material costs, requiring decisions about prices, product mix and efficiency. Exchange-rate movements can change the competitiveness of exporters and the cost base of importers. Managers should use economic data as context for decisions, not as a certain forecast, because effects have time lags and firms can adapt.",
         "item_ids": [
           "aqa-7132-3.7.5:inflation",
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.1.3:market-conditions"
-        ]
-      },
-      {
-        "treatment": "example_non_example",
-        "heading": "Specific business analysis versus a generic claim",
-        "body": "Example: a heavily indebted housebuilder faces higher loan costs after an interest-rate rise. Mortgage affordability may also fall for customers, reducing demand for homes. Non-example: 'Interest rates rise, so every business makes less profit.' This ignores cash-rich firms, banks, different customer markets and differences in borrowing. Similarly, inflation does not mean every individual price rises by the same amount.",
-        "item_ids": [
-          "aqa-7132-3.1.3:market-conditions",
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.7.5:inflation"
-        ]
-      },
-      {
-        "treatment": "guided_example",
-        "heading": "Guide: interpreting an economic data movement",
-        "body": "Suppose UK inflation rises from 2% to 6%. Step 1: identify the direction and size: inflation is higher, by 4 percentage points. Step 2: identify relevant exposure: a café may pay more for food, energy and wages. Step 3: consider customers: their purchasing power may be under pressure, so price rises could reduce visits. Step 4: reach a conditional conclusion: profit may fall if cost increases cannot be passed on, but a strong brand or fixed supplier contract could reduce the effect. The figure provides context, not a certain forecast.",
-        "item_ids": [
-          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data",
-          "aqa-7132-3.7.5:inflation"
-        ]
-      },
-      {
-        "treatment": "misconception_repair",
-        "heading": "Higher interest rates are not bad for every business",
-        "body": "The claim is too simple. Higher rates can raise borrowing costs and reduce spending financed by credit, harming some firms. However, a company with substantial cash may receive more interest income, while a bank may have a different exposure from a housebuilder. Assess the firm's gearing, cash position, customers' need for finance, contract terms and the time lag before judging the result.",
-        "item_ids": [
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.1.3:market-conditions"
-        ]
-      },
-      {
-        "treatment": "relationship_causal_chain",
-        "heading": "Build clear macroeconomic transmission chains",
-        "body": "Use arrows to make the mechanism explicit. Higher interest rate → higher borrowing cost and greater reward for saving → lower consumption and investment for some households and firms → weaker demand for discretionary products and higher finance costs for indebted firms. Fiscal expansion through public spending → more public procurement or income in relevant areas → higher demand for some suppliers. Tight labour market → recruitment difficulty and wage pressure → higher costs or service delays.",
-        "item_ids": [
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.7.5:fiscal-policy",
-          "aqa-7132-3.7.5:taxation",
-          "aqa-7132-3.1.3:market-conditions"
-        ]
-      },
-      {
-        "treatment": "self_explanation_prompt",
-        "heading": "Explain the conditions that matter to the firm",
-        "body": "Choose a UK business that imports materials, has some borrowing and sells a non-essential product. Explain which would matter most if the pound fell, inflation rose and interest rates increased. For each condition, state the exposure channel, likely effect on costs, demand or finance, and one possible response. Then identify one reason why your conclusion is uncertain.",
-        "item_ids": [
           "aqa-7132-3.7.5:exchange-rates",
-          "aqa-7132-3.7.5:inflation",
           "aqa-7132-3.7.5:monetary-policy",
           "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
         ]
       },
       {
+        "treatment": "example_non_example",
+        "heading": "Specific analysis rather than a generic claim",
+        "body": "Example: UK inflation rises while a café faces higher food and wage costs. If its customers have limited disposable income, passing all of the cost rise into prices could reduce demand; its margin may be squeezed. This traces costs, pricing power and customer response. Non-example: ‘Inflation increases costs so profit falls.’ This is incomplete because some costs may be fixed by contracts, the café may raise prices, and demand may change.",
+        "item_ids": [
+          "aqa-7132-3.7.5:inflation",
+          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Read UK and global data in context",
+        "body": "Suppose UK real GDP growth slows from 2.0% to 0.4%, while a retailer’s main overseas market grows more quickly. Step 1: identify the direction and size of the UK change: growth has slowed, rather than output necessarily falling. Step 2: distinguish UK demand from overseas demand. Step 3: consider the retailer’s exposure: UK sales may weaken, but export demand may provide some support. Step 4: avoid treating data as a forecast; competition, exchange rates and consumer confidence could alter the outcome.",
+        "item_ids": [
+          "aqa-7132-3.7.5:gdp",
+          "aqa-7132-3.7.5:exchange-rates",
+          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Higher interest rates are not automatically bad",
+        "body": "The statement ‘higher interest rates are bad for all businesses’ is incorrect. A heavily indebted housebuilder may face higher loan costs and weaker customer mortgage affordability. In contrast, a cash-rich business may earn more interest income. The final effect depends on debt, cash holdings, customers’ need for finance, contracts, pricing power and the time period considered.",
+        "item_ids": [
+          "aqa-7132-3.7.5:monetary-policy"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Build a fiscal-policy transmission chain",
+        "body": "A change in taxation or public spending can be analysed as: fiscal-policy change → household disposable income or public procurement changes → consumer or sector demand changes → the firm’s revenue, capacity use and profit response. The impact may be mixed. A rise in public investment might increase orders for an infrastructure supplier, while a tax rise could reduce spending by some of its customers elsewhere.",
+        "item_ids": [
+          "aqa-7132-3.7.5:fiscal-policy",
+          "aqa-7132-3.7.5:taxation"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain a firm-specific exchange-rate effect",
+        "body": "A fall in the pound can make UK exports cheaper for overseas buyers, potentially raising export demand. However, it can also raise the sterling cost of imported components. Explain which effect is likely to matter more for a UK bicycle manufacturer that exports 70% of output but imports most of its gears. Refer to demand, costs and its ability to change prices.",
+        "item_ids": [
+          "aqa-7132-3.7.5:exchange-rates",
+          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
+        ]
+      },
+      {
         "treatment": "worked_example",
-        "heading": "Worked analysis: GDP growth does not guarantee sales growth",
-        "body": "Scenario: real GDP is growing, but a UK budget clothing retailer sells mainly to households whose incomes remain under pressure from inflation. Step 1: GDP growth signals rising total real output and incomes overall. Step 2: identify that this is a broad indicator, not a direct measure of this retailer's customers. Step 3: inflation may still reduce the purchasing power of its target customers. Step 4: conclude that sales could rise if confidence and incomes improve, but growth alone does not guarantee stronger sales. Compare GDP per head and customer conditions where possible, remembering that data are estimates and can be revised.",
+        "heading": "Worked analysis: nominal sales and real demand",
+        "body": "A retailer reports sales revenue rising by 6% in a year when general inflation is 5%. This does not prove that the retailer has achieved strong real demand growth. Some of the revenue increase may reflect higher prices rather than substantially more items sold. To reach a better judgement, compare volume sold, changes in the retailer’s prices, customer incomes and competitors’ performance. Nominal growth and real growth can differ.",
         "item_ids": [
           "aqa-7132-3.7.5:gdp",
           "aqa-7132-3.7.5:inflation",
@@ -96,16 +95,12 @@
     ],
     "key_terms": [
       {
-        "term": "market conditions",
-        "definition": "Economic and market factors that influence a firm's demand, costs, finance and confidence."
+        "term": "GDP",
+        "definition": "The total value of goods and services produced within a country in a period; real GDP is adjusted for inflation."
       },
       {
         "term": "economic growth",
         "definition": "An increase in real economic output over time."
-      },
-      {
-        "term": "GDP",
-        "definition": "The total value of goods and services produced within a country in a period; real GDP is adjusted for inflation."
       },
       {
         "term": "inflation",
@@ -113,11 +108,11 @@
       },
       {
         "term": "interest rate",
-        "definition": "The cost of borrowing and the return from lending or saving."
+        "definition": "The price of borrowing and the return on lending or saving."
       },
       {
         "term": "taxation",
-        "definition": "Compulsory payments to government that can affect disposable income, business costs and incentives."
+        "definition": "Compulsory payments to government that can affect household disposable income and business costs."
       },
       {
         "term": "fiscal policy",
@@ -125,15 +120,23 @@
       },
       {
         "term": "monetary policy",
-        "definition": "Policy affecting interest rates and financial conditions to pursue macroeconomic objectives."
+        "definition": "Policy affecting interest rates and financial conditions in pursuit of macroeconomic objectives."
       },
       {
         "term": "exchange rate",
-        "definition": "The value of one currency relative to another currency."
+        "definition": "The value of one currency in terms of another currency."
       },
       {
-        "term": "interpreting UK and global economic data",
-        "definition": "Using the direction, size, trend and international comparison of economic indicators to judge possible business effects."
+        "term": "disposable income",
+        "definition": "Income available to households after direct taxes, which can influence spending."
+      },
+      {
+        "term": "nominal growth",
+        "definition": "Growth measured at current prices, without removing the effect of inflation."
+      },
+      {
+        "term": "real growth",
+        "definition": "Growth adjusted to remove the effect of inflation."
       }
     ],
     "worked_examples": []
@@ -144,11 +147,12 @@
         "id": "bus-ext-001-p1",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.7.5:gdp"
+          "aqa-7132-3.7.5:gdp",
+          "aqa-7132-3.7.5:inflation"
         ],
-        "prompt": "What does growth in real GDP indicate?",
-        "answer": "An increase in real economic output, adjusted for inflation.",
-        "explanation": "Real GDP growth signals that the economy's total output is rising, although it does not ensure higher sales for every firm.",
+        "prompt": "Define real GDP growth and inflation.",
+        "answer": "Real GDP growth is an increase in inflation-adjusted output. Inflation is a sustained rise in the general price level.",
+        "explanation": "Real GDP separates output growth from price increases, whereas inflation concerns the general level of prices.",
         "calc": null
       },
       {
@@ -156,11 +160,12 @@
         "capability": "discrimination",
         "item_ids": [
           "aqa-7132-3.7.5:fiscal-policy",
-          "aqa-7132-3.7.5:monetary-policy"
+          "aqa-7132-3.7.5:monetary-policy",
+          "aqa-7132-3.7.5:taxation"
         ],
-        "prompt": "Classify each action as fiscal or monetary policy: (a) the government increases public spending on transport; (b) interest rates are raised.",
-        "answer": "(a) Fiscal policy. (b) Monetary policy.",
-        "explanation": "Fiscal policy concerns taxation and public spending, whereas monetary policy affects interest rates and financial conditions.",
+        "prompt": "Classify each action as fiscal policy or monetary policy: (1) reducing income tax, (2) increasing public spending on rail projects, (3) raising interest rates.",
+        "answer": "(1) Fiscal policy; (2) fiscal policy; (3) monetary policy.",
+        "explanation": "Taxation and public spending are fiscal-policy tools. Interest rates are part of monetary policy.",
         "calc": null
       },
       {
@@ -170,95 +175,91 @@
           "aqa-7132-3.7.5:inflation",
           "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
         ],
-        "prompt": "Inflation rises from 3% to 7%. By how many percentage points has the inflation rate risen?",
-        "answer": "4 percentage points.",
-        "explanation": "Subtract the earlier rate from the later rate: 7% − 3% = 4 percentage points. This is not a 4% rise in the price level.",
+        "prompt": "A retailer's nominal sales revenue rises by 8% while general inflation is 3%. Using the simple course-relevant approximation, calculate the percentage increase remaining after allowing for inflation.",
+        "answer": "Approximately 5%.",
+        "explanation": "Subtract the 3% inflation rate from the 8% nominal revenue increase. This is only an approximation and does not prove that sales volume rose by 5%.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p4",
         "capability": "interpretation",
         "item_ids": [
-          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data",
-          "aqa-7132-3.7.5:exchange-rates"
+          "aqa-7132-3.7.5:gdp",
+          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
         ],
-        "prompt": "The pound falls in value against the euro. State one likely effect for a UK furniture exporter selling to euro-area customers and one likely effect for a UK retailer importing furniture from Europe.",
-        "answer": "The exporter may become more price-competitive in euro markets; the importer may face higher pound costs for European purchases.",
-        "explanation": "A weaker pound can support exporters but makes foreign-currency imports more expensive. Actual outcomes depend on pricing and contracts.",
+        "prompt": "UK real GDP growth falls from 1.8% to 0.3%. What is the most accurate interpretation for a mid-market furniture retailer?",
+        "answer": "Economic output is still growing but much more slowly; the retailer may face weaker demand, especially if furniture purchases are discretionary.",
+        "explanation": "A positive growth rate means output is still rising. The likely business effect depends on its customers and product type, so the data are not a certain sales forecast.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p5",
         "capability": "reasoning_chain",
         "item_ids": [
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.1.3:market-conditions"
+          "aqa-7132-3.7.5:monetary-policy"
         ],
-        "prompt": "Construct a three-link chain showing how a rise in interest rates could affect demand for holidays sold by a travel company.",
-        "answer": "Higher interest rates → borrowing becomes dearer and saving more attractive → some households reduce discretionary spending → demand for holidays may fall.",
-        "explanation": "The chain identifies the household behaviour through which monetary conditions can affect a firm’s demand.",
+        "prompt": "Give a four-link chain showing how a rise in interest rates could affect demand for a housebuilder.",
+        "answer": "Higher interest rates → mortgages become less affordable → fewer customers can or wish to buy homes → demand for the housebuilder’s homes may fall.",
+        "explanation": "The answer identifies the policy change, the customer-finance channel and the firm-specific demand consequence.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p6",
-        "capability": "contextual_application",
+        "capability": "compare_justify",
         "item_ids": [
-          "aqa-7132-3.7.5:taxation",
-          "aqa-7132-3.7.5:fiscal-policy"
+          "aqa-7132-3.7.5:monetary-policy"
         ],
-        "prompt": "A reduction in income tax increases disposable income for many households. Explain one possible effect on a UK restaurant chain.",
-        "answer": "Customers may have more disposable income and could spend more on eating out, raising demand for the chain.",
-        "explanation": "The transmission runs from a tax change to household disposable income, then potentially to demand. The result depends on whether customers choose restaurant spending.",
+        "prompt": "Compare the likely effect of a rise in interest rates on a heavily indebted housebuilder and a cash-rich software company. Give one justified difference.",
+        "answer": "The housebuilder is likely to be hurt more because its finance costs may rise and mortgage-sensitive demand may weaken. The cash-rich software company may receive more interest income, although its customers' spending could still fall.",
+        "explanation": "Interest-rate effects depend on the business model, debt, cash holdings and customer sensitivity rather than applying equally to all firms.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p7",
-        "capability": "compare_justify",
+        "capability": "contextual_application",
         "item_ids": [
-          "aqa-7132-3.7.5:monetary-policy",
-          "aqa-7132-3.1.3:market-conditions"
+          "aqa-7132-3.7.5:exchange-rates"
         ],
-        "prompt": "Compare the likely effect of higher interest rates on a highly geared housebuilder and a cash-rich software company. Give one reason for the difference.",
-        "answer": "The housebuilder is likely to face higher finance costs and weaker mortgage affordability for buyers, while the cash-rich software company may earn more interest on cash and have little extra debt cost. Their borrowing and customer-finance exposures differ.",
-        "explanation": "A valid comparison focuses on the specific exposure channels rather than treating rates as universally harmful.",
+        "prompt": "The pound falls in value. A UK clothing retailer imports most garments priced in US dollars and sells mainly in the UK. State one likely effect and one response.",
+        "answer": "Imported garments may cost more in pounds, raising costs. The retailer could seek alternative suppliers, improve efficiency or selectively raise prices.",
+        "explanation": "A weaker pound tends to make foreign-currency imports more expensive. The chosen response depends on contracts, supplier options and customers' willingness to pay.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p8",
         "capability": "contextual_judgement",
         "item_ids": [
-          "aqa-7132-3.7.5:inflation",
-          "aqa-7132-3.1.3:market-conditions"
+          "aqa-7132-3.7.5:fiscal-policy",
+          "aqa-7132-3.7.5:taxation"
         ],
-        "prompt": "A bakery experiences rising flour and wage costs during higher inflation. Is it certain that its profit will fall? Judge the claim.",
-        "answer": "No. Profit may fall if costs rise faster than prices, but the bakery may pass on some costs, change its product mix or be protected temporarily by contracts. Higher prices could also reduce customer demand.",
-        "explanation": "Inflation can affect both costs and selling prices, so the outcome depends on pricing power, demand and timing.",
+        "prompt": "The government cuts income tax and also increases public spending on local road repairs. Which is likely to be more important for a small road-maintenance contractor?",
+        "answer": "The increase in road-repair spending is likely to be more important because it can directly increase potential public-sector contracts; the income-tax cut has a more indirect effect through household spending.",
+        "explanation": "This judgement is specific to the contractor's exposure. Its conclusion could differ if the firm mainly served households rather than public bodies.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p9",
         "capability": "misconception_diagnostic",
         "item_ids": [
-          "aqa-7132-3.7.5:gdp",
-          "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
+          "aqa-7132-3.7.5:inflation"
         ],
-        "prompt": "A student says, 'Real GDP grew, so every UK business must have increased sales.' What is wrong with this conclusion?",
-        "answer": "GDP growth is an economy-wide indicator and does not guarantee sales growth for each firm or sector.",
-        "explanation": "Customer incomes, sector conditions, competition and product sensitivity differ. Economic data are context rather than deterministic forecasts.",
+        "prompt": "A student says, 'If inflation is 4%, every cost paid by every business rises by exactly 4%.' Is this correct?",
+        "answer": "No. Inflation measures a general price-level increase; individual input prices and wages can rise by more, less, or fall.",
+        "explanation": "The impact on a firm depends on its particular inputs, wage agreements, contracts and ability to change selling prices.",
         "calc": null
       },
       {
         "id": "bus-ext-001-p10",
         "capability": "mixed_synoptic_selection",
         "item_ids": [
-          "aqa-7132-3.7.5:exchange-rates",
+          "aqa-7132-3.7.5:gdp",
           "aqa-7132-3.7.5:inflation",
-          "aqa-7132-3.7.5:monetary-policy",
+          "aqa-7132-3.7.5:exchange-rates",
           "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data"
         ],
-        "prompt": "A UK electronics retailer imports goods priced in dollars, has a bank loan and sells mainly non-essential items. Select the two economic changes most likely to create immediate pressure on its costs or finance: (A) a weaker pound, (B) lower inflation, (C) higher interest rates, (D) higher real GDP growth.",
-        "answer": "A and C.",
-        "explanation": "A weaker pound can raise the sterling cost of dollar-priced imports, while higher interest rates can raise loan costs. The other changes may matter, but are less direct for the stated cost and finance exposures.",
+        "prompt": "A UK manufacturer reports that domestic GDP growth has slowed, inflation has raised imported component costs, and the pound has fallen. Select the two most useful further pieces of information: (A) the proportion of components imported, (B) the firm's export sales share, (C) the chief executive's favourite product, (D) the number of firms in an unrelated market.",
+        "answer": "A and B.",
+        "explanation": "The import share indicates cost exposure to the weaker pound and inflation, while export share shows whether a weaker pound may support overseas demand. The other information does not help trace the economic transmission to this firm.",
         "calc": null
       }
     ]

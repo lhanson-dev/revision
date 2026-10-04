@@ -9,6 +9,7 @@ import {
   type CourseExamAssessment,
 } from '../services/planning/course-exam-date-service'
 import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
+import { AqaBusinessQuestionBank } from './AqaBusinessQuestionBank'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
@@ -315,8 +316,8 @@ export function CourseExperienceScreen({
             covered={state.evidencedTopics}
             total={state.topicCount}
             understanding={understanding}
-            readiness={state.readiness.score === null ? null : `${state.readiness.score}%`}
-            readinessNote={state.readiness.score === null ? state.readiness.progress.nextStep : `Worked out from ${state.readiness.evidenceCount} scored attempts across ${state.readiness.familyCount} kinds of activity. Confidence: ${state.readiness.confidence}.`}
+            readiness={readinessFor(state).value}
+            readinessNote={readinessFor(state).note}
           />
 
           <div className="course-overview-columns">
@@ -360,6 +361,7 @@ export function CourseExperienceScreen({
 
         {section === 'exam-prep' && <div className="paper-section-content">
           <FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />
+          {course.examBoardName === 'AQA' && course.specificationCode === '7132' && <AqaBusinessQuestionBank />}
           <section className="home-section" aria-labelledby="choose-paper-title">
             <div className="section-heading"><div><p className="eyebrow">Paper-specific preparation</p><h2 id="choose-paper-title">Choose a paper</h2></div></div>
             <div className="subject-list">

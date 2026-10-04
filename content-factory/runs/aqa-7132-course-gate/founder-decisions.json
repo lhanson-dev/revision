@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-course-gate",
+  "decisions": [
+    {
+      "unit_id": "3.10.3",
+      "reviewed_run_id": 37044623003,
+      "reviewed_commit": "2c455560995553188c3e4b42f9729a47928f1bd1",
+      "reviewed_unit_fingerprint": "2a7e73795a939bd8724409616f26a7bcec03c20dfe64d4d4bc4752d8353d811e",
+      "decision": "fix",
+      "note": "Keep the AQA network-diagram presentation convention in exact Course Truth / Specification Mapping. Correct T8 to review the effective exact-course projection (reusable Subject Foundation teaching plus course-specific presentation obligations); do not copy the AQA-specific convention into the reusable Business Foundation.",
+      "decided_at": "2026-10-02T18:24:35Z"
+    }
+  ]
+}

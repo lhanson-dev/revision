@@ -1,6 +1,6 @@
 # Onboarding: choosing courses
 
-**Status:** built in PR 13 (draft, awaiting Founder review).
+**Status:** built in PR 13 (#501, merged with Founder approval, 2 Oct 2026).
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (section 4).
 
 ## What the student sees

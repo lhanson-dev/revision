@@ -5,59 +5,56 @@
     "sections": [
       {
         "treatment": "core_explanation",
-        "heading": "From purpose to targets",
-        "body": "A business purpose is its underlying reason for existing and the value it seeks to create. Its mission communicates a broad direction or identity. Objectives then turn that broad direction into intended results, such as profit, growth, survival or stronger cash generation. A measure, often called a KPI, is the metric used to observe progress. A target sets the desired level or deadline for that measure. The chain is: purpose → strategic priorities → objectives → measures and targets → decisions and behaviour → outcomes. Businesses may pursue several objectives at once, so managers need to decide which priorities matter most when resources are limited.",
+        "heading": "Why businesses exist and what objectives do",
+        "body": "A business has a purpose: its underlying reason for existing and the value it aims to create. Its mission gives broad direction and identity. Objectives then turn that broad direction into intended results. A business may pursue profit, growth, survival and cash flow at the same time. Profit provides a financial return; growth may increase sales or scale; survival focuses on continuing through difficult conditions; and cash flow focuses on having sufficient cash available to meet payments. The priority given to each can change with ownership, the business’s financial position, its life stage and external conditions.",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-exist",
-          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow"
         ]
       },
       {
         "treatment": "comparison",
-        "heading": "Keep the terms distinct",
-        "body": "Purpose answers “why does this organisation exist?”. A mission statement gives a broad, long-term statement of what it is for or stands for. An objective is a specific result it seeks. Profit, growth, survival and cash flow can all be objectives, but they are different: profit is the financial surplus from trading; growth means increasing the scale of the business; survival focuses on continuing to operate; and cash flow focuses on having sufficient cash available to meet commitments. A KPI is not an objective: it is a measure used to track performance. A target is the required level or deadline attached to a measure.",
+        "heading": "Comparing objectives and performance terms",
+        "body": "Purpose answers why the organisation exists. A mission is a broad statement of its role or direction. An objective is a result it wants to achieve. A measure or KPI is the metric used to observe performance, while a target gives a desired level or deadline for that measure. For example, improving customer service is an objective; average response time is a measure; replying within two hours by September is a target. Profit, cash and shareholder value are also different: a profitable business may still face cash shortages.",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-exist",
-          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow"
         ]
       },
       {
         "treatment": "connection_synoptic_link",
-        "heading": "Mission, stakeholders and changing priorities",
-        "body": "Mission is influenced by ownership and what owners value, founders’ values, stakeholder expectations, business stage, financial position and external pressures such as competition, technology, law and social attitudes. A shareholder-owned business may emphasise financial return, while a social enterprise may give greater weight to community or environmental outcomes. Social and ethical objectives include reducing environmental impact, fair treatment of employees and suppliers, ethical sourcing and community support. These can strengthen reputation and loyalty, but may raise costs or limit short-run profit. Mission usually changes gradually, but a new owner, crisis or move into a new market can prompt a rewrite. Objectives should remain consistent with the mission, even when stakeholder demands create trade-offs.",
+        "heading": "Mission, stakeholder priorities and social objectives",
+        "body": "A mission should influence the objectives selected. For instance, a mission based on affordable healthy food could lead to objectives on price and sales of healthy products. Social and ethical objectives go beyond financial return, such as lowering environmental impact, treating employees and suppliers fairly, ethical sourcing or community support. They may strengthen reputation and customer loyalty, but can increase costs or constrain short-run profit. Mission emphasis is shaped by ownership, founder values, stakeholder expectations, life stage, financial position and external forces such as competition, technology, law and social attitudes. These links connect strategy with stakeholder management and operational decisions.",
         "item_ids": [
-          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:social-and-ethical-objectives",
           "aqa-7132-3.7.1:influences-on-mission"
         ]
       },
       {
         "treatment": "example_non_example",
-        "heading": "Mission translated into action",
-        "body": "Example: A café’s mission is to provide affordable healthy food. It sets objectives to keep average prices below £5 and increase sales of healthy lines by 15% within one year. Average selling price and healthy-line sales are measures; “below £5” and “15% within one year” are targets. Non-example: saying “revenue” is an objective gives no direction about whether the business wants revenue growth, a revenue level, a timeframe or an acceptable profit position. Another non-example is treating a KPI dashboard as a strategy: measures monitor performance but do not themselves explain what the business is trying to achieve.",
+        "heading": "A mission influence in context",
+        "body": "Example: After a new owner buys a clothing retailer, they place greater value on ethical sourcing. The mission may gradually place more emphasis on responsible supply chains, followed by objectives for supplier standards. A financial crisis could instead make survival and cash generation more prominent. Non-example: calling a KPI dashboard a mission. A dashboard contains measures; it does not explain the business’s broad purpose or intended role.",
         "item_ids": [
-          "aqa-7132-3.1.1:mission-statement",
-          "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow"
+          "aqa-7132-3.7.1:influences-on-mission",
+          "aqa-7132-3.1.1:social-and-ethical-objectives"
         ]
       },
       {
         "treatment": "misconception_repair",
-        "heading": "A number can improve while performance worsens",
-        "body": "Misconception: “A KPI is an objective.” Correction: a KPI measures progress, whereas an objective is the result sought. Misconception: “A SMART objective must be a good objective.” Correction: SMART can make an objective precise, but cannot show whether it fits the mission or creates harmful incentives. For example, a service business may target shorter call times. Staff could rush customers to hit the target, reducing first-contact resolution and harming the underlying aim of good customer service. Use a balanced set of reliable measures, including non-financial leading indicators where useful, and check for unintended behavioural effects.",
+        "heading": "Do not confuse a KPI with the objective",
+        "body": "A KPI is not an objective. The objective is the result sought; the KPI is evidence used to judge progress. Likewise, a SMART objective is not automatically strategically good. It may be specific and timed but still conflict with the mission or create harmful incentives. If a call centre targets shorter calls alone, employees may rush customers and reduce first-contact resolution. The target is met, but the underlying customer objective is weakened.",
         "item_ids": [
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
-          "aqa-7132-3.1.1:mission-statement"
+          "aqa-7132-3.1.1:why-businesses-exist"
         ]
       },
       {
         "treatment": "self_explanation_prompt",
         "heading": "Check alignment and trade-offs",
-        "body": "A business says its purpose is reliable service and its mission stresses long-term customer relationships. Explain: (1) which two objectives it might choose; (2) one financial and one non-financial measure it could use; (3) how a target based only on speed could distort employee behaviour; and (4) why its mission might change if a new owner prioritised environmental impact. In your explanation, distinguish the desired outcome from the number used to monitor it.",
+        "body": "Choose a local business and explain: (1) why it exists; (2) one likely financial objective and one non-financial or ethical objective; (3) how its ownership or financial position might influence its mission; and (4) one target that could cause unintended behaviour. Then state an additional measure that would reduce the risk of staff simply gaming the target.",
         "item_ids": [
           "aqa-7132-3.1.1:why-businesses-exist",
-          "aqa-7132-3.1.1:mission-statement",
+          "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
           "aqa-7132-3.1.1:social-and-ethical-objectives",
           "aqa-7132-3.7.1:influences-on-mission"
         ]
@@ -66,47 +63,43 @@
     "key_terms": [
       {
         "term": "purpose",
-        "definition": "The underlying reason an organisation exists and the value it intends to create."
+        "definition": "The underlying reason an organisation exists."
       },
       {
-        "term": "mission statement",
-        "definition": "A broad statement of a business’s direction, intended role or identity."
+        "term": "mission",
+        "definition": "A broad statement of a business’s direction or intended role."
       },
       {
         "term": "objective",
-        "definition": "A result that a business aims to achieve."
-      },
-      {
-        "term": "profit objective",
-        "definition": "An aim to generate a financial surplus from trading."
-      },
-      {
-        "term": "growth objective",
-        "definition": "An aim to increase the scale of the business."
-      },
-      {
-        "term": "survival objective",
-        "definition": "An aim to continue operating, often especially important in difficult conditions."
-      },
-      {
-        "term": "cash flow objective",
-        "definition": "An aim to maintain sufficient cash available to meet payments when due."
+        "definition": "A result that a business seeks to achieve."
       },
       {
         "term": "measure or KPI",
-        "definition": "A metric used to observe performance and progress."
+        "definition": "A metric used to observe performance."
       },
       {
         "term": "target",
         "definition": "A desired level or deadline attached to a measure."
       },
       {
-        "term": "social and ethical objectives",
-        "definition": "Goals beyond financial return, such as reducing environmental impact or treating employees and suppliers fairly."
+        "term": "profit objective",
+        "definition": "An aim to generate a financial surplus or return."
       },
       {
-        "term": "stakeholder",
-        "definition": "A person or group affected by, or able to affect, a business."
+        "term": "growth objective",
+        "definition": "An aim to increase the scale of the business, such as sales or output."
+      },
+      {
+        "term": "survival objective",
+        "definition": "An aim to continue operating, especially during difficult conditions."
+      },
+      {
+        "term": "cash-flow objective",
+        "definition": "An aim to maintain enough cash to meet payments when due."
+      },
+      {
+        "term": "social and ethical objectives",
+        "definition": "Goals beyond financial return, such as reducing environmental impact or treating stakeholders fairly."
       }
     ],
     "worked_examples": []
@@ -117,12 +110,11 @@
         "id": "bus-fnd-005-p1",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.1.1:why-businesses-exist",
-          "aqa-7132-3.1.1:mission-statement"
+          "aqa-7132-3.1.1:why-businesses-exist"
         ],
-        "prompt": "State the difference between a business’s purpose and its mission statement.",
-        "answer": "Purpose is why the business exists; a mission statement communicates its broad direction or intended role.",
-        "explanation": "Purpose is the underlying reason for existence, while mission is the broad statement used to express that direction.",
+        "prompt": "What is meant by the purpose of a business?",
+        "answer": "Its underlying reason for existing and the value it intends to create.",
+        "explanation": "Purpose is broader than a specific objective or a performance measure.",
         "calc": null
       },
       {
@@ -131,9 +123,9 @@
         "item_ids": [
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow"
         ],
-        "prompt": "Classify each as an objective, measure or target: (a) improve cash flow, (b) monthly cash balance, (c) maintain a monthly cash balance of at least £30,000 by September.",
-        "answer": "(a) objective; (b) measure; (c) target.",
-        "explanation": "The objective is the result sought, the measure observes cash performance, and the target adds a required level and deadline.",
+        "prompt": "A café wants enough money in its bank account to pay wages and rent on time. Which objective is most directly relevant: profit, growth, survival or cash flow?",
+        "answer": "Cash flow.",
+        "explanation": "The issue is the availability of cash to make payments, rather than the level of accounting profit or the scale of sales.",
         "calc": null
       },
       {
@@ -142,44 +134,42 @@
         "item_ids": [
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow"
         ],
-        "prompt": "Explain one difference between a survival objective and a growth objective, and justify why survival may take priority for a business facing a cash crisis.",
-        "answer": "Survival aims to keep the business operating, whereas growth aims to increase its scale. Survival may take priority because the business cannot pursue growth if it cannot meet payments and continues to trade only for a short time.",
-        "explanation": "The objectives have different time horizons and priorities. Immediate financial pressure can make continued operation more important than expansion.",
+        "prompt": "Compare a survival objective with a growth objective for a small retailer facing a sharp fall in demand.",
+        "answer": "Survival prioritises continuing to trade and preserving cash, whereas growth aims to increase the scale of the business. In a sharp downturn, survival is likely to be the more immediate priority because expansion could use scarce cash and increase risk.",
+        "explanation": "Objectives can change in importance when financial conditions change.",
         "calc": null
       },
       {
         "id": "bus-fnd-005-p4",
         "capability": "contextual_application",
         "item_ids": [
-          "aqa-7132-3.1.1:social-and-ethical-objectives",
-          "aqa-7132-3.1.1:mission-statement"
+          "aqa-7132-3.1.1:social-and-ethical-objectives"
         ],
-        "prompt": "A UK clothing retailer has a mission centred on responsible fashion. Give one social or ethical objective and one measure that would fit this mission.",
-        "answer": "Objective: improve fair treatment of suppliers. Measure: the proportion of suppliers assessed against the retailer’s supplier standards.",
-        "explanation": "The objective reflects responsible fashion, while the proportion assessed is a measurable indicator of progress. Other suitably aligned social or ethical objectives and measures are valid.",
+        "prompt": "A Manchester cosmetics business changes to recyclable packaging, increasing its costs. Identify one social or ethical objective this could support and one possible short-run drawback.",
+        "answer": "It could support reducing environmental impact. A short-run drawback is higher costs, which may reduce profit or require higher prices.",
+        "explanation": "Ethical objectives can support reputation and loyalty but may involve financial trade-offs.",
         "calc": null
       },
       {
         "id": "bus-fnd-005-p5",
         "capability": "contextual_judgement",
         "item_ids": [
-          "aqa-7132-3.7.1:influences-on-mission",
-          "aqa-7132-3.1.1:social-and-ethical-objectives"
+          "aqa-7132-3.7.1:influences-on-mission"
         ],
-        "prompt": "A profitable family-owned food producer is bought by a social enterprise that places high value on reducing environmental impact. Judge whether the producer should revise its mission immediately.",
-        "answer": "A revision is likely to be justified because ownership and owner values strongly influence mission. However, the business should ensure the revised mission remains realistic given its financial position and can be translated into achievable objectives.",
-        "explanation": "A change of owner can prompt a mission rewrite. The judgement is not automatic because mission must still be strategically feasible and aligned with the business’s circumstances.",
+        "prompt": "A shareholder-owned delivery firm is acquired by a social enterprise after repeated customer complaints about worker treatment. Judge whether its mission is likely to change quickly or gradually.",
+        "answer": "It is likely to be rewritten or substantially changed because a change of owner and strong stakeholder concerns can alter the values shaping mission. However, changes in actual operations may take longer to implement.",
+        "explanation": "Mission emphasis usually develops gradually, but a new owner or crisis can trigger a rewrite.",
         "calc": null
       },
       {
         "id": "bus-fnd-005-p6",
         "capability": "misconception_diagnostic",
         "item_ids": [
-          "aqa-7132-3.1.1:mission-statement"
+          "aqa-7132-3.1.1:why-businesses-exist"
         ],
-        "prompt": "A manager says: “Our KPI is to answer every call within 20 seconds, so excellent customer service is guaranteed.” What is wrong with this claim?",
-        "answer": "Answering speed is a measure and target, not proof of excellent service. Staff may rush calls, reducing resolution or customer understanding.",
-        "explanation": "A single measure can distort behaviour. The underlying objective needs other relevant measures, such as first-contact resolution, as well as attention to the customer outcome.",
+        "prompt": "A student says, “Our KPI is customer satisfaction, so customer satisfaction is our objective.” Is this accurate?",
+        "answer": "Not necessarily. Customer satisfaction can be the objective, but the KPI is the measure used to observe it, such as a survey score or complaint rate.",
+        "explanation": "An objective is the intended result; a KPI is a metric. They should not be treated as the same thing.",
         "calc": null
       },
       {
@@ -187,14 +177,12 @@
         "capability": "mixed_synoptic_selection",
         "item_ids": [
           "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
-          "aqa-7132-3.1.1:why-businesses-exist",
-          "aqa-7132-3.1.1:mission-statement",
           "aqa-7132-3.1.1:social-and-ethical-objectives",
           "aqa-7132-3.7.1:influences-on-mission"
         ],
-        "prompt": "A delivery firm exists to make local shopping more convenient. Its mission promises dependable, lower-impact deliveries. Select the best set of aligned objectives: A. maximise number of deliveries per driver, regardless of complaints; B. improve reliability, protect cash availability and reduce environmental impact; C. publish a KPI dashboard with no stated results; D. cut delivery quality to raise short-run profit.",
-        "answer": "B. Improve reliability, protect cash availability and reduce environmental impact.",
-        "explanation": "Option B turns the purpose and mission into compatible operational, financial and ethical objectives. A and D risk misalignment, while C gives measures without objectives.",
+        "prompt": "A food delivery business has a mission to provide affordable, reliable meals. It sets a target to cut delivery time but riders begin taking unsafe shortcuts and customer complaints rise. Select the best recommendation: A) keep only the delivery-time target because it is measurable; B) remove all targets; C) use delivery time alongside safety and customer-outcome measures, and review the target; D) focus only on profit.",
+        "answer": "C) Use delivery time alongside safety and customer-outcome measures, and review the target.",
+        "explanation": "A single target can distort behaviour. A balanced set of measures better reflects the mission and reduces harmful local optimisation.",
         "calc": null
       }
     ]

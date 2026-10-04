@@ -259,6 +259,9 @@ export function generationPayload(input: { spec: ResolvedSpec; teaching: Questio
   return {
     plan: { id: input.spec.id, family: input.spec.family, marks: input.spec.marks, command_word: input.spec.commandWord, ao_tags: input.spec.ao, brief: input.spec.brief, formula_ids: input.spec.formulaIds },
     target_items: input.spec.items.map((item) => ({ id: item.id, label: item.label, kind: item.kind, aqa_convention: item.aqaConvention ?? null })),
+    target_item_rule: input.spec.items.length > 1
+      ? 'Every target item must be directly required by the question stem and necessary to earn full marks. A target item merely mentioned in the context does not count as being assessed. The mark scheme must not award knowledge or application that the stem does not explicitly require.'
+      : 'The target item must be directly required by the question stem and necessary to earn the planned marks.',
     node_teaching: input.teaching.map((node) => ({ id: `foundation-node:${node.subject_id}`, title: node.title ?? node.subject_id, teaching_content: node.teaching_content, quantitative_content: node.quantitative_content })),
     formula_library: FORMULA_LIBRARY.filter((formula) => input.spec.formulaIds.includes(formula.id)).map(({ id, label, inputs, series, unit, expression }) => ({ id, label, inputs, series_inputs: series ?? [], unit, expression })),
     fix_these: input.feedback.map((finding) => ({ check_id: finding.check_id, affected_ids: finding.affected_ids, finding: finding.finding, proposed_fix: finding.proposed_fix })),
@@ -333,6 +336,7 @@ export const QUESTION_GENERATION_INSTRUCTIONS = [
   'Use ONLY the node teaching supplied as your subject knowledge. British English, UK business contexts, £. Invent a realistic business and realistic numbers.',
   'The question must be Revision-authored. Never quote or closely paraphrase AQA specification wording, mark schemes or past-paper questions. It is "AQA-style practice", never an AQA question.',
   'Follow the plan exactly: the id, family, marks, command_word and ao_tags must match, and the question must test the target items.',
+  'Obey target_item_rule exactly. When more than one target item is supplied, every one must be directly required by the stem and necessary for full marks; using an item only as background/context is not sufficient, and the mark scheme must not award knowledge the stem did not ask for.',
   'Put every number a student needs in the stem or table. Never rely on a number that is not given (except one a student calculates in an earlier part of the same question).',
   'For every planned formula give one entry in calcs: formula_id, inputs using EXACTLY the input names in formula_library, stated_answer (rounded to at most 2 decimal places) and unit. The software recomputes every calculation and rejects any mismatch, and it checks that the mark scheme states each answer.',
   'MCQ: exactly four options labelled A, B, C, D; mark_scheme.type single_option; correct_option; one rationale per option, saying why each distractor is wrong; exactly one correct option; options is empty for every other family.',

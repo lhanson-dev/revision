@@ -5,8 +5,8 @@
     "sections": [
       {
         "treatment": "core_explanation",
-        "heading": "What network analysis shows",
-        "body": "Network analysis maps a project as activities linked by dependencies. It helps a manager see which tasks must happen in sequence, which can run at the same time, and the earliest calculated completion time. Critical Path Analysis (CPA) uses the durations and dependencies in that network to identify the path that controls the project finish date.",
+        "heading": "Using network analysis to plan a project",
+        "body": "Network analysis maps project activities and the dependencies between them. It helps a business see which work must happen first, which work can run in parallel and the earliest completion time suggested by the stated durations. In an activity-on-arrow network, each activity is shown by an arrow: put its letter above the arrow and its duration below it. Each event is a split circle: the event number is on the left, the earliest event time is in the upper-right and the latest event time is in the lower-right.\n\nThe critical path is the longest-duration route through the network. It determines the calculated minimum project completion time. Activities on this route are schedule-critical because a delay will delay the whole project unless time is recovered elsewhere.",
         "item_ids": [
           "aqa-7132-3.10.3:network-analysis",
           "aqa-7132-3.10.3:critical-path"
@@ -15,16 +15,16 @@
       {
         "treatment": "example_non_example",
         "heading": "Critical does not mean most expensive",
-        "body": "Example: a retailer’s shop-refit project has design, then ordering, then installation. If this route takes 15 days while staff training takes 10 days in parallel, the design-ordering-installation route is critical. Non-example: deciding that installation is critical merely because it is the most expensive task. Criticality is about its effect on the completion date, not its cost or strategic importance.",
+        "body": "Example: A retailer's shop-refit project has a design, procurement and installation route lasting 12 days. A staff-training route takes 9 days. The 12-day route is critical because it is longer and determines completion.\n\nNon-example: Installation is the most expensive activity, so it must be critical. Cost does not determine criticality. An activity is critical because of its position, dependencies and timing in the network.\n\nLikewise, an activity outside the critical path still matters. It may use resources, affect quality and become critical after its float has been used.",
         "item_ids": [
-          "aqa-7132-3.10.3:network-analysis",
-          "aqa-7132-3.10.3:critical-path"
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
         ]
       },
       {
         "treatment": "guided_example",
-        "heading": "Find the controlling route",
-        "body": "Suppose A takes 2 days, then splits into B taking 6 days and C taking 3 days. D takes 2 days but can start only when both B and C finish. Step 1: calculate routes: A-B-D takes 10 days; A-C-D takes 7 days. Step 2: select the longest dependency path. A-B-D is the critical path. Step 3: recognise that C’s route has 3 days of schedule flexibility before it affects the finish date.",
+        "heading": "Guided route comparison",
+        "body": "A café refurbishment has two routes to its final opening event:\n\n• A → B → D: 3 + 5 + 4 = 12 days\n• A → C → D: 3 + 2 + 4 = 9 days\n\nStep 1: Add the durations on each complete dependency route.\n\nStep 2: Select the longest route, not the route with the most activities. A → B → D is the critical path because 12 days is longer than 9 days.\n\nStep 3: Interpret the result. The project cannot finish earlier than day 12 under these estimates. The shorter route has 3 days of scheduling flexibility relative to the longer route, subject to the network timing convention.",
         "item_ids": [
           "aqa-7132-3.10.3:network-analysis",
           "aqa-7132-3.10.3:critical-path",
@@ -33,8 +33,29 @@
       },
       {
         "treatment": "misconception_repair",
-        "heading": "Float is not spare capacity",
-        "body": "A non-critical activity is still important. Its float is time flexibility in the current schedule, not spare staff, money or permission to ignore the task. A delay can use up its float; after that, the activity may become critical. Similarly, the critical path is not permanently fixed: changed durations, dependencies or resource constraints can create a different critical path.",
+        "heading": "Float is flexibility, not spare resources",
+        "body": "A common mistake is to treat float as spare labour, spare materials or permission to ignore an activity. Total float is time flexibility only: it is the amount by which an activity may be delayed or extended without delaying the overall project or target finish.\n\nA second mistake is to assume the critical path never changes. If a duration changes, a dependency changes, or resources force a different sequence, the network must be recalculated. A previously non-critical route may then become critical.",
+        "item_ids": [
+          "aqa-7132-3.10.3:total-float",
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:amending-network-diagrams"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "How to analyse and amend a network",
+        "body": "1. List activities, durations and dependencies.\n2. Draw an activity-on-arrow network, ensuring each activity begins only after its required preceding event.\n3. Calculate earliest event times by moving forwards through the network.\n4. Calculate latest event times by moving backwards from the final event.\n5. Identify the longest-duration route and hence the critical path.\n6. Calculate total float where needed: latest finish time − duration − earliest start time.\n7. If a duration or dependency changes, redraw or amend the relevant arrows and repeat the timing calculations. Then review the new project duration, critical path and floats.\n8. Decide whether the revised plan is realistic, considering resources, cost, quality, risk and the deadline.",
+        "item_ids": [
+          "aqa-7132-3.10.3:network-analysis",
+          "aqa-7132-3.10.3:amending-network-diagrams",
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why a delay can change management priorities",
+        "body": "Dependencies and duration estimates determine route timings. The longest route becomes the critical path, so managers prioritise avoiding delays on its activities. A delay on a critical activity delays project completion unless recovered. A delay on a non-critical activity first consumes its float; once that float is exhausted, that route can become critical.\n\nResource shortages can lengthen an activity or force a changed sequence. This changes the network timings, so managers must recalculate the path and then weigh the time benefit of intervention against possible higher cost or lower quality.",
         "item_ids": [
           "aqa-7132-3.10.3:critical-path",
           "aqa-7132-3.10.3:total-float",
@@ -42,101 +63,77 @@
         ]
       },
       {
-        "treatment": "process_sequence",
-        "heading": "How to amend a network",
-        "body": "1. Record the changed activity duration or dependency. 2. Redraw or update the affected network links. 3. Recalculate the duration of every route. 4. Identify the new longest route and project duration. 5. Recalculate float for relevant activities. 6. Review consequences for resources, cost, quality, risk and the deadline. A faster route does not automatically mean the project is feasible if it needs unavailable staff or reduces quality.",
-        "item_ids": [
-          "aqa-7132-3.10.3:amending-network-diagrams",
-          "aqa-7132-3.10.3:network-analysis",
-          "aqa-7132-3.10.3:critical-path",
-          "aqa-7132-3.10.3:total-float"
-        ]
-      },
-      {
-        "treatment": "relationship_causal_chain",
-        "heading": "Why a delay can change priorities",
-        "body": "Dependencies plus estimated durations determine route lengths. The longest route determines the calculated project duration and therefore management’s schedule priority. A delay on a critical activity delays the project unless time is recovered elsewhere. A delay on a non-critical activity first consumes float; if the delay exceeds that float, the route can become critical and the forecast completion date can worsen.",
-        "item_ids": [
-          "aqa-7132-3.10.3:critical-path",
-          "aqa-7132-3.10.3:total-float",
-          "aqa-7132-3.10.3:network-analysis"
-        ]
-      },
-      {
         "treatment": "self_explanation_prompt",
-        "heading": "Check your own reasoning",
-        "body": "A café chain has one route for premises approval and building work, and another for recruiting and training staff. Ask yourself: which route would determine the opening date? What evidence would you need before reallocating staff from the non-critical route? Explain why a route with float could still deserve close management attention.",
+        "heading": "Explain the management response",
+        "body": "A project manager finds that a non-critical activity now has only one day of float after a supplier delay. Explain, in your own words, why the manager should monitor it more closely even though it is not currently on the critical path. Then identify one check the manager should make before moving workers from another activity.",
         "item_ids": [
-          "aqa-7132-3.10.3:network-analysis",
-          "aqa-7132-3.10.3:critical-path",
-          "aqa-7132-3.10.3:total-float"
+          "aqa-7132-3.10.3:total-float",
+          "aqa-7132-3.10.3:critical-path"
         ]
       },
       {
         "treatment": "worked_example",
-        "heading": "Calculate total float and revise the schedule",
-        "body": "For an activity, total float can be calculated as latest finish time minus duration minus earliest start time. A packaging task has latest finish time 11, duration 3 days and earliest start time 6. Its float is 11 − 3 − 6 = 2 days. In a separate network, routes A-B-D and A-C-D originally take 9 and 7 days. If B is shortened so that its route also becomes 7 days, the project becomes 7 days long but both routes are now critical. Further shortening B alone would not reduce the overall project duration because the A-C-D route would still take 7 days.",
+        "heading": "Worked example: calculating total float",
+        "body": "A UK manufacturer is fitting new packaging equipment. Activity P has an earliest start time of day 8, a duration of 4 days and a latest finish time of day 14.\n\nTotal float = latest finish time − duration − earliest start time.\n\nTotal float = 14 − 4 − 8 = 2 time periods.\n\nTherefore, P can be delayed or extended by 2 days without delaying the project finish, assuming the current network and duration estimates remain valid.",
         "item_ids": [
-          "aqa-7132-3.10.3:total-float",
-          "aqa-7132-3.10.3:amending-network-diagrams",
-          "aqa-7132-3.10.3:critical-path"
+          "aqa-7132-3.10.3:total-float"
         ]
       }
     ],
     "key_terms": [
       {
+        "term": "network analysis",
+        "definition": "Analysis of a project network to plan activity timing and dependencies."
+      },
+      {
         "term": "network diagram",
         "definition": "A model showing project activities and the dependencies between them."
       },
       {
-        "term": "network analysis",
-        "definition": "Using a project network to analyse activity order, timing and completion."
-      },
-      {
         "term": "dependency",
-        "definition": "A logical link that means one activity constrains when another can start or finish."
+        "definition": "A logical relationship that restricts the sequence of activities."
       },
       {
         "term": "critical path",
-        "definition": "The longest-duration dependent route through a network, which determines the calculated project duration."
+        "definition": "The longest-duration dependency route through a network, which determines its completion time."
       },
       {
         "term": "critical activity",
-        "definition": "An activity on the critical path, normally with zero float in the current deterministic schedule."
+        "definition": "An activity with zero, or the lowest relevant, float in the current deterministic schedule."
       },
       {
         "term": "total float",
-        "definition": "The time an activity can be delayed or extended without delaying the overall project finish under the current network."
+        "definition": "The time an activity can be delayed or extended without delaying overall completion or the target finish."
       },
       {
         "term": "amending a network diagram",
-        "definition": "Changing durations or dependencies and then recalculating route lengths, float, critical path and project duration."
+        "definition": "Changing a duration or dependency and recalculating timings, floats, critical path and project duration."
       }
     ],
     "worked_examples": [
       {
         "id": "we-total-float-packaging",
         "item_id": "aqa-7132-3.10.3:total-float",
-        "scenario": "A manufacturer’s packaging-test activity has a latest finish time of 11 days, lasts 3 days and has an earliest start time of day 6.",
+        "scenario": "A manufacturer is installing packaging equipment. Activity P has an earliest start time of 8 days, takes 4 days and has a latest finish time of 14 days.",
         "steps": [
           "Use total float = latest finish time − duration − earliest start time.",
-          "Substitute the timings: 11 − 3 − 6.",
-          "The activity can slip by 2 days without changing the project finish, assuming the network remains unchanged."
+          "Substitute the timings: 14 − 4 − 8.",
+          "The result is 2 days, so this is schedule flexibility rather than spare resources."
         ],
         "calc": {
           "formula_id": "total_float",
           "inputs": [
             {
               "name": "latest_finish_time",
-              "value": 11
+              "value": 14
             },
             {
               "name": "duration",
-              "value": 3
+              "value": 4
             },
             {
               "name": "earliest_start_time",
-              "value": 6
+              "value": 8
             }
           ],
           "stated_answer": 2,
@@ -148,112 +145,101 @@
   "practice": {
     "items": [
       {
-        "id": "p-retrieval-network-purpose",
+        "id": "p-retrieval-critical-path",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.10.3:network-analysis"
+          "aqa-7132-3.10.3:critical-path"
         ],
-        "prompt": "What does a network diagram model in a project?",
-        "answer": "Activities and the dependencies between them.",
-        "explanation": "It represents the logical sequence and links between project tasks; this supports scheduling analysis.",
+        "prompt": "What is the critical path in a project network?",
+        "answer": "The longest-duration dependency route, which determines the project's calculated completion time.",
+        "explanation": "Criticality is based on timing and dependencies, not cost or number of activities.",
         "calc": null
       },
       {
-        "id": "p-calculation-total-float",
+        "id": "p-construction-activity-on-arrow",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.10.3:network-analysis"
+        ],
+        "prompt": "Construct an activity-on-arrow network for this project: A takes 2 days from the start; B takes 4 days after A; C takes 3 days after A; D takes 2 days only after both B and C finish. State the arrows you would draw and what each event circle must show.",
+        "answer": "Draw 1→2: A, 2 days; 2→3: B, 4 days; 2→4: C, 3 days; then arrange D, 2 days, from the event reached after both B and C to the final event, using suitable dummy logic if needed to preserve the dependency. Each split event circle shows event number on the left, earliest time upper-right and latest time lower-right.",
+        "explanation": "The network must show that A precedes both B and C, and that D cannot begin until both routes are complete. Activity letters go above arrows and durations below them.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-float",
         "capability": "calculation",
         "item_ids": [
           "aqa-7132-3.10.3:total-float"
         ],
-        "prompt": "A website-testing activity has a latest finish time of 15 days, duration of 4 days and earliest start time of day 8. Calculate its total float.",
-        "answer": "3 time periods.",
-        "explanation": "Total float = 15 − 4 − 8 = 3. The activity has three time periods of schedule flexibility under the current network.",
+        "prompt": "Activity R has a latest finish time of day 18, duration of 5 days and earliest start time of day 11. Calculate its total float.",
+        "answer": "2 time periods.",
+        "explanation": "Total float = 18 − 5 − 11 = 2. This means R has two time periods of schedule flexibility under the current network.",
         "calc": {
           "formula_id": "total_float",
           "inputs": [
             {
               "name": "latest_finish_time",
-              "value": 15
+              "value": 18
             },
             {
               "name": "duration",
-              "value": 4
+              "value": 5
             },
             {
               "name": "earliest_start_time",
-              "value": 8
+              "value": 11
             }
           ],
-          "stated_answer": 3,
+          "stated_answer": 2,
           "unit": "time periods"
         }
       },
       {
-        "id": "p-construction-precedence-network",
-        "capability": "construction",
-        "item_ids": [
-          "aqa-7132-3.10.3:network-analysis"
-        ],
-        "prompt": "Construct a precedence network in words for these activities: A obtain planning approval; B order fittings after A; C recruit staff after A; D open the store after both B and C.",
-        "answer": "Start → A; A → B and C; B and C → D → Finish.",
-        "explanation": "B and C depend on A, while D cannot begin until both parallel activities are complete.",
-        "calc": null
-      },
-      {
-        "id": "p-interpretation-critical-path",
-        "capability": "interpretation",
-        "item_ids": [
-          "aqa-7132-3.10.3:critical-path"
-        ],
-        "prompt": "A project has two routes: A-B-D takes 14 days and A-C-D takes 11 days. Identify the critical path and explain what it means.",
-        "answer": "A-B-D; it determines the calculated 14-day project duration.",
-        "explanation": "The critical path is the longest dependent route. A delay to it, unless recovered, delays the overall project.",
-        "calc": null
-      },
-      {
-        "id": "p-procedure-amend-network",
+        "id": "p-procedure-amendment",
         "capability": "procedure_execution",
         "item_ids": [
           "aqa-7132-3.10.3:amending-network-diagrams"
         ],
-        "prompt": "State the key steps a manager should take after an activity duration is changed in a network diagram.",
-        "answer": "Update the duration, recalculate route lengths and project duration, identify the new critical path, recalculate float, then review resource, cost, quality and risk effects.",
-        "explanation": "A duration change can alter both the completion forecast and which activities are schedule-critical.",
+        "prompt": "A supplier delay changes activity C from 2 days to 5 days. Give the procedure a manager should follow before announcing a revised completion date.",
+        "answer": "Amend C's duration in the network, recalculate earliest and latest timings, identify the revised longest path and floats, then state the revised project duration and assess resource, cost and quality implications.",
+        "explanation": "A duration change can alter the critical path, so the original completion date cannot simply be assumed to remain valid.",
         "calc": null
       },
       {
-        "id": "p-reasoning-delay-float",
+        "id": "p-interpretation-routes",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
+        ],
+        "prompt": "A project has two complete routes: A–B–E takes 15 days and A–C–E takes 13 days. Interpret this information.",
+        "answer": "A–B–E is the critical path and the calculated project duration is 15 days. The A–C–E route has 2 days of timing flexibility relative to it.",
+        "explanation": "The longest route determines completion. The shorter route is not unimportant, because delay can use its flexibility and make it critical.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-delay",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:network-analysis"
+        ],
+        "prompt": "A bakery is opening a new site. Oven installation is on the critical path and will be delayed by two days. Explain the likely effect on the opening date and one possible management response.",
+        "answer": "The opening date is likely to move back by two days unless time is recovered elsewhere. The manager could seek a faster installation option, while checking its cost and quality implications.",
+        "explanation": "A critical activity has no timing flexibility in the current schedule. A response should consider trade-offs, not just speed.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain-near-critical",
         "capability": "reasoning_chain",
         "item_ids": [
           "aqa-7132-3.10.3:total-float",
           "aqa-7132-3.10.3:critical-path"
         ],
-        "prompt": "A non-critical supplier-selection activity has 2 days of float but is delayed by 3 days. Explain the likely schedule consequence.",
-        "answer": "It uses the 2 days of float and then is 1 day beyond it, so it is likely to delay the project by 1 day unless time is recovered elsewhere.",
-        "explanation": "Float absorbs delay only up to its amount. Once it is exhausted, that route can become critical.",
-        "calc": null
-      },
-      {
-        "id": "p-contextual-application-refit",
-        "capability": "contextual_application",
-        "item_ids": [
-          "aqa-7132-3.10.3:network-analysis",
-          "aqa-7132-3.10.3:critical-path"
-        ],
-        "prompt": "A UK retailer is refitting a branch. Design, ordering and installation form the critical path. Staff training has 4 days of float. Give one sensible use of this information.",
-        "answer": "The retailer should closely monitor and protect the design-ordering-installation route, while scheduling training within its 4-day flexibility.",
-        "explanation": "The critical route directly threatens the opening date, whereas the training task has limited timing flexibility.",
-        "calc": null
-      },
-      {
-        "id": "p-contextual-judgement-resource-tradeoff",
-        "capability": "contextual_judgement",
-        "item_ids": [
-          "aqa-7132-3.10.3:amending-network-diagrams",
-          "aqa-7132-3.10.3:critical-path"
-        ],
-        "prompt": "A builder proposes overtime to shorten a critical activity by 2 days, but it would substantially increase cost and may reduce quality. Should the manager automatically accept?",
-        "answer": "No. The manager should compare the deadline benefit with the higher cost, quality risk, resource availability and whether another route would become critical.",
-        "explanation": "Shortening a critical task can help, but it may not shorten the project by the full amount if a different route becomes critical, and trade-offs matter.",
+        "prompt": "Explain the chain of effects if a non-critical activity with one day of total float is delayed by three days.",
+        "answer": "The first day of delay uses its float. The remaining two days delay its route beyond the permitted timing, so that route may become critical and delay project completion unless recovery action is taken.",
+        "explanation": "Float is limited schedule flexibility. Once it is exceeded, the activity can threaten the final deadline.",
         "calc": null
       },
       {
@@ -263,9 +249,21 @@
           "aqa-7132-3.10.3:critical-path",
           "aqa-7132-3.10.3:total-float"
         ],
-        "prompt": "A manager says, “Tasks outside the critical path do not need managing.” Is this correct?",
-        "answer": "No.",
-        "explanation": "Non-critical tasks can consume float, affect cost or quality, constrain resources and become critical after schedule changes.",
+        "prompt": "A manager says: 'The activities outside the critical path do not need managing because they cannot affect the finish date.' Is this correct?",
+        "answer": "No. They can consume float, affect cost or quality, use scarce resources and become critical if the schedule changes.",
+        "explanation": "Non-critical means there is currently some timing flexibility; it does not mean the activity is irrelevant.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-judgement-resource",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.10.3:amending-network-diagrams",
+          "aqa-7132-3.10.3:network-analysis"
+        ],
+        "prompt": "A construction firm wants to move workers from a non-critical decorating activity to a critical electrical installation activity. Judge whether this is automatically a good decision.",
+        "answer": "Not automatically. It may protect the deadline, but managers should check the decorating activity's float, worker skills, quality effects, added cost and whether the resource move changes durations or dependencies requiring recalculation.",
+        "explanation": "CPA identifies schedule priorities but does not itself solve resource constraints or guarantee that a faster plan is feasible or worthwhile.",
         "calc": null
       }
     ]

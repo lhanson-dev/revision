@@ -49,12 +49,17 @@ const cases: ReadonlyArray<VisualCase> = [
  * then "allow it" and "option 1" to this re-pin) for Home v2 (PR 5): rules-chosen REV card with Not now,
  * subject-colour course cards with Topics covered and Understanding, neutral next-exam panel. Digests
  * taken from the PR 5 CI run 36905643720 (the "Expected value" lines), not from a local browser.
+ * Desktop Home re-pinned on 2 October 2026 with Founder approval (Lee: "OK baselines", PR 14) for the Empty states
+ * sweep: the "Your plan" card names what is missing ("Add your exam dates and I'll start building your plan.", with a
+ * 48px button) instead of "A useful next step will appear here". Digests taken from the PR 14 CI runs 36989259361 and
+ * 36990097836 (the "Expected value" lines; the two runs agree), not from a local browser. Screenshots reviewed:
+ * docs/design/learner-redesign-v2/screenshots/pr-14/baselines/.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'phone:light': 'd2135190e6e018783aaede294e0379c88364e901672d7d82d761a8a22b1f4649',
   'phone:dark': 'e4bcfc5b77d010e50a14dcb7279b94ac6397b0b9f596e79b0965cfcaf431b52b',
-  'desktop:light': 'b38c1bd601fb0eb73f0aec71456bd914bd224ff24597144b7ccecb4e2170a618',
-  'desktop:dark': 'ce2d07ccc4d22f27b6071fd7aebfc075482b9673277fb717ff0591353a42a00e',
+  'desktop:light': 'c0d790f46d0e34f110c915b2ff670668d5c212ceca5f841879a06effe6db0f78',
+  'desktop:dark': '350f6d6e248d2285f32e8cf2305028db69852da2e2a812828822a864640ebfd6',
 }
 
 /**
@@ -107,10 +112,15 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * baselines") for Exam Prep v2 (PR 10): question grid with a key, Flag for review, pre-finish note. Digests
  * taken from the PR 10 CI run 36976555836 (the "Expected value" lines). Screenshots reviewed:
  * docs/design/learner-redesign-v2/screenshots/pr-11/pr-10-tablet-*.png.
+ * Desktop Plan re-pinned on 2 October 2026 with Founder approval (Lee: "OK baselines", PR 14) for the Empty states
+ * sweep: during set-up the long "Your plan adapts as you go" paragraph sits behind "How does this work?" so the two
+ * set-up steps come first. Digests taken from the PR 14 CI runs 36989259361 and 36990097836 (the "Expected value"
+ * lines; the two runs agree), not from a local browser. Screenshots reviewed:
+ * docs/design/learner-redesign-v2/screenshots/pr-14/baselines/.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '1c50c552c8143e7d3ec126c872609ae2995b34a8f0d1e2d335f354f09a24af9c',
-  'desktop:plan:dark': '2f588de2425292428b3eedb6a63552a7ff658e1fe63520c3b15f2c281e8bebeb',
+  'desktop:plan:light': '0edb94a702e36d14eaa87b5821d45f95d16cf1d0b6f62954802ebc30f9279661',
+  'desktop:plan:dark': 'fe1f1c94015f7ff5c9b608990e45e11f23140f14deb8f78634511a7d16c015bf',
   'tablet:courses:light': '3e4717b19b8c3b116352bf12799cc8753155583f7a0c6df3d6aa00d1b7074a87',
   'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
   'phone:practice:light': '7e9733b00c8a89cb44d9f646bcd1ebb0bf7a1a1c3436d944e948b9e1aea6431f',

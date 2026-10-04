@@ -33,12 +33,24 @@ const OUTPUT = '.artifacts/content-factory-aqa-business-7132-exact-course-assura
 const COVERAGE_REPORT = 'research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json'
 // Committed between runs so unchanged sections are reused and review rounds are counted.
 const LEDGER = 'content-factory/runs/aqa-7132-course-gate/ledger.json'
+// Founder decisions are separate durable evidence so a two-round escalation can be closed without rewriting the retained failed-run ledger.
+const FOUNDER_DECISIONS = 'content-factory/runs/aqa-7132-course-gate/founder-decisions.json'
 const allowedAqaHosts = new Set(['www.aqa.org.uk'])
 const expectedExamTruthSources: Record<string, string[]> = {
   'AQA-7132-SCHEME-OF-ASSESSMENT': ['assessment objectives'],
   'AQA-7132-SPECIFICATION-AT-A-GLANCE': ['paper 1', 'paper 2', 'paper 3'],
   'AQA-7132-QUANTITATIVE-SKILLS': ['quantitative skills'],
   'AQA-7132-ASSESSMENT-RESOURCES': ['assessment resources'],
+}
+
+type FounderDecisionRecord = {
+  unit_id: string
+  reviewed_run_id: number
+  reviewed_commit: string
+  reviewed_unit_fingerprint: string
+  decision: 'accept' | 'fix' | 'remove'
+  note: string
+  decided_at: string
 }
 
 function requiredEnv(name: string) {
@@ -94,7 +106,19 @@ async function readLedger(): Promise<Ledger> {
   if (!raw) return empty
   const ledger = JSON.parse(raw) as Ledger
   // A new checklist means every section is reviewed afresh.
-  return ledger.checklist_version === COURSE_GATE_CHECKLIST.version ? ledger : empty
+  if (ledger.checklist_version !== COURSE_GATE_CHECKLIST.version) return empty
+
+  const decisionRaw = await readFile(FOUNDER_DECISIONS, 'utf8').catch(() => '')
+  if (!decisionRaw) return ledger
+  const decisionFile = JSON.parse(decisionRaw) as { schema_version: number; stage: string; decisions: FounderDecisionRecord[] }
+  if (decisionFile.schema_version !== 1 || decisionFile.stage !== COURSE_GATE_CHECKLIST.stage) throw new Error('invalid_course_gate_founder_decisions_identity')
+  for (const decision of decisionFile.decisions ?? []) {
+    const entry = ledger.units[decision.unit_id]
+    if (!entry) throw new Error(`course_gate_founder_decision_missing_ledger_unit:${decision.unit_id}`)
+    if (entry.fingerprint !== decision.reviewed_unit_fingerprint) throw new Error(`course_gate_founder_decision_fingerprint_mismatch:${decision.unit_id}`)
+    entry.founder_decision = { decision: decision.decision, note: decision.note, decided_at: decision.decided_at }
+  }
+  return ledger
 }
 
 describe('AQA Business 7132 T8 exact-course gate (fast path)', () => {
@@ -103,6 +127,13 @@ describe('AQA Business 7132 T8 exact-course gate (fast path)', () => {
     expect(COURSE_GATE_CHECKLIST.checks.map((check) => check.id)).toEqual(['mapping_sense', 'depth', 'calculation_convention', 'accuracy'])
     expect(schema.safeParse({ unit_id: '3.5.3', answers: COURSE_GATE_CHECKLIST.checks.map((check) => ({ check_id: check.id, answer: 'yes', note: '' })), findings: [] }).success).toBe(true)
     expect(checklistInstructions(COURSE_GATE_CHECKLIST)).toContain('Do not look for other problems')
+  })
+
+  it('loads the exact-fingerprint Founder decision that closes the second 3.10.3 blocking round before changed-input review', async () => {
+    const ledger = await readLedger()
+    expect(ledger.units['3.10.3']?.fingerprint).toBe('2a7e73795a939bd8724409616f26a7bcec03c20dfe64d4d4bc4752d8353d811e')
+    expect(ledger.units['3.10.3']?.founder_decision?.decision).toBe('fix')
+    expect(ledger.units['3.10.3']?.founder_decision?.note).toContain('effective exact-course projection')
   })
 
   const proofIt = proofEnabled ? it : it.skip

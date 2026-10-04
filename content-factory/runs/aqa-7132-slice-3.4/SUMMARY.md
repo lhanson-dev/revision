@@ -23,9 +23,9 @@
 - bus-ops-006
 - bus-ops-007
 - bus-ops-008
+- bus-ops-009
 - bus-peo-001
 - bus-str-008
-- bus-ops-009
 
-Reused without re-review because nothing changed: 0
+Reused without re-review because nothing changed: 10
 
