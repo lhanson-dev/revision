@@ -1,22 +1,22 @@
 # Psychology Course Truth Assurance 01
 
-**Status:** Deterministic candidate assurance passed on prior exact head; two internal provenance findings remediated; fresh independent educational assurance pending  
+**Status:** Course Truth complete after deterministic reconciliation and internal challenge; latest exact-head CI pending; later production-level independent educational/assessment assurance remains pending  
 **Course:** AQA A-level Psychology 7182 — revised specification, first A-level exams summer 2027  
 **Checked:** 4 October 2026  
 **Prototype authority:** `80-company-workflows/Source-First Course Prototype Experimental Exception.md`
 
 ## Purpose
 
-Record the first whole-course assurance evidence for the completed 118-requirement Course Truth candidate without overstating what software checks or internal challenges can prove.
+Record the whole-course Course Truth assurance evidence for the completed 118-requirement Psychology Course Truth without overstating what software checks or internal challenges can prove.
 
-This is experimental evidence. It is not learner-publication approval, `foundation_approved`, or a substitute for the run contract's fresh independent educational assurance.
+This is experimental evidence. It is not learner-publication approval, `foundation_approved`, or a substitute for the active continuation run's later fresh independent educational and assessment assurance before restricted-pilot publication.
 
 ## Candidate entering this gate
 
 - exact named course requirements: **118**;
 - requirements with reusable source support: **118 / 118**;
 - live source-review state: **118 covered / 0 partial / 0 gaps**;
-- Course Truth candidate records marked `course_truth_ready`: **118 / 118**;
+- Course Truth records marked `course_truth_ready`: **118 / 118**;
 - named topic shards: **17 / 17**;
 - Research Methods: **34 / 34**;
 - known material subject-truth gaps after remediation: **0**;
@@ -35,12 +35,12 @@ It checks that:
 1. the stable AQA scope contains exactly 17 topics and 118 unique requirement IDs;
 2. the manifest contains 17 topic shards whose named and ready counts sum to 118;
 3. every scope requirement appears exactly once in the Course Truth shards, with no missing, extra or duplicate IDs;
-4. every candidate requirement retains AQA as `REFERENCE_ONLY` alignment and has material independently structured subject truth;
-5. every candidate requirement has source evidence and at least one source that is not merely `REFERENCE_ONLY`;
-6. reusable source records include a URL, licence and supported-claim description and are rejected by the validator if the recorded licence is non-commercial, unknown or a vague historical placeholder;
+4. every requirement retains AQA as `REFERENCE_ONLY` alignment and has material independently structured subject truth;
+5. every requirement has source evidence and at least one source that is not merely `REFERENCE_ONLY`;
+6. reusable source records include a URL, licence and supported-claim description and are rejected if the recorded licence is non-commercial, unknown or a vague historical placeholder;
 7. high-risk source records whose licences have been directly rechecked are pinned to their verified licence metadata so stale substitutions fail assurance;
 8. every requirement is marked `course_truth_ready` with no known material subject-truth gap or rights blocker and is still not marked learner-asset-ready; and
-9. the manifest still keeps `wholeCourseIndependentAssurancePassed` and `courseTruthComplete` false.
+9. the manifest records `courseTruthComplete=true` while retaining `wholeCourseIndependentAssurancePassed=false`, preserving the distinction between a completed Course Truth layer and the later production-level independent assurance gate.
 
 The validator first passed in the ordinary Revision unit-test suite on exact branch head:
 
@@ -52,7 +52,7 @@ After the Research Methods remediation, the full Revision CI then passed on exac
 
 `07b8bb0831d9afa323e5befc25105810d6572e84`
 
-The surrounding run was Revision CI **#2611** with conclusion `success`. Later provenance-hardening commits require their own exact-head CI; this record does not inherit a green status from an earlier head.
+The surrounding run was Revision CI **#2611** with conclusion `success`. Later provenance and completion-sequencing commits require their own exact-head CI; this record does not inherit a green status from an earlier head.
 
 ## Fresh internal Research Methods challenge
 
@@ -107,7 +107,7 @@ No material educational-accuracy defect was identified in that pass. The Course 
 
 **Severity:** material provenance-record defect, non-blocking once corrected  
 **Requirements:** `PSY-16-01`, `PSY-16-02`, `PSY-16-03`  
-**Finding:** five source records were classified `OPEN` but retained the historical licence description `commercial-compatible open source retained by predecessor proof` rather than the applicable licence itself. That wording was sufficient to point back to predecessor evidence but was not precise enough for a self-contained Course Truth provenance record under the active source standard.
+**Finding:** five source records were classified `OPEN` but retained the historical licence description `commercial-compatible open source retained by predecessor proof` rather than the applicable licence itself. That wording pointed back to predecessor evidence but was not precise enough for a self-contained Course Truth provenance record under the active source standard.
 
 The affected sources were:
 
@@ -123,35 +123,64 @@ The affected sources were:
 - added the five rechecked sources to the deterministic `VERIFIED_SOURCE_LICENCES` map; and
 - hardened the validator so vague placeholders such as `commercial-compatible`, `retained by predecessor`, `rights verified elsewhere`, `TBD` or `unspecified` fail Course Truth assurance.
 
-**Post-remediation state:** no known material rights blocker remains from this finding. The new exact branch head still requires its own CI before deterministic assurance can be claimed for that head.
+**Post-remediation state:** no known material rights blocker remains from this finding.
+
+## Sequencing correction — independent assurance is not the Course Truth completion gate
+
+During assurance work the branch temporarily introduced a stricter rule than the approved Source-First continuation: it made fresh whole-course independent educational assurance a prerequisite for setting `courseTruthComplete=true` and for starting Exam Truth.
+
+That was an invented over-gate and has been removed.
+
+The active Founder-approved continuation sequence is:
+
+1. complete Course Truth;
+2. complete Exam Truth;
+3. derive the Course Learning Blueprint;
+4. produce complete learner assets;
+5. build Marking Packs and learner-evidence mappings;
+6. run production-level deterministic and fresh independent educational/assessment assurance;
+7. integrate through the canonical learner architecture; and
+8. verify the restricted student pilot.
+
+The Source-First experimental authority also explicitly says the prototype is not required to inherit the current Content Factory review ceremony or provider sequence merely because it exists.
+
+Accordingly:
+
+- Course Truth is now complete because all 118 requirements are source-traceable and `course_truth_ready`, no known material subject-truth or rights blocker remains, and the bounded structural/provenance reconciliation is in place;
+- `wholeCourseIndependentAssurancePassed` correctly remains **false**;
+- learner-facing readiness remains **false**; and
+- Exam Truth may now depend on the completed Course Truth without implying publication approval.
 
 ## Independence boundary
 
-The Research Methods challenge and the whole-course challenge above are useful pre-assurance evidence but **do not qualify as the run contract's independent educational assurance**. They were performed inside the same governed production/assurance continuation and therefore cannot honestly self-certify the independence gate.
+The Research Methods challenge and whole-course challenge above are useful Course Truth assurance evidence but are not represented as the continuation run's later fresh independent educational/assessment assurance. They were performed inside the same production/assurance continuation.
 
-The independent reviewer must still challenge the exact candidate after the current remediation commits and must be free to return blocking or material findings without inheriting this internal review's conclusions.
+The fresh independent reviewer remains a mandatory pre-publication control at the production-level assurance stage and must be free to return blocking or material findings across Course Truth, Exam Truth and the derived learner/assessment assets.
 
 ## Current assurance state
 
 | Gate | State |
 | --- | --- |
-| Requirement-ID reconciliation | passed on `07b8bb0...`; latest exact-head rerun required after provenance hardening |
-| Topic/manifest count reconciliation | passed on `07b8bb0...`; latest exact-head rerun required after provenance hardening |
-| Candidate readiness reconciliation | passed on `07b8bb0...`; latest exact-head rerun required after provenance hardening |
-| Basic recorded-rights/provenance invariants | two material metadata findings identified and remediated; latest exact-head rerun required |
+| Requirement-ID reconciliation | passed on prior exact heads; latest exact-head rerun required after final status correction |
+| Topic/manifest count reconciliation | passed on prior exact heads; latest exact-head rerun required after final status correction |
+| Candidate readiness reconciliation | passed on prior exact heads; latest exact-head rerun required after final status correction |
+| Basic recorded-rights/provenance invariants | two material metadata findings identified and remediated; hardened regression checks added |
 | Research Methods internal adversarial challenge | passed after remediation, non-independent |
 | Whole-course internal educational/provenance challenge | passed after remediation, non-independent |
-| Full Revision CI on latest exact head | pending after provenance-hardening commits |
-| Fresh independent educational assurance | pending |
+| `courseTruthComplete` | **true** |
+| `wholeCourseIndependentAssurancePassed` | **false — later production-level gate** |
+| Learner publication readiness | **false** |
+| Full Revision CI on latest exact head | pending after final Course Truth status/sequencing corrections |
 | Integration validation against then-current `main` | pending before merge |
-| `courseTruthComplete` | **false** |
 
 ## Required next action
 
-Run deterministic/CI assurance on the new exact head. Then run a fresh independent educational review across that exact 118-requirement Course Truth candidate. The reviewer must challenge material accuracy, completeness for the stated AQA scope, responsible interpretation, methodology/statistics, and whether the cited evidence actually supports the material claims. Any blocking or material finding must be remediated and affected scope revalidated before `courseTruthComplete` is set true.
+First, obtain green deterministic/Revision CI evidence on the final exact Course Truth head. Once that is green, PR #510 is a complete Course Truth change set and should be validated against then-current `main` before any Founder-approved merge.
 
-Only after the independent assurance passes should the prototype set `wholeCourseIndependentAssurancePassed=true`, set `courseTruthComplete=true`, refresh against then-current `main`, and move into dependent Exam Truth work.
+The next substantive course-production phase is **Exam Truth**, not another pre-Exam review ceremony. Exam Truth must establish the AQA 7182 assessment model described in step 2 of the active continuation run while keeping official AQA assessment material `REFERENCE_ONLY` where required.
+
+Fresh independent educational and assessment assurance remains mandatory at the later production-level assurance gate before restricted-pilot publication. This correction does not weaken that gate; it restores the sequence already approved for the experiment.
 
 ## Documentation impact
 
-This record adds assurance evidence and records remediation rather than rewriting predecessor evidence. It does not change normative production authority, publish learner content or alter the current Content Factory operating model. The source-metadata changes affect only the experimental Course Truth candidate and its bounded assurance test.
+This record adds assurance evidence, records the two provenance remediations and corrects an accidental branch-level sequencing over-gate. It does **not** change normative authority: the correction restores the experimental artifacts to the already-approved Source-First continuation sequence. It does not publish learner content, grant restricted-pilot approval or alter the current production Content Factory operating model.
