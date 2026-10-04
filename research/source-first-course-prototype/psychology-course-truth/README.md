@@ -1,6 +1,6 @@
 # AQA Psychology 7182 — Source-First Course Truth
 
-**Status:** Experimental Course Truth candidate coverage complete; whole-course independent assurance pending  
+**Status:** Experimental Course Truth complete; later production-level independent educational/assessment assurance still pending  
 **Authority:** `80-company-workflows/Source-First Course Prototype Experimental Exception.md`  
 **Run contract:** `../AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md`
 
@@ -51,34 +51,35 @@ A requirement is `course_truth_ready` only when:
 4. any Revision synthesis is identified as synthesis rather than source quotation/finding; and
 5. no known material subject-truth gap remains for the intended pilot.
 
-Topic shards may be added incrementally. The course is **not complete** until the manifest reports all 118 requirements as `course_truth_ready` and the run contract's whole-course independent assurance has passed.
+Course Truth is complete when all 118 in-scope requirements are `course_truth_ready`, there are no known material subject-truth or source-rights blockers, and the bounded structural/provenance reconciliation passes.
+
+The active continuation run places fresh independent educational and assessment assurance at the later production-level assurance stage before restricted-pilot publication. Course Truth completion therefore does **not** imply that independent assurance has passed, that learner assets are approved, or that the course may be published.
 
 ## Current continuation position
 
-The predecessor proof remains historical evidence. After targeted continuation addenda 05 through 22 and completion of the Research Methods shard on 4 October 2026:
+The predecessor proof remains historical evidence. After targeted continuation addenda 05 through 22, completion of the Research Methods shard, whole-course reconciliation and two provenance remediations on 4 October 2026:
 
 - 118 / 118 named requirements have reusable source support;
 - the live source-review baseline is **118 covered candidates, 0 partials and 0 gaps**;
 - 118 / 118 requirements are represented in requirement-level records marked `course_truth_ready`;
-- all 17 named topic shards are `topic_complete_candidate`;
+- all 17 named topic shards reconcile exactly to the stable 118-requirement scope;
 - Research Methods is 34 / 34 Course Truth-ready and is internally organised into the three bounded continuation slices: design/data collection, scientific process/reporting and data/statistics;
 - known material subject-truth gaps: 0;
 - known material rights blockers: 0;
 - paid source/licence spend: £0;
-- paid provider spend recorded for the continuation closures: £0; and
-- `courseTruthComplete` remains **false** until whole-course structural, provenance and independent educational assurance has passed.
+- paid provider spend recorded for the continuation closures: £0;
+- `courseTruthComplete` is **true**;
+- `wholeCourseIndependentAssurancePassed` remains **false** because that later publication-stage gate has not yet been run; and
+- learner-facing readiness remains false.
+
+Two material provenance-record defects were found during internal challenge and remediated before Course Truth completion: one stale ShareAlike licence version in Research Methods and five vague retained licence labels in Forensic Psychology. The deterministic assurance now pins those rechecked licences and rejects vague licence placeholders.
 
 These retained shards reuse predecessor evidence and add targeted rights-clear evidence only where a real depth or rights residual remained. They do not regenerate already-supported subject knowledge from scratch.
 
-## Immediate assurance gate
+## Next task
 
-The next task is whole-course assurance of the exact 118-requirement candidate. At minimum this must confirm:
+Proceed to **Exam Truth**, as required by step 2 of the active continuation run. Build the assessment model needed to generate authentic Revision-owned Exam Prep and assessment assets for AQA 7182, including paper/component structure, duration, marks, AO weighting/ranges, research-method and mathematical requirements, compulsory/optional relationships, command and cognitive-demand patterns, question/response families, source/data/scenario demands, extended-response expectations, timing/whole-paper constraints and rules for representative Revision-authored questions and mocks.
 
-1. every stable requirement ID appears exactly once in the Course Truth topic shards;
-2. every requirement marked `course_truth_ready` has non-empty material subject truth and traceable permitted evidence;
-3. AQA and other reference-only material remains alignment/reference evidence rather than reusable teaching corpus;
-4. topic and manifest counts reconcile exactly to the stable scope;
-5. no unsupported causal, statistical, clinical or methodological overclaim has been introduced during transformation; and
-6. an independent educational review finds no material omission that would make the candidate unsafe as the truth layer for downstream Exam Truth and learner-asset work.
+Official AQA assessment material may be used as structured `REFERENCE_ONLY` alignment authority. It must not be converted into reusable teaching or assessment corpus.
 
-Any assurance finding must be remediated in the candidate/evidence layer before `courseTruthComplete` is set true.
+Fresh independent educational and assessment assurance remains mandatory before restricted-pilot publication under the active continuation run and applicable publication assurance authorities.
