@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 9,
+  "topic": "Relationships",
+  "group": "option_1",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence plus independently authored factual synthesis",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-09-01",
+      "boardAlignment": {
+        "summary": "Attraction: self-disclosure, physical attractiveness and matching hypothesis, plus filter theory including social demography, attitude similarity and complementarity.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Relationship formation is influenced by opportunity for contact, perceived similarity, self-disclosure, reciprocity and physical attraction.",
+          "Self-disclosure is revealing personal information that is not otherwise readily known; reciprocal and appropriately paced disclosure can contribute to intimacy.",
+          "Physical attractiveness affects initial attraction, but preferences vary and are shaped by cultural and individual factors.",
+          "The matching hypothesis proposes that people often form relationships with partners they perceive as roughly similar to themselves in physical attractiveness and broader social desirability rather than simply selecting the most attractive available person.",
+          "Filter theory is a historical model in which the pool of potential partners is progressively narrowed by social-demographic opportunity, similarity of attitudes/values and, later, complementarity of some needs or interaction styles."
+        ],
+        "modelsResearchAndRelationships": [
+          "Social-demographic filtering reflects who people are likely to meet because proximity, networks, education, class, culture and other social structures constrain opportunity.",
+          "Similarity is robustly associated with attraction and relationship processes across attitudes, backgrounds and some personality dimensions.",
+          "Complementarity can occur on particular dimensions, such as dominant-submissive interaction patterns, but broad evidence does not support a simple rule that opposites generally attract."
+        ],
+        "evaluationAndLimits": [
+          "Filter theory is useful as an organising framework but real partner selection is not known to follow three discrete filters in a fixed sequence.",
+          "Matching can partly reflect mutual choice, opportunity and expectations of acceptance rather than a deliberate calculation of attractiveness.",
+          "Evidence for broad similarity is generally stronger than evidence that complementarity replaces similarity in established relationships.",
+          "Attraction research can be culturally and historically bounded, so findings should not be treated as universal preferences."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Matching hypothesis does not mean partners are objectively identical in attractiveness.",
+          "Complementarity does not mean that opposites always attract.",
+          "Self-disclosure is not automatically beneficial at any depth or timing; reciprocity, trust and context matter.",
+          "Filter theory describes a proposed selection process, not a compulsory sequence every couple passes through."
+        ],
+        "dependencies": ["proximity", "homophily", "self-disclosure", "physical attractiveness", "matching hypothesis", "social demography", "attitude similarity", "complementarity"]
+      },
+      "sourceEvidence": [
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["proximity","background and attitude similarity","self-disclosure","physical attractiveness","matching hypothesis","social exchange"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2018.01009","classification":"OPEN","licence":"CC BY","supports":["partner similarity","relationship satisfaction","dimension-specific complementarity","limits of broad dissimilarity claims"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2019.00052","classification":"OPEN","licence":"CC BY","supports":["demographic similarity","physical similarity","personality similarity among long-term partners"]}
+      ],
+      "revisionSynthesis": [
+        "The exact AQA filter-theory labels are retained as qualification framing; Revision separately marks the stronger modern evidence for opportunity/similarity and the weaker, dimension-specific evidence for complementarity."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-09-02",
+      "boardAlignment": {
+        "summary": "Romantic relationship theories: social exchange, equity, Rusbult's investment model and Duck's phase model of breakdown.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social exchange theory models relationship satisfaction partly through perceived rewards/benefits and costs, interpreted relative to expectations and available alternatives.",
+          "Equity theory focuses on perceived fairness rather than simple equality: partners compare the relationship between what they contribute and what they receive, and distress can arise when exchange is experienced as disproportionately unfair.",
+          "Rusbult's investment model explains commitment using satisfaction, quality of alternatives and investment size. Higher satisfaction and investment and poorer alternatives generally predict greater commitment.",
+          "Investments include resources tied to the relationship that would be lost or disrupted if it ended, such as time, shared identity, routines, possessions or social networks.",
+          "Duck's phase model describes dissolution through intra-psychic, dyadic, social and grave-dressing phases."
+        ],
+        "modelsResearchAndRelationships": [
+          "In the intra-psychic phase dissatisfaction is largely private; in the dyadic phase relationship problems become explicit between partners and can be negotiated; in the social phase the breakdown becomes embedded in wider social networks; grave-dressing involves post-breakup sense-making and construction of an account of what happened.",
+          "The investment model distinguishes being satisfied from being committed: someone can remain committed because investments are high and alternatives poor even when satisfaction is imperfect.",
+          "Equity and investment processes can interact because perceived fairness affects satisfaction while investment and alternatives affect persistence."
+        ],
+        "evaluationAndLimits": [
+          "Cost-benefit models simplify relationships if emotional, cultural, moral and relational processes are reduced to conscious economic calculation.",
+          "Equity preferences vary; some people tolerate temporary imbalance, and perceived fairness can matter more than numerical equality.",
+          "Investment model variables predict commitment probabilistically and should never be used to imply that a person should remain in an unsafe or abusive relationship.",
+          "Duck's phases are heuristic rather than mandatory: relationships may repair, end suddenly, skip phases, recur or follow different social processes."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Equity does not require both partners to contribute identical resources.",
+          "High investment is not evidence that a relationship is healthy.",
+          "Commitment and satisfaction are related but distinct constructs.",
+          "Duck's model does not claim every breakup proceeds linearly through all four phases."
+        ],
+        "dependencies": ["social exchange", "rewards and costs", "equity", "satisfaction", "alternatives", "investment", "commitment", "relationship dissolution"]
+      },
+      "sourceEvidence": [
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["social exchange costs and benefits","relationship-maintenance evaluation"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2016.01257","classification":"OPEN","licence":"CC BY","supports":["equity theory","input-outcome ratios","proportionality and inequity"]},
+        {"url":"https://doi.org/10.5964/ijpr.v1i1.5","classification":"OPEN","licence":"CC BY 4.0","supports":["equity in romantic relationships","relationship satisfaction","cultural qualification"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2022.912978","classification":"OPEN","licence":"CC BY","supports":["investment model","satisfaction","quality of alternatives","investment","commitment"]},
+        {"url":"https://pressbooks.nvcc.edu/nolcst110book/chapter/9-1-interpersonal-communication-overview-social-sci-libretexts/","classification":"OPEN_ITEM_LEVEL_WITH_SHAREALIKE","licence":"underlying Paynton/Hahn section CC BY-SA 4.0","supports":["relationship-deterioration phase concepts","intra-psychic phase","dyadic phase","dissolution vocabulary"],"caution":"Only independently worded factual extraction is used; no ShareAlike expression is adapted into proprietary learner text."}
+      ],
+      "revisionSynthesis": [
+        "AQA's exact Duck taxonomy supplies course alignment; the reusable explanation is independently authored and explicitly warns that phase models describe common processes rather than inevitable sequences."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-09-03",
+      "boardAlignment": {
+        "summary": "Online relationships: self-disclosure, deception and absence of gating.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Online self-disclosure is the communication of personal thoughts, feelings, experiences or identity information through digital interaction.",
+          "Computer-mediated communication can reduce or delay some physical and social cues and gives users greater control over timing, wording and selective self-presentation.",
+          "AQA's 'absence of gating' describes the reduction or postponement of barriers that can constrain face-to-face relationship formation, such as immediate appearance cues, visible anxiety, some status markers or geographic distance.",
+          "Selective self-presentation can be truthful but curated; deception involves deliberately false or materially misleading presentation. Online environments can make both easier because identity cues can be edited, hidden or reconstructed."
+        ],
+        "modelsResearchAndRelationships": [
+          "Reduced immediate evaluation can enable some socially anxious or marginalised users to disclose aspects of themselves more comfortably online.",
+          "Greater control over self-presentation can deepen disclosure in some contexts while also enabling exaggeration, omission or false identity construction.",
+          "Digital platforms introduce new gates, including algorithmic matching, platform access, profiles, reputation signals, language and digital literacy, so 'absence' should be understood as altered gating rather than literally no barriers."
+        ],
+        "evaluationAndLimits": [
+          "Online communication is not uniformly anonymous, text-only or cue-poor; video, voice, persistent profiles and social-network links can restore or create strong identity cues.",
+          "Self-disclosure depth varies by platform, audience, privacy expectations, culture and fear of evaluation.",
+          "Deception occurs offline as well as online, and evidence that digital affordances enable deceptive presentation does not imply that most online identities are false.",
+          "Benefits of reduced gating can coexist with privacy, safety and deception risks."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Absence of gating does not mean there are no barriers to online relationships.",
+          "Online self-disclosure is not always deeper than face-to-face disclosure.",
+          "Selective self-presentation is not automatically deception.",
+          "Online relationships are not inherently less authentic than offline relationships."
+        ],
+        "dependencies": ["self-disclosure", "fear of evaluation", "computer-mediated communication", "self-presentation", "deception", "identity reconstruction", "platform affordances"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.3389/fpsyg.2021.696552","classification":"OPEN","licence":"CC BY","supports":["reduced physical cues","online identity reconstruction","selective self-presentation","deceptive self-presentation","social compensation"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2021.530722","classification":"OPEN","licence":"CC BY","supports":["online self-disclosure","amount and depth","fear of evaluation","social-context moderation"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2022.841620","classification":"OPEN","licence":"CC BY","supports":["online relationship communication","self-presentation","false/deceptive presentation","platform affordances"]}
+      ],
+      "revisionSynthesis": [
+        "Revision uses 'absence of gating' as the AQA label but teaches the more accurate mechanism as reduced, delayed or transformed gates plus newly created digital gates."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-09-04",
+      "boardAlignment": {
+        "summary": "Parasocial relationships: levels, absorption-addiction model and attachment explanation.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "A parasocial relationship is a psychologically meaningful but structurally one-sided bond with a media figure or character who does not reciprocate the individual relationship.",
+          "Parasocial bonds are common and can provide entertainment, identity exploration, companionship or a sense of belonging; one-sidedness alone does not make them pathological.",
+          "The celebrity-worship continuum commonly distinguishes entertainment-social involvement, intense-personal involvement and borderline-pathological involvement.",
+          "Entertainment-social involvement centres on interest and discussion; intense-personal involvement involves stronger emotional preoccupation; borderline-pathological involvement refers to rare extreme attitudes or behaviours.",
+          "The absorption-addiction model proposes that some individuals become increasingly psychologically absorbed in a celebrity relationship to meet identity or relational needs, with escalating involvement potentially requiring more intense engagement."
+        ],
+        "modelsResearchAndRelationships": [
+          "Attachment explanations propose that internal working models and attachment insecurity can influence the intensity or function of parasocial bonds because one-sided media figures are predictable and cannot directly reject the viewer.",
+          "Research often finds attachment anxiety associated with stronger parasocial involvement, while findings involving avoidance are more mixed.",
+          "Absorption-addiction and attachment accounts are not the same explanation: one concerns escalating involvement and compensatory absorption, while the other concerns relationship expectations and attachment-related individual differences."
+        ],
+        "evaluationAndLimits": [
+          "Most parasocial relationships are not pathological, and the extreme end of celebrity-worship scales should not be used to characterise ordinary fans.",
+          "Attachment associations are correlational and inconsistent across measures and media contexts, so insecure attachment cannot be treated as a diagnosis or sufficient cause of parasocial bonding.",
+          "The entertainment-social/intense-personal/borderline-pathological framework was developed around celebrity worship and does not necessarily describe every kind of parasocial relationship.",
+          "Modern social media blurs one-way and reciprocal communication because influencers may respond to audiences while still lacking an individual reciprocal relationship with most followers."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A parasocial relationship is not the same as a delusion.",
+          "Ordinary fandom is not evidence of addiction.",
+          "The three levels are measurement/model categories, not an inevitable progression.",
+          "Attachment insecurity does not mean a person will form extreme parasocial relationships."
+        ],
+        "dependencies": ["parasocial interaction", "one-sided relationships", "celebrity worship", "absorption-addiction", "attachment theory", "internal working models"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.3389/fpsyg.2017.00255","classification":"OPEN","licence":"CC BY","supports":["parasocial relationships as one-sided social ties","common adolescent parasocial bonds","attachment-style research context","non-pathological functions"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2024.1418564","classification":"OPEN","licence":"CC BY","supports":["parasocial research evidence base","media-context changes","research limitations"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2026.1878172","classification":"OPEN","licence":"CC BY","supports":["absorption-addiction model","entertainment-social","intense-personal","borderline-pathological celebrity worship"]}
+      ],
+      "revisionSynthesis": [
+        "Revision treats parasociality as a continuum of ordinary-to-extreme involvement and explicitly separates a common one-sided bond from the rare pathological end of celebrity-worship measures."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    }
+  ]
+}

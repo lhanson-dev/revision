@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 12,
+  "topic": "Schizophrenia",
+  "group": "option_2",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-12-01",
+      "boardAlignment": {
+        "summary": "Positive and negative symptoms and issues in diagnosis, including co-morbidity, culture/gender bias and symptom overlap.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Schizophrenia is a psychotic disorder characterised by disturbances in perception, belief, thought, motivation and functioning; presentation varies substantially across individuals.",
+          "Positive symptoms are experiences or behaviours added to ordinary functioning, such as hallucinations and delusions. Hallucinations are perception-like experiences without a corresponding external stimulus; delusions are strongly held beliefs that are not adequately explained by the person’s cultural context and persist despite contrary evidence.",
+          "Negative symptoms involve reductions in ordinary functioning. Avolition is reduced motivation and initiation of goal-directed behaviour; reduced speech output or speech poverty is one manifestation of diminished expressive or motivational functioning.",
+          "Co-morbidity means that another disorder or clinically significant condition occurs alongside schizophrenia. Symptom overlap means that features used in schizophrenia diagnosis can also occur in other psychiatric or medical conditions.",
+          "Diagnostic reliability concerns consistency of classification; diagnostic validity concerns whether the diagnosis accurately captures a coherent disorder and meaningfully distinguishes it from alternatives."
+        ],
+        "modelsResearchAndRelationships": [
+          "Psychotic symptoms can occur in mood disorders, substance-related conditions and other disorders, so diagnosis requires attention to course, context, exclusion criteria and co-occurring conditions rather than a single symptom.",
+          "Culture influences how experiences and beliefs are expressed, interpreted and judged as unusual. Clinicians must distinguish culturally sanctioned beliefs or experiences from psychopathology.",
+          "Gender-related differences in help-seeking, social expectations, age at onset, symptom presentation and clinician judgement can affect diagnostic patterns without proving that one gender has a simple fixed biological diagnostic profile."
+        ],
+        "evaluationAndLimits": [
+          "Diagnostic categories improve communication and treatment planning but can conceal heterogeneity: people sharing a diagnosis may have different symptom profiles, causes and treatment responses.",
+          "Symptom overlap and co-morbidity can reduce diagnostic validity because the boundaries between disorders are not perfectly discrete.",
+          "Cultural and gender bias can arise if norms derived from one population are applied without adequate contextual interpretation.",
+          "A diagnosis should not be equated with dangerousness or inevitable chronic disability; outcome and functioning vary widely."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Schizophrenia does not mean 'split personality'.",
+          "Hallucinations and delusions are not sufficient by themselves to establish schizophrenia.",
+          "Negative symptoms are not simply a person choosing not to try.",
+          "Cultural difference is not evidence of mental disorder."
+        ],
+        "dependencies": ["psychosis", "diagnostic reliability", "diagnostic validity", "co-morbidity", "culture", "clinical assessment"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/schizophrenia/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["hallucinations", "delusions", "negative symptoms", "schizophrenia presentation", "diagnostic and stigma context"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.03%3A_Schizophrenia",
+          "classification": "OPEN_PAGE_WITH_MIXED_ATTRIBUTION",
+          "licence": "page shared under CC BY 4.0; embedded contributors carry source-specific licences",
+          "supports": ["symptom categories", "diagnostic criteria and overlap", "differential-diagnosis context"],
+          "caution": "Revision does not reuse embedded non-commercial contributor prose. Only independently synthesised facts supported by commercially reusable/public-domain portions are retained."
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats diagnostic issues as a reasoning problem—symptoms, overlap, context, reliability and validity—rather than asking learners to memorise a label detached from clinical uncertainty.",
+        "Culture/gender bias is framed as a threat to interpretation and classification, not as a claim that demographic groups have fixed diagnostic characteristics."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-12-02",
+      "boardAlignment": {
+        "summary": "Biological explanations: genetic vulnerability, neural correlates and dopamine-related explanations.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Genetic explanations propose that inherited variation contributes to vulnerability to schizophrenia; risk is polygenic rather than attributable to one single schizophrenia gene.",
+          "A neural correlate is a measurable pattern of brain structure or function associated with a symptom, cognitive process or disorder. An association can help identify mechanism but does not by itself establish cause.",
+          "Dopamine-related explanations propose that dysregulated dopamine signalling contributes to psychotic symptoms. Modern accounts are more specific than a simple 'too much dopamine everywhere' model and distinguish pathways, receptors and symptom domains.",
+          "Biological vulnerability is probabilistic: genetic or neural risk does not make schizophrenia inevitable."
+        ],
+        "modelsResearchAndRelationships": [
+          "Family and twin evidence supports heritable contribution, while incomplete concordance shows that genetic similarity is not sufficient for the disorder.",
+          "Antipsychotic drugs that antagonise dopamine D2 receptors can reduce positive psychotic symptoms, which supports a role for dopamine signalling but does not prove that dopamine dysregulation is the sole cause of schizophrenia.",
+          "Brain-imaging and cognitive-neuroscience research identifies structural and functional differences associated with schizophrenia, but medication exposure, illness duration and other confounds can complicate causal interpretation.",
+          "Genetic, dopamine and neural-correlate accounts can be combined within a vulnerability model rather than treated as mutually exclusive explanations."
+        ],
+        "evaluationAndLimits": [
+          "Heritability estimates describe variation in populations under particular conditions; they do not mean a fixed percentage of an individual’s disorder is genetic.",
+          "Biological findings are heterogeneous and group-level; they cannot diagnose an individual with certainty.",
+          "Drug effectiveness is evidence relevant to a mechanism, not a direct test proving the original cause of the disorder.",
+          "Biological reductionism can omit developmental, cognitive, social and environmental processes that interact with vulnerability."
+        ],
+        "misconceptionsAndBoundaries": [
+          "There is no single schizophrenia gene.",
+          "The dopamine hypothesis is not simply 'schizophrenia equals too much dopamine'.",
+          "A neural correlate is not automatically a causal lesion.",
+          "A genetic risk factor does not make outcome inevitable."
+        ],
+        "dependencies": ["polygenic risk", "dopamine", "D2 receptors", "neural correlates", "heritability", "correlation and causation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/schizophrenia/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["genetic risk", "dopamine hypothesis", "brain-structure/function evidence", "environment interaction"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.12%3A_Treatment_for_Schizophrenia_and_Other_Psychotic_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["D2 receptor antagonism", "typical and atypical antipsychotics", "relationship between dopamine mechanism and positive symptoms"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision presents genetic, dopamine and neural-correlate evidence as converging biological vulnerability evidence while explicitly separating association, mechanism and causation."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-12-03",
+      "boardAlignment": {
+        "summary": "Psychological explanations, including family dysfunction and cognitive/dysfunctional thought-processing accounts.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Family-dysfunction explanations examine whether patterns of family interaction, communication or emotional climate are related to psychotic symptoms, course or relapse.",
+          "Historical concepts such as the schizophrenogenic mother and double-bind communication attempted to explain schizophrenia through dysfunctional family relationships, but simple family-causes-schizophrenia accounts are not supported by contemporary evidence.",
+          "Expressed emotion describes aspects of family emotional climate such as criticism, hostility and emotional overinvolvement; high expressed emotion is more defensibly linked to relapse or maintenance risk than to proof that a family caused the original disorder.",
+          "Cognitive explanations examine information-processing deficits and the interpretations/appraisals people make of anomalous experiences. Dysfunctional beliefs can help maintain distress or conviction around psychotic experiences."
+        ],
+        "modelsResearchAndRelationships": [
+          "Deficits in attention, working memory, executive control and reasoning can make it harder to evaluate information or contextualise unusual experiences.",
+          "A cognitive-behavioural account can link anomalous internal experiences with threat-related or dysfunctional appraisals, emotional arousal and behavioural responses that reinforce the interpretation.",
+          "Family stress and cognitive processing can interact with biological vulnerability; they need not be presented as alternative single causes."
+        ],
+        "evaluationAndLimits": [
+          "Historical family-blame theories risk ethical harm and are not justified by contemporary causal evidence.",
+          "Associations between family emotional climate and relapse do not show that relatives caused schizophrenia; illness severity can also alter family interactions.",
+          "Cognitive deficits are common but heterogeneous and may reflect causes, consequences or correlates of the disorder.",
+          "Psychological explanations are stronger when integrated with biological and social evidence rather than used as complete standalone accounts."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Families should not be blamed for causing schizophrenia.",
+          "High expressed emotion is not the same as abuse and is not a diagnostic criterion.",
+          "Dysfunctional thought processing does not mean a person is simply choosing irrational beliefs.",
+          "A cognitive explanation can coexist with biological vulnerability."
+        ],
+        "dependencies": ["expressed emotion", "relapse", "working memory", "executive function", "appraisal", "stress-vulnerability interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.11%3A_Perspectives_on_Schizophrenia",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["historical family-dysfunction accounts and their limitations", "cognitive deficits", "dysfunctional beliefs/appraisals", "stress and cognitive-behavioural perspectives"],
+          "caution": "The page exposes mixed contributor attributions. Revision uses independently synthesised facts from commercially reusable page-level treatment and does not reproduce non-commercial contributor prose."
+        },
+        {
+          "url": "https://doi.org/10.3390/ijerph18147522",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["expressed emotion as an intervention-relevant family factor", "family psychoeducation", "relationship with medication adherence"],
+          "caution": "Supports family environment/intervention relevance, not a claim that families cause schizophrenia."
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision deliberately reframes the family-dysfunction requirement away from family blame: historical causal theories are taught as historical claims with limitations, while expressed emotion is treated primarily as a relapse/maintenance and intervention factor.",
+        "Cognitive explanation is structured around processing limitations and appraisal of unusual experiences, not a caricature of 'faulty thinking'."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-12-04",
+      "boardAlignment": {
+        "summary": "Drug therapy using typical and atypical antipsychotics.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Antipsychotic medicines are used to reduce psychotic symptoms and lower relapse risk for many people with schizophrenia.",
+          "Typical or first-generation antipsychotics primarily exert their therapeutic effect through dopamine D2 receptor antagonism, although individual drugs differ in pharmacology.",
+          "Atypical or second-generation antipsychotics also affect dopamine signalling and commonly interact with additional receptor systems such as serotonin receptors; the category does not mean uniformly more effective or free of serious adverse effects.",
+          "Medication choice requires balancing likely benefit, prior response, adverse-effect risk, physical health, patient preference and adherence."
+        ],
+        "modelsResearchAndRelationships": [
+          "Reduction of positive symptoms by D2-blocking drugs is consistent with dopamine involvement in psychosis.",
+          "Typical antipsychotics are associated with risks including extrapyramidal movement effects and tardive dyskinesia; atypical drugs can carry substantial metabolic and other risks, with profiles varying by medicine.",
+          "Clozapine can be effective in treatment-resistant schizophrenia but requires careful monitoring because of rare but serious adverse effects.",
+          "Medication is often combined with psychological and social intervention rather than treated as the whole of schizophrenia care."
+        ],
+        "evaluationAndLimits": [
+          "Antipsychotics can substantially reduce positive symptoms for many patients but response is variable and negative/cognitive symptoms may persist.",
+          "Adverse effects can reduce quality of life and adherence and must be weighed against therapeutic benefit.",
+          "The effectiveness of dopamine antagonists supports a dopamine mechanism but is not proof that dopamine abnormality is the sole original cause.",
+          "Stopping medication or changing dosage is a clinical decision and should not be inferred from educational discussion."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Atypical does not mean 'safe' and typical does not mean 'ineffective'.",
+          "Antipsychotics do not cure every domain of schizophrenia.",
+          "Drug action on dopamine does not prove a one-neurotransmitter explanation of the disorder."
+        ],
+        "dependencies": ["dopamine", "D2 receptors", "positive symptoms", "adverse effects", "treatment adherence", "multimodal care"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.12%3A_Treatment_for_Schizophrenia_and_Other_Psychotic_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["antipsychotics", "typical/atypical distinction", "D2 antagonism", "positive-symptom treatment", "treatment limitations"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/schizophrenia/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["dopamine and schizophrenia", "treatment context"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision ties drug mechanism to the biological explanation while preserving the causal caution that effective treatment does not by itself identify the complete etiology."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-12-05",
+      "boardAlignment": {
+        "summary": "Cognitive-behavioural therapy and family therapy/intervention for schizophrenia.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "CBT for psychosis is a collaborative psychological intervention that works with the person’s interpretations of unusual experiences, associated distress, coping responses and behavioural patterns.",
+          "CBT can use guided examination of evidence, alternative explanations, coping strategies, behavioural experiments and relapse/stress planning; the goal is not simply to confront a person and declare a belief false.",
+          "Family intervention can include psychoeducation about schizophrenia and treatment, communication and problem-solving work, relapse planning and reduction of unhelpful high-expressed-emotion interaction patterns.",
+          "Family work aims to improve support and coping around the illness rather than assign blame for causing it."
+        ],
+        "modelsResearchAndRelationships": [
+          "CBT can reduce distress and improve coping even when unusual experiences do not disappear completely.",
+          "Family psychoeducation can change caregiver understanding and expressed emotion and can support medication adherence and relapse prevention.",
+          "Medication, CBT and family intervention target different mechanisms and can therefore be combined within multimodal care."
+        ],
+        "evaluationAndLimits": [
+          "Psychological treatments are generally adjuncts rather than simple replacements for all pharmacological treatment, especially during acute psychosis.",
+          "Treatment response varies and effect sizes depend on outcome, intervention quality, patient engagement and clinical context.",
+          "A family intervention that reduces relapse-related risk does not establish that family dysfunction caused the disorder.",
+          "CBT requires adaptation to cognitive, motivational and symptom-related difficulties and may not be equally accessible during severe acute disturbance."
+        ],
+        "misconceptionsAndBoundaries": [
+          "CBT for psychosis is not simply arguing with delusions.",
+          "Family therapy should not be presented as correcting a family that caused schizophrenia.",
+          "Improved medication adherence is one possible family-intervention outcome, not the sole purpose of family work."
+        ],
+        "dependencies": ["cognitive appraisal", "coping", "expressed emotion", "psychoeducation", "relapse prevention", "antipsychotic treatment"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.12%3A_Treatment_for_Schizophrenia_and_Other_Psychotic_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["CBT and other psychotherapy for schizophrenia", "coping and illness-management goals", "adjunctive treatment context"]
+        },
+        {
+          "url": "https://doi.org/10.3390/ijerph18147522",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["family psychoeducation", "expressed emotion", "caregiver illness understanding", "medication adherence"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/03%3A_Etiology_and_Treatment_of_Mental_Disorders/3.18%3A_Treatment_Modalities",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["family therapy principles", "family-system communication and support"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision separates CBT’s appraisal/coping mechanisms from family intervention’s psychoeducation/communication/relapse-support mechanisms while showing why both may be used alongside medication."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-12-06",
+      "boardAlignment": {
+        "summary": "Interactionist explanation and treatment, including a diathesis–stress model.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "An interactionist explanation treats schizophrenia as the product of interacting vulnerabilities and environmental or psychological conditions rather than one sufficient cause.",
+          "A diathesis is a vulnerability or predisposition. It can include genetic, neurodevelopmental or psychological susceptibility and does not imply that the disorder will occur.",
+          "Stress refers to environmental or psychological demands that can contribute to symptom emergence, exacerbation or relapse in a vulnerable person.",
+          "The model is probabilistic: vulnerability can exist without disorder and stressful experiences do not cause schizophrenia in everyone."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genetic and neurobiological evidence supports vulnerability, while life stress, family emotional climate, social adversity and cognitive appraisal provide plausible environmental/psychological pathways.",
+          "The interactionist account predicts that risk depends on combinations of factors and can change across development and circumstances.",
+          "Multimodal treatment is compatible with this account: antipsychotics can target biological/psychotic mechanisms, CBT can target appraisal and coping, and family intervention can target communication, stress and relapse-related factors.",
+          "Treatment combination is a practical consequence of multi-level understanding but does not constitute direct proof of one specific causal model."
+        ],
+        "evaluationAndLimits": [
+          "The broad diathesis–stress framework accommodates heterogeneous pathways but can become difficult to falsify if vulnerability and stress are defined too loosely after the fact.",
+          "Different people may have different vulnerability profiles and stress thresholds, so the model should not be reduced to one universal trigger.",
+          "Evidence for combined treatments supports addressing multiple mechanisms, but treatment response does not uniquely identify etiology.",
+          "Interactionist explanation reduces false nature-versus-nurture dichotomies but still requires precise measurement of the proposed vulnerabilities and stressors."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Diathesis does not mean destiny.",
+          "Stress alone is not a sufficient explanation of schizophrenia.",
+          "The interactionist model is not simply 'genes plus stress'; vulnerabilities and environmental processes can be diverse.",
+          "Using medication and therapy together does not prove the diathesis–stress model."
+        ],
+        "dependencies": ["genetic vulnerability", "environmental stress", "cognitive appraisal", "expressed emotion", "biopsychosocial model", "multimodal treatment"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/11%3A_Schizophrenia_Spectrum_and_Other_Psychotic_Disorders/11.11%3A_Perspectives_on_Schizophrenia",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["diathesis–stress reasoning", "genetic vulnerability and stress interaction", "cognitive and environmental contribution"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/03%3A_Etiology_and_Treatment_of_Mental_Disorders",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["multidimensional/biopsychosocial explanation", "integrated treatment approach"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/schizophrenia/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["genetic, dopamine/neural and environmental contributions", "multi-factor vulnerability"]
+        },
+        {
+          "url": "https://doi.org/10.3390/ijerph18147522",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["family psychoeducation alongside antipsychotic care", "expressed emotion and adherence outcomes"],
+          "caution": "Treatment evidence supports multimodal intervention but is not treated as direct proof of etiology."
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision uses interactionism to connect rather than blur the biological, cognitive and social evidence: each mechanism remains separately explainable, while the course-level model shows how they can combine.",
+        "Combined treatment is presented as consistent with multi-level causation, not as circular proof that the causal model must be correct."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}

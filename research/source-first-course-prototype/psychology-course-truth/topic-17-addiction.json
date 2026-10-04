@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-02",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 17,
+  "topic": "Addiction",
+  "group": "option_3",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-17-01",
+      "boardAlignment": {
+        "summary": "Physical and psychological dependence, tolerance and withdrawal in addiction.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Substance-use disorder involves a compulsive pattern of substance use that continues despite significant adverse consequences.",
+          "Physical dependence involves physiological adaptation such that stopping the substance can produce withdrawal symptoms.",
+          "Psychological dependence involves an emotional or motivational need for the substance, including craving or using it to relieve distress.",
+          "Tolerance occurs when increasing amounts of a substance are needed to achieve effects previously produced by lower doses.",
+          "Withdrawal is the set of adverse symptoms that can occur when use is reduced or stopped after dependence has developed."
+        ],
+        "modelsResearchAndRelationships": [
+          "Tolerance and withdrawal can accompany physical dependence, while craving is particularly relevant to psychological dependence and compulsive use.",
+          "Dependence features must be interpreted within the broader pattern of impaired control and continued use despite harm rather than used as a complete definition of addiction on their own."
+        ],
+        "evaluationAndLimits": [
+          "Physical dependence alone does not establish a substance-use disorder because tolerance and withdrawal can occur with medically used drugs without compulsive misuse."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Tolerance is not the same as withdrawal.",
+          "Psychological dependence is not imaginary; it describes motivational and emotional processes such as craving.",
+          "Dependence and addiction overlap but should not be treated as identical concepts."
+        ],
+        "dependencies": ["reinforcement", "craving", "drug effects", "homeostatic adaptation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/substance-use-and-abuse/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["substance-use disorder", "physical dependence", "psychological dependence", "tolerance", "withdrawal", "craving"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-17-02",
+      "boardAlignment": {
+        "summary": "Addiction vulnerability through genetic/biological, personality and social influences.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Addiction vulnerability is multifactorial: biological susceptibility, personality characteristics and social/environmental conditions can alter risk without determining outcome.",
+          "Impulsivity is a personality-related vulnerability involving poorly inhibited, rapid or reward-driven responding and is associated with substance dependence.",
+          "Novelty or sensation seeking can also correlate with substance use, but its causal status is less consistent across evidence than impulsivity.",
+          "Social influences can affect exposure, learned expectations, availability, norms and the contexts in which substance use is initiated or maintained."
+        ],
+        "modelsResearchAndRelationships": [
+          "Ersche and colleagues found elevated impulsivity in unaffected siblings of stimulant-dependent participants, supporting impulsivity as a possible pre-existing vulnerability marker rather than only a consequence of drug exposure.",
+          "Contemporary reviews describe the transition toward compulsive drug use as an interaction among personality traits, social factors and neurobiological processes."
+        ],
+        "evaluationAndLimits": [
+          "Risk factors are probabilistic and interactive; no single genetic, personality or social factor is sufficient to predict addiction in an individual.",
+          "Associations observed after chronic substance use can reflect consequences of use as well as pre-existing vulnerability, so temporal evidence matters."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A vulnerability factor is not a deterministic cause.",
+          "Personality correlates should not be interpreted as moral weakness or as fixed diagnostic labels.",
+          "Social influence is broader than direct peer pressure and includes environmental opportunity, norms and learned context."
+        ],
+        "dependencies": ["genetic vulnerability", "personality", "social learning", "reward", "impulsivity", "gene-environment interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3485555/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["impulsivity as vulnerability marker", "sensation-seeking association", "pre-existing versus consequence distinction"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2024.1416222",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["personality traits", "social factors", "neurobiology", "individual susceptibility to compulsive addiction"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision combines independently supported biological, personality and social levels into the multifactorial course model while retaining the qualification that risk is probabilistic."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-17-03",
+      "boardAlignment": {
+        "summary": "Nicotine addiction through neurochemical reward and learned cue reactivity.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Nicotine acts on neural reward systems and can increase dopaminergic signalling involved in reinforcement.",
+          "Repeated nicotine use allows environmental and internal cues to become associated with nicotine reward and withdrawal relief.",
+          "Cue reactivity occurs when learned nicotine-related cues evoke attention, craving, physiological responses or drug-seeking tendencies."
+        ],
+        "modelsResearchAndRelationships": [
+          "Biological reinforcement and learned cue associations can work together: nicotine strengthens behaviour through reward-related processes while repeated pairings give surrounding cues motivational power.",
+          "Cue-induced responses help explain why craving can recur in environments previously associated with smoking even after a period of abstinence."
+        ],
+        "evaluationAndLimits": [
+          "Dopamine is part of a wider neurobiological system and should not be taught as a single 'addiction chemical'.",
+          "Cue reactivity varies across people and contexts and is a risk mechanism rather than a guarantee of relapse."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Nicotine addiction is not explained only by conscious habit or only by dopamine; learning and neurobiology interact.",
+          "A cue can trigger craving without causing inevitable smoking behaviour."
+        ],
+        "dependencies": ["dopamine", "reinforcement", "classical conditioning", "cue reactivity", "craving"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2016.00374",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["cue reactivity", "nicotine addiction", "learned cue responses"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fnmol.2022.925272",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["nicotine reinforcement", "dopamine and reward mechanisms"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The interaction between neurochemical reinforcement and cue learning is Revision-authored synthesis of the separately supported mechanisms."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-17-04",
+      "boardAlignment": {
+        "summary": "Gambling addiction through reinforcement schedules and cognitive bias.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Intermittent or partial reinforcement means a response is rewarded only on some occasions rather than every time.",
+          "Variable reinforcement schedules make reward timing or occurrence unpredictable and can produce persistent responding.",
+          "Gambling cognition can include systematic biases in how chance, control, near-misses, patterns and previous outcomes are interpreted."
+        ],
+        "modelsResearchAndRelationships": [
+          "Unpredictable reinforcement can help maintain gambling behaviour because non-rewarded trials do not immediately signal that responding should stop.",
+          "Cognitive biases can increase the perceived value or controllability of gambling and interact with reinforcement processes to maintain repeated play."
+        ],
+        "evaluationAndLimits": [
+          "Reinforcement schedules and cognitive biases are explanatory mechanisms, not complete explanations of every person's gambling disorder.",
+          "The presence of a bias does not mean a gambler is incapable of understanding probability; behaviour can reflect multiple motivational and contextual influences."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Variable reinforcement does not mean outcomes cease to be random in games of chance.",
+          "A run of previous outcomes does not change independent probabilities unless the game itself has a genuine dependency structure."
+        ],
+        "dependencies": ["operant conditioning", "partial reinforcement", "probability", "cognitive bias", "reward"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2016.00046",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["reinforcement schedules", "partial-reinforcement extinction effect", "gambling"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2023.1089608",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["gambling cognitive biases"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats reinforcement and cognition as interacting maintenance mechanisms rather than asserting one single causal pathway."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-17-05",
+      "boardAlignment": {
+        "summary": "Reducing addiction through medication, aversion therapy, covert sensitisation and cognitive-behavioural treatment.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Medication can support addiction treatment by targeting withdrawal, craving, reinforcement or other relevant biological processes, depending on the substance and treatment.",
+          "Aversion therapy applies respondent/classical-conditioning principles by pairing addiction-related cues or behaviour with an unpleasant consequence so the cue acquires an aversive response.",
+          "Covert sensitisation uses imagined aversive consequences or scenes to weaken the attractiveness of an addictive behaviour without necessarily delivering the aversive event directly.",
+          "Cognitive-behavioural therapy targets maladaptive thoughts and behaviour patterns and develops alternative interpretations, coping responses and relapse-management strategies."
+        ],
+        "modelsResearchAndRelationships": [
+          "Addiction treatment commonly combines behavioural and/or psychological therapy with medication according to the individual's needs and the substance involved.",
+          "Aversion therapy and covert sensitisation both use aversive association but differ in whether the aversive event is directly experienced or represented in imagination.",
+          "A 2025 CC BY pilot study provides contemporary evidence that an aversion-based virtual-reality intervention can be studied as an adjunct to substance-use treatment, while its pilot design limits generalisation."
+        ],
+        "evaluationAndLimits": [
+          "No single treatment mechanism should be assumed to work equally well across substances, people or stages of recovery.",
+          "Treatment evidence should be judged by study quality, durability of change, relapse outcomes, acceptability and safety rather than immediate response alone.",
+          "Medication supports treatment but should not be described as automatically curing the behavioural and social dimensions of addiction."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Aversion therapy is not the same as punishment delivered without a conditioning rationale.",
+          "Covert sensitisation is not identical to directly administered aversive conditioning because the aversive sequence is imagined.",
+          "CBT is not simply advice to stop; it systematically targets cognitions, triggers, coping behaviour and relapse risk."
+        ],
+        "dependencies": ["classical conditioning", "cognitive-behavioural therapy", "medication", "craving", "relapse", "treatment evaluation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/substance-related-and-addictive-disorders-a-special-case/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["addiction treatment goals", "behavioural therapy", "medication", "withdrawal/craving treatment context", "relapse"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["CBT mechanism", "CBT in substance abuse"]
+        },
+        {
+          "url": "https://opentextbooks.concordia.ca/psyc205/chapter/psychological-approaches-to-treatment/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0 for this specifically attributed chapter",
+          "supports": ["aversive conditioning", "aversion therapy mechanism", "application to drinking and smoking"],
+          "rightsCaution": "The surrounding book is generally CC BY-NC-SA; only this chapter's explicit CC BY 4.0 material is counted."
+        },
+        {
+          "url": "https://www.rmj.org.pk/?mno=302643623",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0 at journal/article level as previously inspected",
+          "supports": ["covert sensitisation", "alcohol treatment"]
+        },
+        {
+          "url": "https://doi.org/10.1002/brb3.70953",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["contemporary aversion-therapy application in substance-use treatment", "pilot outcome evidence"],
+          "evidenceCaution": "Pilot clinical study; do not generalise its outcome beyond the studied intervention and population."
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision keeps the four course-aligned treatment families distinct and compares them by mechanism rather than implying equivalence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-17-06",
+      "boardAlignment": {
+        "summary": "Prochaska six-stage behaviour-change model.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The transtheoretical or stages-of-change model treats intentional behaviour change as a staged and potentially iterative process rather than a single event.",
+          "Precontemplation describes a stage in which there is no current intention to change the target behaviour.",
+          "Contemplation describes recognising or considering the case for change without yet taking action.",
+          "Preparation describes intending and planning to act in the near future.",
+          "Action describes active modification of the target behaviour.",
+          "Maintenance describes sustaining the changed behaviour and managing the risk of relapse.",
+          "Termination describes a state in which the target behaviour is no longer desired and temptation to return is absent or very low."
+        ],
+        "modelsResearchAndRelationships": [
+          "The stages describe different readiness states and can guide the type of support that is appropriate at different points in behaviour change.",
+          "Relapse or movement between stages means the model is better understood as dynamic than as a guaranteed one-way progression."
+        ],
+        "evaluationAndLimits": [
+          "The six-stage model should not be taught as a rigid ladder through which everyone progresses once and in the same order.",
+          "Termination is less commonly reached or emphasised in some applications, so maintenance and relapse management remain important practical endpoints."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Being aware of a problem does not by itself place someone in the action stage.",
+          "Relapse does not invalidate the model; movement backwards or renewed cycling can occur.",
+          "The stages describe readiness for change rather than guaranteeing successful behaviour change."
+        ],
+        "dependencies": ["behaviour change", "motivation", "relapse", "maintenance"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3390/ijerph19095124",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["six stages", "stage-level meanings", "maintenance", "termination", "relapse interpretation"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.1090024",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["transtheoretical model", "ordered six-stage structure", "behaviour-change framing"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact AQA naming is retained only as board alignment. The teaching structure is independently authored from the accepted open evidence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ],
+  "topicReadiness": {
+    "namedRequirements": 6,
+    "courseTruthReady": 6,
+    "materialSubjectTruthGaps": 0,
+    "materialRightsBlockers": 0,
+    "learnerAssetReady": false
+  },
+  "provenance": {
+    "historicalCoverageInputs": [
+      "../AQA-PSYCHOLOGY-7182-OPTION-GROUP-3-COVERAGE.json",
+      "../AQA-PSYCHOLOGY-7182-DIFFICULT-OPTION-RECONCILIATION.json"
+    ],
+    "newContinuationEvidence": [
+      "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-05.md",
+      "../PSYCHOLOGY-TARGETED-SOURCE-ADDENDUM-06.md"
+    ],
+    "transformation": "Reused predecessor evidence for already covered requirements, added rights-clear targeted evidence for the two remaining partials and the prior gap, and independently structured all six Addiction requirements into Course Truth."
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 11,
+  "topic": "Cognition and Development",
+  "group": "option_1",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-11-01",
+      "boardAlignment": {
+        "summary": "Piagetian cognitive development: schemas, assimilation, accommodation, equilibration, stages, object permanence, conservation, egocentrism and class inclusion.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Piaget proposed that children actively construct knowledge by organising experience into schemas and adapting those schemas as they encounter new information.",
+          "Assimilation interprets a new experience using an existing schema; accommodation changes or creates a schema when existing understanding does not adequately fit the new experience.",
+          "Equilibration describes the regulatory process through which cognitive structures are reorganised as assimilation and accommodation restore a workable balance after mismatch or cognitive conflict.",
+          "Piaget described four broad stages: sensorimotor, preoperational, concrete operational and formal operational. The stages describe qualitative changes in typical reasoning rather than fixed abilities that appear identically in every child on a birthday.",
+          "Object permanence is understanding that objects continue to exist when they are no longer directly perceived; conservation is understanding that quantity can remain constant despite changes in appearance; egocentrism is difficulty representing perspectives that differ from one’s own; class inclusion is understanding that a superordinate class can contain several subordinate classes."
+        ],
+        "modelsResearchAndRelationships": [
+          "Piaget linked sensorimotor development with the emergence of object permanence, preoperational thought with symbolic representation but persistent egocentrism and conservation errors, concrete operations with conservation and hierarchical classification, and formal operations with increasingly abstract and hypothetical reasoning.",
+          "Later developmental evidence suggests that some competencies can appear earlier than Piaget’s original tasks indicated, showing that task demands and measurement method matter when interpreting stage claims.",
+          "Class-inclusion research demonstrates that children’s performance depends not only on logical competence but also on how the comparison question is interpreted, illustrating the importance of language and task design."
+        ],
+        "evaluationAndLimits": [
+          "Piaget’s framework was highly influential for identifying qualitative developmental changes, but strict age-linked stage boundaries are too rigid for many abilities.",
+          "Performance on classic tasks can underestimate competence when language, memory, attention or task interpretation add demands beyond the target concept.",
+          "Evidence that infants or young children succeed on modified tasks does not make all Piagetian concepts obsolete; it narrows claims about timing, mechanism and measurement."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Assimilation and accommodation are complementary adaptation processes, not opposing theories.",
+          "Egocentrism in Piaget’s sense concerns perspective-taking limitations and does not mean selfishness.",
+          "A child who fails one conservation or class-inclusion task should not automatically be treated as globally incapable of concrete reasoning."
+        ],
+        "dependencies": ["schemas", "developmental stages", "reasoning", "task validity", "perspective-taking"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/lifespan-theories/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Piaget stages", "schemas", "assimilation", "accommodation", "object permanence", "conservation", "egocentrism"]
+        },
+        {
+          "url": "https://www.mdpi.com/2079-3200/6/1/15",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Piagetian equilibration", "relationship between assimilation, accommodation and cognitive reorganisation"]
+        },
+        {
+          "url": "https://doi.org/10.1186/s40064-016-2467-z",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["class inclusion", "classic class-inclusion task", "task-interpretation and pragmatic limitations"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches Piaget as a coherent developmental model while separating the historical stage proposal from later evidence showing earlier competence under different task conditions."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-11-02",
+      "boardAlignment": {
+        "summary": "Vygotsky: zone of proximal development and scaffolding.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Vygotskian theory emphasises that cognitive development is shaped through social interaction and culturally organised activity.",
+          "The zone of proximal development is the range between what a learner can currently accomplish independently and what the learner can accomplish with effective guidance or collaboration.",
+          "Scaffolding is temporary, responsive support that helps a learner perform beyond current independent competence and is progressively withdrawn as competence increases.",
+          "A more knowledgeable partner can be an adult or peer who provides guidance appropriate to the learner’s current needs."
+        ],
+        "modelsResearchAndRelationships": [
+          "Effective scaffolding is contingent: support should change as the learner demonstrates greater control rather than remaining fixed.",
+          "The ZPD links assessment and instruction because assisted performance can reveal emerging capability that independent performance alone does not show.",
+          "Vygotsky’s approach contrasts with strongly individual accounts of cognitive development by treating social and cultural mediation as central rather than peripheral."
+        ],
+        "evaluationAndLimits": [
+          "The ZPD is a theoretical relation between learner capability and support, not a fixed measurable band that can be identified without considering the task and the helper.",
+          "Scaffolding is a later educational metaphor associated with Vygotskian principles; it should not be presented as a term coined by Vygotsky himself.",
+          "Support can hinder learning if it is excessive, poorly timed or withdrawn before the learner can act independently."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Scaffolding does not mean simply giving the learner the answer.",
+          "The ZPD is not the same as everything a learner cannot do; it concerns performance that becomes possible with suitable support.",
+          "Social support does not imply passive learning: the learner remains an active participant in constructing competence."
+        ],
+        "dependencies": ["social interaction", "learning", "cultural context", "instruction", "independent performance"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1080/2331186X.2017.1331533",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["zone of proximal development", "scaffolding", "relationship between learner and instructor support", "limitations of the scaffolding metaphor"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision explicitly distinguishes Vygotsky’s ZPD from the later scaffolding metaphor while retaining the course-relevant relationship between guided performance and increasing independence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-11-03",
+      "boardAlignment": {
+        "summary": "Baillargeon: early infant knowledge of the physical world and violation-of-expectation research.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Violation-of-expectation research presents infants with physically possible and impossible or unexpected events and uses differential attention, often looking time, as evidence about the expectations infants bring to the event.",
+          "Baillargeon and colleagues used these methods to test whether young infants represent hidden objects and physical constraints earlier than classic action-based Piagetian tasks suggested.",
+          "Longer looking at an impossible or unexpected event is interpreted as evidence that the event violated an existing expectation, provided alternative novelty, perceptual and familiarity explanations are adequately controlled."
+        ],
+        "modelsResearchAndRelationships": [
+          "Research on occlusion, containment and support events indicates that infants develop increasingly specific expectations about how objects should behave.",
+          "Violation-of-expectation evidence challenges a simple reading of Piaget in which failure to search manually for a hidden object proves absence of object representation.",
+          "The method highlights a distinction between possessing some representation or expectation and being able to produce a coordinated action that demonstrates it."
+        ],
+        "evaluationAndLimits": [
+          "Looking-time differences require cautious interpretation because attention can be affected by novelty, familiarity, perceptual salience and procedural details as well as conceptual expectation.",
+          "Evidence of early physical expectations does not show that infants possess adult-like explicit concepts or reasoning.",
+          "Converging findings across tasks are stronger than treating any single surprising-event experiment as decisive."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Violation of expectation does not require infants to verbally state a rule about physics.",
+          "Longer looking is an indirect behavioural measure and should not be equated automatically with a specific mature concept.",
+          "Baillargeon’s findings refine claims about infant cognition; they do not show that all Piagetian developmental change is false."
+        ],
+        "dependencies": ["object permanence", "looking-time methods", "experimental control", "infant cognition", "measurement validity"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Baillargeon infant-object evidence", "early object understanding", "contrast with Piagetian timing", "theory-of-mind developmental context"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision uses Baillargeon as an example of how changing the measurement task can alter conclusions about when a cognitive capacity is detectable."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-11-04",
+      "boardAlignment": {
+        "summary": "Social-cognition development: Selman perspective-taking, theory of mind, Sally–Anne false-belief research and the mirror-neuron system.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social cognition concerns how people represent and reason about other people, their perspectives, intentions, beliefs and emotions.",
+          "Selman described developmental levels of social perspective-taking that move from an egocentric perspective toward recognising distinct viewpoints, coordinating reciprocal perspectives, taking a third-person or mutual perspective and eventually situating perspectives within wider social systems.",
+          "Theory of mind is the capacity to represent mental states such as beliefs, desires, intentions and emotions as states that can differ across people and can differ from reality.",
+          "The Sally–Anne task tests false-belief understanding by asking where a character will search when the learner knows that the object has been moved without that character’s knowledge.",
+          "Mirror neurons were originally identified as neurons active during both action execution and action observation; contemporary work describes a broader distributed mirror mechanism across motor, sensory and affective systems."
+        ],
+        "modelsResearchAndRelationships": [
+          "Selman’s levels describe increasingly sophisticated coordination of viewpoints rather than merely the presence or absence of perspective-taking.",
+          "Success on a false-belief task requires the learner to represent another person’s belief independently of both reality and the learner’s own knowledge.",
+          "Mirror mechanisms may contribute to mapping observed actions and affective states onto neural systems involved in first-person action or experience, supporting components of social interaction.",
+          "Higher-level theory-of-mind reasoning cannot responsibly be reduced to mirror neurons alone; social cognition depends on wider neural and cognitive systems."
+        ],
+        "evaluationAndLimits": [
+          "Selman’s age-linked levels are useful developmental descriptions but should not be treated as rigid universal age cut-offs.",
+          "False-belief performance is affected by language, memory, inhibitory control and task design as well as mental-state understanding.",
+          "Mirror-neuron findings support action-observation mapping, but strong claims that a single mirror system explains empathy, autism or theory of mind exceed the evidence.",
+          "Social-cognitive abilities are multidimensional: perspective coordination, false-belief reasoning and action understanding overlap but are not interchangeable constructs."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Theory of mind does not mean literally reading another person’s thoughts.",
+          "Failing the Sally–Anne task does not by itself diagnose a developmental condition.",
+          "Mirror neurons are not a complete neural explanation of social behaviour or empathy."
+        ],
+        "dependencies": ["perspective-taking", "false belief", "executive function", "social interaction", "action observation", "neuroscience"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/feduc.2018.00006",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["Selman social-perspective-taking levels", "developmental coordination of perspectives"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Courses/Northeast_Wisconsin_Technical_College/Developmental_Psychology_%28NWTC%29/03%3A_Early_Childhood/3.07%3A_Theory_of_Mind",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["theory of mind", "false belief", "Sally–Anne task"]
+        },
+        {
+          "url": "https://doi.org/10.1016/j.tics.2022.06.003",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["mirror neurons", "action execution/observation mapping", "distributed mirror mechanism", "social-interaction relevance"],
+          "caution": "Use to explain mirror mechanisms and their limits; do not convert the review into a claim that mirror neurons alone explain theory of mind or empathy."
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stages-of-development/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["development of theory of mind", "false-belief understanding", "egocentrism and perspective-taking context"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision keeps Selman, theory of mind and mirror mechanisms conceptually distinct: they address related aspects of social cognition at behavioural-developmental, mental-state and neural-mechanism levels.",
+        "The mirror-neuron treatment is deliberately bounded to avoid the common overclaim that one neural mechanism explains the whole of empathy or theory of mind."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 14,
+  "topic": "Stress",
+  "group": "option_2",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence plus independently authored factual synthesis",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-14-01",
+      "boardAlignment": {
+        "summary": "Stress physiology: general adaptation syndrome, HPA system, sympathomedullary pathway and cortisol.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Stress involves coordinated psychological and physiological responses when demands are appraised as challenging or threatening.",
+          "The sympathomedullary pathway is a rapid response involving sympathetic nervous-system activation and adrenal-medulla release of adrenaline and noradrenaline.",
+          "The hypothalamic-pituitary-adrenal axis is slower: hypothalamic signals stimulate the pituitary, which in turn stimulates the adrenal cortex to release cortisol.",
+          "Selye's general adaptation syndrome describes alarm, resistance and exhaustion as a model of the body's response to prolonged stress."
+        ],
+        "modelsResearchAndRelationships": [
+          "The rapid sympathetic response and slower HPA response overlap and interact rather than operating as isolated systems.",
+          "Acute stress responses can be adaptive because they mobilise energy and attention; prolonged activation can create physiological costs."
+        ],
+        "evaluationAndLimits": [
+          "General adaptation syndrome was influential but is too uniform if interpreted as a fixed sequence experienced identically by every person and every stressor.",
+          "Cortisol is an important stress-related hormone but varies with circadian rhythm, health, medication and other factors, so it is not a unique stress marker."
+        ],
+        "misconceptionsAndBoundaries": [
+          "The sympathomedullary and HPA systems are not the same pathway.",
+          "Stress physiology is not inherently harmful; duration, intensity, recovery and context matter.",
+          "Cortisol should not be described simply as a 'bad' hormone."
+        ],
+        "dependencies": ["autonomic nervous system", "endocrine system", "adrenal glands", "fight-or-flight response", "cortisol"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/what-is-stress/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["stress process", "sympathetic activation", "HPA axis", "cortisol", "general adaptation syndrome"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches the acute sympathetic response and slower HPA response side by side so students can compare timing, mediators and consequences rather than memorising disconnected pathways."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-14-02",
+      "boardAlignment": {
+        "summary": "Stress and illness, including immunosuppression and cardiovascular disorders.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Chronic or repeated stress can alter immune functioning through interactions among neural, endocrine and immune systems.",
+          "Immunosuppression means reduced effectiveness of immune responses; prolonged stress can influence susceptibility to infection and recovery, although effects vary by stressor, person and immune measure.",
+          "Stress can contribute to cardiovascular risk through repeated sympathetic activation, blood-pressure effects, inflammatory processes and stress-linked behaviours.",
+          "Cardiovascular outcomes are multifactorial, so psychological stress is a risk contributor rather than a sufficient cause."
+        ],
+        "modelsResearchAndRelationships": [
+          "Stress-related hormonal activity can influence immune cells and inflammatory signalling.",
+          "Job strain, hostility and chronic stress exposure can interact with established cardiovascular risk factors such as smoking, diet, physical inactivity and socioeconomic conditions."
+        ],
+        "evaluationAndLimits": [
+          "Associations between stress and illness do not by themselves prove direct causation because health status can also change perceived stress and third variables can affect both.",
+          "Short-term immune changes may differ from the effects of long-term stress; 'stress weakens the immune system' is therefore an oversimplification."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Stress does not inevitably cause infection, heart disease or other illness.",
+          "Psychological contribution to disease does not mean symptoms are imaginary.",
+          "Immunosuppression is not the only possible immune consequence of stress."
+        ],
+        "dependencies": ["HPA axis", "cortisol", "sympathetic nervous system", "immune function", "cardiovascular risk"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stress-and-illness/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["stress and immune function", "immunosuppression", "cardiovascular disorders", "hostility and stress-related risk"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision frames stress as one contributor within multifactorial illness models, preserving exam-relevant mechanisms without implying that stress alone determines disease."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-14-03",
+      "boardAlignment": {
+        "summary": "Sources of stress: life changes, daily hassles and workplace workload/control.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Major life changes can create stress because they require behavioural, social or emotional readjustment, whether the event is negative or positive.",
+          "Daily hassles are frequent minor irritants or demands whose cumulative effects can be important even though each event is small.",
+          "Workplace stress is influenced by job demands such as heavy workload and by how much control or decision latitude a worker has over tasks and working conditions.",
+          "Job strain is especially likely when high demands are combined with low control."
+        ],
+        "modelsResearchAndRelationships": [
+          "Life-change, daily-hassle and workplace approaches focus on different timescales and contexts but can operate together.",
+          "Individual appraisal and perceived control help explain why the same objective demand can produce different stress responses in different people."
+        ],
+        "evaluationAndLimits": [
+          "Counting stressors without measuring appraisal can miss important individual differences.",
+          "Life-change and job-strain research is often correlational, so causal direction and third variables require care.",
+          "Daily hassles may be both causes and consequences of distress, making longitudinal evidence important."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Positive life events can still require stressful adjustment.",
+          "A hassle is not defined only by objective size; appraisal matters.",
+          "High workload does not create identical stress for everyone, and low control can alter the impact of workload."
+        ],
+        "dependencies": ["appraisal", "perceived control", "SRRS", "daily hassles", "job strain"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stressors/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["life changes", "daily hassles", "SRRS context", "workload", "low job control", "job strain"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/regulation-of-stress/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["perceived control", "stress reactivity", "coping"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision links the three named stressor families through appraisal and control, allowing students to compare what each model measures rather than treating them as unrelated lists."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-14-04",
+      "boardAlignment": {
+        "summary": "Stress measurement: SRRS, Hassles and Uplifts Scale, physiological measures and skin conductance response.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The Social Readjustment Rating Scale assigns weighted life-change units to major events and sums experienced events to estimate cumulative readjustment demand.",
+          "The Hassles and Uplifts approach measures everyday negative experiences and positive experiences, commonly distinguishing how many events occur from how intensely they are experienced.",
+          "Physiological stress measures can include heart activity, cortisol and electrodermal activity; they provide bodily data rather than relying only on retrospective self-report.",
+          "Skin conductance response is a rapid phasic increase in electrical conductance of the skin linked to sympathetic activation of sweat glands and is used as an index of arousal/reactivity."
+        ],
+        "modelsResearchAndRelationships": [
+          "SRRS and hassles/uplifts measures operationalise environmental exposure and appraisal, while physiological measures operationalise bodily response.",
+          "Combining self-report and physiological measures can improve construct coverage because neither type captures every aspect of stress."
+        ],
+        "evaluationAndLimits": [
+          "SRRS weighting assumes some shared readjustment burden across people, yet the meaning and controllability of the same event can differ substantially.",
+          "Hassles/uplifts measures are sensitive to everyday context but depend on self-report and recall.",
+          "Skin conductance is relatively objective but is not specific to psychological stress; novelty, attention, exercise and emotional arousal can also change it.",
+          "A physiological response cannot by itself establish why a participant is aroused."
+        ],
+        "misconceptionsAndBoundaries": [
+          "SRRS scores do not diagnose stress-related illness.",
+          "Uplifts are positive daily experiences, not simply the absence of hassles.",
+          "Skin conductance response is an arousal measure, not a direct meter of a person's subjective stress."
+        ],
+        "dependencies": ["operationalisation", "self-report", "physiological measurement", "sympathetic nervous system", "correlation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stressors/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["SRRS", "life-change units", "daily hassles", "correlational limitations"]
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4271845/",
+          "classification": "REFERENCE_ONLY_FACT_CHECK",
+          "licence": "article-level reusable expression not relied upon",
+          "supports": ["Hassles and Uplifts Scale structure", "frequency/exposure and intensity scoring"],
+          "caution": "Only factual instrument characteristics are independently synthesised; no scale items or protected expression are reused."
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2020.00039/full",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["skin conductance as stress-related physiological measure", "rapid electrodermal response", "comparison with cortisol"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2021.702538/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["tonic skin conductance level", "phasic skin conductance response", "electrodermal arousal mechanism"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision compares measures by construct, objectivity and specificity: event/appraisal scales capture reported experience, whereas physiological measures capture bodily response but cannot uniquely identify psychological stress."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-14-05",
+      "boardAlignment": {
+        "summary": "Individual differences: Type A, Type B and Type C patterns, plus hardiness as commitment, challenge and control.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Type A is a behaviour pattern historically characterised by competitiveness, time urgency, impatience and hostility; Type B describes a comparatively more relaxed and less time-pressured pattern.",
+          "The broad early claim that Type A strongly predicts coronary heart disease was not consistently replicated; later evidence gives more weight to anger and hostility than to the complete Type A category.",
+          "Type C is a proposed pattern commonly described in terms of emotional suppression, compliance/conflict avoidance and related coping tendencies.",
+          "Hardiness is a resilience-related construct built around commitment, control and challenge: engagement with life, belief in influence over responses, and framing change/difficulty as something that can be addressed."
+        ],
+        "modelsResearchAndRelationships": [
+          "Hardiness is associated with more adaptive coping and can buffer the relationship between stress exposure and negative outcomes in some samples.",
+          "Personality-related effects on stress are probabilistic and can operate through appraisal, coping, behaviour and social interaction."
+        ],
+        "evaluationAndLimits": [
+          "Type A/B categories can hide meaningful variation within each group, and the strongest original cardiovascular claims did not replicate consistently.",
+          "Type C has a contested conceptual and measurement history and should not be presented as an established disease-causing personality.",
+          "Hardiness evidence is largely correlational or intervention-linked and does not imply immunity to severe or chronic stress.",
+          "Personality labels should not be used to blame people for illness."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Type A does not mean a person is destined to develop heart disease.",
+          "Type C is not an established cause of cancer.",
+          "Hardiness is not the same as never feeling stress.",
+          "The three hardiness components are commitment, control and challenge."
+        ],
+        "dependencies": ["personality", "coping", "hostility", "cardiovascular risk", "resilience"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/stress-and-illness/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["Type A", "Type B", "time urgency", "hostility", "replication limitations"]
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7525034/",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["Type C construct", "emotional suppression", "compliance-related features", "conceptual and measurement uncertainty"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.918788/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["hardiness", "commitment", "control", "challenge", "adaptive coping", "stress buffering"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision explicitly separates historically influential personality typologies from the strength of current evidence, so students can describe the models while evaluating overclaiming and causal interpretation."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-14-06",
+      "boardAlignment": {
+        "summary": "Stress management and coping: drug therapy, Stress Inoculation Training, biofeedback, gender differences and social support including instrumental, emotional and esteem support.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Drug approaches can reduce particular anxiety or physiological symptoms but act through biological mechanisms and carry benefit-risk trade-offs; they are not equivalent to learning coping skills.",
+          "Stress Inoculation Training is a cognitive-behavioural programme with three broad phases: understanding/conceptualising stress, acquiring and rehearsing coping skills, and applying/following through with those skills in increasingly realistic situations.",
+          "Biofeedback measures a physiological signal and provides that information back to the person so they can practise voluntary self-regulation; common signals include heart-rate variability, respiration and electrodermal activity.",
+          "Social support can buffer stress through instrumental support (practical/tangible help), emotional support (care and understanding) and esteem support (affirmation of worth or competence)."
+        ],
+        "modelsResearchAndRelationships": [
+          "Stress Inoculation Training combines cognitive reappraisal, coping-skill rehearsal and application rather than relying only on exposure to stress.",
+          "Biofeedback creates a feedback loop between physiological measurement, awareness, strategy use and observed bodily change.",
+          "Gender differences in coping are group-level statistical patterns. For example, some studies find women report greater use or benefit from social-support coping while some male samples show more active/problem-focused coping; substantial overlap exists within genders.",
+          "Social support can have direct well-being benefits and can also buffer the impact of stress when support resources match the person's needs."
+        ],
+        "evaluationAndLimits": [
+          "Medication can be useful for some symptoms but side effects, dependence/tolerance risks for some drug classes and failure to address stressors directly limit a simple drug-only account.",
+          "Stress Inoculation Training is structured and skills-based, but effectiveness depends on engagement, context and transfer of skills beyond training.",
+          "Biofeedback evidence is promising but heterogeneous across devices, physiological targets and study designs; feedback data must be interpreted rather than treated as a cure in itself.",
+          "Average gender differences should never be converted into stereotypes or assumptions about an individual person's coping style.",
+          "Social support quality and fit matter; unhelpful, controlling or mismatched support can fail to reduce stress."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Stress Inoculation Training does not mean deliberately overwhelming someone with severe stress.",
+          "Biofeedback is not passive monitoring; the training component is central.",
+          "Women and men do not have fixed biologically predetermined coping styles.",
+          "Emotional and esteem support overlap conceptually but can be distinguished by care/understanding versus affirmation of value or competence."
+        ],
+        "dependencies": ["cognitive behavioural principles", "coping", "physiological arousal", "social support", "individual differences"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/regulation-of-stress/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["coping", "problem- and emotion-focused coping", "perceived control", "social support"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.00122/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["Stress Inoculation Training", "conceptualisation phase", "skills acquisition and consolidation", "application and follow-through"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/ict/articles/10.3389/fict.2018.00023/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["biofeedback definition", "stress-management feedback loop", "HRV", "respiration", "heart rate", "GSR", "evidence limitations"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.913125/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["gender-group differences in coping", "social-support coping", "active coping", "individual variability"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/behavioral-neuroscience/articles/10.3389/fnbeh.2016.00228/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["stress-buffering social support", "esteem support", "instrumental support", "informational and companionship support"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/types-of-treatment/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["psychopharmacological treatment foundations", "anti-anxiety medication context", "benefit-risk framing"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats the named management methods as different mechanisms: medication changes biological activity, SIT develops cognitive-behavioural coping skills, biofeedback trains physiological self-regulation, and social support changes the interpersonal resources available during stress.",
+        "Gender is retained as an exam-relevant individual-differences issue while explicitly preventing population averages from becoming learner-facing stereotypes."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}

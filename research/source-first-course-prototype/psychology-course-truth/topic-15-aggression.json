@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 15,
+  "topic": "Aggression",
+  "group": "option_3",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence plus independently authored factual synthesis",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-15-01",
+      "boardAlignment": {
+        "summary": "Biological explanations of aggression, including neural and hormonal mechanisms, genetics and gene-environment interaction.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Aggression is influenced by interacting neural, hormonal, genetic, psychological and social processes rather than one biological cause.",
+          "Neural accounts implicate networks involved in threat processing, emotional regulation and inhibitory control, including interactions among limbic regions and prefrontal control systems.",
+          "Serotonergic functioning has been associated with aggression and impulse control, but simple claims that 'low serotonin causes aggression' are too crude because receptor systems, brain region, development and context matter.",
+          "Testosterone is associated with dominance- and status-related behaviour and can be associated with aggression under some social conditions; its effects are probabilistic and moderated by context and other biological systems.",
+          "MAOA is one gene involved in monoamine metabolism. Genetic variants can contribute to vulnerability, but effects are small and depend importantly on environmental experience."
+        ],
+        "modelsResearchAndRelationships": [
+          "Gene-environment interaction means that genetic variation can alter sensitivity to environmental risk while environmental conditions alter whether genetic vulnerability is expressed.",
+          "Biological systems can affect thresholds for threat perception, arousal and inhibitory control, which then interact with learned scripts, provocation and social norms."
+        ],
+        "evaluationAndLimits": [
+          "Associations between hormones, genes or brain activity and aggression do not establish deterministic causation.",
+          "Many biological studies use group averages, correlational designs or indirect measures and cannot predict whether a particular person will be aggressive.",
+          "MAOA findings are especially misleading when reduced to a 'warrior gene' label; no single gene explains aggressive behaviour.",
+          "Biological accounts are strongest when integrated with developmental and social context."
+        ],
+        "misconceptionsAndBoundaries": [
+          "There is no single aggression gene, hormone or brain centre.",
+          "High testosterone does not make aggression inevitable.",
+          "Biological vulnerability is not equivalent to moral responsibility or destiny."
+        ],
+        "dependencies": ["limbic system", "prefrontal control", "serotonin", "testosterone", "MAOA", "gene-environment interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fnbeh.2020.00093",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["testosterone", "MAOA", "biological aggression mechanisms", "context-dependent effects"]
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5488346/",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["MAOA", "gene-environment interaction", "aggression vulnerability"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision deliberately replaces single-cause biological shorthand with an interaction model: biological variation can change vulnerability or regulation, while provocation, learning and social context influence expression."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-15-02",
+      "boardAlignment": {
+        "summary": "Ethological and evolutionary explanations of aggression, including fixed action patterns, sign stimuli and innate releasing mechanisms.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Ethology studies behaviour in its biological and ecological context and distinguishes inherited behavioural organisation from learning and immediate environmental triggers.",
+          "A fixed action pattern is a relatively stereotyped behavioural sequence that is released by a relevant stimulus and tends to continue once initiated.",
+          "A sign stimulus is a salient environmental cue capable of releasing the behaviour; classic stickleback research showed that a red visual cue can release aggressive responding by breeding males even when the object does not resemble another fish.",
+          "AQA's term innate releasing mechanism refers to the hypothesised internal detection/release process linking an appropriate sign stimulus to a fixed action pattern.",
+          "Evolutionary accounts ask whether conditional aggressive tendencies could have improved survival or reproductive success through functions such as resource defence, status competition, mate competition or protection."
+        ],
+        "modelsResearchAndRelationships": [
+          "Ethological explanation separates the proximate trigger of aggression from an ultimate evolutionary account of why a response tendency may have been selected.",
+          "Human aggression is more flexible than classic fixed action patterns and is strongly modified by cognition, learning, culture and social rules."
+        ],
+        "evaluationAndLimits": [
+          "Animal fixed-action-pattern evidence establishes useful biological principles but cannot be transferred unchanged to complex human aggression.",
+          "Evolutionary explanations can become unfalsifiable if every form of aggression is retrospectively labelled adaptive; useful accounts require specific predictions and plausible selection pressures.",
+          "An evolved capacity or predisposition does not imply inevitability in a modern environment."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Innate does not mean unaffected by environment or learning.",
+          "The red stickleback cue illustrates sign-stimulus control; it does not demonstrate that all aggression is reflexive.",
+          "Evolutionary function is not a moral justification for aggression."
+        ],
+        "dependencies": ["ethology", "fixed action pattern", "sign stimulus", "proximate explanation", "ultimate explanation", "natural selection"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://bio.libretexts.org/Bookshelves/Introductory_and_General_Biology/General_Biology_1e_%28OpenStax%29/8%3A_Ecology/45%3A_Population_and_Community_Ecology/45.7%3A_Behavioral_Biology_-_Proximate_and_Ultimate_Causes_of_Behavior",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["fixed action patterns", "sign stimuli", "stickleback aggressive response", "proximate and ultimate explanation"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2019.01914",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["evolutionary accounts of human aggression", "conditional/adaptive framing"]
+        }
+      ],
+      "revisionSynthesis": [
+        "The exact AQA label 'innate releasing mechanism' is retained as qualification framing over independently sourced ethological facts; Revision does not copy a protected revision-text definition."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-15-03",
+      "boardAlignment": {
+        "summary": "Social-psychological explanations of aggression, including social learning, deindividuation and frustration-aggression accounts.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social learning theory explains aggressive behaviour as learned through observing models, encoding what they do and the consequences they receive, and later reproducing behaviour when motivation and opportunity favour it.",
+          "Vicarious reinforcement occurs when observing a model being rewarded increases the observer's expectation that similar behaviour will be effective or rewarded.",
+          "Deindividuation describes reduced self-focus, accountability or normal inhibitory control in some group contexts. Modern interpretations emphasise that behaviour can shift toward salient group norms rather than becoming automatically antisocial.",
+          "The classic frustration-aggression hypothesis linked blockage of goal-directed behaviour to aggressive responding.",
+          "Berkowitz-style revisions treat frustration as one source of aversive negative affect that can increase anger and aggressive readiness without making aggression inevitable."
+        ],
+        "modelsResearchAndRelationships": [
+          "Frustration can increase aggressive readiness, while appraisal, aggressive cues, learnt scripts, inhibitory control and alternative coping influence whether an aggressive response is selected.",
+          "Social learning and deindividuation can interact: a group can make aggressive norms more salient while observation and reinforcement supply the relevant behavioural scripts."
+        ],
+        "evaluationAndLimits": [
+          "Bobo-doll and modelling evidence demonstrates learning mechanisms but laboratory imitation is not equivalent to serious real-world violence.",
+          "Deindividuation is not a universal group effect; anonymity and reduced self-awareness can increase conformity to prosocial as well as antisocial group norms.",
+          "Frustration neither necessarily nor sufficiently causes aggression; people can withdraw, problem-solve, seek support or behave prosocially after frustration.",
+          "The models explain different mechanisms and should not be treated as mutually exclusive."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Observing aggression does not guarantee imitation.",
+          "Being in a crowd does not automatically cause deindividuation or violence.",
+          "Frustration can increase aggressive readiness without always producing aggression."
+        ],
+        "dependencies": ["observational learning", "vicarious reinforcement", "group norms", "self-awareness", "frustration", "anger", "inhibitory control"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["observational learning", "modelling", "attention-retention-reproduction-motivation", "antisocial modelling"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.977497",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["deindividuation", "reduced self-awareness/self-control", "group context", "violent behavioural intentions"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.631711",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["classic frustration-aggression formulation", "Berkowitz revision", "frustration does not invariably produce aggression"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches the classic and revised frustration-aggression positions explicitly so students can evaluate the move from a deterministic formulation to a conditional negative-affect account."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-15-04",
+      "boardAlignment": {
+        "summary": "Institutional aggression in prisons: dispositional/importation and situational/deprivation explanations.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The importation model proposes that behaviour in prison partly reflects characteristics and experiences brought into the institution, including identity, values, prior socialisation, behavioural history, coping strategies and other individual differences.",
+          "The deprivation model proposes that behaviour partly reflects situational pressures created by imprisonment, including losses of liberty, autonomy, security, valued relationships, goods/services and other pains of imprisonment.",
+          "In AQA framing, importation is primarily a dispositional explanation and deprivation primarily a situational explanation, although real prison behaviour reflects interaction between person and institution."
+        ],
+        "modelsResearchAndRelationships": [
+          "Imported characteristics can affect how a prisoner experiences deprivation, while institutional conditions can amplify, suppress or redirect pre-existing tendencies.",
+          "Aggression can therefore emerge from convergence between individual vulnerability, prison norms, threat, resource scarcity, crowding, control practices and social relationships."
+        ],
+        "evaluationAndLimits": [
+          "Evidence that pre-prison characteristics predict institutional misconduct supports importation but does not show that prison conditions are irrelevant.",
+          "Evidence linking institutional pains or conditions to aggression supports deprivation but can be confounded by selection into different institutions or wings.",
+          "Contemporary work increasingly treats importation and deprivation as complementary rather than mutually exclusive.",
+          "Institutional-aggression explanations should not stereotype incarcerated people as inherently violent."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Importation does not mean aggression is fixed before imprisonment.",
+          "Deprivation does not mean every prisoner exposed to the same conditions responds identically.",
+          "Dispositional and situational explanations can both contribute to the same event."
+        ],
+        "dependencies": ["dispositionism", "situationism", "prison environment", "coping", "institutional norms"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1177/00328855241292791",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["importation model", "deprivation model", "pains of imprisonment", "combined person-situation interpretation"]
+        },
+        {
+          "url": "https://knowledge.lancashire.ac.uk/id/eprint/53256/",
+          "classification": "OPEN_RIGHTS_RECORD",
+          "licence": "Creative Commons Attribution",
+          "supports": ["repository rights verification for the importation/deprivation article"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision maps AQA's dispositional/situational distinction onto importation/deprivation while retaining the stronger modern conclusion that prison aggression is best analysed as person-by-environment interaction."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-15-05",
+      "boardAlignment": {
+        "summary": "Media influences on aggression, including social learning, desensitisation, disinhibition and cognitive priming.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social-learning accounts propose that media can provide models and behavioural scripts, especially where aggressive behaviour appears rewarded, effective or normative.",
+          "Cognitive priming is a short-term process in which exposure makes aggression-related concepts, scripts or interpretations more accessible, increasing the probability that ambiguous events are processed through those activated structures.",
+          "Desensitisation refers to reduced emotional or physiological responsiveness after repeated exposure to violent material, potentially lowering aversion to violence.",
+          "Disinhibition refers to weakening of normal restraints on an already-learned aggressive response; reduced inhibitory-control responses after repeated violent exposure provide one possible mechanistic route.",
+          "The General Aggression Model integrates person and situation inputs with cognition, affect and arousal, followed by appraisal and response selection."
+        ],
+        "modelsResearchAndRelationships": [
+          "Short-term priming and arousal mechanisms are conceptually distinct from longer-term learning, script acquisition and desensitisation, although they can interact.",
+          "Repeated exposure may affect aggressive cognitions or emotional responsiveness without producing aggressive behaviour in every person or situation.",
+          "Individual differences, content, competitive context, provocation, measurement choice and pre-existing aggression can all change observed media effects."
+        ],
+        "evaluationAndLimits": [
+          "The media-aggression literature is contested: studies and reviews differ over effect size, replication, confounding and how well laboratory aggression measures predict serious real-world violence.",
+          "A correlation between violent-media use and aggression cannot establish direction of causation because aggressive individuals may also select more violent media.",
+          "Experimental studies improve causal inference but often measure short-term proxies rather than serious violence and may have limited ecological validity.",
+          "Mechanism evidence should be described as changing probability or cognitive accessibility, not as deterministic programming of behaviour."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Violent media exposure does not mean a person will become violent.",
+          "Desensitisation, disinhibition and priming are different proposed mechanisms.",
+          "Laboratory aggression is not equivalent to violent crime.",
+          "Evidence disagreement is part of the scientific evaluation and should not be hidden from learners."
+        ],
+        "dependencies": ["observational learning", "schemas and scripts", "priming", "inhibitory control", "desensitisation", "General Aggression Model", "research-method validity"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["observational learning", "antisocial modelling"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fnhum.2021.751336",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["General Aggression Model", "aggressive knowledge structures", "aggressive priming", "cognition-affect-arousal routes", "inhibitory control"]
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2092389/",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["repeated violent-media exposure", "diminished inhibitory frontolimbic response", "disinhibition-relevant mechanism"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2025.1623246",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["media exposure within General Aggression Model", "cognition", "affect", "arousal", "online/offline violence context"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2014.00088",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["replication and external-validity controversy", "measurement/confounding cautions in violent-game aggression research"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches the named mechanisms while making the contested evidence base part of the truth itself: media exposure can be analysed as a probabilistic input, not a sufficient cause of aggression or violence."
+      ],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # Prototype Run — AQA A-level Psychology 7182 → Restricted Student Pilot
 
 **Prototype:** Source-First Course Prototype  
-**Status:** Authorised continuation — proposed until governing PR is merged  
+**Status:** Active — governing continuation merged in PR #509  
 **Founder decision:** `iterate` via end-to-end Psychology completion  
 **Decision date:** 2 October 2026  
 **Exact course:** AQA A-level Psychology 7182, revised specification, first A-level exams summer 2027  
@@ -31,6 +31,52 @@ The completed Psychology source proof established:
 - a clear finding that source discovery, rights verification, mapping and reconciliation are the main manual bottlenecks.
 
 Those results remain historical evidence. They are not reclassified as a finished Course Foundation merely because this continuation has been authorised.
+
+## Continuation progress — 2 October 2026
+
+Work is proceeding on governed branch `experiment/psychology-course-truth` from merged continuation authority.
+
+The predecessor proof has not been rewritten. New continuation evidence has instead:
+
+- closed the prior PSY-17-06 Prochaska source gap with commercially reusable `CC BY` evidence;
+- closed the PSY-16-04 token-economy rights residual with `CC BY 4.0` correctional/forensic evidence;
+- closed the remaining Addiction personality-risk and aversion-therapy source-depth bridges;
+- moved the live source-review baseline to **60 covered candidates / 58 partial / 0 gaps**;
+- established **118/118 requirements with some reusable source support**;
+- created the working source-first Course Truth format and progress manifest; and
+- transformed Social Influence, Forensic Psychology and Addiction into **14/118 `course_truth_ready` requirement records**.
+
+Current retained Course Truth topic state:
+
+- Social Influence — 4/4 ready;
+- Forensic Psychology — 4/4 ready;
+- Addiction — 6/6 ready;
+- whole course — 14/118 ready, 104 remaining.
+
+No learner-facing assets, catalogue entries or production publication state are created by this progress. Paid source/licence spend remains £0 and no paid provider spend is recorded for the continuation closures so far. Active working time is not yet reliable enough to publish as a numeric measure; wall-clock completion remains pending.
+
+## Continuation checkpoint — 4 October 2026
+
+The Course Truth stage is now complete.
+
+The dated 2 October checkpoint above remains historical run evidence. Subsequent source closure, consolidation and assurance work has moved the live state to:
+
+- exact named requirements: **118**;
+- reusable source support: **118/118**;
+- live source-review baseline: **118 covered / 0 partial / 0 gaps**;
+- Course Truth records marked `course_truth_ready`: **118/118**;
+- named topic shards reconciled: **17/17**;
+- Research Methods: **34/34**;
+- known material subject-truth gaps: **0**;
+- known material rights blockers: **0**;
+- paid source/licence spend: **£0**; and
+- paid provider spend recorded for the continuation source closures: **£0**.
+
+Two material provenance-record defects found during internal challenge were remediated before completion: a stale ShareAlike licence version in Research Methods and five vague predecessor-proof licence labels in Forensic Psychology. The Course Truth validator was hardened to reject those classes of metadata regression.
+
+`courseTruthComplete=true` now records completion of step 1 of this run. `wholeCourseIndependentAssurancePassed=false` remains deliberate: fresh independent educational and assessment assurance is still required later under step 6 before restricted-pilot publication. It is not a prerequisite for beginning step 2.
+
+The next substantive phase is therefore **Complete Exam Truth**. No learner-facing publication, restricted-pilot approval or production `foundation_approved` state is implied by Course Truth completion.
 
 ## Operating boundary
 

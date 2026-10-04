@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 6,
+  "topic": "Biopsychology",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-06-01",
+      "boardAlignment": {
+        "summary": "Central and peripheral nervous-system divisions, including somatic and autonomic systems.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The central nervous system consists of the brain and spinal cord and integrates information and coordinates responses.",
+          "The peripheral nervous system comprises nerves outside the brain and spinal cord and connects the central nervous system with sensory receptors, muscles, organs and glands.",
+          "The somatic nervous system carries sensory information to the central nervous system and motor commands to skeletal muscles.",
+          "The autonomic nervous system regulates largely involuntary functions of internal organs and glands and includes sympathetic and parasympathetic divisions."
+        ],
+        "modelsResearchAndRelationships": [
+          "The sympathetic division generally mobilises resources for action, while the parasympathetic division supports restoration and routine maintenance; their effects are coordinated rather than simple all-or-none opposites."
+        ],
+        "evaluationAndLimits": [
+          "The division labels are useful organising categories, but nervous-system regulation is integrated across central and peripheral structures rather than operating as isolated subsystems."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Autonomic does not mean completely independent of the brain; autonomic regulation is centrally coordinated.",
+          "The peripheral nervous system includes both sensory and motor pathways, not only motor nerves."
+        ],
+        "dependencies": ["neurons", "brain and spinal cord", "sympathetic nervous system", "parasympathetic nervous system"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/parts-of-the-nervous-system/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["central nervous system", "peripheral nervous system", "somatic nervous system", "autonomic nervous system", "sympathetic and parasympathetic divisions"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-06-02",
+      "boardAlignment": {
+        "summary": "Sensory, relay and motor neurons, synaptic transmission, neurotransmitters, excitation and inhibition.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Sensory neurons transmit information from sensory receptors toward the central nervous system; motor neurons transmit commands from the central nervous system to effectors such as muscles.",
+          "Interneurons connect neurons within the central nervous system. The AQA term relay neuron is retained as qualification framing for this connecting function.",
+          "An action potential is an electrical signal propagated along a neuron. At a chemical synapse, arrival of the action potential triggers neurotransmitter release from the presynaptic terminal into the synaptic cleft.",
+          "Neurotransmitters bind to receptors on the postsynaptic cell and can produce excitatory or inhibitory effects depending on the transmitter, receptor and cell context.",
+          "Excitatory postsynaptic effects tend to depolarise the receiving cell and increase the likelihood of firing; inhibitory effects tend to hyperpolarise it and reduce that likelihood."
+        ],
+        "modelsResearchAndRelationships": [
+          "Neural output reflects summation and integration of multiple excitatory and inhibitory inputs rather than a single synapse determining whether the neuron fires.",
+          "Glutamate is a major excitatory neurotransmitter in the central nervous system and GABA is a major inhibitory neurotransmitter, while their effects still depend on receptor mechanisms and circuit context."
+        ],
+        "evaluationAndLimits": [
+          "Labels such as excitatory and inhibitory describe effects on postsynaptic signalling; they should not be treated as fixed descriptions of a neurotransmitter in every biological context."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Neurotransmission across a chemical synapse is chemical, while signal propagation along an axon is electrical.",
+          "A relay neuron is not a third peripheral pathway equivalent to sensory and motor neurons; it functions within central neural circuits."
+        ],
+        "dependencies": ["cell membrane potential", "action potential", "synapse", "receptors", "central nervous system"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/cells-of-the-nervous-system/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["neurons", "action potentials", "synapses", "neurotransmitters", "receptors", "reuptake"]
+        },
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/the-brain-and-spinal-cord/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["sensory-interneuron-motor reflex pathway", "interneuron connecting function"]
+        },
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/back-matter/appendix/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["depolarisation and excitation", "hyperpolarisation and inhibition", "glutamate", "GABA", "EPSPs and IPSPs"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision uses the AQA label 'relay neuron' as course alignment while explaining the independently sourced interneuron function rather than treating protected specification wording as teaching corpus."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-06-03",
+      "boardAlignment": {
+        "summary": "Endocrine-system glands and hormones.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The endocrine system is a network of glands that release hormones into the bloodstream, allowing chemical signals to act on target tissues with appropriate receptors.",
+          "Hormonal signalling is generally slower in onset and longer lasting than rapid neural signalling.",
+          "The pituitary gland interacts with hypothalamic control and helps regulate other endocrine glands; other major glands include the thyroid, adrenal glands, pancreas and gonads."
+        ],
+        "modelsResearchAndRelationships": [
+          "Endocrine and nervous systems interact continuously; the hypothalamus is an important interface between neural regulation and endocrine output."
+        ],
+        "evaluationAndLimits": [
+          "Hormones can influence behaviour and physiology but their effects depend on receptors, feedback systems and wider biological and environmental context."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Hormonal effects are not independent of the nervous system.",
+          "A hormone does not affect every cell equally; target-cell receptors matter."
+        ],
+        "dependencies": ["hypothalamus", "pituitary gland", "adrenal glands", "feedback regulation", "receptors"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/the-endocrine-system/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["endocrine system", "glands", "hormones", "pituitary and major endocrine glands", "neural-endocrine interaction"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-06-04",
+      "boardAlignment": {
+        "summary": "Fight-or-flight response, including adrenaline.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The acute fight-or-flight response prepares the body to respond rapidly to perceived threat through coordinated autonomic and endocrine activity.",
+          "Sympathetic activation increases physiological readiness, including cardiovascular and respiratory changes, while the adrenal medulla releases adrenaline and noradrenaline into the bloodstream.",
+          "After the immediate challenge passes, parasympathetic activity contributes to restoring routine physiological conditions."
+        ],
+        "modelsResearchAndRelationships": [
+          "The sympathetic-adrenal-medullary response is rapid; longer-lasting stress responses can also involve the hypothalamic-pituitary-adrenal axis and cortisol, which should not be collapsed into the immediate adrenaline response."
+        ],
+        "evaluationAndLimits": [
+          "Fight or flight is a useful description of acute mobilisation, but real stress responses vary across situations and individuals and may include freezing, vigilance and other response patterns."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Adrenaline is a hormone released into the bloodstream as part of the acute response; it is not the sole cause of every stress-related change.",
+          "Fight or flight is not the same as the complete longer-term stress response."
+        ],
+        "dependencies": ["autonomic nervous system", "sympathetic division", "adrenal medulla", "adrenaline", "stress physiology"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/what-is-stress/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["fight-or-flight physiology", "sympathetic activation", "adrenaline and noradrenaline", "stress-system relationships"]
+        }
+      ],
+      "revisionSynthesis": [],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-06-05",
+      "boardAlignment": {
+        "summary": "Brain-study methods: fMRI, EEG, event-related potentials and post-mortem examination.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Functional magnetic resonance imaging estimates changes associated with neural activity through blood-oxygen-level-dependent signals, providing relatively high spatial resolution but indirect and comparatively slow measures of neural activity.",
+          "Electroencephalography records electrical activity from electrodes at the scalp, providing high temporal resolution but limited ability to localise deep or precise neural sources.",
+          "An event-related potential is derived from EEG by aligning recordings to repeated occurrences of a defined event and averaging across trials so activity consistently time-locked to that event can be identified.",
+          "Post-mortem examination studies brain tissue after death and can reveal structural or pathological features unavailable from some in-vivo methods."
+        ],
+        "modelsResearchAndRelationships": [
+          "ERP components can be described using properties such as timing/latency, amplitude, polarity and scalp distribution; interpretation requires careful experimental control and signal processing.",
+          "The four methods answer different questions and involve different temporal, spatial, causal and practical trade-offs."
+        ],
+        "evaluationAndLimits": [
+          "fMRI blood-oxygen signals are indirect correlates of neural activity and should not be interpreted as direct recordings of neurons firing.",
+          "EEG and ERP signals are vulnerable to noise and artefacts, and scalp recordings blur the spatial origin of activity.",
+          "Post-mortem evidence is observational and can be affected by pre-existing illness, treatment, cause of death and the absence of a living behavioural measure."
+        ],
+        "misconceptionsAndBoundaries": [
+          "An ERP is not a separate brain signal unrelated to EEG; it is extracted from EEG data through event-related analysis.",
+          "High spatial resolution does not mean fMRI establishes causation between a brain region and behaviour."
+        ],
+        "dependencies": ["brain localisation", "measurement validity", "temporal resolution", "spatial resolution", "correlation and causation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/studying-the-brain/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["fMRI", "EEG", "brain-study methods", "uses and limitations"]
+        },
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/neurodegenerative-diseases/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["post-mortem examination context"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Biological_Psychology/Applied_Event-Related_Potential_Data_Analysis_%28Luck%29",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["EEG-to-ERP relationship", "event time-locking", "averaging", "ERP amplitude and latency", "artefact and signal-processing cautions"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision presents the methods comparatively so learners can explain both what each measures and why method choice changes the strength and type of inference available."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-06-06",
+      "boardAlignment": {
+        "summary": "Functional localisation and hemispheric lateralisation, including cortical centres, Broca and Wernicke, split-brain research, plasticity and functional recovery after trauma.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Functional localisation is the principle that some psychological and behavioural functions depend disproportionately on particular neural regions, while complex functions usually involve distributed interacting systems.",
+          "The primary motor cortex is strongly involved in voluntary movement; the primary somatosensory cortex processes bodily touch and related somatic information; primary visual cortex receives visual input; and primary auditory cortex processes auditory input.",
+          "Broca’s area is classically associated with language production and Wernicke’s area with language comprehension, with both usually lateralised toward the left hemisphere in most people.",
+          "Hemispheric lateralisation refers to relative specialisation of functions between the two cerebral hemispheres rather than one hemisphere controlling an entire personality style.",
+          "Neuroplasticity is the nervous system’s capacity to change its structure or functional organisation through development, experience, learning or response to damage."
+        ],
+        "modelsResearchAndRelationships": [
+          "The corpus callosum normally transfers information between hemispheres. Split-brain surgery severs this major connection, allowing researchers such as Gazzaniga and colleagues to study processing that is temporarily confined to one hemisphere.",
+          "In classic split-brain tasks, information presented to the left visual field is initially processed by the right hemisphere and may not be verbally named when interhemispheric transfer is unavailable, while non-verbal responses controlled by that hemisphere can remain possible.",
+          "After brain injury, functional recovery can involve reorganisation of surviving networks, changes in synaptic connections and rehabilitation-supported recruitment of alternative pathways."
+        ],
+        "evaluationAndLimits": [
+          "Localisation evidence from lesions and split-brain cases can be powerful but individual brains differ, lesions can affect networks beyond a single focal site and small specialist samples limit simple generalisation.",
+          "Plasticity creates capacity for adaptation but does not guarantee full recovery; outcome varies with injury location and severity, age, time, rehabilitation and wider individual factors.",
+          "Modern neuroscience supports functional specialisation alongside network interaction, so a rigid one-function-one-area account is too simple."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Split-brain findings do not support popular claims that people are globally 'left-brained' or 'right-brained'.",
+          "Plasticity is not always beneficial and should not be equated with guaranteed recovery.",
+          "Broca and Wernicke findings illustrate important language specialisation but language depends on wider neural networks."
+        ],
+        "dependencies": ["cerebral cortex", "corpus callosum", "visual fields", "language", "lesion evidence", "neuroplasticity", "rehabilitation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/the-brain-and-spinal-cord/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["motor and somatosensory cortical localisation", "Broca and Wernicke", "hemispheric lateralisation", "corpus callosum", "Gazzaniga split-brain evidence"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/the-brain-and-spinal-cord/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["motor cortex", "somatosensory cortex", "auditory cortex", "visual cortex", "Broca and Wernicke localisation"]
+        },
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/psychneuro/chapter/the-brain-and-spinal-cord/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["neuroplasticity", "plastic change after injury", "synaptic reorganisation", "functional recovery after traumatic brain injury"],
+          "caution": "Recovery examples are illustrative; do not infer that comparable recovery occurs after every injury."
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision combines localisation, lateralisation and plasticity as related but distinct concepts: specialised neural organisation can be demonstrated while the same nervous system retains capacity for adaptive reorganisation.",
+        "AQA’s exact topic labels remain qualification framing; the explanatory model is independently synthesised from commercially reusable neuroscience sources."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}

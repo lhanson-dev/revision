@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 13,
+  "topic": "Eating Behaviour",
+  "group": "option_2",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-13-01",
+      "boardAlignment": {
+        "summary": "Food preferences: evolutionary explanations including neophobia and taste aversion, and learning including social/cultural influences.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Food preference is shaped by interacting biological predispositions, individual learning and social/cultural experience rather than by one fixed mechanism.",
+          "Food neophobia is reluctance to consume unfamiliar foods. A cautious response to novel foods may have had adaptive value by reducing exposure to toxins or pathogens, especially when ancestral environments contained unfamiliar and potentially dangerous foods.",
+          "Conditioned taste aversion is learned avoidance of a flavour after it is followed by illness or nausea. Unlike many classical-conditioning effects, strong taste aversion can form after one pairing and despite a relatively long delay between food consumption and illness.",
+          "Observational learning can shape food preferences when people model parents, peers or culturally salient figures; reinforcement can strengthen preferences when particular foods or eating behaviours are rewarded socially or materially.",
+          "Culture affects which foods are available, familiar, valued, restricted and socially reinforced, so biological preparedness operates within learned dietary environments."
+        ],
+        "modelsResearchAndRelationships": [
+          "Evolutionary preparedness and learning are compatible: a predisposition to learn certain food–illness associations rapidly is itself expressed through experience-dependent learning.",
+          "Repeated exposure can reduce neophobia for some foods, while modelling and social reinforcement can increase acceptance or avoidance.",
+          "Social and cultural learning can amplify, redirect or counter initial biological tendencies, producing substantial variation in food preference across people and populations."
+        ],
+        "evaluationAndLimits": [
+          "An evolutionary explanation should identify a plausible adaptive function and mechanism rather than treating any present-day preference as automatically evolved.",
+          "Food neophobia can be protective in some contexts but can also restrict dietary variety; its expression varies with age, experience and culture.",
+          "Taste-aversion learning demonstrates preparedness but does not mean every dislike follows illness conditioning.",
+          "Observed cultural differences show that preference is highly plastic and cannot be reduced to a fixed inherited menu."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Evolutionary influence does not mean a food preference is genetically fixed or universal.",
+          "Taste aversion is not the same as ordinary dislike; it specifically concerns learned avoidance associated with adverse post-ingestion experience.",
+          "Social learning is not limited to deliberate teaching; modelling and reinforcement can operate without explicit instruction."
+        ],
+        "dependencies": ["classical conditioning", "observational learning", "reinforcement", "evolutionary preparedness", "culture"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3925843/",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["food neophobia", "protective/evolutionary interpretation", "individual variation"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["conditioned taste aversion", "one-trial learning", "long-delay learning", "evolutionary preparedness"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["modelling", "imitation", "observational learning"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["reinforcement", "behaviour strengthened by consequences"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["social and cultural influences on eating", "biological and environmental interaction"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision combines evolutionary preparedness and learning rather than presenting them as rival explanations: preparedness can affect what is learned easily, while culture and experience strongly shape the resulting preferences."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-13-02",
+      "boardAlignment": {
+        "summary": "Neural and hormonal control of eating, including hypothalamic mechanisms, ghrelin and leptin.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Eating is regulated by interacting homeostatic, hormonal, neural and reward-related systems rather than a single hunger centre.",
+          "The hypothalamus integrates signals about energy availability and contributes to hunger, satiety and energy-balance regulation through interacting neural pathways.",
+          "Ghrelin is a peptide hormone produced mainly by the stomach whose circulating level commonly rises before meals and can promote hunger and food intake.",
+          "Leptin is secreted largely by adipose tissue and provides information about longer-term energy stores; leptin signalling can reduce food intake and influence energy expenditure.",
+          "Satiety also depends on gastrointestinal, metabolic and sensory signals, so ghrelin and leptin are important components rather than on/off switches."
+        ],
+        "modelsResearchAndRelationships": [
+          "Hypothalamic circuits receive hormonal and nutrient-related information and communicate with brainstem and reward systems involved in eating.",
+          "Ghrelin and leptin often have broadly opposing effects on appetite-related signalling, but their actions depend on receptor sensitivity, nutritional state and wider neural context.",
+          "Homeostatic signals interact with hedonic reward, learning and food availability, which explains why eating can occur in the absence of acute energy deficit."
+        ],
+        "evaluationAndLimits": [
+          "Older single-centre descriptions of lateral-hypothalamus hunger and ventromedial-hypothalamus satiety are too simple for modern evidence; distributed circuits are more accurate.",
+          "Hormone concentration is not a deterministic predictor of what a person will eat because reward, stress, habits, environment and cognition also matter.",
+          "Leptin resistance illustrates why having more of a satiety-related hormone does not necessarily produce proportionally lower intake."
+        ],
+        "misconceptionsAndBoundaries": [
+          "The hypothalamus is not a single appetite switch.",
+          "Ghrelin does not act alone to cause hunger and leptin does not simply switch hunger off.",
+          "Homeostatic regulation does not explain every episode of eating."
+        ],
+        "dependencies": ["hypothalamus", "hormones", "homeostasis", "reward", "energy balance"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["hypothalamic regulation", "satiety and hunger signals", "leptin", "biological and environmental control of eating"]
+        },
+        {
+          "url": "https://opentextbc.ca/psychologymtdisupplement/chapter/balancing-hunger-and-fullness-with-ghrelin-and-leptin/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["ghrelin production and appetite", "leptin production and satiety signalling", "energy-balance interaction"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision avoids the obsolete one-centre account and teaches hypothalamus, ghrelin and leptin as interacting components of a distributed eating-regulation system."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-13-03",
+      "boardAlignment": {
+        "summary": "Biological explanations of anorexia nervosa, including genetic and neural factors.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Anorexia nervosa is a serious eating disorder involving persistent restriction of energy intake, significantly low body weight and disturbances in weight/shape-related experience or behaviour; presentation and diagnostic details require clinical assessment.",
+          "Genetic explanations propose that inherited variation contributes to vulnerability. The risk is polygenic and probabilistic rather than attributable to one anorexia gene.",
+          "Neural explanations examine differences in reward, cognitive-control, interoceptive and emotion-related systems that may contribute to restrictive eating and altered responses to food or body-related information.",
+          "Starvation and low weight can themselves alter brain function and cognition, making it difficult to determine whether every observed neural difference predates the disorder."
+        ],
+        "modelsResearchAndRelationships": [
+          "Family/twin and molecular-genetic evidence supports heritable contribution while also showing that genes are not sufficient causes.",
+          "Neural and cognitive-control findings can be integrated with psychological mechanisms such as rigidity, perfectionism and altered reward processing.",
+          "Biological vulnerability operates within developmental, interpersonal and cultural environments, supporting a biopsychosocial rather than single-cause model."
+        ],
+        "evaluationAndLimits": [
+          "Genetic association does not establish inevitability and cannot by itself explain why symptoms begin at a particular time.",
+          "Neuroimaging differences are usually group-level associations and may reflect cause, consequence, adaptation to starvation or treatment history.",
+          "Biological explanations can reduce blame but become misleading if they erase cognitive, interpersonal and social processes.",
+          "Educational description of biological mechanisms is not a diagnostic or treatment recommendation."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Anorexia nervosa is not a lifestyle choice.",
+          "There is no single anorexia gene or single abnormal brain region that explains the disorder.",
+          "A biological contribution does not mean psychological or social treatment is irrelevant."
+        ],
+        "dependencies": ["polygenic vulnerability", "reward", "cognitive control", "interoception", "starvation effects", "biopsychosocial interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/08%3A_Eating_and_Sleep_Disorders/8.04%3A_Anorexia_Nervosa",
+          "classification": "OPEN_PAGE_WITH_MIXED_ATTRIBUTION",
+          "licence": "page shared under CC BY 4.0; embedded items retain source-specific licences",
+          "supports": ["anorexia nervosa presentation", "genetic vulnerability", "biological/neural factors", "multifactorial context"],
+          "caution": "Revision does not reuse embedded restricted third-party expression; only independently synthesised facts supported by commercially reusable portions are retained."
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["eating-disorder context", "biological and environmental influences on eating"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision presents genetic and neural findings as vulnerability/mechanism evidence while explicitly separating predisposing biology from starvation-related consequences and wider psychological/social maintenance."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-13-04",
+      "boardAlignment": {
+        "summary": "Psychological explanations of anorexia nervosa, including family-systems, social-learning and cognitive accounts.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Historical family-systems explanations examined relational patterns such as enmeshment or blurred boundaries, overprotectiveness, conflict avoidance and struggles around autonomy and control.",
+          "These family-system concepts are theoretical accounts and must not be taught as evidence that parents or a particular family structure cause anorexia nervosa.",
+          "Social-learning explanations apply modelling, imitation and reinforcement to eating and body-related behaviour. Family, peer and media models can make thinness, dieting or restrictive behaviour salient and socially rewarded.",
+          "Cognitive explanations focus on rigid or distorted beliefs and information-processing patterns involving weight, shape, control, perfectionism, self-worth and food."
+        ],
+        "modelsResearchAndRelationships": [
+          "Thin-ideal internalisation can be strengthened by repeated exposure to socially valued appearance standards and by comparison with salient models; media/social-network exposure is associated with body-image disturbance but is not a sufficient cause of anorexia nervosa.",
+          "Restriction and starvation can intensify cognitive rigidity, attentional bias and preoccupation, producing maintenance cycles in which biological consequences feed back into psychological processes.",
+          "Cognitive-interpersonal models integrate perfectionism, rigidity, social-emotional difficulties and interpersonal responses rather than treating cognition in isolation.",
+          "Modern family-based intervention mobilises family support as part of treatment and explicitly rejects simplistic parent-blaming causal accounts."
+        ],
+        "evaluationAndLimits": [
+          "Family-system explanations were historically influential but causal evidence for a distinctive anorexia-producing family type is weak and ethically risky if presented as blame.",
+          "Media/thin-ideal associations are real but vulnerable to bidirectionality and self-selection; exposure alone cannot explain the disorder.",
+          "Cognitive biases may predate illness, emerge from starvation, or both; longitudinal evidence is important for causal claims.",
+          "The strongest account is multifactorial: family, social-learning and cognitive processes can contribute to risk or maintenance without any one being necessary or sufficient."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Anorexia nervosa should not be blamed on parents.",
+          "Seeing thin-ideal media does not by itself cause anorexia nervosa.",
+          "Cognitive distortion does not mean the person deliberately chooses irrational beliefs.",
+          "Family involvement in treatment is not evidence that the family caused the disorder."
+        ],
+        "dependencies": ["family systems", "observational learning", "reinforcement", "thin-ideal internalisation", "cognitive rigidity", "maintenance cycles"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/frcha.2026.1765146",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["historical systemic/family models", "Selvini Palazzoli and Minuchin traditions", "enmeshment/relational organisation", "modern non-blaming family-based treatment"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2017.01351",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["social-network exposure", "thin-ideal internalisation", "body-image disturbance", "limitations of association"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["modelling", "imitation", "social learning"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["reinforcement mechanisms"]
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7141127/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["cognitive-interpersonal model", "cognitive rigidity", "perfectionism", "attentional/interpretive biases", "maintenance cycles"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches the named family-systems account as a historical theoretical framework while explicitly separating it from contemporary causal claims and parent blame.",
+        "Social-learning and cognitive mechanisms are integrated as plausible risk/maintenance processes within a multifactorial disorder rather than presented as standalone sufficient causes."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-13-05",
+      "boardAlignment": {
+        "summary": "Biological explanations of obesity, including genetic and neural mechanisms.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Obesity is a complex phenotype arising from sustained positive energy balance within interacting genetic, metabolic, neural, behavioural and environmental systems; it is not adequately explained as a simple failure of willpower.",
+          "Genetic explanations identify inherited variation that affects appetite, satiety, energy expenditure, body-fat regulation and susceptibility to an obesogenic environment. Most common obesity is polygenic rather than caused by one gene.",
+          "Neural explanations examine homeostatic hypothalamic circuits, reward-related systems and signalling from hormones such as leptin and ghrelin that influence food motivation and intake.",
+          "Rare genetic syndromes can produce strong obesity risk, but they should not be treated as models of all common obesity."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genetic susceptibility can interact with environments rich in highly palatable, energy-dense food and low physical-activity opportunity.",
+          "Leptin signalling links adipose energy stores with hypothalamic regulation; resistance to leptin signalling can weaken expected satiety effects.",
+          "Reward and homeostatic systems interact, helping explain why food cue reactivity and palatability can influence eating beyond acute energy need.",
+          "Biological risk can affect behaviour through appetite and reward without removing the role of learning, stress, social conditions and food environment."
+        ],
+        "evaluationAndLimits": [
+          "High heritability does not imply inevitability or that environmental intervention is irrelevant.",
+          "Group-level neural or hormonal differences cannot be used to infer a single causal mechanism for every person with obesity.",
+          "Biological explanation should reduce moral blame without turning body weight into a purely medical or genetically predetermined outcome.",
+          "Obesity research must distinguish mechanisms affecting weight regulation from social stigma or assumptions about an individual’s behaviour."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Common obesity is not usually caused by one obesity gene.",
+          "Leptin is not a simple satiety switch whose presence guarantees lower weight.",
+          "Biological susceptibility is not the same as biological destiny.",
+          "Explaining obesity biologically does not justify stigma or assumptions about personal character."
+        ],
+        "dependencies": ["polygenic risk", "hypothalamus", "leptin", "ghrelin", "reward", "gene–environment interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["biological regulation of eating", "hypothalamic mechanisms", "leptin", "genetic/biological obesity context", "environmental interaction"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/human-genetics/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["genetic contribution", "polygenic and gene–environment reasoning", "limits of genetic determinism"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision frames obesity as a complex biological–environmental phenotype and deliberately avoids moralising or deterministic interpretations of genetic and neural evidence."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-13-06",
+      "boardAlignment": {
+        "summary": "Psychological explanations of obesity/eating behaviour, including restraint theory, disinhibition and the boundary model.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Dietary restraint is deliberate cognitive control of food intake to meet a self-imposed eating or weight goal.",
+          "Restraint theory proposes that rigid cognitive dieting can make eating depend more on self-imposed rules and less directly on ordinary physiological hunger/satiety cues.",
+          "Disinhibition is the breakdown or release of restraint, potentially leading to increased eating after perceived dietary violation, emotional disruption, alcohol, distraction or other events that weaken cognitive control.",
+          "The boundary model represents eating between biological hunger and satiety boundaries, with restrained eaters adding a self-imposed cognitive diet boundary intended to stop eating before physiological satiety."
+        ],
+        "modelsResearchAndRelationships": [
+          "In the boundary model, crossing or abandoning the diet boundary can produce counter-regulation: once the cognitive rule is perceived as broken, intake may increase toward the satiety boundary.",
+          "Modern restrained-eating research shows that restraint is heterogeneous. Different questionnaires distinguish rigid restraint, flexible restraint and disinhibited patterns imperfectly, so not every self-reported restrained eater shows the same behaviour.",
+          "Goal-conflict accounts propose that restrained eaters alternate between weight-control goals and eating-enjoyment goals; cues, emotion or perceived diet violation can shift which goal dominates.",
+          "Psychological restraint mechanisms can interact with biological appetite, reward and environmental food cues rather than replacing them."
+        ],
+        "evaluationAndLimits": [
+          "Restraint and boundary models are historically influential but not universal laws; empirical effects vary across definitions, measures and participant groups.",
+          "Correlation between restraint scores and disinhibited eating does not establish that restraint alone caused overeating.",
+          "Some forms of flexible dietary control can differ from rigid restraint, so the course model should not imply that every attempt to regulate eating produces disinhibition.",
+          "These models explain psychological regulation of intake, not all causes of obesity."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Restraint does not simply mean eating less at every moment; it refers to cognitive attempts to control intake.",
+          "Disinhibition is a theoretical/behavioural construct, not a moral failure or lack of character.",
+          "The boundary model does not imply that everyone who breaks a diet rule will binge or gain weight.",
+          "Psychological explanations of eating should not be used to blame people for obesity."
+        ],
+        "dependencies": ["cognitive control", "hunger", "satiety", "self-regulation", "goal conflict", "reward"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6599805/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["restrained eating", "disinhibited eating", "measurement heterogeneity", "BMI/craving relationships"]
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1212778/full",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["Herman and Polivy boundary model", "cognitive diet boundary", "hunger and satiety boundaries", "restrained-eater predictions"]
+        },
+        {
+          "url": "https://doi.org/10.1016/j.cobeha.2022.101203",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["boundary-model history and limitations", "restraint and disinhibition", "goal-conflict alternative", "weight-control versus eating-enjoyment goals"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision teaches restraint/disinhibition and the boundary model as named theories with testable predictions, then preserves modern evidence that restrained eating is heterogeneous and the classical model is not universally supported."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}

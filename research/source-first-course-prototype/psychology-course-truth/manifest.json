@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_complete",
+  "checkedDate": "2026-10-04",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "authority": {
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md",
+    "scope": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-SCOPE.json"
+  },
+  "sourceReviewBaseline": {
+    "namedRequirements": 118,
+    "requirementsWithSomeReusableSourceSupport": 118,
+    "coveredCandidates": 118,
+    "partial": 0,
+    "gap": 0,
+    "note": "Live continuation source-review baseline after targeted addenda 05 through 22. Source review is complete and the 118 requirements have been consolidated into Course Truth."
+  },
+  "courseTruthProgress": {
+    "namedRequirements": 118,
+    "courseTruthReadyRequirements": 118,
+    "remainingRequirements": 0,
+    "courseTruthReadyPercent": 100.0,
+    "candidateCoverageComplete": true,
+    "materialSubjectTruthGapsKnown": 0,
+    "materialRightsBlockersKnown": 0,
+    "learnerAssetReady": false,
+    "wholeCourseIndependentAssurancePassed": false,
+    "courseTruthComplete": true,
+    "completionRule": "Course Truth is complete when all 118 in-scope requirements are course_truth_ready with no known material subject-truth or source-rights blocker and the bounded structural/provenance reconciliation passes. Fresh independent educational and assessment assurance remains a later production-level gate before restricted-pilot publication, as required by the active continuation run."
+  },
+  "topicShards": [
+    {"topicNumber":1,"topic":"Social influence","path":"topic-01-social-influence.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":2,"topic":"Memory","path":"topic-02-memory.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":3,"topic":"Attachment","path":"topic-03-attachment.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
+    {"topicNumber":4,"topic":"Clinical Psychology and Mental Health","path":"topic-04-clinical-psychology-and-mental-health.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
+    {"topicNumber":5,"topic":"Approaches in Psychology","path":"topic-05-approaches-in-psychology.json","namedRequirements":7,"courseTruthReady":7,"status":"topic_complete_candidate"},
+    {"topicNumber":6,"topic":"Biopsychology","path":"topic-06-biopsychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":7,"topic":"Research methods","path":"topic-07-research-methods.json","namedRequirements":34,"courseTruthReady":34,"status":"topic_complete_candidate"},
+    {"topicNumber":8,"topic":"Issues and Debates in Psychology","path":"topic-08-issues-and-debates-in-psychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":9,"topic":"Relationships","path":"topic-09-relationships.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":10,"topic":"Gender","path":"topic-10-gender.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":11,"topic":"Cognition and Development","path":"topic-11-cognition-and-development.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":12,"topic":"Schizophrenia","path":"topic-12-schizophrenia.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":13,"topic":"Eating Behaviour","path":"topic-13-eating-behaviour.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":14,"topic":"Stress","path":"topic-14-stress.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":15,"topic":"Aggression","path":"topic-15-aggression.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
+    {"topicNumber":16,"topic":"Forensic Psychology","path":"topic-16-forensic-psychology.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
+    {"topicNumber":17,"topic":"Addiction","path":"topic-17-addiction.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"}
+  ],
+  "economics": {
+    "paidSourceLicenceSpendGbp": 0,
+    "paidProviderSpendGbpRecordedForContinuationClosures": 0,
+    "activeWorkingTime": "not instrumented reliably enough to report as a numeric value",
+    "wallClockMeasurement": "continuation began 2026-10-02; 118/118 Course Truth coverage and Course Truth completion reached 2026-10-04; production-level independent educational/assessment assurance remains pending for the later publication gate"
+  },
+  "nextWork": {
+    "priority": "Build complete Psychology Exam Truth from official AQA reference authority plus rights-safe Revision synthesis, then derive the Course Learning Blueprint before learner-asset production.",
+    "remainingPartialSourceReviewCases": 0,
+    "remainingCourseTruthCandidateRequirements": 0,
+    "rule": "Course Truth may now feed Exam Truth and Blueprint work. Do not treat wholeCourseIndependentAssurancePassed=false as publication approval; fresh independent educational and assessment assurance remains mandatory before restricted-pilot publication."
+  },
+  "publicationBoundary": "Experimental only. Course Truth completion does not imply learner-facing publication, restricted-pilot approval, production foundation approval or completion of the later independent educational/assessment assurance gate."
+}

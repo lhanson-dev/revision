@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 8,
+  "topic": "Issues and Debates in Psychology",
+  "group": "compulsory",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-08-01",
+      "boardAlignment": {
+        "summary": "Gender and cultural bias, including universality, androcentrism, alpha/beta bias, ethnocentrism and cultural relativism.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Universality is the aim or claim that a psychological explanation or finding applies broadly across people rather than only to the particular population studied.",
+          "Gender bias occurs when gender-related assumptions, sampling, measurement or interpretation systematically distort psychological knowledge.",
+          "Androcentrism treats male experience, male participants or male-dominated scholarship as the default or norm against which other people are interpreted.",
+          "Within the AQA taxonomy, alpha bias describes exaggerating or overstating gender differences, while beta bias describes minimising, ignoring or failing to test potentially relevant differences.",
+          "Cultural bias occurs when theories, methods or interpretations are shaped by one cultural perspective in ways that are then inappropriately generalised.",
+          "Ethnocentrism judges another culture through the standards of one’s own culture; cultural relativism attempts to understand behaviour within the cultural context in which it occurs."
+        ],
+        "modelsResearchAndRelationships": [
+          "A narrow sample can undermine a universal claim when the sampled gender or culture is treated as representative of all people without adequate evidence.",
+          "Gender bias and cultural bias can occur at multiple stages: research questions, participant recruitment, measurement, analysis, interpretation and generalisation.",
+          "Cultural relativism can reduce ethnocentric interpretation, but cross-cultural understanding still requires critical evaluation of measurement equivalence, context and ethics."
+        ],
+        "evaluationAndLimits": [
+          "Evidence of a real group difference is not automatically alpha bias; bias concerns unjustified exaggeration, interpretation or generalisation.",
+          "Treating everyone identically is not always unbiased if relevant differences are systematically ignored.",
+          "Cultural relativism should not be confused with the claim that all practices are ethically beyond criticism.",
+          "Attempts to improve universality should increase representativeness and cross-cultural validity rather than merely replace one assumed universal with another."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A male-only sample is not automatically alpha biased; if findings are generalised to everyone without testing gender relevance, the problem is more consistent with androcentrism and beta bias.",
+          "Ethnocentrism is not simply studying one culture; it concerns treating one culture’s assumptions as the standard for judging others.",
+          "Universality is a claim requiring evidence, not a default property of psychological theories."
+        ],
+        "dependencies": ["sampling", "generalisability", "measurement validity", "culture", "gender", "research interpretation"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1186/s41073-025-00186-8",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["gender reporting and analysis in psychology", "risk of ignoring or overstating gender relevance", "alpha/beta bias context", "generalisability cautions"]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.796069",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["androcentrism", "male-as-default bias in psychology", "consequences of gendered scholarly assumptions"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Courses/Lumen_Learning/Introduction_to_Sociology_(Lumen)/06:_Module_3-_Culture/6.08:_Ethnocentrism_and_Cultural_Relativism",
+          "classification": "OPEN_ITEM_LEVEL",
+          "licence": "CC BY for the relevant original/shared content",
+          "supports": ["ethnocentrism", "cultural relativism"],
+          "caution": "Only the specifically CC BY content identified on the page is treated as reusable; the wrapper is not assumed wholesale licensed."
+        },
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/history-of-psychology/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["historical male/gender bias", "Western-centred evidence cautions", "limits on generalisation"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision retains AQA’s alpha/beta-bias labels as qualification framing while building the explanation from independently sourced evidence about gender representation, androcentrism, overstatement/understatement and generalisation.",
+        "The Course Truth treats universality as an evidence claim that must survive gender and cultural validity checks, not as an automatic property of psychological research."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-08-02",
+      "boardAlignment": {
+        "summary": "Free will and determinism, including hard/soft determinism, biological/environmental/psychic determinism and causal explanation.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Free will is the claim that people possess meaningful agency or choice rather than every action being fully fixed by antecedent causes outside their control.",
+          "Determinism explains behaviour in terms of causes that constrain or determine what occurs.",
+          "Hard determinism treats complete causal determination as incompatible with genuine alternative choice.",
+          "Soft determinism, or compatibilism, holds that causal determination can coexist with a meaningful form of agency when action reflects the person’s own motives rather than external coercion.",
+          "Biological determinism emphasises causal constraint from biological processes such as genes, neural systems or neurochemistry; environmental determinism emphasises external learning history and situational conditions; psychic determinism emphasises prior psychological or unconscious causes."
+        ],
+        "modelsResearchAndRelationships": [
+          "Behaviourist explanations illustrate environmental causal accounts because conditioning histories and contingencies are used to explain behaviour.",
+          "Biological explanations can be deterministic when they treat genetic, neural or biochemical causes as sufficient explanations of behaviour.",
+          "Freud’s psychic determinism treats thoughts and behaviour as arising from prior psychological causes rather than occurring accidentally.",
+          "Humanistic psychology provides a contrasting emphasis on personal agency and self-directed choice."
+        ],
+        "evaluationAndLimits": [
+          "A causal explanation does not automatically prove that a cause is sufficient, inevitable or the only relevant cause.",
+          "Biological and environmental influences often interact, so single-cause deterministic explanations can overstate certainty.",
+          "Soft determinism clarifies that the debate depends partly on what counts as freedom: absence of causation and absence of coercion are different standards.",
+          "Psychological science can investigate predictors and causes without needing to settle the full metaphysical question of whether free will ultimately exists."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Determinism is not the same as predictability; a causally determined system can still be difficult to predict.",
+          "A biological influence is not automatically biological determinism; the deterministic claim arises when biological causes are treated as fixing the outcome.",
+          "Soft determinism is not an intermediate percentage of determinism; it is a compatibilist position about causation and agency."
+        ],
+        "dependencies": ["causality", "behaviourism", "biological approach", "psychodynamic approach", "humanistic psychology", "nature–nurture interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://human.libretexts.org/Bookshelves/Philosophy/Introduction_to_Philosophy/Introduction_to_Philosophy_(OpenStax)/06:_Metaphysics/6.04:_Free_Will",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["free will", "causal determinism", "hard determinism", "soft determinism/compatibilism", "causal explanation"]
+        },
+        {
+          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Culture_and_Community/Personality_Theory_in_a_Cultural_Context_(Kelland)/03:_Sigmund_Freud/3.03:_Basic_Concepts",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["psychic determinism", "prior psychological causes"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/human-genetics/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["biological influence", "genetic contribution and limits"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["environmental learning causes", "conditioning"]
+        },
+        {
+          "url": "https://pressbooks.cuny.edu/jjcpsy101/chapter/humanistic-approaches/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["humanistic agency", "free-will emphasis"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats AQA’s biological/environmental/psychic categories as types of causal emphasis, not as proof that any one domain wholly determines behaviour.",
+        "The hard/soft distinction is taught as a disagreement about whether causal determination is compatible with meaningful agency."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-08-03",
+      "boardAlignment": {
+        "summary": "Nature–nurture debate and interactionism.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "The nature–nurture debate concerns the relative contribution of inherited/biological factors and environmental experience to psychological development and behaviour.",
+          "Nature includes genetic inheritance, biological maturation and other organism-level influences; nurture includes physical, social and cultural environments and learning histories.",
+          "Interactionism rejects a simple either/or account and examines how biological dispositions and environments influence one another across development."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genotype can influence the environments a person experiences, and environmental conditions can affect how genetic tendencies are expressed.",
+          "Developmental outcomes commonly reflect reciprocal transactions among inherited characteristics, experience, social relationships and culture rather than isolated causal streams.",
+          "Evidence from behavioural genetics, adoption/twin designs and developmental research can estimate contributions but does not divide an individual’s behaviour into fixed percentages of nature and nurture."
+        ],
+        "evaluationAndLimits": [
+          "Heritability is a population statistic under particular environmental conditions; it does not state how changeable a characteristic is for an individual.",
+          "Environmental influence is not limited to parenting and includes peers, education, culture, stressors and wider social conditions.",
+          "Interactionist explanations can be more realistic but also more complex to test because causal effects may be reciprocal and context-dependent."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Nature and nurture are not independent rival causes in most psychological phenomena.",
+          "A genetic association does not mean an outcome is inevitable.",
+          "An environmental explanation does not imply biology is irrelevant."
+        ],
+        "dependencies": ["genotype and phenotype", "heritability", "development", "learning", "gene–environment interaction"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/what-is-lifespan-development/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["nature and nurture", "reciprocal interaction", "developmental interactionism"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/human-genetics/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["genotype/phenotype", "heritability", "gene-environment relationships"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision frames the debate as a question about mechanisms and interaction rather than asking learners to choose a single nature or nurture side."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-08-04",
+      "boardAlignment": {
+        "summary": "Holism and reductionism, including levels of explanation, biological reductionism and environmental stimulus-response reductionism.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Reductionism explains a phenomenon by analysing it in terms of simpler or lower-level components or mechanisms.",
+          "Holism emphasises the functioning of the person or system as an integrated whole and asks whether component-level explanations omit relationships, context or emergent organisation.",
+          "Levels of explanation recognise that the same behaviour can be described using biological, cognitive, behavioural, interpersonal, social and cultural mechanisms.",
+          "Biological reductionism explains psychological phenomena primarily through biological mechanisms such as genes, neural circuits or neurochemistry.",
+          "Environmental stimulus-response reductionism explains behaviour through relatively simple learned relations between environmental events and responses."
+        ],
+        "modelsResearchAndRelationships": [
+          "Behaviourism is often reductionist because complex behaviour is analysed through learning processes such as stimulus-response associations and reinforcement contingencies.",
+          "Biological approaches can reduce explanation toward neural, genetic or biochemical mechanisms, while cognitive and social explanations may operate at different levels.",
+          "Multi-level explanations can be complementary when mechanisms at one level constrain or interact with mechanisms at another."
+        ],
+        "evaluationAndLimits": [
+          "Reduction can improve precision and testability by isolating mechanisms, but lower-level detail is not automatically a more complete psychological explanation.",
+          "Holistic explanations may preserve context and system interaction but can become difficult to operationalise if they specify too many interacting influences without testable mechanisms.",
+          "The strongest explanation may depend on the research question; no single explanatory level has automatic priority for every phenomenon."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Reductionism does not mean an explanation is necessarily wrong; it concerns explanatory level and what is left out.",
+          "Holism does not mean rejecting biological or component-level evidence.",
+          "A biological explanation can be useful without claiming that biology alone is sufficient."
+        ],
+        "dependencies": ["behaviourism", "biological approach", "cognitive approach", "causal explanation", "scientific models"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2015.00213",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["multiple levels of explanation", "reductionism", "integration across behavioural and neural levels", "limits of automatic lower-level priority"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/history-of-psychology/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["behaviourist reductionism", "holistic Gestalt/humanistic contrasts"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["stimulus-response learning mechanisms"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/contemporary-psychology/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["biological and cognitive explanatory approaches", "multiple psychological perspectives"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats AQA’s named biological and environmental reductionism categories as worked examples of a broader levels-of-explanation issue, rather than teaching reductionism as synonymous with poor science."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-08-05",
+      "boardAlignment": {
+        "summary": "Idiographic and nomothetic approaches.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "An idiographic approach seeks detailed understanding of the individual, including within-person patterns, personal meaning or highly specific cases.",
+          "A nomothetic approach seeks generalisable principles, regularities or laws by studying patterns across people or groups.",
+          "The distinction concerns the target and level of generalisation, not a rule that idiographic research must be qualitative or nomothetic research must be quantitative."
+        ],
+        "modelsResearchAndRelationships": [
+          "Case studies and intensive longitudinal designs can support idiographic questions, while experiments, surveys and group-level statistical models commonly support nomothetic questions.",
+          "Modern research can combine both by modelling group-level regularities while also examining person-specific dynamics."
+        ],
+        "evaluationAndLimits": [
+          "Idiographic work can reveal processes hidden by group averages but may offer limited population generalisability without replication or comparison.",
+          "Nomothetic work supports general prediction and comparison but group averages can fail to describe the dynamics of a particular individual.",
+          "The approaches are potentially complementary rather than mutually exclusive."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Idiographic does not simply mean a small sample and nomothetic does not simply mean a large sample.",
+          "A statistically significant group effect does not guarantee that the same relationship holds within each individual."
+        ],
+        "dependencies": ["case study", "generalisability", "within-person analysis", "group-level analysis", "research design"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.1007/s10608-025-10672-4",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["idiographic within-person analysis", "nomothetic group/generalising analysis", "differences between within-person and between-person inference"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision avoids equating idiographic/nomothetic with qualitative/quantitative; the distinction is taught as a difference in explanatory and generalisation target."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    },
+    {
+      "requirementId": "PSY-08-06",
+      "boardAlignment": {
+        "summary": "Socially sensitive psychological research.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Socially sensitive research is research whose questions, methods, findings or interpretation may have significant consequences for participants, represented groups or wider society.",
+          "Sensitivity can arise when research concerns identity, stigma, inequality, crime, mental health, sexuality, intelligence, genetics or other topics where findings may affect how groups are treated or understood.",
+          "The relevant ethical responsibility extends beyond immediate participant welfare to the possible social use, misuse and communication of findings."
+        ],
+        "modelsResearchAndRelationships": [
+          "Researchers can reduce avoidable harm through careful question framing, inclusive sampling, confidentiality, stakeholder awareness, cautious causal language and transparent communication of uncertainty and limitations.",
+          "A finding may be methodologically correct yet still require careful interpretation if media, policy or institutional users could overgeneralise it to individuals or groups.",
+          "Social sensitivity therefore connects research ethics, validity, representation and public communication rather than forming a separate concern after the research is complete."
+        ],
+        "evaluationAndLimits": [
+          "Avoiding all socially sensitive topics can itself be harmful because important problems may remain unstudied; the goal is responsible research, not automatic prohibition.",
+          "Researchers cannot control every downstream use of findings, but foreseeable risks should influence design, interpretation and dissemination.",
+          "Group-level associations should not be converted into deterministic claims about individuals."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Social sensitivity is broader than whether a study causes immediate distress to participants.",
+          "A controversial topic is not automatically unethical; ethical quality depends on design, justification, safeguards and communication.",
+          "Responsible caution should not be used to hide valid findings or suppress uncertainty."
+        ],
+        "dependencies": ["research ethics", "sampling", "validity", "causal inference", "stigma", "science communication"]
+      },
+      "sourceEvidence": [
+        {
+          "url": "https://doi.org/10.25120/etropic.12.1.2013.3393",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": ["social sensitivity in research", "consequences for participants and represented groups", "researcher responsibility and stakeholder impact"]
+        },
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/ethics/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["participant welfare", "informed consent", "confidentiality", "deception/debriefing", "harm minimisation"]
+        }
+      ],
+      "revisionSynthesis": [
+        "Revision treats social sensitivity as an extension of evidence and ethics across the full research lifecycle, including downstream group and societal consequences."
+      ],
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
+    }
+  ]
+}
