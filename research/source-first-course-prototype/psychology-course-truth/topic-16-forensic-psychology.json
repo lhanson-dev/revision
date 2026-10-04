@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-02",
+  "checkedDate": "2026-10-04",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 16,
   "topic": "Forensic Psychology",
@@ -51,7 +51,7 @@
         {
           "url": "https://doi.org/10.1002/jip.1531",
           "classification": "OPEN",
-          "licence": "commercial-compatible open source retained by predecessor proof",
+          "licence": "CC BY",
           "supports": ["crime linkage", "behavioural consistency", "data-driven empirical inference"]
         },
         {
@@ -102,19 +102,19 @@
         {
           "url": "https://doi.org/10.1177/0956797617744542",
           "classification": "OPEN",
-          "licence": "commercial-compatible open source retained by predecessor proof",
+          "licence": "CC BY 4.0",
           "supports": ["genetic/polygenic influence on antisocial behaviour"]
         },
         {
           "url": "https://doi.org/10.1186/s40163-015-0018-5",
           "classification": "OPEN",
-          "licence": "commercial-compatible open source retained by predecessor proof",
+          "licence": "CC BY 4.0",
           "supports": ["neurobiology and criminal/antisocial behaviour"]
         },
         {
           "url": "https://doi.org/10.1016/j.tics.2023.08.013",
           "classification": "OPEN",
-          "licence": "commercial-compatible open source retained by predecessor proof",
+          "licence": "CC BY 4.0",
           "supports": ["brain-environment relationships in antisocial behaviour", "non-deterministic interpretation"]
         }
       ],
@@ -176,7 +176,7 @@
         {
           "url": "https://doi.org/10.1002/ab.21908",
           "classification": "OPEN",
-          "licence": "commercial-compatible open source retained by predecessor proof",
+          "licence": "CC BY",
           "supports": ["distorted cognition", "moral reasoning"]
         },
         {
