@@ -73,7 +73,13 @@ const PROTOTYPE = join(ROOT, 'research/source-first-course-prototype')
 const COURSE_TRUTH = join(PROTOTYPE, 'psychology-course-truth')
 const VERIFIED_SOURCE_LICENCES = new Map<string, string>([
   ['https://stats.libretexts.org/Workbench/Statistics_for_Behavioral_Science_Majors/12%3A_Nonparametric_Tests', 'CC BY-SA 1.0'],
+  ['https://doi.org/10.1002/jip.1531', 'CC BY'],
+  ['https://doi.org/10.1177/0956797617744542', 'CC BY 4.0'],
+  ['https://doi.org/10.1186/s40163-015-0018-5', 'CC BY 4.0'],
+  ['https://doi.org/10.1016/j.tics.2023.08.013', 'CC BY 4.0'],
+  ['https://doi.org/10.1002/ab.21908', 'CC BY'],
 ])
+const VAGUE_LICENCE_METADATA = /commercial[- ]compatible|retained by predecessor|rights verified elsewhere|licen[cs]e verified elsewhere|\bTBD\b|\bUNSPECIFIED\b/i
 
 function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T
@@ -142,6 +148,7 @@ describe('AQA Psychology 7182 source-first Course Truth candidate', () => {
           expect(source.url?.trim().length ?? 0, `${requirement.requirementId} source missing URL`).toBeGreaterThan(0)
           expect(source.licence?.trim().length ?? 0, `${requirement.requirementId} source missing licence`).toBeGreaterThan(0)
           expect(source.licence ?? '', `${requirement.requirementId} contains non-commercial/unknown evidence`).not.toMatch(/\bNC\b|NON[- ]?COMMERCIAL|UNKNOWN/i)
+          expect(source.licence ?? '', `${requirement.requirementId} contains vague licence metadata`).not.toMatch(VAGUE_LICENCE_METADATA)
           expect(source.supports?.length ?? 0, `${requirement.requirementId} source does not say what it supports`).toBeGreaterThan(0)
 
           const verifiedLicence = source.url ? VERIFIED_SOURCE_LICENCES.get(source.url) : undefined
