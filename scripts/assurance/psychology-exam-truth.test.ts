@@ -70,7 +70,7 @@ type Blueprint = {
   questionFamilies: Array<{
     id: string
     maximumMarks?: number
-    maximumTariffAoRule?: { AO1Maximum: number; remainingMarks: number }
+    maximumTariffAoRule?: { AO1Maximum: number; remainingMarksAcross: string[]; remainingMarks: number }
   }>
   commandDemandModel: { commands: Record<string, string[]> }
   completion: {
@@ -213,7 +213,11 @@ describe('AQA Psychology 7182 source-first Exam Truth', () => {
     expect(familyIds.sort()).toEqual(['data_math', 'extended_writing', 'mcq', 'research_methods_practical', 'scenario_application', 'short_answer'].sort())
     const extended = blueprint.questionFamilies.find((family) => family.id === 'extended_writing')
     expect(extended?.maximumMarks).toBe(16)
-    expect(extended?.maximumTariffAoRule).toEqual({ AO1Maximum: 6, remainingMarks: 10 })
+    expect(extended?.maximumTariffAoRule).toEqual({
+      AO1Maximum: 6,
+      remainingMarksAcross: ['AO2', 'AO3'],
+      remainingMarks: 10,
+    })
 
     const commands = Object.values(blueprint.commandDemandModel.commands).flat()
     expect(commands).toHaveLength(28)
