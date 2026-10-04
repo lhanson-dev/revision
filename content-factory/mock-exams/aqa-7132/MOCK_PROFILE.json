@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "profile_id": "aqa-business-7132-2027-mock-profile-v1",
+  "status": "pre_generation",
+  "course_id": "aqa:aqa-a-level:7132",
+  "exam_year": 2027,
+  "exam_truth_id": "aqa-business-7132-2027-exam-truth-v1",
+  "rights_boundary": {
+    "awarding_body_use": "REFERENCE_ONLY",
+    "derived_facts_only": true,
+    "protected_question_text_reusable": false,
+    "protected_case_or_dataset_reusable": false,
+    "protected_mark_scheme_prose_reusable": false,
+    "default_mock_context": "synthetic_business_and_synthetic_data"
+  },
+  "sources": [
+    {
+      "source_id": "AQA-7132-SCHEME-OF-ASSESSMENT",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment",
+      "rights_classification": "REFERENCE_ONLY",
+      "evidence_role": "invariant"
+    },
+    {
+      "source_id": "AQA-7132-SPECIFICATION-AT-A-GLANCE",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/specification-at-a-glance",
+      "rights_classification": "REFERENCE_ONLY",
+      "evidence_role": "invariant"
+    },
+    {
+      "source_id": "AQA-7132-QUANTITATIVE-SKILLS",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business",
+      "rights_classification": "REFERENCE_ONLY",
+      "evidence_role": "invariant"
+    },
+    {
+      "source_id": "AQA-7132-ASSESSMENT-RESOURCES",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/assessment-resources",
+      "rights_classification": "REFERENCE_ONLY",
+      "evidence_role": "calibration_only"
+    }
+  ],
+  "invariants": {
+    "linear": true,
+    "all_components_same_series": true,
+    "all_papers_can_assess_full_course": true,
+    "component_count": 3,
+    "total_attempted_raw_marks": 300,
+    "quantitative_skills_minimum_overall_percent": 10,
+    "minimum_quantitative_marks_for_representative_three_paper_set": 30,
+    "assessment_objective_range_unit": "qualification_percentage_points",
+    "assessment_objective_planning_rule": "paper_percent_ranges are percentage points of the whole qualification contributed by each component. A planner must convert them to compatible component mark targets using the qualification weighting; it must not treat values such as 9-11 as 9-11% of a 100-mark paper.",
+    "assessment_objectives": {
+      "AO1": {
+        "overall_percent_range": [22, 25],
+        "paper_percent_ranges": {"7132/1": [9, 11], "7132/2": [6, 8], "7132/3": [5, 8]}
+      },
+      "AO2": {
+        "overall_percent_range": [24, 27],
+        "paper_percent_ranges": {"7132/1": [9, 11], "7132/2": [8, 11], "7132/3": [5, 7]}
+      },
+      "AO3": {
+        "overall_percent_range": [25, 28],
+        "paper_percent_ranges": {"7132/1": [5, 8], "7132/2": [8, 11], "7132/3": [9, 12]}
+      },
+      "AO4": {
+        "overall_percent_range": [23, 26],
+        "paper_percent_ranges": {"7132/1": [5, 8], "7132/2": [6, 9], "7132/3": [9, 12]}
+      }
+    }
+  },
+  "components": [
+    {
+      "component_id": "7132/1",
+      "name": "Business 1",
+      "duration_minutes": 120,
+      "attempted_raw_marks": 100,
+      "qualification_weight_percent": 33.3,
+      "sections": [
+        {
+          "section_id": "A",
+          "mode": "compulsory",
+          "family": "MCQ",
+          "question_count": 15,
+          "marks_per_question": 1,
+          "attempted_marks": 15
+        },
+        {
+          "section_id": "B",
+          "mode": "compulsory",
+          "family": "SHORT_ANSWER",
+          "attempted_marks": 35,
+          "question_count": "variable_calibration"
+        },
+        {
+          "section_id": "C",
+          "mode": "choose_one",
+          "family": "ESSAY",
+          "option_count": 2,
+          "marks_per_option": 25,
+          "required_responses": 1,
+          "attempted_marks": 25,
+          "printed_option_marks": 50
+        },
+        {
+          "section_id": "D",
+          "mode": "choose_one",
+          "family": "ESSAY",
+          "option_count": 2,
+          "marks_per_option": 25,
+          "required_responses": 1,
+          "attempted_marks": 25,
+          "printed_option_marks": 50
+        }
+      ],
+      "printed_marks_note": "The paper prints four 25-mark essay options across C and D, but the candidate answers one from each section. Attempted raw marks remain 100."
+    },
+    {
+      "component_id": "7132/2",
+      "name": "Business 2",
+      "duration_minutes": 120,
+      "attempted_raw_marks": 100,
+      "qualification_weight_percent": 33.3,
+      "structure": {
+        "family": "DATA_RESPONSE",
+        "compulsory_sets": 3,
+        "parts_per_set": {"min": 3, "max": 4},
+        "marks_per_set": "approximately_33",
+        "all_sets_required": true
+      }
+    },
+    {
+      "component_id": "7132/3",
+      "name": "Business 3",
+      "duration_minutes": 120,
+      "attempted_raw_marks": 100,
+      "qualification_weight_percent": 33.3,
+      "structure": {
+        "family": "CASE_STUDY",
+        "compulsory_case_studies": 1,
+        "follow_up_question_count": "approximately_6",
+        "all_questions_required": true
+      }
+    }
+  ],
+  "planning_rules": {
+    "coverage_unit": "course_truth_requirement_then_named_item",
+    "requirement_count": 42,
+    "require_all_course_requirements_in_one_set": false,
+    "context_only_mentions_count_as_coverage": false,
+    "multi_target_rule": "Every named target must be directly demanded by the question and necessary for full marks.",
+    "mark_scheme_rule": "Do not award marks for knowledge, analysis, evaluation or interpretation the question does not demand.",
+    "near_duplicate_question_prohibited": true,
+    "within_paper_target_repetition": "minimise_unless_deliberately_linked_synoptic_or_quantitative",
+    "cross_set_repetition": "minimise_unless_deliberately_synoptic_or_quantitative",
+    "choice_path_rule": "Every permitted response path must reconcile to the required attempted marks and any invariant paper-level assessment constraints; the paper must not rely on the candidate selecting one particular optional question to become valid.",
+    "paper_context_rule": "Questions sharing a case or data-response set must use one coherent fixed stimulus and may not invent conflicting facts.",
+    "paper_difficulty_rule": "Use realistic progression and variation; do not order all items by a single mechanical difficulty score.",
+    "topic_prediction_prohibited": true
+  },
+  "calibration": {
+    "status": "evidence_backed_variable_design",
+    "rule": "Detailed tariffs, command-word sequences, topic placement and stimulus shapes may be calibrated from official assessment resources but are not future-paper invariants.",
+    "paper_1_section_b": "Choose a realistic mix of short constructed responses totalling exactly 35 marks.",
+    "paper_2": "Choose three coherent compulsory data-response sets totalling exactly 100 marks; individual set totals may vary around the published approximately-33 description.",
+    "paper_3": "Use one coherent compulsory case study and a realistic linked question sequence totalling exactly 100 marks; question count may vary around the published approximately-six description.",
+    "extended_response": "Use level-of-response marking where appropriate and preserve the published AO demand rather than copying any historical mark scheme."
+  },
+  "assurance": {
+    "fresh_round_limit_per_unresolved_fingerprint": 2,
+    "reuse_unchanged_dependency_evidence": true,
+    "whole_paper_review_required": true,
+    "question_level_assurance_alone_sufficient": false
+  },
+  "cost": {
+    "pilot_new_provider_spend_cap_usd": 8,
+    "company_live_course_hard_ceiling_usd": 20,
+    "provider_spend_allowed_before_profile_and_plan_validation": false
+  },
+  "learner_claim": "A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.",
+  "publication": {
+    "existing_surface": "Exam Prep / ExamSimulator",
+    "duplicate_mock_route_required": false,
+    "generation_completion_is_publication_authority": false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "calibration_id": "aqa-business-7132-2027-specimen-calibration-v1",
+  "course_id": "aqa:aqa-a-level:7132",
+  "exam_year": 2027,
+  "status": "REFERENCE_ONLY_DERIVED_METADATA",
+  "purpose": "Rights-safe derived structural observations used to calibrate a realistic first Revision mock set. These are examples of permitted paper shapes, not invariants or predictions of future AQA papers.",
+  "rights_boundary": "No AQA question wording, case text, datasets or mark-scheme prose is reproduced. Only derived tariffs, command categories and structural metadata are retained.",
+  "sources": [
+    {
+      "source_id": "AQA-71321-SQP-2023",
+      "type": "official_specimen_question_paper",
+      "url": "https://filestore.aqa.org.uk/resources/business/AQA-71321-SQP.PDF",
+      "rights_classification": "REFERENCE_ONLY"
+    },
+    {
+      "source_id": "AQA-71322-SQP-2023",
+      "type": "official_specimen_question_paper",
+      "url": "https://filestore.aqa.org.uk/resources/business/AQA-71322-SQP.PDF",
+      "rights_classification": "REFERENCE_ONLY"
+    },
+    {
+      "source_id": "AQA-71322-SMS-2023",
+      "type": "official_specimen_mark_scheme",
+      "url": "https://filestore.aqa.org.uk/resources/business/AQA-71322-SMS.PDF",
+      "rights_classification": "REFERENCE_ONLY"
+    },
+    {
+      "source_id": "AQA-71323-SQP-2023",
+      "type": "official_specimen_question_paper",
+      "url": "https://filestore.aqa.org.uk/resources/business/AQA-71323-SQP.PDF",
+      "rights_classification": "REFERENCE_ONLY"
+    }
+  ],
+  "observations": {
+    "7132/1": {
+      "section_a": {
+        "tariffs": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "command_categories": ["selected_response"]
+      },
+      "section_b": {
+        "tariffs": [4, 4, 4, 5, 9, 9],
+        "command_categories": ["calculate", "calculate", "explain", "explain", "analyse", "analyse"]
+      },
+      "section_c": {
+        "option_tariffs": [25, 25],
+        "required_responses": 1,
+        "command_categories": ["extended_evaluation", "extended_evaluation"]
+      },
+      "section_d": {
+        "option_tariffs": [25, 25],
+        "required_responses": 1,
+        "command_categories": ["extended_evaluation", "extended_evaluation"]
+      }
+    },
+    "7132/2": {
+      "sets": [
+        {
+          "set_id": "calibration-set-1",
+          "tariffs": [3, 3, 9, 20],
+          "command_categories": ["describe", "calculate", "analyse", "extended_evaluation"],
+          "attempted_marks": 35
+        },
+        {
+          "set_id": "calibration-set-2",
+          "tariffs": [6, 9, 16],
+          "command_categories": ["explain", "analyse", "extended_evaluation"],
+          "attempted_marks": 31
+        },
+        {
+          "set_id": "calibration-set-3",
+          "tariffs": [9, 9, 16],
+          "command_categories": ["analyse", "analyse", "extended_evaluation"],
+          "attempted_marks": 34
+        }
+      ]
+    },
+    "7132/3": {
+      "single_case_question_tariffs": [12, 12, 16, 16, 20, 24],
+      "command_categories": ["analyse", "analyse", "evaluate", "extended_evaluation", "extended_evaluation", "extended_evaluation"]
+    }
+  },
+  "use_rule": "The first mock planner may use these shapes as a realism baseline, but must remain free to vary tariffs within the stable Mock Profile where whole-paper AO, quantitative, coverage and difficulty requirements are better served. No observation may be promoted to an invariant without separate official support."
+}
