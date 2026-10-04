@@ -64,6 +64,8 @@ function validateProfileShape(profile) {
   assert(invariants.total_attempted_raw_marks === 300, 'AQA 7132 total attempted raw marks must be 300')
   assert(invariants.quantitative_skills_minimum_overall_percent === 10, 'AQA 7132 quantitative minimum must be 10%')
   assert(invariants.minimum_quantitative_marks_for_representative_three_paper_set === 30, 'Three-paper mock set must plan at least 30 quantitative marks')
+  assert(invariants.assessment_objective_range_unit === 'qualification_percentage_points', 'AQA paper AO ranges must be treated as qualification percentage points')
+  assert(typeof invariants.assessment_objective_planning_rule === 'string' && invariants.assessment_objective_planning_rule.includes('must not treat'), 'AQA AO planning unit warning must remain explicit')
 
   assert(Array.isArray(profile.components) && profile.components.length === 3, 'Mock Profile must define exactly three components')
   const components = byId(profile.components, 'component_id')
@@ -169,6 +171,7 @@ async function main() {
     componentCount: profile.components.length,
     totalAttemptedRawMarks: profile.invariants.total_attempted_raw_marks,
     minimumQuantitativeMarks: profile.invariants.minimum_quantitative_marks_for_representative_three_paper_set,
+    assessmentObjectiveRangeUnit: profile.invariants.assessment_objective_range_unit,
     pilotNewProviderSpendCapUsd: profile.cost.pilot_new_provider_spend_cap_usd,
     providerSpendStarted: false,
     nextGate: 'deterministic_mock_set_plan'
