@@ -149,8 +149,10 @@
     "context_only_mentions_count_as_coverage": false,
     "multi_target_rule": "Every named target must be directly demanded by the question and necessary for full marks.",
     "mark_scheme_rule": "Do not award marks for knowledge, analysis, evaluation or interpretation the question does not demand.",
-    "within_paper_duplicate_target_limit": 1,
+    "near_duplicate_question_prohibited": true,
+    "within_paper_target_repetition": "minimise_unless_deliberately_linked_synoptic_or_quantitative",
     "cross_set_repetition": "minimise_unless_deliberately_synoptic_or_quantitative",
+    "choice_path_rule": "Every permitted response path must reconcile to the required attempted marks and any invariant paper-level assessment constraints; the paper must not rely on the candidate selecting one particular optional question to become valid.",
     "paper_context_rule": "Questions sharing a case or data-response set must use one coherent fixed stimulus and may not invent conflicting facts.",
     "paper_difficulty_rule": "Use realistic progression and variation; do not order all items by a single mechanical difficulty score.",
     "topic_prediction_prohibited": true
