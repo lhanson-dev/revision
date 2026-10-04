@@ -1,0 +1,112 @@
+name: Materialise AQA 7132 Fast-Path bank
+
+on:
+  push:
+    branches:
+      - release/aqa-7132-fast-path-content
+    paths:
+      - .github/workflows/materialise-aqa-7132-fast-path-bank.yml
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  materialise:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Download retained accepted question artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp/aqa-7132-bank
+          artifacts=(
+            '3.1-3.2:11296814145:37186364711:2c527e32f2c98ed5453068afe38b1b0d3d543ec0'
+            '3.3:11278638540:37136289753:99304345912448ff3231ffbde270dd896ea17aef'
+            '3.4:11282089600:37146477305:0fadb8aa9ab0b1c026f0b5ce198bf9d4920840c7'
+            '3.5-topup:11193188037:36925676050:f284141017a897509da6a6dfe345bd844155e03b'
+            '3.6:11194290727:36925676050:f284141017a897509da6a6dfe345bd844155e03b'
+            '3.7:11297365578:37186794762:2c527e32f2c98ed5453068afe38b1b0d3d543ec0'
+            '3.8-3.9:11194285894:36925676050:f284141017a897509da6a6dfe345bd844155e03b'
+            '3.10:11282341528:37146550734:0fadb8aa9ab0b1c026f0b5ce198bf9d4920840c7'
+          )
+          for entry in "${artifacts[@]}"; do
+            IFS=: read -r batch artifact_id run_id reviewed_commit <<<"$entry"
+            dir=".tmp/aqa-7132-bank/$batch"
+            mkdir -p "$dir"
+            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > "$dir/artifact.zip"
+            unzip -q "$dir/artifact.zip" -d "$dir/unpacked"
+            printf '%s\n' "$run_id" > "$dir/run_id"
+            printf '%s\n' "$artifact_id" > "$dir/artifact_id"
+            printf '%s\n' "$reviewed_commit" > "$dir/reviewed_commit"
+            sha256sum "$dir/artifact.zip" | awk '{print $1}' > "$dir/digest"
+          done
+
+      - name: Build accepted release bank
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          import path from 'node:path'
+
+          const root = '.tmp/aqa-7132-bank'
+          const batches = ['3.1-3.2', '3.3', '3.4', '3.5-topup', '3.6', '3.7', '3.8-3.9', '3.10']
+          const questions = []
+          const sources = []
+          for (const batch of batches) {
+            const dir = path.join(root, batch)
+            const unpacked = path.join(dir, 'unpacked')
+            const questionDir = path.join(unpacked, 'questions')
+            const names = fs.readdirSync(questionDir).filter((name) => /^q\d+\.json$/.test(name)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+            const ledger = JSON.parse(fs.readFileSync(path.join(unpacked, 'ledger.json'), 'utf8'))
+            for (const name of names) {
+              const record = JSON.parse(fs.readFileSync(path.join(questionDir, name), 'utf8'))
+              const unit = ledger.units?.[record.id]
+              if (!unit || !['passed', 'logged'].includes(unit.outcome)) throw new Error(`${batch}/${record.id} is not accepted: ${unit?.outcome ?? 'missing'}`)
+              questions.push(record)
+            }
+            const summary = fs.readFileSync(path.join(unpacked, 'SUMMARY.md'), 'utf8')
+            if (!summary.includes('Blocking — must be fixed (0)') || !summary.includes('Escalated — Founder decision needed (0)') || !summary.includes('Failed — AI call failed 3 times, rerun needed (0)')) {
+              throw new Error(`${batch} summary is not release-clear`)
+            }
+            sources.push({
+              batch,
+              run_id: Number(fs.readFileSync(path.join(dir, 'run_id'), 'utf8').trim()),
+              artifact_id: Number(fs.readFileSync(path.join(dir, 'artifact_id'), 'utf8').trim()),
+              reviewed_commit: fs.readFileSync(path.join(dir, 'reviewed_commit'), 'utf8').trim(),
+              artifact_digest: `sha256:${fs.readFileSync(path.join(dir, 'digest'), 'utf8').trim()}`,
+              accepted_questions: names.length,
+            })
+          }
+          if (questions.length !== 231) throw new Error(`Expected 231 retained accepted questions, got ${questions.length}`)
+          const payload = {
+            schema_version: 1,
+            course_id: 'aqa:aqa-a-level:7132',
+            release_scope: 'restricted_pilot',
+            label: 'AQA-style practice (Revision-authored, not an AQA question)',
+            question_count: questions.length,
+            sources,
+            questions,
+          }
+          const target = 'content/business/aqa-a-level/shared/fast-path-question-bank.json'
+          fs.writeFileSync(target, `${JSON.stringify(payload)}\n`)
+          NODE
+
+      - name: Commit materialised bank and remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/materialise-aqa-7132-fast-path-bank.yml
+          git add content/business/aqa-a-level/shared/fast-path-question-bank.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Retain accepted AQA 7132 Fast-Path question bank'
+          git push origin HEAD:release/aqa-7132-fast-path-content
