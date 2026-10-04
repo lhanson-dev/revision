@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "course_id": "aqa:aqa-a-level:7132",
+  "stage": "T12",
+  "release_type": "restricted_pilot",
+  "decision": "conditional_pass",
+  "effective_when_merged": true,
+  "base_main_sha": "2c527e32f2c98ed5453068afe38b1b0d3d543ec0",
+  "content": {
+    "foundation_learn_nodes": 81,
+    "question_bank": {
+      "accepted_questions": 245,
+      "retained_action_artifact_questions": 231,
+      "repository_native_3_5_questions": 14
+    }
+  },
+  "assurance": {
+    "exact_course_proof_run_id": 37185846714,
+    "learn_practice_refresh_run_id": 37185995084,
+    "final_question_run_ids": [37186364711, 37136289753, 37146477305, 36925676050, 37186794762, 37146550734],
+    "blocking": 0,
+    "escalated": 0,
+    "failed": 0,
+    "qualified_human_subject_review_status": "pending"
+  },
+  "claim_limits": [
+    "Exam-style items are labelled AQA-style practice and Revision-authored; they are never presented as AQA questions.",
+    "Extended-response marking guidance is indicative/estimated rather than an official exact mark.",
+    "This is a restricted learner pilot release while qualified human subject review remains pending."
+  ],
+  "question_provenance": "content/business/aqa-a-level/shared/fast-path-question-bank.json",
+  "documentation_impact": "No normative authority change. Applies the later Founder-approved Fast-Path blocking rules and the conditional-pass route in Content Accuracy Assurance Gate; older technical wording that made qualified-human review an absolute publication prerequisite is marked superseded for Fast-Path releases."
+}
