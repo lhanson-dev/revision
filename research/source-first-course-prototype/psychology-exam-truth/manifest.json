@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_exam_truth_complete",
+  "checkedDate": "2026-10-04",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "inputs": {
+    "courseTruth": "research/source-first-course-prototype/psychology-course-truth/manifest.json",
+    "assessmentBlueprint": "research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json"
+  },
+  "examTruth": {
+    "paperCount": 3,
+    "rawMarksPerPaper": 96,
+    "durationMinutesPerPaper": 120,
+    "rawMarksTotal": 288,
+    "paperWeightingPercentApprox": 33.3,
+    "assessmentObjectivesRecorded": true,
+    "paperAoRangesRecorded": true,
+    "researchMethodsConstraintRecorded": true,
+    "mathematicalConstraintRecorded": true,
+    "paperOptionStructureRecorded": true,
+    "questionFamiliesRecorded": true,
+    "commandDemandModelRecorded": true,
+    "revisionOwnedAssessmentRulesRecorded": true,
+    "examTruthComplete": true,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "learnerAssetReady": false,
+    "restrictedPilotPublicationApproved": false
+  },
+  "rights": {
+    "awardingBodySources": "REFERENCE_ONLY",
+    "unknownSourceRights": 0,
+    "rule": "Only approved structured assessment facts may flow downstream. Protected AQA question, mark-scheme or explanatory prose is not a reusable generation corpus."
+  },
+  "completionRule": "Exam Truth is complete for the prototype when current official AQA assessment structure, AO ranges, research-method/maths constraints, component scope, question-family/command-demand model and Revision-owned assessment rules are recorded without a known material alignment or rights blocker and deterministic assurance passes. Fresh independent assessment/authenticity assurance remains a later production-level gate before restricted-pilot publication.",
+  "nextWork": {
+    "priority": "Derive the Psychology Course Learning Blueprint from completed Course Truth plus completed Exam Truth.",
+    "rule": "Do not begin high-volume learner-asset generation before the Blueprint determines educationally justified Learn, Practice, Exam Prep and evidence treatments."
+  },
+  "documentationImpact": "Experimental research evidence only. No normative authority or production technical documentation is changed by completing this Exam Truth layer."
+}
