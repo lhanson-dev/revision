@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
 **Status:** deterministic three-paper planner implemented; no paid mock generation on this branch  
-**Base main:** `6ddac53afda2bd6c132f3bab47f23221fb1d4bdf`  
+**Base main:** `ed9fd669de6a36cff9c39f2b9e7f8dd311be0205`  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -193,7 +193,7 @@ This branch adds only the deterministic pre-spend planning gate:
 3. deterministic mark, option-path, AO, quantitative, target and breadth validation;
 4. coherent Paper 2 / Paper 3 context ownership specifications;
 5. exact-head CI execution and retained plan evidence; and
-6. technical/run-log documentation updates.
+6. technical documentation updates.
 
 It does **not** create learner mock questions, case studies, datasets or mark schemes; call an AI provider; publish mocks; or alter the learner UI.
 
