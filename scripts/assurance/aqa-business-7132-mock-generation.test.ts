@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { type ZodType } from 'zod'
+import { z, type ZodType } from 'zod'
 import { describe, expect, it } from 'vitest'
 import { OpenAIStructuredWorkerClient } from '../../src/content-factory/openai-live-adapter'
 import {
@@ -125,13 +125,14 @@ type GenerationState = {
   questions: Record<string, Stored<MockQuestion>>
   blind_units: Record<string, Stored<BlindUnit>>
   generation_failures: Record<string, string>
+  blind_failures: Record<string, string>
 }
 
 async function readState(plan: MockPlan, reviewedCommit: string): Promise<GenerationState> {
   try {
     const parsed = JSON.parse(await readFile(STATE_PATH, 'utf8')) as GenerationState
     if (parsed.schema_version === 1 && parsed.plan_fingerprint === plan.plan_fingerprint) {
-      return { ...parsed, reviewed_commit: reviewedCommit, provider_calls_this_run: 0, generation_failures: {} }
+      return { ...parsed, reviewed_commit: reviewedCommit, provider_calls_this_run: 0, generation_failures: {}, blind_failures: parsed.blind_failures ?? {} }
     }
   } catch {
     // Fresh run.
@@ -146,11 +147,26 @@ async function readState(plan: MockPlan, reviewedCommit: string): Promise<Genera
     questions: {},
     blind_units: {},
     generation_failures: {},
+    blind_failures: {},
   }
 }
 
 function exactIds(actual: string[], expected: string[]) {
   return JSON.stringify([...actual].sort()) === JSON.stringify([...expected].sort())
+}
+
+function blindUnitSchemaFor(unit: MockGenerationUnit) {
+  const answerSchemas = unit.slots.map((slot) => z.object({
+    slot_id: z.literal(slot.slot_id),
+    answer_text: z.string().min(1),
+    numbers: z.array(z.object({ label: z.string().min(1), value: z.number() })),
+  }))
+  const [first, ...rest] = answerSchemas
+  if (!first) throw new Error(`mock_blind_unit_has_no_slots:${unit.unit_id}`)
+  return z.object({
+    unit_id: z.literal(unit.unit_id),
+    answers: z.tuple([first, ...rest]),
+  })
 }
 
 function sourceFingerprint(payload: Record<string, unknown>, instructions: string) {
@@ -359,6 +375,17 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     expect(units.flatMap((unit) => unit.slots).map((slot) => slot.slot_id).sort()).toEqual(plan.papers.flatMap((paper) => paper.slots).map((slot) => slot.slot_id).sort())
   })
 
+  it('binds blind-answer structured output to the exact unit identity and planned slot order', async () => {
+    const plan = await materialisedPlan()
+    const unit = buildMockGenerationUnits(plan).find((candidate) => candidate.unit_id === 'P1-A-CHUNK-2')!
+    const schema = blindUnitSchemaFor(unit)
+    const answers = unit.slots.map((slot) => ({ slot_id: slot.slot_id, answer_text: `Answer for ${slot.slot_id}`, numbers: [] }))
+    expect(schema.safeParse({ unit_id: unit.unit_id, answers }).success).toBe(true)
+    expect(schema.safeParse({ unit_id: 'wrong-unit', answers }).success).toBe(false)
+    expect(schema.safeParse({ unit_id: unit.unit_id, answers: answers.slice(0, -1) }).success).toBe(false)
+    expect(schema.safeParse({ unit_id: unit.unit_id, answers: [answers[1], answers[0], ...answers.slice(2)] }).success).toBe(false)
+  })
+
   it('fails closed on mark, AO, quantitative and arithmetic drift', async () => {
     const plan = await materialisedPlan()
     const paper = paperFor(plan, '7132/1')
@@ -553,27 +580,43 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       const context = unit.context_policy === 'shared' ? contexts.get(unit.unit_id) : undefined
       const payload = blindUnitPayload(unit, unitQuestions, context)
       const stableFingerprint = fingerprint({ payload, instructions: BLIND_UNIT_INSTRUCTIONS, version: MOCK_GENERATION_VERSION })
+      const exactSchema = blindUnitSchemaFor(unit)
       const retained = state.blind_units[unit.unit_id]
       if (retained?.input_fingerprint === stableFingerprint) {
-        const parsed = blindUnitSchema.safeParse(retained.output)
-        if (parsed.success && parsed.data.unit_id === unit.unit_id && exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) return parsed.data
+        const parsed = exactSchema.safeParse(retained.output)
+        if (parsed.success && exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) {
+          delete state.blind_failures[unit.unit_id]
+          return parsed.data as BlindUnit
+        }
       }
       let lastError = 'no valid blind answer'
       for (let attempt = 1; attempt <= 3; attempt++) {
-        const execution = await providerOnce({ workerId: `content-factory.aqa-7132.mock-blind.${unit.unit_id.toLowerCase()}`, routeKind: 'independent_review', outputSchema: blindUnitSchema, instructions: BLIND_UNIT_INSTRUCTIONS, payload })
+        const execution = await providerOnce({ workerId: `content-factory.aqa-7132.mock-blind.${unit.unit_id.toLowerCase()}`, routeKind: 'independent_review', outputSchema: exactSchema, instructions: BLIND_UNIT_INSTRUCTIONS, payload })
         if (execution.status !== 'success') { lastError = 'error' in execution ? execution.error : execution.status; continue }
-        const parsed = blindUnitSchema.safeParse(execution.output)
-        if (!parsed.success || parsed.data.unit_id !== unit.unit_id || !exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) { lastError = 'blind answer slot set mismatch'; continue }
-        state.blind_units[unit.unit_id] = { input_fingerprint: stableFingerprint, output: parsed.data, provenance: execution.provenance }
-        await writeFile(`${OUTPUT}/blind-units/${unit.unit_id}.json`, `${JSON.stringify(parsed.data, null, 2)}\n`)
+        const parsed = exactSchema.safeParse(execution.output)
+        if (!parsed.success || !exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) { lastError = 'blind answer exact-slot schema mismatch'; continue }
+        const output = parsed.data as BlindUnit
+        state.blind_units[unit.unit_id] = { input_fingerprint: stableFingerprint, output, provenance: execution.provenance }
+        delete state.blind_failures[unit.unit_id]
+        await writeFile(`${OUTPUT}/blind-units/${unit.unit_id}.json`, `${JSON.stringify(output, null, 2)}\n`)
         await persistState()
-        return parsed.data
+        return output
       }
-      throw new Error(`mock_blind_answer_failed:${unit.unit_id}:${lastError}`)
+      state.blind_failures[unit.unit_id] = lastError
+      await persistState()
+      return null
     }
 
     const blindByUnit = new Map<string, BlindUnit>()
-    for (const unit of units) blindByUnit.set(unit.unit_id, await answerUnitBlind(unit))
+    for (const unit of units) {
+      const blind = await answerUnitBlind(unit)
+      if (blind) blindByUnit.set(unit.unit_id, blind)
+    }
+    const missingBlindUnits = units.map((unit) => unit.unit_id).filter((id) => !blindByUnit.has(id))
+    if (missingBlindUnits.length) {
+      await writeFile(SUMMARY_PATH, `${JSON.stringify({ status: 'blind_answer_incomplete', plan_fingerprint: plan.plan_fingerprint, completed_blind_units: [...blindByUnit.keys()], missing_blind_units: missingBlindUnits, failures: state.blind_failures, cumulative_spend_usd: state.cumulative_spend_usd, provider_calls_this_run: state.provider_calls_this_run, publication_authority: false }, null, 2)}\n`)
+      throw new Error(`mock_blind_answer_incomplete:${missingBlindUnits.join(',')}`)
+    }
 
     const buildReviewUnits = () => units.map((unit) => reviewUnit({ plan, unit, questions: unit.slots.map((slot) => questions.get(slot.slot_id)!), blind: blindByUnit.get(unit.unit_id)!, context: contexts.get(unit.unit_id), evidence }))
     const unitReviewSchema = reviewOutputSchema(MOCK_QUESTION_CHECKLIST)
@@ -602,7 +645,14 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       await generateQuestions(remediationSlots)
       for (const outcome of blockedUnits) {
         const unit = units.find((candidateUnit) => candidateUnit.unit_id === outcome.unit_id)!
-        blindByUnit.set(unit.unit_id, await answerUnitBlind(unit))
+        const blind = await answerUnitBlind(unit)
+        if (blind) blindByUnit.set(unit.unit_id, blind)
+        else blindByUnit.delete(unit.unit_id)
+      }
+      const missingRemediatedBlindUnits = blockedUnits.map((outcome) => outcome.unit_id).filter((id) => !blindByUnit.has(id))
+      if (missingRemediatedBlindUnits.length) {
+        await writeFile(SUMMARY_PATH, `${JSON.stringify({ status: 'blind_answer_incomplete', plan_fingerprint: plan.plan_fingerprint, completed_blind_units: [...blindByUnit.keys()], missing_blind_units: missingRemediatedBlindUnits, failures: state.blind_failures, cumulative_spend_usd: state.cumulative_spend_usd, provider_calls_this_run: state.provider_calls_this_run, publication_authority: false }, null, 2)}\n`)
+        throw new Error(`mock_blind_answer_incomplete:${missingRemediatedBlindUnits.join(',')}`)
       }
 
       const retryIds = new Set(blockedUnits.map((outcome) => outcome.unit_id))
