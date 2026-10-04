@@ -1,159 +1,221 @@
 # Content Factory Mock Exam Production
 
-**Status:** first implementation foundation; no paid mock generation on this branch  
-**Base main:** `f8e84e4db39b8ea54ac9e4d0bdfb02c0b2dac16d`  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; no paid mock generation has been run by this change  
+**Current implementation baseline:** approved `main` after PR #519 (`8a7e0d862b515d7431b018081e93c0b6bf79b630`)  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
 
-Implement the governed whole-paper layer between the existing AQA 7132 T11 question machinery and learner publication.
+Implement the governed whole-paper layer between established Course Truth / Exam Truth and Revision-authored mock generation.
 
-The current repository already owns:
+The governing contract is `80-company-workflows/Content Factory Mock Exam Production.md`. This technical document describes current implementation only; it does not redefine that authority.
 
-- deterministic Course Truth and Exam Truth materialisation;
-- exact-course T8 assurance and fingerprint reuse;
-- the 81-node Business Foundation and 79-node exact-course projection;
-- deterministic Learning Blueprint and question plans;
-- structured question generation with calculations, AO metadata and mark schemes;
-- blind answering and software validation;
-- fixed-checklist independent T11 review with exact-fingerprint resume;
-- a 245-question accepted Revision-authored AQA-style question bank with provenance; and
-- the existing Exam Prep / timed `ExamSimulator` learner surface.
+The learner-facing destination remains the existing Exam Prep / `ExamSimulator` experience. This implementation creates no new learner route and grants no publication authority.
 
-It does **not** currently own a whole-paper Mock Profile, deterministic paper-set plan, whole-paper duplication/coverage checks or a dedicated mock production workflow.
+## Existing dependencies
 
-## Current AQA 7132 assessment model
+The Business pilot already owns deterministic Course Truth and Exam Truth materialisation, exact-course assurance and fingerprint reuse, the reusable Business Subject Foundation, the accepted Revision-authored question bank and the existing Exam Prep learner surface.
 
-The active Course/Exam Truth materialiser and current official AQA references agree on the stable core:
+PR #517 added the pre-generation profile foundation:
 
-| Component | Duration | Attempted marks | Weight | Stable structure |
-| --- | ---: | ---: | ---: | --- |
-| 7132/1 Business 1 | 120 min | 100 | 33.3% | Section A: 15 MCQs / 15 marks. Section B: short answers / 35 marks. Sections C and D: two 25-mark essay options in each section; candidate answers one from C and one from D. |
-| 7132/2 Business 2 | 120 min | 100 | 33.3% | Three compulsory data-response questions worth approximately 33 marks each, made up of three or four parts. |
-| 7132/3 Business 3 | 120 min | 100 | 33.3% | One compulsory case study followed by approximately six questions. |
+- `content-factory/mock-exams/aqa-7132/MOCK_PROFILE.json`;
+- `content-factory/mock-exams/aqa-7132/CALIBRATION.json`;
+- provider-free profile validation; and
+- the provider-free `Content Factory AQA Business 7132 Mock Profile` GitHub Action.
 
-All papers can assess the full course. The qualification is linear and all papers are taken in the same series. The overall minimum quantitative-skills weighting is 10% of A-level marks. Published AO ranges remain owned by Exam Truth rather than duplicated as prompt lore.
+PR #519 added the deterministic paper-set planner and validator. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
 
-There is an important AO unit trap: the component values in Exam Truth such as AO1 `7132/1: 9–11` are **qualification percentage points contributed by that paper**, not 9–11% of the 100-mark paper. `MOCK_PROFILE.json` records that unit explicitly so the paper planner must convert the published ranges into compatible component mark targets rather than silently under-allocating AO demand.
+## Deterministic mock-set planner
 
-Paper 1 also has an important mark-accounting distinction: the paper contains four 25-mark essay options (100 printed optional marks) but the candidate attempts only two of them (50 marks). Whole-paper validation therefore uses **attempted raw marks**, not a naive sum of every printed question tariff. Because the learner chooses one essay in Section C and one in Section D, the planner must also validate every permitted choice path independently rather than relying on a favourable combination of optional questions to make the paper structurally valid.
+`scripts/content-factory/plan-aqa-business-7132-mock-set.mjs` materialises current Course Truth and Exam Truth, resolves the current Mock Profile and calibration metadata, and produces:
 
-## Rights boundary
+`.artifacts/content-factory-aqa-business-7132-mock-plan/mock-set-plan.json`
 
-AQA specification, scheme-of-assessment, quantitative annex, past papers, specimen papers and mark schemes are `REFERENCE_ONLY` inputs. They may establish assessment structure and calibrate realism. They are not reusable question/case/dataset content.
+The plan is deterministic for the exact dependency fingerprints and records its own fingerprint.
 
-The first mock set will prefer synthetic businesses and synthetic data. This avoids unnecessary provenance cost and gives deterministic control over every figure needed by the questions.
+The planned three-paper structure is:
 
-## Qualification Mock Profile
+| Component | Planned structure | Attempted marks |
+| --- | --- | ---: |
+| 7132/1 | 15 MCQs; six Section B responses totalling 35; two 25-mark options in C and two in D, with one response required from each choice section | 100 |
+| 7132/2 | Three coherent compulsory data-response sets using calibration-backed 35 / 31 / 34 mark shapes | 100 |
+| 7132/3 | One coherent case with six linked questions using the calibration-backed 12 / 12 / 16 / 16 / 20 / 24 mark shape | 100 |
 
-`content-factory/mock-exams/aqa-7132/MOCK_PROFILE.json` is the first qualification profile. `content-factory/mock-exams/aqa-7132/CALIBRATION.json` retains only rights-safe derived specimen-paper metadata used to calibrate realistic variable tariffs and command patterns.
+Paper 1 retains the distinction between 150 printed marks and 100 attempted marks.
 
-The profile deliberately separates:
+The plan allocates 34 quantitative marks across the 300 attempted marks and one distinct primary Course Truth requirement to each of 41 printed structural slots. It deliberately samples 41 of the 42 governed requirements rather than forcing full-course coverage into one mock set.
 
-- `invariant` facts that software may fail closed against; and
-- `calibration` guidance used to shape a realistic mock without claiming future AQA papers must repeat a historical pattern.
+## Provider-free deterministic gate
 
-The profile records the lower pilot spend cap but does not change the company-wide Content Factory course ceiling.
+`scripts/assurance/validate-aqa-business-7132-mock-plan.mjs` rebuilds the plan and fails closed unless it proves at least:
 
-## Smallest repeatable production design
+- exactly three required papers;
+- 120 minutes and 100 attempted marks per paper;
+- all four permitted Paper 1 C/D response paths independently reconcile to 100 marks;
+- Paper 1 preserves 150 printed / 100 attempted marks;
+- slot AO arithmetic reconciles exactly to tariffs;
+- component and overall AO allocations remain inside current Exam Truth ranges;
+- at least 30 quantitative marks are planned (currently 34);
+- every printed slot resolves to Course Truth and mapped Subject Foundation dependencies;
+- primary Course Truth targets are not repeated in the initial printed plan;
+- Paper 2 and Paper 3 context ownership remains coherent; and
+- provider calls remain zero during this gate.
 
-### 1. Deterministic planning — no provider spend
+The existing `Content Factory AQA Business 7132 Mock Plan` workflow owns this pre-generation gate.
 
-Before a model call, software resolves current Course Truth/Exam Truth, validates the Mock Profile and creates a paper-set plan.
+## Bounded generation units
 
-The plan will allocate:
+`scripts/assurance/aqa-business-7132-mock-generation.ts` and `aqa-business-7132-mock-generation.test.ts` implement the next stage without changing the paper plan.
 
-- structural slots and choices;
-- marks and AO demand;
-- quantitative slots;
-- exact Course Truth / named-item targets;
-- context ownership;
-- repetition constraints; and
-- cross-paper breadth.
+The 41 printed slots are generated and reviewed through 13 bounded coherent units:
 
-Coverage is based on **what the question requires**, never a topic merely mentioned in stimulus. Near-duplicate questions are prohibited, but a named target may be reused deliberately where linked questions, synoptic demand or quantitative progression make that pedagogically and assessment-wise valid.
+- Paper 1 Section A: three five-MCQ units;
+- Paper 1 Section B: two three-question units;
+- Paper 1 Sections C and D: four independent essay-option units;
+- Paper 2: one unit per fixed data-response stimulus/set (three units); and
+- Paper 3: one fixed case unit containing all six linked questions.
 
-For any paper with optional questions, software must enumerate every permitted response path and prove each path independently reconciles to the paper's attempted marks and applicable invariant assessment constraints.
+This boundary is deliberately smaller than a whole paper. A failed question or review finding therefore does not force unrelated mock content to be repurchased.
 
-### 2. Generation batches
+## Shared context ownership
 
-The first pilot should use bounded coherent units rather than one enormous course call or one call per isolated question:
+The runner generates shared context before linked questions:
 
-- **Paper 1:** one shared paper plan; Section A/B may be generated in bounded chunks, while each C/D essay option is generated against the same paper coverage ledger. Paper-level validation reconciles the choices and 100 attempted marks.
-- **Paper 2:** three data-response set units. Each unit owns one coherent stimulus/dataset and all of its parts. The three units share the paper coverage/difficulty ledger.
-- **Paper 3:** one case-study context unit followed by the complete linked question set. Questions may be generated in bounded calls only after the shared case is fixed; no question may invent conflicting case facts.
+- each Paper 2 data-response set receives one fixed synthetic business stimulus/dataset;
+- Paper 3 receives one fixed synthetic case/dataset shared by all six questions; and
+- Paper 1 essays use independent synthetic contexts where needed.
 
-This keeps provider context small without degrading whole-paper coherence.
+Linked questions are software-blocked if they invent their own competing context. If a context-coherence review fails, only that shared context and its dependent questions become stale.
 
-### 3. Existing accepted question-bank reuse
+Synthetic businesses and data remain the default rights-safe approach.
 
-The 245 accepted questions are reused first as:
+## Question and mark-scheme generation
 
-- coverage evidence;
-- tariff/command/style intelligence;
-- examples of already-detected failure modes;
-- formula/calculation validation evidence; and
-- optional exact-fingerprint source material when a question genuinely fits a planned slot.
+Every question call receives only:
 
-The first mock set should **not** optimise aggressively for question-text reuse. Forcing bank questions into a paper would recreate the exact failure the mock stage is meant to prevent: a collection rather than an examination.
+- the exact deterministic slot specification;
+- rights-safe Course Truth requirement summaries;
+- the mapped Subject Foundation teaching/quantitative content required by that slot;
+- the fixed shared context where applicable; and
+- targeted remediation findings when the exact unit previously failed.
 
-If an unchanged accepted question is later reused, its existing question-level assurance can be retained, but it still participates in fresh whole-paper assurance because context, progression and cross-paper duplication are new relationships.
+The provider must return the exact slot ID, family, command word, tariff and AO mark allocation. Course Truth targets count only when the question directly demands them and they are necessary for full marks.
 
-### 4. Assurance
+Software validates before semantic review:
 
-After software checks, use fresh-context independent review at whole-paper level. Reuse the current Fast-Path ledger/fingerprint semantics and two-fresh-round limit.
+- plan identity, family, command word, tariff and AO arithmetic;
+- MCQ option/key structure;
+- point-mark or level-of-response mark-scheme reconciliation;
+- exact planned quantitative-mark allocation;
+- recomputation of structured calculations and presence of each calculated answer in the mark scheme; and
+- fixed shared-context ownership.
 
-Fresh review is required only for new/changed mock fingerprints. Unchanged Foundation, Course Truth, Exam Truth and accepted question dependencies are not repurchased.
+Generated mock wording, cases, data and marking guidance are Revision-authored. Official AQA material remains calibration/reference evidence only.
 
-The whole-paper checklist must cover:
+## Blind answering and unit assurance
 
-- assessment-model fidelity;
-- question/mark-scheme validity;
-- factual and calculation accuracy;
-- paper totals and every optional response path;
-- timing realism;
-- coverage and synoptic validity;
-- difficulty progression;
-- quantitative balance;
-- command/tariff realism;
-- case/stimulus coherence;
-- cross-paper duplication; and
-- originality / rights safety.
+Each bounded unit is answered blind by a fresh provider call that sees learner-facing stimulus/questions only, not the plan or mark schemes.
 
-## Spend proposal before live generation
+The unit reviewer then receives the generated unit, blind answers and compact Foundation evidence and answers only the fixed checklist covering:
 
-No paid provider calls are made by this foundation change.
+- question validity;
+- blind-answer reconstruction against the mark scheme;
+- mark-scheme validity;
+- factual accuracy;
+- context coherence; and
+- exam authenticity/originality.
 
-For the first complete three-paper mock set, the proposed **mock-stage pilot cap is US$8 total new provider spend**, including fresh generation and independent review. The runner must stop before starting a call that could breach that cap.
+The Fast-Path two-fresh-round rule applies. Round-two remediation regenerates only the affected question(s), or the shared context plus dependent questions where context coherence failed. An unresolved second round is escalated rather than reviewed a third time.
 
-This is intentionally below the existing US$20 hard automated ceiling for one live Content Factory course run. If the deterministic plan or conservative estimator says US$8 is insufficient, stop before generation and review batching/model routing; do not weaken assurance and do not silently consume the remaining course ceiling.
+Unchanged accepted units are reused by exact fingerprint without generation, blind answering or review.
 
-Observed generation/review spend will be retained by stage so the cap can be recalibrated from evidence.
+## Whole-paper and whole-set assurance
 
-## Learner publication
+Question-level assurance is not sufficient.
 
-The existing Exam Prep / `ExamSimulator` experience already supports full timed papers, question navigation, delayed marking guidance and confidence-limited self-assessment. The mock output should therefore adapt into the existing typed `Exam` content model after assurance.
+After all bounded units can progress, software reassembles the papers and re-proves:
 
-No new learner route or duplicate mock surface is required.
+- exact generated slot set;
+- every question still passes deterministic validation;
+- no deterministic near-duplicate question stems across the complete set;
+- generated quantitative marks still equal the planned 34;
+- printed mark totals; and
+- all four Paper 1 optional response paths still reconcile to 100 attempted marks.
 
-Learner wording must identify the papers as Revision-authored realistic practice papers built to AQA's structure and not official AQA papers or mark schemes.
+Each assembled paper then receives a fresh fixed-checklist review covering validity, factual/data coherence, progression and difficulty, timing realism, command/tariff realism, quantitative balance, synoptic validity, breadth, duplication and assessment-model resemblance without protected-content copying.
 
-## This branch
+A final complete-set review is separate from the individual paper reviews. It judges the semantic properties that require all three papers in view, especially:
 
-This branch introduces only the lowest-risk pre-spend foundation:
+- full-set breadth;
+- cross-paper semantic duplication;
+- overall quantitative and synoptic balance;
+- difficulty balance; and
+- overall assessment-model fit and originality.
 
-1. governed mock-production authority;
-2. the AQA 7132 versioned Mock Profile and calibration metadata;
-3. provider-free deterministic profile validation;
-4. the provider-free GitHub Action `Content Factory AQA Business 7132 Mock Profile` for exact-head validation;
-5. documentation/index/run-log updates.
+Paper-level or full-set blocking findings are retained in their own ledgers. A later resume may target those findings, but the same unresolved fingerprint cannot enter a third fresh review round.
 
-It does **not** create learner mock content, call an AI provider, publish mocks or alter the learner UI.
+## Spend and resume contract
 
-After Founder-approved merge, the next governed change can add the deterministic paper-set planner and live generation/review runner against this contract. Paid generation must still run only from approved `main`, following the existing Content Factory pattern.
+The live runner consumes the exact validated plan fingerprint and uses the Mock Profile's **US$8** mock-stage pilot ceiling.
+
+Spend protection is cumulative across resumes:
+
+- provider calls run sequentially through the existing Content Factory hard pre-call spend guard;
+- observed/conservative provider spend is persisted after each call in `generation-state.json`;
+- a resumed workflow must restore that state and target the same exact plan fingerprint;
+- after the first live workflow has started, a later workflow dispatch must identify a prior run to resume rather than silently starting a fresh US$8 allowance; and
+- if the conservative next-call reservation would exceed the remaining pilot allowance, the run stops before that call.
+
+Remediation feedback is deliberately excluded from the durable source fingerprint. It can force a fresh call for the remediation attempt, but once the corrected output is accepted a later clean resume can reuse it rather than repurchasing the same content.
+
+The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-stage pilot ceiling is the operative cap for this run.
+
+## GitHub workflow
+
+`.github/workflows/content-factory-aqa-business-7132-mock-generation.yml` has two modes.
+
+**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests with no provider key.
+
+**Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
+
+The live evidence artifact is named from the exact reviewed `main` SHA and contains, where reached:
+
+- generation state and cumulative spend;
+- synthetic shared contexts;
+- generated questions and Revision-authored mark schemes;
+- blind answers;
+- unit review ledger;
+- paper review ledger;
+- full-set review ledger;
+- assembled paper artifacts and fingerprints; and
+- final summary / publication lock state.
+
+## Publication boundary
+
+A successful live generation run ends at `assured_not_published`.
+
+It does **not** itself:
+
+- publish the mock;
+- change Course Truth, Exam Truth or the Subject Foundation;
+- alter learner navigation;
+- create a duplicate mock route; or
+- claim the mocks are official AQA papers.
+
+The learner label remains:
+
+> A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.
+
+A successful live artifact must still be retained through the governed repository/release process before learner publication.
+
+## Current execution state
+
+This implementation PR adds and provider-free validates the runner only. It does **not** run paid generation.
+
+After the runner is merged to approved `main`, the next operational step is one manual live pilot of `Content Factory AQA Business 7132 Mock Generation`. If that run stops because a bounded unit, paper or set fails assurance, the next run must resume its exact evidence rather than reset the pilot.
 
 ## Documentation impact
 
-Normative impact: adds an explicit mock-paper workflow authority because the Fast Path previously named mocks but did not define whole-paper production rules.
+Normative authority is unchanged. This implements the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
 
-Technical impact: adds a qualification Mock Profile, rights-safe calibration metadata and provider-free validation/action. No existing Course Truth, Exam Truth, Foundation, learner content, routes, persistence or historical evidence are modified.
+Technical documentation changes because the repository now owns the bounded live generation, exact-plan gate, cumulative spend/resume controls and three-level assurance runner. `INDEX.md` already points to this technical document, so no index change is required. No learner-facing runtime or route changes are introduced.
