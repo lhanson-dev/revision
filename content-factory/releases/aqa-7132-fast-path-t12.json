@@ -7,7 +7,8 @@
   "effective_when_merged": true,
   "base_main_sha": "2c527e32f2c98ed5453068afe38b1b0d3d543ec0",
   "content": {
-    "foundation_learn_nodes": 81,
+    "business_foundation_nodes": 81,
+    "aqa_course_learn_nodes": 79,
     "question_bank": {
       "accepted_questions": 245,
       "retained_action_artifact_questions": 231,
