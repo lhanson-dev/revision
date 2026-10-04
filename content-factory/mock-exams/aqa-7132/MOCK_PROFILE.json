@@ -47,6 +47,8 @@
     "total_attempted_raw_marks": 300,
     "quantitative_skills_minimum_overall_percent": 10,
     "minimum_quantitative_marks_for_representative_three_paper_set": 30,
+    "assessment_objective_range_unit": "qualification_percentage_points",
+    "assessment_objective_planning_rule": "paper_percent_ranges are percentage points of the whole qualification contributed by each component. A planner must convert them to compatible component mark targets using the qualification weighting; it must not treat values such as 9-11 as 9-11% of a 100-mark paper.",
     "assessment_objectives": {
       "AO1": {
         "overall_percent_range": [22, 25],
