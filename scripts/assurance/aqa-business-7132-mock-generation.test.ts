@@ -155,18 +155,30 @@ function exactIds(actual: string[], expected: string[]) {
   return JSON.stringify([...actual].sort()) === JSON.stringify([...expected].sort())
 }
 
-function blindUnitSchemaFor(unit: MockGenerationUnit) {
-  const answerSchemas = unit.slots.map((slot) => z.object({
-    slot_id: z.literal(slot.slot_id),
-    answer_text: z.string().min(1),
-    numbers: z.array(z.object({ label: z.string().min(1), value: z.number() })),
-  }))
-  const [first, ...rest] = answerSchemas
-  if (!first) throw new Error(`mock_blind_unit_has_no_slots:${unit.unit_id}`)
-  return z.object({
+const blindProviderAnswerSchema = z.strictObject({
+  answer_text: z.string().min(1),
+  numbers: z.array(z.strictObject({ label: z.string().min(1), value: z.number() })),
+})
+
+type BlindProviderAnswer = z.infer<typeof blindProviderAnswerSchema>
+
+function blindUnitProviderSchemaFor(unit: MockGenerationUnit) {
+  if (!unit.slots.length) throw new Error(`mock_blind_unit_has_no_slots:${unit.unit_id}`)
+  const answers = Object.fromEntries(unit.slots.map((slot) => [slot.slot_id, blindProviderAnswerSchema])) as Record<string, typeof blindProviderAnswerSchema>
+  return z.strictObject({
     unit_id: z.literal(unit.unit_id),
-    answers: z.tuple([first, ...rest]),
+    answers: z.strictObject(answers),
   })
+}
+
+function normaliseBlindProviderOutput(unit: MockGenerationUnit, output: unknown): BlindUnit | null {
+  const parsed = blindUnitProviderSchemaFor(unit).safeParse(output)
+  if (!parsed.success) return null
+  const answers = parsed.data.answers as Record<string, BlindProviderAnswer>
+  return {
+    unit_id: unit.unit_id,
+    answers: unit.slots.map((slot) => ({ slot_id: slot.slot_id, ...answers[slot.slot_id] })),
+  }
 }
 
 function sourceFingerprint(payload: Record<string, unknown>, instructions: string) {
@@ -375,15 +387,19 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     expect(units.flatMap((unit) => unit.slots).map((slot) => slot.slot_id).sort()).toEqual(plan.papers.flatMap((paper) => paper.slots).map((slot) => slot.slot_id).sort())
   })
 
-  it('binds blind-answer structured output to the exact unit identity and planned slot order', async () => {
+  it('binds blind-answer structured output to the exact unit identity and planned slot set', async () => {
     const plan = await materialisedPlan()
     const unit = buildMockGenerationUnits(plan).find((candidate) => candidate.unit_id === 'P1-A-CHUNK-2')!
-    const schema = blindUnitSchemaFor(unit)
-    const answers = unit.slots.map((slot) => ({ slot_id: slot.slot_id, answer_text: `Answer for ${slot.slot_id}`, numbers: [] }))
-    expect(schema.safeParse({ unit_id: unit.unit_id, answers }).success).toBe(true)
-    expect(schema.safeParse({ unit_id: 'wrong-unit', answers }).success).toBe(false)
-    expect(schema.safeParse({ unit_id: unit.unit_id, answers: answers.slice(0, -1) }).success).toBe(false)
-    expect(schema.safeParse({ unit_id: unit.unit_id, answers: [answers[1], answers[0], ...answers.slice(2)] }).success).toBe(false)
+    const schema = blindUnitProviderSchemaFor(unit)
+    const answers = Object.fromEntries(unit.slots.map((slot) => [slot.slot_id, { answer_text: `Answer for ${slot.slot_id}`, numbers: [] }]))
+    const exact = { unit_id: unit.unit_id, answers }
+    expect(schema.safeParse(exact).success).toBe(true)
+    expect(schema.safeParse({ ...exact, unit_id: 'wrong-unit' }).success).toBe(false)
+    const missing = { ...answers }
+    delete missing[unit.slots[0].slot_id]
+    expect(schema.safeParse({ unit_id: unit.unit_id, answers: missing }).success).toBe(false)
+    expect(schema.safeParse({ unit_id: unit.unit_id, answers: { ...answers, invented_slot: { answer_text: 'No', numbers: [] } } }).success).toBe(false)
+    expect(normaliseBlindProviderOutput(unit, exact)?.answers.map((answer) => answer.slot_id)).toEqual(unit.slots.map((slot) => slot.slot_id))
   })
 
   it('fails closed on mark, AO, quantitative and arithmetic drift', async () => {
@@ -580,22 +596,21 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       const context = unit.context_policy === 'shared' ? contexts.get(unit.unit_id) : undefined
       const payload = blindUnitPayload(unit, unitQuestions, context)
       const stableFingerprint = fingerprint({ payload, instructions: BLIND_UNIT_INSTRUCTIONS, version: MOCK_GENERATION_VERSION })
-      const exactSchema = blindUnitSchemaFor(unit)
       const retained = state.blind_units[unit.unit_id]
       if (retained?.input_fingerprint === stableFingerprint) {
-        const parsed = exactSchema.safeParse(retained.output)
-        if (parsed.success && exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) {
+        const parsed = blindUnitSchema.safeParse(retained.output)
+        if (parsed.success && parsed.data.unit_id === unit.unit_id && exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) {
           delete state.blind_failures[unit.unit_id]
-          return parsed.data as BlindUnit
+          return parsed.data
         }
       }
+      const providerSchema = blindUnitProviderSchemaFor(unit)
       let lastError = 'no valid blind answer'
       for (let attempt = 1; attempt <= 3; attempt++) {
-        const execution = await providerOnce({ workerId: `content-factory.aqa-7132.mock-blind.${unit.unit_id.toLowerCase()}`, routeKind: 'independent_review', outputSchema: exactSchema, instructions: BLIND_UNIT_INSTRUCTIONS, payload })
+        const execution = await providerOnce({ workerId: `content-factory.aqa-7132.mock-blind.${unit.unit_id.toLowerCase()}`, routeKind: 'independent_review', outputSchema: providerSchema, instructions: BLIND_UNIT_INSTRUCTIONS, payload })
         if (execution.status !== 'success') { lastError = 'error' in execution ? execution.error : execution.status; continue }
-        const parsed = exactSchema.safeParse(execution.output)
-        if (!parsed.success || !exactIds(parsed.data.answers.map((answer) => answer.slot_id), unit.slots.map((slot) => slot.slot_id))) { lastError = 'blind answer exact-slot schema mismatch'; continue }
-        const output = parsed.data as BlindUnit
+        const output = normaliseBlindProviderOutput(unit, execution.output)
+        if (!output) { lastError = 'blind answer exact-slot schema mismatch'; continue }
         state.blind_units[unit.unit_id] = { input_fingerprint: stableFingerprint, output, provenance: execution.provenance }
         delete state.blind_failures[unit.unit_id]
         await writeFile(`${OUTPUT}/blind-units/${unit.unit_id}.json`, `${JSON.stringify(output, null, 2)}\n`)
