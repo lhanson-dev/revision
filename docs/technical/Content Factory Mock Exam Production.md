@@ -1,6 +1,6 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; first live pilot stopped fail-closed at one Paper 3 generation defect and is awaiting a governed resume-fix merge  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; first live pilot stopped fail-closed at one Paper 3 generation defect; retained-failure resume remediation implemented  
 **Current implementation baseline:** approved `main` after PR #520 (`93e2be95c1e7c3214404c3d5965e44b0f675957b`)  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
