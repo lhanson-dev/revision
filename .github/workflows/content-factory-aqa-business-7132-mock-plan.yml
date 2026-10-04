@@ -1,0 +1,57 @@
+name: Content Factory AQA Business 7132 Mock Plan
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '80-company-workflows/Content Factory Mock Exam Production.md'
+      - 'docs/technical/Content Factory Mock Exam Production.md'
+      - 'content-factory/mock-exams/aqa-7132/**'
+      - 'research/aqa-business-7132/2027/**'
+      - 'research/business-subject-foundation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
+      - 'scripts/content-factory/plan-aqa-business-7132-mock-set.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
+      - 'scripts/assurance/validate-aqa-business-7132-mock-profile.mjs'
+      - 'scripts/assurance/validate-aqa-business-7132-mock-plan.mjs'
+      - '.github/workflows/content-factory-aqa-business-7132-mock-plan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-mock-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-mock-plan:
+    name: Validate deterministic AQA 7132 Mock Plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact ref
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Validate Mock Profile before planning
+        run: node scripts/assurance/validate-aqa-business-7132-mock-profile.mjs
+
+      - name: Build and validate deterministic three-paper plan
+        run: node scripts/assurance/validate-aqa-business-7132-mock-plan.mjs
+
+      - name: Prove no provider key is required by this stage
+        run: |
+          test -z "${OPENAI_API_KEY:-}"
+          echo "Mock-set planning and validation are deterministic and provider-free."
