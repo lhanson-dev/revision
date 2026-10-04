@@ -99,11 +99,16 @@ function validateProfileShape(profile) {
   assert(paper3.family === 'CASE_STUDY' && paper3.compulsory_case_studies === 1 && paper3.all_questions_required === true, 'Paper 3 case-study structure mismatch')
   assert(paper3.follow_up_question_count === 'approximately_6', 'Paper 3 question count must remain approximate calibration')
 
-  assert(profile.planning_rules?.coverage_unit === 'course_truth_requirement_then_named_item', 'Mocks must plan coverage from Course Truth before named-item selection')
-  assert(profile.planning_rules?.requirement_count === 42, 'AQA 7132 governed requirement denominator changed')
-  assert(profile.planning_rules?.require_all_course_requirements_in_one_set === false, 'Mocks must sample course breadth rather than force all 42 requirements into one set')
-  assert(profile.planning_rules?.context_only_mentions_count_as_coverage === false, 'Context-only mentions must not count as assessed coverage')
-  assert(profile.planning_rules?.topic_prediction_prohibited === true, 'Topic prediction must remain prohibited')
+  const planning = profile.planning_rules
+  assert(planning?.coverage_unit === 'course_truth_requirement_then_named_item', 'Mocks must plan coverage from Course Truth before named-item selection')
+  assert(planning?.requirement_count === 42, 'AQA 7132 governed requirement denominator changed')
+  assert(planning?.require_all_course_requirements_in_one_set === false, 'Mocks must sample course breadth rather than force all 42 requirements into one set')
+  assert(planning?.context_only_mentions_count_as_coverage === false, 'Context-only mentions must not count as assessed coverage')
+  assert(planning?.near_duplicate_question_prohibited === true, 'Near-duplicate mock questions must be prohibited')
+  assert(planning?.within_paper_target_repetition === 'minimise_unless_deliberately_linked_synoptic_or_quantitative', 'Target repetition policy changed unexpectedly')
+  assert(planning?.cross_set_repetition === 'minimise_unless_deliberately_synoptic_or_quantitative', 'Cross-set repetition policy changed unexpectedly')
+  assert(typeof planning?.choice_path_rule === 'string' && planning.choice_path_rule.includes('Every permitted response path'), 'Optional-question path validity rule is missing')
+  assert(planning?.topic_prediction_prohibited === true, 'Topic prediction must remain prohibited')
 
   assert(profile.assurance?.fresh_round_limit_per_unresolved_fingerprint === 2, 'Fast-Path two-round assurance limit must be preserved')
   assert(profile.assurance?.reuse_unchanged_dependency_evidence === true, 'Unchanged assurance evidence must be reusable')
