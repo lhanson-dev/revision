@@ -1,4 +1,5 @@
 import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'
+import { learn as authoredLearn } from './authored-learn'
 
 type FastPathAsset = {
   node_id: string
@@ -95,7 +96,7 @@ const pages: LearnPage[] = Object.entries(assets)
 
 const topicOrder = ['business', 'leadership', 'marketing', 'operations', 'finance', 'hr', 'strategic-position', 'strategic-direction', 'strategic-methods', 'strategic-change']
 
-export const learn: LearnCourse = {
+const fastPathLearn: LearnCourse = {
   chapters: topicOrder.map((topicId): LearnChapter => ({
     id: topicId,
     topicId,
@@ -104,4 +105,18 @@ export const learn: LearnCourse = {
       .filter((page) => page.topicId === topicId)
       .map((page) => ({ id: `${page.id}-guide`, title: page.title, pages: [page] })),
   })).filter((chapter) => chapter.groups.length > 0),
+}
+
+
+export const learn: LearnCourse = {
+  chapters: topicOrder.map((topicId): LearnChapter => {
+    const authored = authoredLearn.chapters.find((chapter) => chapter.topicId === topicId)
+    const fastPath = fastPathLearn.chapters.find((chapter) => chapter.topicId === topicId)
+    return {
+      id: topicId,
+      topicId,
+      title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],
+      groups: [...(authored?.groups ?? []), ...(fastPath?.groups ?? [])],
+    }
+  }).filter((chapter) => chapter.groups.length > 0),
 }
