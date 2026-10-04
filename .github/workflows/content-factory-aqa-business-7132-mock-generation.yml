@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       resume_run_id:
-        description: 'Earlier run id to resume. After the first live pilot starts, later runs must resume prior evidence so the US$8 cumulative cap cannot reset.'
+        description: 'Latest prior live run id to resume. After the first pilot starts, the spend/evidence chain must remain linear.'
         required: false
         default: ''
 
@@ -92,16 +92,29 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Require explicit resume after the first live pilot run
+      - name: Require a linear cumulative-spend resume chain
         env:
           GH_TOKEN: ${{ github.token }}
           RESUME_RUN_ID: ${{ inputs.resume_run_id }}
         run: |
           set -euo pipefail
-          prior_count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/content-factory-aqa-business-7132-mock-generation.yml/runs?event=workflow_dispatch&branch=main&per_page=20" --jq "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID})] | length")"
-          if [[ "$prior_count" -gt 0 && -z "$RESUME_RUN_ID" ]]; then
-            echo 'A previous live mock-generation run exists. Supply resume_run_id so prior spend/evidence is retained and the US$8 pilot cap cannot reset.' >&2
-            exit 1
+          latest_prior="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/content-factory-aqa-business-7132-mock-generation.yml/runs?event=workflow_dispatch&branch=main&per_page=20" --jq "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID})] | sort_by(.created_at) | reverse | .[0].id // empty")"
+          if [[ -z "$latest_prior" ]]; then
+            if [[ -n "$RESUME_RUN_ID" ]]; then
+              echo "No prior live dispatch exists, so resume_run_id=${RESUME_RUN_ID} is invalid." >&2
+              exit 1
+            fi
+            echo 'No prior live dispatch exists; this is the first pilot run.'
+          else
+            if [[ -z "$RESUME_RUN_ID" ]]; then
+              echo "Prior live run ${latest_prior} exists. Supply that exact run as resume_run_id so the US$8 pilot cap cannot reset." >&2
+              exit 1
+            fi
+            if [[ "$RESUME_RUN_ID" != "$latest_prior" ]]; then
+              echo "Resume must continue the latest prior live run ${latest_prior}; ${RESUME_RUN_ID} would fork the spend/evidence chain." >&2
+              exit 1
+            fi
+            echo "Linear resume chain confirmed from run ${latest_prior}."
           fi
 
       - name: Restore prior exact-plan evidence
@@ -111,10 +124,6 @@ jobs:
           RESUME_RUN_ID: ${{ inputs.resume_run_id }}
         run: |
           set -euo pipefail
-          if [[ "$RESUME_RUN_ID" == "$GITHUB_RUN_ID" ]]; then
-            echo 'A run cannot resume itself.' >&2
-            exit 1
-          fi
           meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RESUME_RUN_ID}")"
           workflow_name="$(jq -r '.name' <<<"$meta")"
           head_branch="$(jq -r '.head_branch' <<<"$meta")"
