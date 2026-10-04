@@ -103,7 +103,7 @@ type ExamManifest = {
     learnerAssetReady: boolean
     restrictedPilotPublicationApproved: boolean
   }
-  rights: { awardingBodySources: string; unknownSourceRights: number }
+  rights: { awardingBodySources: string; unknownSourceRights: number; rule: string }
 }
 
 type CourseTruthManifest = {
@@ -259,6 +259,10 @@ describe('AQA Psychology 7182 source-first Exam Truth', () => {
       learnerAssetReady: false,
       restrictedPilotPublicationApproved: false,
     })
-    expect(manifest.rights).toEqual({ awardingBodySources: 'REFERENCE_ONLY', unknownSourceRights: 0 })
+    expect(manifest.rights).toEqual({
+      awardingBodySources: 'REFERENCE_ONLY',
+      unknownSourceRights: 0,
+      rule: 'Only approved structured assessment facts may flow downstream. Protected AQA question, mark-scheme or explanatory prose is not a reusable generation corpus.',
+    })
   })
 })
