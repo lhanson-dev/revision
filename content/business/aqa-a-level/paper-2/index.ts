@@ -4,6 +4,7 @@ import { topics } from '../shared/topics'
 import { learn } from '../shared/learn'
 import { formulas, topicLinks } from '../shared/learning'
 import { flashcards } from '../shared/flashcards'
+import { fastPathFlashcards } from '../shared/fast-path-flashcards'
 import { questions } from '../shared/questions'
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
@@ -17,7 +18,7 @@ export const businessAqaALevel7132Paper2 = contentPackSchema.parse({
   learn,
   formulas,
   topicLinks,
-  flashcards,
+  flashcards: [...flashcards, ...fastPathFlashcards],
   questions,
   caseStudies,
   dataDrills: [...dataDrills, ...networkPractice],
