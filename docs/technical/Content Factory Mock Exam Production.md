@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; no paid mock generation has been run by this change  
-**Current implementation baseline:** approved `main` after PR #519 (`8a7e0d862b515d7431b018081e93c0b6bf79b630`)  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; first live pilot stopped fail-closed at one Paper 3 generation defect; retained-failure resume remediation implemented  
+**Current implementation baseline:** approved `main` after PR #520 (`93e2be95c1e7c3214404c3d5965e44b0f675957b`)  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -23,7 +23,7 @@ PR #517 added the pre-generation profile foundation:
 - provider-free profile validation; and
 - the provider-free `Content Factory AQA Business 7132 Mock Profile` GitHub Action.
 
-PR #519 added the deterministic paper-set planner and validator. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
+PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
 
 ## Deterministic mock-set planner
 
@@ -166,6 +166,8 @@ Spend protection is cumulative across resumes:
 - after the first live workflow has started, a later workflow dispatch must identify a prior run to resume rather than silently starting a fresh US$8 allowance; and
 - if the conservative next-call reservation would exceed the remaining pilot allowance, the run stops before that call.
 
+Generation failures retained in `generation-state.json` are part of resume evidence. On a governed resume the workflow exports only those exact slot-level deterministic failure strings as targeted `fix_these` remediation for the affected slot's first new generation attempt. This does not create or consume a semantic review round, does not change the durable source fingerprint, and does not affect unrelated accepted slots.
+
 Remediation feedback is deliberately excluded from the durable source fingerprint. It can force a fresh call for the remediation attempt, but once the corrected output is accepted a later clean resume can reuse it rather than repurchasing the same content.
 
 The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-stage pilot ceiling is the operative cap for this run.
@@ -174,9 +176,9 @@ The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-sta
 
 `.github/workflows/content-factory-aqa-business-7132-mock-generation.yml` has two modes.
 
-**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests with no provider key.
+**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests, including retained-resume-feedback regression tests, with no provider key.
 
-**Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
+**Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, restores retained generation-failure feedback for the exact affected slot, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
 
 The live evidence artifact is named from the exact reviewed `main` SHA and contains, where reached:
 
@@ -210,12 +212,14 @@ A successful live artifact must still be retained through the governed repositor
 
 ## Current execution state
 
-This implementation PR adds and provider-free validates the runner only. It does **not** run paid generation.
+The first live pilot was workflow run `37234199201` from approved `main` `93e2be95c1e7c3214404c3d5965e44b0f675957b`, using deterministic plan fingerprint `42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed`.
 
-After the runner is merged to approved `main`, the next operational step is one manual live pilot of `Content Factory AQA Business 7132 Mock Generation`. If that run stops because a bounded unit, paper or set fails assurance, the next run must resume its exact evidence rather than reset the pilot.
+It generated all four shared synthetic contexts and 40 of 41 planned question slots, then failed closed before blind-answer or semantic review because `P3-01` could not pass deterministic question validation after three attempts. The retained failure is `activity_e_total_float_after_amendment answer 1 is absent from the mark scheme`. Cumulative provider spend is **US$1.379328 across 47 calls**. No mock was published.
+
+The next live run must resume exact evidence from run `37234199201`, preserve that cumulative spend, reuse the 40 accepted question slots and four shared contexts, and send the retained `P3-01` deterministic failure as targeted first-attempt remediation. It must not reset the pilot or invent a new review round for this generation defect.
 
 ## Documentation impact
 
-Normative authority is unchanged. This implements the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
+Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
 
-Technical documentation changes because the repository now owns the bounded live generation, exact-plan gate, cumulative spend/resume controls and three-level assurance runner. `INDEX.md` already points to this technical document, so no index change is required. No learner-facing runtime or route changes are introduced.
+Technical documentation is updated because the first live pilot exposed a resume-specific implementation gap: cumulative spend and accepted outputs were retained, but the deterministic generation-failure message was not previously carried into the resumed first attempt. The correction is implementation-only, provider-free on the PR, creates no new learner route and does not alter Course Truth, Exam Truth, Foundation, Mock Profile or the deterministic paper plan. `INDEX.md` already points to this technical document, so no index change is required.

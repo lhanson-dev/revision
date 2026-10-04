@@ -16,6 +16,7 @@ on:
       - 'scripts/assurance/validate-aqa-business-7132-mock-plan.mjs'
       - 'scripts/assurance/aqa-business-7132-mock-generation.ts'
       - 'scripts/assurance/aqa-business-7132-mock-generation.test.ts'
+      - 'scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts'
       - 'scripts/assurance/aqa-business-7132-mock-set-review.ts'
       - '.github/workflows/content-factory-aqa-business-7132-mock-generation.yml'
   workflow_dispatch:
@@ -60,7 +61,7 @@ jobs:
       - name: Run provider-free mock generation software assurance
         env:
           CONTENT_FACTORY_AQA_7132_MOCK_GENERATION: '0'
-        run: npx vitest run scripts/assurance/aqa-business-7132-mock-generation.test.ts --reporter=verbose
+        run: npx vitest run scripts/assurance/aqa-business-7132-mock-generation.test.ts scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts --reporter=verbose
 
       - name: Prove pull-request assurance requires no provider key
         if: ${{ github.event_name == 'pull_request' }}
@@ -161,6 +162,7 @@ jobs:
           plan='.artifacts/content-factory-aqa-business-7132-mock-plan/mock-set-plan.json'
           plan_fingerprint="$(jq -r '.plan_fingerprint' "$plan")"
           test -n "$plan_fingerprint"
+          resume_failures='{}'
           if [[ -n "$RESUME_RUN_ID" ]]; then
             prior='.artifacts/content-factory-aqa-business-7132-mock-generation/generation-state.json'
             prior_fingerprint="$(jq -r '.plan_fingerprint' "$prior")"
@@ -168,8 +170,10 @@ jobs:
               echo "Resume evidence targets plan ${prior_fingerprint}, current approved main targets ${plan_fingerprint}. Refusing to reset or mix the pilot." >&2
               exit 1
             fi
+            resume_failures="$(jq -c '.generation_failures // {}' "$prior")"
           fi
           echo "CONTENT_FACTORY_MOCK_PLAN_FINGERPRINT=${plan_fingerprint}" >> "$GITHUB_ENV"
+          echo "CONTENT_FACTORY_MOCK_RESUME_FAILURES_JSON=${resume_failures}" >> "$GITHUB_ENV"
 
       - name: Generate, blind-answer and assure the exact mock set
         env:

@@ -225,6 +225,31 @@ function softwareFinding(checkId: string, affected: string[], finding: string, f
   return { check_id: checkId, category: 'broken_question', affected_ids: affected, finding, evidence: 'software check', contradicting_source_id: null, proposed_fix: fix, disposition: 'blocking', reason: `software-proven: ${finding}` }
 }
 
+export function retainedGenerationFailureFeedback(slotId: string, rawFailuresJson = process.env.CONTENT_FACTORY_MOCK_RESUME_FAILURES_JSON): ClassifiedFinding[] {
+  if (!rawFailuresJson?.trim()) return []
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(rawFailuresJson)
+  } catch {
+    throw new Error('mock_generation_resume_failures_invalid_json')
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('mock_generation_resume_failures_invalid_shape')
+  const failure = (parsed as Record<string, unknown>)[slotId]
+  if (typeof failure !== 'string' || !failure.trim()) return []
+  const finding = `Previous deterministic generation attempts failed: ${failure.trim()}`
+  return [{
+    check_id: 'generation_resume_failure',
+    category: 'broken_question',
+    affected_ids: [slotId],
+    finding,
+    evidence: 'retained generation-state deterministic failure',
+    contradicting_source_id: null,
+    proposed_fix: 'Repair the recorded deterministic generation failure before acceptance.',
+    disposition: 'blocking',
+    reason: finding,
+  }]
+}
+
 function near(left: number, right: number) {
   return Math.abs(left - right) <= Math.max(0.051, Math.abs(right) * 0.001)
 }
@@ -363,6 +388,7 @@ export function contextGenerationPayload(plan: MockPlan, unit: MockGenerationUni
 
 export function questionGenerationPayload(plan: MockPlan, paper: MockPlanPaper, slot: MockPlanSlot, evidence: MockEvidence, sharedContext: SharedContext | undefined, feedback: ClassifiedFinding[] = []) {
   const unit: MockGenerationUnit = { unit_id: slot.slot_id, component_id: paper.component_id, context_policy: sharedContext ? 'shared' : 'question_local', slots: [slot] }
+  const allFeedback = [...retainedGenerationFailureFeedback(slot.slot_id), ...feedback]
   return {
     plan_fingerprint: plan.plan_fingerprint,
     component_id: paper.component_id,
@@ -379,7 +405,7 @@ export function questionGenerationPayload(plan: MockPlan, paper: MockPlanPaper, 
     },
     shared_context: sharedContext ?? null,
     subject_truth: unitEvidence(unit, evidence),
-    fix_these: feedback.map((finding) => ({ check_id: finding.check_id, affected_ids: finding.affected_ids, finding: finding.finding, proposed_fix: finding.proposed_fix })),
+    fix_these: allFeedback.map((finding) => ({ check_id: finding.check_id, affected_ids: finding.affected_ids, finding: finding.finding, proposed_fix: finding.proposed_fix })),
   }
 }
 
