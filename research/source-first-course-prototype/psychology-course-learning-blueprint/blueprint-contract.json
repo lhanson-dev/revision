@@ -30,13 +30,14 @@
     "baselineLearnTreatment": "core_explanation",
     "baselinePracticeMode": "short_constructed_response",
     "wholeCourseApplicationRequirement": true,
+    "applicationVariationRule": "Use materially different contexts where breadth/transfer is educationally required; do not impose a fixed per-requirement context count.",
     "rule": "Treatments are selected from structured Course Truth plus Exam Truth; learner-asset generators may create wording/examples/items but may not remove selected obligations."
   },
   "classificationSignals": {
     "fact_term": "definitionsAndCoreConcepts is non-empty",
     "concept": "definitionsAndCoreConcepts is non-empty",
     "comparison_discrimination": "bounded comparison/distinction/type/category signals occur in the requirement's structured truth",
-    "relationship_causal": "modelsResearchAndRelationships is non-empty",
+    "relationship_causal": "bounded cause/effect/influence/association/mechanism signals occur in the requirement's structured truth",
     "process_sequence": "bounded process/stage/sequence/cycle signals occur",
     "formula_quantitative": "bounded calculation/statistics/data-quantity signals occur",
     "model_framework": "bounded model/theory/approach/framework/account/explanation signals occur",
