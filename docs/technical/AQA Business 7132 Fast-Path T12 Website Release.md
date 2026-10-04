@@ -12,8 +12,8 @@ This is a publication adapter and release-evidence change. It does not regenerat
 
 ## What is published
 
-- **Learn:** all 81 assured Foundation teaching nodes, adapted into the existing reading-first Learn page structure.
-- **Practice:** the Foundation-native guided-practice items, added to the existing Practice reveal-and-rate flow without removing the existing curated flashcards.
+- **Learn:** all 79 exact-course AQA 7132 teaching nodes projected from the 81-node reusable Business Foundation, adapted into the existing reading-first Learn page structure.
+- **Practice:** the Foundation-native guided-practice items for those exact-course nodes, added to the existing Practice reveal-and-rate flow without removing the existing curated flashcards.
 - **Exam Prep:** 245 Revision-authored AQA-style practice questions with marking guidance:
   - 231 accepted questions retained from the final T11 Action artifacts;
   - 14 original accepted 3.5 questions already committed in the repository.
