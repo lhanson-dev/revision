@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "experimental_course_truth_in_progress",
+  "status": "experimental_course_truth_candidate_coverage_complete_assurance_pending",
   "checkedDate": "2026-10-04",
   "course": {
     "awardingBody": "AQA",
@@ -17,20 +17,23 @@
   "sourceReviewBaseline": {
     "namedRequirements": 118,
     "requirementsWithSomeReusableSourceSupport": 118,
-    "coveredCandidates": 99,
-    "partial": 19,
+    "coveredCandidates": 118,
+    "partial": 0,
     "gap": 0,
-    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 19. It is diagnostic evidence, not Course Truth completion."
+    "note": "Live continuation source-review baseline after targeted addenda 05 through 22. Source review is now complete, but source coverage alone is not Course Truth assurance."
   },
   "courseTruthProgress": {
     "namedRequirements": 118,
-    "courseTruthReadyRequirements": 84,
-    "remainingRequirements": 34,
-    "courseTruthReadyPercent": 71.2,
+    "courseTruthReadyRequirements": 118,
+    "remainingRequirements": 0,
+    "courseTruthReadyPercent": 100.0,
+    "candidateCoverageComplete": true,
     "materialSubjectTruthGapsKnown": 0,
     "materialRightsBlockersKnown": 0,
     "learnerAssetReady": false,
-    "courseTruthComplete": false
+    "wholeCourseIndependentAssurancePassed": false,
+    "courseTruthComplete": false,
+    "completionRule": "Course Truth is complete only after all 118 requirements are course_truth_ready and the run contract's whole-course independent assurance has passed."
   },
   "topicShards": [
     {"topicNumber":1,"topic":"Social influence","path":"topic-01-social-influence.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
@@ -39,6 +42,7 @@
     {"topicNumber":4,"topic":"Clinical Psychology and Mental Health","path":"topic-04-clinical-psychology-and-mental-health.json","namedRequirements":5,"courseTruthReady":5,"status":"topic_complete_candidate"},
     {"topicNumber":5,"topic":"Approaches in Psychology","path":"topic-05-approaches-in-psychology.json","namedRequirements":7,"courseTruthReady":7,"status":"topic_complete_candidate"},
     {"topicNumber":6,"topic":"Biopsychology","path":"topic-06-biopsychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":7,"topic":"Research methods","path":"topic-07-research-methods.json","namedRequirements":34,"courseTruthReady":34,"status":"topic_complete_candidate"},
     {"topicNumber":8,"topic":"Issues and Debates in Psychology","path":"topic-08-issues-and-debates-in-psychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
     {"topicNumber":9,"topic":"Relationships","path":"topic-09-relationships.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
     {"topicNumber":10,"topic":"Gender","path":"topic-10-gender.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
@@ -53,13 +57,14 @@
   "economics": {
     "paidSourceLicenceSpendGbp": 0,
     "paidProviderSpendGbpRecordedForContinuationClosures": 0,
-    "activeWorkingTime": "not yet instrumented reliably enough to report as a numeric value",
-    "wallClockMeasurement": "continuation began 2026-10-02; completion timestamp pending"
+    "activeWorkingTime": "not instrumented reliably enough to report as a numeric value",
+    "wallClockMeasurement": "continuation began 2026-10-02; 118/118 Course Truth candidate coverage reached 2026-10-04; whole-course assurance completion pending"
   },
   "nextWork": {
-    "priority": "Complete Research Methods in three bounded sub-shards: design/data collection; scientific process/reporting; data/statistics.",
-    "remainingPartialSourceReviewCases": 19,
-    "rule": "Source-supported does not equal Course Truth ready. Each requirement must meet the working readiness contract in README.md."
+    "priority": "Run whole-course Course Truth structural, provenance and independent educational assurance across the exact 118-requirement candidate, then remediate any findings before starting Exam Truth.",
+    "remainingPartialSourceReviewCases": 0,
+    "remainingCourseTruthCandidateRequirements": 0,
+    "rule": "Do not mark courseTruthComplete or begin dependent learner-asset work until the run contract's independent Course Truth assurance has passed."
   },
   "publicationBoundary": "Experimental only. No learner-facing publication, restricted-pilot approval or production foundation approval is implied by this manifest."
 }
