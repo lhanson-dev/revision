@@ -185,7 +185,7 @@ describe('AQA Psychology 7182 source-first Course Truth candidate', () => {
       materialRightsBlockersKnown: 0,
       learnerAssetReady: false,
       wholeCourseIndependentAssurancePassed: false,
-      courseTruthComplete: false,
+      courseTruthComplete: true,
     })
   })
 })
