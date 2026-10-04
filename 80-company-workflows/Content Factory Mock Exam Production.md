@@ -62,11 +62,12 @@ The plan must prove, as software-checkable data wherever possible:
 - every required paper is present exactly once;
 - duration, attempted marks, compulsory/choice structure and section totals are valid;
 - optional questions are represented without incorrectly inflating the attempted raw-mark total;
+- every permitted response path through optional questions independently reconciles to the required attempted marks and cannot rely on one specific choice to satisfy a paper-level invariant;
 - the complete set satisfies the qualification's quantitative requirement;
 - planned AO demand is compatible with the published assessment model;
 - coverage is deliberately distributed across the course rather than driven by easiest-to-generate topics;
 - synoptic questions name only targets genuinely required by the task;
-- repetition limits exist within a paper and across the set;
+- near-duplicate questions are prohibited while repeated knowledge targets are minimised rather than mechanically banned when deliberate linkage, synoptic demand or quantitative progression makes repetition valid;
 - contexts/stimuli are allocated coherently at paper or question-set level rather than independently per subquestion; and
 - no plan relies on predicting future topic likelihood or undocumented examiner preferences.
 
@@ -128,11 +129,11 @@ Software must own every mechanically provable check, including:
 
 - paper/section/question mark reconciliation;
 - duration and component identity;
-- choice/compulsory accounting;
+- choice/compulsory accounting across every permitted response path;
 - quantitative calculation recomputation;
 - AO arithmetic;
 - required-target evidence links;
-- duplicate IDs and configured repetition limits;
+- duplicate IDs, near-duplicate detection and configured repetition policy;
 - exact dependency fingerprints; and
 - source/provenance completeness.
 
