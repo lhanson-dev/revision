@@ -17,16 +17,16 @@
   "sourceReviewBaseline": {
     "namedRequirements": 118,
     "requirementsWithSomeReusableSourceSupport": 118,
-    "coveredCandidates": 95,
-    "partial": 23,
+    "coveredCandidates": 99,
+    "partial": 19,
     "gap": 0,
-    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 18. It is diagnostic evidence, not Course Truth completion."
+    "note": "This is the live continuation source-review baseline after targeted addenda 05 through 19. It is diagnostic evidence, not Course Truth completion."
   },
   "courseTruthProgress": {
     "namedRequirements": 118,
-    "courseTruthReadyRequirements": 80,
-    "remainingRequirements": 38,
-    "courseTruthReadyPercent": 67.8,
+    "courseTruthReadyRequirements": 84,
+    "remainingRequirements": 34,
+    "courseTruthReadyPercent": 71.2,
     "materialSubjectTruthGapsKnown": 0,
     "materialRightsBlockersKnown": 0,
     "learnerAssetReady": false,
@@ -40,6 +40,7 @@
     {"topicNumber":5,"topic":"Approaches in Psychology","path":"topic-05-approaches-in-psychology.json","namedRequirements":7,"courseTruthReady":7,"status":"topic_complete_candidate"},
     {"topicNumber":6,"topic":"Biopsychology","path":"topic-06-biopsychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
     {"topicNumber":8,"topic":"Issues and Debates in Psychology","path":"topic-08-issues-and-debates-in-psychology.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
+    {"topicNumber":9,"topic":"Relationships","path":"topic-09-relationships.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
     {"topicNumber":10,"topic":"Gender","path":"topic-10-gender.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
     {"topicNumber":11,"topic":"Cognition and Development","path":"topic-11-cognition-and-development.json","namedRequirements":4,"courseTruthReady":4,"status":"topic_complete_candidate"},
     {"topicNumber":12,"topic":"Schizophrenia","path":"topic-12-schizophrenia.json","namedRequirements":6,"courseTruthReady":6,"status":"topic_complete_candidate"},
@@ -56,8 +57,8 @@
     "wallClockMeasurement": "continuation began 2026-10-02; completion timestamp pending"
   },
   "nextWork": {
-    "priority": "Complete Relationships, then Research Methods in smaller bounded sub-shards; reuse predecessor evidence and close only depth-specific partials.",
-    "remainingPartialSourceReviewCases": 23,
+    "priority": "Complete Research Methods in three bounded sub-shards: design/data collection; scientific process/reporting; data/statistics.",
+    "remainingPartialSourceReviewCases": 19,
     "rule": "Source-supported does not equal Course Truth ready. Each requirement must meet the working readiness contract in README.md."
   },
   "publicationBoundary": "Experimental only. No learner-facing publication, restricted-pilot approval or production foundation approval is implied by this manifest."
