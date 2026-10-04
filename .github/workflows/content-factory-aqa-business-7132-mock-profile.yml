@@ -12,6 +12,7 @@ on:
       - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
       - 'scripts/assurance/validate-aqa-business-7132-mock-profile.mjs'
+      - 'scripts/assurance/plan-aqa-business-7132-mock-set.mjs'
       - '.github/workflows/content-factory-aqa-business-7132-mock-profile.yml'
   workflow_dispatch:
 
@@ -24,7 +25,7 @@ concurrency:
 
 jobs:
   validate-mock-profile:
-    name: Validate AQA 7132 Mock Profile
+    name: Validate AQA 7132 Mock Profile + Plan
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -46,7 +47,18 @@ jobs:
       - name: Validate current Course Truth, Exam Truth and Mock Profile
         run: node scripts/assurance/validate-aqa-business-7132-mock-profile.mjs
 
+      - name: Build and validate deterministic three-paper mock plan
+        run: node scripts/assurance/plan-aqa-business-7132-mock-set.mjs
+
+      - name: Retain deterministic plan evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: aqa-7132-deterministic-mock-plan-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-mock-plan/mock-set-plan.json
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Prove no provider key is required by this stage
         run: |
           test -z "${OPENAI_API_KEY:-}"
-          echo "Mock Profile validation is deterministic and provider-free."
+          echo "Mock Profile and deterministic mock-set planning are provider-free."
