@@ -93,7 +93,7 @@ export type RequirementLearningUnit = {
   misconceptionIds: string[]
   applicationContextRequirements: {
     required: true
-    minimumMateriallyDifferentContexts: 2
+    requiresVariationWhereBreadthNeeded: true
     mayReuseOnlyLearnScenario: false
   }
   quantitativeVisualWorkedExampleRequirements: {
@@ -162,6 +162,7 @@ export type PsychologyCourseLearningBlueprint = {
 }
 
 const COMPARISON = /\b(compare|comparison|contrast|distinguish|distinction|difference|differences|different|types|categories|classification|versus|vs\.?|similarities)\b/i
+const RELATIONSHIP = /\b(cause|causal|causes|effect|effects|affect|affects|influence|influences|relationship|relationships|associated|association|predict|predicts|mechanism|mechanisms|leads? to|results? in)\b/i
 const PROCESS = /\b(process|processes|sequence|sequences|stage|stages|step|steps|cycle|cycles)\b/i
 const QUANTITATIVE = /\b(calculate|calculation|calculations|mean|median|mode|range|standard deviation|correlation coefficient|scattergram|probability|significance|significant|statistic|statistics|statistical|frequency|frequencies|percentage|percentages|ratio|ratios|distribution|graph|graphs|table|tables|quantitative|ordinal|nominal|interval data)\b/i
 const MODEL = /\b(model|models|theory|theories|approach|approaches|framework|frameworks|account|accounts|explanation|explanations)\b/i
@@ -195,7 +196,7 @@ function classifyRequirement(topic: CourseTruthTopic, requirement: CourseTruthRe
 
   if (strings(truth.definitionsAndCoreConcepts).length > 0) classifications.push('fact_term', 'concept')
   if (COMPARISON.test(text)) classifications.push('comparison_discrimination')
-  if (strings(truth.modelsResearchAndRelationships).length > 0) classifications.push('relationship_causal')
+  if (RELATIONSHIP.test(text)) classifications.push('relationship_causal')
   if (PROCESS.test(text)) classifications.push('process_sequence')
   if (QUANTITATIVE.test(text)) classifications.push('formula_quantitative')
   if (MODEL.test(text)) classifications.push('model_framework')
@@ -211,12 +212,8 @@ function classifyRequirement(topic: CourseTruthTopic, requirement: CourseTruthRe
 function paperPlacement(examTruth: ExamTruth, topicNumber: number) {
   for (const paper of examTruth.assessmentModel.papers) {
     for (const section of paper.sections) {
-      if (section.scope.type === 'topic' && section.scope.topicNumber === topicNumber) {
-        return { paper, section, scope: section.scope }
-      }
-      if (section.scope.type === 'option_group' && section.scope.topicNumbers.includes(topicNumber)) {
-        return { paper, section, scope: section.scope }
-      }
+      if (section.scope.type === 'topic' && section.scope.topicNumber === topicNumber) return { paper, section, scope: section.scope }
+      if (section.scope.type === 'option_group' && section.scope.topicNumbers.includes(topicNumber)) return { paper, section, scope: section.scope }
     }
   }
   throw new Error(`No Exam Truth placement for topic ${topicNumber}`)
@@ -276,7 +273,6 @@ function deriveTreatments(classifications: LearningClassification[], topicNumber
     learn.push('connection_synoptic_link')
     practice.push('mixed_topic_retrieval', 'reasoning_chain_construction')
   }
-
   if (topicNumber === 6) learn.push('purposeful_visual')
 
   return { learn: unique(learn), practice: unique(practice) }
@@ -344,7 +340,7 @@ function deriveRequirementUnit(topic: CourseTruthTopic, topicFile: string, requi
     misconceptionIds: strings(requirement.subjectTruth.misconceptionsAndBoundaries).map((_, index) => `${requirement.requirementId}-M${index + 1}`),
     applicationContextRequirements: {
       required: true,
-      minimumMateriallyDifferentContexts: 2,
+      requiresVariationWhereBreadthNeeded: true,
       mayReuseOnlyLearnScenario: false,
     },
     quantitativeVisualWorkedExampleRequirements: {
