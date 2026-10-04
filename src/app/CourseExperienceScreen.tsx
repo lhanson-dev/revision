@@ -9,6 +9,7 @@ import {
   type CourseExamAssessment,
 } from '../services/planning/course-exam-date-service'
 import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
+import { AqaBusinessQuestionBank } from './AqaBusinessQuestionBank'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
@@ -360,6 +361,7 @@ export function CourseExperienceScreen({
 
         {section === 'exam-prep' && <div className="paper-section-content">
           <FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />
+          {course.examBoardName === 'AQA' && course.specificationCode === '7132' && <AqaBusinessQuestionBank />}
           <section className="home-section" aria-labelledby="choose-paper-title">
             <div className="section-heading"><div><p className="eyebrow">Paper-specific preparation</p><h2 id="choose-paper-title">Choose a paper</h2></div></div>
             <div className="subject-list">
