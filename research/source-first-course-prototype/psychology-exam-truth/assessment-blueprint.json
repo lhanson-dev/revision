@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_exam_truth_complete",
+  "checkedDate": "2026-10-04",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027",
+    "courseTruthRef": "research/source-first-course-prototype/psychology-course-truth/manifest.json"
+  },
+  "authority": {
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md",
+    "componentPlacement": "10-product-governance/Course Content and Assessment Component Placement.md",
+    "sourceRights": "40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md"
+  },
+  "sourceRegister": [
+    {
+      "id": "AQA-7182-OVERVIEW-2026",
+      "issuer": "AQA",
+      "role": "qualification identity and revised-specification currency",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-SPEC-GLANCE-2026",
+      "issuer": "AQA",
+      "role": "paper structure, section marks and component scope",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/specification-at-a-glance",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-SCHEME-2026",
+      "issuer": "AQA",
+      "role": "assessment objectives, overall assessment constraints and scaling",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/scheme-of-assessment",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-MATHS-2026",
+      "issuer": "AQA",
+      "role": "mathematical assessment requirements",
+      "url": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/mathematical-requirements-and-exemplifications",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-COMMAND-WORDS-2026",
+      "issuer": "AQA",
+      "role": "Psychology command-word vocabulary",
+      "url": "https://www.aqa.org.uk/resources/psychology/as-and-a-level/psychology/teach/command-words",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-ASSESSMENT-GUIDE",
+      "issuer": "AQA",
+      "role": "question-family and tariff calibration",
+      "url": "https://www.aqa.org.uk/resources/psychology/as-and-a-level/psychology/teach/teaching-guide-preparing-for-as-and-a-level-psychology-assessment-podcast",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "calibrationOnly": true,
+      "checkedDate": "2026-10-04"
+    },
+    {
+      "id": "AQA-7182-CHANGE-NOTICE-2024",
+      "issuer": "AQA",
+      "role": "currency bridge for pre-2025 assessment calibration",
+      "url": "https://www.aqa.org.uk/news/as-and-a-level-psychology-changes-to-specification-for-first-teaching-in-september-2025",
+      "useClass": "REFERENCE_ONLY",
+      "aiSourceTextPermitted": false,
+      "structuredFactsPermitted": true,
+      "checkedDate": "2026-10-04",
+      "fact": "AQA states that the 2025 subject-content revision did not change assessment, question types or paper structure."
+    }
+  ],
+  "assessmentModel": {
+    "linearQualification": true,
+    "allPapersSameSeries": true,
+    "paperCount": 3,
+    "rawMarksTotal": 288,
+    "scalingFactorByPaper": 1,
+    "paperScopeClassification": "genuine_component_specific_content",
+    "placementImplication": "Paper scope is academically real. Keep Course Truth nodes single-source; preserve paper identity for assessment and downstream Blueprint decisions rather than duplicating identical knowledge nodes.",
+    "papers": [
+      {
+        "id": "7182/1",
+        "name": "Introductory Topics in Psychology",
+        "durationMinutes": 120,
+        "rawMarks": 96,
+        "weightingPercentApprox": 33.3,
+        "primaryTopicNumbers": [1, 2, 3, 4],
+        "sections": [
+          {"id": "A", "marks": 24, "scope": {"type": "topic", "topicNumber": 1, "topic": "Social influence"}},
+          {"id": "B", "marks": 24, "scope": {"type": "topic", "topicNumber": 2, "topic": "Memory"}},
+          {"id": "C", "marks": 24, "scope": {"type": "topic", "topicNumber": 3, "topic": "Attachment"}},
+          {"id": "D", "marks": 24, "scope": {"type": "topic", "topicNumber": 4, "topic": "Clinical Psychology and Mental Health"}}
+        ]
+      },
+      {
+        "id": "7182/2",
+        "name": "Psychology in Context",
+        "durationMinutes": 120,
+        "rawMarks": 96,
+        "weightingPercentApprox": 33.3,
+        "primaryTopicNumbers": [5, 6, 7],
+        "sections": [
+          {"id": "A", "marks": 24, "scope": {"type": "topic", "topicNumber": 5, "topic": "Approaches in Psychology"}},
+          {"id": "B", "marks": 24, "scope": {"type": "topic", "topicNumber": 6, "topic": "Biopsychology"}},
+          {"id": "C", "marks": 48, "scope": {"type": "topic", "topicNumber": 7, "topic": "Research methods"}}
+        ]
+      },
+      {
+        "id": "7182/3",
+        "name": "Issues and Options in Psychology",
+        "durationMinutes": 120,
+        "rawMarks": 96,
+        "weightingPercentApprox": 33.3,
+        "primaryTopicNumbers": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+        "attemptRule": "Section A plus exactly one topic from each of Sections B, C and D.",
+        "sections": [
+          {"id": "A", "marks": 24, "scope": {"type": "topic", "topicNumber": 8, "topic": "Issues and Debates in Psychology"}},
+          {"id": "B", "marks": 24, "scope": {"type": "option_group", "choose": 1, "topicNumbers": [9, 10, 11], "topics": ["Relationships", "Gender", "Cognition and Development"]}},
+          {"id": "C", "marks": 24, "scope": {"type": "option_group", "choose": 1, "topicNumbers": [12, 13, 14], "topics": ["Schizophrenia", "Eating Behaviour", "Stress"]}},
+          {"id": "D", "marks": 24, "scope": {"type": "option_group", "choose": 1, "topicNumbers": [15, 16, 17], "topics": ["Aggression", "Forensic Psychology", "Addiction"]}}
+        ]
+      }
+    ]
+  },
+  "assessmentObjectives": {
+    "AO1": {
+      "summary": "knowledge and understanding of scientific ideas, processes, techniques and procedures",
+      "overallPercentRange": [30, 33],
+      "paperContributionPercentOfQualification": {"7182/1": [11, 14], "7182/2": [7, 10], "7182/3": [9, 12]}
+    },
+    "AO2": {
+      "summary": "application of knowledge and understanding in theoretical, practical, qualitative-data and quantitative-data contexts",
+      "overallPercentRange": [30, 33],
+      "paperContributionPercentOfQualification": {"7182/1": [6, 9], "7182/2": [16, 19], "7182/3": [5, 8]}
+    },
+    "AO3": {
+      "summary": "analysis, interpretation and evaluation, including judgement, conclusions and refinement of practical design/procedures",
+      "overallPercentRange": [36, 38],
+      "paperContributionPercentOfQualification": {"7182/1": [12, 14], "7182/2": [7, 9], "7182/3": [15, 17]}
+    }
+  },
+  "crossPaperConstraints": {
+    "researchMethodsOverallPercentRange": [25, 30],
+    "researchMethodsAssessment": {
+      "dedicatedPaper2Section": {"paper": "7182/2", "section": "C", "marks": 48},
+      "alsoAssessableIn": ["7182/1", "7182/2", "7182/3"],
+      "styles": ["scenario-based", "embedded-within-topic", "practical-design", "data-handling", "method-evaluation"]
+    },
+    "mathematicalSkillsOverallPercentMinimum": 10,
+    "mathematicalSkillsAlsoAssessableIn": ["7182/1", "7182/2", "7182/3"],
+    "synopticExpectation": "Assessment can require students to draw together knowledge and skills across the course; Paper 3 Issues and Debates supports cross-topic synthesis."
+  },
+  "questionFamilies": [
+    {
+      "id": "mcq",
+      "name": "Multiple choice",
+      "primaryDemand": ["AO1", "AO2"],
+      "responseShape": "select one valid response from supplied alternatives",
+      "tariffRule": "variable low tariff; do not hard-code a future-paper count from historical papers",
+      "generationRule": "Distractors must test meaningful psychological distinctions, not wording tricks."
+    },
+    {
+      "id": "short_answer",
+      "name": "Short answer",
+      "primaryDemand": ["AO1", "AO2", "AO3"],
+      "responseShape": "concise selected knowledge, explanation, application or evaluation",
+      "tariffRule": "variable; fewer marks than maximum extended writing",
+      "generationRule": "The stem must make the required scope and response demand clear enough for a fair Revision marking pack."
+    },
+    {
+      "id": "scenario_application",
+      "name": "Stem or scenario application",
+      "primaryDemand": ["AO2"],
+      "responseShape": "apply relevant psychological knowledge to supplied cues; may be mixed with AO1/AO3",
+      "tariffRule": "variable",
+      "generationRule": "The scenario must contain usable but non-leading cues and require selection/application rather than quotation."
+    },
+    {
+      "id": "extended_writing",
+      "name": "Extended writing",
+      "primaryDemand": ["AO1", "AO2", "AO3"],
+      "responseShape": "planned, coherent and developed reasoning responsive to the exact command",
+      "tariffCalibrationMarks": [6, 8, 16],
+      "maximumMarks": 16,
+      "maximumTariffAoRule": {"AO1Maximum": 6, "remainingMarksAcross": ["AO2", "AO3"], "remainingMarks": 10},
+      "futurePaperInvariant": false,
+      "generationRule": "Do not require a fixed number of 16-mark questions. Use current section totals and AO constraints, then calibrate the mix without copying historical questions."
+    },
+    {
+      "id": "research_methods_practical",
+      "name": "Research methods and practical design",
+      "primaryDemand": ["AO1", "AO2", "AO3"],
+      "responseShape": "method selection, design/refinement, ethics, reliability/validity, practical reasoning or interpretation",
+      "tariffRule": "variable; can be standalone or embedded in topic/scenario questions",
+      "generationRule": "Require decisions to be justified against the supplied study context where application is intended."
+    },
+    {
+      "id": "data_math",
+      "name": "Data and mathematical handling",
+      "primaryDemand": ["AO2", "AO3"],
+      "responseShape": "calculate, select, present, interpret or evaluate quantitative/qualitative evidence",
+      "tariffRule": "variable and may be embedded within research-method or topic questions",
+      "generationRule": "All numerical data must be internally consistent and independently recomputable."
+    }
+  ],
+  "commandDemandModel": {
+    "source": "AQA-7182-COMMAND-WORDS-2026",
+    "commands": {
+      "selection_recall": ["choose", "give", "identify", "label", "name", "select", "state", "which is", "what is meant by", "write"],
+      "description_outline": ["describe", "outline"],
+      "explanation_application": ["explain", "explain how", "explain why", "suggest"],
+      "comparison": ["compare", "distinguish"],
+      "analysis_judgement": ["analyse", "comment", "consider", "discuss", "evaluate", "justify"],
+      "practical_quantitative": ["calculate", "complete", "design", "draw"]
+    },
+    "rule": "Question authors must map each command to the intended AO demand and response evidence; command words are not interchangeable decoration."
+  },
+  "extendedResponse": {
+    "requiredAcrossAlevelAssessment": true,
+    "qualityExpectation": "sustained, coherent, relevant and substantiated reasoning with logical structure where the task requires extended response",
+    "fixedMaximumEssayCountPerPaper": false,
+    "maximumTariffMarks": 16
+  },
+  "revisionOwnedAssessmentRules": [
+    "Official AQA sources remain REFERENCE_ONLY; downstream generation receives structured alignment facts, not copied protected question or mark-scheme prose.",
+    "All Revision questions, contexts, datasets, model answers, rubrics and mocks must be independently authored and labelled as Revision-owned AQA-style/aligned practice rather than official AQA material.",
+    "Historical or specimen question patterns are calibration evidence, not future-paper invariants unless the current specification explicitly states the rule.",
+    "A complete simulated paper must reconcile to 96 attempted marks and 120 minutes, with the exact section and option structure for that paper.",
+    "A complete three-paper simulation set must respect current AO weighting ranges and whole-course research-method and mathematical constraints; no single historical paper should be cloned.",
+    "Paper 3 option paths must be valid independently: Section A plus one topic from each option group.",
+    "Research-method and mathematical demands may appear outside the dedicated Paper 2 Research Methods section and should be represented across preparation assets.",
+    "Marking guidance must be Revision-authored from approved AO/assessment facts, the Revision-owned question and permitted Course Truth; protected AQA mark-scheme wording must not be copied."
+  ],
+  "completion": {
+    "courseTruthComplete": true,
+    "examTruthComplete": true,
+    "deterministicAssuranceRequired": true,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "learnerAssetReady": false,
+    "restrictedPilotPublicationApproved": false,
+    "nextStep": "Derive the Psychology Course Learning Blueprint from completed Course Truth plus this Exam Truth before learner-asset production."
+  }
+}
