@@ -5,6 +5,8 @@
 
 ## Purpose
 
+> **Fast-Path release note (4 October 2026):** this document predates the Founder-approved Fast-Path Process (ADR-0029). For courses released through that process, its T12 blocking rules and the Content Accuracy Assurance Gate conditional-pass route control learner publication. Qualified-human subject review may remain pending for a restricted pilot when there are no blocking, escalated or failed teaching items and product claims remain within the governed confidence limits.
+
 Define the Foundation-native Learn/Practice production and assurance boundary after a Foundation reaches the explicitly permitted pre-production state.
 
 This runtime is pre-production only. It creates Revision-owned Learn and Practice material from an exact Foundation, retains deterministic planning and provider provenance, independently challenges generated content in fresh contexts and keeps learner publication blocked until all existing release gates are satisfied.
@@ -23,7 +25,7 @@ Production requires:
 
 The runtime fails closed when supplied artifacts do not match the exact Candidate/job fingerprints. Awarding-body source prose is not supplied to downstream generation workers.
 
-An AI-assured Foundation may be used only for the explicitly governed internal derivation/testing path. Qualified-human `foundation_approved` status remains mandatory before learner publication.
+For the legacy Foundation-native pre-production runtime described here, qualified-human `foundation_approved` was the publication boundary. Founder-approved Fast-Path courses use the later Fast-Path T12 blocking and conditional-release rules instead; this legacy sentence must not be used to reintroduce the superseded absolute gate.
 
 ## Versioned learning planning
 
