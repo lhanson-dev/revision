@@ -36,7 +36,7 @@ All papers can assess the full course. The qualification is linear and all paper
 
 There is an important AO unit trap: the component values in Exam Truth such as AO1 `7132/1: 9–11` are **qualification percentage points contributed by that paper**, not 9–11% of the 100-mark paper. `MOCK_PROFILE.json` records that unit explicitly so the paper planner must convert the published ranges into compatible component mark targets rather than silently under-allocating AO demand.
 
-Paper 1 also has an important mark-accounting distinction: the paper contains four 25-mark essay options (100 printed optional marks) but the candidate attempts only two of them (50 marks). Whole-paper validation therefore uses **attempted raw marks**, not a naive sum of every printed question tariff.
+Paper 1 also has an important mark-accounting distinction: the paper contains four 25-mark essay options (100 printed optional marks) but the candidate attempts only two of them (50 marks). Whole-paper validation therefore uses **attempted raw marks**, not a naive sum of every printed question tariff. Because the learner chooses one essay in Section C and one in Section D, the planner must also validate every permitted choice path independently rather than relying on a favourable combination of optional questions to make the paper structurally valid.
 
 ## Rights boundary
 
@@ -71,7 +71,9 @@ The plan will allocate:
 - repetition constraints; and
 - cross-paper breadth.
 
-Coverage is based on **what the question requires**, never a topic merely mentioned in stimulus.
+Coverage is based on **what the question requires**, never a topic merely mentioned in stimulus. Near-duplicate questions are prohibited, but a named target may be reused deliberately where linked questions, synoptic demand or quantitative progression make that pedagogically and assessment-wise valid.
+
+For any paper with optional questions, software must enumerate every permitted response path and prove each path independently reconciles to the paper's attempted marks and applicable invariant assessment constraints.
 
 ### 2. Generation batches
 
@@ -108,7 +110,7 @@ The whole-paper checklist must cover:
 - assessment-model fidelity;
 - question/mark-scheme validity;
 - factual and calculation accuracy;
-- paper totals and choice accounting;
+- paper totals and every optional response path;
 - timing realism;
 - coverage and synoptic validity;
 - difficulty progression;
