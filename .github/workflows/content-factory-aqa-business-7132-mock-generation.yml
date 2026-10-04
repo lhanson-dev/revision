@@ -1,0 +1,190 @@
+name: Content Factory AQA Business 7132 Mock Generation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '80-company-workflows/Content Factory Mock Exam Production.md'
+      - 'docs/technical/Content Factory Mock Exam Production.md'
+      - 'content-factory/mock-exams/aqa-7132/**'
+      - 'research/aqa-business-7132/2027/**'
+      - 'research/business-subject-foundation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
+      - 'scripts/content-factory/plan-aqa-business-7132-mock-set.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
+      - 'scripts/assurance/validate-aqa-business-7132-mock-profile.mjs'
+      - 'scripts/assurance/validate-aqa-business-7132-mock-plan.mjs'
+      - 'scripts/assurance/aqa-business-7132-mock-generation.ts'
+      - 'scripts/assurance/aqa-business-7132-mock-generation.test.ts'
+      - 'scripts/assurance/aqa-business-7132-mock-set-review.ts'
+      - '.github/workflows/content-factory-aqa-business-7132-mock-generation.yml'
+  workflow_dispatch:
+    inputs:
+      resume_run_id:
+        description: 'Latest prior evidence-bearing live run id to resume. The spend/evidence chain must remain linear.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-mock-generation
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Validate bounded mock generation runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact ref
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Rebuild and validate exact deterministic mock plan
+        run: node scripts/assurance/validate-aqa-business-7132-mock-plan.mjs
+
+      - name: Run provider-free mock generation software assurance
+        env:
+          CONTENT_FACTORY_AQA_7132_MOCK_GENERATION: '0'
+        run: npx vitest run scripts/assurance/aqa-business-7132-mock-generation.test.ts --reporter=verbose
+
+      - name: Prove pull-request assurance requires no provider key
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          test -z "${OPENAI_API_KEY:-}"
+          echo 'PR assurance is deterministic and provider-free.'
+
+  live-generate:
+    name: Generate and assure bounded three-paper mock set
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact approved main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Require a linear cumulative-spend resume chain
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          set -euo pipefail
+          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/content-factory-aqa-business-7132-mock-generation.yml/runs?event=workflow_dispatch&branch=main&per_page=20")"
+          mapfile -t prior_runs < <(jq -r "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID})] | sort_by(.created_at) | reverse | .[].id" <<<"$runs")
+          latest_prior=''
+          for run_id in "${prior_runs[@]}"; do
+            artifact_count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts" --jq '[.artifacts[] | select(.name | startswith("content-factory-aqa-business-7132-mock-generation-"))] | length')"
+            if [[ "$artifact_count" -gt 0 ]]; then
+              latest_prior="$run_id"
+              break
+            fi
+          done
+          if [[ -z "$latest_prior" ]]; then
+            if [[ -n "$RESUME_RUN_ID" ]]; then
+              echo "No prior evidence-bearing live run exists, so resume_run_id=${RESUME_RUN_ID} is invalid." >&2
+              exit 1
+            fi
+            echo 'No prior generation evidence exists; this is the first spend-bearing pilot run.'
+          else
+            if [[ -z "$RESUME_RUN_ID" ]]; then
+              echo "Prior evidence-bearing run ${latest_prior} exists. Supply that exact run as resume_run_id so the US$8 pilot cap cannot reset." >&2
+              exit 1
+            fi
+            if [[ "$RESUME_RUN_ID" != "$latest_prior" ]]; then
+              echo "Resume must continue latest evidence-bearing run ${latest_prior}; ${RESUME_RUN_ID} would fork the spend/evidence chain." >&2
+              exit 1
+            fi
+            echo "Linear resume chain confirmed from evidence-bearing run ${latest_prior}."
+          fi
+
+      - name: Restore prior exact-plan evidence
+        if: ${{ inputs.resume_run_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RESUME_RUN_ID}")"
+          workflow_name="$(jq -r '.name' <<<"$meta")"
+          head_branch="$(jq -r '.head_branch' <<<"$meta")"
+          head_sha="$(jq -r '.head_sha' <<<"$meta")"
+          if [[ "$workflow_name" != 'Content Factory AQA Business 7132 Mock Generation' ]]; then
+            echo "Resume run ${RESUME_RUN_ID} is from unexpected workflow: ${workflow_name}" >&2
+            exit 1
+          fi
+          if [[ "$head_branch" != 'main' ]]; then
+            echo "Resume run ${RESUME_RUN_ID} was not run from main: ${head_branch}" >&2
+            exit 1
+          fi
+          artifact="content-factory-aqa-business-7132-mock-generation-${head_sha}"
+          target='.artifacts/content-factory-aqa-business-7132-mock-generation'
+          mkdir -p "$target"
+          gh run download "$RESUME_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact" --dir "$target"
+          test -f "$target/generation-state.json"
+          echo "Restored ${artifact} from run ${RESUME_RUN_ID}."
+
+      - name: Lock live run to the exact validated plan fingerprint
+        env:
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          set -euo pipefail
+          node scripts/assurance/validate-aqa-business-7132-mock-plan.mjs
+          plan='.artifacts/content-factory-aqa-business-7132-mock-plan/mock-set-plan.json'
+          plan_fingerprint="$(jq -r '.plan_fingerprint' "$plan")"
+          test -n "$plan_fingerprint"
+          if [[ -n "$RESUME_RUN_ID" ]]; then
+            prior='.artifacts/content-factory-aqa-business-7132-mock-generation/generation-state.json'
+            prior_fingerprint="$(jq -r '.plan_fingerprint' "$prior")"
+            if [[ "$prior_fingerprint" != "$plan_fingerprint" ]]; then
+              echo "Resume evidence targets plan ${prior_fingerprint}, current approved main targets ${plan_fingerprint}. Refusing to reset or mix the pilot." >&2
+              exit 1
+            fi
+          fi
+          echo "CONTENT_FACTORY_MOCK_PLAN_FINGERPRINT=${plan_fingerprint}" >> "$GITHUB_ENV"
+
+      - name: Generate, blind-answer and assure the exact mock set
+        env:
+          CONTENT_FACTORY_AQA_7132_MOCK_GENERATION: '1'
+          CONTENT_FACTORY_MOCK_REVIEWED_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_MAX_SPEND_USD: '8'
+          CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx vitest run scripts/assurance/aqa-business-7132-mock-generation.test.ts --reporter=verbose
+
+      - name: Upload mock generation and assurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-aqa-business-7132-mock-generation-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-mock-generation/
+          if-no-files-found: warn
+          retention-days: 30
