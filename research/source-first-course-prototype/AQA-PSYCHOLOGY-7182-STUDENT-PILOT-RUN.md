@@ -55,6 +55,29 @@ Current retained Course Truth topic state:
 
 No learner-facing assets, catalogue entries or production publication state are created by this progress. Paid source/licence spend remains £0 and no paid provider spend is recorded for the continuation closures so far. Active working time is not yet reliable enough to publish as a numeric measure; wall-clock completion remains pending.
 
+## Continuation checkpoint — 4 October 2026
+
+The Course Truth stage is now complete.
+
+The dated 2 October checkpoint above remains historical run evidence. Subsequent source closure, consolidation and assurance work has moved the live state to:
+
+- exact named requirements: **118**;
+- reusable source support: **118/118**;
+- live source-review baseline: **118 covered / 0 partial / 0 gaps**;
+- Course Truth records marked `course_truth_ready`: **118/118**;
+- named topic shards reconciled: **17/17**;
+- Research Methods: **34/34**;
+- known material subject-truth gaps: **0**;
+- known material rights blockers: **0**;
+- paid source/licence spend: **£0**; and
+- paid provider spend recorded for the continuation source closures: **£0**.
+
+Two material provenance-record defects found during internal challenge were remediated before completion: a stale ShareAlike licence version in Research Methods and five vague predecessor-proof licence labels in Forensic Psychology. The Course Truth validator was hardened to reject those classes of metadata regression.
+
+`courseTruthComplete=true` now records completion of step 1 of this run. `wholeCourseIndependentAssurancePassed=false` remains deliberate: fresh independent educational and assessment assurance is still required later under step 6 before restricted-pilot publication. It is not a prerequisite for beginning step 2.
+
+The next substantive phase is therefore **Complete Exam Truth**. No learner-facing publication, restricted-pilot approval or production `foundation_approved` state is implied by Course Truth completion.
+
 ## Operating boundary
 
 This run remains governed by `80-company-workflows/Source-First Course Prototype Experimental Exception.md`.
