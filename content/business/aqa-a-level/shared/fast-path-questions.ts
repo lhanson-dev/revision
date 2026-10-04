@@ -29,16 +29,22 @@ export type AqaBusinessQuestionRecord = {
   }
 }
 
+type LegacyQuestionRecord = Omit<AqaBusinessQuestionRecord, 'batch'> & { batch?: string }
+
 const originalFinancialModules = import.meta.glob('../../../../content-factory/slices/aqa-7132-3.5/questions/q*.json', {
   eager: true,
   import: 'default',
-}) as Record<string, AqaBusinessQuestionRecord>
+}) as Record<string, LegacyQuestionRecord>
 
 const retained = releaseBank.questions as AqaBusinessQuestionRecord[]
+const originalFinancial = Object.values(originalFinancialModules).map((record): AqaBusinessQuestionRecord => ({
+  ...record,
+  batch: record.batch ?? '3.5',
+}))
 
 export const aqaBusinessQuestionBank: readonly AqaBusinessQuestionRecord[] = [
   ...retained,
-  ...Object.values(originalFinancialModules),
+  ...originalFinancial,
 ].sort((left, right) =>
   left.batch.localeCompare(right.batch, undefined, { numeric: true })
   || left.id.localeCompare(right.id, undefined, { numeric: true }),
