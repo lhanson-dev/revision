@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_truth_topic_complete_candidate",
+  "checkedDate": "2026-10-04",
+  "course": "AQA A-level Psychology 7182",
+  "topicNumber": 10,
+  "topic": "Gender",
+  "group": "option_1",
+  "sourcePolicy": {
+    "boardAlignment": "REFERENCE_ONLY",
+    "subjectTruth": "OPEN reusable evidence plus independently authored factual synthesis",
+    "learnerFacing": false
+  },
+  "requirements": [
+    {
+      "requirementId": "PSY-10-01",
+      "boardAlignment": {
+        "summary": "Chromosomes and hormones in biological sex, including testosterone, oestrogen and oxytocin, plus diversity in sex development including AIS, Klinefelter and Turner syndromes.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Biological sex development reflects interacting chromosomal, gonadal, hormonal, receptor and anatomical processes rather than chromosomes acting alone.",
+          "Typical XX and XY developmental pathways are common patterns, but variations in chromosome complement, hormone production or hormone sensitivity create recognised differences of sex development.",
+          "Testosterone and oestrogens influence sexual differentiation, puberty and reproductive physiology; effects depend on timing, concentration, receptors and target tissues.",
+          "Oxytocin is a neuropeptide/hormone involved in reproductive physiology and social processes in people of all sexes; it is not uniquely a female hormone and its behavioural effects vary by biological and social context.",
+          "Androgen insensitivity syndrome occurs in an individual with an XY karyotype when androgen receptors respond incompletely or not at all to androgens, changing development of sex characteristics.",
+          "Klinefelter syndrome commonly involves a 47,XXY karyotype and can include hypogonadism and fertility differences; Turner syndrome commonly involves a single X chromosome or mosaic variants and can affect growth, ovarian development and fertility."
+        ],
+        "modelsResearchAndRelationships": [
+          "Differences of sex development demonstrate that chromosomes, hormones, receptors and anatomy form interacting pathways rather than a simple one-gene/one-outcome sequence.",
+          "Variation within AIS, Klinefelter and Turner syndromes is substantial, so a karyotype does not specify a complete psychological or behavioural profile."
+        ],
+        "evaluationAndLimits": [
+          "Sex-development variations are clinically and psychologically heterogeneous; textbook lists of stereotyped characteristics can overstate uniformity.",
+          "Hormone-behaviour findings are probabilistic and context dependent, and circulating hormone level alone rarely explains complex behaviour.",
+          "Oxytocin's popular 'bonding hormone' label obscures diverse, sometimes sex- and context-specific effects."
+        ],
+        "misconceptionsAndBoundaries": [
+          "XX and XY are common developmental patterns, not an exhaustive description of human sex development.",
+          "AIS, Klinefelter and Turner syndromes should not be treated as psychological personality types.",
+          "Oxytocin is present and functional in all sexes."
+        ],
+        "dependencies": ["chromosomes", "gonadal development", "hormone receptors", "androgens", "oestrogens", "oxytocin"]
+      },
+      "sourceEvidence": [
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7694247/","classification":"OPEN","licence":"CC BY 4.0","supports":["sex determination and differentiation","Turner syndrome","Klinefelter syndrome","differences of sex development"]},
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC2777017/","classification":"OPEN","licence":"CC BY","supports":["androgen insensitivity syndrome","46,XY differences of sex development","variation in outcomes"]},
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC6988792/","classification":"OPEN","licence":"CC BY","supports":["47,XXY Klinefelter syndrome","heterogeneous outcomes"]},
+        {"url":"https://doi.org/10.3389/fendo.2024.1418089","classification":"OPEN","licence":"CC BY","supports":["oxytocin endocrine functions","social and reproductive functions","context-dependent effects"]}
+      ],
+      "revisionSynthesis": ["Revision uses sex-development diversity to demonstrate interaction among chromosomes, hormones and receptors rather than presenting a rigid binary biological sequence."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-10-02",
+      "boardAlignment": {
+        "summary": "Gender identities including binary, non-binary and gender fluid, and measurement using the Bem Sex Role Inventory.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Gender identity is a person's internal sense or description of their gender and is conceptually distinct from biological sex characteristics and from gender expression.",
+          "Binary gender identities locate identity within woman/man categories; non-binary is an umbrella term for identities not exclusively or consistently within that binary.",
+          "Gender-fluid describes a gender identity or expression that can vary over time rather than remaining fixed in one category.",
+          "The Bem Sex Role Inventory is a self-report instrument developed to measure endorsement of traits culturally classified as masculine, feminine or neutral.",
+          "The BSRI treats masculinity and femininity as separate dimensions, allowing people to score relatively high or low on each rather than forcing them onto one opposite-poles scale."
+        ],
+        "modelsResearchAndRelationships": [
+          "The BSRI operationalises culturally stereotyped trait endorsement rather than directly measuring chromosomes, hormones or a person's complete gender identity.",
+          "Gender categories and labels are socially meaningful and can change across individuals, communities and historical periods."
+        ],
+        "evaluationAndLimits": [
+          "The BSRI was built from cultural judgements about masculine and feminine traits in a particular historical context, so its construct validity can change as stereotypes change.",
+          "Self-report measures depend on language, interpretation and cultural norms and should not be treated as objective biological tests.",
+          "Binary categories can obscure people whose identities are non-binary, fluid or otherwise described outside woman/man categories."
+        ],
+        "misconceptionsAndBoundaries": [
+          "A BSRI score is not a diagnostic test of gender identity.",
+          "Non-binary does not mean one single third gender category.",
+          "Gender-fluid does not mean confusion; it describes variability in identity or expression over time."
+        ],
+        "dependencies": ["gender identity", "gender expression", "self-report measurement", "stereotypes", "construct validity"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.3389/fpsyg.2022.916088","classification":"OPEN","licence":"CC BY","supports":["binary and non-binary identity labels","variation in gender expression"]},
+        {"url":"https://doi.org/10.3389/frph.2021.670919","classification":"OPEN","licence":"CC BY","supports":["non-binary and gender-expansive terminology","gender-fluid identity"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2016.00956","classification":"OPEN","licence":"CC BY","supports":["Bem Sex Role Inventory structure","masculinity and femininity scales","historical gender-role measurement"]}
+      ],
+      "revisionSynthesis": ["Revision distinguishes identity from the BSRI's stereotype-based trait measurement so learners do not mistake a historical psychometric tool for a biological or diagnostic classification."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-10-03",
+      "boardAlignment": {
+        "summary": "Biological explanations of gender development, including chromosomes and hormones.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Biological explanations examine how genes, sex chromosomes, prenatal and pubertal hormones, receptor systems and neurodevelopment may contribute to gender-related development.",
+          "Chromosomal pathways influence gonadal development and hormone production, while hormone effects depend on receptors and developmental timing.",
+          "Research on differences of sex development and transgender populations can test relationships between biological variables and later gender identity, but these natural variations do not supply a simple experimental test of one biological cause.",
+          "Current evidence is compatible with biological contribution to gender development while also showing substantial heterogeneity and interaction with social experience."
+        ],
+        "modelsResearchAndRelationships": [
+          "Genetic and hormonal mechanisms can influence neural development, but gender-related outcomes emerge through development rather than being mechanically read off a chromosome pattern.",
+          "Biological and social explanations need not be alternatives because biological sensitivities develop within cultural and interpersonal environments."
+        ],
+        "evaluationAndLimits": [
+          "Most human evidence is correlational, retrospective or based on naturally occurring variation, so causal inference is limited.",
+          "Group differences do not provide accurate individual prediction.",
+          "A biological explanation becomes reductionist if it ignores cognitive, interpersonal and cultural development."
+        ],
+        "misconceptionsAndBoundaries": [
+          "There is no single gene, chromosome or hormone that determines a person's gender identity.",
+          "Evidence for biological influence does not make social experience irrelevant.",
+          "Sex-development findings should not be used to pathologise gender diversity."
+        ],
+        "dependencies": ["genotype and phenotype", "hormones", "receptors", "neurodevelopment", "gene-environment interaction"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.20945/2359-4292-2024-0232","classification":"OPEN","licence":"CC BY","supports":["genetic and hormonal evidence in gender identity","complexity and heterogeneity","nature-nurture interaction"]},
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7694247/","classification":"OPEN","licence":"CC BY 4.0","supports":["chromosomal and hormonal sex-development pathways","developmental variation"]}
+      ],
+      "revisionSynthesis": ["Revision presents biological explanations as developmental contributions and vulnerabilities, not as a deterministic chromosome-to-identity pathway."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-10-04",
+      "boardAlignment": {
+        "summary": "Cognitive explanations of gender development: Kohlberg's identity, stability and constancy sequence, and Martin and Halverson's gender schema theory.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Kohlberg's cognitive-developmental approach proposes that children's understanding of gender becomes more organised as their general cognitive abilities develop.",
+          "Gender identity refers in the theory to recognising/labeling one's own gender category; gender stability adds understanding that category membership remains stable over time; gender constancy adds understanding that superficial changes in appearance or activity do not necessarily change category membership.",
+          "Martin and Halverson's gender schema theory treats gender schemas as organised cognitive structures containing gender-related information.",
+          "Once a child can use gender categories, schemas can guide attention, memory, expectations, self-evaluation and choices toward information perceived as relevant to that category."
+        ],
+        "modelsResearchAndRelationships": [
+          "Kohlberg emphasises developmental change in conceptual understanding; schema theory emphasises information-processing structures that can begin influencing attention and behaviour once gender categories are available.",
+          "Schemas can become self-reinforcing because schema-consistent information is more likely to be noticed, remembered or selected, yet schemas can change when experience and cultural categories change."
+        ],
+        "evaluationAndLimits": [
+          "Stage-like descriptions can underestimate variability between children and cultural contexts and can be too rigid if treated as fixed ages.",
+          "Gender schema theory explains selective processing but schemas are inferred constructs and their content depends heavily on social experience.",
+          "Many classic gender-development studies assumed a binary framework, limiting direct generalisation to non-binary development."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Gender constancy in Kohlberg's theory is a cognitive concept, not a claim that every person's gender identity is immutable.",
+          "A schema is an organised knowledge structure, not a biological structure in the brain.",
+          "Schema-guided processing does not mean stereotypes are accurate."
+        ],
+        "dependencies": ["cognitive development", "categorisation", "schemas", "attention", "memory", "stereotypes"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.3389/fpsyg.2022.1054886","classification":"OPEN","licence":"CC BY","supports":["Martin and Halverson gender schema theory","gender schemas as cognitive structures","attention and behaviour guidance","gender socialisation"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/","classification":"OPEN","licence":"CC BY 4.0","supports":["accepted developmental/cognitive psychology foundations used for Kohlberg-aligned synthesis"]}
+      ],
+      "revisionSynthesis": ["Revision compares Kohlberg and schema theory by mechanism—development of conceptual constancy versus selective cognitive organisation—rather than memorising names without explanatory contrast."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-10-05",
+      "boardAlignment": {
+        "summary": "Social learning theory applied to gender development, including culture and media influences on gender roles.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Social learning theory explains gender-role behaviour through observation, modelling, imitation and reinforcement rather than through direct instruction alone.",
+          "Children can observe which behaviours, occupations, interests and appearances are associated with different genders and which receive approval, status or punishment.",
+          "Identification with salient or valued models can increase modelling, while vicarious reinforcement occurs when observing another person's consequences changes expectations about a behaviour.",
+          "Culture and media influence which gender roles and models are repeatedly visible, rewarded, criticised or treated as normal."
+        ],
+        "modelsResearchAndRelationships": [
+          "Parents, peers, teachers and media can act as models and reinforcement sources, while cognitive gender schemas affect which model information is attended to and remembered.",
+          "Counter-stereotypical models can broaden perceived possibilities, demonstrating that learned gender-role expectations are modifiable."
+        ],
+        "evaluationAndLimits": [
+          "Social learning can explain variation across cultures and historical periods but does not by itself explain why individuals exposed to similar models develop differently.",
+          "Media correlations can reflect selection as well as influence, so causal claims require experimental or longitudinal evidence.",
+          "A complete account should integrate learning with cognitive and biological development rather than treating children as passive recipients."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Social learning does not require explicit teaching or conscious imitation.",
+          "Cultural influence does not imply that gender identity is simply chosen or copied from media.",
+          "A model can influence expectations without producing identical behaviour in every observer."
+        ],
+        "dependencies": ["observational learning", "identification", "vicarious reinforcement", "modelling", "culture", "media", "gender schemas"]
+      },
+      "sourceEvidence": [
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/","classification":"OPEN","licence":"CC BY 4.0","supports":["observational learning","modelling","imitation","mediational processes","antisocial/prosocial modelling principles"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2022.1054886","classification":"OPEN","licence":"CC BY","supports":["parental gender socialisation","gendered modelling","gendered communication","stereotypes"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2020.02204","classification":"OPEN","licence":"CC BY","supports":["gender role models","counter-stereotypical models","gender-role aspirations and behaviour"]}
+      ],
+      "revisionSynthesis": ["Revision connects social learning and schema theory: social environments supply models and consequences, while schemas affect how gendered information is processed."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    },
+    {
+      "requirementId": "PSY-10-06",
+      "boardAlignment": {
+        "summary": "Gender incongruence, including biological and social/cultural explanations.",
+        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology",
+        "classification": "REFERENCE_ONLY"
+      },
+      "subjectTruth": {
+        "definitionsAndCoreConcepts": [
+          "Gender incongruence refers to a marked and persistent mismatch between a person's experienced gender and sex assigned at birth; incongruence is conceptually distinct from distress.",
+          "Biological explanations investigate possible contributions from genetic variation, prenatal hormonal environment, hormone sensitivity and neurodevelopment.",
+          "Social/cultural explanations investigate how gender categories, language, expectations, modelling, reinforcement, family/peer responses and cultural possibilities shape gender development, expression and available labels.",
+          "Current evidence does not identify a single biological or social cause capable of explaining gender incongruence in every person."
+        ],
+        "modelsResearchAndRelationships": [
+          "Biological findings are heterogeneous and generally correlational; some observations are consistent with developmental biological contribution but do not function as diagnostic biomarkers.",
+          "Social environments can affect how safely identity is explored or expressed and which concepts are available for self-description without demonstrating that social exposure creates an identity.",
+          "An interactionist perspective allows biological development and social/cultural experience to contribute through different mechanisms without reducing identity to either."
+        ],
+        "evaluationAndLimits": [
+          "Many studies use small, selected clinical samples and cannot establish whether observed biological differences are causes, consequences or unrelated correlates.",
+          "Socialisation evidence demonstrates strong effects on roles and stereotypes but should not be misused to claim that parenting or media causes transgender or non-binary identity.",
+          "Binary developmental models have limited ability to represent the experiences of all gender-diverse people.",
+          "Educational discussion should distinguish gender incongruence from gender dysphoria or distress and avoid pathologising identity diversity."
+        ],
+        "misconceptionsAndBoundaries": [
+          "Gender incongruence is not synonymous with mental illness.",
+          "There is no established single 'trans gene', hormone profile or brain scan that determines gender identity.",
+          "Social and cultural influence on expression or labels is not evidence that identity is simply socially imposed."
+        ],
+        "dependencies": ["gender identity", "sex assigned at birth", "neurodevelopment", "socialisation", "culture", "interactionism"]
+      },
+      "sourceEvidence": [
+        {"url":"https://doi.org/10.20945/2359-4292-2024-0232","classification":"OPEN","licence":"CC BY","supports":["genetic and hormonal evidence","heterogeneity of gender identity development","limits of single biological explanations"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2022.1054886","classification":"OPEN","licence":"CC BY","supports":["gender socialisation mechanisms","modelling","communication","stereotypes","culture-linked development"]},
+        {"url":"https://doi.org/10.3389/fsoc.2023.1177766","classification":"OPEN","licence":"CC BY","supports":["non-binary gender development","limitations of binary developmental assumptions"]}
+      ],
+      "revisionSynthesis": ["Revision uses a cautious interactionist treatment: evidence about biological correlates and social development is separated from unsupported causal claims, and identity diversity is not pathologised."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+    }
+  ]
+}
