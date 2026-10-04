@@ -27,10 +27,7 @@ jobs:
           set -euo pipefail
           git fetch origin main --depth=1
 
-          # Preserve the pre-existing rich authored Learn pages verbatim.
           git show origin/main:content/business/aqa-a-level/shared/learn.ts > content/business/aqa-a-level/shared/authored-learn.ts
-
-          # Keep the canonical pack-level flashcard contract unchanged.
           for paper in paper-1 paper-2 paper-3; do
             git show "origin/main:content/business/aqa-a-level/${paper}/index.ts" > "content/business/aqa-a-level/${paper}/index.ts"
           done
@@ -41,24 +38,28 @@ jobs:
           learn = Path('content/business/aqa-a-level/shared/learn.ts')
           text = learn.read_text()
           if "import { learn as authoredLearn } from './authored-learn'" not in text:
-            text = text.replace("import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'\n", "import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'\nimport { learn as authoredLearn } from './authored-learn'\n", 1)
+            text = text.replace(
+              "import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'\n",
+              "import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'\nimport { learn as authoredLearn } from './authored-learn'\n",
+              1,
+            )
           text = text.replace('export const learn: LearnCourse = {', 'const fastPathLearn: LearnCourse = {', 1)
           if 'export const learn: LearnCourse = {' not in text:
-            text += """
-
-export const learn: LearnCourse = {
-  chapters: topicOrder.map((topicId): LearnChapter => {
-    const authored = authoredLearn.chapters.find((chapter) => chapter.topicId === topicId)
-    const fastPath = fastPathLearn.chapters.find((chapter) => chapter.topicId === topicId)
-    return {
-      id: topicId,
-      topicId,
-      title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],
-      groups: [...(authored?.groups ?? []), ...(fastPath?.groups ?? [])],
-    }
-  }).filter((chapter) => chapter.groups.length > 0),
-}
-"""
+            append = (
+              "\n\nexport const learn: LearnCourse = {\n"
+              "  chapters: topicOrder.map((topicId): LearnChapter => {\n"
+              "    const authored = authoredLearn.chapters.find((chapter) => chapter.topicId === topicId)\n"
+              "    const fastPath = fastPathLearn.chapters.find((chapter) => chapter.topicId === topicId)\n"
+              "    return {\n"
+              "      id: topicId,\n"
+              "      topicId,\n"
+              "      title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],\n"
+              "      groups: [...(authored?.groups ?? []), ...(fastPath?.groups ?? [])],\n"
+              "    }\n"
+              "  }).filter((chapter) => chapter.groups.length > 0),\n"
+              "}\n"
+            )
+            text += append
           learn.write_text(text)
 
           workspace = Path('src/app/FocusedLearningWorkspace.tsx')
@@ -68,11 +69,13 @@ export const learn: LearnCourse = {
           if import_line not in text:
             text = text.replace(import_anchor, import_anchor + import_line, 1)
           old = "  const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])"
-          new = """  const cards = useMemo(() => {
-    const curated = adapter.listFlashcards(topicId)
-    if (adapter.manifest.examBoard.id !== 'aqa' || adapter.manifest.specificationCode !== '7132') return curated
-    return [...curated, ...fastPathFlashcards.filter((card) => card.topic === topicId)]
-  }, [adapter, topicId])"""
+          new = (
+            "  const cards = useMemo(() => {\n"
+            "    const curated = adapter.listFlashcards(topicId)\n"
+            "    if (adapter.manifest.examBoard.id !== 'aqa' || adapter.manifest.specificationCode !== '7132') return curated\n"
+            "    return [...curated, ...fastPathFlashcards.filter((card) => card.topic === topicId)]\n"
+            "  }, [adapter, topicId])"
+          )
           if old not in text and new not in text:
             raise SystemExit('FocusedLearningWorkspace flashcard anchor not found')
           text = text.replace(old, new, 1)
@@ -80,25 +83,35 @@ export const learn: LearnCourse = {
 
           test = Path('content/business/aqa-a-level/shared/fast-path-release.test.ts')
           text = test.read_text()
-          old = """    const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
-    expect(pages).toHaveLength(79)
-    expect(new Set(pages.map((page) => page.id)).size).toBe(79)
-    expect(pages.every((page) => page.blocks.length > 0)).toBe(true)"""
-          new = """    const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
-    const fastPathPages = pages.filter((page) => page.id.startsWith('bus-'))
-    expect(fastPathPages).toHaveLength(79)
-    expect(new Set(fastPathPages.map((page) => page.id)).size).toBe(79)
-    expect(fastPathPages.every((page) => page.blocks.length > 0)).toBe(true)
-    expect(pages.some((page) => page.id === 'limited-companies-and-shareholders')).toBe(true)
-    expect(pages.some((page) => page.id === 'understanding-break-even')).toBe(true)"""
+          old = (
+            "    const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))\n"
+            "    expect(pages).toHaveLength(79)\n"
+            "    expect(new Set(pages.map((page) => page.id)).size).toBe(79)\n"
+            "    expect(pages.every((page) => page.blocks.length > 0)).toBe(true)"
+          )
+          new = (
+            "    const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))\n"
+            "    const fastPathPages = pages.filter((page) => page.id.startsWith('bus-'))\n"
+            "    expect(fastPathPages).toHaveLength(79)\n"
+            "    expect(new Set(fastPathPages.map((page) => page.id)).size).toBe(79)\n"
+            "    expect(fastPathPages.every((page) => page.blocks.length > 0)).toBe(true)\n"
+            "    expect(pages.some((page) => page.id === 'limited-companies-and-shareholders')).toBe(true)\n"
+            "    expect(pages.some((page) => page.id === 'understanding-break-even')).toBe(true)"
+          )
           if old not in text:
             raise SystemExit('Fast-Path release test anchor not found')
           test.write_text(text.replace(old, new, 1))
 
           doc = Path('docs/technical/AQA Business 7132 Fast-Path T12 Website Release.md')
           text = doc.read_text()
-          text = text.replace('all 79 exact-course AQA 7132 teaching nodes projected from the 81-node reusable Business Foundation, adapted into the existing reading-first Learn page structure.', 'all 79 exact-course AQA 7132 teaching nodes projected from the 81-node reusable Business Foundation, layered into the existing reading-first Learn structure while preserving the richer curated pages already approved on the site.')
-          text = text.replace('the Foundation-native guided-practice items for those exact-course nodes, added to the existing Practice reveal-and-rate flow without removing the existing curated flashcards.', 'the Foundation-native guided-practice items for those exact-course nodes, added at the learner workspace layer so the existing 100-card pack contract and curated flashcards remain unchanged.')
+          text = text.replace(
+            'all 79 exact-course AQA 7132 teaching nodes projected from the 81-node reusable Business Foundation, adapted into the existing reading-first Learn page structure.',
+            'all 79 exact-course AQA 7132 teaching nodes projected from the 81-node reusable Business Foundation, layered into the existing reading-first Learn structure while preserving the richer curated pages already approved on the site.',
+          )
+          text = text.replace(
+            'the Foundation-native guided-practice items for those exact-course nodes, added to the existing Practice reveal-and-rate flow without removing the existing curated flashcards.',
+            'the Foundation-native guided-practice items for those exact-course nodes, added at the learner workspace layer so the existing 100-card pack contract and curated flashcards remain unchanged.',
+          )
           doc.write_text(text)
           PY
 
