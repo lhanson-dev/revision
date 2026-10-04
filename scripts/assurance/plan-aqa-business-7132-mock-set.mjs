@@ -72,7 +72,8 @@ function hydrate(slots, bySection, used, requirements) {
   return slots.map((s) => {
     fail(sum(Object.values(s.ao)) === s.marks, `${s.id} AO marks do not reconcile`)
     const targets = s.sections.map((section, i) => {
-      fail(requirements.has(section), `${s.id} references unknown Course Truth requirement ${section}`)
+      const requirementId = `AQA-7132-${section}`
+      fail(requirements.has(requirementId), `${s.id} references unknown Course Truth requirement ${requirementId}`)
       const candidates = bySection.get(section) || []
       let chosen
       for (const kind of prefs(s, i)) {
@@ -82,7 +83,7 @@ function hydrate(slots, bySection, used, requirements) {
       if (!chosen) chosen = candidates.find((x) => !used.has(x.id))
       fail(chosen, `${s.id} cannot allocate an unused named item for ${section}`)
       used.add(chosen.id)
-      return {course_requirement_id:section,named_item_id:chosen.id,label:chosen.label,kind:chosen.kind,direct_demand_required:true,necessary_for_full_marks:true}
+      return {course_requirement_id:requirementId,named_item_id:chosen.id,label:chosen.label,kind:chosen.kind,direct_demand_required:true,necessary_for_full_marks:true}
     })
     fail(s.qmarks === 0 || targets.some((t) => t.kind === 'formula'), `${s.id} quantitative allocation lacks formula evidence`)
     return {...s, targets}
