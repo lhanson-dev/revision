@@ -17,14 +17,18 @@ describe('Psychology Step 6 independent assurance packets', () => {
   const packets = buildPsychologyStep6Packets(COURSE_TRUTH_DIR, EXAM_TRUTH_PATH)
   const marking = derivePsychologyMarkingPacks(COURSE_TRUTH_DIR, EXAM_TRUTH_PATH)
 
-  test('covers all 17 topics and 118 requirements exactly once in educational review', () => {
-    expect(packets.summary.educationalPacketCount).toBe(9)
+  test('covers all 17 topics and 118 requirements exactly once in bounded educational review', () => {
+    expect(packets.summary.educationalPacketCount).toBe(12)
     expect(packets.summary.topicCount).toBe(17)
     expect(packets.summary.requirementCount).toBe(118)
     expect(packets.summary.educationalRequirementCoverageCount).toBe(118)
 
-    const topicNumbers = packets.educational.flatMap((packet) => packet.topicNumbers)
+    const topicNumbers = unique(packets.educational.flatMap((packet) => packet.topicNumbers))
     expect(topicNumbers).toEqual(Array.from({ length: 17 }, (_, index) => index + 1))
+
+    const researchMethodsPackets = packets.educational.filter((packet) => packet.topicNumbers.length === 1 && packet.topicNumbers[0] === 7)
+    expect(researchMethodsPackets.map((packet) => packet.packetId)).toEqual(['EDU-04A', 'EDU-04B', 'EDU-04C', 'EDU-04D'])
+    expect(researchMethodsPackets.flatMap((packet) => packet.requirementIds)).toHaveLength(34)
 
     const requirementIds = packets.educational.flatMap((packet) => packet.requirementIds)
     expect(requirementIds).toHaveLength(118)
