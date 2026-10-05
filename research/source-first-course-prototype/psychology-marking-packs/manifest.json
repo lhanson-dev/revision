@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_step_5_marking_evidence_complete",
+  "courseId": "aqa:aqa-a-level:7182",
+  "route": "source-first-course-prototype",
+  "inputs": {
+    "courseTruth": "../psychology-course-truth/manifest.json + topic shards",
+    "examTruth": "../psychology-exam-truth/assessment-blueprint.json",
+    "courseLearningBlueprint": "../psychology-course-learning-blueprint/manifest.json + deterministic projection",
+    "learnerAssets": "../psychology-learner-assets/manifest.json + deterministic projection"
+  },
+  "implementation": {
+    "builder": "scripts/content/derive-psychology-marking-packs.ts",
+    "assurance": "scripts/assurance/psychology-marking-packs.test.ts",
+    "contract": "marking-contract.json"
+  },
+  "completion": {
+    "courseTruthComplete": true,
+    "examTruthComplete": true,
+    "courseLearningBlueprintComplete": true,
+    "learnerAssetCorpusComplete": true,
+    "allLearnerItemsClassifiedForScoreability": true,
+    "allItemsRepresentedAsScoredHaveMarkingPacks": true,
+    "practiceEvidenceScopeNarrowingApplied": true,
+    "wholePaperAoRmMathCalibrationDefined": true,
+    "markingPacksCompleteForStep5": true,
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "productionMarkerAuthorised": false,
+    "runtimeEvidenceEnabled": false,
+    "canonicalRuntimeIntegrated": false,
+    "restrictedPilotPublicationApproved": false,
+    "nextStep": "Run Step 6 deterministic plus fresh independent educational/assessment assurance, including marking-pack challenge and calibration review before any runtime integration."
+  },
+  "economics": {
+    "paidProviderSpendGbp": 0,
+    "paidSourceLicenceSpendGbp": 0
+  },
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "productionTechnicalDocumentationChanged": false,
+    "canonicalLearnerRuntimeChanged": false,
+    "fi007ProductionImplementationChanged": false,
+    "historicalEvidenceRewritten": false,
+    "experimentalEvidenceAndDeterministicCodeAdded": true
+  }
+}
