@@ -190,6 +190,57 @@ describe('OpenAIStructuredWorkerClient', () => {
     expect(sleep).not.toHaveBeenCalled()
   })
 
+  it('binds AQA 7132 mock semantic review output to the exact payload unit id', async () => {
+    const cases = [
+      { workerId: 'content-factory.aqa-7132.mock-unit-review.p1-b-chunk-2', unitId: 'P1-B-CHUNK-2' },
+      { workerId: 'content-factory.aqa-7132.mock-paper-review.7132-2', unitId: '7132/2' },
+      { workerId: 'content-factory.aqa-7132.mock-set-review', unitId: 'complete-set' },
+    ]
+    const outputSchema = z.object({ unit_id: z.string().min(1), answer: z.literal('ok') })
+
+    for (const testCase of cases) {
+      const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+        const body = JSON.parse(String(init?.body)) as {
+          instructions: string
+          text: { format: { schema: { properties?: Record<string, { const?: string; enum?: string[] }> } } }
+        }
+        const unitIdSchema = body.text.format.schema.properties?.unit_id
+        expect(unitIdSchema?.const ?? unitIdSchema?.enum?.[0]).toBe(testCase.unitId)
+        expect(body.instructions).toContain('Return unit_id exactly as supplied in the payload')
+        expect(body.instructions).toContain('overrides any general lowercase-identifier instruction')
+        return new Response(JSON.stringify(responseBody({ unit_id: testCase.unitId, answer: 'ok' }, { input_tokens: 100, output_tokens: 100 })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }) as typeof fetch
+      const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, maxRetries: 0 })
+      const result = await client.run({
+        workerId: testCase.workerId,
+        contractVersion: '1',
+        routeKind: 'independent_review',
+        outputSchema,
+        instructions: 'Review the supplied unit.',
+        payload: { unit_id: testCase.unitId },
+        strictOutput: true,
+      })
+      expect(result.status).toBe('success')
+      expect(fetchImpl).toHaveBeenCalledTimes(1)
+    }
+
+    const lowercaseFetch = vi.fn(async () => new Response(JSON.stringify(responseBody({ unit_id: 'p1-b-chunk-2', answer: 'ok' }, { input_tokens: 100, output_tokens: 100 })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl: lowercaseFetch, maxRetries: 0 })
+    const result = await client.run({
+      workerId: 'content-factory.aqa-7132.mock-unit-review.p1-b-chunk-2',
+      contractVersion: '1',
+      routeKind: 'independent_review',
+      outputSchema,
+      instructions: 'Review the supplied unit.',
+      payload: { unit_id: 'P1-B-CHUNK-2' },
+      strictOutput: true,
+    })
+    expect(result.status).toBe('failure')
+    if (result.status === 'success') throw new Error('Expected exact unit-id contract failure')
+    expect(result.error).toContain('provider_contract_failure')
+    expect(lowercaseFetch).toHaveBeenCalledTimes(1)
+  })
+
   it('refuses a provider call before spend can breach the configured course ceiling', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({ answer: 'ok' })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
     const client = new OpenAIStructuredWorkerClient({
