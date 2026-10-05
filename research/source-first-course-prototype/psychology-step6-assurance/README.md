@@ -16,8 +16,9 @@ The runner exists to answer one question: **is the complete Psychology candidate
 
 Normal repository CI performs all checks that can be proved mechanically without provider spend. The Step 6 tests verify that:
 
-- all 17 topics and all 118 Course Truth requirements appear exactly once across twelve bounded educational review packets;
+- all 17 topics and all 118 Course Truth requirements appear exactly once across thirteen bounded educational review packets;
 - dense Research Methods is split into four exact requirement slices rather than weakening the 750,000-character context guard;
+- topics 12 and 13 are reviewed separately because their combined packet also exceeded the same fixed context guard;
 - learner-facing material sent for review is bound to exact requirement and Blueprint IDs;
 - only rights-safe subject truth and source evidence enter the educational reviewer packets;
 - AQA `REFERENCE_ONLY` source text is excluded from provider input;
@@ -35,7 +36,7 @@ Existing Psychology Course Truth, Exam Truth, Blueprint, learner-asset and Marki
 
 After this runner is merged, the live workflow is manually dispatched against an exact current `main` SHA. It creates fresh provider contexts that did not generate the course.
 
-Twelve educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
+Thirteen educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
 
 - factual and curriculum accuracy;
 - fidelity to the supplied rights-safe Course Truth and source evidence;
@@ -45,7 +46,7 @@ Twelve educational review packets cover the whole course and challenge A1/A2 mat
 - whether Practice prompts teach or test the intended capability; and
 - whether scoreable Practice marking/evidence rules overclaim what the activity demonstrates.
 
-Research Methods is deliberately split into four requirement slices (`PSY-07-01`–`09`, `10`–`17`, `18`–`23`, and `24`–`34`) because the unsplit topic is too large for the bounded context contract. This changes review packaging only; the 34 requirements remain covered exactly once.
+Research Methods is deliberately split into four requirement slices (`PSY-07-01`–`09`, `10`–`17`, `18`–`23`, and `24`–`34`) because the unsplit topic is too large for the bounded context contract. Topics 12 and 13 are also separate packets because their combined review package was 832,111 characters. These changes affect review packaging only; all 118 requirements remain covered exactly once.
 
 Three assessment review packets are organised by paper and challenge A3/A4 Exam Prep/full-paper material for:
 
@@ -95,7 +96,7 @@ The runner:
 
 - performs deterministic work before any provider call;
 - sends bounded topic/requirement groups rather than repeated full-course dumps;
-- splits only the dense Research Methods topic when the deterministic size guard proves it necessary;
+- splits groups only when the deterministic size guard proves it necessary;
 - uses bounded output and at most two attempts per packet;
 - conservatively reserves cost before starting another call;
 - records observed tokens/searches/spend; and
