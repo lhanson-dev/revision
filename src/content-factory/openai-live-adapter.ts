@@ -22,17 +22,38 @@ const foundationQuestionFamiliesProviderSchema = z.object({
   questionFamilies: z.array(questionFamilySchema.omit({ aggregateMarkTotal: true })).min(1),
 })
 
+type StructuredRunInput = Parameters<ProviderOpenAIStructuredWorkerClient['run']>[0]
+
+export function bindExactReviewUnitId(input: StructuredRunInput): StructuredRunInput {
+  if (input.routeKind !== 'independent_review') return input
+  if (!input.payload || typeof input.payload !== 'object' || !('unit_id' in input.payload)) return input
+  const unitId = (input.payload as { unit_id?: unknown }).unit_id
+  if (typeof unitId !== 'string' || !unitId.trim()) return input
+  if (!(input.outputSchema instanceof z.ZodObject)) return input
+  if (!Object.prototype.hasOwnProperty.call(input.outputSchema.shape, 'unit_id')) return input
+
+  return {
+    ...input,
+    outputSchema: input.outputSchema.safeExtend({ unit_id: z.literal(unitId) }),
+    instructions: [
+      `Preserve the supplied unit_id exactly as ${JSON.stringify(unitId)}. Do not change its spelling, punctuation or case.`,
+      input.instructions,
+    ].join('\n'),
+  }
+}
+
 export class OpenAIStructuredWorkerClient extends ProviderOpenAIStructuredWorkerClient {
-  override run(input: Parameters<ProviderOpenAIStructuredWorkerClient['run']>[0]) {
-    if (input.workerId !== 'content-factory.foundation.question-families') {
-      return super.run(input)
+  override run(input: StructuredRunInput) {
+    const reviewBoundInput = bindExactReviewUnitId(input)
+    if (reviewBoundInput.workerId !== 'content-factory.foundation.question-families') {
+      return super.run(reviewBoundInput)
     }
 
     // aggregateMarkTotal is compiler-owned Foundation truth. Keep it out of the
     // strict provider contract so the model neither invents nor echoes an exact
     // aggregate; the AQA pre-calibration compiler injects and validates it later.
     return super.run({
-      ...input,
+      ...reviewBoundInput,
       outputSchema: foundationQuestionFamiliesProviderSchema,
     })
   }
