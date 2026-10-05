@@ -129,17 +129,29 @@ export type PsychologyStep6Packets = {
   }
 }
 
-const EDUCATIONAL_GROUPS = [
+type EducationalGroup = {
+  id: string
+  topicNumbers: number[]
+  requirementIds?: string[]
+}
+
+const requirementIds = (topic: number, start: number, end: number): string[] =>
+  Array.from({ length: end - start + 1 }, (_, index) => `PSY-${String(topic).padStart(2, '0')}-${String(start + index).padStart(2, '0')}`)
+
+const EDUCATIONAL_GROUPS: EducationalGroup[] = [
   { id: 'EDU-01', topicNumbers: [1, 2] },
   { id: 'EDU-02', topicNumbers: [3, 4] },
   { id: 'EDU-03', topicNumbers: [5, 6] },
-  { id: 'EDU-04', topicNumbers: [7] },
+  { id: 'EDU-04A', topicNumbers: [7], requirementIds: requirementIds(7, 1, 9) },
+  { id: 'EDU-04B', topicNumbers: [7], requirementIds: requirementIds(7, 10, 17) },
+  { id: 'EDU-04C', topicNumbers: [7], requirementIds: requirementIds(7, 18, 23) },
+  { id: 'EDU-04D', topicNumbers: [7], requirementIds: requirementIds(7, 24, 34) },
   { id: 'EDU-05', topicNumbers: [8, 9] },
   { id: 'EDU-06', topicNumbers: [10, 11] },
   { id: 'EDU-07', topicNumbers: [12, 13] },
   { id: 'EDU-08', topicNumbers: [14, 15] },
   { id: 'EDU-09', topicNumbers: [16, 17] },
-] as const
+]
 
 const ASSESSMENT_PAPERS = ['7182/1', '7182/2', '7182/3'] as const
 const REUSABLE_SOURCE_CLASSES = new Set(['OPEN', 'LICENSED', 'REVISION_OWNED'])
@@ -216,35 +228,39 @@ export function buildPsychologyStep6Packets(courseTruthDir: string, examTruthPat
       if (!topic) throw new Error(`Missing Psychology topic ${topicNumber}`)
       return topic
     })
-    const requirements = groupTopics.flatMap((topic) => topic.requirements.map((requirement) => {
-      if (requirement.boardAlignment.classification !== 'REFERENCE_ONLY') {
-        throw new Error(`${requirement.requirementId} has unexpected Board Alignment classification`)
-      }
-      const reusableSourceEvidence = (requirement.sourceEvidence ?? []).filter((source) => REUSABLE_SOURCE_CLASSES.has(source.classification))
-      if (reusableSourceEvidence.length === 0) throw new Error(`${requirement.requirementId} has no reusable source evidence for independent review`)
-      const excluded = (requirement.sourceEvidence ?? []).filter((source) => !REUSABLE_SOURCE_CLASSES.has(source.classification))
-      if (excluded.some((source) => source.classification === 'PROHIBITED' || source.classification === 'UNKNOWN')) {
-        throw new Error(`${requirement.requirementId} contains prohibited or unresolved reusable evidence`)
-      }
-      const learn = learnByRequirementId.get(requirement.requirementId)
-      if (!learn) throw new Error(`Missing Learn section for ${requirement.requirementId}`)
-      const practice = practiceByRequirementId.get(requirement.requirementId) ?? []
-      const practiceEvidenceMappings = practice.map((activity) => practiceMappingsByItem.get(activity.id)).filter((value) => value !== undefined)
-      const practiceMarkingPacks = practice.map((activity) => practicePacksByItem.get(activity.id)).filter((value) => value !== undefined)
-      return {
-        requirementId: requirement.requirementId,
-        topicNumber: topic.topicNumber,
-        topic: topic.topic,
-        boardAlignment: { summary: requirement.boardAlignment.summary, classification: 'REFERENCE_ONLY' as const },
-        subjectTruth: requirement.subjectTruth,
-        reusableSourceEvidence,
-        revisionSynthesis: requirement.revisionSynthesis ?? [],
-        learn,
-        practice,
-        practiceEvidenceMappings,
-        practiceMarkingPacks,
-      }
-    }))
+    const requiredIds = group.requirementIds ? new Set(group.requirementIds) : null
+    const requirements = groupTopics.flatMap((topic) => topic.requirements
+      .filter((requirement) => requiredIds === null || requiredIds.has(requirement.requirementId))
+      .map((requirement) => {
+        if (requirement.boardAlignment.classification !== 'REFERENCE_ONLY') {
+          throw new Error(`${requirement.requirementId} has unexpected Board Alignment classification`)
+        }
+        const reusableSourceEvidence = (requirement.sourceEvidence ?? []).filter((source) => REUSABLE_SOURCE_CLASSES.has(source.classification))
+        if (reusableSourceEvidence.length === 0) throw new Error(`${requirement.requirementId} has no reusable source evidence for independent review`)
+        const excluded = (requirement.sourceEvidence ?? []).filter((source) => !REUSABLE_SOURCE_CLASSES.has(source.classification))
+        if (excluded.some((source) => source.classification === 'PROHIBITED' || source.classification === 'UNKNOWN')) {
+          throw new Error(`${requirement.requirementId} contains prohibited or unresolved reusable evidence`)
+        }
+        const learn = learnByRequirementId.get(requirement.requirementId)
+        if (!learn) throw new Error(`Missing Learn section for ${requirement.requirementId}`)
+        const practice = practiceByRequirementId.get(requirement.requirementId) ?? []
+        const practiceEvidenceMappings = practice.map((activity) => practiceMappingsByItem.get(activity.id)).filter((value) => value !== undefined)
+        const practiceMarkingPacks = practice.map((activity) => practicePacksByItem.get(activity.id)).filter((value) => value !== undefined)
+        return {
+          requirementId: requirement.requirementId,
+          topicNumber: topic.topicNumber,
+          topic: topic.topic,
+          boardAlignment: { summary: requirement.boardAlignment.summary, classification: 'REFERENCE_ONLY' as const },
+          subjectTruth: requirement.subjectTruth,
+          reusableSourceEvidence,
+          revisionSynthesis: requirement.revisionSynthesis ?? [],
+          learn,
+          practice,
+          practiceEvidenceMappings,
+          practiceMarkingPacks,
+        }
+      }))
+    if (group.requirementIds) exactSet(requirements.map((requirement) => requirement.requirementId), group.requirementIds, `${group.id} requirement slice`)
     const packet: EducationalReviewPacket = {
       schemaVersion: 1,
       packetType: 'educational',
@@ -579,8 +595,18 @@ export async function runPsychologyStep6IndependentAssurance(args: {
   }
 
   const unresolvedMaterialFindings = reviews.flatMap((review) => review.findings).filter((finding) => finding.severity === 'blocking' || finding.severity === 'material')
+  const unresolvedMaterialDimensions = reviews.flatMap((review) => review.dimensions
+    .filter((dimension) => dimension.status === 'blocking_issue' || dimension.status === 'material_issue')
+    .map((dimension) => ({ packetId: review.packetId, ...dimension })))
+  const failHoldPacketIds = reviews.filter((review) => review.decision === 'fail_hold').map((review) => review.packetId)
   const allPacketsComplete = reviews.length === packets.educational.length + packets.assessment.length
-  const finalDecision = completionStatus === 'complete' && allPacketsComplete && unresolvedMaterialFindings.length === 0 ? 'pass' : 'fail_hold'
+  const finalDecision = completionStatus === 'complete'
+    && allPacketsComplete
+    && failHoldPacketIds.length === 0
+    && unresolvedMaterialFindings.length === 0
+    && unresolvedMaterialDimensions.length === 0
+    ? 'pass'
+    : 'fail_hold'
   const receipt = {
     schemaVersion: 1,
     artifactType: 'psychology_step6_independent_assurance_receipt',
@@ -598,7 +624,9 @@ export async function runPsychologyStep6IndependentAssurance(args: {
     },
     coverage: packets.summary,
     assuranceClasses: ['A1', 'A2', 'A3', 'A4'],
+    failHoldPacketIds,
     unresolvedBlockingOrMaterialFindings: unresolvedMaterialFindings,
+    unresolvedBlockingOrMaterialDimensions: unresolvedMaterialDimensions,
     knownLimitations: [
       'This is independent AI assurance for a restricted pilot, not qualified human subject-specialist benchmark approval.',
       'Marking Packs remain uncalibrated against independently human-marked learner anchors; production automated marking is not authorised by this receipt.',
@@ -616,6 +644,9 @@ export async function runPsychologyStep6IndependentAssurance(args: {
   }
   await writeFile(join(OUTPUT_DIR, 'final-receipt.json'), `${JSON.stringify(receipt, null, 2)}\n`)
 
-  if (finalDecision !== 'pass') throw new Error(`Psychology Step 6 assurance did not pass: ${failureReason ?? `${unresolvedMaterialFindings.length} unresolved blocking/material findings`}`)
+  if (finalDecision !== 'pass') {
+    const issueCount = unresolvedMaterialFindings.length + unresolvedMaterialDimensions.length
+    throw new Error(`Psychology Step 6 assurance did not pass: ${failureReason ?? `${issueCount} unresolved blocking/material review states`}`)
+  }
   return receipt
 }
