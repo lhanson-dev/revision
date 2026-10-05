@@ -60,6 +60,7 @@ const PAPER_LEDGER_PATH = `${OUTPUT}/paper-review-ledger.json`
 const SET_LEDGER_PATH = `${OUTPUT}/set-review-ledger.json`
 const SUMMARY_PATH = `${OUTPUT}/summary.json`
 const SUMMARY_MD_PATH = `${OUTPUT}/summary.md`
+const MOCK_INDEPENDENT_REVIEW_MAX_OUTPUT_TOKENS = 12_000
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -387,6 +388,14 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     expect(units.flatMap((unit) => unit.slots).map((slot) => slot.slot_id).sort()).toEqual(plan.papers.flatMap((paper) => paper.slots).map((slot) => slot.slot_id).sort())
   })
 
+  it('reserves enough output capacity for the complete Paper 3 blind-answer unit', async () => {
+    const plan = await materialisedPlan()
+    const unit = buildMockGenerationUnits(plan).find((candidate) => candidate.unit_id === 'P3-CASE-1')!
+    expect(unit.slots).toHaveLength(6)
+    expect(unit.slots.reduce((sum, slot) => sum + slot.marks, 0)).toBe(100)
+    expect(MOCK_INDEPENDENT_REVIEW_MAX_OUTPUT_TOKENS).toBe(12_000)
+  })
+
   it('binds blind-answer structured output to the exact unit identity and planned slot set', async () => {
     const plan = await materialisedPlan()
     const unit = buildMockGenerationUnits(plan).find((candidate) => candidate.unit_id === 'P1-A-CHUNK-2')!
@@ -480,7 +489,7 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       apiKey: requiredEnv('OPENAI_API_KEY'),
       maxSpendUsd: remainingSpend,
       generation: model(7_000, 'medium'),
-      independentReview: model(4_000, 'high'),
+      independentReview: model(MOCK_INDEPENDENT_REVIEW_MAX_OUTPUT_TOKENS, 'high'),
       maxRetries: 0,
     })
 
