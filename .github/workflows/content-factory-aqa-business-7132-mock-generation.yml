@@ -19,6 +19,8 @@ on:
       - 'scripts/assurance/aqa-business-7132-mock-generation.ts'
       - 'scripts/assurance/aqa-business-7132-mock-generation.test.ts'
       - 'scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts'
+      - 'scripts/assurance/aqa-business-7132-mock-review-identifier-contract.test.ts'
+      - 'scripts/assurance/canonicalise-aqa-business-7132-mock-review-ids.mjs'
       - 'scripts/assurance/aqa-business-7132-mock-set-review.ts'
       - '.github/workflows/content-factory-aqa-business-7132-mock-generation.yml'
   workflow_dispatch:
@@ -63,7 +65,7 @@ jobs:
       - name: Run provider-free mock generation software assurance
         env:
           CONTENT_FACTORY_AQA_7132_MOCK_GENERATION: '0'
-        run: npx vitest run src/content-factory/openai-live-adapter.test.ts scripts/assurance/aqa-business-7132-mock-generation.test.ts scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts --reporter=verbose
+        run: npx vitest run src/content-factory/openai-live-adapter.test.ts scripts/assurance/aqa-business-7132-mock-generation.test.ts scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts scripts/assurance/aqa-business-7132-mock-review-identifier-contract.test.ts --reporter=verbose
 
       - name: Prove pull-request assurance requires no provider key
         if: ${{ github.event_name == 'pull_request' }}
@@ -176,6 +178,10 @@ jobs:
           fi
           echo "CONTENT_FACTORY_MOCK_PLAN_FINGERPRINT=${plan_fingerprint}" >> "$GITHUB_ENV"
           echo "CONTENT_FACTORY_MOCK_RESUME_FAILURES_JSON=${resume_failures}" >> "$GITHUB_ENV"
+
+      - name: Canonicalise retained review affected IDs
+        if: ${{ inputs.resume_run_id != '' }}
+        run: node scripts/assurance/canonicalise-aqa-business-7132-mock-review-ids.mjs
 
       - name: Generate, blind-answer and assure the exact mock set
         env:

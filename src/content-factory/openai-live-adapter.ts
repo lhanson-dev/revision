@@ -24,6 +24,27 @@ const foundationQuestionFamiliesProviderSchema = z.object({
 
 type StructuredRunInput = Parameters<ProviderOpenAIStructuredWorkerClient['run']>[0]
 
+function exactReviewAffectedIds(payload: unknown) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return []
+  const record = payload as Record<string, unknown>
+  const ids = new Set<string>()
+  if (typeof record.unit_id === 'string' && record.unit_id.trim()) ids.add(record.unit_id)
+
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      value.forEach(visit)
+      return
+    }
+    if (!value || typeof value !== 'object') return
+    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+      if ((key === 'slot_id' || key === 'component_id') && typeof child === 'string' && child.trim()) ids.add(child)
+      visit(child)
+    }
+  }
+  visit(payload)
+  return [...ids]
+}
+
 export function bindExactReviewUnitId(input: StructuredRunInput): StructuredRunInput {
   if (input.routeKind !== 'independent_review') return input
   if (!input.payload || typeof input.payload !== 'object' || !('unit_id' in input.payload)) return input
@@ -32,13 +53,29 @@ export function bindExactReviewUnitId(input: StructuredRunInput): StructuredRunI
   if (!(input.outputSchema instanceof z.ZodObject)) return input
   if (!Object.prototype.hasOwnProperty.call(input.outputSchema.shape, 'unit_id')) return input
 
+  let outputSchema = input.outputSchema.safeExtend({ unit_id: z.literal(unitId) })
+  const instructions = [
+    `Preserve the supplied unit_id exactly as ${JSON.stringify(unitId)}. Do not change its spelling, punctuation or case.`,
+  ]
+
+  const affectedIds = exactReviewAffectedIds(input.payload)
+  const findingsSchema = outputSchema.shape.findings
+  if (affectedIds.length && findingsSchema instanceof z.ZodArray && findingsSchema.element instanceof z.ZodObject) {
+    const findingSchema = findingsSchema.element
+    if (Object.prototype.hasOwnProperty.call(findingSchema.shape, 'affected_ids')) {
+      const exactAffectedId = z.enum(affectedIds as [string, ...string[]])
+      const exactFindingSchema = findingSchema.safeExtend({
+        affected_ids: z.array(exactAffectedId).min(1),
+      })
+      outputSchema = outputSchema.safeExtend({ findings: z.array(exactFindingSchema) })
+      instructions.push('Preserve every affected_ids value exactly as it appears in the supplied review scope. Do not change spelling, punctuation or case, and do not invent identifiers.')
+    }
+  }
+
   return {
     ...input,
-    outputSchema: input.outputSchema.safeExtend({ unit_id: z.literal(unitId) }),
-    instructions: [
-      `Preserve the supplied unit_id exactly as ${JSON.stringify(unitId)}. Do not change its spelling, punctuation or case.`,
-      input.instructions,
-    ].join('\n'),
+    outputSchema,
+    instructions: [...instructions, input.instructions].join('\n'),
   }
 }
 
