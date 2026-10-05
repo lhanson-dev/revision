@@ -6,7 +6,7 @@ export interface HueProgressBarProps {
   value: number
   /** Subject hue for subject bars; `brand` for the teal brand bar (for example the week's study time). */
   hue?: SubjectHue | 'brand'
-  size?: 'sm' | 'md'
+  size?: 'sm' | 'md' | 'lg'
   /** Names what is being measured, for screen readers. */
   label: string
   /** Text shown beside the bar. Leave out to show only the bar. */
@@ -18,7 +18,7 @@ export interface HueProgressBarProps {
 export function HueProgressBar({ value, hue = 'brand', size = 'md', label, valueText, className }: HueProgressBarProps) {
   const clamped = Math.max(0, Math.min(100, value))
   return (
-    <div className={classNames('ui-hue-bar', size === 'sm' && 'ui-hue-bar--sm', className)}>
+    <div className={classNames('ui-hue-bar', size === 'sm' && 'ui-hue-bar--sm', size === 'lg' && 'ui-hue-bar--lg', className)}>
       <div
         className="ui-hue-bar__track"
         role="progressbar"

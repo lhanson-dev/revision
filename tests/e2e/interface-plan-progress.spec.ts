@@ -123,20 +123,19 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light', config
   })
 }
 
-test('Plan missing-input state uses the governed interface grammar and asks only for exams and realistic weekly time', async ({ page }) => {
+test('Plan missing-input state asks only for exams and realistic weekly time, in the side cards', async ({ page }) => {
   await seedSession(page)
   await page.goto(`${appPath}#/plan`)
 
   const plan = page.locator('.interface-plan-screen')
   await expect(plan).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
-  await expect(page.getByText('Your plan adapts as you go', { exact: true })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Add your exams' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Your weekly study time' })).toBeVisible()
-  await expect(page.getByText('Your plan will appear here', { exact: true })).toBeVisible()
-  await expect(page.getByPlaceholder('Ask REV anything…')).toBeVisible()
+  const heading = page.getByRole('heading', { name: 'Your week' })
+  await expect(heading).toBeVisible()
+  await expect(page.getByText('Your plan is waiting on you', { exact: true })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Study time' })).toBeVisible()
+  await expect(page.getByPlaceholder('Ask REV anything…')).toHaveCount(0)
 
-  const heading = page.getByRole('heading', { name: 'Plan' })
   const headingStyle = await heading.evaluate((element) => {
     const style = getComputedStyle(element)
     return { fontSize: style.fontSize, lineHeight: style.lineHeight }
@@ -147,15 +146,11 @@ test('Plan missing-input state uses the governed interface grammar and asks only
     expect(headingStyle).toEqual({ fontSize: '36px', lineHeight: '44px' })
   }
 
-  const examSetup = page.getByRole('region', { name: 'Add your exams' })
-  await expect(examSetup).toHaveCSS('border-radius', '20px')
-  const weeklySetup = page.getByRole('region', { name: 'Your weekly study time' })
-  await expect(weeklySetup).toHaveCSS('border-radius', '20px')
+  await page.getByRole('button', { name: 'Set study time' }).click()
+  await expect(page.getByRole('button', { name: 'More study time on Monday' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'More study time on Sunday' })).toHaveCSS('height', '48px')
 
-  await expect(page.getByRole('button', { name: 'Increase Mon study time' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Increase Sun study time' })).toBeVisible()
-
-  const saveWeeklyTime = page.getByRole('button', { name: 'Save weekly time' })
+  const saveWeeklyTime = page.getByRole('button', { name: 'Save study time' })
   await expect(saveWeeklyTime).toHaveClass(/ui-button--primary/)
   await expect(saveWeeklyTime).toHaveCSS('min-height', '48px')
   await expect(saveWeeklyTime).toHaveCSS('border-radius', '14px')
@@ -189,27 +184,18 @@ test('Plan missing-input state uses the governed interface grammar and asks only
   await expectNoPageOverflow(page)
 })
 
-test('Configured Plan defaults to the adaptive Week view and keeps management secondary', async ({ page }) => {
+test('Configured Plan opens on Day, with time against plan, exams and study time beside it', async ({ page }) => {
   await seedSession(page, 'light', true)
   await page.goto(`${appPath}#/plan`)
 
-  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
-  await expect(page.getByRole('button', { name: 'Manage exams' }).first()).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Plan settings' })).toBeVisible()
-  await expect(page.getByText('Next exam', { exact: true })).toBeVisible()
-  await expect(page.getByText('This week', { exact: true })).toBeVisible()
-  await expect(page.getByText('Plan status', { exact: true })).toBeVisible()
-
-  const week = page.locator('.plan-week-grid')
-  await expect(week).toBeVisible()
-  await expect(week.locator('.plan-week-day')).toHaveCount(7)
-  await expect(week.locator('.plan-task').first()).not.toContainText('Why this?')
-  await expect(page.getByRole('heading', { name: 'Upcoming exams' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
+  await expect(page.getByRole('tablist', { name: 'Days of the week' })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await page.getByRole('button', { name: 'Month', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Next four weeks' })).toBeVisible()
-  await expect(page.getByText('Further ahead, Revision shows direction rather than pretending every task is fixed.')).toBeVisible()
+  await expect(page.locator('.pln-month')).toBeVisible()
   await expectNoPageOverflow(page)
 })
 
@@ -220,17 +206,13 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
   const runtime = page.locator('.planner-runtime')
   await expect(runtime).toHaveAttribute('data-theme', 'dark')
 
-  const weeklySetup = page.getByRole('region', { name: 'Your weekly study time' })
-  const weeklySetupStyle = await weeklySetup.evaluate((element) => {
+  const studyCard = page.getByRole('region', { name: 'Study time' })
+  const studyStyle = await studyCard.evaluate((element) => {
     const style = getComputedStyle(element)
-    return { background: style.backgroundColor, color: style.color }
+    return { background: style.backgroundColor }
   })
-  expect(weeklySetupStyle.background).not.toBe('rgb(255, 255, 255)')
-  expect(weeklySetupStyle.color).toBe('rgb(230, 242, 239)')
-
-  const capacityDay = page.locator('.plan-capacity-day').first()
-  await expect(capacityDay).toHaveCSS('background-color', 'rgb(19, 39, 43)')
-  await expect(capacityDay).toHaveCSS('color', 'rgb(230, 242, 239)')
+  expect(studyStyle.background).not.toBe('rgb(255, 255, 255)')
+  await expect(page.locator('.pln-summary')).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)

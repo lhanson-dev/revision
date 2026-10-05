@@ -9,6 +9,8 @@ on:
       - 'content-factory/mock-exams/aqa-7132/**'
       - 'research/aqa-business-7132/2027/**'
       - 'research/business-subject-foundation/**'
+      - 'src/content-factory/openai-live-adapter.ts'
+      - 'src/content-factory/openai-live-adapter.test.ts'
       - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
       - 'scripts/content-factory/plan-aqa-business-7132-mock-set.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
@@ -61,7 +63,7 @@ jobs:
       - name: Run provider-free mock generation software assurance
         env:
           CONTENT_FACTORY_AQA_7132_MOCK_GENERATION: '0'
-        run: npx vitest run scripts/assurance/aqa-business-7132-mock-generation.test.ts scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts --reporter=verbose
+        run: npx vitest run src/content-factory/openai-live-adapter.test.ts scripts/assurance/aqa-business-7132-mock-generation.test.ts scripts/assurance/aqa-business-7132-mock-resume-feedback.test.ts --reporter=verbose
 
       - name: Prove pull-request assurance requires no provider key
         if: ${{ github.event_name == 'pull_request' }}

@@ -1,27 +1,32 @@
 # Plan
 
-**Status:** built in PR 6 (merged, #490); accepted sessions added in PR 8 (draft, awaiting Founder review).
+**Status:** redesigned in Plan v2.2 (branch `plan-screen-v2.2`, awaiting Founder review). Earlier: PR 6 (#490), PR 8 (#495).
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1, 8, 9), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 5), `10-product-governance/Adaptive Revision Planning.md`.
 
-## What the student sees
+## What the student sees (Plan redesign v2.2)
 
-- **Plan** opens on the **Week** view (Day and Month are one tap away). Today's column is highlighted.
-- Each planned session is a **solid block in the subject's colour**, with the subject's letter mark and name, the topic, the activity and the minutes. Business is blue, not brand teal. A subject with no colour in the subject map yet gets a neutral colour and its first letter, never teal, yellow or coral.
-- The **overview strip** shows the next exam (neutral text with a clock icon), the study time available this week and the plan status.
-- **Manage exams** and **Plan settings** (weekly study time per day) are unchanged in what they do. The study-time plus and minus buttons are now 48px (they were 32px).
-- On a phone or tablet the week becomes a day list, one day under the other. The page never scrolls sideways.
-- The set-up empty states (no exams yet, no study time yet) are unchanged.
+Source of truth: the Plan screen in the design package (`ui_kits/learner_app/PlanScreen.jsx`) and "v2.2 (Plan redesign)" in `CHANGES_v2.1.md`.
 
-## Accepted sessions (PR 8)
+- **Header:** "Your week" (or Next week, Last week, "Week of 12 Oct"; "Your month" or the month name) and **Add session**. Under it: ‹ date label › (the label opens a mini calendar; "This week" or "This month" appears when away from now) and the **Day / Week / Month** switch. The view and date are kept in the address, for example `#/plan?view=week&date=2026-10-05`, so a reload or shared link lands in the same place. Plan opens on Day, today.
+- **Summary card:** the period, time done of time planned, a percentage, a bar and a status in words with an icon (On track, Catching up, Finished, Coming up). It is time against plan, never a mastery percentage.
+- **Day:** a seven-day strip (keyboard tabs: arrows, Home, End) with subject-colour dots, a tick when everything is done and a pill on exam days, then that day's sessions.
+- **Week:** seven stacked days. Tapping a day opens it in Day view.
+- **Month:** Monday-first grid with session dots; exam days are solid subject colour with the letter mark; days outside the month are muted; tapping a day opens it in Day view.
+- **Rows:** letter mark, "Subject · Topic", and kind, length. Done rows are muted with a tick and "Done". Today, a REV pick has **Continue** and other sessions have **Start**. Exam rows are solid subject colour: "Exam day · in 17 days". Accepted sessions keep an **Options** menu: Start, Mark done (or Put back on plan), Move it, Skip, Remove.
+- **Your exams:** the next exam in solid subject colour with a days countdown, the rest listed, and **Add exam date** (which also lets the student remove a date or add a mock or topic test).
+- **Study time:** minutes per day, **Change study time** with 15-minute steppers (0 is Rest), **Save and re-plan**. Sessions already done never move.
+- The side column sits beside the main column on wide screens and below it at 1100px and under (two cards side by side on tablet, one column on phone). The page never scrolls sideways.
+- **Removed:** the REV suggests card, the weekly goal card, the "Your plan adapts as you go" explainer, the header "Ask REV anything" box and the old overview strip.
 
-Sessions the student puts on their plan are stored (table `learner_planned_sessions`, see `docs/technical/Learner Planned Sessions Implementation.md`) and shown on their day:
+## Honest data
 
-- Each is a block in the subject's colour with the subject mark, the topic, the activity and the minutes.
-- A session that came from a REV suggestion carries a **REV pick** tag. A session the student added carries none.
-- A **Done** session is shown in a plain surface with a **Done** tag (not faded, so the words stay readable).
-- Each has an **Options** menu: **Start** (opens the course section), **Mark done** (or **Put back on plan**), **Move it** (choose another day), **Skip** and **Remove**.
-- The derived plan works around them: an accepted session takes its minutes off that day's study time, and its topic is not suggested again elsewhere until it is done or skipped. Days still show the student's full study time.
-- If the table cannot be read (for example it has not been applied to the database yet), Plan simply shows no accepted sessions and says nothing about it.
+- Days show what is real: sessions the student accepted (including done ones, for past days), what the planner returns for the days ahead (it looks about two months ahead), and the student's exam dates. A day or week with none of these shows "Free. Nothing planned." or "Rest day. Nothing planned, on purpose." Nothing is invented for future weeks.
+- If exam dates or study time are missing, a short note says what is missing and the two side cards are where to add it. Sessions the student adds themselves still show.
+- If the sessions table cannot be read, Plan shows no accepted sessions, hides **Add session**, and says nothing about it.
+
+## Accepted sessions
+
+Sessions the student puts on their plan are stored (table `learner_planned_sessions`, see `docs/technical/Learner Planned Sessions Implementation.md`). A session that came from a REV suggestion carries a **REV pick** tag. The derived plan works around accepted sessions: one takes its minutes off that day's study time, and its topic is not suggested again until it is done or skipped.
 
 ## What did not change, and why
 
@@ -30,12 +35,14 @@ Sessions the student puts on their plan are stored (table `learner_planned_sessi
 
 ## Data used
 
-Existing data only: exam dates, weekly study time, learning evidence and the planner's own schedule. No new tables.
+Existing data only: exam dates (`revision_assessments`), weekly study time per weekday (`revision_availability_profiles`), accepted sessions, learning evidence and the planner's own schedule. No schema change.
 
 ## Tests that cover it
 
 - `src/app/subject-identity.test.ts`: known subjects use the subject map; unknown subjects get a neutral hue and a first letter.
-- `tests/e2e/interface-plan-progress.spec.ts`: set-up state, default Week view, dark theme surfaces.
+- `tests/e2e/plan-screen-v22.spec.ts`: the three views, address, keyboard (day strip and date picker), study time, add session, honest empty states, no sideways scroll at 1440/960/620/390/320, axe in light and dark.
+- `src/app/plan-model.test.ts`, `src/app/plan-dates.test.ts`, `src/app/navigation.test.ts`.
+- `tests/e2e/interface-plan-progress.spec.ts`: set-up state, dark theme surfaces.
 - `tests/e2e/horizontal-scroll.spec.ts` (Plan at 320 to 1440px), `accessibility.spec.ts`, `app-responsive.spec.ts`, `mobile-tabbar.spec.ts`.
 
 ## Screenshots

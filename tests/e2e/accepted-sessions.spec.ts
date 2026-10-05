@@ -171,23 +171,23 @@ test('Plan shows accepted sessions with REV pick, lets the student mark one done
   await fakePlannedSessions(page, rows)
   await page.goto(`${appPath}#/plan`)
 
-  const session = page.locator('.plan-session').first()
+  const session = page.locator('.pln-row[data-kind="session"]').first()
   await expect(session).toBeVisible()
   await expect(session.getByText('REV pick')).toBeVisible()
-  await expect(session.getByText(/Practice · 25 mins/)).toBeVisible()
+  await expect(session.getByText(/Practice · 25m/)).toBeVisible()
 
   await session.getByText('Options').click()
   await session.getByRole('button', { name: 'Mark done' }).click()
   await expect(page.getByText('Marked as done.')).toBeVisible()
-  await expect(page.locator('.plan-session[data-status="done"]').getByText('Done', { exact: true })).toBeVisible()
+  await expect(page.locator('.pln-row[data-done]').getByText('Done', { exact: true })).toBeVisible()
   expect(rows[0].status).toBe('done')
 
   // The options menu stays open after "Mark done", so only open it if it is closed.
-  const remove = page.locator('.plan-session').first().getByRole('button', { name: 'Remove' })
-  if (!(await remove.isVisible())) await page.locator('.plan-session').first().getByText('Options').click()
+  const remove = page.locator('.pln-row[data-kind="session"]').first().getByRole('button', { name: /^Remove/ })
+  if (!(await remove.isVisible())) await page.locator('.pln-row[data-kind="session"]').first().getByText('Options').click()
   await remove.click()
   await expect(page.getByText('Removed from your plan.')).toBeVisible()
-  await expect(page.locator('.plan-session')).toHaveCount(0)
+  await expect(page.locator('.pln-row[data-kind="session"]')).toHaveCount(0)
   expect(rows).toHaveLength(0)
 })
 
@@ -197,9 +197,9 @@ test('Plan works as before when the sessions table is not available yet', async 
   await fakePlannedSessions(page, null)
   await page.goto(`${appPath}#/plan`)
 
-  await expect(page.getByRole('heading', { name: 'Plan', exact: true }).first()).toBeVisible()
-  await expect(page.locator('.plan-week-day').first()).toBeVisible()
-  await expect(page.locator('.plan-session')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Your week', exact: true }).first()).toBeVisible()
+  await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.locator('.pln-row[data-kind="session"]')).toHaveCount(0)
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
 })
 
@@ -214,9 +214,9 @@ test('Plan and Home with accepted sessions meet the automated WCAG A/AA baseline
   await fakePlannedSessions(page, rows)
 
   await page.goto(`${appPath}#/plan`)
-  await expect(page.locator('.plan-session')).toHaveCount(2)
-  await page.locator('.plan-session').first().getByText('Options').click()
-  await page.locator('.plan-session').first().getByRole('button', { name: 'Move it' }).click()
+  await expect(page.locator('.pln-row[data-kind="session"]')).toHaveCount(2)
+  await page.locator('.pln-row[data-kind="session"]').first().getByText('Options').click()
+  await page.locator('.pln-row[data-kind="session"]').first().getByRole('button', { name: 'Move it' }).click()
   const plan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(plan.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 
