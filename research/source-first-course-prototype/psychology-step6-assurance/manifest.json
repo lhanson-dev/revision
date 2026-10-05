@@ -14,9 +14,10 @@
     "implementation": "scripts/assurance/psychology-step6-independent-assurance.ts",
     "deterministicAssurance": "scripts/assurance/psychology-step6-independent-assurance.test.ts",
     "liveWorkflow": ".github/workflows/psychology-step6-independent-assurance.yml",
-    "educationalReviewPackets": 4,
+    "educationalReviewPackets": 9,
     "assessmentReviewPackets": 3,
     "wholeCourseRequirementCoverage": 118,
+    "maximumPacketCharacters": 750000,
     "providerCallsDuringNormalCi": 0,
     "hardMaximumProviderSpendUsd": 5
   },
