@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_step_5_marking_evidence_contract",
+  "courseId": "aqa:aqa-a-level:7182",
+  "authorityBoundary": {
+    "route": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "markingAuthority": [
+      "80-company-workflows/Content Pack Production and Assurance Workflow.md",
+      "80-company-workflows/Content Accuracy Assurance Gate.md",
+      "10-product-governance/Assisted Exam Answer Marking.md",
+      "40-evidence-and-trust/Claims and Progress Governance.md"
+    ],
+    "productionMarkerAuthorised": false,
+    "runtimeEvidenceAuthorised": false
+  },
+  "practiceModeEvidenceClaims": {
+    "retrieval_prompt_flashcard": "knowledge_recall",
+    "recognition_discrimination_check": "discrimination_or_structure",
+    "classification_matching_ordering": "discrimination_or_structure",
+    "short_constructed_response": "selected_knowledge_and_explanation",
+    "contextual_application_scenario": "contextual_application",
+    "reasoning_chain_construction": "analysis_reasoning",
+    "compare_justify_task": "comparison_or_evaluation_judgement",
+    "calculation_quantitative_drill": "quantitative_execution",
+    "interpretation_data_graph_source": "data_interpretation",
+    "misconception_diagnostic": "misconception_discrimination",
+    "mixed_topic_retrieval": "synoptic_selection"
+  },
+  "basePracticeModesRequiringConcreteVariantBeforeScoring": [
+    "classification_matching_ordering",
+    "calculation_quantitative_drill",
+    "interpretation_data_graph_source",
+    "mixed_topic_retrieval"
+  ],
+  "markingPackRequiredFields": [
+    "exact_revision_owned_scored_item",
+    "maximum_mark",
+    "course_truth_requirement_ids",
+    "blueprint_unit_ids",
+    "criteria_with_reconciled_marks",
+    "ao_or_skill_allocation_as_applicable",
+    "valid_reasoning_routes",
+    "non_exhaustive_indicative_content",
+    "misconceptions_or_invalid_reasoning",
+    "diagnostic_feedback",
+    "ambiguity_and_confidence_rules",
+    "rights_and_provenance",
+    "calibration_status"
+  ],
+  "confidenceContract": {
+    "preciseMark": "only_when_criteria_mapping_is_unambiguous_and_item_context_is_sufficient",
+    "borderline": "retain_narrow_adjacent_range_instead_of_false_precision",
+    "abstain": "no_precise_mark_when_response_context_or_required_evidence_is_materially_missing_or_ambiguous"
+  },
+  "calibration": {
+    "step5Status": "uncalibrated_candidate",
+    "fabricatedAnchorsPermitted": false,
+    "independentCalibrationRequired": true
+  },
+  "wholePaperCalibration": {
+    "rawMarksPerPaper": 96,
+    "durationMinutesPerPaper": 120,
+    "qualificationRawMarks": 288,
+    "targetAoTotals": {
+      "7182/1": {"AO1": 36, "AO2": 24, "AO3": 36},
+      "7182/2": {"AO1": 21, "AO2": 54, "AO3": 21},
+      "7182/3": {"AO1": 32, "AO2": 16, "AO3": 48},
+      "qualification": {"AO1": 89, "AO2": 94, "AO3": 105}
+    },
+    "researchMethodsMarks": 72,
+    "mathematicalSkillsMarks": 32,
+    "paper3EveryValidOptionPathMustReconcile": true,
+    "futureAqaQuestionMixInvariantClaimed": false
+  },
+  "rights": {
+    "aqaClassification": "REFERENCE_ONLY",
+    "officialAqaQuestionsReusable": false,
+    "officialAqaMarkSchemeWordingReusable": false,
+    "revisionOwnedQuestionsContextsDataRubricsRequired": true,
+    "courseTruthInput": "rights_safe_subject_truth_only",
+    "examTruthInput": "structured_assessment_facts_only"
+  },
+  "promotionBoundary": {
+    "step5MarkingPacksCompleteDoesNotEnableRuntimeEvidence": true,
+    "step6IndependentAssuranceRequired": true,
+    "step7CanonicalRuntimeIntegrationRequired": true,
+    "restrictedPilotPublicationApproved": false
+  }
+}
