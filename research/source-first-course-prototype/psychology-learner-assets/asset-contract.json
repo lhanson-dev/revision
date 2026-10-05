@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_learner_asset_contract",
+  "courseId": "aqa:aqa-a-level:7182",
+  "authority": {
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md",
+    "learningDesign": "10-product-governance/Course Learning Blueprint.md",
+    "educationalTreatment": "20-brand-and-experience/Educational Treatment System.md",
+    "sourceRights": "40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md",
+    "accuracyAssurance": "80-company-workflows/Content Accuracy Assurance Gate.md"
+  },
+  "inputs": {
+    "courseTruth": "research/source-first-course-prototype/psychology-course-truth/",
+    "examTruth": "research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json",
+    "blueprintProjector": "scripts/content/derive-psychology-course-learning-blueprint.ts",
+    "requiredCourseTruthRequirements": 118,
+    "requiredTopics": 17,
+    "requiredExamSkillUnits": 6
+  },
+  "derivation": {
+    "builder": "scripts/content/derive-psychology-learner-assets.ts",
+    "rule": "Keep Course Truth and Exam Truth single-source. Build the learner corpus deterministically from rights-safe subject truth plus the approved Blueprint rather than copying the truth layer into a second manually maintained content store.",
+    "assetQuotaPolicy": "none",
+    "groupingRule": "Learn is assembled as one coherent chapter per current topic with traceable requirement sections. Practice count is exactly the set of Blueprint-selected evidence modes. Exam Prep topic sets cover the distinct Blueprint-selected question families/demand classes for each topic. These are coverage consequences, not fixed commercial quotas.",
+    "regenerationRule": "If Course Truth, Exam Truth or Blueprint inputs change, regenerate/reassure the affected learner corpus rather than patching around stale truth."
+  },
+  "learn": {
+    "readingFirst": true,
+    "requiredCoverage": [
+      "core_explanation",
+      "definitions_in_context",
+      "examples_and_non_examples_where_selected",
+      "relationships_and_research_interpretation",
+      "worked_reasoning_where_selected",
+      "quantitative_worked_examples_where_selected",
+      "misconception_repair_where_selected",
+      "evaluation_and_limits_where_required",
+      "synoptic_connections_where_selected",
+      "purposeful_visual_specifications_with_text_alternatives_where_selected"
+    ],
+    "evidenceBoundary": "Learn is exposure/review only. Learner-facing teaching does not create readiness evidence by itself."
+  },
+  "practice": {
+    "source": "Blueprint practiceEvidenceModes",
+    "activePracticeRequired": true,
+    "scoringStateDuringStep4": "marking_pack_pending_step_5",
+    "evidenceEligibleDuringStep4": false,
+    "rule": "Every selected Practice mode must have an active learner task plus a rights-safe feedback anchor. Step 4 does not create scored readiness claims before Step 5 builds the applicable Marking Packs/evidence mappings."
+  },
+  "examPrep": {
+    "revisionOwned": true,
+    "officialAqaMaterial": false,
+    "required": [
+      "six_blueprint_exam_skill_modules",
+      "topic_level_question_family_and_command_demand_coverage",
+      "modelled_or_guided_response_support_where_selected",
+      "independent_exam_style_questions",
+      "timing_guidance_from_96_marks_in_120_minutes",
+      "three_representative_full_paper_simulations",
+      "paper_3_valid_option_paths"
+    ],
+    "paperSimulationRule": "The simulations reproduce current structured paper/section/option facts but use independently authored Revision prompts. The chosen tariff mix is representative practice, not a claim about a fixed future AQA paper pattern.",
+    "markingStateDuringStep4": "pending_step_5"
+  },
+  "rights": {
+    "awardingBodyMaterial": "REFERENCE_ONLY",
+    "officialAqaSourceTextPermittedInLearnerCopy": false,
+    "officialAqaQuestionOrMarkSchemeProsePermitted": false,
+    "structuredAssessmentFactsPermitted": true,
+    "subjectTruth": "Only rights-safe Course Truth fields and their retained OPEN/LICENSED/REVISION_OWNED provenance may feed teaching/feedback copy.",
+    "boardAlignment": "May determine scope, placement and metadata but is not a learner-text corpus."
+  },
+  "completionBoundary": {
+    "step4CompleteMeans": "The full 17-topic Learn corpus, all Blueprint-selected active Practice modes, the six exam-skill modules, topic Exam Prep coverage and representative three-paper Revision simulations are deterministically producible with exact provenance and no known input blocker.",
+    "markingPacksComplete": false,
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "canonicalRuntimeIntegrated": false,
+    "learnerAssetReadyForPublication": false,
+    "restrictedPilotPublicationApproved": false
+  }
+}
