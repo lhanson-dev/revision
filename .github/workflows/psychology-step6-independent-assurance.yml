@@ -90,7 +90,7 @@ jobs:
         run: npx vitest run scripts/assurance/psychology-step6-independent-assurance.test.ts --reporter=verbose
 
       - name: Fail closed on retained packet decisions and dimensions
-        run: npx tsx scripts/assurance/psychology-step6-receipt-guard.ts
+        run: node scripts/assurance/psychology-step6-receipt-guard.ts
 
       - name: Upload retained Step 6 assurance evidence
         if: always()
