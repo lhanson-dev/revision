@@ -12,7 +12,10 @@
       {"id": "EDU-01", "topicNumbers": [1, 2]},
       {"id": "EDU-02", "topicNumbers": [3, 4]},
       {"id": "EDU-03", "topicNumbers": [5, 6]},
-      {"id": "EDU-04", "topicNumbers": [7]},
+      {"id": "EDU-04A", "topicNumbers": [7], "requirementIds": ["PSY-07-01","PSY-07-02","PSY-07-03","PSY-07-04","PSY-07-05","PSY-07-06","PSY-07-07","PSY-07-08","PSY-07-09"]},
+      {"id": "EDU-04B", "topicNumbers": [7], "requirementIds": ["PSY-07-10","PSY-07-11","PSY-07-12","PSY-07-13","PSY-07-14","PSY-07-15","PSY-07-16","PSY-07-17"]},
+      {"id": "EDU-04C", "topicNumbers": [7], "requirementIds": ["PSY-07-18","PSY-07-19","PSY-07-20","PSY-07-21","PSY-07-22","PSY-07-23"]},
+      {"id": "EDU-04D", "topicNumbers": [7], "requirementIds": ["PSY-07-24","PSY-07-25","PSY-07-26","PSY-07-27","PSY-07-28","PSY-07-29","PSY-07-30","PSY-07-31","PSY-07-32","PSY-07-33","PSY-07-34"]},
       {"id": "EDU-05", "topicNumbers": [8, 9]},
       {"id": "EDU-06", "topicNumbers": [10, 11]},
       {"id": "EDU-07", "topicNumbers": [12, 13]},
@@ -60,7 +63,7 @@
   "freshReview": {
     "sameGenerationContextPermitted": false,
     "machineReadableIssueRegisterRequired": true,
-    "blockingOrMaterialFindingForcesFailHold": true,
+    "blockingOrMaterialFindingOrDimensionForcesFailHold": true,
     "minorFindingsMayRemainForRestrictedPilot": true,
     "humanSubjectSpecialistRequiredForRestrictedPilot": false,
     "humanSubjectSpecialistRequiredBeforeCommercialBenchmark": true
@@ -84,7 +87,7 @@
     "runnerMergedMeansStep6Passed": false,
     "liveRunRequired": true,
     "allPacketsMustComplete": true,
-    "noUnresolvedBlockingOrMaterialFindings": true,
+    "noUnresolvedBlockingOrMaterialFindingsOrDimensions": true,
     "canonicalRuntimeIntegrationRequiredForStep6": false,
     "restrictedPilotPublicationApprovedByRunner": false
   }
