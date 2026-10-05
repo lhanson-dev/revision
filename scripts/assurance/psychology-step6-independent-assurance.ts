@@ -159,7 +159,7 @@ const REUSABLE_SOURCE_CLASSES = new Set(['OPEN', 'LICENSED', 'REVISION_OWNED'])
 const MAX_PACKET_CHARACTERS = 750_000
 const HARD_MAX_SPEND_USD = 5
 const MAX_ATTEMPTS = 2
-const MAX_OUTPUT_TOKENS = 6_000
+const MAX_OUTPUT_TOKENS = 16_000
 const OUTPUT_DIR = '.artifacts/psychology-step6-independent-assurance'
 
 const unique = <T>(values: T[]): T[] => [...new Set(values)]
@@ -470,6 +470,20 @@ function validateReview(review: PsychologyStep6Review, packetId: string, expecte
   }
 }
 
+class ProviderReviewFailure extends Error {
+  readonly costUsd: number
+  readonly searches: number
+  readonly attempts: number
+
+  constructor(message: string, economics: { costUsd: number; searches: number; attempts: number }) {
+    super(message)
+    this.name = 'ProviderReviewFailure'
+    this.costUsd = economics.costUsd
+    this.searches = economics.searches
+    this.attempts = economics.attempts
+  }
+}
+
 async function providerReview(args: {
   packet: EducationalReviewPacket | AssessmentReviewPacket
   model: string
@@ -484,14 +498,24 @@ async function providerReview(args: {
 
   let totalCostUsd = 0
   let totalSearches = 0
+  let completedAttempts = 0
   let lastError = ''
+  const fail = (message: string): never => {
+    throw new ProviderReviewFailure(message, {
+      costUsd: totalCostUsd,
+      searches: totalSearches,
+      attempts: completedAttempts,
+    })
+  }
+
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    completedAttempts = attempt
     const body: Record<string, unknown> = {
       model: args.model,
       store: false,
       reasoning: { context: 'current_turn', effort: 'high' },
       max_output_tokens: MAX_OUTPUT_TOKENS,
-      instructions: `You are the fresh independent assurance reviewer for Revision's AQA A-level Psychology 7182 source-first restricted-pilot candidate. You did not generate this material. Your role is adversarial error detection, not rewriting or style improvement. Review every content ID in the packet. Return blocking/material findings whenever publication would risk factual, educational, assessment or marking harm. Minor issues may remain minor. Do not use AQA protected prose. ${attempt > 1 ? `The previous attempt was unusable: ${lastError}. Return a complete response satisfying the same contract.` : ''}`,
+      instructions: `You are the fresh independent assurance reviewer for Revision's AQA A-level Psychology 7182 source-first restricted-pilot candidate. You did not generate this material. Your role is adversarial error detection, not rewriting or style improvement. Review every content ID in the packet. Return blocking/material findings whenever publication would risk factual, educational, assessment or marking harm. Minor issues may remain minor. Do not use AQA protected prose. Keep the structured response concise: use dimensions for pass states and create findings only for actual issues. ${attempt > 1 ? `The previous attempt was unusable: ${lastError}. Return a complete response satisfying the same contract.` : ''}`,
       input: JSON.stringify(args.packet),
       text: { format: { type: 'json_schema', name: 'psychology_step6_review', strict: true, schema: schemaJson() } },
     }
@@ -513,14 +537,8 @@ async function providerReview(args: {
       raw = await response.json() as Record<string, unknown>
     } catch (error) {
       lastError = `provider transport failure: ${error instanceof Error ? error.message : String(error)}`
-      if (attempt === MAX_ATTEMPTS) throw new Error(lastError)
+      if (attempt === MAX_ATTEMPTS) fail(lastError)
       continue
-    }
-
-    if (!response.ok) {
-      lastError = `provider HTTP ${response.status}: ${JSON.stringify(raw).slice(0, 800)}`
-      if ((response.status === 429 || response.status >= 500) && attempt < MAX_ATTEMPTS) continue
-      throw new Error(lastError)
     }
 
     const usage = (raw.usage && typeof raw.usage === 'object' ? raw.usage : undefined) as Usage | undefined
@@ -529,26 +547,31 @@ async function providerReview(args: {
     totalCostUsd = Number((totalCostUsd + attemptCost).toFixed(8))
     totalSearches += searches
 
+    if (!response.ok) {
+      lastError = `provider HTTP ${response.status}: ${JSON.stringify(raw).slice(0, 800)}`
+      if ((response.status === 429 || response.status >= 500) && attempt < MAX_ATTEMPTS) continue
+      fail(lastError)
+    }
+
     if (raw.status === 'incomplete') {
       lastError = `provider response incomplete: ${JSON.stringify(raw.incomplete_details ?? {})}`
-      if (attempt === MAX_ATTEMPTS) throw new Error(lastError)
+      if (attempt === MAX_ATTEMPTS) fail(lastError)
       continue
     }
 
-    let parsed: unknown
     try {
-      parsed = JSON.parse(responseText(raw))
+      const parsed = JSON.parse(responseText(raw))
+      const review = reviewSchema.parse(parsed)
+      const expectedIds = args.packet.packetType === 'educational' ? args.packet.requirementIds : args.packet.reviewedContentIds
+      validateReview(review, args.packet.packetId, expectedIds)
+      return { review, costUsd: totalCostUsd, searches: totalSearches, attempts: completedAttempts }
     } catch (error) {
-      lastError = `malformed structured output: ${error instanceof Error ? error.message : String(error)}`
-      if (attempt === MAX_ATTEMPTS) throw new Error(lastError)
-      continue
+      lastError = `invalid structured output: ${error instanceof Error ? error.message : String(error)}`
+      if (attempt === MAX_ATTEMPTS) fail(lastError)
     }
-    const review = reviewSchema.parse(parsed)
-    const expectedIds = args.packet.packetType === 'educational' ? args.packet.requirementIds : args.packet.reviewedContentIds
-    validateReview(review, args.packet.packetId, expectedIds)
-    return { review, costUsd: totalCostUsd, searches: totalSearches, attempts: attempt }
   }
-  throw new Error(`Provider attempts exhausted for ${args.packet.packetId}`)
+
+  fail(`Provider attempts exhausted for ${args.packet.packetId}`)
 }
 
 export async function runPsychologyStep6IndependentAssurance(args: {
@@ -591,6 +614,11 @@ export async function runPsychologyStep6IndependentAssurance(args: {
       if (observedSpendUsd > maxSpendUsd) throw new Error(`Observed Step 6 spend exceeded configured ceiling: US$${observedSpendUsd}`)
     }
   } catch (error) {
+    if (error instanceof ProviderReviewFailure) {
+      observedSpendUsd = Number((observedSpendUsd + error.costUsd).toFixed(8))
+      searches += error.searches
+      providerAttempts += error.attempts
+    }
     completionStatus = 'incomplete'
     failureReason = error instanceof Error ? error.message : String(error)
   }
