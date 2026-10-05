@@ -130,10 +130,15 @@ export type PsychologyStep6Packets = {
 }
 
 const EDUCATIONAL_GROUPS = [
-  { id: 'EDU-01', topicNumbers: [1, 2, 3, 4] },
-  { id: 'EDU-02', topicNumbers: [5, 6, 7] },
-  { id: 'EDU-03', topicNumbers: [8, 9, 10, 11] },
-  { id: 'EDU-04', topicNumbers: [12, 13, 14, 15, 16, 17] },
+  { id: 'EDU-01', topicNumbers: [1, 2] },
+  { id: 'EDU-02', topicNumbers: [3, 4] },
+  { id: 'EDU-03', topicNumbers: [5, 6] },
+  { id: 'EDU-04', topicNumbers: [7] },
+  { id: 'EDU-05', topicNumbers: [8, 9] },
+  { id: 'EDU-06', topicNumbers: [10, 11] },
+  { id: 'EDU-07', topicNumbers: [12, 13] },
+  { id: 'EDU-08', topicNumbers: [14, 15] },
+  { id: 'EDU-09', topicNumbers: [16, 17] },
 ] as const
 
 const ASSESSMENT_PAPERS = ['7182/1', '7182/2', '7182/3'] as const
