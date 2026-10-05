@@ -1,3 +1,7 @@
+import { execFileSync } from 'node:child_process'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 import { OpenAIStructuredWorkerClient } from '../../src/content-factory/openai-live-adapter'
@@ -109,5 +113,40 @@ describe('AQA 7132 mock semantic review identifier contract', () => {
     expect(result.status).toBe('failure')
     if (result.status === 'success') throw new Error('Expected exact affected_ids contract failure')
     expect(result.error).toContain('provider_contract_failure')
+  })
+
+  it('canonicalises only unique case-only retained paper/set ids before remediation', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'revision-mock-review-ids-'))
+    try {
+      const planDir = join(root, '.artifacts/content-factory-aqa-business-7132-mock-plan')
+      const outputDir = join(root, '.artifacts/content-factory-aqa-business-7132-mock-generation')
+      await mkdir(planDir, { recursive: true })
+      await mkdir(outputDir, { recursive: true })
+      await writeFile(join(planDir, 'mock-set-plan.json'), JSON.stringify({
+        papers: [
+          { component_id: '7132/1', slots: [{ slot_id: 'P1-B-04' }, { slot_id: 'P1-B-05' }, { slot_id: 'P1-B-06' }] },
+          { component_id: '7132/3', slots: [{ slot_id: 'P3-03' }, { slot_id: 'P3-04' }] },
+        ],
+      }))
+      await writeFile(join(outputDir, 'paper-review-ledger.json'), JSON.stringify({
+        units: {
+          '7132/1': { findings: [{ affected_ids: ['p1-b-04', 'p1-b-05', 'unknown-id'] }] },
+          '7132/3': { findings: [{ affected_ids: ['p3-03', 'p3-04'] }] },
+        },
+      }))
+      await writeFile(join(outputDir, 'set-review-ledger.json'), JSON.stringify({
+        units: { 'complete-set': { findings: [{ affected_ids: ['p3-04', 'mystery'] }] } },
+      }))
+
+      execFileSync(process.execPath, [resolve('scripts/assurance/canonicalise-aqa-business-7132-mock-review-ids.mjs')], { cwd: root, stdio: 'pipe' })
+
+      const paperLedger = JSON.parse(await readFile(join(outputDir, 'paper-review-ledger.json'), 'utf8'))
+      const setLedger = JSON.parse(await readFile(join(outputDir, 'set-review-ledger.json'), 'utf8'))
+      expect(paperLedger.units['7132/1'].findings[0].affected_ids).toEqual(['P1-B-04', 'P1-B-05', 'unknown-id'])
+      expect(paperLedger.units['7132/3'].findings[0].affected_ids).toEqual(['P3-03', 'P3-04'])
+      expect(setLedger.units['complete-set'].findings[0].affected_ids).toEqual(['P3-04', 'mystery'])
+    } finally {
+      await rm(root, { recursive: true, force: true })
+    }
   })
 })
