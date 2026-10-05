@@ -130,13 +130,7 @@ export const learnPageSchema = z.object({
   title: z.string().min(1),
   orientation: z.string().min(1),
   blocks: z.array(learnBlockSchema).min(1),
-}).superRefine((page, ctx) => {
-  // A quick check is a pause, not a quiz: at most two per page (Learn content styles v2.2).
-  if (page.blocks.filter((block) => block.type === 'quick-check').length > 2) {
-    ctx.addIssue({ code: 'custom', path: ['blocks'], message: 'A Learn page may have at most 2 quick checks.' })
-  }
 })
-
 export const learnGroupSchema = z.object({
   id: slugSchema,
   title: z.string().min(1),

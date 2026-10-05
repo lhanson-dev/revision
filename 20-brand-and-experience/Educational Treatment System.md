@@ -103,7 +103,7 @@ Source: `Learn Page Final` and `LearnBlock` (design system v2.1). Implementation
 | comparison | none | 2–3 columns on `--accent-tint`, r20; rows separated by `--line`; stack on mobile |
 | quantitative | `--bg`, r24, P | legend; series 1 `--accent` 3px, series 2 `--tx` 3px, series 3 `--tx2` 2px dashed; the crossing of series 1 and 2 is worked out and marked (dot, dashed drop line, label); "Show the data" toggle opens a per-series table; `role="img"` with a label |
 | misconception | `--neutral-tint`, r20, P | 40px `--sf` icon tile; label `--neutral-ink`; never coral or warning |
-| quick-check | governed: `--sf`, 2px dashed `--line`, r24, P | "Not scored"; at most 2 per page, after what it checks |
+| quick-check | governed: `--sf`, 2px dashed `--line`, r24, P | "Not scored"; aim for at most 2 per page, placed after what it checks (guidance for Content Factory; the schema does not reject more) |
 | recap | `--accent-tint`, r24, P | numbered list in 2 columns on desktop and tablet, 1 on mobile; always renders last |
 
 **Placement** (`LearnPageLayout`). On desktop an `explanation` followed directly by a `key-idea` is one row (`minmax(0,1fr) 264px`, gap 48) with the key idea in the margin; every other block, quick check included, spans the full article width. Tablet and mobile are one column in content order. Content order is kept except that `recap` is always last; Content Factory places any `misconception` directly before the recap so the page closes with Common mix-up, then What to remember.

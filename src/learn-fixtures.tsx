@@ -15,8 +15,8 @@ import { breakEvenPage, everyBlockPage } from './app/ui/learn/fixtures'
  * Dev-only fixture page: every Learn block type for several subject hues, in light and dark.
  * It proves a page renders from its content alone: nothing here styles a block by hand.
  *
- * Open /revision/learn-fixtures.html while developing. It is left out of the production build; the
- * Playwright run builds it in (vite build --mode learn-fixtures) so the e2e tests can screenshot it.
+ * Open /revision/learn-fixtures.html while developing. It is not part of the production build; the
+ * Playwright run serves it from the Vite dev server (see playwright.config.ts).
  *
  * Query: ?hue=blue|violet-bio|umber|... &theme=light|dark &page=every-block|break-even
  * With none of them, it shows blue, violet-bio and umber in both themes.

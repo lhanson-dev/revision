@@ -2,10 +2,10 @@ import { expect, test } from '@playwright/test'
 
 /**
  * Learn blocks render from their content alone, for any subject hue, in light and dark, at every
- * layout width. Uses the dev-only fixture page (built with `vite build --mode learn-fixtures`).
+ * layout width. Uses the dev-only fixture page (served by the Vite dev server on port 4174; see playwright.config.ts).
  * Screenshots are attached to the report for review; they are not pixel baselines.
  */
-const fixture = '/revision/learn-fixtures.html'
+const fixture = 'http://127.0.0.1:4174/revision/learn-fixtures.html'
 const hues = ['blue', 'violet-bio', 'umber'] as const
 const themes = ['light', 'dark'] as const
 const screenshotWidths = [{ name: 'desktop', width: 1440, height: 900 }, { name: 'tablet', width: 834, height: 1100 }, { name: 'mobile', width: 390, height: 844 }] as const

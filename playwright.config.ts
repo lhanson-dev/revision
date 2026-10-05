@@ -14,9 +14,18 @@ export default defineConfig({
     { name: 'tablet', use: { viewport: { width: 820, height: 1180 }, hasTouch: true } },
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
   ],
-  webServer: {
-    command: 'npm run build -- --mode learn-fixtures && npx vite preview --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173/revision/app/',
-    reuseExistingServer: !process.env.CI,
-  },
+  // Two servers: the built app (everything else), and the Vite dev server for the dev-only Learn fixture page.
+  // The fixture page is kept out of the production build so it cannot change how the real app is bundled.
+  webServer: [
+    {
+      command: 'npm run build && npx vite preview --host 127.0.0.1 --port 4173',
+      url: 'http://127.0.0.1:4173/revision/app/',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'npx vite --host 127.0.0.1 --port 4174 --strictPort',
+      url: 'http://127.0.0.1:4174/revision/learn-fixtures.html',
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 })

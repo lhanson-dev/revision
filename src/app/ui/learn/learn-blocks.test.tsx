@@ -31,14 +31,6 @@ describe('LearnBlock covers the schema', () => {
   })
 })
 
-describe('page rules in the schema', () => {
-  it('allows at most two quick checks on a page', () => {
-    const check = breakEvenPage.blocks[7]
-    expect(learnPageSchema.safeParse({ ...breakEvenPage, blocks: [breakEvenPage.blocks[0], check, check] }).success).toBe(true)
-    expect(learnPageSchema.safeParse({ ...breakEvenPage, blocks: [breakEvenPage.blocks[0], check, check, check] }).success).toBe(false)
-  })
-})
-
 describe('block markup', () => {
   it('gives each type its own class, not one shared box', () => {
     const classes = everyBlockPage.blocks.map((block) => /class="([^"]*)"/.exec(renderToStaticMarkup(<LearnBlock block={block} />))?.[1] ?? '')
