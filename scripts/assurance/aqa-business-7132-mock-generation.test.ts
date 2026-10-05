@@ -480,7 +480,7 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       apiKey: requiredEnv('OPENAI_API_KEY'),
       maxSpendUsd: remainingSpend,
       generation: model(7_000, 'medium'),
-      independentReview: model(4_000, 'high'),
+      independentReview: model(8_000, 'high'),
       maxRetries: 0,
     })
 
