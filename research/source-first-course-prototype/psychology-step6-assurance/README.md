@@ -16,12 +16,13 @@ The runner exists to answer one question: **is the complete Psychology candidate
 
 Normal repository CI performs all checks that can be proved mechanically without provider spend. The Step 6 tests verify that:
 
-- all 17 topics and all 118 Course Truth requirements appear exactly once in the educational review packets;
+- all 17 topics and all 118 Course Truth requirements appear exactly once across nine bounded educational review packets;
 - learner-facing material sent for review is bound to exact requirement and Blueprint IDs;
 - only rights-safe subject truth and source evidence enter the educational reviewer packets;
 - AQA `REFERENCE_ONLY` source text is excluded from provider input;
-- all scored Practice, topic Exam Prep and full-paper Marking Packs are represented in the assessment review packets;
+- every scored Practice Marking Pack is challenged alongside its teaching/Practice context, while topic Exam Prep and full-paper Marking Packs are represented in the three paper-specific assessment review packets;
 - the three paper structures, valid Paper 3 option routes and qualification calibration remain tied to approved Exam Truth;
+- no packet exceeds the 750,000-character context guard;
 - packet schemas, review schemas and final-decision rules are deterministic;
 - the live-review spend guard cannot be configured above **US$5**; and
 - no live provider call occurs during normal PR CI.
@@ -32,16 +33,17 @@ Existing Psychology Course Truth, Exam Truth, Blueprint, learner-asset and Marki
 
 After this runner is merged, the live workflow is manually dispatched against an exact current `main` SHA. It creates fresh provider contexts that did not generate the course.
 
-Educational review packets cover the whole course and challenge A1/A2 material for:
+Nine educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
 
 - factual and curriculum accuracy;
 - fidelity to the supplied rights-safe Course Truth and source evidence;
 - pedagogical distortion or misleading simplification;
 - omitted conditions or unsafe certainty;
-- misconception repair quality; and
-- whether Practice prompts teach or test the intended capability.
+- misconception repair quality;
+- whether Practice prompts teach or test the intended capability; and
+- whether scoreable Practice marking/evidence rules overclaim what the activity demonstrates.
 
-Assessment review packets are organised by paper and challenge A3/A4 material for:
+Three assessment review packets are organised by paper and challenge A3/A4 Exam Prep/full-paper material for:
 
 - in-scope and authentic assessment demand;
 - internally coherent Revision-owned scenarios/data;
@@ -60,14 +62,14 @@ Every fresh review returns machine-readable findings containing:
 
 - packet ID;
 - affected requirement/item IDs;
-- severity (`blocking`, `material`, `minor`, or `no_issue`);
+- severity (`blocking`, `material`, or `minor`);
 - issue type;
 - evidence/source/calculation used;
 - recommended correction;
 - affected artifact/work unit; and
 - resolution status.
 
-Any `blocking` or `material` finding forces `fail_hold`. A packet cannot report `pass` while carrying a material finding. Remediation is targeted to the smallest safe affected scope and prior assurance evidence is preserved rather than rewritten.
+No-issue/pass outcomes are represented by the packet decision and dimension statuses rather than fake findings. Any `blocking` or `material` finding forces `fail_hold`. A packet cannot report `pass` while carrying a material finding. Remediation is targeted to the smallest safe affected scope and prior assurance evidence is preserved rather than rewritten.
 
 ## Rights boundary
 
@@ -84,7 +86,8 @@ The source-first experiment is explicitly testing a cheaper course-production ro
 The runner:
 
 - performs deterministic work before any provider call;
-- sends compact grouped packets rather than repeated full-course dumps;
+- sends bounded topic groups rather than repeated full-course dumps;
+- keeps Research Methods in its own educational packet because that topic is materially denser;
 - uses bounded output and at most two attempts per packet;
 - conservatively reserves cost before starting another call;
 - records observed tokens/searches/spend; and
