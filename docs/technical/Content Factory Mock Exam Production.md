@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; first resume repaired the remaining Paper 3 question and reached 41/41 generated slots; blind-answer exact-slot contract hardening implemented after the next fail-closed boundary  
-**Current implementation baseline:** approved `main` after PR #522 (`783d69077c2bf2cfb4d795b47f2d8e63eab4dd69`)  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 generated slots retained; exact-slot blind-answer contract and bounded response-headroom hardening implemented from live pilot evidence  
+**Current implementation baseline:** approved `main` after PR #523 (`31725ceea04d56d72ed5b86a5e1b59a9b1267a78`)  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -23,7 +23,7 @@ PR #517 added the pre-generation profile foundation:
 - provider-free profile validation; and
 - the provider-free `Content Factory AQA Business 7132 Mock Profile` GitHub Action.
 
-PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
+PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. PR #523 bound fresh blind-answer output to the exact planned unit/slot set and retained unaffected blind units across failures. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
 
 ## Deterministic mock-set planner
 
@@ -119,6 +119,8 @@ Each bounded unit is answered blind by a fresh provider call that sees learner-f
 The blind-answer structured-output contract is bound to the exact unit identity and exact planned slot keys. The provider cannot satisfy the schema with a missing or invented slot ID; accepted provider output is then normalised into deterministic plan order before retention. Software still verifies the exact returned slot set before the blind unit is retained.
 
 A blind-answer unit is retried up to three times. If that unit still cannot satisfy the contract, its failure is persisted in `generation-state.json`, the runner continues attempting unaffected blind units, and the stage fails closed only after the bounded pass has retained everything else it can. Accepted blind units are reused by stable fingerprint on resume rather than purchased again.
+
+Live run `37280091393` showed that the previous 4,000-token high-reasoning independent-review ceiling could return provider status `incomplete` repeatedly on the two remaining larger coherent blind units even though 11 other blind units were retained successfully. The mock runner therefore uses an 8,000-token independent-review ceiling while retaining the same sequential execution, three-attempt unit limit and cumulative US$8 pilot cap. The adapter currently records the provider status but not `incomplete_details`, so this is a bounded capacity correction supported by the observed failure pattern rather than a claim that the provider's internal incomplete reason was independently proven.
 
 The unit reviewer then receives the generated unit, blind answers and compact Foundation evidence and answers only the fixed checklist covering:
 
@@ -222,16 +224,18 @@ The first live pilot was workflow run `37234199201` from approved `main` `93e2be
 
 It generated all four shared synthetic contexts and 40 of 41 planned question slots, then failed closed before blind-answer or semantic review because `P3-01` could not pass deterministic question validation after three attempts. The retained failure was `activity_e_total_float_after_amendment answer 1 is absent from the mark scheme`. Cumulative provider spend was **US$1.379328 across 47 calls**. No mock was published.
 
-The first governed resume was workflow run `37240194922` from approved `main` `783d69077c2bf2cfb4d795b47f2d8e63eab4dd69`. It restored the first run's exact evidence and sent the retained `P3-01` failure into the first new generation attempt. `P3-01` passed on that first resumed attempt, so the retained state now contains all four shared contexts and **41/41 generated question slots**, with no remaining deterministic generation failure.
+The first governed resume was workflow run `37240194922` from approved `main` `783d69077c2bf2cfb4d795b47f2d8e63eab4dd69`. It restored the first run's exact evidence and sent the retained `P3-01` failure into the first new generation attempt. `P3-01` passed on that first resumed attempt, so the retained state reached all four shared contexts and **41/41 generated question slots**, with no remaining deterministic generation failure.
 
-The same run then reached blind answering. `P1-A-CHUNK-1` was accepted and retained, while `P1-A-CHUNK-2` exhausted three provider attempts because the generic blind-answer schema permitted a returned slot set that did not exactly match the five planned MCQ slots. The runner failed closed at that boundary. Cumulative provider spend is now **US$1.475300**; the resume added **US$0.095972 across 6 provider calls**. No mock was published.
+The same run then reached blind answering. `P1-A-CHUNK-1` was accepted and retained, while `P1-A-CHUNK-2` exhausted three provider attempts because the generic blind-answer schema permitted a returned slot set that did not exactly match the five planned MCQ slots. The runner failed closed at that boundary. Cumulative provider spend reached **US$1.475300**; the resume added **US$0.095972 across 6 provider calls**. No mock was published.
 
-The run's `generation-state.json` is the current retained execution evidence: 4 contexts, 41 questions, one accepted blind unit, zero generation failures and cumulative spend US$1.475300. The old `summary.json` remained stale because the prior blind-answer path threw before rewriting it; the blind-contract hardening now writes a current `blind_answer_incomplete` summary before a stage exit.
+After PR #523 hardened the exact-slot contract, workflow run `37280091393` resumed that evidence from approved `main` `31725ceea04d56d72ed5b86a5e1b59a9b1267a78`. It reused all 41 generated questions and four shared contexts and retained **11 of 13 blind-answer units**. `P2-SET-3` and `P3-CASE-1` each exhausted three blind-answer attempts with provider status `incomplete`. The run added **US$0.464342 across 16 provider calls**, bringing cumulative mock-stage spend to **US$1.939642**. Its fail-closed artifact retained all successful work and publication remained locked.
 
-After this hardening is merged and production-verified, the next live workflow must resume exact evidence from run **`37240194922`**. It must preserve US$1.475300 cumulative spend, reuse all 41 generated questions and the accepted `P1-A-CHUNK-1` blind answer where fingerprints remain unchanged, and must not restart from run `37234199201` or reset the pilot.
+A later dispatch, workflow run `37283715555`, supplied the older `37240194922` resume ID. The linear cumulative-spend gate correctly rejected it because `37280091393` was already the latest evidence-bearing run. The provider stage never started, so this dispatch added **US$0** spend and is not a resume point.
+
+After the response-headroom hardening is merged and production-verified, the next live workflow must resume exact evidence from run **`37280091393`**. It must preserve US$1.939642 cumulative spend, all 41 generated questions, all four contexts and the 11 accepted blind units whose fingerprints remain unchanged. It must not resume `37240194922` or the pre-provider rejected run `37283715555`.
 
 ## Documentation impact
 
 Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
 
-Technical documentation is updated because the first governed resume exposed a blind-answer provider-contract defect and failure-isolation defect: a generic response schema allowed the provider to return the wrong slot set, and one exhausted blind unit stopped the whole bounded pass immediately. The correction constrains the structured output to the exact planned unit/slot keys, retains per-unit blind failures, lets unaffected units continue before the stage fails closed, and writes current failure evidence. It is implementation-only, provider-free on the PR, creates no new learner route and does not alter Course Truth, Exam Truth, Foundation, Mock Profile or the deterministic paper plan. `INDEX.md` already points to this technical document, so no index change is required.
+Technical documentation is updated because live evidence exposed a bounded provider-capacity defect after the exact-slot correction: two remaining larger blind-answer units repeatedly returned provider status `incomplete` under the mock runner's 4,000-token high-reasoning independent-review ceiling. The implementation correction raises that runner-local ceiling to 8,000 tokens while preserving the exact plan, fingerprints, retry/failure-isolation rules, US$8 cumulative cap and publication lock. It creates no learner route and does not alter Course Truth, Exam Truth, Foundation, Mock Profile or the deterministic paper plan. `INDEX.md` already points to this technical document, so no index change is required.
