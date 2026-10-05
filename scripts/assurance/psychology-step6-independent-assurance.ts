@@ -148,7 +148,8 @@ const EDUCATIONAL_GROUPS: EducationalGroup[] = [
   { id: 'EDU-04D', topicNumbers: [7], requirementIds: requirementIds(7, 24, 34) },
   { id: 'EDU-05', topicNumbers: [8, 9] },
   { id: 'EDU-06', topicNumbers: [10, 11] },
-  { id: 'EDU-07', topicNumbers: [12, 13] },
+  { id: 'EDU-07A', topicNumbers: [12] },
+  { id: 'EDU-07B', topicNumbers: [13] },
   { id: 'EDU-08', topicNumbers: [14, 15] },
   { id: 'EDU-09', topicNumbers: [16, 17] },
 ]
