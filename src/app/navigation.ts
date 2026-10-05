@@ -2,6 +2,10 @@ export type PaperSection = 'overview' | 'learn' | 'practice' | 'exam-prep' | 'pr
 export type CourseSection = PaperSection
 export type AdminSection = 'users' | 'activity' | 'health' | 'assurance' | 'content' | 'planner'
 
+/** Plan screen views. Kept here so the address bar and the screen agree on the names. */
+export type PlanViewKey = 'day' | 'week' | 'month'
+export const planViewKeys: readonly PlanViewKey[] = ['day', 'week', 'month']
+
 export type LearningRouteContext = {
   learnPageId?: string | null
   topicId?: string | null
@@ -9,7 +13,7 @@ export type LearningRouteContext = {
 
 export type AppRoute =
   | { kind: 'home' }
-  | { kind: 'plan' }
+  | { kind: 'plan'; view?: PlanViewKey; date?: string }
   | { kind: 'courses' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
@@ -20,7 +24,7 @@ export type AppRoute =
   | { kind: 'admin'; section?: AdminSection }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
-export const planRoute = (): AppRoute => ({ kind: 'plan' })
+export const planRoute = (options: { view?: PlanViewKey; date?: string } = {}): AppRoute => ({ kind: 'plan', ...options })
 export const coursesRoute = (): AppRoute => ({ kind: 'courses' })
 
 // Compatibility constructors retained while old subject-first links are migrated.
@@ -56,7 +60,13 @@ const clean = (value: string) => encodeURIComponent(value)
 export function routeHash(route: AppRoute) {
   switch (route.kind) {
     case 'home': return '#/home'
-    case 'plan': return '#/plan'
+    case 'plan': {
+      const params = new URLSearchParams()
+      if (route.view) params.set('view', route.view)
+      if (route.date) params.set('date', route.date)
+      const query = params.toString()
+      return query ? `#/plan?${query}` : '#/plan'
+    }
     case 'courses':
     case 'subjects':
     case 'subject': return '#/courses'
@@ -90,9 +100,28 @@ function validAdminSection(value: string): value is AdminSection {
   return ['users', 'activity', 'health', 'assurance', 'content', 'planner'].includes(value)
 }
 
+/** The Plan address is `#/plan?view=week&date=2026-10-05`. Anything that is not a real view or a real date is dropped. */
+export function parsePlanRoute(hash: string): AppRoute {
+  const params = new URLSearchParams(hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '')
+  const view = params.get('view')
+  const date = params.get('date')
+  return planRoute({
+    view: planViewKeys.find((key) => key === view),
+    date: date && validDateKey(date) ? date : undefined,
+  })
+}
+
+export function validDateKey(value: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
+  if (!match) return false
+  const year = Number(match[1]); const month = Number(match[2]) - 1; const day = Number(match[3])
+  const date = new Date(year, month, day)
+  return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day
+}
+
 export function parseRoute(hash: string): AppRoute {
   if (!hash || hash === '#' || hash === '#/' || hash === '#/home') return homeRoute()
-  if (hash === '#/plan') return planRoute()
+  if (hash === '#/plan' || hash.startsWith('#/plan?')) return parsePlanRoute(hash)
   if (hash === '#/courses' || hash === '#/subjects') return coursesRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()

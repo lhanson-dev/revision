@@ -9,6 +9,7 @@ import { QuickCheck } from './QuickCheck'
 import { RevMark } from './RevMark'
 import { StatusBadge } from './StatusBadge'
 import { SubjectBadge } from './SubjectBadge'
+import { Tag } from './Tag'
 import { UnderstandingBar } from './UnderstandingBar'
 import { breakpointForWidth } from './useBreakpoint'
 
@@ -177,5 +178,11 @@ describe('feedback bar', () => {
     const markup = renderToStaticMarkup(<FeedbackBar tone="correct" title="Correct" explanation="Yes." />)
     expect(markup).not.toContain('ui-feedback-bar__note')
     expect(markup).not.toContain('ui-feedback-bar__actions')
+  })
+})
+
+describe('Tag', () => {
+  it('renders its text as a plain label', () => {
+    expect(renderToStaticMarkup(<Tag>REV pick</Tag>)).toBe('<span class="ui-tag">REV pick</span>')
   })
 })

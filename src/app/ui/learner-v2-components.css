@@ -63,6 +63,10 @@
 .ui-hue-bar { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .ui-hue-bar__track { flex: 1; min-width: 0; height: 10px; overflow: hidden; border-radius: var(--rv-radius-bar); background: var(--rv-line); }
 .ui-hue-bar--sm .ui-hue-bar__track { height: 8px; }
+.ui-hue-bar--lg .ui-hue-bar__track { height: 14px; }
+
+/* ---- Tag ---------------------------------------------------------------- */
+.ui-tag { display: inline-flex; align-items: center; min-height: 24px; padding: 2px 10px; border-radius: 999px; background: var(--rv-soft); color: var(--rv-accent); font: 800 12px/1.2 var(--font-family-product); letter-spacing: .02em; white-space: nowrap; }
 .ui-hue-bar__fill { height: 100%; border-radius: var(--rv-radius-bar); transition: width 250ms var(--motion-ease-standard); }
 .ui-hue-bar__text { color: var(--color-text); font: 800 14px/1 var(--font-family-product); white-space: nowrap; }
 
