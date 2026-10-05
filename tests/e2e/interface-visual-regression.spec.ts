@@ -54,6 +54,10 @@ const cases: ReadonlyArray<VisualCase> = [
  * 48px button) instead of "A useful next step will appear here". Digests taken from the PR 14 CI runs 36989259361 and
  * 36990097836 (the "Expected value" lines; the two runs agree), not from a local browser. Screenshots reviewed:
  * docs/design/learner-redesign-v2/screenshots/pr-14/baselines/.
+ * Desktop Plan re-pinned on 5 October 2026 for the Plan redesign v2.2 (PR 533). Lee replied "approved" to the PR 533
+ * approval request, which listed these two baselines and linked the before/after pictures. Digests taken from the PR 533
+ * CI run 37330788981 (the "Expected value" lines), not from a local browser. Screenshots reviewed:
+ * docs/design/learner-redesign-v2/screenshots/plan-v2.2/.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'phone:light': 'd2135190e6e018783aaede294e0379c88364e901672d7d82d761a8a22b1f4649',
@@ -117,10 +121,14 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * set-up steps come first. Digests taken from the PR 14 CI runs 36989259361 and 36990097836 (the "Expected value"
  * lines; the two runs agree), not from a local browser. Screenshots reviewed:
  * docs/design/learner-redesign-v2/screenshots/pr-14/baselines/.
+ * Desktop Plan re-pinned on 5 October 2026 for the Plan redesign v2.2 (PR 533). Lee replied "approved" to the PR 533
+ * approval request, which listed these two baselines and linked the before/after pictures. Digests taken from the PR 533
+ * CI run 37330788981 (the "Expected value" lines), not from a local browser. Screenshots reviewed:
+ * docs/design/learner-redesign-v2/screenshots/plan-v2.2/.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '0edb94a702e36d14eaa87b5821d45f95d16cf1d0b6f62954802ebc30f9279661',
-  'desktop:plan:dark': 'fe1f1c94015f7ff5c9b608990e45e11f23140f14deb8f78634511a7d16c015bf',
+  'desktop:plan:light': '38e0c47bd3f10e04233d75314e0c35a99fb3aca68381b5077136b18ee521d080',
+  'desktop:plan:dark': '1a4eac96443b4a983054ecedfeb13cb34ba5db0dc95ea33d5290ea3944bf22b2',
   'tablet:courses:light': '3e4717b19b8c3b116352bf12799cc8753155583f7a0c6df3d6aa00d1b7074a87',
   'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
   'phone:practice:light': '7e9733b00c8a89cb44d9f646bcd1ebb0bf7a1a1c3436d944e948b9e1aea6431f',

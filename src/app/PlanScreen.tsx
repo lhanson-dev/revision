@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerItem, PlannerScheduledDay } from '../engine/planning/planning'
+import type { PlannerItem } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
+  addPlannedSession,
   loadPlannedSessions,
   movePlannedSession,
   removePlannedSession,
   setPlannedSessionStatus,
+  type NewPlannedSession,
   type PlannedSession,
   type PlannedSessionStatus,
 } from '../services/planning/planned-session-service'
@@ -14,27 +16,40 @@ import {
   archiveAssessment,
   loadPlannerSetup,
   recordPlannerActivityEvent,
-  revisionWeekDays,
   saveAvailabilityProfile,
   type AssessmentImportance,
   type AssessmentType,
   type RevisionAssessment,
   type RevisionAvailabilityException,
   type RevisionAvailabilityProfile,
+  type RevisionDayOfWeek,
   type RevisionPlanningPreference,
   type RevisionWeeklyAvailability,
 } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
-import { RevPresence } from './RevPresence'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
+import { learnerCourseRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
+import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
+import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
+import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
-import { activityWord, addDays, bookedMinutesByDate } from './accepted-sessions'
-import { dayKey as localDateKey } from './rev-suggestions'
-import { learnerCourseRoute, routeHash } from './navigation'
-import { resolveSubjectIdentity } from './subject-palette'
-import { subjectAccentKey } from './subject-accents'
-import { Button, EmptyState, Icon, LoadingState, PageHeader, SegmentedControl, SelectField, Status, SubjectBadge, Surface, TextField } from './ui'
+import {
+  addDaysToKey,
+  daysBetween,
+  monthGridKeys,
+  monthName,
+  monthOf,
+  sameMonth,
+  shiftMonth,
+  shortDateWithYear,
+  toKey,
+  weekKeys,
+  weekStart,
+} from './plan-dates'
+import { createPlanDayBuilder, overdueSessionCount, summarisePeriod, type PlanContext, type PlanSubject, type PlanSuggestedItem } from './plan-model'
+import { resolveSubjectIdentity, type SubjectHue } from './subject-palette'
+import { Button, EmptyState, Icon, LoadingState, ModalShell, OverlayBackdrop, SelectField, Status, Surface, TextField } from './ui'
 
 interface PlanScreenProps {
   client: SupabaseClient
@@ -42,30 +57,11 @@ interface PlanScreenProps {
   programme: readonly LearnerProgrammeCourse[]
   onOpenCourses: () => void
   onOpenCourse: (courseId: string) => void
-  onOpenRev?: (draft?: string) => void
 }
 
-type PlanView = 'day' | 'week' | 'month'
-
-const emptyWeeklyAvailability: RevisionWeeklyAvailability = {
-  monday: 0,
-  tuesday: 0,
-  wednesday: 0,
-  thursday: 0,
-  friday: 0,
-  saturday: 0,
-  sunday: 0,
-}
-
-const dayLabels: Record<keyof RevisionWeeklyAvailability, string> = {
-  monday: 'Mon',
-  tuesday: 'Tue',
-  wednesday: 'Wed',
-  thursday: 'Thu',
-  friday: 'Fri',
-  saturday: 'Sat',
-  sunday: 'Sun',
-}
+const MAX_STUDY_MINUTES = 240
+/** The planner looks about two months ahead, so accepted sessions are loaded at least that far. */
+const PLANNER_HORIZON_DAYS = 60
 
 function assessmentTypeLabel(type: AssessmentType) {
   if (type === 'public_exam') return 'Public exam'
@@ -81,22 +77,8 @@ function activityLabel(activity: string) {
   return 'Revision activity'
 }
 
-function formatDate(date: string, options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }) {
-  return new Intl.DateTimeFormat('en-GB', options).format(new Date(`${date}T12:00:00`))
-}
-
-function daysUntil(date: string) {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  return Math.ceil((new Date(`${date}T00:00:00`).getTime() - today.getTime()) / 86_400_000)
-}
-
-function itemTopicLabel(item: PlannerItem, states: readonly ModuleLearningState[]) {
-  const state = states.find((candidate) => {
-    if (item.courseId && courseIdForLearningState(candidate) !== item.courseId) return false
-    return Boolean(candidate.adapter.getTopic(item.topicId))
-  })
-  return state?.adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${date}T12:00:00`))
 }
 
 function courseLabel(programme: readonly LearnerProgrammeCourse[], courseId: string | null | undefined, subjectId?: string) {
@@ -105,37 +87,38 @@ function courseLabel(programme: readonly LearnerProgrammeCourse[], courseId: str
   return matches.length === 1 ? matches[0]?.label ?? subjectId ?? 'Course' : subjectId ?? 'Course'
 }
 
-function subjectLabel(programme: readonly LearnerProgrammeCourse[], subjectId: string) {
-  return programme.find((item) => item.subject.id === subjectId)?.subject.name ?? subjectId
+function subjectFor(programme: readonly LearnerProgrammeCourse[], subjectId: string, courseId?: string | null): PlanSubject {
+  const entry = (courseId ? programme.find((item) => item.course.id === courseId) : undefined) ?? programme.find((item) => item.subject.id === subjectId)
+  const name = entry?.subject.name ?? subjectId
+  const { hue, mark } = resolveSubjectIdentity(entry?.subject.id ?? subjectId, name)
+  return { subjectId: entry?.subject.id ?? subjectId, name, hue, mark }
 }
 
-function totalWeeklyMinutes(availability: RevisionAvailabilityProfile | null) {
-  if (!availability) return 0
-  return revisionWeekDays.reduce((sum, day) => sum + availability.weeklyMinutes[day], 0)
+function readPlace(todayKey: string): { view: PlanViewKey; anchor: string } {
+  const route = parseRoute(window.location.hash)
+  if (route.kind === 'plan') return { view: route.view ?? 'day', anchor: route.date ?? todayKey }
+  return { view: 'day', anchor: todayKey }
 }
 
-function formatDuration(totalMinutes: number) {
-  if (totalMinutes <= 0) return 'No time set'
-  const hours = Math.floor(totalMinutes / 60)
-  const minutes = totalMinutes % 60
-  if (hours === 0) return `${minutes}m`
-  if (minutes === 0) return `${hours}h`
-  return `${hours}h ${minutes}m`
+function weekTitle(anchor: string, todayKey: string) {
+  const offset = daysBetween(weekStart(todayKey), weekStart(anchor)) / 7
+  if (offset === 0) return { title: 'Your week', label: 'This week' }
+  if (offset === 1) return { title: 'Next week', label: 'Next week' }
+  if (offset === -1) return { title: 'Last week', label: 'Last week' }
+  const text = `Week of ${shortDateWithYear(weekStart(anchor), todayKey)}`
+  return { title: text, label: text }
 }
 
-function weekRange(days: readonly PlannerScheduledDay[]) {
-  if (days.length === 0) return 'Current week'
-  const first = days[0]?.date
-  const last = days[days.length - 1]?.date
-  if (!first || !last) return 'Current week'
-  const firstDate = new Date(`${first}T12:00:00`)
-  const lastDate = new Date(`${last}T12:00:00`)
-  const sameMonth = firstDate.getMonth() === lastDate.getMonth() && firstDate.getFullYear() === lastDate.getFullYear()
-  if (sameMonth) return `${formatDate(first, { day: 'numeric' })}–${formatDate(last, { day: 'numeric', month: 'short', year: 'numeric' })}`
-  return `${formatDate(first, { day: 'numeric', month: 'short' })} – ${formatDate(last, { day: 'numeric', month: 'short', year: 'numeric' })}`
+function monthLabel(anchor: string, todayKey: string) {
+  const { year } = monthOf(anchor)
+  const name = monthName(anchor)
+  return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCourse, onOpenRev }: PlanScreenProps) {
+export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCourse }: PlanScreenProps) {
+  const now = useMemo(() => new Date(), [])
+  const todayKey = toKey(now)
+
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
     courseId: item.course.id,
@@ -152,28 +135,43 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   // Sessions the student accepted. Null means the table cannot be read yet, so Plan shows none and says nothing about it.
   const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
-  const [moveOpenId, setMoveOpenId] = useState<string | null>(null)
-  const [moveDate, setMoveDate] = useState('')
+  const [sessionsLoadedRange, setSessionsLoadedRange] = useState<{ from: string; to: string } | null>(null)
+  const [sessionsUnavailable, setSessionsUnavailable] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
-  const [view, setView] = useState<PlanView>('week')
-  const [manageExamsOpen, setManageExamsOpen] = useState(false)
-  const [planSettingsOpen, setPlanSettingsOpen] = useState(false)
-  const [explanationOpen, setExplanationOpen] = useState(false)
-  const [revPrompt, setRevPrompt] = useState('')
-  const [weeklyDraft, setWeeklyDraft] = useState<RevisionWeeklyAvailability>(emptyWeeklyAvailability)
+  const [place, setPlace] = useState(() => readPlace(todayKey))
+  const [studyDraft, setStudyDraft] = useState<RevisionWeeklyAvailability | null>(null)
+  const [addSessionOpen, setAddSessionOpen] = useState(false)
+  const [addSessionError, setAddSessionError] = useState('')
+  const [examsOpen, setExamsOpen] = useState(false)
+  const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [examTemplateKey, setExamTemplateKey] = useState(() => examTemplates[0]?.key ?? '')
   const [examDate, setExamDate] = useState('')
-  const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [courseId, setCourseId] = useState(programme[0]?.course.id ?? '')
   const [title, setTitle] = useState('')
   const [assessmentDate, setAssessmentDate] = useState('')
   const [assessmentType, setAssessmentType] = useState<AssessmentType>('mock')
   const [importance, setImportance] = useState<AssessmentImportance>('normal')
 
+  const { view, anchor } = place
   const selectedCourseId = programme.some((item) => item.course.id === courseId) ? courseId : programme[0]?.course.id ?? ''
   const selectedExamTemplate = examTemplates.find((template) => template.key === examTemplateKey) ?? examTemplates[0]
+
+  /** Moves the screen and writes the view and date into the address, so a reload or a shared link lands in the same place. */
+  const goTo = useCallback((nextView: PlanViewKey, nextAnchor: string) => {
+    setPlace({ view: nextView, anchor: nextAnchor })
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${routeHash(planRoute({ view: nextView, date: nextAnchor }))}`)
+  }, [])
+
+  // Back, forward and the Plan link in the navigation change the address; follow it.
+  useEffect(() => {
+    const follow = () => {
+      if (parseRoute(window.location.hash).kind === 'plan') setPlace(readPlace(todayKey))
+    }
+    window.addEventListener('hashchange', follow)
+    return () => window.removeEventListener('hashchange', follow)
+  }, [todayKey])
 
   useEffect(() => {
     let active = true
@@ -196,7 +194,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
         setAvailability(setup.availability)
         setExceptions(setup.exceptions)
         setPreferences(setup.preferences)
-        if (setup.availability) setWeeklyDraft(setup.availability.weeklyMinutes)
         setMessage('')
       })
       .catch((error: unknown) => {
@@ -210,15 +207,36 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return () => { active = false }
   }, [client, programme, userId])
 
-  // Accepted sessions load on their own so a slow or missing table never holds up the plan.
+  // The days on screen, and the planner's horizon, decide which accepted sessions to load. Loaded ranges only grow.
+  const visibleKeys = useMemo(
+    () => (view === 'month' ? monthGridKeys(monthOf(anchor).year, monthOf(anchor).month) : weekKeys(anchor)),
+    [view, anchor],
+  )
+  const neededFrom = visibleKeys[0] < todayKey ? visibleKeys[0] : todayKey
+  const horizonKey = addDaysToKey(todayKey, PLANNER_HORIZON_DAYS)
+  const neededTo = visibleKeys[visibleKeys.length - 1] > horizonKey ? visibleKeys[visibleKeys.length - 1] : horizonKey
+
   useEffect(() => {
+    if (sessionsLoadedRange && sessionsLoadedRange.from <= neededFrom && sessionsLoadedRange.to >= neededTo) return
     let active = true
-    const startKey = localDateKey(new Date())
-    loadPlannedSessions(client, userId, startKey, addDays(startKey, 27))
-      .then((sessions) => { if (active) setPlannedSessions(sessions) })
-      .catch(() => { if (active) setPlannedSessions(null) })
+    const from = sessionsLoadedRange && sessionsLoadedRange.from < neededFrom ? sessionsLoadedRange.from : neededFrom
+    const to = sessionsLoadedRange && sessionsLoadedRange.to > neededTo ? sessionsLoadedRange.to : neededTo
+    loadPlannedSessions(client, userId, from, to)
+      .then((sessions) => {
+        if (!active) return
+        setPlannedSessions(sessions)
+        setSessionsUnavailable(false)
+        setSessionsLoadedRange({ from, to })
+      })
+      .catch(() => {
+        if (!active) return
+        // The table cannot be read (for example it has not been applied yet): show no accepted sessions and say nothing.
+        setPlannedSessions(null)
+        setSessionsUnavailable(true)
+        setSessionsLoadedRange({ from, to })
+      })
     return () => { active = false }
-  }, [client, userId])
+  }, [client, userId, neededFrom, neededTo, sessionsLoadedRange])
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => assessments.filter((assessment) => {
@@ -229,45 +247,101 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
   const upcoming = useMemo(
     () => activeAssessments
-      .filter((assessment) => daysUntil(assessment.assessmentDate) >= 0)
+      .filter((assessment) => assessment.assessmentDate >= todayKey)
       .sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate)),
-    [activeAssessments],
+    [activeAssessments, todayKey],
   )
 
   const snapshot = useMemo(
-    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, new Date(), plannedSessions ?? []),
-    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions],
+    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions ?? []),
+    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, now],
   )
 
-  const weekDays = snapshot?.schedule.slice(0, 7) ?? []
-  const monthDays = snapshot?.schedule.slice(0, 28) ?? []
-  const nextExam = upcoming[0] ?? null
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
   const setupComplete = !setupMissingExams && !setupMissingAvailability
-  const bookedByDate = useMemo(() => bookedMinutesByDate(plannedSessions ?? []), [plannedSessions])
-  // The planner works with the study time left after accepted sessions; the student sees their full study time for each day.
-  const dayCapacity = (day: PlannerScheduledDay) => day.availableMinutes + (bookedByDate.get(day.date) ?? 0)
-  const sessionsOn = (date: string) => (plannedSessions ?? []).filter((session) => session.plannedDate === date && session.status !== 'skipped')
-  const currentWeekMinutes = weekDays.length > 0
-    ? weekDays.reduce((sum, day) => sum + dayCapacity(day), 0)
-    : totalWeeklyMinutes(availability)
 
-  function updateWeeklyDay(day: keyof RevisionWeeklyAvailability, delta: number) {
-    setWeeklyDraft((current) => ({ ...current, [day]: Math.max(0, Math.min(1440, current[day] + delta)) }))
+  const topicLabel = useCallback((forCourseId: string | undefined, topicId: string) => {
+    const state = learningStates.find((candidate) => (!forCourseId || courseIdForLearningState(candidate) === forCourseId) && candidate.adapter.getTopic(topicId))
+    return state?.adapter.getTopic(topicId)?.shortTitle ?? topicId
+  }, [learningStates])
+
+  const planContext = useMemo<PlanContext>(() => ({
+    todayKey,
+    sessions: plannedSessions ?? [],
+    schedule: snapshot?.schedule ?? [],
+    assessments: activeAssessments,
+    weeklyMinutes: availability?.weeklyMinutes ?? null,
+    exceptions,
+    subjectForCourse: (forCourseId) => {
+      const entry = programme.find((item) => item.course.id === forCourseId)
+      return entry ? subjectFor(programme, entry.subject.id, forCourseId) : { subjectId: '', name: courseLabel(programme, forCourseId), ...resolveSubjectIdentity('', courseLabel(programme, forCourseId)) }
+    },
+    subjectForItem: (item) => subjectFor(programme, item.subjectId, item.courseId),
+    subjectForAssessment: (assessment) => subjectFor(programme, assessment.subjectId, assessment.courseId),
+    topicLabel,
+    suggestedActivityLabel: activityLabel,
+  }), [todayKey, plannedSessions, snapshot, activeAssessments, availability, exceptions, programme, topicLabel])
+
+  const buildDay = useMemo(() => createPlanDayBuilder(planContext), [planContext])
+  const visibleDays = useMemo(() => visibleKeys.map(buildDay), [visibleKeys, buildDay])
+
+  const monthIndex = monthOf(anchor).month
+  const isMonth = view === 'month'
+  // The summary covers the whole week (Day and Week views) or the days inside the month, never the muted days around it.
+  const periodDays = isMonth ? visibleDays.filter((day) => sameMonth(day.key, anchor)) : visibleDays
+  const periodStart = periodDays[0]?.key ?? anchor
+  const periodEnd = periodDays[periodDays.length - 1]?.key ?? anchor
+  const summary = useMemo(
+    () => summarisePeriod(periodDays, todayKey, periodStart, periodEnd, overdueSessionCount(periodDays)),
+    [periodDays, todayKey, periodStart, periodEnd],
+  )
+
+  const week = weekTitle(anchor, todayKey)
+  const pageTitle = isMonth ? (sameMonth(anchor, todayKey) ? 'Your month' : monthLabel(anchor, todayKey)) : week.title
+  const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
+  const atNow = isMonth ? sameMonth(anchor, todayKey) : weekStart(anchor) === weekStart(todayKey)
+
+  const examHues = useMemo(() => {
+    const hues = new Map<string, SubjectHue>()
+    activeAssessments.forEach((assessment) => hues.set(assessment.assessmentDate, subjectFor(programme, assessment.subjectId, assessment.courseId).hue))
+    return hues
+  }, [activeAssessments, programme])
+
+  const examEntries = useMemo(
+    () => upcoming.map((assessment) => ({ assessment, subject: subjectFor(programme, assessment.subjectId, assessment.courseId) })),
+    [upcoming, programme],
+  )
+
+  const addSessionCourses = useMemo<PlanAddSessionCourse[]>(() => programme.map((item) => {
+    const topics = new Map<string, string>()
+    learningStates
+      .filter((state) => courseIdForLearningState(state) === item.course.id)
+      .forEach((state) => state.adapter.listTopics().forEach((topic) => { if (!topics.has(topic.id)) topics.set(topic.id, topic.shortTitle ?? topic.id) }))
+    return { courseId: item.course.id, label: item.label, topics: [...topics].map(([id, label]) => ({ id, label })) }
+  }).filter((item) => item.topics.length > 0), [programme, learningStates])
+
+  /* -------------------------------------------------------------- Handlers */
+
+  function updateStudyDay(day: RevisionDayOfWeek, delta: number) {
+    setStudyDraft((current) => (current ? { ...current, [day]: Math.max(0, Math.min(MAX_STUDY_MINUTES, current[day] + delta)) } : current))
+  }
+
+  function startEditingStudyTime() {
+    setStudyDraft(availability?.weeklyMinutes ?? { monday: 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0, saturday: 0, sunday: 0 })
   }
 
   async function handleSaveAvailability() {
+    if (!studyDraft) return
     setSaving(true)
     setMessage('')
     try {
-      const saved = await saveAvailabilityProfile(client, userId, { weeklyMinutes: weeklyDraft })
+      const saved = await saveAvailabilityProfile(client, userId, { weeklyMinutes: studyDraft })
       setAvailability(saved)
-      setWeeklyDraft(saved.weeklyMinutes)
-      setPlanSettingsOpen(false)
-      setMessage('Weekly study time saved. Revision has recalculated around the time you realistically have.')
+      setStudyDraft(null)
+      setMessage('Study time saved. REV has re-planned around it. Sessions you have done stay put.')
     } catch (error: unknown) {
-      setMessage(error instanceof Error ? error.message : 'Could not save weekly study time.')
+      setMessage(error instanceof Error ? error.message : 'Could not save study time.')
     } finally {
       setSaving(false)
     }
@@ -300,7 +374,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       })
       setAssessments((current) => [...current, saved])
       setExamDate('')
-      setMessage('Exam added. Revision has recalculated the plan around the new date.')
+      setExamsOpen(false)
+      setMessage('Exam added. REV has re-planned around the new date.')
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not add exam.')
     } finally {
@@ -330,7 +405,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       setTitle('')
       setAssessmentDate('')
       setImportance('normal')
-      setMessage('Assessment added. Revision has recalculated what deserves attention across your active courses.')
+      setExamsOpen(false)
+      setMessage('Assessment added. REV has re-planned around it.')
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not add assessment.')
     } finally {
@@ -344,7 +420,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     try {
       await archiveAssessment(client, userId, assessmentId)
       setAssessments((current) => current.filter((assessment) => assessment.assessmentId !== assessmentId))
-      setMessage('Assessment removed. Revision has recalculated from the remaining priorities.')
+      setMessage('Removed. REV has re-planned from what is left.')
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not remove assessment.')
     } finally {
@@ -352,7 +428,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
   }
 
-  async function handleStart(item: PlannerItem) {
+  async function handleStartSuggested(entry: PlanSuggestedItem) {
+    const item: PlannerItem = entry.item
     try {
       await recordPlannerActivityEvent(client, userId, {
         recommendationId: item.recommendationId,
@@ -368,11 +445,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
     if (item.courseId) onOpenCourse(item.courseId)
     else onOpenCourses()
-  }
-
-  function topicLabelFor(courseId: string, topicId: string) {
-    const state = learningStates.find((candidate) => courseIdForLearningState(candidate) === courseId && candidate.adapter.getTopic(topicId))
-    return state?.adapter.getTopic(topicId)?.shortTitle ?? topicId
   }
 
   function startSession(session: PlannedSession) {
@@ -394,19 +466,19 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
   }
 
-  async function moveSession(session: PlannedSession) {
-    if (!moveDate) {
+  async function moveSession(session: PlannedSession, date: string) {
+    if (!date) {
       setMessage('Choose a day to move it to.')
-      return
+      return false
     }
     setMessage('')
     try {
-      replaceSession(await movePlannedSession(client, userId, session.sessionId, moveDate))
-      setMoveOpenId(null)
-      setMoveDate('')
+      replaceSession(await movePlannedSession(client, userId, session.sessionId, date))
       setMessage('Moved.')
+      return true
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not move that session.')
+      return false
     }
   }
 
@@ -421,238 +493,177 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
   }
 
-  function submitRevPrompt(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (!onOpenRev) return
-    const text = revPrompt.trim()
-    onOpenRev(text || undefined)
-    setRevPrompt('')
+  async function handleAddSession(session: NewPlannedSession) {
+    setSaving(true)
+    setAddSessionError('')
+    try {
+      const saved = await addPlannedSession(client, userId, session)
+      setPlannedSessions((current) => [...(current ?? []), saved])
+      setAddSessionOpen(false)
+      goTo('day', saved.plannedDate)
+      setMessage('Session added to your plan.')
+    } catch (error: unknown) {
+      setAddSessionError(error instanceof Error ? error.message : 'Could not add that session.')
+    } finally {
+      setSaving(false)
+    }
   }
+
+  const actions: PlanRowActions = {
+    onStartSession: startSession,
+    onStartSuggested: (entry) => void handleStartSuggested(entry),
+    onStatus: (session, status) => void changeSessionStatus(session, status),
+    onMove: moveSession,
+    onRemove: (session) => void deleteSession(session),
+  }
+
+  /* ----------------------------------------------------------------- View */
 
   function renderExamManager() {
     return (
-      <Surface className="plan-management-panel" aria-labelledby="manage-exams-title">
-        <div className="planner-panel-heading">
-          <div>
-            <p className="eyebrow">Exam dates</p>
-            <h2 id="manage-exams-title">Manage exams</h2>
-            <p>Revision uses these dates to understand what is getting closer and when exam-style work becomes more useful.</p>
-          </div>
-          {!setupMissingExams && <Button variant="tertiary" size="compact" onClick={() => setManageExamsOpen(false)}>Close</Button>}
-        </div>
-        {upcoming.length > 0 && <ol className="plan-exam-list">
-          {upcoming.map((assessment) => (
-            <li key={assessment.assessmentId}>
-              <div><span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span><strong>{assessment.title}</strong><span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span></div>
-              <div className="plan-exam-date"><strong>{formatDate(assessment.assessmentDate)}</strong><span>{daysUntil(assessment.assessmentDate) === 0 ? 'Today' : `${daysUntil(assessment.assessmentDate)} days`}</span></div>
-              <Button variant="tertiary" size="compact" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</Button>
-            </li>
-          ))}
-        </ol>}
-        {examTemplates.length > 0 && <form className="plan-add-exam" onSubmit={handleAddKnownExam}>
-          <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => setExamTemplateKey(event.target.value)}>
-            {examTemplates.map((template) => <option key={template.key} value={template.key}>{template.courseLabel} · {template.paperLabel}</option>)}
-          </SelectField>
-          <TextField label="Exam date" type="date" required value={examDate} onChange={(event) => setExamDate(event.target.value)} />
-          <Button type="submit" disabled={saving || !selectedExamTemplate}>Add exam</Button>
-        </form>}
-        <button className="plan-disclosure-link" type="button" onClick={() => setOtherAssessmentOpen((open) => !open)} aria-expanded={otherAssessmentOpen}>+ Add a mock, topic test or other assessment</button>
-        {otherAssessmentOpen && <form className="planner-form plan-other-assessment" onSubmit={handleAddAssessment}>
-          <SelectField label="Course" value={selectedCourseId} required onChange={(event) => setCourseId(event.target.value)}>
-            {programme.map((item) => <option key={item.course.id} value={item.course.id}>{item.label}</option>)}
-          </SelectField>
-          <TextField label="What is it?" value={title} required maxLength={120} placeholder="e.g. Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
-          <div className="planner-field-grid">
-            <SelectField label="Type" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
-              <option value="mock">Mock</option><option value="topic_test">Topic test</option><option value="other">Other</option>
-            </SelectField>
-            <TextField label="Date" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
-          </div>
-          <SelectField label="Importance" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
-            <option value="normal">Normal</option><option value="high">Higher priority</option>
-          </SelectField>
-          <Button type="submit" disabled={saving || programme.length === 0}>Add assessment</Button>
-        </form>}
-      </Surface>
-    )
-  }
-
-  function renderWeeklySettings(inSetup = false) {
-    return (
-      <Surface className={`plan-management-panel plan-weekly-settings ${inSetup ? 'plan-setup-weekly' : ''}`} aria-labelledby={inSetup ? 'weekly-setup-title' : 'plan-settings-title'}>
-        <div className="planner-panel-heading">
-          <div><p className="eyebrow">{inSetup ? 'Step 2 of 2' : 'Plan settings'}</p><h2 id={inSetup ? 'weekly-setup-title' : 'plan-settings-title'}>Your weekly study time</h2><p>Tell Revision how much time you realistically have. This is not a target; it helps the plan fit around your week.</p></div>
-          {!inSetup && <Button variant="tertiary" size="compact" onClick={() => setPlanSettingsOpen(false)}>Close</Button>}
-        </div>
-        <div className="plan-weekly-capacity-grid">
-          {revisionWeekDays.map((day) => <div className="plan-capacity-day" key={day}>
-            <strong>{dayLabels[day]}</strong><span>Add time</span>
-            <div className="plan-capacity-stepper">
-              <button type="button" aria-label={`Decrease ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, -15)}>−</button>
-              <b>{formatDuration(weeklyDraft[day])}</b>
-              <button type="button" aria-label={`Increase ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, 15)}>+</button>
+      <div className="pln-overlay">
+        <OverlayBackdrop label="Close exam dates" onClick={() => setExamsOpen(false)} />
+        <ModalShell className="pln-dialog pln-dialog--wide" labelledBy="manage-exams-title" onDismiss={() => setExamsOpen(false)} initialFocusSelector="select, input">
+          <div className="pln-dialog__form">
+            <div className="pln-dialog__head">
+              <div>
+                <p className="eyebrow">Exam dates</p>
+                <h2 id="manage-exams-title">Your exams</h2>
+                <p className="pln-card__note">REV uses these dates to see what is getting closer and when exam-style work becomes more useful.</p>
+              </div>
+              <Button variant="tertiary" size="compact" onClick={() => setExamsOpen(false)}>Close</Button>
             </div>
-          </div>)}
-        </div>
-        <div className="plan-settings-footer"><span>You can update this later. Your plan will recalculate automatically when your availability changes.</span><Button disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Save changes' : 'Save weekly time'}</Button></div>
-      </Surface>
+            {activeAssessments.length > 0 && (
+              <ol className="plan-exam-list">
+                {[...activeAssessments].sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate)).map((assessment) => (
+                  <li key={assessment.assessmentId}>
+                    <div><span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span><strong>{assessment.title}</strong><span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span></div>
+                    <div className="plan-exam-date"><strong>{formatDate(assessment.assessmentDate)}</strong></div>
+                    <Button variant="tertiary" size="compact" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove<span className="sr-only"> {assessment.title}</span></Button>
+                  </li>
+                ))}
+              </ol>
+            )}
+            {examTemplates.length > 0 && (
+              <form className="plan-add-exam" onSubmit={handleAddKnownExam}>
+                <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => setExamTemplateKey(event.target.value)}>
+                  {examTemplates.map((template) => <option key={template.key} value={template.key}>{template.courseLabel} · {template.paperLabel}</option>)}
+                </SelectField>
+                <TextField label="Exam date" type="date" required value={examDate} onChange={(event) => setExamDate(event.target.value)} />
+                <Button type="submit" disabled={saving || !selectedExamTemplate}>Add exam</Button>
+              </form>
+            )}
+            <button className="plan-disclosure-link" type="button" onClick={() => setOtherAssessmentOpen((open) => !open)} aria-expanded={otherAssessmentOpen}>+ Add a mock, topic test or other assessment</button>
+            {otherAssessmentOpen && (
+              <form className="planner-form plan-other-assessment" onSubmit={handleAddAssessment}>
+                <SelectField label="Course" value={selectedCourseId} required onChange={(event) => setCourseId(event.target.value)}>
+                  {programme.map((item) => <option key={item.course.id} value={item.course.id}>{item.label}</option>)}
+                </SelectField>
+                <TextField label="What is it?" value={title} required maxLength={120} placeholder="e.g. Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
+                <div className="planner-field-grid">
+                  <SelectField label="Type" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
+                    <option value="mock">Mock</option><option value="topic_test">Topic test</option><option value="other">Other</option>
+                  </SelectField>
+                  <TextField label="Date" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
+                </div>
+                <SelectField label="Importance" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
+                  <option value="normal">Normal</option><option value="high">Higher priority</option>
+                </SelectField>
+                <Button type="submit" disabled={saving || programme.length === 0}>Add assessment</Button>
+              </form>
+            )}
+          </div>
+        </ModalShell>
+      </div>
     )
   }
 
-  const todayIso = (() => {
-    const now = new Date()
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
-  })()
+  const canAddSession = programme.length > 0 && !loading && !sessionsUnavailable && addSessionCourses.length > 0
 
-  function renderTask(item: PlannerItem, compact = false) {
-    const name = subjectLabel(programme, item.subjectId)
-    const { hue, mark } = resolveSubjectIdentity(item.subjectId, name)
-    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} style={{ '--plan-solid': `var(--subject-${hue})`, '--plan-on': `var(--subject-${hue}-on)` } as CSSProperties} onClick={() => void handleStart(item)}>
-      <span className="plan-task-subject"><SubjectBadge hue={hue} mark={mark} size="plan" onSolid />{name}</span>
-      <strong>{itemTopicLabel(item, learningStates)}</strong>
-      <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
-      <Icon name="chevron-right" size="compact" className="plan-task-arrow" />
-    </button>
-  }
-
-  /** A session the student accepted: shown in the subject's colour, marked REV PICK when it came from a REV suggestion. */
-  function renderSession(session: PlannedSession, compact = false) {
-    const programmeCourse = programme.find((item) => item.course.id === session.courseId)
-    const subjectId = programmeCourse?.subject.id ?? ''
-    const name = programmeCourse?.subject.name ?? courseLabel(programme, session.courseId)
-    const { hue, mark } = resolveSubjectIdentity(subjectId, name)
-    const done = session.status === 'done'
-    const topic = topicLabelFor(session.courseId, session.topicId)
-    return <article className={`plan-task plan-session ${compact ? 'plan-task-compact' : ''}`} key={session.sessionId} data-status={session.status} data-added-by={session.addedBy} style={{ '--plan-solid': done ? 'var(--rv-surface)' : `var(--subject-${hue})`, '--plan-on': done ? 'var(--rv-text)' : `var(--subject-${hue}-on)` } as CSSProperties}>
-      <span className="plan-task-subject"><SubjectBadge hue={hue} mark={mark} size="plan" onSolid={!done} />{name}</span>
-      <strong>{topic}</strong>
-      <span>{activityWord(session.activityType)} · {session.minutes} mins</span>
-      <span className="plan-session-tags">
-        {session.addedBy === 'rev' && <span className="plan-session-tag"><RevPresence size="compact" decorative />REV pick</span>}
-        {done && <span className="plan-session-tag"><Icon name="check" size="compact" />Done</span>}
-      </span>
-      <details className="plan-session-menu">
-        <summary>Options<span className="sr-only"> for {topic}</span></summary>
-        <div className="plan-session-actions">
-          {!done && <Button size="compact" variant="secondary" onClick={() => startSession(session)}>Start</Button>}
-          {!done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'done')}>Mark done</Button>}
-          {done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'planned')}>Put back on plan</Button>}
-          <Button size="compact" variant="secondary" onClick={() => { setMoveOpenId(moveOpenId === session.sessionId ? null : session.sessionId); setMoveDate('') }} aria-expanded={moveOpenId === session.sessionId}>Move it</Button>
-          {moveOpenId === session.sessionId && <div className="plan-session-move">
-            <TextField label="Move to" type="date" min={todayIso} value={moveDate} onChange={(event) => setMoveDate(event.target.value)} />
-            <Button size="compact" onClick={() => void moveSession(session)}>Move</Button>
-          </div>}
-          {!done && <Button size="compact" variant="secondary" onClick={() => void changeSessionStatus(session, 'skipped')}>Skip</Button>}
-          <Button size="compact" variant="secondary" onClick={() => void deleteSession(session)}>Remove</Button>
-        </div>
-      </details>
-    </article>
-  }
-
-  function renderDayView() {
-    const day = weekDays[0]
-    return <section className="plan-view-panel" aria-labelledby="plan-day-title">
-      <div className="plan-view-heading"><div><p className="eyebrow">Today</p><h2 id="plan-day-title">{day ? formatDate(day.date, { weekday: 'long', day: 'numeric', month: 'long' }) : 'Today'}</h2></div><strong>{day ? formatDuration(dayCapacity(day)) : formatDuration(0)} available</strong></div>
-      {!day || (day.items.length === 0 && sessionsOn(day.date).length === 0) ? <EmptyState title="Nothing useful needs scheduling here yet" description="Revision will keep checking as your evidence, exam dates and available time change." /> : <div className="plan-day-list">{sessionsOn(day.date).map((session) => renderSession(session))}{day.items.map((item) => renderTask(item))}</div>}
-    </section>
-  }
-
-  function renderWeekView() {
-    return <section className="plan-view-panel" aria-labelledby="plan-week-title">
-      <div className="plan-view-heading"><div><p className="eyebrow">Current outlook</p><h2 id="plan-week-title">{weekRange(weekDays)}</h2></div><span>Your plan will adapt as you work.</span></div>
-      {weekDays.length > 0 && weekDays.every((day) => day.items.length === 0 && sessionsOn(day.date).length === 0) && (
-        <div className="plan-blank-card plan-blank-card--week">
-          <RevPresence size="compact" decorative />
-          <strong>Your week’s a blank page</strong>
-          <p>I can fill it based on your exams and weak spots once I have a little evidence from your work.</p>
-          {onOpenRev && <button type="button" className="plan-blank-action" onClick={() => onOpenRev('Can you plan my week?')}>Ask REV to plan my week</button>}
-        </div>
-      )}
-      <div className="plan-week-grid">
-        {weekDays.map((day) => <article className="plan-week-day" key={day.date} data-today={day.date === todayIso ? 'true' : undefined}>
-          <header><strong>{day.date === todayIso ? 'Today' : formatDate(day.date, { weekday: 'short' })}</strong><span className="plan-week-day-number">{formatDate(day.date, { day: 'numeric' })}</span><b>{formatDuration(dayCapacity(day))}</b></header>
-          <div className="plan-week-day-items">{day.items.length + sessionsOn(day.date).length > 0 ? <>{sessionsOn(day.date).map((session) => renderSession(session, true))}{day.items.map((item) => renderTask(item, true))}</> : <p className="plan-no-task">No planned task</p>}</div>
-        </article>)}
-      </div>
-    </section>
-  }
-
-  function renderMonthView() {
-    const groups = Array.from({ length: 4 }, (_, index) => monthDays.slice(index * 7, (index + 1) * 7)).filter((group) => group.length > 0)
-    return <section className="plan-view-panel plan-month-view" aria-labelledby="plan-month-title">
-      <div className="plan-view-heading"><div><p className="eyebrow">Strategic outlook</p><h2 id="plan-month-title">Next four weeks</h2></div><span>Further ahead, Revision shows direction rather than pretending every task is fixed.</span></div>
-      <div className="plan-month-weeks">
-        {groups.map((days, index) => {
-          const items = days.flatMap((day) => day.items)
-          const bySubject = new Map<string, number>()
-          items.forEach((item) => bySubject.set(item.subjectId, (bySubject.get(item.subjectId) ?? 0) + item.estimatedMinutes))
-          days.forEach((day) => sessionsOn(day.date).forEach((session) => {
-            const subjectId = programme.find((entry) => entry.course.id === session.courseId)?.subject.id
-            if (subjectId) bySubject.set(subjectId, (bySubject.get(subjectId) ?? 0) + session.minutes)
-          }))
-          const focus = [...bySubject.entries()].sort((left, right) => right[1] - left[1]).slice(0, 3)
-          const start = days[0]?.date ?? ''
-          const end = days[days.length - 1]?.date ?? ''
-          const exams = upcoming.filter((assessment) => assessment.assessmentDate >= start && assessment.assessmentDate <= end)
-          return <article key={`${start}-${index}`}>
-            <div><p className="eyebrow">Week {index + 1}</p><h3>{weekRange(days)}</h3></div>
-            <div className="plan-month-focus">{focus.length > 0 ? focus.map(([subjectId, minutes]) => <span key={subjectId} data-subject-accent={subjectAccentKey(subjectId)} style={{ '--plan-solid': `var(--subject-${resolveSubjectIdentity(subjectId, subjectLabel(programme, subjectId)).hue})` } as CSSProperties}><b>{subjectLabel(programme, subjectId)}</b> · about {formatDuration(minutes)}</span>) : <span>Revision will refine this week as stronger evidence becomes available.</span>}</div>
-            {exams.length > 0 && <div className="plan-month-exams">{exams.map((assessment) => <span key={assessment.assessmentId}><Icon name="plan" size="compact" /> {formatDate(assessment.assessmentDate, { day: 'numeric', month: 'short' })} · {assessment.title}</span>)}</div>}
-          </article>
-        })}
-      </div>
-    </section>
-  }
+  const missingText = setupMissingExams && setupMissingAvailability
+    ? 'Add your exam dates and your study time, and REV will plan what to work on.'
+    : setupMissingExams
+      ? 'Add your exam dates and REV will plan what to work on.'
+      : 'Add your study time and REV will plan what fits your week.'
 
   return (
-    <main className="dashboard page-screen planner-screen interface-plan-screen plan-experience" aria-labelledby="plan-page-title">
-      <div className="plan-page-header-row">
-        <PageHeader className="page-heading planner-heading" titleId="plan-page-title" eyebrow="Your adaptive revision programme" title="Plan" description="See what Revision is prioritising and how your plan is taking shape." />
-        {onOpenRev && <div className="plan-header-rev"><span>Got something else on your mind?</span><form onSubmit={submitRevPrompt}><input value={revPrompt} maxLength={240} onChange={(event) => setRevPrompt(event.target.value)} placeholder="Ask REV anything…" aria-label="Ask REV about your plan" /><button type="submit" aria-label="Ask REV"><Icon name="arrow-right" size="compact" /></button></form></div>}
-      </div>
-
-      <Surface variant="quiet" className="plan-adaptive-explainer">
-        <Icon name="plan" />
-        <div><strong>Your plan adapts as you go</strong>{(setupComplete || explanationOpen) && <p>Revision uses your exam dates, the time you realistically have available and evidence from how you're getting on to decide what is most useful to work on. As you revise and Revision gets stronger evidence about where you're strong and where you need more work, your plan updates automatically.</p>}{explanationOpen && <p className="plan-adaptive-detail">It considers things such as how close your exams are, what they cover, where your performance evidence suggests more work would help, what you're already strong at, competing subjects and the time you have available.</p>}</div>
-        <button type="button" className="plan-explainer-toggle" onClick={() => setExplanationOpen((open) => !open)} aria-expanded={explanationOpen}>How does this work? <span aria-hidden="true">⌄</span></button>
-      </Surface>
+    <main className="dashboard page-screen planner-screen interface-plan-screen pln" aria-labelledby="plan-page-title">
+      <header className="pln-head">
+        <h1 id="plan-page-title">{programme.length === 0 ? 'Plan' : pageTitle}</h1>
+        {canAddSession && <Button onClick={() => { setAddSessionError(''); setAddSessionOpen(true) }}><Icon name="plus" size="compact" />Add session</Button>}
+      </header>
 
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
 
-      {loading ? <LoadingState className="planner-panel">Loading your current plan…</LoadingState> : programme.length === 0 ? <EmptyState className="planner-panel" title="Add a course before building your plan" description="Revision will not create a programme from courses you have not selected." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} /> : <>
-        {!setupComplete && <div className="plan-setup-flow">
-          {setupMissingExams && <Surface className="plan-setup-exams" aria-labelledby="plan-setup-exams-title"><div className="plan-setup-step-icon"><Icon name="plan" size="large" /></div><div className="plan-setup-copy"><p className="eyebrow">Step 1 of 2</p><h2 id="plan-setup-exams-title">Add your exams</h2><p>Add your exam dates so Revision can build a personalised plan. Your dates help work out what to focus on and when, so the time you have is used where it can help most.</p>{renderExamManager()}</div></Surface>}
-          {setupMissingAvailability && renderWeeklySettings(true)}
-          <section className="plan-awaiting plan-blank-week" aria-label="Your week">
-            <div className="plan-blank-columns" aria-hidden="true">{Array.from({ length: 7 }, (_, index) => <span key={index} />)}</div>
-            <div className="plan-blank-card">
-              <RevPresence size="compact" decorative />
-              <strong>Your plan will appear here</strong>
-              <p>Once you've added the missing exam dates and weekly study time, Revision will build your personalised plan and keep adapting it as you work.</p>
-            </div>
-          </section>
-        </div>}
+      {loading
+        ? <LoadingState className="planner-panel">Loading your plan…</LoadingState>
+        : programme.length === 0
+          ? <EmptyState className="planner-panel" title="Add a course before building your plan" description="REV will not create a plan from courses you have not selected." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} />
+          : (
+            <>
+              <PlanNav
+                view={view}
+                anchorKey={anchor}
+                todayKey={todayKey}
+                atNow={atNow}
+                examHues={examHues}
+                onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
+                onGo={(key) => goTo(view, key)}
+                onToday={() => goTo(view, todayKey)}
+                onView={(next) => goTo(next, anchor)}
+              />
 
-        {setupComplete && <>
-          <Surface className="plan-overview-strip">
-            <div className="plan-overview-item"><Icon name="clock" /><div><span>Next exam</span><strong>{nextExam ? nextExam.title : 'No upcoming exam'}</strong><small>{nextExam ? `${courseLabel(programme, nextExam.courseId, nextExam.subjectId)} · ${formatDate(nextExam.assessmentDate)} · ${daysUntil(nextExam.assessmentDate)} days` : 'Add another exam when you know the date.'}</small></div></div>
-            <div className="plan-overview-item"><Icon name="progress" /><div><span>This week</span><strong>{formatDuration(currentWeekMinutes)} available</strong><small>Your plan fits around this realistic capacity.</small></div></div>
-            <div className="plan-overview-item"><Icon name={snapshot?.capacityState === 'prioritising' ? 'info' : 'check'} /><div><span>Plan status</span><strong>{snapshot?.capacityState === 'prioritising' ? 'Prioritising' : 'Current plan'}</strong><small>{snapshot?.capacityState === 'prioritising' ? 'Revision is concentrating on the highest-value work for the time available.' : 'Revision is balancing work across your current programme.'}</small></div></div>
-            <div className="plan-overview-actions"><Button variant="secondary" onClick={() => { setManageExamsOpen((open) => !open); setPlanSettingsOpen(false) }}><Icon name="plan" size="compact" /> Manage exams</Button><Button variant="secondary" onClick={() => { setPlanSettingsOpen((open) => !open); setManageExamsOpen(false) }}><Icon name="settings" size="compact" /> Plan settings</Button></div>
-          </Surface>
+              <div className="pln-layout">
+                <div className="pln-main">
+                  <PlanSummaryCard label={summaryLabel} summary={summary} />
 
-          {manageExamsOpen && renderExamManager()}
-          {planSettingsOpen && renderWeeklySettings()}
+                  {!setupComplete && (
+                    <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
+                      <Icon name="plan" />
+                      <div>
+                        <strong>Your plan is waiting on you</strong>
+                        <p>{missingText} You can do it in the cards beside this. Sessions you add yourself show here either way.</p>
+                      </div>
+                    </Surface>
+                  )}
 
-          {snapshot?.capacityState === 'prioritising' && <Surface variant="quiet" className="planner-priority-note"><strong>Making the time you have count</strong><p>There is not enough realistic capacity to cover every useful area before the current assessments. Revision is focusing on the strongest evidence of need without treating this as a failure.</p></Surface>}
+                  {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' && (
+                    <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
+                  )}
 
-          <div className="plan-view-toolbar"><SegmentedControl label="Plan view">{(['day', 'week', 'month'] as PlanView[]).map((item) => <button key={item} type="button" className={view === item ? 'active' : ''} aria-pressed={view === item} onClick={() => setView(item)}>{item.charAt(0).toUpperCase() + item.slice(1)}</button>)}</SegmentedControl>{view === 'week' && <strong>{weekRange(weekDays)}</strong>}</div>
+                  {view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
+                  {view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
+                  {view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+                </div>
 
-          {snapshot ? <>{view === 'day' && renderDayView()}{view === 'week' && renderWeekView()}{view === 'month' && renderMonthView()}</> : <EmptyState className="planner-panel" title="Building the evidence picture" description="Your dates and available time are saved. Revision will become more specific as useful scored evidence builds." />}
+                <div className="pln-side">
+                  <PlanExamsCard exams={examEntries} todayKey={todayKey} onJump={(key) => goTo(view, key)} onAdd={() => setExamsOpen(true)} />
+                  <PlanStudyTimeCard
+                    saved={availability?.weeklyMinutes ?? null}
+                    draft={studyDraft}
+                    saving={saving}
+                    onEdit={startEditingStudyTime}
+                    onChange={updateStudyDay}
+                    onSave={() => void handleSaveAvailability()}
+                    onCancel={() => setStudyDraft(null)}
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
-          <Surface className="plan-upcoming-exams" aria-labelledby="upcoming-exams-title"><div className="planner-panel-heading"><div><p className="eyebrow">Milestones</p><h2 id="upcoming-exams-title">Upcoming exams</h2></div><Button variant="tertiary" size="compact" onClick={() => setManageExamsOpen(true)}>Manage exams</Button></div>{upcoming.length === 0 ? <p className="muted">No upcoming assessment dates are set.</p> : <div className="plan-upcoming-grid">{upcoming.map((assessment) => <article key={assessment.assessmentId} data-subject-accent={subjectAccentKey(assessment.subjectId)}><strong>{formatDate(assessment.assessmentDate, { day: 'numeric', month: 'short', year: 'numeric' })}</strong><span>{subjectLabel(programme, assessment.subjectId)} · {assessment.title}</span><small>{daysUntil(assessment.assessmentDate)} days</small></article>)}</div>}</Surface>
-        </>}
-      </>}
+      {addSessionOpen && (
+        <PlanAddSessionDialog
+          courses={addSessionCourses}
+          defaultDate={anchor}
+          todayKey={todayKey}
+          saving={saving}
+          error={addSessionError}
+          onSave={(session) => void handleAddSession(session)}
+          onClose={() => setAddSessionOpen(false)}
+        />
+      )}
+      {examsOpen && renderExamManager()}
     </main>
   )
 }

@@ -4,10 +4,10 @@ document_id: "revision-subject-accent-colour-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.0"
+version: "2.1"
 owner: "Founder"
 effective_date: "2026-10-01"
-last_reviewed: "2026-10-01"
+last_reviewed: "2026-10-05"
 content_review_status: "founder-approved"
 source_of_truth_for: ["subject colour mapping", "subject letter marks", "subject colour usage", "subject colour accessibility"]
 depends_on: ["Visual Brand System", "Product UX Principles"]
@@ -69,10 +69,11 @@ Check these if a student takes both. The letter mark keeps subjects distinct eve
 
 ## Usage
 
-Subject colour appears on: the letter mark, subject tiles, **solid course card panels**, the Topics covered bar, **solid Plan session blocks** and onboarding chips.
+Subject colour appears on: the letter mark, subject tiles, **solid course card panels**, the Topics covered bar, the **letter mark on every Plan session**, **solid Plan exam rows and month-grid exam days**, and onboarding chips.
 
 - Use **solids** to tell subjects apart. Pale tints all look alike at a glance, so never rely on a tint alone. Use a tint only behind text that already names the subject, such as a chip label.
-- Plan blocks are solid subject colour with the letter mark. Done sessions keep the full colour, with the title struck through and a "Done" label with an icon. Never fade the text. Quizzes and exams use the same solid subject colour as any other session.
+- Plan sessions are list rows: the subject's letter mark, "Subject · Topic" and a neutral meta line. Exams are the only solid-colour rows on Plan, and exam days in the month grid are filled in the solid subject colour with the letter mark. Sessions are marked by subject-colour dots in the day strip and month grid.
+- A done Plan session shows muted text and a "Done" label with a tick icon. Its letter mark drops to 45% opacity; the text is never faded and stays AA. This is the only place a letter mark is faded.
 - Subject colour is **not** used on buttons, headings, learning status or REV.
 - Activity types (Learn, Practice, Exam Prep), durations and ordinary metadata stay neutral.
 
@@ -102,8 +103,10 @@ If more subjects are supported than the palette can separate safely, reuse a hue
 Version 2.0 records the Founder decisions of 1 October 2026 (effective on merge of the design-system v2.1 PR), replacing version 1.0 of 24 August 2026:
 
 1. the saturated subject palette replaces the pale Sage (Business) and Stone Blue (Economics) accents;
-2. solid subject fills are adopted on course card panels and Plan session blocks, replacing "restrained cues only";
+2. solid subject fills are adopted on course card panels and Plan exam rows, replacing "restrained cues only";
 3. ten-plus hues with family variants replace "reuse colour families plus name and icon";
 4. letter marks replace governed iconography as subject icons.
 
 Business is now blue (`--subject-blue`) and Economics navy (`--subject-navy`). Educational Treatment System examples that name Sage or Stone Blue are updated to say "the subject colour". Data-visualisation colours in the Visual Brand System are a separate palette and are unchanged. Full decision record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. Design values: `docs/design/learner-redesign-v2/guidelines/SUBJECT_PALETTE.md`.
+
+Version 2.1 (5 October 2026, Plan redesign v2.2) changes the Plan usage only: sessions are list rows with the letter mark instead of solid blocks, exams are the only solid rows, and a done session's letter mark is faded to 45% while its text stays at full contrast. Source: `docs/design/learner-redesign-v2/design_handoff_revision_v2/CHANGES_v2.1.md`, section "v2.2 (Plan redesign)".

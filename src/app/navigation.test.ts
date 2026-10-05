@@ -18,6 +18,18 @@ describe('learner navigation model', () => {
     expect(parseRoute('#/plan')).toEqual(planRoute())
   })
 
+  it('keeps the Plan view and date in the address so a reload or a shared link lands in the same place', () => {
+    const route = planRoute({ view: 'week', date: '2026-10-05' })
+    expect(routeHash(route)).toBe('#/plan?view=week&date=2026-10-05')
+    expect(parseRoute('#/plan?view=week&date=2026-10-05')).toEqual(route)
+    expect(parseRoute('#/plan?date=2026-11-01&view=month')).toEqual(planRoute({ view: 'month', date: '2026-11-01' }))
+  })
+
+  it('drops a Plan view or date that is not real instead of guessing', () => {
+    expect(parseRoute('#/plan?view=year&date=2026-02-30')).toEqual(planRoute())
+    expect(routeHash(parseRoute('#/plan?view=day&date=tomorrow'))).toBe('#/plan?view=day')
+  })
+
   it('uses Courses as the canonical learner index', () => {
     expect(routeHash(coursesRoute())).toBe('#/courses')
     expect(parseRoute('#/courses')).toEqual(coursesRoute())

@@ -128,7 +128,7 @@ test('global Home, Plan and Ask REV surfaces meet the automated WCAG A/AA baseli
   await expectWcagBaseline(page, 'Home')
 
   await navigateGlobally(page, 'Plan')
-  await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your week' })).toBeVisible()
   await expectWcagBaseline(page, 'Plan')
 
   await openAskRev(page)
