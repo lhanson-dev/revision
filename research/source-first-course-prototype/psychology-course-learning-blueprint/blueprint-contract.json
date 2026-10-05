@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_blueprint_contract",
+  "courseId": "aqa:aqa-a-level:7182",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "authority": {
+    "learningDesign": "10-product-governance/Course Learning Blueprint.md",
+    "componentPlacement": "10-product-governance/Course Content and Assessment Component Placement.md",
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md"
+  },
+  "inputs": {
+    "courseTruthManifest": "research/source-first-course-prototype/psychology-course-truth/manifest.json",
+    "courseTruthTopicGlob": "research/source-first-course-prototype/psychology-course-truth/topic-*.json",
+    "examTruth": "research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json",
+    "requiredCourseTruthStatus": "course_truth_ready",
+    "requiredRequirementCount": 118,
+    "requiredExamTruthStatus": "experimental_exam_truth_complete"
+  },
+  "projection": {
+    "planningUnit": "one deterministic projected unit per Course Truth requirement",
+    "groupingRule": "Downstream learner assets may group related units only when all requirement IDs and evidence scopes remain traceable.",
+    "assetQuotaPolicy": "none",
+    "baselineLearnTreatment": "core_explanation",
+    "baselinePracticeMode": "short_constructed_response",
+    "wholeCourseApplicationRequirement": true,
+    "applicationVariationRule": "Use materially different contexts where breadth/transfer is educationally required; do not impose a fixed per-requirement context count.",
+    "rule": "Treatments are selected from structured Course Truth plus Exam Truth; learner-asset generators may create wording/examples/items but may not remove selected obligations."
+  },
+  "classificationSignals": {
+    "fact_term": "definitionsAndCoreConcepts is non-empty",
+    "concept": "definitionsAndCoreConcepts is non-empty",
+    "comparison_discrimination": "bounded comparison/distinction/type/category signals occur in the requirement's structured truth",
+    "relationship_causal": "bounded cause/effect/influence/association/mechanism signals occur in the requirement's structured truth",
+    "process_sequence": "bounded process/stage/sequence/cycle signals occur",
+    "formula_quantitative": "bounded calculation/statistics/data-quantity signals occur",
+    "model_framework": "bounded model/theory/approach/framework/account/explanation signals occur",
+    "procedure_skill": "Research Methods topic or bounded method/design/procedure/operationalisation signals occur",
+    "application_context": "all material A-level Psychology requirements because AO2 is a whole-course assessment demand",
+    "analysis_reasoning": "modelsResearchAndRelationships or evaluationAndLimits is non-empty",
+    "evaluation_judgement": "evaluationAndLimits is non-empty",
+    "misconception_risk": "misconceptionsAndBoundaries is non-empty",
+    "synoptic_connection": "Issues and Debates topic or explicit synoptic/cross-topic signal occurs"
+  },
+  "mandatoryTreatmentRules": {
+    "fact_term": {
+      "learn": ["definition_in_context", "memory_anchor_recap"],
+      "practice": ["retrieval_prompt_flashcard"]
+    },
+    "concept": {
+      "learn": ["example_non_example"],
+      "practice": ["short_constructed_response"]
+    },
+    "comparison_discrimination": {
+      "learn": ["comparison"],
+      "practice": ["recognition_discrimination_check", "compare_justify_task"]
+    },
+    "relationship_causal": {
+      "learn": ["relationship_causal_chain"],
+      "practice": ["reasoning_chain_construction"]
+    },
+    "process_sequence": {
+      "learn": ["process_sequence", "purposeful_visual"],
+      "practice": ["classification_matching_ordering"]
+    },
+    "formula_quantitative": {
+      "learn": ["worked_example", "faded_guided_example", "purposeful_visual"],
+      "practice": ["calculation_quantitative_drill", "interpretation_data_graph_source"]
+    },
+    "model_framework": {
+      "learn": ["core_explanation", "example_non_example"],
+      "practice": ["contextual_application_scenario"]
+    },
+    "procedure_skill": {
+      "learn": ["worked_example", "faded_guided_example"],
+      "practice": ["short_constructed_response", "contextual_application_scenario"]
+    },
+    "application_context": {
+      "learn": ["example_non_example"],
+      "practice": ["contextual_application_scenario"]
+    },
+    "analysis_reasoning": {
+      "learn": ["worked_example", "self_explanation_prompt"],
+      "practice": ["reasoning_chain_construction"]
+    },
+    "evaluation_judgement": {
+      "learn": ["core_explanation"],
+      "practice": ["compare_justify_task"]
+    },
+    "misconception_risk": {
+      "learn": ["misconception_repair"],
+      "practice": ["misconception_diagnostic"]
+    },
+    "synoptic_connection": {
+      "learn": ["connection_synoptic_link"],
+      "practice": ["mixed_topic_retrieval", "reasoning_chain_construction"]
+    }
+  },
+  "evidenceBoundary": {
+    "learn": ["reviewed_only"],
+    "practice": "mode-specific evidence only; never broader than the demonstrated capability",
+    "examPrep": "assessment-relevant evidence only where item authenticity and marking contract justify it"
+  },
+  "accessibilityDefaults": {
+    "meaningfulTextAlternativeForPurposefulVisual": true,
+    "colourNotSoleMeaningCarrier": true,
+    "mediaCaptionsTranscriptsControlsWhenApplicable": true,
+    "mobileMustPreserveLearningSequence": true
+  },
+  "rights": {
+    "awardingBodyMaterial": "REFERENCE_ONLY",
+    "downstreamAqaSourceTextPermitted": false,
+    "structuredAssessmentFactsPermitted": true,
+    "rule": "The Blueprint may retain structured paper/demand facts but must not become a corpus of protected AQA question, mark-scheme or explanatory prose."
+  },
+  "completionBoundary": {
+    "blueprintCompleteMeans": "All current Course Truth requirements deterministically project to valid Learn/Practice/Exam Prep obligations and bounded exam-skill units with exact provenance.",
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "learnerAssetReady": false,
+    "restrictedPilotPublicationApproved": false
+  }
+}

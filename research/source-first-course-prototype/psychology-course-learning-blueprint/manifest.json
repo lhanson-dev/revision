@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_course_learning_blueprint_complete",
+  "checkedDate": "2026-10-05",
+  "course": {
+    "courseId": "aqa:aqa-a-level:7182",
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "authority": {
+    "learningDesign": "10-product-governance/Course Learning Blueprint.md",
+    "componentPlacement": "10-product-governance/Course Content and Assessment Component Placement.md",
+    "prototype": "80-company-workflows/Source-First Course Prototype Experimental Exception.md",
+    "runContract": "research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md"
+  },
+  "inputs": {
+    "courseTruth": "research/source-first-course-prototype/psychology-course-truth/",
+    "courseTruthRequirements": 118,
+    "courseTruthComplete": true,
+    "knownMaterialSubjectTruthGaps": 0,
+    "knownMaterialRightsBlockers": 0,
+    "examTruth": "research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json",
+    "examTruthComplete": true
+  },
+  "blueprint": {
+    "derivationContract": "blueprint-contract.json",
+    "deterministicProjector": "scripts/content/derive-psychology-course-learning-blueprint.ts",
+    "assurance": "scripts/assurance/psychology-course-learning-blueprint.test.ts",
+    "requirementPlanningUnits": 118,
+    "topicShardsRepresented": 17,
+    "examSkillUnits": 6,
+    "courseTruthCoverageComplete": true,
+    "deterministicDerivationPassed": true,
+    "assetQuotaPolicy": "none",
+    "groupingPolicy": "Learner assets may group related requirement units only when exact underlying requirement provenance and evidence scope remain recoverable.",
+    "learnPracticeExamPrepSeparated": true,
+    "paperComponentPlacementFromExamTruth": true,
+    "practiceEvidenceScopeExplicit": true,
+    "learnEvidenceRestrictedToReviewed": true,
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "learnerAssetReady": false,
+    "restrictedPilotPublicationApproved": false
+  },
+  "examSkillUnitIds": [
+    "PSY-EXAM-PAPER-ORIENTATION",
+    "PSY-EXAM-COMMAND-DEMAND",
+    "PSY-EXAM-EXTENDED-RESPONSE",
+    "PSY-EXAM-RESEARCH-METHOD-TRANSFER",
+    "PSY-EXAM-DATA-MATH",
+    "PSY-EXAM-SYNOPTIC-P3"
+  ],
+  "rights": {
+    "awardingBodyMaterial": "REFERENCE_ONLY",
+    "downstreamAqaSourceTextPermitted": false,
+    "structuredAssessmentFactsPermitted": true,
+    "courseTruthSubjectKnowledge": "inherits rights-safe OPEN/LICENSED/REVISION_OWNED provenance from completed Course Truth",
+    "unknownMaterialRightsBlockers": 0
+  },
+  "economics": {
+    "paidProviderSpendGbp": 0,
+    "paidSourceLicenceSpendGbp": 0,
+    "manualIntervention": "Blueprint rules and deterministic projector authored once; no per-requirement paid generation required.",
+    "measurementNote": "This step projects already-completed truth layers and does not add new paid source research."
+  },
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "productionTechnicalDocumentationChanged": false,
+    "experimentalResearchEvidenceAdded": true,
+    "note": "The approved Course Learning Blueprint authority is applied, not changed. Existing dated run checkpoints remain historical evidence."
+  },
+  "nextWork": {
+    "step": 4,
+    "priority": "Produce complete Psychology Learn, Practice and Exam Prep learner assets from the selected Blueprint obligations before Marking Pack/evidence mapping and production-level independent assurance.",
+    "rule": "Asset workers may generate content for selected treatments but must not remove required coverage/treatments, invent curriculum truth or treat Blueprint completion as learner-publication approval."
+  },
+  "publicationBoundary": "Experimental only. Blueprint completion does not imply learner-asset completion, fresh independent educational/assessment assurance, restricted-pilot approval or wider commercial publication."
+}
