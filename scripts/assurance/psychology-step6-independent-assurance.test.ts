@@ -18,7 +18,7 @@ describe('Psychology Step 6 independent assurance packets', () => {
   const marking = derivePsychologyMarkingPacks(COURSE_TRUTH_DIR, EXAM_TRUTH_PATH)
 
   test('covers all 17 topics and 118 requirements exactly once in educational review', () => {
-    expect(packets.summary.educationalPacketCount).toBe(4)
+    expect(packets.summary.educationalPacketCount).toBe(9)
     expect(packets.summary.topicCount).toBe(17)
     expect(packets.summary.requirementCount).toBe(118)
     expect(packets.summary.educationalRequirementCoverageCount).toBe(118)
