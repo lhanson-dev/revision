@@ -16,7 +16,7 @@
     "receiptGuard": "scripts/assurance/psychology-step6-receipt-guard.ts",
     "receiptGuardAssurance": "scripts/assurance/psychology-step6-receipt-guard.test.ts",
     "liveWorkflow": ".github/workflows/psychology-step6-independent-assurance.yml",
-    "educationalReviewPackets": 12,
+    "educationalReviewPackets": 13,
     "researchMethodsReviewPackets": 4,
     "assessmentReviewPackets": 3,
     "wholeCourseRequirementCoverage": 118,
