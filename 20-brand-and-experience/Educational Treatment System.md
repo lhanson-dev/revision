@@ -83,6 +83,33 @@ The following must not vary merely because the subject changes:
 
 Primary Teal remains Revision/REV/action colour. Success, Warning, Error and Information remain functional semantic colours and must not be repurposed as subject decoration.
 
+## Treatment anatomy (tinted look, v2.2)
+
+One shared way to style each Learn content type, so that any teaching page of any course renders correctly from its content alone. The content says what a block is (`type`); the UI decides how it looks and where it sits; the course supplies only its subject hue. Pages are never hand-styled per course or per page, and a block with an unknown `type` fails content validation rather than falling back to a generic style.
+
+Source: `Learn Page Final` and `LearnBlock` (design system v2.1). Implementation: `src/app/ui/learn/` (one component per schema type, `LearnBlock` and `LearnPageLayout`) and `src/app/learn-reading.css`.
+
+**Subject hue, set once.** The workspace root sets `--accent`, `--accent-tint`, `--accent-ink` and `--accent-on` from the course's hue. Blocks read only `--accent*`. No subject names or hex values inside block components. Labels and muted text on any tint use that tint's `-ink`, never `--tx2`.
+
+**Shared parts.** Padding `P` is 24px 26px (18px on mobile). The label is an eyebrow (800 12px, .12em, uppercase) beside a 10×10 subject-solid square (radius 3).
+
+| Type | Surface | Content |
+| --- | --- | --- |
+| explanation | none | h3 Bricolage 800 26/1.15, −.02em; paragraphs `--type-lead`, `--tx` |
+| key-idea | `--accent-tint`, r20, P | label `--accent-ink`; term Bricolage 800 20 `--accent-ink`; definition 600 16/1.5; terms one above another in the margin, auto-fit 240px otherwise |
+| example | `--sf` + 1px `--line` inset, r20, P | label `--tx2`; title 800 20; body 600 16/1.6 |
+| worked-example | `--accent-tint`, r24, P | step-through: step 1, then "Show step N" and "Show all"; hidden steps show a dashed "Work this one out, then show it"; steps separated by `--line`; 36px number tile (r12); conclusion on `--sf`, r16, only once all steps are shown |
+| relationship | `--bg`, r20, P | chain of pills (r16, 800 15), the last on `--accent-tint`; a row on desktop and tablet, a column on mobile |
+| comparison | none | 2–3 columns on `--accent-tint`, r20; rows separated by `--line`; stack on mobile |
+| quantitative | `--bg`, r24, P | legend; series 1 `--accent` 3px, series 2 `--tx` 3px, series 3 `--tx2` 2px dashed; the crossing of series 1 and 2 is worked out and marked (dot, dashed drop line, label); "Show the data" toggle opens a per-series table; `role="img"` with a label |
+| misconception | `--neutral-tint`, r20, P | 40px `--sf` icon tile; label `--neutral-ink`; never coral or warning |
+| quick-check | governed: `--sf`, 2px dashed `--line`, r24, P | "Not scored"; at most 2 per page, after what it checks |
+| recap | `--accent-tint`, r24, P | numbered list in 2 columns on desktop and tablet, 1 on mobile; always renders last |
+
+**Placement** (`LearnPageLayout`). On desktop an `explanation` followed directly by a `key-idea` is one row (`minmax(0,1fr) 264px`, gap 48) with the key idea in the margin; every other block, quick check included, spans the full article width. Tablet and mobile are one column in content order. Content order is kept except that `recap` is always last; Content Factory places any `misconception` directly before the recap so the page closes with Common mix-up, then What to remember.
+
+**Crossing label.** The schema has no field naming the crossing point, so it is read from the series names: revenue against costs is a "Break-even" point with Loss and Profit either side; any other pair is a "Crossing point" with no region words.
+
 ## Initial shared treatment families
 
 The initial treatment system is deliberately small. New treatment families require a real recurring educational need rather than a desire for visual variety.
@@ -191,13 +218,11 @@ Default visual strength: quiet-medium.
 
 The recap should feel like the close of a teaching sequence. It must not become a substitute for the explanation above it.
 
-### Contextual REV explanation
+### Contextual REV help
 
 **Purpose:** let the learner ask for another explanation without creating a second assistant experience inside the page.
 
-Default visual strength: light.
-
-Use the governed REV/action language and existing Ask REV interaction. The active course/topic/page context should be passed into REV so the learner does not need to restate it.
+Contextual REV help is the deep REV card at the end of the page ("Still not got it?"), not light inline prompts and not mid-page prompts. It uses the governed REV/action language and the existing Ask REV interaction. The active course/topic/page context is passed into REV with a draft question so the learner does not need to restate it.
 
 ## Cross-site consistency
 

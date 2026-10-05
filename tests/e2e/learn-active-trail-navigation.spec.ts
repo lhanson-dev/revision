@@ -131,7 +131,7 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
   await clickNavigation(page, 'AQA AS Business Learn')
 
   await expect(page.getByRole('heading', { name: 'Purpose, objectives & profit', level: 2 })).toBeVisible()
-  await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText('Learn')
+  await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText(/Page 1 of \d+ · \d+ min read/)
 
   let nav = await navigation(page)
   const learnSectionButton = nav.getByRole('button', { name: 'AQA AS Business Learn', exact: true })

@@ -228,17 +228,28 @@ A misconception treatment should appear where there is a genuine likely misunder
 
 #### Contextual REV help
 
-REV help should be available without interrupting the article or becoming the dominant page surface. Contextual prompts may offer to explain the current idea another way. REV should receive the active course/topic/page context so the learner does not need to restate what they are studying.
+Contextual REV help is the deep REV card at the end of the page ("Still not got it?"), after the recap. It offers to explain the current page another way and passes the active course/topic/page context, with a draft question, so the learner does not need to restate what they are studying. There are no inline REV prompts mid-page.
 
 #### Recap
 
 The page should normally end its teaching content with a compact "What to remember" or equivalent recap after understanding has been established. The recap is a memory anchor, not a substitute for the explanation above it.
 
+#### End of page (same on every page)
+
+After the recap, a divider, then in this order:
+
+1. two equal call-to-action cards: **Practice** ("Think you've got it?", with the real number of questions, button "Practice this topic") and **REV** ("Still not got it?", button "Ask REV");
+2. **Previous / Next** teaching-page navigation (a side that does not exist is hidden; on mobile Next comes before Previous).
+
+#### Page placement
+
+The key idea sits in the right-hand margin beside the explanation it follows, on desktop only. Everything else, including the quick check, spans the full article width. Tablet and mobile are one column in content order. The recap is always last, preceded by any misconception.
+
 #### Sequential Learn continuation
 
 For a learner reading through Learn, **previous/next teaching-page navigation is the natural continuation**. The product should not continually pull the learner out of Learn simply because Practice is available.
 
-#### Practice handoff
+#### Practice handoff (card at the end of the page)
 
 A contextual route into Practice should remain clearly available when valid evidence-generating Practice exists for the material. It should preserve course/topic/subtopic context. Practice is the route for the learner who wants to test what they know; it does not replace the normal next-page flow for a learner who wants to keep learning.
 
@@ -287,7 +298,7 @@ The visual design must therefore preserve, unless deliberately changed through g
 - the governed light/dark surface hierarchy;
 - the current spacing, radius, control, icon and focus language;
 - existing course identity and course-section patterns that remain applicable; and
-- the subject-accent system, including **Business = Sage**, used as a restrained recognition cue rather than a replacement brand colour.
+- the subject-accent system, including **Business = blue** (design system v2.1; it was Sage before), used as a restrained recognition cue rather than a replacement brand colour.
 
 Learn may introduce job-specific composition for sustained reading, teaching hierarchy and purposeful educational treatments. Those differences must be expressed through the existing Revision design grammar rather than by inventing a new product shell, unrelated palette or generic education-dashboard aesthetic.
 
@@ -396,7 +407,7 @@ Learn remains explanation-led rather than becoming another large proactive REV r
 
 The governed primary learner-header Ask REV conversation route should remain available and carry the current course/topic context.
 
-Contextual REV help may also be offered naturally within the learning experience, for example when a learner wants an explanation phrased differently or wants to ask about the material currently on screen.
+Contextual REV help is the REV card at the end of the page, where a learner who has not got it can ask for the page explained another way.
 
 REV assistance must support the teaching experience rather than interrupt it or make the student repeatedly restate their context.
 

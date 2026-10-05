@@ -15,7 +15,7 @@ export default defineConfig({
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
   ],
   webServer: {
-    command: 'npm run build && npx vite preview --host 127.0.0.1 --port 4173',
+    command: 'npm run build -- --mode learn-fixtures && npx vite preview --host 127.0.0.1 --port 4173',
     url: 'http://127.0.0.1:4173/revision/app/',
     reuseExistingServer: !process.env.CI,
   },
