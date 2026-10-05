@@ -13,13 +13,16 @@
   "runner": {
     "implementation": "scripts/assurance/psychology-step6-independent-assurance.ts",
     "deterministicAssurance": "scripts/assurance/psychology-step6-independent-assurance.test.ts",
+    "receiptGuard": "scripts/assurance/psychology-step6-receipt-guard.ts",
+    "receiptGuardAssurance": "scripts/assurance/psychology-step6-receipt-guard.test.ts",
     "liveWorkflow": ".github/workflows/psychology-step6-independent-assurance.yml",
     "educationalReviewPackets": 9,
     "assessmentReviewPackets": 3,
     "wholeCourseRequirementCoverage": 118,
     "maximumPacketCharacters": 750000,
     "providerCallsDuringNormalCi": 0,
-    "hardMaximumProviderSpendUsd": 5
+    "hardMaximumProviderSpendUsd": 5,
+    "failClosedOnMaterialDimensionsWithoutDuplicateFindings": true
   },
   "completion": {
     "courseTruthComplete": true,
@@ -35,7 +38,7 @@
     "runtimeEvidenceEnabled": false,
     "canonicalRuntimeIntegrated": false,
     "restrictedPilotPublicationApproved": false,
-    "nextStep": "After this runner is merged, dispatch the exact-main Step 6 workflow. Retain its findings/receipt, remediate only affected scope if necessary, and do not proceed to Step 7 until Step 6 has no unresolved blocking/material findings."
+    "nextStep": "After this runner is merged, dispatch the exact-main Step 6 workflow. Retain its findings/receipt, remediate only affected scope if necessary, and do not proceed to Step 7 until Step 6 has no unresolved blocking/material findings or dimensions."
   },
   "economics": {
     "runnerImplementationProviderSpendGbp": 0,
