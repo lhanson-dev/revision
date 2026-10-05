@@ -9,6 +9,7 @@ import {
 
 const COURSE_TRUTH_DIR = 'research/source-first-course-prototype/psychology-course-truth'
 const EXAM_TRUTH_PATH = 'research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
+const LIVE_ASSURANCE_TEST_TIMEOUT_MS = 40 * 60 * 1_000
 
 const unique = <T>(values: T[]): T[] => [...new Set(values)]
 const sorted = (values: string[]): string[] => [...values].sort()
@@ -118,4 +119,4 @@ test.skipIf(!live)('runs fresh Psychology Step 6 independent assurance only when
 
   expect(receipt.finalDecision).toBe('pass')
   expect(receipt.reviewedMainSha).toBe(reviewedMainSha)
-})
+}, LIVE_ASSURANCE_TEST_TIMEOUT_MS)
