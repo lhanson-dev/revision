@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 questions, four shared contexts and 12/13 blind-answer units retained; Paper 3 blind reconstruction isolated as an output-capacity failure and hardened for the next governed resume  
-**Current implementation baseline:** approved `main` `ce1955953b428e8023c5d0c72c07a73830ff4a1a`  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 questions, four shared contexts, 13/13 blind-answer units and 10/13 unit semantic reviews retained; three review-identity casing failures isolated and hardened for the next governed resume  
+**Current implementation baseline:** approved `main` `3d97439e48edcb9251b3ebac1a8da21d1f22d8e0`  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -23,7 +23,7 @@ PR #517 added the pre-generation profile foundation:
 - provider-free profile validation; and
 - the provider-free `Content Factory AQA Business 7132 Mock Profile` GitHub Action.
 
-PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. PR #523 bound blind-answer output to the exact planned unit/slot keys and retained unaffected blind units when one unit exhausts its bounded attempts. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
+PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. PR #523 bound blind-answer output to the exact planned unit/slot keys and retained unaffected blind units when one unit exhausts its bounded attempts. PR #528 raised the independent-review output-capacity ceiling for the six-question Paper 3 blind-answer boundary without changing the cumulative spend cap. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
 
 ## Deterministic mock-set planner
 
@@ -131,6 +131,8 @@ The unit reviewer then receives the generated unit, blind answers and compact Fo
 - context coherence; and
 - exam authenticity/originality.
 
+Mock semantic-review provider contracts bind `unit_id` to the exact identity already present in the review payload before the provider call is accepted. This applies to bounded-unit reviews, whole-paper reviews and the complete-set review. For this field only, the exact payload identity explicitly overrides the shared provider instruction that otherwise prefers lowercase machine-safe identifiers. The retained Fast-Path ledger still performs its existing exact-ID check after provider parsing as a second software boundary.
+
 The Fast-Path two-fresh-round rule applies. Round-two remediation regenerates only the affected question(s), or the shared context plus dependent questions where context coherence failed. An unresolved second round is escalated rather than reviewed a third time.
 
 Unchanged accepted units are reused by exact fingerprint without generation, blind answering or review.
@@ -184,7 +186,7 @@ The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-sta
 
 `.github/workflows/content-factory-aqa-business-7132-mock-generation.yml` has two modes.
 
-**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests, including retained-resume-feedback, exact blind-answer slot-contract and Paper 3 blind-output-capacity regression tests, with no provider key.
+**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests, including retained-resume-feedback, exact blind-answer slot-contract, Paper 3 blind-output-capacity and exact semantic-review identity regression tests, with no provider key.
 
 **Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, restores retained generation-failure feedback for the exact affected slot, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
 
@@ -230,14 +232,18 @@ That run then reached blind answering. `P1-A-CHUNK-1` was accepted and retained,
 
 Workflow run `37280091393` resumed that evidence under the hardened slot contract. It reused the generated questions and contexts, retained eleven completed blind-answer units, and isolated only `P2-SET-3` and `P3-CASE-1` as incomplete provider responses. Cumulative mock-stage spend reached **US$1.939642**. No semantic unit, paper or set review had started.
 
-Workflow run `37290839911` then resumed exact evidence from `37280091393` on approved `main` `ce1955953b428e8023c5d0c72c07a73830ff4a1a`. `P2-SET-3` completed and was retained. The runner therefore now holds **12 of 13 blind-answer units**, with `P3-CASE-1` as the only missing unit. That Paper 3 blind call again exhausted its bounded attempts with retained failure `OpenAI response status was incomplete`. The run used **5 provider calls**, and cumulative mock-stage spend is **US$2.192934**. No semantic unit, paper or set review has started and no mock has been published.
+Workflow run `37290839911` then resumed exact evidence from `37280091393` on approved `main` `ce1955953b428e8023c5d0c72c07a73830ff4a1a`. `P2-SET-3` completed and was retained. The runner therefore held **12 of 13 blind-answer units**, with `P3-CASE-1` as the only missing unit. That Paper 3 blind call again exhausted its bounded attempts with retained failure `OpenAI response status was incomplete`. The run used **5 provider calls**, and cumulative mock-stage spend reached **US$2.192934**. No semantic unit, paper or set review had started and no mock was published.
 
-The repeated Paper 3 result isolates an implementation-capacity boundary rather than a question/schema failure: `P3-CASE-1` is the only six-question, 100-mark blind unit and the mock client capped every independent-review response at 4,000 output tokens. The provider returned `incomplete` rather than invalid structured output. The runner now raises that independent-review ceiling to 12,000 tokens while keeping the exact same US$8 cumulative hard spend guard and unchanged durable fingerprints.
+The repeated Paper 3 result isolated an implementation-capacity boundary rather than a question/schema failure: `P3-CASE-1` is the only six-question, 100-mark blind unit and the mock client had capped every independent-review response at 4,000 output tokens. PR #528 raised that ceiling to 12,000 tokens while keeping the same US$8 cumulative hard spend guard and unchanged durable fingerprints.
 
-After this hardening is merged and production-verified, the next live workflow must resume exact evidence from run **`37290839911`**. It must preserve **US$2.192934** cumulative spend, reuse all four shared contexts, all 41 generated questions and all 12 accepted blind units where fingerprints remain unchanged, and must not restart from an older run or reset the pilot.
+Workflow run `37299460148` resumed exact evidence from `37290839911` on approved `main` `3d97439e48edcb9251b3ebac1a8da21d1f22d8e0`. `P3-CASE-1` completed under the larger output-capacity boundary, so the retained state now holds **13 of 13 blind-answer units**. Unit semantic assurance then passed 10 of the 13 unchanged bounded units with no blocking, logged or escalated content findings. `P1-B-CHUNK-2`, `P1-D-02` and `P2-SET-2` each exhausted three review calls because the shared provider instruction lowercased their returned `unit_id`, while the retained review unit identity is case-sensitive. The run used **22 provider calls** and cumulative mock-stage spend reached **US$3.348264**. Whole-paper and whole-set semantic assurance have not started, and no mock has been published.
+
+That failure is a provider-contract defect rather than a content-quality finding. The semantic-review response schema previously allowed any non-empty `unit_id`, so a lowercase identifier could satisfy structured output and only be rejected by the Fast-Path runner after the paid call. The live adapter now binds mock unit, paper and complete-set semantic-review output to the exact `unit_id` already present in the payload before the provider call can be accepted, and explicitly overrides the generic lowercase convention for that field. This proactively closes the same defect for the upcoming paper and complete-set review stages.
+
+After this hardening is merged and production-verified, the next live workflow must resume exact evidence from run **`37299460148`**. It must preserve **US$3.348264** cumulative spend, reuse all four shared contexts, all 41 generated questions, all 13 accepted blind-answer units and the 10 passed unit semantic reviews where fingerprints remain unchanged, and must not restart from an older run or reset the pilot.
 
 ## Documentation impact
 
 Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
 
-Technical documentation is updated because live execution proved a response-capacity defect at the largest blind-answer boundary. The correction raises the mock runner's independent-review maximum output from 4,000 to 12,000 tokens and adds provider-free regression coverage binding that capacity to the six-question, 100-mark Paper 3 unit. The US$8 cumulative spend ceiling, exact-fingerprint reuse, two-round semantic review limit, rights boundary, deterministic paper plan and publication lock are unchanged. The change creates no new learner route and does not alter Course Truth, Exam Truth, Foundation or Mock Profile. `INDEX.md` already points to this technical document, so no index change is required.
+Technical documentation is updated because live execution proved an exact-identity defect at the semantic-review provider boundary after the Paper 3 capacity defect was fixed. The correction binds mock unit, paper and complete-set review output to the exact payload `unit_id` before provider acceptance and adds provider-free regression coverage for exact case-sensitive identity. The 12,000-token independent-review ceiling, US$8 cumulative spend ceiling, exact-fingerprint reuse, two-round semantic review limit, rights boundary, deterministic paper plan and publication lock are unchanged. The change creates no new learner route and does not alter Course Truth, Exam Truth, Foundation or Mock Profile. `INDEX.md` already points to this technical document, so no index change is required.
