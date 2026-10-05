@@ -134,7 +134,10 @@ export async function runReviewUnits<U extends ReviewUnit>(input: {
       if (!result.ok) { lastError = result.error; continue }
       const parsed = schema.safeParse(result.output)
       if (!parsed.success) { lastError = `invalid review output: ${parsed.error.issues.map((issue) => issue.message).join('; ')}`; continue }
-      if (parsed.data.unit_id !== unit.unit_id) { lastError = `review answered for ${parsed.data.unit_id}`; continue }
+      if (parsed.data.unit_id !== unit.unit_id) {
+        if (parsed.data.unit_id.toLocaleLowerCase('en-GB') !== unit.unit_id.toLocaleLowerCase('en-GB')) { lastError = `review answered for ${parsed.data.unit_id}`; continue }
+        parsed.data.unit_id = unit.unit_id
+      }
       return outcomeFromFindings(unit.unit_id, [...software, ...classifyFindings(parsed.data.findings, input.checklist, input.knownSourceIds(unit))], previousRounds)
     }
     return { unit_id: unit.unit_id, status: 'failed', error: lastError, attempts: MAX_AI_CALL_ATTEMPTS }
