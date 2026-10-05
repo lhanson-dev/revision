@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 questions, four shared contexts and 13/13 blind-answer units retained; semantic unit assurance has 10/13 units passed and three provider-contract failures isolated for an exact-ID resume  
-**Current implementation baseline:** approved `main` `3d97439e48edcb9251b3ebac1a8da21d1f22d8e0`  
+**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 questions, four shared contexts, 13/13 blind-answer units and 13/13 semantic unit reviews retained; Paper 2 whole-paper assurance passed, while Paper 1 and Paper 3 round-one blockers are retained for exact affected-question remediation  
+**Current implementation baseline:** approved `main` `b0fa4ba71b6b3b8001de5ade4ac3d36fb61dc38c`  
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -23,7 +23,7 @@ PR #517 added the pre-generation profile foundation:
 - provider-free profile validation; and
 - the provider-free `Content Factory AQA Business 7132 Mock Profile` GitHub Action.
 
-PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. PR #523 bound blind-answer output to the exact planned unit/slot keys and retained unaffected blind units when one unit exhausts its bounded attempts. PR #528 raised independent-review output capacity for the six-question Paper 3 blind unit while retaining the same cumulative spend guard. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
+PR #519 added the deterministic paper-set planner and validator. PR #520 added the bounded live generation, blind-answer, unit-review, whole-paper-review and complete-set-review runner. PR #522 carried retained deterministic question-generation failures into the first resumed attempt without resetting spend or repurchasing accepted questions. PR #523 bound blind-answer output to the exact planned unit/slot keys and retained unaffected blind units when one unit exhausts its bounded attempts. PR #528 raised independent-review output capacity for the six-question Paper 3 blind unit while retaining the same cumulative spend guard. PR #530 bound semantic-review `unit_id` values to their exact deterministic identities before provider execution. AQA materials remain `REFERENCE_ONLY`; protected question wording, cases, datasets and mark-scheme prose are not reusable mock content.
 
 ## Deterministic mock-set planner
 
@@ -131,7 +131,7 @@ The unit reviewer then receives the generated unit, blind answers and compact Fo
 - context coherence; and
 - exam authenticity/originality.
 
-Independent-review identity is now bound before the provider call. When a review payload supplies `unit_id`, the live adapter strengthens the structured-output schema to a literal of that exact value and explicitly requires spelling, punctuation and case to be preserved. This prevents the shared provider's generic machine-safe identifier guidance from turning identifiers such as `P1-B-CHUNK-2` into `p1-b-chunk-2`. The same boundary applies automatically to later paper IDs such as `7132/1` and the complete-set ID, so the runner does not pay for an otherwise valid review and reject it only after the response because its identity changed.
+Independent-review identity is bound before the provider call. When a review payload supplies `unit_id`, the live adapter strengthens the structured-output schema to a literal of that exact value and explicitly requires spelling, punctuation and case to be preserved. It also derives the deterministic review-scope identifiers already present in the payload (`unit_id`, `component_id` and `slot_id`) and constrains every returned `affected_ids` value to that exact set. This prevents a valid finding for `P1-B-04` from being retained as `p1-b-04` and later broadening remediation to unrelated questions.
 
 The Fast-Path two-fresh-round rule applies. Round-two remediation regenerates only the affected question(s), or the shared context plus dependent questions where context coherence failed. An unresolved second round is escalated rather than reviewed a third time.
 
@@ -160,7 +160,7 @@ A final complete-set review is separate from the individual paper reviews. It ju
 - difficulty balance; and
 - overall assessment-model fit and originality.
 
-Paper-level or full-set blocking findings are retained in their own ledgers. A later resume may target those findings, but the same unresolved fingerprint cannot enter a third fresh review round.
+Paper-level or full-set blocking findings are retained in their own ledgers. A later resume may target those findings, but the same unresolved fingerprint cannot enter a third fresh review round. For evidence retained before exact `affected_ids` binding, the resume workflow canonicalises only a unique case-insensitive match to an exact deterministic paper/component/slot identifier. Unknown or ambiguous identifiers remain unchanged and therefore conservative; the historical source artifact is not rewritten.
 
 ## Spend and resume contract
 
@@ -180,6 +180,8 @@ Blind-answer failures are also retained as stage evidence. Accepted blind units 
 
 Review-call failures are retained in the stage ledger independently of content findings. A failed review does not create a blocking semantic round and does not invalidate completed generation, blind answering or unrelated passed reviews. On resume, passed unit fingerprints are reused and only failed review units require fresh provider work before the pipeline can progress.
 
+Before a resumed live run consumes retained paper/set review findings, `canonicalise-aqa-business-7132-mock-review-ids.mjs` derives the exact allowed identifiers from the validated deterministic plan and corrects only unique case-only differences in the restored working copy. This is a deterministic compatibility migration for the resume workspace, not a mutation of the historical Action artifact.
+
 Remediation feedback is deliberately excluded from the durable question source fingerprint. It can force a fresh call for the remediation attempt, but once the corrected output is accepted a later clean resume can reuse it rather than repurchasing the same content.
 
 The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-stage pilot ceiling is the operative cap for this run.
@@ -188,9 +190,9 @@ The company-wide US$20 course ceiling remains unchanged; the lower US$8 mock-sta
 
 `.github/workflows/content-factory-aqa-business-7132-mock-generation.yml` has two modes.
 
-**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests, including retained-resume-feedback, exact blind-answer slot-contract, Paper 3 blind-output-capacity and exact semantic-review identity regressions, with no provider key.
+**Pull request / preflight:** provider-free. It rebuilds the deterministic plan and runs all software tests, including retained-resume-feedback, exact blind-answer slot-contract, Paper 3 blind-output-capacity, exact semantic-review unit identity and exact affected-ID/case-only resume regressions, with no provider key.
 
-**Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, restores retained generation-failure feedback for the exact affected slot, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
+**Manual workflow dispatch from approved `main`:** live provider use is permitted only after the preflight passes. The workflow locks the run to the exact current plan fingerprint, enforces the cumulative resume rule, restores retained evidence, deterministically canonicalises eligible retained paper/set `affected_ids`, restores retained generation-failure feedback for the exact affected slot, supplies the US$8 cap and retains the generation/assurance artifact even when the live run fails closed.
 
 The live evidence artifact is named from the exact reviewed `main` SHA and contains, where reached:
 
@@ -242,12 +244,16 @@ Workflow run `37299460148` resumed exact evidence from `37290839911` on approved
 
 The run then entered semantic unit assurance. Ten of the thirteen bounded unit reviews passed. `P1-B-CHUNK-2`, `P1-D-02` and `P2-SET-2` each exhausted three review calls without a semantic finding because the provider returned the correct identifier lowercased (`p1-b-chunk-2`, `p1-d-02`, `p2-set-2`) and the Fast-Path ledger correctly rejected the mismatched unit identity. There were **zero blocking findings, zero escalations and zero logged content findings**. Paper-level and complete-set review had not yet started. The run used **22 provider calls**, and cumulative mock-stage spend reached **US$3.348264**. No mock was published.
 
-The root cause was a provider-contract conflict: the shared live-provider instruction asks for machine-safe lowercase identifiers, while mock semantic review requires the exact deterministic unit identity. Post-response validation was correct but too late to prevent spend. The live adapter now binds independent-review structured output to `z.literal(payload.unit_id)` whenever the review schema contains `unit_id`, and prepends an exact-case preservation instruction. Provider-free regression covers a bounded unit ID, a paper ID and the complete-set ID, plus a lowercased-response rejection.
+PR #530 fixed that provider-contract conflict by binding semantic-review `unit_id` values exactly before provider execution. Workflow run `37350417181` then resumed exact evidence from `37299460148` on approved `main` `06f0a101b5ce85cd81234f39a19cf0d42834014a`. The correction worked: all **13/13 semantic unit reviews passed** and Paper 2 (`7132/2`) passed whole-paper assurance.
 
-After this hardening is merged and production-verified, the next live workflow must resume exact evidence from run **`37299460148`**. It must preserve **US$3.348264** cumulative spend, reuse all four shared contexts, all 41 generated questions, all 13 accepted blind units and the ten passed semantic unit reviews where fingerprints remain unchanged. Only the three failed semantic review units should require fresh review initially. If those can progress, deterministic whole-set reassembly, three paper reviews and the final complete-set review may continue under the same exact-ID boundary and existing US$8 cumulative cap.
+Paper 1 (`7132/1`) retained first-round blockers on `P1-B-04`, `P1-B-05` and `P1-B-06`: the Explain/Analyse questions allocate AO4 even though their marking guidance permits full credit without a required evaluative judgement. Paper 3 (`7132/3`) retained first-round blockers on `P3-04` because principal repayment pressure was described as reducing profit rather than cash/liquidity, and on `P3-03` / `P3-04` because named subject targets were not genuinely necessary for full marks. Logged style/out-of-scope findings remain non-blocking under Fast-Path rules. Complete-set assurance has not started.
+
+The paper reviewer returned the affected slot IDs in lowercase (`p1-b-04`, `p1-b-05`, `p1-b-06`, `p3-03`, `p3-04`). The content findings themselves are valid, but the existing resume targeting compared those IDs case-sensitively and would therefore have treated them as broad paper findings, repurchasing unaffected questions. Run `37350417181` used **11 provider calls** and cumulative mock-stage spend reached **US$4.096212**. No mock was published.
+
+The next governed resume must use **`resume_run_id = 37350417181`** after this affected-ID hardening is merged and production-verified. The restored working copy must canonicalise only the case-only retained IDs to exact plan IDs, preserving the genuine round-one findings while targeting regeneration to `P1-B-04`, `P1-B-05`, `P1-B-06`, `P3-03` and `P3-04`. Unchanged questions, contexts, blind answers, the other passed unit reviews and Paper 2's passed whole-paper review remain reusable by fingerprint. Any still-blocking changed Paper 1/Paper 3 fingerprint is then the second permitted fresh semantic round; there is no third round.
 
 ## Documentation impact
 
-Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts.
+Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts, especially item-scoped failures, exact-fingerprint reuse and targeted remediation.
 
-Technical documentation is updated because live run `37299460148` proved a structured-review identity defect after the Paper 3 output-capacity issue was closed. The correction binds supplied semantic-review `unit_id` values exactly before provider execution, adds provider-free regression coverage for unit, paper and complete-set identities, and adds the live-adapter files to the mock PR preflight trigger. The US$8 cumulative spend ceiling, exact-fingerprint reuse, two-round semantic review limit, rights boundary, deterministic paper plan and publication lock are unchanged. The change creates no new learner route and does not alter Course Truth, Exam Truth, Foundation or Mock Profile. `INDEX.md` already points to this technical document, so no index change is required.
+Technical documentation is updated because live run `37350417181` proved that exact review-unit identity alone was insufficient: lowercase `affected_ids` could broaden a genuine paper-level finding to unaffected slots on resume. The correction binds `affected_ids` to exact identifiers already present in the provider payload and adds a deterministic resume compatibility step for historical case-only IDs. Provider-free regressions prove both boundaries, including that unknown IDs are not guessed. The US$8 cumulative spend ceiling, plan fingerprint, two-round semantic review limit, rights boundary and publication lock are unchanged. `INDEX.md` already points to this technical document, so no index change is required.
