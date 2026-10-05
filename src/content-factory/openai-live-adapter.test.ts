@@ -65,6 +65,51 @@ describe('OpenAIStructuredWorkerClient', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
+  it.each(['P1-B-CHUNK-2', '7132/1', 'complete-set'])('binds independent-review unit_id %s exactly into the provider schema', async (unitId) => {
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as {
+        instructions: string
+        text: { format: { schema: { properties?: Record<string, { const?: string }> } } }
+      }
+      expect(body.text.format.schema.properties?.unit_id?.const).toBe(unitId)
+      expect(body.instructions).toContain(`Preserve the supplied unit_id exactly as ${JSON.stringify(unitId)}`)
+      return new Response(JSON.stringify(responseBody({ unit_id: unitId, decision: 'pass' }, { input_tokens: 50, output_tokens: 20 })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }) as typeof fetch
+
+    const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, maxRetries: 0 })
+    const result = await client.run({
+      workerId: `content-factory.aqa-7132.mock-review.${unitId.toLowerCase()}`,
+      contractVersion: 'mock-review-contract-v1',
+      routeKind: 'independent_review',
+      outputSchema: z.object({ unit_id: z.string().min(1), decision: z.literal('pass') }),
+      instructions: 'Review the supplied unit.',
+      payload: { unit_id: unitId },
+      strictOutput: true,
+    })
+
+    expect(result.status).toBe('success')
+  })
+
+  it('rejects a completed review response whose unit_id changes the supplied case', async () => {
+    const unitId = 'P1-D-02'
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({ unit_id: unitId.toLowerCase(), decision: 'pass' }, { input_tokens: 50, output_tokens: 20 })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, maxRetries: 0 })
+
+    const result = await client.run({
+      workerId: 'content-factory.aqa-7132.mock-review.p1-d-02',
+      contractVersion: 'mock-review-contract-v1',
+      routeKind: 'independent_review',
+      outputSchema: z.object({ unit_id: z.string().min(1), decision: z.literal('pass') }),
+      instructions: 'Review the supplied unit.',
+      payload: { unit_id: unitId },
+      strictOutput: true,
+    })
+
+    expect(result.status).toBe('failure')
+    if (result.status === 'success') throw new Error('Expected exact unit_id contract failure')
+    expect(result.error).toContain('provider_contract_failure')
+  })
+
   it('uses a provider-compatible object envelope for Question Family arrays and unwraps the domain output', async () => {
     const questionFamily = {
       schemaVersion: 1 as const,
