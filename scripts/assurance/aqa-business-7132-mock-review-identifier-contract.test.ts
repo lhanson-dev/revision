@@ -40,6 +40,7 @@ const paperPayload = {
   unit_id: '7132/1',
   paper: {
     component_id: '7132/1',
+    shared_contexts: [{ unit_id: 'P1-CONTEXT-1' }],
     questions: [
       { question: { slot_id: 'P1-B-04' } },
       { question: { slot_id: 'P1-B-05' } },
@@ -63,7 +64,7 @@ const exactOutput = {
 }
 
 describe('AQA 7132 mock semantic review identifier contract', () => {
-  it('binds affected_ids to exact identifiers already supplied in the review payload', async () => {
+  it('binds affected_ids to exact identifiers in the remediable review scope', async () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body)) as {
         instructions: string
@@ -74,6 +75,7 @@ describe('AQA 7132 mock semantic review identifier contract', () => {
       }
       const affectedIds = findings.items?.properties?.affected_ids as { items?: { enum?: string[] } }
       expect(affectedIds.items?.enum).toEqual(expect.arrayContaining(['7132/1', 'P1-B-04', 'P1-B-05', 'P1-B-06']))
+      expect(affectedIds.items?.enum).not.toContain('P1-CONTEXT-1')
       expect(body.instructions).toContain('Preserve every affected_ids value exactly')
       return new Response(JSON.stringify(responseBody(exactOutput)), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
