@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_learner_asset_candidate_complete",
+  "checkedDate": "2026-10-05",
+  "course": {
+    "courseId": "aqa:aqa-a-level:7182",
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "inputs": {
+    "courseTruth": "../psychology-course-truth/",
+    "courseTruthRequirements": 118,
+    "courseTruthComplete": true,
+    "examTruth": "../psychology-exam-truth/assessment-blueprint.json",
+    "examTruthComplete": true,
+    "blueprint": "../psychology-course-learning-blueprint/",
+    "blueprintComplete": true
+  },
+  "learnerAssets": {
+    "contract": "asset-contract.json",
+    "deterministicBuilder": "scripts/content/derive-psychology-learner-assets.ts",
+    "deterministicAssurance": "scripts/assurance/psychology-learner-assets.test.ts",
+    "topics": 17,
+    "courseTruthRequirements": 118,
+    "learnChapters": 17,
+    "learnRequirementSections": 118,
+    "practiceActivities": "one active activity for every distinct Blueprint-selected practice evidence mode on every requirement; exact count is deterministically asserted rather than used as a quota",
+    "examSkillModules": 6,
+    "topicExamPrepSets": 17,
+    "fullPaperSimulations": 3,
+    "paperSimulationAttemptedMarks": [96, 96, 96],
+    "paperSimulationDurationsMinutes": [120, 120, 120],
+    "paper3OptionRuleRetained": true,
+    "learnerAssetCorpusComplete": true,
+    "markingPacksComplete": false,
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "canonicalRuntimeIntegrated": false,
+    "restrictedPilotPublicationApproved": false
+  },
+  "evidenceBoundary": {
+    "learn": "reviewed_only",
+    "practice": "not evidence eligible until Step 5 Marking Packs/evidence mappings exist where applicable",
+    "examPrep": "not evidence eligible until Step 5 Marking Packs/evidence mappings exist where applicable",
+    "rule": "Step 4 may produce teaching, active practice and exam-preparation candidates; it must not manufacture readiness claims before governed marking/evidence contracts exist."
+  },
+  "rights": {
+    "awardingBodyMaterial": "REFERENCE_ONLY",
+    "officialAqaLearnerTextCopied": false,
+    "officialAqaQuestionsOrMarkSchemesCopied": false,
+    "structuredAssessmentFactsPermitted": true,
+    "subjectTruth": "inherits rights-safe OPEN/LICENSED/REVISION_OWNED provenance from completed Course Truth",
+    "knownMaterialRightsBlockers": 0
+  },
+  "economics": {
+    "paidProviderSpendGbp": 0,
+    "paidSourceLicenceSpendGbp": 0,
+    "manualIntervention": "One deterministic builder and assurance contract assemble the complete candidate corpus from already-governed truth/Blueprint inputs; no per-requirement paid generation call is required.",
+    "catalogueScaleHypothesis": "If independent assurance finds the deterministic educational treatment adequate after bounded remediation, this removes learner-asset generation spend as a primary catalogue-scaling cost."
+  },
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "productionTechnicalDocumentationChanged": false,
+    "experimentalResearchEvidenceAdded": true,
+    "canonicalRuntimeChanged": false,
+    "note": "This applies the existing source-first run and Course Learning Blueprint authority. Step 7 remains responsible for canonical learner-runtime integration."
+  },
+  "nextWork": {
+    "step": 5,
+    "priority": "Build Marking Packs and evidence mappings for scored/assisted-marking Practice and Exam Prep candidates, then run production-level independent educational and assessment assurance before Step 7 runtime integration.",
+    "rule": "Do not mark Step 4 candidates as scored/evidence-eligible or pilot-publication-ready until the downstream gates pass."
+  },
+  "publicationBoundary": "Experimental candidate learner corpus only. Completion of Step 4 does not authorise learner publication, scored readiness evidence, canonical runtime integration or restricted-pilot release."
+}
