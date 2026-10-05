@@ -18,7 +18,8 @@
       {"id": "EDU-04D", "topicNumbers": [7], "requirementIds": ["PSY-07-24","PSY-07-25","PSY-07-26","PSY-07-27","PSY-07-28","PSY-07-29","PSY-07-30","PSY-07-31","PSY-07-32","PSY-07-33","PSY-07-34"]},
       {"id": "EDU-05", "topicNumbers": [8, 9]},
       {"id": "EDU-06", "topicNumbers": [10, 11]},
-      {"id": "EDU-07", "topicNumbers": [12, 13]},
+      {"id": "EDU-07A", "topicNumbers": [12]},
+      {"id": "EDU-07B", "topicNumbers": [13]},
       {"id": "EDU-08", "topicNumbers": [14, 15]},
       {"id": "EDU-09", "topicNumbers": [16, 17]}
     ],
