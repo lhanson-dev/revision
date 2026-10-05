@@ -16,7 +16,8 @@ The runner exists to answer one question: **is the complete Psychology candidate
 
 Normal repository CI performs all checks that can be proved mechanically without provider spend. The Step 6 tests verify that:
 
-- all 17 topics and all 118 Course Truth requirements appear exactly once across nine bounded educational review packets;
+- all 17 topics and all 118 Course Truth requirements appear exactly once across twelve bounded educational review packets;
+- dense Research Methods is split into four exact requirement slices rather than weakening the 750,000-character context guard;
 - learner-facing material sent for review is bound to exact requirement and Blueprint IDs;
 - only rights-safe subject truth and source evidence enter the educational reviewer packets;
 - AQA `REFERENCE_ONLY` source text is excluded from provider input;
@@ -34,7 +35,7 @@ Existing Psychology Course Truth, Exam Truth, Blueprint, learner-asset and Marki
 
 After this runner is merged, the live workflow is manually dispatched against an exact current `main` SHA. It creates fresh provider contexts that did not generate the course.
 
-Nine educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
+Twelve educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
 
 - factual and curriculum accuracy;
 - fidelity to the supplied rights-safe Course Truth and source evidence;
@@ -43,6 +44,8 @@ Nine educational review packets cover the whole course and challenge A1/A2 mater
 - misconception repair quality;
 - whether Practice prompts teach or test the intended capability; and
 - whether scoreable Practice marking/evidence rules overclaim what the activity demonstrates.
+
+Research Methods is deliberately split into four requirement slices (`PSY-07-01`–`09`, `10`–`17`, `18`–`23`, and `24`–`34`) because the unsplit topic is too large for the bounded context contract. This changes review packaging only; the 34 requirements remain covered exactly once.
 
 Three assessment review packets are organised by paper and challenge A3/A4 Exam Prep/full-paper material for:
 
@@ -70,7 +73,7 @@ Every fresh review returns machine-readable findings containing:
 - affected artifact/work unit; and
 - resolution status.
 
-No-issue/pass outcomes are represented by the packet decision and dimension statuses rather than fake findings. Any `blocking` or `material` finding forces `fail_hold`. A packet cannot report `pass` while carrying a material finding.
+No-issue/pass outcomes are represented by the packet decision and dimension statuses rather than fake findings. Any `blocking` or `material` finding or review dimension forces `fail_hold`. A packet cannot report `pass` while carrying a material review state.
 
 The retained-receipt guard independently re-reads all packet decisions, review dimensions and findings after the live review. This closes a fail-open edge case where a reviewer could correctly return `fail_hold` with a `material_issue` or `blocking_issue` dimension but omit a duplicate finding record. In that state the guard rewrites the retained receipt to `fail_hold` and fails the workflow.
 
@@ -91,8 +94,8 @@ The source-first experiment is explicitly testing a cheaper course-production ro
 The runner:
 
 - performs deterministic work before any provider call;
-- sends bounded topic groups rather than repeated full-course dumps;
-- keeps Research Methods in its own educational packet because that topic is materially denser;
+- sends bounded topic/requirement groups rather than repeated full-course dumps;
+- splits only the dense Research Methods topic when the deterministic size guard proves it necessary;
 - uses bounded output and at most two attempts per packet;
 - conservatively reserves cost before starting another call;
 - records observed tokens/searches/spend; and
