@@ -77,6 +77,7 @@ jobs:
           scripts/assurance/psychology-learner-assets.test.ts
           scripts/assurance/psychology-marking-packs.test.ts
           scripts/assurance/psychology-step6-independent-assurance.test.ts
+          scripts/assurance/psychology-step6-receipt-guard.test.ts
           --reporter=verbose
 
       - name: Run fresh bounded Psychology Step 6 independent review
@@ -87,6 +88,9 @@ jobs:
           REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npx vitest run scripts/assurance/psychology-step6-independent-assurance.test.ts --reporter=verbose
+
+      - name: Fail closed on retained packet decisions and dimensions
+        run: npx tsx scripts/assurance/psychology-step6-receipt-guard.ts
 
       - name: Upload retained Step 6 assurance evidence
         if: always()
