@@ -24,6 +24,7 @@ Normal repository CI performs all checks that can be proved mechanically without
 - the three paper structures, valid Paper 3 option routes and qualification calibration remain tied to approved Exam Truth;
 - no packet exceeds the 750,000-character context guard;
 - packet schemas, review schemas and final-decision rules are deterministic;
+- a separate retained-receipt guard fails closed if any packet decision or dimension remains blocking/material even when the provider omits a duplicate finding;
 - the live-review spend guard cannot be configured above **US$5**; and
 - no live provider call occurs during normal PR CI.
 
@@ -56,7 +57,7 @@ Three assessment review packets are organised by paper and challenge A3/A4 Exam 
 
 The assessment reviewer receives approved structured Exam Truth facts only. It is not given protected AQA question, mark-scheme or specification prose.
 
-## Issue register
+## Issue register and fail-closed decision
 
 Every fresh review returns machine-readable findings containing:
 
@@ -69,7 +70,11 @@ Every fresh review returns machine-readable findings containing:
 - affected artifact/work unit; and
 - resolution status.
 
-No-issue/pass outcomes are represented by the packet decision and dimension statuses rather than fake findings. Any `blocking` or `material` finding forces `fail_hold`. A packet cannot report `pass` while carrying a material finding. Remediation is targeted to the smallest safe affected scope and prior assurance evidence is preserved rather than rewritten.
+No-issue/pass outcomes are represented by the packet decision and dimension statuses rather than fake findings. Any `blocking` or `material` finding forces `fail_hold`. A packet cannot report `pass` while carrying a material finding.
+
+The retained-receipt guard independently re-reads all packet decisions, review dimensions and findings after the live review. This closes a fail-open edge case where a reviewer could correctly return `fail_hold` with a `material_issue` or `blocking_issue` dimension but omit a duplicate finding record. In that state the guard rewrites the retained receipt to `fail_hold` and fails the workflow.
+
+Remediation is targeted to the smallest safe affected scope and prior assurance evidence is preserved rather than rewritten.
 
 ## Rights boundary
 
@@ -103,8 +108,9 @@ Step 6 passes only after a live run tied to exact approved `main` has:
 
 1. rerun the applicable deterministic Psychology assurance;
 2. completed every required educational and assessment packet;
-3. retained the independent issue register and provider/cost receipt; and
-4. produced no unresolved blocking/material findings.
+3. retained the independent issue register and provider/cost receipt;
+4. passed the independent receipt guard; and
+5. produced no unresolved blocking/material findings or dimensions.
 
 If the live review finds material defects, those defects are remediated on a governed branch and only the affected assurance is rerun.
 
