@@ -25,7 +25,11 @@ const foundationQuestionFamiliesProviderSchema = z.object({
 type StructuredRunInput = Parameters<ProviderOpenAIStructuredWorkerClient['run']>[0]
 
 function exactReviewAffectedIds(payload: unknown) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return []
+  const record = payload as Record<string, unknown>
   const ids = new Set<string>()
+  if (typeof record.unit_id === 'string' && record.unit_id.trim()) ids.add(record.unit_id)
+
   const visit = (value: unknown): void => {
     if (Array.isArray(value)) {
       value.forEach(visit)
@@ -33,7 +37,7 @@ function exactReviewAffectedIds(payload: unknown) {
     }
     if (!value || typeof value !== 'object') return
     for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
-      if ((key === 'unit_id' || key === 'slot_id' || key === 'component_id') && typeof child === 'string' && child.trim()) ids.add(child)
+      if ((key === 'slot_id' || key === 'component_id') && typeof child === 'string' && child.trim()) ids.add(child)
       visit(child)
     }
   }
@@ -64,7 +68,7 @@ export function bindExactReviewUnitId(input: StructuredRunInput): StructuredRunI
         affected_ids: z.array(exactAffectedId).min(1),
       })
       outputSchema = outputSchema.safeExtend({ findings: z.array(exactFindingSchema) })
-      instructions.push('Preserve every affected_ids value exactly as it appears in the supplied content. Do not change spelling, punctuation or case, and do not invent identifiers.')
+      instructions.push('Preserve every affected_ids value exactly as it appears in the supplied review scope. Do not change spelling, punctuation or case, and do not invent identifiers.')
     }
   }
 
