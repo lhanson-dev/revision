@@ -1,6 +1,6 @@
 # Psychology Step 6 — Independent Assurance Runner
 
-**Status:** experimental assurance runner candidate  
+**Status:** experimental assurance runner merged; Step 6 not yet passed  
 **Course:** AQA A-level Psychology 7182  
 **Route:** Source-First Course Prototype Experimental Exception
 
@@ -9,6 +9,20 @@
 This workspace defines the smallest credible Step 6 assurance route for the Psychology source-first pilot. It does not recreate the legacy Content Factory workflow. It combines deterministic verification with a fresh independent educational/assessment review of the exact retained Psychology candidate before any canonical learner-runtime integration.
 
 The runner exists to answer one question: **is the complete Psychology candidate sufficiently accurate, educationally defensible and assessment-authentic for a restricted pilot, or are there blocking/material defects that must be remediated first?**
+
+## First live execution evidence
+
+The first manually dispatched live run was GitHub Actions run `37377166434` against exact `main` `c2d82ecf76c8c5cb89c30e9c8e0a39a7d15c03c5`.
+
+- exact-current-`main` verification passed;
+- the complete deterministic Psychology prerequisite suite passed;
+- the live-review test then stopped at Vitest's inherited default 5,000 ms test timeout before the independent review could complete;
+- the retained artifact contained only the deterministic packet summary and no provider review or provider/cost receipt; and
+- this run therefore establishes neither a Step 6 pass nor a Psychology content finding.
+
+Repository evidence cannot establish whether a provider request that was interrupted by the timeout incurred any external charge, so no zero-spend claim is made for that failed attempt.
+
+The live test now has an explicit 40-minute timeout inside the workflow's existing 45-minute job timeout. This changes only the execution allowance for the already-authorised bounded review; it does not change packet scope, reviewer rules, provider model, retry limits, rights boundaries, the US$5 spend ceiling or the fail-closed completion criteria.
 
 ## Two-layer assurance
 
@@ -34,7 +48,7 @@ Existing Psychology Course Truth, Exam Truth, Blueprint, learner-asset and Marki
 
 ### 2. Fresh independent review
 
-After this runner is merged, the live workflow is manually dispatched against an exact current `main` SHA. It creates fresh provider contexts that did not generate the course.
+The live workflow is manually dispatched against an exact current `main` SHA. It creates fresh provider contexts that did not generate the course.
 
 Thirteen educational review packets cover the whole course and challenge A1/A2 material plus Practice/Practice Marking Packs for:
 
