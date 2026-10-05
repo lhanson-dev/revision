@@ -22,8 +22,43 @@ const foundationQuestionFamiliesProviderSchema = z.object({
   questionFamilies: z.array(questionFamilySchema.omit({ aggregateMarkTotal: true })).min(1),
 })
 
+const mockSemanticReviewWorkerPrefixes = [
+  'content-factory.aqa-7132.mock-unit-review.',
+  'content-factory.aqa-7132.mock-paper-review.',
+] as const
+
+function isAqa7132MockSemanticReviewWorker(workerId: string) {
+  return workerId === 'content-factory.aqa-7132.mock-set-review'
+    || mockSemanticReviewWorkerPrefixes.some((prefix) => workerId.startsWith(prefix))
+}
+
+function exactMockReviewUnitId(payload: unknown) {
+  if (!payload || typeof payload !== 'object') throw new Error('mock_review_payload_missing_exact_unit_id')
+  const unitId = (payload as { unit_id?: unknown }).unit_id
+  if (typeof unitId !== 'string' || unitId.length === 0) throw new Error('mock_review_payload_missing_exact_unit_id')
+  return unitId
+}
+
+function bindExactMockReviewUnitId(outputSchema: z.ZodType, unitId: string) {
+  if (!(outputSchema instanceof z.ZodObject)) throw new Error('mock_review_schema_must_be_object')
+  return outputSchema.safeExtend({ unit_id: z.literal(unitId) })
+}
+
 export class OpenAIStructuredWorkerClient extends ProviderOpenAIStructuredWorkerClient {
   override run(input: Parameters<ProviderOpenAIStructuredWorkerClient['run']>[0]) {
+    if (isAqa7132MockSemanticReviewWorker(input.workerId)) {
+      if (input.routeKind !== 'independent_review') throw new Error('mock_semantic_review_requires_independent_review_route')
+      const unitId = exactMockReviewUnitId(input.payload)
+      return super.run({
+        ...input,
+        outputSchema: bindExactMockReviewUnitId(input.outputSchema, unitId),
+        instructions: [
+          input.instructions,
+          'Return unit_id exactly as supplied in the payload, including case, punctuation and separators. For this field only, this exact identifier requirement overrides any general lowercase-identifier instruction.',
+        ].join('\n'),
+      })
+    }
+
     if (input.workerId !== 'content-factory.foundation.question-families') {
       return super.run(input)
     }
