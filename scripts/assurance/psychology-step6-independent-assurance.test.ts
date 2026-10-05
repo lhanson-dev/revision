@@ -1,4 +1,6 @@
-import { describe, expect, test } from 'vitest'
+import { readFileSync, rmSync } from 'node:fs'
+
+import { describe, expect, test, vi } from 'vitest'
 
 import { derivePsychologyMarkingPacks } from '../content/derive-psychology-marking-packs'
 import {
@@ -97,6 +99,53 @@ describe('Psychology Step 6 independent assurance packets', () => {
     expect(() => validateStep6MaxSpend(5.01)).toThrow(/<= US\$5/)
     expect(() => validateStep6MaxSpend(0)).toThrow(/> 0/)
     expect(() => validateStep6MaxSpend(Number.NaN)).toThrow()
+  })
+
+  test('retains provider attempts and observed spend when output exhaustion prevents packet completion', async () => {
+    const outputDir = '.artifacts/psychology-step6-independent-assurance'
+    rmSync(outputDir, { recursive: true, force: true })
+    const provider = vi.fn(async () => new Response(JSON.stringify({
+      status: 'incomplete',
+      incomplete_details: { reason: 'max_output_tokens' },
+      usage: {
+        input_tokens: 1_000,
+        output_tokens: 16_000,
+        input_tokens_details: { cached_tokens: 0 },
+      },
+      output: [{ type: 'web_search_call' }],
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    }))
+    vi.stubGlobal('fetch', provider)
+
+    try {
+      await expect(runPsychologyStep6IndependentAssurance({
+        courseTruthDir: COURSE_TRUTH_DIR,
+        examTruthPath: EXAM_TRUTH_PATH,
+        reviewedMainSha: 'a'.repeat(40),
+        maxSpendUsd: 5,
+        model: 'test-review-model',
+        apiKey: 'test-key',
+      })).rejects.toThrow(/max_output_tokens/)
+
+      const receipt = JSON.parse(readFileSync(`${outputDir}/final-receipt.json`, 'utf8')) as {
+        completionStatus: string
+        finalDecision: string
+        packetCounts: { completed: number }
+        economics: { observedSpendUsd: number; providerAttempts: number; webSearchCalls: number }
+      }
+      expect(provider).toHaveBeenCalledTimes(2)
+      expect(receipt.completionStatus).toBe('incomplete')
+      expect(receipt.finalDecision).toBe('fail_hold')
+      expect(receipt.packetCounts.completed).toBe(0)
+      expect(receipt.economics.providerAttempts).toBe(2)
+      expect(receipt.economics.webSearchCalls).toBe(2)
+      expect(receipt.economics.observedSpendUsd).toBeGreaterThan(0)
+    } finally {
+      vi.unstubAllGlobals()
+      rmSync(outputDir, { recursive: true, force: true })
+    }
   })
 })
 
