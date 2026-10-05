@@ -198,7 +198,7 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Home')
 
   await clickNavigation(page, 'Plan')
-  await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your week', exact: true })).toBeVisible()
   await auditRuntime(page, 'Plan')
 
   await clickNavigation(page, 'Progress')
