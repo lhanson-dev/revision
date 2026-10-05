@@ -1,0 +1,98 @@
+name: Psychology Step 6 Independent Assurance
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_main_sha:
+        description: Exact current main SHA containing the complete Psychology Step 1-5 candidate
+        required: true
+        type: string
+      max_spend_usd:
+        description: Hard Step 6 provider-spend ceiling in USD; must be >0 and <=5
+        required: false
+        default: '5'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: psychology-step6-independent-assurance
+  cancel-in-progress: false
+
+jobs:
+  psychology-step6-independent-assurance:
+    name: Fresh source-first Psychology educational and assessment assurance
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Normalize reviewed main SHA and spend ceiling
+        id: normalize
+        env:
+          RAW_SHA: ${{ inputs.reviewed_main_sha }}
+          RAW_SPEND: ${{ inputs.max_spend_usd }}
+        run: |
+          set -euo pipefail
+          sha="$(printf '%s' "${RAW_SHA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          spend="$(printf '%s' "${RAW_SPEND}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          [[ "${sha}" =~ ^[0-9a-f]{40}$ ]] || { echo 'reviewed_main_sha must be 40 lowercase hex characters' >&2; exit 1; }
+          [[ "${spend}" =~ ^([0-9]+)(\.[0-9]+)?$ ]] || { echo 'max_spend_usd must be numeric' >&2; exit 1; }
+          awk -v value="${spend}" 'BEGIN { exit !(value > 0 && value <= 5) }' || { echo 'max_spend_usd must be >0 and <=5' >&2; exit 1; }
+          echo "sha=${sha}" >> "${GITHUB_OUTPUT}"
+          echo "spend=${spend}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout exact reviewed main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.normalize.outputs.sha }}
+
+      - name: Verify exact current main identity before provider spend
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${REVIEWED_MAIN_SHA}"
+          current_main="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          test "${current_main}" = "${REVIEWED_MAIN_SHA}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Re-run complete deterministic Psychology prerequisites
+        run: >-
+          npx vitest run
+          scripts/assurance/psychology-course-truth.test.ts
+          scripts/assurance/psychology-exam-truth.test.ts
+          scripts/assurance/psychology-course-learning-blueprint.test.ts
+          scripts/assurance/psychology-learner-assets.test.ts
+          scripts/assurance/psychology-marking-packs.test.ts
+          scripts/assurance/psychology-step6-independent-assurance.test.ts
+          --reporter=verbose
+
+      - name: Run fresh bounded Psychology Step 6 independent review
+        env:
+          PSYCHOLOGY_STEP6_LIVE: '1'
+          PSYCHOLOGY_STEP6_MODEL: gpt-5.6-terra
+          PSYCHOLOGY_STEP6_MAX_SPEND_USD: ${{ steps.normalize.outputs.spend }}
+          REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx vitest run scripts/assurance/psychology-step6-independent-assurance.test.ts --reporter=verbose
+
+      - name: Upload retained Step 6 assurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: psychology-step6-independent-assurance-${{ steps.normalize.outputs.sha }}
+          path: .artifacts/psychology-step6-independent-assurance/
+          if-no-files-found: warn
+          retention-days: 30
