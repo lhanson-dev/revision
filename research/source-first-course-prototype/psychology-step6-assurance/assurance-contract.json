@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "courseId": "aqa:aqa-a-level:7182",
+  "route": "source-first-course-prototype",
+  "status": "experimental_step_6_assurance_runner_candidate",
+  "assuranceClasses": ["A1", "A2", "A3", "A4"],
+  "educationalReview": {
+    "wholeCourseCoverageRequired": true,
+    "requirementCount": 118,
+    "topicCount": 17,
+    "packetGroups": [
+      {"id": "EDU-01", "topicNumbers": [1, 2]},
+      {"id": "EDU-02", "topicNumbers": [3, 4]},
+      {"id": "EDU-03", "topicNumbers": [5, 6]},
+      {"id": "EDU-04A", "topicNumbers": [7], "requirementIds": ["PSY-07-01","PSY-07-02","PSY-07-03","PSY-07-04","PSY-07-05","PSY-07-06","PSY-07-07","PSY-07-08","PSY-07-09"]},
+      {"id": "EDU-04B", "topicNumbers": [7], "requirementIds": ["PSY-07-10","PSY-07-11","PSY-07-12","PSY-07-13","PSY-07-14","PSY-07-15","PSY-07-16","PSY-07-17"]},
+      {"id": "EDU-04C", "topicNumbers": [7], "requirementIds": ["PSY-07-18","PSY-07-19","PSY-07-20","PSY-07-21","PSY-07-22","PSY-07-23"]},
+      {"id": "EDU-04D", "topicNumbers": [7], "requirementIds": ["PSY-07-24","PSY-07-25","PSY-07-26","PSY-07-27","PSY-07-28","PSY-07-29","PSY-07-30","PSY-07-31","PSY-07-32","PSY-07-33","PSY-07-34"]},
+      {"id": "EDU-05", "topicNumbers": [8, 9]},
+      {"id": "EDU-06", "topicNumbers": [10, 11]},
+      {"id": "EDU-07A", "topicNumbers": [12]},
+      {"id": "EDU-07B", "topicNumbers": [13]},
+      {"id": "EDU-08", "topicNumbers": [14, 15]},
+      {"id": "EDU-09", "topicNumbers": [16, 17]}
+    ],
+    "maximumPacketCharacters": 750000,
+    "reviewDimensions": [
+      "factual_accuracy",
+      "source_fidelity",
+      "pedagogical_accuracy",
+      "omitted_conditions_or_false_certainty",
+      "misconception_repair",
+      "practice_capability_fit"
+    ],
+    "rights": {
+      "officialAqaSourceTextPermitted": false,
+      "permittedReusableSourceClasses": ["OPEN", "LICENSED", "REVISION_OWNED"],
+      "webSearchOnlyWithinPermittedReusableSourceDomains": true
+    }
+  },
+  "assessmentReview": {
+    "wholeAssessmentCorpusCoverageRequired": true,
+    "packetGroups": [
+      {"id": "ASM-7182-1", "paperId": "7182/1"},
+      {"id": "ASM-7182-2", "paperId": "7182/2"},
+      {"id": "ASM-7182-3", "paperId": "7182/3"}
+    ],
+    "reviewDimensions": [
+      "scope_and_authentic_demand",
+      "scenario_and_data_coherence",
+      "mark_and_ao_logic",
+      "rubric_and_level_logic",
+      "legitimate_alternative_reasoning",
+      "misconception_and_feedback_accuracy",
+      "evidence_scope_integrity",
+      "wrong_exam_habit_risk"
+    ],
+    "rights": {
+      "officialAqaSourceTextPermitted": false,
+      "structuredExamTruthFactsPermitted": true,
+      "webSearchPermitted": false
+    }
+  },
+  "freshReview": {
+    "sameGenerationContextPermitted": false,
+    "machineReadableIssueRegisterRequired": true,
+    "blockingOrMaterialFindingOrDimensionForcesFailHold": true,
+    "minorFindingsMayRemainForRestrictedPilot": true,
+    "humanSubjectSpecialistRequiredForRestrictedPilot": false,
+    "humanSubjectSpecialistRequiredBeforeCommercialBenchmark": true
+  },
+  "providerEconomics": {
+    "hardMaximumSpendUsd": 5,
+    "defaultMaximumSpendUsd": 5,
+    "maximumAttemptsPerPacket": 2,
+    "providerCallsInNormalPullRequestCi": 0,
+    "costStopCountsAsPass": false
+  },
+  "evidence": {
+    "artifactDirectory": ".artifacts/psychology-step6-independent-assurance",
+    "retainExactReviewedMainSha": true,
+    "retainPacketOutputs": true,
+    "retainFinalReceipt": true,
+    "retainProviderUsageAndSpend": true,
+    "retainUnresolvedFindings": true
+  },
+  "completionBoundary": {
+    "runnerMergedMeansStep6Passed": false,
+    "liveRunRequired": true,
+    "allPacketsMustComplete": true,
+    "noUnresolvedBlockingOrMaterialFindingsOrDimensions": true,
+    "canonicalRuntimeIntegrationRequiredForStep6": false,
+    "restrictedPilotPublicationApprovedByRunner": false
+  }
+}

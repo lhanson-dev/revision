@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_step_6_assurance_runner_candidate",
+  "courseId": "aqa:aqa-a-level:7182",
+  "route": "source-first-course-prototype",
+  "inputs": {
+    "courseTruth": "../psychology-course-truth/manifest.json + topic shards",
+    "examTruth": "../psychology-exam-truth/assessment-blueprint.json",
+    "courseLearningBlueprint": "../psychology-course-learning-blueprint/manifest.json + deterministic projection",
+    "learnerAssets": "../psychology-learner-assets/manifest.json + deterministic projection",
+    "markingPacks": "../psychology-marking-packs/manifest.json + deterministic projection"
+  },
+  "runner": {
+    "implementation": "scripts/assurance/psychology-step6-independent-assurance.ts",
+    "deterministicAssurance": "scripts/assurance/psychology-step6-independent-assurance.test.ts",
+    "receiptGuard": "scripts/assurance/psychology-step6-receipt-guard.ts",
+    "receiptGuardAssurance": "scripts/assurance/psychology-step6-receipt-guard.test.ts",
+    "liveWorkflow": ".github/workflows/psychology-step6-independent-assurance.yml",
+    "educationalReviewPackets": 13,
+    "researchMethodsReviewPackets": 4,
+    "assessmentReviewPackets": 3,
+    "wholeCourseRequirementCoverage": 118,
+    "maximumPacketCharacters": 750000,
+    "providerCallsDuringNormalCi": 0,
+    "hardMaximumProviderSpendUsd": 5,
+    "failClosedOnMaterialDimensionsWithoutDuplicateFindings": true
+  },
+  "completion": {
+    "courseTruthComplete": true,
+    "examTruthComplete": true,
+    "courseLearningBlueprintComplete": true,
+    "learnerAssetCorpusComplete": true,
+    "markingPacksCompleteForStep5": true,
+    "step6RunnerReadyAfterMerge": true,
+    "freshIndependentEducationalAssurancePassed": false,
+    "freshIndependentAssessmentAssurancePassed": false,
+    "liveStep6ReceiptRetained": false,
+    "productionMarkerAuthorised": false,
+    "runtimeEvidenceEnabled": false,
+    "canonicalRuntimeIntegrated": false,
+    "restrictedPilotPublicationApproved": false,
+    "nextStep": "After this runner is merged, dispatch the exact-main Step 6 workflow. Retain its findings/receipt, remediate only affected scope if necessary, and do not proceed to Step 7 until Step 6 has no unresolved blocking/material findings or dimensions."
+  },
+  "economics": {
+    "runnerImplementationProviderSpendGbp": 0,
+    "paidSourceLicenceSpendGbp": 0,
+    "liveReviewHardCeilingUsd": 5
+  },
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "productionTechnicalDocumentationChanged": false,
+    "canonicalLearnerRuntimeChanged": false,
+    "historicalEvidenceRewritten": false,
+    "experimentalAssuranceInfrastructureAdded": true
+  }
+}
