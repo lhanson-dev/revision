@@ -64,7 +64,7 @@ export async function guardPsychologyStep6Receipt(outputDir = DEFAULT_OUTPUT_DIR
     ...receipt,
     finalDecision: shouldFailHold ? 'fail_hold' : receipt.finalDecision,
     failureReason: shouldFailHold
-      ? receipt.failureReason ?? `receipt_guard: incomplete packets or unresolved blocking/material review state`
+      ? receipt.failureReason ?? 'receipt_guard: incomplete packets or unresolved blocking/material review state'
       : receipt.failureReason ?? null,
     receiptGuard: {
       checkedReviewFiles: reviews.length,
@@ -86,7 +86,7 @@ export async function guardPsychologyStep6Receipt(outputDir = DEFAULT_OUTPUT_DIR
   return guardedReceipt
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1]?.endsWith('psychology-step6-receipt-guard.ts')) {
   guardPsychologyStep6Receipt(process.env.PSYCHOLOGY_STEP6_OUTPUT_DIR ?? DEFAULT_OUTPUT_DIR).catch((error) => {
     console.error(error instanceof Error ? error.message : String(error))
     process.exit(1)
