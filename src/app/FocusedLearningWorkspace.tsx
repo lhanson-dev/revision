@@ -1,11 +1,36 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 import { clearRetried, dueRetry, queueMissed, type RetryEntry } from './practice-retry'
-import { Button, FeedbackBar, Icon, SegmentedControl, SelectField, TextAreaField } from './ui'
+import {
+  PRACTICE_LENGTHS,
+  lastPractisedLabel,
+  sessionQuestionCount,
+  toggleQuestionType,
+  usableQuestionTypes,
+  type PracticeLength,
+  type PracticeQuestionType,
+} from './practice-start'
+import { resolveSubjectIdentity } from './subject-palette'
+import type { TopicProgress } from './topic-status'
+import {
+  Button,
+  FeedbackBar,
+  Icon,
+  PracticeBarTitle,
+  PracticeDialog,
+  PracticeProgressBar,
+  PracticeStart,
+  SegmentedControl,
+  SelectField,
+  TextAreaField,
+  WarmupChip,
+  accentStyle,
+  type PracticeWarmupRow,
+} from './ui'
 
 export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
 
@@ -23,6 +48,8 @@ export type FocusedLearningWorkspaceProps = {
   includeExamQuestions?: boolean
   /** Practice only: open this topic first (for example when arriving from a Learn page). */
   preferredTopicId?: string | null
+  /** Practice only: each topic's status and when it was last practised, from the student's saved evidence. */
+  topicProgress?: Record<string, TopicProgress>
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -48,11 +75,6 @@ function defaultMode(section: FocusedLearningSection): WorkspaceMode {
   if (section === 'practice') return 'flashcards'
   if (section === 'exam-prep') return 'answer'
   return 'learn'
-}
-
-function elapsedLabel(startedAt: number, now: number) {
-  const minutes = Math.floor((now - startedAt) / 60_000)
-  return minutes < 1 ? 'Under a minute' : `${minutes} min`
 }
 
 function evidenceId(prefix: string) {
@@ -88,6 +110,7 @@ export function FocusedLearningWorkspace({
   contextLabel,
   includeExamQuestions = true,
   preferredTopicId,
+  topicProgress,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
@@ -97,13 +120,18 @@ export function FocusedLearningWorkspace({
     return topics[0]?.id ?? ''
   })
   const [mode, setMode] = useState<WorkspaceMode | null>(null)
+  // Practice: which exercise is open in the pop-up, and the choices on the start screen.
+  const [openActivity, setOpenActivity] = useState<WorkspaceMode | null>(null)
+  const [length, setLength] = useState<PracticeLength>(PRACTICE_LENGTHS[0])
+  const [selectedTypes, setSelectedTypes] = useState<PracticeQuestionType[]>(['multiple-choice'])
+  // The scored session in progress. Closing the pop-up keeps it (every answer is already saved as evidence),
+  // and the start screen then offers "Carry on".
+  const [questionSession, setQuestionSession] = useState<{ total: number } | null>(null)
   // The retry queue for this session: a missed question comes back after at least 3 other answers.
   const [retryQueue, setRetryQueue] = useState<RetryEntry[]>([])
   const [retryId, setRetryId] = useState<string | null>(null)
   const [sessionAnswered, setSessionAnswered] = useState(0)
   const [sessionCorrect, setSessionCorrect] = useState(0)
-  const [sessionStart] = useState(() => Date.now())
-  const [now, setNow] = useState(() => Date.now())
   const [cardIndex, setCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -122,9 +150,7 @@ export function FocusedLearningWorkspace({
   const [aoMarks, setAoMarks] = useState<Record<AoKey, number>>(emptyAoMarks)
   const [examRecorded, setExamRecorded] = useState(false)
 
-  const availableModes = section === 'practice' && !includeExamQuestions
-    ? sectionModes.practice.filter((item) => item !== 'exam-question')
-    : sectionModes[section]
+  const availableModes = sectionModes[section]
   const copy = sectionHeading(section, adapter.manifest.paper.number, contextLabel)
   const topic = adapter.getTopic(topicId)
   const cards = useMemo(() => {
@@ -140,51 +166,35 @@ export function FocusedLearningWorkspace({
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
   const card = cards[cardIndex % Math.max(cards.length, 1)]
-  const regularQuestion = questions[questionIndex % Math.max(questions.length, 1)]
+  const sessionTotal = questionSession?.total ?? 0
   const retryQuestionItem = retryId ? questions.find((item) => item.id === retryId) : undefined
-  const question = retryQuestionItem ?? regularQuestion
+  const question = retryQuestionItem ?? (questionIndex < sessionTotal ? questions[questionIndex] : undefined)
   const isRetry = Boolean(retryQuestionItem)
+  const questionsFinished = questionSession !== null && !question
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
   const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
   const examQuestion = exam?.questions[examQuestionIndex % Math.max(exam.questions.length, 1)]
   const examTotalAwarded = (Object.keys(aoMarks) as AoKey[]).reduce((sum, key) => sum + aoMarks[key], 0)
 
-  const modeHasContent: Record<WorkspaceMode, boolean> = {
-    learn: true,
-    links: true,
-    answer: true,
-    flashcards: cards.length > 0,
-    'quick-check': questions.length > 0,
-    'case-study': Boolean(caseStudy),
-    'exam-question': Boolean(exam),
-    'formulas-data': formulas.length > 0 || drills.length > 0,
-  }
-  const practiceModes = availableModes.filter((item) => modeHasContent[item])
-  const recommendedMode = recommendation && recommendation.topicId === topicId
-    && practiceModes.includes(recommendation.activity) ? recommendation.activity : null
-  const initialMode: WorkspaceMode = isPractice
-    ? recommendedMode ?? (practiceModes.includes('quick-check') ? 'quick-check' : practiceModes[0] ?? defaultMode(section))
-    : defaultMode(section)
-  const effectiveMode = mode && availableModes.includes(mode) ? mode : initialMode
-  const otherModes = practiceModes.filter((item) => item !== effectiveMode)
-  const modeSummary: Partial<Record<WorkspaceMode, string>> = {
-    flashcards: `${cards.length} ${cards.length === 1 ? 'card' : 'cards'} on this topic`,
-    'quick-check': `${questions.length} ${questions.length === 1 ? 'question' : 'questions'} on this topic`,
-    'case-study': caseStudy ? `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'} on a business case` : undefined,
-    'exam-question': exam ? `${exam.questions.length} exam ${exam.questions.length === 1 ? 'question' : 'questions'}` : undefined,
-    'formulas-data': `${formulas.length} ${formulas.length === 1 ? 'formula' : 'formulas'} · ${drills.length} data ${drills.length === 1 ? 'drill' : 'drills'}`,
-  }
-  const whyThisActivity = recommendedMode
-    ? recommendation?.reason
-    : `You chose ${modeLabels[effectiveMode].toLowerCase()} for ${topic?.shortTitle ?? 'this topic'}.`
-  const sessionLabel = sessionAnswered === 0 ? 'None yet' : `${sessionCorrect} of ${sessionAnswered}`
+  const effectiveMode = mode && availableModes.includes(mode) ? mode : defaultMode(section)
 
-  useEffect(() => {
-    if (!isPractice) return undefined
-    const timer = window.setInterval(() => setNow(Date.now()), 30_000)
-    return () => window.clearInterval(timer)
-  }, [isPractice])
+  // Practice: only the activities that have content are offered, and every number on the start screen is real.
+  const availableTypes: PracticeQuestionType[] = questions.length > 0 ? ['multiple-choice'] : []
+  const chosenTypes = usableQuestionTypes(selectedTypes, availableTypes)
+  const availableQuestions = chosenTypes.includes('multiple-choice') ? questions.length : 0
+  const startCount = sessionQuestionCount(length, availableQuestions)
+  const warmups: PracticeWarmupRow[] = [
+    ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${cards.length} ${cards.length === 1 ? 'card' : 'cards'}` }] : []),
+    ...(formulas.length > 0 || drills.length > 0 ? [{ id: 'formulas-data', name: 'Formulas', meta: `${formulas.length} ${formulas.length === 1 ? 'formula' : 'formulas'} · ${drills.length} data ${drills.length === 1 ? 'drill' : 'drills'}` }] : []),
+    ...(caseStudy ? [{ id: 'case-study', name: 'Case study', meta: `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'}` }] : []),
+  ]
+  const extraScored: PracticeWarmupRow[] = includeExamQuestions && exam
+    ? [{ id: 'exam-question', name: 'Exam question', meta: `${exam.questions.length} self-marked ${exam.questions.length === 1 ? 'question' : 'questions'}` }]
+    : []
+  const progress = topic ? topicProgress?.[topic.id] : undefined
+  const revReason = recommendation && recommendation.topicId === topicId ? recommendation.reason : null
+  const subjectIdentity = resolveSubjectIdentity(adapter.manifest.subject.id, adapter.manifest.subject.name)
 
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
@@ -195,6 +205,34 @@ export function FocusedLearningWorkspace({
     setChecked(false)
     setRetryQueue([])
     setRetryId(null)
+    setQuestionSession(null)
+    setSessionAnswered(0)
+    setSessionCorrect(0)
+    setOpenActivity(null)
+  }
+
+  /** Starts a fresh scored session: the chosen length (capped at what the topic has), a clean retry queue. */
+  function startQuestions() {
+    if (startCount === 0) return
+    setQuestionSession({ total: startCount })
+    setQuestionIndex(0)
+    setSelectedOption(null)
+    setChecked(false)
+    setRetryQueue([])
+    setRetryId(null)
+    setSessionAnswered(0)
+    setSessionCorrect(0)
+    setOpenActivity('quick-check')
+  }
+
+  /** Closing never discards anything: saved answers are already evidence, and the session stays for "Carry on". */
+  function closeActivity() {
+    setOpenActivity(null)
+  }
+
+  function finishSession() {
+    setQuestionSession(null)
+    setOpenActivity(null)
   }
 
   function changeMode(nextMode: WorkspaceMode) {
@@ -262,8 +300,12 @@ export function FocusedLearningWorkspace({
 
   function nextQuestion() {
     // Leaving a regular question moves on through the topic; leaving a retry keeps the place in the topic.
-    if (!isRetry) setQuestionIndex((index) => index + 1)
-    setRetryId(dueRetry(retryQueue, sessionAnswered)?.questionId ?? null)
+    const nextIndex = isRetry ? questionIndex : questionIndex + 1
+    if (!isRetry) setQuestionIndex(nextIndex)
+    // A missed question comes back after 3 others. When the session's own questions have run out, anything
+    // still waiting is asked now, so a session never ends with a miss unasked.
+    const sessionOver = nextIndex >= sessionTotal
+    setRetryId(dueRetry(retryQueue, sessionOver ? Number.MAX_SAFE_INTEGER : sessionAnswered)?.questionId ?? null)
     setSelectedOption(null)
     setChecked(false)
   }
@@ -310,95 +352,6 @@ export function FocusedLearningWorkspace({
     </div>
   )
 
-  const practiceContext = (
-    <div className="pw-context">
-      <h2 id="focused-practice-heading" className="pw-activity-label"><Icon name="pencil" size="compact" />{modeLabels[effectiveMode]}{topic ? ` · ${topic.shortTitle}` : ''}</h2>
-      {topics.length > 1 && (
-        <SelectField groupClassName="pw-change-topic" label="Change topic" value={topicId} onChange={(event) => changeTopic(event.target.value)}>
-          {topics.map((item) => <option key={item.id} value={item.id}>{item.shortTitle}</option>)}
-        </SelectField>
-      )}
-    </div>
-  )
-
-  const quickCheckTask = question ? (
-    <div className="pw-task">
-      <div className="pw-task-meta">
-        <span>{isRetry ? 'Another go at one you missed' : `Question ${(questionIndex % questions.length) + 1} of ${questions.length}`}</span>
-      </div>
-      <div className="pw-progress" aria-hidden="true">
-        {questions.map((item, index) => {
-          const position = questionIndex % questions.length
-          return <span key={item.id} className={index < position ? 'done' : index === position ? 'current' : ''}></span>
-        })}
-      </div>
-      <fieldset className="pw-question">
-        <legend><h3>{question.prompt}</h3></legend>
-        <div className="pw-options">
-          {question.options.map((option, index) => {
-            const state = !checked ? '' : index === question.correctOption ? 'correct' : selectedOption === index ? 'missed' : ''
-            return (
-              <label key={option} className={state}>
-                <input type="radio" name="quick-check-answer" checked={selectedOption === index} disabled={checked || saving} onChange={() => setSelectedOption(index)} />
-                <span className="pw-option-text">{option}</span>
-                {state === 'correct' && <span className="pw-option-tag">Correct answer</span>}
-                {state === 'missed' && <span className="pw-option-tag">Your answer</span>}
-              </label>
-            )
-          })}
-        </div>
-      </fieldset>
-      {!checked && <div className="pw-actions"><Button disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button></div>}
-      <div className="pw-feedback-region" aria-live="polite">
-        {checked && (
-          selectedOption === question.correctOption
-            ? (
-              <FeedbackBar tone="correct" title={isRetry ? 'You’ve got it this time' : 'Correct'} explanation={question.explanation} note={isRetry ? 'That one is off your list.' : undefined}>
-                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
-              </FeedbackBar>
-            )
-            : (
-              <FeedbackBar tone="wrong" title="Not quite" explanation={question.explanation} note="This will come back later in this session.">
-                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
-              </FeedbackBar>
-            )
-        )}
-      </div>
-    </div>
-  ) : null
-
-  const practiceSide = (
-    <aside className="pw-side" aria-label="About this practice">
-      {whyThisActivity && (
-        <section className="pw-why">
-          <h3>Why this activity</h3>
-          <p>{whyThisActivity}</p>
-        </section>
-      )}
-      <section className="pw-session">
-        <h3>This session</h3>
-        <dl>
-          <div><dt>Correct so far</dt><dd>{sessionLabel}</dd></div>
-          <div><dt>Time</dt><dd>{elapsedLabel(sessionStart, now)}</dd></div>
-        </dl>
-      </section>
-    </aside>
-  )
-
-  const otherWays = otherModes.length > 0 && (
-    <section className="pw-other" aria-labelledby="practice-other-heading">
-      <h2 id="practice-other-heading">Other ways to practise {topic?.shortTitle ?? 'this topic'}</h2>
-      <div className="pw-other-grid">
-        {otherModes.map((item) => (
-          <button key={item} type="button" className="pw-other-card" onClick={() => changeMode(item)}>
-            <strong>{modeLabels[item]}</strong>
-            <span>{modeSummary[item]}</span>
-          </button>
-        ))}
-      </div>
-    </section>
-  )
-
   // A single activity needs no chooser: a one-tab bar reads as navigation that goes nowhere.
   const tabs = availableModes.length > 1 ? (
     <SegmentedControl className="mode-tabs scroll-hint" role="tablist" label={`${copy.title} activities`}>
@@ -418,51 +371,124 @@ export function FocusedLearningWorkspace({
     </SegmentedControl>
   ) : null
 
-  const emptyActivity = isPractice && practiceModes.length === 0 && (
-    <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topic?.shortTitle ?? 'this topic'} yet. Try another topic.</p></div>
-  )
+  if (isPractice) {
+    const topicShort = topic?.shortTitle ?? 'this topic'
+    const sessionAnswersLabel = `${Math.min(questionIndex, sessionTotal)} of ${sessionTotal} answered`
+    const openLabels: Partial<Record<WorkspaceMode, string>> = {
+      'quick-check': 'Questions',
+      flashcards: 'Warm-up · Flashcards',
+      'formulas-data': 'Warm-up · Formulas',
+      'case-study': 'Warm-up · Case study',
+      'exam-question': 'Exam question',
+    }
+    const hasAnyPractice = availableQuestions > 0 || warmups.length > 0 || extraScored.length > 0
 
-  return (
-    <section
-      className={`learning-workspace focused-workspace focused-${section}${isPractice ? ' practice-workspace' : ''}`}
-      aria-labelledby={`focused-${section}-heading`}
-    >
-      {isPractice ? practiceContext : <>{workspaceHeading}{tabs}</>}
-      {emptyActivity}
-
-      {effectiveMode === 'learn' && topic && (
-        <div className="learn-panel">
-          <div className="activity-kind"><strong>Learning activity</strong><span>Build understanding first. This does not change your readiness score by itself.</span></div>
-          <h3>{topic.title}</h3>
-          <div className="section-grid">
-            {topic.sections.map((sectionItem) => (
-              <article className="learn-section" key={sectionItem.id}>
-                <h4>{sectionItem.title}</h4>
-                <ul>{sectionItem.points.map((point) => <li key={point}>{point}</li>)}</ul>
-              </article>
-            ))}
-          </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Move to Practice when you want to check recall or prove the learning with scored evidence.</span></div>
+    const questionBody = questionsFinished ? (
+      <div className="practice-done">
+        <p className="ui-eyebrow">Session done</p>
+        <h2 className="practice-question__prompt">{sessionAnswered === 0 ? 'No answers this time' : `${sessionCorrect} of ${sessionAnswered} right`}</h2>
+        <p className="practice-panel__lead">Every answer is saved and counts towards {topicShort}.</p>
+        <div><Button onClick={finishSession}>Back to Practice</Button></div>
+      </div>
+    ) : question ? (
+      <div className="practice-question">
+        <div className="practice-dialog__meta">
+          <span className="ui-eyebrow">{isRetry ? 'Another go at one you missed' : `Question ${Math.min(questionIndex + 1, sessionTotal)}`}</span>
         </div>
-      )}
-
-      {effectiveMode === 'links' && (
-        <div className="learn-panel">
-          <div className="activity-kind"><strong>Learning activity</strong><span>Use these chains to connect a decision to its wider business consequences.</span></div>
-          <h3>Link {topic?.shortTitle ?? 'this topic'} to the wider business</h3>
-          <div className="link-list">
-            {links.map((link) => (
-              <article key={link.id}>
-                <strong>{link.label}</strong>
-                <p>{link.explanation}</p>
-              </article>
-            ))}
+        <fieldset className="practice-question__set">
+          <legend className="practice-question__prompt">{question.prompt}</legend>
+          <div className="practice-question__options" role="group" aria-label="Answers">
+            {question.options.map((option, index) => {
+              const state = !checked ? 'idle' : index === question.correctOption ? 'correct' : selectedOption === index ? 'wrong' : 'idle'
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  className={`ui-answer-option ui-answer-option--${state}`}
+                  aria-pressed={selectedOption === index}
+                  disabled={checked || saving}
+                  onClick={() => setSelectedOption(index)}
+                >
+                  <span className="ui-answer-option__letter" aria-hidden="true">
+                    {state === 'correct' ? <Icon name="check" size="inline" /> : state === 'wrong' ? <Icon name="close" size="inline" /> : 'ABCDEF'[index]}
+                  </span>
+                  <span className="ui-answer-option__text">{option}</span>
+                  {state === 'correct' && <span className="ui-answer-option__note">Correct answer</span>}
+                  {state === 'wrong' && <span className="ui-answer-option__note">Your answer</span>}
+                </button>
+              )
+            })}
           </div>
-          <div className="next-step"><strong>Exam habit</strong><span>Do not stop at the first effect. Build a chain: decision → immediate impact → functional consequence → business outcome.</span></div>
-        </div>
-      )}
+        </fieldset>
+        {!checked && <div><Button disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button></div>}
+      </div>
+    ) : null
 
-      {effectiveMode === 'flashcards' && card && (
+    const questionFeedback = (
+      <div className="practice-feedback-region" aria-live="polite">
+        {checked && question && (
+          selectedOption === question.correctOption
+            ? (
+              <FeedbackBar tone="correct" title={isRetry ? 'You’ve got it this time' : 'Correct'} explanation={question.explanation} note={isRetry ? 'That one is off your list.' : undefined}>
+                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
+              </FeedbackBar>
+            )
+            : (
+              <FeedbackBar tone="wrong" title="Not quite" explanation={question.explanation} note="This will come back later in this session.">
+                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
+              </FeedbackBar>
+            )
+        )}
+      </div>
+    )
+
+    const dialogBar = openActivity === 'quick-check'
+      ? <PracticeProgressBar total={sessionTotal} done={Math.min(questionIndex, sessionTotal)} topicName={topicShort} status={progress?.status} />
+      : <PracticeBarTitle title={`${topicShort} · ${openLabels[openActivity ?? 'quick-check'] ?? ''}`} />
+
+    return (
+      <section className="learning-workspace focused-workspace focused-practice practice-workspace" aria-label="Practice">
+        {hasAnyPractice ? (
+          <PracticeStart
+            topicTitle={topic?.title ?? topicShort}
+            status={progress?.status}
+            lastPractised={lastPractisedLabel(progress?.lastPractisedAt)}
+            topics={topics.map((item) => ({ id: item.id, label: item.shortTitle }))}
+            topicId={topicId}
+            onChangeTopic={changeTopic}
+            length={length}
+            onChangeLength={setLength}
+            availableQuestions={availableQuestions}
+            sessionCount={startCount}
+            questionTypes={availableTypes}
+            selectedTypes={chosenTypes}
+            onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
+            onStart={startQuestions}
+            carryOn={questionSession && !questionsFinished ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
+            extraScored={extraScored}
+            onOpenExtraScored={(id) => setOpenActivity(id as WorkspaceMode)}
+            warmups={warmups}
+            onOpenWarmup={(id) => setOpenActivity(id as WorkspaceMode)}
+            revReason={revReason}
+          />
+        ) : (
+          <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topicShort} yet. Try another topic.</p></div>
+        )}
+
+        {saveError && <p className="error" role="alert">{saveError}</p>}
+
+        {openActivity && (
+          <PracticeDialog
+            label={`Practice: ${topicShort}, ${(openLabels[openActivity] ?? '').toLowerCase()}`}
+            subjectMark={subjectIdentity.mark}
+            accentStyle={accentStyle(subjectIdentity.hue)}
+            onClose={closeActivity}
+            bar={dialogBar}
+            footer={openActivity === 'quick-check' ? questionFeedback : undefined}
+          >
+            {openActivity === 'quick-check' && questionBody}
+            {openActivity !== 'quick-check' && openActivity !== 'exam-question' && <div><WarmupChip /></div>}
+      {openActivity === 'flashcards' && card && (
         <div className="practice-card">
           <div className="practice-meta">Card {(cardIndex % cards.length) + 1} of {cards.length}</div>
           <h3>{card.prompt}</h3>
@@ -482,11 +508,9 @@ export function FocusedLearningWorkspace({
         </div>
       )}
 
-      {effectiveMode === 'quick-check' && quickCheckTask}
-
-      {effectiveMode === 'case-study' && caseStudy && caseQuestion && (
+      {openActivity === 'case-study' && caseStudy && caseQuestion && (
         <div className="learn-panel">
-          <div className="activity-kind"><strong>Guided application practice</strong><span>This develops application and analysis, but it is not scored because these guided questions do not have an authoritative mark allocation.</span></div>
+          <p className="muted">Guided application practice. These questions have no authoritative mark allocation, so they are not scored.</p>
           <h3>{caseStudy.title}</h3>
           <div className="case-layout">
             <article className="case-material">
@@ -511,7 +535,7 @@ export function FocusedLearningWorkspace({
         </div>
       )}
 
-      {effectiveMode === 'exam-question' && includeExamQuestions && exam && examQuestion && (
+      {openActivity === 'exam-question' && includeExamQuestions && exam && examQuestion && (
         <div className="learn-panel">
           <div className="activity-kind scored"><strong>Scored exam evidence — self-assessed</strong><span>Write the answer first, then use the marking guidance to award your own AO marks. Self-marked evidence contributes to readiness but cannot produce high confidence on its own.</span></div>
           <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />
@@ -556,9 +580,8 @@ export function FocusedLearningWorkspace({
         </div>
       )}
 
-      {effectiveMode === 'formulas-data' && (
+      {openActivity === 'formulas-data' && (
         <div className="learn-panel">
-          <div className="activity-kind"><strong>Practice activity</strong><span>These reveal-and-check exercises help you prepare. They are not scored readiness evidence yet.</span></div>
           <div className="practice-split">
             {formula && (
               <article className="practice-box">
@@ -580,6 +603,53 @@ export function FocusedLearningWorkspace({
             )}
           </div>
           <div className="next-step"><strong>What should I do next?</strong><span>{includeExamQuestions ? 'Use Quick check for application evidence or Exam question for stronger written exam evidence.' : 'Use Quick check for application evidence, then move to Exam Prep for paper-specific written practice.'}</span></div>
+        </div>
+      )}
+
+            {saving && <p className="muted" aria-live="polite">Saving your activity…</p>}
+          </PracticeDialog>
+        )}
+      </section>
+    )
+  }
+
+  return (
+    <section
+      className={`learning-workspace focused-workspace focused-${section}`}
+      aria-labelledby={`focused-${section}-heading`}
+    >
+      {workspaceHeading}
+      {tabs}
+
+      {effectiveMode === 'learn' && topic && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Learning activity</strong><span>Build understanding first. This does not change your readiness score by itself.</span></div>
+          <h3>{topic.title}</h3>
+          <div className="section-grid">
+            {topic.sections.map((sectionItem) => (
+              <article className="learn-section" key={sectionItem.id}>
+                <h4>{sectionItem.title}</h4>
+                <ul>{sectionItem.points.map((point) => <li key={point}>{point}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Move to Practice when you want to check recall or prove the learning with scored evidence.</span></div>
+        </div>
+      )}
+
+      {effectiveMode === 'links' && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Learning activity</strong><span>Use these chains to connect a decision to its wider business consequences.</span></div>
+          <h3>Link {topic?.shortTitle ?? 'this topic'} to the wider business</h3>
+          <div className="link-list">
+            {links.map((link) => (
+              <article key={link.id}>
+                <strong>{link.label}</strong>
+                <p>{link.explanation}</p>
+              </article>
+            ))}
+          </div>
+          <div className="next-step"><strong>Exam habit</strong><span>Do not stop at the first effect. Build a chain: decision → immediate impact → functional consequence → business outcome.</span></div>
         </div>
       )}
 
@@ -606,8 +676,6 @@ export function FocusedLearningWorkspace({
 
       {saveError && <p className="error" role="alert">{saveError}</p>}
       {saving && <p className="muted" aria-live="polite">Saving your activity…</p>}
-      {isPractice && practiceModes.length > 0 && practiceSide}
-      {isPractice && otherWays}
     </section>
   )
 }

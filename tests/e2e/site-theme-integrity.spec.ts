@@ -220,11 +220,8 @@ test('dark theme is coherent across the complete learner application and account
 
   await clickNavigation(page, 'AQA AS Business Practice')
   await expect(page.locator('.practice-workspace')).toBeVisible()
-  const whyCard = page.locator('.practice-workspace .pw-why')
-  await expect(whyCard, 'Practice must explain why this activity is open').toBeVisible()
-  await assertSemanticSurface(whyCard, '--color-surface-soft', 'Practice why-this-activity card')
-  await assertSemanticText(whyCard.getByRole('heading', { name: 'Why this activity' }), '--color-text', 'Practice why-this-activity heading')
-  await auditRuntime(page, 'Practice quick check')
+  await expect(page.locator('.practice-workspace .practice-rev'), 'Practice must give REV’s reason for the topic').toBeVisible()
+  await auditRuntime(page, 'Practice start')
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: /Exam technique · AQA AS Business/ })).toBeVisible()

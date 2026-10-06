@@ -260,7 +260,7 @@ test('Learn uses the shared course-section and body canvas while constraining on
   const courseNavigation = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
   await courseNavigation.getByRole('button', { name: 'Practice', exact: true }).click()
   const practiceSurface = page.locator('.focused-practice')
-  const practiceContext = practiceSurface.locator('.pw-context')
+  const practiceContext = practiceSurface.locator('.practice-start__head')
   await expect(practiceSurface).toBeVisible()
   const practiceSurfaceBox = await practiceSurface.boundingBox()
   const practiceContextBox = await practiceContext.boundingBox()

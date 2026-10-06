@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { topicLearningStatus, understandingCounts } from './topic-status'
+import { topicLearningStatus, topicProgressFor, understandingCounts } from './topic-status'
 import type { ModuleLearningState } from './catalogue-model'
 
 describe('Topic status labels (Founder decision, 1 Oct 2026)', () => {
@@ -29,5 +29,22 @@ describe('understandingCounts', () => {
 
   it('is empty when there are no topics, so the page shows an honest empty bar', () => {
     expect(understandingCounts([])).toEqual({})
+  })
+})
+
+describe('topicProgressFor', () => {
+  const state = {
+    topicKnowledge: { topics: [{ topicId: 'a', band: 'low' }, { topicId: 'b', band: 'not-enough-evidence' }] },
+    evidence: [
+      { topicId: 'a', occurredAt: '2026-10-01T09:00:00.000Z' },
+      { topicId: 'a', occurredAt: '2026-10-03T09:00:00.000Z' },
+    ],
+  } as unknown as ModuleLearningState
+
+  it('gives each topic its status and the time of the latest saved answer', () => {
+    expect(topicProgressFor(state)).toEqual({
+      a: { status: 'needswork', lastPractisedAt: '2026-10-03T09:00:00.000Z' },
+      b: { status: 'notstarted', lastPractisedAt: null },
+    })
   })
 })

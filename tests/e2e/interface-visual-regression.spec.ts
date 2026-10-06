@@ -58,6 +58,10 @@ const cases: ReadonlyArray<VisualCase> = [
  * approval request, which listed these two baselines and linked the before/after pictures. Digests taken from the PR 533
  * CI run 37330788981 (the "Expected value" lines), not from a local browser. Screenshots reviewed:
  * docs/design/learner-redesign-v2/screenshots/plan-v2.2/.
+ * Phone Practice (light and dark) re-pinned on 6 October 2026 for Practice v2.2 PR 1 (PR 545: start screen and pop-up shell).
+ * Lee said "OK baselines, update them" after the before/after screenshots in
+ * docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/. Digests taken from the PR 545 CI run 37455570414
+ * (the "Expected value" lines; the run and its retry agree), not from a local browser.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'phone:light': 'd2135190e6e018783aaede294e0379c88364e901672d7d82d761a8a22b1f4649',
@@ -128,14 +132,18 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * approval request, which listed these two baselines and linked the before/after pictures. Digests taken from the PR 533
  * CI run 37330788981 (the "Expected value" lines), not from a local browser. Screenshots reviewed:
  * docs/design/learner-redesign-v2/screenshots/plan-v2.2/.
+ * Phone Practice (light and dark) re-pinned on 6 October 2026 for Practice v2.2 PR 1 (PR 545: start screen and pop-up shell).
+ * Lee said "OK baselines, update them" after the before/after screenshots in
+ * docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/. Digests taken from the PR 545 CI run 37455570414
+ * (the "Expected value" lines; the run and its retry agree), not from a local browser.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '38e0c47bd3f10e04233d75314e0c35a99fb3aca68381b5077136b18ee521d080',
   'desktop:plan:dark': '1a4eac96443b4a983054ecedfeb13cb34ba5db0dc95ea33d5290ea3944bf22b2',
   'tablet:courses:light': '3e4717b19b8c3b116352bf12799cc8753155583f7a0c6df3d6aa00d1b7074a87',
   'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
-  'phone:practice:light': '7e9733b00c8a89cb44d9f646bcd1ebb0bf7a1a1c3436d944e948b9e1aea6431f',
-  'phone:practice:dark': '3d822a0deac105cfabcd79ce70bc3ca3867f7f4217702808523074f2bd3f278a',
+  'phone:practice:light': 'e3693725275a37e67935c0250652521e300d12591a37d9e84e62add16f59273e',
+  'phone:practice:dark': '5c8f027c3f337cbd4500b44de6a4302e6fccfab1c39b44bb091c00a87ad22628',
   'tablet:exam-prep:light': 'b23ad3ca7b74b2b9d31630573113d4c51f4186939dbff2f30b39400bfcd930d5',
   'tablet:exam-prep:dark': '958067a41a8c1d3b5596853a8fdc6f2200b392bc08ae0e01b0e28ac31c3c55f4',
   'tablet:timed-exam:light': 'fa731ad5fa60d5651f2467c97ab41f3344ea4d9c1065a1e404c1299873ee163f',
