@@ -2,7 +2,7 @@
 
 ## Status
 
-Open incident record. Recovery 5 is proposed; closure evidence must be appended only after a Founder-approved recovery merge completes the full production path-to-live successfully.
+Open incident record. Recovery 5 is proposed through PR #538; closure evidence must be appended only after a Founder-approved recovery merge completes the full production path-to-live successfully.
 
 ## Scope
 
