@@ -486,7 +486,6 @@ function feedbackAnchor(requirement: CourseTruthRequirement): string[] {
 function practicePrompt(
   mode: string,
   requirement: CourseTruthRequirement,
-  unit: RequirementLearningUnit,
   index: number,
 ): { prompt: string; support?: string[]; repairExtension?: string; options?: string[]; context?: string; fixedData?: number[] | Array<[number, number]> } {
   const focus = practiceFocus(requirement, index)
@@ -566,7 +565,7 @@ function practicePrompt(
 
 function makePracticeActivities(requirement: CourseTruthRequirement, unit: RequirementLearningUnit): PracticeActivity[] {
   return unique(unit.practiceEvidenceModes).map((mode, index) => {
-    const built = practicePrompt(mode, requirement, unit, index)
+    const built = practicePrompt(mode, requirement, index)
     const focus = practiceFocus(requirement, index)
     return {
       id: `PRACTICE-${requirement.requirementId}-${String(index + 1).padStart(2, '0')}`,
