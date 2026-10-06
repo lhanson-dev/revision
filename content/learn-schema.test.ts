@@ -72,4 +72,11 @@ describe('Business Learn content reads on its own', () => {
       .map(() => page.id))
     expect(missing).toEqual([])
   })
+
+  it('tells the student what to work out in every worked example', () => {
+    const missing = pages.flatMap((page) => page.blocks
+      .filter((block) => block.type === 'worked-example' && !block.task)
+      .map(() => page.id))
+    expect(missing).toEqual([])
+  })
 })
