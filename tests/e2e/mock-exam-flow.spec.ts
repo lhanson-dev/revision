@@ -271,7 +271,7 @@ if (shots) {
         await at('before-untimed')
         await page.getByRole('dialog').getByRole('button', { name: 'Not now' }).click()
 
-        await openMock(page, paper1Sim, 'timed')
+        await openMock(page, retained1, 'timed')
         await begin(page, 'timed')
         await page.locator('.practice-question__options button').nth(1).click()
         await page.getByRole('button', { name: 'Flag to check' }).click()
