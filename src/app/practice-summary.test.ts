@@ -14,8 +14,14 @@ const written = (id: string): PracticeQuestion => ({
   specItemIds: ['aqa-7132-3.5.2:margin-of-safety'], nodeIds: ['bus-fin-009'], source: 'aqa-bank',
 })
 
-const answerAs = (session: QuestionSession, partial: { correct: boolean; selected?: number; confidence?: 'guess' | 'fairly' | 'certain'; marks?: { got: number; available: number }; pointsGiven?: boolean[] }) =>
-  recordSessionAnswer(session, { questionId: session.currentId!, correct: partial.correct, level: 'Recall', selectedOption: partial.selected ?? null, confidence: partial.confidence ?? null, marks: partial.marks ?? null, pointsGiven: partial.pointsGiven ?? null })
+const calc = (id: string): PracticeQuestion => ({
+  id, type: 'calculation', level: 'Apply', topicId: 'finance', marks: 3, prompt: 'Calculate the market size.', context: null, table: null,
+  expected: 24.2, accepted: [24.2], unit: '£m', answerText: '£24.2m', workings: 'Market size = £8.4m + £6.7m + £5.9m + £3.2m\n= £24.2m',
+  specItemIds: ['aqa-7132-3.5.1:market-size'], nodeIds: ['bus-fin-004'], source: 'aqa-bank',
+})
+
+const answerAs = (session: QuestionSession, partial: { correct: boolean; selected?: number; confidence?: 'guess' | 'fairly' | 'certain'; marks?: { got: number; available: number }; pointsGiven?: boolean[]; typed?: string }) =>
+  recordSessionAnswer(session, { questionId: session.currentId!, correct: partial.correct, level: 'Recall', selectedOption: partial.selected ?? null, typedAnswer: partial.typed ?? null, confidence: partial.confidence ?? null, marks: partial.marks ?? null, pointsGiven: partial.pointsGiven ?? null })
 
 const input = (session: QuestionSession, questions: PracticeQuestion[], over: Partial<SummaryInput> = {}): SummaryInput => ({
   session, questions, topicTitle: 'Finance', topicOrder: 5, startStatus: 'needswork', endStatus: 'nearly',
@@ -148,3 +154,34 @@ describe('go over these', () => {
     expect(summariseSession(input(clean, qs)).goOver).toEqual([])
   })
 })
+
+describe('calculations in the summary', () => {
+  it('counts a calculation in "n of m right" and says what was typed and what the answer is, with the working kept line by line', () => {
+    const qs = [calc('c1'), mc('a')]
+    let session = startQuestionSession(qs, 2)
+    // The session chooses the order, so each answer depends on which question is on screen.
+    for (let step = 0; step < 2; step += 1) {
+      const onScreen = session.currentId
+      session = advanceQuestionSession(answerAs(session, onScreen === 'c1' ? { correct: false, typed: '24', confidence: 'fairly' } : { correct: true, selected: 0, confidence: 'certain' }), qs)
+    }
+    const model = summariseSession(input(session, qs))
+    expect(model.heroLine).toBe('1 of 2 right')
+    const item = model.goOver.find((entry) => entry.key === 'c1')!
+    expect(item.reason).toBe('You answered 24. The answer is £24.2m.\nMarket size = £8.4m + £6.7m + £5.9m + £3.2m\n= £24.2m')
+    expect(item.tone).toBe('needswork')
+  })
+
+  it('lists a right calculation that was a guess, and a certain wrong calculation is the next step', () => {
+    const qs = [calc('c1'), calc('c2')]
+    let session = startQuestionSession(qs, 2)
+    for (let step = 0; step < 2; step += 1) {
+      const onScreen = session.currentId
+      session = advanceQuestionSession(answerAs(session, onScreen === 'c1' ? { correct: true, typed: '24.2', confidence: 'guess' } : { correct: false, typed: '12', confidence: 'certain' }), qs)
+    }
+    const model = summariseSession(input(session, qs))
+    expect(model.goOver.map((entry) => `${entry.key}:${entry.tone}`).sort()).toEqual(['c1:nearly', 'c2:needswork'])
+    expect(model.goOver.find((entry) => entry.key === 'c1')!.reason).toContain('you said you were guessing')
+    expect(model.next.reason).toMatch(/certain/i)
+  })
+})
+

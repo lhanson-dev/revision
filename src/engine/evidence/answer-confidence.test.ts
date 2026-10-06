@@ -83,3 +83,36 @@ describe('what confidence changes in the existing engine', () => {
     expect(recommendation?.reason).toContain('certain')
   })
 })
+
+describe('calculation evidence (Practice v2.2, calculations)', () => {
+  const calc = {
+    id: 'c1', moduleId: 'business-aqa-a-level', topicId: 'finance', occurredAt: '2026-10-06T10:00:00.000Z', contentId: 'aqa7132-3.3-q01',
+    schemaVersion: 2 as const, source: 'calculation' as const, correct: true, enteredValue: 24.2, expectedValue: 24.2, unit: '£m',
+  }
+
+  it('accepts a calculation with or without confidence, and nothing but version 2', () => {
+    expect(learningEvidenceSchema.parse(calc)).toEqual(calc)
+    expect(learningEvidenceSchema.parse({ ...calc, confidence: 'certain' })).toEqual({ ...calc, confidence: 'certain' })
+    expect(() => learningEvidenceSchema.parse({ ...calc, schemaVersion: 1 })).toThrow()
+    expect(() => learningEvidenceSchema.parse({ ...calc, enteredValue: Number.NaN })).toThrow()
+  })
+
+  it('scores like a quick check: right is 100, a right guess is 50, wrong is 0', () => {
+    expect(evidencePercentage(calc)).toBe(100)
+    expect(evidencePercentage({ ...calc, confidence: 'guess' })).toBe(GUESSED_RIGHT_PERCENTAGE)
+    expect(evidencePercentage({ ...calc, correct: false })).toBe(0)
+  })
+
+  it('saves as a calculation row that the database accepts', () => {
+    const record = toLearningEvidenceRecord('user-1', calc as LearningEvidence)
+    expect(record.source).toBe('calculation')
+    expect(record.schema_version).toBe(2)
+  })
+
+  it('counts a certain wrong calculation as an unresolved confident miss until it is answered right', () => {
+    const wrong = { ...calc, correct: false, confidence: 'certain' as const }
+    expect(unresolvedConfidentMisses([wrong])).toEqual(['aqa7132-3.3-q01'])
+    expect(unresolvedConfidentMisses([wrong, { ...calc, id: 'c2', occurredAt: '2026-10-06T11:00:00.000Z' }])).toEqual([])
+  })
+})
+

@@ -78,6 +78,22 @@ export const multipleChoiceEvidenceSchema = z.object({
   }
 })
 
+/**
+ * A calculation question: the student types one number, and software checks it against the mark scheme's answer.
+ * Nothing is marked by REV, so there is no partial credit: it is right or it is not (same weight as a quick check).
+ */
+export const calculationEvidenceSchema = z.object({
+  ...baseEvidenceShape,
+  schemaVersion: z.literal(2),
+  source: z.literal('calculation'),
+  correct: z.boolean(),
+  /** The number the student gave, after the checker read it (so "£24.2m" is 24.2). */
+  enteredValue: z.number().finite(),
+  expectedValue: z.number().finite(),
+  unit: z.string().min(1).optional(),
+  confidence: answerConfidenceSchema.optional(),
+})
+
 export const examQuestionEvidenceSchema = z.object({
   ...baseEvidenceShape,
   schemaVersion: z.union([z.literal(1), z.literal(2)]),
@@ -135,12 +151,14 @@ export const examAttemptEvidenceSchema = z.object({
 export const learningEvidenceSchema = z.union([
   recallEvidenceSchema,
   multipleChoiceEvidenceSchema,
+  calculationEvidenceSchema,
   examQuestionEvidenceSchema,
   examAttemptEvidenceSchema,
 ])
 
 export type RecallEvidence = z.infer<typeof recallEvidenceSchema>
 export type MultipleChoiceEvidence = z.infer<typeof multipleChoiceEvidenceSchema>
+export type CalculationEvidence = z.infer<typeof calculationEvidenceSchema>
 export type ExamQuestionEvidence = z.infer<typeof examQuestionEvidenceSchema>
 export type ExamAttemptEvidence = z.infer<typeof examAttemptEvidenceSchema>
 export type LearningEvidence = z.infer<typeof learningEvidenceSchema>
@@ -150,6 +168,7 @@ export function evidencePercentage(evidence: LearningEvidence): number | null {
     case 'flashcard':
       return (evidence.rating / 2) * 100
     case 'multiple_choice':
+    case 'calculation':
       if (!evidence.correct) return 0
       return evidence.confidence === 'guess' ? GUESSED_RIGHT_PERCENTAGE : 100
     case 'exam_question':

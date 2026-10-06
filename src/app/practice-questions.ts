@@ -7,6 +7,7 @@
 import type { MultipleChoiceQuestion } from '../../content/schema'
 import type { AqaBusinessQuestionRecord } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import { levelFromAoTags, type SessionQuestion } from './practice-session'
+import { acceptedValuesFor, formatAnswer } from './practice-calculation'
 import type { MarkPoint } from './rev-marking'
 import type { PracticeQuestionType } from './practice-start'
 
@@ -39,7 +40,21 @@ export type WrittenPracticeQuestion = QuestionBase & {
   points: MarkPoint[]
 }
 
-export type PracticeQuestion = MultipleChoicePracticeQuestion | WrittenPracticeQuestion
+/** A single-number calculation. The student types the answer and software checks it, so REV is not needed. */
+export type CalculationPracticeQuestion = QuestionBase & {
+  type: 'calculation'
+  /** The mark scheme's answer, in the unit's own terms (24.2 for "£m"). */
+  expected: number
+  /** Every number that counts as right: the answer, and the roundings the mark scheme accepts. */
+  accepted: number[]
+  unit: string | null
+  /** The answer as the exam writes it, e.g. "£24.2m". */
+  answerText: string
+  /** The worked answer from the mark scheme, shown after checking. */
+  workings: string
+}
+
+export type PracticeQuestion = MultipleChoicePracticeQuestion | WrittenPracticeQuestion | CalculationPracticeQuestion
 
 export const WRITTEN_MAX_MARKS = 6
 
@@ -149,9 +164,33 @@ function toWritten(record: AqaBusinessQuestionRecord, topicId: string): WrittenP
   return { ...commonFields(record, topicId), type: 'written', aoTags: question.ao_tags, points }
 }
 
-/** A bank record as a practice question: multiple choice, or a written points question. Null for anything else. */
+function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): CalculationPracticeQuestion | null {
+  const { question } = record
+  if (!isCalculationRecord(record)) return null
+  const calc = question.calcs[0]
+  if (typeof calc.stated_answer !== 'number' || !Number.isFinite(calc.stated_answer)) return null
+  const points = (question.mark_scheme.points ?? []) as Array<{ accept?: unknown }>
+  const finalAccepts = points.length > 0 && Array.isArray(points[points.length - 1].accept)
+    ? (points[points.length - 1].accept as unknown[]).filter((entry): entry is string => typeof entry === 'string')
+    : []
+  const unit = typeof calc.unit === 'string' && calc.unit.trim() ? calc.unit.trim() : null
+  const fields = commonFields(record, topicId)
+  return {
+    ...fields,
+    // "Show your working" is for the exam; here the student types the answer, so it would mislead.
+    prompt: fields.prompt.replace(/\s*Show your working\.?/i, '').trim(),
+    type: 'calculation',
+    expected: calc.stated_answer,
+    accepted: acceptedValuesFor(calc.stated_answer, unit, finalAccepts),
+    unit,
+    answerText: formatAnswer(calc.stated_answer, unit),
+    workings: question.mark_scheme.model_answer?.trim() ?? '',
+  }
+}
+
+/** A bank record as a practice question: multiple choice, a calculation, or a written points question. Null for anything else. */
 export function bankRecordToPractice(record: AqaBusinessQuestionRecord, topicId: string): PracticeQuestion | null {
-  return toMultipleChoice(record, topicId) ?? toWritten(record, topicId)
+  return toMultipleChoice(record, topicId) ?? toCalculation(record, topicId) ?? toWritten(record, topicId)
 }
 
 export type PoolInput = {

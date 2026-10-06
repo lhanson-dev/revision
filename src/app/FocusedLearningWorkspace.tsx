@@ -3,8 +3,9 @@ import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
-import { createFlashcardEvidence, createMultipleChoiceEvidence, createRevMarkedExamQuestionEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { createCalculationEvidence, createFlashcardEvidence, createMultipleChoiceEvidence, createRevMarkedExamQuestionEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type WrittenAnswerMarker } from './rev-marking'
+import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
 import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
@@ -45,6 +46,7 @@ import {
   FeedbackBar,
   Icon,
   PracticeBarTitle,
+  PracticeCalculationView,
   PracticeDialog,
   PracticeFlashcardDone,
   PracticeFlashcardView,
@@ -196,6 +198,10 @@ export function FocusedLearningWorkspace({
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   /** Set once the answer is checked: what was picked and how sure the student said they were. */
   const [checked, setChecked] = useState<{ selected: number; confidence: AnswerConfidence } | null>(null)
+  /** A calculation: what was typed, and once checked, the result and how sure the student said they were. */
+  const [calcDraft, setCalcDraft] = useState('')
+  const [calcError, setCalcError] = useState<string | null>(null)
+  const [calcChecked, setCalcChecked] = useState<{ typed: string; right: boolean; confidence: AnswerConfidence } | null>(null)
   const [formulaIndex, setFormulaIndex] = useState(0)
   const [showFormula, setShowFormula] = useState(false)
   const [drillIndex, setDrillIndex] = useState(0)
@@ -234,7 +240,7 @@ export function FocusedLearningWorkspace({
   const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
   const isRetry = session?.currentIsRetry ?? false
   const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
-  const answeredNow = question?.type === 'written' ? writtenPhase === 'marked' : Boolean(checked)
+  const answeredNow = question?.type === 'written' ? writtenPhase === 'marked' : question?.type === 'calculation' ? Boolean(calcChecked) : Boolean(checked)
   const upcoming = session && answeredNow ? advanceQuestionSession(session, fullPool) : null
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
@@ -271,7 +277,11 @@ export function FocusedLearningWorkspace({
   const revReason = recommendation && recommendation.topicId === topicId ? recommendation.reason : null
   const subjectIdentity = resolveSubjectIdentity(adapter.manifest.subject.id, adapter.manifest.subject.name)
 
+  /** Clears the answer state of the question on screen: the written answer and the calculation box. */
   function resetWritten() {
+    setCalcDraft('')
+    setCalcChecked(null)
+    setCalcError(null)
     setWrittenDraft('')
     setWrittenPhase('writing')
     setWrittenMarked(null)
@@ -397,6 +407,40 @@ export function FocusedLearningWorkspace({
       level: question.level,
     }))
     setChecked({ selected: selectedOption, confidence })
+  }
+
+  /** Choosing how sure you are checks the typed number against the mark scheme (software only) and saves it as evidence. */
+  async function checkCalculationAnswer(confidence: AnswerConfidence) {
+    if (question?.type !== 'calculation' || !session || calcChecked || answering.current) return
+    const result = checkCalculation(calcDraft, question.accepted, question.unit)
+    if (result.status === 'unreadable' || result.entered === null) {
+      setCalcError('I couldn’t read a number there. Type just the number, like 24.2 or £15,150.')
+      return
+    }
+    answering.current = true
+    setCalcError(null)
+    const right = result.status === 'right'
+    const evidence = createCalculationEvidence({
+      id: evidenceId('calc'),
+      moduleId: adapter.manifest.id,
+      topicId: question.topicId,
+      contentId: question.id,
+      correct: right,
+      enteredValue: result.entered,
+      expectedValue: question.expected,
+      unit: question.unit,
+      confidence,
+    })
+    setStatusMove(null)
+    try {
+      await onRecordEvidence(evidence)
+    } catch {
+      return
+    } finally {
+      answering.current = false
+    }
+    setSession(recordSessionAnswer(session, { questionId: question.id, correct: right, confidence, typedAnswer: calcDraft.trim(), level: question.level }))
+    setCalcChecked({ typed: calcDraft.trim(), right, confidence })
   }
 
   /** REV marks the written answer. The marker's output is checked against the mark scheme before anything is shown or saved. */
@@ -640,6 +684,26 @@ export function FocusedLearningWorkspace({
         nextLabel={upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'}
         onNext={goNext}
       />
+    ) : question?.type === 'calculation' && session ? (
+      <PracticeCalculationView
+        eyebrow={isRetry ? 'Another go at one you missed' : `Question ${Math.min(session.askedIds.length, session.total)}`}
+        level={question.level}
+        marksLabel={`${question.marks} ${question.marks === 1 ? 'mark' : 'marks'}`}
+        sourceChip={question.source === 'aqa-bank' ? 'AQA-style practice' : null}
+        levelNote={!isRetry && !calcChecked && session.answers.length > 0 ? levelNote(session.adaptive) : null}
+        context={question.context}
+        table={question.table}
+        prompt={question.prompt}
+        answer={calcDraft}
+        onAnswerChange={(value) => { setCalcDraft(value); setCalcError(null) }}
+        unitLabel={calculationUnitLabel(question.unit)}
+        result={calcChecked ? (calcChecked.right ? 'right' : 'wrong') : null}
+        locked={Boolean(calcChecked)}
+        showConfidence={parseAnswer(calcDraft) !== null && !calcChecked}
+        onConfidence={checkCalculationAnswer}
+        error={calcError}
+        busy={saving}
+      />
     ) : question?.type === 'multiple-choice' && session ? (
       <PracticeQuestionView
         eyebrow={isRetry ? 'Another go at one you missed' : `Question ${Math.min(session.askedIds.length, session.total)}`}
@@ -661,6 +725,32 @@ export function FocusedLearningWorkspace({
 
     // The feedback bar: what happened, why, and one action. No Learn or Ask REV links per question (they are in the summary).
     const feedbackFor = () => {
+      if (question?.type === 'calculation' && calcChecked) {
+        const action = <Button onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
+        const workings = question.workings
+        if (calcChecked.right) {
+          const guessed = calcChecked.confidence === 'guess'
+          return (
+            <FeedbackBar
+              tone="correct"
+              title={guessed ? 'Right, but a guess' : 'Nice, that’s the one.'}
+              explanation={`The answer is ${question.answerText}.${workings ? `\n${workings}` : ''}`}
+              note={isRetry ? 'That one is off your list.' : guessed ? 'Right, but you guessed. I’ll check this one again soon so it sticks.' : undefined}
+            >{action}</FeedbackBar>
+          )
+        }
+        return (
+          <FeedbackBar
+            tone="wrong"
+            title="Not quite."
+            picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
+            explanation={workings}
+            note={calcChecked.confidence === 'certain'
+              ? 'You were certain, so this is the one most worth fixing. I’ll bring it back later.'
+              : 'I’ll bring this back later.'}
+          >{action}</FeedbackBar>
+        )
+      }
       if (!checked || question?.type !== 'multiple-choice') return null
       const correct = checked.selected === question.correctOption
       const letter = 'ABCDEF'[checked.selected]

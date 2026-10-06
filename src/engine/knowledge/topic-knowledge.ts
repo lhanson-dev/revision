@@ -42,7 +42,8 @@ const REQUIRED_EVIDENCE_FAMILIES = 2
 function familyFor(evidence: LearningEvidence): TopicKnowledgeEvidenceFamily {
   switch (evidence.source) {
     case 'flashcard': return 'recall'
-    case 'multiple_choice': return 'application'
+    case 'multiple_choice':
+    case 'calculation': return 'application'
     case 'exam_question': return 'exam'
     case 'exam_attempt': return 'simulation'
   }
