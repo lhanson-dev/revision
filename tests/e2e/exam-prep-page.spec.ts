@@ -61,7 +61,9 @@ test('a paper opens one at a time and shows how its 2 hours run', async ({ page 
   await expect(runs.locator('.exam-run').nth(1)).toContainText('about 40 min')
   await expect(runs.getByText('Minutes are a suggestion')).toBeVisible()
   await expect(runs.getByText('Leaves 5 minutes to check.')).toBeVisible()
-  await expect(runs.getByText('On the day')).toHaveCount(0)
+  await expect(runs.getByText('On the day')).toBeVisible()
+  await expect(runs.locator('.exam-day__list li')).toHaveCount(3)
+  for (const item of await runs.locator('.exam-day__list li').all()) await expect(item.locator('.exam-checking')).toHaveText(/Being checked/)
   await paper2.click()
   await expect(paper1).toHaveAttribute('aria-expanded', 'false')
   await expect(paper2).toHaveAttribute('aria-expanded', 'true')
@@ -70,16 +72,20 @@ test('a paper opens one at a time and shows how its 2 hours run', async ({ page 
   await expect(paper2).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('examiners: the four objectives from the factory’s Exam Truth, and no wording the factory has not approved', async ({ page }) => {
+test('examiners: the factory’s four objectives, plus the wording still being checked, flagged', async ({ page }) => {
   await open(page)
   await expect(page.locator('.exam-ao')).toHaveCount(4)
   await expect(page.locator('.exam-ao__chip')).toHaveText(['AO1', 'AO2', 'AO3', 'AO4'])
   await expect(page.locator('.exam-ao__name')).toHaveText(['Knowledge and understanding', 'Application to business contexts', 'Analysis of business issues and influences', 'Evaluation and evidence-based judgement'])
   await expect(page.locator('.exam-ao').first()).toContainText('22–25% of your A-level marks')
-  // Not approved by the factory yet, so not shown.
-  await expect(page.locator('.exam-commands')).toHaveCount(0)
-  await expect(page.getByText('Command words')).toHaveCount(0)
-  await expect(page.getByText('marked in levels')).toHaveCount(0)
+  // Not yet approved by the factory: still shown, and every one carries the "Being checked" flag.
+  await expect(page.locator('.exam-command')).toHaveCount(5)
+  await expect(page.getByText('marked in levels', { exact: false })).toBeVisible()
+  await expect(page.locator('.exam-ao__show')).toHaveCount(4)
+  const flagged = page.locator('.exam-ao__coaching, .exam-command, .exam-commands__levels')
+  const count = await flagged.count()
+  expect(count).toBe(4 + 5 + 1)
+  for (let index = 0; index < count; index += 1) await expect(flagged.nth(index).locator('.exam-checking')).toHaveText(/Being checked/)
 })
 
 test('mock exams: real mocks, honest notes, two buttons, and the last mock', async ({ page }) => {

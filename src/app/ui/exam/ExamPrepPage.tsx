@@ -1,5 +1,5 @@
 import { useId, useState, type CSSProperties } from 'react'
-import type { ExamPapersContent } from '../../../../content/exam-papers-schema'
+import type { ExamContentCheck, ExamPapersContent } from '../../../../content/exam-papers-schema'
 import { CHECK_MINUTES, durationLabel, pacedSections, timeSegments, type LastMock, type MockRow, type MockSuggestion } from '../../exam-prep'
 import { Icon } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
@@ -115,6 +115,13 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
                 <span className="exam-ao__head"><span className="exam-ao__chip">{ao.id}</span></span>
                 <span className="exam-ao__name">{ao.capability}</span>
                 <span className="exam-ao__weight">{ao.overallPercentRange[0]}–{ao.overallPercentRange[1]}% of your A-level marks</span>
+                {ao.coaching && (
+                  <span className="exam-ao__coaching">
+                    <span className="exam-ao__does">{ao.coaching.does}</span>
+                    <span className="exam-ao__show"><strong>How you show it</strong><span>{ao.coaching.show}</span></span>
+                    <BeingChecked check={ao.coaching.check} />
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -127,10 +134,11 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
                     <strong className="exam-command__word">{command.word}</strong>
                     <span className="exam-command__asks">{command.asks}</span>
                     <span className="exam-command__marks"><span>{command.marks}</span><span>{command.aos}</span></span>
+                    <BeingChecked check={command.check} className="exam-command__check" />
                   </li>
                 ))}
               </ul>
-              {guide.levelsNote && <p className="exam-commands__levels"><Icon name="info" size="compact" /><span>{guide.levelsNote}</span></p>}
+              {guide.levelsNote && <p className="exam-commands__levels"><Icon name="info" size="compact" /><span>{guide.levelsNote.text}</span><BeingChecked check={guide.levelsNote.check} /></p>}
             </div>
           )}
         </section>
@@ -165,7 +173,7 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
   )
 }
 
-function PaperRuns({ paper, dayRules }: { paper: ExamPapersContent['papers'][number]; dayRules: readonly string[] }) {
+function PaperRuns({ paper, dayRules }: { paper: ExamPapersContent['papers'][number]; dayRules: NonNullable<ExamPapersContent['dayRules']> }) {
   const segments = timeSegments(paper)
   return (
     <div className="exam-runs">
@@ -191,12 +199,31 @@ function PaperRuns({ paper, dayRules }: { paper: ExamPapersContent['papers'][num
         ))}
       </ul>
       <p className="exam-runs__spare">Leaves {CHECK_MINUTES} minutes to check. Minutes are a suggestion: the paper’s time shared out by marks.</p>
+      {paper.notes && paper.notes.length > 0 && (
+        <ul className="exam-day__list exam-runs__notes">
+          {paper.notes.map((note) => <li key={note.text}><Icon name="info" size="compact" /><span>{note.text}</span><BeingChecked check={note.check} /></li>)}
+        </ul>
+      )}
       {dayRules.length > 0 && <div className="exam-day">
         <h5 className="exam-day__title">On the day</h5>
         <ul className="exam-day__list">
-          {dayRules.map((rule) => <li key={rule}><Icon name="check" size="compact" /><span>{rule}</span></li>)}
+          {dayRules.map((rule) => <li key={rule.text}><Icon name="check" size="compact" /><span>{rule.text}</span><BeingChecked check={rule.check} /></li>)}
         </ul>
       </div>}
     </div>
+  )
+}
+
+/**
+ * The flag on wording that is not yet approved through the Content Factory or checked against the exam board.
+ * Neutral, icon plus words (never colour alone). The reason is in the accessible name for reviewers.
+ */
+function BeingChecked({ check, className }: { check: ExamContentCheck; className?: string }) {
+  return (
+    <span className={classNames('exam-checking', className)} title={check.why}>
+      <Icon name="info" size="inline" />
+      <span>Being checked</span>
+      <span className="ui-visually-hidden">: {check.why}</span>
+    </span>
   )
 }

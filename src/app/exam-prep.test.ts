@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { aqaBusiness7132ExamPapers } from '../../content/business/aqa-a-level/shared/exam-papers'
-import { examPapersContentSchema } from '../../content/exam-papers-schema'
+import { examPapersContentSchema, examPapersReviewItems } from '../../content/exam-papers-schema'
 import { answeredQuestionCount, CHECK_MINUTES, examPapersFor, pacedSections, lastMockFrom, mockRowFor, suggestMock, timeSegments, topicsCoveredPhrase, weeksAwayPhrase, type MockExamLike } from './exam-prep'
 import type { TopicProgress } from './topic-status'
 
@@ -41,11 +41,21 @@ describe('the AQA 7132 paper guide', () => {
     bad.papers[0].sections[0].marks = 99
     expect(examPapersContentSchema.safeParse(bad).success).toBe(false)
   })
-  it('only carries wording the Content Factory has approved: no command words, levels note or day advice yet', () => {
-    expect(aqaBusiness7132ExamPapers.commandWords).toBeUndefined()
-    expect(aqaBusiness7132ExamPapers.levelsNote).toBeUndefined()
-    expect(aqaBusiness7132ExamPapers.dayRules).toBeUndefined()
+  it('flags every item that is not from the factory’s Exam Truth, and lists them for the checker', () => {
+    const items = examPapersReviewItems(aqaBusiness7132ExamPapers)
+    // 4 objectives' coaching + 5 command words + the levels note + 3 day rules + Paper 3's reading time.
+    expect(items).toHaveLength(14)
+    expect(new Set(items.map((item) => item.id)).size).toBe(items.length)
+    expect(items.every((item) => item.why.length > 10)).toBe(true)
+    // The known problem is written down where the checker will see it.
+    expect(items.find((item) => item.text === 'Answer every question')?.why).toMatch(/one essay from two/)
+    expect(items.find((item) => item.text === 'Calculator allowed')?.why).toMatch(/do not state a calculator rule/)
     expect(aqaBusiness7132ExamPapers.checkedAgainst.approvedBy).toMatch(/Exam Truth/)
+  })
+  it('refuses unflagged wording: a command word without a check is not allowed', () => {
+    const bad = structuredClone(aqaBusiness7132ExamPapers) as unknown as { commandWords: Array<Record<string, unknown>> }
+    delete bad.commandWords[0].check
+    expect(examPapersContentSchema.safeParse(bad).success).toBe(false)
   })
   it('takes the objectives and their weightings from the factory’s Exam Truth', () => {
     expect(aqaBusiness7132ExamPapers.assessmentObjectives.map((ao) => [ao.id, ao.overallPercentRange])).toEqual([['AO1', [22, 25]], ['AO2', [24, 27]], ['AO3', [25, 28]], ['AO4', [23, 26]]])
