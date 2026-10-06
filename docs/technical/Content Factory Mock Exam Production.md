@@ -291,14 +291,14 @@ Cumulative mock-stage spend ended at **US$6.540598** under the unchanged US$8 pi
 
 Normative authority is unchanged. This retention/release-evidence change applies the already-approved Content Factory Mock Exam Production, Fast-Path and Content Accuracy Assurance contracts to the exact successful AQA 7132 mock artifact. Historical Action evidence is preserved rather than rewritten.
 
-The proposed release record is a **restricted-pilot conditional pass** for this exact A3 mock set only. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking. No learner route, learner content integration, Course Truth, Exam Truth, Subject Foundation, assisted-marking eligibility or navigation changes in this PR.
+The release record is a **restricted-pilot conditional pass** for this exact A3 mock set only. The retained set was subsequently integrated into the existing Exam Prep / Exam Simulator by Founder-approved PR #555: exact integration head `4ef4b5396bc37269f554fc7f956ff307d38a2bfe`, merged to `main` as `df136ca0b77305fc13a01b8577454e6cc4e055d3` on 6 October 2026. The historical Action artifact remains `assured_not_published` because that is generation-stage evidence; the current learner-publication state is recorded separately in `content-factory/releases/aqa-7132-mock-v1.json`. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking.
 
 `INDEX.md` already points to this technical implementation document, so no index change is required.
 
 
 ## Learner integration of retained AQA 7132 mock v1
 
-The retained AQA A-level Business 7132 mock v1 is projected into the existing learner Exam Prep / Exam Simulator runtime through `src/app/retained-aqa-business-mock.ts`.
+The retained AQA A-level Business 7132 mock v1 is projected into the existing learner Exam Prep / Exam Simulator runtime through `src/app/retained-aqa-business-mock.ts`. This integration is live in governed `main` following Founder-approved PR #555 and merge commit `df136ca0b77305fc13a01b8577454e6cc4e055d3`.
 
 The integration is deliberately deterministic:
 
