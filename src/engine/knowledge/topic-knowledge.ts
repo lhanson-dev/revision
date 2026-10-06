@@ -28,6 +28,14 @@ export type TopicKnowledgeSummary = {
   distribution: TopicKnowledgeDistribution
 }
 
+/** The score at which a topic is Got it (good) and Nearly there (medium). */
+export const GOOD_SCORE_MIN = 75
+export const MEDIUM_SCORE_MIN = 50
+
+export function bandForScore(score: number): Exclude<TopicKnowledgeBand, 'not-enough-evidence'> {
+  return score >= GOOD_SCORE_MIN ? 'good' : score >= MEDIUM_SCORE_MIN ? 'medium' : 'low'
+}
+
 const REQUIRED_DISTINCT_CONTENT_ITEMS = 6
 const REQUIRED_EVIDENCE_FAMILIES = 2
 
@@ -97,7 +105,7 @@ export function assessTopicKnowledge(
     return familyEvidence.reduce((sum, entry) => sum + entry.percentage, 0) / familyEvidence.length
   })
   const score = Math.round(familyMeans.reduce((sum, mean) => sum + mean, 0) / familyMeans.length)
-  const band: TopicKnowledgeBand = score >= 75 ? 'good' : score >= 50 ? 'medium' : 'low'
+  const band: TopicKnowledgeBand = bandForScore(score)
 
   return {
     band,

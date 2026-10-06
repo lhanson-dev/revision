@@ -5,6 +5,8 @@ import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evid
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createRevMarkedExamQuestionEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type WrittenAnswerMarker } from './rev-marking'
+import { summariseSession, type SummaryLearnPage } from './practice-summary'
+import { specItemLabel } from './spec-item-labels'
 import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import {
   advanceQuestionSession,
@@ -12,12 +14,11 @@ import {
   levelNote,
   recordSessionAnswer,
   reviseLastAnswer,
-  sessionRightCount,
   startQuestionSession,
   statusDirection,
   type QuestionSession,
 } from './practice-session'
-import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness } from './practice-questions'
+import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness, type PracticeQuestion } from './practice-questions'
 import {
   PRACTICE_LENGTHS,
   lastPractisedLabel,
@@ -51,6 +52,8 @@ import {
   PracticeQuestionView,
   PracticeWrittenQuestion,
   PracticeStart,
+  PracticeSummary,
+  readMinutes,
   SegmentedControl,
   SelectField,
   TextAreaField,
@@ -89,6 +92,8 @@ export type FocusedLearningWorkspaceProps = {
   marker?: WrittenAnswerMarker | null
   /** Practice only: the student's latest rating (0 No, 1 Partly, 2 Yes) for each flashcard, so a deck starts with the ones they were not sure of. */
   flashcardRatings?: Record<string, FlashRating>
+  /** Practice only: opens a Learn page (the summary's "Read: …" links). Without it the links are left out. */
+  onOpenLearnPage?: (pageId: string) => void
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -153,6 +158,7 @@ export function FocusedLearningWorkspace({
   lastAnsweredAt,
   marker = null,
   flashcardRatings,
+  onOpenLearnPage,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
@@ -171,6 +177,10 @@ export function FocusedLearningWorkspace({
   const [session, setSession] = useState<QuestionSession | null>(null)
   const [statusSeen, setStatusSeen] = useState<{ topicId: string; status: LearningStatus | undefined } | null>(null)
   const [statusMove, setStatusMove] = useState<'up' | 'down' | null>(null)
+  // The topic's status when the session started, and the finished session the summary is built from.
+  const [sessionStartStatus, setSessionStartStatus] = useState<LearningStatus | undefined>(undefined)
+  const [summary, setSummary] = useState<{ session: QuestionSession; startStatus: LearningStatus | undefined } | null>(null)
+  const [nextDismissed, setNextDismissed] = useState(false)
   const answering = useRef(false)
   // A written answer: the draft, where marking has got to, what REV gave, and the one challenge a student may make.
   const [writtenDraft, setWrittenDraft] = useState('')
@@ -223,7 +233,6 @@ export function FocusedLearningWorkspace({
   )
   const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
   const isRetry = session?.currentIsRetry ?? false
-  const questionsFinished = session !== null && !question
   const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
   const answeredNow = question?.type === 'written' ? writtenPhase === 'marked' : Boolean(checked)
   const upcoming = session && answeredNow ? advanceQuestionSession(session, fullPool) : null
@@ -278,6 +287,7 @@ export function FocusedLearningWorkspace({
     setSelectedOption(null)
     setChecked(null)
     setSession(null)
+    setSummary(null)
     setStatusMove(null)
     resetWritten()
     setOpenActivity(null)
@@ -287,6 +297,9 @@ export function FocusedLearningWorkspace({
   function startQuestions() {
     if (startCount === 0) return
     setSession(startQuestionSession(typedPool, startCount))
+    setSummary(null)
+    setNextDismissed(false)
+    setSessionStartStatus(progress?.status)
     setSelectedOption(null)
     setChecked(null)
     resetWritten()
@@ -299,9 +312,27 @@ export function FocusedLearningWorkspace({
     setOpenActivity(null)
   }
 
-  function finishSession() {
+  /** "See how you did": the pop-up closes onto the summary in the Practice tab. */
+  function showSummary() {
+    if (!session) return
+    setSummary({ session, startStatus: sessionStartStatus })
+    setNextDismissed(false)
     setSession(null)
+    setSelectedOption(null)
+    setChecked(null)
+    resetWritten()
     setOpenActivity(null)
+  }
+
+  /** The action after an answer: the next question, or the summary after the last. */
+  function goNext() {
+    if (upcoming && isSessionFinished(upcoming)) showSummary()
+    else nextQuestion()
+  }
+
+  function practiseAgain() {
+    setSummary(null)
+    startQuestions()
   }
 
   function changeMode(nextMode: WorkspaceMode) {
@@ -548,23 +579,43 @@ export function FocusedLearningWorkspace({
       'case-study': 'Warm-up · Case study',
       'exam-question': 'Exam question',
     }
+    const learnPageFor = (item: PracticeQuestion): SummaryLearnPage | null => {
+      if (!onOpenLearnPage) return null
+      for (const nodeId of item.nodeIds) {
+        const page = adapter.getLearnPage(nodeId)
+        if (page) return { id: page.id, title: page.title, minutes: readMinutes(page) }
+      }
+      return null
+    }
+    const recommendedTopic = recommendation && recommendation.topicId !== topicId ? adapter.getTopic(recommendation.topicId) : undefined
+    const summaryModel = summary
+      ? summariseSession({
+        session: summary.session,
+        questions: fullPool,
+        topicTitle: topic?.title ?? topicShort,
+        topicOrder: aqaBank ? topic?.order ?? null : null,
+        startStatus: summary.startStatus,
+        endStatus: progress?.status,
+        skillLabel: specItemLabel,
+        learnPage: learnPageFor,
+        nextTopic: recommendation && recommendedTopic ? { id: recommendedTopic.id, title: recommendedTopic.shortTitle, reason: recommendation.reason } : null,
+      })
+      : null
+    const startNext = () => {
+      if (!summaryModel) return
+      if (summaryModel.next.kind === 'learn' && summaryModel.next.learnPageId) onOpenLearnPage?.(summaryModel.next.learnPageId)
+      else if (summaryModel.next.kind === 'practice-topic' && summaryModel.next.topicId) changeTopic(summaryModel.next.topicId)
+      else practiseAgain()
+    }
     const hasAnyPractice = availableQuestions > 0 || warmups.length > 0 || extraScored.length > 0
 
-    const done = session ? sessionRightCount(session) : { right: 0, fresh: 0 }
     const optionState = (index: number) => {
       if (question?.type !== 'multiple-choice') return 'idle' as const
       if (checked) return index === question.correctOption ? 'correct' as const : checked.selected === index ? 'wrong' as const : 'idle' as const
       return selectedOption === index ? 'selected' as const : 'idle' as const
     }
 
-    const questionBody = questionsFinished ? (
-      <div className="practice-done">
-        <p className="ui-eyebrow">Session done</p>
-        <h2 className="practice-question__prompt">{done.fresh === 0 ? 'No answers this time' : `${done.right} of ${done.fresh} right`}</h2>
-        <p className="practice-panel__lead">Every answer is saved and counts towards {topicShort}.</p>
-        <div><Button onClick={finishSession}>Back to Practice</Button></div>
-      </div>
-    ) : question?.type === 'written' && session ? (
+    const questionBody = question?.type === 'written' && session ? (
       <PracticeWrittenQuestion
         eyebrow={`Question ${Math.min(session.askedIds.length, session.total)}`}
         level={question.level}
@@ -587,7 +638,7 @@ export function FocusedLearningWorkspace({
         onChallengeSend={sendChallenge}
         onChallengeCancel={() => setChallenge((current) => ({ ...current, state: 'closed', error: null }))}
         nextLabel={upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'}
-        onNext={nextQuestion}
+        onNext={goNext}
       />
     ) : question?.type === 'multiple-choice' && session ? (
       <PracticeQuestionView
@@ -614,7 +665,7 @@ export function FocusedLearningWorkspace({
       const correct = checked.selected === question.correctOption
       const letter = 'ABCDEF'[checked.selected]
       const why = question.options[checked.selected]?.why
-      const action = <Button onClick={nextQuestion}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
+      const action = <Button onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
       if (correct) {
         const guessed = checked.confidence === 'guess'
         return (
@@ -646,7 +697,19 @@ export function FocusedLearningWorkspace({
 
     return (
       <section className="learning-workspace focused-workspace focused-practice practice-workspace" aria-label="Practice">
-        {hasAnyPractice ? (
+        {summaryModel ? (
+          <PracticeSummary
+            topicTitle={topic?.title ?? topicShort}
+            topicShort={topicShort}
+            model={summaryModel}
+            onReadPage={(pageId) => onOpenLearnPage?.(pageId)}
+            onStartNext={startNext}
+            nextDismissed={nextDismissed}
+            onDismissNext={() => setNextDismissed(true)}
+            onPractiseAgain={practiseAgain}
+            onBack={() => setSummary(null)}
+          />
+        ) : hasAnyPractice ? (
           <PracticeStart
             topicTitle={topic?.title ?? topicShort}
             status={progress?.status}
@@ -662,7 +725,7 @@ export function FocusedLearningWorkspace({
             selectedTypes={chosenTypes}
             onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
             onStart={startQuestions}
-            carryOn={session && !questionsFinished ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
+            carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
             extraScored={extraScored}
             onOpenExtraScored={(id) => setOpenActivity(id as WorkspaceMode)}
             warmups={warmups}

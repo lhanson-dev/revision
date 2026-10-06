@@ -251,3 +251,51 @@
 @media (max-width: 360px) {
   .planner-runtime .practice-dialog .practice-chip { white-space: normal; }
 }
+
+/* ---- Session summary (PR 5) ----------------------------------------------------------------------------------- */
+.planner-runtime .practice-summary { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.planner-runtime .practice-summary__head { display: flex; flex-direction: column; gap: 12px; }
+.planner-runtime .practice-summary__hero { margin: 0; color: var(--rv-text); font: 800 var(--type-hero-size)/1 var(--font-family-display); letter-spacing: -.03em; }
+.planner-runtime .practice-summary__hero:focus-visible { outline: none; }
+.planner-runtime .practice-summary__written { margin: 0; color: var(--rv-text); font: 700 17px/1.4 var(--font-family-product); }
+.planner-runtime .practice-summary__status { gap: 18px; }
+.planner-runtime .practice-summary__status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.planner-runtime .practice-summary__status-title { margin: 0 4px 0 0; color: var(--rv-text); font: 800 18px/1.2 var(--font-family-product); }
+.planner-runtime .practice-summary__arrow { display: inline-flex; color: var(--rv-text-2); }
+.planner-runtime .practice-summary__skills { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 1px solid var(--rv-line); }
+.planner-runtime .practice-summary__tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.planner-runtime .practice-summary__tile { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 16px; border-radius: 16px; }
+.planner-runtime .practice-summary__tile-status { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font: 800 13px/1 var(--font-family-product); }
+@media (max-width: 360px) { .planner-runtime .practice-summary__tile { padding: 12px; } .planner-runtime .practice-summary__tile-status { gap: 4px; font-size: 12px; } }
+.planner-runtime .practice-summary__tile-name { color: var(--rv-text); font: 800 16px/1.25 var(--font-family-product); overflow-wrap: anywhere; }
+.planner-runtime .practice-summary__tile--gotit { background: var(--learning-status-gotit-tint); }
+.planner-runtime .practice-summary__tile--gotit .practice-summary__tile-status { color: var(--learning-status-gotit-ink); }
+.planner-runtime .practice-summary__tile--nearly { background: var(--learning-status-nearly-tint); }
+.planner-runtime .practice-summary__tile--nearly .practice-summary__tile-status { color: var(--learning-status-nearly-ink); }
+.planner-runtime .practice-summary__tile--needswork { background: var(--learning-status-needswork-tint); }
+.planner-runtime .practice-summary__tile--needswork .practice-summary__tile-status { color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-summary__tile--nottested { background: var(--learning-status-started-tint); }
+.planner-runtime .practice-summary__tile--nottested .practice-summary__tile-status { color: var(--learning-status-started-ink); }
+
+.planner-runtime .practice-panel__title--small { font: 800 var(--type-h3-size, 24px)/1.15 var(--font-family-display); }
+.planner-runtime .practice-summary__goover { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.planner-runtime .practice-summary__item { display: flex; gap: 12px; padding: 16px; border-radius: 16px; background: var(--rv-bg); }
+.planner-runtime .practice-summary__item-icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 999px; }
+.planner-runtime .practice-summary__item-icon--needswork { background: var(--learning-status-needswork-tint); color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-summary__item-icon--nearly { background: var(--learning-status-nearly-tint); color: var(--learning-status-nearly-ink); }
+.planner-runtime .practice-summary__item-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.planner-runtime .practice-summary__item-title { color: var(--rv-text); font: 800 16px/1.3 var(--font-family-product); }
+.planner-runtime .practice-summary__item-reason { color: var(--rv-text); font: 600 15px/1.5 var(--font-family-product); text-wrap: pretty; }
+.planner-runtime .practice-summary__read { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--rv-accent); font: 800 14px/1.2 var(--font-family-product); text-align: left; cursor: pointer; }
+.planner-runtime .practice-summary__read:hover { color: var(--rv-text); }
+.planner-runtime .practice-summary__read:focus-visible { outline: 2px solid var(--rv-teal); outline-offset: 2px; border-radius: 6px; }
+.planner-runtime .practice-summary__rev { align-self: start; }
+.planner-runtime .practice-summary__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+@media (max-width: 960px) {
+  .planner-runtime .practice-summary__tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  .planner-runtime .practice-summary__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .planner-runtime .practice-summary__item { padding: 14px; }
+}
