@@ -57,9 +57,11 @@ test('a paper opens one at a time and shows how its 2 hours run', async ({ page 
   await expect(runs.getByText('2 hours, start to finish')).toBeVisible()
   await expect(runs.locator('.exam-run')).toHaveCount(4)
   await expect(runs.locator('.exam-run').first()).toContainText('15 marks')
+  await expect(runs.locator('.exam-run').first()).toContainText('about 17 min')
   await expect(runs.locator('.exam-run').nth(1)).toContainText('about 40 min')
+  await expect(runs.getByText('Minutes are a suggestion')).toBeVisible()
   await expect(runs.getByText('Leaves 5 minutes to check.')).toBeVisible()
-  await expect(runs.getByText('On the day')).toBeVisible()
+  await expect(runs.getByText('On the day')).toHaveCount(0)
   await paper2.click()
   await expect(paper1).toHaveAttribute('aria-expanded', 'false')
   await expect(paper2).toHaveAttribute('aria-expanded', 'true')
@@ -68,12 +70,16 @@ test('a paper opens one at a time and shows how its 2 hours run', async ({ page 
   await expect(paper2).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('examiners: four objectives, five command words and the levels note', async ({ page }) => {
+test('examiners: the four objectives from the factory’s Exam Truth, and no wording the factory has not approved', async ({ page }) => {
   await open(page)
   await expect(page.locator('.exam-ao')).toHaveCount(4)
   await expect(page.locator('.exam-ao__chip')).toHaveText(['AO1', 'AO2', 'AO3', 'AO4'])
-  await expect(page.locator('.exam-command')).toHaveCount(5)
-  await expect(page.getByText('Longer answers are marked in levels', { exact: false })).toBeVisible()
+  await expect(page.locator('.exam-ao__name')).toHaveText(['Knowledge and understanding', 'Application to business contexts', 'Analysis of business issues and influences', 'Evaluation and evidence-based judgement'])
+  await expect(page.locator('.exam-ao').first()).toContainText('22–25% of your A-level marks')
+  // Not approved by the factory yet, so not shown.
+  await expect(page.locator('.exam-commands')).toHaveCount(0)
+  await expect(page.getByText('Command words')).toHaveCount(0)
+  await expect(page.getByText('marked in levels')).toHaveCount(0)
 })
 
 test('mock exams: real mocks, honest notes, two buttons, and the last mock', async ({ page }) => {

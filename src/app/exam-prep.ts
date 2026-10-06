@@ -39,14 +39,36 @@ export function durationLabel(minutes: number): string {
   return `${minutes} min`
 }
 
+/** Minutes left at the end of a paper for checking. A pacing rule (Revision guidance), not an exam board rule. */
+export const CHECK_MINUTES = 5
+
+export type PacedSection = { name: string; type: string; marks: number; minutes: number }
+
+/**
+ * Suggested minutes for each section: the paper's time (less the checking time) shared out in proportion to the
+ * marks, so it is plain arithmetic on the factory's own numbers. Rounded, with the last section taking the remainder
+ * so the minutes always add up.
+ */
+export function pacedSections(paper: ExamPaperGuide): PacedSection[] {
+  const total = paper.sections.reduce((sum, section) => sum + section.marks, 0)
+  const available = paper.durationMinutes - CHECK_MINUTES
+  let used = 0
+  return paper.sections.map((section, index) => {
+    const last = index === paper.sections.length - 1
+    const minutes = last ? available - used : Math.round((section.marks / total) * available)
+    used += minutes
+    return { name: section.name, type: section.type, marks: section.marks, minutes }
+  })
+}
+
 export type TimeSegment = { id: string; label: string; minutes: number; kind: 'section' | 'check'; tone: 'a' | 'b' | 'check' }
 
 /** The time bar: one segment per section (alternating tints) and a last one for the checking time. */
 export function timeSegments(paper: ExamPaperGuide): TimeSegment[] {
-  const segments: TimeSegment[] = paper.sections.map((section, index) => ({
+  const segments: TimeSegment[] = pacedSections(paper).map((section, index) => ({
     id: `${paper.number}-${index}`, label: section.name, minutes: section.minutes, kind: 'section', tone: index % 2 === 0 ? 'a' : 'b',
   }))
-  if (paper.checkMinutes > 0) segments.push({ id: `${paper.number}-check`, label: 'Checking', minutes: paper.checkMinutes, kind: 'check', tone: 'check' })
+  segments.push({ id: `${paper.number}-check`, label: 'Checking', minutes: CHECK_MINUTES, kind: 'check', tone: 'check' })
   return segments
 }
 

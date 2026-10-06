@@ -1,9 +1,12 @@
 import { z } from 'zod'
 
 /**
- * The "Exam Prep" paper guide for one board and specification: what each paper contains, how the time runs,
- * what examiners give marks for. It is content, not code: each board/spec has its own file, and the Exam Prep
- * page only reads it. Checked against the board's published assessment pages (see `checkedAgainst`).
+ * The "Exam Prep" paper guide for one board and specification: what each paper contains and what examiners give
+ * marks for. It is content, not code: each board/spec has its own file, and the Exam Prep page only reads it.
+ *
+ * Content rule (Founder, 6 Oct 2026): everything here must come from content approved through the Content Factory
+ * (its Exam Truth) or the board's own published assessment contract. Anything else is optional and stays out of
+ * the file until the factory approves it: command words, the levels note and "on the day" advice.
  */
 const aoIdSchema = z.enum(['AO1', 'AO2', 'AO3', 'AO4'])
 
@@ -11,9 +14,7 @@ export const examPaperSectionSchema = z.object({
   name: z.string().min(1),
   /** What the student does in it, e.g. "15 multiple choice". */
   type: z.string().min(1),
-  marks: z.number().int().nonnegative(),
-  /** Suggested minutes. Revision guidance (about 1 minute a mark), not a board rule. */
-  minutes: z.number().int().positive(),
+  marks: z.number().int().positive(),
 })
 
 export const examPaperSchema = z.object({
@@ -27,23 +28,20 @@ export const examPaperSchema = z.object({
   totalMarks: z.number().int().positive(),
   /** "a third of your A-level" */
   weighting: z.string().min(1),
-  /** Minutes at the end that the sections leave free for checking. */
-  checkMinutes: z.number().int().nonnegative(),
   sections: z.array(examPaperSectionSchema).min(1),
   /** Which topic ids the paper can assess. `all` means every topic in the course. */
   topics: z.union([z.literal('all'), z.array(z.string().min(1)).min(1)]),
 }).superRefine((paper, context) => {
   const marks = paper.sections.reduce((sum, section) => sum + section.marks, 0)
   if (marks !== paper.totalMarks) context.addIssue({ code: 'custom', path: ['sections'], message: `section marks add up to ${marks}, not ${paper.totalMarks}` })
-  const minutes = paper.sections.reduce((sum, section) => sum + section.minutes, 0) + paper.checkMinutes
-  if (minutes !== paper.durationMinutes) context.addIssue({ code: 'custom', path: ['sections'], message: `section minutes and checking time add up to ${minutes}, not ${paper.durationMinutes}` })
 })
 
 export const examAssessmentObjectiveSchema = z.object({
   id: aoIdSchema,
-  name: z.string().min(1),
-  does: z.string().min(1),
-  show: z.string().min(1),
+  /** The factory's Exam Truth capability for this objective, in plain words: "Knowledge and understanding". */
+  capability: z.string().min(1),
+  /** Share of the whole A-level that the objective carries, in percent (Exam Truth `overall_percent_range`). */
+  overallPercentRange: z.tuple([z.number().nonnegative(), z.number().nonnegative()]),
 })
 
 export const examCommandWordSchema = z.object({
@@ -57,13 +55,13 @@ export const examPapersContentSchema = z.object({
   schemaVersion: z.literal(1),
   examBoard: z.string().min(1),
   specificationCode: z.string().min(1),
-  /** What the structure was checked against, and when. */
-  checkedAgainst: z.object({ source: z.string().url(), checkedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/) }),
+  /** Where the structure comes from: the factory's Exam Truth, and the board page it was checked against. */
+  checkedAgainst: z.object({ source: z.string().url(), checkedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), approvedBy: z.string().min(1) }),
   papers: z.array(examPaperSchema).min(1),
-  dayRules: z.array(z.string().min(1)).min(1),
+  dayRules: z.array(z.string().min(1)).optional(),
   assessmentObjectives: z.array(examAssessmentObjectiveSchema).length(4),
-  commandWords: z.array(examCommandWordSchema).min(1),
-  levelsNote: z.string().min(1),
+  commandWords: z.array(examCommandWordSchema).optional(),
+  levelsNote: z.string().min(1).optional(),
 })
 
 export type ExamPaperSection = z.infer<typeof examPaperSectionSchema>

@@ -1,6 +1,6 @@
 import { useId, useState, type CSSProperties } from 'react'
 import type { ExamPapersContent } from '../../../../content/exam-papers-schema'
-import { durationLabel, timeSegments, type LastMock, type MockRow, type MockSuggestion } from '../../exam-prep'
+import { CHECK_MINUTES, durationLabel, pacedSections, timeSegments, type LastMock, type MockRow, type MockSuggestion } from '../../exam-prep'
 import { Icon } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
 import { classNames } from '../classNames'
@@ -98,7 +98,7 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
               })}
             </div>
             <div id={panelId} role="region" aria-label={opened ? `How ${opened.name} runs` : 'How a paper runs'} hidden={!opened}>
-              {opened && <PaperRuns paper={opened} dayRules={guide.dayRules} />}
+              {opened && <PaperRuns paper={opened} dayRules={guide.dayRules ?? []} />}
             </div>
           </>
         ) : (
@@ -112,25 +112,27 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
           <ul className="exam-prep__aos">
             {guide.assessmentObjectives.map((ao) => (
               <li key={ao.id} className="exam-ao">
-                <span className="exam-ao__head"><span className="exam-ao__chip">{ao.id}</span><span className="exam-ao__name">{ao.name}</span></span>
-                <span className="exam-ao__does">{ao.does}</span>
-                <span className="exam-ao__show"><strong>How you show it</strong><span>{ao.show}</span></span>
+                <span className="exam-ao__head"><span className="exam-ao__chip">{ao.id}</span></span>
+                <span className="exam-ao__name">{ao.capability}</span>
+                <span className="exam-ao__weight">{ao.overallPercentRange[0]}–{ao.overallPercentRange[1]}% of your A-level marks</span>
               </li>
             ))}
           </ul>
-          <div className="exam-commands">
-            <h4 className="exam-commands__title">Command words</h4>
-            <ul className="exam-commands__list">
-              {guide.commandWords.map((command) => (
-                <li key={command.word} className="exam-command">
-                  <strong className="exam-command__word">{command.word}</strong>
-                  <span className="exam-command__asks">{command.asks}</span>
-                  <span className="exam-command__marks"><span>{command.marks}</span><span>{command.aos}</span></span>
-                </li>
-              ))}
-            </ul>
-            <p className="exam-commands__levels"><Icon name="info" size="compact" /><span>{guide.levelsNote}</span></p>
-          </div>
+          {guide.commandWords && guide.commandWords.length > 0 && (
+            <div className="exam-commands">
+              <h4 className="exam-commands__title">Command words</h4>
+              <ul className="exam-commands__list">
+                {guide.commandWords.map((command) => (
+                  <li key={command.word} className="exam-command">
+                    <strong className="exam-command__word">{command.word}</strong>
+                    <span className="exam-command__asks">{command.asks}</span>
+                    <span className="exam-command__marks"><span>{command.marks}</span><span>{command.aos}</span></span>
+                  </li>
+                ))}
+              </ul>
+              {guide.levelsNote && <p className="exam-commands__levels"><Icon name="info" size="compact" /><span>{guide.levelsNote}</span></p>}
+            </div>
+          )}
         </section>
       )}
 
@@ -179,22 +181,22 @@ function PaperRuns({ paper, dayRules }: { paper: ExamPapersContent['papers'][num
         ))}
       </div>
       <ul className="exam-runs__rows">
-        {paper.sections.map((section) => (
+        {pacedSections(paper).map((section) => (
           <li key={section.name} className="exam-run">
             <strong className="exam-run__name">{section.name}</strong>
             <span className="exam-run__type">{section.type}</span>
-            <span className="exam-run__marks">{section.marks > 0 ? `${section.marks} marks` : 'No marks'}</span>
+            <span className="exam-run__marks">{section.marks} marks</span>
             <span className="exam-run__time"><Icon name="clock" size="inline" /><span>about {section.minutes} min</span></span>
           </li>
         ))}
       </ul>
-      {paper.checkMinutes > 0 && <p className="exam-runs__spare">Leaves {paper.checkMinutes} minutes to check.</p>}
-      <div className="exam-day">
+      <p className="exam-runs__spare">Leaves {CHECK_MINUTES} minutes to check. Minutes are a suggestion: the paper’s time shared out by marks.</p>
+      {dayRules.length > 0 && <div className="exam-day">
         <h5 className="exam-day__title">On the day</h5>
         <ul className="exam-day__list">
           {dayRules.map((rule) => <li key={rule}><Icon name="check" size="compact" /><span>{rule}</span></li>)}
         </ul>
-      </div>
+      </div>}
     </div>
   )
 }

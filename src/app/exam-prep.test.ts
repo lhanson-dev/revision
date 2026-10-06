@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { aqaBusiness7132ExamPapers } from '../../content/business/aqa-a-level/shared/exam-papers'
 import { examPapersContentSchema } from '../../content/exam-papers-schema'
-import { answeredQuestionCount, examPapersFor, lastMockFrom, mockRowFor, suggestMock, timeSegments, topicsCoveredPhrase, weeksAwayPhrase, type MockExamLike } from './exam-prep'
+import { answeredQuestionCount, CHECK_MINUTES, examPapersFor, pacedSections, lastMockFrom, mockRowFor, suggestMock, timeSegments, topicsCoveredPhrase, weeksAwayPhrase, type MockExamLike } from './exam-prep'
 import type { TopicProgress } from './topic-status'
 
 const progress = (entries: Record<string, TopicProgress['status']>): Record<string, TopicProgress> =>
@@ -25,16 +25,30 @@ describe('the AQA 7132 paper guide', () => {
   it('Paper 2 is three data responses of about 33 marks', () => {
     expect(aqaBusiness7132ExamPapers.papers[1].sections.map((s) => s.marks)).toEqual([33, 33, 34])
   })
-  it('every paper’s sections add up to its marks and its 2 hours', () => {
+  it('every paper’s sections add up to its marks, and the suggested minutes add up to its 2 hours', () => {
     for (const paper of aqaBusiness7132ExamPapers.papers) {
       expect(paper.sections.reduce((n, s) => n + s.marks, 0)).toBe(paper.totalMarks)
       expect(timeSegments(paper).reduce((n, s) => n + s.minutes, 0)).toBe(paper.durationMinutes)
+      expect(pacedSections(paper).reduce((n, s) => n + s.minutes, 0)).toBe(paper.durationMinutes - CHECK_MINUTES)
     }
   })
-  it('refuses a paper whose time does not add up', () => {
+  it('works suggested minutes out from the marks, so nothing is authored', () => {
+    expect(pacedSections(aqaBusiness7132ExamPapers.papers[0]).map((s) => s.minutes)).toEqual([17, 40, 29, 29])
+    expect(pacedSections(aqaBusiness7132ExamPapers.papers[1]).map((s) => s.minutes)).toEqual([38, 38, 39])
+  })
+  it('refuses a paper whose sections do not add up to its marks', () => {
     const bad = structuredClone(aqaBusiness7132ExamPapers)
-    bad.papers[0].sections[0].minutes = 99
+    bad.papers[0].sections[0].marks = 99
     expect(examPapersContentSchema.safeParse(bad).success).toBe(false)
+  })
+  it('only carries wording the Content Factory has approved: no command words, levels note or day advice yet', () => {
+    expect(aqaBusiness7132ExamPapers.commandWords).toBeUndefined()
+    expect(aqaBusiness7132ExamPapers.levelsNote).toBeUndefined()
+    expect(aqaBusiness7132ExamPapers.dayRules).toBeUndefined()
+    expect(aqaBusiness7132ExamPapers.checkedAgainst.approvedBy).toMatch(/Exam Truth/)
+  })
+  it('takes the objectives and their weightings from the factory’s Exam Truth', () => {
+    expect(aqaBusiness7132ExamPapers.assessmentObjectives.map((ao) => [ao.id, ao.overallPercentRange])).toEqual([['AO1', [22, 25]], ['AO2', [24, 27]], ['AO3', [25, 28]], ['AO4', [23, 26]]])
   })
   it('is found by board and specification only', () => {
     expect(examPapersFor('AQA', '7132')).not.toBeNull()
