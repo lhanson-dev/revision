@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "resolutions": [
+    {
+      "resolution_id": "aqa-7132-2027-paper3-synoptic-validity-founder-fix-2026-10-06",
+      "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+      "source_run_id": 37442073531,
+      "unit_id": "7132/3",
+      "escalated_fingerprint": "1d74987b4f0b3557e03dd55480a009bd0c51924a6d910751f089b94ba674fed1",
+      "decision": "fix",
+      "decided_at": "2026-10-06",
+      "check_id": "synoptic_validity",
+      "note": "Founder directed the recommended targeted fix after run 37442073531: revise P3-04 and P3-05 so the existing mapped targets are genuinely necessary for full marks; preserve the deterministic mock plan and do not broaden remediation.",
+      "slot_fixes": {
+        "P3-04": {
+          "instruction": "Revise the stem and top-band marking guidance so a full-mark answer must apply and interpret a profitability ratio using Northstar evidence. Preserve the 16-mark tariff, AO allocation, shared context and zero planned quantitative marks; do not add discrete calculation marks.",
+          "required_stem_phrases": [
+            "profitability ratio"
+          ],
+          "required_level4_phrases": [
+            "profitability ratio"
+          ],
+          "required_mark_scheme_phrases": [
+            "profitability ratio"
+          ]
+        },
+        "P3-05": {
+          "instruction": "Revise the stem and top-band marking guidance so a full-mark answer must explicitly apply Lewin's change model to Northstar's implementation decision. Preserve the 20-mark tariff, AO allocation and shared context.",
+          "required_stem_phrases": [
+            "Lewin's change model"
+          ],
+          "required_level4_phrases": [
+            "Lewin's change model"
+          ],
+          "required_mark_scheme_phrases": [
+            "Lewin's change model"
+          ]
+        }
+      }
+    }
+  ]
+}
