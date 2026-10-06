@@ -294,3 +294,26 @@ Normative authority is unchanged. This retention/release-evidence change applies
 The proposed release record is a **restricted-pilot conditional pass** for this exact A3 mock set only. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking. No learner route, learner content integration, Course Truth, Exam Truth, Subject Foundation, assisted-marking eligibility or navigation changes in this PR.
 
 `INDEX.md` already points to this technical implementation document, so no index change is required.
+
+
+## Learner integration of retained AQA 7132 mock v1
+
+The retained AQA A-level Business 7132 mock v1 is projected into the existing learner Exam Prep / Exam Simulator runtime through `src/app/retained-aqa-business-mock.ts`.
+
+The integration is deliberately deterministic:
+
+- the retained paper JSON files under `content-factory/runs/aqa-7132-mock-v1/artifact/papers/` remain the source of learner-facing mock truth;
+- the adapter does not rewrite retained question stems, contexts, tables, marks, timing or choice metadata;
+- all 41 retained slots remain represented exactly once;
+- Paper 1 preserves 150 printed marks but 100 attempted marks by requiring one selected 25-mark question from each of the retained `P1-C` and `P1-D` choice groups;
+- Papers 2 and 3 preserve their retained linked shared contexts;
+- all three papers use the existing Exam Simulator timer, pause/stop, navigation, typed-answer, self-mark and evidence flow rather than a parallel route;
+- multiple-choice questions use learner answer controls but remain within the existing self-assessment model;
+- extended responses are not automatically marked and the existing assisted-marking authority is not expanded;
+- the learner claim is shown from retained evidence: “A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.”
+
+Deterministic tests recompute the retained canonical paper fingerprints and compare them with the release record, then verify the 41-slot projection, Paper 1 choice arithmetic, timing/mark totals and linked stimulus projection.
+
+### Documentation impact
+
+This learner integration changes implementation and release state only. It does not amend Content Factory, Exam Prep, Exam Simulator or assisted-marking normative authority. Historical Action artifacts and assurance records remain unchanged. Qualified human Business subject-specialist review remains pending, so the release remains restricted-pilot only.

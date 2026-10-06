@@ -14,6 +14,22 @@ type ExamResult = {
   ao: Record<AoKey, { awarded: number; available: number }>
 }
 type SessionOverlay = 'paused' | 'stop-confirm' | null
+type ExamQuestionRuntime = Exam['questions'][number] & {
+  choiceGroup?: string | null
+  responseType?: 'multiple-choice' | 'written'
+  options?: Array<{ label: string; text: string }>
+  stimulus?: {
+    title: string | null
+    narrative: string
+    table: { title: string; columns: string[]; rows: Array<{ cells: string[] }> } | null
+  } | null
+}
+type ExamRuntime = Omit<Exam, 'questions'> & {
+  questions: ExamQuestionRuntime[]
+  learnerClaim?: string
+  printedMarks?: number
+  restrictedPilot?: boolean
+}
 
 const emptyMarks = (): Marks => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 const aoKeys: AoKey[] = ['ao1', 'ao2', 'ao3', 'ao4']
@@ -54,7 +70,7 @@ function paperLabel(exam: Exam) {
 }
 
 export type ExamSimulatorProps = {
-  exam: Exam
+  exam: ExamRuntime
   moduleId: string
   saving: boolean
   saveError: string
@@ -80,14 +96,19 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
   // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
   const [flagged, setFlagged] = useState<Record<string, boolean>>({})
+  const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
   const totalPausedMs = useRef(0)
 
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
-  const answeredCount = exam.questions.filter((item) => answers[item.id]?.trim()).length
-  const unansweredNumbers = exam.questions.flatMap((item, index) => (answers[item.id]?.trim() ? [] : [index + 1]))
+  const choiceGroups = Array.from(new Set(exam.questions.flatMap((item) => item.choiceGroup ? [item.choiceGroup] : [])))
+  const isAttemptedQuestion = (item: ExamQuestionRuntime) => !item.choiceGroup || selectedChoices[item.choiceGroup] === item.id
+  const activeQuestions = exam.questions.filter(isAttemptedQuestion)
+  const missingChoiceGroups = choiceGroups.filter((group) => !selectedChoices[group])
+  const answeredCount = activeQuestions.filter((item) => answers[item.id]?.trim()).length
+  const unansweredNumbers = exam.questions.flatMap((item, index) => (!isAttemptedQuestion(item) || answers[item.id]?.trim() ? [] : [index + 1]))
   const flaggedNumbers = exam.questions.flatMap((item, index) => (flagged[item.id] ? [index + 1] : []))
   const currentMarks = question ? marks[question.id] ?? emptyMarks() : emptyMarks()
   const practiceTotal = aoKeys.reduce((sum, key) => sum + practiceMarks[key], 0)
@@ -111,7 +132,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const totals = useMemo(() => {
     const ao = Object.fromEntries(aoKeys.map((key) => [key, { awarded: 0, available: 0 }])) as ExamResult['ao']
     let totalAwarded = 0
-    for (const item of exam.questions) {
+    for (const item of activeQuestions) {
       const awarded = marks[item.id] ?? emptyMarks()
       for (const key of aoKeys) {
         ao[key].awarded += awarded[key]
@@ -120,7 +141,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       }
     }
     return { ao, totalAwarded }
-  }, [exam.questions, marks])
+  }, [activeQuestions, marks])
 
   function startExam() {
     setQuestionPractice(false)
@@ -163,6 +184,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setAnswers({})
     setMarks({})
     setFlagged({})
+    setSelectedChoices({})
     setSecondsRemaining(exam.durationMinutes * 60)
     setResult(null)
     setSubmissionIds({})
@@ -215,13 +237,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function finishWriting() {
+    if (missingChoiceGroups.length > 0) return
+    const firstActive = exam.questions.findIndex(isAttemptedQuestion)
+    if (firstActive >= 0) setQuestionIndex(firstActive)
     setFinishedWriting(true)
   }
 
   function buildSubmissionIds() {
     if (Object.keys(submissionIds).length) return submissionIds
     const ids: Record<string, string> = { attempt: attemptId('exam-attempt') }
-    exam.questions.forEach((item) => { ids[item.id] = attemptId('exam-question') })
+    activeQuestions.forEach((item) => { ids[item.id] = attemptId('exam-question') })
     setSubmissionIds(ids)
     return ids
   }
@@ -235,7 +260,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     const durationMinutes = Math.min(exam.durationMinutes, activeDurationMs / 60_000)
 
     try {
-      for (const item of exam.questions) {
+      for (const item of activeQuestions) {
         const awarded = marks[item.id] ?? emptyMarks()
         await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
           id: ids[item.id],
@@ -309,9 +334,10 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       <section className="exam-simulator exam-launch" aria-labelledby={`full-exam-${exam.id}`}>
         <p className="eyebrow">{pLabel === 'exam' ? 'Exam practice' : `${pLabel} exam practice`}</p>
         <h2 id={`full-exam-${exam.id}`}>Full {exam.durationMinutes}-minute {pLabel}</h2>
-        <p className="intro">{exam.title}. Practise all {exam.questions.length} questions for {exam.totalMarks} marks under a running timer, or work on one question first.</p>
+        <p className="intro">{exam.title}. {exam.printedMarks && exam.printedMarks !== exam.totalMarks ? `${exam.printedMarks} marks are printed; you attempt ${exam.totalMarks} marks by choosing one question from each choice section.` : `${exam.totalMarks} marks.`} Work under the full {exam.durationMinutes}-minute timer.</p>
+        {exam.learnerClaim && <p className="exam-learner-claim">{exam.learnerClaim}</p>}
         <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
-        <div className="inline-actions"><button className="secondary" onClick={startQuestionPractice}>Practise one question</button><button className="primary" aria-label="Start timed exam" onClick={startExam}>Open timed exam</button></div>
+        <div className="inline-actions">{!exam.restrictedPilot && <button className="secondary" onClick={startQuestionPractice}>Practise one question</button>}<button className="primary" aria-label="Start timed exam" onClick={startExam}>Open timed exam</button></div>
       </section>
     )
   }
@@ -356,7 +382,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
 
         {!finishedWriting ? (
           <>
-            <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>
+            {exam.caseHtml && <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>}
             <nav className="question-nav question-grid" aria-label="Exam questions">
               {exam.questions.map((item, index) => {
                 const answered = Boolean(answers[item.id]?.trim())
@@ -382,17 +408,45 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             {question && (
               <article className="exam-question-sheet">
                 <div className="practice-meta">Question {questionIndex + 1} of {exam.questions.length} · {question.marks} marks</div>
+                {question.choiceGroup && (
+                  <label className="exam-choice-select">
+                    <input type="radio" name={question.choiceGroup} checked={selectedChoices[question.choiceGroup] === question.id} onChange={() => setSelectedChoices((current) => ({ ...current, [question.choiceGroup as string]: question.id }))} />
+                    Attempt this question for section {question.choiceGroup}
+                  </label>
+                )}
+                {question.stimulus && (
+                  <section className="exam-stimulus" aria-label={question.stimulus.title ?? 'Question stimulus'}>
+                    {question.stimulus.title && <h4>{question.stimulus.title}</h4>}
+                    {question.stimulus.narrative && <p>{question.stimulus.narrative}</p>}
+                    {question.stimulus.table && (
+                      <div className="exam-stimulus-table-wrap">
+                        <table>
+                          <caption>{question.stimulus.table.title}</caption>
+                          <thead><tr>{question.stimulus.table.columns.map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
+                          <tbody>{question.stimulus.table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.cells.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
+                        </table>
+                      </div>
+                    )}
+                  </section>
+                )}
                 <h3>{question.prompt}</h3>
-                <label className="answer-label">Your answer
-                  <textarea rows={14} value={answers[question.id] ?? ''} onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write as you would in the exam." />
-                </label>
-                <p className="exam-word-count">{(answers[question.id] ?? '').trim() ? (answers[question.id] ?? '').trim().split(/\s+/).length : 0} words</p>
+                {question.responseType === 'multiple-choice' ? (
+                  <fieldset className="exam-mcq"><legend>Your answer</legend>{question.options?.map((option) => <label key={option.label}><input type="radio" name={`answer-${question.id}`} value={option.label} checked={answers[question.id] === option.label} onChange={() => setAnswers((current) => ({ ...current, [question.id]: option.label }))} /><span><strong>{option.label}</strong> {option.text}</span></label>)}</fieldset>
+                ) : (
+                  <>
+                    <label className="answer-label">Your answer
+                      <textarea rows={14} value={answers[question.id] ?? ''} onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write as you would in the exam." />
+                    </label>
+                    <p className="exam-word-count">{(answers[question.id] ?? '').trim() ? (answers[question.id] ?? '').trim().split(/\s+/).length : 0} words</p>
+                  </>
+                )}
                 <button type="button" className="exam-flag-toggle" aria-pressed={Boolean(flagged[question.id])} onClick={() => setFlagged((current) => ({ ...current, [question.id]: !current[question.id] }))}>
                   <Icon name="flag" size="inline" />{flagged[question.id] ? 'Flagged for review (tap to remove)' : 'Flag for review'}
                 </button>
-                {(unansweredNumbers.length > 0 || flaggedNumbers.length > 0) && (
+                {(unansweredNumbers.length > 0 || flaggedNumbers.length > 0 || missingChoiceGroups.length > 0) && (
                   <p className="exam-finish-check">
                     Before you finish:
+                    {missingChoiceGroups.length > 0 && <> choose one question from section {missingChoiceGroups.join(' and ')}.</>}
                     {unansweredNumbers.length > 0 && <> not answered: question {unansweredNumbers.join(', ')}.</>}
                     {flaggedNumbers.length > 0 && <> flagged: question {flaggedNumbers.join(', ')}.</>}
                   </p>
@@ -400,7 +454,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 <div className="exam-nav-actions">
                   <button className="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</button>
                   {questionIndex < exam.questions.length - 1 && <button className="primary" onClick={() => setQuestionIndex((index) => index + 1)}>Next question</button>}
-                  <button className="secondary" onClick={finishWriting}>Finish and self-mark</button>
+                  <button className="secondary" disabled={missingChoiceGroups.length > 0} onClick={finishWriting}>Finish and self-mark</button>
                 </div>
               </article>
             )}
@@ -409,7 +463,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <div className="self-marking">
             <div className="activity-kind scored"><strong>Self-mark your paper</strong><span>Compare each answer with the supplied guidance, then award AO marks. Revision will show the derivation of your result and label it self-assessed.</span></div>
             <nav className="question-nav" aria-label="Questions to mark">
-              {exam.questions.map((item, index) => <button key={item.id} className={index === questionIndex ? 'active' : ''} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button>)}
+              {exam.questions.map((item, index) => isAttemptedQuestion(item) ? <button key={item.id} className={index === questionIndex ? 'active' : ''} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button> : null)}
             </nav>
             {question && (
               <article className="exam-question-sheet">

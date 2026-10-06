@@ -11,6 +11,7 @@ import {
 import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
 import { AqaBusinessQuestionBank } from './AqaBusinessQuestionBank'
 import { ExamSimulator } from './ExamSimulator'
+import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
 import {
@@ -371,8 +372,12 @@ export function CourseExperienceScreen({
                 <details className="course-card exam-paper-card" key={paperAdapter.manifest.id}>
                   <summary><div><span className="tag">{paperLabel(paperAdapter)}</span><h3>{paperAdapter.manifest.paper.name}</h3><p>{paperAdapter.catalogueEntry.totalMarks} marks · {paperAdapter.catalogueEntry.durationMinutes} minutes · {paperAdapter.listExams().length} {paperAdapter.listExams().length === 1 ? 'simulation' : 'simulations'}</p></div><span aria-hidden="true">＋</span></summary>
                   <div className="paper-exam-content">
+                    {course.examBoardName === 'AQA' && course.specificationCode === '7132' && (() => {
+                      const retainedMock = retainedAqa7132MockExamForPaper(paperAdapter.manifest.paper.number)
+                      return retainedMock ? <section className="exam-simulator-section" aria-label={`${paperAdapter.manifest.paper.name} retained mock simulator`}><ExamSimulator exam={retainedMock} moduleId={paperAdapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section> : null
+                    })()}
                     {paperAdapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${paperAdapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={paperAdapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>)}
-                    {paperAdapter.listExams().length === 0 && <p className="muted">No full simulation is published for this paper yet.</p>}
+                    {paperAdapter.listExams().length === 0 && !(course.examBoardName === 'AQA' && course.specificationCode === '7132' && retainedAqa7132MockExamForPaper(paperAdapter.manifest.paper.number)) && <p className="muted">No full simulation is published for this paper yet.</p>}
                   </div>
                 </details>
               ))}
