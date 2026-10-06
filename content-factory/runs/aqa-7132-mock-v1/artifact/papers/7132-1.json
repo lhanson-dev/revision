@@ -1,0 +1,1855 @@
+{
+  "schema_version": 1,
+  "plan_id": "aqa-business-7132-2027-mock-set-plan-v1",
+  "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+  "component_id": "7132/1",
+  "name": "Business 1",
+  "duration_minutes": 120,
+  "attempted_raw_marks": 100,
+  "printed_raw_marks": 150,
+  "learner_claim": "A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.",
+  "shared_contexts": [],
+  "questions": [
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.3.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-MKT-006",
+        "BUS-MKT-007",
+        "BUS-MKT-008",
+        "BUS-MKT-009",
+        "BUS-STR-006"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-01",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is reviewing its marketing decisions.",
+        "stem": "Select the option that best defines an integrated marketing mix.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Using promotion as the sole method of increasing sales."
+          },
+          {
+            "label": "B",
+            "text": "Coordinating marketing decisions so that they consistently support the target customer and positioning."
+          },
+          {
+            "label": "C",
+            "text": "Setting the lowest possible price in every market."
+          },
+          {
+            "label": "D",
+            "text": "Classifying each product according to market growth and relative market share."
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because promotion is only one element of marketing and does not alone create an integrated mix.",
+            "B is correct because an integrated marketing mix aligns decisions such as product, price, promotion, channels and, where relevant, service elements.",
+            "C is incorrect because low pricing may conflict with a business's positioning, costs or customer-value proposition.",
+            "D is incorrect because this describes the purpose of the BCG growth-share matrix, a portfolio framework rather than an integrated marketing mix."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EXT-002",
+        "BUS-EXT-003",
+        "BUS-EXT-006",
+        "BUS-FND-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-02",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is considering how political and legal conditions could affect its operations.",
+        "stem": "Select the statement that best describes a possible benefit of regulation for a business.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "It guarantees that the business will make a profit."
+          },
+          {
+            "label": "B",
+            "text": "It can create common standards that increase customer trust."
+          },
+          {
+            "label": "C",
+            "text": "It removes all competition from the market."
+          },
+          {
+            "label": "D",
+            "text": "It ensures that a business has market power."
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because regulation cannot guarantee profitability.",
+            "B is correct because standards can protect customers and improve trust in businesses that meet them.",
+            "C is incorrect because regulation does not necessarily remove competition.",
+            "D is incorrect because market power depends on competitive conditions such as substitutes, switching costs and barriers to entry."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "]},"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.2.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-007",
+        "BUS-PEO-008",
+        "BUS-PEO-010"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-03",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is deciding how much decision authority its manager should retain when introducing a new procedure.",
+        "stem": "Select the term for a leadership approach in which the manager progressively shares consultation and decision freedom with employees, moving from manager-centred towards subordinate-centred decision making.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Autocratic/directive leadership"
+          },
+          {
+            "label": "B",
+            "text": "Paternalistic leadership"
+          },
+          {
+            "label": "C",
+            "text": "The Tannenbaum-Schmidt leadership continuum"
+          },
+          {
+            "label": "D",
+            "text": "Centralisation"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "C",
+          "option_rationale": [
+            "A is incorrect because directive leadership retains most decision authority with the leader.",
+            "B is incorrect because paternalistic leadership combines authority with concern and guidance, rather than describing a continuum of shared decision freedom.",
+            "C is correct because the Tannenbaum-Schmidt continuum describes movement from manager-centred to subordinate-centred decision making.",
+            "D is incorrect because centralisation concerns where organisational decision authority is concentrated, rather than this leadership continuum."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "C"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.3.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FND-005",
+        "BUS-MKT-002",
+        "BUS-MKT-007"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-04",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business wants to set a marketing objective that indicates whether customers are continuing to choose its brand.",
+        "stem": "Select the marketing objective that would most directly measure brand loyalty.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Increase total market size by 8%"
+          },
+          {
+            "label": "B",
+            "text": "Increase repeat purchases by existing customers by 12%"
+          },
+          {
+            "label": "C",
+            "text": "Increase sales volume by 12%"
+          },
+          {
+            "label": "D",
+            "text": "Increase value market share by 3 percentage points"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because total market size measures sales across the whole defined market, rather than customers' tendency to keep choosing one brand.",
+            "B is correct because repeat purchasing by existing customers is a direct indicator of customers continuing to choose the brand.",
+            "C is incorrect because sales volume measures units sold and may include purchases from new customers rather than loyalty.",
+            "D is incorrect because market share measures a firm's sales relative to total market sales, not specifically repeat choice by customers."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ": B"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.10.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-PEO-011",
+        "BUS-STR-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-05",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business organises project teams around employees' specialist expertise to solve specific client problems.",
+        "stem": "Select the Handy culture type most closely described.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Power culture"
+          },
+          {
+            "label": "B",
+            "text": "Person culture"
+          },
+          {
+            "label": "C",
+            "text": "Role culture"
+          },
+          {
+            "label": "D",
+            "text": "Task culture"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "D",
+          "option_rationale": [
+            "Power culture concentrates influence around a central source of power rather than organising work principally around specialist problem-solving teams.",
+            "Person culture places individual members and their autonomy at the centre, rather than prioritising project delivery through expertise.",
+            "Role culture emphasises defined responsibilities and procedures, rather than flexible teams assembled to address particular problems.",
+            "Task culture forms around expertise and project or problem delivery."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ")},"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.8.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-007",
+        "BUS-STR-004"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-06",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business plans to sell an existing product to customers in a country where it has not previously operated.",
+        "stem": "Select the Ansoff growth direction described.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Market penetration"
+          },
+          {
+            "label": "B",
+            "text": "Market development"
+          },
+          {
+            "label": "C",
+            "text": "Product development"
+          },
+          {
+            "label": "D",
+            "text": "Diversification"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because market penetration uses existing products in existing markets.",
+            "B is correct because the product is existing and the market is new to the business.",
+            "C is incorrect because product development introduces a new product to an existing market.",
+            "D is incorrect because diversification involves both a new product and a new market."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ".1 mark for B: Market development."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.7"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EXT-002",
+        "BUS-STR-005"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-07",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is assessing the competitive pressures in its industry using Porter's Five Forces.",
+        "stem": "Select the option that identifies a substitute in Porter's Five Forces.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "A different business selling an identical product"
+          },
+          {
+            "label": "B",
+            "text": "An alternative solution that meets the same customer need"
+          },
+          {
+            "label": "C",
+            "text": "A supplier that increases the price of an input"
+          },
+          {
+            "label": "D",
+            "text": "A potential new firm entering the industry"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because a business selling an identical product is a direct rival rather than necessarily a substitute.",
+            "B is correct because substitutes are alternative solutions that satisfy a similar customer need.",
+            "C is incorrect because this describes supplier bargaining power.",
+            "D is incorrect because this describes the threat of new entrants."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ". "
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.10.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-007",
+        "BUS-EXT-007",
+        "BUS-STR-001",
+        "BUS-STR-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-08",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business continues to use the same high-street retail strategy while customers increasingly purchase through online competitors.",
+        "stem": "Select the term that describes a strategy becoming progressively less suited to changes in its business environment.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Strategic drift"
+          },
+          {
+            "label": "B",
+            "text": "Contingency planning"
+          },
+          {
+            "label": "C",
+            "text": "Risk transfer"
+          },
+          {
+            "label": "D",
+            "text": "Incremental change"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "A",
+          "option_rationale": [
+            "A is correct because strategic drift is a growing mismatch between a business's strategy and changes in its environment.",
+            "B is incorrect because contingency planning prepares responses to possible disruptions.",
+            "C is incorrect because risk transfer shifts specified financial or contractual consequences to another party.",
+            "D is incorrect because incremental change means gradual adjustments and may prevent, rather than describe, strategic drift."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "A"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.5"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-EXT-001",
+        "BUS-EXT-003",
+        "BUS-EXT-004"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-09",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A UK manufacturer buys components from overseas suppliers.",
+        "stem": "Select the term for a tax imposed on imported goods.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Quota"
+          },
+          {
+            "label": "B",
+            "text": "Tariff"
+          },
+          {
+            "label": "C",
+            "text": "Subsidy"
+          },
+          {
+            "label": "D",
+            "text": "Foreign direct investment"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A quota restricts the quantity of a product that may be imported rather than taxing it.",
+            "B A tariff is a tax charged on imported goods.",
+            "C A subsidy is financial support for specified activity, rather than a tax on imports.",
+            "D Foreign direct investment involves lasting investment in business operations in another country."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "},"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.2.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-007",
+        "BUS-FND-006",
+        "BUS-PEO-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-10",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is deciding how to engage different stakeholder groups before making a major decision.",
+        "stem": "Select the most appropriate approach for a stakeholder with high power and high interest in the decision.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Monitor the stakeholder with minimal communication."
+          },
+          {
+            "label": "B",
+            "text": "Keep the stakeholder informed, but do not seek feedback."
+          },
+          {
+            "label": "C",
+            "text": "Keep the stakeholder satisfied through occasional updates."
+          },
+          {
+            "label": "D",
+            "text": "Engage closely with the stakeholder and seek their views."
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "D",
+          "option_rationale": [
+            "A is appropriate for stakeholders with low power and low interest, rather than high power and high interest.",
+            "B is more appropriate for stakeholders with low power but high interest.",
+            "C is more appropriate for stakeholders with high power but low interest.",
+            "D is correct because stakeholders with both high power and high interest should normally receive close engagement and opportunities to provide feedback."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ". "
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-EVI-006",
+        "BUS-EVI-007",
+        "BUS-EXT-006",
+        "BUS-STR-002"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-11",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is reviewing its overall performance measures before setting its next strategic plan.",
+        "stem": "Select the measure set that best reflects a Triple Bottom Line approach to assessing overall business performance.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Profit, market share and sales revenue only"
+          },
+          {
+            "label": "B",
+            "text": "Energy use, employee wellbeing and profit"
+          },
+          {
+            "label": "C",
+            "text": "Share price, dividend per share and operating profit"
+          },
+          {
+            "label": "D",
+            "text": "Production output, capacity utilisation and inventory turnover"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "Incorrect: these are economic or market measures and do not include social or environmental performance.",
+            "Correct: this combines environmental performance (energy use), social performance (employee wellbeing) and economic performance (profit).",
+            "Incorrect: these are financial measures and do not assess people or planet impacts.",
+            "Incorrect: these are operational measures and do not assess social and environmental outcomes."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ": B"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.9.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-MKT-009",
+        "BUS-OPS-002",
+        "BUS-STR-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-12",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A retailer uses software to identify purchasing patterns within its customer transaction records.",
+        "stem": "Select the term that describes analysing datasets to find potentially useful patterns or relationships.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Automation"
+          },
+          {
+            "label": "B",
+            "text": "Data mining"
+          },
+          {
+            "label": "C",
+            "text": "E-commerce"
+          },
+          {
+            "label": "D",
+            "text": "Flow production"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "Automation uses technology to perform tasks with reduced direct human intervention; it does not specifically mean identifying patterns in datasets.",
+            "Data mining uses analytical techniques to discover potentially useful patterns, associations or predictive relationships in data.",
+            "E-commerce is the buying and selling of goods or services online.",
+            "Flow production is a repeated, sequential method used for relatively high-volume output."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "B: Data mining"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.1.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EXT-001",
+        "BUS-EXT-002",
+        "BUS-EXT-006",
+        "BUS-FND-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-13",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Select the statement that is correct about the external environment of a business.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "It consists only of factors that the business can directly control, such as its staffing levels and production methods."
+          },
+          {
+            "label": "B",
+            "text": "It includes conditions outside a business's direct control, such as interest rates, competition and demographic change."
+          },
+          {
+            "label": "C",
+            "text": "It affects every business in exactly the same way, regardless of its customers, costs or finance."
+          },
+          {
+            "label": "D",
+            "text": "It can be removed as a source of risk if managers prepare a sufficiently detailed forecast."
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect because staffing and production methods are internal factors under business control.",
+            "B is correct because the external environment includes outside conditions that can influence business decisions and outcomes.",
+            "C is incorrect because the effect of an external change depends on a business's particular exposure, such as its customers, costs and borrowing.",
+            "D is incorrect because planning can reduce or prepare for some risks, but cannot eliminate external uncertainty."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "B"
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.3.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-MKT-005"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-14",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business divides customers into groups according to differences that affect their needs and likely response to its offer.",
+        "stem": "Select the term for dividing a broad market into meaningful customer groups.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Segmentation"
+          },
+          {
+            "label": "B",
+            "text": "Targeting"
+          },
+          {
+            "label": "C",
+            "text": "Positioning"
+          },
+          {
+            "label": "D",
+            "text": "Market mapping"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "A",
+          "option_rationale": [
+            "A is correct because segmentation divides a broad market into meaningful groups.",
+            "B is incorrect because targeting is choosing which segment or segments to prioritise.",
+            "C is incorrect because positioning is the intended place of an offer in customers' minds relative to alternatives.",
+            "D is incorrect because market mapping displays perceived positions using selected dimensions."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "A — Segmentation."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-006",
+        "BUS-EVI-007",
+        "BUS-FND-005",
+        "BUS-STR-001",
+        "BUS-STR-003"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-A-15",
+        "family": "MCQ",
+        "command_word": "Select",
+        "marks": 1,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 0,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "A business is deciding how to pursue growth.",
+        "stem": "Select the statement that is a strategy rather than an objective or a tactic.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "Increase annual revenue by 10%."
+          },
+          {
+            "label": "B",
+            "text": "Run a social-media advertising campaign."
+          },
+          {
+            "label": "C",
+            "text": "Serve budget-conscious customers through a low-cost offer supported by efficient operations and limited service."
+          },
+          {
+            "label": "D",
+            "text": "Open three new stores next year."
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "C",
+          "option_rationale": [
+            "A is an objective because it states a desired result.",
+            "B is a tactic because it is a specific action used to implement a wider approach.",
+            "C is correct because it sets out coherent choices about customers, value offered and supporting capabilities.",
+            "D is an action or target, rather than a coherent set of longer-term choices."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": ". "
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.4.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FIN-002",
+        "BUS-OPS-001",
+        "BUS-OPS-003",
+        "BUS-OPS-004",
+        "BUS-PEO-001"
+      ],
+      "quantitative_marks": 4,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-01",
+        "family": "SHORT_ANSWER",
+        "command_word": "Calculate",
+        "marks": 4,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 2,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "Revision-authored scenario: Northline Cycles assembles commuter bicycles. The business wants to monitor its operating performance for one week.",
+        "stem": "Using the data in the table, calculate for the week: total cost, average cost per bicycle, capacity utilisation and labour productivity per employee. Show your workings.",
+        "table": {
+          "title": "Northline Cycles: weekly operating data",
+          "columns": [
+            "Measure",
+            "Data"
+          ],
+          "rows": [
+            {
+              "cells": [
+                "Fixed costs",
+                "£12,000"
+              ]
+            },
+            {
+              "cells": [
+                "Variable cost per bicycle",
+                "£8"
+              ]
+            },
+            {
+              "cells": [
+                "Actual output",
+                "3,000 bicycles"
+              ]
+            },
+            {
+              "cells": [
+                "Maximum weekly capacity",
+                "4,000 bicycles"
+              ]
+            },
+            {
+              "cells": [
+                "Number of employees",
+                "30"
+              ]
+            }
+          ]
+        },
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Calculates total cost.",
+              "accept": [
+                "£36,000",
+                "£12,000 + (£8 × 3,000) = £36,000"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates average cost per bicycle.",
+              "accept": [
+                "£12 per bicycle",
+                "£36,000 ÷ 3,000 = £12 per bicycle"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates capacity utilisation.",
+              "accept": [
+                "75%",
+                "3,000 ÷ 4,000 × 100 = 75%"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates labour productivity per employee.",
+              "accept": [
+                "100 bicycles per employee",
+                "3,000 ÷ 30 = 100 bicycles per employee"
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Total cost = £12,000 + (£8 × 3,000) = £36,000.\nAverage cost = £36,000 ÷ 3,000 = £12 per bicycle.\nCapacity utilisation = 3,000 ÷ 4,000 × 100 = 75%.\nLabour productivity = 3,000 ÷ 30 = 100 bicycles per employee."
+        },
+        "calculations": [
+          {
+            "label": "Total cost",
+            "method": "sum",
+            "operands": [
+              12000,
+              24000
+            ],
+            "stated_answer": 36000,
+            "unit": "£",
+            "marks_supported": 1
+          },
+          {
+            "label": "Average cost per bicycle",
+            "method": "quotient",
+            "operands": [
+              36000,
+              3000
+            ],
+            "stated_answer": 12,
+            "unit": "£ per bicycle",
+            "marks_supported": 1
+          },
+          {
+            "label": "Capacity utilisation",
+            "method": "percent_of",
+            "operands": [
+              3000,
+              4000
+            ],
+            "stated_answer": 75,
+            "unit": "%",
+            "marks_supported": 1
+          },
+          {
+            "label": "Labour productivity per employee",
+            "method": "quotient",
+            "operands": [
+              3000,
+              30
+            ],
+            "stated_answer": 100,
+            "unit": "bicycles per employee",
+            "marks_supported": 1
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-FIN-006",
+        "BUS-FIN-010",
+        "BUS-FIN-011",
+        "BUS-FIN-012",
+        "BUS-FIN-013",
+        "BUS-FIN-014"
+      ],
+      "quantitative_marks": 4,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-02",
+        "family": "SHORT_ANSWER",
+        "command_word": "Calculate",
+        "marks": 4,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 3,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "Northgate Cycles Ltd has reported the following figures at its year end.",
+        "stem": "Calculate Northgate Cycles Ltd's return on capital employed (ROCE). Use capital employed = total assets − current liabilities. Show your workings.",
+        "table": {
+          "title": "Financial information for Northgate Cycles Ltd",
+          "columns": [
+            "Item",
+            "Value (£)"
+          ],
+          "rows": [
+            {
+              "cells": [
+                "Operating profit",
+                "240,000"
+              ]
+            },
+            {
+              "cells": [
+                "Total assets",
+                "1,500,000"
+              ]
+            },
+            {
+              "cells": [
+                "Current liabilities",
+                "300,000"
+              ]
+            }
+          ]
+        },
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Calculates capital employed.",
+              "accept": [
+                "£1,500,000 − £300,000 = £1,200,000"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Uses the ROCE formula: operating profit ÷ capital employed × 100.",
+              "accept": [
+                "ROCE = operating profit / capital employed × 100",
+                "£240,000 / £1,200,000 × 100"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Correctly substitutes the operating profit and calculated capital employed into the formula.",
+              "accept": [
+                "£240,000 ÷ £1,200,000 × 100"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates ROCE correctly.",
+              "accept": [
+                "20%",
+                "0.20 × 100 = 20%"
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Capital employed = £1,500,000 − £300,000 = £1,200,000.\n\nROCE = (£240,000 ÷ £1,200,000) × 100 = 20%."
+        },
+        "calculations": [
+          {
+            "label": "capital employed",
+            "method": "difference",
+            "operands": [
+              1500000,
+              300000
+            ],
+            "stated_answer": 1200000,
+            "unit": "£",
+            "marks_supported": 1
+          },
+          {
+            "label": "return on capital employed",
+            "method": "percent_of",
+            "operands": [
+              240000,
+              1200000
+            ],
+            "stated_answer": 20,
+            "unit": "%",
+            "marks_supported": 3
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.6.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-MOD-001",
+        "BUS-MOD-002",
+        "BUS-MOD-003",
+        "BUS-PEO-005",
+        "BUS-PEO-006"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-03",
+        "family": "SHORT_ANSWER",
+        "command_word": "Explain",
+        "marks": 4,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 3,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "Kestrel Kitchens makes flat-pack kitchen units. Assembly employees repeat the same fitting task throughout each shift. Staff turnover is high. The business is considering job enrichment, giving employees responsibility for checking the quality of their completed units and suggesting improvements to the assembly process.",
+        "stem": "Explain how job enrichment could motivate Kestrel Kitchens' assembly employees. Use Herzberg's theory in your answer.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Shows relevant knowledge of Herzberg's theory or job enrichment.",
+              "accept": [
+                "Herzberg identified responsibility, achievement or recognition as motivators associated with positive job satisfaction.",
+                "Job enrichment increases responsibility, challenge or meaningful control within a job.",
+                "Job enrichment is a non-financial method of reward."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Applies job enrichment to Kestrel Kitchens.",
+              "accept": [
+                "Employees would be responsible for checking the quality of their own completed kitchen units.",
+                "Employees could suggest improvements to the assembly process.",
+                "The change gives assembly employees more responsibility than repeating only one fitting task."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Explains a motivation mechanism in context.",
+              "accept": [
+                "Greater responsibility may make employees feel more trusted or give them a sense of achievement.",
+                "Contributing improvement ideas may provide recognition or make the work feel more meaningful.",
+                "The wider role may reduce the monotony of repeating the same fitting task."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Explains a likely business-related outcome in context.",
+              "accept": [
+                "More motivated employees may put greater effort into their work.",
+                "Employees may be less likely to leave, helping Kestrel reduce its high staff turnover.",
+                "Employees may take greater care when checking units, potentially improving quality."
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Herzberg suggested that responsibility and achievement can act as motivators. Giving Kestrel's assembly employees responsibility for quality checks and process-improvement ideas enriches their previously repetitive jobs. This could make employees feel trusted and give them a greater sense of achievement, increasing motivation. As a result, employees may be less likely to leave, helping to reduce Kestrel's high staff turnover."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.6.5"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FND-006",
+        "BUS-PEO-009",
+        "BUS-PEO-011"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-04",
+        "family": "SHORT_ANSWER",
+        "command_word": "Explain",
+        "marks": 5,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 3,
+          "AO3": 1,
+          "AO4": 0
+        },
+        "context": "Harbour Furniture Ltd plans to change shift patterns at its factory to meet more weekend orders. Employees are concerned that the proposed changes could disrupt childcare and travel arrangements. Managers are considering setting up a representative employee consultation group before making a final decision.",
+        "stem": "Explain how employee involvement through the representative consultation group could improve employee relations at Harbour Furniture Ltd.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Shows understanding of employee involvement or representative consultation.",
+              "accept": [
+                "Employee involvement gives employees a say in decisions that affect them.",
+                "Representative consultation allows employee representatives to discuss workforce views with management.",
+                "Consultation differs from simply informing employees because employees can provide feedback before the decision is final."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Applies involvement to the proposed shift-pattern decision.",
+              "accept": [
+                "Representatives could gather employees' concerns about childcare, travel or weekend working.",
+                "Management could explain why additional weekend capacity is needed and discuss the proposed shift patterns with representatives."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Explains that consultation creates two-way communication.",
+              "accept": [
+                "Employees can raise practical problems with the proposal while managers can clarify the business need.",
+                "Management can receive feedback rather than relying on assumptions about how employees will respond."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Explains how this may improve the decision or reduce conflict.",
+              "accept": [
+                "Employee knowledge could help management adapt shifts, for example by changing timings or providing more notice.",
+                "Considering concerns may make the final arrangements appear fairer and reduce resentment or disputes.",
+                "A more workable shift plan is less likely to create avoidable employee-relations conflict."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Explains a likely employee-relations outcome in context.",
+              "accept": [
+                "Employees may feel their views are respected, improving trust between the workforce and management.",
+                "Greater acceptance of the final shift arrangements could support cooperation when weekend orders increase.",
+                "This benefit depends on management genuinely considering feedback; consultation that cannot influence anything may raise expectations and damage trust."
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Employee involvement would allow workforce representatives to discuss employees' concerns about childcare, travel and weekend working with Harbour Furniture's managers before shift patterns are finalised. This creates two-way communication: managers can explain the need to meet weekend orders, while employees can identify practical problems or suggest changes. Management may then adjust the arrangements, such as giving more notice or changing shift timings, making the decision seem fairer and more workable. As employees may feel their views have been considered, trust and acceptance of the new shifts could improve, reducing the risk of conflict. However, this depends on consultation being meaningful rather than management merely announcing a decision already made."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.4.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-OPS-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-05",
+        "family": "SHORT_ANSWER",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 4,
+          "AO3": 3,
+          "AO4": 1
+        },
+        "context": "Harbour Homeware Ltd makes reusable food containers. It currently relies on final inspection to identify containers with loose lids or cracked seals before dispatch. Recently, some defective containers have reached customers, resulting in returns and online complaints. The operations manager is considering introducing quality assurance procedures, including staff training, standardised machine settings and checks during production.",
+        "stem": "Analyse how introducing quality assurance procedures could affect Harbour Homeware Ltd. Your answer should distinguish quality assurance from final inspection.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited knowledge of quality assurance or inspection, with generic or undeveloped links to Harbour Homeware Ltd. May identify that quality assurance aims to reduce defects."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows sound applied analysis. Explains that quality assurance focuses on preventing defects through production processes, rather than merely detecting faulty finished containers, and develops one or more consequences for the business."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Shows well-developed, balanced analysis applied throughout to Harbour Homeware Ltd. Clearly distinguishes prevention through quality assurance from final inspection, and traces multiple relevant consequences, including the potential benefits and implementation difficulties of process-based quality procedures."
+            }
+          ],
+          "indicative_content": [
+            "Quality assurance is based on designing and controlling production processes to make defects less likely; final inspection is quality control because it detects faulty finished containers.",
+            "Training workers and using standard machine settings could reduce loose lids and cracked seals during production.",
+            "Fewer defects may reduce scrap, rework, returns and the staff time needed to deal with complaints, lowering costs and improving productivity.",
+            "More reliable containers could improve customer experience and reduce damaging online complaints, supporting repeat purchases and brand trust.",
+            "Final inspection can stop some defective products reaching customers, but it does not remove the underlying cause of recurring faults. Quality assurance can therefore reduce recurrence.",
+            "Harbour Homeware may incur training costs and need staff to follow procedures consistently. If procedures are poorly designed or not followed, the expected reduction in defects may not occur.",
+            "Quality assurance and final inspection can be complementary: process prevention reduces the number of faults, while inspection may still identify defects that arise unexpectedly."
+          ],
+          "model_answer": "Quality assurance would differ from Harbour Homeware's final inspection because it aims to prevent defects by controlling the production process, whereas final inspection identifies faulty containers after they have been made. For example, staff training and standardised machine settings could reduce the likelihood of loose lids or cracked seals occurring in the first place.\n\nThis could reduce rework, scrap and customer returns. As fewer containers need correcting or replacing, employees may spend more time producing saleable output, which could improve productivity and lower unit costs. It may also reduce online complaints, helping customer trust and repeat purchasing.\n\nHowever, introducing quality assurance may require spending on training and creating procedures, and its success depends on workers applying the settings consistently. Final inspection may still be useful to catch unexpected faults, but quality assurance is more likely to address the process causes of Harbour Homeware's repeated defects."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.1.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FIN-008",
+        "BUS-FIN-012",
+        "BUS-FND-003",
+        "BUS-FND-004"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P1-B-06",
+        "family": "SHORT_ANSWER",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 3,
+          "AO3": 2,
+          "AO4": 3
+        },
+        "context": "Northton Foods Ltd is owned by its two founders, who are also directors. The business needs substantial finance to build a new production site. The founders are considering becoming a plc and issuing shares to the public rather than taking out a large long-term loan.",
+        "stem": "Analyse the implications for Northton Foods of becoming a plc and issuing shares to finance the new production site. [9 marks]",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited knowledge of share ownership, limited liability, a plc, equity finance or borrowing. Application to Northton is absent or limited. Analysis is mainly undeveloped assertions."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows sound knowledge and application to Northton's proposed expansion. Analyses one or more relevant consequences, such as raising equity finance, dilution of founder ownership, reduced loan repayment pressure, or increased reporting and shareholder accountability. Chains of reasoning may be uneven or lack a developed consequence."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Shows thorough, well-applied analysis of the financing and ownership implications for Northton. Develops linked consequences of public equity finance against debt, including dilution/control and governance or accountability effects. Clearly recognises that Northton is already an Ltd, so its shareholders normally already have limited liability; becoming a plc does not newly create this protection. Distinguishes shareholder liability from directors' responsibilities."
+            }
+          ],
+          "indicative_content": [
+            "Northton is already a limited company, so its shareholders normally already benefit from limited liability. Conversion to a plc would not newly limit the founders' normal shareholder exposure.",
+            "A plc can offer shares to the public, potentially allowing Northton to raise a larger amount of share capital for the production site than may be available from the founders or a small private investor group.",
+            "Issuing new shares provides equity capital without contractual interest payments or scheduled loan repayments. This could reduce fixed cash-flow pressure while the new site is being built and before it generates sufficient sales.",
+            "Equity investors acquire ownership interests. If public investors buy newly issued shares, the founders' percentage ownership is diluted, potentially weakening their ability to control decisions.",
+            "More shareholders and a wider separation between ownership and management can increase the need for clear reporting, oversight and accountability. Investors may expect information and returns, including possible dividends, although dividends are not guaranteed.",
+            "A large long-term loan would avoid ownership dilution and allow the founders to retain control, but interest and repayment obligations would create fixed demands on future cash flows and increase financial risk if expansion income is uncertain.",
+            "The directors would still have responsibilities for governing the company and making decisions appropriately. Limited liability for shareholders does not remove directors' duties.",
+            "A plc may face greater shareholder scrutiny and possible pressure over performance or share price. This may constrain the founders' freedom compared with the current closely held Ltd structure.",
+            "A supported conclusion may depend on whether Northton's priority is protecting cash flow during uncertain expansion or retaining close founder control, and on the availability and terms of debt versus equity finance."
+          ],
+          "model_answer": "Becoming a plc could enable Northton to issue shares to a much wider group of investors and raise substantial share capital for the new site. Unlike a large loan, this equity finance would not require contractual interest payments or repayments. This could be valuable while the site is being built, because Northton may have high cash outflows before the expansion produces additional revenue.\n\nHowever, investors buying newly issued shares would gain ownership interests, so the founders' proportion of the company would fall. Their control over major decisions could therefore weaken. A plc also has a wider shareholder base, increasing the need for reporting, oversight and accountability. Shareholders may expect returns, potentially including dividends, although a dividend is not guaranteed.\n\nNorthton is already an Ltd, so its shareholders normally already have limited liability. Becoming a plc would not newly provide this protection; the main change is greater access to public equity finance alongside more diluted ownership and shareholder scrutiny. Limited liability also does not remove the founders' responsibilities as directors. If Northton's future cash flows are uncertain, avoiding fixed loan repayments may justify dilution; if retaining founder control is the priority, a loan may be preferred despite its repayment risk."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.6.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-PEO-001",
+        "BUS-PEO-002",
+        "BUS-PEO-004",
+        "BUS-PEO-005",
+        "BUS-PEO-011"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": "P1-C",
+      "required_in_response_path": false,
+      "question": {
+        "slot_id": "P1-C-01",
+        "family": "ESSAY",
+        "command_word": "Evaluate",
+        "marks": 25,
+        "ao_marks": {
+          "AO1": 4,
+          "AO2": 6,
+          "AO3": 7,
+          "AO4": 8
+        },
+        "context": "Northshore Home Systems makes smart heating controls. It plans to launch a new product range within 18 months and needs more software technicians, field installers and customer-support employees across two UK locations. Management is concerned that several experienced technicians have left, while applicants have varied backgrounds and expectations about flexible working. The business wants to improve employee engagement, build a pipeline of talent, provide training for new technology, increase workforce diversity and ensure employees act consistently with its customer-care values. \n\nThe operations director favours a hard HRM approach: set precise staffing numbers, tightly measure individual output, use fixed procedures and keep labour costs low. The people director favours a soft HRM approach: consult employees on job design, offer development and career opportunities, use flexible working where possible, and involve employee representatives in major changes. Managers also report that some service delays may result from unclear workflows and unsuitable software, rather than solely from employee effort.",
+        "stem": "Evaluate whether Northshore Home Systems should adopt a predominantly soft HRM approach, rather than a predominantly hard HRM approach, to achieve its human resource objectives.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited relevant knowledge of HRM, perhaps identifying one hard or soft HRM feature. Application to Northshore is generic or asserted. Analysis is limited, with little or no supported judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows some accurate knowledge of hard and/or soft HRM and makes some relevant use of the context. Explains one or more plausible effects on employees or business performance, although chains of reasoning may be partial. A judgement is present but limited or insufficiently justified."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 15,
+              "descriptor": "Shows sound, reasonably broad knowledge of HR objectives and hard and soft HRM. Applies this to Northshore's skills, retention, technology or workforce issues. Analyses developed consequences for capability, engagement, cost, service or flexibility. Reaches a supported judgement, though evaluation may be uneven or alternatives may not be fully weighed."
+            },
+            {
+              "level": 4,
+              "min_marks": 16,
+              "max_marks": 20,
+              "descriptor": "Shows detailed and well-selected knowledge of the relevant HR objectives and approaches. Application is consistently linked to Northshore's planned launch, workforce needs and operational constraints. Analysis develops several connected effects and recognises that employee performance also depends on job design, systems and resources. Evaluation compares the approaches and reaches a well-supported, context-sensitive judgement."
+            },
+            {
+              "level": 5,
+              "min_marks": 21,
+              "max_marks": 25,
+              "descriptor": "Shows precise, comprehensive and selective knowledge, integrated throughout a sustained response. Analysis rigorously examines how a blended or predominantly soft approach could affect workforce capability, engagement, retention, values, diversity and service, alongside costs, control and implementation risks. Evaluation is balanced and perceptive, tests assumptions in the case, and reaches a clear, prioritised judgement with convincing conditions and trade-offs."
+            }
+          ],
+          "indicative_content": [
+            "Hard HRM focuses on aligning workforce numbers, costs, performance and deployment with business requirements. It is not simply harsh management. For Northshore, it could help ensure enough installers, technicians and support employees are available in the required locations before the product launch.",
+            "Soft HRM treats employees as a source of capability and commitment, using involvement, communication, development and trust to support organisational outcomes. It is not automatically better for employees or incompatible with business targets.",
+            "A predominantly soft approach could support engagement and retention among experienced technicians. Consultation over job design and flexible working may increase perceived autonomy or work-life fit, reducing the loss of valuable product and customer knowledge. This could improve continuity and service quality during the launch.",
+            "Training and wider development are important because Northshore's new product creates a technology-related capability requirement. Development may enable existing employees to move into new roles and support succession, potentially reducing recruitment uncertainty. However, training attendance does not prove improved performance; new skills must be used in supportive workflows, with suitable systems and management support.",
+            "Talent acquisition should begin with the capabilities required, rather than automatically replacing former job descriptions. Northshore may need a longer-term pipeline for scarce software technicians, while internal progression can retain organisational knowledge. External recruitment may still be required to bring skills or experience not held internally.",
+            "An inclusive approach to recruitment, development and employee voice could help Northshore access a wider range of applicants and perspectives. However, diversity benefits depend on inclusive practice, communication and fair implementation, rather than merely increasing the number of applicants from different backgrounds.",
+            "Soft HRM can reinforce customer-care values if leaders, rewards, job design and everyday decisions consistently support those values. Employee involvement may identify delivery risks or customer problems earlier. A stated value will have little effect if output measures or manager behaviour reward speed at the expense of customer care.",
+            "The operations director's hard approach may be valuable where launch timing, staffing coverage, cost control and consistent procedures are critical. Clear workforce planning is needed to match the number, skills, locations and timing of employees to expected demand. Flexible arrangements cannot remove the need for dependable service cover and coordination.",
+            "Tight individual output targets may create focus and expose capacity problems, but can encourage unintended behaviour if they reward speed over quality or collaboration. They may also undermine the customer-care values that Northshore seeks to embed.",
+            "The reported service delays indicate that low effort may not be the root cause. If workflows or software are unsuitable, pressure, targets or motivational initiatives alone will not solve the problem. Northshore should diagnose process, resources, capability and job-design issues before attributing delays to employee motivation.",
+            "Employee representatives can provide structured consultation over major changes and may improve information quality and trust. However, consultation can slow decisions and will only be meaningful if management considers and responds to concerns. It does not necessarily transfer final decision authority.",
+            "A balanced conclusion may favour predominantly soft HRM for scarce skills, retention, technology-related development and values alignment, but retain hard HRM disciplines for workforce planning, clear performance expectations, cost control and service coverage. The appropriate balance depends on labour-market scarcity, financial capacity, whether systems are fixed, and the time available before launch."
+          ],
+          "model_answer": "Northshore should use predominantly soft HRM, but only if it retains hard HRM controls over the workforce requirements needed for the launch. A soft approach would be particularly suitable because the business needs scarce software technicians and is losing experienced employees. Development, career opportunities and employee involvement could make employees more likely to remain, while training could build the capability needed for the new smart-heating range. Retaining technicians also preserves product and customer knowledge, which could improve service during a period of change.\n\nSoft HRM could also support Northshore's customer-care values. If employees are consulted about job design and service problems, they may identify barriers that senior managers cannot see. This is important because delays may be caused by unclear workflows and unsuitable software rather than low effort. In this situation, tighter output targets might increase pressure without fixing the cause. In addition, involving employees and using inclusive recruitment and development may help Northshore attract a wider talent pool and improve engagement.\n\nHowever, a soft approach alone would be insufficient. Northshore must still plan the required number of installers, technicians and support staff by location and timing. The launch could fail if flexible working or lengthy consultation leaves shifts uncovered or slows decisions. Clear procedures and performance expectations may also be necessary for consistent installation and customer support. Furthermore, training will only improve performance if employees can apply new skills through effective software, workflows and management support.\n\nTherefore, Northshore should adopt a predominantly soft approach because retention, capability development, employee voice and values alignment are central to its current problems. Nevertheless, it should combine this with hard HRM measures such as workforce planning, clear service standards and cost monitoring. The balance should be reviewed as the launch approaches: where skills are scarce and service quality depends on expertise, soft practices deserve priority; where coverage, safety or launch deadlines are at risk, firmer workforce controls are justified."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.4.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-OPS-002",
+        "BUS-OPS-003",
+        "BUS-OPS-004",
+        "BUS-OPS-005",
+        "BUS-OPS-006",
+        "BUS-STR-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": "P1-C",
+      "required_in_response_path": false,
+      "question": {
+        "slot_id": "P1-C-02",
+        "family": "ESSAY",
+        "command_word": "Evaluate",
+        "marks": 25,
+        "ao_marks": {
+          "AO1": 4,
+          "AO2": 6,
+          "AO3": 7,
+          "AO4": 8
+        },
+        "context": "Harbour Homeware makes three ranges of reusable drinks bottles. Demand for its standard range is high and relatively predictable, but demand for its premium personalised range changes frequently. The business currently uses batch production. Products move between separate cutting, printing and assembly areas, and the printing area often creates queues. Managers report that employees spend time moving stock between areas and that some batches require rework because printed designs are incorrect.\n\nThe operations director proposes investing in automated printing and assembly equipment arranged in a product layout for the standard range. This would create a more capital-intensive flow process. The director also wants to introduce a lean programme: employees would suggest small improvements, batch sizes would be reduced and raw-material inventory would be delivered closer to when it is needed. The proposal would reduce storage space and could release cash currently tied up in stock.\n\nHowever, the equipment would require substantial initial investment, specialist maintenance and employee retraining. Harbour Homeware has had several late deliveries from one key supplier. The sales director is concerned that lower inventory could lead to stock-outs, while the production manager argues that some spare capacity is needed to deal with demand peaks and equipment downtime.",
+        "stem": "Evaluate whether Harbour Homeware should implement the operations director’s proposal to improve efficiency and productivity. In your answer, consider the proposed process and technology, capacity and the bottleneck, lean operations and inventory management.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited relevant knowledge of operations concepts. Application to Harbour Homeware is weak or absent. Assertions about the proposal are largely unsupported, with little analysis or judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows some relevant knowledge and some application to Harbour Homeware. Includes one or more developed but partial chains of analysis, such as linking automation or lower inventory to cost or service. Evaluation is limited, generic or unsupported."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 15,
+              "descriptor": "Shows sound knowledge of several relevant operations concepts and applies them to the business. Analyses benefits and drawbacks of the proposed process, technology, lean approach or inventory changes. Makes a judgement, although it may not fully weigh the most important contextual conditions."
+            },
+            {
+              "level": 4,
+              "min_marks": 16,
+              "max_marks": 20,
+              "descriptor": "Shows thorough and accurate knowledge, consistently applied to Harbour Homeware. Develops clear, linked analysis of capacity/bottleneck issues, process and technology choices, lean improvement and inventory trade-offs. Evaluation is balanced and reaches a supported judgement that recognises relevant conditions and risks."
+            },
+            {
+              "level": 5,
+              "min_marks": 21,
+              "max_marks": 25,
+              "descriptor": "Shows precise, well-selected and fully integrated knowledge of operations management. Sustained analysis explains how the proposal could affect efficiency, productivity, quality, capacity, cash and customer service across the system. Evaluation is perceptive and context-led, weighing implementation and resilience risks against likely gains. Reaches a clear, well-justified judgement, potentially recommending a staged or differentiated implementation."
+            }
+          ],
+          "indicative_content": [
+            "Efficiency concerns the economic conversion of resources into required outcomes; productivity is output per unit of input. Greater total output alone would not prove higher productivity, particularly if defects and rework rise.",
+            "The existing printing area is a likely bottleneck because queues form there. Improving this constrained stage may raise total throughput, whereas improving a non-bottleneck stage may not increase overall output.",
+            "For the predictable, high-volume standard range, automated printing and assembly in a product layout could reduce movement and waiting between separate areas. Standardisation may improve consistency, permit a flow process and lower labour input per good unit, improving productivity and potentially unit costs.",
+            "Automation is a technology choice rather than proof that the whole operation is necessarily a flow process. Its benefits depend on suitable volume, stable demand, reliable maintenance, staff capability and effective process design.",
+            "The capital-intensive equipment requires high initial expenditure, specialist maintenance and retraining. If demand for the standard range falls, or downtime occurs, fixed costs may be spread over fewer units. The investment could therefore reduce flexibility and place pressure on cash.",
+            "The premium personalised range has changing demand and greater variety. Retaining a more flexible batch or labour-intensive process for this range may be more suitable than forcing all products through a standardised flow line.",
+            "Lean operations can remove avoidable waste, including unnecessary movement, waiting, defects and excess inventory. Employee-led continuous improvement can use staff knowledge to identify causes of printing errors and test improvements before standardising successful changes.",
+            "Lean should not simply mean cutting staff, maintenance or every buffer. Reducing batch size before improving setup or process reliability could create additional downtime; removing necessary maintenance could increase breakdowns.",
+            "Deliveries closer to need can reduce raw-material inventory, storage costs and working capital tied up in stock. This may release cash and expose underlying process problems.",
+            "Lower inventory increases dependence on reliable suppliers and accurate information. Harbour Homeware's record of late delivery makes stock-outs and interrupted production more likely, potentially losing sales and damaging service.",
+            "Some spare capacity can protect customer service during demand peaks and provide time for maintenance. Very high utilisation is not automatically efficient if it produces queues, delays, quality problems or a lack of resilience.",
+            "A supported conclusion may recommend a phased trial on the stable standard range, first relieving and monitoring the printing bottleneck, training employees and retaining an appropriate buffer stock or contingency supplier arrangement. Full implementation is more justified only if expected demand, supplier reliability and maintenance capability support it."
+          ],
+          "model_answer": "Harbour Homeware should implement parts of the proposal, but a full and immediate switch would be risky. The strongest case is for redesigning the standard range first, while keeping more flexibility and some inventory protection elsewhere.\n\nThe current printing area appears to be the bottleneck because queues form there. This means it constrains the throughput of the whole system. Automated printing could therefore improve performance if it genuinely increases the capacity and reliability of this stage. Placing printing and assembly in a product layout for the standard bottles could also reduce the time and labour used moving batches between separate areas. Since demand for this range is high and predictable, a capital-intensive flow process is likely to have sufficient volume to spread its fixed costs. It could produce more good bottles per labour hour, so labour productivity may rise, and fewer hand-offs may reduce waiting and opportunities for errors.\n\nHowever, production rising would not automatically mean that productivity or efficiency improves. If automation creates defects, requires frequent maintenance or produces stock that cannot be sold, more output would not be more good output. The business must also pay for equipment, specialist maintenance and retraining before it receives the possible benefits. This is particularly important because capital-intensive production is less flexible. The premium personalised range has variable demand and requires variety, so forcing it into the same standardised flow process could reduce its ability to meet customer requirements. A flexible batch process may remain more appropriate for that range.\n\nLean improvement could strengthen the proposal. Employees may know why printing designs are incorrect and where unnecessary movement occurs. Small, measured improvements could reduce rework, waiting and handling, which would improve efficiency as well as measured labour productivity. Yet lean should not be interpreted as removing every activity that does not directly create a bottle. Maintenance, training and a limited capacity buffer may be necessary to prevent breakdowns and cope with peaks. Operating at maximum utilisation could leave no room to recover from a demand surge or equipment failure, causing longer queues and poorer customer service.\n\nReducing raw-material inventory could release cash and reduce storage costs. This would support efficiency if inventory is genuinely excessive. Nevertheless, deliveries closer to need make production more dependent on suppliers arriving on time. As a key supplier has already delivered late several times, a strict just-in-time approach could stop the new flow line and cause stock-outs. The apparent saving in inventory may then be outweighed by lost sales, idle equipment and damaged customer relationships. Harbour Homeware should retain a suitable buffer stock or develop a backup supplier before reducing inventory substantially.\n\nOverall, Harbour Homeware should approve a staged implementation. It should first target the printing bottleneck and trial automation and a product layout for the stable, standard range. It should measure good output, rework, downtime, waiting time and service performance, rather than relying only on headline output. A lean programme involving employees is worthwhile, but reduced inventory should be gradual and conditional on better supplier reliability. This approach is more likely to improve productivity and efficiency while preserving the flexibility and resilience needed for the premium range and uncertain supply conditions."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.6.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-PEO-001",
+        "BUS-PEO-002",
+        "BUS-PEO-004",
+        "BUS-PEO-007",
+        "BUS-PEO-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": "P1-D",
+      "required_in_response_path": false,
+      "question": {
+        "slot_id": "P1-D-01",
+        "family": "ESSAY",
+        "command_word": "Evaluate",
+        "marks": 25,
+        "ao_marks": {
+          "AO1": 4,
+          "AO2": 6,
+          "AO3": 7,
+          "AO4": 8
+        },
+        "context": "Northstar Home Systems sells smart heating controls through national retailers and directly to household customers. It has grown from one UK site to operations in the UK, France and Germany. The business is organised mainly by function: sales, marketing, production, software, customer service and finance all report to the UK head office.\n\nProduct launches have been delayed because country sales managers say that software and production teams do not respond quickly to local customer feedback. Head office approval is required for all price changes, marketing campaigns and customer compensation above £100. This has protected a consistent brand, but local managers say that competitors respond faster.\n\nNorthstar will introduce automated testing equipment within 12 months. The equipment will reduce routine testing work but will require more employees who can analyse software faults and maintain automated systems. Some experienced testers could be retrained, while others may not have suitable roles after the change. The chief executive is considering product-based divisions with more decision-making delegated to country managers.",
+        "stem": "Evaluate whether Northstar Home Systems should replace its functional structure with product-based divisions and decentralise more decisions to country managers. In your answer, recommend how Northstar should plan its workforce for the introduction of automated testing, including the appropriate use of recruitment, training, redeployment and, where necessary, redundancy.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited knowledge of organisational structure, decision authority or workforce planning. Application to Northstar is weak or largely asserted. Analysis is undeveloped, with little or no supported judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows some relevant knowledge and applies it to Northstar. Explains some likely effects of changing structure, decentralising decisions or managing the testing workforce, although analysis may be one-sided or incomplete. A judgement may be present but is not well justified."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 15,
+              "descriptor": "Shows clear knowledge of relevant organisational design and workforce-planning concepts. Develops logical chains of analysis linked to Northstar's international growth, slow response and automation. Considers more than one option or consequence and reaches a reasoned, though not fully sustained, judgement."
+            },
+            {
+              "level": 4,
+              "min_marks": 16,
+              "max_marks": 20,
+              "descriptor": "Shows good, accurate and well-selected knowledge. Analyses the interdependence between structure, decision rights, coordination and workforce capability in Northstar's circumstances. Evaluates significant trade-offs, including the risks and benefits of retraining, redeployment, recruitment and redundancy. The judgement is well supported and considers conditions or implementation."
+            },
+            {
+              "level": 5,
+              "min_marks": 21,
+              "max_marks": 25,
+              "descriptor": "Shows thorough and precise knowledge integrated throughout a focused response. Sustains detailed, context-specific analysis of structural and workforce choices, including their limitations and likely implementation challenges. Makes a balanced and convincing judgement that prioritises decisions and actions, recognises relevant uncertainty, and is clearly supported by the evidence in the stimulus."
+            }
+          ],
+          "indicative_content": [
+            "A functional structure can provide specialist expertise, standardisation and central control. This may help Northstar maintain one brand and coordinate technical standards across countries.",
+            "However, Northstar's separate functions may create slower cross-functional coordination. Local feedback may pass through several departments and head office before production or software changes are made, contributing to delayed product launches.",
+            "Product-based divisions could create clearer accountability for the performance and development of each product range. Bringing relevant sales, marketing, software and production expertise closer together could improve coordination and speed of innovation.",
+            "Product-based divisions may duplicate specialist staff or create rivalry between divisions. This could raise costs and make technical standards less consistent, especially where products share software or production resources.",
+            "Decentralising selected decisions to country managers could allow faster local responses to competitor price changes, campaigns and customer complaints. It would make greater use of local knowledge in France and Germany.",
+            "Decentralisation could also cause inconsistent pricing, promotions or customer outcomes. Country managers need sufficient capability, information and clear limits; otherwise decisions may conflict with the brand or reduce profitability.",
+            "Northstar need not treat centralisation as an all-or-nothing choice. It could centralise product safety, core software standards, investment and brand rules, while delegating bounded local pricing, campaign adaptation and customer compensation decisions.",
+            "A change in organisation chart alone will not solve delays. Northstar needs clear decision rights, escalation rules, shared information and coordination between product divisions, countries and central specialists.",
+            "Workforce planning should start with the work and capabilities required after automation, rather than automatically replacing employees who leave or assuming that all routine testers will be removed.",
+            "Automation changes task requirements: routine testing demand may fall, while fault analysis, software capability and equipment maintenance become more important. Northstar should identify the scale, timing and location of these capability gaps.",
+            "Training can enable suitable existing testers to operate, maintain or interpret results from the automated equipment. It preserves organisational knowledge and can support morale and retention, but it will work only if employees have the aptitude, time and opportunities to apply the new skills.",
+            "Redeployment may be appropriate where testers can move, following development, to fault analysis, quality improvement, customer-support feedback or other roles. It can retain experience and avoid some redundancy costs, but the available role must be genuine and suitable.",
+            "External recruitment may be needed where Northstar lacks specialist automation maintenance or software-fault analysis skills and cannot develop them quickly enough. It can bring new expertise but has search, onboarding and uncertainty costs.",
+            "Redundancy may be necessary if routine testing roles genuinely disappear and suitable redeployment is unavailable. It can reduce long-run labour costs, but creates payment and consultation obligations, risks loss of knowledge and may damage morale among remaining employees.",
+            "The preferred approach depends on the urgency of automation, the transferability of current testers' skills, availability of specialist labour, the cost and time of development, and Northstar's need to maintain product quality during transition.",
+            "A supported judgement could recommend a phased hybrid approach: retain central control over high-risk and brand-critical decisions, delegate specified local commercial decisions, pilot product-based coordination, conduct a skills audit, retrain and redeploy viable testers, recruit scarce expertise, and use redundancy only after fair consideration of alternatives."
+          ],
+          "model_answer": "Northstar should not simply replace its functional structure with fully independent product divisions and decentralise every decision. Its current functional structure has benefits because software, production and other specialists can apply common standards across the UK, France and Germany. This is particularly important for a smart heating product where consistent technical and safety standards matter. Central approval may also prevent country managers from making price or compensation decisions that weaken margins or damage a consistent brand.\n\nHowever, the current arrangement appears increasingly unsuitable for Northstar's growth. Customer feedback from France or Germany must move through country managers, head office and separate functional departments before action is taken. This can delay product launches because no product-focused team has clear responsibility for joining up local market information, software changes and production decisions. Product-based divisions could improve accountability and cross-functional coordination: staff working on a particular product range could respond more quickly to faults and customer needs.\n\nThe disadvantage is that product divisions could duplicate software, marketing or production expertise. They may also compete for resources and develop inconsistent solutions. Therefore, Northstar should use a hybrid arrangement rather than fully separate divisions. Product-focused teams should coordinate development and launch decisions, but central specialists should retain responsibility for core software architecture, technical standards, major investment and the overall brand.\n\nSimilarly, decentralisation should be selective. Country managers are likely to have better information about local competitors and customer expectations, so delegated limits for local promotions, small price changes and customer compensation could improve response speed. This is likely to be particularly valuable because competitors are currently responding faster. Yet unrestricted local authority could make prices and customer treatment inconsistent. Northstar should set decision limits, provide data and require escalation for larger discounts, major campaigns and decisions that affect product standards. Delegation would then speed routine local decisions without removing central accountability.\n\nAutomation means that workforce planning must focus on future capability, not merely cutting the number of testers. Demand for routine testing is likely to fall, but demand for employees able to maintain equipment and analyse software faults will increase. Northstar should first conduct a skills audit to identify which testers can be trained for these roles. Training and redeployment would retain valuable knowledge of product faults and may reduce the morale damage and cost associated with dismissals. However, training is not automatically effective: employees need the aptitude for technical roles, managers must provide opportunities to use the new skills, and the business must address any process problems created by the new equipment.\n\nWhere there is an immediate shortage of specialist automation or software expertise, external recruitment may be necessary because waiting for all employees to develop could jeopardise quality and the automation timetable. Nevertheless, recruitment has cost and uncertainty, so it should target genuinely scarce capabilities rather than replace every tester automatically. If some routine roles disappear and no suitable redeployment exists after fair consideration, redundancy may be unavoidable. It would lower long-run labour costs, but Northstar should recognise consultation and payment obligations, possible loss of experience and weaker morale among remaining employees.\n\nOverall, Northstar should adopt product-focused coordination with controlled decentralisation, rather than a complete break from functional central control. This directly addresses slow local response while protecting common standards. Its workforce plan should prioritise skills analysis, training and redeployment, supplemented by targeted external recruitment. Redundancy should be a last resort where automation has removed a role and a suitable alternative cannot be provided. The success of both changes will depend on clear authority boundaries, capable country managers and sufficient time for employees to acquire the required technical skills."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.9.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-006",
+        "BUS-EXT-003",
+        "BUS-FIN-006",
+        "BUS-FND-007",
+        "BUS-FND-008",
+        "BUS-STR-007"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": "P1-D",
+      "required_in_response_path": false,
+      "question": {
+        "slot_id": "P1-D-02",
+        "family": "ESSAY",
+        "command_word": "Evaluate",
+        "marks": 25,
+        "ao_marks": {
+          "AO1": 4,
+          "AO2": 6,
+          "AO3": 7,
+          "AO4": 8
+        },
+        "context": "Hearth & Home Ltd is a UK retailer of kitchen equipment with 18 stores and an online operation. Sales have grown through product range extensions, but the business has recently experienced stock shortages and longer delivery times. Customers typically pay when ordering online, while suppliers allow Hearth & Home 30 days to pay.\n\nThe board is considering two growth options. Option 1 is organic growth: opening six further stores over two years and expanding the online range. This would allow the business to recruit and train staff gradually, but new stores would take time to build customer awareness.\n\nOption 2 is to acquire CookPro Ltd, a smaller retailer with 12 stores, an established customer base and a separate distribution network. The acquisition would provide immediate additional outlets and could create purchasing economies of scale through larger orders to suppliers. Directors also claim that duplicated head-office roles and distribution facilities could be removed. However, CookPro uses different stock-control systems, has a more centralised management style and requires a substantial purchase price. Some directors are concerned that rapidly combining the two businesses could create coordination problems and place pressure on cash if inventory has to be increased before the businesses' operations are integrated.\n\nA third proposal is to close four poorly performing Hearth & Home stores and use the released resources to improve the online operation before pursuing either growth option.",
+        "stem": "Evaluate whether Hearth & Home Ltd should acquire CookPro Ltd rather than pursue organic growth.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited knowledge of growth methods and/or scale. Application to Hearth & Home is weak or absent. Assertions about the acquisition or organic growth are generic, with little developed reasoning or judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows some relevant knowledge of organic and external growth, economies or diseconomies of scale, synergy, cash pressure or retrenchment. There is some application to the business, although reasoning may be one-sided, incomplete or based on undeveloped chains. A judgement may be present but is unsupported or inconsistent."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 15,
+              "descriptor": "Shows sound knowledge and application to the circumstances of Hearth & Home. Analyses relevant advantages and risks of acquisition and organic growth, using developed causal chains. Evaluation is evident through consideration of conditions, trade-offs or limitations, leading to a supported, though not fully developed, judgement."
+            },
+            {
+              "level": 4,
+              "min_marks": 16,
+              "max_marks": 20,
+              "descriptor": "Shows strong, accurate and well-focused knowledge applied throughout. Analysis explains how the acquisition could create scale economies or synergy, while also examining integration, coordination, finance, cash and operational risks. Evaluation is balanced and prioritises factors that are material to the decision. The judgement is clear and well justified."
+            },
+            {
+              "level": 5,
+              "min_marks": 21,
+              "max_marks": 25,
+              "descriptor": "Shows comprehensive and consistently relevant knowledge, application, analysis and evaluation. Develops convincing, interconnected reasoning across growth method, scale, integration and financial/operational constraints. Makes a nuanced judgement that is explicitly conditional on strategic fit, realistic synergy delivery, management capacity and sustainable working-capital finance, while considering the role of retrenchment or staged organic growth."
+            }
+          ],
+          "indicative_content": [
+            "Organic growth is internal expansion. It may be slower than acquisition, but Hearth & Home could open stores and develop the online range in stages, allowing gradual recruitment, training and learning.",
+            "An acquisition is external growth through obtaining control of another business. Buying CookPro would give Hearth & Home immediate access to 12 stores, customers and a distribution network, potentially increasing market presence more quickly than opening six stores.",
+            "The larger combined purchasing volume could create purchasing economies of scale if suppliers offer bulk discounts or improved terms. This could lower long-run average cost, improving competitiveness or margins.",
+            "Removing genuinely duplicated head-office roles or distribution facilities could create cost synergy. However, synergy is not automatic: the business must identify which activities overlap, whether closure costs are manageable and whether service can be maintained.",
+            "CookPro's separate distribution network may provide capacity and capability, but different stock-control systems could make integration difficult. Poor system integration could worsen stock shortages or delivery times rather than solve them.",
+            "A more centralised management style at CookPro could clash with Hearth & Home's existing approach. Additional management layers, communication difficulties and slower decision-making could create diseconomies of scale, increasing long-run average cost or damaging responsiveness.",
+            "The acquisition price may reduce financial flexibility. If the combined business needs additional inventory while operations are being integrated, cash can be tied up before all expected benefits are achieved.",
+            "Growth can create overtrading risk: increased activity may require more inventory and other operating resources before the benefits of additional sales are realised. Profit or sales growth would not by itself demonstrate that the acquisition is affordable or sustainable.",
+            "Organic growth may avoid a large immediate purchase price and enables staged investment, but may leave Hearth & Home with continuing stock shortages if it does not first address operational capacity and stock control.",
+            "Closing the four poorly performing stores is retrenchment: a strategic reduction in scope or capacity. It could release resources and management attention for the online operation, but may also reduce sales, local presence and potential scale economies.",
+            "The best decision depends on whether CookPro's purchase price is justified by achievable benefits, whether systems and cultures can be integrated, whether working-capital finance is available, and whether management can resolve current service problems.",
+            "A reasoned conclusion may support acquisition only after due diligence and a credible integration and cash plan; alternatively, it may favour retrenchment and staged organic online growth if current operational weaknesses and financial risk are the binding constraints."
+          ],
+          "model_answer": "Hearth & Home could benefit from acquiring CookPro because it would gain 12 established stores, customers and a distribution network immediately. This is likely to be faster than organic growth, where the six proposed stores would need time to become known to customers. The acquisition could also create purchasing economies of scale. If the combined business places larger orders with suppliers, it may obtain lower input costs or better terms, reducing long-run average cost. In addition, there may be synergy if genuinely duplicated head-office roles or distribution facilities can be removed.\n\nHowever, these benefits are uncertain. Synergy is not created simply because the two businesses are combined. CookPro has different stock-control systems, and Hearth & Home already has stock shortages and delivery delays. Combining systems poorly could create a bottleneck in operations, leading to further stockouts, dissatisfied customers and weaker repeat purchasing. The different management styles could also make coordination slower and create diseconomies of scale through extra communication and management complexity. Therefore, the claimed cost savings may be offset by integration costs and lower service quality.\n\nThe financial risk is particularly important. The acquisition requires a substantial purchase price, reducing financial flexibility. Growth may also require more inventory before the combined operation is running efficiently. Although customers pay when ordering online, supplier credit lasts only 30 days, so inventory and other operating needs could still create cash pressure. If activity expands faster than available working-capital finance, Hearth & Home could overtrade: sales may rise while liquidity becomes increasingly fragile.\n\nOrganic growth would be slower, but it would allow the business to recruit, train and invest in capacity progressively. This could be preferable because it gives management time to correct the existing stock and delivery problems before adding further complexity. Closing the four weak stores could also release resources for the online operation. Nevertheless, retrenchment could reduce sales and geographic presence, so it should be used only where the stores are unlikely to become viable.\n\nOverall, Hearth & Home should not acquire CookPro simply to grow quickly. Acquisition is preferable only if due diligence shows that the purchase price is affordable, supplier and distribution savings are specific and achievable, and management has a realistic plan to integrate systems without worsening service. Given its current operational weaknesses and potential cash pressure, a staged approach is likely to be safer: first improve stock control and consider closing persistently weak stores, then pursue organic online growth. The acquisition could become attractive later if it provides clear, financeable synergies and the business has the managerial capacity to integrate it successfully."
+        },
+        "calculations": []
+      }
+    }
+  ]
+}

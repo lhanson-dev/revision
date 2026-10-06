@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-05",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business organises project teams around employees' specialist expertise to solve specific client problems.",
+  "stem": "Select the Handy culture type most closely described.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Power culture"
+    },
+    {
+      "label": "B",
+      "text": "Person culture"
+    },
+    {
+      "label": "C",
+      "text": "Role culture"
+    },
+    {
+      "label": "D",
+      "text": "Task culture"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "D",
+    "option_rationale": [
+      "Power culture concentrates influence around a central source of power rather than organising work principally around specialist problem-solving teams.",
+      "Person culture places individual members and their autonomy at the centre, rather than prioritising project delivery through expertise.",
+      "Role culture emphasises defined responsibilities and procedures, rather than flexible teams assembled to address particular problems.",
+      "Task culture forms around expertise and project or problem delivery."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ")},"
+  },
+  "calculations": []
+}

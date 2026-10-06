@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-03",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is deciding how much decision authority its manager should retain when introducing a new procedure.",
+  "stem": "Select the term for a leadership approach in which the manager progressively shares consultation and decision freedom with employees, moving from manager-centred towards subordinate-centred decision making.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Autocratic/directive leadership"
+    },
+    {
+      "label": "B",
+      "text": "Paternalistic leadership"
+    },
+    {
+      "label": "C",
+      "text": "The Tannenbaum-Schmidt leadership continuum"
+    },
+    {
+      "label": "D",
+      "text": "Centralisation"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "C",
+    "option_rationale": [
+      "A is incorrect because directive leadership retains most decision authority with the leader.",
+      "B is incorrect because paternalistic leadership combines authority with concern and guidance, rather than describing a continuum of shared decision freedom.",
+      "C is correct because the Tannenbaum-Schmidt continuum describes movement from manager-centred to subordinate-centred decision making.",
+      "D is incorrect because centralisation concerns where organisational decision authority is concentrated, rather than this leadership continuum."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "C"
+  },
+  "calculations": []
+}

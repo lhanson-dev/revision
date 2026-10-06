@@ -1,0 +1,55 @@
+{
+  "slot_id": "P1-B-06",
+  "family": "SHORT_ANSWER",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 3,
+    "AO3": 2,
+    "AO4": 3
+  },
+  "context": "Northton Foods Ltd is owned by its two founders, who are also directors. The business needs substantial finance to build a new production site. The founders are considering becoming a plc and issuing shares to the public rather than taking out a large long-term loan.",
+  "stem": "Analyse the implications for Northton Foods of becoming a plc and issuing shares to finance the new production site. [9 marks]",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited knowledge of share ownership, limited liability, a plc, equity finance or borrowing. Application to Northton is absent or limited. Analysis is mainly undeveloped assertions."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows sound knowledge and application to Northton's proposed expansion. Analyses one or more relevant consequences, such as raising equity finance, dilution of founder ownership, reduced loan repayment pressure, or increased reporting and shareholder accountability. Chains of reasoning may be uneven or lack a developed consequence."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Shows thorough, well-applied analysis of the financing and ownership implications for Northton. Develops linked consequences of public equity finance against debt, including dilution/control and governance or accountability effects. Clearly recognises that Northton is already an Ltd, so its shareholders normally already have limited liability; becoming a plc does not newly create this protection. Distinguishes shareholder liability from directors' responsibilities."
+      }
+    ],
+    "indicative_content": [
+      "Northton is already a limited company, so its shareholders normally already benefit from limited liability. Conversion to a plc would not newly limit the founders' normal shareholder exposure.",
+      "A plc can offer shares to the public, potentially allowing Northton to raise a larger amount of share capital for the production site than may be available from the founders or a small private investor group.",
+      "Issuing new shares provides equity capital without contractual interest payments or scheduled loan repayments. This could reduce fixed cash-flow pressure while the new site is being built and before it generates sufficient sales.",
+      "Equity investors acquire ownership interests. If public investors buy newly issued shares, the founders' percentage ownership is diluted, potentially weakening their ability to control decisions.",
+      "More shareholders and a wider separation between ownership and management can increase the need for clear reporting, oversight and accountability. Investors may expect information and returns, including possible dividends, although dividends are not guaranteed.",
+      "A large long-term loan would avoid ownership dilution and allow the founders to retain control, but interest and repayment obligations would create fixed demands on future cash flows and increase financial risk if expansion income is uncertain.",
+      "The directors would still have responsibilities for governing the company and making decisions appropriately. Limited liability for shareholders does not remove directors' duties.",
+      "A plc may face greater shareholder scrutiny and possible pressure over performance or share price. This may constrain the founders' freedom compared with the current closely held Ltd structure.",
+      "A supported conclusion may depend on whether Northton's priority is protecting cash flow during uncertain expansion or retaining close founder control, and on the availability and terms of debt versus equity finance."
+    ],
+    "model_answer": "Becoming a plc could enable Northton to issue shares to a much wider group of investors and raise substantial share capital for the new site. Unlike a large loan, this equity finance would not require contractual interest payments or repayments. This could be valuable while the site is being built, because Northton may have high cash outflows before the expansion produces additional revenue.\n\nHowever, investors buying newly issued shares would gain ownership interests, so the founders' proportion of the company would fall. Their control over major decisions could therefore weaken. A plc also has a wider shareholder base, increasing the need for reporting, oversight and accountability. Shareholders may expect returns, potentially including dividends, although a dividend is not guaranteed.\n\nNorthton is already an Ltd, so its shareholders normally already have limited liability. Becoming a plc would not newly provide this protection; the main change is greater access to public equity finance alongside more diluted ownership and shareholder scrutiny. Limited liability also does not remove the founders' responsibilities as directors. If Northton's future cash flows are uncertain, avoiding fixed loan repayments may justify dilution; if retaining founder control is the priority, a loan may be preferred despite its repayment risk."
+  },
+  "calculations": []
+}

@@ -1,0 +1,54 @@
+{
+  "slot_id": "P2-S3-02",
+  "family": "DATA_RESPONSE",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 2,
+    "AO3": 3,
+    "AO4": 2
+  },
+  "context": "",
+  "stem": "Using the shared stimulus, analyse the financial implications for LoopFill Ltd of accepting the additional order and installing the automated filling and packing line.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited understanding of financial performance or finance. Makes generic points about costs, sales, profit or cash, with limited use of the shared stimulus. Analysis is undeveloped."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows sound understanding of financial performance and applies relevant data from the shared stimulus. Explains at least one financial consequence of the additional order and/or investment, such as the effect on profit, cash flow, receivables or financing commitments. Analysis is partly developed, although links or judgement may be uneven."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Shows strong, well-focused understanding of financial performance. Uses relevant quantitative and qualitative evidence from the shared stimulus to develop linked analysis of profitability, cash flow and financing risk. Makes a supported judgement about the scale or conditions of the financial implications, recognising that higher sales or profit would not necessarily remove liquidity pressure."
+      }
+    ],
+    "indicative_content": [
+      "LoopFill achieved sales revenue of £3.45m in 2025, below its £3.6m budget, while operating profit of £315,000 was substantially below the £670,000 budget. This suggests that management should not assume that extra volume will automatically generate the expected improvement in financial performance.",
+      "The additional 50,000 pouches could increase sales and allow the automated line to reduce evening-shift bottlenecks. If capacity is used effectively and quality is maintained, improved output may help spread operating costs and increase operating profit.",
+      "However, the line requires a £200,000 payment before installation. Closing cash is only £95,000 and directors wish to retain an £80,000 buffer, leaving only £15,000 available without reducing the buffer. Internal cash is therefore insufficient to fund the line while maintaining the desired liquidity protection.",
+      "Customers normally pay 45 days after delivery and receivables have risen to £650,000. Supplying the extra order may increase credit sales and receivables before cash is received, creating further working-capital pressure even if the order is profitable.",
+      "A bank loan would provide the required funds but introduces 7% annual interest, annual principal repayments of £40,000 and security over the line. These fixed commitments could reduce future cash-flow flexibility if sales, margins or customer receipts are weaker than expected.",
+      "Equity crowdfunding has no contractual repayment, which may reduce short-term cash-flow pressure, but the 6% platform fee means LoopFill would not retain the full £200,000 raised and issuing 18% of ordinary shares reduces existing owners' control.",
+      "Factoring could release some cash from receivables, but the 3% fee reduces funds available and customer contact by the provider could affect customer relationships. It may assist day-to-day liquidity but does not itself finance the entire investment without considering the amount of eligible receivables.",
+      "The financial impact depends on whether the extra order is delivered on time, the line prevents bottlenecks without raising pouch leaks or complaints, and sales cash is collected as expected. Higher revenue or operating profit would not necessarily mean sufficient cash is available at the time the investment and repayments fall due."
+    ],
+    "model_answer": "Accepting the additional order could improve LoopFill's financial performance because the 50,000 extra pouches may raise sales revenue and make better use of the automated line. If the line reduces evening-shift bottlenecks without increasing leaks or complaints, higher output could improve operating profit. This is important because 2025 operating profit was only £315,000, compared with a budget of £670,000, so LoopFill needs to understand why revenue and profit were below plan before assuming that more sales will solve the problem.\n\nThe immediate issue is liquidity. The line costs £200,000, but closing cash is £95,000 and the directors want to preserve an £80,000 buffer. Therefore, using internal cash would leave the business well below its preferred protection level. Cash flow may be particularly strained because customers pay 45 days after delivery and receivables already total £650,000. The extra order could increase profit in the longer term, but it may first increase credit sales and delay cash receipts, creating a working-capital requirement.\n\nA bank loan would fund the line, but it adds 7% annual interest and £40,000 annual principal repayments. These payments increase fixed cash commitments, making LoopFill more vulnerable if the additional order is delayed or margins remain weak. Equity crowdfunding avoids contractual repayments, so it may better protect short-term cash flow, although the 6% fee reduces net funds raised and existing owners would give up 18% of ordinary shares. Factoring may ease day-to-day cash pressure, but its fee and provider contact with customers create costs and relationship risks.\n\nOverall, the additional order could strengthen future profit, but its main financial implication is a possible cash-flow gap between paying for the line and receiving cash from customers. The investment is less risky financially if LoopFill can protect service quality, maintain the cash buffer and secure finance that does not create unaffordable repayment pressure."
+  },
+  "calculations": []
+}

@@ -1,0 +1,74 @@
+{
+  "slot_id": "P1-D-01",
+  "family": "ESSAY",
+  "command_word": "Evaluate",
+  "marks": 25,
+  "ao_marks": {
+    "AO1": 4,
+    "AO2": 6,
+    "AO3": 7,
+    "AO4": 8
+  },
+  "context": "Northstar Home Systems sells smart heating controls through national retailers and directly to household customers. It has grown from one UK site to operations in the UK, France and Germany. The business is organised mainly by function: sales, marketing, production, software, customer service and finance all report to the UK head office.\n\nProduct launches have been delayed because country sales managers say that software and production teams do not respond quickly to local customer feedback. Head office approval is required for all price changes, marketing campaigns and customer compensation above £100. This has protected a consistent brand, but local managers say that competitors respond faster.\n\nNorthstar will introduce automated testing equipment within 12 months. The equipment will reduce routine testing work but will require more employees who can analyse software faults and maintain automated systems. Some experienced testers could be retrained, while others may not have suitable roles after the change. The chief executive is considering product-based divisions with more decision-making delegated to country managers.",
+  "stem": "Evaluate whether Northstar Home Systems should replace its functional structure with product-based divisions and decentralise more decisions to country managers. In your answer, recommend how Northstar should plan its workforce for the introduction of automated testing, including the appropriate use of recruitment, training, redeployment and, where necessary, redundancy.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited knowledge of organisational structure, decision authority or workforce planning. Application to Northstar is weak or largely asserted. Analysis is undeveloped, with little or no supported judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows some relevant knowledge and applies it to Northstar. Explains some likely effects of changing structure, decentralising decisions or managing the testing workforce, although analysis may be one-sided or incomplete. A judgement may be present but is not well justified."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 15,
+        "descriptor": "Shows clear knowledge of relevant organisational design and workforce-planning concepts. Develops logical chains of analysis linked to Northstar's international growth, slow response and automation. Considers more than one option or consequence and reaches a reasoned, though not fully sustained, judgement."
+      },
+      {
+        "level": 4,
+        "min_marks": 16,
+        "max_marks": 20,
+        "descriptor": "Shows good, accurate and well-selected knowledge. Analyses the interdependence between structure, decision rights, coordination and workforce capability in Northstar's circumstances. Evaluates significant trade-offs, including the risks and benefits of retraining, redeployment, recruitment and redundancy. The judgement is well supported and considers conditions or implementation."
+      },
+      {
+        "level": 5,
+        "min_marks": 21,
+        "max_marks": 25,
+        "descriptor": "Shows thorough and precise knowledge integrated throughout a focused response. Sustains detailed, context-specific analysis of structural and workforce choices, including their limitations and likely implementation challenges. Makes a balanced and convincing judgement that prioritises decisions and actions, recognises relevant uncertainty, and is clearly supported by the evidence in the stimulus."
+      }
+    ],
+    "indicative_content": [
+      "A functional structure can provide specialist expertise, standardisation and central control. This may help Northstar maintain one brand and coordinate technical standards across countries.",
+      "However, Northstar's separate functions may create slower cross-functional coordination. Local feedback may pass through several departments and head office before production or software changes are made, contributing to delayed product launches.",
+      "Product-based divisions could create clearer accountability for the performance and development of each product range. Bringing relevant sales, marketing, software and production expertise closer together could improve coordination and speed of innovation.",
+      "Product-based divisions may duplicate specialist staff or create rivalry between divisions. This could raise costs and make technical standards less consistent, especially where products share software or production resources.",
+      "Decentralising selected decisions to country managers could allow faster local responses to competitor price changes, campaigns and customer complaints. It would make greater use of local knowledge in France and Germany.",
+      "Decentralisation could also cause inconsistent pricing, promotions or customer outcomes. Country managers need sufficient capability, information and clear limits; otherwise decisions may conflict with the brand or reduce profitability.",
+      "Northstar need not treat centralisation as an all-or-nothing choice. It could centralise product safety, core software standards, investment and brand rules, while delegating bounded local pricing, campaign adaptation and customer compensation decisions.",
+      "A change in organisation chart alone will not solve delays. Northstar needs clear decision rights, escalation rules, shared information and coordination between product divisions, countries and central specialists.",
+      "Workforce planning should start with the work and capabilities required after automation, rather than automatically replacing employees who leave or assuming that all routine testers will be removed.",
+      "Automation changes task requirements: routine testing demand may fall, while fault analysis, software capability and equipment maintenance become more important. Northstar should identify the scale, timing and location of these capability gaps.",
+      "Training can enable suitable existing testers to operate, maintain or interpret results from the automated equipment. It preserves organisational knowledge and can support morale and retention, but it will work only if employees have the aptitude, time and opportunities to apply the new skills.",
+      "Redeployment may be appropriate where testers can move, following development, to fault analysis, quality improvement, customer-support feedback or other roles. It can retain experience and avoid some redundancy costs, but the available role must be genuine and suitable.",
+      "External recruitment may be needed where Northstar lacks specialist automation maintenance or software-fault analysis skills and cannot develop them quickly enough. It can bring new expertise but has search, onboarding and uncertainty costs.",
+      "Redundancy may be necessary if routine testing roles genuinely disappear and suitable redeployment is unavailable. It can reduce long-run labour costs, but creates payment and consultation obligations, risks loss of knowledge and may damage morale among remaining employees.",
+      "The preferred approach depends on the urgency of automation, the transferability of current testers' skills, availability of specialist labour, the cost and time of development, and Northstar's need to maintain product quality during transition.",
+      "A supported judgement could recommend a phased hybrid approach: retain central control over high-risk and brand-critical decisions, delegate specified local commercial decisions, pilot product-based coordination, conduct a skills audit, retrain and redeploy viable testers, recruit scarce expertise, and use redundancy only after fair consideration of alternatives."
+    ],
+    "model_answer": "Northstar should not simply replace its functional structure with fully independent product divisions and decentralise every decision. Its current functional structure has benefits because software, production and other specialists can apply common standards across the UK, France and Germany. This is particularly important for a smart heating product where consistent technical and safety standards matter. Central approval may also prevent country managers from making price or compensation decisions that weaken margins or damage a consistent brand.\n\nHowever, the current arrangement appears increasingly unsuitable for Northstar's growth. Customer feedback from France or Germany must move through country managers, head office and separate functional departments before action is taken. This can delay product launches because no product-focused team has clear responsibility for joining up local market information, software changes and production decisions. Product-based divisions could improve accountability and cross-functional coordination: staff working on a particular product range could respond more quickly to faults and customer needs.\n\nThe disadvantage is that product divisions could duplicate software, marketing or production expertise. They may also compete for resources and develop inconsistent solutions. Therefore, Northstar should use a hybrid arrangement rather than fully separate divisions. Product-focused teams should coordinate development and launch decisions, but central specialists should retain responsibility for core software architecture, technical standards, major investment and the overall brand.\n\nSimilarly, decentralisation should be selective. Country managers are likely to have better information about local competitors and customer expectations, so delegated limits for local promotions, small price changes and customer compensation could improve response speed. This is likely to be particularly valuable because competitors are currently responding faster. Yet unrestricted local authority could make prices and customer treatment inconsistent. Northstar should set decision limits, provide data and require escalation for larger discounts, major campaigns and decisions that affect product standards. Delegation would then speed routine local decisions without removing central accountability.\n\nAutomation means that workforce planning must focus on future capability, not merely cutting the number of testers. Demand for routine testing is likely to fall, but demand for employees able to maintain equipment and analyse software faults will increase. Northstar should first conduct a skills audit to identify which testers can be trained for these roles. Training and redeployment would retain valuable knowledge of product faults and may reduce the morale damage and cost associated with dismissals. However, training is not automatically effective: employees need the aptitude for technical roles, managers must provide opportunities to use the new skills, and the business must address any process problems created by the new equipment.\n\nWhere there is an immediate shortage of specialist automation or software expertise, external recruitment may be necessary because waiting for all employees to develop could jeopardise quality and the automation timetable. Nevertheless, recruitment has cost and uncertainty, so it should target genuinely scarce capabilities rather than replace every tester automatically. If some routine roles disappear and no suitable redeployment exists after fair consideration, redundancy may be unavoidable. It would lower long-run labour costs, but Northstar should recognise consultation and payment obligations, possible loss of experience and weaker morale among remaining employees.\n\nOverall, Northstar should adopt product-focused coordination with controlled decentralisation, rather than a complete break from functional central control. This directly addresses slow local response while protecting common standards. Its workforce plan should prioritise skills analysis, training and redeployment, supplemented by targeted external recruitment. Redundancy should be a last resort where automation has removed a role and a suitable alternative cannot be provided. The success of both changes will depend on clear authority boundaries, capable country managers and sufficient time for employees to acquire the required technical skills."
+  },
+  "calculations": []
+}

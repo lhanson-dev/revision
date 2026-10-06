@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-13",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Select the statement that is correct about the external environment of a business.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "It consists only of factors that the business can directly control, such as its staffing levels and production methods."
+    },
+    {
+      "label": "B",
+      "text": "It includes conditions outside a business's direct control, such as interest rates, competition and demographic change."
+    },
+    {
+      "label": "C",
+      "text": "It affects every business in exactly the same way, regardless of its customers, costs or finance."
+    },
+    {
+      "label": "D",
+      "text": "It can be removed as a source of risk if managers prepare a sufficiently detailed forecast."
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because staffing and production methods are internal factors under business control.",
+      "B is correct because the external environment includes outside conditions that can influence business decisions and outcomes.",
+      "C is incorrect because the effect of an external change depends on a business's particular exposure, such as its customers, costs and borrowing.",
+      "D is incorrect because planning can reduce or prepare for some risks, but cannot eliminate external uncertainty."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "B"
+  },
+  "calculations": []
+}

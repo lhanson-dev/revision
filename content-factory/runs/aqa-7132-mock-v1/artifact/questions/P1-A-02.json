@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-02",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is considering how political and legal conditions could affect its operations.",
+  "stem": "Select the statement that best describes a possible benefit of regulation for a business.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "It guarantees that the business will make a profit."
+    },
+    {
+      "label": "B",
+      "text": "It can create common standards that increase customer trust."
+    },
+    {
+      "label": "C",
+      "text": "It removes all competition from the market."
+    },
+    {
+      "label": "D",
+      "text": "It ensures that a business has market power."
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because regulation cannot guarantee profitability.",
+      "B is correct because standards can protect customers and improve trust in businesses that meet them.",
+      "C is incorrect because regulation does not necessarily remove competition.",
+      "D is incorrect because market power depends on competitive conditions such as substitutes, switching costs and barriers to entry."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "]},"
+  },
+  "calculations": []
+}

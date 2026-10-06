@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-14",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business divides customers into groups according to differences that affect their needs and likely response to its offer.",
+  "stem": "Select the term for dividing a broad market into meaningful customer groups.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Segmentation"
+    },
+    {
+      "label": "B",
+      "text": "Targeting"
+    },
+    {
+      "label": "C",
+      "text": "Positioning"
+    },
+    {
+      "label": "D",
+      "text": "Market mapping"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "A",
+    "option_rationale": [
+      "A is correct because segmentation divides a broad market into meaningful groups.",
+      "B is incorrect because targeting is choosing which segment or segments to prioritise.",
+      "C is incorrect because positioning is the intended place of an offer in customers' minds relative to alternatives.",
+      "D is incorrect because market mapping displays perceived positions using selected dimensions."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "A — Segmentation."
+  },
+  "calculations": []
+}

@@ -1,0 +1,108 @@
+{
+  "slot_id": "P3-02",
+  "family": "CASE_STUDY",
+  "command_word": "Analyse",
+  "marks": 12,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 6,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the shared Northstar stimulus, calculate the net present value (NPV) of the automated packing line. Then analyse whether the NPV provides sufficient support for Northstar to proceed with the investment. [12 marks]",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 4,
+        "descriptor": "Shows limited understanding of NPV and/or makes isolated use of Northstar information. Calculation may be incomplete or inaccurate. Analysis is mainly descriptive, with limited explanation of how the investment could affect Northstar."
+      },
+      {
+        "level": 2,
+        "min_marks": 5,
+        "max_marks": 8,
+        "descriptor": "Shows sound understanding of NPV and applies it to Northstar. Calculates, or makes substantial progress towards calculating, NPV. Develops one or more logical chains of analysis about the implications of the investment, though use of risk, forecast uncertainty or non-financial factors may be uneven."
+      },
+      {
+        "level": 3,
+        "min_marks": 9,
+        "max_marks": 12,
+        "descriptor": "Shows thorough understanding and accurate application of NPV to Northstar. Calculates an NPV of £61,200 and develops well-supported analysis of whether this supports the investment. Analysis integrates the timing and uncertainty of forecast cash inflows with relevant non-financial consequences, such as traceability, packing errors, maintenance dependence, employee redeployment and retailer demand."
+      }
+    ],
+    "indicative_content": [
+      "NPV discounts each future net cash inflow using the supplied discount factor, then deducts the initial outlay.",
+      "Year 1 present value: £70,000 × 0.91 = £63,700.",
+      "Year 2 present value: £75,000 × 0.83 = £62,250.",
+      "Year 3 present value: £80,000 × 0.76 = £60,800.",
+      "Year 4 present value: £85,000 × 0.69 = £58,650.",
+      "Year 5 present value: £90,000 × 0.62 = £55,800.",
+      "Total discounted inflows are £301,200; NPV is £301,200 − £240,000 = positive £61,200.",
+      "A positive NPV means forecast discounted inflows exceed the immediate outlay at Northstar's stated required rate of return, so the project has financial support under the assumptions used.",
+      "The positive NPV is relatively modest compared with the £240,000 immediate outlay. This matters because Northstar has closing cash of only £96,000 and faces a possible July cash shortfall, so funding the outlay could intensify liquidity pressure even where expected NPV is positive.",
+      "The calculation depends on cash-inflow forecasts. Halo demand is forecast to rise, but this assumes retailer promotions continue and competing low-priced products do not force down Northstar's selling price. Weaker demand could reduce the line's cash inflows and lower or eliminate the NPV.",
+      "The project could improve serial-number traceability and reduce manual packing errors. These benefits may protect reliability and retailer relationships but are not fully captured in the stated cash-flow forecasts, so NPV alone may understate its operational value.",
+      "The line increases dependence on specialist maintenance support. Disruption or unavailable technicians could reduce output, particularly because technicians are also needed for normal production, meaning actual cash inflows may be below forecast.",
+      "Redeployment of six packing employees could require effective management and training. If implementation harms morale or capability, expected efficiency benefits could be delayed.",
+      "Analysis may recognise that NPV provides useful support rather than certainty: it should be considered alongside Northstar's cash position, reliability objective and sensitivity of forecasts to retailer demand."
+    ],
+    "model_answer": "The discounted cash inflows are £63,700 in Year 1, £62,250 in Year 2, £60,800 in Year 3, £58,650 in Year 4 and £55,800 in Year 5. Their total is £301,200. Deducting the immediate £240,000 outlay gives an NPV of positive £61,200.\n\nThis positive NPV supports proceeding because, at Northstar's required rate of return, expected discounted cash inflows exceed the cost of the packing line. The line may also reduce packing errors and improve serial-number traceability, helping Northstar protect the reliability that is important when retailer demand is growing.\n\nHowever, NPV alone is not sufficient evidence. The £240,000 outlay is large compared with Northstar's £96,000 closing cash balance and the possible July cash shortfall. In addition, the inflow forecast relies on retailer promotions continuing and on Northstar avoiding price pressure from low-cost competitors. If sales are lower than forecast, the NPV would fall. Dependence on specialist maintenance and the need to redeploy six employees could also delay benefits. Therefore, the positive NPV provides financial support, but Northstar should test weaker-demand cash-flow scenarios and ensure that funding and implementation risks can be managed before committing."
+  },
+  "calculations": [
+    {
+      "label": "year_1_discounted_cash_inflow",
+      "method": "product",
+      "operands": [
+        70000,
+        0.91
+      ],
+      "stated_answer": 63700,
+      "unit": "£",
+      "marks_supported": 1
+    },
+    {
+      "label": "year_2_discounted_cash_inflow",
+      "method": "product",
+      "operands": [
+        75000,
+        0.83
+      ],
+      "stated_answer": 62250,
+      "unit": "£",
+      "marks_supported": 1
+    },
+    {
+      "label": "total_discounted_cash_inflows",
+      "method": "sum",
+      "operands": [
+        63700,
+        62250,
+        60800,
+        58650,
+        55800
+      ],
+      "stated_answer": 301200,
+      "unit": "£",
+      "marks_supported": 1
+    },
+    {
+      "label": "net_present_value",
+      "method": "difference",
+      "operands": [
+        301200,
+        240000
+      ],
+      "stated_answer": 61200,
+      "unit": "£",
+      "marks_supported": 1
+    }
+  ]
+}

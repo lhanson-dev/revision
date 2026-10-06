@@ -1,0 +1,70 @@
+{
+  "slot_id": "P1-C-02",
+  "family": "ESSAY",
+  "command_word": "Evaluate",
+  "marks": 25,
+  "ao_marks": {
+    "AO1": 4,
+    "AO2": 6,
+    "AO3": 7,
+    "AO4": 8
+  },
+  "context": "Harbour Homeware makes three ranges of reusable drinks bottles. Demand for its standard range is high and relatively predictable, but demand for its premium personalised range changes frequently. The business currently uses batch production. Products move between separate cutting, printing and assembly areas, and the printing area often creates queues. Managers report that employees spend time moving stock between areas and that some batches require rework because printed designs are incorrect.\n\nThe operations director proposes investing in automated printing and assembly equipment arranged in a product layout for the standard range. This would create a more capital-intensive flow process. The director also wants to introduce a lean programme: employees would suggest small improvements, batch sizes would be reduced and raw-material inventory would be delivered closer to when it is needed. The proposal would reduce storage space and could release cash currently tied up in stock.\n\nHowever, the equipment would require substantial initial investment, specialist maintenance and employee retraining. Harbour Homeware has had several late deliveries from one key supplier. The sales director is concerned that lower inventory could lead to stock-outs, while the production manager argues that some spare capacity is needed to deal with demand peaks and equipment downtime.",
+  "stem": "Evaluate whether Harbour Homeware should implement the operations director’s proposal to improve efficiency and productivity. In your answer, consider the proposed process and technology, capacity and the bottleneck, lean operations and inventory management.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited relevant knowledge of operations concepts. Application to Harbour Homeware is weak or absent. Assertions about the proposal are largely unsupported, with little analysis or judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows some relevant knowledge and some application to Harbour Homeware. Includes one or more developed but partial chains of analysis, such as linking automation or lower inventory to cost or service. Evaluation is limited, generic or unsupported."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 15,
+        "descriptor": "Shows sound knowledge of several relevant operations concepts and applies them to the business. Analyses benefits and drawbacks of the proposed process, technology, lean approach or inventory changes. Makes a judgement, although it may not fully weigh the most important contextual conditions."
+      },
+      {
+        "level": 4,
+        "min_marks": 16,
+        "max_marks": 20,
+        "descriptor": "Shows thorough and accurate knowledge, consistently applied to Harbour Homeware. Develops clear, linked analysis of capacity/bottleneck issues, process and technology choices, lean improvement and inventory trade-offs. Evaluation is balanced and reaches a supported judgement that recognises relevant conditions and risks."
+      },
+      {
+        "level": 5,
+        "min_marks": 21,
+        "max_marks": 25,
+        "descriptor": "Shows precise, well-selected and fully integrated knowledge of operations management. Sustained analysis explains how the proposal could affect efficiency, productivity, quality, capacity, cash and customer service across the system. Evaluation is perceptive and context-led, weighing implementation and resilience risks against likely gains. Reaches a clear, well-justified judgement, potentially recommending a staged or differentiated implementation."
+      }
+    ],
+    "indicative_content": [
+      "Efficiency concerns the economic conversion of resources into required outcomes; productivity is output per unit of input. Greater total output alone would not prove higher productivity, particularly if defects and rework rise.",
+      "The existing printing area is a likely bottleneck because queues form there. Improving this constrained stage may raise total throughput, whereas improving a non-bottleneck stage may not increase overall output.",
+      "For the predictable, high-volume standard range, automated printing and assembly in a product layout could reduce movement and waiting between separate areas. Standardisation may improve consistency, permit a flow process and lower labour input per good unit, improving productivity and potentially unit costs.",
+      "Automation is a technology choice rather than proof that the whole operation is necessarily a flow process. Its benefits depend on suitable volume, stable demand, reliable maintenance, staff capability and effective process design.",
+      "The capital-intensive equipment requires high initial expenditure, specialist maintenance and retraining. If demand for the standard range falls, or downtime occurs, fixed costs may be spread over fewer units. The investment could therefore reduce flexibility and place pressure on cash.",
+      "The premium personalised range has changing demand and greater variety. Retaining a more flexible batch or labour-intensive process for this range may be more suitable than forcing all products through a standardised flow line.",
+      "Lean operations can remove avoidable waste, including unnecessary movement, waiting, defects and excess inventory. Employee-led continuous improvement can use staff knowledge to identify causes of printing errors and test improvements before standardising successful changes.",
+      "Lean should not simply mean cutting staff, maintenance or every buffer. Reducing batch size before improving setup or process reliability could create additional downtime; removing necessary maintenance could increase breakdowns.",
+      "Deliveries closer to need can reduce raw-material inventory, storage costs and working capital tied up in stock. This may release cash and expose underlying process problems.",
+      "Lower inventory increases dependence on reliable suppliers and accurate information. Harbour Homeware's record of late delivery makes stock-outs and interrupted production more likely, potentially losing sales and damaging service.",
+      "Some spare capacity can protect customer service during demand peaks and provide time for maintenance. Very high utilisation is not automatically efficient if it produces queues, delays, quality problems or a lack of resilience.",
+      "A supported conclusion may recommend a phased trial on the stable standard range, first relieving and monitoring the printing bottleneck, training employees and retaining an appropriate buffer stock or contingency supplier arrangement. Full implementation is more justified only if expected demand, supplier reliability and maintenance capability support it."
+    ],
+    "model_answer": "Harbour Homeware should implement parts of the proposal, but a full and immediate switch would be risky. The strongest case is for redesigning the standard range first, while keeping more flexibility and some inventory protection elsewhere.\n\nThe current printing area appears to be the bottleneck because queues form there. This means it constrains the throughput of the whole system. Automated printing could therefore improve performance if it genuinely increases the capacity and reliability of this stage. Placing printing and assembly in a product layout for the standard bottles could also reduce the time and labour used moving batches between separate areas. Since demand for this range is high and predictable, a capital-intensive flow process is likely to have sufficient volume to spread its fixed costs. It could produce more good bottles per labour hour, so labour productivity may rise, and fewer hand-offs may reduce waiting and opportunities for errors.\n\nHowever, production rising would not automatically mean that productivity or efficiency improves. If automation creates defects, requires frequent maintenance or produces stock that cannot be sold, more output would not be more good output. The business must also pay for equipment, specialist maintenance and retraining before it receives the possible benefits. This is particularly important because capital-intensive production is less flexible. The premium personalised range has variable demand and requires variety, so forcing it into the same standardised flow process could reduce its ability to meet customer requirements. A flexible batch process may remain more appropriate for that range.\n\nLean improvement could strengthen the proposal. Employees may know why printing designs are incorrect and where unnecessary movement occurs. Small, measured improvements could reduce rework, waiting and handling, which would improve efficiency as well as measured labour productivity. Yet lean should not be interpreted as removing every activity that does not directly create a bottle. Maintenance, training and a limited capacity buffer may be necessary to prevent breakdowns and cope with peaks. Operating at maximum utilisation could leave no room to recover from a demand surge or equipment failure, causing longer queues and poorer customer service.\n\nReducing raw-material inventory could release cash and reduce storage costs. This would support efficiency if inventory is genuinely excessive. Nevertheless, deliveries closer to need make production more dependent on suppliers arriving on time. As a key supplier has already delivered late several times, a strict just-in-time approach could stop the new flow line and cause stock-outs. The apparent saving in inventory may then be outweighed by lost sales, idle equipment and damaged customer relationships. Harbour Homeware should retain a suitable buffer stock or develop a backup supplier before reducing inventory substantially.\n\nOverall, Harbour Homeware should approve a staged implementation. It should first target the printing bottleneck and trial automation and a product layout for the stable, standard range. It should measure good output, rework, downtime, waiting time and service performance, rather than relying only on headline output. A lean programme involving employees is worthwhile, but reduced inventory should be gradual and conditional on better supplier reliability. This approach is more likely to improve productivity and efficiency while preserving the flexibility and resilience needed for the premium range and uncertain supply conditions."
+  },
+  "calculations": []
+}

@@ -1,0 +1,85 @@
+{
+  "status": "assured_not_published",
+  "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+  "reviewed_commit": "1c80a2642d988b603d83ccd74d58ff43836db0f5",
+  "paper_fingerprints": {
+    "7132/1": "799872e7575cffd782405af591c74eb3e44e11ae259c0bea0dc0960764d81fc0",
+    "7132/2": "fd49c211bcddbd0ab652b0068499ba0b23dcc2863ec2afe0ceec20053267e3f4",
+    "7132/3": "9487ab31521272f9e0149bec8a543e5a75f0fd2e314769988f2029563996f4bd"
+  },
+  "deterministic": {
+    "findings": [],
+    "duplicates": [],
+    "quantitative_marks": 34
+  },
+  "unit_summary": {
+    "passed": [
+      "P1-A-CHUNK-1",
+      "P1-A-CHUNK-2",
+      "P1-A-CHUNK-3",
+      "P1-B-CHUNK-1",
+      "P1-B-CHUNK-2",
+      "P1-C-01",
+      "P1-C-02",
+      "P1-D-01",
+      "P1-D-02",
+      "P2-SET-1",
+      "P2-SET-2",
+      "P2-SET-3",
+      "P3-CASE-1"
+    ],
+    "logged": [],
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "reused_unchanged": [
+      "P1-A-CHUNK-1",
+      "P1-A-CHUNK-2",
+      "P1-A-CHUNK-3",
+      "P1-B-CHUNK-1",
+      "P1-B-CHUNK-2",
+      "P1-C-01",
+      "P1-C-02",
+      "P1-D-01",
+      "P1-D-02",
+      "P2-SET-1",
+      "P2-SET-2",
+      "P2-SET-3",
+      "P3-CASE-1"
+    ],
+    "can_progress": true
+  },
+  "paper_summary": {
+    "passed": [
+      "7132/1",
+      "7132/2",
+      "7132/3"
+    ],
+    "logged": [],
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "reused_unchanged": [
+      "7132/1",
+      "7132/2",
+      "7132/3"
+    ],
+    "can_progress": true
+  },
+  "set_summary": {
+    "passed": [],
+    "logged": [
+      "complete-set"
+    ],
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "reused_unchanged": [],
+    "can_progress": true
+  },
+  "cumulative_spend_usd": 6.540598,
+  "pilot_spend_cap_usd": 8,
+  "provider_calls_this_run": 1,
+  "publication_authority": false,
+  "learner_surface_changed": false
+}

@@ -1,0 +1,137 @@
+{
+  "slot_id": "P2-S2-01",
+  "family": "DATA_RESPONSE",
+  "command_word": "Explain",
+  "marks": 6,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 4,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Refer to the shared ParcelPedal Ltd stimulus and table. Calculate the figures below and use them to explain ParcelPedal's competitive positioning.\n\n1. The total UK cargo-trike market sales in 2024 and ParcelPedal's market share.\n2. ParcelPedal's price premium over RideFast.\n3. ParcelPedal's unused annual production capacity in 2024.\n4. FlexLoad's variable production cost after the automated-cell saving and its contribution per trike at the planned selling price.\n\nYou should use your calculations to explain how ParcelPedal combines a focused market scope with differentiation rather than competing principally on low price.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 2,
+        "descriptor": "Calculates total UK market sales of 6,000 units and ParcelPedal's market share of 20.0%.",
+        "accept": [
+          "1,200 + 2,600 + 1,400 + 800 = 6,000 units",
+          "1,200 / 6,000 x 100 = 20%",
+          "Explanation that a 20% share does not indicate that ParcelPedal is attempting to serve the whole market; its stated target is the narrower fleet-delivery segment."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates ParcelPedal's £1,150 price premium over RideFast and links this to differentiation rather than a low-price position.",
+        "accept": [
+          "£5,400 - £4,250 = £1,150",
+          "Explanation that ParcelPedal needs customers to value its repairable design and support service sufficiently to prefer it despite the higher price."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates 200 trikes of unused annual capacity and applies this to the focused position.",
+        "accept": [
+          "1,400 - 1,200 = 200 trikes",
+          "Explanation that spare capacity can support additional fleet orders without requiring ParcelPedal to cut price to pursue mass-market volume."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates FlexLoad's post-saving variable production cost as £3,180 per trike.",
+        "accept": [
+          "£3,420 - £240 = £3,180",
+          "Explanation that automation could strengthen ParcelPedal's cost position while it continues to offer differentiated modular features."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates FlexLoad's contribution as £2,470 per trike and links this to maintaining differentiated value.",
+        "accept": [
+          "£5,650 - £3,180 = £2,470",
+          "Explanation that the contribution could help fund the repair, parts and technical-support activities that distinguish ParcelPedal for its fleet customers."
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Total UK market sales are 6,000 trikes, so ParcelPedal's market share is 20.0%. This is consistent with a focus strategy because it targets delivery fleets needing reliability and low downtime, rather than all cyclists. ParcelPedal charges £1,150 more than RideFast, so it is not primarily using low price; repairability and technical support must create differentiated value for fleet customers. It had 200 unused units of capacity, which could allow it to serve further fleet demand without necessarily chasing mass-market sales through price cuts. FlexLoad's variable cost after the £240 saving would be £3,180, and its contribution at £5,650 would be £2,470 per trike. The automated process may improve the cost position, while removable batteries and interchangeable modules could reinforce differentiation for fleet users."
+  },
+  "calculations": [
+    {
+      "label": "total_uk_cargo_trike_market_sales_2024",
+      "method": "sum",
+      "operands": [
+        1200,
+        2600,
+        1400,
+        800
+      ],
+      "stated_answer": 6000,
+      "unit": "units",
+      "marks_supported": 1
+    },
+    {
+      "label": "parcelpedal_uk_market_share_2024",
+      "method": "percent_of",
+      "operands": [
+        1200,
+        6000
+      ],
+      "stated_answer": 20,
+      "unit": "%",
+      "marks_supported": 1
+    },
+    {
+      "label": "parcelpedal_price_premium_over_ridefast",
+      "method": "difference",
+      "operands": [
+        5400,
+        4250
+      ],
+      "stated_answer": 1150,
+      "unit": "£ per trike",
+      "marks_supported": 1
+    },
+    {
+      "label": "unused_annual_production_capacity_2024",
+      "method": "difference",
+      "operands": [
+        1400,
+        1200
+      ],
+      "stated_answer": 200,
+      "unit": "trikes",
+      "marks_supported": 1
+    },
+    {
+      "label": "flexload_variable_cost_after_automated_cell_saving",
+      "method": "difference",
+      "operands": [
+        3420,
+        240
+      ],
+      "stated_answer": 3180,
+      "unit": "£ per trike",
+      "marks_supported": 1
+    },
+    {
+      "label": "flexload_contribution_per_trike",
+      "method": "difference",
+      "operands": [
+        5650,
+        3180
+      ],
+      "stated_answer": 2470,
+      "unit": "£ per trike",
+      "marks_supported": 1
+    }
+  ]
+}

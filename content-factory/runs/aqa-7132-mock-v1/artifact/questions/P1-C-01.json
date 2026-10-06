@@ -1,0 +1,70 @@
+{
+  "slot_id": "P1-C-01",
+  "family": "ESSAY",
+  "command_word": "Evaluate",
+  "marks": 25,
+  "ao_marks": {
+    "AO1": 4,
+    "AO2": 6,
+    "AO3": 7,
+    "AO4": 8
+  },
+  "context": "Northshore Home Systems makes smart heating controls. It plans to launch a new product range within 18 months and needs more software technicians, field installers and customer-support employees across two UK locations. Management is concerned that several experienced technicians have left, while applicants have varied backgrounds and expectations about flexible working. The business wants to improve employee engagement, build a pipeline of talent, provide training for new technology, increase workforce diversity and ensure employees act consistently with its customer-care values. \n\nThe operations director favours a hard HRM approach: set precise staffing numbers, tightly measure individual output, use fixed procedures and keep labour costs low. The people director favours a soft HRM approach: consult employees on job design, offer development and career opportunities, use flexible working where possible, and involve employee representatives in major changes. Managers also report that some service delays may result from unclear workflows and unsuitable software, rather than solely from employee effort.",
+  "stem": "Evaluate whether Northshore Home Systems should adopt a predominantly soft HRM approach, rather than a predominantly hard HRM approach, to achieve its human resource objectives.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited relevant knowledge of HRM, perhaps identifying one hard or soft HRM feature. Application to Northshore is generic or asserted. Analysis is limited, with little or no supported judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows some accurate knowledge of hard and/or soft HRM and makes some relevant use of the context. Explains one or more plausible effects on employees or business performance, although chains of reasoning may be partial. A judgement is present but limited or insufficiently justified."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 15,
+        "descriptor": "Shows sound, reasonably broad knowledge of HR objectives and hard and soft HRM. Applies this to Northshore's skills, retention, technology or workforce issues. Analyses developed consequences for capability, engagement, cost, service or flexibility. Reaches a supported judgement, though evaluation may be uneven or alternatives may not be fully weighed."
+      },
+      {
+        "level": 4,
+        "min_marks": 16,
+        "max_marks": 20,
+        "descriptor": "Shows detailed and well-selected knowledge of the relevant HR objectives and approaches. Application is consistently linked to Northshore's planned launch, workforce needs and operational constraints. Analysis develops several connected effects and recognises that employee performance also depends on job design, systems and resources. Evaluation compares the approaches and reaches a well-supported, context-sensitive judgement."
+      },
+      {
+        "level": 5,
+        "min_marks": 21,
+        "max_marks": 25,
+        "descriptor": "Shows precise, comprehensive and selective knowledge, integrated throughout a sustained response. Analysis rigorously examines how a blended or predominantly soft approach could affect workforce capability, engagement, retention, values, diversity and service, alongside costs, control and implementation risks. Evaluation is balanced and perceptive, tests assumptions in the case, and reaches a clear, prioritised judgement with convincing conditions and trade-offs."
+      }
+    ],
+    "indicative_content": [
+      "Hard HRM focuses on aligning workforce numbers, costs, performance and deployment with business requirements. It is not simply harsh management. For Northshore, it could help ensure enough installers, technicians and support employees are available in the required locations before the product launch.",
+      "Soft HRM treats employees as a source of capability and commitment, using involvement, communication, development and trust to support organisational outcomes. It is not automatically better for employees or incompatible with business targets.",
+      "A predominantly soft approach could support engagement and retention among experienced technicians. Consultation over job design and flexible working may increase perceived autonomy or work-life fit, reducing the loss of valuable product and customer knowledge. This could improve continuity and service quality during the launch.",
+      "Training and wider development are important because Northshore's new product creates a technology-related capability requirement. Development may enable existing employees to move into new roles and support succession, potentially reducing recruitment uncertainty. However, training attendance does not prove improved performance; new skills must be used in supportive workflows, with suitable systems and management support.",
+      "Talent acquisition should begin with the capabilities required, rather than automatically replacing former job descriptions. Northshore may need a longer-term pipeline for scarce software technicians, while internal progression can retain organisational knowledge. External recruitment may still be required to bring skills or experience not held internally.",
+      "An inclusive approach to recruitment, development and employee voice could help Northshore access a wider range of applicants and perspectives. However, diversity benefits depend on inclusive practice, communication and fair implementation, rather than merely increasing the number of applicants from different backgrounds.",
+      "Soft HRM can reinforce customer-care values if leaders, rewards, job design and everyday decisions consistently support those values. Employee involvement may identify delivery risks or customer problems earlier. A stated value will have little effect if output measures or manager behaviour reward speed at the expense of customer care.",
+      "The operations director's hard approach may be valuable where launch timing, staffing coverage, cost control and consistent procedures are critical. Clear workforce planning is needed to match the number, skills, locations and timing of employees to expected demand. Flexible arrangements cannot remove the need for dependable service cover and coordination.",
+      "Tight individual output targets may create focus and expose capacity problems, but can encourage unintended behaviour if they reward speed over quality or collaboration. They may also undermine the customer-care values that Northshore seeks to embed.",
+      "The reported service delays indicate that low effort may not be the root cause. If workflows or software are unsuitable, pressure, targets or motivational initiatives alone will not solve the problem. Northshore should diagnose process, resources, capability and job-design issues before attributing delays to employee motivation.",
+      "Employee representatives can provide structured consultation over major changes and may improve information quality and trust. However, consultation can slow decisions and will only be meaningful if management considers and responds to concerns. It does not necessarily transfer final decision authority.",
+      "A balanced conclusion may favour predominantly soft HRM for scarce skills, retention, technology-related development and values alignment, but retain hard HRM disciplines for workforce planning, clear performance expectations, cost control and service coverage. The appropriate balance depends on labour-market scarcity, financial capacity, whether systems are fixed, and the time available before launch."
+    ],
+    "model_answer": "Northshore should use predominantly soft HRM, but only if it retains hard HRM controls over the workforce requirements needed for the launch. A soft approach would be particularly suitable because the business needs scarce software technicians and is losing experienced employees. Development, career opportunities and employee involvement could make employees more likely to remain, while training could build the capability needed for the new smart-heating range. Retaining technicians also preserves product and customer knowledge, which could improve service during a period of change.\n\nSoft HRM could also support Northshore's customer-care values. If employees are consulted about job design and service problems, they may identify barriers that senior managers cannot see. This is important because delays may be caused by unclear workflows and unsuitable software rather than low effort. In this situation, tighter output targets might increase pressure without fixing the cause. In addition, involving employees and using inclusive recruitment and development may help Northshore attract a wider talent pool and improve engagement.\n\nHowever, a soft approach alone would be insufficient. Northshore must still plan the required number of installers, technicians and support staff by location and timing. The launch could fail if flexible working or lengthy consultation leaves shifts uncovered or slows decisions. Clear procedures and performance expectations may also be necessary for consistent installation and customer support. Furthermore, training will only improve performance if employees can apply new skills through effective software, workflows and management support.\n\nTherefore, Northshore should adopt a predominantly soft approach because retention, capability development, employee voice and values alignment are central to its current problems. Nevertheless, it should combine this with hard HRM measures such as workforce planning, clear service standards and cost monitoring. The balance should be reviewed as the launch approaches: where skills are scarce and service quality depends on expertise, soft practices deserve priority; where coverage, safety or launch deadlines are at risk, firmer workforce controls are justified."
+  },
+  "calculations": []
+}

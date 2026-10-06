@@ -1,0 +1,65 @@
+{
+  "unit_id": "P2-SET-1",
+  "title": "Mend & Move Refill Co.",
+  "business_name": "Mend & Move Refill Co.",
+  "narrative": "Mend & Move Refill Co. is a privately owned business based in Birmingham. It sells concentrated household-cleaning products in reusable aluminium bottles. Customers buy starter bottles and then order refill sachets through the company’s website or app. The business states that its purpose is to make lower-waste cleaning products convenient and affordable for busy households.\n\nThe business has grown as more customers use online subscriptions and seek products with less single-use plastic. However, customer interviews suggest that some potential customers still see refills as less convenient than buying established brands in supermarkets. Mend & Move’s main customer group is households aged 25–44, particularly customers who value home delivery and can manage subscriptions through a mobile phone.\n\nFor the year ended 31 March 2026, Mend & Move generated revenue of £1.80m and made a profit of £150,000. It holds £85,000 cash at the year end. Managers explain that cash has been reduced by buying refill sachets in advance from suppliers and by paying for new delivery crates. The owners have set objectives to increase revenue, protect profit per order and maintain enough cash to pay suppliers on time. They disagree about which objective should receive greatest priority during the next year.\n\nMend & Move operates in a UK market for household-cleaning refill subscriptions. Its marketing manager has proposed a £240,000 investment in an automated packing and demand-forecasting system. The system would use customer-order data to predict subscription demand, reduce picking errors and send personalised refill reminders through the app. It could enable faster dispatch and reduce packaging waste, but staff would need training and some warehouse roles could change. The investment would be paid from cash and a bank loan.\n\nSupporters argue that the system could help Mend & Move respond to customers’ growing use of online shopping, improve convenience and reduce wasted stock. Critics are concerned that inaccurate customer data, system failures or poor app recommendations could damage trust. They also argue that the business should first improve its cash position and test whether customers will respond positively to more personalised digital communication.",
+  "table": {
+    "title": "Selected data for Mend & Move Refill Co.",
+    "columns": [
+      "Measure",
+      "2025",
+      "2026",
+      "Additional information"
+    ],
+    "rows": [
+      {
+        "cells": [
+          "Mend & Move revenue",
+          "£1.35m",
+          "£1.80m",
+          "2026 revenue came from starter bottles and refill subscriptions."
+        ]
+      },
+      {
+        "cells": [
+          "Mend & Move profit",
+          "£105,000",
+          "£150,000",
+          "Profit is calculated after operating costs for each year."
+        ]
+      },
+      {
+        "cells": [
+          "Cash held at year end",
+          "£140,000",
+          "£85,000",
+          "The fall followed advance purchases of refill sachets and delivery crates."
+        ]
+      },
+      {
+        "cells": [
+          "UK household-cleaning refill-subscription market size",
+          "£18.0m",
+          "£24.0m",
+          "Market size is measured by annual sales value."
+        ]
+      },
+      {
+        "cells": [
+          "Mend & Move sales in this market",
+          "£1.35m",
+          "£1.80m",
+          "Sales are measured by annual sales value."
+        ]
+      },
+      {
+        "cells": [
+          "Proposed automated system",
+          "Not applicable",
+          "£240,000 investment",
+          "Expected implementation time: six months; funding would be £120,000 from cash and £120,000 from a bank loan."
+        ]
+      }
+    ]
+  }
+}

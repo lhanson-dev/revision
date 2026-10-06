@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-15",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is deciding how to pursue growth.",
+  "stem": "Select the statement that is a strategy rather than an objective or a tactic.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Increase annual revenue by 10%."
+    },
+    {
+      "label": "B",
+      "text": "Run a social-media advertising campaign."
+    },
+    {
+      "label": "C",
+      "text": "Serve budget-conscious customers through a low-cost offer supported by efficient operations and limited service."
+    },
+    {
+      "label": "D",
+      "text": "Open three new stores next year."
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "C",
+    "option_rationale": [
+      "A is an objective because it states a desired result.",
+      "B is a tactic because it is a specific action used to implement a wider approach.",
+      "C is correct because it sets out coherent choices about customers, value offered and supporting capabilities.",
+      "D is an action or target, rather than a coherent set of longer-term choices."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ". "
+  },
+  "calculations": []
+}

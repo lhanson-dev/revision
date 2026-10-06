@@ -1,0 +1,63 @@
+{
+  "slot_id": "P2-S1-04",
+  "family": "DATA_RESPONSE",
+  "command_word": "Evaluate",
+  "marks": 20,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 5,
+    "AO3": 6,
+    "AO4": 6
+  },
+  "context": "",
+  "stem": "Using the case study, evaluate whether Mend & Move Refill Co. should proceed with the proposed automated packing and demand-forecasting system. In your answer, consider how technological change and changing customer lifestyles may affect the decision, alongside the interests of relevant stakeholders.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 4,
+        "descriptor": "Shows limited knowledge of technology, online buying behaviour or stakeholder interests. Application to Mend & Move is weak or mainly copied from the case study. Analysis is asserted rather than developed, and any judgement is unsupported."
+      },
+      {
+        "level": 2,
+        "min_marks": 5,
+        "max_marks": 8,
+        "descriptor": "Shows some relevant understanding and application to the proposed system. Explains one or more possible benefits or drawbacks, such as faster dispatch, improved forecasting, training needs or customer trust. A conclusion is present but is generic, one-sided or weakly justified."
+      },
+      {
+        "level": 3,
+        "min_marks": 9,
+        "max_marks": 13,
+        "descriptor": "Shows clear, relevant understanding of technological change, customer lifestyle change and stakeholder effects. Analyses linked consequences for Mend & Move, including how the system could affect convenience, operations, costs, cash or trust. Makes a supported judgement that recognises a relevant limitation, risk or trade-off."
+      },
+      {
+        "level": 4,
+        "min_marks": 14,
+        "max_marks": 20,
+        "descriptor": "Shows thorough and well-focused understanding throughout. Develops balanced chains of analysis using the specific circumstances of Mend & Move, including the fit between the technology, online subscription customers and operational objectives. Evaluates material uncertainties, implementation capability, stakeholder conflicts and the financial/cash constraint. Reaches a well-supported, contextual judgement, with clear conditions or an alternative course of action where appropriate."
+      }
+    ],
+    "indicative_content": [
+      "The system is a process and digital-service innovation rather than merely a software purchase. Value depends on successful implementation, staff training, reliable customer-order data and changed warehouse processes.",
+      "Mend & Move's target households value home delivery and managing subscriptions by mobile phone. Personalised reminders and faster dispatch could make refills more convenient, addressing the concern that refills are less convenient than supermarket brands.",
+      "Better demand forecasts could reduce over-ordering of refill sachets, reduce wasted stock and improve availability. Fewer picking errors may improve customer experience, retention and repeat subscription revenue.",
+      "Reduced packaging waste may support Mend & Move's lower-waste purpose. However, the business should avoid assuming that an environmental benefit is proven without evidence across its operations and supply chain.",
+      "The business operates in a growing online refill-subscription market. The system may help it respond to the wider move towards online shopping, but market growth alone does not prove that customers will value or respond positively to personalised app communication.",
+      "Inaccurate data or unsuitable recommendations could inconvenience customers and reduce trust. System failures could delay dispatch, creating a particularly serious risk because convenience is central to the proposition and customers can compare alternatives online.",
+      "Warehouse staff may require training and some roles may change. Better productivity could support profit per order, but disruption, resistance or inadequate skills could delay benefits and harm employee relations.",
+      "Owners seek revenue growth, profit per order and sufficient cash, but these objectives conflict. The £240,000 investment is partly funded from cash when year-end cash is only £85,000 and has already fallen because of advance stock purchases and delivery crates.",
+      "The £120,000 bank loan creates repayment and financing obligations. This may put pressure on cash even if the system eventually improves efficiency; the six-month implementation period means benefits are uncertain and may not be immediate.",
+      "A staged implementation, pilot of personalised reminders, staff consultation and testing of data quality could reduce the risk of a full rollout. These actions may preserve flexibility but could slow the benefits.",
+      "A justified conclusion may support proceeding only if Mend & Move protects supplier-payment capacity and tests the system before full implementation. Alternatively, delaying the investment could be justified if the immediate cash risk is judged more severe than the likely operational gains."
+    ],
+    "model_answer": "Mend & Move has a strong strategic reason to proceed because the proposed system could make its subscription offer more convenient for its main customers. Its target group values home delivery and uses mobile phones to manage subscriptions, while interviews suggest that some potential customers currently regard refills as less convenient than supermarket products. Faster dispatch and personalised refill reminders could therefore reduce missed or late orders. This could increase repeat purchases and revenue, rather than simply relying on growth in the refill-subscription market.\n\nThe system could also improve operational performance. Forecasting demand from customer-order data may allow Mend & Move to buy refill sachets more accurately, reducing excess stock and packaging waste. Fewer picking errors could reduce replacement and customer-service costs, helping to protect profit per order. This would support both the business's lower-waste purpose and its financial objectives. However, these outcomes are not automatic. The business will gain little from the technology if staff are not trained, warehouse processes are not redesigned, or the customer data produces inaccurate forecasts. In that case, stock availability and dispatch could worsen rather than improve.\n\nThere are significant stakeholder and financial risks. Customers may welcome reminders, but poor recommendations or system failures could damage trust, especially because convenience is a key reason for choosing the service. Employees may benefit from training and fewer errors, but changing warehouse roles could create resistance or disruption. Most importantly, cash is only £85,000 at the year end, yet £120,000 of the investment would come from cash. Although the other £120,000 is borrowed, loan repayments could further constrain cash. Mend & Move must still pay suppliers on time after already tying up cash in advance purchases of sachets.\n\nOverall, Mend & Move should proceed, but not as an immediate uncontrolled full rollout. The technology fits changing online lifestyles and could address the convenience weakness in its offer, so delaying indefinitely risks losing customers as the market grows. However, the owners should first test the forecasting and reminder functions, train affected staff and ensure that the funding plan leaves enough cash to meet supplier payments. This conditional approach is preferable because it captures the potential long-term revenue and efficiency gains while limiting the most serious short-term risk: damaging customer trust or creating a cash shortfall during the six-month implementation period."
+  },
+  "calculations": []
+}

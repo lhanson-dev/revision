@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-04",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business wants to set a marketing objective that indicates whether customers are continuing to choose its brand.",
+  "stem": "Select the marketing objective that would most directly measure brand loyalty.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Increase total market size by 8%"
+    },
+    {
+      "label": "B",
+      "text": "Increase repeat purchases by existing customers by 12%"
+    },
+    {
+      "label": "C",
+      "text": "Increase sales volume by 12%"
+    },
+    {
+      "label": "D",
+      "text": "Increase value market share by 3 percentage points"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because total market size measures sales across the whole defined market, rather than customers' tendency to keep choosing one brand.",
+      "B is correct because repeat purchasing by existing customers is a direct indicator of customers continuing to choose the brand.",
+      "C is incorrect because sales volume measures units sold and may include purchases from new customers rather than loyalty.",
+      "D is incorrect because market share measures a firm's sales relative to total market sales, not specifically repeat choice by customers."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ": B"
+  },
+  "calculations": []
+}
