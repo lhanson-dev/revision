@@ -5,6 +5,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { derivePsychologyMarkingPacks } from '../content/derive-psychology-marking-packs'
 import {
   buildPsychologyStep6Packets,
+  estimatePsychologyStep6AttemptReserveUsd,
   runPsychologyStep6IndependentAssurance,
   validateStep6MaxSpend,
 } from './psychology-step6-independent-assurance'
@@ -125,6 +126,14 @@ describe('Psychology Step 6 independent assurance packets', () => {
     expect(() => validateStep6MaxSpend(5.01)).toThrow(/<= US\$5/)
     expect(() => validateStep6MaxSpend(0)).toThrow(/> 0/)
     expect(() => validateStep6MaxSpend(Number.NaN)).toThrow()
+  })
+
+  test('reserves live-review spend one provider attempt at a time', () => {
+    const educational = packets.educational[0]
+    const reserve = estimatePsychologyStep6AttemptReserveUsd(educational, true)
+    expect(reserve).toBeGreaterThan(0)
+    expect(reserve).toBeLessThan(5)
+    expect(Number((reserve * 2 + 0.05).toFixed(8))).toBeGreaterThan(reserve)
   })
 
   test('retains provider attempts and observed spend when output exhaustion prevents packet completion', async () => {

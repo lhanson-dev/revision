@@ -30,7 +30,7 @@ export type MarkingPack = {
   id: string
   itemId: string
   itemType: 'practice' | 'topic_exam_prep' | 'full_paper_question'
-  scoredItem: { prompt: string; context?: string; alternatives?: string[]; fixedData?: number[]; maxMark: number }
+  scoredItem: { prompt: string; context?: string; alternatives?: string[]; fixedData?: number[] | Array<[number, number]>; maxMark: number }
   requirementIds: string[]
   blueprintUnitIds: string[]
   questionFamily?: string
@@ -55,7 +55,7 @@ type EvidenceMapping = {
   blueprintUnitIds: string[]
   permittedEvidenceClaims: EvidenceClaim[]
   sourceDeclaredEvidenceScope: string[]
-  scoreability: 'marking_pack_complete' | 'requires_concrete_variant'
+  scoreability: 'marking_pack_candidate_complete' | 'requires_concrete_variant'
   markingPackId?: string
   limitation?: string
   runtimeEvidenceEligible: false
@@ -119,11 +119,20 @@ function addAo(total: Record<AO, number>, ao: AOAllocation): void {
 }
 
 function levels(maxMark: number): MarkingPack['levelDescriptors'] {
-  if (maxMark <= 4) return [
-    { min: 0, max: 0, description: 'No creditworthy response.' },
-    { min: 1, max: Math.max(1, maxMark - 2), description: 'Some relevant material, but incomplete, imprecise or weakly linked to the task.' },
-    { min: Math.max(2, maxMark - 1), max: maxMark, description: 'Accurate, relevant and sufficiently developed for the available marks.' },
-  ]
+  if (maxMark <= 4) {
+    const descriptions = [
+      'No creditworthy response.',
+      'One limited but creditworthy element relevant to the exact task.',
+      'Two marks worth of accurate relevant material, with any required link or distinction only partly developed.',
+      'Mostly accurate and task-focused response with the required reasoning, distinction or application substantially developed.',
+      'Fully accurate and task-focused response that satisfies the complete demand for the available marks.',
+    ]
+    return Array.from({ length: maxMark + 1 }, (_, mark) => ({
+      min: mark,
+      max: mark,
+      description: descriptions[mark],
+    }))
+  }
   const low = Math.floor(maxMark / 3)
   const mid = Math.floor((maxMark * 2) / 3)
   return [
@@ -134,11 +143,28 @@ function levels(maxMark: number): MarkingPack['levelDescriptors'] {
   ]
 }
 
-function aoCriteria(ao: AOAllocation): MarkingPack['criteria'] {
+function evidenceCriterionDescription(claim: EvidenceClaim | undefined, fallback: string): string {
+  const descriptions: Partial<Record<EvidenceClaim, string>> = {
+    knowledge_recall: 'Accurately retrieve the knowledge explicitly requested by this item.',
+    discrimination_or_structure: 'Correctly discriminate between the supplied alternatives or organise the supplied material using the relevant psychological distinction.',
+    selected_knowledge_and_explanation: 'Select accurate relevant knowledge and explain it sufficiently to answer the exact prompt.',
+    contextual_application: 'Apply the relevant psychological knowledge to the specific supplied Revision-owned context and identify the cue that justifies the application.',
+    analysis_reasoning: 'Build a valid reasoning chain from the psychological claim to a conclusion that stays within the evidence.',
+    comparison_or_evaluation_judgement: 'Make the requested comparison or evaluative judgement using an explicit similarity, difference or limitation and a justified conclusion.',
+    quantitative_execution: 'Execute the requested quantitative procedure accurately using the supplied data and show independently checkable working.',
+    data_interpretation: 'Interpret the supplied data accurately and distinguish what the evidence does and does not justify.',
+    misconception_discrimination: 'Identify the supplied misconception, explain why it is wrong and replace it with the accurate bounded account.',
+    synoptic_selection: 'Select and connect the relevant ideas across the specified course contexts without relying on superficial word overlap.',
+    exam_response_execution: 'Execute the exact assessment demand of the Revision-owned item using relevant knowledge, application and reasoning as required.',
+  }
+  return claim ? descriptions[claim] ?? fallback : fallback
+}
+
+function aoCriteria(ao: AOAllocation, evidenceClaim?: EvidenceClaim): MarkingPack['criteria'] {
   const out: MarkingPack['criteria'] = []
-  if (ao.AO1) out.push({ id: 'AO1', description: 'Accurate and relevant psychological knowledge selected for this exact item.', marks: ao.AO1, assessmentObjective: 'AO1', evidenceClaim: 'knowledge_recall' })
-  if (ao.AO2) out.push({ id: 'AO2', description: 'Application of relevant psychological knowledge or method to the supplied Revision-owned context, cues or data.', marks: ao.AO2, assessmentObjective: 'AO2', evidenceClaim: 'contextual_application' })
-  if (ao.AO3) out.push({ id: 'AO3', description: 'Analysis, interpretation or evaluation that develops reasoning and keeps conclusions within the evidence.', marks: ao.AO3, assessmentObjective: 'AO3', evidenceClaim: 'analysis_reasoning' })
+  if (ao.AO1) out.push({ id: 'AO1', description: evidenceCriterionDescription(evidenceClaim, 'Accurate and relevant psychological knowledge selected for this exact item.'), marks: ao.AO1, assessmentObjective: 'AO1', evidenceClaim: evidenceClaim ?? 'knowledge_recall' })
+  if (ao.AO2) out.push({ id: 'AO2', description: evidenceCriterionDescription(evidenceClaim, 'Application of relevant psychological knowledge or method to the supplied Revision-owned context, cues or data.'), marks: ao.AO2, assessmentObjective: 'AO2', evidenceClaim: evidenceClaim ?? 'contextual_application' })
+  if (ao.AO3) out.push({ id: 'AO3', description: evidenceCriterionDescription(evidenceClaim, 'Analysis, interpretation or evaluation that develops reasoning and keeps conclusions within the evidence.'), marks: ao.AO3, assessmentObjective: 'AO3', evidenceClaim: evidenceClaim ?? 'analysis_reasoning' })
   return out
 }
 
@@ -164,11 +190,13 @@ function makePack(args: {
   questionFamily?: string
   context?: string
   alternatives?: string[]
-  fixedData?: number[]
+  fixedData?: number[] | Array<[number, number]>
+  evidenceClaim?: EvidenceClaim
+  invalidReasoning?: string[]
   examTruthUse?: boolean
 }): MarkingPack {
   if (aoSum(args.ao) !== args.maxMark) throw new Error(`${args.itemId} AO allocation does not reconcile to ${args.maxMark}`)
-  const criteria = aoCriteria(args.ao)
+  const criteria = aoCriteria(args.ao, args.evidenceClaim)
   if (criteria.reduce((sum, criterion) => sum + criterion.marks, 0) !== args.maxMark) throw new Error(`${args.itemId} criterion marks do not reconcile`)
   const material = truth(args.requirementIds, args.requirementsById)
   return {
@@ -186,7 +214,7 @@ function makePack(args: {
     levelDescriptors: levels(args.maxMark),
     validReasoningRoutes: material.reasoning.length > 0 ? material.reasoning : ['Use accurate Course Truth, connect it directly to the task and avoid conclusions stronger than the evidence permits.'],
     indicativeContent: material.indicative,
-    misconceptionsOrInvalidReasoning: material.misconceptions,
+    misconceptionsOrInvalidReasoning: args.invalidReasoning ?? (material.misconceptions.length > 0 ? ['Treating a bounded psychological claim as universal, deterministic, or free of its stated conditions and limitations.'] : []),
     diagnosticFeedback: [
       'Check whether the response selected the knowledge actually required by the item rather than reproducing unrelated learned material.',
       'Where application or analysis is required, identify the exact cue, data feature or reasoning step that earns the mark.',
@@ -214,9 +242,9 @@ function practiceMapping(activity: PracticeActivity): EvidenceMapping {
     blueprintUnitIds: activity.blueprintUnitIds,
     permittedEvidenceClaims: [claim],
     sourceDeclaredEvidenceScope: activity.intendedEvidenceScope,
-    scoreability: deferred ? 'requires_concrete_variant' : 'marking_pack_complete',
+    scoreability: deferred ? 'requires_concrete_variant' : 'marking_pack_candidate_complete',
     ...(!deferred ? { markingPackId: `MP-${activity.id}` } : {}),
-    ...(deferred ? { limitation: activity.mode === 'mixed_topic_retrieval' ? 'The base candidate does not resolve the second topic/node, so scored synoptic evidence requires a concrete cross-topic variant.' : 'The base candidate does not supply the fixed ordering set, numerical dataset or display required for independently reproducible scoring.' } : {}),
+    ...(deferred ? { limitation: 'The learner practice is now concrete enough to attempt, but it is intentionally not promoted to scored evidence until an exact reproducible scoring key/variant is materialised and independently assured.' } : {}),
     runtimeEvidenceEligible: false,
     readinessEvidenceEligible: false,
     evidencePromotionBoundary: 'step_6_independent_assurance_and_step_7_runtime_integration_required',
@@ -243,7 +271,7 @@ function materialiseTopic(question: ExamPrepQuestion, byId: Map<string, Requirem
     prompt: `${question.prompt} Select the accurate statement, then justify the selection using one precise psychological distinction.`,
     alternatives: [
       material.indicative[0] ?? 'The response must use the linked Course Truth accurately.',
-      material.misconceptions[0] ?? 'This concept guarantees the same outcome in every person and every context.',
+      'This concept guarantees the same outcome in every person and every context.',
       'The concept is valid only when no alternative explanation can ever be imagined.',
       'The concept describes correlation and therefore proves a single causal mechanism.',
     ],
@@ -262,7 +290,7 @@ function topicMapping(question: ExamPrepQuestion): EvidenceMapping {
     blueprintUnitIds: question.blueprintUnitIds,
     permittedEvidenceClaims: ['exam_response_execution'],
     sourceDeclaredEvidenceScope: ['assessment_relevant_only_when_activity_and_marking_contract_support_it'],
-    scoreability: 'marking_pack_complete',
+    scoreability: 'marking_pack_candidate_complete',
     markingPackId: `MP-${question.id}`,
     runtimeEvidenceEligible: false,
     readinessEvidenceEligible: false,
@@ -386,7 +414,29 @@ export function derivePsychologyMarkingPacks(courseTruthDir: string, examTruthPa
   if (rmUnits.length === 0 || quantitativeUnits.length === 0) throw new Error('Research Methods and quantitative units are required for paper calibration')
 
   const practiceMappings = assets.practice.activities.map(practiceMapping)
-  const practicePacks = assets.practice.activities.filter((activity) => !DEFERRED.has(activity.mode)).map((activity) => makePack({ itemId: activity.id, itemType: 'practice', prompt: activity.prompt, maxMark: 4, requirementIds: activity.requirementIds, blueprintUnitIds: activity.blueprintUnitIds, requirementsById: byId, ao: practiceAo(activity.mode), practiceMode: activity.mode }))
+  const practicePacks = assets.practice.activities.filter((activity) => !DEFERRED.has(activity.mode)).map((activity) => {
+    const quotedMisconception = activity.mode === 'misconception_diagnostic'
+      ? activity.prompt.match(/“([^”]+)”/)?.[1]
+      : undefined
+    const invalidReasoning = activity.options?.slice(1)
+      ?? (quotedMisconception ? [quotedMisconception] : undefined)
+    return makePack({
+      itemId: activity.id,
+      itemType: 'practice',
+      prompt: activity.prompt,
+      maxMark: 4,
+      requirementIds: activity.requirementIds,
+      blueprintUnitIds: activity.blueprintUnitIds,
+      requirementsById: byId,
+      ao: practiceAo(activity.mode),
+      practiceMode: activity.mode,
+      evidenceClaim: MODE_CLAIM[activity.mode],
+      context: activity.context,
+      alternatives: activity.options,
+      fixedData: activity.fixedData,
+      invalidReasoning,
+    })
+  })
 
   const topicQuestions = assets.examPrep.topicSets.flatMap((set) => set.questions)
   const topicMappings = topicQuestions.map(topicMapping)
@@ -413,6 +463,6 @@ export function derivePsychologyMarkingPacks(courseTruthDir: string, examTruthPa
     practice: { evidenceMappings: practiceMappings, markingPacks: practicePacks },
     examPrep: { topicEvidenceMappings: topicMappings, topicMarkingPacks: topicPacks, scoredPaperSimulations, fullPaperQuestionMarkingPacks },
     qualificationCalibration: { totalRawMarks: 288, aoTotals, aoPercentages: { AO1: pct(aoTotals.AO1), AO2: pct(aoTotals.AO2), AO3: pct(aoTotals.AO3) }, researchMethodsMarks: rmMarks, researchMethodsPercentage: pct(rmMarks), mathematicalSkillsMarks: mathMarks, mathematicalSkillsPercentage: pct(mathMarks) },
-    summary: { allItemsClassifiedForScoreability: true, allItemsRepresentedAsScoredHaveMarkingPacks: true, practiceEvidenceScopeNarrowingApplied: true, learnerAssetsMutated: false, runtimeEvidenceEnabled: false, markingPacksCompleteForStep5: true, freshIndependentEducationalAssurancePassed: false, freshIndependentAssessmentAssurancePassed: false, canonicalRuntimeIntegrated: false, restrictedPilotPublicationApproved: false, paidProviderSpendGbp: 0, paidSourceLicenceSpendGbp: 0 },
+    summary: { allItemsClassifiedForScoreability: true, allItemsRepresentedAsScoredHaveMarkingPacks: true, practiceEvidenceScopeNarrowingApplied: true, learnerAssetsMutated: false, runtimeEvidenceEnabled: false, markingPacksCompleteForStep5: false, markingPackCandidatesCompleteForStep5: true, independentCalibrationComplete: false, freshIndependentEducationalAssurancePassed: false, freshIndependentAssessmentAssurancePassed: false, canonicalRuntimeIntegrated: false, restrictedPilotPublicationApproved: false, paidProviderSpendGbp: 0, paidSourceLicenceSpendGbp: 0 },
   }
 }
