@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-04",
+  "checkedDate": "2026-10-06",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 13,
   "topic": "Eating Behaviour",
@@ -177,11 +177,10 @@
       },
       "sourceEvidence": [
         {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/08%3A_Eating_and_Sleep_Disorders/8.04%3A_Anorexia_Nervosa",
-          "classification": "OPEN_PAGE_WITH_MIXED_ATTRIBUTION",
-          "licence": "page shared under CC BY 4.0; embedded items retain source-specific licences",
-          "supports": ["anorexia nervosa presentation", "genetic vulnerability", "biological/neural factors", "multifactorial context"],
-          "caution": "Revision does not reuse embedded restricted third-party expression; only independently synthesised facts supported by commercially reusable portions are retained."
+          "url": "https://doi.org/10.1038/s41598-020-67692-1",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": ["anorexia nervosa genetic vulnerability", "polygenic/genome-wide evidence", "neural and subcortical feeding circuits", "difficulty separating causal neural differences from malnutrition/starvation effects", "nutritional-state confounding in brain findings"]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
