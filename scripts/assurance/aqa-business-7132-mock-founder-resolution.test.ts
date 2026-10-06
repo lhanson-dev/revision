@@ -123,6 +123,27 @@ describe('AQA 7132 Founder mock escalation resolution', () => {
     expect([...feedback.keys()]).toEqual([])
   })
 
+  it('treats typographic punctuation as equivalent in exact Founder phrase contracts', () => {
+    const retained = new Map<string, MockQuestion>([
+      ['P3-04', question('P3-04', 'operating profit margin', 16)],
+      ['P3-05', question('P3-05', 'Lewin’s change model', 20)],
+    ])
+    const feedback = founderFixFeedbackTargets(plan, paper, ledger.units['7132/3'], [resolution], retained)
+    expect([...feedback.keys()]).toEqual([])
+
+    const result = applyFounderFixDecision({
+      plan,
+      paper,
+      paperFingerprint: 'paper-new-typographic',
+      questions: retained,
+      ledger,
+      resolutions: [resolution],
+      now: () => '2026-10-06T13:30:00.000Z',
+    })
+    expect(result.applied).toBe(true)
+    expect(result.ledger.units['7132/3'].outcome).toBe('passed')
+  })
+
   it('keeps remediation targeted when only one retained question satisfies the contract', () => {
     const retained = new Map<string, MockQuestion>([
       ['P3-04', question('P3-04', 'operating profit margin', 16)],
