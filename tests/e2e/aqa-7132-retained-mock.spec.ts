@@ -1,9 +1,17 @@
 import { expect, test, type Page } from '@playwright/test'
-import { appPath, businessCourseId, seedReturningStudent } from './practice-seed'
+import { appPath, seedReturningStudent } from './practice-seed'
 
 async function openExamPrep(page: Page) {
-  await page.goto(`${appPath}#/courses/${encodeURIComponent(businessCourseId)}/exam-prep`)
-  await expect(page.getByRole('navigation', { name: 'AQA A-level Business navigation' })).toBeVisible()
+  await page.goto(`${appPath}#/subjects/business`)
+  await expect(page).toHaveURL(/#\/courses$/)
+
+  const courseCard = page.locator('.course-card').filter({ hasText: 'AQA A-level Business' }).first()
+  await expect(courseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
+  await courseCard.getByRole('button', { name: 'Open course' }).click()
+
+  const courseNav = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
+  await expect(courseNav).toBeVisible()
+  await courseNav.getByRole('button', { name: 'Exam Prep' }).click()
   await expect(page.getByRole('heading', { name: 'Choose a paper' })).toBeVisible()
 }
 
