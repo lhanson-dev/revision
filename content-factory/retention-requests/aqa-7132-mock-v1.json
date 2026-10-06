@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "run_id": 37474355815,
+  "artifact_id": 11418322000,
+  "artifact_name": "content-factory-aqa-business-7132-mock-generation-1c80a2642d988b603d83ccd74d58ff43836db0f5",
+  "artifact_zip_sha256": "305bfe75f4c32baba272c538f5f755e9bdc94ef0cc887a91514a2ffd9a3f585a",
+  "reviewed_commit": "1c80a2642d988b603d83ccd74d58ff43836db0f5",
+  "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+  "target_dir": "content-factory/runs/aqa-7132-mock-v1/artifact"
+}
