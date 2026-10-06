@@ -253,10 +253,6 @@ function unique<T>(values: T[]): T[] {
 
 const REUSABLE_SOURCE_CLASSES = new Set(['OPEN', 'LICENSED', 'REVISION_OWNED'])
 
-function lowerFirst(value: string): string {
-  return value.length === 0 ? value : `${value[0].toLowerCase()}${value.slice(1)}`
-}
-
 function tidyLabel(value: string): string {
   return value
     .replace(/^(a|an|the)\s+/i, '')
