@@ -47,6 +47,8 @@ describe('block markup', () => {
     const html = renderToStaticMarkup(<LearnBlock block={breakEvenPage.blocks[3]} />)
     expect(html).toContain('Step 1 of 3')
     expect(html).toContain('A café pays £1,800 rent')
+    expect(html).toContain('Your task')
+    expect(html).toContain('Work out how many lattes it must sell each month to break even.')
     expect(html.indexOf('A café pays £1,800 rent')).toBeLessThan(html.indexOf('Fixed costs per month'))
     expect(html).toContain('Rent £1,800 + wages £3,240 = £5,040')
     expect(html).not.toContain('£3.20 − £1.10 = £2.10')

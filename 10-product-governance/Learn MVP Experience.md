@@ -243,7 +243,7 @@ After the recap, a divider, then in this order:
 
 #### Page placement
 
-The key idea (key terms) sits in the right-hand margin on desktop only, top-aligned beside the main text it belongs with: the explanations before it, or, if it opens the page, the example or worked example after it. Everything else, including the quick check, spans the full article width. A worked example always opens with a short setup stating the situation and numbers, so the student can attempt each step before it is shown. Tablet and mobile are one column in content order. The recap is always last, preceded by any misconception.
+The key idea (key terms) sits in the right-hand margin on desktop only, top-aligned beside the main text it belongs with: the explanations before it, or, if it opens the page, the example or worked example after it. Everything else, including the quick check, spans the full article width. A worked example always opens with a short setup stating the situation and numbers, followed by a "Your task" line saying exactly what to work out, so the student can attempt each step before it is shown. Tablet and mobile are one column in content order. The recap is always last, preceded by any misconception.
 
 #### Sequential Learn continuation
 
