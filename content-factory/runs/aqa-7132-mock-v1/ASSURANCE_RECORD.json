@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "course_id": "aqa:aqa-a-level:7132",
+  "asset_id": "aqa-7132-mock-v1",
+  "content_classes": [
+    "A3"
+  ],
+  "source_run": {
+    "workflow_run_id": 37474355815,
+    "artifact_id": 11418322000,
+    "reviewed_commit": "1c80a2642d988b603d83ccd74d58ff43836db0f5",
+    "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+    "cumulative_spend_usd": 6.540598,
+    "pilot_spend_cap_usd": 8
+  },
+  "exact_paper_fingerprints": {
+    "7132/1": "799872e7575cffd782405af591c74eb3e44e11ae259c0bea0dc0960764d81fc0",
+    "7132/2": "fd49c211bcddbd0ab652b0068499ba0b23dcc2863ec2afe0ceec20053267e3f4",
+    "7132/3": "9487ab31521272f9e0149bec8a543e5a75f0fd2e314769988f2029563996f4bd"
+  },
+  "source_rights": {
+    "awarding_body_material": "REFERENCE_ONLY",
+    "awarding_body_evidence": [
+      "content-factory/mock-exams/aqa-7132/MOCK_PROFILE.json",
+      "content-factory/mock-exams/aqa-7132/CALIBRATION.json"
+    ],
+    "learner_facing_content": "Revision-authored",
+    "protected_aqa_question_or_mark_scheme_copying_authorised": false
+  },
+  "deterministic_verification": {
+    "status": "PASS",
+    "papers": 3,
+    "generated_question_slots": 41,
+    "shared_contexts": 4,
+    "total_attempted_marks": 300,
+    "quantitative_marks": 34,
+    "deterministic_findings": 0,
+    "deterministic_near_duplicates": 0,
+    "paper_1_printed_marks": 150,
+    "paper_1_attempted_marks": 100,
+    "all_papers_duration_minutes": 120
+  },
+  "independent_review": {
+    "unit_review": {
+      "checklist_version": "mock-generation-v1",
+      "passed": 13,
+      "blocking": 0,
+      "escalated": 0,
+      "failed": 0,
+      "reused_unchanged_in_final_run": 13
+    },
+    "whole_paper_review": {
+      "checklist_version": "mock-whole-paper-v1",
+      "passed": 3,
+      "blocking": 0,
+      "escalated": 0,
+      "failed": 0,
+      "reused_unchanged_in_final_run": 3
+    },
+    "whole_set_review": {
+      "checklist_version": "mock-whole-set-v1",
+      "can_progress": true,
+      "blocking": 0,
+      "escalated": 0,
+      "failed": 0,
+      "logged_non_blocking": 1,
+      "fresh_provider_calls_in_final_run": 1
+    },
+    "founder_resolution_source": "content-factory/mock-exams/aqa-7132/FOUNDER_ESCALATION_RESOLUTIONS.json"
+  },
+  "issue_register": [
+    {
+      "severity": "minor",
+      "issue_type": "opinion_or_style",
+      "check_id": "progression_and_difficulty",
+      "affected_ids": [
+        "7132/3"
+      ],
+      "resolution_status": "logged_non_blocking",
+      "summary": "Paper 3 response demand follows a largely ascending 12/12/16/16/20/24 tariff pattern."
+    },
+    {
+      "severity": "minor",
+      "issue_type": "opinion_or_style",
+      "check_id": "quantitative_balance",
+      "affected_ids": [
+        "7132/3",
+        "P3-01",
+        "P3-02",
+        "P3-03",
+        "P3-06"
+      ],
+      "resolution_status": "logged_non_blocking",
+      "summary": "Paper 3 explicit quantitative marks are concentrated in the opening questions even though later data could support additional calculations."
+    },
+    {
+      "severity": "minor",
+      "issue_type": "opinion_or_style",
+      "check_id": "cross_paper_duplication",
+      "affected_ids": [
+        "P3-03",
+        "P3-06"
+      ],
+      "resolution_status": "logged_non_blocking",
+      "summary": "P3-03 and P3-06 revisit the same dual-sourcing decision from different operational evidence."
+    }
+  ],
+  "final_decision": {
+    "status": "CONDITIONAL PASS",
+    "scope": "restricted_pilot",
+    "effective_when": "Founder-approved merge of the governed release PR",
+    "rationale": "All applicable deterministic and independent A3 controls can progress with no unresolved blocking, material, escalated or failed finding; remaining findings are logged non-critical style limitations."
+  },
+  "qualified_human_subject_review": {
+    "status": "pending",
+    "required_before": "commercial teaching benchmark or broader teaching-quality claims"
+  },
+  "publication": {
+    "current_state": "not_published",
+    "learner_surface_changed_by_this_record": false,
+    "assisted_marking_eligibility_changed": false,
+    "learner_claim": "A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper."
+  },
+  "known_limitations": [
+    "P3-03 and P3-06 repeat the dual-sourcing decision at a semantic level.",
+    "Paper 3 progression and quantitative balance carry logged opinion/style notes.",
+    "Qualified human Business subject-specialist review is pending."
+  ],
+  "revalidation_triggers": [
+    "Any material learner-facing mock wording, context, data or mark-scheme change.",
+    "Any material Course Truth, Exam Truth, Mock Profile, calibration or deterministic paper-plan change.",
+    "Any material generation/review contract change that invalidates prior quality evidence.",
+    "A qualified human reviewer identifies a blocking/material issue or systemic assurance weakness."
+  ],
+  "retained_evidence": {
+    "root": "content-factory/runs/aqa-7132-mock-v1/artifact",
+    "manifest": "content-factory/runs/aqa-7132-mock-v1/RETENTION_MANIFEST.json"
+  }
+}
