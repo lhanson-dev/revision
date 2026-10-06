@@ -123,7 +123,7 @@ function feedbackCopy(evidence: LearningEvidence | null) {
     if (evidence.rating === 1) return { title: 'You were close.', body: 'That suggests this area is worth another pass. Revision will keep adjusting as you practise it again.' }
     return { title: 'This one needs another look.', body: 'That is useful evidence, not a failure. Revision now has a stronger reason to keep this area near the top of your next steps.' }
   }
-  if (evidence.source === 'multiple_choice') {
+  if (evidence.source === 'multiple_choice' || evidence.source === 'calculation') {
     return evidence.correct
       ? { title: 'You got that one right.', body: 'Revision has one stronger learning result to use alongside the earlier starting signal. It will keep building the picture rather than over-reading one answer.' }
       : { title: 'That answer needs another look.', body: 'Revision can now use this normal learning evidence to keep the topic in focus and refine what it recommends next.' }

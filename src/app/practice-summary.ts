@@ -162,6 +162,14 @@ export function summariseSession(input: SummaryInput): SessionSummaryModel {
       } else if (answer.confidence === 'guess') {
         goOver.push({ key: answer.questionId, number, title, reason: `You got this right, but you said you were guessing. ${question.explanation}`, tone: 'nearly', learn })
       }
+    } else if (question.type === 'calculation') {
+      const workings = question.workings ? `\n${question.workings}` : ''
+      if (!answer.correct) {
+        const typed = answer.typedAnswer?.trim()
+        goOver.push({ key: answer.questionId, number, title, reason: `${typed ? `You answered ${typed}.` : 'No answer could be read.'} The answer is ${question.answerText}.${workings}`, tone: 'needswork', learn })
+      } else if (answer.confidence === 'guess') {
+        goOver.push({ key: answer.questionId, number, title, reason: `You got this right, but you said you were guessing. The answer is ${question.answerText}.${workings}`, tone: 'nearly', learn })
+      }
     }
   })
   goOver.sort((left, right) => left.number - right.number)

@@ -7,7 +7,7 @@
 
 ### The start screen (Practice tab)
 - Eyebrow "PRACTICE · {topic}", the heading "Test what you know", then "Right now" with the topic's status badge, "Last practised …" and "Change topic". It names the topic, never the course.
-- **Scored card.** Neutral chip "Counts towards Understanding and Exam readiness". "How many?" 5 / 10 / 15, each with "about 8 / 15 / 25 min". "Start {n} questions" and the time estimate. The number never promises more questions than the topic has: if the topic has fewer, the button says so and a note explains. A "What kind?" row of toggle pills (at least one stays on) appears only when the topic has more than one kind of question. Today every topic has multiple choice only, so the row is hidden; it appears once calculations and written answers are added.
+- **Scored card.** Neutral chip "Counts towards Understanding and Exam readiness". "How many?" 5 / 10 / 15, each with "about 8 / 15 / 25 min". "Start {n} questions" and the time estimate. The number never promises more questions than the topic has: if the topic has fewer, the button says so and a note explains. A "What kind?" row of toggle pills (at least one stays on) appears only when the topic has more than one kind of question. It shows "Multiple choice" and "Calculations" for a topic that has calculation questions, and "Written answers" once a marker is connected.
 - **Warm-up card.** Chip "Doesn’t count towards Exam readiness". Rows for Flashcards, Formulas and Case study, each with a real count, and only when there is content.
 - **REV card** (deep). REV's existing recommendation reason for this topic. If there is none, no card is shown.
 - Courses whose packs include a self-marked exam question keep it as one extra row under the Scored card.
@@ -36,7 +36,7 @@
 
 **Evidence.** Every checked answer is saved with its confidence as schema version 2 (see `docs/technical/Phase 5 Learning Evidence Service.md`). A right guess counts as half in readiness. A certain but wrong answer is a stronger gap through the recommendation: that topic goes first and REV's reason says so. The live status is whatever the existing readiness engine says after each saved answer; **no new formula**. The plan updates without a message. Rule: `10-product-governance/Adaptive Revision Planning.md` section 9.
 
-**Not here yet.** Calculation questions need a `calculation` evidence source, which needs a small database migration (its own approved PR first). The end-of-session screen is interim until the summary (PR 5).
+
 
 ### Written answers marked by REV (Practice v2.2, PR 3)
 
@@ -76,6 +76,19 @@
 
 **At 320px** the warm-up chip may wrap inside the pop-up, because its label is longer than the screen is wide; everywhere else chips stay on one line.
 
+### Calculation questions
+
+A calculation is a single-number "Calculate…" question from the AQA 7132 bank (16 today). The student types the number; **software** checks it against the mark scheme's answer. REV is not involved and no AI runs, so calculations need no marker and are always offered where a topic has one.
+
+- **The screen.** The same question screen as multiple choice (meta row, context and table, the prompt), with a box labelled "Your answer" and the unit beside it ("£", "£m", "%", "days"). "Show your working" is removed from the prompt, because only the final number is checked here; the hint says "Work it out, then type just the number. Your working is not marked here."
+- **How sure are you?** appears once the box holds a number the checker can read. Choosing one checks the answer, exactly as for multiple choice.
+- **What counts as right** (`src/app/practice-calculation.ts`). The number can be typed the way the exam writes it: "£24.2m", "24.2", "24.2 million" and "24,200,000" are the same answer; "12.5" and "12.5%" are the same. The only allowance is the last decimal place of the mark scheme's answer (12.5 accepts 12.45 to 12.55; 15,150 does not accept 15,157). The roundings the mark scheme itself accepts are also right (2.7 years for 2.67). A percentage typed as a fraction (0.125) is wrong. If no number can be read, it says so and nothing is saved.
+- **Feedback.** Right: "Nice, that's the one." with the answer and the worked answer from the mark scheme. Wrong: "Not quite.", "You answered {typed}. The answer is {answer}.", the worked answer line by line, and the same certain-miss note. Misses come back later in the session like any other question; a right guess is asked once more.
+- **Evidence.** A new source, `calculation` (schema version 2): `correct`, `enteredValue`, `expectedValue`, `unit`, optional `confidence`. It counts like a quick check: right is 100, a right guess is 50, wrong is 0, and it feeds the same "application" evidence family. A certain-but-wrong calculation moves its topic first in REV's recommendation like a multiple-choice one. There is no partial credit, because no marker awards marks. The migration only widens the allowed list of sources on `learning_evidence`; no rows, policies or grants change.
+- **Summary.** Calculations count in "{n} of {m} right". "Go over these" says "You answered {typed}. The answer is {answer}." and shows the working.
+
+**Known gap.** The admin operations metrics function counts quick checks by source `multiple_choice` only, so calculations are not in its "quick checks" count yet. It does not affect students.
+
 ### The session summary (Practice v2.2, PR 5)
 
 When the last question of a session is done, the pop-up closes and the Practice tab shows a summary of how the session went (`src/app/practice-summary.ts` works it out, `src/app/ui/practice/PracticeSummary.tsx` shows it). Nothing in it is hard-coded: every line comes from the session's own answers and the topic's saved evidence.
@@ -112,6 +125,7 @@ Skill names come from the AQA item list (reference only, never teaching copy) in
 - `src/app/practice-session.test.ts`, `practice-questions.test.ts`, `src/engine/evidence/answer-confidence.test.ts`: the level rule, the question pool, the evidence contract and what confidence changes.
 - `src/app/practice-flashcards.test.ts`, `tests/e2e/practice-flashcards.spec.ts`: deck order and ratings; the turn, ratings saved as 0/1/2, reduced motion, the end screen, accessibility and no sideways scroll.
 - `src/app/rev-marking.test.ts`, `src/engine/evidence/rev-marked-evidence.test.ts`: the checks on REV's output and the evidence contract. `tests/e2e/practice-written.spec.ts`: the written answer journeys on the fixture page.
+- `src/app/practice-calculation.ts` and its test: reading what the student typed, units and what counts as right. `tests/e2e/practice-calculations.spec.ts`: the kind pill, the number box, right and wrong feedback, saved evidence, the summary, accessibility and no sideways scroll.
 - `src/app/practice-summary.test.ts`, `tests/e2e/practice-summary.spec.ts`: the summary rules and the journeys (content, REV card, Practise again, Back, accessibility, no sideways scroll, tile columns).
 - `tests/e2e/practice-feedback.spec.ts`: feedback tones, saved confidence, the retry journey and the level step-up.
 
@@ -119,4 +133,4 @@ Skill names come from the AQA item list (reference only, never teaching copy) in
 `docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/` to `-pr5/` (`before/` and `after/`, 1440, 834 and 390, light and dark).
 
 ## Still to come
-Calculation questions (they need a new evidence source, so their own migration PR) and a real marker for written answers (see the open items under PR 3).
+A real marker for written answers (see the open items under PR 3).

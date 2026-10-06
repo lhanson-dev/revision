@@ -40,8 +40,8 @@ async function writeAnswer(page: Page, count: number) {
 test('without a marker connected, written answers are not offered at all', async ({ page }) => {
   await page.goto(`${fixture}?marker=off`)
   const scored = page.getByRole('region', { name: 'Scored questions' })
-  await expect(scored.getByRole('button', { name: 'Multiple choice' })).toHaveCount(0) // one kind only: nothing to choose
   await expect(scored.getByRole('button', { name: 'Written answers' })).toHaveCount(0)
+  await expect(scored.getByRole('button', { name: 'Calculations' })).toHaveCount(1) // calculations need no marker, so they are offered
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   await expect(page.locator('.practice-question__options button').first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Ask REV to mark it' })).toHaveCount(0)

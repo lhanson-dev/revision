@@ -46,6 +46,34 @@ export function createMultipleChoiceEvidence(input: {
   }
 }
 
+export function createCalculationEvidence(input: {
+  id: string
+  moduleId: string
+  topicId: string
+  contentId: string
+  correct: boolean
+  enteredValue: number
+  expectedValue: number
+  unit?: string | null
+  confidence?: AnswerConfidence
+  occurredAt?: string
+}): LearningEvidence {
+  return {
+    id: input.id,
+    moduleId: input.moduleId,
+    topicId: input.topicId,
+    occurredAt: input.occurredAt ?? new Date().toISOString(),
+    contentId: input.contentId,
+    schemaVersion: 2,
+    source: 'calculation',
+    correct: input.correct,
+    enteredValue: input.enteredValue,
+    expectedValue: input.expectedValue,
+    ...(input.unit ? { unit: input.unit } : {}),
+    ...(input.confidence ? { confidence: input.confidence } : {}),
+  }
+}
+
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 type AoMarks = Record<AoKey, number>
 

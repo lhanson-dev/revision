@@ -54,7 +54,8 @@ const REQUIRED_EVIDENCE_TYPES = 2
 const familyFor = (evidence: LearningEvidence): EvidenceFamily => {
   switch (evidence.source) {
     case 'flashcard': return 'recall'
-    case 'multiple_choice': return 'application'
+    case 'multiple_choice':
+    case 'calculation': return 'application'
     case 'exam_question': return 'exam'
     case 'exam_attempt': return 'simulation'
   }
@@ -188,12 +189,12 @@ export function assessTopicReadiness(moduleId: string, topicId: string, evidence
 export function unresolvedConfidentMisses(items: readonly LearningEvidence[]): string[] {
   const latest = new Map<string, LearningEvidence>()
   items.forEach((item) => {
-    if (item.source !== 'multiple_choice') return
+    if (item.source !== 'multiple_choice' && item.source !== 'calculation') return
     const current = latest.get(item.contentId)
     if (!current || item.occurredAt >= current.occurredAt) latest.set(item.contentId, item)
   })
   return [...latest.values()]
-    .filter((item) => item.source === 'multiple_choice' && !item.correct && item.confidence === 'certain')
+    .filter((item) => (item.source === 'multiple_choice' || item.source === 'calculation') && !item.correct && item.confidence === 'certain')
     .map((item) => item.contentId)
 }
 

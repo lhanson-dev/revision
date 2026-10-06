@@ -299,3 +299,20 @@
   .planner-runtime .practice-summary__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .planner-runtime .practice-summary__item { padding: 14px; }
 }
+
+/* Calculation answer box */
+.planner-runtime .practice-calc { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.planner-runtime .practice-calc__label { color: var(--rv-text); font: 800 14px/1.2 var(--font-family-product); }
+.planner-runtime .practice-calc__row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.planner-runtime .practice-calc__input { width: min(100%, 260px); min-height: 56px; padding: 0 16px; border: 2px solid var(--rv-line); border-radius: 14px; background: var(--rv-bg); color: var(--rv-text); font: 800 24px/1 var(--font-family-display); }
+.planner-runtime .practice-calc__input:focus-visible { outline: 2px solid var(--rv-teal); outline-offset: 3px; }
+.planner-runtime .practice-calc__input:disabled { opacity: 1; }
+.planner-runtime .practice-calc__unit { color: var(--rv-text); font: 800 18px/1 var(--font-family-product); white-space: nowrap; }
+.planner-runtime .practice-calc__result { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; font: 800 14px/1 var(--font-family-product); white-space: nowrap; }
+.planner-runtime .practice-calc--right .practice-calc__input { border-color: var(--learning-status-gotit-ink); }
+.planner-runtime .practice-calc--right .practice-calc__result { background: var(--learning-status-gotit-tint); color: var(--learning-status-gotit-ink); }
+.planner-runtime .practice-calc--wrong .practice-calc__input { border-color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-calc--wrong .practice-calc__result { background: var(--learning-status-needswork-tint); color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-calc__hint { color: var(--rv-text-2); font: 600 14px/1.4 var(--font-family-product); }
+.planner-runtime .practice-calc__error { color: var(--learning-status-needswork-ink); font: 700 14px/1.4 var(--font-family-product); }
+.planner-runtime .practice-summary__item-reason { white-space: pre-line; }
