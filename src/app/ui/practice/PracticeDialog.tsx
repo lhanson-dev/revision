@@ -20,6 +20,12 @@ export interface PracticeDialogProps {
   /** Pinned under the body, e.g. the feedback bar. */
   footer?: ReactNode
   className?: string
+  /** A second row inside the bar, under the close button and title: the mock exam's question strip. */
+  barExtra?: ReactNode
+  /** Accessible name of the close button. Defaults to "Close practice". */
+  closeLabel?: string
+  /** Accessible name of the scrolling body. Defaults to "Practice content". */
+  contentLabel?: string
 }
 
 /**
@@ -27,20 +33,21 @@ export interface PracticeDialogProps {
  * close button leave it, and focus goes back to the button that opened it (the shared overlay contract).
  * On desktop and tablet it floats over the dimmed page; on a phone it is a full-height sheet.
  */
-export function PracticeDialog({ label, subjectMark, accentStyle, onClose, bar, children, footer, className }: PracticeDialogProps) {
+export function PracticeDialog({ label, subjectMark, accentStyle, onClose, bar, children, footer, className, barExtra, closeLabel = 'Close practice', contentLabel = 'Practice content' }: PracticeDialogProps) {
   return (
     <div className="practice-overlay" style={accentStyle}>
       <ModalShell className={classNames('practice-dialog', className)} label={label} onDismiss={onClose}>
         <div className="practice-dialog__bar">
           <div className="practice-dialog__bar-inner">
-            <button type="button" className="practice-dialog__close" aria-label="Close practice" onClick={onClose}>
+            <button type="button" className="practice-dialog__close" aria-label={closeLabel} onClick={onClose}>
               <Icon name="close" size="standard" />
             </button>
             <span className="practice-dialog__mark" aria-hidden="true">{subjectMark}</span>
             {bar}
           </div>
+          {barExtra}
         </div>
-        <div className="practice-dialog__body" tabIndex={0} role="region" aria-label="Practice content">
+        <div className="practice-dialog__body" tabIndex={0} role="region" aria-label={contentLabel}>
           <div className="practice-dialog__column">{children}</div>
         </div>
         {footer}

@@ -28,8 +28,6 @@ export interface ExamPrepPageProps {
   /** "9 of 10 topics covered" for each paper number. */
   topicsCovered: Readonly<Record<number, string>>
   mocks: readonly MockRow[]
-  /** Mocks that cannot be done untimed yet. */
-  untimedUnavailable?: readonly string[]
   suggestion: MockSuggestion | null
   lastMock: LastMock | null
   onStartMock: (mockId: string, mode: ExamMockMode) => void
@@ -40,7 +38,7 @@ export interface ExamPrepPageProps {
  * shell. Only a mock opens in a pop-up. Presentation only: every number and sentence arrives as a prop.
  */
 export function ExamPrepPage(props: ExamPrepPageProps) {
-  const { courseName, boardName, accentStyle, firstExam, guide, topicsCovered, mocks, untimedUnavailable = [], suggestion, lastMock, onStartMock } = props
+  const { courseName, boardName, accentStyle, firstExam, guide, topicsCovered, mocks, suggestion, lastMock, onStartMock } = props
   const titleId = useId()
   const panelId = useId()
   const [openPaper, setOpenPaper] = useState<number | null>(null)
@@ -161,7 +159,7 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
                 </div>
                 <div className="exam-mock__actions">
                   <button type="button" className="exam-button exam-button--primary" onClick={() => onStartMock(mock.id, 'timed')}>Start timed</button>
-                  <button type="button" className="exam-button exam-button--secondary" disabled={untimedUnavailable.includes(mock.id)} onClick={() => onStartMock(mock.id, 'untimed')}>Practise untimed</button>
+                  <button type="button" className="exam-button exam-button--secondary" onClick={() => onStartMock(mock.id, 'untimed')}>Practise untimed</button>
                 </div>
               </li>
             ))}

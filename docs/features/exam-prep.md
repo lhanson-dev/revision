@@ -1,6 +1,6 @@
 # Exam Prep: understand the papers, then sit a mock
 
-**Status:** Exam Prep v2.2. PR 1 of 4 (the page, in the shell) is in review. PR 2 (mock pop-up: before you start and questions), PR 3 (untimed examiner guide, hand in, marking) and PR 4 (results and evidence) are not built yet.
+**Status:** Exam Prep v2.2. PR 1 of 4 (the page, in the shell) is merged. PR 2 (the mock pop-up: Before you start, the questions, the timer, flags, leaving, autosave) is in review. PR 3 (untimed examiner guide, hand in, REV marking) and PR 4 (results and evidence) are not built yet.
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1, 5 and 9), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 7), `docs/features/shell-navigation.md`. Visual source: the Exam Prep redesign, option 1a.
 
 ## PR 1: the page, in the learner shell
@@ -31,15 +31,40 @@ When an item is approved, remove its `check` in the content file and the chip go
 
 Nothing the factory produced (questions, mark schemes, mock papers, marking) is changed by this work. The mocks are read as they are.
 
-**Mock exams today.** The list is every real mock the course has: each paper's simulation, and the retained AQA 7132 mocks. There is no short mock yet, so none is shown. **Until PR 2**, "Start timed" opens the existing simulator inside the Practice pop-up (same dialog, focus trap, Esc, and focus back to the button). "Practise untimed" opens the existing single-question practice; it is off for the retained pilot papers, which do not offer it. The Before you start screen, question strip, the new timer and the rest of the mock flow arrive in PR 2.
+**Mock exams today.** The list is every real mock the course has: each paper's simulation, and the retained AQA 7132 mocks. There is no short mock yet, so none is shown. A mock opens in the pop-up described below (PR 2).
 
 **Removed from this tab:** the old "Choose a paper" list with a simulator inside each paper, and the browsable AQA question bank. The bank's questions are used in Practice.
 
+## PR 2: the mock pop-up
+
+A mock opens as a pop-up over the faded Exam Prep page, in the same shell as a Practice session: `role="dialog"`, `aria-modal`, focus trapped, Esc or the close button, and focus goes back to the button that opened it. Up to 900px wide on desktop; on a phone a full-height sheet. The top bar has a 44px close button, the subject letter mark, the mock's name with a mode line ("Timed mock · like the real exam" or "Untimed practice") and, once the student starts, the timer pill. **The mode is chosen on the Exam Prep page (Start timed or Practise untimed) and cannot change after the Before you start screen.**
+
+**Before you start.** "BEFORE YOU START" and "{mock}, timed" (or "untimed"), then rows with an icon tile, a title and one line:
+- Timed: "{n} minutes, and the timer doesn't stop"; "{q} questions, {m} marks" with the pacing line; "No help while the clock runs" (no examiner guide, no REV, no notes); "Flag a question and come back" (answers save as you type); "Marked straight after". A neutral chip says "Counts towards Exam readiness". Buttons: **Start the clock** and Not now.
+- Untimed: "No timer"; the questions and marks; flag and come back; "Marked at the end". The chip says "Doesn't count towards Exam readiness: untimed practice". Buttons: **Start** and Not now.
+- The numbers (minutes, questions, marks) are the exam's own (`briefFor` in `src/app/mock-exam.ts`). A choice between two essays counts as one question.
+- If the student has a saved attempt for this mock, the screen says so ("You have a saved attempt. 3 of 25 answered") with **Carry on** or **Start again**.
+
+**The question strip** sits under the bar: 44px squares, answered = filled, current = teal ring, flagged = a flag icon. Each is a real button named in words ("Question 3, answered, flagged"). Beside it: "3 of 25 answered · 1 flagged". On a phone the squares scroll sideways **inside the strip**; the page never scrolls sideways.
+
+**The question.** "QUESTION n OF m", a marks chip, a clock and "about {marks × 1.2, rounded} min" (the paper's 2 hours over its 100 marks; arithmetic, not an exam board rule). The case study or source material is a `<details>` box on the subject tint: open on desktop and tablet, open on a phone only for question 1. It shows the paper's own context and tables as they are. Then the prompt (30px, 24px on a phone), and either the paper's own answer options (no feedback of any kind) or a box with "{n} words · saved". Footer: **Flag to check** (on = yellow tint, a flag and "Flagged"), Previous, Next question or Finish. A choice between two essays keeps its "Attempt this question for section …" choice, and Finish waits until each is made.
+
+**The timer.** An ink pill that counts down the paper's time (`role="timer"`, not read out every second). At 5 minutes left it becomes the yellow tint with the same clock icon and words; it never flashes. A separate polite notice says "5 minutes left." once and "1 minute left." once. Untimed shows a neutral "Untimed · n min in", counted in whole minutes. The seconds spent on each question are recorded (kept in the saved attempt for PR 4's evidence). The clock follows real time, so a sleeping tab does not lose time. When the time runs out the answers are handed in and there is no way back to the questions.
+
+**Leaving.** The close button (and Esc) opens an inline yellow panel, "Leave this mock?", with focus on **Keep going**. Timed: "Your answers are saved and you can finish it later. The timer stops, so it won't count as a timed mock." **Save and leave** saves the attempt as untimed. The clock keeps running while the panel is open: leaving is a choice, not a pause. A saved attempt always carries on untimed.
+
+**Autosave.** Every answer, flag and choice is saved after a short pause, and when the page is hidden, so a refresh loses nothing. **Where:** in this browser (localStorage), per student and per mock, behind a `MockDraftStore` interface (`src/app/mock-exam-drafts.ts`). Saving on the server needs the exam-attempts/drafts table (data model proposal section 7), a migration that needs the Founder's approval, so it is **not built here**; the interface lets it replace the browser version without touching the screens.
+
+**What happens at the end (until PR 3).** Finish, or time running out, hands the written paper to the existing self-marking ("Self-mark your paper"), which is unchanged: the student compares each answer with the marking guidance and awards AO marks. REV marking, the hand-in screen and the examiner guide are PR 3. **Evidence:** a mock that stayed timed from the first second to the last saves each question's marks and the whole-paper attempt as timed (as before). An untimed mock, or a timed one that was left, saves each question's marks (Understanding) but **no whole-paper attempt**, so it never feeds Exam readiness (the PR 4 evidence rule, applied early because the readiness engine would otherwise count it).
+
+**Removed:** the old Pause and Stop exam controls and the 10-minute "Under 10 min" timer state (the old simulator is still used on the paper-level route, unchanged). The timer no longer pauses; leaving replaces Stop.
+
 ## Not built yet
-- Mock pop-up flow, timer, flags, autosave and leaving rules (PR 2).
-- Examiner guide, hand in, time's up and REV marking (PR 3).
+- Examiner guide (untimed), the hand-in screen, the "TIME'S UP" screen and REV marking (PR 3).
 - Results and the `mock_exam` evidence source (PR 4).
 
 ## Tests
 - `src/app/exam-prep.test.ts`: the paper guide against AQA's structure and the factory's objectives, that every item not from the factory is flagged and listed for the checker, suggested minutes worked out from marks, the date and topic wording, mock rows, REV's suggestion and "Last mock".
+- `src/app/mock-exam.test.ts`: the timer (format, yellow at 5 minutes, milestones once), untimed counter, question names, suggested minutes, the Before you start numbers, leaving, and the saved attempt (including broken storage).
+- `tests/e2e/mock-exam-flow.spec.ts`: Before you start (timed, untimed, Not now, focus), the strip and question (no feedback, flags, words saved), the timer (not read every second, yellow, announced once), time's up, leaving and carrying on, refresh autosave, evidence for untimed and timed hand-ins, the case study box, no sideways scroll at 1440 / 960 / 620 / 390 / 320, accessibility.
 - `tests/e2e/exam-prep-page.spec.ts`: opens in the shell, order and wording, no date, one paper open at a time, AOs and command words, mock rows, the pop-up and focus return, no sideways scroll at 1440 / 960 / 620 / 390 / 320, no label wraps mid-label, accessibility check, and that the items still being checked all carry the flag. Set `EXAM_PREP_SHOTS=<folder>` to also write the light and dark screenshots at 1440, 834 and 390.

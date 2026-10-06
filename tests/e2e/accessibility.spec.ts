@@ -183,7 +183,10 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await expectWcagBaseline(page, 'Exam Prep')
 
   await page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first().getByRole('button', { name: 'Start timed' }).click()
-  await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Before you start|Harbour|, timed$/ }).first()).toBeVisible()
+  await expectWcagBaseline(page, 'Mock exam: before you start')
+  await page.getByRole('button', { name: 'Start the clock' }).click()
+  await expect(page.getByRole('group', { name: 'Questions' })).toBeVisible()
   await expectWcagBaseline(page, 'Timed exam')
 
   await page.goto(`${appPath}#/courses/aqa%3Aaqa-as%3A7131/progress`)
