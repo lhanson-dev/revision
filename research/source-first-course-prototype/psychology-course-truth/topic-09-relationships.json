@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-04",
+  "checkedDate": "2026-10-06",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 9,
   "topic": "Relationships",
@@ -95,7 +95,7 @@
         {"url":"https://doi.org/10.3389/fpsyg.2016.01257","classification":"OPEN","licence":"CC BY","supports":["equity theory","input-outcome ratios","proportionality and inequity"]},
         {"url":"https://doi.org/10.5964/ijpr.v1i1.5","classification":"OPEN","licence":"CC BY 4.0","supports":["equity in romantic relationships","relationship satisfaction","cultural qualification"]},
         {"url":"https://doi.org/10.3389/fpsyg.2022.912978","classification":"OPEN","licence":"CC BY","supports":["investment model","satisfaction","quality of alternatives","investment","commitment"]},
-        {"url":"https://pressbooks.nvcc.edu/nolcst110book/chapter/9-1-interpersonal-communication-overview-social-sci-libretexts/","classification":"OPEN_ITEM_LEVEL_WITH_SHAREALIKE","licence":"underlying Paynton/Hahn section CC BY-SA 4.0","supports":["relationship-deterioration phase concepts","intra-psychic phase","dyadic phase","dissolution vocabulary"],"caution":"Only independently worded factual extraction is used; no ShareAlike expression is adapted into proprietary learner text."}
+        {"url":"https://doi.org/10.3389/fpsyg.2025.1646458","classification":"OPEN","licence":"CC BY","supports":["Duck relationship-dissolution model","intra-psychic phase","dyadic phase","social phase","grave-dressing phase","stage-based relationship deterioration"]}
       ],
       "revisionSynthesis": [
         "AQA's exact Duck taxonomy supplies course alignment; the reusable explanation is independently authored and explicitly warns that phase models describe common processes rather than inevitable sequences."
