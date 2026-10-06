@@ -1,29 +1,45 @@
 /**
  * Practice questions for a session (v2.2): every source is turned into one shape here, so the session rules and the
  * screen never care where a question came from. Sources today: the course pack's own multiple-choice questions and
- * the AQA 7132 question bank (multiple choice only for now; calculations wait for their evidence migration, written
- * answers for the REV marking PR).
+ * the AQA 7132 question bank (multiple choice, and written points-scheme questions up to 6 marks). Calculation questions
+ * wait for their evidence migration. Levels-based written questions stay in Exam Prep.
  */
 import type { MultipleChoiceQuestion } from '../../content/schema'
 import type { AqaBusinessQuestionRecord } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import { levelFromAoTags, type SessionQuestion } from './practice-session'
+import type { MarkPoint } from './rev-marking'
 import type { PracticeQuestionType } from './practice-start'
 
 export type PracticeTable = { title?: string; columns: string[]; rows: string[][] }
 
-export type PracticeQuestion = SessionQuestion & {
+type QuestionBase = SessionQuestion & {
   topicId: string
   marks: number
   prompt: string
   context: string | null
   table: PracticeTable | null
-  options: Array<{ text: string; /** Why this option is tempting or wrong. Null when the content does not say. */ why: string | null }>
-  correctOption: number
-  explanation: string
   /** AQA specification items the question tests. Used for the skills map in the session summary. */
   specItemIds: string[]
   source: 'course-pack' | 'aqa-bank'
 }
+
+export type MultipleChoicePracticeQuestion = QuestionBase & {
+  type: 'multiple-choice'
+  options: Array<{ text: string; /** Why this option is tempting or wrong. Null when the content does not say. */ why: string | null }>
+  correctOption: number
+  explanation: string
+}
+
+/** A written answer marked point by point (a points mark scheme, up to 6 marks). */
+export type WrittenPracticeQuestion = QuestionBase & {
+  type: 'written'
+  aoTags: string[]
+  points: MarkPoint[]
+}
+
+export type PracticeQuestion = MultipleChoicePracticeQuestion | WrittenPracticeQuestion
+
+export const WRITTEN_MAX_MARKS = 6
 
 /** "B is incorrect because this describes ..." becomes "This describes ..." so it reads after "You picked B:". */
 export function cleanRationale(raw: string | undefined): string | null {
@@ -38,7 +54,7 @@ export function cleanRationale(raw: string | undefined): string | null {
 
 const INTRO = /^Revision-authored AQA-style practice(?:\s+question)?\s*[.:]\s*/i
 
-export function coursePackQuestionToPractice(question: MultipleChoiceQuestion): PracticeQuestion {
+export function coursePackQuestionToPractice(question: MultipleChoiceQuestion): MultipleChoicePracticeQuestion {
   return {
     id: question.id,
     type: 'multiple-choice',
@@ -67,8 +83,32 @@ export function bankQuestionId(record: Pick<AqaBusinessQuestionRecord, 'batch' |
   return `aqa7132-${record.batch}-${record.id}`
 }
 
-/** A multiple-choice bank record as a practice question, or null when it is not a well-formed single-answer MCQ. */
-export function bankRecordToPractice(record: AqaBusinessQuestionRecord, topicId: string): PracticeQuestion | null {
+/**
+ * A single-number "Calculate" question. These become calculation questions (an input, no marking by REV) once their
+ * evidence source is migrated, so they are not offered as written answers.
+ */
+export function isCalculationRecord(record: AqaBusinessQuestionRecord): boolean {
+  const { question } = record
+  return question.family === 'SHORT_ANSWER' && question.calcs.length === 1 && !/\(a\)/i.test(question.stem)
+}
+
+function commonFields(record: AqaBusinessQuestionRecord, topicId: string) {
+  const { question } = record
+  const context = question.context.replace(INTRO, '').trim()
+  return {
+    id: bankQuestionId(record),
+    level: levelFromAoTags(question.ao_tags),
+    topicId,
+    marks: question.marks,
+    prompt: question.stem,
+    context: context || null,
+    table: question.table ? { title: question.table.title, columns: question.table.columns, rows: question.table.rows.map((row) => row.cells) } : null,
+    specItemIds: record.target_item_ids,
+    source: 'aqa-bank' as const,
+  }
+}
+
+function toMultipleChoice(record: AqaBusinessQuestionRecord, topicId: string): MultipleChoicePracticeQuestion | null {
   const { question } = record
   if (question.family !== 'MCQ' || question.mark_scheme.type !== 'single_option') return null
   const letters = question.options.map((option) => option.label)
@@ -81,23 +121,33 @@ export function bankRecordToPractice(record: AqaBusinessQuestionRecord, topicId:
       ? rationales[index]
       : rationales.find((entry) => entry.trim().toUpperCase().startsWith(`${letters[index].toUpperCase()} `)),
   )
-  const explanation = rationaleFor(correctOption) ?? 'That is the correct answer.'
-  const context = question.context.replace(INTRO, '').trim()
   return {
-    id: bankQuestionId(record),
+    ...commonFields(record, topicId),
     type: 'multiple-choice',
-    level: levelFromAoTags(question.ao_tags),
-    topicId,
-    marks: question.marks,
-    prompt: question.stem,
-    context: context || null,
-    table: question.table ? { title: question.table.title, columns: question.table.columns, rows: question.table.rows.map((row) => row.cells) } : null,
     options: question.options.map((option, index) => ({ text: option.text, why: index === correctOption ? null : rationaleFor(index) })),
     correctOption,
-    explanation,
-    specItemIds: record.target_item_ids,
-    source: 'aqa-bank',
+    explanation: rationaleFor(correctOption) ?? 'That is the correct answer.',
   }
+}
+
+function toWritten(record: AqaBusinessQuestionRecord, topicId: string): WrittenPracticeQuestion | null {
+  const { question } = record
+  if (question.family !== 'SHORT_ANSWER' && question.family !== 'DATA_RESPONSE') return null
+  if (question.mark_scheme.type !== 'points' || isCalculationRecord(record)) return null
+  const raw = (question.mark_scheme.points ?? []) as Array<{ marks?: unknown; descriptor?: unknown; accept?: unknown }>
+  const points: MarkPoint[] = raw.map((point) => ({
+    marks: typeof point.marks === 'number' ? point.marks : 0,
+    descriptor: typeof point.descriptor === 'string' ? point.descriptor : '',
+    accept: Array.isArray(point.accept) ? point.accept.filter((entry): entry is string => typeof entry === 'string') : [],
+  }))
+  const total = points.reduce((sum, point) => sum + point.marks, 0)
+  if (points.length === 0 || points.some((point) => point.marks < 1 || !point.descriptor) || total !== question.marks || question.marks > WRITTEN_MAX_MARKS) return null
+  return { ...commonFields(record, topicId), type: 'written', aoTags: question.ao_tags, points }
+}
+
+/** A bank record as a practice question: multiple choice, or a written points question. Null for anything else. */
+export function bankRecordToPractice(record: AqaBusinessQuestionRecord, topicId: string): PracticeQuestion | null {
+  return toMultipleChoice(record, topicId) ?? toWritten(record, topicId)
 }
 
 export type PoolInput = {
@@ -107,6 +157,11 @@ export type PoolInput = {
   coursePack: readonly MultipleChoiceQuestion[]
   /** Pass the AQA 7132 bank for that course only. */
   bank?: readonly AqaBusinessQuestionRecord[] | null
+  /**
+   * Written questions are only offered when a marker is connected. Without one there is nothing to mark them, and
+   * Revision does not pretend otherwise.
+   */
+  includeWritten?: boolean
 }
 
 /** Every question for the topic in a stable order: the course pack's own first, then the bank in bank order. */
@@ -118,7 +173,7 @@ export function buildQuestionPool(input: PoolInput): PracticeQuestion[] {
       return first === input.topicOrder
     })
     .map((record) => bankRecordToPractice(record, input.topicId))
-    .filter((question): question is PracticeQuestion => question !== null)
+    .filter((question): question is PracticeQuestion => question !== null && (question.type !== 'written' || input.includeWritten === true))
   return [...own, ...fromBank]
 }
 

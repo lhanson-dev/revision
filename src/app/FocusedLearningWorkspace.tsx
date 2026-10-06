@@ -3,13 +3,15 @@ import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
-import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { createFlashcardEvidence, createMultipleChoiceEvidence, createRevMarkedExamQuestionEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type WrittenAnswerMarker } from './rev-marking'
 import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import {
   advanceQuestionSession,
   isSessionFinished,
   levelNote,
   recordSessionAnswer,
+  reviseLastAnswer,
   sessionRightCount,
   startQuestionSession,
   statusDirection,
@@ -35,6 +37,7 @@ import {
   PracticeDialog,
   PracticeProgressBar,
   PracticeQuestionView,
+  PracticeWrittenQuestion,
   PracticeStart,
   SegmentedControl,
   SelectField,
@@ -43,6 +46,8 @@ import {
   accentStyle,
   type LearningStatus,
   type PracticeWarmupRow,
+  type WrittenChallengeView,
+  type WrittenPhase,
 } from './ui'
 
 export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
@@ -65,6 +70,11 @@ export type FocusedLearningWorkspaceProps = {
   topicProgress?: Record<string, TopicProgress>
   /** Practice only: when each question (by content id) was last answered, so a new session starts with the ones not seen lately. */
   lastAnsweredAt?: Record<string, string>
+  /**
+   * Practice only: what marks written answers (REV). Until one is connected, written questions are not offered, so no
+   * student sees pretend marking.
+   */
+  marker?: WrittenAnswerMarker | null
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -127,6 +137,7 @@ export function FocusedLearningWorkspace({
   preferredTopicId,
   topicProgress,
   lastAnsweredAt,
+  marker = null,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
@@ -146,6 +157,13 @@ export function FocusedLearningWorkspace({
   const [statusSeen, setStatusSeen] = useState<{ topicId: string; status: LearningStatus | undefined } | null>(null)
   const [statusMove, setStatusMove] = useState<'up' | 'down' | null>(null)
   const answering = useRef(false)
+  // A written answer: the draft, where marking has got to, what REV gave, and the one challenge a student may make.
+  const [writtenDraft, setWrittenDraft] = useState('')
+  const [writtenPhase, setWrittenPhase] = useState<WrittenPhase>('writing')
+  const [writtenMarked, setWrittenMarked] = useState<MarkedAnswer | null>(null)
+  const [writtenEvidenceId, setWrittenEvidenceId] = useState<string | null>(null)
+  const [markingError, setMarkingError] = useState<string | null>(null)
+  const [challenge, setChallenge] = useState<WrittenChallengeView>({ state: 'closed', text: '', reply: null, error: null })
   const [cardIndex, setCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
@@ -182,14 +200,15 @@ export function FocusedLearningWorkspace({
   const card = cards[cardIndex % Math.max(cards.length, 1)]
   const aqaBank = adapter.manifest.examBoard.id === 'aqa' && adapter.manifest.specificationCode === '7132' ? aqaBusinessQuestionBank : null
   const fullPool = useMemo(
-    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank }), lastAnsweredAt),
-    [adapter, topicId, questions, aqaBank, lastAnsweredAt],
+    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank, includeWritten: marker !== null }), lastAnsweredAt),
+    [adapter, topicId, questions, aqaBank, lastAnsweredAt, marker],
   )
   const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
   const isRetry = session?.currentIsRetry ?? false
   const questionsFinished = session !== null && !question
   const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
-  const upcoming = session && checked ? advanceQuestionSession(session, fullPool) : null
+  const answeredNow = question?.type === 'written' ? writtenPhase === 'marked' : Boolean(checked)
+  const upcoming = session && answeredNow ? advanceQuestionSession(session, fullPool) : null
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
   const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
@@ -225,6 +244,15 @@ export function FocusedLearningWorkspace({
   const revReason = recommendation && recommendation.topicId === topicId ? recommendation.reason : null
   const subjectIdentity = resolveSubjectIdentity(adapter.manifest.subject.id, adapter.manifest.subject.name)
 
+  function resetWritten() {
+    setWrittenDraft('')
+    setWrittenPhase('writing')
+    setWrittenMarked(null)
+    setWrittenEvidenceId(null)
+    setMarkingError(null)
+    setChallenge({ state: 'closed', text: '', reply: null, error: null })
+  }
+
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
     setCardIndex(0)
@@ -233,6 +261,7 @@ export function FocusedLearningWorkspace({
     setChecked(null)
     setSession(null)
     setStatusMove(null)
+    resetWritten()
     setOpenActivity(null)
   }
 
@@ -242,6 +271,7 @@ export function FocusedLearningWorkspace({
     setSession(startQuestionSession(typedPool, startCount))
     setSelectedOption(null)
     setChecked(null)
+    resetWritten()
     setStatusMove(null)
     setOpenActivity('quick-check')
   }
@@ -280,7 +310,7 @@ export function FocusedLearningWorkspace({
 
   /** Choosing how sure you are checks the answer. Every answer, including a second go, is saved as evidence. */
   async function checkAnswer(confidence: AnswerConfidence) {
-    if (!question || !session || selectedOption === null || checked || answering.current) return
+    if (question?.type !== 'multiple-choice' || !session || selectedOption === null || checked || answering.current) return
     answering.current = true
     const evidence = createMultipleChoiceEvidence({
       id: evidenceId('mcq'),
@@ -309,6 +339,89 @@ export function FocusedLearningWorkspace({
     setChecked({ selected: selectedOption, confidence })
   }
 
+  /** REV marks the written answer. The marker's output is checked against the mark scheme before anything is shown or saved. */
+  async function markWritten() {
+    if (question?.type !== 'written' || !marker || !session || writtenPhase !== 'writing' || !writtenDraft.trim() || answering.current) return
+    answering.current = true
+    setMarkingError(null)
+    setWrittenPhase('marking')
+    try {
+      const output = await marker.mark({ questionId: question.id, prompt: question.prompt, context: question.context, points: question.points, answer: writtenDraft })
+      const result = verifyMarking(question.points, writtenDraft, output)
+      const evidence = createRevMarkedExamQuestionEvidence({
+        id: evidenceId('written'),
+        moduleId: adapter.manifest.id,
+        topicId: question.topicId,
+        contentId: question.id,
+        marksAwarded: result.got,
+        marksAvailable: result.available,
+        aoTags: question.aoTags,
+        pointsGiven: result.given,
+        modelVersion: result.modelVersion,
+      })
+      setStatusMove(null)
+      try {
+        await onRecordEvidence(evidence)
+      } catch {
+        setWrittenPhase('writing')
+        setMarkingError('REV marked it, but I couldn’t save the result. Your answer is still here, so try again.')
+        return
+      }
+      setWrittenMarked(result)
+      setWrittenEvidenceId(evidence.id)
+      setSession(recordSessionAnswer(session, {
+        questionId: question.id,
+        correct: result.got === result.available,
+        level: question.level,
+        marks: { got: result.got, available: result.available },
+        pointsGiven: result.given,
+      }))
+      setWrittenPhase('marked')
+    } catch (error) {
+      setWrittenPhase('writing')
+      setMarkingError(error instanceof MarkingError
+        ? 'REV’s marking didn’t come back in a form I can trust, so I haven’t used it. Your answer is still here, so try again.'
+        : 'REV couldn’t mark this just now. Your answer is still here, so try again.')
+    } finally {
+      answering.current = false
+    }
+  }
+
+  /** The student challenges a mark. REV re-checks (same checks as the first marking) and replies; the result replaces the earlier row. */
+  async function sendChallenge() {
+    if (question?.type !== 'written' || !marker || !session || !writtenMarked || !writtenEvidenceId || answering.current) return
+    const text = challenge.text.trim()
+    if (!text) return
+    answering.current = true
+    setChallenge((current) => ({ ...current, state: 'sending', error: null }))
+    try {
+      const output = await marker.challenge({ questionId: question.id, prompt: question.prompt, context: question.context, points: question.points, answer: writtenDraft, previous: writtenMarked, challenge: text })
+      const resolved = resolveChallenge(question.points, writtenDraft, writtenMarked, output)
+      const evidence = createRevMarkedExamQuestionEvidence({
+        id: evidenceId('written'),
+        moduleId: adapter.manifest.id,
+        topicId: question.topicId,
+        contentId: question.id,
+        marksAwarded: resolved.marked.got,
+        marksAvailable: resolved.marked.available,
+        aoTags: question.aoTags,
+        pointsGiven: resolved.marked.given,
+        modelVersion: resolved.marked.modelVersion,
+        supersedes: writtenEvidenceId,
+        challenge: { text, outcome: resolved.outcome, modelVersion: resolved.modelVersion },
+      })
+      await onRecordEvidence(evidence)
+      setWrittenMarked(resolved.marked)
+      setWrittenEvidenceId(evidence.id)
+      setSession(reviseLastAnswer(session, { correct: resolved.marked.got === resolved.marked.available, marks: { got: resolved.marked.got, available: resolved.marked.available }, pointsGiven: resolved.marked.given }))
+      setChallenge({ state: 'replied', text, reply: resolved.reply, error: null })
+    } catch {
+      setChallenge((current) => ({ ...current, state: 'open', error: 'REV couldn’t check that just now. Your challenge is still here, so try again.' }))
+    } finally {
+      answering.current = false
+    }
+  }
+
   async function recordExamQuestion() {
     if (!examQuestion || !exam || !showMarkingGuidance || examRecorded) return
     const evidence = createSelfAssessedExamQuestionEvidence({
@@ -332,6 +445,7 @@ export function FocusedLearningWorkspace({
     setSession(advanceQuestionSession(session, fullPool))
     setSelectedOption(null)
     setChecked(null)
+    resetWritten()
   }
 
   function nextFormula() {
@@ -409,7 +523,7 @@ export function FocusedLearningWorkspace({
 
     const done = session ? sessionRightCount(session) : { right: 0, fresh: 0 }
     const optionState = (index: number) => {
-      if (!question) return 'idle' as const
+      if (question?.type !== 'multiple-choice') return 'idle' as const
       if (checked) return index === question.correctOption ? 'correct' as const : checked.selected === index ? 'wrong' as const : 'idle' as const
       return selectedOption === index ? 'selected' as const : 'idle' as const
     }
@@ -421,7 +535,32 @@ export function FocusedLearningWorkspace({
         <p className="practice-panel__lead">Every answer is saved and counts towards {topicShort}.</p>
         <div><Button onClick={finishSession}>Back to Practice</Button></div>
       </div>
-    ) : question && session ? (
+    ) : question?.type === 'written' && session ? (
+      <PracticeWrittenQuestion
+        eyebrow={`Question ${Math.min(session.askedIds.length, session.total)}`}
+        level={question.level}
+        marksLabel={`${question.marks} ${question.marks === 1 ? 'mark' : 'marks'}`}
+        sourceChip={question.source === 'aqa-bank' ? 'AQA-style practice' : null}
+        levelNote={writtenPhase === 'writing' && session.answers.length > 0 ? levelNote(session.adaptive) : null}
+        context={question.context}
+        table={question.table}
+        prompt={question.prompt}
+        pointCount={question.points.length}
+        answer={writtenDraft}
+        onAnswerChange={setWrittenDraft}
+        phase={writtenPhase}
+        onMark={markWritten}
+        markingError={markingError}
+        result={writtenMarked ? { got: writtenMarked.got, available: writtenMarked.available, note: writtenMarked.note, points: question.points.map((point, index) => ({ descriptor: point.descriptor, given: writtenMarked.given[index] })) } : null}
+        challenge={challenge}
+        onChallengeOpen={() => setChallenge((current) => ({ ...current, state: 'open', error: null }))}
+        onChallengeText={(text) => setChallenge((current) => ({ ...current, text }))}
+        onChallengeSend={sendChallenge}
+        onChallengeCancel={() => setChallenge((current) => ({ ...current, state: 'closed', error: null }))}
+        nextLabel={upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'}
+        onNext={nextQuestion}
+      />
+    ) : question?.type === 'multiple-choice' && session ? (
       <PracticeQuestionView
         eyebrow={isRetry ? 'Another go at one you missed' : `Question ${Math.min(session.askedIds.length, session.total)}`}
         level={question.level}
@@ -442,7 +581,7 @@ export function FocusedLearningWorkspace({
 
     // The feedback bar: what happened, why, and one action. No Learn or Ask REV links per question (they are in the summary).
     const feedbackFor = () => {
-      if (!checked || !question) return null
+      if (!checked || question?.type !== 'multiple-choice') return null
       const correct = checked.selected === question.correctOption
       const letter = 'ABCDEF'[checked.selected]
       const why = question.options[checked.selected]?.why

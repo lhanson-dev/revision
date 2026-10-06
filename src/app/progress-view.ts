@@ -22,7 +22,7 @@ const detailFor = (evidence: LearningEvidence) => {
   switch (evidence.source) {
     case 'flashcard': return evidence.rating === 2 ? 'Strong recall' : evidence.rating === 1 ? 'Partial recall' : 'Needs review'
     case 'multiple_choice': return evidence.correct ? 'Correct answer' : 'Incorrect answer'
-    case 'exam_question': return `${evidence.marksAwarded}/${evidence.marksAvailable} marks${evidence.markingMethod === 'self_assessed' ? ' · self-assessed' : ''}`
+    case 'exam_question': return `${evidence.marksAwarded}/${evidence.marksAvailable} marks${evidence.markingMethod === 'self_assessed' ? ' · self-assessed' : evidence.markingMethod === 'rev_assessed' ? ' · marked by REV' : ''}`
     case 'exam_attempt': return `${evidence.marksAwarded}/${evidence.marksAvailable} marks${evidence.timed ? ' · timed' : ''}${evidence.markingMethod === 'self_assessed' ? ' · self-assessed' : ''}`
   }
 }

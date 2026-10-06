@@ -85,3 +85,48 @@ export function createSelfAssessedExamQuestionEvidence(input: {
     assessmentObjectives,
   }
 }
+
+/**
+ * Evidence for a written answer marked by REV (schema version 2). It keeps the marks, which mark points were given, the
+ * model that marked it and, if the student challenged a mark, what they said and what came of it. It does not keep the
+ * answer text. A challenge is saved as a new row that replaces the earlier one (`supersedes`).
+ */
+export function createRevMarkedExamQuestionEvidence(input: {
+  id: string
+  moduleId: string
+  topicId: string
+  contentId: string
+  marksAwarded: number
+  marksAvailable: number
+  /** The question's AO tags. One tag puts the marks under that AO; several leave the split unknown. */
+  aoTags: readonly string[]
+  pointsGiven: readonly boolean[]
+  modelVersion: string
+  challenge?: { text: string; outcome: 'changed' | 'unchanged'; modelVersion: string }
+  supersedes?: string
+  occurredAt?: string
+}): LearningEvidence {
+  const aoKeys = [...new Set(input.aoTags.map((tag) => /^AO([1-4])$/i.exec(tag.trim())?.[1]).filter((key): key is string => Boolean(key)))]
+  const assessmentObjectives = aoKeys.length === 1
+    ? { [`ao${aoKeys[0]}`]: { awarded: input.marksAwarded, available: input.marksAvailable } }
+    : {}
+  return {
+    id: input.id,
+    moduleId: input.moduleId,
+    topicId: input.topicId,
+    occurredAt: input.occurredAt ?? new Date().toISOString(),
+    contentId: input.contentId,
+    schemaVersion: 2,
+    source: 'exam_question',
+    markingMethod: 'rev_assessed',
+    marksAwarded: input.marksAwarded,
+    marksAvailable: input.marksAvailable,
+    assessmentObjectives,
+    revMarking: {
+      modelVersion: input.modelVersion,
+      pointsGiven: [...input.pointsGiven],
+      ...(input.challenge ? { challenge: input.challenge } : {}),
+    },
+    ...(input.supersedes ? { supersedesEvidenceId: input.supersedes } : {}),
+  }
+}

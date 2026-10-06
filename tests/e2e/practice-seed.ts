@@ -102,7 +102,7 @@ export async function captureEvidence(page: Page) {
 
 // ---- Answering questions in the Practice pop-up (v2.2) ------------------------------------------------------------
 
-type BankRecord = { question: { stem: string; options: Array<{ label: string }>; mark_scheme: { correct_option?: string } } }
+type BankRecord = { question: { stem: string; options: Array<{ label: string }>; mark_scheme: { correct_option?: string; points?: Array<{ marks: number; descriptor: string; accept: string[] }> } } }
 const bank: BankRecord[] = (JSON.parse(readFileSync('content/business/aqa-a-level/shared/fast-path-question-bank.json', 'utf8')) as { questions: BankRecord[] }).questions
 
 /** The right option for a question from the AQA bank, found by its wording. Null for questions that are not in the bank. */
@@ -135,4 +135,12 @@ export async function answerKnown(page: Page, right: boolean, sure: Sure = 'Fair
   const count = await page.locator('.practice-question__options button').count()
   await answerWith(page, right ? correct! : (correct! + 1) % count, sure)
   return prompt
+}
+
+/** The mark points of a written question from the AQA bank, found by its wording. */
+export function bankMarkPoints(prompt: string) {
+  const record = bank.find((item) => item.question.stem.trim() === prompt.trim().replace(/\s+\n/g, '\n'))
+    ?? bank.find((item) => item.question.stem.replace(/\s+/g, ' ').trim() === prompt.replace(/\s+/g, ' ').trim())
+  expect(record, `"${prompt.slice(0, 60)}" should be in the AQA bank`).toBeTruthy()
+  return record!.question.mark_scheme.points ?? []
 }

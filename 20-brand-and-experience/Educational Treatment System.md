@@ -218,6 +218,10 @@ Default visual strength: quiet-medium.
 
 The recap should feel like the close of a teaching sequence. It must not become a substitute for the explanation above it.
 
+### Written answer marked by REV (Practice)
+
+When REV marks a written Practice answer, the result is shown on the REV surface (the deep card), never as a tinted teaching block: it is REV speaking, not course content. It lists every mark point with an icon and words ("Mark given" / "Not in your answer yet"), never colour alone, gives one specific note on how to earn a missing mark, lets the student challenge a mark, and always says **"REV's marking is a guide, not an exam board mark."** It is capped like self-marked work in readiness and never claims examiner certainty. Product rules: `10-product-governance/Assisted Exam Answer Marking.md`. Screen behaviour: `docs/features/practice.md`.
+
 ### Contextual REV help
 
 **Purpose:** let the learner ask for another explanation without creating a second assistant experience inside the page.

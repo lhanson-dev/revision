@@ -1,4 +1,4 @@
-import { evidencePercentage, type LearningEvidence } from '../evidence/evidence'
+import { evidencePercentage, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
 
 export type EvidenceFamily = 'recall' | 'application' | 'exam' | 'simulation'
 export type ConfidenceLevel = 'insufficient' | 'low' | 'medium' | 'high'
@@ -119,7 +119,8 @@ export function recentActivity(evidence: readonly LearningEvidence[], limit = 5)
     }))
 }
 
-export function assessReadiness(evidence: readonly LearningEvidence[], now = new Date()): ReadinessResult {
+export function assessReadiness(allEvidence: readonly LearningEvidence[], now = new Date()): ReadinessResult {
+  const evidence = withoutSuperseded(allEvidence)
   const usable = evidence
     .map((item) => ({ item, percentage: evidencePercentage(item), family: familyFor(item) }))
     .filter((entry): entry is typeof entry & { percentage: number } => entry.percentage !== null)
@@ -152,10 +153,11 @@ export function assessReadiness(evidence: readonly LearningEvidence[], now = new
     if (latestAge > 60) confidence = 'low'
   }
 
-  const selfAssessedExamCount = usable.filter((entry) =>
-    entry.item.source === 'exam_question' && entry.item.markingMethod === 'self_assessed').length
-  const confidenceNote = selfAssessedExamCount > 0 && !hasExternallyMarkedExamEvidence
-    ? ' Written exam evidence is currently self-assessed, so confidence cannot be high until independently marked evidence is available.'
+  // Self-assessed and REV-marked written answers are both a guide, not an exam board mark: confidence stays capped.
+  const guideMarkedExamCount = usable.filter((entry) =>
+    entry.item.source === 'exam_question' && (entry.item.markingMethod === 'self_assessed' || entry.item.markingMethod === 'rev_assessed')).length
+  const confidenceNote = guideMarkedExamCount > 0 && !hasExternallyMarkedExamEvidence
+    ? ' Written exam evidence is currently self-assessed or marked by REV, so confidence cannot be high until independently marked evidence is available.'
     : ''
 
   const explanation = score === null
@@ -207,10 +209,11 @@ function familyMean(items: readonly LearningEvidence[], family: EvidenceFamily):
 export function recommendNextActivity(
   moduleId: string,
   topicIds: readonly string[],
-  evidence: readonly LearningEvidence[],
+  allEvidence: readonly LearningEvidence[],
   now = new Date(),
 ): RevisionRecommendation | null {
   if (topicIds.length === 0) return null
+  const evidence = withoutSuperseded(allEvidence)
 
   const candidates = topicIds.map((topicId, order) => {
     const items = evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && evidencePercentage(item) !== null)
@@ -273,7 +276,7 @@ export function recommendNextActivity(
       : 'Use a Quick check next to add another scored application result.'
   }
 
-  const hasSelfAssessedExam = target.items.some((item) => item.source === 'exam_question' && item.markingMethod === 'self_assessed')
+  const hasSelfAssessedExam = target.items.some((item) => item.source === 'exam_question' && (item.markingMethod === 'self_assessed' || item.markingMethod === 'rev_assessed'))
   const hasExternallyMarkedExam = target.items.some((item) => item.source === 'exam_question' && item.markingMethod === 'externally_marked')
   const evidenceSummary = target.readiness.score === null
     ? `${target.items.length} scored activit${target.items.length === 1 ? 'y' : 'ies'} across ${families.size} evidence type${families.size === 1 ? '' : 's'}; there is not enough varied evidence for a topic readiness score yet.`

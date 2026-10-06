@@ -70,13 +70,21 @@ export function pickQuestion<Q extends SessionQuestion>(pool: readonly Q[], aske
 
 export type SessionAnswer = {
   questionId: string
+  /** Multiple choice: the right option. Written: full marks. */
   correct: boolean
-  confidence: AnswerConfidence
-  selectedOption: number
+  /** Multiple choice only. */
+  confidence: AnswerConfidence | null
+  selectedOption: number | null
+  /** Written answers only: the marks REV gave, out of those available. */
+  marks: { got: number; available: number } | null
+  /** Written answers only: which mark points were given (after the software check), in order. */
+  pointsGiven: boolean[] | null
   level: PracticeLevel
   /** A second go at a question that was missed earlier in the session. */
   retry: boolean
 }
+
+export type RecordedAnswer = Pick<SessionAnswer, 'questionId' | 'correct' | 'level'> & Partial<Pick<SessionAnswer, 'confidence' | 'selectedOption' | 'marks' | 'pointsGiven'>>
 
 export type QuestionSession = {
   total: number
@@ -111,23 +119,36 @@ export function startQuestionSession<Q extends SessionQuestion>(pool: readonly Q
  * A miss comes back, and so does a right answer that was a guess. A second go never asks for a third on a guess:
  * once a question has been answered right in a retry, it is done.
  */
-export function needsAnotherGo(answer: Pick<SessionAnswer, 'correct' | 'confidence'>, wasRetry: boolean): boolean {
+export function needsAnotherGo(answer: Pick<SessionAnswer, 'correct' | 'confidence'> & { marks?: SessionAnswer['marks'] }, wasRetry: boolean): boolean {
+  // A written answer is not asked again (REV's note says how to earn the missing mark); it only moves the level.
+  if (answer.marks) return false
   if (!answer.correct) return true
   return !wasRetry && answer.confidence === 'guess'
 }
 
 /** Records the answer to the question on screen: updates the level (fresh questions only) and the retry queue. */
-export function recordSessionAnswer(session: QuestionSession, answer: Omit<SessionAnswer, 'retry'>): QuestionSession {
+export function recordSessionAnswer(session: QuestionSession, answer: RecordedAnswer): QuestionSession {
   const retry = session.currentIsRetry
   const answersGiven = session.answers.length + 1
   return {
     ...session,
-    answers: [...session.answers, { ...answer, retry }],
+    answers: [...session.answers, { confidence: null, selectedOption: null, marks: null, pointsGiven: null, ...answer, retry }],
     adaptive: retry ? session.adaptive : applyAnswerToLevel(session.adaptive, answer.correct),
-    retryQueue: needsAnotherGo(answer, retry)
+    retryQueue: needsAnotherGo({ correct: answer.correct, confidence: answer.confidence ?? null, marks: answer.marks }, retry)
       ? queueMissed(session.retryQueue, answer.questionId, answersGiven)
       : clearRetried(session.retryQueue, answer.questionId),
   }
+}
+
+/**
+ * A challenge can change the marks on the last answer. The answer record follows (the summary reads it). The level is
+ * not revisited: it already moved on what REV first gave.
+ */
+export function reviseLastAnswer(session: QuestionSession, patch: Pick<SessionAnswer, 'correct' | 'marks' | 'pointsGiven'>): QuestionSession {
+  if (session.answers.length === 0) return session
+  const answers = [...session.answers]
+  answers[answers.length - 1] = { ...answers[answers.length - 1], ...patch }
+  return { ...session, answers }
 }
 
 /** Moves on: a due retry first, then the next fresh question, then (pool or count exhausted) any retry still waiting. */
