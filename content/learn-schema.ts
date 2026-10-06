@@ -131,7 +131,6 @@ export const learnPageSchema = z.object({
   orientation: z.string().min(1),
   blocks: z.array(learnBlockSchema).min(1),
 })
-
 export const learnGroupSchema = z.object({
   id: slugSchema,
   title: z.string().min(1),

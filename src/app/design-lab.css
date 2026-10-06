@@ -806,45 +806,6 @@
 .design-lab-next-step p { max-width: 520px; }
 .design-lab-next-step span { display: block; margin-top: var(--space-2); color: var(--color-text-secondary); font-size: var(--type-caption-size); }
 
-.design-lab-education-grid > .ui-educational-treatment {
-  margin: 0;
-}
-
-.design-lab-education-grid .ui-educational-treatment--relationship {
-  padding: var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-}
-
-.design-lab-relationship {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.design-lab-relationship span {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-weight: 650;
-}
-
-.design-lab-comparison {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
-}
-
-.design-lab-comparison > div {
-  padding: var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--color-surface);
-}
-
-.design-lab-comparison p { margin: var(--space-1) 0 0 !important; }
-
 .design-lab-metric {
   display: flex;
   align-items: baseline;
@@ -1119,7 +1080,6 @@
   .design-lab-language-grid { grid-template-columns: 1fr; }
   .design-lab-segmented { width: 100%; }
   .design-lab-segmented .ui-button { min-width: 0; flex: 1; padding-inline: var(--space-2); }
-  .design-lab-comparison { grid-template-columns: 1fr; }
   .design-lab-graphic { grid-template-columns: 1fr; }
   .design-lab-graphic .ui-brand-asset { width: 86px; }
   .design-lab-modal-actions { display: grid; grid-template-columns: 1fr; }

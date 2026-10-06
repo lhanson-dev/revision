@@ -4,10 +4,10 @@ import {
   BrandAsset,
   Button,
   DrawerShell,
-  EducationalTreatment,
   EmptyState,
   Icon,
   IconButton,
+  LearnBlock,
   LoadingState,
   Menu,
   MenuItem,
@@ -21,8 +21,10 @@ import {
   Surface,
   TextAreaField,
   TextField,
+  accentStyle,
   type IconName,
 } from './ui'
+import { everyBlockType } from './ui/learn/fixtures'
 
 type ThemeName = 'light' | 'dark'
 type CoverageKind = 'shared' | 'page' | 'gap'
@@ -442,16 +444,9 @@ export function DesignLab() {
         </section>
 
         <section className="design-lab-section" aria-labelledby="education">
-          <SectionHeading id="education" title="Educational treatments" description="Shared Learn treatments for meaningful teaching departures from ordinary prose. Normal explanation remains normal prose." coverage="shared" />
-          <div className="design-lab-grid design-lab-grid--2 design-lab-education-grid">
-            <EducationalTreatment kind="key-idea" label="Key idea" title="Revenue is not profit"><p>Revenue is the money received from sales. Profit is what remains after costs are deducted.</p></EducationalTreatment>
-            <EducationalTreatment kind="example" label="Example" title="A small retailer"><p>A retailer selling 100 units at £20 records £2,000 revenue before considering its costs.</p></EducationalTreatment>
-            <EducationalTreatment kind="worked-example" label="Worked example" title="Calculate gross profit"><ol><li>Identify revenue.</li><li>Subtract cost of sales.</li><li>State the result with units.</li></ol></EducationalTreatment>
-            <EducationalTreatment kind="relationship" label="Relationship" title="From demand to revenue"><div className="design-lab-relationship"><span>Demand</span><Icon name="arrow-right" /><span>Sales volume</span><Icon name="arrow-right" /><span>Revenue</span></div></EducationalTreatment>
-            <EducationalTreatment kind="comparison" label="Comparison" title="Revenue vs profit"><div className="design-lab-comparison"><div><strong>Revenue</strong><p>Income from sales.</p></div><div><strong>Profit</strong><p>Revenue minus costs.</p></div></div></EducationalTreatment>
-            <EducationalTreatment kind="quantitative" label="Quantitative" title="Contribution"><p><strong>Contribution per unit = selling price − variable cost per unit</strong></p></EducationalTreatment>
-            <EducationalTreatment kind="misconception" label="Common misconception" title="High revenue does not guarantee high profit"><p>A business can have large sales and still make a loss if its costs are higher.</p></EducationalTreatment>
-            <EducationalTreatment kind="recap" label="Recap" title="What to remember"><ul><li>Revenue measures sales income.</li><li>Profit considers costs.</li></ul></EducationalTreatment>
+          <SectionHeading id="education" title="Learn blocks" description="One shared style per Learn content type (tinted). The content says what a block is; the UI decides how it looks; the course supplies only its subject hue." coverage="shared" />
+          <div className="learn-reading-workspace learn-reading-workspace--specimen" style={accentStyle('blue')}>
+            {everyBlockType.map((block, index) => <LearnBlock key={`${block.type}-${index}`} block={block} />)}
           </div>
         </section>
 

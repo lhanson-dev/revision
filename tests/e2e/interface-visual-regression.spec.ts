@@ -81,10 +81,13 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
  * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
  * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
+ * Re-pinned on 6 October 2026 for Learn content styles v2.2 (PR 536): the Founder was shown the
+ * before/after screenshots in docs/design/learner-redesign-v2/screenshots/learn-v2.2/ and replied
+ * "approved 536". Digests from CI run 37379430851 (run and retry agree).
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '41e3d466d2e9e4fc084f50aaed539fb11429576cd5ff991d8cb18e4f05f58503',
-  'desktop:dark': 'f8ab3c815c16e585c8ef2459c7354e826aab8a34281970b1d5502f92a44bc758',
+  'desktop:light': '5cbe660e7162b375fed77cab3b5149108b49c683f26d2039c6f6872120878835',
+  'desktop:dark': 'f0237d5fb3ad18d743f478ed07aeaaeb170d4b6683f5234c3a1ed6ac69a472a3',
 }
 
 /**
