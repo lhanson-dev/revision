@@ -76,9 +76,21 @@ export function founderFixFeedbackTargets(
   return result
 }
 
+function normaliseContractText(text: string) {
+  return text
+    .normalize('NFKC')
+    .replace(/[\u2018\u2019\u201A\u201B\u2032]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F\u2033]/g, '"')
+    .replace(/[\u2010\u2011\u2012\u2013\u2014\u2015\u2212]/g, '-')
+    .replace(/\u00A0/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+}
+
 function containsAll(text: string, phrases: string[]) {
-  const normalised = text.toLowerCase()
-  return phrases.every((phrase) => normalised.includes(phrase.toLowerCase()))
+  const normalised = normaliseContractText(text)
+  return phrases.every((phrase) => normalised.includes(normaliseContractText(phrase)))
 }
 
 function markSchemeText(question: MockQuestion) {
