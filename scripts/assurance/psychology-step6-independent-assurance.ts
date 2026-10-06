@@ -65,6 +65,7 @@ type EducationalReviewPacket = {
   topicNumbers: number[]
   topics: string[]
   requirementIds: string[]
+  reviewScopeIds: string[]
   permittedSourceDomains: string[]
   rightsBoundary: {
     officialAqaSourceTextIncluded: false
@@ -93,6 +94,7 @@ type AssessmentReviewPacket = {
   courseId: 'aqa:aqa-a-level:7182'
   paperId: string
   reviewedContentIds: string[]
+  reviewScopeIds: string[]
   rightsBoundary: {
     officialAqaSourceTextIncluded: false
     webSearchPermitted: false
@@ -163,6 +165,12 @@ const MAX_OUTPUT_TOKENS = 16_000
 const OUTPUT_DIR = '.artifacts/psychology-step6-independent-assurance'
 
 const unique = <T>(values: T[]): T[] => [...new Set(values)]
+
+function objectId(value: unknown): string[] {
+  if (!value || typeof value !== 'object') return []
+  const id = (value as { id?: unknown }).id
+  return typeof id === 'string' && id.length > 0 ? [id] : []
+}
 
 function sourceDomain(url: string): string {
   return new URL(url).hostname.toLowerCase().replace(/^www\./, '')
@@ -262,6 +270,12 @@ export function buildPsychologyStep6Packets(courseTruthDir: string, examTruthPat
         }
       }))
     if (group.requirementIds) exactSet(requirements.map((requirement) => requirement.requirementId), group.requirementIds, `${group.id} requirement slice`)
+    const reviewScopeIds = unique(requirements.flatMap((requirement) => [
+      requirement.requirementId,
+      ...objectId(requirement.learn),
+      ...requirement.practice.flatMap(objectId),
+      ...requirement.practiceMarkingPacks.flatMap(objectId),
+    ]))
     const packet: EducationalReviewPacket = {
       schemaVersion: 1,
       packetType: 'educational',
@@ -270,6 +284,7 @@ export function buildPsychologyStep6Packets(courseTruthDir: string, examTruthPat
       topicNumbers: [...group.topicNumbers],
       topics: groupTopics.map((topic) => topic.topic),
       requirementIds: requirements.map((requirement) => requirement.requirementId),
+      reviewScopeIds,
       permittedSourceDomains: unique(requirements.flatMap((requirement) => requirement.reusableSourceEvidence.map((source) => sourceDomain(source.url)))),
       rightsBoundary: {
         officialAqaSourceTextIncluded: false,
@@ -317,6 +332,13 @@ export function buildPsychologyStep6Packets(courseTruthDir: string, examTruthPat
       ...topicQuestionIds,
       ...fullPaperQuestionMarkingPacks.map((pack) => pack.itemId),
     ])
+    const reviewScopeIds = unique([
+      ...reviewedContentIds,
+      ...topicSets.flatMap(objectId),
+      ...topicMarkingPacks.flatMap(objectId),
+      ...objectId({ id: scoredPaperSimulation.baseSimulationId }),
+      ...fullPaperQuestionMarkingPacks.flatMap(objectId),
+    ])
     const packet: AssessmentReviewPacket = {
       schemaVersion: 1,
       packetType: 'assessment',
@@ -324,6 +346,7 @@ export function buildPsychologyStep6Packets(courseTruthDir: string, examTruthPat
       courseId: 'aqa:aqa-a-level:7182',
       paperId,
       reviewedContentIds,
+      reviewScopeIds,
       rightsBoundary: {
         officialAqaSourceTextIncluded: false,
         webSearchPermitted: false,
@@ -386,9 +409,8 @@ const findingSchema = z.object({
   affectedArtifact: z.string().min(1),
   resolutionStatus: z.literal('open'),
 })
-const reviewSchema = z.object({
+const providerReviewSchema = z.object({
   packetId: z.string().min(1),
-  reviewedContentIds: z.array(z.string().min(1)).min(1),
   decision: z.enum(['pass', 'fail_hold']),
   dimensions: z.array(z.object({
     dimension: z.string().min(1),
@@ -400,10 +422,14 @@ const reviewSchema = z.object({
   summary: z.string().min(1),
 })
 
-export type PsychologyStep6Review = z.infer<typeof reviewSchema>
+type ProviderPsychologyStep6Review = z.infer<typeof providerReviewSchema>
+export type PsychologyStep6Review = ProviderPsychologyStep6Review & {
+  reviewedContentIds: string[]
+  scopeBinding: 'deterministic_packet_review_scope'
+}
 
 function schemaJson(): Record<string, unknown> {
-  const value = z.toJSONSchema(reviewSchema) as Record<string, unknown>
+  const value = z.toJSONSchema(providerReviewSchema) as Record<string, unknown>
   delete value.$schema
   return value
 }
@@ -451,22 +477,21 @@ function conservativeReserveUsd(packet: unknown, web: boolean): number {
   return Number((perAttempt * MAX_ATTEMPTS + 0.05).toFixed(8))
 }
 
-function hasMaterialFinding(review: PsychologyStep6Review): boolean {
+function hasMaterialFinding(review: ProviderPsychologyStep6Review): boolean {
   return review.findings.some((finding) => finding.severity === 'blocking' || finding.severity === 'material')
     || review.dimensions.some((dimension) => dimension.status === 'blocking_issue' || dimension.status === 'material_issue')
 }
 
-function validateReview(review: PsychologyStep6Review, packetId: string, expectedIds: string[]): void {
+function validateReview(review: ProviderPsychologyStep6Review, packetId: string, reviewScopeIds: string[]): void {
   if (review.packetId !== packetId) throw new Error(`${packetId} review returned the wrong packet ID`)
-  exactSet(review.reviewedContentIds, expectedIds, `${packetId} reviewed content IDs`)
   const material = hasMaterialFinding(review)
   if (review.decision !== (material ? 'fail_hold' : 'pass')) {
     throw new Error(`${packetId} decision is inconsistent with its findings/dimensions`)
   }
-  const expected = new Set(expectedIds)
+  const allowed = new Set(reviewScopeIds)
   for (const finding of review.findings) {
     if (finding.severity === 'no_issue') throw new Error(`${packetId} must not create no_issue findings; use dimensions for passes`)
-    for (const id of finding.affectedContentIds) if (!expected.has(id)) throw new Error(`${packetId} finding references out-of-packet content ${id}`)
+    for (const id of finding.affectedContentIds) if (!allowed.has(id)) throw new Error(`${packetId} finding references out-of-packet content ${id}`)
   }
 }
 
@@ -515,7 +540,7 @@ async function providerReview(args: {
       store: false,
       reasoning: { context: 'current_turn', effort: 'high' },
       max_output_tokens: MAX_OUTPUT_TOKENS,
-      instructions: `You are the fresh independent assurance reviewer for Revision's AQA A-level Psychology 7182 source-first restricted-pilot candidate. You did not generate this material. Your role is adversarial error detection, not rewriting or style improvement. Review every content ID in the packet. Return blocking/material findings whenever publication would risk factual, educational, assessment or marking harm. Minor issues may remain minor. Do not use AQA protected prose. Keep the structured response concise: use dimensions for pass states and create findings only for actual issues. ${attempt > 1 ? `The previous attempt was unusable: ${lastError}. Return a complete response satisfying the same contract.` : ''}`,
+      instructions: `You are the fresh independent assurance reviewer for Revision's AQA A-level Psychology 7182 source-first restricted-pilot candidate. You did not generate this material. Your role is adversarial error detection, not rewriting or style improvement. The exact review scope is packet.reviewScopeIds. Review the material associated with every ID in that scope. Do not echo the scope list; the runner binds it deterministically. Findings must reference only IDs from reviewScopeIds. Return blocking/material findings whenever publication would risk factual, educational, assessment or marking harm. Minor issues may remain minor. Do not use AQA protected prose. Keep the structured response concise: use dimensions for pass states and create findings only for actual issues. ${attempt > 1 ? `The previous attempt was unusable: ${lastError}. Return a complete response satisfying the same contract.` : ''}`,
       input: JSON.stringify(args.packet),
       text: { format: { type: 'json_schema', name: 'psychology_step6_review', strict: true, schema: schemaJson() } },
     }
@@ -561,9 +586,13 @@ async function providerReview(args: {
 
     try {
       const parsed = JSON.parse(responseText(raw))
-      const review = reviewSchema.parse(parsed)
-      const expectedIds = args.packet.packetType === 'educational' ? args.packet.requirementIds : args.packet.reviewedContentIds
-      validateReview(review, args.packet.packetId, expectedIds)
+      const providerReview = providerReviewSchema.parse(parsed)
+      validateReview(providerReview, args.packet.packetId, args.packet.reviewScopeIds)
+      const review: PsychologyStep6Review = {
+        ...providerReview,
+        reviewedContentIds: [...args.packet.reviewScopeIds],
+        scopeBinding: 'deterministic_packet_review_scope',
+      }
       return { review, costUsd: totalCostUsd, searches: totalSearches, attempts: completedAttempts }
     } catch (error) {
       lastError = `invalid structured output: ${error instanceof Error ? error.message : String(error)}`
