@@ -28,6 +28,8 @@ const workedExampleBlockSchema = z.object({
   type: z.literal('worked-example'),
   label: z.string().min(1).default('Worked example'),
   title: z.string().min(1).optional(),
+  /** The situation and the numbers the steps work from. Without it a student cannot work a step out before it is shown. */
+  setup: z.string().min(1).optional(),
   steps: z.array(z.object({
     label: z.string().min(1),
     value: z.string().min(1),

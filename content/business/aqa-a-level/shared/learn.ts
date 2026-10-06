@@ -77,7 +77,7 @@ function blocksFor(asset: FastPathAsset): LearnBlock[] {
     blocks.push({
       type: 'worked-example',
       label: 'Worked example',
-      title: example.scenario,
+      setup: example.scenario,
       steps: example.steps.map((step, index) => ({ label: `Step ${index + 1}`, value: step })),
     })
   })

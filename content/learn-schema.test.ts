@@ -62,3 +62,14 @@ describe('Learn quick-check block', () => {
     expect(types.has('quick-check')).toBe(false)
   })
 })
+
+describe('Business Learn content reads on its own', () => {
+  const pages = learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+
+  it('gives every worked example a setup, so a student can work a step out before it is shown', () => {
+    const missing = pages.flatMap((page) => page.blocks
+      .filter((block) => block.type === 'worked-example' && !block.setup)
+      .map(() => page.id))
+    expect(missing).toEqual([])
+  })
+})

@@ -18,7 +18,8 @@ export const breakEvenPage: LearnPage = {
       { term: 'Contribution per unit', definition: 'Selling price minus variable cost per unit.' }] },
     { type: 'explanation', heading: 'Working it out', paragraphs: [
       'Divide fixed costs by contribution per unit. The answer is in units, not pounds, and you round up: you can’t sell 0.4 of a latte, and rounding down would leave you just short.'] },
-    { type: 'worked-example', label: 'Worked example', title: 'A café’s break-even output', steps: [
+    { type: 'worked-example', label: 'Worked example', title: 'A café’s break-even output',
+    setup: 'A café pays £1,800 rent and £3,240 wages a month. It sells each latte for £3.20, and each latte costs £1.10 to make. How many lattes must it sell each month to break even?', steps: [
       { label: 'Fixed costs per month', value: 'Rent £1,800 + wages £3,240 = £5,040' },
       { label: 'Contribution per latte', value: '£3.20 − £1.10 = £2.10' },
       { label: 'Break-even output', value: '£5,040 ÷ £2.10 = 2,400 lattes' }],

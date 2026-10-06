@@ -22,6 +22,7 @@ export function WorkedExample({ block }: { block: LearnBlockOf<'worked-example'>
         </div>
         {stepping && <span className="learn-worked__counter">Step {visible} of {total}</span>}
       </header>
+      {block.setup && <p className="learn-worked__setup">{block.setup}</p>}
       <ol className="learn-worked__steps">
         {block.steps.map((step, index) => {
           const isShown = index < visible

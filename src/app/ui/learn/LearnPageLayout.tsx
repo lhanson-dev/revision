@@ -63,9 +63,12 @@ export function LearnPageLayout({
         <div className="learn-reading-body">
           {items.map((item) => item.kind === 'margin-row'
             ? (
-              <div className="learn-row" key={item.key}>
-                <LearnBlock block={item.explanation} />
-                <LearnBlock block={item.keyIdea} placement="margin" />
+              <div className="learn-row" data-key-idea-first={item.keyIdeaFirst} key={item.key}>
+                {item.keyIdeaFirst && <div className="learn-row__margin"><LearnBlock block={item.keyIdea} placement="margin" /></div>}
+                <div className="learn-row__main">
+                  {item.main.map((block, index) => <LearnBlock key={`${item.key}-${index}`} block={block} />)}
+                </div>
+                {!item.keyIdeaFirst && <div className="learn-row__margin"><LearnBlock block={item.keyIdea} placement="margin" /></div>}
               </div>
             )
             : <LearnBlock key={item.key} block={item.block} />)}
