@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(55);
+select plan(57);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -150,6 +150,20 @@ select lives_ok(
   $$insert into public.learning_evidence (user_id, evidence_id, module_id, topic_id, source, occurred_at, content_id, payload)
     values ('10000000-0000-4000-8000-000000000001', 'user-1-own', 'module-a', 'topic-a', 'multiple_choice', now(), 'question-a', '{}'::jsonb)$$,
   'learner can insert their own learning evidence'
+);
+
+select lives_ok(
+  $$insert into public.learning_evidence (user_id, evidence_id, module_id, topic_id, source, occurred_at, content_id, payload)
+    values ('10000000-0000-4000-8000-000000000001', 'user-1-calculation', 'module-a', 'topic-a', 'calculation', now(), 'question-calc', '{}'::jsonb)$$,
+  'learner can insert calculation evidence'
+);
+
+select throws_ok(
+  $$insert into public.learning_evidence (user_id, evidence_id, module_id, topic_id, source, occurred_at, content_id, payload)
+    values ('10000000-0000-4000-8000-000000000001', 'user-1-unknown-source', 'module-a', 'topic-a', 'made_up_source', now(), 'question-x', '{}'::jsonb)$$,
+  '23514',
+  null,
+  'evidence with an unknown source is still rejected'
 );
 
 select throws_ok(

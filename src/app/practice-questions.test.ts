@@ -76,20 +76,45 @@ describe('the AQA 7132 question bank as practice questions', () => {
     })
   })
 
-  it('leaves levels-based questions and single-number calculations out of written answers', () => {
+  it('leaves levels-based questions out, and turns single-number calculations into calculation questions, not written ones', () => {
     const levels = aqaBusinessQuestionBank.find((record) => record.question.mark_scheme.type === 'levels')!
     expect(bankRecordToPractice(levels, 'finance')).toBeNull()
     const calculation = aqaBusinessQuestionBank.find((record) => isCalculationRecord(record))!
-    expect(bankRecordToPractice(calculation, 'finance')).toBeNull()
+    expect(bankRecordToPractice(calculation, 'finance')?.type).toBe('calculation')
+  })
+
+  it('makes a calculation question the student can type an answer to, without "Show your working"', () => {
+    const records = aqaBusinessQuestionBank.filter((record) => isCalculationRecord(record))
+    expect(records.length).toBeGreaterThanOrEqual(13)
+    const questions = records.map((record) => bankRecordToPractice(record, 'finance')).filter((question) => question?.type === 'calculation')
+    expect(questions.length).toBe(records.length)
+    questions.forEach((question) => {
+      if (question?.type !== 'calculation') return
+      expect(question.prompt).not.toMatch(/show your working/i)
+      expect(question.accepted).toContain(question.expected)
+      expect(question.answerText).not.toBe('')
+      expect(question.workings).not.toBe('')
+    })
+    const market = bankRecordToPractice(records.find((record) => record.question.calcs[0].unit === '£m')!, 'finance')
+    expect(market).toMatchObject({ type: 'calculation', expected: 24.2, answerText: '£24.2m' })
+  })
+
+  it('accepts the roundings a mark scheme allows for payback and receivables days', () => {
+    const accepted = (answer: number) => aqaBusinessQuestionBank
+      .filter((record) => isCalculationRecord(record) && record.question.calcs[0].stated_answer === answer)
+      .map((record) => bankRecordToPractice(record, 'finance'))
+      .flatMap((question) => (question?.type === 'calculation' ? question.accepted : []))
+    expect(accepted(2.67)).toContain(2.7)
+    expect(accepted(36.5)).toContain(37)
   })
 
   it('offers written questions only when a marker is connected', () => {
     const without = buildQuestionPool({ topicId: 'finance', topicOrder: 5, coursePack: coursePackQuestions, bank: aqaBusinessQuestionBank })
     const withMarker = buildQuestionPool({ topicId: 'finance', topicOrder: 5, coursePack: coursePackQuestions, bank: aqaBusinessQuestionBank, includeWritten: true })
     expect(without.some((question) => question.type === 'written')).toBe(false)
-    expect(availableTypes(without)).toEqual(['multiple-choice'])
+    expect(availableTypes(without)).toEqual(['multiple-choice', 'calculation'])
     expect(withMarker.some((question) => question.type === 'written')).toBe(true)
-    expect(availableTypes(withMarker)).toEqual(['multiple-choice', 'written'])
+    expect(availableTypes(withMarker)).toEqual(['multiple-choice', 'calculation', 'written'])
   })
 
   it('builds a pool for each topic that has more than the five course-pack questions', () => {

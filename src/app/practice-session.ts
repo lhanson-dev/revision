@@ -70,11 +70,13 @@ export function pickQuestion<Q extends SessionQuestion>(pool: readonly Q[], aske
 
 export type SessionAnswer = {
   questionId: string
-  /** Multiple choice: the right option. Written: full marks. */
+  /** Multiple choice: the right option. Calculation: the right number. Written: full marks. */
   correct: boolean
-  /** Multiple choice only. */
+  /** Multiple choice and calculations. */
   confidence: AnswerConfidence | null
   selectedOption: number | null
+  /** Calculations only: what the student typed. */
+  typedAnswer: string | null
   /** Written answers only: the marks REV gave, out of those available. */
   marks: { got: number; available: number } | null
   /** Written answers only: which mark points were given (after the software check), in order. */
@@ -84,7 +86,7 @@ export type SessionAnswer = {
   retry: boolean
 }
 
-export type RecordedAnswer = Pick<SessionAnswer, 'questionId' | 'correct' | 'level'> & Partial<Pick<SessionAnswer, 'confidence' | 'selectedOption' | 'marks' | 'pointsGiven'>>
+export type RecordedAnswer = Pick<SessionAnswer, 'questionId' | 'correct' | 'level'> & Partial<Pick<SessionAnswer, 'confidence' | 'selectedOption' | 'typedAnswer' | 'marks' | 'pointsGiven'>>
 
 export type QuestionSession = {
   total: number
@@ -132,7 +134,7 @@ export function recordSessionAnswer(session: QuestionSession, answer: RecordedAn
   const answersGiven = session.answers.length + 1
   return {
     ...session,
-    answers: [...session.answers, { confidence: null, selectedOption: null, marks: null, pointsGiven: null, ...answer, retry }],
+    answers: [...session.answers, { confidence: null, selectedOption: null, typedAnswer: null, marks: null, pointsGiven: null, ...answer, retry }],
     adaptive: retry ? session.adaptive : applyAnswerToLevel(session.adaptive, answer.correct),
     retryQueue: needsAnotherGo({ correct: answer.correct, confidence: answer.confidence ?? null, marks: answer.marks }, retry)
       ? queueMissed(session.retryQueue, answer.questionId, answersGiven)

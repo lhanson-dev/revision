@@ -347,7 +347,7 @@
 .ui-feedback-bar--correct .ui-feedback-bar__title { color: var(--learning-status-gotit-ink); }
 .ui-feedback-bar--wrong .ui-feedback-bar__title { color: var(--learning-status-needswork-ink); }
 .ui-feedback-bar__picked { font: 700 16px/1.45 var(--font-family-product); text-wrap: pretty; }
-.ui-feedback-bar__explanation { font-weight: 600; font-size: 16px; line-height: 1.45; color: var(--color-text); text-wrap: pretty; }
+.ui-feedback-bar__explanation { font-weight: 600; font-size: 16px; line-height: 1.45; color: var(--color-text); text-wrap: pretty; white-space: pre-line; }
 .ui-feedback-bar__note { font-weight: 800; font-size: 15px; line-height: 1.4; color: var(--color-text); }
 .ui-feedback-bar__actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .ui-feedback-bar__actions .ui-button { min-height: 52px; padding: 0 28px; white-space: nowrap; }
