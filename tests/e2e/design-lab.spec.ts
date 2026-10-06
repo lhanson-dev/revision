@@ -75,7 +75,7 @@ test('admin can use the live Design Lab component canvas', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Buttons & actions' })).toBeVisible()
   await expect(page.getByText('Approved pattern · shared primitive missing').first()).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Educational treatments' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Learn blocks' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Save changes' }).last().click()
   const processingButton = page.getByRole('button', { name: 'Saving changes…' })
