@@ -28,3 +28,16 @@ export function understandingCounts(states: readonly ModuleLearningState[]): Par
   })
   return counts
 }
+
+export type TopicProgress = { status: LearningStatus; lastPractisedAt: string | null }
+
+/** Status and last-practised time for every topic in a course, from the evidence the student has saved. */
+export function topicProgressFor(state: ModuleLearningState): Record<string, TopicProgress> {
+  const progress: Record<string, TopicProgress> = {}
+  state.topicKnowledge.topics.forEach((topic) => {
+    const answers = state.evidence.filter((item) => item.topicId === topic.topicId)
+    const lastPractisedAt = answers.reduce<string | null>((latest, item) => (latest === null || item.occurredAt > latest ? item.occurredAt : latest), null)
+    progress[topic.topicId] = { status: topicLearningStatus(topic.band, answers.length > 0), lastPractisedAt }
+  })
+  return progress
+}

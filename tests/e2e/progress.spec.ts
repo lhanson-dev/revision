@@ -153,7 +153,8 @@ test('after answering a question the screens count it: one topic covered and a s
     }
   })
   await page.goto(`${coursePath}/practice`)
-  await page.locator('.pw-options label').first().click()
+  await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+  await page.locator('.practice-question__options button').first().click()
   await page.getByRole('button', { name: 'Check answer' }).click()
   await expect(page.locator('.ui-feedback-bar')).toBeVisible()
   expect(rows.length).toBeGreaterThan(0)

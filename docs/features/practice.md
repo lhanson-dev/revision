@@ -1,41 +1,50 @@
-# Practice: feedback bar and retry
+# Practice: start screen, pop-up and feedback
 
-**Status:** built in PR 9 (draft, awaiting Founder review).
-**Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1 and 7), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 6).
+**Status:** Practice v2.2, PR 1 of 5 (start screen and pop-up shell) is built on top of the PR 9 feedback bar and retry. Draft, awaiting Founder review.
+**Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1 and 7), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 6). Visual source: the Practice redesign, option 1a Quick-fire.
 
-## What the student sees (Quick check in Practice)
+## What the student sees
 
-- After each answer a **feedback bar** slides up (no movement if the student prefers reduced motion). It has an icon and words, the content's own explanation of why, and one button, **Next question**.
-  - **Right:** teal, "Correct".
-  - **Wrong:** coral, "Not quite", plus "This will come back later in this session."
-  - Never error red, and never yellow (yellow means Nearly there only). The old wrong-answer block was a solid orange panel with a "Try again" button.
-- The bar is announced to screen readers and sits above the phone tab bar.
-- **A missed question comes back after at least 3 other questions.** It is labelled "Another go at one you missed". Getting it right clears it ("You've got it this time. That one is off your list."). Missing it again queues it again.
-- Each answer, including a retry, is saved as normal evidence. A retry counts as a real answer, so topic status can reflect that the student has now got it.
-- Switching topic starts a fresh queue.
+### The start screen (Practice tab)
+- Eyebrow "PRACTICE · {topic}", the heading "Test what you know", then "Right now" with the topic's status badge, "Last practised …" and "Change topic". It names the topic, never the course.
+- **Scored card.** Neutral chip "Counts towards Understanding and Exam readiness". "How many?" 5 / 10 / 15, each with "about 8 / 15 / 25 min". "Start {n} questions" and the time estimate. The number never promises more questions than the topic has: if the topic has fewer, the button says so and a note explains. A "What kind?" row of toggle pills (at least one stays on) appears only when the topic has more than one kind of question. Today every topic has multiple choice only, so the row is hidden; it appears when PR 2 and PR 3 add calculations and written answers.
+- **Warm-up card.** Chip "Doesn’t count towards Exam readiness". Rows for Flashcards, Formulas and Case study, each with a real count, and only when there is content.
+- **REV card** (deep). REV's existing recommendation reason for this topic. If there is none, no card is shown.
+- Courses whose packs include a self-marked exam question keep it as one extra row under the Scored card.
+
+### The pop-up
+- Every exercise opens in a pop-up: `role="dialog"`, `aria-modal`, focus trapped, Esc or the close button leaves, focus goes back to the button that opened it. The backdrop is the new `--scrim` token over the whole page.
+- Desktop: panel up to 900px wide, 40px/48px from the edges (28/24 on tablet). Phone: a full-height sheet from 40px down with rounded top corners.
+- Top bar: close button (44px), subject letter mark, then the activity's bar. Questions: a segmented progress strip, "n of N", the topic name and its live status badge. Warm-ups: "{topic} · Warm-up · {activity}".
+- **Closing keeps everything.** Each answer is saved as evidence the moment it is checked, so closing loses nothing. The start screen then shows "You have a session open" with **Carry on**. Starting again begins a fresh session.
+
+### Questions in the pop-up (interim)
+The question screen inside the pop-up is the existing flow in the new shell: pick an answer, "Check answer", then the feedback bar. PR 2 replaces it with the full v2.2 question screen (levels, "How sure are you?", calculations).
+
+### Feedback bar and retry (from PR 9, unchanged)
+- After each answer a bar slides up with an icon and words, the content's own explanation and one button, **Next question**. Right is teal, wrong is coral with "This will come back later in this session." Never error red, never yellow.
+- A missed question comes back after at least 3 other questions, labelled "Another go at one you missed". If the session's own questions run out first, anything still waiting is asked before the session ends, so a session never ends with a miss unasked.
+- Each answer, including a retry, is saved as normal evidence.
 
 ## What did not change, and why
+- A missed question does not carry over to another day: the retry queue lives in the session (needs the retry-queue table, a separate migration PR).
+- Flashcards, Formulas and Case study content is unchanged (flashcards get their new card in PR 4). They are warm-ups: they do not count towards Exam readiness.
+- Learn Quick check (not scored) and Exam Prep are unchanged.
 
-- **A missed question does not carry over to another day.** The retry queue lives in the session. Carrying it over needs the retry-queue table (data model proposal, section 6), its own migration PR needing approval. Until then the wording says "later in this session", because that is all that is true.
-- Flashcards, formulas, case studies and exam questions are unchanged.
-- The Learn Quick check (not scored, with its own Try again) is unchanged.
+## Code
+- `src/app/ui/practice/`: `PracticeStart`, `PracticeDialog` (and bar pieces), `practice.css`. Presentation only.
+- `src/app/FocusedLearningWorkspace.tsx`: still owns evidence, retry and the recommendation logic.
+- `src/app/practice-start.ts`: plain rules (lengths, time estimates, at-least-one-type, "Last practised").
+- `src/app/topic-status.ts` `topicProgressFor`: each topic's status and last-practised time from saved evidence.
+- `src/app/practice-retry.ts`: the 3-answer retry rule.
 
-## How the queue works
-
-`src/app/practice-retry.ts` holds the rule: a queued question is due after 3 more answers, the longest-waiting one first. The spacing is a plain rule, not a model's choice.
-
-## Tests that cover it
-
-- `src/app/practice-retry.test.ts`: the 3-answer gap, order, clearing, and re-queueing.
-- `src/app/ui/learner-v2-components.test.tsx`: the bar's tones, icon and words, and that it never uses error or warning styling.
-- `tests/e2e/practice-feedback.spec.ts`: wrong answer shows the coral bar with the explanation and note; the missed question returns after 3 others and is saved as a second answer; accessibility checks for both tones in light and dark.
-- The Practice screens in `accessibility.spec.ts`, `horizontal-scroll.spec.ts` and the persistence spec still pass.
+## Tests
+- `practice-start.test.ts`, `topic-status.test.ts`, `practice-retry.test.ts`: the plain rules.
+- `tests/e2e/practice-start.spec.ts`: start screen content, the question cap, dialog behaviour (focus trap, Esc, focus return), close-and-carry-on keeping saved answers, WCAG A/AA in light and dark, no sideways scroll at 1440/960/620/390/320.
+- `tests/e2e/practice-feedback.spec.ts`: feedback tones and the retry journey.
 
 ## Screenshots
+`docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/` (`before/` and `after/`, 1440, 834 and 390, light and dark).
 
-Before and after in `docs/design/learner-redesign-v2/screenshots/pr-09/`: the question, a wrong answer and a right answer at desktop, phone, phone dark, 320px and desktop dark.
-
-## Not done here
-
-- Carrying missed questions to another day (needs the retry-queue table).
-- Feedback bars for the other practice activities.
+## Still to come (PRs 2 to 5)
+Scored multiple choice and calculations with levels and confidence (2), written answers marked by REV (3), the flashcard turn-over card (4), the session summary (5).
