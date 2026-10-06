@@ -1,0 +1,63 @@
+{
+  "slot_id": "P1-B-03",
+  "family": "SHORT_ANSWER",
+  "command_word": "Explain",
+  "marks": 4,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 3,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "Kestrel Kitchens makes flat-pack kitchen units. Assembly employees repeat the same fitting task throughout each shift. Staff turnover is high. The business is considering job enrichment, giving employees responsibility for checking the quality of their completed units and suggesting improvements to the assembly process.",
+  "stem": "Explain how job enrichment could motivate Kestrel Kitchens' assembly employees. Use Herzberg's theory in your answer.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Shows relevant knowledge of Herzberg's theory or job enrichment.",
+        "accept": [
+          "Herzberg identified responsibility, achievement or recognition as motivators associated with positive job satisfaction.",
+          "Job enrichment increases responsibility, challenge or meaningful control within a job.",
+          "Job enrichment is a non-financial method of reward."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Applies job enrichment to Kestrel Kitchens.",
+        "accept": [
+          "Employees would be responsible for checking the quality of their own completed kitchen units.",
+          "Employees could suggest improvements to the assembly process.",
+          "The change gives assembly employees more responsibility than repeating only one fitting task."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Explains a motivation mechanism in context.",
+        "accept": [
+          "Greater responsibility may make employees feel more trusted or give them a sense of achievement.",
+          "Contributing improvement ideas may provide recognition or make the work feel more meaningful.",
+          "The wider role may reduce the monotony of repeating the same fitting task."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Explains a likely business-related outcome in context.",
+        "accept": [
+          "More motivated employees may put greater effort into their work.",
+          "Employees may be less likely to leave, helping Kestrel reduce its high staff turnover.",
+          "Employees may take greater care when checking units, potentially improving quality."
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Herzberg suggested that responsibility and achievement can act as motivators. Giving Kestrel's assembly employees responsibility for quality checks and process-improvement ideas enriches their previously repetitive jobs. This could make employees feel trusted and give them a greater sense of achievement, increasing motivation. As a result, employees may be less likely to leave, helping to reduce Kestrel's high staff turnover."
+  },
+  "calculations": []
+}

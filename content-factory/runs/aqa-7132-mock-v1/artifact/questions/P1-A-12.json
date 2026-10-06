@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-12",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A retailer uses software to identify purchasing patterns within its customer transaction records.",
+  "stem": "Select the term that describes analysing datasets to find potentially useful patterns or relationships.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Automation"
+    },
+    {
+      "label": "B",
+      "text": "Data mining"
+    },
+    {
+      "label": "C",
+      "text": "E-commerce"
+    },
+    {
+      "label": "D",
+      "text": "Flow production"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "Automation uses technology to perform tasks with reduced direct human intervention; it does not specifically mean identifying patterns in datasets.",
+      "Data mining uses analytical techniques to discover potentially useful patterns, associations or predictive relationships in data.",
+      "E-commerce is the buying and selling of goods or services online.",
+      "Flow production is a repeated, sequential method used for relatively high-volume output."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "B: Data mining"
+  },
+  "calculations": []
+}

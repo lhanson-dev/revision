@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-mock-generation",
+  "checklist_version": "mock-generation-v1",
+  "units": {
+    "P1-A-CHUNK-1": {
+      "fingerprint": "4af18a8735e8317cd5b61a2a1cd40e6c25dfb8df3324e430e697bcc8ca916c19",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-A-CHUNK-2": {
+      "fingerprint": "b7063130cb37c749e8f6e8f513c866e437e5f567af28850f44a9c586824f14dc",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-A-CHUNK-3": {
+      "fingerprint": "c5298bf735c2710273bc50aba2b9bc6a0eaac6165ab665db77a4ecf81a405bf9",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-B-CHUNK-1": {
+      "fingerprint": "4199cf84d3f6e1c8899196714eefbd5f2a4e339ad0f9402d39c8cebf6b59a767",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-B-CHUNK-2": {
+      "fingerprint": "0cb38cf8698b5b90b9b9669b98913ca6eaf291b0a24a51bbcf0181b9791a979c",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-06T09:25:06.441Z"
+    },
+    "P1-C-01": {
+      "fingerprint": "9dce75dd1dd5cf32ba7a19e5d0d73879e5edfbb0c81de7dabe1aeecf37587ffb",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-C-02": {
+      "fingerprint": "738628465be2db0878700523650f6519b54b9b3f750dd0078009cfcd47b11905",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-D-01": {
+      "fingerprint": "a080008905c51c344e2568c558d6c46ff5f40713fc4027e7cf7209bdea99291a",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P1-D-02": {
+      "fingerprint": "72a391465269da9b7125806eddf170e94a5ad5804d2cffd0de267c377c2a9215",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T17:44:49.974Z"
+    },
+    "P2-SET-1": {
+      "fingerprint": "b590b24e8cb8ed04548e8bf81bc49571d780ec885d141c877f780aa390f65f2f",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P2-SET-2": {
+      "fingerprint": "326ab6a4edb7421054733ba3607c3349fc9fcd1ca14f8030ad0a7726b905d6d9",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T17:44:49.974Z"
+    },
+    "P2-SET-3": {
+      "fingerprint": "b36c0d47cacc7d79b385ac2ef316c95254b566af9010d2b722a57321198d88cf",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T11:02:18.818Z"
+    },
+    "P3-CASE-1": {
+      "fingerprint": "789dd2b3304eefe385171e41d5d8a5405de05b0d0d0125fb383d47c156e2e3b2",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "question_validity",
+          "category": "missing_examinable_item",
+          "affected_ids": [
+            "P3-CASE-1",
+            "P3-01"
+          ],
+          "finding": "P3-01 does not directly require the activity-on-arrow representation or total float that form part of the stated network-analysis requirement.",
+          "evidence": "The stem asks candidates to calculate route durations, critical paths and the duration reduction. The level descriptors and indicative content award these calculations, but neither requires a correctly presented activity-on-arrow network nor a total-float calculation.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Amend P3-01 to require candidates to draw or complete the activity-on-arrow network using the stated event-circle convention and calculate a specified activity's total float before analysing the amendment. Reallocate existing calculation credit rather than adding marks.",
+          "disposition": "blocking",
+          "reason": "failed question_validity"
+        },
+        {
+          "check_id": "mark_scheme_validity",
+          "category": "missing_examinable_item",
+          "affected_ids": [
+            "P3-CASE-1",
+            "P3-01"
+          ],
+          "finding": "The P3-01 level scheme permits full credit without assessing the network representation requested by the question or total-float competence in the stated requirement.",
+          "evidence": "Level 4 requires the four route-duration results and developed implementation analysis, but contains no credit condition for a valid activity-on-arrow diagram, event timings or total float. The blind answer could reach the top level through path addition alone.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add explicit credit requirements for the activity-on-arrow representation and the requested total-float working, with valid equivalent network conventions accepted where they show the required dependencies and timings.",
+          "disposition": "blocking",
+          "reason": "failed mark_scheme_validity"
+        },
+        {
+          "check_id": "exam_authenticity",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "P3-CASE-1",
+            "P3-03",
+            "P3-06"
+          ],
+          "finding": "Two extended-response questions repeat the same recommendation prompt about establishing dual sourcing.",
+          "evidence": "P3-03 asks candidates to evaluate whether Northstar should establish a dual-source arrangement using decision-tree estimates and wider objectives. P3-06 again asks whether it should establish a dual-source arrangement, now considering inventory, supply-chain effectiveness and cash. Both schemes reach the same controlled-dual-sourcing judgement and substantially overlap on cash, lead time, disruption and evidence uncertainty.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain P3-06 as the operational sourcing recommendation, but recast P3-03 to evaluate whether the decision-tree evidence is sufficiently reliable to support a sourcing decision, rather than asking for the same sourcing recommendation a second time.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-06T12:15:42.365Z",
+      "founder_decision": {
+        "decision": "fix",
+        "note": "Founder directed the targeted P3-01 fix after run 37455690641: preserve the 12-mark Analyse task, AO allocation, shared Northstar context and four planned quantitative marks, but require both a valid activity-on-arrow representation and a total-float calculation; do not broaden remediation to P3-02 through P3-06. Resolution aqa-7132-2027-p3-case-1-p3-01-founder-fix-2026-10-06 was applied deterministically; no third semantic unit review was started for the same escalated issue.",
+        "decided_at": "2026-10-06"
+      }
+    }
+  }
+}

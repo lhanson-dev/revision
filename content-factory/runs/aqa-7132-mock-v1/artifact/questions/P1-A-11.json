@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-11",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is reviewing its overall performance measures before setting its next strategic plan.",
+  "stem": "Select the measure set that best reflects a Triple Bottom Line approach to assessing overall business performance.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Profit, market share and sales revenue only"
+    },
+    {
+      "label": "B",
+      "text": "Energy use, employee wellbeing and profit"
+    },
+    {
+      "label": "C",
+      "text": "Share price, dividend per share and operating profit"
+    },
+    {
+      "label": "D",
+      "text": "Production output, capacity utilisation and inventory turnover"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "Incorrect: these are economic or market measures and do not include social or environmental performance.",
+      "Correct: this combines environmental performance (energy use), social performance (employee wellbeing) and economic performance (profit).",
+      "Incorrect: these are financial measures and do not assess people or planet impacts.",
+      "Incorrect: these are operational measures and do not assess social and environmental outcomes."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ": B"
+  },
+  "calculations": []
+}

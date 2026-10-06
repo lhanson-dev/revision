@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** deterministic planner plus bounded generation / whole-paper assurance runner implemented; 41/41 questions, four shared contexts, 13/13 blind-answer units and 13/13 semantic unit reviews retained; Paper 2 whole-paper assurance passed, while Paper 1 and Paper 3 round-one blockers are retained for exact affected-question remediation  
-**Current implementation baseline:** approved `main` `b0fa4ba71b6b3b8001de5ade4ac3d36fb61dc38c`  
+**Status:** first AQA 7132 three-paper set completed and durably retained; 41/41 questions, four shared contexts, 13/13 blind-answer units, 13/13 semantic unit reviews, 3/3 whole-paper reviews and complete-set assurance can progress; publication remains separately governed  
+**Current implementation baseline:** approved `main` `2a686450f76a176d5fa6aad5acf3275bad46491b`; retained mock evidence was reviewed on `1c80a2642d988b603d83ccd74d58ff43836db0f5`
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -280,8 +280,17 @@ The acceptance matcher now canonicalises Unicode compatibility forms, curly/stra
 
 Run `37461430906` used **4 provider calls** and cumulative mock-stage spend reached **US$6.288768**. After this software-only correction is merged, the next governed live resume must use **`resume_run_id = 37461430906`**. On unchanged evidence, the corrected P3-01/P3-04/P3-05 questions, Paper 3 blind answer and Founder-resolved P3 unit should all be reused; the Paper 3 Founder decision should be applied deterministically and the next new provider work should be the first complete-set semantic review unless a genuine substantive blocker appears.
 
+
+Workflow run `37474355815` resumed exact evidence from `37461430906` on approved `main` `1c80a2642d988b603d83ccd74d58ff43836db0f5`. The linear resume guard, exact-plan restore and plan fingerprint lock passed. The final run reused all **13/13 semantic unit reviews** and all **3/3 whole-paper reviews** because their exact fingerprints were unchanged, then made exactly **one new provider call** for the first complete-set semantic review.
+
+The complete-set review can progress with **0 blocking, 0 escalated and 0 failed findings**. It logged one non-blocking opinion/style finding: `P3-03` and `P3-06` both revisit the same dual-sourcing decision. Under the Fast-Path blocking rule this does not justify another paid regeneration loop. The exact three-paper set remains structurally valid: 41 generated question slots, four shared synthetic contexts, 300 attempted marks across three 120-minute papers and 34 quantitative marks.
+
+Cumulative mock-stage spend ended at **US$6.540598** under the unchanged US$8 pilot ceiling. The source Action artifact is retained byte-for-byte in `content-factory/runs/aqa-7132-mock-v1/artifact/`, with exact per-file SHA-256 evidence in `RETENTION_MANIFEST.json`. The retained summary state is `assured_not_published`; retention itself does not change the learner surface.
+
 ## Documentation impact
 
-Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts, especially item-scoped failures, exact-fingerprint reuse and targeted remediation.
+Normative authority is unchanged. This retention/release-evidence change applies the already-approved Content Factory Mock Exam Production, Fast-Path and Content Accuracy Assurance contracts to the exact successful AQA 7132 mock artifact. Historical Action evidence is preserved rather than rewritten.
 
-Technical documentation is updated because live run `37455690641` reached the two-round semantic-unit escalation boundary for P3-CASE-1 and proved that the unit-remediation fallback could broaden a slot-specific blocker to unaffected questions. The implementation now records an exact-fingerprint Founder unit fix, validates the P3-01 network-representation and total-float requirements deterministically, prevents a third review of the same escalated unit issue, filters remediation to blocking findings, and applies slot-specific findings only to named slots. Historical run evidence is preserved; the US$8 cumulative spend ceiling, deterministic plan fingerprint, rights boundary and publication lock are unchanged. `INDEX.md` already points to this technical document, so no index change is required.
+The proposed release record is a **restricted-pilot conditional pass** for this exact A3 mock set only. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking. No learner route, learner content integration, Course Truth, Exam Truth, Subject Foundation, assisted-marking eligibility or navigation changes in this PR.
+
+`INDEX.md` already points to this technical implementation document, so no index change is required.

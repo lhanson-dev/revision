@@ -1,0 +1,68 @@
+{
+  "unit_id": "P2-SET-1",
+  "answers": [
+    {
+      "slot_id": "P2-S1-01",
+      "answer_text": "Profit is the surplus made after revenue exceeds costs over an accounting period, whereas cash is the money immediately held and available for payments. Mend & Move made a £150,000 profit in 2026, but held only £85,000 cash at the year end. This can occur because it used cash to buy refill sachets in advance and delivery crates. Therefore, a profitable business may still face difficulty paying suppliers on time if too much cash is tied up in stock or assets.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P2-S1-02",
+      "answer_text": "2025 value market share = Mend & Move sales / total market sales × 100\n= £1.35m / £18.0m × 100 = 7.5%\n\n2026 value market share = £1.80m / £24.0m × 100 = 7.5%\n\nChange in market share = 7.5% − 7.5% = 0 percentage points. Mend & Move grew its sales value, but only at the same rate as the overall market.",
+      "numbers": [
+        {
+          "label": "2025 value market share (%)",
+          "value": 7.5
+        },
+        {
+          "label": "2026 value market share (%)",
+          "value": 7.5
+        },
+        {
+          "label": "change in market share (percentage points)",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S1-03",
+      "answer_text": "The owners face a trade-off because the objectives are connected but can require conflicting decisions. Revenue growth is attractive because the refill-subscription market is expanding and Mend & Move's revenue rose from £1.35m to £1.80m. Growth could spread fixed costs, increase the number of households using subscriptions and help the business achieve its purpose of making lower-waste cleaning convenient and affordable. For example, spending more on app promotion, delivery capacity or introductory offers may persuade busy 25–44-year-old households that refills are as convenient as supermarket brands.\n\nHowever, prioritising revenue could reduce profit per order. Discounts, free delivery or expensive digital marketing may increase subscription numbers but lower the contribution made by each order. This matters because the owners want to protect profit per order, and the business needs profit to reinvest in service quality and lower-waste packaging. Its profit did rise from £105,000 to £150,000, suggesting growth has so far been profitable, but this does not prove that further rapid growth will remain profitable. Customers attracted mainly by low prices may not accept later price increases, which could make the affordable part of the stated purpose difficult to sustain.\n\nMaintaining cash may be the most immediate constraint. Cash fell from £140,000 to £85,000 despite the business making a profit. Advance purchases of refill sachets and delivery crates used cash before the related sales were received. If Mend & Move focuses on faster growth, it may need still more stock, delivery expenditure and marketing before subscriptions generate cash inflows. It could then struggle to pay suppliers on time, risking interrupted supply and slower deliveries. That would damage convenience for customers and undermine the purpose of making refills convenient.\n\nConversely, placing cash protection above all else could mean ordering less stock, delaying investment and reducing customer acquisition spending. This may protect short-term liquidity but limit revenue growth while the market is expanding. It could also leave customers with less reliable availability, so they return to established supermarket brands.\n\nThe difficulty is therefore timing as well as choice. Revenue growth supports the environmental purpose by replacing single-use plastic, profit per order makes this purpose financially sustainable, and cash is needed to keep operating. The owners should not pursue revenue at any cost: they need growth that produces an adequate profit per order and is paced so that supplier payments can be met.",
+      "numbers": [
+        {
+          "label": "revenue growth from 2025 to 2026 (%)",
+          "value": 33.3
+        },
+        {
+          "label": "profit growth from 2025 to 2026 (%)",
+          "value": 42.9
+        },
+        {
+          "label": "cash decrease from 2025 to 2026 (£)",
+          "value": 55000
+        },
+        {
+          "label": "cash decrease from 2025 to 2026 (%)",
+          "value": 39.3
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S1-04",
+      "answer_text": "Mend & Move should proceed only if it can protect liquidity, test the technology before full implementation and show that the expected operational benefits are likely to outweigh the risks. The proposed system fits important changes in both technology and customer lifestyles. More customers are shopping online and the main target group values home delivery and managing subscriptions by mobile phone. Demand forecasting, personalised reminders and faster dispatch could therefore make refills easier to use for busy households. This directly addresses the concern that potential customers see refills as less convenient than buying established brands in supermarkets.\n\nThe system could improve competitiveness and support the business's purpose. Better forecasts may reduce excess sachet purchases and packaging waste, while automated packing could reduce picking errors. Fewer incorrect orders and more reliable delivery should raise customer satisfaction and retention. Personalised reminders may reduce the chance that a household runs out of cleaning products, making the refill model more convenient. If these changes increase repeat subscriptions without substantial discounts, Mend & Move may gain revenue while protecting profit per order. Reduced errors and waste could also lower operating costs per order, helping it remain affordable while reducing waste.\n\nThe investment could also benefit several stakeholders. Customers may receive more accurate, faster deliveries and useful reminders. Owners may obtain revenue growth, lower waste and stronger differentiation in a growing market. Suppliers could receive more predictable orders if the forecasting system is reliable. The environmental benefit of less packaging waste is consistent with the interests of customers who seek less single-use plastic and with the stated purpose of the business.\n\nHowever, the financial risk is substantial. The £240,000 investment is large relative to annual revenue of £1.80m, and the planned £120,000 cash contribution exceeds the £85,000 year-end cash balance. Cash has already fallen because of advance sachet purchases and delivery crates. Even though the loan supplies the other £120,000, borrowing will create repayments and interest, increasing pressure on cash and profit per order. A six-month implementation also means that benefits may be delayed while costs are incurred. If forecast demand is wrong, Mend & Move could still hold too much stock, while an automated system failure could delay dispatch and make refill subscriptions appear less convenient than supermarket alternatives.\n\nStakeholder effects may create further difficulties. Warehouse staff need training and some roles may change. If employees fear job losses or are not trained effectively, resistance, errors during transition or staff turnover could weaken service quality. Poor recommendations or misuse of inaccurate customer data could annoy customers and damage trust in the app. This is especially serious for a subscription business: customers can cancel and buy established brands instead. Owners may also disagree because revenue growth and environmental benefits are uncertain, whereas the cash outflow and debt obligations are more immediate.\n\nA full immediate commitment is not the strongest option. Mend & Move should first run a limited pilot using a smaller customer group or warehouse area, test the accuracy of recommendations and measure changes in picking errors, dispatch time, repeat orders, stock waste and profit per order. It should train and consult affected staff, and retain a contingency process for manual packing if the system fails. It should also prepare cash-flow forecasts that include the £120,000 cash contribution, loan repayments, supplier payments and the possibility that benefits arrive later than expected.\n\nOverall, the system is strategically attractive because changing lifestyles make convenient digital subscriptions increasingly important and the technology could make the lower-waste offer more reliable. Nevertheless, maintaining enough cash to pay suppliers is a stated objective and the proposed cash funding is greater than the reported cash balance. Mend & Move should proceed only in stages, with finance arranged so that working capital is not exhausted and with clear evidence from a pilot that customers respond positively. If it cannot fund the project while maintaining supplier-payment capacity, it should delay or reduce the scope of the investment rather than risk damaging the convenience and trust on which the subscription model depends.",
+      "numbers": [
+        {
+          "label": "investment as a percentage of 2026 revenue (%)",
+          "value": 13.3
+        },
+        {
+          "label": "cash funding exceeds year-end cash (£)",
+          "value": 35000
+        },
+        {
+          "label": "cash funding exceeds year-end cash (%)",
+          "value": 41.2
+        }
+      ]
+    }
+  ]
+}

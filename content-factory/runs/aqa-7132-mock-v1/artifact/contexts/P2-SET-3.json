@@ -1,0 +1,145 @@
+{
+  "unit_id": "P2-SET-3",
+  "title": "Funding Growth at LoopFill Ltd",
+  "business_name": "LoopFill Ltd",
+  "narrative": "LoopFill Ltd is a privately owned business in Leeds that fills reusable household-cleaning liquids into pouches for independent retailers and regional supermarkets. Its largest customer has asked LoopFill to supply an additional 50,000 pouches during the next financial year, provided the business can meet agreed delivery dates.\n\nThe directors are considering an automated filling and packing line costing £200,000. They expect it to reduce bottlenecks on the evening shift, but staff will need training before it is used. The business has £95,000 cash at the end of 2025, although its directors want to retain at least £80,000 as a cash buffer because customers normally pay 45 days after delivery.\n\nManagement has linked rising staff departures to the difficulty of covering evening shifts, but exit interviews have also mentioned pay and training. The operations manager has warned that faster filling must not increase pouch leaks or customer complaints.\n\nTo fund the line, LoopFill has received a bank-loan offer and has also been approached about an equity crowdfunding campaign. Its finance manager has suggested factoring some customer receivables to improve day-to-day cash flow. The directors must decide how to finance growth while protecting control, cash flow and service quality.",
+  "table": {
+    "title": "LoopFill Ltd: selected operating, workforce and financial information",
+    "columns": [
+      "Item",
+      "2024 actual",
+      "2025 budget",
+      "2025 actual / proposal"
+    ],
+    "rows": [
+      {
+        "cells": [
+          "Good pouches completed",
+          "255,000",
+          "290,000",
+          "291,000"
+        ]
+      },
+      {
+        "cells": [
+          "Average number of employees",
+          "50",
+          "54",
+          "55"
+        ]
+      },
+      {
+        "cells": [
+          "Employees leaving during the year",
+          "5",
+          "6",
+          "11"
+        ]
+      },
+      {
+        "cells": [
+          "Absence rate",
+          "2.8%",
+          "2.5%",
+          "4.1%"
+        ]
+      },
+      {
+        "cells": [
+          "Total employee costs",
+          "£1,200,000",
+          "£1,380,000",
+          "£1,485,000"
+        ]
+      },
+      {
+        "cells": [
+          "Sales revenue",
+          "£3,000,000",
+          "£3,600,000",
+          "£3,450,000"
+        ]
+      },
+      {
+        "cells": [
+          "Materials and packaging costs",
+          "£810,000",
+          "£900,000",
+          "£950,000"
+        ]
+      },
+      {
+        "cells": [
+          "Other operating costs, excluding employee costs",
+          "£660,000",
+          "£650,000",
+          "£700,000"
+        ]
+      },
+      {
+        "cells": [
+          "Operating profit",
+          "£330,000",
+          "£670,000",
+          "£315,000"
+        ]
+      },
+      {
+        "cells": [
+          "Closing cash balance",
+          "£120,000",
+          "£170,000",
+          "£95,000"
+        ]
+      },
+      {
+        "cells": [
+          "Customer receivables at year end",
+          "£540,000",
+          "£600,000",
+          "£650,000"
+        ]
+      },
+      {
+        "cells": [
+          "Exit-interview themes",
+          "Evening shifts mentioned by 2 of 5 leavers",
+          "—",
+          "Evening-shift predictability mentioned by 7 of 11 leavers; pay mentioned by 5; training mentioned by 4"
+        ]
+      },
+      {
+        "cells": [
+          "Automated line requirement",
+          "—",
+          "—",
+          "£200,000 payable before installation; expected to be available for the additional order next year"
+        ]
+      },
+      {
+        "cells": [
+          "Bank-loan offer",
+          "—",
+          "—",
+          "Up to £200,000 for five years; 7% annual interest; £40,000 principal repayment each year; security required over the new line"
+        ]
+      },
+      {
+        "cells": [
+          "Equity crowdfunding indication",
+          "—",
+          "—",
+          "£200,000 in return for 18% of ordinary shares; platform fee of 6% of funds raised; no contractual repayment"
+        ]
+      },
+      {
+        "cells": [
+          "Debt-factoring indication",
+          "—",
+          "—",
+          "Advance of up to 80% of eligible receivables; 3% fee on amounts advanced; provider would contact customers about payment collection"
+        ]
+      }
+    ]
+  }
+}

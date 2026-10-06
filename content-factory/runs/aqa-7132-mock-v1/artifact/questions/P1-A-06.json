@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-06",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business plans to sell an existing product to customers in a country where it has not previously operated.",
+  "stem": "Select the Ansoff growth direction described.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Market penetration"
+    },
+    {
+      "label": "B",
+      "text": "Market development"
+    },
+    {
+      "label": "C",
+      "text": "Product development"
+    },
+    {
+      "label": "D",
+      "text": "Diversification"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because market penetration uses existing products in existing markets.",
+      "B is correct because the product is existing and the market is new to the business.",
+      "C is incorrect because product development introduces a new product to an existing market.",
+      "D is incorrect because diversification involves both a new product and a new market."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ".1 mark for B: Market development."
+  },
+  "calculations": []
+}

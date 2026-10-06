@@ -1,0 +1,65 @@
+{
+  "slot_id": "P3-05",
+  "family": "CASE_STUDY",
+  "command_word": "Evaluate",
+  "marks": 20,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 5,
+    "AO4": 9
+  },
+  "context": "",
+  "stem": "Using the Northstar Home Systems stimulus, evaluate how Northstar should implement its proposed delayering, multi-skilled production cells and automated packing line. Your answer must apply Lewin’s change model.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited knowledge of change or Lewin’s model. Makes simple, largely unsupported statements about Northstar, with little or no developed judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows some relevant understanding of change implementation and makes some application to Northstar. Analysis of likely effects is present but may be uneven. Lewin’s model is used partially or descriptively. A judgement is asserted or weakly supported."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 15,
+        "descriptor": "Shows clear understanding of Lewin’s change model and change implementation. Applies relevant evidence from Northstar to analyse how preparation, transition and embedding could affect adoption, productivity, quality and the launch. Reaches a supported judgement, although evaluation may be unbalanced or not fully prioritised."
+      },
+      {
+        "level": 4,
+        "min_marks": 16,
+        "max_marks": 20,
+        "descriptor": "Shows thorough, well-focused understanding and explicit application of Lewin’s change model throughout. Develops a balanced analysis of implementation choices, including stakeholder resistance, structural change, capability, control and operational constraints. Makes a well-supported, contextual judgement on the most appropriate implementation approach, recognising relevant risks, trade-offs and conditions for success."
+      }
+    ],
+    "indicative_content": [
+      "Lewin’s unfreezing stage should create readiness for the change rather than treating the announced launch date as sufficient. Northstar could explain the need to handle rising forecast demand, reduce packing errors and improve traceability, while acknowledging cash pressure and the risk of missed retailer deliveries.",
+      "Northstar should identify restraining forces rather than assume objections are irrational. Supervisors may fear redundancy or loss of status, while assemblers may be concerned about multi-skilling and performance monitoring through scanning. These concerns may contain useful operational information about training needs, workload and quality risks.",
+      "Consultation meetings and participation could allow supervisors, assemblers and maintenance technicians to identify practical problems with cell design, daily staffing authority and installation. This may improve commitment and use employee knowledge, but could delay a project that must be ready before the retailer promotion.",
+      "Facilitation and support, including training in new tasks, cell-leader decision boundaries and the scanning system, could reduce anxiety and capability gaps. Training is especially important because employees currently follow detailed procedures and may not be ready immediately for broader roles or delegated authority.",
+      "A pilot or staged implementation could test one production cell, scanning procedures and quality controls before a full roll-out. It would reduce the risk of widespread disruption and enable learning, but may be too slow if the retailer promotion deadline is immovable.",
+      "During Lewin’s moving stage, Northstar should introduce the packing line and new cell structure with clear responsibilities, agreed spending and quality limits, technical support and regular communication. Removing a management layer may speed responses to shortages, but wider spans of control could overload remaining managers or weaken quality oversight.",
+      "The project schedule alone is not sufficient because the same maintenance technicians are required for normal production and installation. Northstar should plan resource cover, sequencing and contingency arrangements; otherwise the line could be technically on schedule while normal output or installation quality suffers.",
+      "A faster compulsory approach could meet the launch deadline, but may intensify resentment, reduce employee voice and encourage employees to retain old procedures. Coercion may therefore deliver short-term speed at the expense of adoption, morale and reliable quality.",
+      "Negotiation or agreed redeployment arrangements may be appropriate for supervisors or the six packing employees affected by automation where there is a clear perceived loss. However, concessions could increase cost when cash is constrained and may encourage further demands.",
+      "In Lewin’s refreezing stage, Northstar should embed the new ways of working through revised procedures, ongoing coaching, quality and traceability measures, clear cell-leader authority, and recognition or performance measures that do not reward output at the expense of reliability.",
+      "Northstar should retain appropriate mechanistic controls for product reliability and spending while becoming more organic in daily scheduling and cross-skilling. A flatter structure is not automatically successful if decision rights remain unclear or employees lack the capability to exercise delegated authority.",
+      "The strongest recommendation is likely a time-bounded, supported and participative implementation: rapidly communicate the case and consult on practical design, provide focused training and resource cover, pilot where the promotion timetable permits, then embed the change through aligned systems and review. The relative priority of speed versus participation depends on the credibility of the promotion deadline, technician availability and the severity of cash constraints.",
+      "Lewin’s model is a useful structure for preparation, transition and embedding, but it is not a guarantee of success. Northstar should update its approach as operational evidence emerges rather than assuming resistance can be removed permanently."
+    ],
+    "model_answer": "Northstar should avoid simply imposing the delayering, multi-skilled cells and packing line at the announced launch date. Although a compulsory approach could appear attractive because the line must be ready before the retailer promotion, it risks creating disruption at the same time as Northstar needs reliable output and has limited cash. The business should use Lewin’s model to manage the transition, while retaining the ability to act quickly if the deadline becomes critical.\n\nFirst, Northstar needs to unfreeze established routines. Its existing five-layer functional hierarchy and detailed procedures have supported quality control, so employees may reasonably fear that cell leaders making daily staffing and scheduling decisions will reduce control. Supervisors may also resist because delayering threatens their status or jobs, while assemblers may be anxious about new skills and being monitored through scanning. Management should communicate the operational case for change, including higher expected sales, packing errors and traceability, but communication alone will not resolve concerns about job security or capability. Consultation with supervisors, assemblers and maintenance technicians could reveal practical risks in cell design and installation. This would improve the quality of decisions and ownership, although extensive consultation could be too slow before the promotion.\n\nIn the moving stage, Northstar should combine involvement with practical support. It should train assemblers for multi-skilled work and train cell leaders on their authority limits for spending, scheduling and quality. This is important because delegation could speed responses to shortages, but employees used to detailed procedures may otherwise make inconsistent decisions. A limited pilot of a cell and the scanning process would allow Northstar to identify quality or workload problems before a full roll-out. However, a pilot should be time-bounded because delaying the line could cause Northstar to miss retailer demand. Northstar must also plan maintenance technician cover. The network schedule may indicate when activities should occur, but it does not solve the fact that the same technicians are required for current production and installation. Without cover, normal output may fall or installation may be delayed despite the planned schedule.\n\nFinally, Northstar must refreeze successful new practices rather than regard installation as completion. It should use updated procedures, coaching, traceability data and clear quality measures to embed the new cells and packing line. Performance measures should balance output with packing accuracy and reliability; rewarding only speed could undermine the stated aim of protecting product quality. Clear roles are also needed so that reduced hierarchy does not become confused accountability or overload remaining managers.\n\nOverall, Northstar should use a rapid but supported and participative implementation. It should quickly explain the case for change, consult employees on the practical design, provide focused training and maintenance cover, and pilot only where this does not threaten the promotion date. A fully compulsory approach may be faster initially, but it is likely to damage trust and adoption. Conversely, an extended consultation process would be inappropriate if it prevents the line being ready. Lewin’s model provides a useful way to sequence preparation, transition and embedding, but Northstar should adapt the pace as evidence on technician capacity, employee readiness and the retailer deadline becomes clearer."
+  },
+  "calculations": []
+}

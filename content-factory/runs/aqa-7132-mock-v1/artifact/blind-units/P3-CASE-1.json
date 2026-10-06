@@ -1,0 +1,248 @@
+{
+  "unit_id": "P3-CASE-1",
+  "answers": [
+    {
+      "slot_id": "P3-01",
+      "answer_text": "Network key: each event is shown as [event number | earliest event time / latest event time]. In each arrow label, the activity letter is above its duration.\n\n[0 | 0 / 0] --[A\n                 2]--> [1 | 2 / 2]\n\n[1 | 2 / 2] --[B\n                 4]--> [2 | 6 / 7] --[D\n                                                  3]--> [4 | 10 / 10] --[F\n                                                                                     2]--> [5 | 12 / 12]\n\n[1 | 2 / 2] --[C\n                 3]--> [3 | 5 / 5] --[E\n                                                  5]--> [4 | 10 / 10]\n\nThe critical path is A-C-E-F, with a duration of 12 weeks. For B, earliest start is week 2 and latest start is week 3, so its total float is one week. For D, earliest start is week 6 and latest start is week 7, so its total float is also one week.\n\nNorthstar should use the network as a control tool rather than simply as a launch-date plan. A, C, E and F have no float, so slippage in software configuration, scanner testing or operator training delays the whole line. B and D can each move by one week without changing completion, which gives some limited scope to redeploy staff or maintenance support when production problems occur. However, that float should not be treated as spare capacity: the same maintenance technicians are required for routine production and installation, whereas the network shows dependencies but not resource constraints. Northstar should therefore add a technician-resource schedule and identify who covers normal production during installation.\n\nShortening E from five to three weeks reduces the A-C-E-F path from 12 to 10 weeks. However, A-B-D-F then becomes critical at 11 weeks. Thus, paying the additional £36,000 saves only one week from overall project duration, not two. If the retailer promotion can be supported by a 12-week completion, Northstar should avoid this cost and protect cash. If an 11-week completion is essential, shortening E is justified only if weekend factory access is feasible and does not disrupt output or create technician overload. A deadline shorter than 11 weeks would require action on B or D as well, because they would then be on the critical path.",
+      "numbers": [
+        {
+          "label": "event_0_earliest_time_weeks",
+          "value": 0
+        },
+        {
+          "label": "event_0_latest_time_weeks",
+          "value": 0
+        },
+        {
+          "label": "event_1_earliest_time_weeks",
+          "value": 2
+        },
+        {
+          "label": "event_1_latest_time_weeks",
+          "value": 2
+        },
+        {
+          "label": "event_2_earliest_time_weeks",
+          "value": 6
+        },
+        {
+          "label": "event_2_latest_time_weeks",
+          "value": 7
+        },
+        {
+          "label": "event_3_earliest_time_weeks",
+          "value": 5
+        },
+        {
+          "label": "event_3_latest_time_weeks",
+          "value": 5
+        },
+        {
+          "label": "event_4_earliest_time_weeks",
+          "value": 10
+        },
+        {
+          "label": "event_4_latest_time_weeks",
+          "value": 10
+        },
+        {
+          "label": "event_5_earliest_time_weeks",
+          "value": 12
+        },
+        {
+          "label": "event_5_latest_time_weeks",
+          "value": 12
+        },
+        {
+          "label": "critical_path_duration_weeks",
+          "value": 12
+        },
+        {
+          "label": "activity_b_total_float_weeks",
+          "value": 1
+        },
+        {
+          "label": "activity_d_total_float_weeks",
+          "value": 1
+        },
+        {
+          "label": "activity_e_shortened_path_duration_weeks",
+          "value": 10
+        },
+        {
+          "label": "revised_project_duration_weeks",
+          "value": 11
+        },
+        {
+          "label": "overall_time_saved_weeks",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot_id": "P3-02",
+      "answer_text": "NPV is calculated by discounting each forecast net cash inflow and deducting the immediate £240,000 outlay.\n\nYear 1: £70,000 × 0.91 = £63,700\nYear 2: £75,000 × 0.83 = £62,250\nYear 3: £80,000 × 0.76 = £60,800\nYear 4: £85,000 × 0.69 = £58,650\nYear 5: £90,000 × 0.62 = £55,800\n\nTotal present value of inflows = £301,200.\nNPV = £301,200 − £240,000 = £61,200.\n\nThe positive NPV supports proceeding in principle. It means that, using Northstar's required rate of return, the forecast inflows exceed the initial cost by £61,200. The line may also create benefits not fully captured by the calculation, including better serial-number traceability and fewer manual packing errors. These could protect retailer relationships and reduce costs from errors, especially when demand is growing.\n\nHowever, NPV alone is not sufficient support for immediate investment. It depends on five years of forecast inflows, yet those inflows rely on retailer promotions continuing and competitors not forcing down Halo's selling price. If demand is lower than forecast, the later cash inflows and therefore the NPV will fall. NPV also measures long-term value, not Northstar's ability to pay bills in July. The £240,000 is payable immediately, despite a closing cash balance of only £96,000 and a forecast July shortfall if retailer receipts are late.\n\nNorthstar should therefore treat the positive NPV as a reason to retain the project, but proceed only alongside a credible short-term cash plan. It should improve collection of retailer receivables, release cash from surplus inventory where this does not endanger supply, and arrange suitable short-term finance if needed. It should also confirm that the line can be ready for the retailer promotion; otherwise, the assumed first-year inflow may not be achieved.",
+      "numbers": [
+        {
+          "label": "year_1_present_value_gbp",
+          "value": 63700
+        },
+        {
+          "label": "year_2_present_value_gbp",
+          "value": 62250
+        },
+        {
+          "label": "year_3_present_value_gbp",
+          "value": 60800
+        },
+        {
+          "label": "year_4_present_value_gbp",
+          "value": 58650
+        },
+        {
+          "label": "year_5_present_value_gbp",
+          "value": 55800
+        },
+        {
+          "label": "total_present_value_inflows_gbp",
+          "value": 301200
+        },
+        {
+          "label": "npv_gbp",
+          "value": 61200
+        }
+      ]
+    },
+    {
+      "slot_id": "P3-03",
+      "answer_text": "The expected seasonal contribution from continuing with Malaysia alone is:\n\n0.70 × £780,000 + 0.30 × £270,000 = £627,000.\n\nFor dual sourcing, the expected contribution before the establishment cost is:\n\n0.85 × £745,000 + 0.15 × £510,000 = £709,750.\n\nAfter the £95,000 testing, onboarding and quality-check cost, expected contribution is £614,750. On the decision-tree figures alone, Malaysia alone is financially preferable by £12,250.\n\nThis result supports the purchasing manager's view because Malaysia has the higher expected contribution and avoids an immediate £95,000 cost when Northstar has weak cash reserves. In the normal-supply outcome, Malaysia alone produces £780,000, compared with £650,000 after allowing for the dual-source establishment cost. If the board gives greatest weight to expected financial return and cash preservation, it should retain Malaysia alone.\n\nHowever, expected values can conceal a serious downside. Dual sourcing reduces the estimated probability of a serious delay from 0.30 to 0.15. In a serious-delay outcome, dual sourcing gives £415,000 after its fixed cost, compared with only £270,000 from Malaysia alone. This is important because Northstar has already experienced a port delay and nearly used all its buffer inventory. A missed retailer delivery could cause penalties and poor customer ratings, undermining the objective of growing Halo sales while protecting reliability. The UK supplier's shorter lead time and spare capacity could also make recovery from disruption quicker.\n\nThe evidence is uncertain. The probabilities come from management experience and supplier discussions, not independently verified evidence. In addition, the UK supplier has supplied only a small trial order, so its quality consistency, ability to scale and actual response during peak demand are not proven. Conversely, the Malaysian supplier's recent delay indicates that its stated normal lead time may not reflect disruption risk. Therefore, the £12,250 expected-value advantage is too narrow to be decisive.\n\nNorthstar should establish a controlled dual-source arrangement for the winter peak, subject to rapid quality validation and a confirmed allocation of volumes between suppliers. This better fits its reliability and growth objectives, despite the modest expected-contribution sacrifice. The board should fund the £95,000 only within a wider cash plan and monitor supplier performance closely; if the UK supplier fails quality or delivery testing, Northstar should not rely on it for critical peak volumes.",
+      "numbers": [
+        {
+          "label": "malaysia_normal_weighted_contribution_gbp",
+          "value": 546000
+        },
+        {
+          "label": "malaysia_delay_weighted_contribution_gbp",
+          "value": 81000
+        },
+        {
+          "label": "malaysia_expected_contribution_gbp",
+          "value": 627000
+        },
+        {
+          "label": "dual_normal_weighted_contribution_before_cost_gbp",
+          "value": 633250
+        },
+        {
+          "label": "dual_delay_weighted_contribution_before_cost_gbp",
+          "value": 76500
+        },
+        {
+          "label": "dual_expected_contribution_before_cost_gbp",
+          "value": 709750
+        },
+        {
+          "label": "dual_expected_contribution_after_cost_gbp",
+          "value": 614750
+        },
+        {
+          "label": "malaysia_expected_contribution_advantage_gbp",
+          "value": 12250
+        },
+        {
+          "label": "dual_serious_delay_contribution_after_cost_gbp",
+          "value": 415000
+        },
+        {
+          "label": "serious_delay_probability_reduction",
+          "value": 0.15
+        }
+      ]
+    },
+    {
+      "slot_id": "P3-04",
+      "answer_text": "Northstar must distinguish clearly between profit and cash flow. It made an operating profit of £504,000, but had only £96,000 cash at the year end. Profit records revenue earned less costs incurred; it does not mean customers have paid. This distinction is particularly important because retailers usually pay 60 days after delivery while Northstar pays its main board supplier after 30 days.\n\nOperating profit margin is £504,000 ÷ £8,400,000 × 100 = 6%. Northstar earns only £6 of operating profit per £100 of revenue. Its gross profit margin is 35%, so the business has a positive product margin, but operating expenses reduce this substantially. A 6% operating margin leaves limited protection if retailer promotions reduce selling prices, imported-board costs rise, or delays create penalties and expedited freight. Northstar should protect margin by avoiding unprofitable discounting, reducing packing errors and returns, and using the proposed line only if its cash funding and sales assumptions are secure.\n\nThe immediate priority should be cash protection. Net working capital is £1.63m, driven by £1.05m of inventory and £1.32m of receivables. The potential £382,000 July shortfall is more urgent than reported profit. Northstar should tighten credit control for retailer accounts, actively chase the potentially late receipts and agree clear payment expectations before further promotional sales. This may risk damaging retailer relationships if applied inflexibly, so it should focus first on overdue or higher-risk accounts rather than impose indiscriminate restrictions.\n\nIt should next release cash from working capital. Selling genuinely surplus slow-moving casings converts stock into cash, while reducing excessive purchasing batches should stop inventory rising further. However, it should not simply cut the board buffer to solve the cash problem: a recent port delay almost exhausted it, and a stock-out could lose sales and damage ratings. Negotiating longer supplier terms would improve cash flow but could weaken the relationship with the already critical Malaysian supplier. An overdraft is a sensible contingency for a timing mismatch, but it is finance rather than an improvement in profit and should not fund persistent excess inventory.\n\nThe packing line has a positive NPV and could improve both quality and future efficiency, so it remains a worthwhile medium-term profit action. Nevertheless, its £240,000 immediate outlay could worsen the July cash position. Northstar should prioritise receivables collection and targeted inventory release first, preserve supply resilience, and then proceed with the line only when a cash forecast shows that it can meet obligations through the promotion period. This balanced approach addresses the immediate survival risk without sacrificing the growth investment that may strengthen future profitability.",
+      "numbers": [
+        {
+          "label": "operating_profit_margin_percent",
+          "value": 6
+        },
+        {
+          "label": "gross_profit_gbp",
+          "value": 2940000
+        },
+        {
+          "label": "gross_profit_margin_percent",
+          "value": 35
+        },
+        {
+          "label": "net_working_capital_gbp",
+          "value": 1630000
+        }
+      ]
+    },
+    {
+      "slot_id": "P3-05",
+      "answer_text": "Northstar should use Lewin's three-stage model to implement the structural, job-design and technology changes as one coordinated programme. Delayering, multi-skilled cells and an automated packing line are interdependent: removing a management layer without preparing cell leaders could create uncontrolled decisions, while installing the line without trained and engaged operators could increase rather than reduce errors.\n\nUnfreeze: Northstar first needs to create readiness for change. The managing director has announced an intended launch date, which creates urgency, but this is insufficient because supervisors fear redundancy or loss of status and assemblers fear new tasks and scanner-based measurement. Managers should explain the specific business case: demand is rising, the existing packing line may fail at peak demand, and slow functional decisions during shortages threaten retailer service. Consultation meetings should identify practical problems in proposed cells, such as skill gaps, quality escalation and staffing cover. This is not merely about gaining acceptance; production employees may identify faults in the new workflow before they affect customers.\n\nNorthstar should communicate fairly what will happen to supervisors and to the six packing employees potentially affected by automation. It should offer retraining, redeployment where feasible and transparent selection processes if redundancies cannot be avoided. Supervisors should be offered credible roles as cell coaches, quality specialists or improvement leaders rather than being treated as obstacles. It must also explain what scanning data will measure, who can see it and how it will be used. Otherwise, employees may see traceability as surveillance and resist the technology.\n\nChange: A phased pilot is preferable to immediate compulsory implementation. Northstar could trial multi-skilled working in one production cell, with training in assembly tasks, quality checks, staffing decisions and use of the scanner. Cell leaders should have explicit authority to alter daily schedules within defined quality and spending limits, with a clear route for escalating shortages. Initial parallel quality checks and practical feedback sessions would identify whether the new responsibilities maintain product reliability.\n\nThe packing line should be installed with a detailed project plan, technician cover for normal production and a maintenance-support arrangement. Training needs to occur before handover, not after a failed launch. A fully compulsory rapid rollout may appear to protect the retailer-promotion deadline, but it risks lower morale, loss of experienced supervisors and quality failures at the point when retailer ratings matter most. Equally, an open-ended pilot is unsuitable because Northstar needs capacity for the promotion. The pilot should therefore have fixed decision points and be expanded quickly only after quality, output and employee-competence criteria are met.\n\nRefreeze: Once the new arrangement works, Northstar should embed it through revised procedures, skills matrices, reporting lines and induction training. Performance measures should balance output with packing errors, traceability, on-time delivery, quality and safe staffing; measuring only speed through the scanning system would undermine the reliability objective. Regular reviews should resolve cross-cell inconsistencies, while recognition and development for multi-skilled employees will reinforce the new culture.\n\nOverall, Northstar should use a firm but participative, phased implementation. It should not delay essential decisions indefinitely, but consultation, training and a controlled pilot are more likely than a compulsory launch to deliver the required capacity without damaging quality, employee commitment or retailer service.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P3-06",
+      "answer_text": "Northstar should establish a carefully controlled dual-source arrangement, but only with active inventory and cash management. The decision is not simply whether the UK board price is higher; it is whether greater supply resilience and lower stock commitments are worth the extra costs and implementation risk during the winter peak.\n\nInventory control strongly supports having a UK source. At average usage, Malaysia's 10-week lead time represents 10,000 boards of demand. Adding the stated 2,000-board buffer gives an indicative 12,000-board requirement before a Malaysian delivery is received. For the UK supplier, three weeks of average demand plus the same buffer is 5,000 boards. These are planning indications rather than precise reorder levels, since maximum usage is not supplied, but they show why the Malaysian minimum order of 12,000 boards is restrictive when Northstar's stated maximum inventory is 14,000 units. A 3,000-unit UK batch gives much more scope to top up stock in smaller amounts and avoid accumulating excessive inventory.\n\nThe cash implications are significant. One Malaysian minimum order costs £220,800, whereas a UK minimum order costs £60,300. A smaller UK order therefore requires £160,500 less immediate cash. This could help Northstar reduce its £1.05m inventory and relieve pressure created by 60-day customer payment terms. However, it would be wrong to assume that lower inventory automatically solves the cash crisis. The UK board costs £1.70 more per unit, and the £95,000 onboarding, testing and quality-check cost is almost equal to Northstar's £96,000 closing cash balance. UK payment terms are also not given. Northstar needs a rolling cash forecast before paying this cost, particularly given the possible July shortfall.\n\nDual sourcing should improve supply-chain effectiveness because it reduces dependence on one Malaysian supplier, whose delivery was recently delayed by three weeks. The UK supplier has spare capacity and a three-week lead time, so it could provide faster replenishment or recovery when port disruption occurs. This is valuable because missed Halo deliveries may produce retailer penalties and poor online ratings. It also permits Northstar to keep some Malaysian low-cost supply while using the UK source for flexibility rather than immediately transferring all volume to the higher-cost supplier.\n\nThere are drawbacks. The UK supplier has completed only a small trial order, so quality consistency at winter volumes is uncertain. Two suppliers require specification control, incoming quality checks, forecasting discipline and clear allocation of orders. Northstar should not reduce its buffer inventory immediately after appointing the UK supplier; it should do so only after the supplier demonstrates reliable quality and delivery. Otherwise, apparent inventory savings could be followed by costly stock-outs.\n\nThe decision-tree evidence gives Malaysia alone an expected seasonal contribution of £627,000, compared with £614,750 after the dual-source setup cost. Thus, Malaysia alone has a £12,250 expected-value advantage. Yet dual sourcing halves the estimated serious-delay probability from 0.30 to 0.15 and produces a much better serious-delay contribution after setup costs. Since the estimates are based on internal experience and supplier discussions rather than independent evidence, this small expected-value difference should not outweigh Northstar's objective of protecting reliability.\n\nNorthstar should therefore qualify the UK supplier as a genuine second source before winter, subject to successful quality and capacity checks. It should retain Malaysia for stable base volumes and use the UK supplier for planned top-ups, surge demand and disruption recovery. The board should approve the £95,000 cost only alongside a cash plan that accelerates receivables and releases clearly surplus stock; otherwise, it risks solving a supply problem while creating an immediate liquidity problem.",
+      "numbers": [
+        {
+          "label": "malaysia_lead_time_demand_boards",
+          "value": 10000
+        },
+        {
+          "label": "malaysia_indicative_lead_time_plus_buffer_boards",
+          "value": 12000
+        },
+        {
+          "label": "uk_lead_time_demand_boards",
+          "value": 3000
+        },
+        {
+          "label": "uk_indicative_lead_time_plus_buffer_boards",
+          "value": 5000
+        },
+        {
+          "label": "indicative_inventory_requirement_difference_boards",
+          "value": 7000
+        },
+        {
+          "label": "malaysia_minimum_order_value_gbp",
+          "value": 220800
+        },
+        {
+          "label": "uk_minimum_order_value_gbp",
+          "value": 60300
+        },
+        {
+          "label": "minimum_order_cash_commitment_difference_gbp",
+          "value": 160500
+        },
+        {
+          "label": "uk_unit_price_premium_gbp",
+          "value": 1.7
+        },
+        {
+          "label": "malaysia_expected_contribution_gbp",
+          "value": 627000
+        },
+        {
+          "label": "dual_expected_contribution_after_cost_gbp",
+          "value": 614750
+        },
+        {
+          "label": "malaysia_expected_contribution_advantage_gbp",
+          "value": 12250
+        },
+        {
+          "label": "serious_delay_probability_reduction",
+          "value": 0.15
+        }
+      ]
+    }
+  ]
+}

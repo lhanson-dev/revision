@@ -1,0 +1,106 @@
+{
+  "slot_id": "P1-B-02",
+  "family": "SHORT_ANSWER",
+  "command_word": "Calculate",
+  "marks": 4,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 3,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "Northgate Cycles Ltd has reported the following figures at its year end.",
+  "stem": "Calculate Northgate Cycles Ltd's return on capital employed (ROCE). Use capital employed = total assets − current liabilities. Show your workings.",
+  "table": {
+    "title": "Financial information for Northgate Cycles Ltd",
+    "columns": [
+      "Item",
+      "Value (£)"
+    ],
+    "rows": [
+      {
+        "cells": [
+          "Operating profit",
+          "240,000"
+        ]
+      },
+      {
+        "cells": [
+          "Total assets",
+          "1,500,000"
+        ]
+      },
+      {
+        "cells": [
+          "Current liabilities",
+          "300,000"
+        ]
+      }
+    ]
+  },
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Calculates capital employed.",
+        "accept": [
+          "£1,500,000 − £300,000 = £1,200,000"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Uses the ROCE formula: operating profit ÷ capital employed × 100.",
+        "accept": [
+          "ROCE = operating profit / capital employed × 100",
+          "£240,000 / £1,200,000 × 100"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Correctly substitutes the operating profit and calculated capital employed into the formula.",
+        "accept": [
+          "£240,000 ÷ £1,200,000 × 100"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates ROCE correctly.",
+        "accept": [
+          "20%",
+          "0.20 × 100 = 20%"
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Capital employed = £1,500,000 − £300,000 = £1,200,000.\n\nROCE = (£240,000 ÷ £1,200,000) × 100 = 20%."
+  },
+  "calculations": [
+    {
+      "label": "capital employed",
+      "method": "difference",
+      "operands": [
+        1500000,
+        300000
+      ],
+      "stated_answer": 1200000,
+      "unit": "£",
+      "marks_supported": 1
+    },
+    {
+      "label": "return on capital employed",
+      "method": "percent_of",
+      "operands": [
+        240000,
+        1200000
+      ],
+      "stated_answer": 20,
+      "unit": "%",
+      "marks_supported": 3
+    }
+  ]
+}

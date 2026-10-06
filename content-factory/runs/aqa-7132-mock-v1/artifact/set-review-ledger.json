@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-mock-whole-set",
+  "checklist_version": "mock-whole-set-v1",
+  "units": {
+    "complete-set": {
+      "fingerprint": "ce1f4f6d9139904758e03fc8ddce8e5b9b4f49f012f98c6a6a24257e239a8937",
+      "outcome": "logged",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "cross_paper_duplication",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "P3-03",
+            "P3-06"
+          ],
+          "finding": "P3-03 and P3-06 are semantic repeats of the same dual-sourcing decision.",
+          "evidence": "Both questions ask whether Northstar should establish a dual-source arrangement for circuit boards for the same winter peak, using the same supplier comparison, cash constraint, uncertainty in estimates, reliability concerns and conditional recommendation. P3-03 foregrounds decision-tree estimates, while P3-06 foregrounds inventory and supply-chain effects, but both require substantially the same option comparison and judgement.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain P3-03 as the decision-tree evaluation. Replace P3-06 with an inventory-control evaluation that focuses on buffer stock, reorder timing, lead-time exposure and cash without asking again whether to dual source, or use a different Northstar operational decision.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-06T13:54:23.444Z"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-10",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is deciding how to engage different stakeholder groups before making a major decision.",
+  "stem": "Select the most appropriate approach for a stakeholder with high power and high interest in the decision.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Monitor the stakeholder with minimal communication."
+    },
+    {
+      "label": "B",
+      "text": "Keep the stakeholder informed, but do not seek feedback."
+    },
+    {
+      "label": "C",
+      "text": "Keep the stakeholder satisfied through occasional updates."
+    },
+    {
+      "label": "D",
+      "text": "Engage closely with the stakeholder and seek their views."
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "D",
+    "option_rationale": [
+      "A is appropriate for stakeholders with low power and low interest, rather than high power and high interest.",
+      "B is more appropriate for stakeholders with low power but high interest.",
+      "C is more appropriate for stakeholders with high power but low interest.",
+      "D is correct because stakeholders with both high power and high interest should normally receive close engagement and opportunities to provide feedback."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ". "
+  },
+  "calculations": []
+}

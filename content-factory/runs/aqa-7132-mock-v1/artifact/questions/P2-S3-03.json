@@ -1,0 +1,59 @@
+{
+  "slot_id": "P2-S3-03",
+  "family": "DATA_RESPONSE",
+  "command_word": "Evaluate",
+  "marks": 16,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 3,
+    "AO3": 2,
+    "AO4": 9
+  },
+  "context": "",
+  "stem": "Using the information in the shared stimulus, evaluate whether LoopFill Ltd should use a bank loan, equity crowdfunding, debt factoring, or a combination of these sources, to finance the automated filling and packing line. Recommend the most appropriate financing approach.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited understanding of one or more finance sources. Makes simple, largely generic comments about borrowing, ownership or cash flow, with little use of the shared stimulus. A recommendation may be asserted rather than supported."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows sound understanding of relevant finance-source trade-offs. Applies some points to LoopFill Ltd, such as the cost of the line, the cash buffer, receivables, loan terms or loss of ownership. Analysis explains some consequences, but evaluation is uneven or the final judgement is insufficiently qualified."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 16,
+        "descriptor": "Shows thorough and well-focused evaluation of the available finance sources and their trade-offs. Uses the shared stimulus selectively and accurately to develop linked analysis of cash-flow commitments, control, cost, risk, security, duration and customer-service implications. Reaches a clear, justified and suitably conditional recommendation, recognising why an alternative or combination may be preferable if key circumstances differ."
+      }
+    ],
+    "indicative_content": [
+      "A bank loan can provide the full £200,000 needed for a long-lived automated line and avoids issuing ownership shares, so the existing directors retain control.",
+      "The loan creates fixed annual interest and £40,000 principal repayments. These cash commitments increase financial risk when LoopFill's operating profit fell to £315,000, closing cash fell to £95,000 and customers normally pay 45 days after delivery.",
+      "Security over the new line reduces flexibility because the asset is pledged to the lender. However, matching a five-year loan with a productive capital asset is generally more appropriate than relying entirely on short-term finance.",
+      "Equity crowdfunding has no contractual interest or principal repayment, reducing pressure on cash flow while LoopFill is trying to meet an additional order and train staff.",
+      "Equity crowdfunding would give investors 18% of ordinary shares, diluting the directors' ownership and potentially their control over future decisions and returns.",
+      "The 6% platform fee means the headline £200,000 campaign does not necessarily leave the whole purchase price available for the line. A further source or use of cash may be needed unless campaign terms provide otherwise.",
+      "Debt factoring could release cash earlier from eligible receivables and may help LoopFill manage the 45-day customer-payment gap, particularly as receivables have risen to £650,000.",
+      "Factoring charges a 3% fee on advances, so it reduces the cash ultimately received from sales. It also does not create new sales or operating profit.",
+      "The factor contacting customers could damage relationships with independent retailers or supermarkets, especially if collection practices affect perceptions of service quality.",
+      "Factoring is better suited to short-term working-capital needs than to being the sole source for a long-lived automated line. It could support liquidity alongside longer-term funding.",
+      "A justified judgement may prefer the bank loan for the asset purchase, combined with selective factoring to protect working capital, provided forecast cash flows can meet loan payments and the receivables are suitable.",
+      "A justified alternative may favour equity crowdfunding if demand for the additional order or future cash flow is highly uncertain and the directors judge avoiding fixed repayments more important than retaining full control.",
+      "Any recommendation should recognise that finance alone will not ensure success: training and protection of pouch quality and delivery performance remain necessary for the additional order."
+    ],
+    "model_answer": "LoopFill should be cautious about using one source alone. A five-year bank loan is a strong primary option because it can provide the £200,000 required for an automated line and broadly matches longer-term borrowing to a long-lived asset. It also allows the directors to retain ownership. This matters because equity crowdfunding would give investors 18% of the ordinary shares. However, the loan increases financial risk through annual interest and £40,000 principal repayments. This is significant because operating profit was only £315,000 in 2025, below budget, and closing cash has fallen to £95,000 while customers pay after 45 days. Security over the line also reduces flexibility.\n\nEquity crowdfunding would avoid contractual repayments and therefore may be safer if the extra order or the line's benefits are uncertain. Yet it dilutes control and the 6% platform fee means the stated fundraising amount may not leave all £200,000 available for the purchase. Therefore, it is not automatically a cost-free alternative to debt.\n\nFactoring could improve day-to-day liquidity by bringing forward cash tied up in LoopFill's receivables. This could be valuable while the business trains staff and waits for customers to pay. Nevertheless, the 3% fee reduces the cash received, and customer contact by the factor could harm relationships or service perceptions. It is also short-term working-capital finance rather than an ideal sole source for a capital asset.\n\nOverall, LoopFill should use the bank loan for the line and retain factoring as a selective short-term liquidity facility, rather than factor all receivables. This preserves ownership and better matches finance to the asset, while helping protect the desired cash buffer. The recommendation depends on forecasts showing that loan repayments remain affordable even if the additional order is delayed or pouch-quality problems reduce sales. If these forecasts are weak, accepting equity crowdfunding may be preferable despite the loss of control."
+  },
+  "calculations": []
+}

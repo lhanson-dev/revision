@@ -1,0 +1,70 @@
+{
+  "slot_id": "P1-B-04",
+  "family": "SHORT_ANSWER",
+  "command_word": "Explain",
+  "marks": 5,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 3,
+    "AO3": 1,
+    "AO4": 0
+  },
+  "context": "Harbour Furniture Ltd plans to change shift patterns at its factory to meet more weekend orders. Employees are concerned that the proposed changes could disrupt childcare and travel arrangements. Managers are considering setting up a representative employee consultation group before making a final decision.",
+  "stem": "Explain how employee involvement through the representative consultation group could improve employee relations at Harbour Furniture Ltd.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Shows understanding of employee involvement or representative consultation.",
+        "accept": [
+          "Employee involvement gives employees a say in decisions that affect them.",
+          "Representative consultation allows employee representatives to discuss workforce views with management.",
+          "Consultation differs from simply informing employees because employees can provide feedback before the decision is final."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Applies involvement to the proposed shift-pattern decision.",
+        "accept": [
+          "Representatives could gather employees' concerns about childcare, travel or weekend working.",
+          "Management could explain why additional weekend capacity is needed and discuss the proposed shift patterns with representatives."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Explains that consultation creates two-way communication.",
+        "accept": [
+          "Employees can raise practical problems with the proposal while managers can clarify the business need.",
+          "Management can receive feedback rather than relying on assumptions about how employees will respond."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Explains how this may improve the decision or reduce conflict.",
+        "accept": [
+          "Employee knowledge could help management adapt shifts, for example by changing timings or providing more notice.",
+          "Considering concerns may make the final arrangements appear fairer and reduce resentment or disputes.",
+          "A more workable shift plan is less likely to create avoidable employee-relations conflict."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Explains a likely employee-relations outcome in context.",
+        "accept": [
+          "Employees may feel their views are respected, improving trust between the workforce and management.",
+          "Greater acceptance of the final shift arrangements could support cooperation when weekend orders increase.",
+          "This benefit depends on management genuinely considering feedback; consultation that cannot influence anything may raise expectations and damage trust."
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Employee involvement would allow workforce representatives to discuss employees' concerns about childcare, travel and weekend working with Harbour Furniture's managers before shift patterns are finalised. This creates two-way communication: managers can explain the need to meet weekend orders, while employees can identify practical problems or suggest changes. Management may then adjust the arrangements, such as giving more notice or changing shift timings, making the decision seem fairer and more workable. As employees may feel their views have been considered, trust and acceptance of the new shifts could improve, reducing the risk of conflict. However, this depends on consultation being meaningful rather than management merely announcing a decision already made."
+  },
+  "calculations": []
+}

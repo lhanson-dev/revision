@@ -1,0 +1,70 @@
+{
+  "slot_id": "P1-D-02",
+  "family": "ESSAY",
+  "command_word": "Evaluate",
+  "marks": 25,
+  "ao_marks": {
+    "AO1": 4,
+    "AO2": 6,
+    "AO3": 7,
+    "AO4": 8
+  },
+  "context": "Hearth & Home Ltd is a UK retailer of kitchen equipment with 18 stores and an online operation. Sales have grown through product range extensions, but the business has recently experienced stock shortages and longer delivery times. Customers typically pay when ordering online, while suppliers allow Hearth & Home 30 days to pay.\n\nThe board is considering two growth options. Option 1 is organic growth: opening six further stores over two years and expanding the online range. This would allow the business to recruit and train staff gradually, but new stores would take time to build customer awareness.\n\nOption 2 is to acquire CookPro Ltd, a smaller retailer with 12 stores, an established customer base and a separate distribution network. The acquisition would provide immediate additional outlets and could create purchasing economies of scale through larger orders to suppliers. Directors also claim that duplicated head-office roles and distribution facilities could be removed. However, CookPro uses different stock-control systems, has a more centralised management style and requires a substantial purchase price. Some directors are concerned that rapidly combining the two businesses could create coordination problems and place pressure on cash if inventory has to be increased before the businesses' operations are integrated.\n\nA third proposal is to close four poorly performing Hearth & Home stores and use the released resources to improve the online operation before pursuing either growth option.",
+  "stem": "Evaluate whether Hearth & Home Ltd should acquire CookPro Ltd rather than pursue organic growth.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 5,
+        "descriptor": "Shows limited knowledge of growth methods and/or scale. Application to Hearth & Home is weak or absent. Assertions about the acquisition or organic growth are generic, with little developed reasoning or judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 6,
+        "max_marks": 10,
+        "descriptor": "Shows some relevant knowledge of organic and external growth, economies or diseconomies of scale, synergy, cash pressure or retrenchment. There is some application to the business, although reasoning may be one-sided, incomplete or based on undeveloped chains. A judgement may be present but is unsupported or inconsistent."
+      },
+      {
+        "level": 3,
+        "min_marks": 11,
+        "max_marks": 15,
+        "descriptor": "Shows sound knowledge and application to the circumstances of Hearth & Home. Analyses relevant advantages and risks of acquisition and organic growth, using developed causal chains. Evaluation is evident through consideration of conditions, trade-offs or limitations, leading to a supported, though not fully developed, judgement."
+      },
+      {
+        "level": 4,
+        "min_marks": 16,
+        "max_marks": 20,
+        "descriptor": "Shows strong, accurate and well-focused knowledge applied throughout. Analysis explains how the acquisition could create scale economies or synergy, while also examining integration, coordination, finance, cash and operational risks. Evaluation is balanced and prioritises factors that are material to the decision. The judgement is clear and well justified."
+      },
+      {
+        "level": 5,
+        "min_marks": 21,
+        "max_marks": 25,
+        "descriptor": "Shows comprehensive and consistently relevant knowledge, application, analysis and evaluation. Develops convincing, interconnected reasoning across growth method, scale, integration and financial/operational constraints. Makes a nuanced judgement that is explicitly conditional on strategic fit, realistic synergy delivery, management capacity and sustainable working-capital finance, while considering the role of retrenchment or staged organic growth."
+      }
+    ],
+    "indicative_content": [
+      "Organic growth is internal expansion. It may be slower than acquisition, but Hearth & Home could open stores and develop the online range in stages, allowing gradual recruitment, training and learning.",
+      "An acquisition is external growth through obtaining control of another business. Buying CookPro would give Hearth & Home immediate access to 12 stores, customers and a distribution network, potentially increasing market presence more quickly than opening six stores.",
+      "The larger combined purchasing volume could create purchasing economies of scale if suppliers offer bulk discounts or improved terms. This could lower long-run average cost, improving competitiveness or margins.",
+      "Removing genuinely duplicated head-office roles or distribution facilities could create cost synergy. However, synergy is not automatic: the business must identify which activities overlap, whether closure costs are manageable and whether service can be maintained.",
+      "CookPro's separate distribution network may provide capacity and capability, but different stock-control systems could make integration difficult. Poor system integration could worsen stock shortages or delivery times rather than solve them.",
+      "A more centralised management style at CookPro could clash with Hearth & Home's existing approach. Additional management layers, communication difficulties and slower decision-making could create diseconomies of scale, increasing long-run average cost or damaging responsiveness.",
+      "The acquisition price may reduce financial flexibility. If the combined business needs additional inventory while operations are being integrated, cash can be tied up before all expected benefits are achieved.",
+      "Growth can create overtrading risk: increased activity may require more inventory and other operating resources before the benefits of additional sales are realised. Profit or sales growth would not by itself demonstrate that the acquisition is affordable or sustainable.",
+      "Organic growth may avoid a large immediate purchase price and enables staged investment, but may leave Hearth & Home with continuing stock shortages if it does not first address operational capacity and stock control.",
+      "Closing the four poorly performing stores is retrenchment: a strategic reduction in scope or capacity. It could release resources and management attention for the online operation, but may also reduce sales, local presence and potential scale economies.",
+      "The best decision depends on whether CookPro's purchase price is justified by achievable benefits, whether systems and cultures can be integrated, whether working-capital finance is available, and whether management can resolve current service problems.",
+      "A reasoned conclusion may support acquisition only after due diligence and a credible integration and cash plan; alternatively, it may favour retrenchment and staged organic online growth if current operational weaknesses and financial risk are the binding constraints."
+    ],
+    "model_answer": "Hearth & Home could benefit from acquiring CookPro because it would gain 12 established stores, customers and a distribution network immediately. This is likely to be faster than organic growth, where the six proposed stores would need time to become known to customers. The acquisition could also create purchasing economies of scale. If the combined business places larger orders with suppliers, it may obtain lower input costs or better terms, reducing long-run average cost. In addition, there may be synergy if genuinely duplicated head-office roles or distribution facilities can be removed.\n\nHowever, these benefits are uncertain. Synergy is not created simply because the two businesses are combined. CookPro has different stock-control systems, and Hearth & Home already has stock shortages and delivery delays. Combining systems poorly could create a bottleneck in operations, leading to further stockouts, dissatisfied customers and weaker repeat purchasing. The different management styles could also make coordination slower and create diseconomies of scale through extra communication and management complexity. Therefore, the claimed cost savings may be offset by integration costs and lower service quality.\n\nThe financial risk is particularly important. The acquisition requires a substantial purchase price, reducing financial flexibility. Growth may also require more inventory before the combined operation is running efficiently. Although customers pay when ordering online, supplier credit lasts only 30 days, so inventory and other operating needs could still create cash pressure. If activity expands faster than available working-capital finance, Hearth & Home could overtrade: sales may rise while liquidity becomes increasingly fragile.\n\nOrganic growth would be slower, but it would allow the business to recruit, train and invest in capacity progressively. This could be preferable because it gives management time to correct the existing stock and delivery problems before adding further complexity. Closing the four weak stores could also release resources for the online operation. Nevertheless, retrenchment could reduce sales and geographic presence, so it should be used only where the stores are unlikely to become viable.\n\nOverall, Hearth & Home should not acquire CookPro simply to grow quickly. Acquisition is preferable only if due diligence shows that the purchase price is affordable, supplier and distribution savings are specific and achievable, and management has a realistic plan to integrate systems without worsening service. Given its current operational weaknesses and potential cash pressure, a staged approach is likely to be safer: first improve stock control and consider closing persistently weak stores, then pursue organic online growth. The acquisition could become attractive later if it provides clear, financeable synergies and the business has the managerial capacity to integrate it successfully."
+  },
+  "calculations": []
+}

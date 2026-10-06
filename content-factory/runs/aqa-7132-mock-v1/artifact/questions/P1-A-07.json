@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-07",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is assessing the competitive pressures in its industry using Porter's Five Forces.",
+  "stem": "Select the option that identifies a substitute in Porter's Five Forces.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "A different business selling an identical product"
+    },
+    {
+      "label": "B",
+      "text": "An alternative solution that meets the same customer need"
+    },
+    {
+      "label": "C",
+      "text": "A supplier that increases the price of an input"
+    },
+    {
+      "label": "D",
+      "text": "A potential new firm entering the industry"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because a business selling an identical product is a direct rival rather than necessarily a substitute.",
+      "B is correct because substitutes are alternative solutions that satisfy a similar customer need.",
+      "C is incorrect because this describes supplier bargaining power.",
+      "D is incorrect because this describes the threat of new entrants."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": ". "
+  },
+  "calculations": []
+}

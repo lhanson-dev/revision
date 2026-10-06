@@ -1,0 +1,112 @@
+{
+  "slot_id": "P3-01",
+  "family": "CASE_STUDY",
+  "command_word": "Analyse",
+  "marks": 12,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 6,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the project-network information in the Northstar planning data, construct an activity-on-arrow network for activities A–F. Show each activity letter above its arrow and its duration below the arrow. In every event circle, show the event number on the left, the earliest event time in the upper-right and the latest event time in the lower-right.\n\nCalculate the total float of activities B and D. Then analyse how Northstar should use this network analysis, including the option to shorten activity E, to implement the automated packing line before the retailer promotion begins. [12 marks]",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Displays limited relevant knowledge of network analysis or implementation. May identify an activity sequence, a possible delay risk or a generic benefit of training, communication or resource planning. The network representation and calculations are absent, substantially inaccurate or incomplete. Analysis is largely asserted."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows some relevant application to Northstar. Produces a partially correct activity-on-arrow network and/or some correct timing or float work. Explains at least one linked implementation consequence, such as prioritising a critical activity, using training, or communicating with affected employees. Analysis is developed in places but may not fully account for the amended network or the maintenance-technician constraint."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Provides clear, context-linked analysis. The activity-on-arrow network is largely valid, with appropriate event timings, and total float calculations are mostly correct. Explains that the original critical route determines the 12-week completion time and analyses how reducing E changes the schedule and implementation priorities. Considers relevant people, communication, training, resource or cost implications using Northstar evidence."
+      },
+      {
+        "level": 4,
+        "min_marks": 10,
+        "max_marks": 12,
+        "descriptor": "Provides a coherent and well-developed analysis of implementation at Northstar. For this level, the response must construct a valid activity-on-arrow network using the required event-circle convention, calculate total float competently for both B and D, and use the results accurately. It explains that A–C–E–F is initially critical at 12 weeks; shortening E to three weeks reduces the project duration only to 11 weeks because A–B–D–F becomes critical. It reaches a reasoned, context-specific implementation judgement that recognises the £36,000 cost, weekend access and the resource constraint created by maintenance technicians also being required for normal production. It links the network to practical implementation actions, such as updating the schedule, securing resources, training and communication, rather than treating the calculated network as sufficient on its own."
+      }
+    ],
+    "indicative_content": [
+      "A valid original activity-on-arrow network has A from event 0 to 1, B from 1 to 2, C from 1 to 3, D from 2 to 4, E from 3 to 4, and F from 4 to 5.",
+      "Original event timings are: event 0 = earliest 0/latest 0; event 1 = 2/2; event 2 = 6/7; event 3 = 5/5; event 4 = 10/10; event 5 = 12/12.",
+      "The original critical path is A–C–E–F: 2 + 3 + 5 + 2 = 12 weeks. A delay to C or E delays the calculated completion date unless recovered elsewhere.",
+      "B has total float of one week: its earliest start is week 2 and its latest permissible start is week 3.",
+      "D has total float of one week: its earliest start is week 6 and its latest permissible start is week 7.",
+      "If E is reduced from five to three weeks, the A–C–E–F route becomes 10 weeks, while A–B–D–F remains 11 weeks. The amended project duration is therefore 11 weeks and A–B–D–F becomes critical.",
+      "The £36,000 payment for shortening E buys one week of overall schedule reduction, rather than two weeks, because the critical path changes. Northstar should compare this benefit with the need to be ready before the promotion and its existing cash pressure.",
+      "The network does not include the fact that the same maintenance technicians are needed for production and installation. If this resource conflict delays B or D, the amended critical path could be delayed. Northstar should confirm technician availability, consider planned weekend work or external support, and update the network if durations or dependencies change.",
+      "Training operators and handing over the line are on the critical route in both the original and amended networks. Northstar should protect activity F through timely training, clear responsibilities and adequate support for employees redeployed from packing.",
+      "Because supervisors fear loss of status and assemblers are concerned about new tasks and scanning, consultation meetings and training can identify operational problems and improve adoption. A pilot or staged testing approach may reduce implementation risk, but must be scheduled so it does not delay the critical work.",
+      "A faster compulsory approach might protect the launch date where time is severe, but could increase resistance, errors or weak use of the new process. Communication should explain the purpose of traceability and quality controls, allow feedback and clarify authority during the change."
+    ],
+    "model_answer": "A suitable activity-on-arrow network is:\n\n0(0/0) --A, 2--> 1(2/2)\n1(2/2) --B, 4--> 2(6/7) --D, 3--> 4(10/10) --F, 2--> 5(12/12)\n1(2/2) --C, 3--> 3(5/5) --E, 5--> 4(10/10)\n\nThe original critical path is A–C–E–F, with a duration of 12 weeks. B has one week of total float because it can start at week 2 or, at latest, week 3. D also has one week of total float because it can start at week 6 or, at latest, week 7.\n\nNorthstar could pay £36,000 to reduce E by two weeks. However, this does not reduce the overall project by two weeks. The A–C–E–F route would become 10 weeks, but A–B–D–F would still take 11 weeks. The amended critical path would therefore be A–B–D–F and the earliest completion would be week 11. The payment buys only one week of overall time, so it is most justified if the extra week is necessary to meet the retailer-promotion deadline or creates a useful buffer against disruption.\n\nNorthstar should not rely on the network alone. The same maintenance technicians are required for normal production and installation, but this resource constraint is not represented in the activity durations. If technicians are unavailable, B or D could take longer and delay the now-critical A–B–D–F route. Northstar should reserve technician time, consider contractor support or controlled weekend working, and recalculate the network if this changes durations.\n\nIt should also protect F, because operator training and handover remain critical. Consultation and training can address assemblers' concerns about multi-skilling and scanning, while clear communication can explain why traceability and fewer packing errors are needed. A limited test of the process could reveal problems before full launch, but Northstar must ensure that testing and feedback do not postpone the critical training and handover activities. This combines schedule control with a more reliable implementation of the change."
+  },
+  "calculations": [
+    {
+      "label": "original_project_duration",
+      "method": "sum",
+      "operands": [
+        2,
+        3,
+        5,
+        2
+      ],
+      "stated_answer": 12,
+      "unit": "weeks",
+      "marks_supported": 1
+    },
+    {
+      "label": "total_float_activity_b",
+      "method": "difference",
+      "operands": [
+        3,
+        2
+      ],
+      "stated_answer": 1,
+      "unit": "week",
+      "marks_supported": 1
+    },
+    {
+      "label": "total_float_activity_d",
+      "method": "difference",
+      "operands": [
+        7,
+        6
+      ],
+      "stated_answer": 1,
+      "unit": "week",
+      "marks_supported": 1
+    },
+    {
+      "label": "amended_project_duration_after_shortening_e",
+      "method": "sum",
+      "operands": [
+        2,
+        4,
+        3,
+        2
+      ],
+      "stated_answer": 11,
+      "unit": "weeks",
+      "marks_supported": 1
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-01",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business is reviewing its marketing decisions.",
+  "stem": "Select the option that best defines an integrated marketing mix.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Using promotion as the sole method of increasing sales."
+    },
+    {
+      "label": "B",
+      "text": "Coordinating marketing decisions so that they consistently support the target customer and positioning."
+    },
+    {
+      "label": "C",
+      "text": "Setting the lowest possible price in every market."
+    },
+    {
+      "label": "D",
+      "text": "Classifying each product according to market growth and relative market share."
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A is incorrect because promotion is only one element of marketing and does not alone create an integrated mix.",
+      "B is correct because an integrated marketing mix aligns decisions such as product, price, promotion, channels and, where relevant, service elements.",
+      "C is incorrect because low pricing may conflict with a business's positioning, costs or customer-value proposition.",
+      "D is incorrect because this describes the purpose of the BCG growth-share matrix, a portfolio framework rather than an integrated marketing mix."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "."
+  },
+  "calculations": []
+}

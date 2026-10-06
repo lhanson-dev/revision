@@ -1,0 +1,95 @@
+{
+  "unit_id": "P2-SET-2",
+  "answers": [
+    {
+      "slot_id": "P2-S2-01",
+      "answer_text": "Total UK market sales were 6,000 trikes: 1,200 + 2,600 + 1,400 + 800. ParcelPedal's market share was therefore 20.0%: (1,200 / 6,000) × 100. Its price premium over RideFast was £1,150 per trike, or 27.1%: (£5,400 - £4,250) / £4,250 × 100. Unused capacity was 200 trikes: 1,400 capacity - 1,200 sold.\n\nFlexLoad's variable cost after automation would be £3,180: £3,420 - £240. At the planned £5,650 price, contribution would be £2,470 per trike: £5,650 - £3,180.\n\nParcelPedal is not positioned as a low-price competitor. It charges substantially more than RideFast, so competing principally on price would be difficult. Instead, it focuses on delivery fleets needing reliability and low downtime. Its repairable design, parts provision, repair training and 48-hour technical support differentiate it for this narrow business market. The high FlexLoad contribution also suggests that a premium can be justified if fleet customers value modularity, repairability and reduced disruption. The 200-unit spare capacity indicates some ability to serve extra demand, although it is limited relative to a major expansion.",
+      "numbers": [
+        {
+          "label": "total uk market sales calculation: 1200 + 2600 + 1400 + 800",
+          "value": 6000
+        },
+        {
+          "label": "parcelpedal market share percentage: 1200 / 6000 x 100",
+          "value": 20
+        },
+        {
+          "label": "price premium over ridefast in pounds: 5400 - 4250",
+          "value": 1150
+        },
+        {
+          "label": "price premium over ridefast percentage: 1150 / 4250 x 100",
+          "value": 27.0588235294
+        },
+        {
+          "label": "unused annual capacity: 1400 - 1200",
+          "value": 200
+        },
+        {
+          "label": "flexload variable cost after automated-cell saving: 3420 - 240",
+          "value": 3180
+        },
+        {
+          "label": "flexload contribution per trike: 5650 - 3180",
+          "value": 2470
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S2-02",
+      "answer_text": "A joint venture would give ParcelPedal local repair capability in the Netherlands. This supports its existing differentiation strategy because Dutch fleet customers buying a reliability-focused product may value rapid local repairs and parts access more than a supplier that simply exports trikes. It could reduce vehicle downtime, making the offer more attractive to delivery fleets and helping the distributor win sales.\n\nThe joint venture could also avoid up to £110,000 of export transport and administration costs on the proposed 500 trikes: £220 × 500. Avoiding this cost could protect ParcelPedal's margin, allow a more competitive Dutch price, or fund local service. On this narrow comparison, the £450,000 equity investment is equivalent to about 4.1 years of avoided export costs, before considering any local repair revenues or other joint-venture costs.\n\nIn addition, the Dutch partner's influence over product adaptations and local marketing could improve market fit. It may have knowledge of city restrictions, fleet purchasing practices and the requested narrow cargo modules. This should reduce the risk of attempting to sell an unchanged UK-designed product that does not meet local operating needs.\n\nHowever, these benefits depend on the partner being capable and cooperative. ParcelPedal would share control over adaptations and marketing, so decisions could be slower or could weaken its repairability-based positioning. The saving is also not enough by itself to make the investment attractive quickly. Nevertheless, compared with exporting the current trike, a joint venture offers a stronger local service proposition and potentially lower unit costs, which are especially valuable in a fleet market where downtime matters.",
+      "numbers": [
+        {
+          "label": "maximum export cost avoided for 500 Dutch trikes: 220 x 500",
+          "value": 110000
+        },
+        {
+          "label": "simple years of avoided export cost equivalent to 450000 equity investment: 450000 / 110000",
+          "value": 4.0909090909
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S2-03",
+      "answer_text": "ParcelPedal should proceed with FlexLoad, but only with staged finance and supply-risk controls, because it offers the strongest long-term fit with its differentiation strategy and Dutch growth opportunity.\n\nFlexLoad directly addresses the Dutch requests for removable batteries and narrower modules. It also allows UK fleets to select modules for parcels, groceries or medical supplies. This increases the value of the product for its focused fleet segment, rather than forcing ParcelPedal to compete against RideFast's lower-priced standardised trikes. FlexLoad's forecast contribution is £2,470 per unit after the automated-cell saving. At forecast sales of 1,400 trikes, total contribution would be £3.458m before fixed costs, interest and other innovation-related costs. The £240 unit saving would generate £336,000 of annual cost savings at this volume compared with the pre-automation variable-cost forecast. Lower first-year warranty repairs, from 7% to 3%, should further reinforce the low-downtime positioning and may reduce service costs, although the financial value is not provided.\n\nFlexLoad also makes growth more feasible operationally. Current capacity is 1,400 trikes, while retaining 2024 UK sales and supplying the Dutch order using the existing model would require 1,700 trikes. This is a 300-trike capacity shortfall. FlexLoad raises capacity to 1,600, leaving 200 units of headroom against its 1,400-unit forecast. Therefore, simply prioritising international expansion with the existing design risks either turning away UK customers or failing to supply the Dutch order. Exporting the current model also adds £220 per trike and does not meet the stated Dutch preferences as well as FlexLoad.\n\nRetaining the current model has advantages. It avoids the £2.15m development, tooling and training cost and preserves a proven repairable product and support service. It also avoids dependence on the specialist removable-battery supplier and avoids borrowing. This is significant because ParcelPedal has only £1.10m available cash and needs £1.05m of bank finance. If customers reject the higher £5,650 price, the forecast volume and contribution may not be achieved. The four prototype trials provide some evidence of demand, but they do not guarantee broad acceptance. The patent is also pending, so the modular mounting system may not remain protected from imitation.\n\nA Dutch joint venture using the current design would offer local repairs and could avoid export costs, but it still leaves a weaker product-market fit unless adaptations are made. It also requires £450,000 equity investment and gives the partner influence over product and marketing decisions. Consequently, international expansion alone is a less complete strategy than FlexLoad, although a joint venture could later strengthen FlexLoad's Dutch after-sales service.\n\nOverall, FlexLoad is the best main strategy because it combines product innovation, process efficiency, greater capacity and closer fit with both UK and Dutch fleet needs. The board should approve it only after securing bank finance on acceptable terms, obtaining a robust supply agreement or second-source plan for batteries, and using the Dutch distributor and prototype customers to test willingness to pay before full-scale rollout. If these conditions cannot be met, retaining the current model temporarily would be safer than committing to an unsupported launch.",
+      "numbers": [
+        {
+          "label": "total flexload development, tooling and training cost: 2000000 + 150000",
+          "value": 2150000
+        },
+        {
+          "label": "required bank finance: 2150000 - 1100000",
+          "value": 1050000
+        },
+        {
+          "label": "flexload forecast total unit sales: 900 + 500",
+          "value": 1400
+        },
+        {
+          "label": "flexload contribution per trike: 5650 - (3420 - 240)",
+          "value": 2470
+        },
+        {
+          "label": "forecast total contribution before fixed costs and finance: 2470 x 1400",
+          "value": 3458000
+        },
+        {
+          "label": "annual automated-cell cost saving at forecast volume: 240 x 1400",
+          "value": 336000
+        },
+        {
+          "label": "demand if 2024 uk sales are retained and Dutch order supplied: 1200 + 500",
+          "value": 1700
+        },
+        {
+          "label": "current-model capacity shortfall against retained uk sales plus Dutch order: 1700 - 1400",
+          "value": 300
+        },
+        {
+          "label": "flexload capacity headroom against forecast sales: 1600 - 1400",
+          "value": 200
+        }
+      ]
+    }
+  ]
+}

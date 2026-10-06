@@ -1,0 +1,30 @@
+{
+  "unit_id": "P1-A-CHUNK-2",
+  "answers": [
+    {
+      "slot_id": "P1-A-06",
+      "answer_text": "B — Market development. The business is selling an existing product in a new geographical market.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-07",
+      "answer_text": "B — An alternative solution that meets the same customer need is a substitute.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-08",
+      "answer_text": "A — Strategic drift occurs when a strategy becomes increasingly unsuitable as the business environment changes.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-09",
+      "answer_text": "B — A tariff is a tax imposed on imported goods.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-10",
+      "answer_text": "D — A stakeholder with high power and high interest should be engaged closely and consulted.",
+      "numbers": []
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "slot_id": "P2-S2-02",
+  "family": "DATA_RESPONSE",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 3,
+    "AO3": 4,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the shared ParcelPedal Ltd stimulus, analyse the benefits to ParcelPedal of forming a joint venture with the Dutch maintenance business rather than exporting its current trike from Bristol.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited understanding of international expansion or joint ventures. Makes general assertions, with limited use of the stimulus and little developed analysis."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows sound understanding of how a joint venture could support international expansion. Applies relevant information from the stimulus and develops one or more logical chains of analysis."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Shows thorough understanding of the benefits of a joint venture as an international market-entry method. Analyses well-developed, context-specific chains of reasoning, including how local responsiveness and cost pressures may affect ParcelPedal's Dutch expansion."
+      }
+    ],
+    "indicative_content": [
+      "A joint venture would give ParcelPedal access to the Dutch partner's local maintenance capability. This could help the business provide repairs and parts support more quickly in the Netherlands, supporting its positioning around reliability and low downtime for fleet customers.",
+      "The Dutch partner would have influence over product adaptations and local marketing. This could help ParcelPedal respond to fleet managers' requests for removable batteries and narrower cargo modules, increasing product fit in constrained Dutch urban spaces and potentially making sales to the distributor more likely.",
+      "Sharing activity with a local business may provide local knowledge and reduce the difficulty of coordinating service from Bristol. This could be particularly valuable because ParcelPedal, rather than the distributor, remains responsible for supplying parts.",
+      "A Dutch joint venture could avoid the £220 transport and administration cost per trike associated with exporting. Avoiding this cost may improve the profitability of Dutch sales, or give ParcelPedal greater scope to price competitively against alternatives.",
+      "The joint venture shares ownership and control, rather than requiring ParcelPedal to establish a wholly owned overseas operation. This may allow access to local capability while limiting the firm's sole operational responsibility and spreading the initial investment risk with a partner.",
+      "Relevant analysis should recognise the international trade-off: adapting product and marketing to Dutch requirements may raise complexity or reduce standardisation benefits, but can create customer value where the existing design does not meet local fleet needs."
+    ],
+    "model_answer": "Forming a joint venture could help ParcelPedal deliver the local responsiveness needed in the Netherlands. The Dutch maintenance business would provide local repair capability, which is important because ParcelPedal's target customers value reliable vehicles and low downtime. Faster local support could therefore reinforce ParcelPedal's differentiation and make fleet customers more willing to buy.\n\nThe partner's influence over product adaptations and local marketing could also improve market fit. Dutch fleet managers have specifically requested removable batteries and narrower cargo modules. Allowing local input could help ParcelPedal adapt FlexLoad to these requirements, increasing the likelihood that the 500-trike opportunity converts into sales. Although adaptation may reduce some standardisation benefits, it may be necessary where the current product does not meet local operating conditions.\n\nA further benefit is that the joint venture could avoid the £220 export transport and administration cost per trike. This could improve margins on Dutch sales or allow a more competitive price. In addition, the partner shares ownership and provides existing local capability, so ParcelPedal can enter the Dutch market without having to build all service operations alone. This is particularly useful because supplying parts and maintaining service quality would otherwise have to be coordinated from Bristol."
+  },
+  "calculations": []
+}
