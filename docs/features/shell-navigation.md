@@ -13,7 +13,7 @@
 
 - **The two-line menu** opens the same left navigation on tablet and phone as the desktop sidebar: the course list and the active section's contents, with the avatar, Profile, Settings, Admin (administrators only), Upgrade plan (coming soon) and Log out at the bottom.
 - **Ask REV** opens as a pop-up over the page. On desktop and tablet it is a panel on the right; on a phone it takes the whole screen, and closing it returns to the same place. There is no floating Ask REV button any more.
-- **Exam Prep is a focus mode.** In any Exam Prep screen, the sidebar, rail, top bar, tab bar and Ask REV are all hidden. A slim bar with **Leave Exam Prep** returns to the course overview. A running timed paper fills the whole screen and keeps its own **Stop exam** confirmation.
+- **Exam Prep opens in the normal shell** (Exam Prep v2.2, PR 1): the sidebar, rail or tab bar, the course header and the section tabs all stay, with Exam Prep selected. The old focus mode and its "Leave Exam Prep" bar are gone. Only a mock exam opens as a pop-up over the faded page (the Practice pop-up shell). See `docs/features/exam-prep.md`.
 - **Appearance** (Settings): Light, Dark or **System** (the default). System follows the device and changes live.
 
 ## Rules as built
@@ -30,7 +30,7 @@ None new. Navigation reads the student's saved courses and role as before. The t
 ## Tests that cover it
 
 - `tests/e2e/mobile-tabbar.spec.ts`: sidebar, icon rail and tab bar by width; REV raised in the centre; Ask REV full screen on a phone.
-- `tests/e2e/b7-final-acceptance.spec.ts`: tab bar never covers content; Exam Prep focus mode and Leave Exam Prep.
+- `tests/e2e/b7-final-acceptance.spec.ts`: tab bar never covers content; Exam Prep opens in the normal shell.
 - `tests/e2e/ask-rev-cta.spec.ts`, `app-responsive.spec.ts`, `overlay-focus.spec.ts`, `accessibility.spec.ts`: Ask REV controls at every width, menu and overlay focus, axe checks.
 - `tests/e2e/horizontal-scroll.spec.ts`: no sideways scroll at 1440, 1160, 960, 768, 620, 390 and 320px.
 - `src/app/ui/learner-v2-components.test.tsx`: the shell components.

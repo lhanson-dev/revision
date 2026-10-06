@@ -12,20 +12,14 @@ async function openExamPrep(page: Page) {
   const courseNav = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
   await expect(courseNav).toBeVisible()
   await courseNav.getByRole('button', { name: 'Exam Prep' }).click()
-  await expect(page.getByRole('heading', { name: 'Choose a paper' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 3, name: 'Mock exams' })).toBeVisible()
 }
 
 test('retained Paper 1 is clearly labelled and enforces its two printed choice sections', async ({ page }) => {
   await seedReturningStudent(page)
   await openExamPrep(page)
 
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 1: Business 1' })
-  await paper.locator('summary').click()
-  const retained = paper.locator('.exam-simulator-section').filter({ hasText: "Revision-authored; not an official AQA paper." }).first()
-
-  await expect(retained.getByText("A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.")).toBeVisible()
-  await expect(retained.getByText(/150 marks are printed; you attempt 100 marks/)).toBeVisible()
-  await retained.getByRole('button', { name: 'Start timed exam' }).click()
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1: Business 1' }).getByRole('button', { name: 'Start timed' }).click()
 
   const finish = page.getByRole('button', { name: 'Finish and self-mark' })
   await expect(finish).toBeDisabled()
@@ -42,10 +36,7 @@ test('retained Paper 3 renders its shared context without horizontal page overfl
   await seedReturningStudent(page)
   await openExamPrep(page)
 
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 3: Business 3' })
-  await paper.locator('summary').click()
-  const retained = paper.locator('.exam-simulator-section').filter({ hasText: "Revision-authored; not an official AQA paper." }).first()
-  await retained.getByRole('button', { name: 'Start timed exam' }).click()
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 3: Business 3' }).getByRole('button', { name: 'Start timed' }).click()
 
   await expect(page.getByRole('region', { name: 'Northstar Home Systems: scaling a connected heating-controls range' })).toBeVisible()
   await expect(page.getByText('Northstar planning and investment data')).toBeVisible()

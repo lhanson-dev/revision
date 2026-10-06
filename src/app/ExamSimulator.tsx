@@ -75,10 +75,12 @@ export type ExamSimulatorProps = {
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
+  /** Opened from the Exam Prep page: skip the launch screen. `untimed` opens single-question practice. */
+  autoStart?: 'timed' | 'untimed'
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence }: ExamSimulatorProps) {
-  const [started, setStarted] = useState(false)
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart }: ExamSimulatorProps) {
+  const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -87,7 +89,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [secondsRemaining, setSecondsRemaining] = useState(exam.durationMinutes * 60)
   const [result, setResult] = useState<ExamResult | null>(null)
   const [submissionIds, setSubmissionIds] = useState<Record<string, string>>({})
-  const [questionPractice, setQuestionPractice] = useState(false)
+  const [questionPractice, setQuestionPractice] = useState(autoStart === 'untimed')
   const [practiceIndex, setPracticeIndex] = useState(0)
   const [practiceDraft, setPracticeDraft] = useState('')
   const [practiceGuidance, setPracticeGuidance] = useState(false)
@@ -100,6 +102,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
   const totalPausedMs = useRef(0)
+  useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
 
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]

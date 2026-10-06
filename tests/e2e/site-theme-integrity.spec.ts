@@ -224,17 +224,16 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Practice start')
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
-  await expect(page.getByRole('heading', { name: /Exam technique · AQA AS Business/ })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
   await auditRuntime(page, 'Exam Prep')
 
-  const firstPaper = page.locator('.exam-paper-card').first()
-  await expect(firstPaper).toBeVisible()
-  await firstPaper.locator('summary').click()
-  await expect(firstPaper.locator('.paper-exam-content')).toBeVisible()
-  await auditRuntime(page, 'Exam Prep expanded paper')
+  const firstMock = page.locator('.exam-mock').first()
+  await expect(firstMock).toBeVisible()
+  await firstMock.getByRole('button', { name: 'Start timed' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await auditRuntime(page, 'Exam Prep mock pop-up')
+  await page.keyboard.press('Escape')
 
-  // Exam Prep is a focus mode with no navigation; leave it, then continue through the course.
-  await page.getByRole('button', { name: 'Leave Exam Prep' }).click()
   await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
   await clickNavigation(page, 'AQA AS Business Progress')
   await expect(page.locator('.course-nav button.active')).toHaveText('Progress')

@@ -73,9 +73,9 @@ async function openAsPaper2Exam(page: Page) {
   const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
   await asCourseCard.getByRole('button', { name: 'Open course' }).click()
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' })
-  await paper.locator('summary').click()
-  await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
+  // Exam Prep v2.2: a mock row on the page, opened as a pop-up. (The mock inside is still the existing simulator until PR 2.)
+  const mock = page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first()
+  await mock.getByRole('button', { name: 'Start timed' }).click()
 }
 
 test('timed exam opens as a dedicated page and pause fully blocks the paper while freezing the timer', async ({ page }) => {

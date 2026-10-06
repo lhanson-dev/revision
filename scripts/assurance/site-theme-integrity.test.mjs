@@ -23,6 +23,7 @@ const semanticLayers = [
   'courses-v2.css',
   'course-overview-v2.css',
   'ui/practice/practice.css',
+  'ui/exam/exam-prep.css',
   'exam-v2.css',
   'auth-v2.css',
   'first-use-v2.css',

@@ -69,10 +69,10 @@ describe('B7 final Interface System acceptance contract', () => {
     expect(learnPractice).toContain('border-top: 1px solid var(--color-border);')
   })
 
-  it('keeps the phone tab bar clear of ordinary work and Exam Prep a navigation-free focus mode', () => {
+  it('keeps the phone tab bar clear of ordinary work and Exam Prep inside the normal shell', () => {
     expect(responsiveAcceptance).toContain('expectNoDockOverlap')
     expect(responsiveAcceptance).toContain('phone tab bar leaves ordinary learner actions reachable without overlap')
-    expect(responsiveAcceptance).toContain('Exam Prep is a focus mode: no navigation anywhere, and a clear way out')
+    expect(responsiveAcceptance).toContain('Exam Prep opens in the normal shell: navigation stays, there is no Leave bar, and only a mock is a pop-up')
     expect(responsiveAcceptance).toContain("await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)")
   })
 

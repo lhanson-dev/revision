@@ -179,14 +179,10 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await page.getByRole('button', { name: 'Close practice' }).click()
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
-  await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
   await expectWcagBaseline(page, 'Exam Prep')
 
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' })
-  await paper.locator('summary').click()
-  await expectWcagBaseline(page, 'Expanded exam paper')
-
-  await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
+  await page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first().getByRole('button', { name: 'Start timed' }).click()
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
   await expectWcagBaseline(page, 'Timed exam')
 

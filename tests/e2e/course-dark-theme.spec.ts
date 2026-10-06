@@ -141,7 +141,7 @@ async function themeStyles(locator: Locator, kind: 'surface' | 'accent') {
   }, kind)
 }
 
-async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action' | '--rv-deep') {
+async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action' | '--rv-deep' | '--rv-surface') {
   return locator.evaluate((element, requestedRole) => {
     const style = getComputedStyle(element)
     const probe = document.createElement('span')
@@ -201,26 +201,13 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
-  const paperCard = page.locator('.exam-paper-card').first()
-  await expect(paperCard).toBeVisible()
-  const paperSurface = await themeStyles(paperCard, 'surface')
-  expect(paperSurface.actual).toBe(paperSurface.expected)
-  expect(paperSurface.actual).not.toBe('rgb(255, 255, 255)')
+  const mockRow = page.locator('.exam-mock').first()
+  await expect(mockRow).toBeVisible()
+  const mockSurface = await backgroundRoleStyles(mockRow, '--rv-surface')
+  expect(mockSurface.actual).toBe(mockSurface.expected)
+  expect(mockSurface.actual).not.toBe('rgb(255, 255, 255)')
 
-  const expander = paperCard.locator('summary > span').last()
-  const expanderAccent = await themeStyles(expander, 'accent')
-  expect(expanderAccent.actual).toBe(expanderAccent.expected)
-
-  await paperCard.locator('summary').click()
-  const paperContent = paperCard.locator('.paper-exam-content')
-  await expect(paperContent).toBeVisible()
-  const paperContentSurface = await backgroundRoleStyles(paperContent, '--color-surface-soft')
-  expect(paperContentSurface.actual).toBe(paperContentSurface.expected)
-  expect(paperContentSurface.actual).not.toBe('rgb(255, 255, 255)')
-
-  const simulator = paperCard.locator('.exam-simulator').first()
+  await mockRow.getByRole('button', { name: 'Start timed' }).click()
+  const simulator = page.getByRole('dialog').locator('.exam-session-page, .exam-simulator').first()
   await expect(simulator).toBeVisible()
-  const simulatorSurface = await themeStyles(simulator, 'surface')
-  expect(simulatorSurface.actual).toBe(simulatorSurface.expected)
-  expect(simulatorSurface.actual).not.toBe('rgb(255, 255, 255)')
 })

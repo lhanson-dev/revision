@@ -187,11 +187,9 @@ test('shared learner overlays own initial focus, containment, inertness, Escape 
 test('exam interruption dialogs use the same focus contract without changing exam state', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/exam-prep`)
-  await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
 
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' }).first()
-  await paper.locator('summary').click()
-  await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
+  await page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first().getByRole('button', { name: 'Start timed' }).click()
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
 
   const pauseTrigger = page.getByRole('button', { name: 'Pause' })

@@ -176,7 +176,12 @@ function useDialogFocusContract(
       releaseScroll()
 
       window.requestAnimationFrame(() => {
-        if (activeDialogStack.length > 0) return
+        // A dialog opened from inside another dialog hands focus back to what opened it, as long as that is still inside the dialog left on top.
+        const remaining = activeDialogStack[activeDialogStack.length - 1]
+        if (remaining) {
+          if (previousFocus?.isConnected && remaining.contains(previousFocus) && isAvailableForFocus(previousFocus)) focusElement(previousFocus)
+          return
+        }
         const selectedReturnTarget = returnFocusSelector ? firstAvailableMatch(returnFocusSelector) : null
         const returnTarget = selectedReturnTarget ?? previousFocus
         if (returnTarget?.isConnected && isAvailableForFocus(returnTarget)) focusElement(returnTarget)

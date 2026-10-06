@@ -9,9 +9,8 @@ import {
   type CourseExamAssessment,
 } from '../services/planning/course-exam-date-service'
 import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
-import { AqaBusinessQuestionBank } from './AqaBusinessQuestionBank'
+import { ExamPrepSection } from './ExamPrepSection'
 import { ExamSimulator } from './ExamSimulator'
-import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
 import {
@@ -362,28 +361,7 @@ export function CourseExperienceScreen({
 
         {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
-        {section === 'exam-prep' && <div className="paper-section-content">
-          <FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />
-          {course.examBoardName === 'AQA' && course.specificationCode === '7132' && <AqaBusinessQuestionBank />}
-          <section className="home-section" aria-labelledby="choose-paper-title">
-            <div className="section-heading"><div><p className="eyebrow">Paper-specific preparation</p><h2 id="choose-paper-title">Choose a paper</h2></div></div>
-            <div className="subject-list">
-              {course.modules.map((paperAdapter) => (
-                <details className="course-card exam-paper-card" key={paperAdapter.manifest.id}>
-                  <summary><div><span className="tag">{paperLabel(paperAdapter)}</span><h3>{paperAdapter.manifest.paper.name}</h3><p>{paperAdapter.catalogueEntry.totalMarks} marks · {paperAdapter.catalogueEntry.durationMinutes} minutes · {paperAdapter.listExams().length} {paperAdapter.listExams().length === 1 ? 'simulation' : 'simulations'}</p></div><span aria-hidden="true">＋</span></summary>
-                  <div className="paper-exam-content">
-                    {course.examBoardName === 'AQA' && course.specificationCode === '7132' && (() => {
-                      const retainedMock = retainedAqa7132MockExamForPaper(paperAdapter.manifest.paper.number)
-                      return retainedMock ? <section className="exam-simulator-section" aria-label={`${paperAdapter.manifest.paper.name} retained mock simulator`}><ExamSimulator exam={retainedMock} moduleId={paperAdapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section> : null
-                    })()}
-                    {paperAdapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${paperAdapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={paperAdapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>)}
-                    {paperAdapter.listExams().length === 0 && !(course.examBoardName === 'AQA' && course.specificationCode === '7132' && retainedAqa7132MockExamForPaper(paperAdapter.manifest.paper.number)) && <p className="muted">No full simulation is published for this paper yet.</p>}
-                  </div>
-                </details>
-              ))}
-            </div>
-          </section>
-        </div>}
+        {section === 'exam-prep' && <div className="paper-section-content"><ExamPrepSection course={course} state={state} subjectId={subject.id} subjectName={subject.name} nextExam={examDateStatus === 'ready' ? nextExam : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></div>}
 
         {section === 'progress' && <div className="paper-section-content">
           <ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenCourseSection(course.id, action.section)} />

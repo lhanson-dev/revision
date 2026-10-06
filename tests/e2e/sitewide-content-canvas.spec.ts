@@ -120,13 +120,8 @@ test('learner destinations keep one stable horizontal content canvas', async ({ 
     expectSameHorizontalCanvas(current, baseline)
   }
 
-  // Exam Prep is a focus mode with no navigation: its canvas is centred on the whole window
-  // instead of beside the sidebar or rail. It is never narrower, and never wider than the 1100px canvas.
-  const focus = await pageCanvas(page, `#/courses/${encodedCourse}/exam-prep`)
-  expect(focus.width).toBeGreaterThanOrEqual(baseline.width - 1)
-  expect(focus.width).toBeLessThanOrEqual(1181)
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  expect(Math.abs((focus.x + focus.width / 2) - viewportWidth / 2)).toBeLessThanOrEqual(1)
+  // Exam Prep opens in the normal shell (v2.2), so it shares the same canvas as the other sections.
+  expectSameHorizontalCanvas(await pageCanvas(page, `#/courses/${encodedCourse}/exam-prep`), baseline)
 })
 
 test('course sections align their body content while Learn constrains prose rather than its canvas', async ({ page }) => {
@@ -134,8 +129,7 @@ test('course sections align their body content while Learn constrains prose rath
   const encodedCourse = encodeURIComponent(courseId)
 
   const sectionBoxes: Array<{ x: number; width: number }> = []
-  // Exam Prep (focus mode, no navigation) is checked in the canvas test above.
-  for (const section of ['overview', 'learn', 'practice', 'progress']) {
+  for (const section of ['overview', 'learn', 'practice', 'exam-prep', 'progress']) {
     await page.goto(`${appPath}#/courses/${encodedCourse}/${section}`)
     const sectionContent = page.locator('.paper-section-content').first()
     await expect(sectionContent).toBeVisible()

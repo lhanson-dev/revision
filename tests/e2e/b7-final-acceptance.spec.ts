@@ -119,34 +119,16 @@ test('phone tab bar leaves ordinary learner actions reachable without overlap', 
   if (count > 0) await expectNoDockOverlap(tabBar, homeButtons.nth(count - 1))
 })
 
-test('Exam Prep is a focus mode: no navigation anywhere, and a clear way out', async ({ page }) => {
+test('Exam Prep opens in the normal shell: navigation stays, there is no Leave bar, and only a mock is a pop-up', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await seedSession(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/exam-prep`)
-  await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
 
-  for (const hidden of ['.runtime-sidebar', '.ui-rail', '.ui-tabbar', '.runtime-mobile-topbar', '.runtime-ask-rev']) {
-    await expect(page.locator(hidden)).toHaveCount(0)
-  }
-  const leave = page.getByRole('button', { name: 'Leave Exam Prep' })
-  await expect(leave).toBeVisible()
-  await expect(page.locator('.course-header .course-nav')).toBeHidden()
-  await expect(page.locator('.course-header .breadcrumbs')).toBeHidden()
-
-  // A running timed paper owns the whole viewport and has its own Stop exam confirmation.
-  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' }).first()
-  await paper.locator('summary').click()
-  await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
-  await expect(page.locator('.exam-session-page')).toBeVisible()
-  await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
-  await expect(page.locator('.ui-tabbar')).toHaveCount(0)
-})
-
-test('Leave Exam Prep returns to the course overview with navigation back', async ({ page }) => {
-  await seedSession(page)
-  await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/exam-prep`)
-  await page.getByRole('button', { name: 'Leave Exam Prep' }).click()
-  await expect(page).toHaveURL(/\/overview/)
   const width = page.viewportSize()?.width ?? 0
   await expect(page.locator(width > 960 ? '.runtime-sidebar' : width > 620 ? '.ui-rail' : '.ui-tabbar')).toBeVisible()
+  await expect(page.locator('.course-header .course-nav')).toBeVisible()
+  await expect(page.locator('.course-header .course-nav button.active')).toHaveText('Exam Prep')
+  await expect(page.getByRole('button', { name: 'Leave Exam Prep' })).toHaveCount(0)
+  await expect(page.getByRole('dialog')).toHaveCount(0)
 })
