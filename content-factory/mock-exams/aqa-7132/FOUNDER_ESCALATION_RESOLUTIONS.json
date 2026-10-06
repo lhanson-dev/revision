@@ -38,5 +38,43 @@
         }
       }
     }
+  ],
+  "unit_resolutions": [
+    {
+      "resolution_id": "aqa-7132-2027-p3-case-1-p3-01-founder-fix-2026-10-06",
+      "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+      "source_run_id": 37455690641,
+      "unit_id": "P3-CASE-1",
+      "escalated_fingerprint": "d86cccea507833bf839ad23e20021ce5db1b72bce8df85d4d74c84687c75adcb",
+      "decision": "fix",
+      "decided_at": "2026-10-06",
+      "check_ids": [
+        "question_validity",
+        "mark_scheme_validity"
+      ],
+      "note": "Founder directed the targeted P3-01 fix after run 37455690641: preserve the 12-mark Analyse task, AO allocation, shared Northstar context and four planned quantitative marks, but require both a valid activity-on-arrow representation and a total-float calculation; do not broaden remediation to P3-02 through P3-06.",
+      "slot_fixes": {
+        "P3-01": {
+          "instruction": "Revise only P3-01 so candidates must draw, complete or construct a valid activity-on-arrow network representation and calculate total float, then use that network analysis in the existing implementation analysis. Preserve the 12-mark Analyse tariff, AO allocation, shared Northstar context and exactly four planned quantitative marks. The top band must require both the network representation and total-float competence for full marks.",
+          "required_stem_phrases": [
+            "activity-on-arrow",
+            "total float"
+          ],
+          "required_stem_any_phrases": [
+            "draw",
+            "complete",
+            "construct"
+          ],
+          "required_top_level_phrases": [
+            "activity-on-arrow",
+            "total float"
+          ],
+          "required_mark_scheme_phrases": [
+            "activity-on-arrow",
+            "total float"
+          ]
+        }
+      }
+    }
   ]
 }
