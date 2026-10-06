@@ -1,6 +1,6 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152  
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152; Recovery 5 proposed via PR #538, completion pending  
 **Date:** 2026-08-23
 
 ## Purpose
@@ -237,6 +237,56 @@ PR #152 initial exact head `df2f2c31d203b26cc97c0bd937c0acc2c3813a6e` completed 
 This proves the repository merge boundary now fails closed on an unsatisfied Founder gate without using a bypass. The recurrence-prevention condition for DEF-2026-007 is therefore satisfied alongside the completed Recovery 4 Production evidence.
 
 `audits/Path-to-Live Founder Gate Bypass 2026-08-23.md` preserves the incident evidence. `audits/Founder Approval Merge Boundary Verification 2026-08-23.md` records the independent prevention verification.
+
+## Recovery 5 — GitHub Actions incident left PR #534 without path-to-live status
+
+### Trigger
+
+GitHub reported an Actions incident on 5 October 2026 affecting GitHub-hosted runner assignment and workflow start times, with Pages also degraded during the incident.
+
+PR #534 merged as:
+
+`c2d82ecf76c8c5cb89c30e9c8e0a39a7d15c03c5`
+
+Revision CI run `37371107367` was cancelled before its assurance job executed, including on retry. Pages run `37371107506` was cancelled before governed release lineage executed. Because the release-evidence job did not run, the PR #534 merge commit has no `revision/path-to-live` status.
+
+PR #535 later merged as current main:
+
+`5e17e2d6da96efe93ed26f60ad2eaeeb511f2a54`
+
+Exact-main Revision CI #2710 / run `37379487098` passed. Pages #433 / run `37379487100` then failed. A fresh rerun after GitHub service recovery executed the verifier normally and failed closed because the previous main commit `c2d82ecf76c8c5cb89c30e9c8e0a39a7d15c03c5` has no path-to-live status.
+
+Current main therefore has durable `revision/path-to-live = failure`, while its first parent has an unavoidable historical evidence gap.
+
+### Fifth recovery anchor
+
+ADR-0030 proposes the exact failed current main commit as the fifth exceptional prospective trust root:
+
+```text
+REVISION_RELEASE_BOOTSTRAP_PARENT=5e17e2d6da96efe93ed26f60ad2eaeeb511f2a54
+```
+
+This does not create or infer a historical status for PR #534. It does not reinterpret cancelled workflows as successful. It does not erase the failed release evidence on PR #535.
+
+The release-lineage verifier itself remains unchanged and continues to fail closed on missing status evidence in steady state.
+
+### Recovery-PR invariant
+
+Recovery 5 is proposed through PR #538 and is not complete merely because the configuration changes. Its final PR must:
+
+1. be based on the exact failed current main above unless mechanically refreshed under the active current-main integration rule;
+2. pass required Revision CI on its final exact head;
+3. receive explicit Founder approval for that specific merge;
+4. persist the exact machine-readable Founder marker after the latest exact-head CI;
+5. show `revision/founder-approval = success` for the same head immediately before merge;
+6. merge only the evidenced exact head;
+7. pass governed release lineage using the Recovery 5 anchor;
+8. pass production backend readiness, build, Pages deployment and production smoke; and
+9. publish durable `revision/path-to-live = success` on the recovery merge commit.
+
+DEF-2026-008 remains open until those production conditions are evidenced.
+
+The incident evidence is preserved in `audits/Path-to-Live GitHub Actions Incident Recovery 2026-10-06.md`.
 
 ## Guardrail
 
