@@ -49,6 +49,7 @@ export function founderFixFeedbackTargets(
   paper: MockPlanPaper,
   entry: Ledger['units'][string] | undefined,
   resolutions: FounderMockResolution[],
+  retainedQuestions?: ReadonlyMap<string, MockQuestion>,
 ) {
   const resolution = matchingResolution(plan, paper, entry, resolutions)
   const result = new Map<string, ClassifiedFinding[]>()
@@ -63,6 +64,8 @@ export function founderFixFeedbackTargets(
   for (const [slotId, fix] of Object.entries(resolution.slot_fixes)) {
     if (!slotIds.has(slotId)) throw new Error(`mock_founder_resolution_unknown_slot:${resolution.resolution_id}:${slotId}`)
     if (!finding.affected_ids.includes(slotId)) throw new Error(`mock_founder_resolution_slot_not_in_escalated_finding:${resolution.resolution_id}:${slotId}`)
+    const retained = retainedQuestions?.get(slotId)
+    if (retained && questionSatisfiesContract(retained, fix)) continue
     result.set(slotId, [{
       ...finding,
       affected_ids: [slotId],
@@ -85,6 +88,13 @@ function markSchemeText(question: MockQuestion) {
     ...question.mark_scheme.levels.map((level) => level.descriptor),
     ...question.mark_scheme.points.flatMap((point) => [point.descriptor, ...point.accept]),
   ].join('\n')
+}
+
+function questionSatisfiesContract(question: MockQuestion, contract: z.infer<typeof slotFixSchema>) {
+  const level4 = question.mark_scheme.levels.find((level) => level.level === 4)
+  return containsAll(question.stem, contract.required_stem_phrases)
+    && Boolean(level4 && containsAll(level4.descriptor, contract.required_level4_phrases))
+    && containsAll(markSchemeText(question), contract.required_mark_scheme_phrases)
 }
 
 export function applyFounderFixDecision(input: {

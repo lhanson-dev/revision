@@ -57,10 +57,10 @@ const resolution: FounderMockResolution = {
   note: 'Fix only P3-04 and P3-05.',
   slot_fixes: {
     'P3-04': {
-      instruction: 'Require profitability ratio interpretation.',
-      required_stem_phrases: ['profitability ratio'],
-      required_level4_phrases: ['profitability ratio'],
-      required_mark_scheme_phrases: ['profitability ratio'],
+      instruction: 'Require operating profit margin interpretation.',
+      required_stem_phrases: ['operating profit margin'],
+      required_level4_phrases: ['operating profit margin'],
+      required_mark_scheme_phrases: ['operating profit margin'],
     },
     'P3-05': {
       instruction: "Require Lewin's change model.",
@@ -114,9 +114,26 @@ describe('AQA 7132 Founder mock escalation resolution', () => {
     expect(founderFixFeedbackTargets(plan, paper, stale.units['7132/3'], [resolution]).size).toBe(0)
   })
 
+  it('reuses retained questions that already satisfy the exact Founder fix contract', () => {
+    const retained = new Map<string, MockQuestion>([
+      ['P3-04', question('P3-04', 'operating profit margin', 16)],
+      ['P3-05', question('P3-05', "Lewin's change model", 20)],
+    ])
+    const feedback = founderFixFeedbackTargets(plan, paper, ledger.units['7132/3'], [resolution], retained)
+    expect([...feedback.keys()]).toEqual([])
+  })
+
+  it('keeps remediation targeted when only one retained question satisfies the contract', () => {
+    const retained = new Map<string, MockQuestion>([
+      ['P3-04', question('P3-04', 'operating profit margin', 16)],
+    ])
+    const feedback = founderFixFeedbackTargets(plan, paper, ledger.units['7132/3'], [resolution], retained)
+    expect([...feedback.keys()]).toEqual(['P3-05'])
+  })
+
   it('records the Founder fix as passed only after the paper changed and exact acceptance contract is met', () => {
     const questions = new Map<string, MockQuestion>([
-      ['P3-04', question('P3-04', 'profitability ratio', 16)],
+      ['P3-04', question('P3-04', 'operating profit margin', 16)],
       ['P3-05', question('P3-05', "Lewin's change model", 20)],
     ])
     const result = applyFounderFixDecision({
@@ -136,7 +153,7 @@ describe('AQA 7132 Founder mock escalation resolution', () => {
   })
 
   it('fails closed if a generated fix does not make the target explicit in the top band', () => {
-    const weak = question('P3-04', 'profitability ratio', 16)
+    const weak = question('P3-04', 'operating profit margin', 16)
     weak.mark_scheme.levels[3].descriptor = 'Top-level contextual judgement.'
     expect(() => applyFounderFixDecision({
       plan,
