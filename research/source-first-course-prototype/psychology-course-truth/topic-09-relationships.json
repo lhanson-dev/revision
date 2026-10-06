@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-04",
+  "checkedDate": "2026-10-06",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 9,
   "topic": "Relationships",
@@ -44,17 +44,62 @@
           "Self-disclosure is not automatically beneficial at any depth or timing; reciprocity, trust and context matter.",
           "Filter theory describes a proposed selection process, not a compulsory sequence every couple passes through."
         ],
-        "dependencies": ["proximity", "homophily", "self-disclosure", "physical attractiveness", "matching hypothesis", "social demography", "attitude similarity", "complementarity"]
+        "dependencies": [
+          "proximity",
+          "homophily",
+          "self-disclosure",
+          "physical attractiveness",
+          "matching hypothesis",
+          "social demography",
+          "attitude similarity",
+          "complementarity"
+        ]
       },
       "sourceEvidence": [
-        {"url":"https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["proximity","background and attitude similarity","self-disclosure","physical attractiveness","matching hypothesis","social exchange"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2018.01009","classification":"OPEN","licence":"CC BY","supports":["partner similarity","relationship satisfaction","dimension-specific complementarity","limits of broad dissimilarity claims"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2019.00052","classification":"OPEN","licence":"CC BY","supports":["demographic similarity","physical similarity","personality similarity among long-term partners"]}
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "proximity",
+            "background and attitude similarity",
+            "self-disclosure",
+            "physical attractiveness",
+            "matching hypothesis",
+            "social exchange"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2018.01009",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "partner similarity",
+            "relationship satisfaction",
+            "dimension-specific complementarity",
+            "limits of broad dissimilarity claims"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2019.00052",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "demographic similarity",
+            "physical similarity",
+            "personality similarity among long-term partners"
+          ]
+        }
       ],
       "revisionSynthesis": [
         "The exact AQA filter-theory labels are retained as qualification framing; Revision separately marks the stronger modern evidence for opportunity/similarity and the weaker, dimension-specific evidence for complementarity."
       ],
-      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
     },
     {
       "requirementId": "PSY-09-02",
@@ -88,19 +133,82 @@
           "Commitment and satisfaction are related but distinct constructs.",
           "Duck's model does not claim every breakup proceeds linearly through all four phases."
         ],
-        "dependencies": ["social exchange", "rewards and costs", "equity", "satisfaction", "alternatives", "investment", "commitment", "relationship dissolution"]
+        "dependencies": [
+          "social exchange",
+          "rewards and costs",
+          "equity",
+          "satisfaction",
+          "alternatives",
+          "investment",
+          "commitment",
+          "relationship dissolution"
+        ]
       },
       "sourceEvidence": [
-        {"url":"https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/","classification":"OPEN","licence":"CC BY 4.0","supports":["social exchange costs and benefits","relationship-maintenance evaluation"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2016.01257","classification":"OPEN","licence":"CC BY","supports":["equity theory","input-outcome ratios","proportionality and inequity"]},
-        {"url":"https://doi.org/10.5964/ijpr.v1i1.5","classification":"OPEN","licence":"CC BY 4.0","supports":["equity in romantic relationships","relationship satisfaction","cultural qualification"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2022.912978","classification":"OPEN","licence":"CC BY","supports":["investment model","satisfaction","quality of alternatives","investment","commitment"]},
-        {"url":"https://pressbooks.nvcc.edu/nolcst110book/chapter/9-1-interpersonal-communication-overview-social-sci-libretexts/","classification":"OPEN_ITEM_LEVEL_WITH_SHAREALIKE","licence":"underlying Paynton/Hahn section CC BY-SA 4.0","supports":["relationship-deterioration phase concepts","intra-psychic phase","dyadic phase","dissolution vocabulary"],"caution":"Only independently worded factual extraction is used; no ShareAlike expression is adapted into proprietary learner text."}
+        {
+          "url": "https://opentextbc.ca/h5ppsychology/chapter/prosocial-behavior/",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "social exchange costs and benefits",
+            "relationship-maintenance evaluation"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2016.01257",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "equity theory",
+            "input-outcome ratios",
+            "proportionality and inequity"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.5964/ijpr.v1i1.5",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "equity in romantic relationships",
+            "relationship satisfaction",
+            "cultural qualification"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.912978",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "investment model",
+            "satisfaction",
+            "quality of alternatives",
+            "investment",
+            "commitment"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2025.1646458",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "Duck relationship-dissolution model",
+            "intra-psychic phase",
+            "dyadic phase",
+            "social phase",
+            "grave-dressing phase",
+            "stage-based relationship deterioration"
+          ]
+        }
       ],
       "revisionSynthesis": [
         "AQA's exact Duck taxonomy supplies course alignment; the reusable explanation is independently authored and explicitly warns that phase models describe common processes rather than inevitable sequences."
       ],
-      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
     },
     {
       "requirementId": "PSY-09-03",
@@ -133,17 +241,61 @@
           "Selective self-presentation is not automatically deception.",
           "Online relationships are not inherently less authentic than offline relationships."
         ],
-        "dependencies": ["self-disclosure", "fear of evaluation", "computer-mediated communication", "self-presentation", "deception", "identity reconstruction", "platform affordances"]
+        "dependencies": [
+          "self-disclosure",
+          "fear of evaluation",
+          "computer-mediated communication",
+          "self-presentation",
+          "deception",
+          "identity reconstruction",
+          "platform affordances"
+        ]
       },
       "sourceEvidence": [
-        {"url":"https://doi.org/10.3389/fpsyg.2021.696552","classification":"OPEN","licence":"CC BY","supports":["reduced physical cues","online identity reconstruction","selective self-presentation","deceptive self-presentation","social compensation"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2021.530722","classification":"OPEN","licence":"CC BY","supports":["online self-disclosure","amount and depth","fear of evaluation","social-context moderation"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2022.841620","classification":"OPEN","licence":"CC BY","supports":["online relationship communication","self-presentation","false/deceptive presentation","platform affordances"]}
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.696552",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "reduced physical cues",
+            "online identity reconstruction",
+            "selective self-presentation",
+            "deceptive self-presentation",
+            "social compensation"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2021.530722",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "online self-disclosure",
+            "amount and depth",
+            "fear of evaluation",
+            "social-context moderation"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2022.841620",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "online relationship communication",
+            "self-presentation",
+            "false/deceptive presentation",
+            "platform affordances"
+          ]
+        }
       ],
       "revisionSynthesis": [
         "Revision uses 'absence of gating' as the AQA label but teaches the more accurate mechanism as reduced, delayed or transformed gates plus newly created digital gates."
       ],
-      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
     },
     {
       "requirementId": "PSY-09-04",
@@ -177,17 +329,58 @@
           "The three levels are measurement/model categories, not an inevitable progression.",
           "Attachment insecurity does not mean a person will form extreme parasocial relationships."
         ],
-        "dependencies": ["parasocial interaction", "one-sided relationships", "celebrity worship", "absorption-addiction", "attachment theory", "internal working models"]
+        "dependencies": [
+          "parasocial interaction",
+          "one-sided relationships",
+          "celebrity worship",
+          "absorption-addiction",
+          "attachment theory",
+          "internal working models"
+        ]
       },
       "sourceEvidence": [
-        {"url":"https://doi.org/10.3389/fpsyg.2017.00255","classification":"OPEN","licence":"CC BY","supports":["parasocial relationships as one-sided social ties","common adolescent parasocial bonds","attachment-style research context","non-pathological functions"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2024.1418564","classification":"OPEN","licence":"CC BY","supports":["parasocial research evidence base","media-context changes","research limitations"]},
-        {"url":"https://doi.org/10.3389/fpsyg.2026.1878172","classification":"OPEN","licence":"CC BY","supports":["absorption-addiction model","entertainment-social","intense-personal","borderline-pathological celebrity worship"]}
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2017.00255",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "parasocial relationships as one-sided social ties",
+            "common adolescent parasocial bonds",
+            "attachment-style research context",
+            "non-pathological functions"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2024.1418564",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "parasocial research evidence base",
+            "media-context changes",
+            "research limitations"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.3389/fpsyg.2026.1878172",
+          "classification": "OPEN",
+          "licence": "CC BY",
+          "supports": [
+            "absorption-addiction model",
+            "entertainment-social",
+            "intense-personal",
+            "borderline-pathological celebrity worship"
+          ]
+        }
       ],
       "revisionSynthesis": [
         "Revision treats parasociality as a continuum of ordinary-to-extreme involvement and explicitly separates a common one-sided bond from the rare pathological end of celebrity-worship measures."
       ],
-      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
+      "readiness": {
+        "courseTruthStatus": "course_truth_ready",
+        "materialSubjectTruthGap": false,
+        "materialRightsBlocker": false,
+        "learnerAssetReady": false
+      }
     }
   ]
 }
