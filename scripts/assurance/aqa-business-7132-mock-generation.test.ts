@@ -32,6 +32,7 @@ import {
   mockQuestionSchema,
   numericComparison,
   questionGenerationPayload,
+  remediationFindingsForSlot,
   sharedContextSchema,
   unitEvidence,
   validateMockQuestion,
@@ -51,6 +52,11 @@ import {
   founderFixFeedbackTargets,
   loadFounderMockResolutions,
 } from './aqa-business-7132-mock-founder-resolution'
+import {
+  applyFounderUnitFixDecision,
+  founderUnitFixFeedbackTargets,
+  loadFounderMockUnitResolutions,
+} from './aqa-business-7132-mock-founder-unit-resolution'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -518,6 +524,7 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     let setLedger = await readLedger(SET_LEDGER_PATH, MOCK_SET_CHECKLIST.stage, MOCK_SET_CHECKLIST.version)
     const setFeedback = feedbackTargetsForSet(plan, setLedger.units['complete-set'])
     const founderResolutions = await loadFounderMockResolutions(FOUNDER_RESOLUTIONS_PATH)
+    const founderUnitResolutions = await loadFounderMockUnitResolutions(FOUNDER_RESOLUTIONS_PATH)
     const retainedQuestions = new Map<string, MockQuestion>()
     for (const [slotId, retained] of Object.entries(state.questions)) {
       const parsed = mockQuestionSchema.safeParse(retained.output)
@@ -535,6 +542,12 @@ describe('AQA 7132 bounded mock generation (software)', () => {
         founderFeedback.get(paper.component_id)!,
       ),
     ]))
+    const founderUnitFeedback = new Map<string, ClassifiedFinding[]>()
+    for (const unit of units) {
+      for (const [slotId, findings] of founderUnitFixFeedbackTargets(plan, unit, unitLedger.units[unit.unit_id], founderUnitResolutions, retainedQuestions)) {
+        founderUnitFeedback.set(slotId, findings)
+      }
+    }
 
     const contexts = new Map<string, SharedContext>()
     const questions = new Map<string, MockQuestion>()
@@ -612,7 +625,13 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     const initialSlotFeedback = new Map<string, ClassifiedFinding[]>()
     for (const paper of plan.papers) {
       const feedback = priorFeedback.get(paper.component_id)!
-      for (const slot of paper.slots) initialSlotFeedback.set(slot.slot_id, [...feedback.broad, ...(feedback.slots.get(slot.slot_id) ?? [])])
+      for (const slot of paper.slots) {
+        initialSlotFeedback.set(slot.slot_id, [
+          ...feedback.broad,
+          ...(feedback.slots.get(slot.slot_id) ?? []),
+          ...(founderUnitFeedback.get(slot.slot_id) ?? []),
+        ])
+      }
     }
     await generateQuestions(initialSlotFeedback)
 
@@ -666,6 +685,19 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     }
 
     const buildReviewUnits = () => units.map((unit) => reviewUnit({ plan, unit, questions: unit.slots.map((slot) => questions.get(slot.slot_id)!), blind: blindByUnit.get(unit.unit_id)!, context: contexts.get(unit.unit_id), evidence }))
+    const initialReviewUnits = buildReviewUnits()
+    for (const reviewCandidate of initialReviewUnits) {
+      const generationUnit = units.find((unit) => unit.unit_id === reviewCandidate.unit_id)!
+      const applied = applyFounderUnitFixDecision({
+        plan,
+        unit: generationUnit,
+        unitFingerprint: reviewCandidate.fingerprint,
+        questions,
+        ledger: unitLedger,
+        resolutions: founderUnitResolutions,
+      })
+      unitLedger = applied.ledger
+    }
     const unitReviewSchema = reviewOutputSchema(MOCK_QUESTION_CHECKLIST)
     const unitReviewInstructions = `${MOCK_UNIT_REVIEW_INSTRUCTIONS}\n${checklistInstructions(MOCK_QUESTION_CHECKLIST)}`
     const reviewOneUnit = async (unit: ReturnType<typeof reviewUnit>) => {
@@ -673,7 +705,7 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: 'error' in execution ? execution.error : execution.status }
     }
 
-    let unitRun = await runReviewUnits({ units: buildReviewUnits(), ledger: unitLedger, checklist: MOCK_QUESTION_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 1, review: reviewOneUnit })
+    let unitRun = await runReviewUnits({ units: initialReviewUnits, ledger: unitLedger, checklist: MOCK_QUESTION_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 1, review: reviewOneUnit })
     unitLedger = unitRun.ledger
     const blockedUnits = unitRun.outcomes.filter((outcome) => outcome.status === 'blocking')
     if (blockedUnits.length) {
@@ -681,9 +713,11 @@ describe('AQA 7132 bounded mock generation (software)', () => {
       const contextRepairs = new Map<string, ClassifiedFinding[]>()
       for (const outcome of blockedUnits) {
         const unit = units.find((candidateUnit) => candidateUnit.unit_id === outcome.unit_id)!
-        const contextIssues = outcome.findings.filter((finding) => finding.check_id === 'context_coherence')
+        const blockingFindings = outcome.findings.filter((finding) => finding.disposition === 'blocking')
+        const contextIssues = blockingFindings.filter((finding) => finding.check_id === 'context_coherence')
         if (unit.context_policy === 'shared' && contextIssues.length) contextRepairs.set(unit.unit_id, contextIssues)
-        for (const slot of unit.slots) remediationSlots.set(slot.slot_id, feedbackForSlot(outcome.findings, slot.slot_id))
+        const slotIds = unit.slots.map((slot) => slot.slot_id)
+        for (const slot of unit.slots) remediationSlots.set(slot.slot_id, remediationFindingsForSlot(blockingFindings, slot.slot_id, slotIds))
       }
       for (const [unitId, feedback] of contextRepairs) {
         const unit = units.find((candidateUnit) => candidateUnit.unit_id === unitId)!
