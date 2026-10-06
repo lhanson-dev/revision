@@ -12,2097 +12,555 @@
     "learnerFacing": false
   },
   "subShards": [
-    {
-      "name": "design_and_data_collection",
-      "requirementIds": [
-        "PSY-07-01",
-        "PSY-07-02",
-        "PSY-07-03",
-        "PSY-07-04",
-        "PSY-07-05",
-        "PSY-07-06",
-        "PSY-07-07",
-        "PSY-07-08",
-        "PSY-07-09",
-        "PSY-07-10",
-        "PSY-07-11",
-        "PSY-07-12",
-        "PSY-07-13",
-        "PSY-07-14",
-        "PSY-07-15",
-        "PSY-07-16",
-        "PSY-07-17"
-      ]
-    },
-    {
-      "name": "scientific_process_and_reporting",
-      "requirementIds": [
-        "PSY-07-18",
-        "PSY-07-19",
-        "PSY-07-20",
-        "PSY-07-21",
-        "PSY-07-22",
-        "PSY-07-23"
-      ]
-    },
-    {
-      "name": "data_and_statistics",
-      "requirementIds": [
-        "PSY-07-24",
-        "PSY-07-25",
-        "PSY-07-26",
-        "PSY-07-27",
-        "PSY-07-28",
-        "PSY-07-29",
-        "PSY-07-30",
-        "PSY-07-31",
-        "PSY-07-32",
-        "PSY-07-33",
-        "PSY-07-34"
-      ]
-    }
+    {"name":"design_and_data_collection","requirementIds":["PSY-07-01","PSY-07-02","PSY-07-03","PSY-07-04","PSY-07-05","PSY-07-06","PSY-07-07","PSY-07-08","PSY-07-09","PSY-07-10","PSY-07-11","PSY-07-12","PSY-07-13","PSY-07-14","PSY-07-15","PSY-07-16","PSY-07-17"]},
+    {"name":"scientific_process_and_reporting","requirementIds":["PSY-07-18","PSY-07-19","PSY-07-20","PSY-07-21","PSY-07-22","PSY-07-23"]},
+    {"name":"data_and_statistics","requirementIds":["PSY-07-24","PSY-07-25","PSY-07-26","PSY-07-27","PSY-07-28","PSY-07-29","PSY-07-30","PSY-07-31","PSY-07-32","PSY-07-33","PSY-07-34"]}
   ],
   "requirements": [
     {
       "requirementId": "PSY-07-01",
-      "boardAlignment": {
-        "summary": "Experimental method: laboratory, field, natural and quasi-experiments.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Experimental method: laboratory, field, natural and quasi-experiments.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A true experiment manipulates an independent variable and compares its effect on a dependent variable while attempting to control alternative explanations.",
-          "A laboratory experiment is conducted in a deliberately controlled setting; a field experiment manipulates an independent variable in a more natural setting.",
-          "A natural experiment studies an exposure or change that occurs independently of researcher assignment; a quasi-experiment compares naturally pre-existing or non-randomised groups/conditions rather than randomly assigning participants to all levels."
-        ],
-        "modelsResearchAndRelationships": [
-          "Laboratory and field experiments differ mainly in setting and degree of control, whereas natural and quasi-experiments reduce or remove the researcher's ability to assign the causal exposure.",
-          "Random assignment strengthens causal inference because it helps distribute participant differences across conditions."
-        ],
-        "evaluationAndLimits": [
-          "Greater control can improve internal validity but may reduce realism or ecological validity.",
-          "Natural and quasi-experiments can address questions that would be impossible or unethical to manipulate, but confounding usually makes causal inference less secure than in a well-randomised experiment."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Natural experiment does not simply mean an experiment carried out outdoors or in a natural setting.",
-          "Quasi-experiment terminology varies across research traditions; the qualification's four-way taxonomy should be retained as course framing."
-        ],
-        "dependencies": [
-          "independent variable",
-          "dependent variable",
-          "random assignment",
-          "confounding",
-          "internal validity",
-          "ecological validity"
-        ]
+        "definitionsAndCoreConcepts": ["A true experiment manipulates an independent variable and compares its effect on a dependent variable while attempting to control alternative explanations.","A laboratory experiment is conducted in a deliberately controlled setting; a field experiment manipulates an independent variable in a more natural setting.","A natural experiment studies an exposure or change that occurs independently of researcher assignment; a quasi-experiment compares naturally pre-existing or non-randomised groups/conditions rather than randomly assigning participants to all levels."],
+        "modelsResearchAndRelationships": ["Laboratory and field experiments differ mainly in setting and degree of control, whereas natural and quasi-experiments reduce or remove the researcher's ability to assign the causal exposure.","Random assignment strengthens causal inference because it helps distribute participant differences across conditions."],
+        "evaluationAndLimits": ["Greater control can improve internal validity but may reduce realism or ecological validity.","Natural and quasi-experiments can address questions that would be impossible or unethical to manipulate, but confounding usually makes causal inference less secure than in a well-randomised experiment."],
+        "misconceptionsAndBoundaries": ["Natural experiment does not simply mean an experiment carried out outdoors or in a natural setting.","Quasi-experiment terminology varies across research traditions; the qualification's four-way taxonomy should be retained as course framing."],
+        "dependencies": ["independent variable","dependent variable","random assignment","confounding","internal validity","ecological validity"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "experimental manipulation",
-            "control",
-            "random assignment",
-            "quasi-experimental logic"
-          ]
-        },
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "experiments versus descriptive/naturalistic designs",
-            "research-design trade-offs"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/","classification":"OPEN","licence":"CC BY 4.0","supports":["experimental manipulation","control","random assignment","quasi-experimental logic"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/","classification":"OPEN","licence":"CC BY 4.0","supports":["experiments versus descriptive/naturalistic designs","research-design trade-offs"]}
       ],
-      "revisionSynthesis": [
-        "Revision uses the exact laboratory/field/natural/quasi labels as AQA alignment while independently explaining the causal-control distinctions from reusable evidence."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision uses the exact laboratory/field/natural/quasi labels as AQA alignment while independently explaining the causal-control distinctions from reusable evidence."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-02",
-      "boardAlignment": {
-        "summary": "Observational techniques: naturalistic/controlled, covert/overt and participant/non-participant observation.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Observational techniques: naturalistic/controlled, covert/overt and participant/non-participant observation.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Naturalistic observation records behaviour in its usual setting with minimal researcher intervention; controlled observation structures the setting, task or recording conditions more deliberately.",
-          "Overt observation occurs when those observed know observation is taking place; covert observation conceals that fact from them.",
-          "Participant observation involves the researcher joining or participating in the group/activity being studied; non-participant observation keeps the researcher outside the activity being observed."
-        ],
-        "modelsResearchAndRelationships": [
-          "The three distinctions describe separate dimensions and can combine: for example, an observation can be naturalistic, covert and participant at the same time.",
-          "Observer presence or participant awareness can create reactivity and alter the behaviour being measured."
-        ],
-        "evaluationAndLimits": [
-          "Naturalistic observation can increase behavioural realism but offers less control over extraneous factors.",
-          "Covert methods may reduce reactivity but raise stronger consent/privacy concerns; participant observation can provide contextual depth but increase role conflict and observer influence."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Controlled observation is not necessarily a laboratory experiment because the researcher may observe without manipulating an independent variable.",
-          "Covert/overt and participant/non-participant are not mutually exclusive alternatives on one single scale."
-        ],
-        "dependencies": [
-          "reactivity",
-          "observer bias",
-          "ethics",
-          "behavioural categories",
-          "ecological validity"
-        ]
+        "definitionsAndCoreConcepts": ["Naturalistic observation records behaviour in its usual setting with minimal researcher intervention; controlled observation structures the setting, task or recording conditions more deliberately.","Overt observation occurs when those observed know observation is taking place; covert observation conceals that fact from them.","Participant observation involves the researcher joining or participating in the group/activity being studied; non-participant observation keeps the researcher outside the activity being observed."],
+        "modelsResearchAndRelationships": ["The three distinctions describe separate dimensions and can combine: for example, an observation can be naturalistic, covert and participant at the same time.","Observer presence or participant awareness can create reactivity and alter the behaviour being measured."],
+        "evaluationAndLimits": ["Naturalistic observation can increase behavioural realism but offers less control over extraneous factors.","Covert methods may reduce reactivity but raise stronger consent/privacy concerns; participant observation can provide contextual depth but increase role conflict and observer influence."],
+        "misconceptionsAndBoundaries": ["Controlled observation is not necessarily a laboratory experiment because the researcher may observe without manipulating an independent variable.","Covert/overt and participant/non-participant are not mutually exclusive alternatives on one single scale."],
+        "dependencies": ["reactivity","observer bias","ethics","behavioural categories","ecological validity"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "naturalistic and structured observation",
-            "observer effects",
-            "behavioural criteria"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.1111/wvn.12449",
-          "classification": "OPEN",
-          "licence": "CC BY",
-          "supports": [
-            "non-participant observation as a distinct methodological role"
-          ]
-        }
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/","classification":"OPEN","licence":"CC BY 4.0","supports":["naturalistic and structured observation","observer effects","behavioural criteria"]},
+        {"url":"https://doi.org/10.1111/wvn.12449","classification":"OPEN","licence":"CC BY","supports":["non-participant observation as a distinct methodological role"]}
       ],
-      "revisionSynthesis": [
-        "Revision organises the observation labels as three combinable design dimensions to prevent the common error of treating them as one mutually exclusive list."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision organises the observation labels as three combinable design dimensions to prevent the common error of treating them as one mutually exclusive list."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-03",
-      "boardAlignment": {
-        "summary": "Self-report techniques: questionnaires and structured/unstructured interviews.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Self-report techniques: questionnaires and structured/unstructured interviews.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Self-report methods obtain data from participants' own responses about attitudes, experiences, beliefs or behaviour.",
-          "A questionnaire presents written or otherwise standardised questions for respondents to answer; responses may be open or closed.",
-          "A structured interview uses predetermined questions administered consistently, whereas an unstructured interview allows flexible conversational follow-up and changes in question order or content."
-        ],
-        "modelsResearchAndRelationships": [
-          "More structure usually increases comparability and ease of coding; less structure can produce richer, less anticipated information.",
-          "Self-report data may be quantitative, qualitative or mixed depending on question format and coding."
-        ],
-        "evaluationAndLimits": [
-          "Self-report can access private experiences that are not directly observable but can be affected by memory error, misunderstanding, social desirability and response styles.",
-          "Unstructured interviews can generate depth but reduce standardisation and make interviewer effects harder to control."
-        ],
-        "misconceptionsAndBoundaries": [
-          "An interview is still a self-report method even when responses are later coded numerically.",
-          "A questionnaire is not automatically quantitative; open questions can generate qualitative data."
-        ],
-        "dependencies": [
-          "open questions",
-          "closed questions",
-          "social desirability",
-          "standardisation",
-          "qualitative data",
-          "quantitative data"
-        ]
+        "definitionsAndCoreConcepts": ["Self-report methods obtain data from participants' own responses about attitudes, experiences, beliefs or behaviour.","A questionnaire presents written or otherwise standardised questions for respondents to answer; responses may be open or closed.","A structured interview uses predetermined questions administered consistently, whereas an unstructured interview allows flexible conversational follow-up and changes in question order or content."],
+        "modelsResearchAndRelationships": ["More structure usually increases comparability and ease of coding; less structure can produce richer, less anticipated information.","Self-report data may be quantitative, qualitative or mixed depending on question format and coding."],
+        "evaluationAndLimits": ["Self-report can access private experiences that are not directly observable but can be affected by memory error, misunderstanding, social desirability and response styles.","Unstructured interviews can generate depth but reduce standardisation and make interviewer effects harder to control."],
+        "misconceptionsAndBoundaries": ["An interview is still a self-report method even when responses are later coded numerically.","A questionnaire is not automatically quantitative; open questions can generate qualitative data."],
+        "dependencies": ["open questions","closed questions","social desirability","standardisation","qualitative data","quantitative data"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "surveys/questionnaires",
-            "interviews",
-            "self-report strengths and limitations"
-          ]
-        },
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/industrial-psychology-selecting-and-evaluating-employees/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "structured versus unstructured interview mechanics"
-          ]
-        }
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/","classification":"OPEN","licence":"CC BY 4.0","supports":["surveys/questionnaires","interviews","self-report strengths and limitations"]},
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/industrial-psychology-selecting-and-evaluating-employees/","classification":"OPEN","licence":"CC BY 4.0","supports":["structured versus unstructured interview mechanics"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-04",
-      "boardAlignment": {
-        "summary": "Correlations: co-variables and distinction between correlation and experiment.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Correlations: co-variables and distinction between correlation and experiment.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A correlational study measures two co-variables for the same cases and assesses the direction and strength of their association without manipulating them as an independent variable.",
-          "Positive correlation means higher values of one variable tend to accompany higher values of the other; negative correlation means higher values of one tend to accompany lower values of the other; near-zero correlation indicates little corresponding relationship of the form measured."
-        ],
-        "modelsResearchAndRelationships": [
-          "Experiments are designed to test causal effects through manipulation and control; correlations identify association and can be useful for prediction or hypothesis development."
-        ],
-        "evaluationAndLimits": [
-          "Correlation alone cannot establish causation because directionality and third-variable/confounding explanations remain possible.",
-          "A single correlation coefficient can conceal non-linear patterns or outlier effects."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A strong correlation is not evidence that one co-variable caused the other.",
-          "Negative correlation means opposite direction, not weak or undesirable association."
-        ],
-        "dependencies": [
-          "correlation coefficient",
-          "scattergram",
-          "causation",
-          "confounding",
-          "co-variable"
-        ]
+        "definitionsAndCoreConcepts": ["A correlational study measures two co-variables for the same cases and assesses the direction and strength of their association without manipulating them as an independent variable.","Positive correlation means higher values of one variable tend to accompany higher values of the other; negative correlation means higher values of one tend to accompany lower values of the other; near-zero correlation indicates little corresponding relationship of the form measured."],
+        "modelsResearchAndRelationships": ["Experiments are designed to test causal effects through manipulation and control; correlations identify association and can be useful for prediction or hypothesis development."],
+        "evaluationAndLimits": ["Correlation alone cannot establish causation because directionality and third-variable/confounding explanations remain possible.","A single correlation coefficient can conceal non-linear patterns or outlier effects."],
+        "misconceptionsAndBoundaries": ["A strong correlation is not evidence that one co-variable caused the other.","Negative correlation means opposite direction, not weak or undesirable association."],
+        "dependencies": ["correlation coefficient","scattergram","causation","confounding","co-variable"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "correlation coefficients",
-            "direction and strength",
-            "correlation versus causal evidence"
-          ]
-        }
-      ],
-      "revisionSynthesis": [
-        "The AQA term 'co-variable' is retained for qualification alignment; the underlying subject truth is independently sourced."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "sourceEvidence": [{"url":"https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["correlation coefficients","direction and strength","correlation versus causal evidence"]}],
+      "revisionSynthesis": ["The AQA term 'co-variable' is retained for qualification alignment; the underlying subject truth is independently sourced."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-05",
-      "boardAlignment": {
-        "summary": "Content analysis.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Content analysis.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Content analysis is a systematic method for analysing recorded communication, documents, media or other existing material by applying defined categories, codes or interpretive procedures.",
-          "The unit of analysis must be specified, such as words, themes, behaviours, images, articles or episodes."
-        ],
-        "modelsResearchAndRelationships": [
-          "Content analysis can be quantitative when coded occurrences are counted or qualitative when meaning, themes or patterns are interpreted; many studies combine both."
-        ],
-        "evaluationAndLimits": [
-          "Clear coding rules and coder agreement improve reliability; poor category definitions can make results subjective or difficult to replicate.",
-          "Existing material may avoid participant reactivity but is limited by what was originally recorded and by sampling/selection of documents or media."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Content analysis is not merely reading a text and giving an opinion; it requires a systematic, stated analytic procedure.",
-          "It can produce numerical data without becoming an experiment."
-        ],
-        "dependencies": [
-          "coding",
-          "behavioural categories",
-          "inter-rater reliability",
-          "qualitative data",
-          "secondary data"
-        ]
+        "definitionsAndCoreConcepts": ["Content analysis is a systematic method for analysing recorded communication, documents, media or other existing material by applying defined categories, codes or interpretive procedures.","The unit of analysis must be specified, such as words, themes, behaviours, images, articles or episodes."],
+        "modelsResearchAndRelationships": ["Content analysis can be quantitative when coded occurrences are counted or qualitative when meaning, themes or patterns are interpreted; many studies combine both."],
+        "evaluationAndLimits": ["Clear coding rules and coder agreement improve reliability; poor category definitions can make results subjective or difficult to replicate.","Existing material may avoid participant reactivity but is limited by what was originally recorded and by sampling/selection of documents or media."],
+        "misconceptionsAndBoundaries": ["Content analysis is not merely reading a text and giving an opinion; it requires a systematic, stated analytic procedure.","It can produce numerical data without becoming an experiment."],
+        "dependencies": ["coding","behavioural categories","inter-rater reliability","qualitative data","secondary data"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "content analysis",
-            "media/document examples",
-            "archival research"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods","classification":"OPEN","licence":"CC BY 4.0","supports":["content analysis","media/document examples","archival research"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-06",
-      "boardAlignment": {
-        "summary": "Case studies.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Case studies.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A case study is an intensive investigation of a particular person, small group, organisation, event or other bounded case, often using multiple sources of information over time."
-        ],
-        "modelsResearchAndRelationships": [
-          "Case studies are especially useful for rare, complex or ethically unmanipulable phenomena and can generate detailed hypotheses for later research."
-        ],
-        "evaluationAndLimits": [
-          "Depth and contextual detail are strengths, but findings from one or a few cases may not generalise to a wider population.",
-          "Retrospective records, researcher interpretation and unusual-case selection can introduce bias, so converging evidence is valuable."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A case study is a research strategy, not automatically a single interview.",
-          "Detailed evidence from one case can be scientifically valuable without establishing population-wide frequency or causation."
-        ],
-        "dependencies": [
-          "generalisability",
-          "triangulation",
-          "qualitative data",
-          "rare cases",
-          "researcher bias"
-        ]
+        "definitionsAndCoreConcepts": ["A case study is an intensive investigation of a particular person, small group, organisation, event or other bounded case, often using multiple sources of information over time."],
+        "modelsResearchAndRelationships": ["Case studies are especially useful for rare, complex or ethically unmanipulable phenomena and can generate detailed hypotheses for later research."],
+        "evaluationAndLimits": ["Depth and contextual detail are strengths, but findings from one or a few cases may not generalise to a wider population.","Retrospective records, researcher interpretation and unusual-case selection can introduce bias, so converging evidence is valuable."],
+        "misconceptionsAndBoundaries": ["A case study is a research strategy, not automatically a single interview.","Detailed evidence from one case can be scientifically valuable without establishing population-wide frequency or causation."],
+        "dependencies": ["generalisability","triangulation","qualitative data","rare cases","researcher bias"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/approaches-to-research/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "case-study method",
-            "depth",
-            "limitations",
-            "generalisability"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://opentextbc.ca/h5ppsychology/chapter/approaches-to-research/","classification":"OPEN","licence":"CC BY 4.0","supports":["case-study method","depth","limitations","generalisability"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-07",
-      "boardAlignment": {
-        "summary": "Aims: stating aims and distinguishing aims from hypotheses.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Aims: stating aims and distinguishing aims from hypotheses.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A research aim states the overall purpose or question the study is intended to investigate.",
-          "A hypothesis is a more specific, empirically testable prediction about an expected relationship, association or difference between operationalised variables."
-        ],
-        "modelsResearchAndRelationships": [
-          "A well-formed study moves from a broad question or aim to operational definitions and, where appropriate, a testable hypothesis."
-        ],
-        "evaluationAndLimits": [
-          "An aim can be legitimate without a directional prediction, particularly in exploratory or descriptive research; not every research design requires the same hypothesis form."
-        ],
-        "misconceptionsAndBoundaries": [
-          "An aim is not simply a hypothesis rewritten with 'to investigate'. The hypothesis adds a testable prediction.",
-          "Theoretical constructs become testable only when variables are operationalised appropriately."
-        ],
-        "dependencies": [
-          "research question",
-          "hypothesis",
-          "operationalisation",
-          "variables"
-        ]
+        "definitionsAndCoreConcepts": ["A research aim states the overall purpose or question the study is intended to investigate.","A hypothesis is a more specific, empirically testable prediction about an expected relationship, association or difference between operationalised variables."],
+        "modelsResearchAndRelationships": ["A well-formed study moves from a broad question or aim to operational definitions and, where appropriate, a testable hypothesis."],
+        "evaluationAndLimits": ["An aim can be legitimate without a directional prediction, particularly in exploratory or descriptive research; not every research design requires the same hypothesis form."],
+        "misconceptionsAndBoundaries": ["An aim is not simply a hypothesis rewritten with 'to investigate'. The hypothesis adds a testable prediction.","Theoretical constructs become testable only when variables are operationalised appropriately."],
+        "dependencies": ["research question","hypothesis","operationalisation","variables"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "research questions",
-            "hypotheses",
-            "empirical testing",
-            "theory"
-          ]
-        },
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "scientific questions and empirical evidence"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/","classification":"OPEN","licence":"CC BY 4.0","supports":["research questions","hypotheses","empirical testing","theory"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/","classification":"OPEN","licence":"CC BY 4.0","supports":["scientific questions and empirical evidence"]}
       ],
-      "revisionSynthesis": [
-        "Revision supplies the compact aim-versus-hypothesis distinction as qualification framing over standard methodological concepts."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision supplies the compact aim-versus-hypothesis distinction as qualification framing over standard methodological concepts."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-08",
-      "boardAlignment": {
-        "summary": "Hypotheses: directional and non-directional.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Hypotheses: directional and non-directional.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A directional hypothesis predicts the expected direction of a difference or association, such as one condition producing higher scores or two variables being positively related.",
-          "A non-directional hypothesis predicts that a difference or relationship exists without specifying its direction."
-        ],
-        "modelsResearchAndRelationships": [
-          "Directional hypotheses correspond to one-tailed inferential predictions when the direction was justified and specified in advance; non-directional hypotheses normally correspond to two-tailed testing."
-        ],
-        "evaluationAndLimits": [
-          "Choosing a directional hypothesis after seeing the data undermines the logic of a pre-specified directional test.",
-          "A directional claim should be justified by theory or prior evidence rather than chosen merely to make significance easier to obtain."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Directional versus non-directional does not mean strong versus weak prediction.",
-          "A null hypothesis is distinct from both forms: it represents no population effect/relationship under the tested model."
-        ],
-        "dependencies": [
-          "hypothesis",
-          "one-tailed test",
-          "two-tailed test",
-          "null hypothesis",
-          "significance"
-        ]
+        "definitionsAndCoreConcepts": ["A directional hypothesis predicts the expected direction of a difference or association, such as one condition producing higher scores or two variables being positively related.","A non-directional hypothesis predicts that a difference or relationship exists without specifying its direction."],
+        "modelsResearchAndRelationships": ["Directional hypotheses correspond to one-tailed inferential predictions when the direction was justified and specified in advance; non-directional hypotheses normally correspond to two-tailed testing."],
+        "evaluationAndLimits": ["Choosing a directional hypothesis after seeing the data undermines the logic of a pre-specified directional test.","A directional claim should be justified by theory or prior evidence rather than chosen merely to make significance easier to obtain."],
+        "misconceptionsAndBoundaries": ["Directional versus non-directional does not mean strong versus weak prediction.","A null hypothesis is distinct from both forms: it represents no population effect/relationship under the tested model."],
+        "dependencies": ["hypothesis","one-tailed test","two-tailed test","null hypothesis","significance"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2015.00223/full",
-          "classification": "OPEN",
-          "licence": "CC BY",
-          "supports": [
-            "directional/one-tailed and non-directional/two-tailed hypothesis-testing logic",
-            "null-hypothesis testing"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2015.00223/full","classification":"OPEN","licence":"CC BY","supports":["directional/one-tailed and non-directional/two-tailed hypothesis-testing logic","null-hypothesis testing"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-09",
-      "boardAlignment": {
-        "summary": "Sampling: population versus sample; random, systematic, stratified, opportunity and volunteer methods; bias and generalisation.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Sampling: population versus sample; random, systematic, stratified, opportunity and volunteer methods; bias and generalisation.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "The target population is the wider group about which the research seeks conclusions; a sample is the subset actually studied.",
-          "Simple random sampling gives each eligible member of the sampling frame an equal chance of selection; systematic sampling selects according to a fixed interval after a starting point; stratified sampling samples defined subgroups in planned proportions.",
-          "Opportunity sampling recruits accessible people; volunteer sampling relies on eligible people choosing to opt in after an invitation."
-        ],
-        "modelsResearchAndRelationships": [
-          "Sampling method influences how well the sample represents the target population and therefore the strength of population generalisation.",
-          "Probability methods can reduce selection bias when a usable sampling frame exists; non-probability methods are often faster but provide weaker protection against systematic selection differences."
-        ],
-        "evaluationAndLimits": [
-          "Random selection does not guarantee a representative small sample, and nonresponse can introduce bias even after probability sampling.",
-          "Stratification improves representation only for the characteristics used to create strata; it cannot remove all forms of bias."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Random sampling is selection from a population; random allocation is assignment of recruited participants to experimental conditions.",
-          "Opportunity and volunteer sampling can overlap in practice but are not identical: availability and self-selection are different mechanisms."
-        ],
-        "dependencies": [
-          "population",
-          "sample",
-          "sampling frame",
-          "selection bias",
-          "generalisability",
-          "random allocation"
-        ]
+        "definitionsAndCoreConcepts": ["The target population is the wider group about which the research seeks conclusions; a sample is the subset actually studied.","Simple random sampling gives each eligible member of the sampling frame an equal chance of selection; systematic sampling selects according to a fixed interval after a starting point; stratified sampling samples defined subgroups in planned proportions.","Opportunity sampling recruits accessible people; volunteer sampling relies on eligible people choosing to opt in after an invitation."],
+        "modelsResearchAndRelationships": ["Sampling method influences how well the sample represents the target population and therefore the strength of population generalisation.","Probability methods can reduce selection bias when a usable sampling frame exists; non-probability methods are often faster but provide weaker protection against systematic selection differences."],
+        "evaluationAndLimits": ["Random selection does not guarantee a representative small sample, and nonresponse can introduce bias even after probability sampling.","Stratification improves representation only for the characteristics used to create strata; it cannot remove all forms of bias."],
+        "misconceptionsAndBoundaries": ["Random sampling is selection from a population; random allocation is assignment of recruited participants to experimental conditions.","Opportunity and volunteer sampling can overlap in practice but are not identical: availability and self-selection are different mechanisms."],
+        "dependencies": ["population","sample","sampling frame","selection bias","generalisability","random allocation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "population/sample",
-            "random",
-            "systematic",
-            "stratified sampling",
-            "sampling bias"
-          ]
-        },
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "psychology sampling terminology",
-            "generalisability"
-          ]
-        }
+        {"url":"https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques","classification":"OPEN","licence":"CC BY 4.0","supports":["population/sample","random","systematic","stratified sampling","sampling bias"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/","classification":"OPEN","licence":"CC BY 4.0","supports":["psychology sampling terminology","generalisability"]}
       ],
-      "revisionSynthesis": [
-        "AQA's opportunity-sampling label is mapped to the broader research-methods concept of convenience sampling; volunteer sampling is treated as voluntary-response/self-selection."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["AQA's opportunity-sampling label is mapped to the broader research-methods concept of convenience sampling; volunteer sampling is treated as voluntary-response/self-selection."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-10",
-      "boardAlignment": {
-        "summary": "Pilot studies and the purpose of piloting.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Pilot studies and the purpose of piloting.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A pilot study is a small-scale or preliminary run used to test whether planned procedures, materials, measures, recruitment or analysis are workable before the main study."
-        ],
-        "modelsResearchAndRelationships": [
-          "Piloting can reveal ambiguous instructions, floor/ceiling effects, impractical timings, weak manipulations, recruitment problems or data-quality issues and therefore guide justified design changes before the main study."
-        ],
-        "evaluationAndLimits": [
-          "Small pilot samples are usually unsuitable for confident estimates of the final substantive effect; noisy pilot results can mislead if treated as definitive evidence.",
-          "Material changes driven by pilot evidence should be documented transparently rather than hidden."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A pilot is not simply an underpowered main study and its primary purpose is usually feasibility and design refinement rather than proving the hypothesis.",
-          "A successful pilot does not guarantee that the full study will be valid or successful."
-        ],
-        "dependencies": [
-          "feasibility",
-          "measurement",
-          "procedure",
-          "validity",
-          "replication"
-        ]
+        "definitionsAndCoreConcepts": ["A pilot study is a small-scale or preliminary run used to test whether planned procedures, materials, measures, recruitment or analysis are workable before the main study."],
+        "modelsResearchAndRelationships": ["Piloting can reveal ambiguous instructions, floor/ceiling effects, impractical timings, weak manipulations, recruitment problems or data-quality issues and therefore guide justified design changes before the main study."],
+        "evaluationAndLimits": ["Small pilot samples are usually unsuitable for confident estimates of the final substantive effect; noisy pilot results can mislead if treated as definitive evidence.","Material changes driven by pilot evidence should be documented transparently rather than hidden."],
+        "misconceptionsAndBoundaries": ["A pilot is not simply an underpowered main study and its primary purpose is usually feasibility and design refinement rather than proving the hypothesis.","A successful pilot does not guarantee that the full study will be valid or successful."],
+        "dependencies": ["feasibility","measurement","procedure","validity","replication"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://doi.org/10.31234/osf.io/t968e_v2",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "pilot studies as methodological due diligence",
-            "testing design/measurement/manipulation/sampling/analysis",
-            "limits of small pilot inference"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://doi.org/10.31234/osf.io/t968e_v2","classification":"OPEN","licence":"CC BY 4.0","supports":["pilot studies as methodological due diligence","testing design/measurement/manipulation/sampling/analysis","limits of small pilot inference"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-11",
-      "boardAlignment": {
-        "summary": "Experimental designs: repeated measures, independent groups and matched pairs.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Experimental designs: repeated measures, independent groups and matched pairs.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Independent-groups design uses different participants in different conditions.",
-          "Repeated-measures design exposes the same participants to multiple conditions.",
-          "Matched-pairs design uses different participants who are deliberately paired or grouped on relevant characteristics before being allocated across conditions."
-        ],
-        "modelsResearchAndRelationships": [
-          "Repeated measures controls stable participant differences but creates possible order/carryover effects; independent groups avoids order effects but can suffer group differences; matching targets selected participant variables without making participants identical."
-        ],
-        "evaluationAndLimits": [
-          "Counterbalancing can reduce systematic order effects in repeated measures but cannot eliminate every carryover effect.",
-          "Matching becomes difficult as the number of relevant variables increases and can reduce recruitment efficiency."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Matched pairs are still different people, unlike repeated measures.",
-          "Random assignment can be used with independent groups or with order sequences; it is not itself an experimental design."
-        ],
-        "dependencies": [
-          "participant variables",
-          "order effects",
-          "counterbalancing",
-          "random allocation",
-          "control"
-        ]
+        "definitionsAndCoreConcepts": ["Independent-groups design uses different participants in different conditions.","Repeated-measures design exposes the same participants to multiple conditions.","Matched-pairs design uses different participants who are deliberately paired or grouped on relevant characteristics before being allocated across conditions."],
+        "modelsResearchAndRelationships": ["Repeated measures controls stable participant differences but creates possible order/carryover effects; independent groups avoids order effects but can suffer group differences; matching targets selected participant variables without making participants identical."],
+        "evaluationAndLimits": ["Counterbalancing can reduce systematic order effects in repeated measures but cannot eliminate every carryover effect.","Matching becomes difficult as the number of relevant variables increases and can reduce recruitment efficiency."],
+        "misconceptionsAndBoundaries": ["Matched pairs are still different people, unlike repeated measures.","Random assignment can be used with independent groups or with order sequences; it is not itself an experimental design."],
+        "dependencies": ["participant variables","order effects","counterbalancing","random allocation","control"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "between-group experimental design",
-            "random assignment",
-            "experimental/control groups"
-          ]
-        },
-        {
-          "url": "https://data.mendeley.com/datasets/3hrsn38jvy",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "within-participant design",
-            "counterbalanced condition order",
-            "counterbalanced word lists"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/","classification":"OPEN","licence":"CC BY 4.0","supports":["between-group experimental design","random assignment","experimental/control groups"]},
+        {"url":"https://data.mendeley.com/datasets/3hrsn38jvy","classification":"OPEN","licence":"CC BY 4.0","supports":["within-participant design","counterbalanced condition order","counterbalanced word lists"]}
       ],
-      "revisionSynthesis": [
-        "Revision presents the three AQA designs comparatively around participant allocation, participant-variable control and order effects."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision presents the three AQA designs comparatively around participant allocation, participant-variable control and order effects."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-12",
-      "boardAlignment": {
-        "summary": "Observational design: behavioural categories, event sampling and time sampling.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Observational design: behavioural categories, event sampling and time sampling.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Behavioural categories are operationally defined classes of observable behaviour used to record observations consistently.",
-          "Event sampling records each occurrence of specified target behaviours/events during the observation period.",
-          "Time sampling records behaviour at predetermined times or intervals rather than continuously."
-        ],
-        "modelsResearchAndRelationships": [
-          "Event sampling is efficient for discrete target behaviours; time sampling reduces continuous-recording burden and supports regular coverage across a longer period."
-        ],
-        "evaluationAndLimits": [
-          "Poorly defined or overlapping categories reduce reliability and can force ambiguous observations into arbitrary labels.",
-          "Time sampling can miss behaviour between sampled intervals, while high-frequency event sampling can become impractical when target events occur very rapidly."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Event sampling refers to recording target events, not sampling research participants.",
-          "Time sampling does not mean measuring the duration of every behaviour; it specifies when observations are recorded."
-        ],
-        "dependencies": [
-          "operationalisation",
-          "inter-observer reliability",
-          "coding",
-          "observation"
-        ]
+        "definitionsAndCoreConcepts": ["Behavioural categories are operationally defined classes of observable behaviour used to record observations consistently.","Event sampling records each occurrence of specified target behaviours/events during the observation period.","Time sampling records behaviour at predetermined times or intervals rather than continuously."],
+        "modelsResearchAndRelationships": ["Event sampling is efficient for discrete target behaviours; time sampling reduces continuous-recording burden and supports regular coverage across a longer period."],
+        "evaluationAndLimits": ["Poorly defined or overlapping categories reduce reliability and can force ambiguous observations into arbitrary labels.","Time sampling can miss behaviour between sampled intervals, while high-frequency event sampling can become impractical when target events occur very rapidly."],
+        "misconceptionsAndBoundaries": ["Event sampling refers to recording target events, not sampling research participants.","Time sampling does not mean measuring the duration of every behaviour; it specifies when observations are recorded."],
+        "dependencies": ["operationalisation","inter-observer reliability","coding","observation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "behavioural criteria/categories",
-            "structured observation"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.12677/ap.2014.47128",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "event sampling",
-            "time sampling in behavioural observation"
-          ]
-        }
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/approaches-to-research-design/","classification":"OPEN","licence":"CC BY 4.0","supports":["behavioural criteria/categories","structured observation"]},
+        {"url":"https://doi.org/10.12677/ap.2014.47128","classification":"OPEN","licence":"CC BY 4.0","supports":["event sampling","time sampling in behavioural observation"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-13",
-      "boardAlignment": {
-        "summary": "Questionnaire construction: open/closed questions and interview design.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Questionnaire construction: open/closed questions and interview design.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Closed questions restrict respondents to predefined response options; open questions allow respondents to formulate their own answers.",
-          "Good questionnaire/interview design uses clear language, avoids leading or double-barrelled questions, provides appropriate response choices and orders questions in a way that does not unnecessarily bias later answers."
-        ],
-        "modelsResearchAndRelationships": [
-          "Closed questions usually improve comparability and quantitative coding; open questions allow richer and unexpected information but require more interpretation to code.",
-          "Structured interviewing increases standardisation, whereas unstructured interviewing permits adaptive follow-up and depth."
-        ],
-        "evaluationAndLimits": [
-          "Response options can create measurement error if they do not cover plausible answers or force unequal categories.",
-          "Question wording, ordering and interviewer behaviour can influence responses independently of the construct being measured."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Open questions are not automatically better because they are detailed; the design should match the research aim.",
-          "A closed question can still measure complex constructs if response categories are valid and well designed."
-        ],
-        "dependencies": [
-          "self-report",
-          "response bias",
-          "social desirability",
-          "coding",
-          "standardisation"
-        ]
+        "definitionsAndCoreConcepts": ["Closed questions restrict respondents to predefined response options; open questions allow respondents to formulate their own answers.","Good questionnaire/interview design uses clear language, avoids leading or double-barrelled questions, provides appropriate response choices and orders questions in a way that does not unnecessarily bias later answers."],
+        "modelsResearchAndRelationships": ["Closed questions usually improve comparability and quantitative coding; open questions allow richer and unexpected information but require more interpretation to code.","Structured interviewing increases standardisation, whereas unstructured interviewing permits adaptive follow-up and depth."],
+        "evaluationAndLimits": ["Response options can create measurement error if they do not cover plausible answers or force unequal categories.","Question wording, ordering and interviewer behaviour can influence responses independently of the construct being measured."],
+        "misconceptionsAndBoundaries": ["Open questions are not automatically better because they are detailed; the design should match the research aim.","A closed question can still measure complex constructs if response categories are valid and well designed."],
+        "dependencies": ["self-report","response bias","social desirability","coding","standardisation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/tccsoc101/chapter/__unknown__-2/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "open-ended and closed-ended questions",
-            "survey design"
-          ]
-        },
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/industrial-psychology-selecting-and-evaluating-employees/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "structured versus unstructured interview design"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/tccsoc101/chapter/__unknown__-2/","classification":"OPEN","licence":"CC BY 4.0","supports":["open-ended and closed-ended questions","survey design"]},
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/industrial-psychology-selecting-and-evaluating-employees/","classification":"OPEN","licence":"CC BY 4.0","supports":["structured versus unstructured interview design"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-14",
-      "boardAlignment": {
-        "summary": "Variables: independent, dependent and extraneous variables; manipulation, control and operationalisation.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Variables: independent, dependent and extraneous variables; manipulation, control and operationalisation.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "The independent variable is the factor manipulated or used to define experimental conditions; the dependent variable is the measured outcome expected to change as a function of the independent variable.",
-          "Extraneous variables are other factors that vary within the study; a confounding variable is an extraneous variable that systematically covaries with the independent variable and offers an alternative explanation for the outcome.",
-          "Operationalisation specifies observable or measurable procedures for manipulating or measuring an abstract construct."
-        ],
-        "modelsResearchAndRelationships": [
-          "Experimental control aims to prevent extraneous variables from becoming confounds while keeping the independent-variable contrast meaningful.",
-          "Good operational definitions support replication and construct validity because other researchers can understand exactly how a construct was represented."
-        ],
-        "evaluationAndLimits": [
-          "Strict control can strengthen internal validity while reducing realism; operational definitions can be reliable yet represent a construct poorly.",
-          "Not every uncontrolled variable is a confound: it becomes a confound when it varies systematically with the independent variable in a way that can explain the result."
-        ],
-        "misconceptionsAndBoundaries": [
-          "The dependent variable is not simply any variable measured; it is the outcome linked to the experimental question.",
-          "Operationalisation is not the same as defining a construct in ordinary-language terms."
-        ],
-        "dependencies": [
-          "confounding",
-          "construct validity",
-          "replication",
-          "experimental control"
-        ]
+        "definitionsAndCoreConcepts": ["The independent variable is the factor manipulated or used to define experimental conditions; the dependent variable is the measured outcome expected to change as a function of the independent variable.","Extraneous variables are other factors that vary within the study; a confounding variable is an extraneous variable that systematically covaries with the independent variable and offers an alternative explanation for the outcome.","Operationalisation specifies observable or measurable procedures for manipulating or measuring an abstract construct."],
+        "modelsResearchAndRelationships": ["Experimental control aims to prevent extraneous variables from becoming confounds while keeping the independent-variable contrast meaningful.","Good operational definitions support replication and construct validity because other researchers can understand exactly how a construct was represented."],
+        "evaluationAndLimits": ["Strict control can strengthen internal validity while reducing realism; operational definitions can be reliable yet represent a construct poorly.","Not every uncontrolled variable is a confound: it becomes a confound when it varies systematically with the independent variable in a way that can explain the result."],
+        "misconceptionsAndBoundaries": ["The dependent variable is not simply any variable measured; it is the outcome linked to the experimental question.","Operationalisation is not the same as defining a construct in ordinary-language terms."],
+        "dependencies": ["confounding","construct validity","replication","experimental control"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "independent/dependent variables",
-            "manipulation",
-            "control",
-            "random assignment"
-          ]
-        },
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "operational definitions",
-            "research variables"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/","classification":"OPEN","licence":"CC BY 4.0","supports":["independent/dependent variables","manipulation","control","random assignment"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/key-terms-for-psychological-research/","classification":"OPEN","licence":"CC BY 4.0","supports":["operational definitions","research variables"]}
       ],
-      "revisionSynthesis": [
-        "Revision distinguishes extraneous variables from confounds so the course does not imply that every uncontrolled source of variation invalidates an experiment."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision distinguishes extraneous variables from confounds so the course does not imply that every uncontrolled source of variation invalidates an experiment."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-15",
-      "boardAlignment": {
-        "summary": "Control techniques: random allocation, counterbalancing, randomisation, standardisation and control groups.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Control techniques: random allocation, counterbalancing, randomisation, standardisation and control groups.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Random allocation uses chance to assign recruited participants to experimental conditions, reducing systematic participant differences between groups.",
-          "Counterbalancing deliberately varies condition order across participants or sequences so order and carryover effects are distributed rather than confounded with one condition.",
-          "Randomisation can also be used for stimulus/order selection; standardisation keeps instructions, materials and procedures consistent where consistency is required; a control group provides a comparison condition without the critical manipulation or with an alternative/placebo treatment."
-        ],
-        "modelsResearchAndRelationships": [
-          "Different control techniques target different threats: allocation targets participant variables, counterbalancing targets order effects, standardisation targets procedural variation, and control groups support interpretation of change."
-        ],
-        "evaluationAndLimits": [
-          "Random allocation reduces bias probabilistically but does not guarantee identical groups in a small sample.",
-          "Standardisation should control irrelevant variation without eliminating the meaningful manipulation or making the task so artificial that the target behaviour changes."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Random allocation is not random sampling.",
-          "Counterbalancing distributes order effects; it does not necessarily eliminate carryover from one condition into another."
-        ],
-        "dependencies": [
-          "random sampling",
-          "order effects",
-          "participant variables",
-          "experimental design",
-          "control condition"
-        ]
+        "definitionsAndCoreConcepts": ["Random allocation uses chance to assign recruited participants to experimental conditions, reducing systematic participant differences between groups.","Counterbalancing deliberately varies condition order across participants or sequences so order and carryover effects are distributed rather than confounded with one condition.","Randomisation can also be used for stimulus/order selection; standardisation keeps instructions, materials and procedures consistent where consistency is required; a control group provides a comparison condition without the critical manipulation or with an alternative/placebo treatment."],
+        "modelsResearchAndRelationships": ["Different control techniques target different threats: allocation targets participant variables, counterbalancing targets order effects, standardisation targets procedural variation, and control groups support interpretation of change."],
+        "evaluationAndLimits": ["Random allocation reduces bias probabilistically but does not guarantee identical groups in a small sample.","Standardisation should control irrelevant variation without eliminating the meaningful manipulation or making the task so artificial that the target behaviour changes."],
+        "misconceptionsAndBoundaries": ["Random allocation is not random sampling.","Counterbalancing distributes order effects; it does not necessarily eliminate carryover from one condition into another."],
+        "dependencies": ["random sampling","order effects","participant variables","experimental design","control condition"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "random assignment/allocation",
-            "experimental and control groups",
-            "experimental control"
-          ]
-        },
-        {
-          "url": "https://data.mendeley.com/datasets/3hrsn38jvy",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "counterbalancing condition order and materials"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.3389/fpsyg.2016.00610",
-          "classification": "OPEN",
-          "licence": "CC BY",
-          "supports": [
-            "standardised behavioural-experiment implementation",
-            "replicable procedures"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/generalpsychology/chapter/reading-conducting-experiments/","classification":"OPEN","licence":"CC BY 4.0","supports":["random assignment/allocation","experimental and control groups","experimental control"]},
+        {"url":"https://data.mendeley.com/datasets/3hrsn38jvy","classification":"OPEN","licence":"CC BY 4.0","supports":["counterbalancing condition order and materials"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2016.00610","classification":"OPEN","licence":"CC BY","supports":["standardised behavioural-experiment implementation","replicable procedures"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-16",
-      "boardAlignment": {
-        "summary": "Demand characteristics and investigator effects.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Demand characteristics and investigator effects.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Demand characteristics are cues in the research situation that allow participants to infer the study purpose or expected behaviour and alter their responses accordingly.",
-          "Investigator effects are influences on participants, measurement or recording produced by the researcher's expectations, behaviour, interaction or decisions."
-        ],
-        "modelsResearchAndRelationships": [
-          "Standardised instructions, automation, blinding/masking where appropriate, objective coding and careful operationalisation can reduce these threats.",
-          "Demand and investigator effects are possible validity threats whose magnitude must be established empirically rather than assumed in every study."
-        ],
-        "evaluationAndLimits": [
-          "Procedures intended to conceal the hypothesis can reduce demand but may introduce ethical issues if deception is used.",
-          "Automation can reduce interpersonal effects but can also change task realism or participant engagement."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Demand characteristics are participant responses to perceived expectations; investigator effects originate in the researcher's influence. They can interact but are not the same concept.",
-          "Awareness of being studied is not automatically evidence that behaviour changed."
-        ],
-        "dependencies": [
-          "validity",
-          "deception",
-          "standardisation",
-          "blinding",
-          "observer bias"
-        ]
+        "definitionsAndCoreConcepts": ["Demand characteristics are cues in the research situation that allow participants to infer the study purpose or expected behaviour and alter their responses accordingly.","Investigator effects are influences on participants, measurement or recording produced by the researcher's expectations, behaviour, interaction or decisions."],
+        "modelsResearchAndRelationships": ["Standardised instructions, automation, blinding/masking where appropriate, objective coding and careful operationalisation can reduce these threats.","Demand and investigator effects are possible validity threats whose magnitude must be established empirically rather than assumed in every study."],
+        "evaluationAndLimits": ["Procedures intended to conceal the hypothesis can reduce demand but may introduce ethical issues if deception is used.","Automation can reduce interpersonal effects but can also change task realism or participant engagement."],
+        "misconceptionsAndBoundaries": ["Demand characteristics are participant responses to perceived expectations; investigator effects originate in the researcher's influence. They can interact but are not the same concept.","Awareness of being studied is not automatically evidence that behaviour changed."],
+        "dependencies": ["validity","deception","standardisation","blinding","observer bias"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://doi.org/10.1162/OPMI.a.367",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "experimenter demand effects",
-            "participant inference of study expectations",
-            "empirical evaluation of demand"
-          ]
-        },
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "participant and experimenter bias as threats to findings"
-          ]
-        }
+        {"url":"https://doi.org/10.1162/OPMI.a.367","classification":"OPEN","licence":"CC BY 4.0","supports":["experimenter demand effects","participant inference of study expectations","empirical evaluation of demand"]},
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["participant and experimenter bias as threats to findings"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-17",
-      "boardAlignment": {
-        "summary": "Research ethics: BPS code, ethical issues in study design/conduct and ways of dealing with them.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Research ethics: BPS code, ethical issues in study design/conduct and ways of dealing with them.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Ethical psychological research protects participants' autonomy, welfare, privacy and dignity while maintaining scientific integrity.",
-          "Core operational issues include valid informed consent, the right to withdraw, minimising risk/harm, protecting confidentiality, justified and proportionate use of deception, debriefing and appropriate ethical review."
-        ],
-        "modelsResearchAndRelationships": [
-          "Ethical safeguards should be designed before data collection, not treated as repairs after harm occurs.",
-          "Where full disclosure would invalidate a study, limited deception or incomplete disclosure requires strong justification, risk minimisation and effective debriefing under applicable governance."
-        ],
-        "evaluationAndLimits": [
-          "Ethical principles can conflict, for example between scientific value and complete prior disclosure, so proportionality and independent review matter.",
-          "Anonymisation can reduce disclosure risk but complete anonymity is not always technically or methodologically possible; promises to participants must be accurate."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Participant consent does not make any level of risk acceptable.",
-          "Debriefing is not a blanket justification for avoidable deception or harm.",
-          "The BPS code supplies professional alignment; its protected wording is not the reusable teaching corpus."
-        ],
-        "dependencies": [
-          "informed consent",
-          "right to withdraw",
-          "confidentiality",
-          "deception",
-          "debriefing",
-          "risk-benefit judgement"
-        ]
+        "definitionsAndCoreConcepts": ["Ethical psychological research protects participants' autonomy, welfare, privacy and dignity while maintaining scientific integrity.","Core operational issues include valid informed consent, the right to withdraw, minimising risk/harm, protecting confidentiality, justified and proportionate use of deception, debriefing and appropriate ethical review."],
+        "modelsResearchAndRelationships": ["Ethical safeguards should be designed before data collection, not treated as repairs after harm occurs.","Where full disclosure would invalidate a study, limited deception or incomplete disclosure requires strong justification, risk minimisation and effective debriefing under applicable governance."],
+        "evaluationAndLimits": ["Ethical principles can conflict, for example between scientific value and complete prior disclosure, so proportionality and independent review matter.","Anonymisation can reduce disclosure risk but complete anonymity is not always technically or methodologically possible; promises to participants must be accurate."],
+        "misconceptionsAndBoundaries": ["Participant consent does not make any level of risk acceptable.","Debriefing is not a blanket justification for avoidable deception or harm.","The BPS code supplies professional alignment; its protected wording is not the reusable teaching corpus."],
+        "dependencies": ["informed consent","right to withdraw","confidentiality","deception","debriefing","risk-benefit judgement"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/ethics/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "informed consent",
-            "withdrawal",
-            "confidentiality",
-            "deception",
-            "debriefing",
-            "harm minimisation"
-          ]
-        },
-        {
-          "url": "https://www.bps.org.uk/guideline/bps-code-human-research-ethics",
-          "classification": "REFERENCE_ONLY",
-          "licence": "REFERENCE_ONLY",
-          "supports": [
-            "named UK professional ethics alignment",
-            "BPS ethical framework"
-          ]
-        }
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/ethics/","classification":"OPEN","licence":"CC BY 4.0","supports":["informed consent","withdrawal","confidentiality","deception","debriefing","harm minimisation"]},
+        {"url":"https://www.bps.org.uk/guideline/bps-code-human-research-ethics","classification":"REFERENCE_ONLY","licence":"REFERENCE_ONLY","supports":["named UK professional ethics alignment","BPS ethical framework"]}
       ],
-      "revisionSynthesis": [
-        "Revision independently explains ethical principles from reusable evidence and maps them to the BPS framework without reusing BPS prose as teaching corpus."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision independently explains ethical principles from reusable evidence and maps them to the BPS framework without reusing BPS prose as teaching corpus."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-18",
-      "boardAlignment": {
-        "summary": "Role of peer review in science.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Role of peer review in science.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Peer review is evaluation of scholarly work by other researchers with relevant expertise, commonly before journal publication but also in funding and other scientific contexts.",
-          "Reviewers can challenge the research question, methods, analysis, interpretation, reporting and contribution and may recommend revision, rejection or acceptance."
-        ],
-        "modelsResearchAndRelationships": [
-          "Peer review contributes to scientific quality control by exposing work to independent scrutiny before it becomes part of the formal literature; post-publication criticism and replication continue that corrective process."
-        ],
-        "evaluationAndLimits": [
-          "Peer review can detect problems but does not guarantee truth, reproducibility or freedom from bias.",
-          "Reviewer disagreement, publication incentives and selective reporting can still shape the literature."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Peer-reviewed does not mean proven correct.",
-          "Replication is not replaced by peer review; it tests whether findings can be obtained again under appropriate conditions."
-        ],
-        "dependencies": [
-          "replication",
-          "publication",
-          "scientific scrutiny",
-          "bias",
-          "open science"
-        ]
+        "definitionsAndCoreConcepts": ["Peer review is evaluation of scholarly work by other researchers with relevant expertise, commonly before journal publication but also in funding and other scientific contexts.","Reviewers can challenge the research question, methods, analysis, interpretation, reporting and contribution and may recommend revision, rejection or acceptance."],
+        "modelsResearchAndRelationships": ["Peer review contributes to scientific quality control by exposing work to independent scrutiny before it becomes part of the formal literature; post-publication criticism and replication continue that corrective process."],
+        "evaluationAndLimits": ["Peer review can detect problems but does not guarantee truth, reproducibility or freedom from bias.","Reviewer disagreement, publication incentives and selective reporting can still shape the literature."],
+        "misconceptionsAndBoundaries": ["Peer-reviewed does not mean proven correct.","Replication is not replaced by peer review; it tests whether findings can be obtained again under appropriate conditions."],
+        "dependencies": ["replication","publication","scientific scrutiny","bias","open science"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "peer-review purpose",
-            "method/statistical scrutiny",
-            "replication and quality-control role"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["peer-review purpose","method/statistical scrutiny","replication and quality-control role"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-19",
-      "boardAlignment": {
-        "summary": "Economic implications of psychological research.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Economic implications of psychological research.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "An economic implication is a consequence of psychological research or its application for scarce resources, costs, benefits, productivity, service use, employment/education participation or allocation decisions.",
-          "Economic evaluation compares both resource costs and outcomes rather than assuming that an effective intervention is automatically cost-saving."
-        ],
-        "modelsResearchAndRelationships": [
-          "Psychological evidence can alter practice or policy and thereby change staff time, investigation/treatment costs, future service use and broader social costs.",
-          "A defensible economic claim requires a plausible pathway from the psychological finding to the resource consequence and, for quantified claims, appropriate cost and outcome evidence."
-        ],
-        "evaluationAndLimits": [
-          "An intervention may improve outcomes while increasing total cost and still be judged cost-effective under an explicit value threshold.",
-          "Projected savings depend on assumptions about implementation, uptake, causal effects and time horizon and should not be presented as guaranteed."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Economic implication does not mean 'psychology saves money'. Consequences can be positive, negative, mixed or uncertain.",
-          "Cost-effectiveness is not identical to cheapest option; it relates additional cost to additional outcome."
-        ],
-        "dependencies": [
-          "application of research",
-          "cost-effectiveness",
-          "causal inference",
-          "policy",
-          "resource allocation"
-        ]
+        "definitionsAndCoreConcepts": ["An economic implication is a consequence of psychological research or its application for scarce resources, costs, benefits, productivity, service use, employment/education participation or allocation decisions.","Economic evaluation compares both resource costs and outcomes rather than assuming that an effective intervention is automatically cost-saving."],
+        "modelsResearchAndRelationships": ["Psychological evidence can alter practice or policy and thereby change staff time, investigation/treatment costs, future service use and broader social costs.","A defensible economic claim requires a plausible pathway from the psychological finding to the resource consequence and, for quantified claims, appropriate cost and outcome evidence."],
+        "evaluationAndLimits": ["An intervention may improve outcomes while increasing total cost and still be judged cost-effective under an explicit value threshold.","Projected savings depend on assumptions about implementation, uptake, causal effects and time horizon and should not be presented as guaranteed."],
+        "misconceptionsAndBoundaries": ["Economic implication does not mean 'psychology saves money'. Consequences can be positive, negative, mixed or uncertain.","Cost-effectiveness is not identical to cheapest option; it relates additional cost to additional outcome."],
+        "dependencies": ["application of research","cost-effectiveness","causal inference","policy","resource allocation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://doi.org/10.3389/fpsyg.2021.778970",
-          "classification": "OPEN",
-          "licence": "CC BY",
-          "supports": [
-            "economic consequences of rapport-based psychological interviewing",
-            "resource/cost pathways",
-            "limits of economic projections"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.1136/bmjopen-2023-071724",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "cost-effectiveness of a psychological intervention",
-            "cost and outcome comparison",
-            "incremental cost-effectiveness"
-          ]
-        }
+        {"url":"https://doi.org/10.3389/fpsyg.2021.778970","classification":"OPEN","licence":"CC BY","supports":["economic consequences of rapport-based psychological interviewing","resource/cost pathways","limits of economic projections"]},
+        {"url":"https://doi.org/10.1136/bmjopen-2023-071724","classification":"OPEN","licence":"CC BY 4.0","supports":["cost-effectiveness of a psychological intervention","cost and outcome comparison","incremental cost-effectiveness"]}
       ],
-      "revisionSynthesis": [
-        "Revision generalises from open economic-evaluation examples to the qualification skill of identifying and evaluating economic implications without treating any one study's cost estimate as a universal fact."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision generalises from open economic-evaluation examples to the qualification skill of identifying and evaluating economic implications without treating any one study's cost estimate as a universal fact."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-20",
-      "boardAlignment": {
-        "summary": "Reliability: test-retest and inter-observer reliability and ways to improve reliability.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Reliability: test-retest and inter-observer reliability and ways to improve reliability.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Reliability is the consistency or reproducibility of a measure, observation or procedure under comparable conditions.",
-          "Test-retest reliability evaluates consistency of scores when the same measure is administered again after an appropriate interval; inter-observer/inter-rater reliability evaluates agreement between independent observers or coders."
-        ],
-        "modelsResearchAndRelationships": [
-          "Reliability can be improved through clearer operational definitions, standardised procedures, observer training, piloting ambiguous items and checking/correcting poor agreement."
-        ],
-        "evaluationAndLimits": [
-          "Very long retest intervals can allow genuine change while very short intervals can create memory/practice effects; the interval should fit the construct.",
-          "High reliability is necessary for many valid measurements but does not prove that the correct construct is being measured."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A measure can be consistently wrong and therefore reliable but invalid.",
-          "Observer agreement should be assessed independently rather than achieved by observers negotiating every score during data collection."
-        ],
-        "dependencies": [
-          "validity",
-          "operationalisation",
-          "standardisation",
-          "coding",
-          "measurement error"
-        ]
+        "definitionsAndCoreConcepts": ["Reliability is the consistency or reproducibility of a measure, observation or procedure under comparable conditions.","Test-retest reliability evaluates consistency of scores when the same measure is administered again after an appropriate interval; inter-observer/inter-rater reliability evaluates agreement between independent observers or coders."],
+        "modelsResearchAndRelationships": ["Reliability can be improved through clearer operational definitions, standardised procedures, observer training, piloting ambiguous items and checking/correcting poor agreement."],
+        "evaluationAndLimits": ["Very long retest intervals can allow genuine change while very short intervals can create memory/practice effects; the interval should fit the construct.","High reliability is necessary for many valid measurements but does not prove that the correct construct is being measured."],
+        "misconceptionsAndBoundaries": ["A measure can be consistently wrong and therefore reliable but invalid.","Observer agreement should be assessed independently rather than achieved by observers negotiating every score during data collection."],
+        "dependencies": ["validity","operationalisation","standardisation","coding","measurement error"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "test-retest reliability",
-            "inter-rater reliability",
-            "consistency and reproducibility"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["test-retest reliability","inter-rater reliability","consistency and reproducibility"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-21",
-      "boardAlignment": {
-        "summary": "Validity: face, concurrent, ecological and temporal validity; measurement and improvement.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Validity: face, concurrent, ecological and temporal validity; measurement and improvement.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Validity concerns whether a measure, design or inference supports the interpretation it is intended to support.",
-          "Face validity concerns whether a measure appears, on inspection, to assess the intended construct; concurrent validity concerns agreement or association with an appropriate established criterion measured at approximately the same time.",
-          "Ecological validity concerns generalisation to relevant real-world settings/behaviour; temporal validity concerns whether findings or generalisations remain applicable across different time periods rather than only the historical moment studied."
-        ],
-        "modelsResearchAndRelationships": [
-          "Validity can be strengthened through sound operationalisation, established measures, control of confounds, representative sampling, realistic tasks/settings where relevant and comparison against appropriate external criteria."
-        ],
-        "evaluationAndLimits": [
-          "Different forms of validity answer different questions; evidence for one does not automatically establish the others.",
-          "Increasing realism can sometimes reduce experimental control, so internal and ecological validity can involve design trade-offs rather than a simple more-is-always-better relationship."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Face validity is a superficial plausibility check and is weaker evidence than demonstrated criterion or construct performance.",
-          "Temporal validity is about applicability across time, not whether a study took a long time to conduct."
-        ],
-        "dependencies": [
-          "reliability",
-          "operationalisation",
-          "external validity",
-          "generalisation",
-          "criterion measure"
-        ]
+        "definitionsAndCoreConcepts": ["Validity concerns whether a measure, design or inference supports the interpretation it is intended to support.","Face validity concerns whether a measure appears, on inspection, to assess the intended construct; concurrent validity concerns agreement or association with an appropriate established criterion measured at approximately the same time.","Ecological validity concerns generalisation to relevant real-world settings/behaviour; temporal validity concerns whether findings or generalisations remain applicable across different time periods rather than only the historical moment studied."],
+        "modelsResearchAndRelationships": ["Validity can be strengthened through sound operationalisation, established measures, control of confounds, representative sampling, realistic tasks/settings where relevant and comparison against appropriate external criteria."],
+        "evaluationAndLimits": ["Different forms of validity answer different questions; evidence for one does not automatically establish the others.","Increasing realism can sometimes reduce experimental control, so internal and ecological validity can involve design trade-offs rather than a simple more-is-always-better relationship."],
+        "misconceptionsAndBoundaries": ["Face validity is a superficial plausibility check and is weaker evidence than demonstrated criterion or construct performance.","Temporal validity is about applicability across time, not whether a study took a long time to conduct."],
+        "dependencies": ["reliability","operationalisation","external validity","generalisation","criterion measure"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "validity",
-            "face validity",
-            "ecological validity",
-            "measurement accuracy"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.3390/ijerph17061989",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "concurrent validity through comparison with criterion measures"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.1177/20531680231187271",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "temporal validity",
-            "generalisation across time and changing contexts"
-          ]
-        }
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["validity","face validity","ecological validity","measurement accuracy"]},
+        {"url":"https://doi.org/10.3390/ijerph17061989","classification":"OPEN","licence":"CC BY 4.0","supports":["concurrent validity through comparison with criterion measures"]},
+        {"url":"https://doi.org/10.1177/20531680231187271","classification":"OPEN","licence":"CC BY 4.0","supports":["temporal validity","generalisation across time and changing contexts"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-22",
-      "boardAlignment": {
-        "summary": "Features of science: objectivity, empirical method, replicability, falsifiability, theory construction, hypothesis testing, paradigms and paradigm shifts.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Features of science: objectivity, empirical method, replicability, falsifiability, theory construction, hypothesis testing, paradigms and paradigm shifts.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Scientific psychology relies on systematic empirical observation, transparent methods and claims that can be tested against evidence.",
-          "Objectivity aims to minimise dependence of conclusions on an individual researcher's preferences; replicability requires enough procedural clarity for relevant observations or analyses to be repeated; falsifiability requires claims to expose themselves to possible evidence that would count against them.",
-          "A scientific theory organises evidence and generates testable hypotheses; hypothesis testing then provides evidence that can support, refine or challenge the theory.",
-          "A paradigm is a broad organising framework of shared assumptions, problems and methods within a scientific community; a paradigm shift is a substantial change in that organising framework."
-        ],
-        "modelsResearchAndRelationships": [
-          "Science is iterative: theories generate predictions, data test those predictions, anomalous or replicated findings can drive revision, and transparent replication helps determine whether effects are robust.",
-          "Psychology can contain multiple coexisting perspectives, so Kuhnian paradigm language should not be forced into a single linear history of the entire discipline."
-        ],
-        "evaluationAndLimits": [
-          "Complete researcher neutrality is an aspiration rather than an automatic property of quantitative methods; design choices, measurement and interpretation can still embed assumptions.",
-          "Failure to replicate can reflect a false original claim, sampling variation, procedural differences or genuine boundary conditions and therefore requires diagnosis rather than a simplistic verdict."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Falsifiability does not mean a theory must already have been falsified; it means possible observations could count against it.",
-          "One surprising study is not by itself a paradigm shift."
-        ],
-        "dependencies": [
-          "theory",
-          "hypothesis",
-          "replication",
-          "open science",
-          "peer review",
-          "measurement"
-        ]
+        "definitionsAndCoreConcepts": ["Scientific psychology relies on systematic empirical observation, transparent methods and claims that can be tested against evidence.","Objectivity aims to minimise dependence of conclusions on an individual researcher's preferences; replicability requires enough procedural clarity for relevant observations or analyses to be repeated; falsifiability requires claims to expose themselves to possible evidence that would count against them.","A scientific theory organises evidence and generates testable hypotheses; hypothesis testing then provides evidence that can support, refine or challenge the theory.","A paradigm is a broad organising framework of shared assumptions, problems and methods within a scientific community; a paradigm shift is a substantial change in that organising framework."],
+        "modelsResearchAndRelationships": ["Science is iterative: theories generate predictions, data test those predictions, anomalous or replicated findings can drive revision, and transparent replication helps determine whether effects are robust.","Psychology can contain multiple coexisting perspectives, so Kuhnian paradigm language should not be forced into a single linear history of the entire discipline."],
+        "evaluationAndLimits": ["Complete researcher neutrality is an aspiration rather than an automatic property of quantitative methods; design choices, measurement and interpretation can still embed assumptions.","Failure to replicate can reflect a false original claim, sampling variation, procedural differences or genuine boundary conditions and therefore requires diagnosis rather than a simplistic verdict."],
+        "misconceptionsAndBoundaries": ["Falsifiability does not mean a theory must already have been falsified; it means possible observations could count against it.","One surprising study is not by itself a paradigm shift."],
+        "dependencies": ["theory","hypothesis","replication","open science","peer review","measurement"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "empirical method",
-            "theory",
-            "hypothesis testing",
-            "replication",
-            "scientific process"
-          ]
-        },
-        {
-          "url": "https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "objectivity/empirical evidence",
-            "scientific reasoning",
-            "falsifiable claims"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.1017/S0954579424000208",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "Kuhnian paradigms",
-            "paradigm shifts",
-            "pluralism in psychological science"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/","classification":"OPEN","licence":"CC BY 4.0","supports":["empirical method","theory","hypothesis testing","replication","scientific process"]},
+        {"url":"https://pressbooks.atlanticoer-relatlantique.ca/intropsychneuro/chapter/why-is-research-important/","classification":"OPEN","licence":"CC BY 4.0","supports":["objectivity/empirical evidence","scientific reasoning","falsifiable claims"]},
+        {"url":"https://doi.org/10.1017/S0954579424000208","classification":"OPEN","licence":"CC BY 4.0","supports":["Kuhnian paradigms","paradigm shifts","pluralism in psychological science"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-23",
-      "boardAlignment": {
-        "summary": "Scientific reporting: abstract, introduction, method, results, discussion and referencing.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Scientific reporting: abstract, introduction, method, results, discussion and referencing.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "An abstract gives a concise overview of the research question, method, key results and conclusion.",
-          "The introduction establishes relevant theory/evidence, rationale, aim/question and where appropriate hypotheses; the method describes participants/sample, design, materials/measures, procedure and analysis in enough detail to understand and where feasible replicate the work.",
-          "The results section presents analysed findings; the discussion interprets those findings in relation to the question, theory, limitations and implications; references identify the sources cited so they can be traced."
-        ],
-        "modelsResearchAndRelationships": [
-          "The conventional structure separates what was done and found from the later interpretation, supporting scrutiny and replication.",
-          "Reporting standards make the evidential chain from prior literature through method and analysis to conclusion inspectable by other researchers."
-        ],
-        "evaluationAndLimits": [
-          "Journal and discipline conventions differ in exact headings and formatting, so section function is more fundamental than one house style.",
-          "Transparent structure cannot compensate for missing methods, selective reporting or unsupported interpretation."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Results should not be replaced by a discussion of what the researcher hoped to find.",
-          "Referencing is not decorative formatting; it provides attribution and traceability to prior evidence."
-        ],
-        "dependencies": [
-          "replication",
-          "peer review",
-          "hypothesis",
-          "data analysis",
-          "academic integrity"
-        ]
+        "definitionsAndCoreConcepts": ["An abstract gives a concise overview of the research question, method, key results and conclusion.","The introduction establishes relevant theory/evidence, rationale, aim/question and where appropriate hypotheses; the method describes participants/sample, design, materials/measures, procedure and analysis in enough detail to understand and where feasible replicate the work.","The results section presents analysed findings; the discussion interprets those findings in relation to the question, theory, limitations and implications; references identify the sources cited so they can be traced."],
+        "modelsResearchAndRelationships": ["The conventional structure separates what was done and found from the later interpretation, supporting scrutiny and replication.","Reporting standards make the evidential chain from prior literature through method and analysis to conclusion inspectable by other researchers."],
+        "evaluationAndLimits": ["Journal and discipline conventions differ in exact headings and formatting, so section function is more fundamental than one house style.","Transparent structure cannot compensate for missing methods, selective reporting or unsupported interpretation."],
+        "misconceptionsAndBoundaries": ["Results should not be replaced by a discussion of what the researcher hoped to find.","Referencing is not decorative formatting; it provides attribution and traceability to prior evidence."],
+        "dependencies": ["replication","peer review","hypothesis","data analysis","academic integrity"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "Introduction/Method/Results/Discussion organisation",
-            "replication detail"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.4102/phcfm.v6i1.639",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "scientific research-report structure",
-            "abstract and reference functions"
-          ]
-        }
+        {"url":"https://openwa.pressbooks.pub/introductorypsychology2024/chapter/reading-the-scientific-process/","classification":"OPEN","licence":"CC BY 4.0","supports":["Introduction/Method/Results/Discussion organisation","replication detail"]},
+        {"url":"https://doi.org/10.4102/phcfm.v6i1.639","classification":"OPEN","licence":"CC BY 4.0","supports":["scientific research-report structure","abstract and reference functions"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-24",
-      "boardAlignment": {
-        "summary": "Quantitative versus qualitative data and data-collection techniques.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Quantitative versus qualitative data and data-collection techniques.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Quantitative data are represented numerically so amounts, frequencies, scores or measurements can be analysed mathematically.",
-          "Qualitative data preserve non-numerical descriptions, meanings, narratives or categories in forms such as interview transcripts, open responses, field notes or recorded interaction."
-        ],
-        "modelsResearchAndRelationships": [
-          "Questionnaires, interviews and observations can produce either type depending on how responses/behaviour are recorded and coded; mixed-methods research deliberately combines quantitative and qualitative evidence."
-        ],
-        "evaluationAndLimits": [
-          "Quantification supports concise comparison but can lose context; qualitative data can preserve nuance but often require more interpretive coding and are less easily summarised across large samples.",
-          "Data type does not determine scientific quality: both can be collected and analysed rigorously or poorly."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Qualitative does not mean anecdotal or unscientific.",
-          "Turning qualitative material into category counts changes the analysed representation but does not erase the qualitative origin of the raw material."
-        ],
-        "dependencies": [
-          "measurement",
-          "coding",
-          "self-report",
-          "observation",
-          "mixed methods"
-        ]
+        "definitionsAndCoreConcepts": ["Quantitative data are represented numerically so amounts, frequencies, scores or measurements can be analysed mathematically.","Qualitative data preserve non-numerical descriptions, meanings, narratives or categories in forms such as interview transcripts, open responses, field notes or recorded interaction."],
+        "modelsResearchAndRelationships": ["Questionnaires, interviews and observations can produce either type depending on how responses/behaviour are recorded and coded; mixed-methods research deliberately combines quantitative and qualitative evidence."],
+        "evaluationAndLimits": ["Quantification supports concise comparison but can lose context; qualitative data can preserve nuance but often require more interpretive coding and are less easily summarised across large samples.","Data type does not determine scientific quality: both can be collected and analysed rigorously or poorly."],
+        "misconceptionsAndBoundaries": ["Qualitative does not mean anecdotal or unscientific.","Turning qualitative material into category counts changes the analysed representation but does not erase the qualitative origin of the raw material."],
+        "dependencies": ["measurement","coding","self-report","observation","mixed methods"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "quantitative versus qualitative data",
-            "data-collection methods"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods","classification":"OPEN","licence":"CC BY 4.0","supports":["quantitative versus qualitative data","data-collection methods"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-25",
-      "boardAlignment": {
-        "summary": "Primary and secondary data, including meta-analysis.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Primary and secondary data, including meta-analysis.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Primary data are generated directly for the researcher's current study or question; secondary data already exist because they were collected for another research, administrative or archival purpose.",
-          "Meta-analysis is a quantitative method that statistically combines effect estimates/results from multiple studies to estimate an overall pattern and examine variation across evidence."
-        ],
-        "modelsResearchAndRelationships": [
-          "Meta-analysis is normally built on secondary study-level evidence but applies explicit inclusion criteria and statistical synthesis rather than merely summarising papers narratively."
-        ],
-        "evaluationAndLimits": [
-          "Secondary data can be efficient and permit large/historical analyses but may not match the new question's constructs, sampling or measurement needs.",
-          "Meta-analysis depends on study quality, comparability, search/inclusion decisions and publication availability; combining biased studies can produce a precise but misleading summary."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Secondary data are not automatically lower quality than primary data.",
-          "Meta-analysis is not just a literature review with many citations; it requires a defined statistical synthesis of study results."
-        ],
-        "dependencies": [
-          "effect size",
-          "sampling",
-          "publication bias",
-          "systematic review",
-          "heterogeneity"
-        ]
+        "definitionsAndCoreConcepts": ["Primary data are generated directly for the researcher's current study or question; secondary data already exist because they were collected for another research, administrative or archival purpose.","Meta-analysis is a quantitative method that statistically combines effect estimates/results from multiple studies to estimate an overall pattern and examine variation across evidence."],
+        "modelsResearchAndRelationships": ["Meta-analysis is normally built on secondary study-level evidence but applies explicit inclusion criteria and statistical synthesis rather than merely summarising papers narratively."],
+        "evaluationAndLimits": ["Secondary data can be efficient and permit large/historical analyses but may not match the new question's constructs, sampling or measurement needs.","Meta-analysis depends on study quality, comparability, search/inclusion decisions and publication availability; combining biased studies can produce a precise but misleading summary."],
+        "misconceptionsAndBoundaries": ["Secondary data are not automatically lower quality than primary data.","Meta-analysis is not just a literature review with many citations; it requires a defined statistical synthesis of study results."],
+        "dependencies": ["effect size","sampling","publication bias","systematic review","heterogeneity"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "primary data",
-            "secondary-data analysis"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.3389/fpsyg.2015.01549",
-          "classification": "OPEN",
-          "licence": "CC BY",
-          "supports": [
-            "meta-analysis",
-            "effect-size synthesis",
-            "heterogeneity and meta-analytic workflow"
-          ]
-        }
+        {"url":"https://socialsci.libretexts.org/Bookshelves/Sociology/Introduction_to_Sociology/Introductory_Sociology_1e_%28OpenStax%29/02%3A_Sociological_Research/2.03%3A_Research_Methods","classification":"OPEN","licence":"CC BY 4.0","supports":["primary data","secondary-data analysis"]},
+        {"url":"https://doi.org/10.3389/fpsyg.2015.01549","classification":"OPEN","licence":"CC BY","supports":["meta-analysis","effect-size synthesis","heterogeneity and meta-analytic workflow"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-26",
-      "boardAlignment": {
-        "summary": "Descriptive statistics: mean, median, mode, range, standard deviation, percentages and positive/negative/zero correlations.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Descriptive statistics: mean, median, mode, range, standard deviation, percentages and positive/negative/zero correlations.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Mean is the arithmetic average; median is the middle ordered value; mode is the most frequent value/category.",
-          "Range describes the span between the largest and smallest values; standard deviation summarises typical spread of scores around the mean in the same units as the measured variable.",
-          "A percentage expresses a part relative to one hundred; correlation coefficients summarise the direction and strength of association between paired variables."
-        ],
-        "modelsResearchAndRelationships": [
-          "Mean and standard deviation are especially informative for approximately symmetric continuous distributions; median and range/other robust summaries can be more resistant to extreme values.",
-          "Positive, negative and near-zero correlations describe direction, not causation."
-        ],
-        "evaluationAndLimits": [
-          "Mean can be distorted by extreme scores; range uses only the two extreme values and can therefore be unstable.",
-          "Standard deviation is meaningful only in relation to the scale and distribution of the data; no descriptive statistic alone establishes statistical significance."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A larger standard deviation means more spread, not a higher average.",
-          "Zero correlation does not prove that two variables have no possible relationship; a non-linear relationship can have little linear correlation."
-        ],
-        "dependencies": [
-          "distribution",
-          "levels of measurement",
-          "correlation",
-          "outliers",
-          "inferential statistics"
-        ]
+        "definitionsAndCoreConcepts": ["Mean is the arithmetic average; median is the middle ordered value; mode is the most frequent value/category.","Range describes the span between the largest and smallest values; standard deviation summarises typical spread of scores around the mean in the same units as the measured variable.","A percentage expresses a part relative to one hundred; correlation coefficients summarise the direction and strength of association between paired variables."],
+        "modelsResearchAndRelationships": ["Mean and standard deviation are especially informative for approximately symmetric continuous distributions; median and range/other robust summaries can be more resistant to extreme values.","Positive, negative and near-zero correlations describe direction, not causation."],
+        "evaluationAndLimits": ["Mean can be distorted by extreme scores; range uses only the two extreme values and can therefore be unstable.","Standard deviation is meaningful only in relation to the scale and distribution of the data; no descriptive statistic alone establishes statistical significance."],
+        "misconceptionsAndBoundaries": ["A larger standard deviation means more spread, not a higher average.","Zero correlation does not prove that two variables have no possible relationship; a non-linear relationship can have little linear correlation."],
+        "dependencies": ["distribution","levels of measurement","correlation","outliers","inferential statistics"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://usq.pressbooks.pub/statisticsforresearchstudents/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "descriptive statistics",
-            "central tendency",
-            "variability",
-            "correlation",
-            "percentages and statistical interpretation"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/","classification":"OPEN","licence":"CC BY 4.0","supports":["descriptive statistics","central tendency","variability","correlation","percentages and statistical interpretation"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-27",
-      "boardAlignment": {
-        "summary": "Presentation of quantitative data: graphs, tables, scattergrams, bar charts and histograms.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Presentation of quantitative data: graphs, tables, scattergrams, bar charts and histograms.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Tables organise numerical values in labelled rows and columns so exact results can be compared.",
-          "Bar charts display frequencies or summary values for discrete categories using separated bars; histograms display frequencies/density for continuous grouped intervals using adjoining bars whose horizontal position represents the measurement scale.",
-          "Scattergrams plot paired values for two co-variables so direction, form, strength and outliers in an association can be inspected."
-        ],
-        "modelsResearchAndRelationships": [
-          "Graph choice should match data type and analytic purpose: categorical comparisons suit bar charts, continuous distributions suit histograms and bivariate association suits scattergrams."
-        ],
-        "evaluationAndLimits": [
-          "Misleading axis ranges, unequal bins or inappropriate chart types can distort interpretation even when the underlying numbers are correct.",
-          "A graph displays a pattern but does not by itself test whether the pattern is statistically significant or causal."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A histogram is not merely a bar chart with the gaps removed; its continuous scale/bin structure is different.",
-          "A scattergram requires paired measurements on the same cases, not two unrelated lists of scores."
-        ],
-        "dependencies": [
-          "levels of measurement",
-          "distribution",
-          "correlation",
-          "frequency",
-          "data visualisation"
-        ]
+        "definitionsAndCoreConcepts": ["Tables organise numerical values in labelled rows and columns so exact results can be compared.","Bar charts display frequencies or summary values for discrete categories using separated bars; histograms display frequencies/density for continuous grouped intervals using adjoining bars whose horizontal position represents the measurement scale.","Scattergrams plot paired values for two co-variables so direction, form, strength and outliers in an association can be inspected."],
+        "modelsResearchAndRelationships": ["Graph choice should match data type and analytic purpose: categorical comparisons suit bar charts, continuous distributions suit histograms and bivariate association suits scattergrams."],
+        "evaluationAndLimits": ["Misleading axis ranges, unequal bins or inappropriate chart types can distort interpretation even when the underlying numbers are correct.","A graph displays a pattern but does not by itself test whether the pattern is statistically significant or causal."],
+        "misconceptionsAndBoundaries": ["A histogram is not merely a bar chart with the gaps removed; its continuous scale/bin structure is different.","A scattergram requires paired measurements on the same cases, not two unrelated lists of scores."],
+        "dependencies": ["levels of measurement","distribution","correlation","frequency","data visualisation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/02%3A_Descriptive_Statistics",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "tables",
-            "bar graphs",
-            "histograms",
-            "graphical summaries"
-          ]
-        },
-        {
-          "url": "https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/12%3A_Linear_Regression_and_Correlation/12.03%3A_Scatter_Plots",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "scatter plots",
-            "paired variables",
-            "direction/form of association"
-          ]
-        }
+        {"url":"https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/02%3A_Descriptive_Statistics","classification":"OPEN","licence":"CC BY 4.0","supports":["tables","bar graphs","histograms","graphical summaries"]},
+        {"url":"https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_1e_%28OpenStax%29/12%3A_Linear_Regression_and_Correlation/12.03%3A_Scatter_Plots","classification":"OPEN","licence":"CC BY 4.0","supports":["scatter plots","paired variables","direction/form of association"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-28",
-      "boardAlignment": {
-        "summary": "Distributions: normal and skewed distributions and their characteristics.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Distributions: normal and skewed distributions and their characteristics.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A distribution describes how values are spread across possible scores.",
-          "An ideal normal distribution is symmetric and bell-shaped with mean, median and mode at the centre.",
-          "A positively skewed distribution has a longer tail toward higher values and often has mean greater than median greater than mode; a negatively skewed distribution has a longer tail toward lower values and often has mean less than median less than mode."
-        ],
-        "modelsResearchAndRelationships": [
-          "Skew affects the usefulness of the mean and standard deviation and can influence whether parametric statistical assumptions are plausible."
-        ],
-        "evaluationAndLimits": [
-          "Real data rarely match an ideal normal curve exactly, so normality is judged as an approximation using plots, descriptive indicators and analytic context.",
-          "The mean/median/mode ordering is a useful teaching heuristic for simple unimodal skewed distributions, not a mathematical identity for every empirical dataset."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Positive skew refers to the direction of the long tail, not where most scores lie.",
-          "Normal distribution does not mean the data are morally or clinically 'normal'."
-        ],
-        "dependencies": [
-          "mean",
-          "median",
-          "mode",
-          "standard deviation",
-          "parametric tests",
-          "outliers"
-        ]
+        "definitionsAndCoreConcepts": ["A distribution describes how values are spread across possible scores.","An ideal normal distribution is symmetric and bell-shaped with mean, median and mode at the centre.","A positively skewed distribution has a longer tail toward higher values and often has mean greater than median greater than mode; a negatively skewed distribution has a longer tail toward lower values and often has mean less than median less than mode."],
+        "modelsResearchAndRelationships": ["Skew affects the usefulness of the mean and standard deviation and can influence whether parametric statistical assumptions are plausible."],
+        "evaluationAndLimits": ["Real data rarely match an ideal normal curve exactly, so normality is judged as an approximation using plots, descriptive indicators and analytic context.","The mean/median/mode ordering is a useful teaching heuristic for simple unimodal skewed distributions, not a mathematical identity for every empirical dataset."],
+        "misconceptionsAndBoundaries": ["Positive skew refers to the direction of the long tail, not where most scores lie.","Normal distribution does not mean the data are morally or clinically 'normal'."],
+        "dependencies": ["mean","median","mode","standard deviation","parametric tests","outliers"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://usq.pressbooks.pub/statisticsforresearchstudents/part/chapter-1/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "distribution shape",
-            "normality",
-            "descriptive statistics",
-            "outliers"
-          ]
-        }
-      ],
+      "sourceEvidence": [{"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/part/chapter-1/","classification":"OPEN","licence":"CC BY 4.0","supports":["distribution shape","normality","descriptive statistics","outliers"]}],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-29",
-      "boardAlignment": {
-        "summary": "Correlation analysis and interpretation, including correlation coefficients.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Correlation analysis and interpretation, including correlation coefficients.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A correlation coefficient is a numerical summary of the direction and strength of association between paired variables, typically ranging from -1 to +1 for Pearson and Spearman coefficients.",
-          "The sign indicates direction; magnitude indicates strength within the form of association that the coefficient measures."
-        ],
-        "modelsResearchAndRelationships": [
-          "Pearson's r measures linear association between appropriately measured continuous variables; Spearman's rho measures monotonic association using ranks and is suitable for ordinal/ranked data or non-parametric conditions."
-        ],
-        "evaluationAndLimits": [
-          "Outliers, restricted ranges and non-linear relationships can make a coefficient misleading, so scattergrams and study context should accompany numerical interpretation.",
-          "Statistical significance of a correlation does not establish practical importance or causation."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A coefficient of -0.8 is stronger than -0.2 despite being numerically smaller because strength depends on absolute magnitude.",
-          "A coefficient near zero describes little measured association, not proof of total independence between the constructs."
-        ],
-        "dependencies": [
-          "scattergram",
-          "Pearson's r",
-          "Spearman's rho",
-          "statistical significance",
-          "causation"
-        ]
+        "definitionsAndCoreConcepts": ["A correlation coefficient is a numerical summary of the direction and strength of association between paired variables, typically ranging from -1 to +1 for Pearson and Spearman coefficients.","The sign indicates direction; magnitude indicates strength within the form of association that the coefficient measures."],
+        "modelsResearchAndRelationships": ["Pearson's r measures linear association between appropriately measured continuous variables; Spearman's rho measures monotonic association using ranks and is suitable for ordinal/ranked data or non-parametric conditions."],
+        "evaluationAndLimits": ["Outliers, restricted ranges and non-linear relationships can make a coefficient misleading, so scattergrams and study context should accompany numerical interpretation.","Statistical significance of a correlation does not establish practical importance or causation."],
+        "misconceptionsAndBoundaries": ["A coefficient of -0.8 is stronger than -0.2 despite being numerically smaller because strength depends on absolute magnitude.","A coefficient near zero describes little measured association, not proof of total independence between the constructs."],
+        "dependencies": ["scattergram","Pearson's r","Spearman's rho","statistical significance","causation"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "correlation coefficients",
-            "positive/negative direction",
-            "strength",
-            "non-causal interpretation"
-          ]
-        },
-        {
-          "url": "https://usq.pressbooks.pub/statisticsforresearchstudents/part/comparing-associations-between-two-variables/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "association between paired variables",
-            "correlation testing and interpretation"
-          ]
-        }
+        {"url":"https://opentextbc.ca/h5ppsychology/chapter/analyzing-findings/","classification":"OPEN","licence":"CC BY 4.0","supports":["correlation coefficients","positive/negative direction","strength","non-causal interpretation"]},
+        {"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/part/comparing-associations-between-two-variables/","classification":"OPEN","licence":"CC BY 4.0","supports":["association between paired variables","correlation testing and interpretation"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-30",
-      "boardAlignment": {
-        "summary": "Levels of measurement: nominal, ordinal and interval.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Levels of measurement: nominal, ordinal and interval.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Nominal measurement classifies cases into categories without an inherent numerical order.",
-          "Ordinal measurement orders cases or categories but does not guarantee equal numerical intervals between adjacent ranks.",
-          "Interval measurement uses ordered numerical values with equal units between scores; in broader statistics, ratio scales additionally have a meaningful absolute zero."
-        ],
-        "modelsResearchAndRelationships": [
-          "Level of measurement constrains which summaries and inferential tests are defensible because statistical operations assume different information is present in the numbers."
-        ],
-        "evaluationAndLimits": [
-          "Real psychological measures can be debated in their measurement properties, so test choice should consider both the intended scale and empirical assumptions rather than relying on labels alone."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Numbers used as category labels do not automatically create interval data.",
-          "For AQA's named inferential-test decision route, ratio-style continuous measures are handled with interval-level data; this qualification simplification should not be taught as a claim that interval and ratio measurement are identical in statistics generally."
-        ],
-        "dependencies": [
-          "categorical data",
-          "ranking",
-          "equal intervals",
-          "test choice"
-        ]
+        "definitionsAndCoreConcepts": ["Nominal measurement classifies cases into categories without an inherent numerical order.","Ordinal measurement orders cases or categories but does not guarantee equal numerical intervals between adjacent ranks.","Interval measurement uses ordered numerical values with equal units between scores; in broader statistics, ratio scales additionally have a meaningful absolute zero."],
+        "modelsResearchAndRelationships": ["Level of measurement constrains which summaries and inferential tests are defensible because statistical operations assume different information is present in the numbers."],
+        "evaluationAndLimits": ["Real psychological measures can be debated in their measurement properties, so test choice should consider both the intended scale and empirical assumptions rather than relying on labels alone."],
+        "misconceptionsAndBoundaries": ["Numbers used as category labels do not automatically create interval data.","For AQA's named inferential-test decision route, ratio-style continuous measures are handled with interval-level data; this qualification simplification should not be taught as a claim that interval and ratio measurement are identical in statistics generally."],
+        "dependencies": ["categorical data","ranking","equal intervals","test choice"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "nominal",
-            "ordinal",
-            "interval and ratio measurement distinctions"
-          ]
-        }
-      ],
-      "revisionSynthesis": [
-        "Revision explicitly records the qualification-level grouping of ratio with interval for test-selection purposes while preserving the broader statistical distinction."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "sourceEvidence": [{"url":"https://stats.libretexts.org/Courses/Las_Positas_College/Math_40%3A_Statistics_and_Probability/01%3A_The_Nature_of_Statistics/1.03%3A_Variables_Types_of_Data_and_Sampling_Techniques","classification":"OPEN","licence":"CC BY 4.0","supports":["nominal","ordinal","interval and ratio measurement distinctions"]}],
+      "revisionSynthesis": ["Revision explicitly records the qualification-level grouping of ratio with interval for test-selection purposes while preserving the broader statistical distinction."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-31",
-      "boardAlignment": {
-        "summary": "Coding in content analysis.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Coding in content analysis.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Coding in content analysis converts raw material into systematically defined categories, labels or numerical values using a coding frame.",
-          "A coding frame specifies the unit of analysis, category definitions and decision rules so coders can classify equivalent material consistently."
-        ],
-        "modelsResearchAndRelationships": [
-          "Coders may require training and examples; independent double-coding and agreement statistics can evaluate whether the coding scheme is reliable.",
-          "Coding can transform qualitative source material into quantitative frequencies while retaining the original material for contextual interpretation."
-        ],
-        "evaluationAndLimits": [
-          "Categories that are vague, overlapping or incomplete reduce replicability and can embed researcher assumptions into results.",
-          "High coder agreement shows consistent category use but does not by itself prove that the categories validly represent the construct of interest."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Coding is not arbitrary labelling after reading the data; the rules should be explicit and consistently applied.",
-          "Inter-coder agreement measures reliability, not the substantive truth of the interpretation."
-        ],
-        "dependencies": [
-          "content analysis",
-          "behavioural categories",
-          "inter-rater reliability",
-          "operationalisation",
-          "validity"
-        ]
+        "definitionsAndCoreConcepts": ["Coding in content analysis converts raw material into systematically defined categories, labels or numerical values using a coding frame.","A coding frame specifies the unit of analysis, category definitions and decision rules so coders can classify equivalent material consistently."],
+        "modelsResearchAndRelationships": ["Coders may require training and examples; independent double-coding and agreement statistics can evaluate whether the coding scheme is reliable.","Coding can transform qualitative source material into quantitative frequencies while retaining the original material for contextual interpretation."],
+        "evaluationAndLimits": ["Categories that are vague, overlapping or incomplete reduce replicability and can embed researcher assumptions into results.","High coder agreement shows consistent category use but does not by itself prove that the categories validly represent the construct of interest."],
+        "misconceptionsAndBoundaries": ["Coding is not arbitrary labelling after reading the data; the rules should be explicit and consistently applied.","Inter-coder agreement measures reliability, not the substantive truth of the interpretation."],
+        "dependencies": ["content analysis","behavioural categories","inter-rater reliability","operationalisation","validity"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "content analysis",
-            "systematic analysis of documents/media"
-          ]
-        },
-        {
-          "url": "https://doi.org/10.3758/s13428-016-0838-6",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "coding taxonomy/category construction",
-            "category descriptions",
-            "coder training",
-            "reliable and replicable coding"
-          ]
-        }
+        {"url":"https://socialsci.libretexts.org/Bookshelves/Human_Development/Lifespan_Development_%28Lumen%29/01%3A_Lifespan_Development/1.09%3A_Research_Methods","classification":"OPEN","licence":"CC BY 4.0","supports":["content analysis","systematic analysis of documents/media"]},
+        {"url":"https://doi.org/10.3758/s13428-016-0838-6","classification":"OPEN","licence":"CC BY 4.0","supports":["coding taxonomy/category construction","category descriptions","coder training","reliable and replicable coding"]}
       ],
       "revisionSynthesis": [],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-32",
-      "boardAlignment": {
-        "summary": "Sign test: when to use it and calculation.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Sign test: when to use it and calculation.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "The sign test is a non-parametric test for paired/related observations that reduces each non-tied pair to the direction of its difference: positive or negative.",
-          "Ties are omitted; under the null hypothesis positive and negative signs are expected with equal probability, and the observed imbalance can be evaluated using the binomial distribution or an appropriate critical-value table."
-        ],
-        "modelsResearchAndRelationships": [
-          "Within the AQA decision framework, the sign test is selected for a difference question using a related design with nominal directional data."
-        ],
-        "evaluationAndLimits": [
-          "Because the sign test ignores the magnitude of pairwise differences, it uses less information than tests that analyse ranks or measured distances and can therefore have lower statistical power.",
-          "The exact reported test statistic and critical-value comparison must follow the table convention supplied in the assessment."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A zero/tied difference contributes no positive or negative sign and is excluded from the effective sample size.",
-          "The smaller number of plus/minus signs is commonly used as the calculated statistic in introductory sign-test tables; learners should not import a greater-than rule from another test."
-        ],
-        "dependencies": [
-          "related design",
-          "nominal data",
-          "null hypothesis",
-          "binomial probability",
-          "critical value"
-        ]
+        "definitionsAndCoreConcepts": ["The sign test is a non-parametric test for paired/related observations that reduces each non-tied pair to the direction of its difference: positive or negative.","Ties are omitted; under the null hypothesis positive and negative signs are expected with equal probability, and the observed imbalance can be evaluated using the binomial distribution or an appropriate critical-value table."],
+        "modelsResearchAndRelationships": ["Within the AQA decision framework, the sign test is selected for a difference question using a related design with nominal directional data."],
+        "evaluationAndLimits": ["Because the sign test ignores the magnitude of pairwise differences, it uses less information than tests that analyse ranks or measured distances and can therefore have lower statistical power.","The exact reported test statistic and critical-value comparison must follow the table convention supplied in the assessment."],
+        "misconceptionsAndBoundaries": ["A zero/tied difference contributes no positive or negative sign and is excluded from the effective sample size.","The smaller number of plus/minus signs is commonly used as the calculated statistic in introductory sign-test tables; learners should not import a greater-than rule from another test."],
+        "dependencies": ["related design","nominal data","null hypothesis","binomial probability","critical value"]
       },
-      "sourceEvidence": [
-        {
-          "url": "https://stats.libretexts.org/Workbench/Statistics_for_Behavioral_Science_Majors/12%3A_Nonparametric_Tests",
-          "classification": "OPEN",
-          "licence": "CC BY-SA 1.0",
-          "supports": [
-            "sign test",
-            "use conditions",
-            "worked calculations",
-            "non-parametric logic"
-          ]
-        }
-      ],
-      "revisionSynthesis": [
-        "The source is used as factual/methodological evidence without adapting its protected expression. If Revision ever adapts that ShareAlike source expression directly, the applicable attribution and ShareAlike obligations must be honoured."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "sourceEvidence": [{"url":"https://stats.libretexts.org/Workbench/Statistics_for_Behavioral_Science_Majors/12%3A_Nonparametric_Tests","classification":"OPEN","licence":"CC BY-SA 1.0","supports":["sign test","use conditions","worked calculations","non-parametric logic"]}],
+      "revisionSynthesis": ["The source is used as factual/methodological evidence without adapting its protected expression. If Revision ever adapts that ShareAlike source expression directly, the applicable attribution and ShareAlike obligations must be honoured."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-33",
-      "boardAlignment": {
-        "summary": "Probability and significance: statistical tables, critical values, Type I and Type II errors.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Probability and significance: statistical tables, critical values, Type I and Type II errors.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "A null hypothesis specifies the no-effect/no-association model against which the observed statistic is evaluated.",
-          "The significance level sets the long-run Type I error threshold used for a decision rule, commonly 0.05 in introductory examples unless a task specifies otherwise.",
-          "A critical value is a distribution/table cut-off determined by the chosen test, sample-size or degrees-of-freedom information, tail/direction and significance level.",
-          "A Type I error is rejecting a true null hypothesis; a Type II error is failing to reject a false null hypothesis."
-        ],
-        "modelsResearchAndRelationships": [
-          "The observed test statistic is compared with the relevant critical region or converted to a p-value; if it is sufficiently incompatible with the null model, the null hypothesis is rejected at the pre-specified level.",
-          "The direction of the critical comparison differs across test statistics, so the appropriate statistical table and rule must be used rather than assuming that larger always means more significant."
-        ],
-        "evaluationAndLimits": [
-          "Statistical significance does not establish practical importance, a large effect, perfect replication or a causal explanation.",
-          "Reducing the Type I threshold while keeping sample size/effect fixed can increase Type II error, illustrating a trade-off that statistical power and design must address."
-        ],
-        "misconceptionsAndBoundaries": [
-          "A non-significant result means the evidence was insufficient to reject the null model at the chosen threshold; it does not prove the null hypothesis true.",
-          "p < .05 does not mean there is a 95% probability that the research hypothesis is true."
-        ],
-        "dependencies": [
-          "null hypothesis",
-          "p-value",
-          "test statistic",
-          "statistical power",
-          "inferential test"
-        ]
+        "definitionsAndCoreConcepts": ["A null hypothesis specifies the no-effect/no-association model against which the observed statistic is evaluated.","The significance level sets the long-run Type I error threshold used for a decision rule, commonly 0.05 in introductory examples unless a task specifies otherwise.","A critical value is a distribution/table cut-off determined by the chosen test, sample-size or degrees-of-freedom information, tail/direction and significance level.","A Type I error is rejecting a true null hypothesis; a Type II error is failing to reject a false null hypothesis."],
+        "modelsResearchAndRelationships": ["The observed test statistic is compared with the relevant critical region or converted to a p-value; if it is sufficiently incompatible with the null model, the null hypothesis is rejected at the pre-specified level.","The direction of the critical comparison differs across test statistics, so the appropriate statistical table and rule must be used rather than assuming that larger always means more significant."],
+        "evaluationAndLimits": ["Statistical significance does not establish practical importance, a large effect, perfect replication or a causal explanation.","Reducing the Type I threshold while keeping sample size/effect fixed can increase Type II error, illustrating a trade-off that statistical power and design must address."],
+        "misconceptionsAndBoundaries": ["A non-significant result means the evidence was insufficient to reject the null model at the chosen threshold; it does not prove the null hypothesis true.","p < .05 does not mean there is a 95% probability that the research hypothesis is true."],
+        "dependencies": ["null hypothesis","p-value","test statistic","statistical power","inferential test"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://usq.pressbooks.pub/statisticsforresearchstudents/chapter/statistical-power/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "statistical significance",
-            "Type I and Type II errors",
-            "statistical power"
-          ]
-        },
-        {
-          "url": "https://openstax.org/books/introductory-business-statistics/pages/9-3-distribution-needed-for-hypothesis-testing",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "critical values",
-            "rejection regions",
-            "significance level",
-            "test-statistic comparison",
-            "hypothesis-testing decision logic"
-          ]
-        }
+        {"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/chapter/statistical-power/","classification":"OPEN","licence":"CC BY 4.0","supports":["statistical significance","Type I and Type II errors","statistical power"]},
+        {"url":"https://openstax.org/books/introductory-business-statistics/pages/9-3-distribution-needed-for-hypothesis-testing","classification":"OPEN","licence":"CC BY 4.0","supports":["critical values","rejection regions","significance level","test-statistic comparison","hypothesis-testing decision logic"]}
       ],
-      "revisionSynthesis": [
-        "Revision teaches 'reject' or 'fail to reject' rather than the misleading convention of 'accepting' a null hypothesis."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision teaches 'reject' or 'fail to reject' rather than the misleading convention of 'accepting' a null hypothesis."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     },
     {
       "requirementId": "PSY-07-34",
-      "boardAlignment": {
-        "summary": "Choice of inferential test: Spearman’s rho, Pearson’s r, Wilcoxon, Mann–Whitney, related t-test, unrelated t-test and Chi-squared, including level-of-measurement/design factors.",
-        "officialSource": "https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context",
-        "classification": "REFERENCE_ONLY"
-      },
+      "boardAlignment": {"summary":"Choice of inferential test: Spearman’s rho, Pearson’s r, Wilcoxon, Mann–Whitney, related t-test, unrelated t-test and Chi-squared, including level-of-measurement/design factors.","officialSource":"https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/psychology-in-context","classification":"REFERENCE_ONLY"},
       "subjectTruth": {
-        "definitionsAndCoreConcepts": [
-          "Inferential-test choice follows the research question, data structure/experimental design, level/type of measurement and the assumptions of the candidate test.",
-          "For a relationship question, Spearman's rho is used for ranked/ordinal or suitable non-parametric monotonic data, while Pearson's r is used for appropriate interval/ratio continuous data when a linear relationship and parametric conditions are defensible.",
-          "For a difference with related/paired data, Wilcoxon signed-rank is the non-parametric/ordinal route and the related/paired t-test is the parametric continuous-data route; for independent groups, Mann–Whitney U is the non-parametric/ordinal route and the unrelated/independent t-test is the parametric continuous-data route.",
-          "Chi-squared tests categorical frequency data for an association or distributional difference when observations and expected-frequency conditions are appropriate."
-        ],
-        "modelsResearchAndRelationships": [
-          "The AQA selection task can be reduced to three initial questions: is the hypothesis about a difference or relationship/association, are observations related or unrelated, and what is the level/type of measurement? Parametric assumptions then determine whether the corresponding parametric test is suitable."
-        ],
-        "evaluationAndLimits": [
-          "A memorised decision tree is a starting point, not permission to ignore test assumptions, independence, distribution shape, outliers or expected-cell counts.",
-          "Statistical-test selection should be planned from the research design and measurement strategy before inspecting results wherever possible."
-        ],
-        "misconceptionsAndBoundaries": [
-          "Pearson and Spearman are correlation coefficients/tests, not tests of mean difference.",
-          "Wilcoxon and Mann–Whitney are not interchangeable: the former is for related/paired data and the latter for independent groups.",
-          "Related and unrelated t-tests both compare means but require different data structures."
-        ],
-        "dependencies": [
-          "hypothesis type",
-          "experimental design",
-          "levels of measurement",
-          "parametric assumptions",
-          "significance",
-          "critical values"
-        ]
+        "definitionsAndCoreConcepts": ["Inferential-test choice follows the research question, data structure/experimental design, level/type of measurement and the assumptions of the candidate test.","For a relationship question, Spearman's rho is used for ranked/ordinal or suitable non-parametric monotonic data, while Pearson's r is used for appropriate interval/ratio continuous data when a linear relationship and parametric conditions are defensible.","For a difference with related/paired data, Wilcoxon signed-rank is the non-parametric/ordinal route and the related/paired t-test is the parametric continuous-data route; for independent groups, Mann–Whitney U is the non-parametric/ordinal route and the unrelated/independent t-test is the parametric continuous-data route.","Chi-squared tests categorical frequency data for an association or distributional difference when observations and expected-frequency conditions are appropriate."],
+        "modelsResearchAndRelationships": ["The AQA selection task can be reduced to three initial questions: is the hypothesis about a difference or relationship/association, are observations related or unrelated, and what is the level/type of measurement? Parametric assumptions then determine whether the corresponding parametric test is suitable."],
+        "evaluationAndLimits": ["A memorised decision tree is a starting point, not permission to ignore test assumptions, independence, distribution shape, outliers or expected-cell counts.","Statistical-test selection should be planned from the research design and measurement strategy before inspecting results wherever possible."],
+        "misconceptionsAndBoundaries": ["Pearson and Spearman are correlation coefficients/tests, not tests of mean difference.","Wilcoxon and Mann–Whitney are not interchangeable: the former is for related/paired data and the latter for independent groups.","Related and unrelated t-tests both compare means but require different data structures."],
+        "dependencies": ["hypothesis type","experimental design","levels of measurement","parametric assumptions","significance","critical values"]
       },
       "sourceEvidence": [
-        {
-          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2996580/",
-          "classification": "OPEN",
-          "licence": "Creative Commons Attribution",
-          "supports": [
-            "test choice by question/data/design",
-            "chi-squared",
-            "paired/unpaired t-tests",
-            "Wilcoxon",
-            "Mann–Whitney",
-            "Pearson",
-            "Spearman"
-          ]
-        },
-        {
-          "url": "https://usq.pressbooks.pub/statisticsforresearchstudents/",
-          "classification": "OPEN",
-          "licence": "CC BY 4.0",
-          "supports": [
-            "Mann–Whitney U",
-            "Wilcoxon signed-rank",
-            "correlation",
-            "parametric/non-parametric statistical reasoning"
-          ]
-        }
+        {"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC2996580/","classification":"OPEN","licence":"Creative Commons Attribution","supports":["test choice by question/data/design","chi-squared","paired/unpaired t-tests","Wilcoxon","Mann–Whitney","Pearson","Spearman"]},
+        {"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/","classification":"OPEN","licence":"CC BY 4.0","supports":["Mann–Whitney U","Wilcoxon signed-rank","correlation","parametric/non-parametric statistical reasoning"]}
       ],
-      "revisionSynthesis": [
-        "Revision retains the exact AQA named-test set and independently structures the choice logic from reusable statistical sources; the qualification simplification does not override broader statistical assumptions."
-      ],
-      "readiness": {
-        "courseTruthStatus": "course_truth_ready",
-        "materialSubjectTruthGap": false,
-        "materialRightsBlocker": false,
-        "learnerAssetReady": false
-      }
+      "revisionSynthesis": ["Revision retains the exact AQA named-test set and independently structures the choice logic from reusable statistical sources; the qualification simplification does not override broader statistical assumptions."],
+      "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}
     }
   ],
   "topicReadiness": {
