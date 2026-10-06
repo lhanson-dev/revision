@@ -1,6 +1,6 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152; Recovery 5 proposed, completion pending  
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152; Recovery 5 proposed via PR #538, completion pending  
 **Date:** 2026-08-23
 
 ## Purpose
@@ -272,7 +272,7 @@ The release-lineage verifier itself remains unchanged and continues to fail clos
 
 ### Recovery-PR invariant
 
-Recovery 5 is not complete merely because the configuration changes. Its final PR must:
+Recovery 5 is proposed through PR #538 and is not complete merely because the configuration changes. Its final PR must:
 
 1. be based on the exact failed current main above unless mechanically refreshed under the active current-main integration rule;
 2. pass required Revision CI on its final exact head;
