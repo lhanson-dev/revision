@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
 **Status:** first AQA 7132 three-paper set completed, durably retained and integrated for restricted-pilot learner use through the existing Exam Prep / Exam Simulator route, pending Founder-approved merge; qualified human Business subject review remains pending  
-**Current integration baseline:** approved `main` `350ff96d370c3487b5abd97d00b28c1e1e663209`; retained mock evidence was reviewed on `1c80a2642d988b603d83ccd74d58ff43836db0f5`
+**Current integration baseline:** approved `main` `77f478daf8e2376cc33eaa8795f723d0032e6394`; retained mock evidence was reviewed on `1c80a2642d988b603d83ccd74d58ff43836db0f5`
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
