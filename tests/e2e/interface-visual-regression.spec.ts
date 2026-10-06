@@ -136,6 +136,11 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Lee said "OK baselines, update them" after the before/after screenshots in
  * docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/. Digests taken from the PR 545 CI run 37455570414
  * (the "Expected value" lines; the run and its retry agree), not from a local browser.
+ * Tablet Exam Prep and timed-exam (light and dark) re-pinned on 6 October 2026 for Exam Prep v2.2 PR 1 (PR 559: Exam Prep opens in
+ * the normal shell as a page of papers, examiner guide and mock exams). Lee replied "approved 559" after the before/after
+ * pictures in docs/design/learner-redesign-v2/screenshots/exam-prep-v2.2-pr1/, and the approval request said these baselines would
+ * be re-pinned from CI. Digests taken from the PR 559 CI run 37531070439 (the "Received" lines; the run and its retry agree), not
+ * from a local browser. The timed-exam picture is still the existing simulator and will be re-pinned again in PR 2.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '38e0c47bd3f10e04233d75314e0c35a99fb3aca68381b5077136b18ee521d080',
@@ -144,10 +149,10 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
   'phone:practice:light': 'e3693725275a37e67935c0250652521e300d12591a37d9e84e62add16f59273e',
   'phone:practice:dark': '5c8f027c3f337cbd4500b44de6a4302e6fccfab1c39b44bb091c00a87ad22628',
-  'tablet:exam-prep:light': 'b23ad3ca7b74b2b9d31630573113d4c51f4186939dbff2f30b39400bfcd930d5',
-  'tablet:exam-prep:dark': '958067a41a8c1d3b5596853a8fdc6f2200b392bc08ae0e01b0e28ac31c3c55f4',
-  'tablet:timed-exam:light': 'fa731ad5fa60d5651f2467c97ab41f3344ea4d9c1065a1e404c1299873ee163f',
-  'tablet:timed-exam:dark': '93fc319e8b030ae0058f2608663454de1b3c2ce52397c754d00368cf56322ea0',
+  'tablet:exam-prep:light': 'cf2879de93f3db8cac114439bf623b0406f53779868ef3ed33992f7696c5ec99',
+  'tablet:exam-prep:dark': '937a802517672ff0a8d528675bc1ecbc704ba3976080da8ed8198c482b1266bf',
+  'tablet:timed-exam:light': '187017f6ac090191dc0b438697abb25f3cf665479f9043d21ae92f25eb3b9069',
+  'tablet:timed-exam:dark': 'b26580fd8b7400af5f2c040b35f45d7e2c739a5e43428f3c8d4e6fef9a73f89d',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
