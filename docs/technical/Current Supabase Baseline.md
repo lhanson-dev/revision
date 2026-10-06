@@ -65,3 +65,6 @@ Performance advisor:
 
 ## Assessment
 The current database is small and the ownership model is sound. The main limitation is architectural: learner progress is stored mostly inside one opaque JSON document, which is difficult to query, version, report on and evolve safely as Revision adds more content, assessments, readiness evidence, analytics and admin operations.
+
+## Update 2026-10-06: `calculation` evidence source
+`public.learning_evidence.source` allows `calculation` (rule `learning_evidence_source_check` lists flashcard, multiple_choice, calculation, exam_question, exam_attempt), and migration `20261006180000` is recorded. Seen by a read-only check on 6 October 2026. The latest recorded versions were `20261006180000`, `20261002060000`, `20260927182844`. Evidence rows then: exam_attempt 1, exam_question 24, flashcard 2, multiple_choice 25, calculation 0.

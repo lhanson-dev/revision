@@ -1,12 +1,12 @@
 # Calculation evidence: production runbook
 
-**Status:** prepared, **not run**. Nothing in this document has been applied to production.
+**Status:** **already applied to production** (found on 6 October 2026). A read-only check run through ChatGPT's Supabase access reported that production already had the rule allowing `calculation` and already recorded migration version `20261006180000` (latest versions: `20261006180000`, `20261002060000`, `20260927182844`). No change was made by that check. The steps below are kept as the record and for re-checking; **do not apply the migration again**.
 **What it covers:** applying `supabase/migrations/20261006180000_add_calculation_evidence_source.sql` (merged in PR #556) to the production Supabase project (`xwwhshpmeogswxfjtpvq`).
 **Why it is separate:** merging a migration does not apply it, and the GitHub Pages deploy does not run production migrations (`supabase/README.md`, `First Supabase Migration Execution Plan.md`). Applying it is a production database write and needs the Founder's explicit instruction, which was given in the chat on 6 October 2026 ("Apply the migration now"). The AI session that prepared this has no production database access, so someone with it runs the steps below.
 
-## What is being decided, and why it is urgent
+## What this was, and why it mattered
 
-Until this is applied, a student who picks the new **Calculations** kind in Practice types a number and chooses how sure they are, and **the answer cannot be saved**: the database refuses evidence whose source is `calculation`. The screen shows "Your work is still on screen; try saving it again", the question cannot be checked, and the student is stuck on it. Multiple choice, flashcards and everything else are unaffected. Nothing is lost or corrupted.
+Until it was applied, a student who picks the new **Calculations** kind in Practice types a number and chooses how sure they are, and **the answer cannot be saved**: the database refuses evidence whose source is `calculation`. The screen shows "Your work is still on screen; try saving it again", the question cannot be checked, and the student is stuck on it. Multiple choice, flashcards and everything else are unaffected. Nothing is lost or corrupted.
 
 Applying it changes **one rule on one table**: the list of allowed evidence types on `public.learning_evidence` gains `calculation`. No row, policy, grant or setting changes, and existing evidence stays valid. It runs as two statements (drop the old rule, add the new one) and takes a moment on a small table.
 
@@ -63,6 +63,15 @@ This fails if any `calculation` evidence has already been saved, because those r
 - The admin operations metrics function counts quick checks by source `multiple_choice` only, so calculations are not in that count yet. It does not affect students. Fixing it means replacing an admin database function, so it is its own PR.
 - The deploy readiness check (`revision_release_readiness`) does not wait for this rule. If the Founder later wants the deploy to refuse to ship without it, that is a separate, deliberate change.
 
+## What was observed on 6 October 2026
+
+- Project `xwwhshpmeogswxfjtpvq`, "Revision", status healthy.
+- A1: the rule `learning_evidence_source_check` already lists `flashcard`, `multiple_choice`, `calculation`, `exam_question`, `exam_attempt`.
+- A2: version `20261006180000` already recorded.
+- A4: evidence rows by source: `exam_attempt` 1, `exam_question` 24, `flashcard` 2, `multiple_choice` 25, no `calculation` rows yet.
+- Not run (the check stopped at its own safety rule): the after-checks B2 and B3 (counts and privileges), the advisors, and the test with a synthetic student. They are still worth doing once, read-only.
+- How it got there is not recorded here (the session that prepared the migration had no database access). The likely route is the project's automatic migration step on merge; confirm with whoever set that up.
+
 ## Record to keep after it is done
 
-Add one line to `docs/technical/Current Supabase Baseline.md` saying the `calculation` evidence source is applied (with the date), and update the `Calculations` row in `docs/design/learner-redesign-v2/STATUS.md`, in the same PR as the Founder's confirmation.
+`docs/technical/Current Supabase Baseline.md` has a line saying the `calculation` evidence source is applied (6 October 2026), and the `Practice calculations` row in `docs/design/learner-redesign-v2/STATUS.md` says so too.
