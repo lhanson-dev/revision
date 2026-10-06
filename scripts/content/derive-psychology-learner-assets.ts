@@ -268,7 +268,7 @@ function sentenceLabel(sentence: string): string | undefined {
   if (verbMatch?.[1]) return tidyLabel(verbMatch[1])
 
   const clause = tidyLabel(sentence.split(/[,:;]/)[0])
-  if (clause.length >= 3 && clause.length <= 70 && !/^PSY-\d/i.test(clause)) return clause
+  if (clause.length >= 3 && clause.length <= 70 && !/\bPSY-\d{2}-\d{2}\b/i.test(clause)) return clause
   return undefined
 }
 
@@ -278,7 +278,7 @@ function conceptCandidates(requirement: CourseTruthRequirement): string[] {
     .filter((value): value is string => Boolean(value))
   const fromDependencies = text(requirement.subjectTruth.dependencies)
     .map(tidyLabel)
-    .filter((value) => value.length >= 3 && !/^PSY-\d/i.test(value))
+    .filter((value) => value.length >= 3 && !/\bPSY-\d{2}-\d{2}\b/i.test(value))
   const seen = new Set<string>()
   return [...fromCore, ...fromDependencies].filter((value) => {
     const key = value.toLowerCase()
