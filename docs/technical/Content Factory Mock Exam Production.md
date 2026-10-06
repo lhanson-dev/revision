@@ -1,7 +1,7 @@
 # Content Factory Mock Exam Production
 
-**Status:** first AQA 7132 three-paper set completed and durably retained; 41/41 questions, four shared contexts, 13/13 blind-answer units, 13/13 semantic unit reviews, 3/3 whole-paper reviews and complete-set assurance can progress; publication remains separately governed  
-**Current implementation baseline:** approved `main` `2a686450f76a176d5fa6aad5acf3275bad46491b`; retained mock evidence was reviewed on `1c80a2642d988b603d83ccd74d58ff43836db0f5`
+**Status:** first AQA 7132 three-paper set completed, durably retained and integrated for restricted-pilot learner use through the existing Exam Prep / Exam Simulator route, pending Founder-approved merge; qualified human Business subject review remains pending  
+**Current integration baseline:** approved `main` `350ff96d370c3487b5abd97d00b28c1e1e663209`; retained mock evidence was reviewed on `1c80a2642d988b603d83ccd74d58ff43836db0f5`
 **Pilot qualification:** AQA A-level Business 7132, 2027 outgoing specification
 
 ## Purpose
@@ -287,10 +287,43 @@ The complete-set review can progress with **0 blocking, 0 escalated and 0 failed
 
 Cumulative mock-stage spend ended at **US$6.540598** under the unchanged US$8 pilot ceiling. The source Action artifact is retained byte-for-byte in `content-factory/runs/aqa-7132-mock-v1/artifact/`, with exact per-file SHA-256 evidence in `RETENTION_MANIFEST.json`. The retained summary state is `assured_not_published`; retention itself does not change the learner surface.
 
+## Learner integration
+
+The restricted-pilot learner integration projects the exact retained paper artifacts directly from `content-factory/runs/aqa-7132-mock-v1/artifact/papers/` through `content/business/aqa-a-level/shared/retained-mock.ts`. The retained JSON remains the governed mock-content source; there is no manually copied second question set.
+
+The projection is added to each existing AQA 7132 paper adapter as an additional exam simulation. The canonical learner journey therefore remains:
+
+`Courses → AQA A-level Business → Exam Prep → Paper 1/2/3 → ExamSimulator`
+
+No parallel mock route, navigation item or learner-content authority is created.
+
+The shared exam runtime schema is extended only with optional fields required to preserve the retained papers:
+
+- printed marks distinct from attempted marks;
+- the restricted-pilot learner claim;
+- structured shared sources and data tables;
+- question family, options and local context;
+- source-to-question links; and
+- Paper 1 choice-group metadata.
+
+The existing Exam Simulator continues to own timer, pause/stop, question navigation, answer capture and submission. For the retained mock it additionally:
+
+- renders MCQ options and retained tables/source material;
+- keeps all 25 Paper 1 printed slots visible while saving evidence only for one selected alternative from each of Sections C and D;
+- reconciles Paper 1 to 150 printed / 100 attempted marks and Papers 2/3 to 100 printed / 100 attempted marks;
+- computes AO totals from the actual attempted response path; and
+- exposes Revision marking guidance only in the existing self-marking phase, labelled as Revision-authored and not an official AQA mark scheme.
+
+Whole-paper automated marking remains excluded. The learner result remains `self_assessed` evidence and does not acquire higher confidence or official status.
+
+Deterministic integration assurance in `scripts/assurance/aqa-business-7132-mock-learner-integration.test.ts` binds the runtime projection back to the exact retained semantic paper fingerprints, proves all 41 slots occur once, checks unchanged question wording/options/tables/AO data, reconciles timing and Paper 1 choices, and verifies Paper 2/3 shared-context links. Browser coverage in `tests/e2e/exam-session-controls.spec.ts` exercises the restricted-pilot claim, Paper 1 choice switching, retained MCQ entry, linked Paper 2 stimulus/data and narrow-phone overflow behaviour.
+
+This integration performs no provider call and no paid generation or semantic assurance. Any future material edit to retained learner-facing question/context/data/marking content remains an A3 revalidation trigger.
+
 ## Documentation impact
 
-Normative authority is unchanged. This retention/release-evidence change applies the already-approved Content Factory Mock Exam Production, Fast-Path and Content Accuracy Assurance contracts to the exact successful AQA 7132 mock artifact. Historical Action evidence is preserved rather than rewritten.
+Normative authority is unchanged. This learner-integration change applies the already-approved Exam Prep / Exam Simulator, Content Factory Mock Exam Production, Fast-Path and Content Accuracy Assurance contracts to the exact retained AQA 7132 mock artifact. Historical Action evidence and prior assurance records are preserved rather than rewritten.
 
-The proposed release record is a **restricted-pilot conditional pass** for this exact A3 mock set only. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking. No learner route, learner content integration, Course Truth, Exam Truth, Subject Foundation, assisted-marking eligibility or navigation changes in this PR.
+The release remains a **restricted-pilot conditional pass** for this exact A3 mock set only. Qualified human Business subject review remains pending, and the retained complete-set duplication note remains explicitly non-blocking. This PR changes runtime presentation and technical integration only: it does not change Course Truth, Exam Truth, Subject Foundation, assisted-marking eligibility, product navigation or normative authority.
 
 `INDEX.md` already points to this technical implementation document, so no index change is required.
