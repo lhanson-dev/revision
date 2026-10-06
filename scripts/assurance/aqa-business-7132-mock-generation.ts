@@ -225,6 +225,18 @@ function softwareFinding(checkId: string, affected: string[], finding: string, f
   return { check_id: checkId, category: 'broken_question', affected_ids: affected, finding, evidence: 'software check', contradicting_source_id: null, proposed_fix: fix, disposition: 'blocking', reason: `software-proven: ${finding}` }
 }
 
+export function remediationFindingsForSlot(
+  findings: readonly ClassifiedFinding[],
+  slotId: string,
+  unitSlotIds: readonly string[],
+) {
+  const blocking = findings.filter((finding) => finding.disposition === 'blocking')
+  const knownSlots = new Set(unitSlotIds)
+  const direct = blocking.filter((finding) => finding.affected_ids.includes(slotId))
+  const broad = blocking.filter((finding) => !finding.affected_ids.some((id) => knownSlots.has(id)))
+  return [...broad, ...direct]
+}
+
 export function retainedGenerationFailureFeedback(slotId: string, rawFailuresJson = process.env.CONTENT_FACTORY_MOCK_RESUME_FAILURES_JSON): ClassifiedFinding[] {
   if (!rawFailuresJson?.trim()) return []
   let parsed: unknown
