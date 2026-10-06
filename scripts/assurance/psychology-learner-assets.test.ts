@@ -74,7 +74,7 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
       expect(section.provenance.boardAlignmentUse, section.id).toBe('placement_only_reference_not_learner_text')
       expect(section.memoryRecap.length, section.id).toBeGreaterThan(0)
       for (const source of section.provenance.sourceEvidence) {
-        expect(source.classification, `${section.id}:${source.url}`).not.toBe('REFERENCE_ONLY')
+        expect(['OPEN', 'LICENSED', 'REVISION_OWNED'], `${section.id}:${source.url}`).toContain(source.classification)
       }
     }
 
@@ -95,7 +95,16 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
         expect(section?.quantitativeWorkedExample?.workedSteps.length, `${requirementId}:quantitative-steps`).toBeGreaterThan(0)
       }
       if (unit.quantitativeVisualWorkedExampleRequirements.purposefulVisualRequired) {
-        expect(section?.visual?.textAlternative.length, `${requirementId}:visual-alt`).toBeGreaterThan(20)
+        expect(section?.visual?.content.length, `${requirementId}:visual-content`).toBeGreaterThan(0)
+        expect(section?.visual?.content.every((item) => item.trim().length > 0), `${requirementId}:visual-content-items`).toBe(true)
+        expect(section?.visual?.textAlternative.length, `${requirementId}:visual-alt`).toBeGreaterThan(40)
+        expect(section?.visual?.textAlternative, `${requirementId}:visual-alt`).toContain('Information-equivalent')
+        expect(section?.visual?.textAlternative, `${requirementId}:visual-alt`).not.toContain('adjacent written explanation')
+      }
+      if (section?.workedExample) {
+        expect(section.workedExample.setup.length, `${requirementId}:worked-setup`).toBeGreaterThan(20)
+        expect(section.workedExample.task.length, `${requirementId}:worked-task`).toBeGreaterThan(20)
+        expect(section.workedExample.steps.join(' '), `${requirementId}:worked-placeholder`).not.toContain('Explain how the mechanism changes the expected outcome or interpretation')
       }
       if (unit.misconceptionIds.length > 0) {
         expect(section?.misconceptionRepairs.length, `${requirementId}:misconceptions`).toBe(unit.misconceptionIds.length)
@@ -114,6 +123,22 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
       expect(activity.prompt.length, activity.id).toBeGreaterThan(20)
       expect(activity.feedbackAnchor.length, activity.id).toBeGreaterThan(0)
       expect(activity.intendedEvidenceScope.length, activity.id).toBeGreaterThan(0)
+      expect(activity.title, activity.id).not.toMatch(/PSY-\d/i)
+      expect(activity.prompt, activity.id).not.toMatch(/PSY-\d/i)
+      if (activity.mode === 'recognition_discrimination_check') {
+        expect(activity.options, activity.id).toHaveLength(2)
+        expect(activity.prompt, activity.id).toContain('Option A:')
+        expect(activity.prompt, activity.id).toContain('Option B:')
+      }
+      if (activity.mode === 'contextual_application_scenario') expect(activity.context?.length, activity.id).toBeGreaterThan(40)
+      if (activity.mode === 'classification_matching_ordering') expect(activity.support?.length, activity.id).toBeGreaterThan(1)
+      if (activity.mode === 'calculation_quantitative_drill' || activity.mode === 'interpretation_data_graph_source') {
+        expect(activity.fixedData?.length, activity.id).toBeGreaterThan(0)
+      }
+      if (activity.mode === 'compare_justify_task') {
+        expect(activity.prompt, activity.id).not.toContain('a contrasting explanation from the same topic')
+        expect(activity.prompt, activity.id).not.toContain('closest alternative')
+      }
       const unitId = activity.blueprintUnitIds[0]
       const bucket = practiceByUnit.get(unitId) ?? []
       bucket.push(activity)
@@ -183,15 +208,24 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
     expect(paper3?.sections.slice(1).every((section) => section.choose === 1 && section.options?.length === 3)).toBe(true)
   })
 
+  it('uses concept-valid worked examples for high-risk Research Methods procedures', () => {
+    const assets = derivePsychologyLearnerAssets(COURSE_TRUTH, EXAM_TRUTH)
+    const sections = assets.learn.chapters.flatMap((chapter) => chapter.sections)
+    const byRequirement = new Map(sections.map((section) => [section.requirementIds[0], section]))
+
+    expect(byRequirement.get('PSY-07-25')?.workedExample?.title).toContain('source-synthesis')
+    expect(byRequirement.get('PSY-07-30')?.workedExample?.title).toContain('measurement')
+    expect(byRequirement.get('PSY-07-31')?.workedExample?.title).toContain('coding')
+    expect(byRequirement.get('PSY-07-34')?.workedExample?.title).toContain('test-selection')
+  })
+
   it('keeps official AQA reference prose and URLs out of learner-facing copy', () => {
     const assets = derivePsychologyLearnerAssets(COURSE_TRUTH, EXAM_TRUTH)
     const learnerFacing = {
       learn: assets.learn.chapters.map((chapter) => ({
-        id: chapter.id,
         title: chapter.title,
         introduction: chapter.introduction,
         sections: chapter.sections.map((section) => ({
-          id: section.id,
           title: section.title,
           learningGoal: section.learningGoal,
           explanationParagraphs: section.explanationParagraphs,
@@ -204,7 +238,7 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
           visual: section.visual,
         })),
       })),
-      practice: assets.practice.activities.map(({ prompt, support, feedbackAnchor, repairExtension }) => ({ prompt, support, feedbackAnchor, repairExtension })),
+      practice: assets.practice.activities.map(({ title, prompt, support, options, context, feedbackAnchor, repairExtension }) => ({ title, prompt, support, options, context, feedbackAnchor, repairExtension })),
       examPrep: {
         skillModules: assets.examPrep.skillModules,
         topicQuestions: assets.examPrep.topicSets.flatMap((set) => set.questions.map((question) => question.prompt)),
@@ -215,5 +249,6 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
     expect(rendered).not.toMatch(/https:\/\/www\.aqa\.org\.uk/i)
     expect(rendered).not.toMatch(/https:\/\/aqa\.org\.uk/i)
     expect(rendered).not.toContain('officialSource')
+    expect(rendered).not.toMatch(/\bPSY-\d{2}-\d{2}\b/)
   })
 })
