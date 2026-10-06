@@ -73,6 +73,7 @@ type ExamTruth = {
 export type LearnerVisualSpec = {
   purpose: string
   format: 'process_diagram' | 'relationship_diagram' | 'data_display'
+  content: string[]
   textAlternative: string
 }
 
@@ -264,7 +265,7 @@ function sentenceLabel(sentence: string): string | undefined {
   const inMatch = sentence.match(/^In\s+([^,]{2,80}),/i)
   if (inMatch?.[1]) return tidyLabel(inMatch[1])
 
-  const verbMatch = sentence.match(/^(.{2,100}?)\s+(?:is|are|refers to|means|involves|concerns|describes|occurs when|reflects|treats|proposes|examine|examines|argues|focuses on|uses|specifies|classifies|summarises|summarizes|measures|expresses|influences|links|predicts|can)\b/i)
+  const verbMatch = sentence.match(/^(.{2,100}?)\s+(?:is|are|refers to|means|involves|concerns|describes|occurs when|reflects|treats|proposes|examine|examines|argues|focuses on|emphasises|emphasizes|uses|specifies|classifies|summarises|summarizes|measures|expresses|influences|links|predicts|can)\b/i)
   if (verbMatch?.[1]) return tidyLabel(verbMatch[1])
 
   const clause = tidyLabel(sentence.split(/[,:;]/)[0])
@@ -299,8 +300,14 @@ function practiceFocus(requirement: CourseTruthRequirement, index: number): stri
 
 function comparisonTarget(requirement: CourseTruthRequirement, focus: string): string {
   const focusKey = focus.toLowerCase()
-  return conceptCandidates(requirement).find((candidate) => candidate.toLowerCase() !== focusKey)
-    ?? 'a contrasting explanation from the same topic'
+  const named = conceptCandidates(requirement).find((candidate) => candidate.toLowerCase() !== focusKey)
+  if (named) return named
+  const suppliedContrast = text(requirement.subjectTruth.evaluationAndLimits)[0]
+    ?? text(requirement.subjectTruth.modelsResearchAndRelationships)[0]
+    ?? text(requirement.subjectTruth.definitionsAndCoreConcepts)[1]
+  return suppliedContrast
+    ? `the supplied contrasting claim: “${suppliedContrast}”`
+    : 'the alternative claim that this explanation applies universally, without conditions or limitations'
 }
 
 export function psychologyMisconceptionFromBoundary(boundary: string | undefined, label: string): string {
@@ -476,15 +483,25 @@ function visualFor(unit: RequirementLearningUnit, label: string, requirement: Co
   const core = text(requirement.subjectTruth.definitionsAndCoreConcepts)
   const relationships = text(requirement.subjectTruth.modelsResearchAndRelationships)
   const evidence = unique([...core.slice(0, 2), ...relationships.slice(0, 2)])
-  const textAlternative = unit.learningClassifications.includes('formula_quantitative')
-    ? (() => {
-        const worked = quantitativeExample(requirement, label)
-        return `Information-equivalent data description: ${worked.task} Constructed data: ${JSON.stringify(worked.data)}. Worked conclusion: ${worked.result}`
-      })()
-    : `Information-equivalent ${format === 'process_diagram' ? 'sequence' : 'relationship'}: ${evidence.join(' → ')}`
+  const quantitativeWorked = unit.learningClassifications.includes('formula_quantitative')
+    ? quantitativeExample(requirement, label)
+    : undefined
+  const content = quantitativeWorked
+    ? [
+        `Task: ${quantitativeWorked.task}`,
+        `Constructed data: ${JSON.stringify(quantitativeWorked.data)}`,
+        `Result: ${quantitativeWorked.result}`,
+      ]
+    : evidence.length > 0
+      ? evidence
+      : [`${label}: use the exact bounded explanation supplied in this section.`]
+  const textAlternative = quantitativeWorked
+    ? `Information-equivalent data description: ${content.join(' ')}`
+    : `Information-equivalent ${format === 'process_diagram' ? 'sequence' : 'relationship'}: ${content.join(' → ')}`
   return {
     purpose: `Make the structure of ${label} easier to inspect without replacing the written explanation.`,
     format,
+    content,
     textAlternative,
   }
 }
