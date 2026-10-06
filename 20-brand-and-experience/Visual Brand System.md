@@ -358,7 +358,7 @@ Layout bands (full rules in `docs/design-system/RESPONSIVE.md`):
 - **621 to 960px:** an 84px icon rail.
 - **620px and below:** a bottom tab bar with REV raised in the centre.
 - **Menu:** on tablet and phone the two-line menu button opens the full left navigation (course list, account at the bottom), as on desktop.
-- **Exam Prep:** all navigation is hidden (focus mode) at every size.
+- **Exam Prep:** a page in the normal shell (navigation stays at every size). Only a mock exam opens in focus, as a pop-up over the faded page (amended 6 October 2026).
 
 The page scrolls down, never sideways, at every width from 320px. Content sits in one centred 1100px canvas.
 

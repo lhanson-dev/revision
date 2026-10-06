@@ -1,8 +1,8 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.11, Founder-approved 1 October 2026 (effective on merge of the design-system v2.1 PR)  
+**Status:** Active authority — v0.12, Founder-approved 6 October 2026 (Exam Prep amendment; v0.11 approved 1 October 2026)  
 **Owner:** Founder  
-**Founder direction approved:** 2026-08-22; learner redesign v2.1 navigation (icon rail, bottom tab bar, Exam Prep focus mode) approved 2026-10-01; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
+**Founder direction approved:** 2026-08-22; learner redesign v2.1 navigation (icon rail, bottom tab bar) approved 2026-10-01; Exam Prep opens in the normal shell, with only mock exams in a focus pop-up, approved 2026-10-06; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
 **Purpose:** Define the governed global learner navigation model, learner-course contextual expansion and persistent REV access pattern across desktop, tablet and mobile.
 
 ## Authority relationship
@@ -34,9 +34,12 @@ Subject remains valid academic metadata and a useful way to organise course disc
 - Controls are 48px high (touch targets at least 44px). The tab bar reserves space and respects the device safe area so it never covers content.
 - On tablet and phone the **two-line menu button opens the same left navigation as the desktop sidebar**, as a slide-out: Home, Plan, Progress, Courses with the saved-course branch and the active section's contents, and the account control at the bottom. It keeps the course-hierarchy and account rules in this document unchanged. Because Ask REV and the four destinations are always on screen (rail or tab bar), the menu is for the course tree and account.
 
-### Exam Prep focus mode
+### Exam Prep: a page with navigation, and exercises in focus (amended 6 October 2026)
 
-- In Exam Prep, **all navigation is hidden** at every size (focus mode).
+This replaces the "Exam Prep focus mode" of v0.11, in which all navigation was hidden for the whole section.
+
+- **The Exam Prep page opens in the normal shell**: sidebar, icon rail or tab bar, the unchanged course header and the section tabs with Exam Prep selected, exactly like Learn and Practice.
+- **The exercises open in focus.** A mock exam opens as a pop-up over the faded page (the same pop-up shell as a Practice session). While it is open the rest of the page is inert and the navigation is not reachable; the student leaves with the pop-up's own close control.
 - **Leaving a running timed paper asks for confirmation first.** The student can stay, or leave knowing the consequence (for example that the timer and answers so far are kept or lost, as the Exam Prep screen defines).
 
 ### How Ask REV opens (decided 1 October 2026)
@@ -47,7 +50,7 @@ Ask REV is a **pop-up conversation** that opens over the current page, so the st
 - **Phone:** there is no room for a pop-up, so Ask REV takes over the whole screen, with a clear close control that returns the student to exactly where they were.
 - **There is no separate Ask REV page.** The existing "Expand" route to a full REV workspace is retired or reduced to the same pop-up by the Ask REV screen PR.
 - It opens from the sidebar, the icon rail and the raised tab-bar REV control, and from in-page "Stuck? Ask REV" actions, carrying the current page context.
-- It is not available in Exam Prep focus mode.
+- It stays available on the Exam Prep page. It is not available inside a mock exam pop-up, where the exam gives no help.
 
 The navigation components keep a separate "open Ask REV" action, so this behaviour lives in one place.
 
@@ -398,6 +401,10 @@ Focused-section nested expansion is an extension of the same governed learner na
 ## Documentation impact
 
 This v0.10 direction requires the Courses hierarchy, focused-section contextual expansion and active focused-section disclosure behaviour to remain aligned across `Information Architecture.md`, applicable focused-section authority such as `Learn MVP Experience.md`, planning/journey authority, the canonical learner-shell technical documentation, route/catalogue implementation, persistence/RLS implementation and responsive browser assurance. Historical Design Acceptance evidence remains historically true and should be appended/superseded rather than rewritten.
+
+## Documentation impact (v0.12)
+
+Version 0.12 records the Founder decision of 6 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`, amendment under section 1): Exam Prep is a page inside the normal shell, and only the exercises (mock exams) open in a focus pop-up. This supersedes the Exam Prep focus mode recorded in v0.11 below; the rest of v0.11 is unchanged. `Visual Brand System.md`, `Information Architecture.md` and `docs/design-system/RESPONSIVE.md` are aligned.
 
 ## Documentation impact (v0.11)
 
