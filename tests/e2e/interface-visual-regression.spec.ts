@@ -266,13 +266,11 @@ async function openState(page: Page, state: VisualState) {
 
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
-  if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.focused-exam-prep')).toBeVisible()
+  if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
 
   if (state === 'timed-exam') {
-    const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' }).first()
-    await paper.locator('summary').click()
-    await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
+    await page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first().getByRole('button', { name: 'Start timed' }).click()
     await expect(page.locator('.exam-session-page')).toBeVisible()
   }
 

@@ -207,11 +207,9 @@ export function PlannerRuntime() {
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const coursesActive = routeBelongsToCourses(route)
-  // Exam Prep is a focus mode: all navigation is hidden. A slim bar lets the student leave.
-  const focusMode = (route.kind === 'course' || route.kind === 'module') && route.section === 'exam-prep'
   const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
-  const showRail = !focusMode && breakpoint === 'tablet'
-  const showPhoneChrome = !focusMode && breakpoint === 'phone'
+  const showRail = breakpoint === 'tablet'
+  const showPhoneChrome = breakpoint === 'phone'
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
 
   function navigate(nextRoute: AppRoute) {
@@ -265,11 +263,6 @@ export function PlannerRuntime() {
     else if (key === 'progress') navigate(progressRoute())
   }
 
-  function leaveExamPrep() {
-    if (route.kind === 'course') navigate(learnerCourseRoute(route.courseId, 'overview'))
-    else if (route.kind === 'module') navigate(learnerModuleRoute(route.courseId, route.moduleId, 'overview'))
-  }
-
   function openMobileMenu() {
     setMobileAccountOpen(false)
     setAccountMenuOpen(false)
@@ -321,10 +314,10 @@ export function PlannerRuntime() {
   }
 
   return (
-    <div className={`planner-runtime${focusMode ? ' planner-runtime--focus' : ''}`} data-theme={theme}>
+    <div className="planner-runtime" data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
 
-      {!focusMode && <aside className="runtime-sidebar" aria-label="Learner navigation">
+      <aside className="runtime-sidebar" aria-label="Learner navigation">
         <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button>
         <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
         <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
@@ -345,13 +338,11 @@ export function PlannerRuntime() {
           </div>}
           <button className="runtime-sidebar-user" onClick={() => setAccountMenuOpen((open) => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} aria-label={`${learner} account menu`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-sidebar-user-name">{learner}</span></button>
         </div>
-      </aside>}
+      </aside>
 
       {showRail && <Rail items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} onOpenMenu={openMobileMenu} menuOpen={menuOpen} />}
 
       {showPhoneChrome && <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button></header>}
-
-      {focusMode && <div className="runtime-focus-bar"><button type="button" className="runtime-focus-leave" onClick={leaveExamPrep}><Icon name="arrow-right" size="compact" />Leave Exam Prep</button></div>}
 
       <div className="runtime-screen">{screen}</div>
 
