@@ -46,6 +46,11 @@ import {
   type SharedContext,
 } from './aqa-business-7132-mock-generation'
 import { MOCK_SET_CHECKLIST, MOCK_SET_REVIEW_INSTRUCTIONS } from './aqa-business-7132-mock-set-review'
+import {
+  applyFounderFixDecision,
+  founderFixFeedbackTargets,
+  loadFounderMockResolutions,
+} from './aqa-business-7132-mock-founder-resolution'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -53,6 +58,7 @@ const liveEnabled = env.CONTENT_FACTORY_AQA_7132_MOCK_GENERATION === '1'
 const PLAN_VALIDATOR = 'scripts/assurance/validate-aqa-business-7132-mock-plan.mjs'
 const PLAN_PATH = '.artifacts/content-factory-aqa-business-7132-mock-plan/mock-set-plan.json'
 const COURSE_TRUTH_PATH = '.artifacts/content-factory-aqa-business-7132-course-exam-truth/course-truth.json'
+const FOUNDER_RESOLUTIONS_PATH = 'content-factory/mock-exams/aqa-7132/FOUNDER_ESCALATION_RESOLUTIONS.json'
 const OUTPUT = '.artifacts/content-factory-aqa-business-7132-mock-generation'
 const STATE_PATH = `${OUTPUT}/generation-state.json`
 const UNIT_LEDGER_PATH = `${OUTPUT}/unit-review-ledger.json`
@@ -511,7 +517,19 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     let paperLedger = await readLedger(PAPER_LEDGER_PATH, MOCK_PAPER_CHECKLIST.stage, MOCK_PAPER_CHECKLIST.version)
     let setLedger = await readLedger(SET_LEDGER_PATH, MOCK_SET_CHECKLIST.stage, MOCK_SET_CHECKLIST.version)
     const setFeedback = feedbackTargetsForSet(plan, setLedger.units['complete-set'])
-    const priorFeedback = new Map(plan.papers.map((paper) => [paper.component_id, mergeFeedback(feedbackTargetsForPaper(paper, paperLedger.units[paper.component_id]), setFeedback.get(paper.component_id)!)]))
+    const founderResolutions = await loadFounderMockResolutions(FOUNDER_RESOLUTIONS_PATH)
+    const founderFeedback = new Map(plan.papers.map((paper) => {
+      const target = emptyFeedback()
+      for (const [slotId, findings] of founderFixFeedbackTargets(plan, paper, paperLedger.units[paper.component_id], founderResolutions)) target.slots.set(slotId, findings)
+      return [paper.component_id, target] as const
+    }))
+    const priorFeedback = new Map(plan.papers.map((paper) => [
+      paper.component_id,
+      mergeFeedback(
+        mergeFeedback(feedbackTargetsForPaper(paper, paperLedger.units[paper.component_id]), setFeedback.get(paper.component_id)!),
+        founderFeedback.get(paper.component_id)!,
+      ),
+    ]))
 
     const contexts = new Map<string, SharedContext>()
     const questions = new Map<string, MockQuestion>()
@@ -725,6 +743,18 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     const paperReviewSchema = reviewOutputSchema(MOCK_PAPER_CHECKLIST)
     const paperReviewInstructions = `${MOCK_PAPER_REVIEW_INSTRUCTIONS}\n${checklistInstructions(MOCK_PAPER_CHECKLIST)}`
     const paperUnits = plan.papers.map((paper) => paperReviewUnit({ plan, paper, paperArtifact: paperArtifacts.get(paper.component_id), evidence }))
+    for (const paperUnit of paperUnits) {
+      const paper = paperFor(plan, paperUnit.unit_id as MockPlanPaper['component_id'])
+      const applied = applyFounderFixDecision({
+        plan,
+        paper,
+        paperFingerprint: paperUnit.fingerprint,
+        questions,
+        ledger: paperLedger,
+        resolutions: founderResolutions,
+      })
+      paperLedger = applied.ledger
+    }
     const reviewPaper = async (unit: ReturnType<typeof paperReviewUnit>) => {
       const execution = await providerOnce({ workerId: `content-factory.aqa-7132.mock-paper-review.${unit.unit_id.replace('/', '-').toLowerCase()}`, routeKind: 'independent_review', outputSchema: paperReviewSchema, instructions: paperReviewInstructions, payload: unit.payload })
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: 'error' in execution ? execution.error : execution.status }
