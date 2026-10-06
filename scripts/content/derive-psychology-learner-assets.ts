@@ -73,12 +73,14 @@ type ExamTruth = {
 export type LearnerVisualSpec = {
   purpose: string
   format: 'process_diagram' | 'relationship_diagram' | 'data_display'
+  content: string[]
   textAlternative: string
 }
 
 export type WorkedExample = {
   title: string
   setup: string
+  task: string
   steps: string[]
   conclusion: string
 }
@@ -134,6 +136,9 @@ export type PracticeActivity = {
   title: string
   prompt: string
   support?: string[]
+  options?: string[]
+  context?: string
+  fixedData?: number[] | Array<[number, number]>
   feedbackAnchor: string[]
   intendedEvidenceScope: string[]
   evidenceEligible: false
@@ -247,19 +252,80 @@ function unique<T>(values: T[]): T[] {
   return [...new Set(values)]
 }
 
-function lowerFirst(value: string): string {
-  return value.length === 0 ? value : `${value[0].toLowerCase()}${value.slice(1)}`
+const REUSABLE_SOURCE_CLASSES = new Set(['OPEN', 'LICENSED', 'REVISION_OWNED'])
+
+function tidyLabel(value: string): string {
+  return value
+    .replace(/^(a|an|the)\s+/i, '')
+    .replace(/[.:;]+$/, '')
+    .trim()
+}
+
+function sentenceLabel(sentence: string): string | undefined {
+  const inMatch = sentence.match(/^In\s+([^,]{2,80}),/i)
+  if (inMatch?.[1]) return tidyLabel(inMatch[1])
+
+  const verbMatch = sentence.match(/^(.{2,100}?)\s+(?:is|are|refers to|means|involves|concerns|describes|occurs when|reflects|treats|proposes|examine|examines|argues|focuses on|emphasises|emphasizes|uses|specifies|classifies|summarises|summarizes|measures|expresses|influences|links|predicts|can)\b/i)
+  if (verbMatch?.[1]) return tidyLabel(verbMatch[1])
+
+  const clause = tidyLabel(sentence.split(/[,:;]/)[0])
+  if (clause.length >= 3 && clause.length <= 70 && !/\bPSY-\d/i.test(clause)) return clause
+  return undefined
+}
+
+function conceptCandidates(requirement: CourseTruthRequirement): string[] {
+  const fromCore = text(requirement.subjectTruth.definitionsAndCoreConcepts)
+    .map(sentenceLabel)
+    .filter((value): value is string => Boolean(value))
+  const fromDependencies = text(requirement.subjectTruth.dependencies)
+    .map(tidyLabel)
+    .filter((value) => value.length >= 3 && !/\bPSY-\d/i.test(value))
+  const seen = new Set<string>()
+  return [...fromCore, ...fromDependencies].filter((value) => {
+    const key = value.toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
 
 function conceptLabel(requirement: CourseTruthRequirement): string {
-  const sentence = text(requirement.subjectTruth.definitionsAndCoreConcepts)[0]
-  if (!sentence) return requirement.requirementId
+  return conceptCandidates(requirement)[0] ?? 'this psychological concept'
+}
 
-  const match = sentence.match(/^(.{2,80}?)\s+(?:is|are|refers to|means|involves|concerns|describes|occurs when|reflects)\b/i)
-  if (match?.[1]) return match[1].replace(/^(a|an|the)\s+/i, '').trim()
+function practiceFocus(requirement: CourseTruthRequirement, index: number): string {
+  const candidates = conceptCandidates(requirement)
+  return candidates.length > 0 ? candidates[index % candidates.length] : conceptLabel(requirement)
+}
 
-  const firstClause = sentence.split(/[,:;]/)[0].replace(/[.]$/, '').trim()
-  return firstClause.length <= 80 ? firstClause : requirement.requirementId
+function comparisonTarget(requirement: CourseTruthRequirement, focus: string): string {
+  const focusKey = focus.toLowerCase()
+  const named = conceptCandidates(requirement).find((candidate) => candidate.toLowerCase() !== focusKey)
+  if (named) return named
+  const suppliedContrast = text(requirement.subjectTruth.evaluationAndLimits)[0]
+    ?? text(requirement.subjectTruth.modelsResearchAndRelationships)[0]
+    ?? text(requirement.subjectTruth.definitionsAndCoreConcepts)[1]
+  return suppliedContrast
+    ? `the supplied contrasting claim: “${suppliedContrast}”`
+    : 'the alternative claim that this explanation applies universally, without conditions or limitations'
+}
+
+export function psychologyMisconceptionFromBoundary(boundary: string | undefined, label: string): string {
+  if (boundary) {
+    const transforms: Array<[RegExp, string]> = [
+      [/\bdoes not\b/i, 'does'],
+      [/\bis not\b/i, 'is'],
+      [/\bare not\b/i, 'are'],
+      [/\bdo not\b/i, 'do'],
+      [/\bshould not\b/i, 'should'],
+      [/\bcannot\b/i, 'can always'],
+    ]
+    for (const [pattern, replacement] of transforms) {
+      if (pattern.test(boundary)) return boundary.replace(pattern, replacement)
+    }
+    if (/^There is no single\s+/i.test(boundary)) return boundary.replace(/^There is no single\s+/i, 'There is a single ')
+  }
+  return `${label} has one fixed cause, meaning or outcome and applies the same way in every person and context.`
 }
 
 function quantitativeExample(requirement: CourseTruthRequirement, label: string): QuantitativeWorkedExample {
@@ -268,6 +334,34 @@ function quantitativeExample(requirement: CourseTruthRequirement, label: string)
     ...text(requirement.subjectTruth.modelsResearchAndRelationships),
     ...text(requirement.subjectTruth.dependencies),
   ].join(' ').toLowerCase()
+
+  if (/sign test/.test(joined)) {
+    return {
+      title: `Worked sign-test example: ${label}`,
+      data: [[5, 7], [6, 6], [9, 4], [3, 8], [7, 9]],
+      task: 'Assign a sign to each non-tied before/after pair, remove the tie, state the effective n and identify the smaller sign count.',
+      workedSteps: [
+        'The five differences are +, tie, −, + and +.',
+        'Remove the tied pair, so the effective n is 4.',
+        'There are three plus signs and one minus sign, so the smaller sign count is 1.',
+      ],
+      result: 'Effective n = 4; smaller sign count = 1. A significance decision would then use the table convention supplied for that n and alpha.',
+    }
+  }
+
+  if (/significance|p-value|critical value|type i|type ii/.test(joined)) {
+    return {
+      title: `Worked significance example: ${label}`,
+      data: [0.03, 0.05],
+      task: 'Compare the constructed p-value 0.03 with alpha = 0.05 and state the decision without turning p into the probability that a hypothesis is true.',
+      workedSteps: [
+        'The pre-specified significance threshold is 0.05.',
+        'The p-value 0.03 is below 0.05.',
+        'Reject the null hypothesis at the 5% level, while keeping the conclusion limited to the statistical decision.',
+      ],
+      result: 'p = 0.03 < 0.05, so the null hypothesis is rejected at the stated threshold; this does not mean the research hypothesis has a 97% probability of being true.',
+    }
+  }
 
   if (/correlation|scattergram|co-variable/.test(joined)) {
     return {
@@ -310,29 +404,105 @@ function workedReasoningExample(requirement: CourseTruthRequirement, label: stri
   const core = text(requirement.subjectTruth.definitionsAndCoreConcepts)
   const relationships = text(requirement.subjectTruth.modelsResearchAndRelationships)
   const evaluation = text(requirement.subjectTruth.evaluationAndLimits)
+  const joined = [...core, ...relationships, ...evaluation].join(' ').toLowerCase()
+
+  if (/meta-analysis|primary data|secondary data/.test(joined)) {
+    return {
+      title: `Worked source-synthesis example: ${label}`,
+      setup: 'A researcher has one newly collected interview dataset and effect estimates from eight previously published studies.',
+      task: 'Classify the two evidence sources, then state what would make a statistical synthesis a meta-analysis rather than a narrative summary.',
+      steps: [
+        'The newly collected interviews are primary data because they were generated for the current study.',
+        'The eight published effect estimates are secondary study-level evidence for the new synthesis.',
+        'A meta-analysis requires explicit inclusion rules and statistical combination of comparable effect estimates rather than simply describing the papers.',
+      ],
+      conclusion: 'Primary versus secondary describes where the data came from; meta-analysis describes a defined statistical synthesis of results from multiple studies.',
+    }
+  }
+
+  if (/nominal measurement|ordinal measurement|interval measurement/.test(joined)) {
+    return {
+      title: `Worked measurement example: ${label}`,
+      setup: 'A study records therapy type as CBT/other, satisfaction as ranks 1–5, and reaction time in milliseconds.',
+      task: 'Classify each variable by level of measurement and explain one consequence for analysis.',
+      steps: [
+        'Therapy type is nominal because the categories have no inherent numerical order.',
+        'The 1–5 satisfaction response is ordinal because responses are ordered but equal gaps are not guaranteed.',
+        'Reaction time is continuous numerical measurement with equal units, so analyses that require interval/ratio-style data may be considered if their other assumptions are met.',
+      ],
+      conclusion: 'The measurement level constrains which summaries and inferential procedures are defensible; numeric labels alone do not create interval data.',
+    }
+  }
+
+  if (/coding frame|content analysis/.test(joined)) {
+    return {
+      title: `Worked coding example: ${label}`,
+      setup: 'A coding frame defines two mutually exclusive categories for a transcript excerpt: supportive response and dismissive response.',
+      task: 'Apply the coding rule to one excerpt and state how the researcher would check coding reliability.',
+      steps: [
+        'Read the operational definitions in the coding frame before classifying the excerpt.',
+        'Assign the excerpt to the category whose stated rule it satisfies rather than inventing a new label after seeing the result.',
+        'Have an independent coder apply the same frame and compare classifications using an appropriate agreement check.',
+      ],
+      conclusion: 'Explicit categories and independent agreement checks improve coding reliability, but agreement alone does not prove that the categories validly represent the construct.',
+    }
+  }
+
+  if (/inferential-test choice|mann.?whitney|wilcoxon|spearman/.test(joined)) {
+    return {
+      title: `Worked test-selection example: ${label}`,
+      setup: 'A researcher asks whether the same participants differ before and after an intervention. The outcome is an ordered rating and parametric assumptions are not justified.',
+      task: 'Choose the appropriate inferential-test route and justify the decision from the research question, design and measurement.',
+      steps: [
+        'The hypothesis asks about a difference rather than an association.',
+        'The observations are related because the same participants provide both scores.',
+        'The outcome is ordinal/non-parametric, so the related-samples non-parametric route points to Wilcoxon signed-rank rather than Mann–Whitney U or an unrelated t-test.',
+      ],
+      conclusion: 'Test choice follows the question, related/unrelated design, measurement level and assumptions; the test name should be the end of the reasoning chain, not a memorised guess.',
+    }
+  }
+
+  const candidates = unique([...relationships, ...core.slice(1), ...evaluation])
+  const steps = candidates.slice(0, 3)
   return {
     title: `Worked reasoning example: ${label}`,
-    setup: core[0] ?? `Use the course truth for ${label} as the starting point.`,
-    steps: [
-      relationships[0] ?? core[1] ?? 'Identify the relevant psychological mechanism or relationship.',
-      relationships[1] ?? 'Explain how the mechanism changes the expected outcome or interpretation.',
-      evaluation[0] ?? 'Qualify the conclusion so that the explanation does not claim more than the evidence supports.',
-    ],
-    conclusion: evaluation[1] ?? evaluation[0] ?? `A strong answer about ${label} should connect accurate knowledge to a justified, bounded conclusion.`,
+    setup: core[0] ?? `Use the rights-safe subject truth for ${label} as the starting point.`,
+    task: `Use the supplied setup to build a three-step explanation of ${label}, then state a conclusion that does not exceed the evidence.`,
+    steps: steps.length > 0 ? steps : [`Apply the stated definition of ${label} to the exact evidence in the example and keep the conclusion within that evidence.`],
+    conclusion: evaluation[0] ?? candidates[candidates.length - 1] ?? `The conclusion about ${label} must stay proportionate to the evidence.`,
   }
 }
 
-function visualFor(unit: RequirementLearningUnit, label: string): LearnerVisualSpec | undefined {
+function visualFor(unit: RequirementLearningUnit, label: string, requirement: CourseTruthRequirement): LearnerVisualSpec | undefined {
   if (!unit.quantitativeVisualWorkedExampleRequirements.purposefulVisualRequired) return undefined
   const format: LearnerVisualSpec['format'] = unit.learningClassifications.includes('formula_quantitative')
     ? 'data_display'
     : unit.learningClassifications.includes('process_sequence')
       ? 'process_diagram'
       : 'relationship_diagram'
+  const core = text(requirement.subjectTruth.definitionsAndCoreConcepts)
+  const relationships = text(requirement.subjectTruth.modelsResearchAndRelationships)
+  const evidence = unique([...core.slice(0, 2), ...relationships.slice(0, 2)])
+  const quantitativeWorked = unit.learningClassifications.includes('formula_quantitative')
+    ? quantitativeExample(requirement, label)
+    : undefined
+  const content = quantitativeWorked
+    ? [
+        `Task: ${quantitativeWorked.task}`,
+        `Constructed data: ${JSON.stringify(quantitativeWorked.data)}`,
+        `Result: ${quantitativeWorked.result}`,
+      ]
+    : evidence.length > 0
+      ? evidence
+      : [`${label}: use the exact bounded explanation supplied in this section.`]
+  const textAlternative = quantitativeWorked
+    ? `Information-equivalent data description: ${content.join(' ')}`
+    : `Information-equivalent ${format === 'process_diagram' ? 'sequence' : 'relationship'}: ${content.join(' → ')}`
   return {
     purpose: `Make the structure of ${label} easier to inspect without replacing the written explanation.`,
     format,
-    textAlternative: `Text alternative: follow the same ${label} sequence, relationship or data pattern described in the adjacent written explanation and worked example.`,
+    content,
+    textAlternative,
   }
 }
 
@@ -345,7 +515,7 @@ function makeLearnSection(
   const misconceptions = text(requirement.subjectTruth.misconceptionsAndBoundaries)
   const quantitative = unit.learningClassifications.includes('formula_quantitative')
   const workedRequired = unit.quantitativeVisualWorkedExampleRequirements.workedExampleRequired
-  const sourceEvidence = (requirement.sourceEvidence ?? []).filter((source) => source.classification !== 'REFERENCE_ONLY')
+  const sourceEvidence = (requirement.sourceEvidence ?? []).filter((source) => REUSABLE_SOURCE_CLASSES.has(source.classification))
 
   return {
     id: `LEARN-${requirement.requirementId}`,
@@ -356,9 +526,9 @@ function makeLearnSection(
     explanationParagraphs: text(requirement.subjectTruth.definitionsAndCoreConcepts),
     researchAndRelationshipParagraphs: text(requirement.subjectTruth.modelsResearchAndRelationships),
     evaluationParagraphs: text(requirement.subjectTruth.evaluationAndLimits),
-    misconceptionRepairs: misconceptions.map((misconception) => ({
-      misconception,
-      repair: `Replace the over-simplified claim with the bounded account in this section, then explain which word or assumption made the original claim unsafe.`,
+    misconceptionRepairs: misconceptions.map((boundary) => ({
+      misconception: psychologyMisconceptionFromBoundary(boundary, label),
+      repair: boundary,
     })),
     memoryRecap: unique([
       ...text(requirement.subjectTruth.definitionsAndCoreConcepts).slice(0, 2),
@@ -367,7 +537,7 @@ function makeLearnSection(
     treatmentCoverage: unit.learnTreatments,
     ...(workedRequired && !quantitative ? { workedExample: workedReasoningExample(requirement, label) } : {}),
     ...(quantitative ? { quantitativeWorkedExample: quantitativeExample(requirement, label) } : {}),
-    ...(visualFor(unit, label) ? { visual: visualFor(unit, label) } : {}),
+    ...(visualFor(unit, label, requirement) ? { visual: visualFor(unit, label, requirement) } : {}),
     provenance: {
       courseTruthTopicFile: topicFile,
       courseTruthRequirementIds: [requirement.requirementId],
@@ -386,61 +556,90 @@ function feedbackAnchor(requirement: CourseTruthRequirement): string[] {
   ])
 }
 
-function practicePrompt(mode: string, requirement: CourseTruthRequirement): { prompt: string; support?: string[]; repairExtension?: string } {
-  const label = conceptLabel(requirement)
+function practicePrompt(
+  mode: string,
+  requirement: CourseTruthRequirement,
+  index: number,
+): { prompt: string; support?: string[]; repairExtension?: string; options?: string[]; context?: string; fixedData?: number[] | Array<[number, number]> } {
+  const focus = practiceFocus(requirement, index)
   const core = text(requirement.subjectTruth.definitionsAndCoreConcepts)
   const relationships = text(requirement.subjectTruth.modelsResearchAndRelationships)
   const evaluation = text(requirement.subjectTruth.evaluationAndLimits)
-  const misconceptions = text(requirement.subjectTruth.misconceptionsAndBoundaries)
-  const secondLabel = core[1] ? conceptLabel({ ...requirement, subjectTruth: { ...requirement.subjectTruth, definitionsAndCoreConcepts: [core[1]] } }) : undefined
+  const boundaries = text(requirement.subjectTruth.misconceptionsAndBoundaries)
+  const boundary = boundaries[index % Math.max(1, boundaries.length)]
+  const misconception = psychologyMisconceptionFromBoundary(boundary, focus)
+  const accurate = core[index % Math.max(1, core.length)] ?? relationships[0] ?? `${focus} should be explained using the bounded account in this section.`
 
   switch (mode) {
     case 'retrieval_prompt_flashcard':
-      return { prompt: `Without looking back, define ${label} accurately and state one feature that prevents it being confused with a nearby concept.` }
-    case 'recognition_discrimination_check':
+      return { prompt: `Without looking back, define ${focus} accurately and state one condition or boundary that prevents an over-generalised answer.` }
+    case 'recognition_discrimination_check': {
+      const options = [accurate, misconception]
       return {
-        prompt: `Which account is defensible for ${label}, and why? One option is an accurate course statement; the other is a common over-simplification.`,
-        support: unique([core[0], misconceptions[0]].filter((value): value is string => Boolean(value))),
-        repairExtension: misconceptions[0] ? `Rewrite this claim so it becomes accurate: ${misconceptions[0]}` : undefined,
+        prompt: `Which account of ${focus} is defensible, and why? Option A: ${options[0]} Option B: ${options[1]}`,
+        options,
+        repairExtension: `Rewrite the inaccurate option so that it becomes accurate: ${misconception}`,
       }
-    case 'classification_matching_ordering':
-      return { prompt: `Put the important stages, categories or decision points for ${label} into a defensible order or structure, then justify one placement.` }
-    case 'contextual_application_scenario':
+    }
+    case 'classification_matching_ordering': {
+      const items = unique([...core.slice(0, 2), ...relationships.slice(0, 1), ...evaluation.slice(0, 1)]).slice(0, 4)
       return {
-        prompt: `Create a brief novel scenario that correctly demonstrates ${label}. Identify the exact detail that makes the concept applicable, then add one nearby non-example and explain the difference.`,
-        support: relationships.slice(0, 1),
+        prompt: `Classify the supplied statements about ${focus} as a core definition, relationship/evidence point, or limitation/evaluation point, then justify one classification. Statements: ${items.map((item, itemIndex) => `${itemIndex + 1}) ${item}`).join(' ')}`,
+        support: items,
       }
+    }
+    case 'contextual_application_scenario': {
+      const cue = relationships[0] ?? core[0] ?? `${focus} is relevant to the case.`
+      const context = `Revision-owned scenario: a psychology student is analysing a new case in which this cue is present: ${cue}`
+      return {
+        prompt: `Apply ${focus} to the supplied scenario. Identify the exact cue that makes the concept relevant, explain the application, and state one alternative interpretation or limitation.`,
+        context,
+      }
+    }
     case 'reasoning_chain_construction':
       return {
-        prompt: `Build a reasoning chain for ${label}: start with the psychological claim, explain the mechanism or relationship, and finish with a conclusion that does not exceed the evidence.`,
+        prompt: `Build a reasoning chain for ${focus}: start with the psychological claim, explain the mechanism or relationship, and finish with a conclusion that does not exceed the evidence.`,
         support: unique([relationships[0], evaluation[0]].filter((value): value is string => Boolean(value))),
       }
-    case 'compare_justify_task':
-      return { prompt: `Compare ${label}${secondLabel && secondLabel !== label ? ` with ${secondLabel}` : ' with the closest alternative account in this section'}. Give one meaningful similarity or connection, one difference or limitation, and justify which distinction matters most in context.` }
-    case 'calculation_quantitative_drill': {
-      const worked = quantitativeExample(requirement, label)
-      return { prompt: `${worked.task} Use a fresh set of values rather than copying the worked answer.`, support: [`Worked reference result: ${worked.result}`] }
+    case 'compare_justify_task': {
+      const target = comparisonTarget(requirement, focus)
+      return { prompt: `Compare ${focus} with ${target}. Give one meaningful similarity or connection, one difference or limitation, and justify which distinction matters most for interpreting evidence.` }
     }
-    case 'interpretation_data_graph_source':
-      return { prompt: `Interpret a small data display relevant to ${label}. State the pattern first, then explain what conclusion is justified and one conclusion that the data alone would not justify.` }
+    case 'calculation_quantitative_drill': {
+      const worked = quantitativeExample(requirement, focus)
+      const fresh = /sign test/i.test(worked.title)
+        ? { data: [[8, 10], [7, 7], [6, 3], [4, 9], [5, 8]] as Array<[number, number]>, task: 'For the constructed before/after pairs, assign signs, omit ties, state the effective n and identify the smaller sign count.' }
+        : /significance/i.test(worked.title)
+          ? { data: [0.08, 0.05], task: 'For the constructed p-value 0.08 and alpha = 0.05, state the statistical decision and one conclusion that would be too strong.' }
+          : /correlation/i.test(worked.title) || /data example/i.test(worked.title)
+            ? { data: [[1, 5], [2, 4], [3, 3], [4, 2]] as Array<[number, number]>, task: 'Inspect the constructed paired values, state the direction of association and explain why this does not establish causation.' }
+            : { data: [5, 7, 7, 9, 12], task: 'Using the constructed values 5, 7, 7, 9 and 12, calculate an appropriate descriptive summary and show the working.' }
+      return {
+        prompt: `${fresh.task} Constructed data: ${JSON.stringify(fresh.data)}`,
+        fixedData: fresh.data,
+      }
+    }
+    case 'interpretation_data_graph_source': {
+      const fixedData = [4, 6, 6, 8, 11]
+      return { prompt: `Interpret this constructed data display for ${focus}: scores = 4, 6, 6, 8, 11. State the pattern or summary first, then explain what conclusion is justified and one conclusion the data alone would not justify.`, fixedData }
+    }
     case 'misconception_diagnostic':
       return {
-        prompt: misconceptions[0]
-          ? `A student writes: “${misconceptions[0]}” Diagnose the error and replace it with a more accurate explanation.`
-          : `Identify one plausible misconception about ${label}, explain why it is unsafe, and replace it with a bounded account.`,
-        repairExtension: `After correcting the error, write a one-sentence rule that would help you avoid the same mistake in a new context.`,
+        prompt: `A student writes: “${misconception}” Diagnose the error and replace it with a more accurate explanation.`,
+        repairExtension: `After correcting the error, write a one-sentence rule that would help you avoid the same mistake in a new context. Accurate boundary: ${boundary ?? accurate}`,
       }
     case 'mixed_topic_retrieval':
-      return { prompt: `Link ${label} to one relevant idea from a different Psychology topic. Retrieve both ideas without notes, then explain why the connection is psychologically meaningful rather than just a shared word.` }
+      return { prompt: `Connect ${focus} to Research methods. Name one design, measurement or evidence-quality issue that would matter when testing this claim, then explain how that issue changes the strength of the conclusion.` }
     case 'short_constructed_response':
     default:
-      return { prompt: `Explain ${label} in your own words using at least one accurate psychological detail and a conclusion that stays within the evidence.` }
+      return { prompt: `Explain ${focus} in your own words using at least one accurate psychological detail and a conclusion that stays within the evidence.` }
   }
 }
 
 function makePracticeActivities(requirement: CourseTruthRequirement, unit: RequirementLearningUnit): PracticeActivity[] {
   return unique(unit.practiceEvidenceModes).map((mode, index) => {
-    const built = practicePrompt(mode, requirement)
+    const built = practicePrompt(mode, requirement, index)
+    const focus = practiceFocus(requirement, index)
     return {
       id: `PRACTICE-${requirement.requirementId}-${String(index + 1).padStart(2, '0')}`,
       topicNumber: unit.topicNumber,
@@ -448,9 +647,12 @@ function makePracticeActivities(requirement: CourseTruthRequirement, unit: Requi
       requirementIds: [requirement.requirementId],
       blueprintUnitIds: [unit.id],
       mode,
-      title: `${conceptLabel(requirement)} · ${mode.replaceAll('_', ' ')}`,
+      title: `${focus} · ${mode.replaceAll('_', ' ')}`,
       prompt: built.prompt,
       ...(built.support && built.support.length > 0 ? { support: built.support } : {}),
+      ...(built.options && built.options.length > 0 ? { options: built.options } : {}),
+      ...(built.context ? { context: built.context } : {}),
+      ...(built.fixedData && built.fixedData.length > 0 ? { fixedData: built.fixedData } : {}),
       feedbackAnchor: feedbackAnchor(requirement),
       intendedEvidenceScope: unit.permittedEvidenceClaims.practice,
       evidenceEligible: false,
