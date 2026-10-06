@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-04",
+  "checkedDate": "2026-10-06",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 7,
   "topic": "Research methods",
@@ -540,7 +540,7 @@
       },
       "sourceEvidence": [
         {"url":"https://usq.pressbooks.pub/statisticsforresearchstudents/chapter/statistical-power/","classification":"OPEN","licence":"CC BY 4.0","supports":["statistical significance","Type I and Type II errors","statistical power"]},
-        {"url":"https://www.itl.nist.gov/div898/handbook/","classification":"PUBLIC_DOMAIN","licence":"US federal public information / NIST reuse policy","supports":["critical values","rejection regions","p-values","statistical tables","hypothesis-testing logic"]}
+        {"url":"https://openstax.org/books/introductory-business-statistics/pages/9-3-distribution-needed-for-hypothesis-testing","classification":"OPEN","licence":"CC BY 4.0","supports":["critical values","rejection regions","significance level","test-statistic comparison","hypothesis-testing decision logic"]}
       ],
       "revisionSynthesis": ["Revision teaches 'reject' or 'fail to reject' rather than the misleading convention of 'accepting' a null hypothesis."],
       "readiness": {"courseTruthStatus":"course_truth_ready","materialSubjectTruthGap":false,"materialRightsBlocker":false,"learnerAssetReady":false}

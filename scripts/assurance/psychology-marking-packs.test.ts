@@ -59,9 +59,15 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
         expect(mapping?.markingPackId, activity.id).toBeUndefined()
         expect(mapping?.limitation?.length, activity.id).toBeGreaterThan(30)
       } else {
-        expect(mapping?.scoreability, activity.id).toBe('marking_pack_complete')
+        expect(mapping?.scoreability, activity.id).toBe('marking_pack_candidate_complete')
         expect(mapping?.markingPackId, activity.id).toBe(`MP-${activity.id}`)
         expect(packIds.has(`MP-${activity.id}`), activity.id).toBe(true)
+        const pack = step5.practice.markingPacks.find((candidate) => candidate.id === `MP-${activity.id}`)
+        expect(pack, activity.id).toBeDefined()
+        expect(pack?.criteria.every((criterion) => criterion.evidenceClaim === MODE_CLAIM[activity.mode]), activity.id).toBe(true)
+        expect(pack?.criteria.every((criterion) => criterion.description.length > 40), `${activity.id}:criterion-description`).toBe(true)
+        if (activity.mode === 'recognition_discrimination_check') expect(pack?.scoredItem.alternatives, activity.id).toHaveLength(2)
+        if (activity.mode === 'contextual_application_scenario') expect(pack?.scoredItem.context?.length, activity.id).toBeGreaterThan(40)
       }
     }
   })
@@ -85,6 +91,12 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
       expect(markingPack.blueprintUnitIds.length, `${markingPack.id}:blueprint`).toBeGreaterThan(0)
       expect(markingPack.indicativeContent.length, `${markingPack.id}:indicative`).toBeGreaterThan(0)
       expect(markingPack.levelDescriptors[0], `${markingPack.id}:levels`).toMatchObject({ min: 0, max: 0 })
+      if (markingPack.scoredItem.maxMark <= 4) {
+        expect(markingPack.levelDescriptors, `${markingPack.id}:exact-low-mark-levels`).toHaveLength(markingPack.scoredItem.maxMark + 1)
+        expect(markingPack.levelDescriptors.map((level) => [level.min, level.max]), `${markingPack.id}:exact-low-mark-ranges`).toEqual(
+          Array.from({ length: markingPack.scoredItem.maxMark + 1 }, (_, mark) => [mark, mark]),
+        )
+      }
       expect(markingPack.calibration.status, markingPack.id).toBe('uncalibrated_step_5_candidate')
       expect(markingPack.calibration.anchors, markingPack.id).toEqual([])
       expect(markingPack.calibration.independentCalibrationRequired, markingPack.id).toBe(true)
@@ -106,7 +118,7 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
       const markingPack = packs.get(question.id)
       const mapping = mappings.get(question.id)
       expect(markingPack, question.id).toBeDefined()
-      expect(mapping?.scoreability, question.id).toBe('marking_pack_complete')
+      expect(mapping?.scoreability, question.id).toBe('marking_pack_candidate_complete')
       expect(mapping?.runtimeEvidenceEligible, question.id).toBe(false)
       expect(markingPack?.scoredItem.maxMark, question.id).toBe(question.marks)
       if (question.questionFamily === 'mcq') expect(markingPack?.scoredItem.alternatives, question.id).toHaveLength(4)
@@ -190,7 +202,9 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
       practiceEvidenceScopeNarrowingApplied: true,
       learnerAssetsMutated: false,
       runtimeEvidenceEnabled: false,
-      markingPacksCompleteForStep5: true,
+      markingPacksCompleteForStep5: false,
+      markingPackCandidatesCompleteForStep5: true,
+      independentCalibrationComplete: false,
       freshIndependentEducationalAssurancePassed: false,
       freshIndependentAssessmentAssurancePassed: false,
       canonicalRuntimeIntegrated: false,
