@@ -7,7 +7,7 @@ type FastPathAsset = {
     title: string
     sections: Array<{ heading: string; body: string; item_ids: string[] }>
     key_terms: Array<{ term: string; definition: string }>
-    worked_examples: Array<{ id: string; scenario: string; steps: string[] }>
+    worked_examples: Array<{ id: string; scenario: string; steps: string[]; calc?: { formula_id: string } }>
   }
   practice: { items: Array<{ item_ids: string[] }> }
 }
@@ -64,6 +64,21 @@ function topicFor(asset: FastPathAsset, path: string) {
   return fallback ? topicBySection[fallback] ?? 'business' : 'business'
 }
 
+/** Names for the few formula ids that do not read well as plain words. */
+const formulaNames: Record<string, string> = {
+  unit_cost_average_cost: 'average cost per unit',
+  re_order_quantity: 'reorder quantity',
+  payback: 'payback period',
+  average_rate_of_return: 'average rate of return',
+}
+
+/** "Work out the margin of safety." from the example's formula id, so the student is always told what to find. */
+function taskFor(formulaId: string | undefined): string | undefined {
+  if (!formulaId) return undefined
+  const name = formulaNames[formulaId] ?? formulaId.replace(/_/g, ' ')
+  return `Work out the ${name}.`
+}
+
 function blocksFor(asset: FastPathAsset): LearnBlock[] {
   const blocks: LearnBlock[] = asset.learn.sections.map((section) => ({
     type: 'explanation',
@@ -77,7 +92,8 @@ function blocksFor(asset: FastPathAsset): LearnBlock[] {
     blocks.push({
       type: 'worked-example',
       label: 'Worked example',
-      title: example.scenario,
+      setup: example.scenario,
+      task: taskFor(example.calc?.formula_id),
       steps: example.steps.map((step, index) => ({ label: `Step ${index + 1}`, value: step })),
     })
   })
