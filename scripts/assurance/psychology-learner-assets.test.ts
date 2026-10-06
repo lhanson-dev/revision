@@ -217,11 +217,9 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
     const assets = derivePsychologyLearnerAssets(COURSE_TRUTH, EXAM_TRUTH)
     const learnerFacing = {
       learn: assets.learn.chapters.map((chapter) => ({
-        id: chapter.id,
         title: chapter.title,
         introduction: chapter.introduction,
         sections: chapter.sections.map((section) => ({
-          id: section.id,
           title: section.title,
           learningGoal: section.learningGoal,
           explanationParagraphs: section.explanationParagraphs,
