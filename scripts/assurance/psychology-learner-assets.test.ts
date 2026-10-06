@@ -95,6 +95,8 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
         expect(section?.quantitativeWorkedExample?.workedSteps.length, `${requirementId}:quantitative-steps`).toBeGreaterThan(0)
       }
       if (unit.quantitativeVisualWorkedExampleRequirements.purposefulVisualRequired) {
+        expect(section?.visual?.content.length, `${requirementId}:visual-content`).toBeGreaterThan(0)
+        expect(section?.visual?.content.every((item) => item.trim().length > 0), `${requirementId}:visual-content-items`).toBe(true)
         expect(section?.visual?.textAlternative.length, `${requirementId}:visual-alt`).toBeGreaterThan(40)
         expect(section?.visual?.textAlternative, `${requirementId}:visual-alt`).toContain('Information-equivalent')
         expect(section?.visual?.textAlternative, `${requirementId}:visual-alt`).not.toContain('adjacent written explanation')
@@ -132,6 +134,10 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
       if (activity.mode === 'classification_matching_ordering') expect(activity.support?.length, activity.id).toBeGreaterThan(1)
       if (activity.mode === 'calculation_quantitative_drill' || activity.mode === 'interpretation_data_graph_source') {
         expect(activity.fixedData?.length, activity.id).toBeGreaterThan(0)
+      }
+      if (activity.mode === 'compare_justify_task') {
+        expect(activity.prompt, activity.id).not.toContain('a contrasting explanation from the same topic')
+        expect(activity.prompt, activity.id).not.toContain('closest alternative')
       }
       const unitId = activity.blueprintUnitIds[0]
       const bucket = practiceByUnit.get(unitId) ?? []
