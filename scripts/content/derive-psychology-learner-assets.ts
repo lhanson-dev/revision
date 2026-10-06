@@ -79,6 +79,7 @@ export type LearnerVisualSpec = {
 export type WorkedExample = {
   title: string
   setup: string
+  task: string
   steps: string[]
   conclusion: string
 }
@@ -405,6 +406,7 @@ function workedReasoningExample(requirement: CourseTruthRequirement, label: stri
   return {
     title: `Worked reasoning example: ${label}`,
     setup: core[0] ?? `Use the rights-safe subject truth for ${label} as the starting point.`,
+    task: `Use the supplied setup to build a three-step explanation of ${label}, then state a conclusion that does not exceed the evidence.`,
     steps: steps.length > 0 ? steps : [`Apply the stated definition of ${label} to the exact evidence in the example and keep the conclusion within that evidence.`],
     conclusion: evaluation[0] ?? candidates[candidates.length - 1] ?? `The conclusion about ${label} must stay proportionate to the evidence.`,
   }
