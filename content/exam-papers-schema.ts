@@ -4,9 +4,10 @@ import { z } from 'zod'
  * The "Exam Prep" paper guide for one board and specification: what each paper contains and what examiners give
  * marks for. It is content, not code: each board/spec has its own file, and the Exam Prep page only reads it.
  *
- * Content rule (Founder, 6 Oct 2026): everything here must come from content approved through the Content Factory
- * (its Exam Truth) or the board's own published assessment contract. Anything else is optional and stays out of
- * the file until the factory approves it: command words, the levels note and "on the day" advice.
+ * Content rule (Founder, 6 Oct 2026): anything official about the course, questions, exams or marks must come from
+ * content approved through the Content Factory (its Exam Truth) or be checked against the exam board. Wording that
+ * only explains a feature to the student can live in the page. So the optional parts below (command words, the levels
+ * note, "on the day" advice) stay out of a file until their wording has been approved.
  */
 const aoIdSchema = z.enum(['AO1', 'AO2', 'AO3', 'AO4'])
 
