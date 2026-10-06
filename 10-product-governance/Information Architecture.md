@@ -1,6 +1,6 @@
 # Information Architecture
 
-> **Pointer** (1 October 2026, Founder): navigation layout is now the sidebar, icon rail and bottom tab bar in `10-product-governance/Global Learner Navigation.md` (v0.11); Exam Prep is a focus mode with no navigation.
+> **Pointer** (1 October 2026, Founder): navigation layout is now the sidebar, icon rail and bottom tab bar in `10-product-governance/Global Learner Navigation.md` (v0.11); Exam Prep is a page in the normal shell, with its mock exams opening in a focus pop-up (amended 6 October 2026, `Global Learner Navigation.md` v0.12).
 
 **Status:** Draft authority candidate — v1.0 proposal pending governed merge  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.

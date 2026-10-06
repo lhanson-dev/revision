@@ -34,7 +34,7 @@ This file records what Lee decided for the v2 learner redesign, and the behaviou
 - **Typefaces:** Bricolage Grotesque 800 for headings and big numbers; Manrope for everything else. Always with a system fallback.
 - **The Living E** is REV's signature and is always gently moving. Four states: Waiting (slow breathing), Listening (the student is typing), Thinking, Responding (settles as the answer appears, then back to Waiting). **Thinking loop: 1.4s** (within the live standard's 1.4–2.2s). With reduced motion it stays still and shows a text label ("REV is thinking"). Every state is also given as text for screen readers.
 - **Layout and breakpoints:** as `guidelines/RESPONSIVE.md` (sidebar above 960px, icon rail 621–960, bottom tab bar with REV raised in the centre at 620 and below, one 1100px canvas). The page scrolls down, never sideways.
-- **Exam Prep:** navigation is hidden throughout (focus mode). Leaving a running timed paper asks for confirmation first.
+- **Exam Prep:** ~~navigation is hidden throughout (focus mode)~~ **Amended 6 October 2026 (Founder):** Exam Prep is a page in the normal shell, with the sidebar, rail or tab bar, course header and tabs; only the exercises (mock exams) open in focus, as a pop-up over the faded page. Leaving a running timed paper still asks for confirmation first.
 - **No game mechanics:** no XP, streaks, levels, badges, leaderboards, trophies or confetti.
 - **Theme:** light, dark or system, saved per student, with system as the default.
 

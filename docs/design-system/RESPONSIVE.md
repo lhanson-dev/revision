@@ -25,7 +25,7 @@ These rules come from the live site (`src/app/brand-tokens.css`, `interface-layo
 | Phone | ≤ 620 | Bottom tab bar (REV raised centre) | 20px | Single column; tiles 2-up; full-width primary buttons |
 | Small phone | ≤ 390 | — | 20px | Tighten only, never remove content |
 
-The existing 960 and 620 breakpoints stay as they are. The old site used a burger drawer at ≤ 960; v2 replaces it with the rail (tablet) and tab bar (phone). Exam Prep hides all nav at every size (focus mode).
+The existing 960 and 620 breakpoints stay as they are. The old site used a burger drawer at ≤ 960; v2 replaces it with the rail (tablet) and tab bar (phone). Exam Prep keeps the normal nav at every size; only a mock exam opens as a focus pop-up (amended 6 October 2026).
 
 ## 3. CSS rules that prevent sideways scroll
 1. **Every grid and flex child that holds text gets `min-width: 0`.** This is the most common cause of overflow.
