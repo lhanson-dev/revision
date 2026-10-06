@@ -4,6 +4,7 @@ import {
   remediationFindingsForSlot,
   type MockGenerationUnit,
   type MockPlan,
+  type MockPlanSlot,
   type MockQuestion,
 } from './aqa-business-7132-mock-generation'
 import {
@@ -12,7 +13,7 @@ import {
   type FounderMockUnitResolution,
 } from './aqa-business-7132-mock-founder-unit-resolution'
 
-const p301 = {
+const p301: MockPlanSlot = {
   slot_id: 'P3-01',
   marks: 12,
   command_category: 'analyse',
@@ -26,7 +27,7 @@ const p301 = {
   required_course_truth_requirement_ids: ['AQA-7132-NETWORK'],
   required_subject_node_ids: ['BUS-NETWORK'],
   coverage_evidence_rule: 'target_is_directly_demanded_and_necessary_for_full_marks',
-} as const
+}
 
 const unit: MockGenerationUnit = {
   unit_id: 'P3-CASE-1',
