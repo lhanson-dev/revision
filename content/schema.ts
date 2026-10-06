@@ -97,12 +97,39 @@ export const assessmentObjectiveSchema = z.object({
   ao4: z.number().int().nonnegative().default(0),
 })
 
+const examTableSchema = z.object({
+  title: z.string().min(1),
+  columns: z.array(z.string().min(1)).min(1),
+  rows: z.array(z.object({ cells: z.array(z.string()) })).min(1),
+})
+
+const examSourceSchema = z.object({
+  id: slugSchema,
+  title: z.string().min(1),
+  businessName: z.string().min(1).optional(),
+  narrative: z.string().min(1),
+  table: examTableSchema.nullable().optional(),
+})
+
+const examOptionSchema = z.object({
+  label: z.string().min(1),
+  text: z.string().min(1),
+})
+
 export const examQuestionSchema = z.object({
   id: slugSchema,
+  sourceSlotId: z.string().min(1).optional(),
+  family: z.enum(['MCQ', 'SHORT_ANSWER', 'ESSAY', 'DATA_RESPONSE', 'CASE_STUDY']).optional(),
   marks: z.number().int().positive(),
   topic: topicIdSchema,
   assessmentObjectives: assessmentObjectiveSchema,
   prompt: z.string().min(1),
+  context: z.string().optional(),
+  table: examTableSchema.nullable().optional(),
+  options: z.array(examOptionSchema).optional(),
+  sourceIds: z.array(slugSchema).optional(),
+  choiceGroup: z.string().min(1).nullable().optional(),
+  requiredInResponsePath: z.boolean().optional(),
   markingGuidance: z.array(z.string().min(1)).min(1),
 }).superRefine((question, context) => {
   const aoTotal = Object.values(question.assessmentObjectives).reduce((sum, marks) => sum + marks, 0)
@@ -117,13 +144,36 @@ export const examSchema = z.object({
   subtitle: z.string().min(1),
   durationMinutes: z.number().int().positive(),
   totalMarks: z.number().int().positive(),
+  printedMarks: z.number().int().positive().optional(),
+  learnerClaim: z.string().min(1).optional(),
   caseHtml: z.string().min(1),
+  sources: z.array(examSourceSchema).optional(),
   questions: z.array(examQuestionSchema).min(1),
 }).superRefine((exam, context) => {
-  const questionTotal = exam.questions.reduce((sum, question) => sum + question.marks, 0)
-  if (questionTotal !== exam.totalMarks) {
-    context.addIssue({ code: 'custom', path: ['questions'], message: `Question marks (${questionTotal}) must equal exam total (${exam.totalMarks})` })
+  const compulsoryMarks = exam.questions
+    .filter((question) => !question.choiceGroup && question.requiredInResponsePath !== false)
+    .reduce((sum, question) => sum + question.marks, 0)
+  const choiceGroups = new Map<string, number>()
+  for (const question of exam.questions) {
+    if (!question.choiceGroup) continue
+    const existing = choiceGroups.get(question.choiceGroup)
+    if (existing !== undefined && existing !== question.marks) {
+      context.addIssue({ code: 'custom', path: ['questions'], message: `Choice group ${question.choiceGroup} contains alternatives with different marks` })
+    }
+    choiceGroups.set(question.choiceGroup, question.marks)
   }
+  const attemptedTotal = compulsoryMarks + [...choiceGroups.values()].reduce((sum, marks) => sum + marks, 0)
+  if (attemptedTotal !== exam.totalMarks) {
+    context.addIssue({ code: 'custom', path: ['questions'], message: `Attempted question marks (${attemptedTotal}) must equal exam total (${exam.totalMarks})` })
+  }
+  const printedTotal = exam.questions.reduce((sum, question) => sum + question.marks, 0)
+  if ((exam.printedMarks ?? exam.totalMarks) !== printedTotal) {
+    context.addIssue({ code: 'custom', path: ['printedMarks'], message: `Printed question marks (${printedTotal}) must equal printedMarks (${exam.printedMarks ?? exam.totalMarks})` })
+  }
+  const sourceIds = new Set((exam.sources ?? []).map((source) => source.id))
+  exam.questions.forEach((question, index) => question.sourceIds?.forEach((sourceId) => {
+    if (!sourceIds.has(sourceId)) context.addIssue({ code: 'custom', path: ['questions', index, 'sourceIds'], message: `Question references unknown exam source ${sourceId}` })
+  }))
 })
 
 export const contentManifestSchema = z.object({

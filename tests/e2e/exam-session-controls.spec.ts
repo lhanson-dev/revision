@@ -190,3 +190,58 @@ test('low time shows a clock icon and words in coral and never makes the exam pa
   const colour = await timer.evaluate((element) => getComputedStyle(element).color)
   expect(colour).not.toMatch(/rgb\(255, 1[89]\d, ?\d+\)|yellow/i)
 })
+
+async function openRetainedAqa7132Paper(page: Page, paperNumber: 1 | 2 | 3, start = true) {
+  await page.goto(`${appPath}#/courses`)
+  const courseCard = page.locator('.course-card').filter({ hasText: 'AQA A-level Business' }).first()
+  await courseCard.getByRole('button', { name: 'Open course' }).click()
+  await page.getByRole('navigation', { name: 'AQA A-level Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
+  const paper = page.locator('details.exam-paper-card').filter({ hasText: `Paper ${paperNumber}` }).first()
+  await paper.locator('summary').click()
+  const launch = paper.locator('.exam-launch').filter({ hasText: 'Revision-authored; not an official AQA paper.' })
+  await expect(launch).toBeVisible()
+  if (start) await launch.getByRole('button', { name: 'Start timed exam' }).click()
+  return launch
+}
+
+test('retained Paper 1 exposes the restricted-pilot claim and preserves 150 printed / 100 attempted marks with explicit choices', async ({ page }) => {
+  await seedSyntheticSession(page)
+  const launch = await openRetainedAqa7132Paper(page, 1, false)
+
+  await expect(launch.getByText("A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.")).toBeVisible()
+  await expect(launch.getByText(/150 marks are printed; you attempt 100 marks/)).toBeVisible()
+  await launch.getByRole('button', { name: 'Start timed exam' }).click()
+
+  const grid = page.getByRole('navigation', { name: 'Exam questions' })
+  await expect(grid.getByRole('button')).toHaveCount(25)
+  await expect(page.locator('.exam-session-claim')).toContainText('not an official AQA paper')
+
+  const mcq = page.getByRole('group', { name: 'Your answer' })
+  await expect(mcq.getByRole('radio')).toHaveCount(4)
+  await mcq.getByRole('radio', { name: /^B / }).check()
+
+  const q22 = grid.getByRole('button', { name: /^Question 22, 25 marks/ })
+  const q23 = grid.getByRole('button', { name: /^Question 23, 25 marks/ })
+  await q22.click()
+  await expect(q22).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByText('Selected for this attempt.')).toBeVisible()
+  await q23.click()
+  await expect(q23).toHaveAttribute('aria-pressed', 'true')
+  await expect(q22).toHaveAttribute('aria-pressed', 'false')
+})
+
+test('retained Paper 2 renders its linked stimulus and data table without page overflow on a narrow phone', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await page.setViewportSize({ width: 320, height: 700 })
+  await openRetainedAqa7132Paper(page, 2)
+
+  const source = page.locator('.exam-question-material').getByText('Mend & Move Refill Co.', { exact: true }).first()
+  await expect(source).toBeVisible()
+  await expect(page.locator('.exam-data-table')).toBeVisible()
+  const dimensions = await page.evaluate(() => ({
+    scrollWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }))
+  expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
+})
+

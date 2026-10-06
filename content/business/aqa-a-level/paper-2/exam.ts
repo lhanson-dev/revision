@@ -1,3 +1,4 @@
+import { retainedMockPaper2Exam } from '../shared/retained-mock'
 import { examSchema } from '../../../schema'
 
 export const paper2Exam = examSchema.parse({
@@ -34,4 +35,4 @@ export const paper2Exam = examSchema.parse({
   ],
 })
 
-export const exams = [paper2Exam]
+export const exams = [paper2Exam, retainedMockPaper2Exam]
