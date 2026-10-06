@@ -2,7 +2,7 @@
 
 ## Status
 
-Open incident record. Recovery 5 is proposed through PR #538; closure evidence must be appended only after a Founder-approved recovery merge completes the full production path-to-live successfully.
+Closed incident record. Recovery 5 completed through Founder-approved PR #538 and the full production path-to-live returned to green.
 
 ## Scope
 
@@ -85,3 +85,22 @@ Do not rewrite or backfill:
 - GitHub's external incident history.
 
 Append closure evidence after successful recovery; do not replace the incident record with the later state.
+
+## Closure evidence — 2026-10-06
+
+Recovery 5 completed through PR #538.
+
+- Founder-approved exact PR head: `66a8d2896de4508b4012c2269b46da2642fbd5aa`
+- Merge commit / new main: `751dd68ec53f7f667808bea0ee8b362927c5d9ae`
+- Pages #434 / run `37437764120`: completed successfully
+- Governed release lineage: passed
+- Production backend readiness: passed
+- Production build: passed
+- Pages deployment: passed
+- Production smoke: passed
+- Durable `revision/path-to-live`: success
+- Post-merge Revision CI #2718 / run `37437763900`: completed successfully
+
+The release-lineage verifier was not weakened and no historical status was added to PR #534's merge commit. The Recovery 5 bootstrap checkpoint is prospective only, preserving the original incident record and the failed/missing historical evidence exactly as observed.
+
+DEF-2026-008 is closed on this production evidence.
