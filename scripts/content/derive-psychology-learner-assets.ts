@@ -397,6 +397,64 @@ function workedReasoningExample(requirement: CourseTruthRequirement, label: stri
   const core = text(requirement.subjectTruth.definitionsAndCoreConcepts)
   const relationships = text(requirement.subjectTruth.modelsResearchAndRelationships)
   const evaluation = text(requirement.subjectTruth.evaluationAndLimits)
+  const joined = [...core, ...relationships, ...evaluation].join(' ').toLowerCase()
+
+  if (/meta-analysis|primary data|secondary data/.test(joined)) {
+    return {
+      title: `Worked source-synthesis example: ${label}`,
+      setup: 'A researcher has one newly collected interview dataset and effect estimates from eight previously published studies.',
+      task: 'Classify the two evidence sources, then state what would make a statistical synthesis a meta-analysis rather than a narrative summary.',
+      steps: [
+        'The newly collected interviews are primary data because they were generated for the current study.',
+        'The eight published effect estimates are secondary study-level evidence for the new synthesis.',
+        'A meta-analysis requires explicit inclusion rules and statistical combination of comparable effect estimates rather than simply describing the papers.',
+      ],
+      conclusion: 'Primary versus secondary describes where the data came from; meta-analysis describes a defined statistical synthesis of results from multiple studies.',
+    }
+  }
+
+  if (/nominal measurement|ordinal measurement|interval measurement/.test(joined)) {
+    return {
+      title: `Worked measurement example: ${label}`,
+      setup: 'A study records therapy type as CBT/other, satisfaction as ranks 1–5, and reaction time in milliseconds.',
+      task: 'Classify each variable by level of measurement and explain one consequence for analysis.',
+      steps: [
+        'Therapy type is nominal because the categories have no inherent numerical order.',
+        'The 1–5 satisfaction response is ordinal because responses are ordered but equal gaps are not guaranteed.',
+        'Reaction time is continuous numerical measurement with equal units, so analyses that require interval/ratio-style data may be considered if their other assumptions are met.',
+      ],
+      conclusion: 'The measurement level constrains which summaries and inferential procedures are defensible; numeric labels alone do not create interval data.',
+    }
+  }
+
+  if (/coding frame|content analysis/.test(joined)) {
+    return {
+      title: `Worked coding example: ${label}`,
+      setup: 'A coding frame defines two mutually exclusive categories for a transcript excerpt: supportive response and dismissive response.',
+      task: 'Apply the coding rule to one excerpt and state how the researcher would check coding reliability.',
+      steps: [
+        'Read the operational definitions in the coding frame before classifying the excerpt.',
+        'Assign the excerpt to the category whose stated rule it satisfies rather than inventing a new label after seeing the result.',
+        'Have an independent coder apply the same frame and compare classifications using an appropriate agreement check.',
+      ],
+      conclusion: 'Explicit categories and independent agreement checks improve coding reliability, but agreement alone does not prove that the categories validly represent the construct.',
+    }
+  }
+
+  if (/inferential-test choice|mann.?whitney|wilcoxon|spearman/.test(joined)) {
+    return {
+      title: `Worked test-selection example: ${label}`,
+      setup: 'A researcher asks whether the same participants differ before and after an intervention. The outcome is an ordered rating and parametric assumptions are not justified.',
+      task: 'Choose the appropriate inferential-test route and justify the decision from the research question, design and measurement.',
+      steps: [
+        'The hypothesis asks about a difference rather than an association.',
+        'The observations are related because the same participants provide both scores.',
+        'The outcome is ordinal/non-parametric, so the related-samples non-parametric route points to Wilcoxon signed-rank rather than Mann–Whitney U or an unrelated t-test.',
+      ],
+      conclusion: 'Test choice follows the question, related/unrelated design, measurement level and assumptions; the test name should be the end of the reasoning chain, not a memorised guess.',
+    }
+  }
+
   const candidates = unique([...relationships, ...core.slice(1), ...evaluation])
   const steps = candidates.slice(0, 3)
   return {
