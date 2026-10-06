@@ -518,9 +518,14 @@ describe('AQA 7132 bounded mock generation (software)', () => {
     let setLedger = await readLedger(SET_LEDGER_PATH, MOCK_SET_CHECKLIST.stage, MOCK_SET_CHECKLIST.version)
     const setFeedback = feedbackTargetsForSet(plan, setLedger.units['complete-set'])
     const founderResolutions = await loadFounderMockResolutions(FOUNDER_RESOLUTIONS_PATH)
+    const retainedQuestions = new Map<string, MockQuestion>()
+    for (const [slotId, retained] of Object.entries(state.questions)) {
+      const parsed = mockQuestionSchema.safeParse(retained.output)
+      if (parsed.success) retainedQuestions.set(slotId, parsed.data)
+    }
     const founderFeedback = new Map(plan.papers.map((paper) => {
       const target = emptyFeedback()
-      for (const [slotId, findings] of founderFixFeedbackTargets(plan, paper, paperLedger.units[paper.component_id], founderResolutions)) target.slots.set(slotId, findings)
+      for (const [slotId, findings] of founderFixFeedbackTargets(plan, paper, paperLedger.units[paper.component_id], founderResolutions, retainedQuestions)) target.slots.set(slotId, findings)
       return [paper.component_id, target] as const
     }))
     const priorFeedback = new Map(plan.papers.map((paper) => [
