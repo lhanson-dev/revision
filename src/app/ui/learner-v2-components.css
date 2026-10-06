@@ -336,15 +336,21 @@
 }
 
 /* ---- Feedback bar (Practice) ---- */
-.ui-feedback-bar { display: flex; flex-direction: column; gap: 6px; padding: 16px 20px; border: 2px solid transparent; border-radius: var(--radius-card, 20px); box-shadow: var(--shadow-raised); }
-.ui-feedback-bar--correct { background: var(--learning-status-gotit-tint); border-color: var(--learning-status-gotit); color: var(--learning-status-gotit-ink); }
-.ui-feedback-bar--wrong { background: var(--learning-status-needswork-tint); border-color: var(--learning-status-needswork); color: var(--learning-status-needswork-ink); }
+.ui-feedback-bar { padding: 22px clamp(20px, 4vw, 40px); border-top: 3px solid transparent; color: var(--color-text); }
+.ui-feedback-bar--correct { background: var(--learning-status-gotit-tint); border-top-color: var(--learning-status-gotit); }
+.ui-feedback-bar--wrong { background: var(--learning-status-needswork-tint); border-top-color: var(--learning-status-needswork); }
+.ui-feedback-bar__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; max-width: 820px; margin: 0 auto; }
+.ui-feedback-bar__body { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .ui-feedback-bar p { margin: 0; }
-.ui-feedback-bar__title { display: inline-flex; align-items: center; gap: 8px; font: 800 18px/1.2 var(--font-family-product); }
-.ui-feedback-bar__explanation { font-weight: 600; font-size: 16px; line-height: 1.5; color: var(--color-text); }
-.ui-feedback-bar__note { font-weight: 700; font-size: 14px; line-height: 1.4; }
-.ui-feedback-bar__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.ui-feedback-bar__title { display: inline-flex; align-items: center; gap: 10px; font: 800 26px/1.05 var(--font-family-display); letter-spacing: -.02em; }
+.ui-feedback-bar--correct .ui-feedback-bar__title { color: var(--learning-status-gotit-ink); }
+.ui-feedback-bar--wrong .ui-feedback-bar__title { color: var(--learning-status-needswork-ink); }
+.ui-feedback-bar__picked { font: 700 16px/1.45 var(--font-family-product); text-wrap: pretty; }
+.ui-feedback-bar__explanation { font-weight: 600; font-size: 16px; line-height: 1.45; color: var(--color-text); text-wrap: pretty; }
+.ui-feedback-bar__note { font-weight: 800; font-size: 15px; line-height: 1.4; color: var(--color-text); }
+.ui-feedback-bar__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ui-feedback-bar__actions .ui-button { min-height: 52px; padding: 0 28px; white-space: nowrap; }
 @media (prefers-reduced-motion: no-preference) {
   .ui-feedback-bar { animation: ui-feedback-bar-in 220ms ease-out; }
-  @keyframes ui-feedback-bar-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes ui-feedback-bar-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 }

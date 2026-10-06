@@ -40,7 +40,7 @@ export function PracticeDialog({ label, subjectMark, accentStyle, onClose, bar, 
             {bar}
           </div>
         </div>
-        <div className="practice-dialog__body">
+        <div className="practice-dialog__body" tabIndex={0} role="region" aria-label="Practice content">
           <div className="practice-dialog__column">{children}</div>
         </div>
         {footer}
@@ -71,10 +71,12 @@ export interface PracticeProgressBarProps {
   done: number
   topicName: string
   status?: LearningStatus
+  /** For one question after the topic's status changes. */
+  move?: 'up' | 'down' | null
 }
 
 /** The questions bar: a segmented strip, "{n} of {total}", the topic name and its live status. */
-export function PracticeProgressBar({ total, done, topicName, status }: PracticeProgressBarProps) {
+export function PracticeProgressBar({ total, done, topicName, status, move }: PracticeProgressBarProps) {
   const current = Math.min(done + 1, total)
   return (
     <>
@@ -89,6 +91,7 @@ export function PracticeProgressBar({ total, done, topicName, status }: Practice
       <div className="practice-progress__topic">
         <span className="practice-progress__topic-name">{topicName}</span>
         {status && <StatusBadge status={status} size="sm" />}
+        {move && <span className="practice-progress__move" role="status">{move === 'up' ? '▲ up' : '▼ down'}</span>}
       </div>
     </>
   )

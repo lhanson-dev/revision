@@ -58,6 +58,10 @@ For the learner app launch, no predicted grade (for example "Grade 6–7") is sh
 
 A Quick check is unscored. It never changes status, Topics covered or readiness (see `Educational Treatment System.md`).
 
+### Practice confidence
+
+In scored Practice the student says how sure they are (Guessing, Fairly sure, Certain) before an answer is checked. It is evidence about the student's own certainty, not a mark. A right guess counts for less than a right answer the student was sure of; a certain but wrong answer is treated as the gap most worth closing. The status shown is still only what the readiness engine says. Full rule: `10-product-governance/Adaptive Revision Planning.md` section 9.
+
 ### Honest data
 
 No number, date, name or topic is hard-coded from mockups or sample content. Coverage, understanding and readiness stay separate. Each screen shows its set-up empty state until that screen has real data, then switches to the real view; there is no global "three sessions" rule.

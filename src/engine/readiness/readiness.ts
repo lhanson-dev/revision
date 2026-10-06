@@ -178,6 +178,23 @@ export function assessTopicReadiness(moduleId: string, topicId: string, evidence
   return assessReadiness(evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId), now)
 }
 
+/**
+ * Questions the student was certain about, got wrong, and has not yet answered correctly since.
+ * A wrong answer cannot score below zero, so this is how a confident miss counts as a stronger gap:
+ * it moves the topic to the front of the recommendation and says why (Practice v2.2).
+ */
+export function unresolvedConfidentMisses(items: readonly LearningEvidence[]): string[] {
+  const latest = new Map<string, LearningEvidence>()
+  items.forEach((item) => {
+    if (item.source !== 'multiple_choice') return
+    const current = latest.get(item.contentId)
+    if (!current || item.occurredAt >= current.occurredAt) latest.set(item.contentId, item)
+  })
+  return [...latest.values()]
+    .filter((item) => item.source === 'multiple_choice' && !item.correct && item.confidence === 'certain')
+    .map((item) => item.contentId)
+}
+
 function familyMean(items: readonly LearningEvidence[], family: EvidenceFamily): number | null {
   const percentages = items
     .filter((item) => familyFor(item) === family)
@@ -198,10 +215,12 @@ export function recommendNextActivity(
   const candidates = topicIds.map((topicId, order) => {
     const items = evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && evidencePercentage(item) !== null)
     const readiness = assessReadiness(items, now)
-    return { topicId, order, items, readiness }
+    return { topicId, order, items, readiness, confidentMisses: unresolvedConfidentMisses(items).length }
   })
 
   candidates.sort((left, right) => {
+    // A question the student was certain about and got wrong is the gap most worth closing, so it goes first.
+    if ((left.confidentMisses > 0) !== (right.confidentMisses > 0)) return left.confidentMisses > 0 ? -1 : 1
     const leftHasScore = left.readiness.score !== null ? 1 : 0
     const rightHasScore = right.readiness.score !== null ? 1 : 0
     if (leftHasScore !== rightHasScore) return leftHasScore - rightHasScore
@@ -218,7 +237,10 @@ export function recommendNextActivity(
   let activity: RecommendationActivity
   let reason: string
 
-  if (target.items.length === 0) {
+  if (target.confidentMisses > 0) {
+    activity = 'quick-check'
+    reason = `You were certain about ${target.confidentMisses === 1 ? 'an answer' : 'some answers'} in this topic that turned out wrong. That is the gap most worth closing, so a Quick check comes first.`
+  } else if (target.items.length === 0) {
     activity = 'quick-check'
     reason = 'You haven’t tried this topic yet. A short Quick check will show where you’re already strong and where to focus.'
   } else if (families.size === 1 && families.has('recall')) {

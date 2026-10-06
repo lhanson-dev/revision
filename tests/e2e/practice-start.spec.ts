@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { captureEvidence, practicePath, seedReturningStudent } from './practice-seed'
+import { answerWith, captureEvidence, practicePath, seedReturningStudent } from './practice-seed'
 
 const startButton = (page: Page) => page.getByRole('button', { name: /^Start \d+ questions?$/ })
 
@@ -79,9 +79,7 @@ test('every exercise opens as a real pop-up: Esc and the close button leave it a
 test('closing mid-session keeps every saved answer and the start screen offers Carry on', async ({ page }) => {
   const saved = await openPractice(page)
   await startButton(page).click()
-  await page.locator('.practice-question__options button').first().click()
-  await page.getByRole('button', { name: 'Check answer' }).click()
-  await expect(page.locator('.ui-feedback-bar')).toBeVisible()
+  await answerWith(page, 0)
   expect(saved).toHaveLength(1)
 
   await page.getByRole('button', { name: 'Close practice' }).click()

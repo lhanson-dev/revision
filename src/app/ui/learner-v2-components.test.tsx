@@ -175,6 +175,9 @@ describe('feedback bar', () => {
   })
 
   it('leaves out the note and actions when there are none', () => {
+    const picked = renderToStaticMarkup(<FeedbackBar tone="wrong" title="Not quite." picked="You picked B: this is a moving average." explanation="Fixed costs do not change." />)
+    expect(picked).toContain('ui-feedback-bar__picked')
+    expect(picked).toContain('You picked B: this is a moving average.')
     const markup = renderToStaticMarkup(<FeedbackBar tone="correct" title="Correct" explanation="Yes." />)
     expect(markup).not.toContain('ui-feedback-bar__note')
     expect(markup).not.toContain('ui-feedback-bar__actions')

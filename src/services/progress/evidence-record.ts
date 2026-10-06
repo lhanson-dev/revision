@@ -9,7 +9,7 @@ export type LearningEvidenceRecord = {
   occurred_at: string
   content_id: string
   payload: LearningEvidence
-  schema_version: 1
+  schema_version: 1 | 2
 }
 
 export function toLearningEvidenceRecord(userId: string, value: unknown): LearningEvidenceRecord {

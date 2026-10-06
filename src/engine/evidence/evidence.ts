@@ -26,6 +26,16 @@ const marksShape = {
   marksAvailable: nonNegativeInteger,
 }
 
+/**
+ * How sure the student said they were before an answer was checked (Practice v2.2).
+ * Evidence that carries it is schema version 2; version 1 evidence has no confidence and stays valid.
+ */
+export const answerConfidenceSchema = z.enum(['guess', 'fairly', 'certain'])
+export type AnswerConfidence = z.infer<typeof answerConfidenceSchema>
+
+/** A right answer that was only a guess counts as half: weaker evidence than a right answer the student was sure of. */
+export const GUESSED_RIGHT_PERCENTAGE = 50
+
 const markingMethodSchema = z.enum(['self_assessed', 'externally_marked'])
 
 export const recallEvidenceSchema = z.object({
@@ -36,10 +46,16 @@ export const recallEvidenceSchema = z.object({
 
 export const multipleChoiceEvidenceSchema = z.object({
   ...baseEvidenceShape,
+  schemaVersion: z.union([z.literal(1), z.literal(2)]),
   source: z.literal('multiple_choice'),
   correct: z.boolean(),
   selectedOption: nonNegativeInteger,
   correctOption: nonNegativeInteger,
+  confidence: answerConfidenceSchema.optional(),
+}).superRefine((evidence, context) => {
+  if (evidence.confidence !== undefined && evidence.schemaVersion !== 2) {
+    context.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'evidence that records confidence must be schema version 2' })
+  }
 })
 
 export const examQuestionEvidenceSchema = z.object({
@@ -90,7 +106,8 @@ export function evidencePercentage(evidence: LearningEvidence): number | null {
     case 'flashcard':
       return (evidence.rating / 2) * 100
     case 'multiple_choice':
-      return evidence.correct ? 100 : 0
+      if (!evidence.correct) return 0
+      return evidence.confidence === 'guess' ? GUESSED_RIGHT_PERCENTAGE : 100
     case 'exam_question':
     case 'exam_attempt':
       return evidence.marksAvailable > 0

@@ -1,4 +1,5 @@
-import { type Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
+import { readFileSync } from 'node:fs'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 export const appPath = '/revision/app/'
@@ -98,3 +99,40 @@ export async function captureEvidence(page: Page) {
   return saved
 }
 
+
+// ---- Answering questions in the Practice pop-up (v2.2) ------------------------------------------------------------
+
+type BankRecord = { question: { stem: string; options: Array<{ label: string }>; mark_scheme: { correct_option?: string } } }
+const bank: BankRecord[] = (JSON.parse(readFileSync('content/business/aqa-a-level/shared/fast-path-question-bank.json', 'utf8')) as { questions: BankRecord[] }).questions
+
+/** The right option for a question from the AQA bank, found by its wording. Null for questions that are not in the bank. */
+export function bankCorrectIndex(prompt: string): number | null {
+  const record = bank.find((item) => item.question.stem.trim() === prompt.trim())
+  if (!record) return null
+  return record.question.options.findIndex((option) => option.label === record.question.mark_scheme.correct_option)
+}
+
+export type Sure = 'Guessing' | 'Fairly sure' | 'Certain'
+
+export async function startQuestions(page: Page) {
+  await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.locator('.practice-question__prompt')).toBeVisible()
+}
+
+/** Picks an option and says how sure you are, which checks the answer. */
+export async function answerWith(page: Page, index: number, sure: Sure = 'Fairly sure') {
+  await page.locator('.practice-question__options button').nth(index).click()
+  await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: sure }).click()
+  await expect(page.locator('.ui-feedback-bar')).toBeVisible()
+}
+
+/** Answers the question on screen right or wrong. Needs the question to be in the AQA bank. */
+export async function answerKnown(page: Page, right: boolean, sure: Sure = 'Fairly sure') {
+  const prompt = (await page.locator('.practice-question__prompt').textContent()) ?? ''
+  const correct = bankCorrectIndex(prompt)
+  expect(correct, `"${prompt.slice(0, 60)}" should be in the AQA bank`).not.toBeNull()
+  const count = await page.locator('.practice-question__options button').count()
+  await answerWith(page, right ? correct! : (correct! + 1) % count, sure)
+  return prompt
+}
