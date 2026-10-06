@@ -1,0 +1,53 @@
+{
+  "slot_id": "P1-B-05",
+  "family": "SHORT_ANSWER",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 4,
+    "AO3": 3,
+    "AO4": 1
+  },
+  "context": "Harbour Homeware Ltd makes reusable food containers. It currently relies on final inspection to identify containers with loose lids or cracked seals before dispatch. Recently, some defective containers have reached customers, resulting in returns and online complaints. The operations manager is considering introducing quality assurance procedures, including staff training, standardised machine settings and checks during production.",
+  "stem": "Analyse how introducing quality assurance procedures could affect Harbour Homeware Ltd. Your answer should distinguish quality assurance from final inspection.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited knowledge of quality assurance or inspection, with generic or undeveloped links to Harbour Homeware Ltd. May identify that quality assurance aims to reduce defects."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows sound applied analysis. Explains that quality assurance focuses on preventing defects through production processes, rather than merely detecting faulty finished containers, and develops one or more consequences for the business."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Shows well-developed, balanced analysis applied throughout to Harbour Homeware Ltd. Clearly distinguishes prevention through quality assurance from final inspection, and traces multiple relevant consequences, including the potential benefits and implementation difficulties of process-based quality procedures."
+      }
+    ],
+    "indicative_content": [
+      "Quality assurance is based on designing and controlling production processes to make defects less likely; final inspection is quality control because it detects faulty finished containers.",
+      "Training workers and using standard machine settings could reduce loose lids and cracked seals during production.",
+      "Fewer defects may reduce scrap, rework, returns and the staff time needed to deal with complaints, lowering costs and improving productivity.",
+      "More reliable containers could improve customer experience and reduce damaging online complaints, supporting repeat purchases and brand trust.",
+      "Final inspection can stop some defective products reaching customers, but it does not remove the underlying cause of recurring faults. Quality assurance can therefore reduce recurrence.",
+      "Harbour Homeware may incur training costs and need staff to follow procedures consistently. If procedures are poorly designed or not followed, the expected reduction in defects may not occur.",
+      "Quality assurance and final inspection can be complementary: process prevention reduces the number of faults, while inspection may still identify defects that arise unexpectedly."
+    ],
+    "model_answer": "Quality assurance would differ from Harbour Homeware's final inspection because it aims to prevent defects by controlling the production process, whereas final inspection identifies faulty containers after they have been made. For example, staff training and standardised machine settings could reduce the likelihood of loose lids or cracked seals occurring in the first place.\n\nThis could reduce rework, scrap and customer returns. As fewer containers need correcting or replacing, employees may spend more time producing saleable output, which could improve productivity and lower unit costs. It may also reduce online complaints, helping customer trust and repeat purchasing.\n\nHowever, introducing quality assurance may require spending on training and creating procedures, and its success depends on workers applying the settings consistently. Final inspection may still be useful to catch unexpected faults, but quality assurance is more likely to address the process causes of Harbour Homeware's repeated defects."
+  },
+  "calculations": []
+}

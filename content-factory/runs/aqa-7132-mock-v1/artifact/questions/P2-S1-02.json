@@ -1,0 +1,83 @@
+{
+  "slot_id": "P2-S1-02",
+  "family": "DATA_RESPONSE",
+  "command_word": "Calculate",
+  "marks": 3,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 2,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the shared stimulus, calculate Mend & Move Refill Co.'s value market share in the UK household-cleaning refill-subscription market for 2025 and for 2026. Calculate the change in market share in percentage points between the two years. Show your workings.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Calculates 2025 value market share.",
+        "accept": [
+          "£1.35m ÷ £18.0m × 100 = 7.5%"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates 2026 value market share.",
+        "accept": [
+          "£1.80m ÷ £24.0m × 100 = 7.5%"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates the change in market share in percentage points.",
+        "accept": [
+          "7.5% − 7.5% = 0 percentage points",
+          "No change in market share"
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "2025 market share = (£1.35m ÷ £18.0m) × 100 = 7.5%.\n2026 market share = (£1.80m ÷ £24.0m) × 100 = 7.5%.\nChange in market share = 7.5% − 7.5% = 0 percentage points."
+  },
+  "calculations": [
+    {
+      "label": "2025 value market share",
+      "method": "percent_of",
+      "operands": [
+        1.35,
+        18
+      ],
+      "stated_answer": 7.5,
+      "unit": "%",
+      "marks_supported": 1
+    },
+    {
+      "label": "2026 value market share",
+      "method": "percent_of",
+      "operands": [
+        1.8,
+        24
+      ],
+      "stated_answer": 7.5,
+      "unit": "%",
+      "marks_supported": 1
+    },
+    {
+      "label": "change in value market share",
+      "method": "difference",
+      "operands": [
+        7.5,
+        7.5
+      ],
+      "stated_answer": 0,
+      "unit": "percentage points",
+      "marks_supported": 1
+    }
+  ]
+}

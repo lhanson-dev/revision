@@ -1,0 +1,55 @@
+{
+  "slot_id": "P2-S1-03",
+  "family": "DATA_RESPONSE",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 3,
+    "AO3": 4,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the shared stimulus, analyse why Mend & Move’s owners may find it difficult to decide whether revenue growth, profit per order or maintaining sufficient cash should be their greatest priority in the next year. Your answer should consider the business’s stated purpose.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited understanding of one or more objectives or financial measures. Makes simple statements about the stimulus, with little or no developed link between an objective and its consequences for Mend & Move."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Shows sound understanding of objectives, revenue, profit and/or cash. Applies this to Mend & Move and develops some linked analysis of why prioritising one objective can affect another."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Shows thorough, well-focused understanding of the business’s purpose and potentially conflicting objectives. Develops clear chains of analysis using the stimulus to explain the trade-offs between revenue growth, profit per order and cash, including how the proposed system could affect these priorities."
+      }
+    ],
+    "indicative_content": [
+      "Mend & Move’s purpose is to make lower-waste cleaning products convenient and affordable for busy households. Its objectives should guide resource allocation and should be consistent with this broad purpose.",
+      "Revenue growth could support the purpose if subscriptions, faster dispatch and personalised reminders make refills more convenient and attract more customers. Revenue has already risen from £1.35m to £1.80m as online subscriptions have grown.",
+      "Higher revenue does not automatically mean higher profit. Profit is revenue remaining after relevant costs, so increased orders could reduce profit per order if personalised communication, training, delivery, financing or system-related costs rise faster than revenue.",
+      "Protecting profit per order could support financial sustainability and help fund future activity. However, reducing expenditure too strongly could weaken delivery speed, app quality or customer convenience, which may conflict with the business’s purpose and make it harder to overcome customers’ view that refills are less convenient than supermarket brands.",
+      "Cash should be prioritised because only £85,000 is held at year end and the business needs to pay suppliers on time. Cash has already fallen because of advance sachet purchases and delivery crates.",
+      "The proposed system requires £120,000 from cash, exceeding the reported year-end cash balance if considered in isolation. This illustrates the tension between preserving liquidity and investing to improve future speed, accuracy, waste reduction and demand forecasting.",
+      "A £120,000 bank loan may preserve some cash compared with fully cash-funded investment, but creates a future financial obligation and could put pressure on profit. The system may also require staff training and changes to warehouse roles.",
+      "The owners face a trade-off: prioritising immediate cash may reduce financial risk but delay a system that could increase convenience and future revenue; prioritising growth and investment may improve long-term value creation but heighten short-term cash and implementation risk.",
+      "Relevant analysis may recognise that objectives can be complementary as well as conflicting: better demand forecasts could reduce wasted stock and picking errors, potentially supporting cash, profit and customer convenience. These gains are uncertain because inaccurate data, system failures or poor recommendations could damage trust."
+    ],
+    "model_answer": "Mend & Move has difficulty selecting one priority because its objectives are connected but can conflict. Its purpose is to make lower-waste cleaning products convenient and affordable, so revenue growth is not simply a financial target. The automated system could make ordering and dispatch more convenient through personalised reminders and faster packing. This may encourage subscription demand and help the business respond to customers who value home delivery, increasing revenue from its current £1.80m level.\n\nHowever, revenue growth is not the same as profit growth. Profit is what remains after costs, and the system could increase costs through staff training, changed warehouse roles and borrowing. If these costs rise more than the additional revenue or if recommendations are ineffective, profit per order could fall. Conversely, demand forecasting and fewer picking errors could reduce wasted stock and operating inefficiencies, which could protect profit per order. Therefore, the profit objective depends on whether the expected operational improvements are achieved.\n\nMaintaining cash is also important because the business holds only £85,000 and needs enough liquidity to pay suppliers on time. The proposed funding includes £120,000 from cash, while cash has already fallen after buying stock in advance and delivery crates. Giving cash the greatest priority would reduce the risk of payment difficulties, but delaying the system could leave refills less convenient than supermarket alternatives and restrict future revenue growth. The owners must therefore balance short-term cash security against investment that could support convenience, lower waste and future profitability, rather than assuming that the highest revenue target should automatically dominate."
+  },
+  "calculations": []
+}

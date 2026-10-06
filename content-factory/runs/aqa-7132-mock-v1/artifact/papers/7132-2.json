@@ -1,0 +1,1173 @@
+{
+  "schema_version": 1,
+  "plan_id": "aqa-business-7132-2027-mock-set-plan-v1",
+  "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+  "component_id": "7132/2",
+  "name": "Business 2",
+  "duration_minutes": 120,
+  "attempted_raw_marks": 100,
+  "printed_raw_marks": 100,
+  "learner_claim": "A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.",
+  "shared_contexts": [
+    {
+      "unit_id": "P2-SET-1",
+      "title": "Mend & Move Refill Co.",
+      "business_name": "Mend & Move Refill Co.",
+      "narrative": "Mend & Move Refill Co. is a privately owned business based in Birmingham. It sells concentrated household-cleaning products in reusable aluminium bottles. Customers buy starter bottles and then order refill sachets through the company’s website or app. The business states that its purpose is to make lower-waste cleaning products convenient and affordable for busy households.\n\nThe business has grown as more customers use online subscriptions and seek products with less single-use plastic. However, customer interviews suggest that some potential customers still see refills as less convenient than buying established brands in supermarkets. Mend & Move’s main customer group is households aged 25–44, particularly customers who value home delivery and can manage subscriptions through a mobile phone.\n\nFor the year ended 31 March 2026, Mend & Move generated revenue of £1.80m and made a profit of £150,000. It holds £85,000 cash at the year end. Managers explain that cash has been reduced by buying refill sachets in advance from suppliers and by paying for new delivery crates. The owners have set objectives to increase revenue, protect profit per order and maintain enough cash to pay suppliers on time. They disagree about which objective should receive greatest priority during the next year.\n\nMend & Move operates in a UK market for household-cleaning refill subscriptions. Its marketing manager has proposed a £240,000 investment in an automated packing and demand-forecasting system. The system would use customer-order data to predict subscription demand, reduce picking errors and send personalised refill reminders through the app. It could enable faster dispatch and reduce packaging waste, but staff would need training and some warehouse roles could change. The investment would be paid from cash and a bank loan.\n\nSupporters argue that the system could help Mend & Move respond to customers’ growing use of online shopping, improve convenience and reduce wasted stock. Critics are concerned that inaccurate customer data, system failures or poor app recommendations could damage trust. They also argue that the business should first improve its cash position and test whether customers will respond positively to more personalised digital communication.",
+      "table": {
+        "title": "Selected data for Mend & Move Refill Co.",
+        "columns": [
+          "Measure",
+          "2025",
+          "2026",
+          "Additional information"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Mend & Move revenue",
+              "£1.35m",
+              "£1.80m",
+              "2026 revenue came from starter bottles and refill subscriptions."
+            ]
+          },
+          {
+            "cells": [
+              "Mend & Move profit",
+              "£105,000",
+              "£150,000",
+              "Profit is calculated after operating costs for each year."
+            ]
+          },
+          {
+            "cells": [
+              "Cash held at year end",
+              "£140,000",
+              "£85,000",
+              "The fall followed advance purchases of refill sachets and delivery crates."
+            ]
+          },
+          {
+            "cells": [
+              "UK household-cleaning refill-subscription market size",
+              "£18.0m",
+              "£24.0m",
+              "Market size is measured by annual sales value."
+            ]
+          },
+          {
+            "cells": [
+              "Mend & Move sales in this market",
+              "£1.35m",
+              "£1.80m",
+              "Sales are measured by annual sales value."
+            ]
+          },
+          {
+            "cells": [
+              "Proposed automated system",
+              "Not applicable",
+              "£240,000 investment",
+              "Expected implementation time: six months; funding would be £120,000 from cash and £120,000 from a bank loan."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "P2-SET-2",
+      "title": "ParcelPedal Ltd: Positioning, international growth and FlexLoad innovation",
+      "business_name": "ParcelPedal Ltd",
+      "narrative": "This Revision-authored stimulus concerns ParcelPedal Ltd, a Bristol-based manufacturer of electrically assisted cargo trikes for urban delivery fleets. Its 85 employees assemble trikes in the UK and provide fleet customers with repair training, replacement parts and a 48-hour technical-support service. ParcelPedal targets a narrow market of delivery firms that need reliable vehicles with low downtime, rather than selling to individual cyclists.\n\nParcelPedal’s current trike is designed so that mechanics can replace damaged panels, brakes and battery mounts without replacing the whole vehicle. This repairability, together with its support service, is central to the firm’s marketing. However, RideFast imports standardised cargo trikes at a lower price, while UrbanHaul sells UK-assembled trikes with more conventional designs. ParcelPedal has capacity to assemble 1,400 trikes annually; it sold 1,200 in 2024.\n\nA Dutch distributor has asked ParcelPedal to supply 500 trikes in 2026 for delivery fleets in several cities. The distributor would handle customer sales, but ParcelPedal would remain responsible for supplying parts. Dutch fleet managers have requested removable batteries and narrower cargo modules for use in constrained urban spaces. Exporting from Bristol would add £220 transport and administration cost per trike. Alternatively, ParcelPedal could form a joint venture with a Dutch maintenance business. This would require a £450,000 initial equity investment, would give the business local repair capability, and could avoid the £220 export cost. The Dutch partner wants influence over product adaptations and local marketing.\n\nThe board is also considering FlexLoad, a proposed product and process innovation. FlexLoad would have removable batteries and interchangeable cargo modules, helping it meet the Dutch requests and allowing UK customers to choose different modules for parcels, groceries or medical supplies. Development and tooling would cost £2.00m, and staff training would cost a further £150,000. ParcelPedal has £1.10m available cash for the project and would need bank finance for the remainder. A patent application has been submitted for the modular mounting system, but the patent has not yet been granted.\n\nFlexLoad would use an automated frame-welding and testing cell. Management forecasts that this would reduce direct production cost by £240 per FlexLoad trike, increase annual capacity to 1,600 trikes and reduce the proportion of trikes requiring warranty repairs in their first year from 7% to 3%. Four existing fleet customers have trialled prototypes, but the sales forecast remains dependent on customers accepting the higher price. The new removable battery would be supplied by one specialist supplier, creating a new dependency. The board must decide whether to proceed with FlexLoad, retain the current model, or prioritise international expansion using the existing design.",
+      "table": {
+        "title": "ParcelPedal market, cost and expansion information",
+        "columns": [
+          "Measure",
+          "ParcelPedal",
+          "RideFast",
+          "UrbanHaul"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "UK cargo-trike units sold in 2024",
+              "1,200",
+              "2,600",
+              "1,400"
+            ]
+          },
+          {
+            "cells": [
+              "Average selling price per trike",
+              "£5,400",
+              "£4,250",
+              "£5,100"
+            ]
+          },
+          {
+            "cells": [
+              "Variable production cost per current trike",
+              "£3,150",
+              "Not available",
+              "Not available"
+            ]
+          },
+          {
+            "cells": [
+              "Annual fixed UK operating costs",
+              "£2,100,000",
+              "Not available",
+              "Not available"
+            ]
+          },
+          {
+            "cells": [
+              "Other UK suppliers' combined sales in 2024",
+              "800 units",
+              "—",
+              "—"
+            ]
+          },
+          {
+            "cells": [
+              "Planned FlexLoad selling price",
+              "£5,650",
+              "—",
+              "—"
+            ]
+          },
+          {
+            "cells": [
+              "Forecast FlexLoad variable cost before automated-cell saving",
+              "£3,420",
+              "—",
+              "—"
+            ]
+          },
+          {
+            "cells": [
+              "Forecast FlexLoad sales in its first full year",
+              "900 UK units and 500 Dutch units",
+              "—",
+              "—"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "P2-SET-3",
+      "title": "Funding Growth at LoopFill Ltd",
+      "business_name": "LoopFill Ltd",
+      "narrative": "LoopFill Ltd is a privately owned business in Leeds that fills reusable household-cleaning liquids into pouches for independent retailers and regional supermarkets. Its largest customer has asked LoopFill to supply an additional 50,000 pouches during the next financial year, provided the business can meet agreed delivery dates.\n\nThe directors are considering an automated filling and packing line costing £200,000. They expect it to reduce bottlenecks on the evening shift, but staff will need training before it is used. The business has £95,000 cash at the end of 2025, although its directors want to retain at least £80,000 as a cash buffer because customers normally pay 45 days after delivery.\n\nManagement has linked rising staff departures to the difficulty of covering evening shifts, but exit interviews have also mentioned pay and training. The operations manager has warned that faster filling must not increase pouch leaks or customer complaints.\n\nTo fund the line, LoopFill has received a bank-loan offer and has also been approached about an equity crowdfunding campaign. Its finance manager has suggested factoring some customer receivables to improve day-to-day cash flow. The directors must decide how to finance growth while protecting control, cash flow and service quality.",
+      "table": {
+        "title": "LoopFill Ltd: selected operating, workforce and financial information",
+        "columns": [
+          "Item",
+          "2024 actual",
+          "2025 budget",
+          "2025 actual / proposal"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Good pouches completed",
+              "255,000",
+              "290,000",
+              "291,000"
+            ]
+          },
+          {
+            "cells": [
+              "Average number of employees",
+              "50",
+              "54",
+              "55"
+            ]
+          },
+          {
+            "cells": [
+              "Employees leaving during the year",
+              "5",
+              "6",
+              "11"
+            ]
+          },
+          {
+            "cells": [
+              "Absence rate",
+              "2.8%",
+              "2.5%",
+              "4.1%"
+            ]
+          },
+          {
+            "cells": [
+              "Total employee costs",
+              "£1,200,000",
+              "£1,380,000",
+              "£1,485,000"
+            ]
+          },
+          {
+            "cells": [
+              "Sales revenue",
+              "£3,000,000",
+              "£3,600,000",
+              "£3,450,000"
+            ]
+          },
+          {
+            "cells": [
+              "Materials and packaging costs",
+              "£810,000",
+              "£900,000",
+              "£950,000"
+            ]
+          },
+          {
+            "cells": [
+              "Other operating costs, excluding employee costs",
+              "£660,000",
+              "£650,000",
+              "£700,000"
+            ]
+          },
+          {
+            "cells": [
+              "Operating profit",
+              "£330,000",
+              "£670,000",
+              "£315,000"
+            ]
+          },
+          {
+            "cells": [
+              "Closing cash balance",
+              "£120,000",
+              "£170,000",
+              "£95,000"
+            ]
+          },
+          {
+            "cells": [
+              "Customer receivables at year end",
+              "£540,000",
+              "£600,000",
+              "£650,000"
+            ]
+          },
+          {
+            "cells": [
+              "Exit-interview themes",
+              "Evening shifts mentioned by 2 of 5 leavers",
+              "—",
+              "Evening-shift predictability mentioned by 7 of 11 leavers; pay mentioned by 5; training mentioned by 4"
+            ]
+          },
+          {
+            "cells": [
+              "Automated line requirement",
+              "—",
+              "—",
+              "£200,000 payable before installation; expected to be available for the additional order next year"
+            ]
+          },
+          {
+            "cells": [
+              "Bank-loan offer",
+              "—",
+              "—",
+              "Up to £200,000 for five years; 7% annual interest; £40,000 principal repayment each year; security required over the new line"
+            ]
+          },
+          {
+            "cells": [
+              "Equity crowdfunding indication",
+              "—",
+              "—",
+              "£200,000 in return for 18% of ordinary shares; platform fee of 6% of funds raised; no contractual repayment"
+            ]
+          },
+          {
+            "cells": [
+              "Debt-factoring indication",
+              "—",
+              "—",
+              "Advance of up to 80% of eligible receivables; 3% fee on amounts advanced; provider would contact customers about payment collection"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.5.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FIN-001",
+        "BUS-FIN-003",
+        "BUS-FIN-005",
+        "BUS-FIN-010",
+        "BUS-FIN-012"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S1-01",
+        "family": "DATA_RESPONSE",
+        "command_word": "Describe",
+        "marks": 3,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 1,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the Mend & Move Refill Co. stimulus, describe one difference between profit and cash, and apply this difference to the business.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Identifies profit as revenue less relevant costs over a period.",
+              "accept": [
+                "Profit is the amount remaining after relevant costs are deducted from revenue.",
+                "Profit measures financial performance over a period."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Identifies cash as money held or cash received and paid by the business, rather than profit.",
+              "accept": [
+                "Cash is the money available to make payments.",
+                "Cash is affected by the timing of receipts and payments.",
+                "Profit and cash are not the same."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Applies the distinction to Mend & Move using relevant stimulus evidence.",
+              "accept": [
+                "Mend & Move made £150,000 profit in 2026 but held only £85,000 cash at the year end.",
+                "Its cash was reduced by buying refill sachets in advance and paying for delivery crates, despite making a profit.",
+                "The business may make a profit but still need sufficient cash to pay suppliers on time."
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Profit is the amount left after relevant costs are deducted from revenue over a period, whereas cash is the money available to make payments. Mend & Move made a £150,000 profit in 2026 but held £85,000 cash because advance purchases of sachets and delivery crates reduced its cash balance."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.3.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-001",
+        "BUS-EVI-002",
+        "BUS-EVI-003",
+        "BUS-EVI-005",
+        "BUS-MKT-002",
+        "BUS-MKT-003",
+        "BUS-MKT-004",
+        "BUS-MKT-008"
+      ],
+      "quantitative_marks": 3,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S1-02",
+        "family": "DATA_RESPONSE",
+        "command_word": "Calculate",
+        "marks": 3,
+        "ao_marks": {
+          "AO1": 1,
+          "AO2": 2,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the shared stimulus, calculate Mend & Move Refill Co.'s value market share in the UK household-cleaning refill-subscription market for 2025 and for 2026. Calculate the change in market share in percentage points between the two years. Show your workings.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 1,
+              "descriptor": "Calculates 2025 value market share.",
+              "accept": [
+                "£1.35m ÷ £18.0m × 100 = 7.5%"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates 2026 value market share.",
+              "accept": [
+                "£1.80m ÷ £24.0m × 100 = 7.5%"
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates the change in market share in percentage points.",
+              "accept": [
+                "7.5% − 7.5% = 0 percentage points",
+                "No change in market share"
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "2025 market share = (£1.35m ÷ £18.0m) × 100 = 7.5%.\n2026 market share = (£1.80m ÷ £24.0m) × 100 = 7.5%.\nChange in market share = 7.5% − 7.5% = 0 percentage points."
+        },
+        "calculations": [
+          {
+            "label": "2025 value market share",
+            "method": "percent_of",
+            "operands": [
+              1.35,
+              18
+            ],
+            "stated_answer": 7.5,
+            "unit": "%",
+            "marks_supported": 1
+          },
+          {
+            "label": "2026 value market share",
+            "method": "percent_of",
+            "operands": [
+              1.8,
+              24
+            ],
+            "stated_answer": 7.5,
+            "unit": "%",
+            "marks_supported": 1
+          },
+          {
+            "label": "change in value market share",
+            "method": "difference",
+            "operands": [
+              7.5,
+              7.5
+            ],
+            "stated_answer": 0,
+            "unit": "percentage points",
+            "marks_supported": 1
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.1.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FIN-002",
+        "BUS-FIN-003",
+        "BUS-FND-001",
+        "BUS-FND-005"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S1-03",
+        "family": "DATA_RESPONSE",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 3,
+          "AO3": 4,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the shared stimulus, analyse why Mend & Move’s owners may find it difficult to decide whether revenue growth, profit per order or maintaining sufficient cash should be their greatest priority in the next year. Your answer should consider the business’s stated purpose.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited understanding of one or more objectives or financial measures. Makes simple statements about the stimulus, with little or no developed link between an objective and its consequences for Mend & Move."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows sound understanding of objectives, revenue, profit and/or cash. Applies this to Mend & Move and develops some linked analysis of why prioritising one objective can affect another."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Shows thorough, well-focused understanding of the business’s purpose and potentially conflicting objectives. Develops clear chains of analysis using the stimulus to explain the trade-offs between revenue growth, profit per order and cash, including how the proposed system could affect these priorities."
+            }
+          ],
+          "indicative_content": [
+            "Mend & Move’s purpose is to make lower-waste cleaning products convenient and affordable for busy households. Its objectives should guide resource allocation and should be consistent with this broad purpose.",
+            "Revenue growth could support the purpose if subscriptions, faster dispatch and personalised reminders make refills more convenient and attract more customers. Revenue has already risen from £1.35m to £1.80m as online subscriptions have grown.",
+            "Higher revenue does not automatically mean higher profit. Profit is revenue remaining after relevant costs, so increased orders could reduce profit per order if personalised communication, training, delivery, financing or system-related costs rise faster than revenue.",
+            "Protecting profit per order could support financial sustainability and help fund future activity. However, reducing expenditure too strongly could weaken delivery speed, app quality or customer convenience, which may conflict with the business’s purpose and make it harder to overcome customers’ view that refills are less convenient than supermarket brands.",
+            "Cash should be prioritised because only £85,000 is held at year end and the business needs to pay suppliers on time. Cash has already fallen because of advance sachet purchases and delivery crates.",
+            "The proposed system requires £120,000 from cash, exceeding the reported year-end cash balance if considered in isolation. This illustrates the tension between preserving liquidity and investing to improve future speed, accuracy, waste reduction and demand forecasting.",
+            "A £120,000 bank loan may preserve some cash compared with fully cash-funded investment, but creates a future financial obligation and could put pressure on profit. The system may also require staff training and changes to warehouse roles.",
+            "The owners face a trade-off: prioritising immediate cash may reduce financial risk but delay a system that could increase convenience and future revenue; prioritising growth and investment may improve long-term value creation but heighten short-term cash and implementation risk.",
+            "Relevant analysis may recognise that objectives can be complementary as well as conflicting: better demand forecasts could reduce wasted stock and picking errors, potentially supporting cash, profit and customer convenience. These gains are uncertain because inaccurate data, system failures or poor recommendations could damage trust."
+          ],
+          "model_answer": "Mend & Move has difficulty selecting one priority because its objectives are connected but can conflict. Its purpose is to make lower-waste cleaning products convenient and affordable, so revenue growth is not simply a financial target. The automated system could make ordering and dispatch more convenient through personalised reminders and faster packing. This may encourage subscription demand and help the business respond to customers who value home delivery, increasing revenue from its current £1.80m level.\n\nHowever, revenue growth is not the same as profit growth. Profit is what remains after costs, and the system could increase costs through staff training, changed warehouse roles and borrowing. If these costs rise more than the additional revenue or if recommendations are ineffective, profit per order could fall. Conversely, demand forecasting and fewer picking errors could reduce wasted stock and operating inefficiencies, which could protect profit per order. Therefore, the profit objective depends on whether the expected operational improvements are achieved.\n\nMaintaining cash is also important because the business holds only £85,000 and needs enough liquidity to pay suppliers on time. The proposed funding includes £120,000 from cash, while cash has already fallen after buying stock in advance and delivery crates. Giving cash the greatest priority would reduce the risk of payment difficulties, but delaying the system could leave refills less convenient than supermarket alternatives and restrict future revenue growth. The owners must therefore balance short-term cash security against investment that could support convenience, lower waste and future profitability, rather than assuming that the highest revenue target should automatically dominate."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.6"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EXT-005",
+        "BUS-EXT-006",
+        "BUS-FND-006",
+        "BUS-FND-009",
+        "BUS-STR-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S1-04",
+        "family": "DATA_RESPONSE",
+        "command_word": "Evaluate",
+        "marks": 20,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 5,
+          "AO3": 6,
+          "AO4": 6
+        },
+        "context": "",
+        "stem": "Using the case study, evaluate whether Mend & Move Refill Co. should proceed with the proposed automated packing and demand-forecasting system. In your answer, consider how technological change and changing customer lifestyles may affect the decision, alongside the interests of relevant stakeholders.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 4,
+              "descriptor": "Shows limited knowledge of technology, online buying behaviour or stakeholder interests. Application to Mend & Move is weak or mainly copied from the case study. Analysis is asserted rather than developed, and any judgement is unsupported."
+            },
+            {
+              "level": 2,
+              "min_marks": 5,
+              "max_marks": 8,
+              "descriptor": "Shows some relevant understanding and application to the proposed system. Explains one or more possible benefits or drawbacks, such as faster dispatch, improved forecasting, training needs or customer trust. A conclusion is present but is generic, one-sided or weakly justified."
+            },
+            {
+              "level": 3,
+              "min_marks": 9,
+              "max_marks": 13,
+              "descriptor": "Shows clear, relevant understanding of technological change, customer lifestyle change and stakeholder effects. Analyses linked consequences for Mend & Move, including how the system could affect convenience, operations, costs, cash or trust. Makes a supported judgement that recognises a relevant limitation, risk or trade-off."
+            },
+            {
+              "level": 4,
+              "min_marks": 14,
+              "max_marks": 20,
+              "descriptor": "Shows thorough and well-focused understanding throughout. Develops balanced chains of analysis using the specific circumstances of Mend & Move, including the fit between the technology, online subscription customers and operational objectives. Evaluates material uncertainties, implementation capability, stakeholder conflicts and the financial/cash constraint. Reaches a well-supported, contextual judgement, with clear conditions or an alternative course of action where appropriate."
+            }
+          ],
+          "indicative_content": [
+            "The system is a process and digital-service innovation rather than merely a software purchase. Value depends on successful implementation, staff training, reliable customer-order data and changed warehouse processes.",
+            "Mend & Move's target households value home delivery and managing subscriptions by mobile phone. Personalised reminders and faster dispatch could make refills more convenient, addressing the concern that refills are less convenient than supermarket brands.",
+            "Better demand forecasts could reduce over-ordering of refill sachets, reduce wasted stock and improve availability. Fewer picking errors may improve customer experience, retention and repeat subscription revenue.",
+            "Reduced packaging waste may support Mend & Move's lower-waste purpose. However, the business should avoid assuming that an environmental benefit is proven without evidence across its operations and supply chain.",
+            "The business operates in a growing online refill-subscription market. The system may help it respond to the wider move towards online shopping, but market growth alone does not prove that customers will value or respond positively to personalised app communication.",
+            "Inaccurate data or unsuitable recommendations could inconvenience customers and reduce trust. System failures could delay dispatch, creating a particularly serious risk because convenience is central to the proposition and customers can compare alternatives online.",
+            "Warehouse staff may require training and some roles may change. Better productivity could support profit per order, but disruption, resistance or inadequate skills could delay benefits and harm employee relations.",
+            "Owners seek revenue growth, profit per order and sufficient cash, but these objectives conflict. The £240,000 investment is partly funded from cash when year-end cash is only £85,000 and has already fallen because of advance stock purchases and delivery crates.",
+            "The £120,000 bank loan creates repayment and financing obligations. This may put pressure on cash even if the system eventually improves efficiency; the six-month implementation period means benefits are uncertain and may not be immediate.",
+            "A staged implementation, pilot of personalised reminders, staff consultation and testing of data quality could reduce the risk of a full rollout. These actions may preserve flexibility but could slow the benefits.",
+            "A justified conclusion may support proceeding only if Mend & Move protects supplier-payment capacity and tests the system before full implementation. Alternatively, delaying the investment could be justified if the immediate cash risk is judged more severe than the likely operational gains."
+          ],
+          "model_answer": "Mend & Move has a strong strategic reason to proceed because the proposed system could make its subscription offer more convenient for its main customers. Its target group values home delivery and uses mobile phones to manage subscriptions, while interviews suggest that some potential customers currently regard refills as less convenient than supermarket products. Faster dispatch and personalised refill reminders could therefore reduce missed or late orders. This could increase repeat purchases and revenue, rather than simply relying on growth in the refill-subscription market.\n\nThe system could also improve operational performance. Forecasting demand from customer-order data may allow Mend & Move to buy refill sachets more accurately, reducing excess stock and packaging waste. Fewer picking errors could reduce replacement and customer-service costs, helping to protect profit per order. This would support both the business's lower-waste purpose and its financial objectives. However, these outcomes are not automatic. The business will gain little from the technology if staff are not trained, warehouse processes are not redesigned, or the customer data produces inaccurate forecasts. In that case, stock availability and dispatch could worsen rather than improve.\n\nThere are significant stakeholder and financial risks. Customers may welcome reminders, but poor recommendations or system failures could damage trust, especially because convenience is a key reason for choosing the service. Employees may benefit from training and fewer errors, but changing warehouse roles could create resistance or disruption. Most importantly, cash is only £85,000 at the year end, yet £120,000 of the investment would come from cash. Although the other £120,000 is borrowed, loan repayments could further constrain cash. Mend & Move must still pay suppliers on time after already tying up cash in advance purchases of sachets.\n\nOverall, Mend & Move should proceed, but not as an immediate uncontrolled full rollout. The technology fits changing online lifestyles and could address the convenience weakness in its offer, so delaying indefinitely risks losing customers as the market grows. However, the owners should first test the forecasting and reminder functions, train affected staff and ensure that the funding plan leaves enough cash to meet supplier payments. This conditional approach is preferable because it captures the potential long-term revenue and efficiency gains while limiting the most serious short-term risk: damaging customer trust or creating a cash shortfall during the six-month implementation period."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.8.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-STR-002",
+        "BUS-STR-005"
+      ],
+      "quantitative_marks": 6,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S2-01",
+        "family": "DATA_RESPONSE",
+        "command_word": "Explain",
+        "marks": 6,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 4,
+          "AO3": 0,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Refer to the shared ParcelPedal Ltd stimulus and table. Calculate the figures below and use them to explain ParcelPedal's competitive positioning.\n\n1. The total UK cargo-trike market sales in 2024 and ParcelPedal's market share.\n2. ParcelPedal's price premium over RideFast.\n3. ParcelPedal's unused annual production capacity in 2024.\n4. FlexLoad's variable production cost after the automated-cell saving and its contribution per trike at the planned selling price.\n\nYou should use your calculations to explain how ParcelPedal combines a focused market scope with differentiation rather than competing principally on low price.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "points",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [
+            {
+              "marks": 2,
+              "descriptor": "Calculates total UK market sales of 6,000 units and ParcelPedal's market share of 20.0%.",
+              "accept": [
+                "1,200 + 2,600 + 1,400 + 800 = 6,000 units",
+                "1,200 / 6,000 x 100 = 20%",
+                "Explanation that a 20% share does not indicate that ParcelPedal is attempting to serve the whole market; its stated target is the narrower fleet-delivery segment."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates ParcelPedal's £1,150 price premium over RideFast and links this to differentiation rather than a low-price position.",
+              "accept": [
+                "£5,400 - £4,250 = £1,150",
+                "Explanation that ParcelPedal needs customers to value its repairable design and support service sufficiently to prefer it despite the higher price."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates 200 trikes of unused annual capacity and applies this to the focused position.",
+              "accept": [
+                "1,400 - 1,200 = 200 trikes",
+                "Explanation that spare capacity can support additional fleet orders without requiring ParcelPedal to cut price to pursue mass-market volume."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates FlexLoad's post-saving variable production cost as £3,180 per trike.",
+              "accept": [
+                "£3,420 - £240 = £3,180",
+                "Explanation that automation could strengthen ParcelPedal's cost position while it continues to offer differentiated modular features."
+              ]
+            },
+            {
+              "marks": 1,
+              "descriptor": "Calculates FlexLoad's contribution as £2,470 per trike and links this to maintaining differentiated value.",
+              "accept": [
+                "£5,650 - £3,180 = £2,470",
+                "Explanation that the contribution could help fund the repair, parts and technical-support activities that distinguish ParcelPedal for its fleet customers."
+              ]
+            }
+          ],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Total UK market sales are 6,000 trikes, so ParcelPedal's market share is 20.0%. This is consistent with a focus strategy because it targets delivery fleets needing reliability and low downtime, rather than all cyclists. ParcelPedal charges £1,150 more than RideFast, so it is not primarily using low price; repairability and technical support must create differentiated value for fleet customers. It had 200 unused units of capacity, which could allow it to serve further fleet demand without necessarily chasing mass-market sales through price cuts. FlexLoad's variable cost after the £240 saving would be £3,180, and its contribution at £5,650 would be £2,470 per trike. The automated process may improve the cost position, while removable batteries and interchangeable modules could reinforce differentiation for fleet users."
+        },
+        "calculations": [
+          {
+            "label": "total_uk_cargo_trike_market_sales_2024",
+            "method": "sum",
+            "operands": [
+              1200,
+              2600,
+              1400,
+              800
+            ],
+            "stated_answer": 6000,
+            "unit": "units",
+            "marks_supported": 1
+          },
+          {
+            "label": "parcelpedal_uk_market_share_2024",
+            "method": "percent_of",
+            "operands": [
+              1200,
+              6000
+            ],
+            "stated_answer": 20,
+            "unit": "%",
+            "marks_supported": 1
+          },
+          {
+            "label": "parcelpedal_price_premium_over_ridefast",
+            "method": "difference",
+            "operands": [
+              5400,
+              4250
+            ],
+            "stated_answer": 1150,
+            "unit": "£ per trike",
+            "marks_supported": 1
+          },
+          {
+            "label": "unused_annual_production_capacity_2024",
+            "method": "difference",
+            "operands": [
+              1400,
+              1200
+            ],
+            "stated_answer": 200,
+            "unit": "trikes",
+            "marks_supported": 1
+          },
+          {
+            "label": "flexload_variable_cost_after_automated_cell_saving",
+            "method": "difference",
+            "operands": [
+              3420,
+              240
+            ],
+            "stated_answer": 3180,
+            "unit": "£ per trike",
+            "marks_supported": 1
+          },
+          {
+            "label": "flexload_contribution_per_trike",
+            "method": "difference",
+            "operands": [
+              5650,
+              3180
+            ],
+            "stated_answer": 2470,
+            "unit": "£ per trike",
+            "marks_supported": 1
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.9.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EXT-003",
+        "BUS-EXT-004",
+        "BUS-OPS-009",
+        "BUS-STR-007"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S2-02",
+        "family": "DATA_RESPONSE",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 3,
+          "AO3": 4,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the shared ParcelPedal Ltd stimulus, analyse the benefits to ParcelPedal of forming a joint venture with the Dutch maintenance business rather than exporting its current trike from Bristol.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited understanding of international expansion or joint ventures. Makes general assertions, with limited use of the stimulus and little developed analysis."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows sound understanding of how a joint venture could support international expansion. Applies relevant information from the stimulus and develops one or more logical chains of analysis."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Shows thorough understanding of the benefits of a joint venture as an international market-entry method. Analyses well-developed, context-specific chains of reasoning, including how local responsiveness and cost pressures may affect ParcelPedal's Dutch expansion."
+            }
+          ],
+          "indicative_content": [
+            "A joint venture would give ParcelPedal access to the Dutch partner's local maintenance capability. This could help the business provide repairs and parts support more quickly in the Netherlands, supporting its positioning around reliability and low downtime for fleet customers.",
+            "The Dutch partner would have influence over product adaptations and local marketing. This could help ParcelPedal respond to fleet managers' requests for removable batteries and narrower cargo modules, increasing product fit in constrained Dutch urban spaces and potentially making sales to the distributor more likely.",
+            "Sharing activity with a local business may provide local knowledge and reduce the difficulty of coordinating service from Bristol. This could be particularly valuable because ParcelPedal, rather than the distributor, remains responsible for supplying parts.",
+            "A Dutch joint venture could avoid the £220 transport and administration cost per trike associated with exporting. Avoiding this cost may improve the profitability of Dutch sales, or give ParcelPedal greater scope to price competitively against alternatives.",
+            "The joint venture shares ownership and control, rather than requiring ParcelPedal to establish a wholly owned overseas operation. This may allow access to local capability while limiting the firm's sole operational responsibility and spreading the initial investment risk with a partner.",
+            "Relevant analysis should recognise the international trade-off: adapting product and marketing to Dutch requirements may raise complexity or reduce standardisation benefits, but can create customer value where the existing design does not meet local fleet needs."
+          ],
+          "model_answer": "Forming a joint venture could help ParcelPedal deliver the local responsiveness needed in the Netherlands. The Dutch maintenance business would provide local repair capability, which is important because ParcelPedal's target customers value reliable vehicles and low downtime. Faster local support could therefore reinforce ParcelPedal's differentiation and make fleet customers more willing to buy.\n\nThe partner's influence over product adaptations and local marketing could also improve market fit. Dutch fleet managers have specifically requested removable batteries and narrower cargo modules. Allowing local input could help ParcelPedal adapt FlexLoad to these requirements, increasing the likelihood that the 500-trike opportunity converts into sales. Although adaptation may reduce some standardisation benefits, it may be necessary where the current product does not meet local operating conditions.\n\nA further benefit is that the joint venture could avoid the £220 export transport and administration cost per trike. This could improve margins on Dutch sales or allow a more competitive price. In addition, the partner shares ownership and provides existing local capability, so ParcelPedal can enter the Dutch market without having to build all service operations alone. This is particularly useful because supplying parts and maintaining service quality would otherwise have to be coordinated from Bristol."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.9.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-006",
+        "BUS-FND-002",
+        "BUS-OPS-005",
+        "BUS-STR-008"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S2-03",
+        "family": "DATA_RESPONSE",
+        "command_word": "Evaluate",
+        "marks": 16,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 4,
+          "AO3": 5,
+          "AO4": 4
+        },
+        "context": "",
+        "stem": "Using the shared stimulus, evaluate whether ParcelPedal Ltd should proceed with FlexLoad as its main innovation strategy rather than retain its current model or prioritise international expansion using the existing design.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 4,
+              "descriptor": "Shows limited knowledge of innovation and makes general assertions about FlexLoad or the alternatives. Application to ParcelPedal is limited. Analysis and judgement are unsupported or absent."
+            },
+            {
+              "level": 2,
+              "min_marks": 5,
+              "max_marks": 8,
+              "descriptor": "Shows some relevant understanding of product and/or process innovation, R&D, patents or continuous improvement. Applies some points to ParcelPedal, with partially developed chains of reasoning. A judgement is present but may be one-sided or weakly justified."
+            },
+            {
+              "level": 3,
+              "min_marks": 9,
+              "max_marks": 12,
+              "descriptor": "Shows clear and mostly accurate understanding of innovation. Analyses relevant benefits and risks of FlexLoad using the stimulus, including links between product design, operations, finance, customers and international growth. Reaches a supported judgement, although evaluation may not fully weigh conditions or alternatives."
+            },
+            {
+              "level": 4,
+              "min_marks": 13,
+              "max_marks": 16,
+              "descriptor": "Shows thorough, well-selected understanding of innovation and its business implications. Develops sustained, contextual analysis of FlexLoad and credible alternatives, recognising uncertainty, constraints and cross-functional trade-offs. Reaches a well-supported, conditional judgement based on the most important evidence and implementation requirements."
+            }
+          ],
+          "indicative_content": [
+            "FlexLoad is product innovation because removable batteries and interchangeable cargo modules offer significantly changed customer benefits. It is also process innovation because the automated welding and testing cell changes how trikes are produced.",
+            "The product features directly address Dutch fleet managers' requests and may strengthen ParcelPedal's differentiated positioning around reliability, repairability and low downtime. Modules could also broaden appeal to UK fleet users with different delivery needs.",
+            "The automated cell is forecast to lower direct production cost by £240 per trike, increase annual capacity to 1,600 and reduce first-year warranty repairs from 7% to 3%. Lower defects and repair demand could improve customer service and reduce pressure on technical support and parts provision.",
+            "Innovation requires complementary capabilities. Staff must be trained to use and support the new process, while parts, repair training and technical support must accommodate removable batteries and multiple module types. Poor implementation could offset expected quality or cost gains.",
+            "The development, tooling and training commitment exceeds available cash, requiring bank finance. This raises financial risk, particularly because forecast sales depend on customers accepting a higher price and the business has not yet established full demand for FlexLoad.",
+            "Four customer trials provide some evidence of market acceptance, but this is limited evidence for a wider launch. ParcelPedal could use further customer feedback, phased testing or a pilot launch before committing fully, reflecting innovation under uncertainty.",
+            "The specialist battery supplier creates dependency. A supply interruption could prevent production or repairs, damaging the low-downtime proposition. The business should assess supplier reliability and consider contractual safeguards, stock arrangements or an alternative source before relying on the design.",
+            "The patent application may help protect the modular mounting system and allow ParcelPedal to capture returns from development. However, it has not been granted, so the innovation should not be justified on the assumption that competitors cannot imitate it.",
+            "Retaining the current model avoids new borrowing and implementation risk, but may leave ParcelPedal less able to meet Dutch requirements and less differentiated if competitors respond on price or design.",
+            "Prioritising international expansion using the existing design could exploit the distributor's route to market and avoid delaying Dutch entry. However, the existing trike does not meet stated requests for removable batteries and narrower modules, while exporting adds cost per unit and leaves ParcelPedal responsible for parts.",
+            "A Dutch joint venture could provide local maintenance capability and avoid export costs, but requires a substantial equity investment and reduces ParcelPedal's control over adaptations and local marketing. It may be more effective after product-market fit for FlexLoad has been tested.",
+            "A strong judgement may recommend proceeding with FlexLoad conditionally: secure finance on acceptable terms, validate willingness to pay beyond the prototype trials, ensure battery supply resilience, and phase production or Dutch expansion. Alternatively, delaying full commitment can be justified if these conditions cannot be met."
+          ],
+          "model_answer": "ParcelPedal should be inclined to proceed with FlexLoad, but only through a phased implementation rather than treating the forecast as certain. FlexLoad is both product and process innovation. Removable batteries and interchangeable modules respond directly to the Dutch fleet managers' requirements, while modules for parcels, groceries and medical supplies could make the trike more useful to UK customers. This could strengthen ParcelPedal's differentiation based on reliable, low-downtime fleet vehicles rather than trying to match RideFast's lower price.\n\nThe process innovation could also improve competitiveness. The automated cell is forecast to cut direct production cost by £240, raise capacity to 1,600 units and reduce warranty repairs. Fewer repairs should benefit operations and the support function, because technical staff and parts stocks would face fewer first-year warranty claims. Better reliability could reinforce the firm's customer proposition and support repeat fleet sales. The planned capacity is also relevant because FlexLoad's forecast sales total 1,400 units, whereas the present operation has annual capacity of 1,400 and already sold 1,200 units in 2024.\n\nHowever, the benefits depend on implementation. Development, tooling and training require more finance than the cash available, so borrowing increases the downside if customers reject the higher price. The four trials provide useful evidence but do not prove that the wider UK and Dutch markets will pay. In addition, the battery design creates dependence on one specialist supplier. A disruption could prevent both production and repairs, which would undermine ParcelPedal's low-downtime positioning. The ungranted patent application may offer future protection, but it cannot be assumed to prevent imitation.\n\nRetaining the current model would avoid borrowing and operational disruption, but it would not fully meet the Dutch requirements. Expanding internationally with the existing design may gain early access through the distributor, yet export costs remain and the product may be less attractive without the requested adaptations. A joint venture could improve local repair capability, but it also needs investment and gives the partner influence over the product and marketing.\n\nOverall, ParcelPedal should proceed with FlexLoad because it offers the strongest strategic fit with both customer needs and its differentiated service model. The board should first secure reliable battery supply, obtain stronger evidence on customer willingness to pay, and introduce the innovation in stages. If finance is too costly or demand evidence remains weak, a limited Dutch trial or further prototype testing would be preferable to a full immediate launch."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.6.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-FIN-002",
+        "BUS-OPS-004",
+        "BUS-PEO-001"
+      ],
+      "quantitative_marks": 9,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S3-01",
+        "family": "DATA_RESPONSE",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 3,
+          "AO3": 4,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the shared stimulus, analyse LoopFill Ltd’s human resource performance in 2025. Your answer must calculate and use labour turnover, labour productivity, employee costs as a percentage of sales revenue, and labour cost per good pouch. Use the quantitative data alongside the exit-interview evidence to analyse likely implications for meeting the additional order.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited use of the stimulus. Makes one or more relevant calculations or simple statements about workforce performance, with little or no developed analysis of implications for the additional order."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Uses relevant calculations accurately and applies them to LoopFill. Develops some chains of reasoning about how workforce performance could affect capacity, costs, quality or delivery. May use the exit-interview evidence, but links between the evidence and operational consequences may be uneven."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Uses all four required calculations accurately and integrates them with the quantitative and qualitative evidence. Gives well-developed analysis of how turnover, absence, productivity and labour costs could affect LoopFill’s ability to meet delivery dates for the additional order. Recognises that exit-interview themes suggest several possible causes and that faster output must maintain quality."
+            }
+          ],
+          "indicative_content": [
+            "Labour turnover in 2025 was 20%: 11 employees leaving divided by an average workforce of 55, multiplied by 100. This was above the budget figure of about 11.1% and may create recruitment, induction and lost-knowledge costs.",
+            "Labour productivity was about 5,291 good pouches per employee in 2025: 291,000 divided by 55. Although output exceeded budget, productivity was below the budget of about 5,370 pouches per employee because employee numbers were also above budget.",
+            "Employee costs were about 43.0% of sales revenue: £1,485,000 divided by £3,450,000, multiplied by 100. Employee costs therefore took a substantial share of revenue, while revenue was below budget.",
+            "Labour cost per good pouch was about £5.10: £1,485,000 divided by 291,000. This was higher than the budget figure of about £4.76 per pouch, reducing the financial benefit of exceeding the output budget.",
+            "The increase in absence from 2.5% budgeted to 4.1% actual could reduce available labour on evening shifts, potentially causing bottlenecks and missed delivery dates.",
+            "The interviews support a possible link between evening-shift predictability and turnover because 7 of 11 leavers mentioned it. However, pay was mentioned by 5 leavers and training by 4, so evening shifts are not the only plausible cause.",
+            "High turnover and absence may mean less experienced staff, more training requirements and disruption while the automated line is introduced. This could restrict the expected productivity improvement in the short term.",
+            "Automation may ease evening-shift bottlenecks and release capacity for the additional 50,000 pouches, but staff need training and the operations manager has identified the risk of pouch leaks or complaints. Gross output alone would not demonstrate improved effective productivity if defects or rework increased.",
+            "The evidence should be interpreted together: the numerical measures show deteriorating workforce-cost and retention pressures, while interview themes help explain possible causes but do not prove causation for all leavers."
+          ],
+          "model_answer": "LoopFill’s 2025 human resource data indicate pressure on both retention and labour efficiency. Labour turnover was 20% (11 / 55 × 100), compared with about 11.1% in the budget. Replacing leavers can raise recruitment and induction costs and may reduce the experience available to cover evening shifts. This could make it harder to meet agreed delivery dates for the additional order.\n\nLabour productivity was about 5,291 good pouches per employee (291,000 / 55). Output was slightly above budget, but productivity was below the budget figure of about 5,370 because LoopFill employed more people than planned. This suggests that higher production has not translated fully into improved labour efficiency. The 4.1% absence rate may also reduce available shift capacity and contribute to bottlenecks.\n\nEmployee costs were about 43.0% of sales revenue (£1,485,000 / £3,450,000 × 100), and labour cost per good pouch was about £5.10 (£1,485,000 / 291,000). The latter exceeds the budgeted level of about £4.76 per pouch. Therefore, although the business completed more pouches than budgeted, its workforce costs were high relative to both revenue and output. This may constrain profit and cash available while LoopFill is attempting to finance growth.\n\nThe interview evidence gives some explanation: evening-shift predictability was mentioned by 7 of 11 leavers, but pay and training were also mentioned. Management should not assume that shift patterns alone caused turnover. The automated line could reduce evening-shift bottlenecks and raise good-output capacity, but training is necessary and faster filling must not increase leaks or complaints. If quality falls, rework and customer dissatisfaction could offset any apparent productivity gain. Overall, LoopFill needs to address retention, absence and training alongside automation if it is to deliver the additional order reliably."
+        },
+        "calculations": [
+          {
+            "label": "Labour turnover, 2025",
+            "method": "percent_of",
+            "operands": [
+              11,
+              55
+            ],
+            "stated_answer": 20,
+            "unit": "%",
+            "marks_supported": 2
+          },
+          {
+            "label": "Labour productivity, 2025",
+            "method": "quotient",
+            "operands": [
+              291000,
+              55
+            ],
+            "stated_answer": 5290.91,
+            "unit": "good pouches per employee",
+            "marks_supported": 2
+          },
+          {
+            "label": "Employee costs as a percentage of sales revenue, 2025",
+            "method": "percent_of",
+            "operands": [
+              1485000,
+              3450000
+            ],
+            "stated_answer": 43.04,
+            "unit": "%",
+            "marks_supported": 2
+          },
+          {
+            "label": "Labour cost per good pouch, 2025",
+            "method": "quotient",
+            "operands": [
+              1485000,
+              291000
+            ],
+            "stated_answer": 5.1,
+            "unit": "£ per good pouch",
+            "marks_supported": 3
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.5.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-FIN-001",
+        "BUS-FIN-003",
+        "BUS-FIN-004",
+        "BUS-FIN-005",
+        "BUS-FIN-006",
+        "BUS-FIN-007",
+        "BUS-FIN-010",
+        "BUS-FIN-012"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S3-02",
+        "family": "DATA_RESPONSE",
+        "command_word": "Analyse",
+        "marks": 9,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 2,
+          "AO3": 3,
+          "AO4": 2
+        },
+        "context": "",
+        "stem": "Using the shared stimulus, analyse the financial implications for LoopFill Ltd of accepting the additional order and installing the automated filling and packing line.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Shows limited understanding of financial performance or finance. Makes generic points about costs, sales, profit or cash, with limited use of the shared stimulus. Analysis is undeveloped."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows sound understanding of financial performance and applies relevant data from the shared stimulus. Explains at least one financial consequence of the additional order and/or investment, such as the effect on profit, cash flow, receivables or financing commitments. Analysis is partly developed, although links or judgement may be uneven."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Shows strong, well-focused understanding of financial performance. Uses relevant quantitative and qualitative evidence from the shared stimulus to develop linked analysis of profitability, cash flow and financing risk. Makes a supported judgement about the scale or conditions of the financial implications, recognising that higher sales or profit would not necessarily remove liquidity pressure."
+            }
+          ],
+          "indicative_content": [
+            "LoopFill achieved sales revenue of £3.45m in 2025, below its £3.6m budget, while operating profit of £315,000 was substantially below the £670,000 budget. This suggests that management should not assume that extra volume will automatically generate the expected improvement in financial performance.",
+            "The additional 50,000 pouches could increase sales and allow the automated line to reduce evening-shift bottlenecks. If capacity is used effectively and quality is maintained, improved output may help spread operating costs and increase operating profit.",
+            "However, the line requires a £200,000 payment before installation. Closing cash is only £95,000 and directors wish to retain an £80,000 buffer, leaving only £15,000 available without reducing the buffer. Internal cash is therefore insufficient to fund the line while maintaining the desired liquidity protection.",
+            "Customers normally pay 45 days after delivery and receivables have risen to £650,000. Supplying the extra order may increase credit sales and receivables before cash is received, creating further working-capital pressure even if the order is profitable.",
+            "A bank loan would provide the required funds but introduces 7% annual interest, annual principal repayments of £40,000 and security over the line. These fixed commitments could reduce future cash-flow flexibility if sales, margins or customer receipts are weaker than expected.",
+            "Equity crowdfunding has no contractual repayment, which may reduce short-term cash-flow pressure, but the 6% platform fee means LoopFill would not retain the full £200,000 raised and issuing 18% of ordinary shares reduces existing owners' control.",
+            "Factoring could release some cash from receivables, but the 3% fee reduces funds available and customer contact by the provider could affect customer relationships. It may assist day-to-day liquidity but does not itself finance the entire investment without considering the amount of eligible receivables.",
+            "The financial impact depends on whether the extra order is delivered on time, the line prevents bottlenecks without raising pouch leaks or complaints, and sales cash is collected as expected. Higher revenue or operating profit would not necessarily mean sufficient cash is available at the time the investment and repayments fall due."
+          ],
+          "model_answer": "Accepting the additional order could improve LoopFill's financial performance because the 50,000 extra pouches may raise sales revenue and make better use of the automated line. If the line reduces evening-shift bottlenecks without increasing leaks or complaints, higher output could improve operating profit. This is important because 2025 operating profit was only £315,000, compared with a budget of £670,000, so LoopFill needs to understand why revenue and profit were below plan before assuming that more sales will solve the problem.\n\nThe immediate issue is liquidity. The line costs £200,000, but closing cash is £95,000 and the directors want to preserve an £80,000 buffer. Therefore, using internal cash would leave the business well below its preferred protection level. Cash flow may be particularly strained because customers pay 45 days after delivery and receivables already total £650,000. The extra order could increase profit in the longer term, but it may first increase credit sales and delay cash receipts, creating a working-capital requirement.\n\nA bank loan would fund the line, but it adds 7% annual interest and £40,000 annual principal repayments. These payments increase fixed cash commitments, making LoopFill more vulnerable if the additional order is delayed or margins remain weak. Equity crowdfunding avoids contractual repayments, so it may better protect short-term cash flow, although the 6% fee reduces net funds raised and existing owners would give up 18% of ordinary shares. Factoring may ease day-to-day cash pressure, but its fee and provider contact with customers create costs and relationship risks.\n\nOverall, the additional order could strengthen future profit, but its main financial implication is a possible cash-flow gap between paying for the line and receiving cash from customers. The investment is less risky financially if LoopFill can protect service quality, maintain the cash buffer and secure finance that does not create unaffordable repayment pressure."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.5.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-FIN-008",
+        "BUS-FIN-014"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P2-S3-03",
+        "family": "DATA_RESPONSE",
+        "command_word": "Evaluate",
+        "marks": 16,
+        "ao_marks": {
+          "AO1": 2,
+          "AO2": 3,
+          "AO3": 2,
+          "AO4": 9
+        },
+        "context": "",
+        "stem": "Using the information in the shared stimulus, evaluate whether LoopFill Ltd should use a bank loan, equity crowdfunding, debt factoring, or a combination of these sources, to finance the automated filling and packing line. Recommend the most appropriate financing approach.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited understanding of one or more finance sources. Makes simple, largely generic comments about borrowing, ownership or cash flow, with little use of the shared stimulus. A recommendation may be asserted rather than supported."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows sound understanding of relevant finance-source trade-offs. Applies some points to LoopFill Ltd, such as the cost of the line, the cash buffer, receivables, loan terms or loss of ownership. Analysis explains some consequences, but evaluation is uneven or the final judgement is insufficiently qualified."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 16,
+              "descriptor": "Shows thorough and well-focused evaluation of the available finance sources and their trade-offs. Uses the shared stimulus selectively and accurately to develop linked analysis of cash-flow commitments, control, cost, risk, security, duration and customer-service implications. Reaches a clear, justified and suitably conditional recommendation, recognising why an alternative or combination may be preferable if key circumstances differ."
+            }
+          ],
+          "indicative_content": [
+            "A bank loan can provide the full £200,000 needed for a long-lived automated line and avoids issuing ownership shares, so the existing directors retain control.",
+            "The loan creates fixed annual interest and £40,000 principal repayments. These cash commitments increase financial risk when LoopFill's operating profit fell to £315,000, closing cash fell to £95,000 and customers normally pay 45 days after delivery.",
+            "Security over the new line reduces flexibility because the asset is pledged to the lender. However, matching a five-year loan with a productive capital asset is generally more appropriate than relying entirely on short-term finance.",
+            "Equity crowdfunding has no contractual interest or principal repayment, reducing pressure on cash flow while LoopFill is trying to meet an additional order and train staff.",
+            "Equity crowdfunding would give investors 18% of ordinary shares, diluting the directors' ownership and potentially their control over future decisions and returns.",
+            "The 6% platform fee means the headline £200,000 campaign does not necessarily leave the whole purchase price available for the line. A further source or use of cash may be needed unless campaign terms provide otherwise.",
+            "Debt factoring could release cash earlier from eligible receivables and may help LoopFill manage the 45-day customer-payment gap, particularly as receivables have risen to £650,000.",
+            "Factoring charges a 3% fee on advances, so it reduces the cash ultimately received from sales. It also does not create new sales or operating profit.",
+            "The factor contacting customers could damage relationships with independent retailers or supermarkets, especially if collection practices affect perceptions of service quality.",
+            "Factoring is better suited to short-term working-capital needs than to being the sole source for a long-lived automated line. It could support liquidity alongside longer-term funding.",
+            "A justified judgement may prefer the bank loan for the asset purchase, combined with selective factoring to protect working capital, provided forecast cash flows can meet loan payments and the receivables are suitable.",
+            "A justified alternative may favour equity crowdfunding if demand for the additional order or future cash flow is highly uncertain and the directors judge avoiding fixed repayments more important than retaining full control.",
+            "Any recommendation should recognise that finance alone will not ensure success: training and protection of pouch quality and delivery performance remain necessary for the additional order."
+          ],
+          "model_answer": "LoopFill should be cautious about using one source alone. A five-year bank loan is a strong primary option because it can provide the £200,000 required for an automated line and broadly matches longer-term borrowing to a long-lived asset. It also allows the directors to retain ownership. This matters because equity crowdfunding would give investors 18% of the ordinary shares. However, the loan increases financial risk through annual interest and £40,000 principal repayments. This is significant because operating profit was only £315,000 in 2025, below budget, and closing cash has fallen to £95,000 while customers pay after 45 days. Security over the line also reduces flexibility.\n\nEquity crowdfunding would avoid contractual repayments and therefore may be safer if the extra order or the line's benefits are uncertain. Yet it dilutes control and the 6% platform fee means the stated fundraising amount may not leave all £200,000 available for the purchase. Therefore, it is not automatically a cost-free alternative to debt.\n\nFactoring could improve day-to-day liquidity by bringing forward cash tied up in LoopFill's receivables. This could be valuable while the business trains staff and waits for customers to pay. Nevertheless, the 3% fee reduces the cash received, and customer contact by the factor could harm relationships or service perceptions. It is also short-term working-capital finance rather than an ideal sole source for a capital asset.\n\nOverall, LoopFill should use the bank loan for the line and retain factoring as a selective short-term liquidity facility, rather than factor all receivables. This preserves ownership and better matches finance to the asset, while helping protect the desired cash buffer. The recommendation depends on forecasts showing that loan repayments remain affordable even if the additional order is delayed or pouch-quality problems reduce sales. If these forecasts are weak, accepting equity crowdfunding may be preferable despite the loss of control."
+        },
+        "calculations": []
+      }
+    }
+  ]
+}

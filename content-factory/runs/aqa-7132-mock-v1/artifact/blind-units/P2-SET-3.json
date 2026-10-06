@@ -1,0 +1,143 @@
+{
+  "unit_id": "P2-SET-3",
+  "answers": [
+    {
+      "slot_id": "P2-S3-01",
+      "answer_text": "LoopFill’s 2025 labour turnover was 20.0% (11 leavers ÷ 55 average employees × 100). This is substantially worse than 2024, when turnover was 10.0%, and above the 2025 budgeted 11.1%. High turnover is likely to create recruitment, induction and training costs, while inexperienced replacements may take longer to operate the new automated line effectively. This matters because the additional 50,000-pouch order depends on reliable delivery.\n\nLabour productivity in 2025 was 5,291 good pouches per employee (291,000 ÷ 55). This exceeded both 2024 productivity of 5,100 pouches and the budgeted 5,370 pouches only partially: output was above budget, but employment was also above budget. Therefore, LoopFill has increased output, but has not achieved the labour efficiency planned. A 4.1% absence rate, against a 2.5% budget, could make evening-shift cover difficult and increase bottlenecks, limiting the business’s ability to add the extra order without overtime or temporary staff.\n\nEmployee costs were 43.0% of sales revenue (£1,485,000 ÷ £3,450,000 × 100), compared with a budgeted 38.3%. Labour cost per good pouch was £5.10 (£1,485,000 ÷ 291,000), above the budgeted £4.76. Consequently, labour costs have risen faster than output and sales, contributing to operating profit being only £315,000 rather than the £670,000 budget. If turnover and absence persist, covering evening shifts may further raise labour cost per pouch and reduce the profitability of the additional order.\n\nThe exit interviews suggest that the issue is not simply evening-shift work: 7 of 11 leavers mentioned shift predictability, but 5 mentioned pay and 4 mentioned training. Better predictable scheduling, relevant training before installation and an appropriate review of pay could reduce departures and absence. This would help retain trained staff, support quality control and make it more likely that the automated line can produce the extra pouches without leaks or customer complaints. However, higher pay and training expenditure could initially worsen LoopFill’s already high employee-cost ratio, so management needs targeted action rather than assuming automation alone will solve the workforce problem.",
+      "numbers": [
+        {
+          "label": "2025_labour_turnover_percent",
+          "value": 20
+        },
+        {
+          "label": "2024_labour_turnover_percent",
+          "value": 10
+        },
+        {
+          "label": "2025_budget_labour_turnover_percent",
+          "value": 11.1111111111
+        },
+        {
+          "label": "2025_labour_productivity_good_pouches_per_employee",
+          "value": 5290.9090909091
+        },
+        {
+          "label": "2024_labour_productivity_good_pouches_per_employee",
+          "value": 5100
+        },
+        {
+          "label": "2025_budget_labour_productivity_good_pouches_per_employee",
+          "value": 5370.3703703704
+        },
+        {
+          "label": "2025_employee_costs_percent_of_sales",
+          "value": 43.0434782609
+        },
+        {
+          "label": "2025_budget_employee_costs_percent_of_sales",
+          "value": 38.3333333333
+        },
+        {
+          "label": "2025_labour_cost_per_good_pouch_gbp",
+          "value": 5.1030927835
+        },
+        {
+          "label": "2025_budget_labour_cost_per_good_pouch_gbp",
+          "value": 4.7586206897
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S3-02",
+      "answer_text": "Accepting the additional order would require LoopFill to supply 50,000 more pouches than its 2025 output of 291,000. This is a 17.2% increase in output, taking total required output to 341,000 pouches. The automated line may reduce evening-shift bottlenecks and enable this capacity increase, but it costs £200,000 before installation and staff must be trained. Delays in installation or training could mean LoopFill cannot meet agreed delivery dates and may lose the additional customer business.\n\nLoopFill cannot safely fund the line from existing cash. It has £95,000 cash but wants to retain an £80,000 buffer because customers normally pay 45 days after delivery. Only £15,000 is available without reducing that buffer, leaving a funding gap of £185,000. This is particularly important because customer receivables have risen to £650,000 while closing cash has fallen to £95,000. Thus, sales may be tied up in unpaid invoices rather than available to pay for the line or day-to-day costs.\n\nThe line could improve financial performance if it lowers bottlenecks, reduces labour needed to cover evening shifts and allows profitable sales from the additional order. However, LoopFill’s 2025 financial performance gives reason for caution. Sales revenue was £150,000 below budget and operating profit was £355,000 below budget, despite good-pouch output being 1,000 above budget. This suggests that producing more pouches does not automatically generate the expected revenue or profit. The business must establish the selling price, materials cost, extra labour and any maintenance costs of the additional order before knowing whether the line will generate a satisfactory return.\n\nThere is also a quality risk. If faster filling raises pouch leaks or complaints, LoopFill could incur waste, replacement and customer-service costs, and its relationship with its largest customer could be harmed. In contrast, if training and quality controls are effective, the line could allow a higher output without equivalent increases in labour cost and improve the viability of the order. Financially, the investment is therefore potentially necessary for growth, but its return depends on delivery reliability, quality and sufficient contribution from the 50,000 extra pouches.",
+      "numbers": [
+        {
+          "label": "total_output_if_additional_order_accepted_good_pouches",
+          "value": 341000
+        },
+        {
+          "label": "additional_order_as_percent_of_2025_output",
+          "value": 17.1821305842
+        },
+        {
+          "label": "cash_available_above_required_buffer_gbp",
+          "value": 15000
+        },
+        {
+          "label": "funding_gap_after_using_cash_above_buffer_gbp",
+          "value": 185000
+        },
+        {
+          "label": "2025_sales_revenue_shortfall_against_budget_gbp",
+          "value": 150000
+        },
+        {
+          "label": "2025_sales_revenue_shortfall_against_budget_percent",
+          "value": 4.1666666667
+        },
+        {
+          "label": "2025_operating_profit_shortfall_against_budget_gbp",
+          "value": 355000
+        },
+        {
+          "label": "2025_operating_profit_shortfall_against_budget_percent",
+          "value": 52.9850746269
+        },
+        {
+          "label": "2025_good_pouches_above_budget",
+          "value": 1000
+        }
+      ]
+    },
+    {
+      "slot_id": "P2-S3-03",
+      "answer_text": "A bank loan would provide up to the full £200,000 required before installation, allowing LoopFill to retain its £95,000 cash balance and therefore its £80,000 cash buffer. This protects short-term liquidity while customers take around 45 days to pay. The annual interest charge on a £200,000 loan would initially be £14,000, with £40,000 principal repaid each year. Therefore, the initial annual cash commitment would be £54,000. The loan is likely to be manageable if the line and additional order improve cash generation, since current operating profit is £315,000. However, operating profit was far below budget and cash has fallen, so this comparison does not guarantee that cash will be available for repayments. Security over the new line also increases risk: failure to make repayments could threaten the asset needed to meet the order.\n\nEquity crowdfunding avoids contractual interest and principal repayments, which is attractive given high receivables and uncertainty over the additional order’s profitability. It would also spread some risk between the existing owners and new shareholders. However, the 6% platform fee means a £200,000 campaign provides only £188,000 net. LoopFill would need to use £12,000 cash, leaving £83,000, which is only £3,000 above its desired buffer. Crowdfunding would also give investors 18% of ordinary shares. For a privately owned business, this is a significant dilution of ownership and potentially control, especially if directors want to make future decisions without investor influence. It is therefore less suitable where protecting control is an explicit objective.\n\nDebt factoring could release cash quickly: if all £650,000 of receivables were eligible, the maximum advance would be £520,000. It has no share dilution and could help bridge the period before customers pay, especially as the extra order could increase working-capital needs. However, a 3% fee would cost £15,600 on a maximum advance, and the factor contacting customers could damage service relationships or make customers concerned about LoopFill’s finances. This is particularly risky when LoopFill must protect delivery performance and customer confidence with its largest customer. Factoring is also a working-capital facility, rather than an ideal permanent source for buying a long-life automated line.\n\nLoopFill should take the £200,000 bank loan to finance the line and retain its cash buffer. This matches the five-year finance with an asset expected to support output over several years, and avoids the 18% loss of ownership. The directors should arrange factoring only as a limited contingency for selected receivables if the additional order causes a temporary cash-flow shortfall, rather than factor routinely or use it to fund the whole asset. Before committing, they should confirm that expected contribution from the new order, after training, quality-control and maintenance costs, can cover the loan’s annual debt-service commitment. This combination best protects control and immediate cash, while recognising the risk created by slow customer payments.",
+      "numbers": [
+        {
+          "label": "bank_loan_initial_annual_interest_gbp",
+          "value": 14000
+        },
+        {
+          "label": "bank_loan_annual_principal_repayment_gbp",
+          "value": 40000
+        },
+        {
+          "label": "bank_loan_initial_annual_cash_debt_service_gbp",
+          "value": 54000
+        },
+        {
+          "label": "bank_loan_initial_cash_debt_service_as_percent_of_2025_operating_profit",
+          "value": 17.1428571429
+        },
+        {
+          "label": "equity_crowdfunding_platform_fee_gbp",
+          "value": 12000
+        },
+        {
+          "label": "equity_crowdfunding_net_proceeds_gbp",
+          "value": 188000
+        },
+        {
+          "label": "equity_crowdfunding_cash_needed_to_complete_line_purchase_gbp",
+          "value": 12000
+        },
+        {
+          "label": "cash_balance_after_equity_funding_and_line_purchase_gbp",
+          "value": 83000
+        },
+        {
+          "label": "cash_above_required_buffer_after_equity_funding_gbp",
+          "value": 3000
+        },
+        {
+          "label": "factoring_maximum_advance_if_all_receivables_eligible_gbp",
+          "value": 520000
+        },
+        {
+          "label": "factoring_fee_on_maximum_advance_gbp",
+          "value": 15600
+        }
+      ]
+    }
+  ]
+}

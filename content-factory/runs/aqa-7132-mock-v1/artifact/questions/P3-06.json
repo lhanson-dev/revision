@@ -1,0 +1,58 @@
+{
+  "slot_id": "P3-06",
+  "family": "CASE_STUDY",
+  "command_word": "Evaluate",
+  "marks": 24,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 5,
+    "AO4": 13
+  },
+  "context": "",
+  "stem": "Using the Northstar Home Systems case study, evaluate whether Northstar should establish a dual-source arrangement for circuit boards for the coming winter peak. Your answer should consider the effects on inventory control, supply-chain effectiveness and Northstar’s cash position.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 8,
+        "descriptor": "Shows limited knowledge of inventory or supply-chain issues. Makes basic assertions about one or both sourcing options, with little use of the Northstar context. Analysis is underdeveloped and there is little or no supported judgement."
+      },
+      {
+        "level": 2,
+        "min_marks": 9,
+        "max_marks": 16,
+        "descriptor": "Shows sound knowledge and application of inventory control and supplier choice. Explains some relevant consequences of single sourcing and/or dual sourcing for lead times, stock availability, cash or customer service. Makes a judgement, although it may be uneven, conditional only in part, or insufficiently supported by the evidence."
+      },
+      {
+        "level": 3,
+        "min_marks": 17,
+        "max_marks": 24,
+        "descriptor": "Shows thorough and well-selected knowledge of inventory and supply-chain management. Develops clear chains of reasoning from Northstar’s supplier data and financial position to operational, customer-service and cash consequences. Weighs the trade-offs between resilience, total cost and inventory requirements, recognising relevant uncertainty in the estimates. Reaches a well-supported, contextual and conditional judgement about whether and how Northstar should dual source."
+      }
+    ],
+    "indicative_content": [
+      "Circuit boards are critical inputs: a shortage prevents Halo production and could lead to retailer penalties and damage to online ratings.",
+      "The Malaysian supplier offers a lower unit price of £18.40 but has a 10-week normal lead time, a 12,000-board minimum order and has recently been delayed by three weeks. Reliance on this supplier alone creates dependency and disruption risk.",
+      "Northstar uses 1,000 boards per week and holds buffer inventory of 2,000 boards. A lengthy or disrupted lead time increases the need for inventory protection; this ties up cash and may not be sufficient if delays exceed expectations.",
+      "The UK supplier costs more at £20.10 per board, but its three-week lead time, 3,000-board batches and spare capacity could make supply more flexible and reduce the need to place large orders far in advance.",
+      "Dual sourcing could improve resilience by reducing dependence on one supplier and providing an alternative route during disruption. This is particularly valuable before a winter demand peak and retailer promotion.",
+      "Higher UK purchase costs, £95,000 of testing/onboarding/quality-check costs and possible quality uncertainty from a supplier used only for a small trial could reduce margins or add implementation risk.",
+      "The relevant comparison is not unit price alone. Longer lead times and large minimum orders from Malaysia can increase inventory, worsen working-capital pressure and expose Northstar to lost sales or expedited freight.",
+      "Northstar already has weak liquidity: closing cash was £96,000, inventory was £1.05m and a delayed-receipts scenario produces a £382,000 cash shortfall. Dual sourcing should therefore be introduced in a way that does not create excessive additional stock or immediate cash commitments.",
+      "A dual-source arrangement may allow Northstar to retain Malaysia for predictable base demand while using the UK supplier for a proportion of peak demand, replenishment flexibility or contingency supply. This could preserve some purchasing-cost advantage while reducing dependency.",
+      "The probability and contribution estimates support consideration of resilience, but they come from Northstar’s experience and supplier discussions rather than independently verified evidence. The board should avoid treating them as certain.",
+      "An appropriate conclusion may support controlled dual sourcing, subject to successful quality assurance, agreed capacity and delivery commitments, and a phased allocation of orders. The precise balance should depend on updated demand forecasts, cash forecasts and evidence from the UK supplier’s performance.",
+      "Alternatively, retaining Malaysia alone could be justified only if Northstar can credibly improve delivery reliability and maintain an affordable buffer; this is less persuasive given the recent port delay, winter peak exposure and limited cash headroom."
+    ],
+    "model_answer": "Northstar should establish a controlled dual-source arrangement, rather than depend entirely on the Malaysian supplier. Malaysia is cheaper at £18.40 per board, but its 10-week lead time and 12,000-board minimum order mean Northstar must commit to stock well before it knows whether retailer promotions and demand will continue. This can increase inventory and worsen cash pressure at a time when inventory is already £1.05m and closing cash is only £96,000. The recent three-week port delay also shows that the existing buffer could be insufficient if disruption occurs.\n\nThe UK supplier is more expensive at £20.10 per board and dual sourcing requires £95,000 of onboarding and quality-check costs. Therefore, buying all boards from the UK supplier could unnecessarily reduce contribution and place further pressure on cash. There is also limited evidence of its quality and delivery performance because Northstar has used it only for a small trial order.\n\nHowever, its three-week lead time, smaller 3,000-board batches and spare capacity provide flexibility that Malaysia cannot offer. Northstar could order predictable base demand from Malaysia while using the UK supplier for peak-demand cover, smaller replenishments or contingency supply. This would reduce dependence on one overseas route, lower the need to hold as much precautionary stock, and reduce the risk of missed retailer deliveries, penalties and poor online ratings.\n\nThe decision should not rely completely on management’s estimated probabilities because they are not independently verified. Nevertheless, the severe consequences of a supply interruption, together with Northstar’s limited cash headroom, make resilience more valuable than the lower Malaysian unit price alone suggests. Northstar should therefore dual source in stages, first confirming UK quality and delivery performance and agreeing order allocations that avoid building excessive inventory. It should review the arrangement as demand and cash forecasts change."
+  },
+  "calculations": []
+}

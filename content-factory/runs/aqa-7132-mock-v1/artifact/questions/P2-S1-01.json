@@ -1,0 +1,53 @@
+{
+  "slot_id": "P2-S1-01",
+  "family": "DATA_RESPONSE",
+  "command_word": "Describe",
+  "marks": 3,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 1,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the Mend & Move Refill Co. stimulus, describe one difference between profit and cash, and apply this difference to the business.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Identifies profit as revenue less relevant costs over a period.",
+        "accept": [
+          "Profit is the amount remaining after relevant costs are deducted from revenue.",
+          "Profit measures financial performance over a period."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Identifies cash as money held or cash received and paid by the business, rather than profit.",
+        "accept": [
+          "Cash is the money available to make payments.",
+          "Cash is affected by the timing of receipts and payments.",
+          "Profit and cash are not the same."
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Applies the distinction to Mend & Move using relevant stimulus evidence.",
+        "accept": [
+          "Mend & Move made £150,000 profit in 2026 but held only £85,000 cash at the year end.",
+          "Its cash was reduced by buying refill sachets in advance and paying for delivery crates, despite making a profit.",
+          "The business may make a profit but still need sufficient cash to pay suppliers on time."
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Profit is the amount left after relevant costs are deducted from revenue over a period, whereas cash is the money available to make payments. Mend & Move made a £150,000 profit in 2026 but held £85,000 cash because advance purchases of sachets and delivery crates reduced its cash balance."
+  },
+  "calculations": []
+}

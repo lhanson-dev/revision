@@ -1,0 +1,31 @@
+{
+  "unit_id": "P1-D-02",
+  "answers": [
+    {
+      "slot_id": "P1-D-02",
+      "answer_text": "Hearth & Home should be cautious about acquiring CookPro and, on the information available, should favour organic growth, potentially after closing its four poorly performing stores and strengthening its online operation.\n\nAn acquisition would deliver growth much faster than organic development. Buying CookPro would immediately increase Hearth & Home's store network from 18 to 30 outlets and bring an established customer base. This is particularly valuable because organically opened stores take time to develop customer awareness. CookPro's separate distribution network could also increase capacity and help address Hearth & Home's current stock shortages and long delivery times. In addition, placing larger combined orders with suppliers may create purchasing economies of scale, reducing unit costs and potentially improving competitiveness or profit margins.\n\nThe acquisition could also generate cost savings by removing duplicated head-office posts and distribution facilities. If these savings are achieved quickly, CookPro may provide both revenue growth and lower average costs. Organic growth, by contrast, adds six stores but does not automatically remove existing overheads. Therefore, if CookPro can be bought at a manageable price and its operations can be integrated successfully, acquisition could give Hearth & Home a stronger position much sooner than opening stores gradually.\n\nHowever, the claimed acquisition benefits are uncertain because the firms have different stock-control systems and management styles. Hearth & Home already has stock shortages, so combining two incompatible stock-control systems could initially make availability and delivery problems worse rather than better. A more centralised CookPro culture may also conflict with Hearth & Home's approach. Staff uncertainty, resistance to changed roles and the removal of duplicated jobs could reduce morale and cause coordination problems. Consequently, the expected economies of scale and head-office savings may take longer to achieve than directors anticipate.\n\nCash flow is the major risk of acquisition. Although online customers pay when ordering and suppliers give Hearth & Home 30 days' credit, the substantial purchase price must be funded. Further, inventory may need to be increased before operations are integrated, creating an additional cash outflow. Customer receipts and supplier credit help day-to-day working capital, but they may not be sufficient to finance both the purchase and higher inventory. If cash becomes constrained, Hearth & Home may be less able to solve its existing delivery problems or invest in its online operation.\n\nOrganic growth is slower, but it is more controllable. Opening six stores over two years allows staff to be recruited and trained gradually, reducing the operational disruption associated with a rapid merger. Management can also adapt stock-control and distribution processes as the online range expands. This is important because improving availability and delivery performance may protect the existing customer base before the business adds more outlets. The disadvantage is that the business would have only 24 stores after two years, whereas acquisition supplies 30 immediately, and new organic stores may initially have weak sales while awareness builds.\n\nThe proposal to close four poorly performing stores strengthens the case for a phased organic strategy. Releasing resources from weak outlets could improve the online operation, where customers pay at order and therefore support cash inflows. It would also enable management to resolve the current stock and delivery weaknesses before taking on six new stores. Closing stores could reduce Hearth & Home to 14 stores initially, so it should only close outlets where the released resources and avoided losses exceed the contribution lost. Nevertheless, this approach has lower integration risk than buying another business while existing operations are under pressure.\n\nOverall, Hearth & Home should not acquire CookPro immediately. The immediate scale, customer base and possible purchasing economies are attractive, but they depend on successful integration at a time when Hearth & Home is already experiencing operational problems and faces cash pressure from the purchase price and extra inventory. A more suitable course is to close genuinely poorly performing stores, improve online fulfilment and stock control, then pursue gradual organic expansion. Acquisition could be reconsidered only if detailed due diligence shows that the purchase price is affordable, sufficient cash remains after funding inventory, and the stock systems and management structures can be integrated without worsening customer service.",
+      "numbers": [
+        {
+          "label": "stores after acquiring cookpro",
+          "value": 30
+        },
+        {
+          "label": "stores after six organic openings",
+          "value": 24
+        },
+        {
+          "label": "stores after closing four current stores",
+          "value": 14
+        },
+        {
+          "label": "net stores after closing four then opening six",
+          "value": 20
+        },
+        {
+          "label": "supplier credit period days",
+          "value": 30
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "slot_id": "P3-04",
+  "family": "CASE_STUDY",
+  "command_word": "Evaluate",
+  "marks": 16,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 5,
+    "AO4": 5
+  },
+  "context": "",
+  "stem": "Using the shared Northstar Home Systems stimulus, evaluate which actions Northstar should prioritise to improve its financial performance over the next 12 months. Your answer must distinguish between profit and cash flow, assess what Northstar’s operating profit margin indicates, and reach a justified recommendation.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 4,
+        "descriptor": "Shows limited relevant business knowledge. Makes general assertions about improving cash flow, profit or profitability, with little or no application to Northstar. Evaluation is absent or unsupported."
+      },
+      {
+        "level": 2,
+        "min_marks": 5,
+        "max_marks": 8,
+        "descriptor": "Shows some relevant understanding and application to Northstar. Explains at least one financial-performance action, such as improving receivables collection, reducing inventory, negotiating supplier terms, delaying investment or using an overdraft. Some analysis of consequences is present, but the distinction between profit and cash, profitability evidence, or the final judgement is underdeveloped."
+      },
+      {
+        "level": 3,
+        "min_marks": 9,
+        "max_marks": 12,
+        "descriptor": "Provides developed analysis of more than one feasible action using the case evidence. Explains the relationship between Northstar’s growth, inventory, receivables, payment timing and cash pressure. Assesses Northstar’s operating profit margin and uses it appropriately alongside cash-flow evidence. Reaches a supported judgement, though the weighing of trade-offs, uncertainty or priorities may not be fully developed."
+      },
+      {
+        "level": 4,
+        "min_marks": 13,
+        "max_marks": 16,
+        "descriptor": "Provides a well-developed, balanced and case-driven evaluation. Uses Northstar’s operating profit margin as profitability-ratio evidence, while clearly explaining why this does not remove the immediate liquidity risk. Weighs a coherent prioritised combination of actions against material trade-offs for retailer relationships, supplier reliability, output and future growth. Reaches a clear, conditional and strategically consistent recommendation, recognising the uncertainty of retailer demand and the timing of receipts."
+      }
+    ],
+    "indicative_content": [
+      "Operating profit is £504,000 on revenue of £8.4m, so Northstar’s operating profit margin is 6%. This indicates that Northstar is profitable from operations, but the margin alone does not show that sufficient cash is available to meet payments.",
+      "Northstar’s £96,000 closing cash balance, despite operating profit, demonstrates that profit is not the same as cash. Retail customers pay after 60 days, whereas the main supplier is paid after 30 days, creating a timing gap.",
+      "The forecast £382,000 July cash shortfall if £420,000 of receipts are delayed is more immediately significant than the operating profit margin. The firm needs liquidity measures before committing cash to discretionary expenditure.",
+      "Inventory has increased from £610,000 to £1.05m. Reducing surplus slow-moving casings and reviewing buffer stock could release cash tied up in inventory. However, excessive reductions could increase the chance of shortages, missed retailer deliveries, penalties and poor online ratings.",
+      "Tighter customer-credit control could accelerate receipts and reduce the risk created by 60-day customer payment terms. However, retailers may resist revised terms or favour competitors, which could undermine forecast sales growth.",
+      "Negotiating longer supplier payment terms would improve Northstar’s short-term cash position because payments would move closer to customer receipts. However, pressuring a key supplier may weaken supply reliability, which is especially risky given the dependence on Malaysian circuit boards and the recent port delay.",
+      "Delaying the automated packing-line purchase would preserve immediate cash and could reduce the July funding requirement. However, the line is intended to be ready for the retailer promotion and could improve traceability and reduce packing errors; delay may constrain output or harm longer-term growth.",
+      "An overdraft could bridge a temporary, timing-based cash shortage, particularly if the delayed retailer receipts are expected shortly. It does not improve operating profitability and increases finance costs and dependence on lender availability, so it is less suitable as the only response to structural working-capital pressure.",
+      "Northstar should avoid treating sales growth as automatically beneficial for cash. Higher sales may require more boards, other inventory and receivables before customer cash is received, creating an overtrading risk.",
+      "A strong recommendation can prioritise immediate working-capital action, such as collecting receivables more actively and releasing genuinely surplus inventory, supported by contingent overdraft funding. It can then preserve operational capability by avoiding inventory reductions that threaten winter supply or retailer service.",
+      "The recommendation should be conditional on the quality of the cash forecast, whether retailer receipts are actually delayed, whether demand remains strong, and whether proposed actions would materially harm customer or supplier relationships."
+    ],
+    "model_answer": "Northstar should prioritise actions that protect cash in the short term rather than assuming that its reported profit means it can safely fund growth. Its operating profit margin is 6%, calculated from operating profit of £504,000 divided by revenue of £8.4m. This shows that the business is profitable from operations, but it is not a high enough or sufficiently informative figure on its own to remove the liquidity concern. Northstar has only £96,000 cash and could face a £382,000 July shortfall if £420,000 of retailer receipts arrive two weeks late.\n\nThe main cause is likely to be working-capital pressure. Customers pay after 60 days while the circuit-board supplier is paid after 30 days, and inventory has risen to £1.05m. Therefore, growth in Halo sales can increase profit but still consume cash first through higher stock holdings and receivables. Northstar should first improve collection of retailer receivables and sell surplus slow-moving casings. These actions could release cash without necessarily reducing the long-term ability to grow. However, tighter credit terms may make retailers less willing to stock Halo, while indiscriminate inventory cuts could create shortages and missed deliveries.\n\nNorthstar could also seek longer supplier payment terms, because this would reduce the timing mismatch between paying suppliers and collecting customer cash. Yet this is risky because supply reliability is already important: the Malaysian supplier has caused concern after a port delay, and missed Halo deliveries could lead to retailer penalties and damage customer ratings. Consequently, Northstar should not improve its cash position by creating a greater supply-chain risk.\n\nDelaying the £240,000 packing-line purchase would preserve cash, but it may prevent Northstar from handling the retailer promotion effectively and would postpone improvements in traceability and packing accuracy. An overdraft is a more appropriate contingency for a short, receipt-timing problem, but it would add finance costs and should not become a substitute for better working-capital management.\n\nOverall, Northstar should prioritise active receivables control and the disposal of genuinely surplus stock, while arranging an overdraft facility as protection against the July delay. It should negotiate with suppliers carefully rather than simply demanding longer terms, and should only delay the packing line if updated cash forecasts show that the promotion cannot be supported safely. This approach best recognises that Northstar is profitable but cash-constrained, while protecting the operational reliability needed for future growth."
+  },
+  "calculations": []
+}

@@ -1,0 +1,30 @@
+{
+  "unit_id": "P1-A-CHUNK-1",
+  "answers": [
+    {
+      "slot_id": "P1-A-01",
+      "answer_text": "B. An integrated marketing mix coordinates marketing decisions so they consistently support the target customer and positioning.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-02",
+      "answer_text": "B. Regulation can create common standards that increase customer trust.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-03",
+      "answer_text": "C. The Tannenbaum-Schmidt leadership continuum.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-04",
+      "answer_text": "B. Increase repeat purchases by existing customers by 12%.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-05",
+      "answer_text": "D. Task culture.",
+      "numbers": []
+    }
+  ]
+}

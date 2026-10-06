@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-mock-whole-paper",
+  "checklist_version": "mock-whole-paper-v1",
+  "units": {
+    "7132/1": {
+      "fingerprint": "7f4343160e62c8cbb7af23d050a385b44de87663432979889dce89fcd2ff753c",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-06T09:26:44.932Z"
+    },
+    "7132/2": {
+      "fingerprint": "e413c4217f6dcfe55fad20f5ba5ce9b4193c7663e1854490318aeae0965b1068",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-05T17:49:02.536Z"
+    },
+    "7132/3": {
+      "fingerprint": "9b4284443cac2dadd1a3908bd11a9074537acefea8a20a0bc046c722802bedc2",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [
+        {
+          "check_id": "progression_and_difficulty",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "7132/3",
+            "P3-01",
+            "P3-02",
+            "P3-03",
+            "P3-04",
+            "P3-05",
+            "P3-06"
+          ],
+          "finding": "Response demand follows an overly uniform upward ladder rather than varying naturally across the paper.",
+          "evidence": "The paper moves from two 12-mark Analyse questions directly into 16-, 16-, 20- and 24-mark Evaluate questions, with no later concise, diagnostic or differently structured task to vary the assessment experience.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Retain the overall mark total but vary later response forms or redistribute tariff so that not all higher-mark questions are extended evaluations in a single ascending sequence.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        },
+        {
+          "check_id": "quantitative_balance",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "7132/3",
+            "P3-01",
+            "P3-02",
+            "P3-03",
+            "P3-06"
+          ],
+          "finding": "Quantitative demand is concentrated in the opening two questions and is underused where later stimulus data directly supports numerical decision making.",
+          "evidence": "P3-01 and P3-02 contain all 8 explicit quantitative marks. P3-03 uses probability and contribution data but does not require expected-value calculation, while P3-06 supplies average use, maximum inventory, buffer inventory and lead-time data without requiring a reorder-level or related inventory calculation.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Add a clearly credited expected-value calculation to P3-03 and/or an inventory-control calculation to P3-06, then require candidates to use the result in the associated judgement.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        },
+        {
+          "check_id": "synoptic_validity",
+          "category": "missing_examinable_item",
+          "affected_ids": [
+            "7132/3",
+            "P3-04",
+            "P3-05"
+          ],
+          "finding": "Not every mapped synoptic target is genuinely required for top-level performance.",
+          "evidence": "P3-04 maps BUS-FIN-012, but neither the question nor top-level descriptor requires calculation or interpretation of a profitability ratio; a full response can distinguish profit from cash and evaluate working-capital actions alone. P3-05 maps BUS-MOD-005, but its top-level descriptor can be met through contextual change-management analysis without Lewin's staged model or force-field analysis.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Either remove targets that are not essential to the assessed response or revise the stems and mark schemes so that full-mark answers must apply the relevant financial-ratio and planned-change-model evidence.",
+          "disposition": "blocking",
+          "reason": "failed synoptic_validity"
+        },
+        {
+          "check_id": "cross_question_duplication",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "7132/3",
+            "P3-03",
+            "P3-06"
+          ],
+          "finding": "Two major questions repeat the same central sourcing decision and substantially the same recommendation.",
+          "evidence": "P3-03 asks whether Northstar should establish a dual-source arrangement for circuit boards for the winter peak. P3-06 again asks whether it should establish dual sourcing rather than continue with Malaysia alone. Both mark schemes centre on Malaysian price and lead time, UK flexibility, inventory and cash pressure, supplier reliability, demand uncertainty, quality checking, and a staged dual-source recommendation.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Keep one extended dual-sourcing evaluation. Replace the other with a materially distinct operational decision, such as setting the board reorder policy, managing the Malaysian supplier relationship, or evaluating the balance between buffer inventory and service risk.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        },
+        {
+          "check_id": "assessment_model_resemblance",
+          "category": "opinion_or_style",
+          "affected_ids": [
+            "7132/3",
+            "P3-03",
+            "P3-06"
+          ],
+          "finding": "The duplicate dual-sourcing evaluations reduce the paper's resemblance to a balanced assessment model.",
+          "evidence": "P3-03 and P3-06 award 40 marks in total for closely overlapping consideration of the same supplier choice and reach near-identical conditional dual-source conclusions.",
+          "contradicting_source_id": null,
+          "proposed_fix": "Redesign one of the two sourcing questions around a distinct decision context and evidence set so that the full paper tests broader independent judgement rather than repeated application to one recommendation.",
+          "disposition": "logged",
+          "reason": "opinion_or_style is logged, not blocking"
+        }
+      ],
+      "updated_at": "2026-10-06T13:54:04.724Z",
+      "founder_decision": {
+        "decision": "fix",
+        "note": "Founder directed the recommended targeted fix after run 37442073531: revise P3-04 and P3-05 so the existing mapped targets are genuinely necessary for full marks; preserve the deterministic mock plan and do not broaden remediation. Resolution aqa-7132-2027-paper3-synoptic-validity-founder-fix-2026-10-06 was applied deterministically; no third whole-paper review was started for the same escalated issue.",
+        "decided_at": "2026-10-06"
+      }
+    }
+  }
+}

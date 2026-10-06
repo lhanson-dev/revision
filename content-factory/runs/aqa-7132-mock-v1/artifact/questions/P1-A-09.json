@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-09",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A UK manufacturer buys components from overseas suppliers.",
+  "stem": "Select the term for a tax imposed on imported goods.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Quota"
+    },
+    {
+      "label": "B",
+      "text": "Tariff"
+    },
+    {
+      "label": "C",
+      "text": "Subsidy"
+    },
+    {
+      "label": "D",
+      "text": "Foreign direct investment"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "B",
+    "option_rationale": [
+      "A quota restricts the quantity of a product that may be imported rather than taxing it.",
+      "B A tariff is a tax charged on imported goods.",
+      "C A subsidy is financial support for specified activity, rather than a tax on imports.",
+      "D Foreign direct investment involves lasting investment in business operations in another country."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "},"
+  },
+  "calculations": []
+}

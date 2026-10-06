@@ -1,0 +1,142 @@
+{
+  "slot_id": "P1-B-01",
+  "family": "SHORT_ANSWER",
+  "command_word": "Calculate",
+  "marks": 4,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 2,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "Revision-authored scenario: Northline Cycles assembles commuter bicycles. The business wants to monitor its operating performance for one week.",
+  "stem": "Using the data in the table, calculate for the week: total cost, average cost per bicycle, capacity utilisation and labour productivity per employee. Show your workings.",
+  "table": {
+    "title": "Northline Cycles: weekly operating data",
+    "columns": [
+      "Measure",
+      "Data"
+    ],
+    "rows": [
+      {
+        "cells": [
+          "Fixed costs",
+          "£12,000"
+        ]
+      },
+      {
+        "cells": [
+          "Variable cost per bicycle",
+          "£8"
+        ]
+      },
+      {
+        "cells": [
+          "Actual output",
+          "3,000 bicycles"
+        ]
+      },
+      {
+        "cells": [
+          "Maximum weekly capacity",
+          "4,000 bicycles"
+        ]
+      },
+      {
+        "cells": [
+          "Number of employees",
+          "30"
+        ]
+      }
+    ]
+  },
+  "options": [],
+  "mark_scheme": {
+    "type": "points",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [
+      {
+        "marks": 1,
+        "descriptor": "Calculates total cost.",
+        "accept": [
+          "£36,000",
+          "£12,000 + (£8 × 3,000) = £36,000"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates average cost per bicycle.",
+        "accept": [
+          "£12 per bicycle",
+          "£36,000 ÷ 3,000 = £12 per bicycle"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates capacity utilisation.",
+        "accept": [
+          "75%",
+          "3,000 ÷ 4,000 × 100 = 75%"
+        ]
+      },
+      {
+        "marks": 1,
+        "descriptor": "Calculates labour productivity per employee.",
+        "accept": [
+          "100 bicycles per employee",
+          "3,000 ÷ 30 = 100 bicycles per employee"
+        ]
+      }
+    ],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "Total cost = £12,000 + (£8 × 3,000) = £36,000.\nAverage cost = £36,000 ÷ 3,000 = £12 per bicycle.\nCapacity utilisation = 3,000 ÷ 4,000 × 100 = 75%.\nLabour productivity = 3,000 ÷ 30 = 100 bicycles per employee."
+  },
+  "calculations": [
+    {
+      "label": "Total cost",
+      "method": "sum",
+      "operands": [
+        12000,
+        24000
+      ],
+      "stated_answer": 36000,
+      "unit": "£",
+      "marks_supported": 1
+    },
+    {
+      "label": "Average cost per bicycle",
+      "method": "quotient",
+      "operands": [
+        36000,
+        3000
+      ],
+      "stated_answer": 12,
+      "unit": "£ per bicycle",
+      "marks_supported": 1
+    },
+    {
+      "label": "Capacity utilisation",
+      "method": "percent_of",
+      "operands": [
+        3000,
+        4000
+      ],
+      "stated_answer": 75,
+      "unit": "%",
+      "marks_supported": 1
+    },
+    {
+      "label": "Labour productivity per employee",
+      "method": "quotient",
+      "operands": [
+        3000,
+        30
+      ],
+      "stated_answer": 100,
+      "unit": "bicycles per employee",
+      "marks_supported": 1
+    }
+  ]
+}

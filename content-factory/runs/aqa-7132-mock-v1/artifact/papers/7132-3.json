@@ -1,0 +1,692 @@
+{
+  "schema_version": 1,
+  "plan_id": "aqa-business-7132-2027-mock-set-plan-v1",
+  "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+  "component_id": "7132/3",
+  "name": "Business 3",
+  "duration_minutes": 120,
+  "attempted_raw_marks": 100,
+  "printed_raw_marks": 100,
+  "learner_claim": "A realistic practice paper built to AQA's structure. Revision-authored; not an official AQA paper.",
+  "shared_contexts": [
+    {
+      "unit_id": "P3-CASE-1",
+      "title": "Northstar Home Systems: scaling a connected heating-controls range",
+      "business_name": "Northstar Home Systems Ltd",
+      "narrative": "Northstar Home Systems Ltd is a Leeds-based manufacturer and online seller of smart heating controls for UK households. It employs 186 people and generated revenue of £8.4m in the year ended March 2026. Its main product, the Halo thermostat, is assembled in Leeds from imported circuit boards, UK-made casings and bought-in sensors. Northstar’s objective is to grow Halo sales while protecting product reliability and avoiding further pressure on cash.\n\nDemand for Halo has increased after large energy retailers began listing it online. Forecast sales for the next 12 months are 52,000 units, compared with 39,000 units in the previous year. However, the forecast assumes that retailers’ promotions continue and that competing low-priced products do not reduce Northstar’s selling price. The operations director believes the existing packing line will not reliably handle peak weekly demand. The board is considering an automated packing line, which would also provide serial-number scanning for traceability and reduce manual packing errors.\n\nNorthstar currently has a five-layer functional hierarchy. Production, purchasing, sales and finance managers report to the operations director, who refers significant decisions to the managing director. Most production staff have permanent full-time contracts and work to detailed procedures. Managers say this structure has helped quality control, but team leaders report slow decisions when shortages occur. The proposed change would remove one management layer, create multi-skilled production cells and give cell leaders authority to alter daily staffing and production schedules within agreed quality and spending limits. Some supervisors fear redundancy or loss of status; some assemblers are concerned about learning new tasks and being measured through the new scanning system. The managing director has announced the intended launch date but has not yet decided whether to use a pilot, consultation meetings, training, or a faster compulsory implementation.\n\nNorthstar’s March management accounts showed an operating profit of £504,000, but its closing cash balance was only £96,000. Customers, including retailers, usually pay 60 days after delivery, while Northstar pays its main circuit-board supplier 30 days after invoice. Inventory has risen from £610,000 to £1.05m as purchasing staff ordered larger batches to avoid shortages. The finance director’s rolling forecast shows a possible cash shortfall in July if £420,000 of retailer receipts arrive two weeks late. Management is considering tighter customer-credit control, selling surplus slow-moving casings, negotiating longer supplier terms, reducing buffer stock, delaying the packing-line purchase or using an overdraft. Each option could affect customer relationships, supplier reliability, output or future growth.\n\nThe circuit boards currently come from one supplier in Malaysia. Its unit price is £18.40 and its normal lead time is 10 weeks; it requires minimum orders of 12,000 boards. A UK supplier has offered boards at £20.10 each, in batches of 3,000, with a three-week lead time. The UK supplier has spare capacity but has supplied Northstar only on a small trial order. A recent port delay added three weeks to a Malaysian delivery, causing Northstar to use almost all of its buffer inventory. A missed delivery of Halo thermostats would expose Northstar to retailer penalties and may damage online customer ratings. The purchasing manager argues that the Malaysian supplier remains cheaper; the sales director argues that lower inventory, shorter lead times and dual sourcing could be worth the higher purchase price.\n\nTo decide how to secure circuit-board supply for the coming winter peak, Northstar has estimated outcomes using internal data. If it continues with the Malaysian supplier alone, managers estimate a 0.70 probability of normal supply, producing an expected seasonal contribution of £780,000, and a 0.30 probability of a serious delay, producing a contribution of £270,000 after lost sales and expedited freight. Establishing a dual-source arrangement would cost £95,000 in testing, supplier onboarding and revised quality checks. Under dual sourcing, management estimates a 0.85 probability of normal supply with seasonal contribution before these costs of £745,000, and a 0.15 probability of a serious delay with contribution before these costs of £510,000. The estimates are based on Northstar’s experience and supplier discussions rather than independently verified probabilities.\n\nThe automated packing-line project must be ready before the retailer promotion begins. The project manager has listed the activities and dependencies below. The engineering contractor has offered to shorten activity E by two weeks for an additional £36,000, but this would require weekend access to the factory. The operations director also wants to know whether the project schedule alone is sufficient, since the same maintenance technicians are needed for normal production and for installing the line.",
+      "table": {
+        "title": "Northstar planning and investment data",
+        "columns": [
+          "Section",
+          "Item",
+          "Data"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Project network",
+              "A: specify the line and approve layout",
+              "From event 0 to event 1; duration 2 weeks"
+            ]
+          },
+          {
+            "cells": [
+              "Project network",
+              "B: prepare factory space",
+              "From event 1 to event 2; duration 4 weeks"
+            ]
+          },
+          {
+            "cells": [
+              "Project network",
+              "C: configure scanning software",
+              "From event 1 to event 3; duration 3 weeks"
+            ]
+          },
+          {
+            "cells": [
+              "Project network",
+              "D: install packing equipment",
+              "From event 2 to event 4; duration 3 weeks"
+            ]
+          },
+          {
+            "cells": [
+              "Project network",
+              "E: test software and connect scanners",
+              "From event 3 to event 4; duration 5 weeks; contractor can reduce this to 3 weeks for £36,000"
+            ]
+          },
+          {
+            "cells": [
+              "Project network",
+              "F: train operators and hand over line",
+              "From event 4 to event 5; duration 2 weeks"
+            ]
+          },
+          {
+            "cells": [
+              "Investment appraisal",
+              "Automated packing line: initial cash outlay",
+              "£240,000, paid immediately"
+            ]
+          },
+          {
+            "cells": [
+              "Investment appraisal",
+              "Forecast net cash inflows from the line",
+              "Year 1: £70,000; Year 2: £75,000; Year 3: £80,000; Year 4: £85,000; Year 5: £90,000"
+            ]
+          },
+          {
+            "cells": [
+              "Investment appraisal",
+              "Discount factors at Northstar’s required rate of return",
+              "Year 1: 0.91; Year 2: 0.83; Year 3: 0.76; Year 4: 0.69; Year 5: 0.62"
+            ]
+          },
+          {
+            "cells": [
+              "Investment appraisal",
+              "Non-financial considerations",
+              "The line could improve serial-number traceability and reduce packing errors. It would increase dependence on specialist maintenance support and may require redeployment of six packing employees. Forecast cash inflows depend on retailer demand continuing."
+            ]
+          },
+          {
+            "cells": [
+              "Financial performance",
+              "Year ended March 2026",
+              "Revenue £8.4m; cost of sales £5.46m; operating expenses £2.436m; operating profit £504,000"
+            ]
+          },
+          {
+            "cells": [
+              "Financial performance",
+              "Working-capital position",
+              "Inventory: £1.05m; trade receivables: £1.32m; trade payables: £0.74m; closing cash: £96,000"
+            ]
+          },
+          {
+            "cells": [
+              "Financial performance",
+              "July cash-flow sensitivity",
+              "Forecast closing cash before delayed receipts: £38,000. If £420,000 of expected receipts are delayed by two weeks, the same forecast shows a shortfall of £382,000 before any management action."
+            ]
+          },
+          {
+            "cells": [
+              "Supply chain and inventory",
+              "Halo board demand and stock policy",
+              "Average use: 1,000 boards per week. Maximum board inventory: 14,000 units. Buffer inventory: 2,000 units. The Malaysian supplier’s usual lead time is 10 weeks."
+            ]
+          },
+          {
+            "cells": [
+              "Supply chain and inventory",
+              "Supplier comparison",
+              "Malaysia: £18.40 per board, minimum order 12,000, normal lead time 10 weeks. UK: £20.10 per board, minimum order 3,000, lead time 3 weeks."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.10.3"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-008",
+        "BUS-PEO-007",
+        "BUS-PEO-009",
+        "BUS-PEO-010",
+        "BUS-STR-009"
+      ],
+      "quantitative_marks": 4,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-01",
+        "family": "CASE_STUDY",
+        "command_word": "Analyse",
+        "marks": 12,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 6,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the project-network information in the Northstar planning data, construct an activity-on-arrow network for activities A–F. Show each activity letter above its arrow and its duration below the arrow. In every event circle, show the event number on the left, the earliest event time in the upper-right and the latest event time in the lower-right.\n\nCalculate the total float of activities B and D. Then analyse how Northstar should use this network analysis, including the option to shorten activity E, to implement the automated packing line before the retailer promotion begins. [12 marks]",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 3,
+              "descriptor": "Displays limited relevant knowledge of network analysis or implementation. May identify an activity sequence, a possible delay risk or a generic benefit of training, communication or resource planning. The network representation and calculations are absent, substantially inaccurate or incomplete. Analysis is largely asserted."
+            },
+            {
+              "level": 2,
+              "min_marks": 4,
+              "max_marks": 6,
+              "descriptor": "Shows some relevant application to Northstar. Produces a partially correct activity-on-arrow network and/or some correct timing or float work. Explains at least one linked implementation consequence, such as prioritising a critical activity, using training, or communicating with affected employees. Analysis is developed in places but may not fully account for the amended network or the maintenance-technician constraint."
+            },
+            {
+              "level": 3,
+              "min_marks": 7,
+              "max_marks": 9,
+              "descriptor": "Provides clear, context-linked analysis. The activity-on-arrow network is largely valid, with appropriate event timings, and total float calculations are mostly correct. Explains that the original critical route determines the 12-week completion time and analyses how reducing E changes the schedule and implementation priorities. Considers relevant people, communication, training, resource or cost implications using Northstar evidence."
+            },
+            {
+              "level": 4,
+              "min_marks": 10,
+              "max_marks": 12,
+              "descriptor": "Provides a coherent and well-developed analysis of implementation at Northstar. For this level, the response must construct a valid activity-on-arrow network using the required event-circle convention, calculate total float competently for both B and D, and use the results accurately. It explains that A–C–E–F is initially critical at 12 weeks; shortening E to three weeks reduces the project duration only to 11 weeks because A–B–D–F becomes critical. It reaches a reasoned, context-specific implementation judgement that recognises the £36,000 cost, weekend access and the resource constraint created by maintenance technicians also being required for normal production. It links the network to practical implementation actions, such as updating the schedule, securing resources, training and communication, rather than treating the calculated network as sufficient on its own."
+            }
+          ],
+          "indicative_content": [
+            "A valid original activity-on-arrow network has A from event 0 to 1, B from 1 to 2, C from 1 to 3, D from 2 to 4, E from 3 to 4, and F from 4 to 5.",
+            "Original event timings are: event 0 = earliest 0/latest 0; event 1 = 2/2; event 2 = 6/7; event 3 = 5/5; event 4 = 10/10; event 5 = 12/12.",
+            "The original critical path is A–C–E–F: 2 + 3 + 5 + 2 = 12 weeks. A delay to C or E delays the calculated completion date unless recovered elsewhere.",
+            "B has total float of one week: its earliest start is week 2 and its latest permissible start is week 3.",
+            "D has total float of one week: its earliest start is week 6 and its latest permissible start is week 7.",
+            "If E is reduced from five to three weeks, the A–C–E–F route becomes 10 weeks, while A–B–D–F remains 11 weeks. The amended project duration is therefore 11 weeks and A–B–D–F becomes critical.",
+            "The £36,000 payment for shortening E buys one week of overall schedule reduction, rather than two weeks, because the critical path changes. Northstar should compare this benefit with the need to be ready before the promotion and its existing cash pressure.",
+            "The network does not include the fact that the same maintenance technicians are needed for production and installation. If this resource conflict delays B or D, the amended critical path could be delayed. Northstar should confirm technician availability, consider planned weekend work or external support, and update the network if durations or dependencies change.",
+            "Training operators and handing over the line are on the critical route in both the original and amended networks. Northstar should protect activity F through timely training, clear responsibilities and adequate support for employees redeployed from packing.",
+            "Because supervisors fear loss of status and assemblers are concerned about new tasks and scanning, consultation meetings and training can identify operational problems and improve adoption. A pilot or staged testing approach may reduce implementation risk, but must be scheduled so it does not delay the critical work.",
+            "A faster compulsory approach might protect the launch date where time is severe, but could increase resistance, errors or weak use of the new process. Communication should explain the purpose of traceability and quality controls, allow feedback and clarify authority during the change."
+          ],
+          "model_answer": "A suitable activity-on-arrow network is:\n\n0(0/0) --A, 2--> 1(2/2)\n1(2/2) --B, 4--> 2(6/7) --D, 3--> 4(10/10) --F, 2--> 5(12/12)\n1(2/2) --C, 3--> 3(5/5) --E, 5--> 4(10/10)\n\nThe original critical path is A–C–E–F, with a duration of 12 weeks. B has one week of total float because it can start at week 2 or, at latest, week 3. D also has one week of total float because it can start at week 6 or, at latest, week 7.\n\nNorthstar could pay £36,000 to reduce E by two weeks. However, this does not reduce the overall project by two weeks. The A–C–E–F route would become 10 weeks, but A–B–D–F would still take 11 weeks. The amended critical path would therefore be A–B–D–F and the earliest completion would be week 11. The payment buys only one week of overall time, so it is most justified if the extra week is necessary to meet the retailer-promotion deadline or creates a useful buffer against disruption.\n\nNorthstar should not rely on the network alone. The same maintenance technicians are required for normal production and installation, but this resource constraint is not represented in the activity durations. If technicians are unavailable, B or D could take longer and delay the now-critical A–B–D–F route. Northstar should reserve technician time, consider contractor support or controlled weekend working, and recalculate the network if this changes durations.\n\nIt should also protect F, because operator training and handover remain critical. Consultation and training can address assemblers' concerns about multi-skilling and scanning, while clear communication can explain why traceability and fewer packing errors are needed. A limited test of the process could reveal problems before full launch, but Northstar must ensure that testing and feedback do not postpone the critical training and handover activities. This combines schedule control with a more reliable implementation of the change."
+        },
+        "calculations": [
+          {
+            "label": "original_project_duration",
+            "method": "sum",
+            "operands": [
+              2,
+              3,
+              5,
+              2
+            ],
+            "stated_answer": 12,
+            "unit": "weeks",
+            "marks_supported": 1
+          },
+          {
+            "label": "total_float_activity_b",
+            "method": "difference",
+            "operands": [
+              3,
+              2
+            ],
+            "stated_answer": 1,
+            "unit": "week",
+            "marks_supported": 1
+          },
+          {
+            "label": "total_float_activity_d",
+            "method": "difference",
+            "operands": [
+              7,
+              6
+            ],
+            "stated_answer": 1,
+            "unit": "week",
+            "marks_supported": 1
+          },
+          {
+            "label": "amended_project_duration_after_shortening_e",
+            "method": "sum",
+            "operands": [
+              2,
+              4,
+              3,
+              2
+            ],
+            "stated_answer": 11,
+            "unit": "weeks",
+            "marks_supported": 1
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.7.8"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-003",
+        "BUS-EVI-007",
+        "BUS-FIN-009"
+      ],
+      "quantitative_marks": 4,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-02",
+        "family": "CASE_STUDY",
+        "command_word": "Analyse",
+        "marks": 12,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 6,
+          "AO4": 0
+        },
+        "context": "",
+        "stem": "Using the shared Northstar stimulus, calculate the net present value (NPV) of the automated packing line. Then analyse whether the NPV provides sufficient support for Northstar to proceed with the investment. [12 marks]",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 4,
+              "descriptor": "Shows limited understanding of NPV and/or makes isolated use of Northstar information. Calculation may be incomplete or inaccurate. Analysis is mainly descriptive, with limited explanation of how the investment could affect Northstar."
+            },
+            {
+              "level": 2,
+              "min_marks": 5,
+              "max_marks": 8,
+              "descriptor": "Shows sound understanding of NPV and applies it to Northstar. Calculates, or makes substantial progress towards calculating, NPV. Develops one or more logical chains of analysis about the implications of the investment, though use of risk, forecast uncertainty or non-financial factors may be uneven."
+            },
+            {
+              "level": 3,
+              "min_marks": 9,
+              "max_marks": 12,
+              "descriptor": "Shows thorough understanding and accurate application of NPV to Northstar. Calculates an NPV of £61,200 and develops well-supported analysis of whether this supports the investment. Analysis integrates the timing and uncertainty of forecast cash inflows with relevant non-financial consequences, such as traceability, packing errors, maintenance dependence, employee redeployment and retailer demand."
+            }
+          ],
+          "indicative_content": [
+            "NPV discounts each future net cash inflow using the supplied discount factor, then deducts the initial outlay.",
+            "Year 1 present value: £70,000 × 0.91 = £63,700.",
+            "Year 2 present value: £75,000 × 0.83 = £62,250.",
+            "Year 3 present value: £80,000 × 0.76 = £60,800.",
+            "Year 4 present value: £85,000 × 0.69 = £58,650.",
+            "Year 5 present value: £90,000 × 0.62 = £55,800.",
+            "Total discounted inflows are £301,200; NPV is £301,200 − £240,000 = positive £61,200.",
+            "A positive NPV means forecast discounted inflows exceed the immediate outlay at Northstar's stated required rate of return, so the project has financial support under the assumptions used.",
+            "The positive NPV is relatively modest compared with the £240,000 immediate outlay. This matters because Northstar has closing cash of only £96,000 and faces a possible July cash shortfall, so funding the outlay could intensify liquidity pressure even where expected NPV is positive.",
+            "The calculation depends on cash-inflow forecasts. Halo demand is forecast to rise, but this assumes retailer promotions continue and competing low-priced products do not force down Northstar's selling price. Weaker demand could reduce the line's cash inflows and lower or eliminate the NPV.",
+            "The project could improve serial-number traceability and reduce manual packing errors. These benefits may protect reliability and retailer relationships but are not fully captured in the stated cash-flow forecasts, so NPV alone may understate its operational value.",
+            "The line increases dependence on specialist maintenance support. Disruption or unavailable technicians could reduce output, particularly because technicians are also needed for normal production, meaning actual cash inflows may be below forecast.",
+            "Redeployment of six packing employees could require effective management and training. If implementation harms morale or capability, expected efficiency benefits could be delayed.",
+            "Analysis may recognise that NPV provides useful support rather than certainty: it should be considered alongside Northstar's cash position, reliability objective and sensitivity of forecasts to retailer demand."
+          ],
+          "model_answer": "The discounted cash inflows are £63,700 in Year 1, £62,250 in Year 2, £60,800 in Year 3, £58,650 in Year 4 and £55,800 in Year 5. Their total is £301,200. Deducting the immediate £240,000 outlay gives an NPV of positive £61,200.\n\nThis positive NPV supports proceeding because, at Northstar's required rate of return, expected discounted cash inflows exceed the cost of the packing line. The line may also reduce packing errors and improve serial-number traceability, helping Northstar protect the reliability that is important when retailer demand is growing.\n\nHowever, NPV alone is not sufficient evidence. The £240,000 outlay is large compared with Northstar's £96,000 closing cash balance and the possible July cash shortfall. In addition, the inflow forecast relies on retailer promotions continuing and on Northstar avoiding price pressure from low-cost competitors. If sales are lower than forecast, the NPV would fall. Dependence on specialist maintenance and the need to redeploy six employees could also delay benefits. Therefore, the positive NPV provides financial support, but Northstar should test weaker-demand cash-flow scenarios and ensure that funding and implementation risks can be managed before committing."
+        },
+        "calculations": [
+          {
+            "label": "year_1_discounted_cash_inflow",
+            "method": "product",
+            "operands": [
+              70000,
+              0.91
+            ],
+            "stated_answer": 63700,
+            "unit": "£",
+            "marks_supported": 1
+          },
+          {
+            "label": "year_2_discounted_cash_inflow",
+            "method": "product",
+            "operands": [
+              75000,
+              0.83
+            ],
+            "stated_answer": 62250,
+            "unit": "£",
+            "marks_supported": 1
+          },
+          {
+            "label": "total_discounted_cash_inflows",
+            "method": "sum",
+            "operands": [
+              63700,
+              62250,
+              60800,
+              58650,
+              55800
+            ],
+            "stated_answer": 301200,
+            "unit": "£",
+            "marks_supported": 1
+          },
+          {
+            "label": "net_present_value",
+            "method": "difference",
+            "operands": [
+              301200,
+              240000
+            ],
+            "stated_answer": 61200,
+            "unit": "£",
+            "marks_supported": 1
+          }
+        ]
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.2.2"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-002",
+        "BUS-EVI-003",
+        "BUS-EVI-004",
+        "BUS-EVI-007",
+        "BUS-FND-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-03",
+        "family": "CASE_STUDY",
+        "command_word": "Evaluate",
+        "marks": 16,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 5,
+          "AO4": 5
+        },
+        "context": "",
+        "stem": "Using the shared Northstar Home Systems stimulus, evaluate whether Northstar should establish a dual-source arrangement for circuit boards for the coming winter peak. Your answer should use the decision-tree estimates, while considering the reliability of the evidence and Northstar’s wider objectives.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 4,
+              "descriptor": "Shows limited relevant knowledge of decision making, risk or expected value. Makes simple assertions about one supplier option, with little use of the Northstar evidence. Any judgement is unsupported or unclear."
+            },
+            {
+              "level": 2,
+              "min_marks": 5,
+              "max_marks": 8,
+              "descriptor": "Shows some accurate understanding of decision trees, expected value, risk or uncertainty. Applies some stimulus material to compare the Malaysian and dual-source options. Analysis is present but may be one-sided, and the conclusion has limited evaluation of evidence quality or wider business effects."
+            },
+            {
+              "level": 3,
+              "min_marks": 9,
+              "max_marks": 12,
+              "descriptor": "Shows secure understanding of structured decision making and applies the decision-tree data effectively. Develops relevant chains of analysis, including the trade-off between expected financial outcomes, supply disruption and cash pressures. Evaluation considers limitations of the estimates and reaches a supported, though not fully developed, judgement."
+            },
+            {
+              "level": 4,
+              "min_marks": 13,
+              "max_marks": 16,
+              "descriptor": "Shows thorough and well-focused understanding of expected value, risk and uncertainty in decision making. Integrates precise Northstar evidence into a sustained comparison of credible alternatives. Evaluation weighs the small financial difference against downside risk, cash constraints, strategic objectives and evidence quality. Reaches a clear, conditional and strategically consistent judgement, explaining what could change the recommendation."
+            }
+          ],
+          "indicative_content": [
+            "A decision tree makes Northstar's options, possible supply outcomes and probability assumptions explicit. Expected value is useful because it provides a structured comparison rather than relying only on the purchasing manager's preference for the lowest unit price or the sales director's judgement about resilience.",
+            "Using the supplied estimates, Malaysian-only supply has an expected seasonal contribution of £627,000: (0.70 × £780,000) + (0.30 × £270,000).",
+            "Dual sourcing has an expected seasonal contribution before the certain set-up cost of £709,750: (0.85 × £745,000) + (0.15 × £510,000). After the £95,000 testing, onboarding and quality-check cost, its expected seasonal contribution is £614,750.",
+            "On these estimates, Malaysian-only supply produces the higher expected seasonal contribution by £12,250. Its lower board price also avoids the immediate £95,000 dual-source cost, which is significant because Northstar has only £96,000 closing cash and faces a possible July cash shortfall.",
+            "However, expected value is an average rather than a guaranteed outcome. Malaysian-only supply leaves Northstar dependent on one supplier with a 10-week lead time and 12,000-unit minimum orders. A serious delay would give only £270,000 seasonal contribution, after lost sales and expedited freight.",
+            "Dual sourcing reduces concentration risk. It has a higher estimated probability of normal supply and, in the serious-delay outcome, contribution before set-up costs is £510,000. Even after the certain £95,000 cost, this is higher than the Malaysian-only serious-delay outcome. This protection may be valuable because missed deliveries could lead to retailer penalties and damage online ratings.",
+            "The UK supplier's shorter three-week lead time and smaller 3,000-unit batches could reduce inventory commitment and improve Northstar's ability to respond to demand changes. This supports the objective of growing Halo sales while protecting reliability, although the UK supplier has supplied only a small trial order.",
+            "The probabilities are not independently verified: they are based on Northstar's own experience and supplier discussions. The predicted retailer demand also depends on promotions continuing and competitors not forcing down selling prices. Therefore, the calculated expected values may give a misleading impression of precision.",
+            "A decision should not be based solely on the expected-value comparison. Management should test whether the probability of a Malaysian delay, the size of retailer penalties, or the value of reputational damage is greater than assumed. It should also assess the UK supplier's quality and capacity before relying on it.",
+            "A reasoned recommendation may be to establish dual sourcing if Northstar can finance the £95,000 cost without worsening its cash crisis, since the small expected-value disadvantage may be outweighed by resilience during a winter peak. If cash cannot be protected and further supplier testing does not strengthen confidence in the UK source, retaining Malaysian supply temporarily while developing the UK supplier further would be more appropriate.",
+            "Answers may reach a different conclusion where they use the evidence logically and make a supported conditional judgement."
+          ],
+          "model_answer": "Northstar should not choose solely on the basis of the lowest unit price. A decision tree is useful because it makes the possible supply outcomes and assumptions explicit. On the supplied estimates, Malaysian-only supply has an expected seasonal contribution of £627,000. Dual sourcing has an expected contribution of £709,750 before its certain £95,000 set-up cost, leaving £614,750. Therefore, Malaysian-only supply is financially preferable on expected seasonal contribution, but only by £12,250.\n\nThis difference is small relative to the potential consequences of disruption. Malaysian supply has a 0.30 probability of a serious delay, and the contribution in that outcome is only £270,000 after lost sales and expedited freight. Northstar has already experienced a port delay and nearly used all its buffer stock. A missed retailer delivery could also cause penalties and damage customer ratings, neither of which is fully captured by a single expected-value figure. Dual sourcing would reduce dependence on one supplier, while the UK supplier's three-week lead time and smaller batches could make stock levels and response to demand more flexible. This is consistent with Northstar's objective of growing Halo sales without reducing reliability.\n\nHowever, the decision-tree figures are uncertain. The probabilities come from management experience and supplier discussions rather than independent verification. The UK supplier has only completed a small trial order, so its quality and reliability at a larger scale remain uncertain. In addition, Northstar's £96,000 closing cash balance and possible July shortfall make the immediate £95,000 dual-source cost difficult to absorb. The opportunity cost is that this cash could instead help manage the forecast cash pressure.\n\nOverall, Northstar should establish dual sourcing only if it can protect liquidity, for example by first resolving the expected cash shortfall and confirming the UK supplier's quality and capacity. The expected-value disadvantage is modest, whereas the protection against a severe supply failure could be strategically important during the winter peak. If the cash position deteriorates or further testing reveals quality concerns, Northstar should retain Malaysian supply in the short term while continuing to qualify the UK supplier, rather than committing immediately."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.5.4"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-007",
+        "BUS-FIN-003",
+        "BUS-FIN-005",
+        "BUS-FIN-006",
+        "BUS-FIN-012"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-04",
+        "family": "CASE_STUDY",
+        "command_word": "Evaluate",
+        "marks": 16,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 5,
+          "AO4": 5
+        },
+        "context": "",
+        "stem": "Using the shared Northstar Home Systems stimulus, evaluate which actions Northstar should prioritise to improve its financial performance over the next 12 months. Your answer must distinguish between profit and cash flow, assess what Northstar’s operating profit margin indicates, and reach a justified recommendation.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 4,
+              "descriptor": "Shows limited relevant business knowledge. Makes general assertions about improving cash flow, profit or profitability, with little or no application to Northstar. Evaluation is absent or unsupported."
+            },
+            {
+              "level": 2,
+              "min_marks": 5,
+              "max_marks": 8,
+              "descriptor": "Shows some relevant understanding and application to Northstar. Explains at least one financial-performance action, such as improving receivables collection, reducing inventory, negotiating supplier terms, delaying investment or using an overdraft. Some analysis of consequences is present, but the distinction between profit and cash, profitability evidence, or the final judgement is underdeveloped."
+            },
+            {
+              "level": 3,
+              "min_marks": 9,
+              "max_marks": 12,
+              "descriptor": "Provides developed analysis of more than one feasible action using the case evidence. Explains the relationship between Northstar’s growth, inventory, receivables, payment timing and cash pressure. Assesses Northstar’s operating profit margin and uses it appropriately alongside cash-flow evidence. Reaches a supported judgement, though the weighing of trade-offs, uncertainty or priorities may not be fully developed."
+            },
+            {
+              "level": 4,
+              "min_marks": 13,
+              "max_marks": 16,
+              "descriptor": "Provides a well-developed, balanced and case-driven evaluation. Uses Northstar’s operating profit margin as profitability-ratio evidence, while clearly explaining why this does not remove the immediate liquidity risk. Weighs a coherent prioritised combination of actions against material trade-offs for retailer relationships, supplier reliability, output and future growth. Reaches a clear, conditional and strategically consistent recommendation, recognising the uncertainty of retailer demand and the timing of receipts."
+            }
+          ],
+          "indicative_content": [
+            "Operating profit is £504,000 on revenue of £8.4m, so Northstar’s operating profit margin is 6%. This indicates that Northstar is profitable from operations, but the margin alone does not show that sufficient cash is available to meet payments.",
+            "Northstar’s £96,000 closing cash balance, despite operating profit, demonstrates that profit is not the same as cash. Retail customers pay after 60 days, whereas the main supplier is paid after 30 days, creating a timing gap.",
+            "The forecast £382,000 July cash shortfall if £420,000 of receipts are delayed is more immediately significant than the operating profit margin. The firm needs liquidity measures before committing cash to discretionary expenditure.",
+            "Inventory has increased from £610,000 to £1.05m. Reducing surplus slow-moving casings and reviewing buffer stock could release cash tied up in inventory. However, excessive reductions could increase the chance of shortages, missed retailer deliveries, penalties and poor online ratings.",
+            "Tighter customer-credit control could accelerate receipts and reduce the risk created by 60-day customer payment terms. However, retailers may resist revised terms or favour competitors, which could undermine forecast sales growth.",
+            "Negotiating longer supplier payment terms would improve Northstar’s short-term cash position because payments would move closer to customer receipts. However, pressuring a key supplier may weaken supply reliability, which is especially risky given the dependence on Malaysian circuit boards and the recent port delay.",
+            "Delaying the automated packing-line purchase would preserve immediate cash and could reduce the July funding requirement. However, the line is intended to be ready for the retailer promotion and could improve traceability and reduce packing errors; delay may constrain output or harm longer-term growth.",
+            "An overdraft could bridge a temporary, timing-based cash shortage, particularly if the delayed retailer receipts are expected shortly. It does not improve operating profitability and increases finance costs and dependence on lender availability, so it is less suitable as the only response to structural working-capital pressure.",
+            "Northstar should avoid treating sales growth as automatically beneficial for cash. Higher sales may require more boards, other inventory and receivables before customer cash is received, creating an overtrading risk.",
+            "A strong recommendation can prioritise immediate working-capital action, such as collecting receivables more actively and releasing genuinely surplus inventory, supported by contingent overdraft funding. It can then preserve operational capability by avoiding inventory reductions that threaten winter supply or retailer service.",
+            "The recommendation should be conditional on the quality of the cash forecast, whether retailer receipts are actually delayed, whether demand remains strong, and whether proposed actions would materially harm customer or supplier relationships."
+          ],
+          "model_answer": "Northstar should prioritise actions that protect cash in the short term rather than assuming that its reported profit means it can safely fund growth. Its operating profit margin is 6%, calculated from operating profit of £504,000 divided by revenue of £8.4m. This shows that the business is profitable from operations, but it is not a high enough or sufficiently informative figure on its own to remove the liquidity concern. Northstar has only £96,000 cash and could face a £382,000 July shortfall if £420,000 of retailer receipts arrive two weeks late.\n\nThe main cause is likely to be working-capital pressure. Customers pay after 60 days while the circuit-board supplier is paid after 30 days, and inventory has risen to £1.05m. Therefore, growth in Halo sales can increase profit but still consume cash first through higher stock holdings and receivables. Northstar should first improve collection of retailer receivables and sell surplus slow-moving casings. These actions could release cash without necessarily reducing the long-term ability to grow. However, tighter credit terms may make retailers less willing to stock Halo, while indiscriminate inventory cuts could create shortages and missed deliveries.\n\nNorthstar could also seek longer supplier payment terms, because this would reduce the timing mismatch between paying suppliers and collecting customer cash. Yet this is risky because supply reliability is already important: the Malaysian supplier has caused concern after a port delay, and missed Halo deliveries could lead to retailer penalties and damage customer ratings. Consequently, Northstar should not improve its cash position by creating a greater supply-chain risk.\n\nDelaying the £240,000 packing-line purchase would preserve cash, but it may prevent Northstar from handling the retailer promotion effectively and would postpone improvements in traceability and packing accuracy. An overdraft is a more appropriate contingency for a short, receipt-timing problem, but it would add finance costs and should not become a substitute for better working-capital management.\n\nOverall, Northstar should prioritise active receivables control and the disposal of genuinely surplus stock, while arranging an overdraft facility as protection against the July delay. It should negotiate with suppliers carefully rather than simply demanding longer terms, and should only delay the packing line if updated cash forecasts show that the promotion cannot be supported safely. This approach best recognises that Northstar is profitable but cash-constrained, while protecting the operational reliability needed for future growth."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.10.1"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-008",
+        "BUS-MOD-005",
+        "BUS-PEO-007",
+        "BUS-PEO-011",
+        "BUS-STR-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-05",
+        "family": "CASE_STUDY",
+        "command_word": "Evaluate",
+        "marks": 20,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 5,
+          "AO4": 9
+        },
+        "context": "",
+        "stem": "Using the Northstar Home Systems stimulus, evaluate how Northstar should implement its proposed delayering, multi-skilled production cells and automated packing line. Your answer must apply Lewin’s change model.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 5,
+              "descriptor": "Shows limited knowledge of change or Lewin’s model. Makes simple, largely unsupported statements about Northstar, with little or no developed judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 6,
+              "max_marks": 10,
+              "descriptor": "Shows some relevant understanding of change implementation and makes some application to Northstar. Analysis of likely effects is present but may be uneven. Lewin’s model is used partially or descriptively. A judgement is asserted or weakly supported."
+            },
+            {
+              "level": 3,
+              "min_marks": 11,
+              "max_marks": 15,
+              "descriptor": "Shows clear understanding of Lewin’s change model and change implementation. Applies relevant evidence from Northstar to analyse how preparation, transition and embedding could affect adoption, productivity, quality and the launch. Reaches a supported judgement, although evaluation may be unbalanced or not fully prioritised."
+            },
+            {
+              "level": 4,
+              "min_marks": 16,
+              "max_marks": 20,
+              "descriptor": "Shows thorough, well-focused understanding and explicit application of Lewin’s change model throughout. Develops a balanced analysis of implementation choices, including stakeholder resistance, structural change, capability, control and operational constraints. Makes a well-supported, contextual judgement on the most appropriate implementation approach, recognising relevant risks, trade-offs and conditions for success."
+            }
+          ],
+          "indicative_content": [
+            "Lewin’s unfreezing stage should create readiness for the change rather than treating the announced launch date as sufficient. Northstar could explain the need to handle rising forecast demand, reduce packing errors and improve traceability, while acknowledging cash pressure and the risk of missed retailer deliveries.",
+            "Northstar should identify restraining forces rather than assume objections are irrational. Supervisors may fear redundancy or loss of status, while assemblers may be concerned about multi-skilling and performance monitoring through scanning. These concerns may contain useful operational information about training needs, workload and quality risks.",
+            "Consultation meetings and participation could allow supervisors, assemblers and maintenance technicians to identify practical problems with cell design, daily staffing authority and installation. This may improve commitment and use employee knowledge, but could delay a project that must be ready before the retailer promotion.",
+            "Facilitation and support, including training in new tasks, cell-leader decision boundaries and the scanning system, could reduce anxiety and capability gaps. Training is especially important because employees currently follow detailed procedures and may not be ready immediately for broader roles or delegated authority.",
+            "A pilot or staged implementation could test one production cell, scanning procedures and quality controls before a full roll-out. It would reduce the risk of widespread disruption and enable learning, but may be too slow if the retailer promotion deadline is immovable.",
+            "During Lewin’s moving stage, Northstar should introduce the packing line and new cell structure with clear responsibilities, agreed spending and quality limits, technical support and regular communication. Removing a management layer may speed responses to shortages, but wider spans of control could overload remaining managers or weaken quality oversight.",
+            "The project schedule alone is not sufficient because the same maintenance technicians are required for normal production and installation. Northstar should plan resource cover, sequencing and contingency arrangements; otherwise the line could be technically on schedule while normal output or installation quality suffers.",
+            "A faster compulsory approach could meet the launch deadline, but may intensify resentment, reduce employee voice and encourage employees to retain old procedures. Coercion may therefore deliver short-term speed at the expense of adoption, morale and reliable quality.",
+            "Negotiation or agreed redeployment arrangements may be appropriate for supervisors or the six packing employees affected by automation where there is a clear perceived loss. However, concessions could increase cost when cash is constrained and may encourage further demands.",
+            "In Lewin’s refreezing stage, Northstar should embed the new ways of working through revised procedures, ongoing coaching, quality and traceability measures, clear cell-leader authority, and recognition or performance measures that do not reward output at the expense of reliability.",
+            "Northstar should retain appropriate mechanistic controls for product reliability and spending while becoming more organic in daily scheduling and cross-skilling. A flatter structure is not automatically successful if decision rights remain unclear or employees lack the capability to exercise delegated authority.",
+            "The strongest recommendation is likely a time-bounded, supported and participative implementation: rapidly communicate the case and consult on practical design, provide focused training and resource cover, pilot where the promotion timetable permits, then embed the change through aligned systems and review. The relative priority of speed versus participation depends on the credibility of the promotion deadline, technician availability and the severity of cash constraints.",
+            "Lewin’s model is a useful structure for preparation, transition and embedding, but it is not a guarantee of success. Northstar should update its approach as operational evidence emerges rather than assuming resistance can be removed permanently."
+          ],
+          "model_answer": "Northstar should avoid simply imposing the delayering, multi-skilled cells and packing line at the announced launch date. Although a compulsory approach could appear attractive because the line must be ready before the retailer promotion, it risks creating disruption at the same time as Northstar needs reliable output and has limited cash. The business should use Lewin’s model to manage the transition, while retaining the ability to act quickly if the deadline becomes critical.\n\nFirst, Northstar needs to unfreeze established routines. Its existing five-layer functional hierarchy and detailed procedures have supported quality control, so employees may reasonably fear that cell leaders making daily staffing and scheduling decisions will reduce control. Supervisors may also resist because delayering threatens their status or jobs, while assemblers may be anxious about new skills and being monitored through scanning. Management should communicate the operational case for change, including higher expected sales, packing errors and traceability, but communication alone will not resolve concerns about job security or capability. Consultation with supervisors, assemblers and maintenance technicians could reveal practical risks in cell design and installation. This would improve the quality of decisions and ownership, although extensive consultation could be too slow before the promotion.\n\nIn the moving stage, Northstar should combine involvement with practical support. It should train assemblers for multi-skilled work and train cell leaders on their authority limits for spending, scheduling and quality. This is important because delegation could speed responses to shortages, but employees used to detailed procedures may otherwise make inconsistent decisions. A limited pilot of a cell and the scanning process would allow Northstar to identify quality or workload problems before a full roll-out. However, a pilot should be time-bounded because delaying the line could cause Northstar to miss retailer demand. Northstar must also plan maintenance technician cover. The network schedule may indicate when activities should occur, but it does not solve the fact that the same technicians are required for current production and installation. Without cover, normal output may fall or installation may be delayed despite the planned schedule.\n\nFinally, Northstar must refreeze successful new practices rather than regard installation as completion. It should use updated procedures, coaching, traceability data and clear quality measures to embed the new cells and packing line. Performance measures should balance output with packing accuracy and reliability; rewarding only speed could undermine the stated aim of protecting product quality. Clear roles are also needed so that reduced hierarchy does not become confused accountability or overload remaining managers.\n\nOverall, Northstar should use a rapid but supported and participative implementation. It should quickly explain the case for change, consult employees on the practical design, provide focused training and maintenance cover, and pilot only where this does not threaten the promotion date. A fully compulsory approach may be faster initially, but it is likely to damage trust and adoption. Conversely, an extended consultation process would be inappropriate if it prevents the line being ready. Lewin’s model provides a useful way to sequence preparation, transition and embedding, but Northstar should adapt the pace as evidence on technician capacity, employee readiness and the retailer deadline becomes clearer."
+        },
+        "calculations": []
+      }
+    },
+    {
+      "target_requirement_ids": [
+        "AQA-7132-3.4.5"
+      ],
+      "target_subject_node_ids": [
+        "BUS-EVI-003",
+        "BUS-OPS-006",
+        "BUS-OPS-007",
+        "BUS-OPS-009"
+      ],
+      "quantitative_marks": 0,
+      "choice_group": null,
+      "required_in_response_path": true,
+      "question": {
+        "slot_id": "P3-06",
+        "family": "CASE_STUDY",
+        "command_word": "Evaluate",
+        "marks": 24,
+        "ao_marks": {
+          "AO1": 3,
+          "AO2": 3,
+          "AO3": 5,
+          "AO4": 13
+        },
+        "context": "",
+        "stem": "Using the Northstar Home Systems case study, evaluate whether Northstar should establish a dual-source arrangement for circuit boards for the coming winter peak. Your answer should consider the effects on inventory control, supply-chain effectiveness and Northstar’s cash position.",
+        "table": null,
+        "options": [],
+        "mark_scheme": {
+          "type": "levels",
+          "correct_option": "",
+          "option_rationale": [],
+          "points": [],
+          "levels": [
+            {
+              "level": 1,
+              "min_marks": 1,
+              "max_marks": 8,
+              "descriptor": "Shows limited knowledge of inventory or supply-chain issues. Makes basic assertions about one or both sourcing options, with little use of the Northstar context. Analysis is underdeveloped and there is little or no supported judgement."
+            },
+            {
+              "level": 2,
+              "min_marks": 9,
+              "max_marks": 16,
+              "descriptor": "Shows sound knowledge and application of inventory control and supplier choice. Explains some relevant consequences of single sourcing and/or dual sourcing for lead times, stock availability, cash or customer service. Makes a judgement, although it may be uneven, conditional only in part, or insufficiently supported by the evidence."
+            },
+            {
+              "level": 3,
+              "min_marks": 17,
+              "max_marks": 24,
+              "descriptor": "Shows thorough and well-selected knowledge of inventory and supply-chain management. Develops clear chains of reasoning from Northstar’s supplier data and financial position to operational, customer-service and cash consequences. Weighs the trade-offs between resilience, total cost and inventory requirements, recognising relevant uncertainty in the estimates. Reaches a well-supported, contextual and conditional judgement about whether and how Northstar should dual source."
+            }
+          ],
+          "indicative_content": [
+            "Circuit boards are critical inputs: a shortage prevents Halo production and could lead to retailer penalties and damage to online ratings.",
+            "The Malaysian supplier offers a lower unit price of £18.40 but has a 10-week normal lead time, a 12,000-board minimum order and has recently been delayed by three weeks. Reliance on this supplier alone creates dependency and disruption risk.",
+            "Northstar uses 1,000 boards per week and holds buffer inventory of 2,000 boards. A lengthy or disrupted lead time increases the need for inventory protection; this ties up cash and may not be sufficient if delays exceed expectations.",
+            "The UK supplier costs more at £20.10 per board, but its three-week lead time, 3,000-board batches and spare capacity could make supply more flexible and reduce the need to place large orders far in advance.",
+            "Dual sourcing could improve resilience by reducing dependence on one supplier and providing an alternative route during disruption. This is particularly valuable before a winter demand peak and retailer promotion.",
+            "Higher UK purchase costs, £95,000 of testing/onboarding/quality-check costs and possible quality uncertainty from a supplier used only for a small trial could reduce margins or add implementation risk.",
+            "The relevant comparison is not unit price alone. Longer lead times and large minimum orders from Malaysia can increase inventory, worsen working-capital pressure and expose Northstar to lost sales or expedited freight.",
+            "Northstar already has weak liquidity: closing cash was £96,000, inventory was £1.05m and a delayed-receipts scenario produces a £382,000 cash shortfall. Dual sourcing should therefore be introduced in a way that does not create excessive additional stock or immediate cash commitments.",
+            "A dual-source arrangement may allow Northstar to retain Malaysia for predictable base demand while using the UK supplier for a proportion of peak demand, replenishment flexibility or contingency supply. This could preserve some purchasing-cost advantage while reducing dependency.",
+            "The probability and contribution estimates support consideration of resilience, but they come from Northstar’s experience and supplier discussions rather than independently verified evidence. The board should avoid treating them as certain.",
+            "An appropriate conclusion may support controlled dual sourcing, subject to successful quality assurance, agreed capacity and delivery commitments, and a phased allocation of orders. The precise balance should depend on updated demand forecasts, cash forecasts and evidence from the UK supplier’s performance.",
+            "Alternatively, retaining Malaysia alone could be justified only if Northstar can credibly improve delivery reliability and maintain an affordable buffer; this is less persuasive given the recent port delay, winter peak exposure and limited cash headroom."
+          ],
+          "model_answer": "Northstar should establish a controlled dual-source arrangement, rather than depend entirely on the Malaysian supplier. Malaysia is cheaper at £18.40 per board, but its 10-week lead time and 12,000-board minimum order mean Northstar must commit to stock well before it knows whether retailer promotions and demand will continue. This can increase inventory and worsen cash pressure at a time when inventory is already £1.05m and closing cash is only £96,000. The recent three-week port delay also shows that the existing buffer could be insufficient if disruption occurs.\n\nThe UK supplier is more expensive at £20.10 per board and dual sourcing requires £95,000 of onboarding and quality-check costs. Therefore, buying all boards from the UK supplier could unnecessarily reduce contribution and place further pressure on cash. There is also limited evidence of its quality and delivery performance because Northstar has used it only for a small trial order.\n\nHowever, its three-week lead time, smaller 3,000-board batches and spare capacity provide flexibility that Malaysia cannot offer. Northstar could order predictable base demand from Malaysia while using the UK supplier for peak-demand cover, smaller replenishments or contingency supply. This would reduce dependence on one overseas route, lower the need to hold as much precautionary stock, and reduce the risk of missed retailer deliveries, penalties and poor online ratings.\n\nThe decision should not rely completely on management’s estimated probabilities because they are not independently verified. Nevertheless, the severe consequences of a supply interruption, together with Northstar’s limited cash headroom, make resilience more valuable than the lower Malaysian unit price alone suggests. Northstar should therefore dual source in stages, first confirming UK quality and delivery performance and agreeing order allocations that avoid building excessive inventory. It should review the arrangement as demand and cash forecasts change."
+        },
+        "calculations": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "slot_id": "P3-03",
+  "family": "CASE_STUDY",
+  "command_word": "Evaluate",
+  "marks": 16,
+  "ao_marks": {
+    "AO1": 3,
+    "AO2": 3,
+    "AO3": 5,
+    "AO4": 5
+  },
+  "context": "",
+  "stem": "Using the shared Northstar Home Systems stimulus, evaluate whether Northstar should establish a dual-source arrangement for circuit boards for the coming winter peak. Your answer should use the decision-tree estimates, while considering the reliability of the evidence and Northstar’s wider objectives.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 4,
+        "descriptor": "Shows limited relevant knowledge of decision making, risk or expected value. Makes simple assertions about one supplier option, with little use of the Northstar evidence. Any judgement is unsupported or unclear."
+      },
+      {
+        "level": 2,
+        "min_marks": 5,
+        "max_marks": 8,
+        "descriptor": "Shows some accurate understanding of decision trees, expected value, risk or uncertainty. Applies some stimulus material to compare the Malaysian and dual-source options. Analysis is present but may be one-sided, and the conclusion has limited evaluation of evidence quality or wider business effects."
+      },
+      {
+        "level": 3,
+        "min_marks": 9,
+        "max_marks": 12,
+        "descriptor": "Shows secure understanding of structured decision making and applies the decision-tree data effectively. Develops relevant chains of analysis, including the trade-off between expected financial outcomes, supply disruption and cash pressures. Evaluation considers limitations of the estimates and reaches a supported, though not fully developed, judgement."
+      },
+      {
+        "level": 4,
+        "min_marks": 13,
+        "max_marks": 16,
+        "descriptor": "Shows thorough and well-focused understanding of expected value, risk and uncertainty in decision making. Integrates precise Northstar evidence into a sustained comparison of credible alternatives. Evaluation weighs the small financial difference against downside risk, cash constraints, strategic objectives and evidence quality. Reaches a clear, conditional and strategically consistent judgement, explaining what could change the recommendation."
+      }
+    ],
+    "indicative_content": [
+      "A decision tree makes Northstar's options, possible supply outcomes and probability assumptions explicit. Expected value is useful because it provides a structured comparison rather than relying only on the purchasing manager's preference for the lowest unit price or the sales director's judgement about resilience.",
+      "Using the supplied estimates, Malaysian-only supply has an expected seasonal contribution of £627,000: (0.70 × £780,000) + (0.30 × £270,000).",
+      "Dual sourcing has an expected seasonal contribution before the certain set-up cost of £709,750: (0.85 × £745,000) + (0.15 × £510,000). After the £95,000 testing, onboarding and quality-check cost, its expected seasonal contribution is £614,750.",
+      "On these estimates, Malaysian-only supply produces the higher expected seasonal contribution by £12,250. Its lower board price also avoids the immediate £95,000 dual-source cost, which is significant because Northstar has only £96,000 closing cash and faces a possible July cash shortfall.",
+      "However, expected value is an average rather than a guaranteed outcome. Malaysian-only supply leaves Northstar dependent on one supplier with a 10-week lead time and 12,000-unit minimum orders. A serious delay would give only £270,000 seasonal contribution, after lost sales and expedited freight.",
+      "Dual sourcing reduces concentration risk. It has a higher estimated probability of normal supply and, in the serious-delay outcome, contribution before set-up costs is £510,000. Even after the certain £95,000 cost, this is higher than the Malaysian-only serious-delay outcome. This protection may be valuable because missed deliveries could lead to retailer penalties and damage online ratings.",
+      "The UK supplier's shorter three-week lead time and smaller 3,000-unit batches could reduce inventory commitment and improve Northstar's ability to respond to demand changes. This supports the objective of growing Halo sales while protecting reliability, although the UK supplier has supplied only a small trial order.",
+      "The probabilities are not independently verified: they are based on Northstar's own experience and supplier discussions. The predicted retailer demand also depends on promotions continuing and competitors not forcing down selling prices. Therefore, the calculated expected values may give a misleading impression of precision.",
+      "A decision should not be based solely on the expected-value comparison. Management should test whether the probability of a Malaysian delay, the size of retailer penalties, or the value of reputational damage is greater than assumed. It should also assess the UK supplier's quality and capacity before relying on it.",
+      "A reasoned recommendation may be to establish dual sourcing if Northstar can finance the £95,000 cost without worsening its cash crisis, since the small expected-value disadvantage may be outweighed by resilience during a winter peak. If cash cannot be protected and further supplier testing does not strengthen confidence in the UK source, retaining Malaysian supply temporarily while developing the UK supplier further would be more appropriate.",
+      "Answers may reach a different conclusion where they use the evidence logically and make a supported conditional judgement."
+    ],
+    "model_answer": "Northstar should not choose solely on the basis of the lowest unit price. A decision tree is useful because it makes the possible supply outcomes and assumptions explicit. On the supplied estimates, Malaysian-only supply has an expected seasonal contribution of £627,000. Dual sourcing has an expected contribution of £709,750 before its certain £95,000 set-up cost, leaving £614,750. Therefore, Malaysian-only supply is financially preferable on expected seasonal contribution, but only by £12,250.\n\nThis difference is small relative to the potential consequences of disruption. Malaysian supply has a 0.30 probability of a serious delay, and the contribution in that outcome is only £270,000 after lost sales and expedited freight. Northstar has already experienced a port delay and nearly used all its buffer stock. A missed retailer delivery could also cause penalties and damage customer ratings, neither of which is fully captured by a single expected-value figure. Dual sourcing would reduce dependence on one supplier, while the UK supplier's three-week lead time and smaller batches could make stock levels and response to demand more flexible. This is consistent with Northstar's objective of growing Halo sales without reducing reliability.\n\nHowever, the decision-tree figures are uncertain. The probabilities come from management experience and supplier discussions rather than independent verification. The UK supplier has only completed a small trial order, so its quality and reliability at a larger scale remain uncertain. In addition, Northstar's £96,000 closing cash balance and possible July shortfall make the immediate £95,000 dual-source cost difficult to absorb. The opportunity cost is that this cash could instead help manage the forecast cash pressure.\n\nOverall, Northstar should establish dual sourcing only if it can protect liquidity, for example by first resolving the expected cash shortfall and confirming the UK supplier's quality and capacity. The expected-value disadvantage is modest, whereas the protection against a severe supply failure could be strategically important during the winter peak. If the cash position deteriorates or further testing reveals quality concerns, Northstar should retain Malaysian supply in the short term while continuing to qualify the UK supplier, rather than committing immediately."
+  },
+  "calculations": []
+}

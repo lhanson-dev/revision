@@ -1,0 +1,50 @@
+{
+  "unit_id": "P1-B-CHUNK-1",
+  "answers": [
+    {
+      "slot_id": "P1-B-01",
+      "answer_text": "Variable costs = £8 × 3,000 = £24,000.\nTotal cost = fixed costs + variable costs = £12,000 + £24,000 = £36,000.\nAverage cost per bicycle = £36,000 ÷ 3,000 = £12.\nCapacity utilisation = (3,000 ÷ 4,000) × 100 = 75%.\nLabour productivity per employee = 3,000 ÷ 30 = 100 bicycles per employee.",
+      "numbers": [
+        {
+          "label": "variable costs",
+          "value": 24000
+        },
+        {
+          "label": "total cost",
+          "value": 36000
+        },
+        {
+          "label": "average cost per bicycle",
+          "value": 12
+        },
+        {
+          "label": "capacity utilisation percent",
+          "value": 75
+        },
+        {
+          "label": "labour productivity bicycles per employee",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "slot_id": "P1-B-02",
+      "answer_text": "Capital employed = total assets − current liabilities = £1,500,000 − £300,000 = £1,200,000.\nROCE = (operating profit ÷ capital employed) × 100 = (£240,000 ÷ £1,200,000) × 100 = 20%.",
+      "numbers": [
+        {
+          "label": "capital employed",
+          "value": 1200000
+        },
+        {
+          "label": "roce percent",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "slot_id": "P1-B-03",
+      "answer_text": "Herzberg argued that motivators, rather than hygiene factors, create job satisfaction. Giving assembly employees responsibility for quality checks and for suggesting process improvements increases responsibility and recognition, which are motivators. Employees may feel that their judgement matters and gain greater achievement from completing a unit to the required standard. This could make the repetitive task more meaningful, increase job satisfaction and reduce staff turnover. In turn, more motivated employees may take greater care over assembly quality and remain with Kestrel Kitchens for longer.",
+      "numbers": []
+    }
+  ]
+}

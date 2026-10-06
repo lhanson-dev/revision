@@ -1,0 +1,30 @@
+{
+  "unit_id": "P1-A-CHUNK-3",
+  "answers": [
+    {
+      "slot_id": "P1-A-11",
+      "answer_text": "B — Energy use, employee wellbeing and profit. This covers environmental, social and economic performance.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-12",
+      "answer_text": "B — Data mining.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-13",
+      "answer_text": "B — It includes conditions outside a business's direct control, such as interest rates, competition and demographic change.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-14",
+      "answer_text": "A — Segmentation.",
+      "numbers": []
+    },
+    {
+      "slot_id": "P1-A-15",
+      "answer_text": "C — Serve budget-conscious customers through a low-cost offer supported by efficient operations and limited service. This is a broad approach for achieving competitive advantage.",
+      "numbers": []
+    }
+  ]
+}

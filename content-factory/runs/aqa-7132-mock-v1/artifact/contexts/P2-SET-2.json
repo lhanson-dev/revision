@@ -1,0 +1,81 @@
+{
+  "unit_id": "P2-SET-2",
+  "title": "ParcelPedal Ltd: Positioning, international growth and FlexLoad innovation",
+  "business_name": "ParcelPedal Ltd",
+  "narrative": "This Revision-authored stimulus concerns ParcelPedal Ltd, a Bristol-based manufacturer of electrically assisted cargo trikes for urban delivery fleets. Its 85 employees assemble trikes in the UK and provide fleet customers with repair training, replacement parts and a 48-hour technical-support service. ParcelPedal targets a narrow market of delivery firms that need reliable vehicles with low downtime, rather than selling to individual cyclists.\n\nParcelPedal’s current trike is designed so that mechanics can replace damaged panels, brakes and battery mounts without replacing the whole vehicle. This repairability, together with its support service, is central to the firm’s marketing. However, RideFast imports standardised cargo trikes at a lower price, while UrbanHaul sells UK-assembled trikes with more conventional designs. ParcelPedal has capacity to assemble 1,400 trikes annually; it sold 1,200 in 2024.\n\nA Dutch distributor has asked ParcelPedal to supply 500 trikes in 2026 for delivery fleets in several cities. The distributor would handle customer sales, but ParcelPedal would remain responsible for supplying parts. Dutch fleet managers have requested removable batteries and narrower cargo modules for use in constrained urban spaces. Exporting from Bristol would add £220 transport and administration cost per trike. Alternatively, ParcelPedal could form a joint venture with a Dutch maintenance business. This would require a £450,000 initial equity investment, would give the business local repair capability, and could avoid the £220 export cost. The Dutch partner wants influence over product adaptations and local marketing.\n\nThe board is also considering FlexLoad, a proposed product and process innovation. FlexLoad would have removable batteries and interchangeable cargo modules, helping it meet the Dutch requests and allowing UK customers to choose different modules for parcels, groceries or medical supplies. Development and tooling would cost £2.00m, and staff training would cost a further £150,000. ParcelPedal has £1.10m available cash for the project and would need bank finance for the remainder. A patent application has been submitted for the modular mounting system, but the patent has not yet been granted.\n\nFlexLoad would use an automated frame-welding and testing cell. Management forecasts that this would reduce direct production cost by £240 per FlexLoad trike, increase annual capacity to 1,600 trikes and reduce the proportion of trikes requiring warranty repairs in their first year from 7% to 3%. Four existing fleet customers have trialled prototypes, but the sales forecast remains dependent on customers accepting the higher price. The new removable battery would be supplied by one specialist supplier, creating a new dependency. The board must decide whether to proceed with FlexLoad, retain the current model, or prioritise international expansion using the existing design.",
+  "table": {
+    "title": "ParcelPedal market, cost and expansion information",
+    "columns": [
+      "Measure",
+      "ParcelPedal",
+      "RideFast",
+      "UrbanHaul"
+    ],
+    "rows": [
+      {
+        "cells": [
+          "UK cargo-trike units sold in 2024",
+          "1,200",
+          "2,600",
+          "1,400"
+        ]
+      },
+      {
+        "cells": [
+          "Average selling price per trike",
+          "£5,400",
+          "£4,250",
+          "£5,100"
+        ]
+      },
+      {
+        "cells": [
+          "Variable production cost per current trike",
+          "£3,150",
+          "Not available",
+          "Not available"
+        ]
+      },
+      {
+        "cells": [
+          "Annual fixed UK operating costs",
+          "£2,100,000",
+          "Not available",
+          "Not available"
+        ]
+      },
+      {
+        "cells": [
+          "Other UK suppliers' combined sales in 2024",
+          "800 units",
+          "—",
+          "—"
+        ]
+      },
+      {
+        "cells": [
+          "Planned FlexLoad selling price",
+          "£5,650",
+          "—",
+          "—"
+        ]
+      },
+      {
+        "cells": [
+          "Forecast FlexLoad variable cost before automated-cell saving",
+          "£3,420",
+          "—",
+          "—"
+        ]
+      },
+      {
+        "cells": [
+          "Forecast FlexLoad sales in its first full year",
+          "900 UK units and 500 Dutch units",
+          "—",
+          "—"
+        ]
+      }
+    ]
+  }
+}

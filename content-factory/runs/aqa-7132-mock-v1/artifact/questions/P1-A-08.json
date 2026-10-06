@@ -1,0 +1,48 @@
+{
+  "slot_id": "P1-A-08",
+  "family": "MCQ",
+  "command_word": "Select",
+  "marks": 1,
+  "ao_marks": {
+    "AO1": 1,
+    "AO2": 0,
+    "AO3": 0,
+    "AO4": 0
+  },
+  "context": "A business continues to use the same high-street retail strategy while customers increasingly purchase through online competitors.",
+  "stem": "Select the term that describes a strategy becoming progressively less suited to changes in its business environment.",
+  "table": null,
+  "options": [
+    {
+      "label": "A",
+      "text": "Strategic drift"
+    },
+    {
+      "label": "B",
+      "text": "Contingency planning"
+    },
+    {
+      "label": "C",
+      "text": "Risk transfer"
+    },
+    {
+      "label": "D",
+      "text": "Incremental change"
+    }
+  ],
+  "mark_scheme": {
+    "type": "single_option",
+    "correct_option": "A",
+    "option_rationale": [
+      "A is correct because strategic drift is a growing mismatch between a business's strategy and changes in its environment.",
+      "B is incorrect because contingency planning prepares responses to possible disruptions.",
+      "C is incorrect because risk transfer shifts specified financial or contractual consequences to another party.",
+      "D is incorrect because incremental change means gradual adjustments and may prevent, rather than describe, strategic drift."
+    ],
+    "points": [],
+    "levels": [],
+    "indicative_content": [],
+    "model_answer": "A"
+  },
+  "calculations": []
+}

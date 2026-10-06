@@ -1,0 +1,100 @@
+{
+  "slot_id": "P2-S3-01",
+  "family": "DATA_RESPONSE",
+  "command_word": "Analyse",
+  "marks": 9,
+  "ao_marks": {
+    "AO1": 2,
+    "AO2": 3,
+    "AO3": 4,
+    "AO4": 0
+  },
+  "context": "",
+  "stem": "Using the shared stimulus, analyse LoopFill Ltd’s human resource performance in 2025. Your answer must calculate and use labour turnover, labour productivity, employee costs as a percentage of sales revenue, and labour cost per good pouch. Use the quantitative data alongside the exit-interview evidence to analyse likely implications for meeting the additional order.",
+  "table": null,
+  "options": [],
+  "mark_scheme": {
+    "type": "levels",
+    "correct_option": "",
+    "option_rationale": [],
+    "points": [],
+    "levels": [
+      {
+        "level": 1,
+        "min_marks": 1,
+        "max_marks": 3,
+        "descriptor": "Shows limited use of the stimulus. Makes one or more relevant calculations or simple statements about workforce performance, with little or no developed analysis of implications for the additional order."
+      },
+      {
+        "level": 2,
+        "min_marks": 4,
+        "max_marks": 6,
+        "descriptor": "Uses relevant calculations accurately and applies them to LoopFill. Develops some chains of reasoning about how workforce performance could affect capacity, costs, quality or delivery. May use the exit-interview evidence, but links between the evidence and operational consequences may be uneven."
+      },
+      {
+        "level": 3,
+        "min_marks": 7,
+        "max_marks": 9,
+        "descriptor": "Uses all four required calculations accurately and integrates them with the quantitative and qualitative evidence. Gives well-developed analysis of how turnover, absence, productivity and labour costs could affect LoopFill’s ability to meet delivery dates for the additional order. Recognises that exit-interview themes suggest several possible causes and that faster output must maintain quality."
+      }
+    ],
+    "indicative_content": [
+      "Labour turnover in 2025 was 20%: 11 employees leaving divided by an average workforce of 55, multiplied by 100. This was above the budget figure of about 11.1% and may create recruitment, induction and lost-knowledge costs.",
+      "Labour productivity was about 5,291 good pouches per employee in 2025: 291,000 divided by 55. Although output exceeded budget, productivity was below the budget of about 5,370 pouches per employee because employee numbers were also above budget.",
+      "Employee costs were about 43.0% of sales revenue: £1,485,000 divided by £3,450,000, multiplied by 100. Employee costs therefore took a substantial share of revenue, while revenue was below budget.",
+      "Labour cost per good pouch was about £5.10: £1,485,000 divided by 291,000. This was higher than the budget figure of about £4.76 per pouch, reducing the financial benefit of exceeding the output budget.",
+      "The increase in absence from 2.5% budgeted to 4.1% actual could reduce available labour on evening shifts, potentially causing bottlenecks and missed delivery dates.",
+      "The interviews support a possible link between evening-shift predictability and turnover because 7 of 11 leavers mentioned it. However, pay was mentioned by 5 leavers and training by 4, so evening shifts are not the only plausible cause.",
+      "High turnover and absence may mean less experienced staff, more training requirements and disruption while the automated line is introduced. This could restrict the expected productivity improvement in the short term.",
+      "Automation may ease evening-shift bottlenecks and release capacity for the additional 50,000 pouches, but staff need training and the operations manager has identified the risk of pouch leaks or complaints. Gross output alone would not demonstrate improved effective productivity if defects or rework increased.",
+      "The evidence should be interpreted together: the numerical measures show deteriorating workforce-cost and retention pressures, while interview themes help explain possible causes but do not prove causation for all leavers."
+    ],
+    "model_answer": "LoopFill’s 2025 human resource data indicate pressure on both retention and labour efficiency. Labour turnover was 20% (11 / 55 × 100), compared with about 11.1% in the budget. Replacing leavers can raise recruitment and induction costs and may reduce the experience available to cover evening shifts. This could make it harder to meet agreed delivery dates for the additional order.\n\nLabour productivity was about 5,291 good pouches per employee (291,000 / 55). Output was slightly above budget, but productivity was below the budget figure of about 5,370 because LoopFill employed more people than planned. This suggests that higher production has not translated fully into improved labour efficiency. The 4.1% absence rate may also reduce available shift capacity and contribute to bottlenecks.\n\nEmployee costs were about 43.0% of sales revenue (£1,485,000 / £3,450,000 × 100), and labour cost per good pouch was about £5.10 (£1,485,000 / 291,000). The latter exceeds the budgeted level of about £4.76 per pouch. Therefore, although the business completed more pouches than budgeted, its workforce costs were high relative to both revenue and output. This may constrain profit and cash available while LoopFill is attempting to finance growth.\n\nThe interview evidence gives some explanation: evening-shift predictability was mentioned by 7 of 11 leavers, but pay and training were also mentioned. Management should not assume that shift patterns alone caused turnover. The automated line could reduce evening-shift bottlenecks and raise good-output capacity, but training is necessary and faster filling must not increase leaks or complaints. If quality falls, rework and customer dissatisfaction could offset any apparent productivity gain. Overall, LoopFill needs to address retention, absence and training alongside automation if it is to deliver the additional order reliably."
+  },
+  "calculations": [
+    {
+      "label": "Labour turnover, 2025",
+      "method": "percent_of",
+      "operands": [
+        11,
+        55
+      ],
+      "stated_answer": 20,
+      "unit": "%",
+      "marks_supported": 2
+    },
+    {
+      "label": "Labour productivity, 2025",
+      "method": "quotient",
+      "operands": [
+        291000,
+        55
+      ],
+      "stated_answer": 5290.91,
+      "unit": "good pouches per employee",
+      "marks_supported": 2
+    },
+    {
+      "label": "Employee costs as a percentage of sales revenue, 2025",
+      "method": "percent_of",
+      "operands": [
+        1485000,
+        3450000
+      ],
+      "stated_answer": 43.04,
+      "unit": "%",
+      "marks_supported": 2
+    },
+    {
+      "label": "Labour cost per good pouch, 2025",
+      "method": "quotient",
+      "operands": [
+        1485000,
+        291000
+      ],
+      "stated_answer": 5.1,
+      "unit": "£ per good pouch",
+      "marks_supported": 3
+    }
+  ]
+}

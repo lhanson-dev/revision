@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "course_id": "aqa:aqa-a-level:7132",
+  "asset_id": "aqa-7132-mock-v1",
+  "release_type": "restricted_pilot",
+  "decision": "conditional_pass",
+  "effective_when_merged": true,
+  "base_main_sha": "2a686450f76a176d5fa6aad5acf3275bad46491b",
+  "content": {
+    "source_workflow_run_id": 37474355815,
+    "source_artifact_id": 11418322000,
+    "reviewed_commit": "1c80a2642d988b603d83ccd74d58ff43836db0f5",
+    "plan_fingerprint": "42ae1cf75e9cd6b35d3553ad083f01a921c6267b8b9b2c0d5397af001e83beed",
+    "papers": 3,
+    "generated_question_slots": 41,
+    "shared_contexts": 4,
+    "attempted_marks_total": 300,
+    "quantitative_marks": 34,
+    "paper_fingerprints": {
+      "7132/1": "799872e7575cffd782405af591c74eb3e44e11ae259c0bea0dc0960764d81fc0",
+      "7132/2": "fd49c211bcddbd0ab652b0068499ba0b23dcc2863ec2afe0ceec20053267e3f4",
+      "7132/3": "9487ab31521272f9e0149bec8a543e5a75f0fd2e314769988f2029563996f4bd"
+    }
+  },
+  "assurance": {
+    "content_class": "A3",
+    "final_state": "assured_not_published",
+    "unit_reviews_passed": 13,
+    "whole_paper_reviews_passed": 3,
+    "whole_set_can_progress": true,
+    "blocking": 0,
+    "escalated": 0,
+    "failed": 0,
+    "logged_non_blocking": 1,
+    "qualified_human_subject_review_status": "pending"
+  },
+  "claim_limits": [
+    "Each paper must be labelled as Revision-authored realistic practice built to AQA's structure, never as an official AQA paper.",
+    "Extended-response marking guidance remains indicative/estimated rather than an official awarding-body mark scheme.",
+    "The conditional pass is restricted-pilot authority only while qualified human subject review remains pending.",
+    "The P3-03/P3-06 dual-sourcing repetition is retained as a non-blocking style limitation."
+  ],
+  "publication": {
+    "learner_surface_changed_in_this_pr": false,
+    "current_state": "not_published",
+    "restricted_pilot_integration_authorised_after_founder_approved_merge": true
+  },
+  "retained_evidence": "content-factory/runs/aqa-7132-mock-v1",
+  "assurance_record": "content-factory/runs/aqa-7132-mock-v1/ASSURANCE_RECORD.json",
+  "documentation_impact": "No normative authority change. Retains the exact successful mock artifact and applies the existing Fast-Path / Content Accuracy Assurance conditional-pass route; historical Action evidence is preserved and learner publication remains a separate integration step."
+}
