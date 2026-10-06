@@ -202,6 +202,17 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
     expect(paper3?.sections.slice(1).every((section) => section.choose === 1 && section.options?.length === 3)).toBe(true)
   })
 
+  it('uses concept-valid worked examples for high-risk Research Methods procedures', () => {
+    const assets = derivePsychologyLearnerAssets(COURSE_TRUTH, EXAM_TRUTH)
+    const sections = assets.learn.chapters.flatMap((chapter) => chapter.sections)
+    const byRequirement = new Map(sections.map((section) => [section.requirementIds[0], section]))
+
+    expect(byRequirement.get('PSY-07-25')?.workedExample?.title).toContain('source-synthesis')
+    expect(byRequirement.get('PSY-07-30')?.workedExample?.title).toContain('measurement')
+    expect(byRequirement.get('PSY-07-31')?.workedExample?.title).toContain('coding')
+    expect(byRequirement.get('PSY-07-34')?.workedExample?.title).toContain('test-selection')
+  })
+
   it('keeps official AQA reference prose and URLs out of learner-facing copy', () => {
     const assets = derivePsychologyLearnerAssets(COURSE_TRUTH, EXAM_TRUTH)
     const learnerFacing = {
