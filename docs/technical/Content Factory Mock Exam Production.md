@@ -272,6 +272,14 @@ The Founder unit decision is recorded in `content-factory/mock-exams/aqa-7132/FO
 
 After this correction is merged, the next governed live resume must use **`resume_run_id = 37455690641`**. On unchanged retained evidence, P3-02 through P3-06 and all other accepted units remain reusable by exact fingerprint. Expected new provider work is limited to the P3-01 correction, the dependent P3 blind-answer rebuild and downstream complete-set review unless a genuinely new blocker appears. The cumulative US$8 mock-stage ceiling remains unchanged.
 
+Workflow run `37461430906` resumed exact evidence from `37455690641` on approved `main` `bf33e08c24b53b8162c2398cf55484c4c0f04306`. The linear resume guard, evidence restore, plan lock and retained-ID canonicalisation passed. The targeted P3-01 correction succeeded: the new question requires candidates to construct an activity-on-arrow network and calculate total float, and the top-band guidance requires both. The changed `P3-CASE-1` unit was recorded as Founder-resolved/passed without a third semantic review.
+
+The run also produced valid current P3-04 and P3-05 corrections and rebuilt the dependent Paper 3 blind-answer evidence. It then failed closed only because the deterministic Paper 3 Founder acceptance contract compared punctuation literally: the learner-facing wording used the typographic form `Lewin’s change model`, while the stored contract used `Lewin's change model`. This is a style/typography difference, not a missing examinable item or broken question.
+
+The acceptance matcher now canonicalises Unicode compatibility forms, curly/straight quotes, common dash variants, non-breaking spaces and repeated whitespace before checking required phrases. It still requires the same substantive words and does not alter learner-facing content or evidence fingerprints. In line with Fast-Path authority, punctuation and grammar that do not change meaning are non-blocking style issues and may be handled in one final editorial pass after substantive content assurance rather than causing paid regeneration loops.
+
+Run `37461430906` used **4 provider calls** and cumulative mock-stage spend reached **US$6.288768**. After this software-only correction is merged, the next governed live resume must use **`resume_run_id = 37461430906`**. On unchanged evidence, the corrected P3-01/P3-04/P3-05 questions, Paper 3 blind answer and Founder-resolved P3 unit should all be reused; the Paper 3 Founder decision should be applied deterministically and the next new provider work should be the first complete-set semantic review unless a genuine substantive blocker appears.
+
 ## Documentation impact
 
 Normative authority is unchanged. This continues to implement the already-approved `Content Factory Mock Exam Production` and Fast-Path contracts, especially item-scoped failures, exact-fingerprint reuse and targeted remediation.
