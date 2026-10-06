@@ -66,6 +66,19 @@ describe('Psychology Step 6 independent assurance packets', () => {
     expect(sorted(unique(packetPracticePackIds))).toEqual(sorted(expectedPracticePackIds))
   })
 
+  test('binds educational review scope to requirements and exact learner assets', () => {
+    for (const packet of packets.educational) {
+      const expectedScope = unique(packet.requirements.flatMap((requirement) => [
+        requirement.requirementId,
+        (requirement.learn as { id: string }).id,
+        ...requirement.practice.map((activity) => (activity as { id: string }).id),
+        ...requirement.practiceMarkingPacks.map((pack) => (pack as { id: string }).id),
+      ]))
+      expect(sorted(packet.reviewScopeIds)).toEqual(sorted(expectedScope))
+      expect(packet.requirementIds.every((id) => packet.reviewScopeIds.includes(id))).toBe(true)
+    }
+  })
+
   test('covers all topic and full-paper scored assessment items by paper', () => {
     expect(packets.summary.assessmentPacketCount).toBe(3)
     expect(packets.assessment.map((packet) => packet.paperId)).toEqual(['7182/1', '7182/2', '7182/3'])
@@ -75,6 +88,19 @@ describe('Psychology Step 6 independent assurance packets', () => {
     const expectedPaperPackIds = marking.examPrep.fullPaperQuestionMarkingPacks.map((pack) => pack.itemId)
     const actualIds = packets.assessment.flatMap((packet) => packet.reviewedContentIds)
     expect(sorted(unique(actualIds))).toEqual(sorted(unique([...expectedTopicPackIds, ...expectedPaperPackIds])))
+  })
+
+  test('binds assessment review scope to questions, paper structures and Marking Packs', () => {
+    for (const packet of packets.assessment) {
+      expect(packet.reviewedContentIds.every((id) => packet.reviewScopeIds.includes(id))).toBe(true)
+      for (const pack of packet.topicMarkingPacks) {
+        expect(packet.reviewScopeIds).toContain((pack as { id: string }).id)
+      }
+      for (const pack of packet.fullPaperQuestionMarkingPacks) {
+        expect(packet.reviewScopeIds).toContain((pack as { id: string }).id)
+      }
+      expect(packet.reviewScopeIds).toContain((packet.scoredPaperSimulation as { baseSimulationId: string }).baseSimulationId)
+    }
   })
 
   test('keeps assessment review on structured Exam Truth without AQA source text or web search', () => {
@@ -142,6 +168,63 @@ describe('Psychology Step 6 independent assurance packets', () => {
       expect(receipt.economics.providerAttempts).toBe(2)
       expect(receipt.economics.webSearchCalls).toBe(2)
       expect(receipt.economics.observedSpendUsd).toBeGreaterThan(0)
+    } finally {
+      vi.unstubAllGlobals()
+      rmSync(outputDir, { recursive: true, force: true })
+    }
+  })
+
+  test('persists deterministic review scope without requiring the provider to echo a clerical ID list', async () => {
+    const outputDir = '.artifacts/psychology-step6-independent-assurance'
+    rmSync(outputDir, { recursive: true, force: true })
+    const provider = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const request = JSON.parse(String(init?.body ?? '{}')) as { input?: string }
+      const packet = JSON.parse(request.input ?? '{}') as { packetId: string }
+      return new Response(JSON.stringify({
+        status: 'completed',
+        usage: {
+          input_tokens: 0,
+          output_tokens: 0,
+          input_tokens_details: { cached_tokens: 0 },
+        },
+        output: [{
+          type: 'message',
+          content: [{
+            type: 'output_text',
+            text: JSON.stringify({
+              packetId: packet.packetId,
+              decision: 'pass',
+              dimensions: [{ dimension: 'independent_challenge', status: 'pass', summary: 'No material issue found in the bounded packet.' }],
+              findings: [],
+              knownLimitations: [],
+              summary: 'Bounded independent review completed.',
+            }),
+          }],
+        }],
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    })
+    vi.stubGlobal('fetch', provider)
+
+    try {
+      const receipt = await runPsychologyStep6IndependentAssurance({
+        courseTruthDir: COURSE_TRUTH_DIR,
+        examTruthPath: EXAM_TRUTH_PATH,
+        reviewedMainSha: 'b'.repeat(40),
+        maxSpendUsd: 5,
+        model: 'test-review-model',
+        apiKey: 'test-key',
+      })
+      const retained = JSON.parse(readFileSync(`${outputDir}/EDU-01.review.json`, 'utf8')) as {
+        reviewedContentIds: string[]
+        scopeBinding: string
+      }
+      expect(receipt.finalDecision).toBe('pass')
+      expect(provider).toHaveBeenCalledTimes(16)
+      expect(sorted(retained.reviewedContentIds)).toEqual(sorted(packets.educational[0].reviewScopeIds))
+      expect(retained.scopeBinding).toBe('deterministic_packet_review_scope')
     } finally {
       vi.unstubAllGlobals()
       rmSync(outputDir, { recursive: true, force: true })
