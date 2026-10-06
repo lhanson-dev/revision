@@ -59,9 +59,14 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
         expect(mapping?.markingPackId, activity.id).toBeUndefined()
         expect(mapping?.limitation?.length, activity.id).toBeGreaterThan(30)
       } else {
-        expect(mapping?.scoreability, activity.id).toBe('marking_pack_complete')
+        expect(mapping?.scoreability, activity.id).toBe('marking_pack_candidate_complete')
         expect(mapping?.markingPackId, activity.id).toBe(`MP-${activity.id}`)
         expect(packIds.has(`MP-${activity.id}`), activity.id).toBe(true)
+        const pack = step5.practice.markingPacks.find((candidate) => candidate.id === `MP-${activity.id}`)
+        expect(pack, activity.id).toBeDefined()
+        expect(pack?.criteria.every((criterion) => criterion.evidenceClaim === MODE_CLAIM[activity.mode]), activity.id).toBe(true)
+        if (activity.mode === 'recognition_discrimination_check') expect(pack?.scoredItem.alternatives, activity.id).toHaveLength(2)
+        if (activity.mode === 'contextual_application_scenario') expect(pack?.scoredItem.context?.length, activity.id).toBeGreaterThan(40)
       }
     }
   })
@@ -190,7 +195,9 @@ describe('AQA Psychology 7182 source-first Step 5 marking packs and evidence map
       practiceEvidenceScopeNarrowingApplied: true,
       learnerAssetsMutated: false,
       runtimeEvidenceEnabled: false,
-      markingPacksCompleteForStep5: true,
+      markingPacksCompleteForStep5: false,
+      markingPackCandidatesCompleteForStep5: true,
+      independentCalibrationComplete: false,
       freshIndependentEducationalAssurancePassed: false,
       freshIndependentAssessmentAssurancePassed: false,
       canonicalRuntimeIntegrated: false,
