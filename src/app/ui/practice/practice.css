@@ -194,3 +194,60 @@
   .planner-runtime .practice-rev-card { padding: 20px; }
   .planner-runtime .practice-rev-card__score { font-size: 26px; }
 }
+
+/* ---- Flashcards that turn over (PR 4) ----------------------------------------------------------------------- */
+.planner-runtime .practice-nowrap { white-space: nowrap; }
+.planner-runtime .practice-flashcard { display: flex; flex-direction: column; gap: 24px; }
+.planner-runtime .practice-flashcard__scene { perspective: 1400px; }
+.planner-runtime .practice-flashcard__card { position: relative; height: 360px; transform-style: preserve-3d; transition: transform 520ms ease-out; }
+.planner-runtime .practice-flashcard__card[data-flipped="true"] { transform: rotateY(180deg); }
+.planner-runtime .practice-flashcard__face { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; padding: 36px; border-radius: 28px; backface-visibility: hidden; -webkit-backface-visibility: hidden; color: var(--rv-text); text-align: left; }
+.planner-runtime .practice-flashcard__face--front { justify-content: space-between; border: 0; background: var(--rv-surface); box-shadow: inset 0 0 0 1px var(--rv-line); cursor: pointer; font-family: var(--font-family-product); }
+.planner-runtime .practice-flashcard__face--front:focus-visible { outline: 2px solid var(--rv-teal); outline-offset: 3px; }
+.planner-runtime .practice-flashcard__face--back { justify-content: flex-start; gap: 18px; background: var(--accent-tint); transform: rotateY(180deg); overflow-y: auto; }
+.planner-runtime .practice-flashcard__question { font: 800 34px/1.15 var(--font-family-display); letter-spacing: -.02em; text-wrap: pretty; }
+.planner-runtime .practice-flashcard__turn { display: inline-flex; align-items: center; gap: 8px; color: var(--rv-accent); font: 800 15px/1 var(--font-family-product); }
+.planner-runtime .practice-flashcard__asked { display: flex; flex-direction: column; gap: 8px; padding-bottom: 18px; border-bottom: 1px solid var(--rv-line); }
+.planner-runtime .practice-flashcard__answered { display: flex; flex-direction: column; gap: 10px; }
+.planner-runtime .practice-flashcard__eyebrow { color: var(--accent-ink); font: 800 12px/1 var(--font-family-product); letter-spacing: .12em; text-transform: uppercase; }
+.planner-runtime .practice-flashcard__asked-text { font: 700 18px/1.4 var(--font-family-product); text-wrap: pretty; }
+.planner-runtime .practice-flashcard__answer { font: 800 30px/1.15 var(--font-family-display); letter-spacing: -.02em; text-wrap: pretty; }
+
+.planner-runtime .practice-flashcard__rate { display: flex; flex-direction: column; gap: 12px; }
+.planner-runtime .practice-flashcard__rate-head { display: flex; flex-direction: column; gap: 6px; }
+.planner-runtime .practice-flashcard__rate-title { margin: 0; font: 800 22px/1.15 var(--font-family-display); letter-spacing: -.02em; }
+.planner-runtime .practice-flashcard__rate-sub { margin: 0; font: 700 16px/1.4 var(--font-family-product); }
+.planner-runtime .practice-flashcard__rate-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.planner-runtime .practice-flashcard__rate-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; border: 0; border-radius: 999px; font: 800 16px/1 var(--font-family-product); white-space: nowrap; cursor: pointer; }
+.planner-runtime .practice-flashcard__rate-button--needswork { background: var(--learning-status-needswork-tint); color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-flashcard__rate-button--nearly { background: var(--learning-status-nearly-tint); color: var(--learning-status-nearly-ink); }
+.planner-runtime .practice-flashcard__rate-button--gotit { background: var(--learning-status-gotit-tint); color: var(--learning-status-gotit-ink); }
+.planner-runtime .practice-flashcard__rate-button:hover:not(:disabled) { filter: brightness(.96); }
+.planner-runtime .practice-flashcard__rate-button:focus-visible { outline: 2px solid var(--rv-teal); outline-offset: 3px; }
+
+.planner-runtime .practice-flashcard-done { display: flex; flex-direction: column; gap: 20px; }
+.planner-runtime .practice-flashcard-done__title { margin: 0; color: var(--rv-text); font: 800 var(--type-h1-size, 40px)/1.1 var(--font-family-display); letter-spacing: -.025em; }
+.planner-runtime .practice-flashcard-done__tally { display: flex; flex-wrap: wrap; gap: 8px; }
+.planner-runtime .practice-flashcard-done__pill { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px 9px 10px; border-radius: 999px; font: 800 14px/1 var(--font-family-product); white-space: nowrap; }
+.planner-runtime .practice-flashcard-done__pill--needswork { background: var(--learning-status-needswork-tint); color: var(--learning-status-needswork-ink); }
+.planner-runtime .practice-flashcard-done__pill--nearly { background: var(--learning-status-nearly-tint); color: var(--learning-status-nearly-ink); }
+.planner-runtime .practice-flashcard-done__pill--gotit { background: var(--learning-status-gotit-tint); color: var(--learning-status-gotit-ink); }
+.planner-runtime .practice-flashcard-done__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 620px) {
+  .planner-runtime .practice-flashcard__card { height: 400px; }
+  .planner-runtime .practice-flashcard__face { padding: 24px; }
+  .planner-runtime .practice-flashcard__question { font-size: 26px; }
+  .planner-runtime .practice-flashcard__answer { font-size: 24px; }
+  .planner-runtime .practice-flashcard__rate-choices { gap: 8px; }
+}
+
+/* With reduced motion the card switches over instantly. A new card is a new element, so it never turns back. */
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .practice-flashcard__card { transition: none; }
+}
+
+/* The one place a chip may wrap: a label longer than the screen is wide (320px) would otherwise scroll sideways. */
+@media (max-width: 360px) {
+  .planner-runtime .practice-dialog .practice-chip { white-space: normal; }
+}

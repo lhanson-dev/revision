@@ -27,6 +27,16 @@ import {
   type PracticeLength,
   type PracticeQuestionType,
 } from './practice-start'
+import {
+  FLASHCARD_DECK_SIZE,
+  isDeckDone,
+  rateCurrentCard,
+  ratingsAfterDeck,
+  startDeck,
+  tallyDeck,
+  type DeckSession,
+  type FlashRating,
+} from './practice-flashcards'
 import { resolveSubjectIdentity } from './subject-palette'
 import type { TopicProgress } from './topic-status'
 import {
@@ -35,6 +45,8 @@ import {
   Icon,
   PracticeBarTitle,
   PracticeDialog,
+  PracticeFlashcardDone,
+  PracticeFlashcardView,
   PracticeProgressBar,
   PracticeQuestionView,
   PracticeWrittenQuestion,
@@ -75,6 +87,8 @@ export type FocusedLearningWorkspaceProps = {
    * student sees pretend marking.
    */
   marker?: WrittenAnswerMarker | null
+  /** Practice only: the student's latest rating (0 No, 1 Partly, 2 Yes) for each flashcard, so a deck starts with the ones they were not sure of. */
+  flashcardRatings?: Record<string, FlashRating>
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -138,6 +152,7 @@ export function FocusedLearningWorkspace({
   topicProgress,
   lastAnsweredAt,
   marker = null,
+  flashcardRatings,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
@@ -164,8 +179,10 @@ export function FocusedLearningWorkspace({
   const [writtenEvidenceId, setWrittenEvidenceId] = useState<string | null>(null)
   const [markingError, setMarkingError] = useState<string | null>(null)
   const [challenge, setChallenge] = useState<WrittenChallengeView>({ state: 'closed', text: '', reply: null, error: null })
-  const [cardIndex, setCardIndex] = useState(0)
-  const [showAnswer, setShowAnswer] = useState(false)
+  // Flashcards: the deck in progress, whether the card is turned over, and ratings given since the page opened.
+  const [deck, setDeck] = useState<DeckSession | null>(null)
+  const [flipped, setFlipped] = useState(false)
+  const [flashRatings, setFlashRatings] = useState<Record<string, FlashRating>>({})
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   /** Set once the answer is checked: what was picked and how sure the student said they were. */
   const [checked, setChecked] = useState<{ selected: number; confidence: AnswerConfidence } | null>(null)
@@ -197,7 +214,8 @@ export function FocusedLearningWorkspace({
   const examTechnique = adapter.listExamTechnique()
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
-  const card = cards[cardIndex % Math.max(cards.length, 1)]
+  const knownRatings = { ...flashcardRatings, ...flashRatings }
+  const deckCard = deck && !isDeckDone(deck) ? cards.find((item) => item.id === deck.ids[deck.index]) : undefined
   const aqaBank = adapter.manifest.examBoard.id === 'aqa' && adapter.manifest.specificationCode === '7132' ? aqaBusinessQuestionBank : null
   const fullPool = useMemo(
     () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank, includeWritten: marker !== null }), lastAnsweredAt),
@@ -224,7 +242,7 @@ export function FocusedLearningWorkspace({
   const availableQuestions = typedPool.length
   const startCount = sessionQuestionCount(length, availableQuestions)
   const warmups: PracticeWarmupRow[] = [
-    ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${cards.length} ${cards.length === 1 ? 'card' : 'cards'}` }] : []),
+    ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${Math.min(cards.length, FLASHCARD_DECK_SIZE)} ${Math.min(cards.length, FLASHCARD_DECK_SIZE) === 1 ? 'card' : 'cards'}${cards.length > FLASHCARD_DECK_SIZE ? ` · ${cards.length} on this topic` : ''}` }] : []),
     ...(formulas.length > 0 || drills.length > 0 ? [{ id: 'formulas-data', name: 'Formulas', meta: `${formulas.length} ${formulas.length === 1 ? 'formula' : 'formulas'} · ${drills.length} data ${drills.length === 1 ? 'drill' : 'drills'}` }] : []),
     ...(caseStudy ? [{ id: 'case-study', name: 'Case study', meta: `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'}` }] : []),
   ]
@@ -255,8 +273,8 @@ export function FocusedLearningWorkspace({
 
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
-    setCardIndex(0)
-    setShowAnswer(false)
+    setDeck(null)
+    setFlipped(false)
     setSelectedOption(null)
     setChecked(null)
     setSession(null)
@@ -290,22 +308,33 @@ export function FocusedLearningWorkspace({
     if (availableModes.includes(nextMode)) setMode(nextMode)
   }
 
-  async function rateFlashcard(rating: 0 | 1 | 2) {
-    if (!card) return
+  /** A deck is a round of cards, ordered with the No and Partly cards first. */
+  function openFlashcards() {
+    setDeck(startDeck(cards, knownRatings))
+    setFlipped(false)
+    setOpenActivity('flashcards')
+  }
+
+  async function rateFlashcard(rating: FlashRating) {
+    if (!deck || !deckCard || answering.current) return
+    answering.current = true
     const evidence = createFlashcardEvidence({
       id: evidenceId('flashcard'),
       moduleId: adapter.manifest.id,
-      topicId: card.topic,
-      contentId: card.id,
+      topicId: deckCard.topic,
+      contentId: deckCard.id,
       rating,
     })
     try {
       await onRecordEvidence(evidence)
     } catch {
       return
+    } finally {
+      answering.current = false
     }
-    setCardIndex((index) => index + 1)
-    setShowAnswer(false)
+    setFlashRatings((current) => ({ ...current, [deckCard.id]: rating }))
+    setDeck(rateCurrentCard(deck, rating))
+    setFlipped(false)
   }
 
   /** Choosing how sure you are checks the answer. Every answer, including a second go, is saved as evidence. */
@@ -637,7 +666,7 @@ export function FocusedLearningWorkspace({
             extraScored={extraScored}
             onOpenExtraScored={(id) => setOpenActivity(id as WorkspaceMode)}
             warmups={warmups}
-            onOpenWarmup={(id) => setOpenActivity(id as WorkspaceMode)}
+            onOpenWarmup={(id) => (id === 'flashcards' ? openFlashcards() : setOpenActivity(id as WorkspaceMode))}
             revReason={revReason}
           />
         ) : (
@@ -656,26 +685,31 @@ export function FocusedLearningWorkspace({
             footer={openActivity === 'quick-check' ? questionFeedback : undefined}
           >
             {openActivity === 'quick-check' && questionBody}
-            {openActivity !== 'quick-check' && openActivity !== 'exam-question' && <div><WarmupChip /></div>}
-      {openActivity === 'flashcards' && card && (
-        <div className="practice-card">
-          <div className="practice-meta">Card {(cardIndex % cards.length) + 1} of {cards.length}</div>
-          <h3>{card.prompt}</h3>
-          {!showAnswer ? (
-            <Button className="primary" onClick={() => setShowAnswer(true)}>Show answer</Button>
-          ) : (
-            <>
-              <div className="answer-panel"><strong>Answer</strong><p>{card.answer}</p></div>
-              <p className="rating-prompt">How well did you know it?</p>
-              <div className="rating-actions">
-                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(0)}>Not yet</Button>
-                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(1)}>Nearly</Button>
-                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(2)}>Knew it</Button>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+            {openActivity !== 'quick-check' && openActivity !== 'exam-question' && openActivity !== 'flashcards' && <div><WarmupChip /></div>}
+            {openActivity === 'flashcards' && deck && (deckCard
+              ? (
+                <PracticeFlashcardView
+                  key={deckCard.id}
+                  number={deck.index + 1}
+                  total={deck.ids.length}
+                  question={deckCard.prompt}
+                  answer={deckCard.answer}
+                  flipped={flipped}
+                  onFlip={() => setFlipped(true)}
+                  onRate={rateFlashcard}
+                  isLast={deck.index === deck.ids.length - 1}
+                  focusOnMount={deck.index > 0}
+                  busy={saving}
+                />
+              )
+              : (
+                <PracticeFlashcardDone
+                  {...tallyDeck(deck)}
+                  total={deck.ids.length}
+                  onStartQuestions={startCount > 0 ? startQuestions : null}
+                  onAgain={() => { setDeck(startDeck(cards, ratingsAfterDeck(knownRatings, deck))); setFlipped(false) }}
+                />
+              ))}
 
       {openActivity === 'case-study' && caseStudy && caseQuestion && (
         <div className="learn-panel">
