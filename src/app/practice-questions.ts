@@ -20,6 +20,8 @@ type QuestionBase = SessionQuestion & {
   table: PracticeTable | null
   /** AQA specification items the question tests. Used for the skills map in the session summary. */
   specItemIds: string[]
+  /** Subject Foundation nodes the question is tagged to. A Learn page has the same id as its node, so this finds the page to read. */
+  nodeIds: string[]
   source: 'course-pack' | 'aqa-bank'
 }
 
@@ -69,6 +71,7 @@ export function coursePackQuestionToPractice(question: MultipleChoiceQuestion): 
     correctOption: question.correctOption,
     explanation: question.explanation,
     specItemIds: [],
+    nodeIds: [],
     source: 'course-pack',
   }
 }
@@ -104,6 +107,7 @@ function commonFields(record: AqaBusinessQuestionRecord, topicId: string) {
     context: context || null,
     table: question.table ? { title: question.table.title, columns: question.table.columns, rows: question.table.rows.map((row) => row.cells) } : null,
     specItemIds: record.target_item_ids,
+    nodeIds: record.target_node_ids,
     source: 'aqa-bank' as const,
   }
 }

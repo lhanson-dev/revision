@@ -34,6 +34,7 @@
   white-space: nowrap;
 }
 .ui-status-badge--sm { gap: 5px; padding: 5px 9px 5px 6px; font-size: 12px; }
+.ui-status-badge--lg { gap: 7px; padding: 9px 14px 9px 10px; font-size: 15px; }
 .ui-status-badge--gotit { background: var(--learning-status-gotit-tint); color: var(--learning-status-gotit-ink); }
 .ui-status-badge--nearly { background: var(--learning-status-nearly-tint); color: var(--learning-status-nearly-ink); }
 .ui-status-badge--needswork { background: var(--learning-status-needswork-tint); color: var(--learning-status-needswork-ink); }

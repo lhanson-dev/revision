@@ -3,3 +3,4 @@ export { PracticeStart, type PracticeCarryOn, type PracticeStartProps, type Prac
 export { PracticeQuestionView, confidenceChoices, type PracticeOptionState, type PracticeQuestionViewProps } from './PracticeQuestion'
 export { PracticeWrittenQuestion, type PracticeWrittenQuestionProps, type WrittenChallengeView, type WrittenPhase, type WrittenResultView } from './PracticeWrittenQuestion'
 export { PracticeFlashcardDone, PracticeFlashcardView, type PracticeFlashcardDoneProps, type PracticeFlashcardViewProps } from './PracticeFlashcard'
+export { PracticeSummary, type PracticeSummaryProps } from './PracticeSummary'

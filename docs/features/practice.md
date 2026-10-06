@@ -76,6 +76,19 @@
 
 **At 320px** the warm-up chip may wrap inside the pop-up, because its label is longer than the screen is wide; everywhere else chips stay on one line.
 
+### The session summary (Practice v2.2, PR 5)
+
+When the last question of a session is done, the pop-up closes and the Practice tab shows a summary of how the session went (`src/app/practice-summary.ts` works it out, `src/app/ui/practice/PracticeSummary.tsx` shows it). Nothing in it is hard-coded: every line comes from the session's own answers and the topic's saved evidence.
+
+- **Hero.** "SESSION DONE · {topic}" and "{right} of {n} right" (counted on the questions asked fresh, not retries). If there were written answers: "Plus {x} of {y} marks on the written answer."
+- **Status card.** "{topic} · Understanding": the status at the start of the session, an arrow, and the status now (a larger badge). "Up from … to …", "Still …" or "Down from …", then "Based on this session and your earlier answers on this topic." Going from "Not started" to a first status is worded as "first evidence", not as a move.
+- **Skills map.** One tile per specification item the questions test (up to 10): 5 across on desktop, 3 on tablet, 2 on a phone. Each tile has an icon, the status word and the skill name. Items in the topic that this session could have tested but did not are "Not tested yet" (neutral). Skill status is this session's answers only, using the same bands as the rest of the app (a right guess counts as 50%, a written answer is its marks fraction).
+- **Go over these.** Every question missed on the first go, every right answer that was a guess, and every missed written mark point. Each has "Question n · {skill}", the reason ("You picked B: …", "You got this right, but you said you were guessing.", "A mark point is missing: …") and, where the question maps to a Learn page, "Read: {page title}".
+- **REV suggests · {mins}.** One next step and why. A certain-but-wrong answer beats a missing written mark point, which beats moving on to the next topic; if none apply, "Practise {topic} again". "Start it" does it; "Not now" hides the card.
+- **Two ways out.** "Practise again" (a new session) and "Back to Practice".
+
+Skill names come from the AQA item list (reference only, never teaching copy) in `content/business/aqa-a-level/shared/spec-item-labels.json`, checked against the source list by `scripts/assurance/spec-item-labels.test.mjs`. New design token: `--type-hero-size`. New badge size: `lg`.
+
 ## What did not change, and why
 - A missed question does not carry over to another day: the retry queue lives in the session (needs the retry-queue table, a separate migration PR).
 - Flashcards, Formulas and Case study content is unchanged (flashcards get their new card in PR 4). They are warm-ups: they do not count towards Exam readiness.
@@ -99,10 +112,11 @@
 - `src/app/practice-session.test.ts`, `practice-questions.test.ts`, `src/engine/evidence/answer-confidence.test.ts`: the level rule, the question pool, the evidence contract and what confidence changes.
 - `src/app/practice-flashcards.test.ts`, `tests/e2e/practice-flashcards.spec.ts`: deck order and ratings; the turn, ratings saved as 0/1/2, reduced motion, the end screen, accessibility and no sideways scroll.
 - `src/app/rev-marking.test.ts`, `src/engine/evidence/rev-marked-evidence.test.ts`: the checks on REV's output and the evidence contract. `tests/e2e/practice-written.spec.ts`: the written answer journeys on the fixture page.
+- `src/app/practice-summary.test.ts`, `tests/e2e/practice-summary.spec.ts`: the summary rules and the journeys (content, REV card, Practise again, Back, accessibility, no sideways scroll, tile columns).
 - `tests/e2e/practice-feedback.spec.ts`: feedback tones, saved confidence, the retry journey and the level step-up.
 
 ## Screenshots
-`docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/` (`before/` and `after/`, 1440, 834 and 390, light and dark).
+`docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/` to `-pr5/` (`before/` and `after/`, 1440, 834 and 390, light and dark).
 
-## Still to come (PRs 2 to 5)
-Scored multiple choice and calculations with levels and confidence (2), written answers marked by REV (3), the flashcard turn-over card (4), the session summary (5).
+## Still to come
+Calculation questions (they need a new evidence source, so their own migration PR) and a real marker for written answers (see the open items under PR 3).

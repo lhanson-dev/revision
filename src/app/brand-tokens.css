@@ -321,6 +321,9 @@
   --gutter-phone: 20px;
   --touch-min: 44px;
 
+  /* Hero line on the Practice summary (design system `--type-hero`). */
+  --type-hero-size: clamp(40px, 3vw + 18px, 56px);
+
   /* Practice pop-up backdrop (v2.2). The only transparency outside the REV card. */
   --scrim: color-mix(in srgb, var(--rv-deep) 72%, transparent);
 
