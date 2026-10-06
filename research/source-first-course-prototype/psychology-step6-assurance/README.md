@@ -38,6 +38,21 @@ The second manually dispatched live run was GitHub Actions run `37379737288` aga
 
 The follow-up runner correction increases structured-output headroom to 16,000 tokens while retaining the same two-attempt limit and the same hard US$5 ceiling. It also preserves observed usage, searches and provider-attempt counts when a provider response is incomplete, malformed or otherwise unusable after a request has been made. Normal PR CI remains provider-free.
 
+## Third live execution evidence
+
+The third manually dispatched live run was GitHub Actions run `37443542788` against exact `main` `59d414893da9ba7b32929dcaa6de4efe536afaa7`.
+
+- exact-current-`main` verification and the complete deterministic Psychology prerequisite suite passed;
+- the 16,000-token output headroom was sufficient for the provider to return structured review output rather than terminating on `max_output_tokens`;
+- the runner made two provider attempts for the first educational packet and then failed closed because the returned `reviewedContentIds` did not exactly match the runner's requirement-only list for `EDU-01`;
+- no review packet was accepted and no Psychology blocking/material finding was retained;
+- the corrected economics evidence worked as intended: the receipt records two provider attempts, three web-search calls and US$0.654498 observed provider spend; and
+- the run therefore establishes a provider-contract/scope-binding defect, not a Psychology content defect.
+
+The defect is that the provider was told to review every content ID in a packet while educational validation treated only requirement IDs as valid reviewed IDs. That is ambiguous for packets that also contain Learn sections, Practice activities and Practice Marking Packs, and the same narrow-ID risk exists for assessment Marking Packs.
+
+The follow-up correction makes the deterministic packet review scope explicit. Educational scope includes the requirement plus its exact Learn, Practice and scoreable Practice Marking Pack IDs. Assessment scope includes the target assessment items plus the supplied topic-set, scored-paper and Marking Pack IDs. The provider no longer has to echo this clerical list: the runner binds the retained review to the exact packet scope itself, while every finding remains fail-closed and must reference only an ID inside that deterministic scope. This removes a bookkeeping failure mode without weakening independent challenge.
+
 ## Two-layer assurance
 
 ### 1. Deterministic preflight
