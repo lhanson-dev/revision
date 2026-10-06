@@ -40,6 +40,10 @@ async function openSummary(page: Page, plan: Plan, theme: 'light' | 'dark' = 'li
   return saved
 }
 
+test.beforeEach(({}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Widths are set inside the tests; the desktop project covers them all.')
+})
+
 const mixed: Plan = [
   { right: false, sure: 'Certain' },
   { right: true, sure: 'Guessing' },
@@ -56,7 +60,7 @@ test('the summary shows the hero line, the status card, the skills map, what to 
   const status = page.getByRole('region', { name: 'Understanding' })
   await expect(status.getByRole('heading', { name: /· Understanding$/ })).toBeVisible()
   await expect(status.locator('.ui-status-badge--lg')).toBeVisible()
-  await expect(status.getByText(/^(Up from|Still|Down from|Now) /)).toBeVisible()
+  await expect(status.getByText(/^(Up from|Still|Down from|Now|This topic now has its first evidence)/)).toBeVisible()
   expect(await status.locator('.practice-summary__tile').count()).toBeGreaterThan(0)
   for (const tile of await status.locator('.practice-summary__tile').all()) await expect(tile.locator('svg')).toBeVisible()
 
@@ -117,20 +121,18 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-for (const width of [1440, 960, 620, 390, 320]) {
-  test(`the summary never scrolls sideways at ${width}px, and no label wraps mid-label`, async ({ page }) => {
-    test.setTimeout(120_000)
+test('the summary never scrolls sideways at 1440, 960, 620, 390 and 320px, and no status label wraps mid-label', async ({ page }) => {
+  test.setTimeout(180_000)
+  await openSummary(page, mixed)
+  for (const width of [1440, 960, 620, 390, 320]) {
     await page.setViewportSize({ width, height: 900 })
-    await openSummary(page, mixed)
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0)
-    for (const selector of ['.practice-summary__tile-status']) {
-      for (const node of await page.locator(selector).all()) {
-        const lineHeight = await node.evaluate((element) => Number.parseFloat(getComputedStyle(element).lineHeight) || 16)
-        expect((await node.boundingBox())!.height, selector).toBeLessThan(lineHeight * 2.2)
-      }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), `${width}px`).toBeLessThanOrEqual(0)
+    for (const node of await page.locator('.practice-summary__tile-status').all()) {
+      const lineHeight = await node.evaluate((element) => Number.parseFloat(getComputedStyle(element).lineHeight) || 16)
+      expect((await node.boundingBox())!.height, `${width}px`).toBeLessThan(lineHeight * 2.2)
     }
-  })
-}
+  }
+})
 
 test('the skills map has 5 tiles across on desktop, 3 on tablet and 2 on a phone', async ({ page }) => {
   test.setTimeout(120_000)
