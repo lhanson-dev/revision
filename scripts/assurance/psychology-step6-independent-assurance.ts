@@ -470,11 +470,11 @@ function observedCostUsd(usage: Usage | undefined, searches: number): number {
   return Number(((((input - cached) * 2) + (cached * 0.2) + (output * 12)) / 1_000_000 + searches * 0.01).toFixed(8))
 }
 
-function conservativeReserveUsd(packet: unknown, web: boolean): number {
+export function estimatePsychologyStep6AttemptReserveUsd(packet: unknown, web: boolean): number {
   const estimatedInputTokens = Math.ceil(JSON.stringify(packet).length / 3)
   const estimatedSearches = web ? 3 : 0
   const perAttempt = (estimatedInputTokens * 2 + MAX_OUTPUT_TOKENS * 12) / 1_000_000 + estimatedSearches * 0.01
-  return Number((perAttempt * MAX_ATTEMPTS + 0.05).toFixed(8))
+  return Number((perAttempt + 0.025).toFixed(8))
 }
 
 function hasMaterialFinding(review: ProviderPsychologyStep6Review): boolean {
@@ -516,10 +516,6 @@ async function providerReview(args: {
   remainingBudgetUsd: number
 }): Promise<{ review: PsychologyStep6Review; costUsd: number; searches: number; attempts: number }> {
   const web = args.packet.packetType === 'educational'
-  const reserve = conservativeReserveUsd(args.packet, web)
-  if (reserve > args.remainingBudgetUsd) {
-    throw new Error(`incomplete_cost_guard: ${args.packet.packetId} requires conservative reserve US$${reserve}, remaining US$${args.remainingBudgetUsd.toFixed(8)}`)
-  }
 
   let totalCostUsd = 0
   let totalSearches = 0
@@ -534,6 +530,11 @@ async function providerReview(args: {
   }
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    const reserve = estimatePsychologyStep6AttemptReserveUsd(args.packet, web)
+    const remainingForAttempt = Number((args.remainingBudgetUsd - totalCostUsd).toFixed(8))
+    if (reserve > remainingForAttempt) {
+      fail(`incomplete_cost_guard: ${args.packet.packetId} attempt ${attempt} requires conservative reserve US${reserve}, remaining US${remainingForAttempt.toFixed(8)}`)
+    }
     completedAttempts = attempt
     const body: Record<string, unknown> = {
       model: args.model,
