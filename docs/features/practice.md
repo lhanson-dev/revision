@@ -1,6 +1,6 @@
 # Practice: start screen, pop-up and feedback
 
-**Status:** Practice v2.2: PR 1 (start screen and pop-up) and PR 2 (scored multiple choice) are merged; PR 3 (written answers marked by REV, switched off until a marker is connected) is in review.
+**Status:** Practice v2.2: PR 1 (start screen and pop-up) and PR 2 (scored multiple choice) are merged; PR 3 (written answers, switched off until a marker is connected) is merged; PR 4 (flashcards that turn over) is in review.
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1 and 7), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 6). Visual source: the Practice redesign, option 1a Quick-fire.
 
 ## What the student sees
@@ -60,6 +60,22 @@
 3. The student's answer text goes to the model provider for marking. It is not stored by Revision, but sending it is a data-protection decision (students include under-18s).
 4. How a challenge is rate-limited.
 
+### Warm-up flashcards (Practice v2.2, PR 4)
+
+**The pop-up.** Bar: "{topic} · Warm-up · Flashcards". In the body, "CARD n OF m" (one line, never wraps) and the neutral chip "Warm-up · doesn't count towards Exam readiness". Formulas and Case study use the same pop-up shell, header and warm-up label; their content is unchanged.
+
+**The card turns over.** 3D turn (perspective 1400px, 520ms ease-out). A new card is a new element, so it never turns back; with reduced motion the card switches instantly. Height 360px (400px on a phone).
+- Front: "QUESTION", the question in Bricolage 800 (34px, 26px on a phone), "Tap to turn it over"; the whole card is a button. A teal "Show answer" button sits below.
+- Back: the subject tint, the question above a divider, then "ANSWER" and the answer (Bricolage 800, 30px, 24px on a phone). The face that is turned away is hidden from screen readers and the keyboard.
+
+**"Did you know it?"** After the card turns: "Choose one, and the next card appears." (the last card says "Choose one to finish the warm-up."). Three equal pills, each with an icon and words and a status tint: **No** (coral), **Partly** (yellow), **Yes** (teal). Choosing one saves flashcard evidence (rating 0, 1 or 2, unchanged) and goes straight to the next card. The keyboard follows: onto "No" when the card turns, onto "Show answer" on the next card.
+
+**A deck is a round of up to 12 cards**, ordered with the **No** cards first, then **Partly**, then cards not seen yet, then **Yes** (a plain rule in `src/app/practice-flashcards.ts`, from the student's saved ratings). The start row says "12 cards · 77 on this topic" when there are more.
+
+**The end.** "You knew {yes} of {n}", tally pills (Yes, Partly, No), and a REV card ("I'll show the ones you weren't sure of first next time…", or an honest line if every card was known). Buttons: "Start the questions" (only when the topic has questions) and "Go through them again" (the next deck, ordered as above).
+
+**At 320px** the warm-up chip may wrap inside the pop-up, because its label is longer than the screen is wide; everywhere else chips stay on one line.
+
 ## What did not change, and why
 - A missed question does not carry over to another day: the retry queue lives in the session (needs the retry-queue table, a separate migration PR).
 - Flashcards, Formulas and Case study content is unchanged (flashcards get their new card in PR 4). They are warm-ups: they do not count towards Exam readiness.
@@ -73,6 +89,7 @@
 - `src/app/practice-retry.ts`: the 3-answer retry rule.
 - `src/app/practice-session.ts`: levels, the step-up rule, the next question, retries and the end of the session (pure, unit-tested).
 - `src/app/practice-questions.ts`: turns the course pack and the AQA bank into one question shape.
+- `src/app/practice-flashcards.ts`: deck order, ratings and the tally. `src/app/ui/practice/PracticeFlashcard.tsx`: the card and the end screen.
 - `src/app/rev-marking.ts`: the marker interface and the checks on its output. `src/app/ui/practice/PracticeWrittenQuestion.tsx`: the written answer screen. `src/practice-fixtures.tsx`: the dev-only fixture page.
 - `src/app/ui/practice/PracticeQuestion.tsx`: the question screen. `src/app/ui/FeedbackBar.tsx`: the pinned feedback bar.
 
@@ -80,6 +97,7 @@
 - `practice-start.test.ts`, `topic-status.test.ts`, `practice-retry.test.ts`: the plain rules.
 - `tests/e2e/practice-start.spec.ts`: start screen content, the question cap, dialog behaviour (focus trap, Esc, focus return), close-and-carry-on keeping saved answers, WCAG A/AA in light and dark, no sideways scroll at 1440/960/620/390/320.
 - `src/app/practice-session.test.ts`, `practice-questions.test.ts`, `src/engine/evidence/answer-confidence.test.ts`: the level rule, the question pool, the evidence contract and what confidence changes.
+- `src/app/practice-flashcards.test.ts`, `tests/e2e/practice-flashcards.spec.ts`: deck order and ratings; the turn, ratings saved as 0/1/2, reduced motion, the end screen, accessibility and no sideways scroll.
 - `src/app/rev-marking.test.ts`, `src/engine/evidence/rev-marked-evidence.test.ts`: the checks on REV's output and the evidence contract. `tests/e2e/practice-written.spec.ts`: the written answer journeys on the fixture page.
 - `tests/e2e/practice-feedback.spec.ts`: feedback tones, saved confidence, the retry journey and the level step-up.
 
