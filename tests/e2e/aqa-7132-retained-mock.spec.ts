@@ -35,6 +35,7 @@ test('retained Paper 1 is clearly labelled and enforces its two printed choice s
   await page.getByLabel('Attempt this question for section P1-C').check()
   await squares.nth(23).click()
   await page.getByLabel('Attempt this question for section P1-D').check()
+  await squares.last().click()
   await expect(finish).toBeEnabled()
 })
 

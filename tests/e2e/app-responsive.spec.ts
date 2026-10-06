@@ -393,7 +393,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await asPaper2.getByRole('button', { name: 'Start timed' }).click()
   await page.getByRole('button', { name: 'Start the clock' }).click()
   await expect(page.getByRole('group', { name: 'Questions' })).toBeVisible()
-  await expect(page.getByRole('timer')).toContainText(/90:00|89:59|89:58/)
+  await expect(page.getByRole('timer')).toContainText(/1:30:00|1:29:5\d/)
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/subjects/business`)
