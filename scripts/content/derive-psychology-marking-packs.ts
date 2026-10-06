@@ -119,11 +119,20 @@ function addAo(total: Record<AO, number>, ao: AOAllocation): void {
 }
 
 function levels(maxMark: number): MarkingPack['levelDescriptors'] {
-  if (maxMark <= 4) return [
-    { min: 0, max: 0, description: 'No creditworthy response.' },
-    { min: 1, max: Math.max(1, maxMark - 2), description: 'Some relevant material, but incomplete, imprecise or weakly linked to the task.' },
-    { min: Math.max(2, maxMark - 1), max: maxMark, description: 'Accurate, relevant and sufficiently developed for the available marks.' },
-  ]
+  if (maxMark <= 4) {
+    const descriptions = [
+      'No creditworthy response.',
+      'One limited but creditworthy element relevant to the exact task.',
+      'Two marks worth of accurate relevant material, with any required link or distinction only partly developed.',
+      'Mostly accurate and task-focused response with the required reasoning, distinction or application substantially developed.',
+      'Fully accurate and task-focused response that satisfies the complete demand for the available marks.',
+    ]
+    return Array.from({ length: maxMark + 1 }, (_, mark) => ({
+      min: mark,
+      max: mark,
+      description: descriptions[mark],
+    }))
+  }
   const low = Math.floor(maxMark / 3)
   const mid = Math.floor((maxMark * 2) / 3)
   return [
@@ -134,11 +143,28 @@ function levels(maxMark: number): MarkingPack['levelDescriptors'] {
   ]
 }
 
+function evidenceCriterionDescription(claim: EvidenceClaim | undefined, fallback: string): string {
+  const descriptions: Partial<Record<EvidenceClaim, string>> = {
+    knowledge_recall: 'Accurately retrieve the knowledge explicitly requested by this item.',
+    discrimination_or_structure: 'Correctly discriminate between the supplied alternatives or organise the supplied material using the relevant psychological distinction.',
+    selected_knowledge_and_explanation: 'Select accurate relevant knowledge and explain it sufficiently to answer the exact prompt.',
+    contextual_application: 'Apply the relevant psychological knowledge to the specific supplied Revision-owned context and identify the cue that justifies the application.',
+    analysis_reasoning: 'Build a valid reasoning chain from the psychological claim to a conclusion that stays within the evidence.',
+    comparison_or_evaluation_judgement: 'Make the requested comparison or evaluative judgement using an explicit similarity, difference or limitation and a justified conclusion.',
+    quantitative_execution: 'Execute the requested quantitative procedure accurately using the supplied data and show independently checkable working.',
+    data_interpretation: 'Interpret the supplied data accurately and distinguish what the evidence does and does not justify.',
+    misconception_discrimination: 'Identify the supplied misconception, explain why it is wrong and replace it with the accurate bounded account.',
+    synoptic_selection: 'Select and connect the relevant ideas across the specified course contexts without relying on superficial word overlap.',
+    exam_response_execution: 'Execute the exact assessment demand of the Revision-owned item using relevant knowledge, application and reasoning as required.',
+  }
+  return claim ? descriptions[claim] ?? fallback : fallback
+}
+
 function aoCriteria(ao: AOAllocation, evidenceClaim?: EvidenceClaim): MarkingPack['criteria'] {
   const out: MarkingPack['criteria'] = []
-  if (ao.AO1) out.push({ id: 'AO1', description: 'Accurate and relevant psychological knowledge selected for this exact item.', marks: ao.AO1, assessmentObjective: 'AO1', evidenceClaim: evidenceClaim ?? 'knowledge_recall' })
-  if (ao.AO2) out.push({ id: 'AO2', description: 'Application of relevant psychological knowledge or method to the supplied Revision-owned context, cues or data.', marks: ao.AO2, assessmentObjective: 'AO2', evidenceClaim: evidenceClaim ?? 'contextual_application' })
-  if (ao.AO3) out.push({ id: 'AO3', description: 'Analysis, interpretation or evaluation that develops reasoning and keeps conclusions within the evidence.', marks: ao.AO3, assessmentObjective: 'AO3', evidenceClaim: evidenceClaim ?? 'analysis_reasoning' })
+  if (ao.AO1) out.push({ id: 'AO1', description: evidenceCriterionDescription(evidenceClaim, 'Accurate and relevant psychological knowledge selected for this exact item.'), marks: ao.AO1, assessmentObjective: 'AO1', evidenceClaim: evidenceClaim ?? 'knowledge_recall' })
+  if (ao.AO2) out.push({ id: 'AO2', description: evidenceCriterionDescription(evidenceClaim, 'Application of relevant psychological knowledge or method to the supplied Revision-owned context, cues or data.'), marks: ao.AO2, assessmentObjective: 'AO2', evidenceClaim: evidenceClaim ?? 'contextual_application' })
+  if (ao.AO3) out.push({ id: 'AO3', description: evidenceCriterionDescription(evidenceClaim, 'Analysis, interpretation or evaluation that develops reasoning and keeps conclusions within the evidence.'), marks: ao.AO3, assessmentObjective: 'AO3', evidenceClaim: evidenceClaim ?? 'analysis_reasoning' })
   return out
 }
 
@@ -264,7 +290,7 @@ function topicMapping(question: ExamPrepQuestion): EvidenceMapping {
     blueprintUnitIds: question.blueprintUnitIds,
     permittedEvidenceClaims: ['exam_response_execution'],
     sourceDeclaredEvidenceScope: ['assessment_relevant_only_when_activity_and_marking_contract_support_it'],
-    scoreability: 'marking_pack_complete',
+    scoreability: 'marking_pack_candidate_complete',
     markingPackId: `MP-${question.id}`,
     runtimeEvidenceEligible: false,
     readinessEvidenceEligible: false,
