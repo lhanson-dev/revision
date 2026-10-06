@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "experimental_course_truth_topic_complete_candidate",
-  "checkedDate": "2026-10-04",
+  "checkedDate": "2026-10-06",
   "course": "AQA A-level Psychology 7182",
   "topicNumber": 13,
   "topic": "Eating Behaviour",
@@ -43,38 +43,63 @@
           "Taste aversion is not the same as ordinary dislike; it specifically concerns learned avoidance associated with adverse post-ingestion experience.",
           "Social learning is not limited to deliberate teaching; modelling and reinforcement can operate without explicit instruction."
         ],
-        "dependencies": ["classical conditioning", "observational learning", "reinforcement", "evolutionary preparedness", "culture"]
+        "dependencies": [
+          "classical conditioning",
+          "observational learning",
+          "reinforcement",
+          "evolutionary preparedness",
+          "culture"
+        ]
       },
       "sourceEvidence": [
         {
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3925843/",
           "classification": "OPEN",
           "licence": "CC BY",
-          "supports": ["food neophobia", "protective/evolutionary interpretation", "individual variation"]
+          "supports": [
+            "food neophobia",
+            "protective/evolutionary interpretation",
+            "individual variation"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/classical-conditioning/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["conditioned taste aversion", "one-trial learning", "long-delay learning", "evolutionary preparedness"]
+          "supports": [
+            "conditioned taste aversion",
+            "one-trial learning",
+            "long-delay learning",
+            "evolutionary preparedness"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["modelling", "imitation", "observational learning"]
+          "supports": [
+            "modelling",
+            "imitation",
+            "observational learning"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["reinforcement", "behaviour strengthened by consequences"]
+          "supports": [
+            "reinforcement",
+            "behaviour strengthened by consequences"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["social and cultural influences on eating", "biological and environmental interaction"]
+          "supports": [
+            "social and cultural influences on eating",
+            "biological and environmental interaction"
+          ]
         }
       ],
       "revisionSynthesis": [
@@ -117,20 +142,35 @@
           "Ghrelin does not act alone to cause hunger and leptin does not simply switch hunger off.",
           "Homeostatic regulation does not explain every episode of eating."
         ],
-        "dependencies": ["hypothalamus", "hormones", "homeostasis", "reward", "energy balance"]
+        "dependencies": [
+          "hypothalamus",
+          "hormones",
+          "homeostasis",
+          "reward",
+          "energy balance"
+        ]
       },
       "sourceEvidence": [
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["hypothalamic regulation", "satiety and hunger signals", "leptin", "biological and environmental control of eating"]
+          "supports": [
+            "hypothalamic regulation",
+            "satiety and hunger signals",
+            "leptin",
+            "biological and environmental control of eating"
+          ]
         },
         {
           "url": "https://opentextbc.ca/psychologymtdisupplement/chapter/balancing-hunger-and-fullness-with-ghrelin-and-leptin/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["ghrelin production and appetite", "leptin production and satiety signalling", "energy-balance interaction"]
+          "supports": [
+            "ghrelin production and appetite",
+            "leptin production and satiety signalling",
+            "energy-balance interaction"
+          ]
         }
       ],
       "revisionSynthesis": [
@@ -173,21 +213,36 @@
           "There is no single anorexia gene or single abnormal brain region that explains the disorder.",
           "A biological contribution does not mean psychological or social treatment is irrelevant."
         ],
-        "dependencies": ["polygenic vulnerability", "reward", "cognitive control", "interoception", "starvation effects", "biopsychosocial interaction"]
+        "dependencies": [
+          "polygenic vulnerability",
+          "reward",
+          "cognitive control",
+          "interoception",
+          "starvation effects",
+          "biopsychosocial interaction"
+        ]
       },
       "sourceEvidence": [
-        {
-          "url": "https://socialsci.libretexts.org/Bookshelves/Psychology/Psychological_Disorders/Abnormal_Psychology_2e_%28Lumen%29/08%3A_Eating_and_Sleep_Disorders/8.04%3A_Anorexia_Nervosa",
-          "classification": "OPEN_PAGE_WITH_MIXED_ATTRIBUTION",
-          "licence": "page shared under CC BY 4.0; embedded items retain source-specific licences",
-          "supports": ["anorexia nervosa presentation", "genetic vulnerability", "biological/neural factors", "multifactorial context"],
-          "caution": "Revision does not reuse embedded restricted third-party expression; only independently synthesised facts supported by commercially reusable portions are retained."
-        },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["eating-disorder context", "biological and environmental influences on eating"]
+          "supports": [
+            "eating-disorder context",
+            "biological and environmental influences on eating"
+          ]
+        },
+        {
+          "url": "https://doi.org/10.1038/s41598-020-67692-1",
+          "classification": "OPEN",
+          "licence": "CC BY 4.0",
+          "supports": [
+            "anorexia nervosa genetic vulnerability",
+            "polygenic/genome-wide evidence",
+            "neural and subcortical feeding circuits",
+            "difficulty separating causal neural differences from malnutrition/starvation effects",
+            "nutritional-state confounding in brain findings"
+          ]
         }
       ],
       "revisionSynthesis": [
@@ -232,38 +287,67 @@
           "Cognitive distortion does not mean the person deliberately chooses irrational beliefs.",
           "Family involvement in treatment is not evidence that the family caused the disorder."
         ],
-        "dependencies": ["family systems", "observational learning", "reinforcement", "thin-ideal internalisation", "cognitive rigidity", "maintenance cycles"]
+        "dependencies": [
+          "family systems",
+          "observational learning",
+          "reinforcement",
+          "thin-ideal internalisation",
+          "cognitive rigidity",
+          "maintenance cycles"
+        ]
       },
       "sourceEvidence": [
         {
           "url": "https://doi.org/10.3389/frcha.2026.1765146",
           "classification": "OPEN",
           "licence": "CC BY",
-          "supports": ["historical systemic/family models", "Selvini Palazzoli and Minuchin traditions", "enmeshment/relational organisation", "modern non-blaming family-based treatment"]
+          "supports": [
+            "historical systemic/family models",
+            "Selvini Palazzoli and Minuchin traditions",
+            "enmeshment/relational organisation",
+            "modern non-blaming family-based treatment"
+          ]
         },
         {
           "url": "https://doi.org/10.3389/fpsyg.2017.01351",
           "classification": "OPEN",
           "licence": "CC BY",
-          "supports": ["social-network exposure", "thin-ideal internalisation", "body-image disturbance", "limitations of association"]
+          "supports": [
+            "social-network exposure",
+            "thin-ideal internalisation",
+            "body-image disturbance",
+            "limitations of association"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/observational-learning-modeling/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["modelling", "imitation", "social learning"]
+          "supports": [
+            "modelling",
+            "imitation",
+            "social learning"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/operant-conditioning/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["reinforcement mechanisms"]
+          "supports": [
+            "reinforcement mechanisms"
+          ]
         },
         {
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7141127/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["cognitive-interpersonal model", "cognitive rigidity", "perfectionism", "attentional/interpretive biases", "maintenance cycles"]
+          "supports": [
+            "cognitive-interpersonal model",
+            "cognitive rigidity",
+            "perfectionism",
+            "attentional/interpretive biases",
+            "maintenance cycles"
+          ]
         }
       ],
       "revisionSynthesis": [
@@ -309,20 +393,37 @@
           "Biological susceptibility is not the same as biological destiny.",
           "Explaining obesity biologically does not justify stigma or assumptions about personal character."
         ],
-        "dependencies": ["polygenic risk", "hypothalamus", "leptin", "ghrelin", "reward", "gene–environment interaction"]
+        "dependencies": [
+          "polygenic risk",
+          "hypothalamus",
+          "leptin",
+          "ghrelin",
+          "reward",
+          "gene–environment interaction"
+        ]
       },
       "sourceEvidence": [
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/hunger-and-eating/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["biological regulation of eating", "hypothalamic mechanisms", "leptin", "genetic/biological obesity context", "environmental interaction"]
+          "supports": [
+            "biological regulation of eating",
+            "hypothalamic mechanisms",
+            "leptin",
+            "genetic/biological obesity context",
+            "environmental interaction"
+          ]
         },
         {
           "url": "https://opentextbc.ca/h5ppsychology/chapter/human-genetics/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["genetic contribution", "polygenic and gene–environment reasoning", "limits of genetic determinism"]
+          "supports": [
+            "genetic contribution",
+            "polygenic and gene–environment reasoning",
+            "limits of genetic determinism"
+          ]
         }
       ],
       "revisionSynthesis": [
@@ -367,26 +468,48 @@
           "The boundary model does not imply that everyone who breaks a diet rule will binge or gain weight.",
           "Psychological explanations of eating should not be used to blame people for obesity."
         ],
-        "dependencies": ["cognitive control", "hunger", "satiety", "self-regulation", "goal conflict", "reward"]
+        "dependencies": [
+          "cognitive control",
+          "hunger",
+          "satiety",
+          "self-regulation",
+          "goal conflict",
+          "reward"
+        ]
       },
       "sourceEvidence": [
         {
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6599805/",
           "classification": "OPEN",
           "licence": "CC BY 4.0",
-          "supports": ["restrained eating", "disinhibited eating", "measurement heterogeneity", "BMI/craving relationships"]
+          "supports": [
+            "restrained eating",
+            "disinhibited eating",
+            "measurement heterogeneity",
+            "BMI/craving relationships"
+          ]
         },
         {
           "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1212778/full",
           "classification": "OPEN",
           "licence": "CC BY",
-          "supports": ["Herman and Polivy boundary model", "cognitive diet boundary", "hunger and satiety boundaries", "restrained-eater predictions"]
+          "supports": [
+            "Herman and Polivy boundary model",
+            "cognitive diet boundary",
+            "hunger and satiety boundaries",
+            "restrained-eater predictions"
+          ]
         },
         {
           "url": "https://doi.org/10.1016/j.cobeha.2022.101203",
           "classification": "OPEN",
           "licence": "CC BY",
-          "supports": ["boundary-model history and limitations", "restraint and disinhibition", "goal-conflict alternative", "weight-control versus eating-enjoyment goals"]
+          "supports": [
+            "boundary-model history and limitations",
+            "restraint and disinhibition",
+            "goal-conflict alternative",
+            "weight-control versus eating-enjoyment goals"
+          ]
         }
       ],
       "revisionSynthesis": [
