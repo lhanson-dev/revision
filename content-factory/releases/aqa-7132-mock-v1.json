@@ -41,11 +41,14 @@
     "The P3-03/P3-06 dual-sourcing repetition is retained as a non-blocking style limitation."
   ],
   "publication": {
-    "learner_surface_changed_in_this_pr": false,
-    "current_state": "not_published",
-    "restricted_pilot_integration_authorised_after_founder_approved_merge": true
+    "learner_surface_changed_in_this_pr": true,
+    "current_state": "restricted_pilot_pending_founder_approved_merge",
+    "restricted_pilot_integration_authorised_after_founder_approved_merge": true,
+    "integration": "Existing Exam Prep / Exam Simulator via deterministic retained-paper adapter",
+    "no_parallel_route": true,
+    "no_paid_generation": true
   },
   "retained_evidence": "content-factory/runs/aqa-7132-mock-v1",
   "assurance_record": "content-factory/runs/aqa-7132-mock-v1/ASSURANCE_RECORD.json",
-  "documentation_impact": "No normative authority change. Retains the exact successful mock artifact and applies the existing Fast-Path / Content Accuracy Assurance conditional-pass route; historical Action evidence is preserved and learner publication remains a separate integration step."
+  "documentation_impact": "Implementation/technical documentation and release evidence only. Normative authority unchanged; historical Action evidence preserved; qualified human Business subject-specialist review remains pending."
 }
