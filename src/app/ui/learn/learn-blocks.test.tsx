@@ -46,6 +46,8 @@ describe('block markup', () => {
   it('steps through a worked example: only step 1 and a dashed prompt for the rest', () => {
     const html = renderToStaticMarkup(<LearnBlock block={breakEvenPage.blocks[3]} />)
     expect(html).toContain('Step 1 of 3')
+    expect(html).toContain('A café pays £1,800 rent')
+    expect(html.indexOf('A café pays £1,800 rent')).toBeLessThan(html.indexOf('Fixed costs per month'))
     expect(html).toContain('Rent £1,800 + wages £3,240 = £5,040')
     expect(html).not.toContain('£3.20 − £1.10 = £2.10')
     expect(html).toContain('Work this one out, then show it')
@@ -103,9 +105,29 @@ describe('placement rules', () => {
     expect(order).toEqual(['explanation', 'misconception', 'recap'])
   })
 
-  it('does not pair a key idea with an explanation that is not directly before it', () => {
-    const items = planLearnLayout([breakEvenPage.blocks[0], exampleBlock, breakEvenPage.blocks[1]])
-    expect(items.map((item) => item.kind)).toEqual(['block', 'block', 'block'])
+  it('puts a key idea beside the whole run of explanations before it (factory pages put key terms after every section)', () => {
+    const [first, , second] = [breakEvenPage.blocks[0], breakEvenPage.blocks[2], breakEvenPage.blocks[5]]
+    const items = planLearnLayout([first, second, breakEvenPage.blocks[1], breakEvenPage.blocks[4]])
+    expect(items[0].kind).toBe('margin-row')
+    if (items[0].kind === 'margin-row') {
+      expect(items[0].main).toHaveLength(2)
+      expect(items[0].keyIdeaFirst).toBe(false)
+    }
+    expect(items[1].kind).toBe('block')
+  })
+
+  it('puts a key idea that opens the page beside the worked example that follows it', () => {
+    const items = planLearnLayout([breakEvenPage.blocks[1], breakEvenPage.blocks[3], breakEvenPage.blocks[9]])
+    expect(items.map((item) => item.kind)).toEqual(['margin-row', 'block'])
+    if (items[0].kind === 'margin-row') {
+      expect(items[0].keyIdeaFirst).toBe(true)
+      expect(items[0].main[0].type).toBe('worked-example')
+    }
+  })
+
+  it('leaves a key idea full width when there is nothing it can sit beside, and never narrows a chart', () => {
+    expect(planLearnLayout([breakEvenPage.blocks[1], breakEvenPage.blocks[4]]).map((item) => item.kind)).toEqual(['block', 'block'])
+    expect(planLearnLayout([breakEvenPage.blocks[1]]).map((item) => item.kind)).toEqual(['block'])
   })
 
   it('estimates reading time from the words, at least a minute', () => {

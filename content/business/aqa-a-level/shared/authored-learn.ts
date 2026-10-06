@@ -89,6 +89,7 @@ export const learn = learnCourseSchema.parse({
                 {
                   type: 'worked-example',
                   title: 'A simple profit calculation',
+                  setup: 'A business sells a product for £8 a unit. In one month it sells 500 units, and its total costs for the month are £3,200. Work out its profit.',
                   steps: [
                     { label: 'Calculate revenue', value: '£8 selling price × 500 units = £4,000 revenue' },
                     { label: 'Identify total costs', value: 'Total costs = £3,200' },
@@ -211,6 +212,7 @@ export const learn = learnCourseSchema.parse({
                 {
                   type: 'worked-example',
                   title: 'Calculate break-even output',
+                  setup: 'A business sells a product for £10 a unit. The variable cost of making each unit is £5, and its fixed costs are £20,000. How many units must it sell to break even?',
                   steps: [
                     { label: 'Contribution per unit', value: '£10 selling price − £5 variable cost = £5 contribution' },
                     { label: 'Fixed costs', value: '£20,000' },
