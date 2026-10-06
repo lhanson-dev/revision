@@ -39,6 +39,7 @@ Use this file to find the governing source before substantive work.
 - B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - B7 final compatibility retirement / visual acceptance gate → `docs/technical/Interface System B7 Final Acceptance.md`
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
+- Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory whole-paper mock production implementation / AQA 7132 Mock Profile and provider-free validation → `docs/technical/Content Factory Mock Exam Production.md`
@@ -64,7 +65,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0029-content-factory-fast-path-and-architecture-freeze.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
