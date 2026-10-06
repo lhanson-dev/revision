@@ -1,6 +1,6 @@
 # Learner Planned Sessions: production runbook
 
-**Status:** prepared, **not run**. Nothing in this document has been applied to production.
+**Status:** **Applied to production** (found on 6 October 2026 by a read-only check: version `20261002060000` recorded; table exists, row-level security on, one owner-only policy for signed-in students, signed-out users and the service role denied select, 3 indexes, 9 constraints, 0 rows, no advisor finding for this table). The steps below are kept as the record; **do not apply it again**. How it was applied is not recorded here.
 **What it covers:** applying `supabase/migrations/20261002060000_add_learner_planned_sessions.sql` (merged in PR #494) to the production Supabase project.
 **Why it is separate:** merging a migration does not apply it, and the GitHub Pages deploy does not run production migrations. Applying it is a production database write and needs its own explicit instruction from the Founder (`supabase/README.md`, `First Supabase Migration Execution Plan.md`).
 

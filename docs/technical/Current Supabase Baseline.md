@@ -68,3 +68,6 @@ The current database is small and the ownership model is sound. The main limitat
 
 ## Update 2026-10-06: `calculation` evidence source
 `public.learning_evidence.source` allows `calculation` (rule `learning_evidence_source_check` lists flashcard, multiple_choice, calculation, exam_question, exam_attempt), and migration `20261006180000` is recorded. Seen by a read-only check on 6 October 2026. The latest recorded versions were `20261006180000`, `20261002060000`, `20260927182844`. Evidence rows then: exam_attempt 1, exam_question 24, flashcard 2, multiple_choice 25, calculation 0.
+
+## Update 2026-10-06: `learner_planned_sessions`
+Migration `20261002060000` is recorded and `public.learner_planned_sessions` exists with row-level security on, one policy (`users_manage_own_learner_planned_sessions`, authenticated, owner only), no access for anon or service_role (select/insert tested), authenticated select/insert/update/delete, 3 indexes (primary key, user and date, one planned session per day), 9 constraints and 0 rows. No security advisor finding for the table. Seen by a read-only check on 6 October 2026. Two unrelated advisor findings were also seen: `public.learner_plan_assignment_events` has RLS enabled but no policy (INFO), and Auth leaked-password protection is off (WARN).

@@ -3,7 +3,7 @@
 **Updated:** 2 October 2026 (PR 14, Empty states). Every later redesign PR updates this file.
 **Decisions:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. **Start here:** `00-START-HERE.md`.
 
-**Merged to `main` with Lee's approval:** PR 13 (#501, Onboarding), PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). PR 5 (#487, Home), PR 6 (#490, Plan), PR 7 (#492, Courses and Course Overview), accepted-sessions migration (#494, merged but not applied to production), PR 8 (#495, Plan and Home accepted sessions), PR 9 (#496, Practice). PR 3 (Content Factory) is waiting for Lee's go.
+**Merged to `main` with Lee's approval:** PR 13 (#501, Onboarding), PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). PR 5 (#487, Home), PR 6 (#490, Plan), PR 7 (#492, Courses and Course Overview), accepted-sessions migration (#494, merged and applied to production, checked 6 Oct 2026), PR 8 (#495, Plan and Home accepted sessions), PR 9 (#496, Practice). PR 3 (Content Factory) is waiting for Lee's go.
 
 How to read it: **Foundations** means the design values, building blocks and checks exist but no screen uses them yet. **Not started** means nothing is built. Nothing is "done" until a PR is merged by Lee.
 
