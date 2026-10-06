@@ -167,7 +167,8 @@ test('critical course, learning, practice, exam and progress journey meets the a
 
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   await expect(page.getByRole('dialog')).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
+  await page.locator('.practice-question__options button').first().click()
+  await expect(page.getByRole('button', { name: 'Fairly sure' })).toBeVisible()
   await expectWcagBaseline(page, 'Practice question pop-up')
   await page.getByRole('button', { name: 'Close practice' }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)

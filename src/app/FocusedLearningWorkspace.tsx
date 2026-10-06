@@ -1,10 +1,21 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
-import type { LearningEvidence } from '../engine/evidence/evidence'
+import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
-import { clearRetried, dueRetry, queueMissed, type RetryEntry } from './practice-retry'
+import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
+import {
+  advanceQuestionSession,
+  isSessionFinished,
+  levelNote,
+  recordSessionAnswer,
+  sessionRightCount,
+  startQuestionSession,
+  statusDirection,
+  type QuestionSession,
+} from './practice-session'
+import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness } from './practice-questions'
 import {
   PRACTICE_LENGTHS,
   lastPractisedLabel,
@@ -23,12 +34,14 @@ import {
   PracticeBarTitle,
   PracticeDialog,
   PracticeProgressBar,
+  PracticeQuestionView,
   PracticeStart,
   SegmentedControl,
   SelectField,
   TextAreaField,
   WarmupChip,
   accentStyle,
+  type LearningStatus,
   type PracticeWarmupRow,
 } from './ui'
 
@@ -50,6 +63,8 @@ export type FocusedLearningWorkspaceProps = {
   preferredTopicId?: string | null
   /** Practice only: each topic's status and when it was last practised, from the student's saved evidence. */
   topicProgress?: Record<string, TopicProgress>
+  /** Practice only: when each question (by content id) was last answered, so a new session starts with the ones not seen lately. */
+  lastAnsweredAt?: Record<string, string>
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -111,6 +126,7 @@ export function FocusedLearningWorkspace({
   includeExamQuestions = true,
   preferredTopicId,
   topicProgress,
+  lastAnsweredAt,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
@@ -126,17 +142,15 @@ export function FocusedLearningWorkspace({
   const [selectedTypes, setSelectedTypes] = useState<PracticeQuestionType[]>(['multiple-choice'])
   // The scored session in progress. Closing the pop-up keeps it (every answer is already saved as evidence),
   // and the start screen then offers "Carry on".
-  const [questionSession, setQuestionSession] = useState<{ total: number } | null>(null)
-  // The retry queue for this session: a missed question comes back after at least 3 other answers.
-  const [retryQueue, setRetryQueue] = useState<RetryEntry[]>([])
-  const [retryId, setRetryId] = useState<string | null>(null)
-  const [sessionAnswered, setSessionAnswered] = useState(0)
-  const [sessionCorrect, setSessionCorrect] = useState(0)
+  const [session, setSession] = useState<QuestionSession | null>(null)
+  const [statusSeen, setStatusSeen] = useState<{ topicId: string; status: LearningStatus | undefined } | null>(null)
+  const [statusMove, setStatusMove] = useState<'up' | 'down' | null>(null)
+  const answering = useRef(false)
   const [cardIndex, setCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
-  const [questionIndex, setQuestionIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
-  const [checked, setChecked] = useState(false)
+  /** Set once the answer is checked: what was picked and how sure the student said they were. */
+  const [checked, setChecked] = useState<{ selected: number; confidence: AnswerConfidence } | null>(null)
   const [formulaIndex, setFormulaIndex] = useState(0)
   const [showFormula, setShowFormula] = useState(false)
   const [drillIndex, setDrillIndex] = useState(0)
@@ -166,11 +180,16 @@ export function FocusedLearningWorkspace({
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
   const card = cards[cardIndex % Math.max(cards.length, 1)]
-  const sessionTotal = questionSession?.total ?? 0
-  const retryQuestionItem = retryId ? questions.find((item) => item.id === retryId) : undefined
-  const question = retryQuestionItem ?? (questionIndex < sessionTotal ? questions[questionIndex] : undefined)
-  const isRetry = Boolean(retryQuestionItem)
-  const questionsFinished = questionSession !== null && !question
+  const aqaBank = adapter.manifest.examBoard.id === 'aqa' && adapter.manifest.specificationCode === '7132' ? aqaBusinessQuestionBank : null
+  const fullPool = useMemo(
+    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank }), lastAnsweredAt),
+    [adapter, topicId, questions, aqaBank, lastAnsweredAt],
+  )
+  const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
+  const isRetry = session?.currentIsRetry ?? false
+  const questionsFinished = session !== null && !question
+  const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
+  const upcoming = session && checked ? advanceQuestionSession(session, fullPool) : null
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
   const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
@@ -180,9 +199,10 @@ export function FocusedLearningWorkspace({
   const effectiveMode = mode && availableModes.includes(mode) ? mode : defaultMode(section)
 
   // Practice: only the activities that have content are offered, and every number on the start screen is real.
-  const availableTypes: PracticeQuestionType[] = questions.length > 0 ? ['multiple-choice'] : []
+  const availableTypes: PracticeQuestionType[] = questionTypesIn(fullPool)
   const chosenTypes = usableQuestionTypes(selectedTypes, availableTypes)
-  const availableQuestions = chosenTypes.includes('multiple-choice') ? questions.length : 0
+  const typedPool = filterByTypes(fullPool, chosenTypes)
+  const availableQuestions = typedPool.length
   const startCount = sessionQuestionCount(length, availableQuestions)
   const warmups: PracticeWarmupRow[] = [
     ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${cards.length} ${cards.length === 1 ? 'card' : 'cards'}` }] : []),
@@ -193,35 +213,36 @@ export function FocusedLearningWorkspace({
     ? [{ id: 'exam-question', name: 'Exam question', meta: `${exam.questions.length} self-marked ${exam.questions.length === 1 ? 'question' : 'questions'}` }]
     : []
   const progress = topic ? topicProgress?.[topic.id] : undefined
+  const liveStatus = progress?.status
+  if (statusSeen === null || statusSeen.topicId !== topicId) {
+    // A new topic: remember where it starts, without calling it a move.
+    setStatusSeen({ topicId, status: liveStatus })
+  } else if (statusSeen.status !== liveStatus) {
+    setStatusSeen({ topicId, status: liveStatus })
+    const direction = statusDirection(statusSeen.status, liveStatus)
+    if (direction) setStatusMove(direction)
+  }
   const revReason = recommendation && recommendation.topicId === topicId ? recommendation.reason : null
   const subjectIdentity = resolveSubjectIdentity(adapter.manifest.subject.id, adapter.manifest.subject.name)
 
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
     setCardIndex(0)
-    setQuestionIndex(0)
     setShowAnswer(false)
     setSelectedOption(null)
-    setChecked(false)
-    setRetryQueue([])
-    setRetryId(null)
-    setQuestionSession(null)
-    setSessionAnswered(0)
-    setSessionCorrect(0)
+    setChecked(null)
+    setSession(null)
+    setStatusMove(null)
     setOpenActivity(null)
   }
 
-  /** Starts a fresh scored session: the chosen length (capped at what the topic has), a clean retry queue. */
+  /** Starts a fresh scored session: the chosen length (capped at what the topic has) and a clean retry queue. */
   function startQuestions() {
     if (startCount === 0) return
-    setQuestionSession({ total: startCount })
-    setQuestionIndex(0)
+    setSession(startQuestionSession(typedPool, startCount))
     setSelectedOption(null)
-    setChecked(false)
-    setRetryQueue([])
-    setRetryId(null)
-    setSessionAnswered(0)
-    setSessionCorrect(0)
+    setChecked(null)
+    setStatusMove(null)
     setOpenActivity('quick-check')
   }
 
@@ -231,7 +252,7 @@ export function FocusedLearningWorkspace({
   }
 
   function finishSession() {
-    setQuestionSession(null)
+    setSession(null)
     setOpenActivity(null)
   }
 
@@ -257,27 +278,35 @@ export function FocusedLearningWorkspace({
     setShowAnswer(false)
   }
 
-  async function checkAnswer() {
-    if (!question || selectedOption === null || checked) return
-    // Every answer is saved as normal evidence, including a retry that comes back later in the session.
+  /** Choosing how sure you are checks the answer. Every answer, including a second go, is saved as evidence. */
+  async function checkAnswer(confidence: AnswerConfidence) {
+    if (!question || !session || selectedOption === null || checked || answering.current) return
+    answering.current = true
     const evidence = createMultipleChoiceEvidence({
       id: evidenceId('mcq'),
       moduleId: adapter.manifest.id,
-      topicId: question.topic,
+      topicId: question.topicId,
       contentId: question.id,
       selectedOption,
       correctOption: question.correctOption,
+      confidence,
     })
+    setStatusMove(null)
     try {
       await onRecordEvidence(evidence)
     } catch {
       return
+    } finally {
+      answering.current = false
     }
-    const correct = selectedOption === question.correctOption
-    setSessionAnswered((count) => count + 1)
-    if (correct) setSessionCorrect((count) => count + 1)
-    setRetryQueue((queue) => (correct ? clearRetried(queue, question.id) : queueMissed(queue, question.id, sessionAnswered + 1)))
-    setChecked(true)
+    setSession(recordSessionAnswer(session, {
+      questionId: question.id,
+      correct: selectedOption === question.correctOption,
+      confidence,
+      selectedOption,
+      level: question.level,
+    }))
+    setChecked({ selected: selectedOption, confidence })
   }
 
   async function recordExamQuestion() {
@@ -299,15 +328,10 @@ export function FocusedLearningWorkspace({
   }
 
   function nextQuestion() {
-    // Leaving a regular question moves on through the topic; leaving a retry keeps the place in the topic.
-    const nextIndex = isRetry ? questionIndex : questionIndex + 1
-    if (!isRetry) setQuestionIndex(nextIndex)
-    // A missed question comes back after 3 others. When the session's own questions have run out, anything
-    // still waiting is asked now, so a session never ends with a miss unasked.
-    const sessionOver = nextIndex >= sessionTotal
-    setRetryId(dueRetry(retryQueue, sessionOver ? Number.MAX_SAFE_INTEGER : sessionAnswered)?.questionId ?? null)
+    if (!session) return
+    setSession(advanceQuestionSession(session, fullPool))
     setSelectedOption(null)
-    setChecked(false)
+    setChecked(null)
   }
 
   function nextFormula() {
@@ -373,7 +397,7 @@ export function FocusedLearningWorkspace({
 
   if (isPractice) {
     const topicShort = topic?.shortTitle ?? 'this topic'
-    const sessionAnswersLabel = `${Math.min(questionIndex, sessionTotal)} of ${sessionTotal} answered`
+    const sessionAnswersLabel = `${freshAnswered} of ${session?.total ?? 0} answered`
     const openLabels: Partial<Record<WorkspaceMode, string>> = {
       'quick-check': 'Questions',
       flashcards: 'Warm-up · Flashcards',
@@ -383,67 +407,73 @@ export function FocusedLearningWorkspace({
     }
     const hasAnyPractice = availableQuestions > 0 || warmups.length > 0 || extraScored.length > 0
 
+    const done = session ? sessionRightCount(session) : { right: 0, fresh: 0 }
+    const optionState = (index: number) => {
+      if (!question) return 'idle' as const
+      if (checked) return index === question.correctOption ? 'correct' as const : checked.selected === index ? 'wrong' as const : 'idle' as const
+      return selectedOption === index ? 'selected' as const : 'idle' as const
+    }
+
     const questionBody = questionsFinished ? (
       <div className="practice-done">
         <p className="ui-eyebrow">Session done</p>
-        <h2 className="practice-question__prompt">{sessionAnswered === 0 ? 'No answers this time' : `${sessionCorrect} of ${sessionAnswered} right`}</h2>
+        <h2 className="practice-question__prompt">{done.fresh === 0 ? 'No answers this time' : `${done.right} of ${done.fresh} right`}</h2>
         <p className="practice-panel__lead">Every answer is saved and counts towards {topicShort}.</p>
         <div><Button onClick={finishSession}>Back to Practice</Button></div>
       </div>
-    ) : question ? (
-      <div className="practice-question">
-        <div className="practice-dialog__meta">
-          <span className="ui-eyebrow">{isRetry ? 'Another go at one you missed' : `Question ${Math.min(questionIndex + 1, sessionTotal)}`}</span>
-        </div>
-        <fieldset className="practice-question__set">
-          <legend className="practice-question__prompt">{question.prompt}</legend>
-          <div className="practice-question__options" role="group" aria-label="Answers">
-            {question.options.map((option, index) => {
-              const state = !checked ? 'idle' : index === question.correctOption ? 'correct' : selectedOption === index ? 'wrong' : 'idle'
-              return (
-                <button
-                  key={option}
-                  type="button"
-                  className={`ui-answer-option ui-answer-option--${state}`}
-                  aria-pressed={selectedOption === index}
-                  disabled={checked || saving}
-                  onClick={() => setSelectedOption(index)}
-                >
-                  <span className="ui-answer-option__letter" aria-hidden="true">
-                    {state === 'correct' ? <Icon name="check" size="inline" /> : state === 'wrong' ? <Icon name="close" size="inline" /> : 'ABCDEF'[index]}
-                  </span>
-                  <span className="ui-answer-option__text">{option}</span>
-                  {state === 'correct' && <span className="ui-answer-option__note">Correct answer</span>}
-                  {state === 'wrong' && <span className="ui-answer-option__note">Your answer</span>}
-                </button>
-              )
-            })}
-          </div>
-        </fieldset>
-        {!checked && <div><Button disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button></div>}
-      </div>
+    ) : question && session ? (
+      <PracticeQuestionView
+        eyebrow={isRetry ? 'Another go at one you missed' : `Question ${Math.min(session.askedIds.length, session.total)}`}
+        level={question.level}
+        marksLabel={`${question.marks} ${question.marks === 1 ? 'mark' : 'marks'}`}
+        sourceChip={question.source === 'aqa-bank' ? 'AQA-style practice' : null}
+        levelNote={!isRetry && !checked && session.answers.length > 0 ? levelNote(session.adaptive) : null}
+        context={question.context}
+        table={question.table}
+        prompt={question.prompt}
+        options={question.options.map((option, index) => ({ text: option.text, state: optionState(index) }))}
+        locked={Boolean(checked)}
+        onPick={setSelectedOption}
+        showConfidence={selectedOption !== null && !checked}
+        onConfidence={checkAnswer}
+        busy={saving}
+      />
     ) : null
 
-    const questionFeedback = (
-      <div className="practice-feedback-region" aria-live="polite">
-        {checked && question && (
-          selectedOption === question.correctOption
-            ? (
-              <FeedbackBar tone="correct" title={isRetry ? 'You’ve got it this time' : 'Correct'} explanation={question.explanation} note={isRetry ? 'That one is off your list.' : undefined}>
-                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
-              </FeedbackBar>
-            )
-            : (
-              <FeedbackBar tone="wrong" title="Not quite" explanation={question.explanation} note="This will come back later in this session.">
-                <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
-              </FeedbackBar>
-            )
-        )}
-      </div>
-    )
+    // The feedback bar: what happened, why, and one action. No Learn or Ask REV links per question (they are in the summary).
+    const feedbackFor = () => {
+      if (!checked || !question) return null
+      const correct = checked.selected === question.correctOption
+      const letter = 'ABCDEF'[checked.selected]
+      const why = question.options[checked.selected]?.why
+      const action = <Button onClick={nextQuestion}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
+      if (correct) {
+        const guessed = checked.confidence === 'guess'
+        return (
+          <FeedbackBar
+            tone="correct"
+            title={guessed ? 'Right, but a guess' : 'Nice, that’s the one.'}
+            explanation={question.explanation}
+            note={isRetry ? 'That one is off your list.' : guessed ? 'Right, but you guessed. I’ll check this one again soon so it sticks.' : undefined}
+          >{action}</FeedbackBar>
+        )
+      }
+      return (
+        <FeedbackBar
+          tone="wrong"
+          title="Not quite."
+          picked={why ? `You picked ${letter}: ${why}` : `You picked ${letter}.`}
+          explanation={question.explanation}
+          note={checked.confidence === 'certain'
+            ? 'You were certain, so this is the one most worth fixing. I’ll bring it back later.'
+            : 'I’ll bring this back later.'}
+        >{action}</FeedbackBar>
+      )
+    }
+    const questionFeedback = <div className="practice-feedback-region" aria-live="polite">{feedbackFor()}</div>
 
-    const dialogBar = openActivity === 'quick-check'
-      ? <PracticeProgressBar total={sessionTotal} done={Math.min(questionIndex, sessionTotal)} topicName={topicShort} status={progress?.status} />
+    const dialogBar = openActivity === 'quick-check' && session
+      ? <PracticeProgressBar total={session.total} done={Math.min(freshAnswered, session.total)} topicName={topicShort} status={progress?.status} move={statusMove} />
       : <PracticeBarTitle title={`${topicShort} · ${openLabels[openActivity ?? 'quick-check'] ?? ''}`} />
 
     return (
@@ -464,7 +494,7 @@ export function FocusedLearningWorkspace({
             selectedTypes={chosenTypes}
             onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
             onStart={startQuestions}
-            carryOn={questionSession && !questionsFinished ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
+            carryOn={session && !questionsFinished ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
             extraScored={extraScored}
             onOpenExtraScored={(id) => setOpenActivity(id as WorkspaceMode)}
             warmups={warmups}

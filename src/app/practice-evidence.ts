@@ -1,4 +1,4 @@
-import type { LearningEvidence } from '../engine/evidence/evidence'
+import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
 
 export function createFlashcardEvidence(input: {
   id: string
@@ -27,6 +27,8 @@ export function createMultipleChoiceEvidence(input: {
   contentId: string
   selectedOption: number
   correctOption: number
+  /** How sure the student said they were. When given, the evidence is schema version 2. */
+  confidence?: AnswerConfidence
   occurredAt?: string
 }): LearningEvidence {
   return {
@@ -35,11 +37,12 @@ export function createMultipleChoiceEvidence(input: {
     topicId: input.topicId,
     occurredAt: input.occurredAt ?? new Date().toISOString(),
     contentId: input.contentId,
-    schemaVersion: 1,
+    schemaVersion: input.confidence ? 2 : 1,
     source: 'multiple_choice',
     correct: input.selectedOption === input.correctOption,
     selectedOption: input.selectedOption,
     correctOption: input.correctOption,
+    ...(input.confidence ? { confidence: input.confidence } : {}),
   }
 }
 

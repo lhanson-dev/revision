@@ -547,3 +547,15 @@ Implementation evidence must then be recorded in code and relevant technical doc
 ## Documentation impact
 
 Version 0.5 preserves the Founder-approved Plan experience direction of 27 September 2026 and records the 29 September 2026 refinement that routine Plan task entries no longer repeat an inline **Why this?** rationale beneath every task. Recommendation reasons remain part of planner truth and remain available for contextual explanation through REV when useful. The schedule-first Day / Week / Month structure, Week default, decreasing future precision, recurring Monday-Sunday availability, setup-first missing-plan states, compact adaptive-plan explanation, secondary exam/settings management and governed learner navigation remain unchanged.
+
+## 9. Practice answers and confidence (Practice v2.2, 6 October 2026)
+
+*Added with Practice v2.2 PR 2 at the Founder's request. The rule is plain and fixed; it is not a model's choice.*
+
+In Practice, before an answer is checked the student says how sure they are: **Guessing**, **Fairly sure** or **Certain**. Choosing one is what checks the answer. The plan, REV and topic status read what is saved; the plan updates without a message.
+
+- **A right answer that was only a guess is weaker evidence** than a right answer the student was sure of. It counts as half of a right answer in the existing readiness engine (`GUESSED_RIGHT_PERCENTAGE`, 50). It also comes back once later in the same session, so the note "I'll check this one again soon so it sticks" is true.
+- **A wrong answer the student was certain about is the gap most worth closing.** A wrong answer cannot score below zero, so it counts as a stronger gap in the recommendation: a topic with a certain-but-wrong answer that the student has not since answered correctly goes to the front of REV's next-topic choice, and REV's reason says so. A wrong answer comes back later in the session whatever the confidence.
+- **Live topic status is whatever the existing readiness engine says** after each saved answer. No new formula was added. Confidence changes only the two things above.
+- **Level.** A session starts at Recall. Two right answers in a row step up one level (Recall, Apply, Analyse). A wrong answer keeps the level the same; the level never steps down. The level of a question comes from its AO tags (AO1 Recall, AO2 Apply, AO3 or AO4 Analyse); a question with no AO tag counts as Apply.
+- **Honesty.** Confidence is the student's own statement. It is never shown as a score, a streak or a reward, and it is never used to say the student "knows" something.

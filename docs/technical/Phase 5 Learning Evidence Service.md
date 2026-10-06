@@ -42,3 +42,13 @@ This phase does not:
 
 ## Next step
 Create the authenticated `/app/` shell and Supabase browser client, then connect real learner actions to this service. Recent activity and readiness progress should read from the same persisted evidence stream so completed work is immediately visible even before a readiness score is available.
+
+## Schema version 2: answer confidence (Practice v2.2)
+
+`multiple_choice` evidence may carry `confidence: 'guess' | 'fairly' | 'certain'` (how sure the student said they were before the answer was checked). Evidence that carries it is **schema version 2**; version 1 evidence (no confidence) stays valid and is never rewritten.
+
+- The contract is in `src/engine/evidence/evidence.ts` and tested in `src/engine/evidence/answer-confidence.test.ts`: version 2 with each confidence is accepted, version 1 without it is accepted, confidence on version 1, an unknown level and an unknown version are rejected.
+- **No database migration.** The value lives in the existing `payload` jsonb, `source` is unchanged (`multiple_choice`), and `learning_evidence.schema_version` accepts any value above 0. `LearningEvidenceRecord.schema_version` is now `1 | 2`.
+- **Calculation answers are not saved yet.** A `calculation` source needs the `source` check constraint widened (a migration), so it ships as its own approved migration PR first.
+- Readiness reads it through the existing `evidencePercentage` (a right guess counts as 50) and the recommendation puts a topic with an unresolved certain-but-wrong answer first. See `10-product-governance/Adaptive Revision Planning.md` section 9.
+

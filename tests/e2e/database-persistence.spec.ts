@@ -91,7 +91,7 @@ test.describe('database-backed learner persistence', () => {
 
     await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
     await page.locator('.practice-question__options button').first().click()
-    await page.getByRole('button', { name: 'Check answer' }).click()
+    await page.getByRole('button', { name: 'Fairly sure' }).click()
     await expect(page.getByRole('button', { name: 'Next question' })).toBeVisible()
 
     await page.reload()

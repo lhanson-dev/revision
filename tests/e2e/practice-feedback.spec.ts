@@ -1,97 +1,98 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { answerKnown, answerWith, captureEvidence, practicePath, seedReturningStudent, startQuestions } from './practice-seed'
 
-import { captureEvidence, practicePath, seedReturningStudent } from './practice-seed'
+type Saved = Array<Record<string, unknown>>
+const payloadOf = (row: Record<string, unknown>) => row.payload as Record<string, unknown>
 
-/** Opens the scored session from the start screen. Practice opens its questions in a pop-up. */
-async function startQuestions(page: Page) {
-  await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
-}
-
-async function answerOption(page: Page, index: number) {
-  await page.locator('.practice-question__options button').nth(index).click()
-  await page.getByRole('button', { name: 'Check answer' }).click()
-}
-
-test('Practice feedback bar explains why, uses teal for right and coral for wrong, and a missed question comes back after 3 others', async ({ page }) => {
-  test.setTimeout(90_000) // a long journey: a miss, 3 more answers, then the retry
+async function openSession(page: Page, theme: 'light' | 'dark' = 'light') {
+  await page.addInitScript((value) => localStorage.setItem('revision:theme', value), theme)
   await seedReturningStudent(page)
-  const saved = await captureEvidence(page)
+  const saved: Saved = await captureEvidence(page)
   await page.goto(practicePath)
   await startQuestions(page)
-  await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
+  return saved
+}
 
-  let missedPrompt = ''
-  let missedCorrectIndex = -1
-  let answers = 0
-  for (; answers < 5 && !missedPrompt; answers += 1) {
-    const prompt = (await page.locator('.practice-question__prompt').textContent()) ?? ''
-    await answerOption(page, 0)
-    // Wait for the feedback bar before deciding right or wrong; isVisible() does not wait and raced the render.
-    await expect(page.locator('.ui-feedback-bar')).toBeVisible()
-    const wrong = page.getByText('Not quite', { exact: true })
-    if (await wrong.isVisible()) {
-      missedPrompt = prompt
-      missedCorrectIndex = await page.locator('.practice-question__options button').evaluateAll((buttons) => buttons.findIndex((button) => button.classList.contains('ui-answer-option--correct')))
-      // Wrong is coral with an icon and words, explains why, and says honestly when it comes back.
-      const bar = page.locator('.ui-feedback-bar--wrong')
-      await expect(bar).toBeVisible()
-      await expect(bar.locator('.ui-feedback-bar__explanation')).not.toBeEmpty()
-      await expect(bar.getByText('This will come back later in this session.')).toBeVisible()
-      await expect(bar.locator('.ui-feedback-bar__title svg')).toBeVisible()
-    } else {
-      const bar = page.locator('.ui-feedback-bar--correct')
-      await expect(bar).toBeVisible()
-      await expect(bar.getByText('Correct', { exact: true })).toBeVisible()
-    }
-    await page.getByRole('button', { name: 'Next question' }).click()
-  }
-  expect(missedPrompt, 'one of the first answers should be a miss so the retry can be tested').not.toBe('')
-  const missedAt = saved.length
+test('a certain wrong answer is coral, says what was picked and why, is saved with its confidence, and comes back after 3 others', async ({ page }) => {
+  test.setTimeout(90_000)
+  const saved = await openSession(page)
+
+  const missedPrompt = await answerKnown(page, false, 'Certain')
+  const bar = page.locator('.ui-feedback-bar--wrong')
+  await expect(bar.getByText('Not quite.', { exact: true })).toBeVisible()
+  await expect(bar.locator('.ui-feedback-bar__picked')).toContainText(/^You picked [A-D]/)
+  await expect(bar.locator('.ui-feedback-bar__explanation')).not.toBeEmpty()
+  await expect(bar.getByText('You were certain, so this is the one most worth fixing. I’ll bring it back later.')).toBeVisible()
+  await expect(bar.locator('.ui-feedback-bar__title svg')).toBeVisible()
+  // One action only: no Learn or Ask REV links per question.
+  await expect(bar.getByRole('button')).toHaveCount(1)
+  await expect(bar.getByRole('link')).toHaveCount(0)
+  const missedCorrectIndex = await page.locator('.practice-question__options button').evaluateAll((buttons) => buttons.findIndex((button) => button.classList.contains('ui-answer-option--correct')))
+
+  expect(saved).toHaveLength(1)
+  expect(payloadOf(saved[0])).toMatchObject({ source: 'multiple_choice', correct: false, confidence: 'certain', schemaVersion: 2 })
+  expect(saved[0].schema_version).toBe(2)
+
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await expect(page.getByText('Same level, so you can steady it.')).toBeVisible()
 
   // Three other answers, then the missed question comes back as "another go".
   for (let other = 0; other < 3; other += 1) {
     await expect(page.getByText('Another go at one you missed')).toHaveCount(0)
-    await answerOption(page, 0)
+    await answerWith(page, 0)
     await page.getByRole('button', { name: 'Next question' }).click()
   }
   await expect(page.getByText('Another go at one you missed')).toBeVisible()
   await expect(page.locator('.practice-question__prompt')).toHaveText(missedPrompt)
 
-  // Getting it right on the retry clears it, says so, and is saved as a real answer.
-  await answerOption(page, missedCorrectIndex)
-  await expect(page.locator('.ui-feedback-bar--correct').getByText('You’ve got it this time')).toBeVisible()
+  // Getting it right on the second go clears it, says so, and is saved as a real answer.
+  await answerWith(page, missedCorrectIndex, 'Certain')
+  await expect(page.locator('.ui-feedback-bar--correct').getByText('Nice, that’s the one.')).toBeVisible()
   await expect(page.getByText('That one is off your list.')).toBeVisible()
-  expect(saved.length).toBe(missedAt + 4)
-  const missedContent = saved[missedAt - 1].content_id
-  const attempts = saved.filter((item) => item.content_id === missedContent).map((item) => (item.payload as Record<string, unknown>).correct)
+  expect(saved).toHaveLength(5)
+  const attempts = saved.filter((row) => row.content_id === saved[0].content_id).map((row) => payloadOf(row).correct)
   expect(attempts).toEqual([false, true])
+})
 
+test('a right answer that was a guess says so, and is saved as a guess', async ({ page }) => {
+  const saved = await openSession(page)
+  await answerKnown(page, true, 'Guessing')
+  const bar = page.locator('.ui-feedback-bar--correct')
+  await expect(bar.getByText('Right, but a guess')).toBeVisible()
+  await expect(bar.getByText('Right, but you guessed. I’ll check this one again soon so it sticks.')).toBeVisible()
+  expect(payloadOf(saved[0])).toMatchObject({ correct: true, confidence: 'guess', schemaVersion: 2 })
+})
+
+test('two right answers in a row step the level up and say so; the answer is checked only when "How sure" is chosen', async ({ page }) => {
+  const saved = await openSession(page)
+  await expect(page.locator('.practice-chip').filter({ hasText: /^Recall$/ })).toBeVisible()
+
+  // Picking an answer alone checks nothing. The question for confidence appears, and there is no Check button.
+  await page.locator('.practice-question__options button').first().click()
+  await expect(page.getByRole('button', { name: 'Check answer' })).toHaveCount(0)
+  await expect(page.getByText('Choosing one checks your answer.')).toBeVisible()
+  expect(saved).toHaveLength(0)
+
+  await page.reload()
+  await startQuestions(page)
+  await answerKnown(page, true)
+  await expect(page.locator('.ui-feedback-bar--correct').getByText('Nice, that’s the one.')).toBeVisible()
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await answerKnown(page, true)
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await expect(page.getByText('Stepping up: you got the last 2 right.')).toBeVisible()
+  await expect(page.locator('.practice-chip').filter({ hasText: /^Apply$/ })).toBeVisible()
 })
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`Practice feedback bar meets the automated WCAG A/AA baseline for right and wrong answers (${theme})`, async ({ page }) => {
-    await page.addInitScript((value) => localStorage.setItem('revision:theme', value), theme)
-    await seedReturningStudent(page)
-    await captureEvidence(page)
-    await page.goto(practicePath)
-    await startQuestions(page)
-    await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
-
-    const seen = new Set<string>()
-    for (let answers = 0; answers < 5 && seen.size < 2; answers += 1) {
-      await answerOption(page, 0)
-      await expect(page.locator('.ui-feedback-bar')).toBeVisible()
-      const tone = (await page.locator('.ui-feedback-bar--wrong').isVisible()) ? 'wrong' : 'correct'
-      if (!seen.has(tone)) {
-        seen.add(tone)
-        await page.waitForTimeout(500) // let the 220ms slide-up finish so colours are measured at full strength
-        const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
-        expect(result.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) })), `${tone} feedback in ${theme}`).toEqual([])
-      }
-      await page.getByRole('button', { name: 'Next question' }).click()
-    }
-    expect(seen.size, 'both a right and a wrong answer should have been seen').toBe(2)
-  })
+  for (const tone of ['wrong', 'correct'] as const) {
+    test(`the ${tone} feedback bar meets the automated WCAG A/AA baseline (${theme})`, async ({ page }) => {
+      await openSession(page, theme)
+      await answerKnown(page, tone === 'correct', 'Certain')
+      await page.waitForTimeout(500) // let the slide-up finish so colours are measured at full strength
+      const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+      expect(result.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) })), `${tone} feedback in ${theme}`).toEqual([])
+    })
+  }
 }
