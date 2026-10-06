@@ -100,6 +100,8 @@ describe('AQA Psychology 7182 source-first learner asset corpus', () => {
         expect(section?.visual?.textAlternative, `${requirementId}:visual-alt`).not.toContain('adjacent written explanation')
       }
       if (section?.workedExample) {
+        expect(section.workedExample.setup.length, `${requirementId}:worked-setup`).toBeGreaterThan(20)
+        expect(section.workedExample.task.length, `${requirementId}:worked-task`).toBeGreaterThan(20)
         expect(section.workedExample.steps.join(' '), `${requirementId}:worked-placeholder`).not.toContain('Explain how the mechanism changes the expected outcome or interpretation')
       }
       if (unit.misconceptionIds.length > 0) {
