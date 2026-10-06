@@ -11,6 +11,7 @@ import {
   levelNote,
   pickQuestion,
   recordSessionAnswer,
+  reviseLastAnswer,
   startQuestionSession,
   statusDirection,
   type PracticeLevel,
@@ -174,5 +175,36 @@ describe('status moves', () => {
     expect(statusDirection('started', 'needswork')).toBeNull()
     expect(statusDirection('notstarted', 'started')).toBeNull()
     expect(statusDirection(undefined, 'gotit')).toBeNull()
+  })
+})
+
+describe('written answers in a session', () => {
+  const pool = ['a', 'b', 'c', 'd'].map((id) => ({ ...q(id, 'Recall'), type: 'written' as const }))
+  const written = (session: QuestionSession, got: number, available = 4) =>
+    recordSessionAnswer(session, { questionId: session.currentId!, correct: got === available, level: 'Recall', marks: { got, available }, pointsGiven: [] })
+
+  it('full marks count as right for the level; missing marks keep the level and are not asked again', () => {
+    let session = startQuestionSession(pool, 4)
+    session = advanceQuestionSession(written(session, 3), pool)
+    expect(session.adaptive.lastChange).toBe('missed')
+    expect(session.retryQueue).toEqual([])
+    session = advanceQuestionSession(written(session, 4), pool)
+    session = advanceQuestionSession(written(session, 4), pool)
+    expect(session.adaptive.level).toBe('Apply')
+  })
+
+  it('a challenge can change the marks on the last answer without moving the level', () => {
+    let session = startQuestionSession(pool, 4)
+    session = written(session, 3)
+    const level = session.adaptive
+    session = reviseLastAnswer(session, { correct: true, marks: { got: 4, available: 4 }, pointsGiven: [true, true, true, true] })
+    expect(session.answers[0]).toMatchObject({ correct: true, marks: { got: 4, available: 4 } })
+    expect(session.adaptive).toEqual(level)
+  })
+
+  it('does not count a written answer as an unfinished retry at the end of the session', () => {
+    let session = startQuestionSession(pool, 1)
+    session = advanceQuestionSession(written(session, 1), pool)
+    expect(isSessionFinished(session)).toBe(true)
   })
 })

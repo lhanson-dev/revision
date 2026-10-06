@@ -17,6 +17,8 @@ export type AqaBusinessQuestionRecord = {
     stem: string
     table: null | { title?: string; columns: string[]; rows: Array<{ cells: string[] }> }
     options: Array<{ label: string; text: string }>
+    /** Worked numbers behind a calculation question. Empty for the rest. */
+    calcs: Array<{ stated_answer: number; unit: string }>
     mark_scheme: {
       type?: string
       correct_option?: string

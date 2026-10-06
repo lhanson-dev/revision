@@ -52,3 +52,11 @@ Create the authenticated `/app/` shell and Supabase browser client, then connect
 - **Calculation answers are not saved yet.** A `calculation` source needs the `source` check constraint widened (a migration), so it ships as its own approved migration PR first.
 - Readiness reads it through the existing `evidencePercentage` (a right guess counts as 50) and the recommendation puts a topic with an unresolved certain-but-wrong answer first. See `10-product-governance/Adaptive Revision Planning.md` section 9.
 
+## Schema version 2: written answers marked by REV (Practice v2.2)
+
+`exam_question` evidence may be `markingMethod: 'rev_assessed'` (schema version 2) with `revMarking: { modelVersion, pointsGiven[], challenge? }`. The answer text is never stored; the challenge text (max 1,000 characters) and its outcome (`changed` or `unchanged`) are. A challenge is a new row with `supersedesEvidenceId` pointing at the row it replaces; `withoutSuperseded()` (evidence.ts) drops replaced rows, and readiness, topic status and the recommendation count only the latest. The earlier row stays in the record (append-only).
+
+- Contract and consistency rules: `src/engine/evidence/evidence.ts`, tested in `src/engine/evidence/rev-marked-evidence.test.ts` (rev_assessed needs revMarking and version 2; a challenge needs supersedes; version 1 self-marked evidence stays valid).
+- **No database migration**: `source` stays `exam_question`; everything new is in `payload`; `schema_version` accepts 2.
+- Readiness treats `rev_assessed` like `self_assessed`: never independently marked, so confidence cannot reach high.
+

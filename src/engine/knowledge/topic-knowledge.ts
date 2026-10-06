@@ -1,4 +1,4 @@
-import { evidencePercentage, type LearningEvidence } from '../evidence/evidence'
+import { evidencePercentage, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
 
 export type TopicKnowledgeBand = 'not-enough-evidence' | 'low' | 'medium' | 'good'
 export type TopicKnowledgeEvidenceFamily = 'recall' | 'application' | 'exam' | 'simulation'
@@ -69,7 +69,7 @@ export function assessTopicKnowledge(
   topicId: string,
   evidence: readonly LearningEvidence[],
 ): TopicKnowledgeResult {
-  const usable = latestDistinctEvidence(moduleId, topicId, evidence)
+  const usable = latestDistinctEvidence(moduleId, topicId, withoutSuperseded(evidence))
   const families = [...new Set(usable.map(({ item }) => familyFor(item)))]
     .sort() as TopicKnowledgeEvidenceFamily[]
   const hasEvidenceBeyondRecall = families.some((family) => family !== 'recall')

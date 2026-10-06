@@ -38,6 +38,26 @@ export const GUESSED_RIGHT_PERCENTAGE = 50
 
 const markingMethodSchema = z.enum(['self_assessed', 'externally_marked'])
 
+/**
+ * Written Practice answers can also be marked by REV (Practice v2.2). That is a guide, not an exam board mark, so
+ * it is capped like self_assessed: it never counts as externally marked evidence.
+ */
+const examQuestionMarkingMethodSchema = z.enum(['self_assessed', 'externally_marked', 'rev_assessed'])
+
+export const REV_CHALLENGE_MAX_LENGTH = 1000
+
+/** What REV's marking left behind: which mark points were given, and the model that did it. The answer text itself is not kept. */
+export const revMarkingSchema = z.object({
+  modelVersion: z.string().min(1),
+  pointsGiven: z.array(z.boolean()).min(1),
+  challenge: z.object({
+    text: z.string().trim().min(1).max(REV_CHALLENGE_MAX_LENGTH),
+    outcome: z.enum(['changed', 'unchanged']),
+    modelVersion: z.string().min(1),
+  }).optional(),
+})
+export type RevMarking = z.infer<typeof revMarkingSchema>
+
 export const recallEvidenceSchema = z.object({
   ...baseEvidenceShape,
   source: z.literal('flashcard'),
@@ -60,9 +80,17 @@ export const multipleChoiceEvidenceSchema = z.object({
 
 export const examQuestionEvidenceSchema = z.object({
   ...baseEvidenceShape,
+  schemaVersion: z.union([z.literal(1), z.literal(2)]),
   source: z.literal('exam_question'),
   ...marksShape,
-  markingMethod: markingMethodSchema.optional(),
+  markingMethod: examQuestionMarkingMethodSchema.optional(),
+  /** Present when REV marked the answer (schema version 2). */
+  revMarking: revMarkingSchema.optional(),
+  /**
+   * A challenge re-checks an answer and is saved as a new row that replaces the earlier one (evidence is append-only).
+   * The earlier row stays in the record; readiness and status count only the latest.
+   */
+  supersedesEvidenceId: z.string().min(1).optional(),
   assessmentObjectives: z.object({
     ao1: aoScoreSchema.optional(),
     ao2: aoScoreSchema.optional(),
@@ -72,6 +100,22 @@ export const examQuestionEvidenceSchema = z.object({
 }).superRefine((evidence, context) => {
   if (evidence.marksAwarded > evidence.marksAvailable) {
     context.addIssue({ code: 'custom', path: ['marksAwarded'], message: 'awarded marks cannot exceed available marks' })
+  }
+  const revAssessed = evidence.markingMethod === 'rev_assessed'
+  if (revAssessed !== (evidence.revMarking !== undefined)) {
+    context.addIssue({ code: 'custom', path: ['revMarking'], message: 'rev_assessed evidence must carry revMarking, and only rev_assessed evidence may' })
+  }
+  if ((revAssessed || evidence.supersedesEvidenceId !== undefined) && evidence.schemaVersion !== 2) {
+    context.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'REV-marked evidence must be schema version 2' })
+  }
+  if (evidence.supersedesEvidenceId !== undefined && !revAssessed) {
+    context.addIssue({ code: 'custom', path: ['supersedesEvidenceId'], message: 'only REV-marked evidence can supersede earlier evidence' })
+  }
+  if (evidence.revMarking?.challenge && evidence.supersedesEvidenceId === undefined) {
+    context.addIssue({ code: 'custom', path: ['supersedesEvidenceId'], message: 'a challenge replaces the answer it challenges' })
+  }
+  if (evidence.revMarking && evidence.revMarking.pointsGiven.length === 0) {
+    context.addIssue({ code: 'custom', path: ['revMarking', 'pointsGiven'], message: 'mark points are required' })
   }
 })
 
@@ -114,4 +158,13 @@ export function evidencePercentage(evidence: LearningEvidence): number | null {
         ? (evidence.marksAwarded / evidence.marksAvailable) * 100
         : null
   }
+}
+
+/** Drops evidence that a later row replaced (a challenged written answer), so it is counted once. */
+export function withoutSuperseded<T extends LearningEvidence>(evidence: readonly T[]): T[] {
+  const replaced = new Set<string>()
+  evidence.forEach((item) => {
+    if (item.source === 'exam_question' && item.supersedesEvidenceId) replaced.add(item.supersedesEvidenceId)
+  })
+  return replaced.size === 0 ? [...evidence] : evidence.filter((item) => !replaced.has(item.id))
 }

@@ -1,5 +1,5 @@
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
-import type { LearningEvidence } from '../engine/evidence/evidence'
+import { withoutSuperseded, type LearningEvidence } from '../engine/evidence/evidence'
 import { summariseTopicKnowledge, type TopicKnowledgeSummary } from '../engine/knowledge/topic-knowledge'
 import { assessPaperReadiness, recommendNextActivity, type ReadinessResult, type RevisionRecommendation } from '../engine/readiness/readiness'
 export type { CourseSection } from './navigation'
@@ -104,7 +104,7 @@ export function createModuleLearningState(adapter: LearningContentAdapter, allEv
   const moduleId = adapter.manifest.id
   const topics = adapter.listTopics()
   const topicIds = topics.map((topic) => topic.id)
-  const evidence = allEvidence.filter((item) => item.moduleId === moduleId)
+  const evidence = withoutSuperseded(allEvidence.filter((item) => item.moduleId === moduleId))
   const recommendation = recommendNextActivity(moduleId, topicIds, evidence)
 
   return {
@@ -123,7 +123,7 @@ export function createCourseLearningState(course: CatalogueCourse, allEvidence: 
   const adapter = course.learningAdapter
   const canonicalModuleId = adapter.manifest.id
   const moduleIds = new Set(course.modules.map((module) => module.manifest.id))
-  const evidence = allEvidence.filter((item) => moduleIds.has(item.moduleId))
+  const evidence = withoutSuperseded(allEvidence.filter((item) => moduleIds.has(item.moduleId)))
   const normalizedEvidence = evidence.map((item) => item.moduleId === canonicalModuleId ? item : { ...item, moduleId: canonicalModuleId })
   const topicIds = adapter.listTopics().map((topic) => topic.id)
   const recommendation = recommendNextActivity(canonicalModuleId, topicIds, normalizedEvidence)

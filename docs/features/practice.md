@@ -1,6 +1,6 @@
 # Practice: start screen, pop-up and feedback
 
-**Status:** Practice v2.2: PR 1 (start screen and pop-up) is merged; PR 2 (scored multiple choice) is in review.
+**Status:** Practice v2.2: PR 1 (start screen and pop-up) and PR 2 (scored multiple choice) are merged; PR 3 (written answers marked by REV, switched off until a marker is connected) is in review.
 **Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1 and 7), `docs/design/learner-redesign-v2/data-model-proposal.md` (section 6). Visual source: the Practice redesign, option 1a Quick-fire.
 
 ## What the student sees
@@ -36,7 +36,29 @@
 
 **Evidence.** Every checked answer is saved with its confidence as schema version 2 (see `docs/technical/Phase 5 Learning Evidence Service.md`). A right guess counts as half in readiness. A certain but wrong answer is a stronger gap through the recommendation: that topic goes first and REV's reason says so. The live status is whatever the existing readiness engine says after each saved answer; **no new formula**. The plan updates without a message. Rule: `10-product-governance/Adaptive Revision Planning.md` section 9.
 
-**Not here yet.** Calculation questions need a `calculation` evidence source, which needs a small database migration (its own approved PR first). Written answers marked by REV are PR 3. The end-of-session screen is interim until the summary (PR 5).
+**Not here yet.** Calculation questions need a `calculation` evidence source, which needs a small database migration (its own approved PR first). The end-of-session screen is interim until the summary (PR 5).
+
+### Written answers marked by REV (Practice v2.2, PR 3)
+
+**Switched off until a marker is connected.** Revision has no model marker yet, and Assisted Exam Answer Marking (FI-007) is not Ready. So written questions are only offered when a marker is plugged in (`marker` prop on `FocusedLearningWorkspace`). In the live app none is, so students see exactly what they saw after PR 2: no "Written answers" kind, no marking. Nothing is faked. The screens, rules and evidence format are built and tested on a dev-only fixture page (`practice-fixtures.html`, a stand-in marker).
+
+**Which questions.** Written points-scheme questions from the AQA 7132 bank, up to 6 marks (94 today). Levels-based questions stay in Exam Prep. Single-number "Calculate" questions are kept for calculations. When a marker is connected, "Written answers" appears as a kind on the start screen.
+
+**The screen.** A text box and a teal "Ask REV to mark it", with "Marked against {n} mark points. You can challenge any mark." REV's thinking state ("REV is thinking: checking your answer against each mark point", always as words as well as motion). Then a deep card: "REV MARKED THIS", "{got} / {n}", one row per mark point (tick "Mark given", cross "Not in your answer yet"), one specific note on how to earn the missing mark, "Challenge a mark" and "Next question", and the footer "REV's marking is a guide, not an exam board mark."
+
+**Checked before it is shown.** The marker is a model; its word is not taken as it comes. A mark point is only kept if the marker quotes words that are really in the answer and, where the mark scheme expects a number, an accepted number is in the answer (`src/app/rev-marking.ts`). Software can take a mark away, with a plain note; it never adds one. If the marker's output cannot be used, or REV is unavailable, the answer stays on screen, nothing is saved and the student can try again.
+
+**Challenge a mark.** A box ("Which mark, and why do you think you got it?"), then "Send to REV". REV re-checks (same checks) and replies, either changing the mark or saying honestly why it stays. One challenge per answer.
+
+**Evidence.** `exam_question` with `markingMethod: 'rev_assessed'`, schema version 2, carrying the model version and which mark points were given. **The answer text is not saved**; the challenge text (max 1,000 characters) and its outcome are. A challenge is saved as a new row that replaces the first (`supersedesEvidenceId`); readiness and status count only the latest. It is capped like self-marked work: never counted as independently marked, so confidence cannot be high. No database migration (`source` is unchanged; the new fields live in `payload`).
+
+**In the session.** Full marks count as a right answer for the level; missing marks keep the level. A written answer is not asked again (REV's note says how to earn the missing mark).
+
+**Before a real marker is connected** (each needs your decision; none is made here):
+1. FI-007 reaches Ready: validated marking quality, cost and per-student allowance rules.
+2. A server function calls the model (provider key, spend cap, which exact model; it is logged with every result).
+3. The student's answer text goes to the model provider for marking. It is not stored by Revision, but sending it is a data-protection decision (students include under-18s).
+4. How a challenge is rate-limited.
 
 ## What did not change, and why
 - A missed question does not carry over to another day: the retry queue lives in the session (needs the retry-queue table, a separate migration PR).
@@ -51,12 +73,14 @@
 - `src/app/practice-retry.ts`: the 3-answer retry rule.
 - `src/app/practice-session.ts`: levels, the step-up rule, the next question, retries and the end of the session (pure, unit-tested).
 - `src/app/practice-questions.ts`: turns the course pack and the AQA bank into one question shape.
+- `src/app/rev-marking.ts`: the marker interface and the checks on its output. `src/app/ui/practice/PracticeWrittenQuestion.tsx`: the written answer screen. `src/practice-fixtures.tsx`: the dev-only fixture page.
 - `src/app/ui/practice/PracticeQuestion.tsx`: the question screen. `src/app/ui/FeedbackBar.tsx`: the pinned feedback bar.
 
 ## Tests
 - `practice-start.test.ts`, `topic-status.test.ts`, `practice-retry.test.ts`: the plain rules.
 - `tests/e2e/practice-start.spec.ts`: start screen content, the question cap, dialog behaviour (focus trap, Esc, focus return), close-and-carry-on keeping saved answers, WCAG A/AA in light and dark, no sideways scroll at 1440/960/620/390/320.
 - `src/app/practice-session.test.ts`, `practice-questions.test.ts`, `src/engine/evidence/answer-confidence.test.ts`: the level rule, the question pool, the evidence contract and what confidence changes.
+- `src/app/rev-marking.test.ts`, `src/engine/evidence/rev-marked-evidence.test.ts`: the checks on REV's output and the evidence contract. `tests/e2e/practice-written.spec.ts`: the written answer journeys on the fixture page.
 - `tests/e2e/practice-feedback.spec.ts`: feedback tones, saved confidence, the retry journey and the level step-up.
 
 ## Screenshots

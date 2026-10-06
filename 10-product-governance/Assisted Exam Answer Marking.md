@@ -366,3 +366,14 @@ This authority is the normative source for the FI-007 rules already approved by 
 The FI-007 backlog analysis remains product-management evidence and Definition-of-Ready tracking but must not override this authority.
 
 No material FI-007 production implementation may begin until the feature completes the full governed Definition of Ready and receives explicit human `Analyse → Ready` approval.
+
+## Practice v2.2: written answers (6 October 2026)
+
+The Practice screens for written answers marked by REV are built behind a switch that is off: they are only offered when a marker is connected, and no real marker is connected yet. Nothing in this section moves FI-007 from `Analyse` to `Ready` or authorises a live marker. The real marker needs its own approved PR and, first, the open Definition-of-Ready items above, plus a decision on the points listed in `docs/features/practice.md` ("Before a real marker is connected").
+
+What is built and fixed now, so the real marker plugs into rules and not the other way round:
+
+- A mark is only given if the marker quotes words that are in the student's answer and, where the mark scheme expects a number, an accepted number is in the answer. Software can take a mark away; it never adds one.
+- The result is saved as `exam_question` evidence marked `rev_assessed`, with the model version and which mark points were given. The answer text is not saved. It is capped like `self_assessed`: never counted as independently marked.
+- A student may challenge a mark once per answer. The challenge text (up to 1,000 characters) and its outcome are saved; the re-check replaces the earlier row and readiness counts only the latest.
+

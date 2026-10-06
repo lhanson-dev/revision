@@ -5,6 +5,7 @@ import { topics as coursePackTopics } from '../../content/business/aqa-a-level/s
 import {
   availableTypes,
   bankRecordToPractice,
+  isCalculationRecord,
   buildQuestionPool,
   cleanRationale,
   lastAnsweredByContent,
@@ -39,28 +40,56 @@ describe('the AQA 7132 question bank as practice questions', () => {
     mcqs.forEach((record) => {
       const converted = bankRecordToPractice(record, 'finance')
       expect(converted, `${record.batch} ${record.id}`).not.toBeNull()
-      expect(converted!.options.length).toBeGreaterThanOrEqual(2)
-      expect(converted!.options[converted!.correctOption].why).toBeNull()
-      expect(converted!.explanation.length).toBeGreaterThan(5)
-      expect(converted!.context ?? '').not.toMatch(/^Revision-authored/i)
-      expect(converted!.explanation).not.toMatch(/^[A-D] is (correct|wrong|incorrect)/i)
+      if (converted?.type !== 'multiple-choice') throw new Error('expected a multiple-choice question')
+      expect(converted.options.length).toBeGreaterThanOrEqual(2)
+      expect(converted.options[converted.correctOption].why).toBeNull()
+      expect(converted.explanation.length).toBeGreaterThan(5)
+      expect(converted.context ?? '').not.toMatch(/^Revision-authored/i)
+      expect(converted.explanation).not.toMatch(/^[A-D] is (correct|wrong|incorrect)/i)
     })
   })
 
   it('gives every wrong option a reason', () => {
     mcqs.forEach((record) => {
-      const converted = bankRecordToPractice(record, 'finance')!
+      const converted = bankRecordToPractice(record, 'finance')
+      if (converted?.type !== 'multiple-choice') throw new Error('expected a multiple-choice question')
       converted.options.forEach((option, index) => {
         if (index !== converted.correctOption) expect(option.why, `${record.batch} ${record.id} option ${index}`).toBeTruthy()
       })
     })
   })
 
-  it('has unique ids and does not take written or calculation records yet', () => {
-    const ids = mcqs.map((record) => bankRecordToPractice(record, 'finance')!.id)
+  it('has unique ids across every question it can offer', () => {
+    const all = aqaBusinessQuestionBank.map((record) => bankRecordToPractice(record, 'finance')).filter((question) => question !== null)
+    const ids = all.map((question) => question!.id)
     expect(new Set(ids).size).toBe(ids.length)
-    const written = aqaBusinessQuestionBank.find((record) => record.question.family === 'SHORT_ANSWER')!
-    expect(bankRecordToPractice(written, 'finance')).toBeNull()
+  })
+
+  it('offers written points questions up to 6 marks, each with mark points that add up to the question’s marks', () => {
+    const written = aqaBusinessQuestionBank.map((record) => bankRecordToPractice(record, 'finance')).filter((question) => question?.type === 'written')
+    expect(written.length).toBeGreaterThan(80)
+    written.forEach((question) => {
+      if (question?.type !== 'written') return
+      expect(question.marks).toBeLessThanOrEqual(6)
+      expect(question.points.reduce((sum, point) => sum + point.marks, 0)).toBe(question.marks)
+      question.points.forEach((point) => expect(point.accept.length).toBeGreaterThan(0))
+    })
+  })
+
+  it('leaves levels-based questions and single-number calculations out of written answers', () => {
+    const levels = aqaBusinessQuestionBank.find((record) => record.question.mark_scheme.type === 'levels')!
+    expect(bankRecordToPractice(levels, 'finance')).toBeNull()
+    const calculation = aqaBusinessQuestionBank.find((record) => isCalculationRecord(record))!
+    expect(bankRecordToPractice(calculation, 'finance')).toBeNull()
+  })
+
+  it('offers written questions only when a marker is connected', () => {
+    const without = buildQuestionPool({ topicId: 'finance', topicOrder: 5, coursePack: coursePackQuestions, bank: aqaBusinessQuestionBank })
+    const withMarker = buildQuestionPool({ topicId: 'finance', topicOrder: 5, coursePack: coursePackQuestions, bank: aqaBusinessQuestionBank, includeWritten: true })
+    expect(without.some((question) => question.type === 'written')).toBe(false)
+    expect(availableTypes(without)).toEqual(['multiple-choice'])
+    expect(withMarker.some((question) => question.type === 'written')).toBe(true)
+    expect(availableTypes(withMarker)).toEqual(['multiple-choice', 'written'])
   })
 
   it('builds a pool for each topic that has more than the five course-pack questions', () => {
