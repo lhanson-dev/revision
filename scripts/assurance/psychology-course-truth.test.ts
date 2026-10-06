@@ -78,6 +78,9 @@ const VERIFIED_SOURCE_LICENCES = new Map<string, string>([
   ['https://doi.org/10.1186/s40163-015-0018-5', 'CC BY 4.0'],
   ['https://doi.org/10.1016/j.tics.2023.08.013', 'CC BY 4.0'],
   ['https://doi.org/10.1002/ab.21908', 'CC BY'],
+  ['https://openstax.org/books/introductory-business-statistics/pages/9-3-distribution-needed-for-hypothesis-testing', 'CC BY 4.0'],
+  ['https://doi.org/10.3389/fpsyg.2025.1646458', 'CC BY'],
+  ['https://doi.org/10.1038/s41598-020-67692-1', 'CC BY 4.0'],
 ])
 const VAGUE_LICENCE_METADATA = /commercial[- ]compatible|retained by predecessor|rights verified elsewhere|licen[cs]e verified elsewhere|\bTBD\b|\bUNSPECIFIED\b/i
 
@@ -188,4 +191,22 @@ describe('AQA Psychology 7182 source-first Course Truth candidate', () => {
       courseTruthComplete: true,
     })
   })
+
+  it('keeps Step 6 source-boundary remediation on standard reusable evidence', () => {
+    const targets = [
+      { file: 'topic-07-research-methods.json', requirementId: 'PSY-07-33', expectedUrl: 'https://openstax.org/books/introductory-business-statistics/pages/9-3-distribution-needed-for-hypothesis-testing' },
+      { file: 'topic-09-relationships.json', requirementId: 'PSY-09-02', expectedUrl: 'https://doi.org/10.3389/fpsyg.2025.1646458' },
+      { file: 'topic-13-eating-behaviour.json', requirementId: 'PSY-13-03', expectedUrl: 'https://doi.org/10.1038/s41598-020-67692-1' },
+    ]
+
+    for (const target of targets) {
+      const topic = readJson<TopicShard>(join(COURSE_TRUTH, target.file))
+      const requirement = (topic.requirements ?? []).find((candidate) => candidate.requirementId === target.requirementId)
+      expect(requirement, target.requirementId).toBeDefined()
+      const sources = requirement?.sourceEvidence ?? []
+      expect(sources.some((source) => source.url === target.expectedUrl && source.classification === 'OPEN'), target.requirementId).toBe(true)
+      expect(sources.every((source) => ['OPEN', 'LICENSED', 'REVISION_OWNED', 'REFERENCE_ONLY'].includes(source.classification ?? '')), target.requirementId).toBe(true)
+    }
+  })
+
 })

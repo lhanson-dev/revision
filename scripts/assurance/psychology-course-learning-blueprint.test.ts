@@ -204,6 +204,16 @@ describe('AQA Psychology 7182 source-first Course Learning Blueprint', () => {
       expect(unit.examDemandLinks[0], unit.id).toMatchObject(expectedPaperByTopic.get(unit.topicNumber))
     }
 
+    const quantitativeUnits = derived.requirementUnits.filter((unit) => unit.learningClassifications.includes('formula_quantitative'))
+    expect(quantitativeUnits.map((unit) => unit.knowledgeNodeIds[0]).sort()).toEqual([
+      'PSY-07-26',
+      'PSY-07-27',
+      'PSY-07-28',
+      'PSY-07-29',
+      'PSY-07-32',
+      'PSY-07-33',
+    ])
+
     const topic7 = derived.requirementUnits.filter((unit) => unit.topicNumber === 7)
     expect(topic7).toHaveLength(34)
     expect(topic7.every((unit) => unit.learningClassifications.includes('procedure_skill'))).toBe(true)

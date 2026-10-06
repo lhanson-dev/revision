@@ -53,6 +53,36 @@ The defect is that the provider was told to review every content ID in a packet 
 
 The follow-up correction makes the deterministic packet review scope explicit. Educational scope includes the requirement plus its exact Learn, Practice and scoreable Practice Marking Pack IDs. Assessment scope includes the target assessment items plus the supplied topic-set, scored-paper and Marking Pack IDs. The provider no longer has to echo this clerical list: the runner binds the retained review to the exact packet scope itself, while every finding remains fail-closed and must reference only an ID inside that deterministic scope. This removes a bookkeeping failure mode without weakening independent challenge.
 
+## Fourth live execution evidence
+
+The fourth manually dispatched live run was GitHub Actions run `37454898310` against exact `main` `42e985acc126be63af6eefed1d2d7c2eabaf5d83`.
+
+- exact-current-`main` verification and the complete deterministic Psychology prerequisite suite passed;
+- the deterministic review-scope binding introduced after run 3 worked;
+- eleven educational packets completed and retained substantive independent reviews before the spend guard stopped the twelfth educational packet;
+- all eleven completed packets returned `fail_hold`, with 18 blocking findings, 44 material findings, 16 blocking review dimensions and 19 material review dimensions;
+- the findings were highly repetitive and concentrated in deterministic learner-asset/Practice/Marking-Pack generation rather than the underlying 118-item Course Truth;
+- observed provider spend was US$3.641016 across 11 provider attempts and 16 web-search calls;
+- the hard US$5 ceiling stopped before `EDU-08` because the old guard reserved two worst-case attempts for the next packet; and
+- the retained workflow artifact is `11409033560`, digest `sha256:c7c3700400450ed4df647c1ca34239140af5b5f788ddeda9238576d206d08695`.
+
+The systemic defect families exposed by the run are:
+
+1. accurate boundary statements were being turned into supposed misconceptions and then marked as invalid;
+2. recognition/discrimination tasks referred to missing response options;
+3. comparison prompts sometimes used internal IDs, fragments or undefined/self-referential targets;
+4. some quantitative, interpretation and ordering activities lacked the concrete stimulus required to attempt the task;
+5. contextual-application activities asked learners to invent the context while their Marking Packs claimed evidence from a supplied context;
+6. Practice evidence mappings and Marking Pack criterion claims diverged for several modes;
+7. learner-facing labels could fall back to internal requirement IDs or sentence fragments;
+8. generic purposeful-visual text alternatives and some worked examples did not carry the information required by the declared treatment;
+9. learner provenance admitted source classifications outside the reviewer's reusable-source boundary; and
+10. `marking_pack_complete` wording overstated the status of explicitly uncalibrated Step 5 candidates.
+
+The remediation is applied primarily at the generator/contract layer rather than patching individual Psychology questions. It narrows quantitative treatment classification to genuine Research Methods quantitative requirements, derives learner labels only from rights-safe subject truth, generates explicit misconception/recognition/comparison/task stimuli, rotates Practice focus across multi-part requirements, carries supplied context/options/data into scoreable Practice Marking Pack candidates, aligns criterion descriptions and evidence claims with the mapped Practice capability, filters learner provenance to `OPEN`/`LICENSED`/`REVISION_OWNED` sources, gives purposeful visuals explicit structured content plus an information-equivalent text alternative, uses exact mark-specific descriptors for low-tariff items, and labels both Practice and topic Exam Prep Marking Packs as uncalibrated candidates rather than complete. Three claim-level provenance defects identified by the live reviewer are corrected at Course Truth rather than hidden downstream: PSY-07-33 replaces the non-standard NIST provenance entry with a CC BY 4.0 OpenStax hypothesis-testing source for critical-value decision logic; PSY-09-02 replaces the item-level ShareAlike source with a CC BY Frontiers source covering Duck's four dissolution phases; and PSY-13-03 replaces the mixed-attribution page with a CC BY 4.0 Scientific Reports source covering genetic vulnerability, neural mechanisms and starvation/nutritional-state confounding.
+
+The spend guard is also tightened without changing the US$5 ceiling: it now reserves one worst-case provider attempt immediately before that attempt, then re-checks the remaining budget before any retry. This preserves fail-closed spend control while avoiding the run-4 behaviour where budget for an unused second attempt prevented a first attempt that still fit inside the hard ceiling.
+
 ## Two-layer assurance
 
 ### 1. Deterministic preflight
