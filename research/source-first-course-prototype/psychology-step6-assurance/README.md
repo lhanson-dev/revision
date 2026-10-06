@@ -24,6 +24,20 @@ Repository evidence cannot establish whether a provider request that was interru
 
 The live test now has an explicit 40-minute timeout inside the workflow's existing 45-minute job timeout. This changes only the execution allowance for the already-authorised bounded review; it does not change packet scope, reviewer rules, provider model, retry limits, rights boundaries, the US$5 spend ceiling or the fail-closed completion criteria.
 
+## Second live execution evidence
+
+The second manually dispatched live run was GitHub Actions run `37379737288` against exact `main` `5e17e2d6da96efe93ed26f60ad2eaeeb511f2a54`.
+
+- exact-current-`main` verification passed;
+- the complete deterministic Psychology prerequisite suite passed;
+- the corrected live-test timeout allowed the provider review to run for about two minutes rather than failing at five seconds;
+- the first live packet then returned an incomplete provider response with `reason=max_output_tokens` under the runner's 6,000-token output ceiling;
+- no review packet completed and no Psychology blocking/material finding was produced;
+- the retained receipt correctly failed closed, but its economics incorrectly recorded zero provider attempts / zero observed spend because failed-packet usage was only accumulated after a successful packet return; and
+- repository evidence therefore does not support a zero-spend claim for this run.
+
+The follow-up runner correction increases structured-output headroom to 16,000 tokens while retaining the same two-attempt limit and the same hard US$5 ceiling. It also preserves observed usage, searches and provider-attempt counts when a provider response is incomplete, malformed or otherwise unusable after a request has been made. Normal PR CI remains provider-free.
+
 ## Two-layer assurance
 
 ### 1. Deterministic preflight
