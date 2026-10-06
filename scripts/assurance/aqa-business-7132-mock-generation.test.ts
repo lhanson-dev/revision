@@ -326,11 +326,6 @@ function sharedUnitForSlot(units: MockGenerationUnit[], slotId: string) {
   return units.find((unit) => unit.slots.some((slot) => slot.slot_id === slotId))
 }
 
-function feedbackForSlot(findings: ClassifiedFinding[], slotId: string) {
-  const direct = findings.filter((finding) => finding.affected_ids.includes(slotId))
-  return direct.length ? direct : findings
-}
-
 function assembledPaper(plan: MockPlan, paper: MockPlanPaper, questions: Map<string, MockQuestion>, contexts: Map<string, SharedContext>) {
   return {
     schema_version: 1,
