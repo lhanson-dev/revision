@@ -105,8 +105,8 @@ export const examQuestionSchema = z.object({
   prompt: z.string().min(1),
   markingGuidance: z.array(z.string().min(1)).min(1),
   /** Optional-choice metadata. One choice option may contain several questions (for example a Psychology Paper 3 topic section). */
-  choiceGroup: slugSchema.optional(),
-  choiceOption: slugSchema.optional(),
+  choiceGroup: slugSchema.nullable().optional(),
+  choiceOption: slugSchema.nullable().optional(),
   responseType: z.enum(['multiple-choice', 'written']).optional(),
   options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(2).optional(),
   stimulus: z.object({
