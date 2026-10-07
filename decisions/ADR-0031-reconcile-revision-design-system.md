@@ -1,6 +1,6 @@
 # ADR-0031 — Reconcile the Revision design system around one governed learner experience
 
-**Status:** Founder-approved design direction; documentation reconciliation in progress; production implementation pending  
+**Status:** Founder-approved design direction; Phase A completeness review complete; documentation reconciliation pending; production implementation pending  
 **Date:** 7 October 2026  
 **Decision owner:** Founder  
 **Scope:** Revision learner visual/interaction system, responsive navigation, course identity, REV presentation, educational interaction and progress visualisation
@@ -316,6 +316,36 @@ That wider cross-channel reconciliation is **deliberately deferred**.
 The current priority is to finish the learner product first. The present design-reconciliation exercise therefore remains scoped to the learner experience and the shared foundations needed to make that learner experience coherent. Cross-channel expression, wider marketing imagery/illustration and non-learner surface cleanup will be picked up as a later governed decision and rollout after the learner product is finished.
 
 This deferred item must not expand or delay the current learner-product completion work.
+
+## Phase A completeness review — 7 October 2026
+
+The complete Choices 1–21 were reviewed together against the learner-product surface rather than as isolated styling decisions.
+
+The review explicitly covered:
+
+- learner shell, global navigation, course-context navigation and account access;
+- Home and Plan;
+- learner-wide and course-level Progress;
+- Courses and Course Overview;
+- Learn;
+- Practice, including flashcards, questions, calculations/data, longer responses, feedback and session completion;
+- Exam Prep and increasingly authentic exam-style work, including full-paper / Exam Simulator focus;
+- contextual and persistent REV presence;
+- Profile, Settings and the governed modal/drawer/popover/REV-panel jobs;
+- Light, Dark and System appearance;
+- phone, tablet and desktop;
+- loading, empty, error, warning, saving, disabled and insufficient-evidence states; and
+- keyboard, touch, zoom/text enlargement, reduced motion and WCAG 2.2 AA quality expectations.
+
+### Phase A conclusion
+
+The learner design direction is sufficiently complete to move into documentation reconciliation. No additional design-system choice is required merely to lengthen the decision set.
+
+Existing specialist product authorities continue to own page and journey behaviour that ADR-0031 does not deliberately redefine. Phase B must reconcile any stale visual, responsive or interaction wording in those authorities against this completed design direction and the responsibility hierarchy, using one canonical learner-design rule plus specialist references rather than duplicating the rule across documents.
+
+Known examples of reconciliation debt include older 32px feature-radius wording versus the approved 28px major-surface role, older five-state learner REV wording versus the approved four-state learner model, and superseded tablet/mobile navigation wording that still survives in less-specific documents. Those conflicts are documentation debt to resolve; they are not new Founder design choices.
+
+This Phase A completion does not authorise production UI changes. Numbered authority reconciliation must be approved before the new authority model is treated as canonical for implementation.
 
 ## Consequences
 
