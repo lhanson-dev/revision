@@ -73,7 +73,7 @@ test('admin can use the live Design Lab component canvas', async ({ page }) => {
   await page.getByRole('button', { name: 'Dark' }).click()
   await expect(page.locator('.design-lab-runtime')).toHaveAttribute('data-theme', 'dark')
 
-  const revStateFamily = page.getByRole('heading', { name: 'REV state family' }).locator('..')
+  const revStateFamily = page.getByRole('heading', { name: 'REV state family' }).locator('..').locator('..')
   await expect(revStateFamily.locator('.rev-presence')).toHaveCount(4)
   await expect(revStateFamily).toContainText('Resting')
   await expect(revStateFamily).toContainText('Listening')
