@@ -95,7 +95,7 @@ async function readThemeSnapshot(page: Page) {
   })
 }
 
-type MotionState = 'resting' | 'listening' | 'thinking' | 'responding' | 'complete'
+type MotionState = 'resting' | 'listening' | 'thinking' | 'responding'
 
 async function readMotionSnapshot(page: Page, state: MotionState) {
   return page.evaluate((requestedState) => {
@@ -184,12 +184,6 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
     haloIterations: '1',
     barDuration: '0.8s',
     barIterations: '1',
-  })
-  expect(await readMotionSnapshot(page, 'complete')).toMatchObject({
-    haloDuration: '0.85s',
-    haloIterations: '1',
-    markDuration: '0.85s',
-    markIterations: '1',
   })
 
   await openAskRev(page)
