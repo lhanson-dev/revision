@@ -4,13 +4,13 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.0"
+version: "2.1"
 owner: "Founder"
 effective_date: "2026-10-01"
-last_reviewed: "2026-10-01"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context", "REV's jobs, voice and suggestion rules", "REV answering questions", "REV safeguarding launch rule"]
-depends_on: ["Product Strategy", "Product UX Principles", "Visual Brand System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Course Overview Progress Signals"]
+depends_on: ["Product Strategy", "Product UX Principles", "Learner Design System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Claims and Progress Governance"]
 supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces", "REV Guidance and Conversation Pattern v1.1 Topics Secure terminology", "REV Guidance and Conversation Pattern v1.2 Topic Knowledge progress pair on REV-led headers", "REV Guidance and Conversation Pattern v1.2 five-state REV model in the learner app (Completed state)"]
 ---
 # REV Guidance and Conversation Pattern
@@ -25,6 +25,10 @@ Revision supports two different learner intents:
 2. **The student leads** — the learner can immediately ask REV about something else through the existing contextual conversation experience.
 
 The pattern is designed to make REV feel consistent across the product while preserving different page jobs and recommendation scopes.
+
+## Authority relationship
+
+This document owns REV's learner behaviour, recommendation/conversation pattern, scope and voice. `Learner Design System.md` owns REV's learner visual treatment: Deep Teal + Living E, the four-state learner model, motion constraints and REV surface geometry. `Identity Asset Usage Rules.md` owns exact identity asset geometry.
 
 ## Core principle
 
@@ -128,7 +132,7 @@ The conversation strip:
 - must carry the current page/course/topic context where available;
 - must not create a second chat implementation, memory store, identity or workspace;
 - should remain visually secondary to the page's dominant job;
-- should reuse the approved Calm Teal, Manrope and REV identity language (display headings may use Bricolage Grotesque per `Visual Brand System.md`); and
+- should reuse the approved Calm Teal, Manrope and REV identity language (display headings use Bricolage Grotesque per `Learner Design System.md`); and
 - may be compact on pages where a full proactive REV recommendation is not appropriate.
 
 `Primary learner page header` means the main orientation/header region for a material learner destination. It does not mean every subsection heading, card title, modal, exam question, task panel or administrative surface.
@@ -179,7 +183,7 @@ On constrained screens the progress region may stack beneath the recommendation 
 
 Progress context on REV-led headers uses the governed measures from `Claims and Progress Governance.md`: **Topics covered**, **Understanding** and **Exam readiness**, kept separate and never blended into one percentage. Exam readiness is an engine-produced value or "Not enough evidence yet"; REV-led headers never show a predicted grade.
 
-The earlier Course Overview pair of Exam Readiness and Topic Knowledge (Low / Medium / Good) is superseded by these three measures from 1 October 2026. `Course Overview Progress Signals.md` carries a pointer to this change.
+The earlier Course Overview pair of Exam Readiness and Topic Knowledge (Low / Medium / Good) is superseded by these three measures. `Claims and Progress Governance.md` owns their current meaning; `Course Overview Progress Signals.md` is retained only as superseded history after the learner-design reconciliation.
 
 ## Conversation rules
 
@@ -204,7 +208,7 @@ REV-led decision surfaces and shared learner-header conversation treatments use 
 They must use:
 
 - the canonical three-bar **Living E** where the feature composition includes REV presence;
-- the learner-app REV state model (Waiting, Listening, Thinking, Responding) where those states are genuine, as set out in `Visual Brand System.md`. Waiting is the Resting state; the Completed state is not used in the learner app;
+- the learner-app REV state model (Waiting, Listening, Thinking, Responding) where those states are genuine, as set out in `Learner Design System.md`. Waiting is the Resting state; the Completed state is not used in the learner app;
 - the soft glow/halo language from the current REV system;
 - Manrope (body) and the Calm Teal role-token system, with Bricolage Grotesque for display headings;
 - the governed compact **Powered by REV** treatment on proactive REV-led decision surfaces; and
@@ -304,3 +308,8 @@ Version 1.2 records the Founder-approved decision of 22 September 2026 to use **
 Version 1.1 standardised `Got something else on your mind?` / `Ask REV anything…` as a compact shared treatment across primary learner page headers while keeping proactive REV recommendations selective and context-specific, and separated concise progress signals from proactive recommendation copy on desktop REV-led headers.
 
 Implementation changes must update their relevant technical documentation and visual assurance baselines in the same governed change. Historical prototypes and prior design evidence remain historically accurate and must not be rewritten.
+
+
+## Documentation impact — learner design reconciliation
+
+Version 2.1 keeps REV behaviour and voice here while delegating learner visual treatment to `Learner Design System.md` and current progress semantics to `Claims and Progress Governance.md`. No recommendation, safeguarding or conversation rule changes.
