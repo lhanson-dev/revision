@@ -181,6 +181,16 @@ Automated visual assurance should use a bounded representative set rather than f
 
 The Design Lab remains an inspection surface, not design authority. It should expose canonical shared components and recurring patterns in relevant interactive, theme, responsive and reduced-motion states, while real production journeys still require journey-level review.
 
+## Deferred follow-on — full-site expression after learner-product completion
+
+The Founder confirmed on 7 October 2026 that Revision should ultimately use one coherent design system across the wider company/product surface, including authentication/onboarding, public marketing, pricing/upgrade and Admin, with expression adapting to the job rather than creating local design-system forks.
+
+That wider cross-channel reconciliation is **deliberately deferred**.
+
+The current priority is to finish the learner product first. The present design-reconciliation exercise therefore remains scoped to the learner experience and the shared foundations needed to make that learner experience coherent. Cross-channel expression, wider marketing imagery/illustration and non-learner surface cleanup will be picked up as a later governed decision and rollout after the learner product is finished.
+
+This deferred item must not expand or delay the current learner-product completion work.
+
 ## Consequences
 
 The current repository contains implementation and documentation that predate this reconciliation. Those conflicts are implementation/documentation debt, not permission to ignore this decision.
