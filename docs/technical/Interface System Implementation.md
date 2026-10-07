@@ -1,7 +1,7 @@
 # Revision Interface System Implementation
 
 **Status:** B1–B7 live; B7.5 final acceptance complete via PR #148 and production-verified  
-**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.5  
+**Authority:** learner implementation follows `20-brand-and-experience/Learner Design System.md`; wider identity/product principles remain in `Visual Brand System.md` and `Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
 **Final B7 record:** `docs/technical/Interface System B7 Final Acceptance.md`  
@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Turn the approved Revision Brand System into a dependable production interface layer so learner and Admin surfaces inherit one coherent visual and interaction language instead of creating local fonts, colours, controls, status semantics, fields, radii, shadows, icons, overlays or theme rules.
+Turn approved numbered design authority into a dependable production interface layer. For learner surfaces, the current source is `Learner Design System.md`; Admin and wider cross-channel expression remain outside the learner-first reconciliation until separately governed.
 
 Enterprise consistency is an implementation requirement. Shared foundations and reusable anatomy are central; feature/channel composition remains flexible within governed surface families.
 
@@ -25,7 +25,7 @@ Relevant destinations include Home, Plan, Progress, Courses/course, contextual L
 
 ## Implementation layers
 
-1. **Normative visual/UX authority** — numbered governance documents.
+1. **Normative visual/UX authority** — `Learner Design System.md` plus the relevant specialist numbered authority for learner work.
 2. **Foundation roles** — `src/app/brand-tokens.css`.
 3. **Shared CSS primitives** — `src/app/interface-system.css`.
 4. **Reusable React component layer** — `src/app/ui/` with shared anatomy in `src/app/ui/ui-components.css`.
