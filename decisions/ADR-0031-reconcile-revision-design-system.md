@@ -344,7 +344,7 @@ This deferred item must not expand or delay the current learner-product completi
 
 ## Phase A completeness review — 7 October 2026
 
-The complete Choices 1–21 were reviewed together against the learner-product surface rather than as isolated styling decisions.
+The complete Choices 1–22 were reviewed together against the learner-product surface rather than as isolated styling decisions.
 
 The review explicitly covered:
 
