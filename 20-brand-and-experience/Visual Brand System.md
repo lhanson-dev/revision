@@ -226,7 +226,7 @@ Approved radius families:
 - **Compact — 12px:** dense Admin cells, small grouped controls, compact statuses;
 - **Control — 14px:** buttons, inputs, selects, segmented controls;
 - **Standard surface — 20px:** ordinary cards and panels;
-- **Feature surface — 32px:** REV, hero, editorial and high-expression surfaces;
+- **Feature surface — 32px:** wider-brand / marketing / editorial high-expression surfaces. **Learner major feature and REV conversational surfaces use 28px under `Learner Design System.md`.**
 - **Pill — 999px:** chips, badges, toggles and circular/pill treatments.
 
 Depth should rely primarily on surface hierarchy, borders and whitespace rather than heavy shadow.
@@ -288,9 +288,9 @@ Revision uses named surface families rather than one universal card.
 - **Standard:** ordinary content grouping; 20px radius, Flat by default, 20–24px padding. Do not card-wrap every piece of content.
 - **Quiet / supporting:** secondary information and low-priority context; Soft Surface Tint/neutral surface, Flat depth, 20px radius.
 - **Interactive:** routes, choices and actionable summaries; 20px radius, Flat at rest and Raised on hover/focus/selection where appropriate. Affordance must not depend on hover.
-- **Feature / editorial:** exceptional brand moment, marketing storytelling or major learner feature; 32px radius with controlled use of Deep Teal, Soft Aqua, illustration, larger type or asymmetric composition.
-- **Guidance / recommendation:** next step, explanation or coaching recommendation; 20px or 32px according to prominence. Evidence-based recommendations explain why and do not visually overstate confidence.
-- **REV:** REV conversation, recommendation and AI presence only; 32px for hero/major treatments, 20px compact. Ordinary product cards must not borrow the halo simply to appear important.
+- **Feature / editorial:** exceptional brand or marketing storytelling surface; 32px may be used outside the learner-specific system. Learner feature surfaces use the 28px role in `Learner Design System.md`.
+- **Guidance / recommendation:** next step, explanation or coaching recommendation. Learner geometry follows `Learner Design System.md`; wider channels may use the Brand System surface family. Evidence-based recommendations explain why and do not visually overstate confidence.
+- **REV:** REV conversation, recommendation and AI presence only. Learner REV geometry and the four learner states follow `Learner Design System.md`; wider identity expression continues to use this Brand System plus `Identity Asset Usage Rules.md`. Ordinary product cards must not borrow the halo merely to appear important.
 - **Status / feedback:** success, warning, error and information; 14–20px radius with approved semantic surface + strong foreground + icon + text.
 - **Exam / performance:** timed work, marks, paper readiness and performance evidence; 20px radius, calm structure, Deep Teal/Graphite anchors and restrained support accents.
 - **Subject accent:** a neutral surface with the subject letter mark, or a solid subject-colour panel (course cards, Plan blocks), per `Subject Accent Colour System.md`.
@@ -370,7 +370,7 @@ Layout bands (full rules in `docs/design-system/RESPONSIVE.md`):
 - **621 to 960px:** an 84px icon rail.
 - **620px and below:** a bottom tab bar with REV raised in the centre.
 - **Menu:** on tablet and phone the two-line menu button opens the full left navigation (course list, account at the bottom), as on desktop.
-- **Exam Prep:** all navigation is hidden (focus mode) at every size.
+- **Exam Prep:** remains in the normal learner shell; navigation is hidden only during a focused exam-performance activity such as a timed mock/full paper.
 
 The page scrolls down, never sideways, at every width from 320px. Content sits in one centred 1100px canvas.
 
