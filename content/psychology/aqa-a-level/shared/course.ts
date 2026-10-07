@@ -1,6 +1,8 @@
+import type { z } from 'zod'
 import { learnCourseSchema } from '../../../learn-schema'
 import {
   dataDrillSchema,
+  examQuestionSchema,
   examSchema,
   examTechniqueGuideSchema,
   flashcardSchema,
@@ -281,6 +283,7 @@ export const psychologyExamTechnique = [
 ]
 
 type Ao = { ao1: number; ao2: number; ao3: number; ao4: number }
+type ProductionExamQuestion = z.infer<typeof examQuestionSchema>
 function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3, ao4: 0 } }
 
 function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, extra: string[] = []) {
@@ -328,7 +331,7 @@ function applicationStimulus(topic: TruthTopic) {
     ?? `A Revision-owned unfamiliar case presents behaviour relevant to ${topic.topic}. Use the exact cues in the case and keep conclusions proportionate to the evidence.`
 }
 
-function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, choiceGroup?: string, choiceOption?: string) {
+function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, choiceGroup?: string, choiceOption?: string): ProductionExamQuestion[] {
   const requirements = topic.requirements
   const tariffs = [4, 8, 12]
   return tariffs.map((tariff, index) => {
@@ -351,7 +354,7 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
           : `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus and include one limitation or alternative interpretation where the evidence does not justify certainty.`
         : `Discuss ${label} in relation to ${topic.topic}. Develop accurate knowledge, use relevant evidence or relationships, evaluate important limitations, and reach a proportionate conclusion.`
 
-    return {
+    return examQuestionSchema.parse({
       id: `psy-${paperId.replace('/', '-')}-${sectionId.toLowerCase()}-${topic.topicNumber}-q${index + 1}`,
       marks: tariff,
       topic: topicId(topic),
@@ -370,11 +373,11 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
       markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
-    }
+    })
   })
 }
 
-function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string) {
+function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuestion[] {
   const variables = requirementById('PSY-07-14')
   const descriptive = requirementById('PSY-07-26')
   const validity = requirementById('PSY-07-21')
@@ -383,7 +386,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, p
   const testChoice = requirementById('PSY-07-34')
   const correlation = requirementById('PSY-07-29')
 
-  return [
+  const questions = [
     {
       id: 'psy-7182-2-c-rm-q1',
       marks: 4,
@@ -475,11 +478,12 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, p
       markingGuidance: guidance([testChoice, significance, correlation], 12, ['The defensible test is Spearman’s rho because the data are paired ranks and the hypothesis concerns association. Compare absolute rho: 0.62 > 0.587, so the result is significant at the supplied threshold. The negative sign describes direction; significance does not establish causation or practical importance.']),
     },
   ]
+  return questions.map((question) => examQuestionSchema.parse(question))
 }
 
-function sectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, marks: number, choiceGroup?: string, choiceOption?: string) {
+function sectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, marks: number, choiceGroup?: string, choiceOption?: string): ProductionExamQuestion[] {
   if (paperId === '7182/2' && sectionId === 'C' && marks === 48) {
-    return researchMethodsSectionQuestions(topic, sectionId, paperId)
+    return researchMethodsSectionQuestions(topic)
   }
   return genericSectionQuestions(topic, sectionId, paperId, choiceGroup, choiceOption)
 }
