@@ -4,22 +4,24 @@ document_id: "revision-returning-student-home-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.1"
+version: "1.2"
 owner: "Founder"
 effective_date: "2026-08-24"
-last_reviewed: "2026-08-25"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["returning Student Home hierarchy", "Returning Student Home screen-purpose contract", "Home REV hero", "Today's revision plan composition", "Home recommendation launch behaviour"]
-depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Visual Brand System", "Global Learner Navigation", "Identity Asset Usage Rules"]
+depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Learner Design System", "Global Learner Navigation", "Identity Asset Usage Rules"]
 supersedes: ["Core User Journeys returning-student example requiring course-open then mode selection", "Information Architecture Home clause describing Today's plan as necessarily smaller than REV guidance", "Adaptive Revision Planning clause describing Today's plan as necessarily smaller than the Home recommendation"]
 ---
-> **Pointer** (1 October 2026, Founder): REV suggestion rules (reason required, rule-chosen topic, priority order, Suggest something else, Not now) are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md` (v2.0). Home is rebuilt in the Home screen PR; each screen shows its set-up empty state until it has real data.
+> **Current relationship:** REV suggestion rules are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md`; learner visual foundations are in `20-brand-and-experience/Learner Design System.md`. This document remains the specialist Home screen-purpose and composition authority.
 
 # Returning Student Home Experience
 
 ## Purpose
 
 Define the Founder-approved screen contract and composition for the default returning Student Home experience.
+
+`Learner Design System.md` owns shared learner visual values and responsive geometry. This document owns Home's job, hierarchy, required REV/plan relationship and direct useful-action behaviour.
 
 This authority specialises the general Home and Returning Student rules in `Core User Journeys.md`, `Information Architecture.md` and `Adaptive Revision Planning.md`. Where those documents describe an older Returning Student path or require Today's plan to be visually smaller than the recommendation, this document is the more specific current authority.
 
