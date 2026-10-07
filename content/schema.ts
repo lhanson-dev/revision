@@ -104,10 +104,30 @@ export const examQuestionSchema = z.object({
   assessmentObjectives: assessmentObjectiveSchema,
   prompt: z.string().min(1),
   markingGuidance: z.array(z.string().min(1)).min(1),
+  /** Optional-choice metadata. One choice option may contain several questions (for example a Psychology Paper 3 topic section). */
+  choiceGroup: slugSchema.optional(),
+  choiceOption: slugSchema.optional(),
+  responseType: z.enum(['multiple-choice', 'written']).optional(),
+  options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(2).optional(),
+  stimulus: z.object({
+    title: z.string().min(1).nullable(),
+    narrative: z.string(),
+    table: z.object({
+      title: z.string().min(1),
+      columns: z.array(z.string().min(1)).min(1),
+      rows: z.array(z.object({ cells: z.array(z.string()) })).min(1),
+    }).nullable(),
+  }).nullable().optional(),
 }).superRefine((question, context) => {
   const aoTotal = Object.values(question.assessmentObjectives).reduce((sum, marks) => sum + marks, 0)
   if (aoTotal !== question.marks) {
     context.addIssue({ code: 'custom', path: ['assessmentObjectives'], message: `AO marks (${aoTotal}) must equal question marks (${question.marks})` })
+  }
+  if (question.choiceOption && !question.choiceGroup) {
+    context.addIssue({ code: 'custom', path: ['choiceOption'], message: 'choiceOption requires choiceGroup' })
+  }
+  if (question.responseType === 'multiple-choice' && (!question.options || question.options.length < 2)) {
+    context.addIssue({ code: 'custom', path: ['options'], message: 'multiple-choice questions require at least two options' })
   }
 })
 
@@ -116,13 +136,45 @@ export const examSchema = z.object({
   title: z.string().min(1),
   subtitle: z.string().min(1),
   durationMinutes: z.number().int().positive(),
+  /** Marks the learner attempts after making any required section choices. */
   totalMarks: z.number().int().positive(),
   caseHtml: z.string().min(1),
   questions: z.array(examQuestionSchema).min(1),
+  learnerClaim: z.string().min(1).optional(),
+  /** All marks printed across optional alternatives. Omit when there are no alternatives. */
+  printedMarks: z.number().int().positive().optional(),
+  restrictedPilot: z.boolean().optional(),
 }).superRefine((exam, context) => {
-  const questionTotal = exam.questions.reduce((sum, question) => sum + question.marks, 0)
-  if (questionTotal !== exam.totalMarks) {
-    context.addIssue({ code: 'custom', path: ['questions'], message: `Question marks (${questionTotal}) must equal exam total (${exam.totalMarks})` })
+  const compulsoryMarks = exam.questions
+    .filter((question) => !question.choiceGroup)
+    .reduce((sum, question) => sum + question.marks, 0)
+
+  const choiceGroups = new Map<string, Map<string, number>>()
+  for (const question of exam.questions) {
+    if (!question.choiceGroup) continue
+    const options = choiceGroups.get(question.choiceGroup) ?? new Map<string, number>()
+    const optionKey = question.choiceOption ?? question.id
+    options.set(optionKey, (options.get(optionKey) ?? 0) + question.marks)
+    choiceGroups.set(question.choiceGroup, options)
+  }
+
+  let attemptedMarks = compulsoryMarks
+  for (const [group, options] of choiceGroups) {
+    const totals = [...options.values()]
+    const first = totals[0] ?? 0
+    if (totals.some((total) => total !== first)) {
+      context.addIssue({ code: 'custom', path: ['questions'], message: `Choice group ${group} has options with different mark totals: ${totals.join(', ')}` })
+    }
+    attemptedMarks += first
+  }
+
+  if (attemptedMarks !== exam.totalMarks) {
+    context.addIssue({ code: 'custom', path: ['questions'], message: `Attempted question marks (${attemptedMarks}) must equal exam total (${exam.totalMarks})` })
+  }
+
+  const printedMarks = exam.questions.reduce((sum, question) => sum + question.marks, 0)
+  if (exam.printedMarks !== undefined && exam.printedMarks !== printedMarks) {
+    context.addIssue({ code: 'custom', path: ['printedMarks'], message: `printedMarks (${exam.printedMarks}) must equal all printed question marks (${printedMarks})` })
   }
 })
 
