@@ -226,7 +226,7 @@ export function DesignLab() {
                 <div className="design-lab-radius design-lab-radius--compact"><strong>12px</strong><span>Compact</span></div>
                 <div className="design-lab-radius design-lab-radius--control"><strong>14px</strong><span>Control</span></div>
                 <div className="design-lab-radius design-lab-radius--surface"><strong>20px</strong><span>Surface</span></div>
-                <div className="design-lab-radius design-lab-radius--feature"><strong>32px</strong><span>Feature</span></div>
+                <div className="design-lab-radius design-lab-radius--feature"><strong>28px</strong><span>Feature</span></div>
                 <div className="design-lab-radius design-lab-radius--pill"><strong>999px</strong><span>Pill</span></div>
               </div>
               <p className="design-lab-note">Depth comes from surface hierarchy, borders and restrained elevation — not heavy shadow.</p>
