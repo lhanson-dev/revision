@@ -307,6 +307,31 @@ REV may recommend a short starting Practice activity to establish an initial evi
 
 The current implementation's repeated subject hero, full topic-status `Your path` treatment and separate `Weak spots` panel are therefore implementation debt to be reconciled during the later learner-product rollout.
 
+### 22. Exam Prep stays in the learner shell; focus mode begins with the focused exam activity
+
+Exam Prep itself is an ordinary navigable course section and remains inside the normal learner shell.
+
+The Exam Prep page therefore uses the canonical course-page orientation:
+
+`breadcrumb → compact course identity → Exam Prep title/context → page content`
+
+It retains the governed course navigation and contextual REV access because its job is preparation, orientation, choice and guidance.
+
+Focus mode begins only when the learner enters a dedicated exam-performance activity where global navigation would distract from, interrupt or compromise the work, especially a timed mock/full paper.
+
+During an active focused exam session:
+
+- global learner navigation is hidden;
+- Ask REV is unavailable;
+- the exam activity occupies the full working environment rather than appearing as a modal over the page;
+- the interface becomes progressively more restrained and exam-authentic;
+- leaving/stopping follows the governed exam-session persistence and confirmation contract; and
+- completion/results return the learner to the normal course context.
+
+This changes the older Global Learner Navigation rule that hid all navigation throughout the entire Exam Prep section. That conflict is deliberate and must be reconciled during the later authority-update phase.
+
+This decision does not change marking, evidence, persistence or readiness semantics. Those remain governed by their existing product/evidence authorities unless separately changed.
+
 ## Deferred follow-on — full-site expression after learner-product completion
 
 The Founder confirmed on 7 October 2026 that Revision should ultimately use one coherent design system across the wider company/product surface, including authentication/onboarding, public marketing, pricing/upgrade and Admin, with expression adapting to the job rather than creating local design-system forks.
