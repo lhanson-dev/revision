@@ -1,27 +1,25 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.11, Founder-approved 1 October 2026 (effective on merge of the design-system v2.1 PR)  
+**Status:** Active authority — v0.12, Founder-approved direction updated 7 October 2026  
 **Owner:** Founder  
-**Founder direction approved:** 2026-08-22; learner redesign v2.1 navigation (icon rail, bottom tab bar, Exam Prep focus mode) approved 2026-10-01; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
+**Founder direction approved:** 2026-08-22; focused-section nested expansion 2026-09-23; active focused-section disclosure refinement 2026-09-26; responsive shell 2026-10-01; Exam Prep/focused-exam boundary reconciled 2026-10-07  
 **Purpose:** Define the governed global learner navigation model, learner-course contextual expansion and persistent REV access pattern across desktop, tablet and mobile.
 
 ## Authority relationship
 
 This document is the specific product authority for global learner navigation, contextual academic expansion and persistent access to REV.
 
-Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
+Where navigation wording in `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or other less-specific product documents conflicts with this model, this document governs navigation behaviour. `20-brand-and-experience/Learner Design System.md` governs learner visual foundations, shell geometry, icon language, Living E treatment and responsive design values.
 
-**v0.11 (1 October 2026) supersedes the persistent Ask REV dock** (v0.5 to v0.10 wording on it) with the sidebar, icon rail and bottom tab bar described in *Learner redesign v2.1 layout bands* below, and **lifts the v0.5 ban on a bottom tab bar** by explicit Founder decision. **The tablet/mobile slide-out left navigation stays** (Founder decision, 1 October 2026, later the same day): it is opened by the two-line menu button, holds the course branch and Learn contents, and has the learner's avatar with Profile, Settings and Log out at the bottom, exactly as before. Where older text below describes the dock, the v2.1 section governs. The Courses hierarchy, focused-section expansion and course-management rules remain in force.
-
-This v0.10 direction retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar, the v0.6 progressive disclosure of account utilities, the v0.7 decision that the active academic branch may expand contextually, the v0.8 move from Subjects to Courses and the v0.9 permission for the active focused section to expose deeper governed academic contents.
+The current model is one system: desktop sidebar, tablet rail plus contextual drawer, phone bottom navigation plus contextual drawer, and persistent Ask REV access through the shell. Earlier persistent-dock and no-bottom-navigation directions are superseded and are not active alternatives.
 
 It additionally makes the active focused-section row itself a disclosure control where it owns deeper contextual contents. That hierarchy opens by default from route context, but the learner may collapse or reopen those descendants without navigating away from the current page. This keeps the navigation predictable and gives the learner control over a long contextual tree without changing academic location.
 
 Subject remains valid academic metadata and a useful way to organise course discovery, but it is no longer a required everyday navigation hop for a learner opening a course they already study.
 
-## Learner redesign v2.1 layout bands
+## Canonical layout bands
 
-*Founder-approved 1 October 2026. Full responsive rules: `docs/design-system/RESPONSIVE.md`.*
+*Founder-approved responsive model. Exact learner visual geometry is governed by `20-brand-and-experience/Learner Design System.md`.*
 
 | Width | Navigation |
 | --- | --- |
@@ -34,10 +32,20 @@ Subject remains valid academic metadata and a useful way to organise course disc
 - Controls are 48px high (touch targets at least 44px). The tab bar reserves space and respects the device safe area so it never covers content.
 - On tablet and phone the **two-line menu button opens the same left navigation as the desktop sidebar**, as a slide-out: Home, Plan, Progress, Courses with the saved-course branch and the active section's contents, and the account control at the bottom. It keeps the course-hierarchy and account rules in this document unchanged. Because Ask REV and the four destinations are always on screen (rail or tab bar), the menu is for the course tree and account.
 
-### Exam Prep focus mode
+### Exam Prep and focused exam activity
 
-- In Exam Prep, **all navigation is hidden** at every size (focus mode).
-- **Leaving a running timed paper asks for confirmation first.** The student can stay, or leave knowing the consequence (for example that the timer and answers so far are kept or lost, as the Exam Prep screen defines).
+Exam Prep is an ordinary navigable course section and remains inside the normal learner shell.
+
+Focus mode begins only when the learner enters a dedicated exam-performance activity where global navigation would distract from or compromise the work, especially a timed mock or full paper.
+
+During that focused exam activity:
+
+- global learner navigation is hidden;
+- Ask REV is unavailable;
+- leaving/stopping follows the governed exam-session persistence and confirmation contract; and
+- completion/results return the learner to the normal course context.
+
+This boundary changes the older rule that hid navigation throughout the whole Exam Prep section.
 
 ### How Ask REV opens (decided 1 October 2026)
 
@@ -47,7 +55,7 @@ Ask REV is a **pop-up conversation** that opens over the current page, so the st
 - **Phone:** there is no room for a pop-up, so Ask REV takes over the whole screen, with a clear close control that returns the student to exactly where they were.
 - **There is no separate Ask REV page.** The existing "Expand" route to a full REV workspace is retired or reduced to the same pop-up by the Ask REV screen PR.
 - It opens from the sidebar, the icon rail and the raised tab-bar REV control, and from in-page "Stuck? Ask REV" actions, carrying the current page context.
-- It is not available in Exam Prep focus mode.
+- It is not available during an active focused exam-performance activity.
 
 The navigation components keep a separate "open Ask REV" action, so this behaviour lives in one place.
 
@@ -238,16 +246,14 @@ Settings owns implemented learner preferences such as appearance. Administrator 
 
 ## Tablet and mobile navigation
 
-Tablet and mobile do **not** use a persistent multi-item bottom navigation bar.
+Tablet and phone use the same current shell model defined above.
 
-Instead they use a compact application-shell pattern based on familiar modern conversational products while retaining Revision's own brand system:
+- **Tablet (621–960px):** 84px icon rail with Ask REV and the four learner-wide destinations; the two-line menu opens the contextual left drawer.
+- **Phone (620px and below):** slim top bar plus bottom navigation with the raised Living E / Ask REV control; the two-line menu opens the contextual left drawer.
+- The drawer owns course hierarchy and account utilities; it is not a second copy of the persistent global destinations.
+- Exact learner visual geometry and responsive values come from `Learner Design System.md`.
 
-- a **two-line menu control at the top left**;
-- a compact REV identity treatment beside it in the top bar;
-- a left-side navigation drawer opened by the menu control; and
-- **Ask REV anchored persistently near the bottom of learner screens as the only persistent bottom action**.
-
-The interaction may take usability cues from products such as ChatGPT, but it must not copy another product's visual identity. Revision uses Calm Teal, Manrope, its own rounded-line icons, Living E and approved light/dark surfaces.
+There is no active persistent Ask REV dock model alongside this rail/tab model.
 
 ### Tablet/mobile drawer
 
@@ -281,26 +287,19 @@ The expanded account utilities contain:
 - Upgrade plan when governed and available, or a truthful forthcoming/unavailable treatment before then; and
 - Log out.
 
-Ask REV is not duplicated as an ordinary drawer destination because its persistent bottom action already provides global access.
+Ask REV is not duplicated as an ordinary drawer destination because the rail/tab shell already provides persistent global access.
 
 The drawer closes after navigation, on its close control, on Escape, or when the learner selects the backdrop. Reopening the drawer begins again with learner account utilities collapsed. Opening it must not create horizontal page scrolling or leave the underlying page as a competing interaction layer.
 
-## Persistent Ask REV dock
+## Persistent Ask REV access
 
-Across ordinary tablet/mobile learner screens, Ask REV remains anchored near the bottom edge and above the device safe area.
+Ask REV is a persistent shell action on ordinary learner screens:
 
-The dock:
+- desktop: prominent action in the sidebar;
+- tablet: dedicated action in the icon rail; and
+- phone: raised Living E control in the bottom navigation.
 
-- is the **only persistent bottom learner action**;
-- uses the Living E plus an explicit `Ask REV` label;
-- remains reachable while the learner scrolls;
-- must not obscure page actions or content, so learner screens reserve sufficient bottom space;
-- opens the contextual REV conversation layer rather than forcing a page change; and
-- disappears when the contextual REV layer itself is open or where the learner is already using the expanded REV workspace.
-
-Admin is an operational surface rather than an ordinary learner screen, so the learner Ask REV dock is not required within Admin.
-
-On mobile, selecting Ask REV opens a near-full-screen or full-screen conversational layer appropriate to the available space while preserving a natural route back to the underlying activity. On tablet, Ask REV may use a side sheet, large overlay or equivalent responsive treatment.
+It opens the same contextual REV conversation layer and carries current-page context. It must not obscure page content, duplicate itself inside the drawer, or remain available during an active focused exam-performance activity.
 
 ## Desktop Ask REV behaviour
 
@@ -402,3 +401,8 @@ This v0.10 direction requires the Courses hierarchy, focused-section contextual 
 ## Documentation impact (v0.11)
 
 Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The persistent Ask REV dock and the ban on a bottom tab bar are superseded; the tablet/mobile slide-out left navigation stays. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Ask REV is decided: a pop-up, full screen on phones, no separate page. The slide-out left navigation and the account placement are decided: they stay as before, opened by the two-line menu.
+
+
+## Documentation impact (v0.12)
+
+Version 0.12 removes the surviving dock/no-bottom-navigation contradiction from the active document, points learner visual geometry to `Learner Design System.md`, and records the Founder-approved 7 October boundary that Exam Prep remains in the normal learner shell while focused exam activity hides navigation and Ask REV.

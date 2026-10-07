@@ -4,14 +4,14 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.5"
+version: "1.6"
 owner: "Founder"
-effective_date: "2026-10-01"
-last_reviewed: "2026-10-01"
+effective_date: "2026-10-07"
+last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
 content_review_status: "founder-approved"
 source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "compact REV product wordmark", "Powered by REV treatment", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
-depends_on: ["Revision Brand System"]
+depends_on: ["Revision Brand System", "Learner Design System"]
 supersedes: null
 ---
 # Revision Identity Asset Usage Rules
@@ -20,7 +20,7 @@ supersedes: null
 
 Define the production usage rules that the Revision Brand System requires for the canonical full Revision wordmark, compact REV product wordmark, standalone Living E, branded product-control treatment and app/browser icon framing.
 
-These rules specialise the approved Brand System. They do not change the approved Manrope, Calm Teal, Living E or light/dark identity direction.
+These rules specialise the approved Brand System. For learner use, `Learner Design System.md` governs the surrounding visual/interaction system while this document owns exact wordmark/Living E asset geometry, safe areas and identity-specific adaptations.
 
 ## Canonical sources
 
@@ -51,7 +51,7 @@ The compact REV treatment is **not** the full Revision company/product wordmark 
 
 ### Powered by REV
 
-`Powered by REV` is the approved compact attribution treatment for the Returning Student Home REV hero.
+`Powered by REV` is the approved compact attribution treatment for governed REV-led decision surfaces. Current approved learner uses are the Returning Student Home REV feature and Course Overview REV guidance, as governed by `REV Guidance and Conversation Pattern.md`.
 
 It must:
 
@@ -62,7 +62,7 @@ It must:
 - preserve the compact REV three-bar E treatment rather than substituting plain text `REV`; and
 - remain secondary to the Living E and greeting rather than competing with them.
 
-Do not create alternative `Powered by REV` arrangements locally. New use outside the Returning Student Home hero requires deliberate brand review so the treatment does not become repetitive attribution clutter.
+Do not create alternative `Powered by REV` arrangements locally. New use outside the currently governed REV-led decision surfaces requires deliberate review under `REV Guidance and Conversation Pattern.md` so the attribution does not become repetitive clutter.
 
 ## Revision wordmark clear space
 
@@ -223,4 +223,4 @@ Do not:
 
 Version 1.4 promotes the Founder-approved compact REV product wordmark and `Powered by REV` Home attribution into governed identity treatment, and clarifies that the Returning Student Home halo must retain a visibly near-white/aqua luminous centre. Version 1.3's persistent Ask REV CTA finish, the app-icon, favicon, Living E and semantic REV-state rules remain otherwise unchanged.
 
-Version 1.5 (Founder authorisation of 1 October 2026, effective on merge of the design-system v2.1 PR) adds the placement note above and records that the Living E's learner-app states are Waiting (Resting), Listening, Thinking and Responding, with a 1.4s thinking loop and a text label under reduced motion (see `Visual Brand System.md` v1.1). The wordmark, app icon, favicon and halo rules are unchanged. The Manrope wordmark rule is unchanged: Bricolage Grotesque applies to learner-app headings and numbers, not to the wordmark.
+Version 1.5 (Founder authorisation of 1 October 2026, effective on merge of the design-system v2.1 PR) adds the placement note above and records that the Living E's learner-app states are Waiting (Resting), Listening, Thinking and Responding, with a 1.4s thinking loop and a text label under reduced motion (see `Learner Design System.md`). The wordmark, app icon, favicon and halo rules are unchanged. The Manrope wordmark rule is unchanged: Bricolage Grotesque applies to learner-app headings and numbers, not to the wordmark.

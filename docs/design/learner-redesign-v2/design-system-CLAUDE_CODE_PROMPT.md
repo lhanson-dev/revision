@@ -1,3 +1,5 @@
+> **HISTORICAL SETUP PROMPT — DO NOT USE AS CURRENT AUTHORITY.** Use `20-brand-and-experience/Learner Design System.md` and the current AI learner-design guide once Phase E lands.
+
 Read CLAUDE.md and AUTHORITY_HIERARCHY.md first. Work on a new branch `design-system-v2.1` and open a PR. Do NOT merge.
 
 I've attached the Revision design system (from Claude Design). **Visual source of truth: `ui_kits/learner_app/index.html`** (route per screen in `ui_kits/learner_app/README.md`). Ignore `archive/`: it's superseded. Also attached: `readme.md`, `tokens/`, `components/`, `guidelines/` (RESPONSIVE.md, SUBJECT_PALETTE.md), `design_handoff_revision_v2/` (STYLE_GUIDE.md, NEW_FEATURES.md, CHANGES_v2.1.md).

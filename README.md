@@ -99,7 +99,8 @@ See:
 - `10-product-governance/Information Architecture.md` — governing learner hierarchy and primary navigation.
 - `10-product-governance/Global Learner Navigation.md` — governing desktop/responsive global navigation and Ask REV behaviour.
 - `10-product-governance/Course Content and Assessment Component Placement.md` — authority for shared course learning versus paper/component Exam Prep.
-- `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
+- `20-brand-and-experience/Learner Design System.md` — canonical learner visual and interaction design authority.
+- `20-brand-and-experience/Visual Brand System.md` — company-wide identity and wider cross-channel brand authority.
 - `docs/technical/Returning Student Home Implementation.md` — current Home runtime, fallback, subject accents and direct useful-activity implementation.
 - `docs/technical/Learner Courses Implementation.md` — FI-020 learner-course membership, routing and programme-scope implementation.
 - `docs/technical/Adaptive Revision Planner Implementation.md` — current FI-001 technical design and implementation boundary.

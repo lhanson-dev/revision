@@ -4,15 +4,15 @@ document_id: "revision-interactive-component-quality-standard"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
-effective_date: "2026-09-29"
-last_reviewed: "2026-09-29"
+effective_date: "2026-10-07"
+last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
 content_review_status: "founder-approved"
 source_of_truth_for: ["button quality", "action control sizing", "interactive control hierarchy", "interaction feedback states", "action labelling"]
-depends_on: ["Visual Brand System", "Product UX Principles", "Tone of Voice Framework"]
-supersedes: "For ordinary action buttons and button-like learner controls only, this standard supersedes the earlier 44px Standard button-height clause and 44px standard-button references in Visual Brand System > Controls and forms where the rules below are more specific. All other Visual Brand System rules remain active."
+depends_on: ["Learner Design System", "Visual Brand System", "Product UX Principles", "Tone of Voice Framework"]
+supersedes: "Earlier ordinary-action sizing clauses in Visual Brand System. Learner Design System now owns the shared learner foundation; this standard remains the specialist action/control quality contract."
 ---
 # Interactive Component Quality Standard
 
@@ -20,7 +20,7 @@ supersedes: "For ordinary action buttons and button-like learner controls only, 
 
 Define the minimum quality bar for buttons and recurring action controls across Revision without introducing a new visual aesthetic.
 
-This standard refines the existing Calm Teal Interface System. It does not authorise page-local button families, blanket pill styling, decorative glow, heavy elevation or unrelated redesign.
+This standard refines the Calm Teal learner system. `Learner Design System.md` owns shared learner visual foundations and action hierarchy; this document owns the detailed quality contract for ordinary actions and button-like controls. It does not authorise page-local button families, blanket pill styling, decorative glow, heavy elevation or unrelated redesign.
 
 ## Core rule
 

@@ -3,17 +3,18 @@ title: "Course Overview Progress Signals"
 document_id: "revision-course-overview-progress-signals"
 document_type: "product-authority"
 authority: "product-governance"
-status: "active"
+status: "superseded"
 version: "1.1"
 owner: "Founder"
 effective_date: "2026-09-22"
-last_reviewed: "2026-09-22"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
-source_of_truth_for: ["Course Overview progress panel", "Topic Knowledge learner-facing meaning", "Course Overview Exam Readiness and Topic Knowledge hierarchy", "subject-level Topic Knowledge roll-up"]
+source_of_truth_for: []
 depends_on: ["Course Learning Blueprint", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Product UX Principles", "Product System Model"]
 supersedes: ["Course Learning Blueprint Overview wording that specifies Reviewed plus Exam Readiness as the concise Overview progress pair", "Course Overview Progress Signals v1.0 Topics Secure terminology"]
+superseded_by: ["40-evidence-and-trust/Claims and Progress Governance.md", "20-brand-and-experience/REV Guidance and Conversation Pattern.md", "20-brand-and-experience/Learner Design System.md"]
 ---
-> **Superseded in part** (1 October 2026, Founder): the Exam Readiness plus Topic Knowledge (Low / Medium / Good) pair is replaced by the three measures Topics covered, Understanding and Exam readiness, with the five status labels. See `40-evidence-and-trust/Claims and Progress Governance.md` (v0.4) and `docs/design/decisions/2026-10-01-learner-redesign-v2.md`.
+> **Superseded 7 October 2026.** Retained as historical decision evidence for the earlier Exam Readiness + Topic Knowledge model. Current progress meaning is governed by `40-evidence-and-trust/Claims and Progress Governance.md`; REV-led Overview behaviour by `20-brand-and-experience/REV Guidance and Conversation Pattern.md`; and current Overview composition by `20-brand-and-experience/Learner Design System.md`.
 
 # Course Overview Progress Signals
 

@@ -4,16 +4,16 @@ document_id: "revision-learn-mvp-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.8"
+version: "1.9"
 owner: "Founder / Product / Educational Content"
-effective_date: "2026-09-23"
-last_reviewed: "2026-09-26"
+effective_date: "2026-10-07"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved-design-direction"
-source_of_truth_for: ["Learn MVP learner experience", "Learn MVP content completeness", "Learn MVP format sequencing", "Learn MVP information architecture", "Learn MVP chapter granularity", "Learn MVP teaching-page anatomy", "Learn MVP navigation integration", "Learn MVP visual inheritance", "Learn MVP bounded page composition", "Learn MVP treatment application"]
-depends_on: ["Course Learning Blueprint", "Core User Journeys", "Product UX Principles", "Visual Brand System", "Educational Treatment System", "Subject Accent Colour System", "REV Guidance and Conversation Pattern", "Global Learner Navigation", "Evidence Trust and Educational Integrity"]
+source_of_truth_for: ["Learn MVP learner experience", "Learn MVP content completeness", "Learn MVP format sequencing", "Learn MVP information architecture", "Learn MVP chapter granularity", "Learn MVP teaching-page anatomy", "Learn MVP navigation integration", "Learn MVP bounded page composition", "Learn MVP treatment application"]
+depends_on: ["Course Learning Blueprint", "Core User Journeys", "Product UX Principles", "Learner Design System", "Educational Treatment System", "Subject Accent Colour System", "REV Guidance and Conversation Pattern", "Global Learner Navigation", "Evidence Trust and Educational Integrity"]
 supersedes: null
 ---
-> **Pointer** (1 October 2026, Founder): the Quick check treatment is unscored and never changes status, Topics covered or readiness; progress language follows `40-evidence-and-trust/Claims and Progress Governance.md` (v0.4). See `docs/design/decisions/2026-10-01-learner-redesign-v2.md`.
+> **Current relationship:** Quick check is unscored and never changes status, Topics covered or readiness; progress language follows `40-evidence-and-trust/Claims and Progress Governance.md`. Learner visual foundations follow `20-brand-and-experience/Learner Design System.md`.
 
 # Learn MVP Experience
 
@@ -22,6 +22,8 @@ supersedes: null
 Define the Founder-approved MVP experience and completeness baseline for the **Learn** section of every supported Revision course.
 
 This authority narrows MVP delivery sequencing within the broader `Course Learning Blueprint`. It does not replace the blueprint's longer-term learning-treatment model.
+
+`Learner Design System.md` owns Learn's visual foundations, canvas, typography, responsive geometry and shared component language. This document owns Learn's educational/product job, reading-first structure, page anatomy and navigation behaviour.
 
 ## Governing decision
 

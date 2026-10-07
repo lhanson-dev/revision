@@ -1,7 +1,7 @@
 # Revision Interface System Component Registry
 
 **Status:** Design-system v2.1 components added (1 October 2026; not yet used by screens); B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete; Learn educational treatment extension In Progress under #381  
-**Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `20-brand-and-experience/Educational Treatment System.md`  
+**Authority:** `20-brand-and-experience/Learner Design System.md`, `20-brand-and-experience/Product UX Principles.md`, `20-brand-and-experience/Educational Treatment System.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
 
@@ -9,7 +9,7 @@
 
 Give contributors one implementation reference for recurring Revision interface anatomy so a new page starts by selecting existing components, icons and assets rather than recreating equivalent styling locally.
 
-This registry is implementation guidance. The Visual Brand System and applicable focused experience authority remain normative authority.
+This registry is implementation guidance. `Learner Design System.md` and the applicable specialist product/evidence authority remain normative for learner work.
 
 ## Import boundary
 
@@ -128,7 +128,7 @@ Choose the family before styling composition:
 - **Feature** — deliberately exceptional editorial/brand moment.
 - **Floating** — popovers and compact elevated context.
 
-REV, Exam/Performance, Guidance and other specialist families remain governed by the Visual Brand System. Add a reusable shared variant only when its recurring job is proven; do not stretch Standard/Feature merely for appearance.
+REV, Exam/Performance, Guidance and other learner specialist families use `Learner Design System.md` plus their relevant specialist authority. Add a reusable shared variant only when its recurring job is proven; do not stretch Standard/Feature merely for appearance.
 
 A reading page is not automatically a collection of `Surface` cards. The current Learn implementation keeps the teaching article as the dominant surface and uses `EducationalTreatment` only for educationally meaningful departures from normal prose.
 

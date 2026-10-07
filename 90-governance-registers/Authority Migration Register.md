@@ -12,8 +12,10 @@
 | Reset all synced progress | `auth-sync.js` | User Journey / Data Governance | Candidate product behaviour | Yes |
 | Full timed exam simulation and AO1–AO4 tracking | `README.md`, `v2.js` | Product Source of Truth / User Journeys | Candidate authority | Yes |
 | Adaptive/evidence-aware readiness recommendation | `README.md`, `feedback-v3.js` | Product Source of Truth / Evidence standard | Candidate authority; methodology/claim needs scrutiny | Yes |
-| Current navy/green/cream visual treatment | HTML/CSS | Visual Brand & Style Guide | Implementation evidence only | Yes before promotion |
+| Early navy/green/cream visual treatment | HTML/CSS | Brand/learner design authority | **Superseded implementation evidence** — current company identity is in `20-brand-and-experience/Visual Brand System.md`; current learner design is in `20-brand-and-experience/Learner Design System.md` | No |
 | GitHub Pages deployment from `main` | `README.md` | Technical documentation / Release standard | Current implementation detail | Only if promoted to durable standard |
+
+| Learner design reconciliation / overlapping learner visual rules | Visual Brand System, learner redesign package, canvas amendment, responsive reference | `20-brand-and-experience/Learner Design System.md` + specialist numbered authorities | **Promoted / reconciled 2026-10-07**; earlier records preserved as history/derived reference | No |
 
 ## Rule
 No row marked candidate authority becomes active merely by appearing here. Promotion requires a governed authority document and explicit Founder approval.

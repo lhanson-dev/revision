@@ -125,14 +125,16 @@ Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decis
 
 ## Design system (learner app)
 
-All UI must follow `20-brand-and-experience/` and `docs/design-system/`. Use tokens and `src/app/ui/` components only. Colour roles never mix: teal = brand, REV and actions; teal/yellow/coral/neutral = status (always icon + text); subjects = the subject palette + letter mark. Progress = Topics covered · Understanding · Exam readiness, never one %. Scroll down, never sideways.
+For learner visual and interaction design, start with `20-brand-and-experience/Learner Design System.md`, then read the specialist numbered authority for the page/job (navigation, REV, educational treatments, subject identity, progress/evidence and page behaviour). Use semantic tokens and `src/app/ui/` components rather than inventing page-local foundations.
 
-Decisions and behaviour rules for the learner app are in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. Follow them, and ask Lee before changing them.
+`docs/design-system/`, the 1 October learner-redesign package under `docs/design/learner-redesign-v2/` and its `STATUS.md` are derived/reference material, not normative learner-design authority. `docs/design/decisions/2026-10-01-learner-redesign-v2.md` is historical decision evidence. ADR-0031 records the 7 October reconciliation history; current rules live in numbered authority.
 
-- The design package and build tracker are in `docs/design/learner-redesign-v2/` (start at `00-START-HERE.md`; progress in `STATUS.md`). Update `STATUS.md` in every redesign PR.
-- Honest data only: never hard-code numbers, names, dates or topics from mockups. If the data does not exist yet, show the honest empty state. Never fake REV: no canned replies and no made-up suggestions.
-- No raw hex colours outside `src/app/brand-tokens.css` (checked by `scripts/design-guardrails/`). No learner page may scroll sideways (checked by `tests/e2e/horizontal-scroll.spec.ts`).
-- Design decisions are logged in `STATUS.md`. `content-factory/RUN_LOG.md` is for Content Factory work.
+- Colour roles never mix: brand/action; learning status; functional status; subject identity.
+- Progress remains Topics covered · Understanding · Exam readiness, never one blended mastery percentage.
+- Honest data only: never hard-code numbers, names, dates or topics from mockups. If the data does not exist yet, show the honest empty state. Never fake REV.
+- No raw hex colours outside the central token/subject-palette ownership allowed by repository guardrails. No learner page may scroll sideways.
+- New design decisions belong in governed authority/decision records. Implementation trackers may record delivery state but do not create authority.
+- Phase E will add the bounded derived AI learner-design guide; until then, use `INDEX.md` plus the numbered authorities above.
 
 ## Switching between AI tools
 

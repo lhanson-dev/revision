@@ -339,21 +339,11 @@ Email should normally be lower-frequency and suited to broader-value communicati
 
 ## 14. Primary learner navigation
 
-The governed learner-wide destinations are:
+Adaptive Revision Planning does not define a second learner navigation model.
 
-**Home | Plan | Progress | Courses**
+The current learner-wide destinations, desktop/sidebar behaviour, tablet rail, phone bottom navigation, contextual course drawer, account placement and persistent Ask REV access are governed by `Global Learner Navigation.md`. Their visual geometry is governed by `20-brand-and-experience/Learner Design System.md`.
 
-The persistent global learner action is **Ask REV**.
-
-On desktop, the four destinations and the prominent Ask REV action are exposed through the governed left learner rail. When Courses is active, the learner's saved courses appear directly beneath it and only the selected course expands into its applicable focused sections.
-
-On tablet/mobile, there is **no persistent multi-item bottom navigation bar**. The learner uses the governed top-left menu/drawer for Home, Plan, Progress and Courses, while the persistent bottom **Ask REV** dock remains the only persistent bottom learner action.
-
-The REV treatment must remain accessible, calm and purposeful rather than decorative AI theatre.
-
-Home remains the default signed-in destination.
-
-Profile, settings, subscription/account utilities, help and privacy remain secondary to the learner-wide jobs and follow the progressive-disclosure account model governed by `Global Learner Navigation.md`.
+Plan remains the learner's adaptive programme destination and Home remains the default signed-in destination. Planner logic must not create navigation variants merely to expose planning functionality.
 
 ## 15. MVP boundary
 
@@ -374,7 +364,7 @@ The first implementation must prove the core adaptive loop rather than every pos
 - lightweight external revision reconciliation;
 - insufficient-capacity / priority-mode behaviour;
 - persistent context-aware Ask REV entry and planning explanation;
-- desktop left-rail navigation plus tablet/mobile menu/drawer and persistent Ask REV dock;
+- current governed learner shell/navigation and persistent Ask REV access from `Global Learner Navigation.md`;
 - minimum viable product analytics and Founder/Admin health signals; and
 - accessible loading, empty, unavailable, low-evidence and error states.
 

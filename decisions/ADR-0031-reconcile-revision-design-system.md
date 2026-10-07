@@ -1,6 +1,6 @@
 # ADR-0031 — Reconcile the Revision design system around one governed learner experience
 
-**Status:** Founder-approved design direction; Phase A completeness review complete; documentation reconciliation pending; production implementation pending  
+**Status:** Founder-approved design direction; Phase A decision complete; Phase B authority reconciliation complete; production implementation pending  
 **Date:** 7 October 2026  
 **Decision owner:** Founder  
 **Scope:** Revision learner visual/interaction system, responsive navigation, course identity, REV presentation, educational interaction and progress visualisation
@@ -371,6 +371,31 @@ Existing specialist product authorities continue to own page and journey behavio
 Known examples of reconciliation debt include older 32px feature-radius wording versus the approved 28px major-surface role, older five-state learner REV wording versus the approved four-state learner model, and superseded tablet/mobile navigation wording that still survives in less-specific documents. Those conflicts are documentation debt to resolve; they are not new Founder design choices.
 
 This Phase A completion does not authorise production UI changes. Numbered authority reconciliation must be approved before the new authority model is treated as canonical for implementation.
+
+## Phase B authority reconciliation — 7 October 2026
+
+The completed learner-design decision is promoted into one active numbered authority:
+
+`20-brand-and-experience/Learner Design System.md`.
+
+The authority model is deliberately non-duplicative:
+
+- Learner Design System owns shared learner visual and interaction foundations.
+- Product UX Principles owns learner experience/journey-quality principles.
+- Global Learner Navigation owns navigation behaviour and hierarchy.
+- REV Guidance and Conversation Pattern owns REV behaviour, recommendation/conversation scope and voice.
+- Identity Asset Usage Rules owns exact wordmark/Living E asset geometry.
+- Subject Accent Colour System owns exact subject hue/mark mapping.
+- Educational Treatment System owns educational-treatment meaning/anatomy.
+- Claims and Progress Governance owns progress/evidence semantics.
+- Page/journey authorities in `10-product-governance/` own their specialist product behaviour.
+- Code and `docs/technical/` remain implementation truth and may show Phase C debt.
+
+The earlier Learner Content Canvas Amendment and Course Overview Progress Signals document are retained as superseded history rather than competing active authority. The 1 October learner-redesign package and `docs/design-system/` responsive material are explicitly derived/reference material, not normative authority.
+
+Global Learner Navigation is reconciled so the current shell is stated once: desktop sidebar, tablet rail plus contextual drawer, phone bottom navigation plus contextual drawer, persistent Ask REV access through the shell, and focus mode only after entering a dedicated exam-performance activity rather than across the whole Exam Prep section.
+
+This phase changes documentation/authority only. It does not claim that production tokens/components/pages already implement the reconciled learner system. That implementation reconciliation remains Phase C.
 
 ## Consequences
 

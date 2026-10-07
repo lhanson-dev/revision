@@ -1,3 +1,5 @@
+> **Implementation tracker only — not normative design authority.** Current learner design rules live in `20-brand-and-experience/Learner Design System.md`. This file preserves v2 rollout state/history and may lag the current reconciliation.
+
 # Learner redesign v2: status tracker
 
 **Updated:** 2 October 2026 (PR 14, Empty states). Every later redesign PR updates this file.
