@@ -4,17 +4,24 @@ document_id: "revision-product-ux-principles"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.6"
+version: "0.7"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-09-26"
+last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["learner experience principles"]
-depends_on: ["Tone of Voice Framework", "Emotional Experience Principles"]
+depends_on: ["Tone of Voice Framework", "Emotional Experience Principles", "Learner Design System"]
 supersedes: null
 ---
 # Product UX Principles
+
+## Authority relationship
+
+This document owns learner experience and journey-quality principles: clarity, momentum, progressive disclosure, responsive usability, accessibility and useful next action.
+
+`Learner Design System.md` owns the current learner visual/interaction values and component-system rules. Where this document describes a visual value such as canvas geometry, breakpoint behaviour or component styling, treat that wording as the UX principle and use Learner Design System for the exact current design rule.
+
 
 ## Make the useful action obvious
 Every important learner screen should have a clear hierarchy. The student should be able to scan the page and understand the primary useful action quickly.
