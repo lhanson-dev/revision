@@ -106,10 +106,17 @@
 .runtime-account-modal,
 .runtime-rev-panel {
   border-color: var(--color-border);
-  border-radius: var(--overlay-radius);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
+}
+
+.runtime-account-modal {
+  border-radius: var(--overlay-radius);
+}
+
+.runtime-rev-panel {
+  border-radius: var(--rev-overlay-radius);
 }
 
 .runtime-mobile-drawer {

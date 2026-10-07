@@ -73,6 +73,14 @@ test('admin can use the live Design Lab component canvas', async ({ page }) => {
   await page.getByRole('button', { name: 'Dark' }).click()
   await expect(page.locator('.design-lab-runtime')).toHaveAttribute('data-theme', 'dark')
 
+  const revStateFamily = page.getByRole('heading', { name: 'REV state family' }).locator('..').locator('..')
+  await expect(revStateFamily.locator('.rev-presence')).toHaveCount(4)
+  await expect(revStateFamily).toContainText('Resting')
+  await expect(revStateFamily).toContainText('Listening')
+  await expect(revStateFamily).toContainText('Thinking')
+  await expect(revStateFamily).toContainText('Responding')
+
+  await expect(page.getByText('28px', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Buttons & actions' })).toBeVisible()
   await expect(page.getByText('Approved pattern · shared primitive missing').first()).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Learn blocks' })).toBeVisible()

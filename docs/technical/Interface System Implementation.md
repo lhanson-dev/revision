@@ -1,6 +1,6 @@
 # Revision Interface System Implementation
 
-**Status:** B1–B7 live; B7.5 final acceptance complete via PR #148 and production-verified  
+**Status:** B1–B7 live; 7 October learner-design Phase C reconciliation in progress from the B7 baseline  
 **Authority:** learner implementation follows `20-brand-and-experience/Learner Design System.md`; wider identity/product principles remain in `Visual Brand System.md` and `Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -38,7 +38,7 @@ Feature styles may own genuine composition. They must not create a parallel desi
 
 ## Central foundation contract
 
-`brand-tokens.css` is the implementation source for reusable roles including Calm Teal and neutral foundations, light/dark semantic colours, Success / Warning / Error / Information roles, Manrope type roles, the 4px spacing rhythm, radius/elevation families, compact/standard/large controls, standard fields/icons, focus, motion, overlays and REV-derived roles.
+`brand-tokens.css` is the implementation source for reusable roles including Calm Teal and neutral foundations, light/dark semantic colours, Success / Warning / Error / Information roles, Manrope/Bricolage learner type roles, the 4px spacing rhythm, the 12 / 14 / 20 / 28 / 999 learner radius family, compact/standard/large controls, standard fields/icons, focus, motion, overlays and REV-derived roles.
 
 Migrated interface layers consume these roles instead of declaring page-local palettes or type scales.
 
@@ -60,7 +60,7 @@ The public React registry under `src/app/ui/` supplies recurring structure inclu
 - **B7.4 — canonical identity and recurring glyph ownership:** live via PR #147 / merge `7ac52d0702dca1bc11e87eede36bf0159947ca39`.
 - **B7.5 — final compatibility retirement / visual acceptance:** live via PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`; exact-head Revision CI #869 and governed production run `32656318718` succeeded.
 
-Issue #137 is closed as completed. The canonical Interface System foundation is the baseline for subsequent journey-led work.
+Issue #137 is closed as completed. The B7 Interface System is the implementation baseline; it does not prove alignment with the later 7 October Learner Design System. `Learner Design System Implementation Reconciliation.md` now records the Phase C KEEP / FIX / REMOVE audit and bounded rollout.
 
 ## B7 shared overlay/focus contract
 

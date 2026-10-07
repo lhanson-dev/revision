@@ -111,7 +111,7 @@ export function TabBar({ items, active, onNavigate, onAskRev, askRevActive }: Sh
 
 export interface AppShellProps extends ShellNavProps {
   children: ReactNode
-  /** Exam Prep focus mode: all navigation is hidden. Leaving a running timed paper asks first (in the Exam Prep screen). */
+  /** Focused exam-performance mode: hide global navigation only inside the dedicated focused activity. */
   focus?: boolean
   /** Sidebar footer (desktop and laptop only). */
   sidebarFooter?: ReactNode
