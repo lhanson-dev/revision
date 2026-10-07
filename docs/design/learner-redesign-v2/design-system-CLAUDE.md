@@ -1,4 +1,8 @@
-# Revision Design System: project rules
+# Historical Claude Design project rules
+
+> **DERIVED / HISTORICAL — NOT NORMATIVE AUTHORITY.**
+>
+> These instructions describe the 1 October 2026 Claude Design package. For any current learner-design task, start with `20-brand-and-experience/Learner Design System.md` and the specialist numbered authority located through `INDEX.md`. If anything below conflicts, the current numbered authority wins. Phase E will add the new bounded AI learner-design guide.
 
 This project IS the Revision design system. Every new design here must follow it.
 
