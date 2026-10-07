@@ -128,7 +128,7 @@ Choose the family before styling composition:
 - **Feature** — deliberately exceptional editorial/brand moment.
 - **Floating** — popovers and compact elevated context.
 
-REV, Exam/Performance, Guidance and other specialist families remain governed by the Visual Brand System. Add a reusable shared variant only when its recurring job is proven; do not stretch Standard/Feature merely for appearance.
+REV, Exam/Performance, Guidance and other learner specialist families use `Learner Design System.md` plus their relevant specialist authority. Add a reusable shared variant only when its recurring job is proven; do not stretch Standard/Feature merely for appearance.
 
 A reading page is not automatically a collection of `Surface` cards. The current Learn implementation keeps the teaching article as the dominant surface and uses `EducationalTreatment` only for educationally meaningful departures from normal prose.
 
