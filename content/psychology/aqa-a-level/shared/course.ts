@@ -141,10 +141,14 @@ export const psychologyLearn = learnCourseSchema.parse({
               heading: 'Core knowledge',
               paragraphs: definitions.length > 0 ? definitions : [requirement.boardAlignment.summary],
             },
-            ...(research.length > 0 ? [{
+            ...(research.length >= 2 ? [{
               type: 'relationship' as const,
               title: 'Research, evidence and relationships',
               items: research,
+            }] : research.length === 1 ? [{
+              type: 'explanation' as const,
+              heading: 'Research, evidence and relationships',
+              paragraphs: research,
             }] : []),
             ...(evaluation.length > 0 ? [{
               type: 'explanation' as const,
@@ -335,12 +339,16 @@ function paperExam(paperId: '7182/1' | '7182/2' | '7182/3') {
   const paper = examTruth.assessmentModel.papers.find((candidate) => candidate.id === paperId)
   if (!paper) throw new Error(`Missing Psychology Exam Truth for ${paperId}`)
   const questions = paper.sections.flatMap((section) => {
-    if (section.scope.type === 'topic') {
-      const topic = truthTopics.find((candidate) => candidate.topicNumber === section.scope.topicNumber)
-      if (!topic) throw new Error(`Missing Psychology topic ${section.scope.topicNumber}`)
+    if ('topicNumber' in section.scope && typeof section.scope.topicNumber === 'number') {
+      const topicNumber = section.scope.topicNumber
+      const topic = truthTopics.find((candidate) => candidate.topicNumber === topicNumber)
+      if (!topic) throw new Error(`Missing Psychology topic ${topicNumber}`)
       return sectionQuestions(topic, section.id, paperId, section.marks)
     }
-    return section.scope.topicNumbers.flatMap((number) => {
+    if (!('topicNumbers' in section.scope) || !Array.isArray(section.scope.topicNumbers)) {
+      throw new Error(`Invalid Psychology Exam Truth scope for ${paperId} section ${section.id}`)
+    }
+    return section.scope.topicNumbers.flatMap((number: number) => {
       const topic = truthTopics.find((candidate) => candidate.topicNumber === number)
       if (!topic) throw new Error(`Missing Psychology option topic ${number}`)
       return sectionQuestions(topic, section.id, paperId, section.marks, `section-${section.id.toLowerCase()}`, `topic-${number}`)
