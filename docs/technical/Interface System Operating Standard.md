@@ -106,7 +106,7 @@ The manifest records approved asset masters, exports, lifecycle status, supporte
 - Shared spacing uses the 4px role set.
 - Controls use approved radius and height roles.
 - Ordinary surfaces use the 20px surface role.
-- Feature/REV surfaces use 32px only where the surface family justifies it.
+- Current production tokens still expose the pre-reconciliation 32px feature role. For learner surfaces this is **known Phase C debt**: the approved learner feature/major REV radius is 28px in `Learner Design System.md`. Do not extend the 32px learner usage.
 - Shadows are not decorative defaults; standard surfaces are Flat unless a governed floating/raised relationship exists.
 - A reading workspace should not become a dashboard merely because surface components exist; composition follows the job.
 
@@ -237,6 +237,6 @@ The default response to a page-level styling problem is **reuse or extend the sh
 
 ## Documentation impact
 
-This standard operationalises existing Visual Brand System and Product UX authority. The B7 changes update implementation structure and assurance, not approved brand/product behaviour.
+This standard operationalises numbered design/product authority. For learner work, `Learner Design System.md` is now canonical. Existing B7 implementation records remain historically true; Phase C must reconcile any implementation values that still differ.
 
 The component registry, current implementation record and B7 final acceptance record are maintained as current technical truth. Historical research/audits are not rewritten.
