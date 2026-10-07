@@ -6,10 +6,10 @@ authority: "brand-and-experience"
 status: "active"
 version: "1.2"
 owner: "Founder"
-effective_date: "2026-10-01"
+effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
-content_review_status: "founder-approved-direction-pending-merge"
+content_review_status: "founder-approved"
 source_of_truth_for: ["Revision visual identity", "company-wide identity foundations", "wider cross-channel brand expression", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "asset naming and lifecycle"]
 depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture", "Core Product Messaging", "Claims and Progress Governance"]
 supersedes: null
