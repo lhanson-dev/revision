@@ -164,7 +164,8 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   await askRev.click()
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(revDialog).toBeVisible()
-  await expect(revDialog).toHaveCSS('border-radius', '28px')
+  const revDialogRadius = (page.viewportSize()?.width ?? 0) <= 620 ? '0px' : '28px'
+  await expect(revDialog).toHaveCSS('border-radius', revDialogRadius)
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
 
   await openProfile(page)
