@@ -12,10 +12,11 @@ const COURSE_TRUTH_DIR = 'research/source-first-course-prototype/psychology-cour
 const EXAM_TRUTH_PATH = 'research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
 const OUTPUT_DIR = '.artifacts/psychology-launch-assurance'
 const LIVE_TIMEOUT_MS = 40 * 60 * 1_000
+const live = process.env.PSYCHOLOGY_LAUNCH_ASSURANCE_LIVE === '1'
 
 afterEach(() => {
   vi.unstubAllGlobals()
-  rmSync(OUTPUT_DIR, { recursive: true, force: true })
+  if (!live) rmSync(OUTPUT_DIR, { recursive: true, force: true })
 })
 
 describe('Psychology launch assurance', () => {
@@ -123,9 +124,62 @@ describe('Psychology launch assurance', () => {
     expect(retained.reviewedContentIds).toEqual(packets.educational[0].reviewScopeIds)
     expect(retained.scopeBinding).toBe('deterministic_packet_review_scope')
   })
-})
 
-const live = process.env.PSYCHOLOGY_LAUNCH_ASSURANCE_LIVE === '1'
+  test('retains fail-hold evidence before throwing on material findings', async () => {
+    const provider = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const request = JSON.parse(String(init?.body ?? '{}')) as { input?: string }
+      const packet = JSON.parse(request.input ?? '{}') as { packetId: string; reviewScopeIds: string[] }
+      const affectedId = packet.reviewScopeIds[0]
+      return new Response(JSON.stringify({
+        status: 'completed',
+        usage: { input_tokens: 0, output_tokens: 0, input_tokens_details: { cached_tokens: 0 } },
+        output: [{
+          type: 'message',
+          content: [{
+            type: 'output_text',
+            text: JSON.stringify({
+              packetId: packet.packetId,
+              decision: 'fail_hold',
+              dimensions: [{ dimension: 'independent_challenge', status: 'material_issue', summary: 'Material issue found.' }],
+              findings: [{
+                id: `${packet.packetId}-M1`,
+                severity: 'material',
+                issueType: 'test_material_issue',
+                affectedContentIds: [affectedId],
+                evidence: 'A material learner-facing defect is present in the test fixture.',
+                recommendedCorrection: 'Correct the affected production content.',
+                affectedArtifact: affectedId,
+                resolutionStatus: 'open',
+              }],
+              knownLimitations: [],
+              summary: 'Packet held by the independent challenge.',
+            }),
+          }],
+        }],
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    })
+    vi.stubGlobal('fetch', provider)
+
+    await expect(runPsychologyLaunchAssurance({
+      courseTruthDir: COURSE_TRUTH_DIR,
+      examTruthPath: EXAM_TRUTH_PATH,
+      reviewedMainSha: 'b'.repeat(40),
+      maxSpendUsd: 5,
+      model: 'test-review-model',
+      apiKey: 'test-key',
+    })).rejects.toThrow(/fail-closed/)
+
+    const receipt = JSON.parse(readFileSync(`${OUTPUT_DIR}/final-receipt.json`, 'utf8')) as {
+      finalDecision: string
+      packetCounts: { completed: number }
+      unresolvedFindings: unknown[]
+    }
+    expect(receipt.finalDecision).toBe('fail_hold')
+    expect(receipt.packetCounts.completed).toBe(10)
+    expect(receipt.unresolvedFindings).toHaveLength(10)
+    expect(readFileSync(`${OUTPUT_DIR}/LAUNCH-EDU-01.review.json`, 'utf8')).toContain('material_issue')
+  })
+})
 
 test.skipIf(!live)('runs fresh Psychology production launch assurance only when explicitly enabled', async () => {
   const reviewedMainSha = process.env.REVISION_REVIEWED_MAIN_SHA ?? ''
