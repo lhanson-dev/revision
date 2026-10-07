@@ -97,3 +97,53 @@ This is production technical documentation only.
 No normative product or assurance authority is changed.
 
 The governing pilot run remains `research/source-first-course-prototype/AQA-PSYCHOLOGY-7182-STUDENT-PILOT-RUN.md`, and FI-007 remains governed by `10-product-governance/Assisted Exam Answer Marking.md`.
+
+
+## Production launch assurance implementation
+
+After preview integration reached `main`, the launch gate was deliberately separated from FI-007 marking assurance.
+
+The production launch assurance reviews exactly what a restricted-pilot learner will see:
+
+- production Learn pages;
+- flashcards;
+- objective Practice checks;
+- Research Methods data drills;
+- topic-link learner guidance;
+- Psychology Exam Prep coaching;
+- all three exact production mocks.
+
+The assurance reference is the already-approved Psychology Course Truth for educational content and the already-approved structured Exam Truth for assessment content.
+
+It does **not** review or promote Step 5 Marking Packs. Those remain Phase 2 FI-007 inputs.
+
+Implementation:
+
+- `scripts/assurance/psychology-launch-assurance.ts`
+- `scripts/assurance/psychology-launch-assurance.test.ts`
+- `.github/workflows/psychology-production-launch-assurance.yml`
+
+The live workflow:
+
+1. binds to an exact current `main` SHA;
+2. reruns deterministic Course Truth, Exam Truth, production-pack and launch-packet tests;
+3. runs seven fresh educational review packets covering all 118 requirements exactly once;
+4. runs three paper-specific A3 review packets;
+5. retains a machine-readable issue register and receipt;
+6. fails closed on any blocking/material finding or dimension;
+7. enforces a hard US$5 provider-spend ceiling;
+8. performs no provider work in ordinary pull-request CI.
+
+### A3 preflight correction before paid review
+
+The first integrated production mocks had a deterministic authenticity weakness: generic AO2 questions referred to an unfamiliar context without supplying one, and Paper 2 Section C allocated quantitative marks without sufficiently concrete quantitative tasks.
+
+That is corrected before paid assurance:
+
+- every AO2 mock question has a learner-visible stimulus;
+- Paper 1 embedded Research Methods application includes an operationalisation demand;
+- Paper 2 Section C now contains a concrete variables/operationalisation task, a descriptive-statistics dataset, a validity task, a sign-test dataset and an inferential-test/significance task;
+- every quantitative answer used for self-marking is independently calculable from the supplied data;
+- Paper 3 application questions now have concrete Revision-owned scenarios.
+
+This correction does not enable automated marking. It improves only the learner-visible launch assessment material.
