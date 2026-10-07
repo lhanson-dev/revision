@@ -158,6 +158,6 @@ This increment does not:
 
 ## Documentation impact
 
-No normative design authority changes are required for this increment because the Design Lab renders and classifies existing approved rules. The authoritative Visual Brand System and Interactive Component Quality Standard remain unchanged.
+The original increment did not create normative design authority. Following the 7 October reconciliation, `Learner Design System.md` is the canonical learner-design source and the Design Lab must be updated in Phase D where its current specimens differ.
 
 This document records the new implementation surface, its access/data boundary and the rule that it is a visual projection of authority rather than a competing source of truth. Historical design evidence is unchanged.
