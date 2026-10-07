@@ -4,15 +4,16 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.1"
+version: "1.2"
 owner: "Founder"
 effective_date: "2026-10-01"
-last_reviewed: "2026-10-01"
+last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
-content_review_status: "founder-approved"
-source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "REV visual presence", "REV motion", "responsive navigation treatment", "typography system", "spacing and shape system", "controls and forms", "surface families", "iconography", "subject accents", "data visualisation", "asset naming and lifecycle"]
+content_review_status: "founder-approved-direction-pending-merge"
+source_of_truth_for: ["Revision visual identity", "company-wide identity foundations", "wider cross-channel brand expression", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "asset naming and lifecycle"]
 depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture", "Core Product Messaging", "Claims and Progress Governance"]
 supersedes: null
+superseded_by_for_learner_product: "Learner Design System"
 ---
 # Revision Brand System
 
@@ -22,7 +23,15 @@ Define Revision's canonical brand-guidelines and visual-expression system across
 
 Revision should feel recognisably like one brand across the learner application, marketing/editorial site, Admin, social media, video, email, presentations and reusable assets. It is designed primarily for 15–18-year-old learners while remaining calm, credible and trustworthy for parents and other supporting or paying adults.
 
-Consistency comes from shared foundations and recognisable grammar, not from forcing every surface to use the same layout or card design. This document governs visual identity and expression. Product behaviour, learner language, marketing claims and educational evidence remain governed by their respective authorities.
+Consistency comes from shared foundations and recognisable grammar, not from forcing every surface to use the same layout or card design. This document governs company-wide identity foundations and wider cross-channel brand expression. Product behaviour, learner language, marketing claims and educational evidence remain governed by their respective authorities.
+
+## Learner product authority relationship
+
+From 7 October 2026, `Learner Design System.md` is the single current visual and interaction-design authority for the learner product.
+
+This Brand System remains authoritative for shared corporate/brand identity and for wider channels that have not yet been reconciled. Existing learner examples and values in this document are retained as historical/cross-channel context, but they do **not** compete with the Learner Design System. Where the two differ for a learner surface — including feature radius, REV learner states, responsive learner shell, forms, overlays, progress visualisation or learner composition — the Learner Design System governs.
+
+Public marketing, pricing/upgrade expression and Admin redesign are deliberately outside the current learner-first reconciliation and are not silently changed by this authority-boundary update.
 
 ## Brand-system model
 
@@ -334,6 +343,9 @@ For three or more series, also use direct labels, markers, line styles or patter
 
 ## Learner application
 
+> **Authority note — 7 October 2026:** this section is retained as earlier learner-expression context. Current learner visual/interaction rules are governed by `Learner Design System.md`; specialist navigation behaviour remains governed by `Global Learner Navigation.md`.
+
+
 ### Home
 
 Home is conversation-first rather than dashboard-first. The opening treatment should feel like a focused assistant/search starting page rather than a grid of competing widgets.
@@ -607,3 +619,8 @@ Version 1.1 records the Founder decisions of 1 October 2026 for the learner rede
 The wording in this document that still describes the retired drawer and Ask REV dock has been replaced. Historical evidence and prior audits remain historically true.
 
 See also: `docs/design-system/RESPONSIVE.md` (layout and breakpoint rules).
+
+
+## Documentation impact — learner authority reconciliation
+
+Version 1.2 narrows this document's learner role after ADR-0031. It preserves company-wide identity and wider cross-channel brand guidance while making `Learner Design System.md` canonical for learner visual/interaction design. It does not redesign marketing, pricing or Admin.
