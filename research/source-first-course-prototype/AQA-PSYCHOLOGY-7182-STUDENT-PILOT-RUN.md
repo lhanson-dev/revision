@@ -379,3 +379,23 @@ A separate governed branch adds:
 - no FI-007 Marking Pack review or promotion.
 
 This separation preserves the Founder direction: publish trustworthy course content first, then immediately continue FI-007 marking work without representing uncalibrated marking as launch-ready.
+
+
+### Production launch assurance run #1 — fail-hold with lost detailed artifact
+
+The first live production launch-assurance run was dispatched against exact `main`
+`ce4d37d6798f2299f21a6f1a8d2129e77264d62b`.
+
+GitHub Actions run: `37700007646`.
+
+Deterministic prerequisites and exact-current-main verification passed before provider spend.
+
+The fresh independent review completed and the launch gate failed closed with:
+
+- 20 blocking/material findings;
+- 20 blocking/material review dimensions;
+- final decision: `fail_hold`.
+
+The detailed packet-review JSON and final receipt were not retained because the live Vitest file had an unconditional cleanup hook that removed the assurance output directory immediately after the live test failed. The subsequent artifact-upload step therefore found no files.
+
+This evidence-retention defect does not convert the result into a pass and does not justify content remediation by guesswork. The course remains `preview`. The tooling must first be corrected so a repeated live review retains the exact issue register, after which remediation can address the actual findings rather than inferred ones.
