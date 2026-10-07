@@ -51,7 +51,7 @@ The compact REV treatment is **not** the full Revision company/product wordmark 
 
 ### Powered by REV
 
-`Powered by REV` is the approved compact attribution treatment for the Returning Student Home REV hero.
+`Powered by REV` is the approved compact attribution treatment for governed REV-led decision surfaces. Current approved learner uses are the Returning Student Home REV feature and Course Overview REV guidance, as governed by `REV Guidance and Conversation Pattern.md`.
 
 It must:
 
@@ -62,7 +62,7 @@ It must:
 - preserve the compact REV three-bar E treatment rather than substituting plain text `REV`; and
 - remain secondary to the Living E and greeting rather than competing with them.
 
-Do not create alternative `Powered by REV` arrangements locally. New use outside the Returning Student Home hero requires deliberate brand review so the treatment does not become repetitive attribution clutter.
+Do not create alternative `Powered by REV` arrangements locally. New use outside the currently governed REV-led decision surfaces requires deliberate review under `REV Guidance and Conversation Pattern.md` so the attribution does not become repetitive clutter.
 
 ## Revision wordmark clear space
 
