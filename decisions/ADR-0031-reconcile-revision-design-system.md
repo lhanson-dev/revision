@@ -153,6 +153,34 @@ Ordinary teaching remains open/editorial. Key ideas, examples, worked examples, 
 
 Diagrams, tables and progressive worked interactions are used where they improve understanding rather than decorate the page. Quick checks remain unscored. REV explanations remain visually separate through Deep Teal + Living E.
 
+### 19. Accessibility and design-quality gate
+
+A Revision design is not complete because it looks good in one screenshot. It is complete only when the intended hierarchy, meaning and interaction survive different themes, screen sizes, input methods and accessibility settings.
+
+Reusable components and materially redesigned learner journeys must:
+
+- work in Light and Dark from the same component structure with tested contrast;
+- preserve hierarchy and capability across phone, tablet and desktop;
+- remain usable from 320px without ordinary page-level horizontal scrolling;
+- work with touch, mouse and keyboard, with obvious logical focus and no essential hover-only behaviour;
+- remain readable and operable under text enlargement/zoom rather than clipping into fixed-height layouts;
+- provide reduced-motion alternatives that preserve state and meaning, including tactile learning interactions such as flashcard flips and Practice transitions;
+- never use colour as the only carrier of subject identity, learning status, functional feedback, selection or chart meaning;
+- deliberately handle loading, empty, error, disabled and saving states;
+- preserve the approved minimum touch targets;
+- give modals, drawers and overlays correct initial focus, focus containment, safe Escape behaviour, inert background, scroll locking and focus return; and
+- provide accessible text/data equivalents for charts and educational visuals where the graphic alone is insufficient.
+
+Revision continues to target WCAG 2.2 AA for learner-facing experiences, but automated accessibility compliance alone is not the quality definition. A technically conformant interface may still fail if it is confusing, cramped, cognitively exhausting or visually incoherent.
+
+The acceptance standard is therefore:
+
+**accessible + understandable + responsive + visually coherent + correct for the journey**
+
+Automated visual assurance should use a bounded representative set rather than freeze every page. Representative coverage should include Light/Dark, desktop/tablet/phone, core navigation, REV, forms, overlays, Learn treatments, Practice interaction, Progress, Exam Prep/Simulator and important empty/loading/error states.
+
+The Design Lab remains an inspection surface, not design authority. It should expose canonical shared components and recurring patterns in relevant interactive, theme, responsive and reduced-motion states, while real production journeys still require journey-level review.
+
 ## Consequences
 
 The current repository contains implementation and documentation that predate this reconciliation. Those conflicts are implementation/documentation debt, not permission to ignore this decision.
