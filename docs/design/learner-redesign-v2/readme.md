@@ -1,4 +1,8 @@
-# Revision Design System
+# Learner redesign v2 design package
+
+> **DERIVED / HISTORICAL REFERENCE — NOT CURRENT LEARNER-DESIGN AUTHORITY.**  
+> Current authority: `20-brand-and-experience/Learner Design System.md` plus specialist numbered authorities. Values below document the 1 October v2 package and may intentionally differ from the reconciled system or current implementation until Phase C/D cleanup.
+
 
 Revision is a revision app for GCSE/A-level students (teenagers). **REV** is its AI tutor. It reads each student's progress, suggests what to revise next and says why, and answers questions. The brand is **Calm Teal**: quiet teal-grey surfaces, bold Bricolage headings, a separate palette with one hue per subject, and the Living E, REV's always-moving signature. The look is deliberately *not* gamified: no XP, streaks, badges or confetti.
 
