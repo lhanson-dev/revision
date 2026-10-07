@@ -39,6 +39,27 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
+  it('gives every AO2 mock question a concrete learner-visible stimulus', () => {
+    for (const pack of [paper1, paper2, paper3]) {
+      for (const question of pack.exams[0]?.questions ?? []) {
+        if (question.assessmentObjectives.ao2 > 0) {
+          expect(question.stimulus, question.id).toBeDefined()
+          expect(question.stimulus?.narrative.trim().length, question.id).toBeGreaterThan(20)
+        }
+      }
+    }
+  })
+
+  it('uses concrete Research Methods tasks in Paper 2 Section C', () => {
+    const questions = paper2.exams[0]?.questions.filter((question) => question.id.startsWith('psy-7182-2-c-rm-')) ?? []
+    expect(questions.map((question) => question.marks)).toEqual([4, 8, 12, 12, 12])
+    expect(questions.reduce((sum, question) => sum + question.marks, 0)).toBe(48)
+    expect(questions[1]?.stimulus?.table?.rows).toHaveLength(5)
+    expect(questions[3]?.stimulus?.table?.rows).toHaveLength(5)
+    expect(questions[4]?.stimulus?.narrative).toContain('rho = -0.62')
+    expect(questions[4]?.stimulus?.narrative).toContain('0.587')
+  })
+
   it('represents Paper 3 option groups as whole topic options', () => {
     const exam = paper3.exams[0]
     expect(exam).toBeDefined()
