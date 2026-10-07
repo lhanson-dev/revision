@@ -6,7 +6,7 @@ authority: "product-governance"
 status: "active"
 version: "1.2"
 owner: "Founder"
-effective_date: "2026-08-24"
+effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["returning Student Home hierarchy", "Returning Student Home screen-purpose contract", "Home REV hero", "Today's revision plan composition", "Home recommendation launch behaviour"]
