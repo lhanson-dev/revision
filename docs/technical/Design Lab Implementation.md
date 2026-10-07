@@ -14,6 +14,8 @@ The Design Lab is **not** design authority. `Learner Design System.md` is the le
 
 The Design Lab is also not a second learner application, a replacement for page-level design approval, or an independent design system. It consumes the same production Interface System components and semantic tokens wherever a shared implementation exists.
 
+Phase C1 begins that reconciliation at the shared-foundation owner: the Design Lab now consumes the canonical 28px learner feature radius and shows only the four learner REV states. The wider specimen/composition/reference-set upgrade remains Phase D.
+
 ## Access boundary
 
 The Design Lab is built as a separate Vite entry point at:
