@@ -246,8 +246,8 @@ export function DesignLab() {
             </SpecimenCard>
             <SpecimenCard title="REV state family">
               <div className="design-lab-rev-states">
-                {(['resting', 'listening', 'thinking', 'responding', 'complete'] as const).map((state) => (
-                  <div key={state}><RevPresence state={state} size="compact" /><span>{state === 'complete' ? 'Completed' : state.charAt(0).toUpperCase() + state.slice(1)}</span></div>
+                {(['resting', 'listening', 'thinking', 'responding'] as const).map((state) => (
+                  <div key={state}><RevPresence state={state} size="compact" /><span>{state.charAt(0).toUpperCase() + state.slice(1)}</span></div>
                 ))}
               </div>
             </SpecimenCard>
