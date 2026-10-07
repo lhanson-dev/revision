@@ -181,6 +181,68 @@ Automated visual assurance should use a bounded representative set rather than f
 
 The Design Lab remains an inspection surface, not design authority. It should expose canonical shared components and recurring patterns in relevant interactive, theme, responsive and reduced-motion states, while real production journeys still require journey-level review.
 
+### 20. Practice is a focused activity workspace
+
+Practice uses a focused activity workspace rather than treating sustained exercises as pop-up dialogs. Once an activity begins, the task becomes the dominant surface until the learner finishes, exits or moves to the next activity.
+
+The core Practice rhythm is:
+
+`choose what to practise → focused activity → respond/reveal → useful feedback → next item → short session summary`
+
+The normal course identity and route context remain available, but selectors, setup controls and competing panels must not surround the learner while they are actively practising.
+
+#### Flashcards
+
+Flashcards use one substantial card as the dominant interaction rather than a small card nested inside another panel or modal.
+
+The front presents the term/question. Tap, click or keyboard activation flips to the back. The flip is part of the learning mechanic and should feel crisp and tactile rather than decorative. Reduced motion uses an instant reveal or short crossfade.
+
+After reveal, the learner gives the relevant knowledge/confidence response before moving on. Session position such as `4 of 12` remains visible but quiet.
+
+#### Questions and feedback
+
+Multiple-choice, short-response and other question interactions present one clear question as the dominant task.
+
+After the learner responds and, where governed, records confidence, feedback appears in place and preserves the relationship to the learner's answer.
+
+Feedback should answer:
+
+1. Was I right?
+2. Why?
+3. What should I learn from this?
+4. What should I do next?
+
+Wrong answers are educational correction, not software failure. Do not use shaking controls, buzzer-style motion, punitive red theatrics or other game-show feedback.
+
+#### Calculations, data, case studies and written Practice
+
+The focused shell adapts to the learning job.
+
+Formula recall may use reveal mechanics. Calculation tasks preserve working and then reveal/check the method. Graphs, tables and source material may use more of the shared learner canvas where needed.
+
+Longer case-study and written work may use side-by-side source/response composition on larger screens when this reduces unnecessary scrolling; tablet and phone reflow into task order.
+
+REV-assisted marking or feedback uses the governed Deep Teal + Living E treatment only when REV is genuinely doing the work.
+
+#### Session progress and completion
+
+During Practice, progress is useful but quiet, for example `Question 3 of 8` or an equivalent restrained indicator. Practice must not use XP, streaks, flying scores or decorative completion dashboards.
+
+At the end of a session, provide a concise useful summary answering how the learner performed, what changed in the evidence, what still needs work and what the most useful next action is.
+
+If the evidence model does not justify a status or progress change, do not manufacture one merely to make the session feel rewarding.
+
+#### Increasing restraint toward authentic exam conditions
+
+The more exam-authentic the activity becomes, the more restrained the visual interaction becomes:
+
+- flashcards may be the most tactile;
+- Practice questions remain interactive and responsive;
+- exam-style Practice becomes more focused and restrained; and
+- full timed mocks use an authentic focused exam environment with no mid-attempt learning feedback.
+
+The current implementation's sustained Practice-in-`PracticeDialog` presentation is therefore implementation debt to be superseded during the later rollout. Dialogs remain appropriate for bounded decisions or short interruptions, not as the default container for a multi-question learning session.
+
 ## Deferred follow-on — full-site expression after learner-product completion
 
 The Founder confirmed on 7 October 2026 that Revision should ultimately use one coherent design system across the wider company/product surface, including authentication/onboarding, public marketing, pricing/upgrade and Admin, with expression adapting to the job rather than creating local design-system forks.
