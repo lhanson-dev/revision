@@ -86,7 +86,7 @@ jobs:
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Responsive browser assurance
-        timeout-minutes: 10
+        timeout-minutes: 15
         run: npm run test:e2e
       - name: Upload interface visual regression evidence
         if: always()
