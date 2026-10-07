@@ -1,4 +1,4 @@
-export type RevPresenceState = 'resting' | 'listening' | 'thinking' | 'responding' | 'complete'
+export type RevPresenceState = 'resting' | 'listening' | 'thinking' | 'responding'
 export type RevPresenceSize = 'hero' | 'conversation' | 'nav' | 'compact'
 
 interface RevPresenceProps {
@@ -13,7 +13,6 @@ const stateLabels: Record<RevPresenceState, string> = {
   listening: 'REV is listening',
   thinking: 'REV is thinking',
   responding: 'REV is responding',
-  complete: 'REV has finished responding',
 }
 
 export function RevPresence({ state = 'resting', size = 'hero', decorative = false, className = '' }: RevPresenceProps) {
