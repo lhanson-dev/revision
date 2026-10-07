@@ -243,6 +243,70 @@ The more exam-authentic the activity becomes, the more restrained the visual int
 
 The current implementation's sustained Practice-in-`PracticeDialog` presentation is therefore implementation debt to be superseded during the later rollout. Dialogs remain appropriate for bounded decisions or short interruptions, not as the default container for a multi-question learning session.
 
+### 21. Course Overview is an orientation and decision surface
+
+Course Overview is a calm orientation and decision surface, not a dashboard and not a miniature copy of Learn, Practice and Progress.
+
+Its primary job is to answer three questions quickly:
+
+1. What course am I in?
+2. What is the most useful thing to do next?
+3. How am I doing overall?
+
+The canonical course header owns subject/course/exam identity. Overview must not follow that header with a second large identity hero that repeats the same subject, qualification, exam-board or specification information simply because a template has room for it.
+
+#### Primary decision area
+
+The main Overview decision area gives one evidence-backed course-level REV recommendation with a direct action.
+
+On larger screens, the preferred hierarchy is:
+
+`REV recommendation + reason + direct start action | concise Progress measures`
+
+with the contextual Ask REV route beneath.
+
+On constrained screens, the same hierarchy stacks without losing meaning:
+
+`REV recommendation → concise Progress measures → Ask REV`
+
+REV uses the governed Deep Teal + Living E identity. The recommendation must come from governed course-level evidence/recommendation logic and route to the exact useful activity where that activity can be identified safely.
+
+#### Progress on Overview
+
+Overview uses the governed three-measure model only as concise orientation:
+
+- Topics covered;
+- Understanding; and
+- Exam readiness.
+
+Detailed topic-by-topic evidence interpretation belongs in Progress.
+
+Overview must not become a second Progress page by repeating full topic-status distributions, dense evidence tables or other detailed learner-performance analysis.
+
+#### Course structure
+
+Overview may show a restrained course/chapter/topic structure below the decision area so the learner can understand the shape of the course and navigate directly into useful Learn or other relevant work.
+
+The structure answers `What does this course contain and where can I go?`, not `How am I performing on every topic?`.
+
+Status may appear where it materially improves orientation, but a full status row for every topic should not be duplicated when dedicated Progress already owns that job.
+
+#### Weak areas and duplication
+
+Do not show a permanent separate `Weak spots` panel merely to repeat evidence already used by REV and Progress.
+
+If a weak area is currently the most useful thing to address, the REV recommendation should explain that directly and provide the next action.
+
+Do not add a second row of large destination cards for Learn, Practice, Exam Prep and Progress merely to duplicate the course navigation. Contextual links remain appropriate where they serve the current decision.
+
+#### Little or no evidence
+
+A new or low-evidence course must still feel complete and useful.
+
+REV may recommend a short starting Practice activity to establish an initial evidence picture. Progress measures must truthfully show insufficient evidence where appropriate. The course structure remains available so the learner can choose to explore Learn or other supported sections.
+
+The current implementation's repeated subject hero, full topic-status `Your path` treatment and separate `Weak spots` panel are therefore implementation debt to be reconciled during the later learner-product rollout.
+
 ## Deferred follow-on — full-site expression after learner-product completion
 
 The Founder confirmed on 7 October 2026 that Revision should ultimately use one coherent design system across the wider company/product surface, including authentication/onboarding, public marketing, pricing/upgrade and Admin, with expression adapting to the job rather than creating local design-system forks.
