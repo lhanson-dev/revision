@@ -1,16 +1,18 @@
-# Learner redesign v2: start here
+# Learner redesign v2: historical / derived design package
 
-**Status:** Founder-approved on merge of the PR that adds this folder (design-system v2.1, 1 October 2026).
-**Supersedes:** the 30 September 2026 design review and Claude Code handover in `docs/design/learner-redesign-2026-09/`.
+**Status:** Historical and derived reference material. **Not normative learner-design authority after the 7 October 2026 reconciliation.**
+**Historical role:** Founder-approved v2.1 handoff/build package from 1 October 2026.
 
-This folder holds the Revision Design System (made in Claude Design) and the build tracker for the learner redesign. It is reference material for building; the rules the app must follow are in the standards listed below.
+This folder is retained because it records the design handoff, mockup components, token proposals and delivery tracker used during the v2.1 rollout. It must not compete with current numbered authority.
 
-## Which source wins
+## Current source order
 
-1. **Decisions and behaviour:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. Follow it, and ask Lee before changing it.
-2. **Visual values** (colours, type, spacing, layout): this folder's `tokens/`, `components/`, `guidelines/SUBJECT_PALETTE.md`, `guidelines/RESPONSIVE.md` and `design_handoff_revision_v2/CHANGES_v2.1.md`. The live values are in `src/app/brand-tokens.css` and `src/app/ui/`.
-3. **Background only:** `design_handoff_revision_v2/NEW_FEATURES.md`, `STYLE_GUIDE.md` and `README.md`. Where they disagree with 1 or 2, follow 1 or 2. The decisions file lists the exact overrides.
-4. **Reference only:** old mockups and screenshots, and anything in the design system's `archive/` folder (not copied here).
+1. **Current learner visual/interaction authority:** `20-brand-and-experience/Learner Design System.md`.
+2. **Specialist product/evidence authority:** the relevant numbered document located through `INDEX.md` (for example Global Learner Navigation, REV Guidance, Claims and Progress Governance, Learn MVP Experience).
+3. **Current implementation truth:** code and `docs/technical/`.
+4. **This folder:** derived/historical reference only. Its tokens, mockups, components and handoff rules may be stale and must not override current authority or implementation evidence.
+
+The 1 October decision record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md` is also historical decision evidence. ADR-0031 records the later reconciliation history.
 
 ## What is in this folder
 
