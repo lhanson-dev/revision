@@ -78,12 +78,6 @@ export const aqaPsychology7182ExamPapers = examPapersContentSchema.parse({
       overallPercentRange: examTruth.assessmentObjectives.AO3.overallPercentRange,
       coaching: { does: 'Analyse, interpret, evaluate, judge and refine.', show: 'Develop reasoning, compare explanations, evaluate evidence and keep conclusions proportional to what the evidence supports.', check: needsCheck },
     },
-    {
-      id: 'AO4',
-      capability: 'Not separately used in AQA 7182 Psychology',
-      overallPercentRange: [0, 0],
-      coaching: { does: 'Psychology 7182 uses AO1–AO3.', show: 'Revision shows AO1–AO3 for Psychology assessment work.', check: needsCheck },
-    },
   ],
   commandWords: Object.entries(examTruth.commandDemandModel.commands).flatMap(([demand, words]) =>
     words.slice(0, 3).map((word) => ({
