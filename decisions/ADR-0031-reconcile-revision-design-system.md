@@ -191,19 +191,12 @@ The implementation cleanup must preserve current educational/evidence semantics 
 
 ## Documentation impact
 
-This ADR records the Founder decisions but does not replace normative authority. The same governed change updates the relevant numbered authority documents:
+This ADR is the single working record for the current Founder design-reconciliation exercise while the decision set is still being completed. No numbered authority document is changed during this decision-capture phase.
 
-- Visual Brand System
-- REV Guidance and Conversation Pattern
-- Subject Accent Colour System
-- Interactive Component Quality Standard
-- Educational Treatment System
-- Global Learner Navigation
-- Learner Content Canvas Amendment
-- Claims and Progress Governance
+Once the full design direction has been reviewed and approved as a whole, rollout will be handled as a separate governed programme. That rollout will reconcile the relevant numbered authorities, implementation, Design Lab, technical documentation and assurance together so that approved design, documented authority and the live site converge without leaving competing sources of truth.
 
-The historical 1 October 2026 learner-redesign decision remains historically true. Where its design direction conflicts with this 7 October reconciliation, this ADR records why the newer authority was changed; the numbered authority documents govern current behaviour.
+The historical 1 October 2026 learner-redesign decision remains historically true. Where its design direction conflicts with this 7 October reconciliation, the completed reconciliation will govern the later authority update; historical evidence will not be rewritten.
 
 ## Implementation status
 
-**Documentation first. Production UI cleanup is intentionally deferred until the design reconciliation is complete and Founder-approved in governance.**
+**Decision capture first. Production UI and authority cleanup are intentionally deferred until the design reconciliation is complete and approved as a whole.**
