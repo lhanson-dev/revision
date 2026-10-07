@@ -1,15 +1,21 @@
 # Learner redesign v2: decisions and behaviour rules
 
-**Approved by:** Lee (Founder) · **Date:** 1 October 2026 · **Status:** founder-approved once merged
+**Approved by:** Lee (Founder) · **Date:** 1 October 2026 · **Status:** historical decision record — superseded for current learner-design authority by ADR-0031 and `20-brand-and-experience/Learner Design System.md`
 
 This file records what Lee decided for the v2 learner redesign, and the behaviour rules the app must follow. It sits alongside the Revision Design System (from Claude Design), which holds the visual values: tokens, components, palette and layout.
 
-## Which source wins
+## Current authority relationship
 
-1. **This file** wins on decisions and behaviour.
-2. **The design system** (`readme.md`, `tokens/`, `components/`, `guidelines/SUBJECT_PALETTE.md`, `guidelines/RESPONSIVE.md`, `design_handoff_revision_v2/CHANGES_v2.1.md`) wins on visual values.
-3. `design_handoff_revision_v2/NEW_FEATURES.md`, `STYLE_GUIDE.md` and `README.md` are background. Where they disagree with 1 or 2, follow 1 or 2 (see "Overrides" below).
-4. The old mockups and screenshots (`Revision Desktop.dc.html`, `Revision Mobile.dc.html`, and any v2 mockups or screenshots older than the design system) are reference only.
+This file preserves the 1 October learner-redesign decisions as history. It is no longer a competing current design authority.
+
+For current work:
+
+1. learner visual/interaction design starts with `20-brand-and-experience/Learner Design System.md`;
+2. specialist product/evidence behaviour comes from the relevant numbered authority;
+3. `decisions/ADR-0031-reconcile-revision-design-system.md` records the 7 October reconciliation decision history; and
+4. the design package, mockups and screenshots below are reference/evidence only unless their rule has been promoted into active numbered authority.
+
+The body below is intentionally preserved as the historical 1 October record and is not rewritten to pretend the later reconciliation existed at that time.
 
 ---
 
