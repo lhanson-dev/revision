@@ -80,7 +80,7 @@ export const examPapersContentSchema = z.object({
   checkedAgainst: z.object({ source: z.string().url(), checkedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), approvedBy: z.string().min(1) }),
   papers: z.array(examPaperSchema).min(1),
   dayRules: z.array(examFlaggedTextSchema).optional(),
-  assessmentObjectives: z.array(examAssessmentObjectiveSchema).length(4),
+  assessmentObjectives: z.array(examAssessmentObjectiveSchema).min(1).max(4),
   commandWords: z.array(examCommandWordSchema).optional(),
   levelsNote: examFlaggedTextSchema.optional(),
 })
