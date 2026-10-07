@@ -364,7 +364,7 @@ The first implementation must prove the core adaptive loop rather than every pos
 - lightweight external revision reconciliation;
 - insufficient-capacity / priority-mode behaviour;
 - persistent context-aware Ask REV entry and planning explanation;
-- desktop left-rail navigation plus tablet/mobile menu/drawer and persistent Ask REV dock;
+- current governed learner shell/navigation and persistent Ask REV access from `Global Learner Navigation.md`;
 - minimum viable product analytics and Founder/Admin health signals; and
 - accessible loading, empty, unavailable, low-evidence and error states.
 
