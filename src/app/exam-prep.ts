@@ -1,5 +1,6 @@
 import type { ExamPapersContent, ExamPaperGuide } from '../../content/exam-papers-schema'
 import { aqaBusiness7132ExamPapers } from '../../content/business/aqa-a-level/shared/exam-papers'
+import { aqaPsychology7182ExamPapers } from '../../content/psychology/aqa-a-level/shared/exam-papers'
 import type { TopicProgress } from './topic-status'
 
 /**
@@ -7,7 +8,7 @@ import type { TopicProgress } from './topic-status'
  * the course's own exams and the student's saved evidence. Nothing is typed in by hand.
  */
 
-const paperGuides: readonly ExamPapersContent[] = [aqaBusiness7132ExamPapers]
+const paperGuides: readonly ExamPapersContent[] = [aqaBusiness7132ExamPapers, aqaPsychology7182ExamPapers]
 
 /** The paper guide for a board and specification, or null when none has been published for that course yet. */
 export function examPapersFor(examBoardName: string, specificationCode: string): ExamPapersContent | null {
