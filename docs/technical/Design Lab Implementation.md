@@ -1,16 +1,16 @@
 # Design Lab Implementation
 
-**Status:** Implemented on governed branch; pending PR assurance and Founder merge approval  
+**Status:** Live via PR #426; Phase D reconciliation/expansion pending against the 7 October learner design authority  
 **Date:** 29 September 2026  
-**Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Interactive Component Quality Standard.md`, `20-brand-and-experience/Product UX Principles.md`  
+**Authority:** `20-brand-and-experience/Learner Design System.md` plus the applicable specialist numbered authorities  
 **Implementation references:** `docs/technical/Interface System Component Registry.md`, `docs/technical/Interactive Component Quality Implementation.md`  
 **Canonical review surface:** `/revision/design-lab.html`
 
 ## Purpose
 
-The Revision Design Lab is a protected, interactive visual reference for the approved interface system. It lets the Founder inspect and interact with the real foundations, shared components and approved recurring page patterns before deciding how they should be composed on learner pages.
+The Revision Design Lab is a protected, interactive visual reference for the production interface system. PR #426 merged it to `main` at `4b4936da0f865db38dcb2bf1b3e42b37146fad2f`. Phase D of the 7 October reconciliation will bring its specimens/reference coverage into line with the current learner design authority.
 
-The Design Lab is **not** design authority. Normative visual and interaction rules remain in the numbered brand/product authority documents. Where the Design Lab and authority ever disagree, the authority wins and the Design Lab must be corrected.
+The Design Lab is **not** design authority. `Learner Design System.md` is the learner-design entry point and specialist numbered authorities own their domains. Where the Design Lab and authority disagree, the Design Lab is implementation debt and must be corrected.
 
 The Design Lab is also not a second learner application, a replacement for page-level design approval, or an independent design system. It consumes the same production Interface System components and semantic tokens wherever a shared implementation exists.
 
