@@ -9,7 +9,7 @@ owner: "Founder"
 effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
 review_cadence: "quarterly"
-content_review_status: "founder-approved-direction-pending-merge"
+content_review_status: "founder-approved"
 source_of_truth_for: ["learner visual foundations", "learner semantic colour roles", "learner typography", "learner spacing and radii", "learner depth and surfaces", "learner action hierarchy", "learner REV visual presence", "learner responsive shell geometry", "learner content canvas", "learner course orientation pattern", "learner icon language", "learner light and dark themes", "learner forms and system states", "learner motion", "learner layered-surface design", "learner progress visualisation", "learner educational-treatment visual language", "learner Practice composition principles", "learner Course Overview composition principles", "learner Exam Prep and focused exam visual boundary", "learner design accessibility and quality gate"]
 depends_on: ["Founder Doctrine", "Product UX Principles", "Visual Brand System", "Global Learner Navigation", "Claims and Progress Governance"]
 supersedes: ["learner-specific visual and interaction rules in Visual Brand System where they overlap this document", "Learner Content Canvas Amendment as a standalone active authority", "learner-design values in docs/design/decisions/2026-10-01-learner-redesign-v2.md", "normative interpretation of docs/design-system/RESPONSIVE.md"]
