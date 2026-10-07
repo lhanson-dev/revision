@@ -120,7 +120,7 @@ async function openProfile(page: Page) {
     await page.getByRole('button', { name: 'Interface account menu' }).click()
     const menu = page.getByRole('menu', { name: 'Profile menu' })
     await expect(menu).toBeVisible()
-    await expect(menu).toHaveCSS('border-radius', '16px')
+    await expect(menu).toHaveCSS('border-radius', '12px')
     await menu.getByRole('menuitem', { name: 'Profile', exact: true }).click()
   }
 }
@@ -139,7 +139,10 @@ test('shared interface primitives provide one account and overlay grammar', asyn
       standardControl: style.getPropertyValue('--control-height-standard').trim(),
       fieldHeight: style.getPropertyValue('--field-height-standard').trim(),
       fastMotion: style.getPropertyValue('--motion-fast').trim(),
+      featureRadius: style.getPropertyValue('--radius-feature').trim(),
       overlayRadius: style.getPropertyValue('--overlay-radius').trim(),
+      revOverlayRadius: style.getPropertyValue('--rev-overlay-radius').trim(),
+      menuRadius: style.getPropertyValue('--menu-radius').trim(),
     }
   })
 
@@ -148,22 +151,28 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   expect(roles.standardControl).toBe('48px')
   expect(roles.fieldHeight).toBe('48px')
   expect(durationToMs(roles.fastMotion)).toBe(160)
-  expect(roles.overlayRadius).toBe('24px')
+  expect(roles.featureRadius).toBe('28px')
+  expect(roles.overlayRadius).toBe('20px')
+  expect(roles.revOverlayRadius).toBe('28px')
+  expect(roles.menuRadius).toBe('12px')
 
-  if (!isResponsiveLayout(page)) {
-    const askRev = page.getByRole('button', { name: 'Ask REV', exact: true })
-    await expect(askRev).toBeVisible()
-    await expect(askRev.locator('.rev-presence-nav')).toHaveCount(1)
-    await expect(askRev.locator('.rev-living-e .rev-e-bar')).toHaveCount(3)
-    await expect(askRev).not.toContainText('✦')
-  }
+  const askRev = page.getByRole('button', { name: 'Ask REV', exact: true }).first()
+  await expect(askRev).toBeVisible()
+  await expect(askRev.locator('.rev-presence-nav')).toHaveCount(1)
+  await expect(askRev.locator('.rev-living-e .rev-e-bar')).toHaveCount(3)
+  await expect(askRev).not.toContainText('✦')
+  await askRev.click()
+  const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
+  await expect(revDialog).toBeVisible()
+  await expect(revDialog).toHaveCSS('border-radius', '28px')
+  await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
 
   await openProfile(page)
 
   const modal = page.getByRole('dialog', { name: 'Account settings' })
   await expect(modal).toBeVisible()
   await expect(modal).toHaveClass(/ui-overlay-surface/)
-  await expect(modal).toHaveCSS('border-radius', '24px')
+  await expect(modal).toHaveCSS('border-radius', '20px')
 
   const backdrop = page.locator('.ui-overlay-backdrop[aria-label="Close account window"]')
   await expect(backdrop).toHaveCount(1)
