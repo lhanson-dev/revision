@@ -29,7 +29,7 @@ Use this file to find the governing source before substantive work.
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
 - Interactive component quality / button sizing, states and page-level implementation → `docs/technical/Interactive Component Quality Implementation.md`
-- Protected interactive design-reference canvas / component-gap visibility → `docs/technical/Design Lab Implementation.md`
+- Protected interactive design-reference canvas / component-gap visibility / Phase D reconciliation target → `docs/technical/Design Lab Implementation.md`
 - Learn/Practice focused-work Interface System migration → `docs/technical/Interface System B4 Learn and Practice Migration.md`
 - Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
 - Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
@@ -88,7 +88,7 @@ Use this file to find the governing source before substantive work.
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`
-- Stable learner content canvas / cross-site body alignment / prose-measure interpretation → `10-product-governance/Learner Content Canvas Amendment.md`
+- Learner visual/layout/canvas authority / shared learner design foundations → `20-brand-and-experience/Learner Design System.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Personalised Revision Intelligence strategy-to-feature mapping / strategic execution spine → `10-product-governance/backlog/Personalised Revision Intelligence Strategy Mapping.md` (non-authoritative lifecycle mapping)
@@ -99,13 +99,16 @@ Use this file to find the governing source before substantive work.
 ## Brand and experience
 - Emotional experience principles → `20-brand-and-experience/Emotional Experience Principles.md`
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
+- **Canonical learner visual + interaction design authority** → `20-brand-and-experience/Learner Design System.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
-- Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
+- Company-wide identity + wider cross-channel brand expression (learner-specific overlap delegated to Learner Design System) → `20-brand-and-experience/Visual Brand System.md`
 - Button/action sizing, hierarchy, feedback states and action language → `20-brand-and-experience/Interactive Component Quality Standard.md`
 - REV-led decision surfaces / proactive guidance + Ask REV interaction pattern → `20-brand-and-experience/REV Guidance and Conversation Pattern.md`
 - Educational treatments for teaching content (Key Idea, Example, Worked Example, Diagram, Misconception, Quick check, Recap) → `20-brand-and-experience/Educational Treatment System.md`
 - Subject accent colour mapping / usage / accessibility → `20-brand-and-experience/Subject Accent Colour System.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
+- Learner design reconciliation decision history → `decisions/ADR-0031-reconcile-revision-design-system.md`
+- Earlier learner redesign decision history (superseded for current design authority) → `docs/design/decisions/2026-10-01-learner-redesign-v2.md`
 - Other brand/visual authority → `20-brand-and-experience/`
 
 ## Brand and marketing
