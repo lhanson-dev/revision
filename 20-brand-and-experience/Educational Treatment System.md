@@ -4,13 +4,13 @@ document_id: "revision-educational-treatment-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.3"
+version: "1.4"
 owner: "Founder"
 effective_date: "2026-10-01"
-last_reviewed: "2026-10-01"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["educational treatment visual semantics", "cross-subject treatment consistency", "subject-accent parameterisation of educational treatments", "shared educational treatment extension rules", "in-reading quick check treatment"]
-depends_on: ["Visual Brand System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint", "Claims and Progress Governance"]
+depends_on: ["Learner Design System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint", "Claims and Progress Governance"]
 supersedes: null
 ---
 # Educational Treatment System
@@ -20,6 +20,10 @@ supersedes: null
 Define a shared learner-facing treatment language for recurring educational content so students can recognise the meaning of a treatment wherever it appears in Revision.
 
 Revision may vary page composition by job and may vary subject-recognition accents by subject, but the semantic treatment itself must remain familiar and predictable.
+
+## Authority relationship
+
+This document owns educational-treatment meaning, anatomy and extension rules. `Learner Design System.md` owns the shared learner visual foundations those treatments consume. A treatment may not create its own radius family, type system, icon language, theme or page-local visual grammar.
 
 ## Core rule
 
@@ -283,7 +287,7 @@ Implementation assurance should also verify that content renderers do not requir
 
 ## Documentation impact
 
-This authority extends the existing Visual Brand System and Subject Accent Colour System by defining the semantic consistency contract for recurring educational treatments.
+This authority specialises `Learner Design System.md` and Subject Accent Colour System by defining the semantic consistency contract for recurring educational treatments.
 
 It does not itself implement the components. Production implementation must update the Interface System component registry, technical implementation documentation and visual/browser assurance in the same governed implementation change.
 
