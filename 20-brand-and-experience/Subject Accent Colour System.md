@@ -6,7 +6,7 @@ authority: "brand-and-experience"
 status: "active"
 version: "2.2"
 owner: "Founder"
-effective_date: "2026-10-01"
+effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["subject colour mapping", "subject letter marks", "subject colour usage", "subject colour accessibility"]
