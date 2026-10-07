@@ -4,13 +4,13 @@ document_id: "revision-subject-accent-colour-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.1"
+version: "2.2"
 owner: "Founder"
 effective_date: "2026-10-01"
-last_reviewed: "2026-10-05"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved"
 source_of_truth_for: ["subject colour mapping", "subject letter marks", "subject colour usage", "subject colour accessibility"]
-depends_on: ["Visual Brand System", "Product UX Principles"]
+depends_on: ["Learner Design System", "Product UX Principles"]
 supersedes: ["Subject Accent Colour System v1.0 (pale Sage and Stone Blue accents, restrained-cue-only usage)", "Visual Brand System statement that no fixed subject-to-colour mapping is approved"]
 ---
 # Subject Accent Colour System
@@ -18,6 +18,10 @@ supersedes: ["Subject Accent Colour System v1.0 (pale Sage and Stone Blue accent
 ## Purpose
 
 Give every subject a stable, recognisable identity (a colour and a letter mark) so students can tell their subjects apart at a glance, without mixing that identity with Revision's brand colour or with learning status.
+
+## Authority relationship
+
+This document owns the exact subject hue/mark mapping and specialist subject-identity usage. `Learner Design System.md` owns the wider learner colour-role system and the rule that subject identity is graduated across course, working and evidence surfaces.
 
 ## Core rule
 
