@@ -6,7 +6,7 @@ authority: "product-governance"
 status: "active"
 version: "1.9"
 owner: "Founder / Product / Educational Content"
-effective_date: "2026-09-23"
+effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
 content_review_status: "founder-approved-design-direction"
 source_of_truth_for: ["Learn MVP learner experience", "Learn MVP content completeness", "Learn MVP format sequencing", "Learn MVP information architecture", "Learn MVP chapter granularity", "Learn MVP teaching-page anatomy", "Learn MVP navigation integration", "Learn MVP bounded page composition", "Learn MVP treatment application"]
