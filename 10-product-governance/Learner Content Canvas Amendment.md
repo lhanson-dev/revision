@@ -3,17 +3,21 @@ title: "Learner Content Canvas Amendment"
 document_id: "revision-learner-content-canvas-amendment"
 document_type: "domain-authority-amendment"
 authority: "product-governance / brand-and-experience"
-status: "active"
+status: "superseded"
 version: "1.0"
 owner: "Founder"
 effective_date: "2026-09-26"
-last_reviewed: "2026-09-26"
+last_reviewed: "2026-10-07"
 content_review_status: "founder-approved-correction"
-source_of_truth_for: ["learner application outer content canvas", "course-section body alignment", "long-form prose measure interpretation"]
-depends_on: ["Product UX Principles", "Visual Brand System", "Learn MVP Experience"]
+source_of_truth_for: []
+depends_on: ["Product UX Principles", "Learner Design System", "Learn MVP Experience"]
 amends: ["Learn MVP Experience"]
+superseded_by: "20-brand-and-experience/Learner Design System.md"
 ---
 # Learner Content Canvas Amendment
+
+> **Superseded 7 October 2026.** Retained as the historical correction that established the stable-canvas principle. Current learner canvas authority is `20-brand-and-experience/Learner Design System.md`.
+
 
 ## Purpose
 
