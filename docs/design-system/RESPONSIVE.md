@@ -1,8 +1,13 @@
-# Responsive layout rules
+# Responsive layout reference
+
+**Status:** Derived implementation/reference guide — not normative authority.  
+**Current authority:** `20-brand-and-experience/Learner Design System.md` for learner visual geometry; `10-product-governance/Global Learner Navigation.md` for navigation behaviour.  
+**Implementation evidence:** current tokens/CSS may lag the approved authority until Phase C reconciliation.
+
 
 **The one rule:** the page scrolls **down**, never **sideways**, at any width from 320px up. If anything causes horizontal scroll, that's a bug.
 
-These rules come from the live site (`src/app/brand-tokens.css`, `interface-layout.css` and the per-screen `@media` rules). The v2 design follows them.
+This file describes the intended responsive implementation in practical CSS terms. Where it differs from numbered authority, the numbered authority wins and this file must be corrected.
 
 ## 1. One content canvas
 | Token | Value | Use |
@@ -25,7 +30,7 @@ These rules come from the live site (`src/app/brand-tokens.css`, `interface-layo
 | Phone | ≤ 620 | Bottom tab bar (REV raised centre) | 20px | Single column; tiles 2-up; full-width primary buttons |
 | Small phone | ≤ 390 | — | 20px | Tighten only, never remove content |
 
-The existing 960 and 620 breakpoints stay as they are. The old site used a burger drawer at ≤ 960; v2 replaces it with the rail (tablet) and tab bar (phone). Exam Prep hides all nav at every size (focus mode).
+The 960 and 620 navigation breakpoints follow the current learner shell. Exam Prep itself remains in the normal learner shell; navigation is hidden only after the learner enters a focused exam-performance activity such as a timed mock/full paper.
 
 ## 3. CSS rules that prevent sideways scroll
 1. **Every grid and flex child that holds text gets `min-width: 0`.** This is the most common cause of overflow.
