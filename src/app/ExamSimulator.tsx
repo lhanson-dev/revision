@@ -16,6 +16,7 @@ type ExamResult = {
 type SessionOverlay = 'paused' | 'stop-confirm' | null
 type ExamQuestionRuntime = Exam['questions'][number] & {
   choiceGroup?: string | null
+  choiceOption?: string | null
   responseType?: 'multiple-choice' | 'written'
   options?: Array<{ label: string; text: string }>
   stimulus?: {
@@ -107,7 +108,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
   const choiceGroups = Array.from(new Set(exam.questions.flatMap((item) => item.choiceGroup ? [item.choiceGroup] : [])))
-  const isAttemptedQuestion = (item: ExamQuestionRuntime) => !item.choiceGroup || selectedChoices[item.choiceGroup] === item.id
+  const choiceOptionKey = (item: ExamQuestionRuntime) => item.choiceOption ?? item.id
+  const isAttemptedQuestion = (item: ExamQuestionRuntime) => !item.choiceGroup || selectedChoices[item.choiceGroup] === choiceOptionKey(item)
   const activeQuestions = exam.questions.filter(isAttemptedQuestion)
   const missingChoiceGroups = choiceGroups.filter((group) => !selectedChoices[group])
   const answeredCount = activeQuestions.filter((item) => answers[item.id]?.trim()).length
@@ -413,8 +415,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 <div className="practice-meta">Question {questionIndex + 1} of {exam.questions.length} · {question.marks} marks</div>
                 {question.choiceGroup && (
                   <label className="exam-choice-select">
-                    <input type="radio" name={question.choiceGroup} checked={selectedChoices[question.choiceGroup] === question.id} onChange={() => setSelectedChoices((current) => ({ ...current, [question.choiceGroup as string]: question.id }))} />
-                    Attempt this question for section {question.choiceGroup}
+                    <input type="radio" name={question.choiceGroup} checked={selectedChoices[question.choiceGroup] === choiceOptionKey(question)} onChange={() => setSelectedChoices((current) => ({ ...current, [question.choiceGroup as string]: choiceOptionKey(question) }))} />
+                    Attempt this {question.choiceOption ? 'topic option' : 'question'} for section {question.choiceGroup}
                   </label>
                 )}
                 {question.stimulus && (
