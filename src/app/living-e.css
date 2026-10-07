@@ -229,8 +229,6 @@
 .rev-presence[data-state="responding"] .rev-e-bar-one { animation: revRespondA .8s ease-out 1; }
 .rev-presence[data-state="responding"] .rev-e-bar-two { animation: revRespondB .8s ease-out 1; }
 .rev-presence[data-state="responding"] .rev-e-bar-three { animation: revRespondC .8s ease-out 1; }
-.rev-presence[data-state="complete"] .rev-halo { animation: revHaloComplete .85s ease-out 1; }
-.rev-presence[data-state="complete"] .rev-living-e { animation: revMarkComplete .85s ease-out 1; }
 
 @keyframes revHaloBreathe {
   0%, 100% { transform: scale(.98) rotate(-1deg); opacity: .78; }
@@ -248,16 +246,6 @@
   0% { transform: scale(.98); opacity: .78; }
   45% { transform: scale(1.08); opacity: 1; }
   100% { transform: scale(1); opacity: .92; }
-}
-@keyframes revHaloComplete {
-  0% { transform: scale(.96); opacity: .7; }
-  55% { transform: scale(1.16); opacity: 1; }
-  100% { transform: scale(1); opacity: .9; }
-}
-@keyframes revMarkComplete {
-  0% { transform: scale(.96); }
-  55% { transform: scale(1.08); }
-  100% { transform: scale(1); }
 }
 @keyframes revListenA { 0%,100% { transform: scaleX(.92); } 50% { transform: scaleX(1.08); } }
 @keyframes revListenB { 0%,100% { transform: scaleX(1.04); } 50% { transform: scaleX(.88); } }
