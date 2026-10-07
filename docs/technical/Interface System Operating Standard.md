@@ -106,7 +106,7 @@ The manifest records approved asset masters, exports, lifecycle status, supporte
 - Shared spacing uses the 4px role set.
 - Controls use approved radius and height roles.
 - Ordinary surfaces use the 20px surface role.
-- Current production tokens still expose the pre-reconciliation 32px feature role. For learner surfaces this is **known Phase C debt**: the approved learner feature/major REV radius is 28px in `Learner Design System.md`. Do not extend the 32px learner usage.
+- Learner shape roles are 12px compact, 14px controls, 20px ordinary surfaces/modals, 28px major feature/REV conversational surfaces and 999px pills/circles. Compact menus use the 12px role. Legacy v2 24px/16px aliases remain migration debt only and must not gain new consumers.
 - Shadows are not decorative defaults; standard surfaces are Flat unless a governed floating/raised relationship exists.
 - A reading workspace should not become a dashboard merely because surface components exist; composition follows the job.
 
