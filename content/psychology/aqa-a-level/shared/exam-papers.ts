@@ -29,6 +29,10 @@ function topicIdFor(number: number) {
   return id
 }
 
+type PsychologyExamScope =
+  | { topicNumber: number; topic?: string }
+  | { topicNumbers: number[]; topics?: string[] }
+
 const papers = examTruth.assessmentModel.papers.map((paper) => ({
   number: Number(paper.id.slice(-1)),
   name: `Paper ${paper.id.slice(-1)}`,
@@ -42,30 +46,25 @@ const papers = examTruth.assessmentModel.papers.map((paper) => ({
   totalMarks: paper.rawMarks,
   weighting: 'about a third of your A-level',
   sections: paper.sections.map((section) => {
-    if ('topicNumber' in section.scope && typeof section.scope.topicNumber === 'number') {
+    const scope = section.scope as PsychologyExamScope
+    if ('topicNumber' in scope) {
       return {
         name: `Section ${section.id}`,
-        type: section.scope.topic ?? `Topic ${section.scope.topicNumber}`,
+        type: scope.topic ?? `Topic ${scope.topicNumber}`,
         marks: section.marks,
       }
     }
-    if (!('topicNumbers' in section.scope) || !Array.isArray(section.scope.topicNumbers)) {
-      throw new Error(`Invalid Psychology Exam Truth scope for ${paper.id} section ${section.id}`)
-    }
     return {
       name: `Section ${section.id}`,
-      type: `Choose one: ${Array.isArray(section.scope.topics) ? section.scope.topics.join(' / ') : section.scope.topicNumbers.map((number: number) => `Topic ${number}`).join(' / ')}`,
+      type: `Choose one: ${scope.topics?.join(' / ') ?? scope.topicNumbers.map((number) => `Topic ${number}`).join(' / ')}`,
       marks: section.marks,
     }
   }),
   topics: paper.sections.flatMap((section) => {
-    if ('topicNumber' in section.scope && typeof section.scope.topicNumber === 'number') {
-      return [topicIdFor(section.scope.topicNumber)]
-    }
-    if (!('topicNumbers' in section.scope) || !Array.isArray(section.scope.topicNumbers)) {
-      throw new Error(`Invalid Psychology Exam Truth scope for ${paper.id} section ${section.id}`)
-    }
-    return section.scope.topicNumbers.map((number: number) => topicIdFor(number))
+    const scope = section.scope as PsychologyExamScope
+    return 'topicNumber' in scope
+      ? [topicIdFor(scope.topicNumber)]
+      : scope.topicNumbers.map((number) => topicIdFor(number))
   }),
 }))
 
