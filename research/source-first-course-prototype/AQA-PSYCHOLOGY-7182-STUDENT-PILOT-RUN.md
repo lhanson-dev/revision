@@ -359,3 +359,23 @@ Phase 2 must use the existing Psychology Marking Pack work as an input but must 
 The business objective remains the original one: prove a repeatable path that can take future subjects from rights-clear Course Truth and Exam Truth to a complete learner course and then to reliable assisted marking without repeating the time and cost of the Business production route.
 
 Documentation impact for this checkpoint is implementation evidence plus this historical run update only; no normative authority is changed.
+
+
+### Production launch assurance checkpoint — 7 October 2026
+
+PR #567 merged preview-only Psychology production integration to `main` at `935c65d0ef5b9ecc2e3f58eb9194976d8ebaadc7`.
+
+The next gate is no longer the earlier Step 6 review of experimental learner assets plus uncalibrated Marking Packs. Launch assurance is narrowed to the exact production A2/A3 material that the restricted-pilot learner will see.
+
+A separate governed branch adds:
+
+- correction of concrete A3 prompt/stimulus weaknesses found during deterministic preflight;
+- seven bounded whole-course educational review packets covering all 118 requirements exactly once;
+- three paper-specific assessment review packets;
+- exact-current-main binding;
+- machine-readable issue retention;
+- fail-closed zero blocking/material completion;
+- a hard US$5 provider-spend ceiling;
+- no FI-007 Marking Pack review or promotion.
+
+This separation preserves the Founder direction: publish trustworthy course content first, then immediately continue FI-007 marking work without representing uncalibrated marking as launch-ready.
