@@ -283,56 +283,205 @@ export const psychologyExamTechnique = [
 type Ao = { ao1: number; ao2: number; ao3: number; ao4: number }
 function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3, ao4: 0 } }
 
-function guidance(requirement: TruthRequirement, marks: number) {
-  const material = [
+function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, extra: string[] = []) {
+  const list = Array.isArray(requirements) ? requirements : [requirements]
+  const material = list.flatMap((requirement) => [
     ...strings(requirement.subjectTruth.definitionsAndCoreConcepts),
     ...strings(requirement.subjectTruth.modelsResearchAndRelationships),
     ...strings(requirement.subjectTruth.evaluationAndLimits),
-  ].slice(0, 6)
+  ])
   return [
     `Maximum ${marks} marks. Self-assess only against relevant creditworthy material for the exact prompt.`,
-    ...material,
+    ...[...new Set(material)].slice(0, 8),
+    ...extra,
     'Do not award credit for conclusions that go beyond the evidence or ignore a material boundary in the course content.',
   ]
 }
 
-function sectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, marks: number, choiceGroup?: string, choiceOption?: string) {
+function requirementById(id: string) {
+  const requirement = truthTopics.flatMap((topic) => topic.requirements).find((candidate) => candidate.requirementId === id)
+  if (!requirement) throw new Error(`Missing Psychology Course Truth requirement ${id}`)
+  return requirement
+}
+
+const applicationStimulusByTopic: Record<number, string> = {
+  1: 'At a training centre, a senior supervisor in a formal role tells a new employee to continue an unpleasant task after another person objects. The employee is visibly uncomfortable but continues while the supervisor remains present.',
+  2: 'A student tries to repeat a spoken phone number while mentally following a route on a map. The verbal task becomes much harder when another spoken message is added, while the route task is affected more by a second visual-spatial task.',
+  3: 'A toddler seeks a familiar caregiver when distressed, uses that caregiver as a secure base for exploration, and shows expectations about comfort when entering a new nursery setting.',
+  4: 'A student experiences repeated intrusive thoughts about contamination and responds by washing their hands many times, even though they recognise that the ritual is excessive and it disrupts daily life.',
+  5: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager later copies the behaviour, especially when the admired student is present.',
+  6: 'After touching a very hot surface, a person quickly withdraws their hand. Sensory information travels towards the central nervous system, is relayed, and a motor response is sent to the muscles; chemical transmission occurs at synapses.',
+  8: 'Two psychologists explain the same behaviour differently. One emphasises biological and environmental causes, while the other argues that people can still make meaningful choices within constraints.',
+  9: 'One partner is comparing the rewards and costs of a relationship, the quality of available alternatives and how much they have already invested. The couple also report that fairness matters to whether the relationship feels satisfactory.',
+  10: 'A young adult describes their gender as non-binary. In a separate research task they complete a trait questionnaire that measures culturally gendered characteristics rather than assigning biological sex.',
+  11: 'A child cannot solve a puzzle alone, but succeeds when an adult gives prompts, models the first step and gradually removes support. On a later attempt the child completes more of the task independently.',
+  12: 'A person develops hallucination-like experiences and reduced motivation. There is a family history of similar difficulties, and researchers are considering genetic vulnerability and neural explanations without assuming that biology guarantees the outcome.',
+  13: 'A participant reports stronger hunger before a meal and reduced hunger after eating. Researchers are considering hypothalamic regulation and hormonal signals such as ghrelin and leptin rather than treating eating as a purely conscious choice.',
+  14: 'An employee experiences sustained high workload and low control for several months. They show prolonged physiological stress responses and report more frequent illness symptoms during the same period.',
+  15: 'An animal shows a rapid, stereotyped aggressive response when a territorial cue appears. Researchers are considering whether the behaviour reflects evolved mechanisms while also allowing for environmental influence.',
+  16: 'Researchers find that offending risk is associated with both family/genetic factors and differences in neural functioning. They are careful not to treat either association as proof that an individual is destined to offend.',
+  17: 'Two people are exposed to the same addictive substance, but one has a stronger family history of addiction and also spends more time with peers who regularly use the substance. Researchers are considering biological and social vulnerability together.',
+}
+
+function applicationStimulus(topic: TruthTopic) {
+  return applicationStimulusByTopic[topic.topicNumber]
+    ?? `A Revision-owned unfamiliar case presents behaviour relevant to ${topic.topic}. Use the exact cues in the case and keep conclusions proportionate to the evidence.`
+}
+
+function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, choiceGroup?: string, choiceOption?: string) {
   const requirements = topic.requirements
-  const tariffs = marks === 48 ? [4, 8, 12, 12, 12] : [4, 8, 12]
+  const tariffs = [4, 8, 12]
   return tariffs.map((tariff, index) => {
     const requirement = requirements[index % requirements.length]
     let allocation: Ao
-    if (paperId === '7182/1' || (paperId === '7182/2' && sectionId !== 'C')) {
+    if (paperId === '7182/1' || paperId === '7182/2') {
       allocation = index === 0 ? ao(4, 0, 0) : index === 1 ? ao(2, 6, 0) : ao(3, 0, 9)
-    } else if (paperId === '7182/2' && sectionId === 'C') {
-      const profiles = [ao(1, 3, 0), ao(0, 8, 0), ao(2, 9, 1), ao(0, 11, 1), ao(0, 11, 1)]
-      allocation = profiles[index]
     } else {
       allocation = index === 0 ? ao(4, 0, 0) : index === 1 ? ao(2, 4, 2) : ao(2, 0, 10)
     }
+
     const label = titleFor(requirement)
-    const prompt = topic.topicNumber === 7
-      ? tariff <= 4
-        ? `Outline the relevant Research Methods knowledge for ${label}.`
-        : tariff <= 8
-          ? `Explain how ${label} should be applied in a Revision-owned psychological study. Justify the choices that matter for the study context.`
-          : `Discuss how ${label} affects the quality and interpretation of a Revision-owned psychological investigation.`
-      : tariff >= 12
-        ? `Discuss ${label} in relation to ${topic.topic}. Develop accurate knowledge and evaluate the limits of the explanation or evidence.`
-        : tariff >= 8
-          ? `Explain how ${label} could apply in an unfamiliar ${topic.topic.toLowerCase()} context. Use relevant psychological knowledge rather than restating the scenario.`
-          : `Outline ${label} accurately.`
+    const embeddedRm = paperId === '7182/1' && index === 1
+    const rmRequirement = embeddedRm ? requirementById('PSY-07-14') : undefined
+    const prompt = index === 0
+      ? `Outline ${label} accurately.`
+      : index === 1
+        ? embeddedRm
+          ? `Using the stimulus, explain how ${label} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
+          : `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus and include one limitation or alternative interpretation where the evidence does not justify certainty.`
+        : `Discuss ${label} in relation to ${topic.topic}. Develop accurate knowledge, use relevant evidence or relationships, evaluate important limitations, and reach a proportionate conclusion.`
+
     return {
       id: `psy-${paperId.replace('/', '-')}-${sectionId.toLowerCase()}-${topic.topicNumber}-q${index + 1}`,
       marks: tariff,
       topic: topicId(topic),
       assessmentObjectives: allocation,
       prompt,
-      markingGuidance: guidance(requirement, tariff),
+      responseType: 'written' as const,
+      ...(index === 1 ? {
+        stimulus: {
+          title: embeddedRm ? 'Revision-owned application and mini-study context' : 'Revision-owned application context',
+          narrative: embeddedRm
+            ? `${applicationStimulus(topic)} A psychologist plans to investigate this pattern with volunteers and must define what will be measured or manipulated clearly enough for another researcher to repeat the procedure.`
+            : applicationStimulus(topic),
+          table: null,
+        },
+      } : {}),
+      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
     }
   })
+}
+
+function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string) {
+  const variables = requirementById('PSY-07-14')
+  const descriptive = requirementById('PSY-07-26')
+  const validity = requirementById('PSY-07-21')
+  const signTest = requirementById('PSY-07-32')
+  const significance = requirementById('PSY-07-33')
+  const testChoice = requirementById('PSY-07-34')
+  const correlation = requirementById('PSY-07-29')
+
+  return [
+    {
+      id: 'psy-7182-2-c-rm-q1',
+      marks: 4,
+      topic: topicId(topic),
+      assessmentObjectives: ao(1, 3, 0),
+      responseType: 'written' as const,
+      stimulus: {
+        title: 'Revision-owned study context',
+        narrative: 'A psychologist recruits 40 volunteer sixth-form students to investigate whether a ten-minute distraction task affects immediate word recall. The researcher must define both the distraction task and the recall score clearly enough for the procedure to be repeated.',
+        table: null,
+      },
+      prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
+      markingGuidance: guidance(variables, 4),
+    },
+    {
+      id: 'psy-7182-2-c-rm-q2',
+      marks: 8,
+      topic: topicId(topic),
+      assessmentObjectives: ao(0, 8, 0),
+      responseType: 'written' as const,
+      stimulus: {
+        title: 'Revision-owned quantitative dataset',
+        narrative: 'Five participants produced the following scores after the task.',
+        table: {
+          title: 'Participant scores',
+          columns: ['Participant', 'Score'],
+          rows: [
+            { cells: ['A', '4'] },
+            { cells: ['B', '6'] },
+            { cells: ['C', '6'] },
+            { cells: ['D', '8'] },
+            { cells: ['E', '11'] },
+          ],
+        },
+      },
+      prompt: 'Calculate the mean, median, mode and range for the scores. Show enough working for each answer to be checked.',
+      markingGuidance: guidance(descriptive, 8, ['For this constructed dataset: mean = 7, median = 6, mode = 6, range = 7.']),
+    },
+    {
+      id: 'psy-7182-2-c-rm-q3',
+      marks: 12,
+      topic: topicId(topic),
+      assessmentObjectives: ao(2, 9, 1),
+      responseType: 'written' as const,
+      stimulus: {
+        title: 'Revision-owned validity context',
+        narrative: 'A researcher measures “exam stress” using one self-report question asked immediately after a difficult mock examination. The sample contains only volunteers from one sixth-form college.',
+        table: null,
+      },
+      prompt: 'Discuss the validity of this study. Apply relevant types of validity to the context and explain at least one defensible improvement.',
+      markingGuidance: guidance(validity, 12),
+    },
+    {
+      id: 'psy-7182-2-c-rm-q4',
+      marks: 12,
+      topic: topicId(topic),
+      assessmentObjectives: ao(0, 11, 1),
+      responseType: 'written' as const,
+      stimulus: {
+        title: 'Revision-owned sign-test data',
+        narrative: 'The same five participants give a score before and after a brief intervention. One pair is tied.',
+        table: {
+          title: 'Before and after scores',
+          columns: ['Participant', 'Before', 'After'],
+          rows: [
+            { cells: ['A', '5', '7'] },
+            { cells: ['B', '6', '6'] },
+            { cells: ['C', '9', '4'] },
+            { cells: ['D', '3', '8'] },
+            { cells: ['E', '7', '9'] },
+          ],
+        },
+      },
+      prompt: 'Use the sign-test procedure on the data: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
+      markingGuidance: guidance(signTest, 12, ['For this constructed dataset the signs are +, tie, −, +, +; effective n = 4; the smaller sign count is 1. A significance decision then requires the appropriate critical value convention for the stated alpha and test direction.']),
+    },
+    {
+      id: 'psy-7182-2-c-rm-q5',
+      marks: 12,
+      topic: topicId(topic),
+      assessmentObjectives: ao(0, 11, 1),
+      responseType: 'written' as const,
+      stimulus: {
+        title: 'Revision-owned inferential-test context',
+        narrative: 'Twelve participants are ranked on weekly revision time and ranked on exam-anxiety score. The research hypothesis predicts an association but does not predict its direction. A Spearman calculation gives rho = -0.62. For this practice question, the supplied two-tailed critical magnitude at alpha = 0.05 is 0.587.',
+        table: null,
+      },
+      prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',
+      markingGuidance: guidance([testChoice, significance, correlation], 12, ['The defensible test is Spearman’s rho because the data are paired ranks and the hypothesis concerns association. Compare absolute rho: 0.62 > 0.587, so the result is significant at the supplied threshold. The negative sign describes direction; significance does not establish causation or practical importance.']),
+    },
+  ]
+}
+
+function sectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, marks: number, choiceGroup?: string, choiceOption?: string) {
+  if (paperId === '7182/2' && sectionId === 'C' && marks === 48) {
+    return researchMethodsSectionQuestions(topic, sectionId, paperId)
+  }
+  return genericSectionQuestions(topic, sectionId, paperId, choiceGroup, choiceOption)
 }
 
 function paperExam(paperId: '7182/1' | '7182/2' | '7182/3') {
