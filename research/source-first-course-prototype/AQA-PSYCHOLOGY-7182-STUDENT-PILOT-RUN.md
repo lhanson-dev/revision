@@ -320,3 +320,42 @@ The Founder then chooses the next experimental/governance step, which may includ
 - reject/redirect the method if the complete-course economics or quality are not strong enough.
 
 No automatic promotion occurs.
+
+
+## Shipping checkpoint — 7 October 2026
+
+The pilot has moved from production-method experimentation into canonical restricted-pilot integration.
+
+Founder direction is to get trustworthy Psychology learner content onto the site as quickly as the existing assurance gate permits, without reducing course coverage or feature families merely to shorten the route to publication.
+
+A governed shipping branch has been created:
+
+`feat/psychology-restricted-pilot-shipping-2026-10-07`
+
+Draft PR #567 integrates Psychology through the ordinary content registry and learner runtime.
+
+The Phase 1 target is:
+
+- all 17 Psychology topics;
+- all 118 completed Course Truth requirements represented in Learn;
+- active Practice across the course;
+- Research Methods / data practice;
+- Psychology Exam Prep guidance;
+- all three 96-mark / 120-minute Revision-authored representative papers;
+- exact Paper 3 topic-option grouping;
+- self-assessed written mock work with truthful evidence semantics;
+- no representation that unvalidated AI marking is production-ready.
+
+The production manifests remain `preview` until fresh whole-course educational and assessment assurance closes with zero unresolved BLOCKING or MATERIAL findings and restricted learner verification passes.
+
+### Explicit continuation after site publication
+
+Phase 1 publication is not completion of this run.
+
+Immediately after the trusted course reaches the restricted learner site, the programme continues with Phase 2: finish FI-007 Psychology assisted written-answer marking.
+
+Phase 2 must use the existing Psychology Marking Pack work as an input but must not promote uncalibrated marking candidates directly. It must close the remaining semantic marking-contract defects, build genuine independent calibration evidence, validate precise-mark/range/abstention behaviour, connect the governed marker to the learner runtime, and enable evidence only at the confidence level authorised by Claims and Progress governance.
+
+The business objective remains the original one: prove a repeatable path that can take future subjects from rights-clear Course Truth and Exam Truth to a complete learner course and then to reliable assisted marking without repeating the time and cost of the Business production route.
+
+Documentation impact for this checkpoint is implementation evidence plus this historical run update only; no normative authority is changed.

@@ -1,5 +1,6 @@
 import type { ExamPapersContent, ExamPaperGuide } from '../../content/exam-papers-schema'
 import { aqaBusiness7132ExamPapers } from '../../content/business/aqa-a-level/shared/exam-papers'
+import { aqaPsychology7182ExamPapers } from '../../content/psychology/aqa-a-level/shared/exam-papers'
 import type { TopicProgress } from './topic-status'
 
 /**
@@ -7,7 +8,7 @@ import type { TopicProgress } from './topic-status'
  * the course's own exams and the student's saved evidence. Nothing is typed in by hand.
  */
 
-const paperGuides: readonly ExamPapersContent[] = [aqaBusiness7132ExamPapers]
+const paperGuides: readonly ExamPapersContent[] = [aqaBusiness7132ExamPapers, aqaPsychology7182ExamPapers]
 
 /** The paper guide for a board and specification, or null when none has been published for that course yet. */
 export function examPapersFor(examBoardName: string, specificationCode: string): ExamPapersContent | null {
@@ -85,7 +86,7 @@ export type MockExamLike = {
   title: string
   durationMinutes: number
   totalMarks: number
-  questions: ReadonlyArray<{ id: string; topic: string; choiceGroup?: string | null }>
+  questions: ReadonlyArray<{ id: string; topic: string; choiceGroup?: string | null; choiceOption?: string | null }>
   learnerClaim?: string
 }
 
@@ -109,13 +110,17 @@ export function paperNumberOf(title: string): number | null {
 
 /** Questions the student actually answers: a choice between two essays counts once. */
 export function answeredQuestionCount(exam: MockExamLike): number {
-  const groups = new Set<string>()
-  let count = 0
+  let count = exam.questions.filter((question) => !question.choiceGroup).length
+  const groups = new Map<string, Map<string, number>>()
   for (const question of exam.questions) {
-    if (question.choiceGroup) groups.add(question.choiceGroup)
-    else count += 1
+    if (!question.choiceGroup) continue
+    const options = groups.get(question.choiceGroup) ?? new Map<string, number>()
+    const optionKey = question.choiceOption ?? question.id
+    options.set(optionKey, (options.get(optionKey) ?? 0) + 1)
+    groups.set(question.choiceGroup, options)
   }
-  return count + groups.size
+  for (const options of groups.values()) count += Math.max(...options.values())
+  return count
 }
 
 /** `paperNumber` is the paper the exam belongs to. It is used when the exam's own title does not say (some are named after a business). */
