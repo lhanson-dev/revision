@@ -388,7 +388,14 @@ function applicationStimulus(topic: TruthTopic) {
     ?? `A Revision-owned unfamiliar case presents behaviour relevant to ${topic.topic}. Use the exact cues in the case and keep conclusions proportionate to the evidence.`
 }
 
-function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, choiceGroup?: string, choiceOption?: string): ProductionExamQuestion[] {
+function genericSectionQuestions(
+  topic: TruthTopic,
+  sectionId: string,
+  paperId: string,
+  sectionMarks: number,
+  choiceGroup?: string,
+  choiceOption?: string,
+): ProductionExamQuestion[] {
   const requirements = topic.requirements
   const tariffs = [4, 8, 6, 6]
   return tariffs.map((tariff, index) => {
@@ -412,42 +419,48 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
             : ao(1, 0, 5)
     }
 
-    const label = requirement.boardAlignment.summary
+    const area = requirement.boardAlignment.summary.replace(/[.]+$/, '')
+    const focus = psychologyObjectivePracticeConcept(requirement).label.replace(/[.]+$/, '')
     const embeddedRm = paperId === '7182/1' && index === 1
     const rmRequirement = embeddedRm ? requirementById('PSY-07-14') : undefined
     const isClinicalCharacteristics = embeddedRm && requirement.requirementId === 'PSY-04-02'
+
     const prompt = index === 0
-      ? paperId === '7182/3'
-        ? `Outline two key points about ${titleFor(requirement)}.`
-        : `Outline ${label} accurately.`
+      ? `Outline two accurate points from this area. You may choose any two relevant aspects: ${area}.`
       : index === 1
         ? embeddedRm
           ? isClinicalCharacteristics
             ? 'Using the stimulus, explain how the behavioural, emotional and cognitive characteristics shown are consistent with OCD. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.'
-            : `Using the stimulus, explain how ${label} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
+            : `Using the stimulus, explain how ${focus} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
           : paperId === '7182/2'
-            ? `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus.`
-            : `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus and include one limitation or alternative interpretation where the evidence does not justify certainty.`
+            ? `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus.`
+            : `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus and explain one limitation or alternative interpretation of that application.`
         : index === 2
-          ? `Evaluate one important strength, limitation or boundary of ${label}. Support the judgement with accurate psychological knowledge.`
-          : `Discuss ${label}, focusing on one reasoned evaluative judgement and a proportionate conclusion.`
+          ? `Evaluate one limitation or boundary relevant to this area. Focus on one issue only: ${area}.`
+          : `Discuss one evaluative issue relevant to this area and reach a proportionate conclusion. You do not need to cover every named element: ${area}.`
+
+    const mode: GuidanceMode = index === 0
+      ? 'outline'
+      : index === 1
+        ? embeddedRm ? 'embedded-rm' : paperId === '7182/3' ? 'application-evaluation' : 'application'
+        : index === 2 ? 'evaluation' : 'discussion'
 
     const extraGuidance = embeddedRm
       ? [
-          'Credit allocation: 2 marks reward accurate underlying psychological knowledge; within the 6 AO2 marks, up to 4 reward application to the stimulus and up to 2 reward identifying and justifying a precise operationalisation.',
-          'Operationalisation credit: define one variable or procedure in observable, measurable or repeatable terms tied directly to the supplied case.',
-          'Justification credit: precise operationalisation supports reproducibility and can support reliable measurement. Construct validity requires separate evidence that the chosen operation represents the intended construct; a vague claim that it is simply “more accurate” is insufficient.',
+          'For the AO2 operationalisation portion, award 1 mark for defining a case-linked variable or procedure in observable/measurable/repeatable terms and 1 mark for explaining how that precision supports reproducibility or reliable measurement.',
+          'Construct validity is separate: a precise operation can be repeated consistently without necessarily representing the intended construct well.',
           ...(isClinicalCharacteristics ? ['Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.'] : []),
         ]
-      : index >= 2
-        ? ['AO3 credit must address the exact requirement through a defensible limitation, alternative, evidence-based qualification or boundary; descriptive material alone is insufficient.']
-        : []
+      : []
 
     return examQuestionSchema.parse({
       id: `psy-${paperId.replace('/', '-')}-${sectionId.toLowerCase()}-${topic.topicNumber}-q${index + 1}`,
       marks: tariff,
       topic: topicId(topic),
       assessmentObjectives: allocation,
+      sectionLabel: `Section ${sectionId}`,
+      sectionTitle: topic.topic,
+      sectionMarks,
       prompt,
       responseType: 'written' as const,
       ...(index === 1 ? {
@@ -459,7 +472,7 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
           table: null,
         },
       } : {}),
-      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, allocation, extraGuidance),
+      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, allocation, mode, extraGuidance),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
     })
