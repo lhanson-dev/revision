@@ -410,3 +410,16 @@ The run passed exact-main verification and deterministic prerequisites, complete
 The findings were concentrated in reusable production patterns rather than a new Course Truth failure: objective-practice distractor quality, incomplete flashcard coverage, one Research Methods range statement, one learner-facing scope label, and several mock-paper prompt, route and self-marking guidance issues.
 
 The governed remediation branch corrects those root causes and adds regressions. Psychology remains `preview` pending a fresh clean launch-assurance run.
+
+### Production launch assurance run #3 — retained evidence and narrowed remediation
+
+After the run-2 remediation merged, the launch gate was rerun against exact `main` commit `4f48aa01eaa022b09cf9d8de03f649ea02f441be` in Actions run `37783260632`.
+
+The run passed exact-main verification and deterministic prerequisites, completed all 7 educational and 3 assessment packets, and retained artifact `11553462171`. The final decision remained `fail_hold`, now with 10 material findings rather than the 23 reported by run #2. Provider spend was US$1.006576.
+
+The remaining findings are concentrated in two bounded areas:
+
+- objective Practice construct validity: requirement-title/evidence matching, weak near-miss discrimination and patterned correct-option positions; and
+- representative mock authenticity/self-marking: AO-aware guidance, operationalisation/construct-validity wording, one Paper 2 AO-command allocation, six over-broad Paper 3 four-mark outline prompts, and one leading Relationships stimulus.
+
+This result does not reopen Course Truth or reduce learner-content scope. The next remediation is deliberately limited to those production-generation and mock-authoring patterns. Psychology remains `preview`, and a fresh clean launch-assurance run is still required before publication.

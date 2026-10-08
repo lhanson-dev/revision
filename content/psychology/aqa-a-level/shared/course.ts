@@ -104,18 +104,87 @@ function completeRevisionSummary(requirement: TruthRequirement) {
   ])].join(' ')
 }
 
-function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement, requirementIndex: number) {
-  const correct = assertion(requirement)
-  const distractors: string[] = []
-  for (let offset = 1; offset < topic.requirements.length && distractors.length < 3; offset += 1) {
-    const candidate = assertion(topic.requirements[(requirementIndex + offset) % topic.requirements.length])
-    if (candidate !== correct && !distractors.includes(candidate)) distractors.push(candidate)
+const practiceStopWords = new Set([
+  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'because', 'by', 'can', 'for', 'from', 'has', 'in', 'into',
+  'is', 'it', 'may', 'of', 'on', 'or', 'that', 'the', 'their', 'this', 'to', 'which', 'with',
+])
+
+function conceptTokens(value: string) {
+  return new Set(
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .split(/\s+/)
+      .filter((token) => token.length > 3 && !practiceStopWords.has(token)),
+  )
+}
+
+function stablePracticeHash(value: string) {
+  let hash = 2166136261
+  for (const character of value) {
+    hash ^= character.charCodeAt(0)
+    hash = Math.imul(hash, 16777619)
   }
+  hash ^= hash >>> 16
+  hash = Math.imul(hash, 0x7feb352d)
+  hash ^= hash >>> 15
+  hash = Math.imul(hash, 0x846ca68b)
+  hash ^= hash >>> 16
+  return hash >>> 0
+}
+
+function objectivePracticeCue(requirement: TruthRequirement) {
+  const relationship = strings(requirement.subjectTruth.modelsResearchAndRelationships)[0]
+  if (relationship) {
+    return {
+      text: relationship,
+      prompt: `Which core idea is most directly supported or illustrated by this evidence or relationship? ${relationship}`,
+    }
+  }
+  const evaluation = strings(requirement.subjectTruth.evaluationAndLimits)[0]
+  if (evaluation) {
+    return {
+      text: evaluation,
+      prompt: `Which core idea is being evaluated by this limitation or qualification? ${evaluation}`,
+    }
+  }
+  const definitions = strings(requirement.subjectTruth.definitionsAndCoreConcepts)
+  const detail = definitions[1] ?? definitions[0] ?? requirement.boardAlignment.summary
+  return {
+    text: detail,
+    prompt: `Which core idea best explains this psychological detail? ${detail}`,
+  }
+}
+
+function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement) {
+  const correct = assertion(requirement)
+  const cue = objectivePracticeCue(requirement)
+  const referenceTokens = conceptTokens(`${cue.text} ${correct}`)
+  const rankedDistractors = topic.requirements
+    .filter((candidate) => candidate.requirementId !== requirement.requirementId)
+    .map((candidate) => {
+      const option = assertion(candidate)
+      const candidateTokens = conceptTokens(option)
+      const overlap = [...candidateTokens].filter((token) => referenceTokens.has(token)).length
+      return {
+        id: candidate.requirementId,
+        option,
+        overlap,
+        tieBreak: stablePracticeHash(`${requirement.requirementId}:${candidate.requirementId}`),
+      }
+    })
+    .filter((candidate, index, candidates) =>
+      candidate.option !== correct && candidates.findIndex((other) => other.option === candidate.option) === index,
+    )
+    .sort((a, b) => b.overlap - a.overlap || a.tieBreak - b.tieBreak)
+
+  const distractors = rankedDistractors.slice(0, 3).map((candidate) => candidate.option)
   if (distractors.length < 3) throw new Error(`Psychology objective Practice needs three distinct topic-specific distractors for ${requirement.requirementId}`)
-  const correctOption = (topic.topicNumber + requirementIndex) % 4
+
+  const correctOption = stablePracticeHash(requirement.requirementId) % 4
   const options = [...distractors]
   options.splice(correctOption, 0, correct)
-  return { correct, correctOption, options }
+  return { correct, correctOption, options, prompt: cue.prompt }
 }
 
 for (const topic of truthTopics) {
@@ -219,15 +288,15 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
 )
 
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
-  topic.requirements.map((requirement, requirementIndex) => {
-    const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement, requirementIndex)
+  topic.requirements.map((requirement) => {
+    const { correct, correctOption, options, prompt } = objectivePracticeOptions(topic, requirement)
     return multipleChoiceQuestionSchema.parse({
       id: `psy-${requirementSectionId(requirement)}-check`,
       topic: topicId(topic),
-      prompt: `Which statement is the best match for this course requirement: ${requirement.boardAlignment.summary}`,
+      prompt,
       options,
       correctOption,
-      explanation: `${correct} The other options are real statements from nearby requirements in ${topic.topic}, so choose by the psychological distinction rather than by generic wording.`,
+      explanation: `${correct} The alternatives are deliberately close statements from the same topic, so use the evidence or relationship in the stem to discriminate between the concepts.`,
     })
   }),
 )
@@ -302,18 +371,18 @@ type Ao = { ao1: number; ao2: number; ao3: number; ao4: number }
 type ProductionExamQuestion = z.infer<typeof examQuestionSchema>
 function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3, ao4: 0 } }
 
-function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, extra: string[] = []) {
+function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, allocation: Ao, extra: string[] = []) {
   const list = Array.isArray(requirements) ? requirements : [requirements]
   const knowledge = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
   const evidence = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
   const evaluation = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
   return [
-    `Maximum ${marks} marks. Self-assess only against relevant creditworthy material for the exact prompt.`,
-    ...knowledge.map((point) => `Knowledge: ${point}`),
-    ...evidence.map((point) => `Evidence/relationship: ${point}`),
-    ...evaluation.map((point) => `Evaluation/limit: ${point}`),
+    `Maximum ${marks} marks. Self-assess only against relevant creditworthy material for the exact prompt and declared assessment objectives.`,
+    ...(allocation.ao1 > 0 ? knowledge.map((point) => `Knowledge: ${point}`) : []),
+    ...(allocation.ao2 > 0 ? evidence.map((point) => `Evidence/relationship for application: ${point}`) : []),
+    ...(allocation.ao3 > 0 ? evaluation.map((point) => `Evaluation/limit: ${point}`) : []),
     ...extra,
-    'Do not award credit for conclusions that go beyond the evidence or ignore a material boundary in the course content.',
+    'Do not award credit for material outside the command or declared assessment objectives, or for conclusions that go beyond the evidence.',
   ]
 }
 
@@ -331,7 +400,7 @@ const applicationStimulusByTopic: Record<number, string> = {
   5: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager later copies the behaviour, especially when the admired student is present.',
   6: 'After touching a very hot surface, a person quickly withdraws their hand. Sensory information travels towards the central nervous system, is relayed, and a motor response is sent to the muscles; chemical transmission occurs at synapses.',
   8: 'Two psychologists explain the same behaviour differently. One emphasises biological and environmental causes, while the other argues that people can still make meaningful choices within constraints.',
-  9: 'One partner is comparing the rewards and costs of a relationship, the quality of available alternatives and how much they have already invested. The couple also report that fairness matters to whether the relationship feels satisfactory. Later, one partner privately questions the relationship, they then discuss the problems directly, mutual friends become involved, and after the breakup each constructs an account of what happened.',
+  9: 'Jamie and Rowan have been together for several years. Recently Jamie has felt less satisfied and has started spending more time apart, while Rowan thinks the relationship still has important benefits and shared commitments. After repeated disagreements, Jamie raises concerns directly and both partners begin reconsidering what they want from the relationship.',
   10: 'A young adult describes their gender as non-binary. In a separate research task they complete a trait questionnaire that measures culturally gendered characteristics rather than assigning biological sex.',
   11: 'A child cannot solve a puzzle alone, but succeeds when an adult gives prompts, models the first step and gradually removes support. On a later attempt the child completes more of the task independently.',
   12: 'A person develops hallucination-like experiences and reduced motivation. There is a family history of similar difficulties, and researchers are considering genetic vulnerability and neural explanations without assuming that biology guarantees the outcome.',
@@ -376,7 +445,9 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
     const rmRequirement = embeddedRm ? requirementById('PSY-07-14') : undefined
     const isClinicalCharacteristics = embeddedRm && requirement.requirementId === 'PSY-04-02'
     const prompt = index === 0
-      ? `Outline ${label} accurately.`
+      ? paperId === '7182/3'
+        ? `Outline two key points about ${titleFor(requirement)}.`
+        : `Outline ${label} accurately.`
       : index === 1
         ? embeddedRm
           ? isClinicalCharacteristics
@@ -391,8 +462,9 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
 
     const extraGuidance = embeddedRm
       ? [
+          'Credit allocation: 2 marks reward accurate underlying psychological knowledge; within the 6 AO2 marks, up to 4 reward application to the stimulus and up to 2 reward identifying and justifying a precise operationalisation.',
           'Operationalisation credit: define one variable or procedure in observable, measurable or repeatable terms tied directly to the supplied case.',
-          'Justification credit: explain how precise operationalisation supports reproducibility, reliability and/or validity; a vague claim that it is simply “more accurate” is insufficient without development.',
+          'Justification credit: precise operationalisation supports reproducibility and can support reliable measurement. Construct validity requires separate evidence that the chosen operation represents the intended construct; a vague claim that it is simply “more accurate” is insufficient.',
           ...(isClinicalCharacteristics ? ['Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.'] : []),
         ]
       : index >= 2
@@ -415,7 +487,7 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
           table: null,
         },
       } : {}),
-      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, extraGuidance),
+      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, allocation, extraGuidance),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
     })
@@ -444,7 +516,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         table: null,
       },
       prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
-      markingGuidance: guidance(variables, 4, [
+      markingGuidance: guidance(variables, 4, ao(1, 3, 0), [
         'Independent variable: distraction condition, operationalised as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
         'Dependent variable: immediate recall score, operationalised as the number of target words correctly written after the ten-minute interval.',
       ]),
@@ -471,13 +543,13 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         },
       },
       prompt: 'Calculate the mean, median, mode and range for the scores. Show enough working for each answer to be checked.',
-      markingGuidance: guidance(descriptive, 8, ['For this constructed dataset: mean = 7, median = 6, mode = 6, range = 7.']),
+      markingGuidance: guidance(descriptive, 8, ao(0, 8, 0), ['For this constructed dataset: mean = 7, median = 6, mode = 6, range = 7.']),
     },
     {
       id: 'psy-7182-2-c-rm-q3',
       marks: 12,
       topic: topicId(topic),
-      assessmentObjectives: ao(2, 9, 1),
+      assessmentObjectives: ao(2, 5, 5),
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned validity context',
@@ -485,7 +557,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         table: null,
       },
       prompt: 'Discuss the validity of this study. Apply relevant types of validity to the context and explain at least one defensible improvement.',
-      markingGuidance: guidance(validity, 12),
+      markingGuidance: guidance(validity, 12, ao(2, 5, 5), ['AO3 credit should evaluate validity evidence and trade-offs in this exact study and justify why the proposed improvement would address the identified weakness.']),
     },
     {
       id: 'psy-7182-2-c-rm-q4',
@@ -509,7 +581,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         },
       },
       prompt: 'Use the sign-test procedure on the data: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
-      markingGuidance: guidance(signTest, 12, ['For this constructed dataset the signs are +, tie, −, +, +; effective n = 4; the smaller sign count is 1. A significance decision then requires the appropriate critical value convention for the stated alpha and test direction.']),
+      markingGuidance: guidance(signTest, 12, ao(0, 11, 1), ['For this constructed dataset the signs are +, tie, −, +, +; effective n = 4; the smaller sign count is 1. A significance decision then requires the appropriate critical value convention for the stated alpha and test direction.']),
     },
     {
       id: 'psy-7182-2-c-rm-q5',
@@ -523,7 +595,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         table: null,
       },
       prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',
-      markingGuidance: guidance([testChoice, significance, correlation], 12, ['The defensible test is Spearman’s rho because the data are paired ranks and the hypothesis concerns association. Compare absolute rho: 0.62 > 0.587, so the result is significant at the supplied threshold. The negative sign describes direction; significance does not establish causation or practical importance.']),
+      markingGuidance: guidance([testChoice, significance, correlation], 12, ao(0, 11, 1), ['The defensible test is Spearman’s rho because the data are paired ranks and the hypothesis concerns association. Compare absolute rho: 0.62 > 0.587, so the result is significant at the supplied threshold. The negative sign describes direction; significance does not establish causation or practical importance.']),
     },
   ]
   return questions.map((question) => examQuestionSchema.parse(question))
