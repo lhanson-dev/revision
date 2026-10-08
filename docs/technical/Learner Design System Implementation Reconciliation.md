@@ -72,13 +72,12 @@ The slice deliberately does **not** change Home recommendation/planner behaviour
 
 After C3.1, continue retained `--rv-*` and hard-coded legacy learner values in small groups:
 
-1. Home / learner-wide Progress;
-2. Plan;
-3. Courses / Course Overview;
-4. Learn / educational working surfaces;
-5. Practice;
-6. Exam Prep / Exam Simulator / contextual REV;
-7. Auth / first-use / onboarding learner entry surfaces.
+1. Plan;
+2. Courses / Course Overview;
+3. Learn / educational working surfaces;
+4. Practice;
+5. Exam Prep / Exam Simulator / contextual REV;
+6. Auth / first-use / onboarding learner entry surfaces.
 
 The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
 
