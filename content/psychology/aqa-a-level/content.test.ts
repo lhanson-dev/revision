@@ -88,6 +88,65 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   })
 
 
+  it('keeps AQA quasi-experiment framing distinct from non-random allocation alone', () => {
+    const researchMethods = psychologyCourseTruthTopics.find((topic) => topic.topicNumber === 7)
+    const requirement = researchMethods?.requirements.find((candidate) => candidate.requirementId === 'PSY-07-01')
+    const definition = requirement?.subjectTruth.definitionsAndCoreConcepts?.join(' ') ?? ''
+    expect(definition).toContain('pre-existing participant characteristic or naturally occurring difference')
+    expect(definition).toContain('non-random allocation alone does not define the AQA quasi-experiment category')
+  })
+
+  it('keeps objective Practice definitions grammatical and excludes known overlapping distractors', () => {
+    for (const question of psychologyQuestions) {
+      expect(question.prompt, question.id).not.toMatch(/This concept (?:are|organise|propose|examine|focus|use|measure|distinguish)\b/i)
+    }
+
+    const contractByRequirement = new Map(psychologyObjectivePracticeContracts.map((contract) => [contract.requirementId, contract]))
+    const q1503 = psychologyQuestions.find((question) => question.id === 'psy-psy1503-check')
+    const q1505 = psychologyQuestions.find((question) => question.id === 'psy-psy1505-check')
+    const label1503 = contractByRequirement.get('PSY-15-03')?.label
+    const label1505 = contractByRequirement.get('PSY-15-05')?.label
+    expect(q1503?.options).not.toContain(label1505)
+    expect(q1505?.options).not.toContain(label1503)
+  })
+
+  it('makes every expressly offered generic mock route self-markable', () => {
+    const questions = [
+      ...(paper1.exams[0]?.questions ?? []),
+      ...(paper2.exams[0]?.questions ?? []),
+      ...(paper3.exams[0]?.questions ?? []),
+    ].filter((question) => !question.id.includes('-rm-') && /-q[134]$/.test(question.id))
+
+    for (const question of questions) {
+      const match = question.id.match(/-(\d+)-q([134])$/)
+      expect(match, question.id).not.toBeNull()
+      const topicNumber = Number(match?.[1])
+      const questionNumber = Number(match?.[2])
+      const topic = psychologyCourseTruthTopics.find((candidate) => candidate.topicNumber === topicNumber)
+      const requirement = topic?.requirements[questionNumber - 1]
+      expect(requirement, question.id).toBeDefined()
+      const guidance = question.markingGuidance.join(' ')
+
+      for (const point of requirement?.subjectTruth.definitionsAndCoreConcepts ?? []) {
+        expect(guidance, `${question.id}: missing knowledge route`).toContain(point)
+      }
+      if (questionNumber === 3 || questionNumber === 4) {
+        for (const point of requirement?.subjectTruth.evaluationAndLimits ?? []) {
+          expect(guidance, `${question.id}: missing evaluation route`).toContain(point)
+        }
+      }
+    }
+  })
+
+  it('coaches explain contextually and includes discuss and evaluate command words', () => {
+    const byWord = new Map(aqaPsychology7182ExamPapers.commandWords.map((entry) => [entry.word, entry]))
+    expect(byWord.has('discuss')).toBe(true)
+    expect(byWord.has('evaluate')).toBe(true)
+    for (const word of ['explain', 'explain how', 'explain why']) {
+      expect(byWord.get(word)?.aos).toContain('AO1 or AO2')
+    }
+  })
+
   it('binds every objective Practice stem and key to the same approved Course Truth definition', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
