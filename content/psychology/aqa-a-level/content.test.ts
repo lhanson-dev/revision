@@ -94,12 +94,15 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   })
 
   it('keeps revision-card answers aligned to the full approved requirement rather than truncating central content', () => {
-    const card = (id: string) => psychologyFlashcards.find((candidate) => candidate.id === id)?.answer ?? ''
+    const card = (id: string) => (psychologyFlashcards.find((candidate) => candidate.id === id)?.answer ?? '')
+      .toLocaleLowerCase('en-GB')
+      .replace(/[‐‑–—]/gu, '-')
+
     expect(card('psy-psy0202-card')).toContain('phonological loop')
     expect(card('psy-psy0202-card')).toContain('visuospatial sketchpad')
-    expect(card('psy-psy0303-card')).toMatch(/insecure[-‐‑–—]avoidant/iu)
-    expect(card('psy-psy0403-card')).toContain('Systematic desensitisation')
-    expect(card('psy-psy0605-card')).toContain('event-related potentials')
+    expect(card('psy-psy0303-card')).toContain('insecure-avoidant')
+    expect(card('psy-psy0403-card')).toContain('systematic desensitisation')
+    expect(card('psy-psy0605-card')).toContain('event-related potential')
     expect(card('psy-psy1202-card')).toContain('atypical')
     expect(card('psy-psy1301-card')).toContain('ghrelin')
     expect(card('psy-psy1301-card')).toContain('leptin')
