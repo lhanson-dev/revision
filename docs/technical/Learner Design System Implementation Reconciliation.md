@@ -1,7 +1,7 @@
 # Learner Design System Implementation Reconciliation
 
 **Status:** Phase C implementation audit and rollout plan  
-**Baseline:** Phase C1 merged to `main` at `292d455135e720c4819f0ac2aad1b77c2717f45f`  
+**Baseline:** Phase C2 merged to `main` at `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the relevant specialist numbered authority  
 **Scope:** learner product only; public marketing, pricing and Admin redesign remain outside this programme
 
@@ -24,7 +24,7 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | --- | --- | --- | --- |
 | `src/app/brand-tokens.css` semantic Brand/Neutral/Functional roles | KEEP | Calm Teal, semantic themes, spacing, controls and learner canvas already central | Preserve as canonical implementation owner |
 | canonical learner radii / overlay roles | FIX | feature 32px, modal 24px and menu 16px predate the 7 Oct authority | Align shared roles to 28 / 20 / 12 and keep REV major conversational layer at 28 |
-| `--rv-*` v2 token namespace | REMOVE (after migration) | parallel colour/radius generation still drives Home, Course Overview, Progress, Exam and other v2 styles | Migrate consumers to canonical semantic roles in bounded PRs, then delete aliases proven unused |
+| `--rv-*` v2 token namespace | REMOVE (after migration) | parallel colour/radius generation still drives Plan, Course Overview, Practice, Exam, learner entry surfaces and other retained v2 styles; Home and learner-wide Progress are migrated in C3.1 | Continue bounded migrations, then delete aliases proven unused |
 | shared `Button`, fields, status, overlay shells and focus contract | KEEP | central `src/app/ui/` ownership with established accessibility assurance | Reuse; only adjust shared visual roles where authority changed |
 | `RevMark` four-state learner model | KEEP | Waiting/Listening/Thinking/Responding map to one Living E implementation | Preserve |
 | `RevPresence` Completed state + motion | REMOVE | fifth state survives only as legacy runtime/design-lab capability | Remove and assure four-state contract |
@@ -35,9 +35,9 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | `AppShell` shell abstraction | KEEP as shared composition helper after C2 | desktop `Sidebar` anatomy is the same component consumed by canonical `PlannerRuntime`; Rail/TabBar remain shared | Do not reintroduce a separate desktop sidebar implementation |
 | contextual drawer / account overlay infrastructure | KEEP / FIX | shared focus shells are correct; visual radii still use old roles | Preserve interaction ownership; align geometry |
 | persistent REV access | KEEP after C2 | desktop Sidebar, tablet Rail and phone TabBar all use the Living E with Deep Teal REV treatment | Preserve; ordinary actions remain Primary Teal |
-| Home composition | FIX | current REV/Home implementation mixes older fidelity/v2 layers | Recompose later against current Home authority using shared system; retain truthful recommendation logic |
+| Home visual roles | KEEP after C3.1 | canonical Home behaviour remains intact and `home-v2.css` no longer consumes `--rv-*`; canonical semantic colours, display roles, focus and radii now own its presentation | Preserve current behaviour; later composition work only where separately governed |
 | Plan | FIX | product behaviour is coherent but v2/local visual roles remain | Migrate visual roles without altering adaptive-plan semantics |
-| learner-wide Progress | FIX | governed three measures are implemented; local v2 visual layer remains | Retain evidence semantics, migrate presentation to canonical roles |
+| learner-wide Progress | KEEP after C3.1 | governed three measures remain unchanged and `progress-v2.css` no longer consumes `--rv-*`; presentation now uses canonical semantic/type/radius roles | Preserve evidence semantics and canonical visual ownership |
 | Courses | FIX | current responsive course UI works but carries v2/local visual layer | Reconcile visual system and canonical subject identity |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
 | Learn | KEEP / FIX | reading-first workspace and shared educational treatments are sound; some local 24px/v2 styling survives | Preserve educational structure; migrate visual values and course identity |
@@ -58,13 +58,22 @@ No current Phase C item requires a new Founder design decision. Existing authori
 
 Merged via PR #565. Central learner radius/overlay roles now match authority and the obsolete REV Completed state is removed.
 
-### C2 — shell, identity and course orientation — implementation candidate
+### C2 — shell, identity and course orientation — complete
 
-The C2 branch moves the canonical runtime desktop sidebar onto the shared `Sidebar` primitive, retires the duplicate `.ui-sidebar` styling, preserves governed cross-device destination ordering, changes shell REV controls to Deep Teal + Living E, and introduces one reusable `CourseIdentity` pattern using the central subject mark/hue map. No route or account semantics change.
+Merged via PR #566 / `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The C2 implementation moves the canonical runtime desktop sidebar onto the shared `Sidebar` primitive, retires the duplicate `.ui-sidebar` styling, preserves governed cross-device destination ordering, changes shell REV controls to Deep Teal + Living E, and introduces one reusable `CourseIdentity` pattern using the central subject mark/hue map. No route or account semantics change.
 
 ### C3 — v2 compatibility retirement by bounded surface family
 
-Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
+**C3.1 Home / learner-wide Progress — implementation candidate**
+
+- `home-v2.css` and `progress-v2.css` no longer consume `--rv-*`;
+- canonical learner H1/H2/H3/hero display-size roles are centrally owned in `brand-tokens.css`;
+- governed learning-status colours keep their existing learner semantics/values but no longer depend on the compatibility namespace;
+- shared Practice scrim and compatibility focus-border helpers no longer depend on `--rv-*`;
+- Home/Progress behaviour, planner logic and evidence semantics are unchanged;
+- visual changes are expected where old 24px cards, v2 surfaces and focus rings move to the canonical 20px/semantic roles, so screenshot baselines remain fail-closed pending explicit Founder review.
+
+Remaining groups:
 
 1. Home / learner-wide Progress;
 2. Plan;
