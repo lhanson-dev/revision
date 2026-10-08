@@ -423,3 +423,15 @@ The remaining findings are concentrated in two bounded areas:
 - representative mock authenticity/self-marking: AO-aware guidance, operationalisation/construct-validity wording, one Paper 2 AO-command allocation, six over-broad Paper 3 four-mark outline prompts, and one leading Relationships stimulus.
 
 This result does not reopen Course Truth or reduce learner-content scope. The next remediation is deliberately limited to those production-generation and mock-authoring patterns. Psychology remains `preview`, and a fresh clean launch-assurance run is still required before publication.
+
+### Production launch assurance run #4 — systemic contract failure retained
+
+Run #4 reviewed exact commit `a7b7d0da264fd798a5f6814176c1c60578fc3454` in GitHub Actions run `37800997662`.
+
+Exact-main verification and deterministic prerequisites passed before provider review. All seven educational and three assessment packets completed, retained artifact `11561302129` was preserved, and the final decision was `fail_hold` with 21 material findings across 14 material dimensions. Provider spend was US$1.016534.
+
+The result showed that the run-3 remediation had not fixed the objective-Practice contract safely. A stem drawn from a secondary Course Truth relationship could be paired with a key drawn from the requirement's first definition, producing incorrect or ambiguous answers even though both strings were independently true. Assessment review also confirmed that the mock templates still made broad syllabus inventories appear compulsory and did not give learners sufficiently operational self-marking rules or explicit section structure.
+
+The next remediation therefore changes the production contracts, not individual findings: definition-bound MCQ stem/key generation, AO-linked self-marking rubrics, mark-by-mark Research Methods guidance, explicit learner-facing section metadata, selectable rather than compulsory broad-content wording, and non-leading Paper 3 application contexts.
+
+This is targeted A2/A3 remediation under the existing gate. It does not reopen Course Truth, reduce course scope, publish Psychology, or authorise FI-007 assisted marking.
