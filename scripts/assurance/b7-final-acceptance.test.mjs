@@ -76,13 +76,14 @@ describe('B7 final Interface System acceptance contract', () => {
     expect(responsiveAcceptance).toContain("await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)")
   })
 
-  it('keeps a bounded 18-state Light/Dark visual-regression matrix across canonical breakpoints', () => {
+  it('keeps a bounded 22-state Light/Dark visual-regression matrix across canonical breakpoints', () => {
     const entries = [...visualRegression.matchAll(/\{ project: '(phone|tablet|desktop)', state: '[^']+', theme: '(light|dark)' \}/g)]
-    expect(entries).toHaveLength(18)
+    expect(entries).toHaveLength(22)
     expect(visualRegression).toContain("state: 'admin'")
     expect(visualRegression).toContain("state: 'timed-exam'")
     expect(visualRegression).toContain("state: 'learn'")
     expect(visualRegression).toContain("state: 'practice'")
+    expect(visualRegression).toContain("state: 'progress'")
     expect(visualRegression).toContain("theme: 'light'")
     expect(visualRegression).toContain("theme: 'dark'")
     expect(visualRegression).toContain('toHaveScreenshot')
