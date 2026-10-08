@@ -35,8 +35,7 @@ import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
-import { RevPresence } from './RevPresence'
-import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Rail, Status, TabBar, useBreakpoint, type ShellNavItem } from './ui'
+import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Rail, Sidebar, Status, TabBar, useBreakpoint, type ShellNavItem } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const themeStorageKey = 'revision:theme'
@@ -54,8 +53,16 @@ function systemPrefersDark() {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
 }
 
-/** Navigation shared by the tablet rail and the phone tab bar. */
+/** Canonical learner-wide navigation order for desktop, tablet and the contextual drawer. */
 const shellNavItems: readonly ShellNavItem[] = [
+  { key: 'home', label: 'Home', icon: 'home' },
+  { key: 'plan', label: 'Plan', icon: 'plan' },
+  { key: 'progress', label: 'Progress', icon: 'progress' },
+  { key: 'courses', label: 'Courses', icon: 'courses' },
+]
+
+/** Phone keeps Home + Plan left of REV and Courses + Progress to its right. */
+const phoneShellNavItems: readonly ShellNavItem[] = [
   { key: 'home', label: 'Home', icon: 'home' },
   { key: 'plan', label: 'Plan', icon: 'plan' },
   { key: 'courses', label: 'Courses', icon: 'courses' },
@@ -317,17 +324,15 @@ export function PlannerRuntime() {
     <div className="planner-runtime" data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
 
-      <aside className="runtime-sidebar" aria-label="Learner navigation">
-        <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button>
-        <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
-        <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
-          <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
-          <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
-          <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><Icon name="progress" className="nav-icon" /><span>Progress</span></button>
-          <button className={coursesActive ? 'active' : ''} onClick={() => navigate(coursesRoute())}><Icon name="courses" className="nav-icon" /><span>Courses</span></button>
-          {coursesActive && programmeResolved && !programmeError && <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} />}
-        </nav>
-        <div className="runtime-sidebar-account">
+      <Sidebar
+        items={shellNavItems}
+        active={activeNavKey}
+        onNavigate={navigateFromShell}
+        onAskRev={() => openRev()}
+        askRevActive={revOpen}
+        brand={<button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button>}
+        contextualNavigation={coursesActive && programmeResolved && !programmeError ? <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} /> : undefined}
+        footer={<>
           {accountMenuOpen && <div className="runtime-account-popover" role="menu" aria-label="Profile menu">
             <button role="menuitem" onClick={() => openAccountModal('profile')}><Icon name="user" className="nav-icon" /><span>Profile</span></button>
             <button role="menuitem" onClick={() => openAccountModal('settings')}><Icon name="settings" className="nav-icon" /><span>Settings</span></button>
@@ -337,8 +342,8 @@ export function PlannerRuntime() {
             <button className="runtime-account-logout" role="menuitem" onClick={signOut}><Icon name="logout" className="nav-icon" /><span>Log out</span></button>
           </div>}
           <button className="runtime-sidebar-user" onClick={() => setAccountMenuOpen((open) => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} aria-label={`${learner} account menu`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-sidebar-user-name">{learner}</span></button>
-        </div>
-      </aside>
+        </>}
+      />
 
       {showRail && <Rail items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} onOpenMenu={openMobileMenu} menuOpen={menuOpen} />}
 
@@ -346,7 +351,7 @@ export function PlannerRuntime() {
 
       <div className="runtime-screen">{screen}</div>
 
-      {showPhoneChrome && route.kind !== 'admin' && <TabBar items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} />}
+      {showPhoneChrome && route.kind !== 'admin' && <TabBar items={phoneShellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revOpen} />}
 
 
       {revOpen && programmeResolved && !programmeError && <>

@@ -1,8 +1,8 @@
 /* Learner shell v2.1 (design/shell-navigation).
    Sidebar above 960px, icon rail 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below.
    The two-line menu opens the full left navigation (course list, account) on tablet and phone.
-   Exam Prep is a focus mode: no navigation, only a way out.
-   Rules: docs/design-system/RESPONSIVE.md and 10-product-governance/Global Learner Navigation.md. */
+   Exam Prep stays in the learner shell; only a dedicated focused exam-performance activity hides navigation.
+   Rules: 20-brand-and-experience/Learner Design System.md and 10-product-governance/Global Learner Navigation.md. */
 
 /* Sidebar: 248px above 960px (design system value). */
 @media (min-width: 961px) {

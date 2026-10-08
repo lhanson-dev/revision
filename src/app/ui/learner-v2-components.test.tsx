@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { AppShell } from './AppShell'
+import { CourseIdentity } from './CourseIdentity'
 import { ExaminerGuide } from './ExaminerGuide'
 import { FeedbackBar } from './FeedbackBar'
 import { learningStatusMeta, learningStatusOrder } from './learning-status'
@@ -15,6 +16,13 @@ import { breakpointForWidth } from './useBreakpoint'
 
 const noop = () => undefined
 const navItems = [
+  { key: 'home', label: 'Home', icon: 'home' },
+  { key: 'plan', label: 'Plan', icon: 'plan' },
+  { key: 'progress', label: 'Progress', icon: 'progress' },
+  { key: 'courses', label: 'Courses', icon: 'courses' },
+] as const
+
+const phoneNavItems = [
   { key: 'home', label: 'Home', icon: 'home' },
   { key: 'plan', label: 'Plan', icon: 'plan' },
   { key: 'courses', label: 'Courses', icon: 'courses' },
@@ -73,6 +81,18 @@ describe('subject badge', () => {
   })
 })
 
+describe('course identity', () => {
+  it('uses the governed subject mark with visible course context instead of a subject pictogram', () => {
+    const markup = renderToStaticMarkup(
+      <CourseIdentity subjectId="business" subjectName="Business" qualificationName="A-level" examBoardName="AQA" specificationCode="7132" />,
+    )
+    expect(markup).toContain('>B<')
+    expect(markup).toContain('Business')
+    expect(markup).toContain('AQA A-level · 7132')
+    expect(markup).not.toContain('briefcase')
+  })
+})
+
 describe('REV mark', () => {
   it('gives every state as text for screen readers', () => {
     expect(renderToStaticMarkup(<RevMark state="thinking" />)).toContain('REV is thinking')
@@ -128,20 +148,22 @@ describe('app shell', () => {
   })
 
   const render = (breakpoint: 'desktop' | 'tablet' | 'phone', focus = false) => renderToStaticMarkup(
-    <AppShell items={navItems} active="home" onNavigate={noop} onAskRev={noop} breakpoint={breakpoint} focus={focus}>Content</AppShell>,
+    <AppShell items={navItems} phoneItems={phoneNavItems} active="home" onNavigate={noop} onAskRev={noop} breakpoint={breakpoint} focus={focus}>Content</AppShell>,
   )
 
   it('shows the matching navigation for each band', () => {
-    expect(render('desktop')).toContain('ui-sidebar')
+    const desktop = render('desktop')
+    expect(desktop).toContain('runtime-sidebar')
+    expect(desktop).toContain('aria-label="Ask REV"')
     expect(render('tablet')).toContain('ui-rail')
     const phone = render('phone')
     expect(phone).toContain('ui-tabbar')
     expect(phone).toContain('aria-label="Ask REV"')
   })
 
-  it('hides all navigation in focus mode (Exam Prep)', () => {
+  it('hides all navigation in focused exam-performance mode', () => {
     const markup = render('desktop', true)
-    expect(markup).not.toContain('ui-sidebar')
+    expect(markup).not.toContain('runtime-sidebar')
     expect(markup).not.toContain('Primary navigation')
     expect(render('phone', true)).not.toContain('ui-tabbar')
   })

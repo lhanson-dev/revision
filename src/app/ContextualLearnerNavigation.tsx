@@ -3,7 +3,6 @@ import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
   availablePaperSections,
-  type CatalogueCourse,
 } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import {
@@ -14,7 +13,7 @@ import {
   type CourseSection,
   type PaperSection,
 } from './navigation'
-import { Icon } from './ui'
+import { CourseIdentity, Icon } from './ui'
 
 type ContextualLearnerNavigationProps = {
   route: AppRoute
@@ -49,15 +48,6 @@ function redundantSingletonPage(group: ReturnType<LearningContentAdapter['listLe
 
 function scrollReadingSurfaceToTop() {
   window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
-}
-
-function CourseIdentity({ subjectName, course }: { subjectName: string; course: CatalogueCourse }) {
-  return (
-    <div className="runtime-context-nav-course-identity" aria-label={`${subjectName} ${course.qualificationName} ${course.examBoardName} ${course.specificationCode}`}>
-      <strong>{subjectName}</strong>
-      <span>{course.qualificationName} · {course.examBoardName} · {course.specificationCode}</span>
-    </div>
-  )
 }
 
 function SectionLinks({
@@ -275,7 +265,15 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
 
     return (
       <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
-        <CourseIdentity subjectName={subject.name} course={course} />
+        <CourseIdentity
+          className="runtime-context-nav-course-identity"
+          variant="compact"
+          subjectId={subject.id}
+          subjectName={subject.name}
+          qualificationName={course.qualificationName}
+          examBoardName={course.examBoardName}
+          specificationCode={course.specificationCode}
+        />
         <SectionLinks
           key={route.section}
           route={route}
@@ -291,7 +289,15 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
 
   return (
     <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
-      <CourseIdentity subjectName={subject.name} course={course} />
+      <CourseIdentity
+          className="runtime-context-nav-course-identity"
+          variant="compact"
+          subjectId={subject.id}
+          subjectName={subject.name}
+          qualificationName={course.qualificationName}
+          examBoardName={course.examBoardName}
+          specificationCode={course.specificationCode}
+        />
       <div className="runtime-context-nav-level runtime-context-nav-components">
         {course.modules.map((module) => {
           const moduleSelected = route.kind === 'module' && route.moduleId === module.manifest.id

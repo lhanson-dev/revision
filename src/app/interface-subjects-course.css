@@ -618,44 +618,9 @@
 }
 
 .planner-runtime .course-header-identity {
-  display: flex;
-  align-items: center;
   gap: var(--space-4);
-  min-width: 0;
 }
 
-.planner-runtime .course-header-tile {
-  display: inline-grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-control);
-  background: var(--brand-warm-sand);
-  color: var(--brand-deep-teal);
-}
-
-.planner-runtime[data-theme="dark"] .course-header-tile {
-  background: color-mix(in srgb, var(--brand-warm-sand) 22%, var(--color-surface));
-  color: var(--color-text);
-}
-
-.planner-runtime .course-header-identity h1 {
-  margin: 0;
-  color: var(--color-text);
-  font-family: var(--font-family-product);
-  font-size: var(--type-h2-size);
-  font-weight: var(--type-h2-weight);
-  line-height: var(--type-h2-line);
-  letter-spacing: 0;
-}
-
-.planner-runtime .course-header-identity p {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-line);
-}
 
 /* Underline tabs replace the old filled, floating pill bar. */
 .planner-runtime .course-header .course-nav {
@@ -720,7 +685,7 @@
     line-height: var(--type-h3-line);
   }
 
-  .planner-runtime .course-header-identity p {
+  .planner-runtime .course-header-identity .ui-course-identity__copy > span {
     font-size: var(--type-body-s-size);
     line-height: var(--type-body-s-line);
   }

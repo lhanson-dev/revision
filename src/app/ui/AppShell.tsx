@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { BrandAsset } from './BrandAsset'
 import { Icon, type IconName } from './Icon'
 import { RevMark } from './RevMark'
 import { classNames } from './classNames'
@@ -22,7 +23,11 @@ interface ShellNavProps {
 }
 
 export interface SidebarProps extends ShellNavProps {
-  /** Below the navigation: the account control, and the week's study time once that exists. */
+  /** Revision wordmark/home control. Defaults to the governed wordmark when no interactive brand control is supplied. */
+  brand?: ReactNode
+  /** Route-scoped course/context navigation rendered after the four learner-wide destinations. */
+  contextualNavigation?: ReactNode
+  /** Account control and other governed bottom-of-sidebar utilities. */
   footer?: ReactNode
 }
 
@@ -41,19 +46,31 @@ function NavButton({ item, active, onNavigate, showLabel }: { item: ShellNavItem
   )
 }
 
-/** Desktop and laptop (above 960px): the 248px sidebar. */
-export function Sidebar({ items, active, onNavigate, onAskRev, askRevActive, footer }: SidebarProps) {
+/** Desktop and laptop (above 960px): the canonical 248px learner sidebar. */
+export function Sidebar({ items, active, onNavigate, onAskRev, askRevActive, brand, contextualNavigation, footer }: SidebarProps) {
   return (
-    <aside className="ui-sidebar">
-      <p className="ui-sidebar__wordmark" aria-label="Revision">Revision</p>
-      <button type="button" className={classNames('ui-sidebar__ask-rev', askRevActive && 'is-active')} onClick={onAskRev}>
+    <aside className="runtime-sidebar" aria-label="Learner navigation">
+      {brand ?? <div className="runtime-sidebar-brand runtime-sidebar-brand-static"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></div>}
+      <button type="button" className={classNames('runtime-ask-rev', askRevActive && 'active')} aria-label="Ask REV" onClick={onAskRev} aria-haspopup="dialog">
         <RevMark size="nav" />
         <span>Ask REV</span>
       </button>
-      <nav className="ui-shell-nav" aria-label="Primary navigation">
-        {items.map((item) => <NavButton key={item.key} item={item} active={active === item.key} onNavigate={onNavigate} showLabel />)}
+      <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
+        {items.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            className={active === item.key ? 'active' : ''}
+            aria-current={active === item.key ? 'page' : undefined}
+            onClick={() => onNavigate(item.key)}
+          >
+            <Icon name={item.icon} className="nav-icon" />
+            <span>{item.label}</span>
+          </button>
+        ))}
+        {contextualNavigation}
       </nav>
-      {footer && <div className="ui-sidebar__footer">{footer}</div>}
+      {footer && <div className="runtime-sidebar-account">{footer}</div>}
     </aside>
   )
 }
@@ -115,6 +132,8 @@ export interface AppShellProps extends ShellNavProps {
   focus?: boolean
   /** Sidebar footer (desktop and laptop only). */
   sidebarFooter?: ReactNode
+  /** Optional phone-specific ordering around the raised REV control. */
+  phoneItems?: readonly ShellNavItem[]
   /** A sticky bottom slot, for example the Practice feedback bar. Sits above the tab bar on phones. */
   stickyFooter?: ReactNode
   /** Override the measured layout band (tests, previews). */
@@ -126,7 +145,7 @@ export interface AppShellProps extends ShellNavProps {
  * Sidebar above 960px, icon rail from 621 to 960px, bottom tab bar at 620px and below.
  * Content sits in one centred 1100px canvas, and the page scrolls down, never sideways.
  */
-export function AppShell({ children, focus = false, sidebarFooter, stickyFooter, breakpoint, ...nav }: AppShellProps) {
+export function AppShell({ children, focus = false, sidebarFooter, phoneItems, stickyFooter, breakpoint, ...nav }: AppShellProps) {
   const measured = useBreakpoint().breakpoint
   const band = breakpoint ?? measured
   const showSidebar = !focus && (band === 'desktop' || band === 'laptop')
@@ -141,7 +160,7 @@ export function AppShell({ children, focus = false, sidebarFooter, stickyFooter,
         <main className="ui-app-shell__main" id="main-content">{children}</main>
         {stickyFooter && <div className="ui-app-shell__sticky">{stickyFooter}</div>}
       </div>
-      {showTabBar && <TabBar {...nav} />}
+      {showTabBar && <TabBar {...nav} items={phoneItems ?? nav.items} />}
     </div>
   )
 }

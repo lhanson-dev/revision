@@ -4,10 +4,10 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.6"
+version: "1.7"
 owner: "Founder"
 effective_date: "2026-10-07"
-last_reviewed: "2026-10-07"
+last_reviewed: "2026-10-08"
 review_cadence: "quarterly"
 content_review_status: "founder-approved"
 source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "compact REV product wordmark", "Powered by REV treatment", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
@@ -185,23 +185,25 @@ The inverse treatment is a colour/surface adaptation of the same Living E, not a
 
 ### Ask REV CTA
 
-Persistent **Ask REV** is one branded CTA pattern across desktop, tablet and mobile learner shells.
+Persistent **Ask REV** is one branded REV-presence pattern across desktop, tablet and mobile learner shells.
 
-*Placement note (1 October 2026):* where the Ask REV control sits in the sidebar, the 84px icon rail and the phone tab bar is set by `Global Learner Navigation.md`. The labelled CTA described here applies to the sidebar and any labelled placement. In the icon rail and the raised tab-bar control the Living E stands alone with the accessible name `Ask REV`, as in the v2.1 design. This is flagged for the Founder's review in the design-system v2.1 PR.
+Placement is governed by `Global Learner Navigation.md`: the desktop sidebar uses the labelled CTA, while the 84px tablet rail and raised phone tab-bar control use the Living E alone with the accessible name `Ask REV`.
 
-The control must use:
+For learner-shell use, `Learner Design System.md` governs the surrounding visual role: **genuine REV presence uses Deep Teal rather than the ordinary Primary Teal action surface**.
 
-- the same Primary Teal CTA surface family;
-- the same explicit `Ask REV` label;
-- the inverse-on-brand Living E defined above;
+The control must therefore use:
+
+- a Deep Teal `#0F2F36` REV-presence surface wherever the Ask REV control has a filled container;
+- the canonical Primary Teal Living E bars on that Deep Teal surface, preserving the normal mark treatment rather than forcing the inverse-on-brand variant;
+- the explicit `Ask REV` label on labelled placements, with Neutral 0 / light tested foreground on Deep Teal;
+- the accessible name `Ask REV` on icon-only tablet and phone placements;
 - a restrained visible halo plus the approved low-amplitude Resting behaviour while REV is available but not actively processing;
 - the complete compact halo contained inside the CTA boundary at every animation point;
-- the Living E and `Ask REV` label vertically centred to the same control midpoint, with the pair centred as one visual group rather than relying on text baseline alignment;
-- a stronger responsive label size on tablet/mobile where the larger persistent dock requires it, without changing the wording or creating a different CTA identity;
+- the Living E and `Ask REV` label vertically centred to the same control midpoint where the label is present;
 - the same underlying identity geometry and visual grammar at every breakpoint; and
-- responsive dimensions, placement and safe-area spacing appropriate to desktop rail, tablet and mobile layouts.
+- responsive dimensions, placement and safe-area spacing appropriate to desktop sidebar, tablet rail and phone tab bar.
 
-Breakpoint changes may resize or reposition the CTA and may increase the label type scale for the larger tablet/mobile dock, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the bars must stay crisp and recognition-critical while the halo and whole-mark movement provide the sense that REV is awake and ready.
+Breakpoint changes may resize or reposition the CTA, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the bars must stay crisp and recognition-critical while the halo and whole-mark movement provide the sense that REV is awake and ready. The inverse-on-brand Living E remains available for other Primary Teal or saturated brand-filled controls as defined above; it is not the default Ask REV treatment on Deep Teal.
 
 ## Prohibited treatments
 
@@ -224,3 +226,6 @@ Do not:
 Version 1.4 promotes the Founder-approved compact REV product wordmark and `Powered by REV` Home attribution into governed identity treatment, and clarifies that the Returning Student Home halo must retain a visibly near-white/aqua luminous centre. Version 1.3's persistent Ask REV CTA finish, the app-icon, favicon, Living E and semantic REV-state rules remain otherwise unchanged.
 
 Version 1.5 (Founder authorisation of 1 October 2026, effective on merge of the design-system v2.1 PR) adds the placement note above and records that the Living E's learner-app states are Waiting (Resting), Listening, Thinking and Responding, with a 1.4s thinking loop and a text label under reduced motion (see `Learner Design System.md`). The wordmark, app icon, favicon and halo rules are unchanged. The Manrope wordmark rule is unchanged: Bricolage Grotesque applies to learner-app headings and numbers, not to the wordmark.
+
+
+Version 1.7 (8 October 2026) reconciles the persistent Ask REV CTA wording with the already-approved canonical learner rule in `Learner Design System.md` and ADR-0031: ordinary actions use Primary Teal, while genuine REV presence uses Deep Teal + Living E. It also removes stale tablet/mobile label wording now that the governed rail and phone placements are icon-only with the accessible name `Ask REV`. This is documentation reconciliation of existing authority, not a new visual decision.

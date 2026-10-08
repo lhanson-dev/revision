@@ -1,9 +1,10 @@
 /*
- * Canonical Ask REV CTA treatment.
+ * Canonical desktop Ask REV CTA treatment.
  *
- * Desktop rail and tablet/mobile dock use the same branded control grammar.
- * Responsive layout files continue to own visibility, placement and available
- * width; this file owns visual treatment and compact inverse Living E styling.
+ * Genuine REV presence uses Deep Teal + Living E. Responsive shell files own
+ * visibility and placement; this file owns the desktop control's visual treatment
+ * and compact inverse Living E styling. The legacy mobile dock selector remains
+ * only until its remaining compatibility use is retired.
  */
 .runtime-ask-rev,
 .runtime-mobile-ask-rev-dock {
@@ -15,9 +16,9 @@
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--brand-deep-teal) 14%, transparent);
   border-radius: var(--radius-control);
-  background: var(--color-action);
-  color: var(--color-action-text);
-  box-shadow: var(--shadow-raised);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--brand-deep-teal) 24%, transparent);
   font-size: var(--type-button-size);
   line-height: var(--type-button-line);
   font-weight: 750;
@@ -32,7 +33,7 @@
 
 .runtime-ask-rev:hover,
 .runtime-mobile-ask-rev-dock:hover {
-  background: color-mix(in srgb, var(--color-action) 92%, var(--brand-deep-teal));
+  background: color-mix(in srgb, var(--color-inverse-action) 92%, var(--brand-primary-teal));
   filter: none;
 }
 
@@ -43,8 +44,8 @@
 
 .runtime-ask-rev:focus-visible,
 .runtime-mobile-ask-rev-dock:focus-visible {
-  background: var(--color-action);
-  box-shadow: var(--shadow-raised), var(--focus-ring);
+  background: var(--color-inverse-action);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--brand-deep-teal) 24%, transparent), var(--focus-ring);
   filter: none;
 }
 

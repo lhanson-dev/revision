@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Icon, type IconName } from './ui'
+import { CourseIdentity } from './ui'
 import type { CatalogueCourse, CourseSection } from './catalogue-model'
 
 export const courseSectionLabels: Record<CourseSection, string> = {
@@ -8,23 +8,6 @@ export const courseSectionLabels: Record<CourseSection, string> = {
   practice: 'Practice',
   'exam-prep': 'Exam Prep',
   progress: 'Progress',
-}
-
-// Each subject has its own icon. A subject without one yet falls back to the neutral book.
-const subjectIcons: Readonly<Record<string, IconName>> = {
-  business: 'briefcase',
-  economics: 'trending',
-}
-
-function subjectIcon(subjectId: string): IconName {
-  return subjectIcons[subjectId.trim().toLocaleLowerCase()] ?? 'subjects'
-}
-
-function courseMetadata(course: CatalogueCourse) {
-  const level = course.qualificationName.startsWith(course.examBoardName)
-    ? course.qualificationName
-    : `${course.examBoardName} ${course.qualificationName}`
-  return `${level} · ${course.specificationCode}`
 }
 
 type CourseHeaderProps = {
@@ -55,13 +38,15 @@ export function CourseHeader({ course, subjectName, sections, section, titleId, 
   return (
     <header className="course-header">
       <div className="breadcrumbs"><button type="button" onClick={onOpenCourses}>Courses</button><span aria-hidden="true">›</span><span>{subjectName}</span></div>
-      <div className="course-header-identity">
-        <span className="course-header-tile" aria-hidden="true"><Icon name={subjectIcon(course.subjectId)} size="large" /></span>
-        <div>
-          <h1 id={titleId}>{subjectName}</h1>
-          <p>{courseMetadata(course)}</p>
-        </div>
-      </div>
+      <CourseIdentity
+        className="course-header-identity"
+        subjectId={course.subjectId}
+        subjectName={subjectName}
+        qualificationName={course.qualificationName}
+        examBoardName={course.examBoardName}
+        specificationCode={course.specificationCode}
+        titleId={titleId}
+      />
       <nav className="course-nav scroll-hint" ref={navRef} aria-label={`${navLabel} navigation`}>
         {sections.map((item) => (
           <button key={item} type="button" className={section === item ? 'active' : ''} aria-current={section === item ? 'page' : undefined} onClick={() => onOpenSection(item)}>{courseSectionLabels[item]}</button>
