@@ -435,3 +435,17 @@ The result showed that the run-3 remediation had not fixed the objective-Practic
 The next remediation therefore changes the production contracts, not individual findings: definition-bound MCQ stem/key generation, AO-linked self-marking rubrics, mark-by-mark Research Methods guidance, explicit learner-facing section metadata, selectable rather than compulsory broad-content wording, and non-leading Paper 3 application contexts.
 
 This is targeted A2/A3 remediation under the existing gate. It does not reopen Course Truth, reduce course scope, publish Psychology, or authorise FI-007 assisted marking.
+
+### Production launch assurance run #5 — educational packets pass; mock application contract remains on hold
+
+Run #5 reviewed exact `main` commit `6c9ebd993c68e3c41b2f996b82ebe3291a03a00e` in GitHub Actions run `37826306408`.
+
+Exact-main verification and deterministic prerequisites passed before provider review. All ten packets completed and retained artifact `11572326256` was preserved. Observed provider spend was US$0.866206.
+
+All seven educational packets passed. The assessment side remained `fail_hold` with six material findings across five material review dimensions, all confined to representative mock q2 application items.
+
+The findings have one common implementation cause rather than six independent Course Truth defects. The generic mock generator could infer a narrow application focus from the first definition in a heterogeneous requirement while continuing to use a topic-level stimulus and whole-requirement indicative guidance. That could make neighbouring concepts drift apart between prompt, stimulus and credit routes.
+
+The remediation therefore introduces an explicit coherent application contract for affected heterogeneous requirements: declared focus, supporting stimulus, indicative knowledge/application/evaluation routes and any item-specific self-marking constraint travel together. Provider-free regressions check the exact run-5 failure modes. Course Truth itself is unchanged.
+
+Psychology remains `preview`. FI-007 is not part of this remediation, and a fresh exact-main launch-assurance run remains required before publication.
