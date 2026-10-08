@@ -97,7 +97,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     const card = (id: string) => psychologyFlashcards.find((candidate) => candidate.id === id)?.answer ?? ''
     expect(card('psy-psy0202-card')).toContain('phonological loop')
     expect(card('psy-psy0202-card')).toContain('visuospatial sketchpad')
-    expect(card('psy-psy0303-card')).toMatch(/insecure[-‐‑–—]avoidant/u)
+    expect(card('psy-psy0303-card')).toMatch(/insecure[-‐‑–—]avoidant/iu)
     expect(card('psy-psy0403-card')).toContain('Systematic desensitisation')
     expect(card('psy-psy0605-card')).toContain('event-related potentials')
     expect(card('psy-psy1202-card')).toContain('atypical')
