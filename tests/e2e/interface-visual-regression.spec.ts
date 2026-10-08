@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'progress' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -18,6 +18,10 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'home', theme: 'dark' },
   { project: 'desktop', state: 'plan', theme: 'light' },
   { project: 'desktop', state: 'plan', theme: 'dark' },
+  { project: 'phone', state: 'progress', theme: 'light' },
+  { project: 'phone', state: 'progress', theme: 'dark' },
+  { project: 'desktop', state: 'progress', theme: 'light' },
+  { project: 'desktop', state: 'progress', theme: 'dark' },
   { project: 'tablet', state: 'courses', theme: 'light' },
   { project: 'tablet', state: 'courses', theme: 'dark' },
   { project: 'desktop', state: 'learn', theme: 'light' },
@@ -163,6 +167,12 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * ("Approve C2 desktop Deep Teal baselines"). Timed-exam and Admin baselines remain unchanged.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
+  // C3 Home/Progress migration: these fail-closed sentinels are deliberate.
+  // Replace only after the Founder reviews the exact CI captures and explicitly approves the new Progress baselines.
+  'phone:progress:light': 'PENDING_C3_FOUNDER_APPROVAL_PHONE_PROGRESS_LIGHT',
+  'phone:progress:dark': 'PENDING_C3_FOUNDER_APPROVAL_PHONE_PROGRESS_DARK',
+  'desktop:progress:light': 'PENDING_C3_FOUNDER_APPROVAL_DESKTOP_PROGRESS_LIGHT',
+  'desktop:progress:dark': 'PENDING_C3_FOUNDER_APPROVAL_DESKTOP_PROGRESS_DARK',
   'desktop:plan:light': '40efd5ab15880eb3c62ca532ac6dd1c1b56f6a373d76c0b21ace813f11cd8a3e',
   'desktop:plan:dark': '69ed9b6a6ab336d9f78e2a77b70f76a634ad48d5a2d47e3801da8f320b5da079',
   'tablet:courses:light': 'd54c643773e9ad4f21eb05388e69ee9a1784a1361835b320805f763b5e70c51b',
@@ -278,6 +288,7 @@ async function openState(page: Page, state: VisualState) {
   const paths: Record<Exclude<VisualState, 'timed-exam'>, string> = {
     home: appPath,
     plan: `${appPath}#/plan`,
+    progress: `${appPath}#/progress`,
     courses: `${appPath}#/courses`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
