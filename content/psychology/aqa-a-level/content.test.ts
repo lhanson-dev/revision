@@ -193,7 +193,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     const embeddedRm = p1.filter((question) => question.id.endsWith('-q2'))
     for (const question of embeddedRm) {
       expect(question.markingGuidance.join(' '), question.id).toContain('reproducibility')
-      expect(question.markingGuidance.join(' '), question.id).toContain('construct validity requires separate evidence')
+      expect(question.markingGuidance.join(' '), question.id).toMatch(/construct validity requires separate evidence/i)
     }
 
     const validity = p2.find((question) => question.id === 'psy-7182-2-c-rm-q3')
