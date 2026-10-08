@@ -177,3 +177,22 @@ All 10 review packets completed and the retained receipt recorded `fail_hold` wi
 The remediation corrects the recurring production issues identified by that review: weak objective-practice distractors, incomplete flashcard coverage, the Research Methods range statement, a learner-facing scope label, and bounded Paper 1 to Paper 3 prompt, route and self-marking guidance defects. Regression coverage is added for those failure modes.
 
 Psychology remains `preview`. This remediation does not authorise FI-007 assisted marking.
+
+### Production launch assurance run 3 remediation
+
+The third live production launch assurance reviewed exact `main` commit `4f48aa01eaa022b09cf9d8de03f649ea02f441be` in Actions run `37783260632`.
+
+All 10 review packets completed, retained artifact `11553462171` was uploaded successfully, and the receipt returned `fail_hold` with 10 material findings. Provider spend was US$1.006576.
+
+Compared with run 2, the remaining launch blockers are narrower:
+
+- objective Practice still used title/evidence matching patterns and predictable answer-position structure rather than sufficiently discriminating concept checks;
+- Paper 1 AO1/AO2-only self-mark guidance still exposed AO3-style evaluative material, and its operationalisation guidance overstated construct-validity implications;
+- one Paper 2 12-mark validity item under-allocated AO3 relative to its discuss/refinement demand;
+- six Paper 3 four-mark outline prompts prescribed too much content for the tariff;
+- Paper 3 AO1-only outline guidance still exposed evaluative material; and
+- one Relationships application stimulus remained too leading.
+
+The run-3 remediation changes only those production patterns. Objective Practice is regenerated from Course Truth using evidence/relationship cues, same-topic conceptually closer distractors and non-cyclic deterministic option placement. Mock guidance becomes AO-aware, the operationalisation distinction is corrected, the Paper 2 validity item is rebalanced while preserving approved paper-level AO contribution ranges, Paper 3 four-mark prompts are narrowed, and the Relationships stimulus is made non-leading.
+
+Psychology remains `preview`. A fresh exact-main launch-assurance run is required after this remediation merges. FI-007 assisted marking remains outside this gate.
