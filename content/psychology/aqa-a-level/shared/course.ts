@@ -316,6 +316,19 @@ function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3,
 
 type GuidanceMode = 'outline' | 'application' | 'application-evaluation' | 'evaluation' | 'discussion' | 'embedded-rm'
 
+type IndicativeGuidanceOverride = {
+  knowledge: string[]
+  application: string[]
+  evaluation?: string[]
+}
+
+type ApplicationQuestionContract = IndicativeGuidanceOverride & {
+  focus: string
+  stimulus: string
+  prompt?: string
+  extraGuidance?: string[]
+}
+
 function aoSelfMarkRule(allocation: Ao, mode: GuidanceMode): string[] {
   const rules: string[] = []
   if (allocation.ao1 === 4) rules.push('AO1 (4): award up to 2 marks for each of two accurate relevant points — 1 mark for accurate identification/description and 1 further mark for relevant development or detail.')
@@ -336,11 +349,11 @@ function aoSelfMarkRule(allocation: Ao, mode: GuidanceMode): string[] {
   return rules
 }
 
-function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, allocation: Ao, mode: GuidanceMode, extra: string[] = []) {
+function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, allocation: Ao, mode: GuidanceMode, extra: string[] = [], override?: IndicativeGuidanceOverride) {
   const list = Array.isArray(requirements) ? requirements : [requirements]
-  const knowledge = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
-  const evidence = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
-  const evaluation = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
+  const knowledge = override?.knowledge ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
+  const evidence = override?.application ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
+  const evaluation = override?.evaluation ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
   const indicative = [
     ...knowledge.slice(0, mode === 'outline' ? 4 : 2).map((point) => `Indicative knowledge: ${point}`),
     ...(mode === 'application' || mode === 'application-evaluation' || mode === 'embedded-rm'
@@ -358,10 +371,115 @@ function guidance(requirements: TruthRequirement | TruthRequirement[], marks: nu
   ]
 }
 
-function requirementById(id: string) {
-  const requirement = truthTopics.flatMap((topic) => topic.requirements).find((candidate) => candidate.requirementId === id)
-  if (!requirement) throw new Error(`Missing Psychology Course Truth requirement ${id}`)
-  return requirement
+const applicationQuestionContracts: Record<string, ApplicationQuestionContract> = {
+  'PSY-03-02': {
+    focus: 'Bowlby’s biologically grounded theory of attachment',
+    stimulus: 'A toddler seeks a familiar caregiver when distressed, explores more confidently when that caregiver is nearby, and actively seeks that caregiver again after a brief separation in an unfamiliar nursery room.',
+    knowledge: [
+      'Bowlby’s attachment theory treats humans as biologically prepared to form selective protective bonds with familiar caregivers.',
+      'An internal working model is a developing representation of the self, attachment figures and expected relationship support, built from repeated relationship experience.',
+    ],
+    application: [
+      'Seeking the familiar caregiver when distressed and after separation is consistent with organised proximity-seeking toward a specific attachment figure.',
+      'Exploring more confidently while the caregiver is nearby is consistent with the caregiver providing a secure base.',
+    ],
+  },
+  'PSY-04-02': {
+    focus: 'behavioural, emotional and cognitive characteristics of OCD',
+    stimulus: 'A student experiences repeated intrusive thoughts about contamination and feels intense anxiety when those thoughts occur. They respond by washing their hands many times, recognise that the ritual is excessive, and find that it disrupts daily life.',
+    prompt: 'Using the stimulus, choose any two behavioural, emotional or cognitive characteristics shown and explain how they are consistent with OCD. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.',
+    knowledge: [
+      'Obsessive-compulsive disorder involves recurrent intrusive obsessions and/or compulsions performed to reduce distress or prevent feared outcomes, often at significant cost to time and functioning.',
+      'OCD can be organised into behavioural compulsions, emotional distress/anxiety and cognitive obsessions or threat-related interpretations.',
+    ],
+    application: [
+      'Repeated hand-washing is a behavioural compulsion that is performed in response to the contamination concern.',
+      'Intense anxiety is an emotional characteristic, while the intrusive contamination thoughts and recognition that the ritual is excessive provide cognitive characteristics.',
+    ],
+    extraGuidance: [
+      'Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.',
+    ],
+  },
+  'PSY-06-02': {
+    focus: 'sensory, relay and motor neurons in the reflex pathway',
+    stimulus: 'After touching a very hot surface, receptors in the skin generate a signal that travels toward the central nervous system. Within the central nervous system the signal is passed between connecting neurons, and a command then travels to the arm muscles so the hand is withdrawn quickly.',
+    knowledge: [
+      'Sensory neurons transmit information from sensory receptors toward the central nervous system; motor neurons transmit commands from the central nervous system to effectors such as muscles.',
+      'Interneurons connect neurons within the central nervous system. The AQA term relay neuron is retained as qualification framing for this connecting function.',
+    ],
+    application: [
+      'The signal travelling from the skin receptors toward the central nervous system is carried by sensory neurons.',
+      'Connecting neurons within the central nervous system act as relay/interneurons, while the outgoing command to the arm muscles is carried by motor neurons.',
+    ],
+  },
+  'PSY-09-02': {
+    focus: 'Rusbult’s investment model',
+    stimulus: 'Jamie and Rowan have been together for several years. Jamie has become less satisfied and increasingly thinks that being single or dating someone else could be preferable. Rowan still values the relationship and has invested heavily in shared routines, possessions, friendships and future plans.',
+    knowledge: [
+      'Rusbult’s investment model explains commitment using satisfaction, quality of alternatives and investment size. Higher satisfaction and investment and poorer alternatives generally predict greater commitment.',
+      'Investments include resources tied to the relationship that would be lost or disrupted if it ended, such as time, shared identity, routines, possessions or social networks.',
+    ],
+    application: [
+      'Jamie’s lower satisfaction and more attractive perceived alternatives are consistent with lower commitment in the investment model.',
+      'Rowan’s substantial shared investments and continued satisfaction are consistent with stronger commitment because ending the relationship would carry greater losses.',
+    ],
+    evaluation: [
+      'Investment model variables predict commitment probabilistically rather than determining what any individual will do.',
+      'Investment should never be used to imply that someone ought to remain in an unsafe or abusive relationship.',
+    ],
+  },
+  'PSY-12-02': {
+    focus: 'genetic explanations of schizophrenia',
+    stimulus: 'One member of an identical-twin pair develops schizophrenia while the other does not. Several close biological relatives have also experienced psychotic disorders, while the twins have had different long-term environmental experiences and stress exposure.',
+    knowledge: [
+      'Genetic explanations propose that inherited variation contributes to vulnerability to schizophrenia; risk is polygenic rather than attributable to one single schizophrenia gene.',
+      'Biological vulnerability is probabilistic: genetic risk does not make schizophrenia inevitable.',
+    ],
+    application: [
+      'The family pattern and genetic similarity of the identical twins are consistent with an inherited contribution to vulnerability.',
+      'The fact that only one identical twin develops the disorder shows that genetic similarity is not sufficient and is consistent with environmental or developmental factors also contributing.',
+    ],
+    evaluation: [
+      'Heritability estimates describe variation in populations under particular conditions; they do not mean a fixed percentage of an individual’s disorder is genetic.',
+      'Incomplete concordance means genetic vulnerability should not be treated as deterministic.',
+    ],
+  },
+  'PSY-13-02': {
+    focus: 'neural and hormonal control of eating behaviour',
+    stimulus: 'A participant reports stronger hunger before meals and less hunger after eating. Blood samples show one appetite-related signal tends to rise before meals while another reflects longer-term energy stores, and activity changes are observed in brain regions involved in feeding regulation across the same period.',
+    knowledge: [
+      'The hypothalamus integrates signals about energy availability and contributes to hunger, satiety and energy-balance regulation through interacting neural pathways.',
+      'Ghrelin commonly rises before meals and can promote hunger and food intake, while leptin provides information about longer-term energy stores and can reduce food intake.',
+    ],
+    application: [
+      'The signal rising before meals is consistent with ghrelin contributing to hunger, while the signal reflecting longer-term energy stores is consistent with leptin signalling.',
+      'Changes in activity in feeding-related brain regions are consistent with neural regulation, including hypothalamic integration of hormonal and nutrient-related information.',
+    ],
+    evaluation: [
+      'Hormone concentration is not a deterministic predictor of eating because reward, stress, habits, environment and cognition also matter.',
+      'Distributed interacting circuits are more accurate than a single on/off hunger-centre explanation.',
+    ],
+  },
+  'PSY-16-02': {
+    focus: 'genetic explanations of offending behaviour',
+    stimulus: 'In one dataset, offending histories are more similar within identical-twin pairs than within non-identical-twin pairs, but the similarity is not perfect. The pairs also differ in important developmental and environmental experiences.',
+    knowledge: [
+      'Genetic explanations examine whether inherited variation contributes to differences in antisocial or offending risk.',
+      'Biological effects are probabilistic rather than deterministic.',
+    ],
+    application: [
+      'Greater similarity within identical-twin pairs than non-identical pairs is consistent with an inherited contribution to offending risk.',
+      'Imperfect similarity and differing environments are consistent with genetic vulnerability operating alongside environmental exposure and developmental context.',
+    ],
+    evaluation: [
+      'Association is not sufficient evidence of biological determinism or simple one-way causation.',
+      'Group-level biological risk findings should not be treated as individual predictions of criminality.',
+    ],
+  },
+}
+
+function applicationQuestionContract(requirement: TruthRequirement) {
+  return applicationQuestionContracts[requirement.requirementId]
 }
 
 const applicationStimulusByTopic: Record<number, string> = {
@@ -420,21 +538,18 @@ function genericSectionQuestions(
     }
 
     const area = requirement.boardAlignment.summary.replace(/[.]+$/, '')
-    const focus = psychologyObjectivePracticeConcept(requirement).label.replace(/[.]+$/, '')
+    const applicationContract = index === 1 ? applicationQuestionContract(requirement) : undefined
+    const focus = applicationContract?.focus ?? psychologyObjectivePracticeConcept(requirement).label.replace(/[.]+$/, '')
     const embeddedRm = paperId === '7182/1' && index === 1
-    const rmRequirement = embeddedRm ? requirementById('PSY-07-14') : undefined
-    const isClinicalCharacteristics = embeddedRm && requirement.requirementId === 'PSY-04-02'
 
     const prompt = index === 0
       ? `Outline two accurate points from this area. You may choose any two relevant aspects: ${area}.`
       : index === 1
-        ? embeddedRm
-          ? isClinicalCharacteristics
-            ? 'Using the stimulus, explain how the behavioural, emotional and cognitive characteristics shown are consistent with OCD. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.'
-            : `Using the stimulus, explain how ${focus} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
+        ? applicationContract?.prompt ?? (embeddedRm
+          ? `Using the stimulus, explain how ${focus} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
           : paperId === '7182/2'
             ? `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus.`
-            : `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus and explain one limitation or alternative interpretation of that application.`
+            : `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus and explain one limitation or alternative interpretation of that application.`)
         : index === 2
           ? `Evaluate one limitation or boundary relevant to this area. Focus on one issue only: ${area}.`
           : `Discuss one evaluative issue relevant to this area and reach a proportionate conclusion. You do not need to cover every named element: ${area}.`
@@ -445,13 +560,13 @@ function genericSectionQuestions(
         ? embeddedRm ? 'embedded-rm' : paperId === '7182/3' ? 'application-evaluation' : 'application'
         : index === 2 ? 'evaluation' : 'discussion'
 
-    const extraGuidance = embeddedRm
-      ? [
-          'For the AO2 operationalisation portion, award 1 mark for defining a case-linked variable or procedure in observable/measurable/repeatable terms and 1 mark for explaining how that precision supports reproducibility or reliable measurement.',
-          'Construct validity is separate: a precise operation can be repeated consistently without necessarily representing the intended construct well.',
-          ...(isClinicalCharacteristics ? ['Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.'] : []),
-        ]
-      : []
+    const extraGuidance = [
+      ...(embeddedRm ? [
+        'For the AO2 operationalisation portion, award 1 mark for defining a case-linked variable or procedure in observable/measurable/repeatable terms and 1 mark for explaining how that precision supports reproducibility or reliable measurement.',
+        'Construct validity is separate: a precise operation can be repeated consistently without necessarily representing the intended construct well.',
+      ] : []),
+      ...(applicationContract?.extraGuidance ?? []),
+    ]
 
     return examQuestionSchema.parse({
       id: `psy-${paperId.replace('/', '-')}-${sectionId.toLowerCase()}-${topic.topicNumber}-q${index + 1}`,
@@ -467,12 +582,12 @@ function genericSectionQuestions(
         stimulus: {
           title: embeddedRm ? 'Revision-owned application and mini-study context' : 'Revision-owned application context',
           narrative: embeddedRm
-            ? `${applicationStimulus(topic)} A psychologist plans to investigate this pattern with volunteers and must define what will be measured or manipulated clearly enough for another researcher to repeat the procedure.`
-            : applicationStimulus(topic),
+            ? `${applicationContract?.stimulus ?? applicationStimulus(topic)} A psychologist plans to investigate this pattern with volunteers and must define what will be measured or manipulated clearly enough for another researcher to repeat the procedure.`
+            : applicationContract?.stimulus ?? applicationStimulus(topic),
           table: null,
         },
       } : {}),
-      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, allocation, mode, extraGuidance),
+      markingGuidance: guidance(requirement, tariff, allocation, mode, extraGuidance, applicationContract),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
     })

@@ -217,3 +217,17 @@ The run-4 remediation replaces those contracts rather than patching individual f
 - Paper 3 application stimuli use indirect behavioural/data cues rather than naming the target mechanism or theory.
 
 Psychology remains `preview`. A fresh exact-main launch-assurance run is still required after this remediation merges. FI-007 remains outside the launch gate.
+
+### Production launch assurance run 5 — educational pass, mock application-contract hold
+
+The fifth live production launch assurance reviewed exact `main` commit `6c9ebd993c68e3c41b2f996b82ebe3291a03a00e` in Actions run `37826306408`.
+
+Exact-main verification and deterministic prerequisites passed before provider review. All seven educational and three assessment packets completed, retained artifact `11572326256` uploaded successfully, and observed provider spend was US$0.866206.
+
+All seven educational packets passed. The final decision remained `fail_hold` because the three assessment packets reported six material findings across five material dimensions. Every finding was confined to the representative mock q2 application items.
+
+The retained evidence exposed one remaining generator contract defect: heterogeneous Course Truth requirements could use a narrow focus inferred from the first definition while the stimulus and indicative marking routes were still drawn from the wider multi-concept requirement. That allowed neighbouring theories or biological explanations to appear as creditworthy routes for a narrower named prompt.
+
+The run-5 remediation adds explicit application-question contracts for the affected heterogeneous requirements. Each contract binds one declared focus, one supporting stimulus and the indicative AO1/AO2/AO3 routes used for self-marking. Deterministic regressions prohibit the off-prompt theories identified by run 5 from reappearing in those items.
+
+Psychology remains `preview`. This remediation does not change Course Truth, learner Learn/Practice content, publication authority or FI-007 assisted marking. A fresh exact-main launch-assurance run is still required after the remediation merges.
