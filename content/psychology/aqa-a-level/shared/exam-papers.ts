@@ -99,11 +99,15 @@ export const aqaPsychology7182ExamPapers = examPapersContentSchema.parse({
     },
   ],
   commandWords: Object.entries(examTruth.commandDemandModel.commands).flatMap(([demand, words]) =>
-    words.slice(0, 3).map((word) => ({
+    words.map((word) => ({
       word,
       asks: `Respond to the ${demand.replaceAll('_', ' ')} demand using the exact question context.`,
       marks: 'Variable',
-      aos: demand.includes('analysis') ? 'Mainly AO3' : demand.includes('application') ? 'Mainly AO2' : 'Depends on the question',
+      aos: demand.includes('analysis')
+        ? 'Mainly AO3'
+        : demand === 'explanation_application'
+          ? 'AO1 or AO2 depending on whether the stem asks for explanation of knowledge or application to a supplied context'
+          : 'Depends on the question',
       check: needsCheck,
     })),
   ),
