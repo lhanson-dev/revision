@@ -399,3 +399,14 @@ The fresh independent review completed and the launch gate failed closed with:
 The detailed packet-review JSON and final receipt were not retained because the live Vitest file had an unconditional cleanup hook that removed the assurance output directory immediately after the live test failed. The subsequent artifact-upload step therefore found no files.
 
 This evidence-retention defect does not convert the result into a pass and does not justify content remediation by guesswork. The course remains `preview`. The tooling must first be corrected so a repeated live review retains the exact issue register, after which remediation can address the actual findings rather than inferred ones.
+
+
+### Production launch assurance run #2 — retained evidence
+
+After the evidence-retention fix, the launch assurance was rerun against exact `main` commit `1d261bb08d0970e02f8bb0a7c7d4e5353dcd9481` in Actions run `37705620510`.
+
+The run passed exact-main verification and deterministic prerequisites, completed all 7 educational and 3 assessment packets, retained the full evidence artifact, and returned `fail_hold` with 23 material findings. Provider spend was US$0.993998.
+
+The findings were concentrated in reusable production patterns rather than a new Course Truth failure: objective-practice distractor quality, incomplete flashcard coverage, one Research Methods range statement, one learner-facing scope label, and several mock-paper prompt, route and self-marking guidance issues.
+
+The governed remediation branch corrects those root causes and adds regressions. Psychology remains `preview` pending a fresh clean launch-assurance run.
