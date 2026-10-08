@@ -104,6 +104,7 @@ test('desktop gets the sidebar, tablet the icon rail and phone the bottom tab ba
     await expect(page.locator('.runtime-sidebar')).toBeVisible()
     await expect(rail).toHaveCount(0)
     await expect(tabBar).toHaveCount(0)
+    await expect(nav.getByRole('button')).toHaveText(['Home', 'Plan', 'Progress', 'Courses'])
     return
   }
 
@@ -115,8 +116,11 @@ test('desktop gets the sidebar, tablet the icon rail and phone the bottom tab ba
     await expect(tabBar).toHaveCount(0)
     expect(Math.round((await rail.boundingBox())?.width ?? 0)).toBe(84)
     await expect(rail.getByRole('button', { name: 'Open menu' })).toBeVisible()
-    for (const name of ['Ask REV', 'Home', 'Plan', 'Courses', 'Progress']) {
+    for (const name of ['Ask REV', 'Home', 'Plan', 'Progress', 'Courses']) {
       await expect(rail.getByRole('button', { name, exact: true })).toBeVisible()
+    }
+    for (const [index, name] of ['Home', 'Plan', 'Progress', 'Courses'].entries()) {
+      await expect(nav.getByRole('button').nth(index)).toHaveAccessibleName(name)
     }
     await expect(nav.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
     await nav.getByRole('button', { name: 'Plan' }).click()

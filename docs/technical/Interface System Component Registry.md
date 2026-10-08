@@ -69,11 +69,12 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `HueProgressBar` | Topics covered bar in a subject hue (or brand teal) | `value`, `hue`, `valueText`, `sm` / `md` | Showing status (it never uses a status colour) |
 | `ProgressMeasures` | The three measures together: Topics covered, Understanding, Exam readiness | `hue`, `covered`, `total`, `understanding`, `readiness?`, `stack` | A predicted grade, or hard-coded numbers |
 | `SubjectBadge` | Subject letter mark from the catalogue | `hue`, `mark`, `tile` / `plan` / `panel`, `onSolid` | Subject identity without the subject name beside it |
+| `CourseIdentity` | Canonical persistent course orientation identity | subject id/name, qualification, exam board, specification, `header` / `compact` | Pictogram subject icons, page-local course identity, or colour without subject name |
 | `RevMark` | Living E with four states (waiting, listening, thinking, responding) and text for every state | `state`, `size`, `onSettled` | Decoration outside REV cards, Ask REV, REV nav and the Home hero |
 | `RevCard` (`RevSuggestionCard`) | REV suggestion with a reason | eyebrow, title, reason (required), steps, actions, `hero` | A card with no real reason (show the empty state) |
 | `QuickCheck` | Unscored check inside Learn, labelled Not scored | question, options, correct option, explanation | Anything that records an answer or changes progress |
 | `ExaminerGuide` | "What examiners look for" checklist with why each point ticked | `points`, `mode` (`practice` / `timed`) | Showing a mark or grade; timed papers (renders nothing) |
-| `AppShell` / `Sidebar` / `Rail` / `TabBar` | Page shell: sidebar above 960px, icon rail 621 to 960px, tab bar at 620px and below, focus mode with no navigation | `items`, `active`, `onNavigate`, `onAskRev`, `focus`, `stickyFooter` | Admin, or any screen that invents its own top-level frame |
+| `AppShell` / `Sidebar` / `Rail` / `TabBar` | Learner shell: shared 248px desktop sidebar, 84px tablet rail, phone tab bar, and focused exam-performance mode with no global navigation | `items`, `active`, `onNavigate`, `onAskRev`, contextual/sidebar slots, optional phone ordering, `focus`, `stickyFooter` | Admin, page-local global navigation, or a second desktop sidebar implementation |
 
 ## Educational treatment contract
 
@@ -213,7 +214,7 @@ If a recurring icon is missing, add it to the registry and assurance rather than
 
 The canonical `PlannerRuntime` shell consumes the public `Icon` registry for recurring learner navigation/account jobs rather than maintaining a shell-local SVG family. The controlled registry includes Home, Plan, Progress, Courses, Profile/user, Settings, Admin, Upgrade plan, Log out, close and chevron-right jobs.
 
-The shell may retain composition-specific sizing through feature classes, but reusable drawing, stroke language and control anatomy are centrally owned.
+The shell may retain composition-specific sizing through feature classes, but reusable drawing, stroke language and control anatomy are centrally owned. From C2, the canonical `PlannerRuntime` desktop shell also consumes the public `Sidebar` primitive; tablet and phone continue to consume `Rail` and `TabBar`.
 
 B7.3 moved Ask REV and the mobile navigation drawer onto `DrawerShell`/`OverlayBackdrop`, removed local focus/scroll/Escape ownership, and replaced raw close/chevron glyphs with controlled `Icon`/`IconButton` treatments. `AccountModal` and Exam Pause/Stop consume the same modal focus contract.
 

@@ -10,7 +10,7 @@ describe('B7 learner shell icon and identity ownership', () => {
       expect(iconRegistry).toContain(`| '${iconName}'`)
     }
 
-    expect(plannerRuntime).toContain("import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Rail, Status, TabBar, useBreakpoint, type ShellNavItem } from './ui'")
+    expect(plannerRuntime).toContain("import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Rail, Sidebar, Status, TabBar, useBreakpoint, type ShellNavItem } from './ui'")
     expect(plannerRuntime).not.toContain('function NavIcon(')
     expect(plannerRuntime).not.toContain('type NavIconName =')
     expect(plannerRuntime).not.toContain('<NavIcon')

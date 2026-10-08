@@ -1,5 +1,6 @@
 export { BrandAsset, brandAssetSources, type BrandAssetName, type BrandAssetProps } from './BrandAsset'
 export { Button, IconButton, SegmentedControl, SelectField, TextAreaField, TextField, type ButtonProps, type ButtonSize, type ButtonVariant, type IconButtonProps, type SegmentedControlProps, type SelectFieldProps, type TextAreaFieldProps, type TextFieldProps } from './controls'
+export { CourseIdentity, type CourseIdentityProps } from './CourseIdentity'
 export { Status, type StatusProps, type StatusTone } from './feedback'
 export { FeedbackBar, type FeedbackBarProps } from './FeedbackBar'
 export { Icon, type IconName, type IconProps, type IconSize } from './Icon'

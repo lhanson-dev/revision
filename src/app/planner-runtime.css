@@ -23,7 +23,7 @@
   position: fixed;
   inset: 0 auto 0 0;
   z-index: 45;
-  width: 232px;
+  width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
   padding: 28px 18px 22px;
@@ -49,6 +49,10 @@
   font-size: 26px;
 }
 
+.runtime-sidebar-brand-static {
+  cursor: default;
+}
+
 .runtime-ask-rev {
   min-height: 48px;
   display: inline-flex;
@@ -59,16 +63,24 @@
   padding: 0 16px;
   border: 0;
   border-radius: var(--radius-control);
-  background: var(--color-action);
-  color: var(--color-action-text);
-  box-shadow: var(--shadow-raised);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--brand-deep-teal) 24%, transparent);
   font-weight: 750;
   cursor: pointer;
 }
 
-.runtime-ask-rev:hover,
+.runtime-ask-rev:hover {
+  filter: brightness(1.04);
+}
+
 .runtime-ask-rev:focus-visible {
-  filter: brightness(.97);
+  outline: 0;
+  box-shadow: var(--focus-ring), 0 8px 22px color-mix(in srgb, var(--brand-deep-teal) 24%, transparent);
+}
+
+.runtime-ask-rev.active {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 24%, transparent), 0 8px 22px color-mix(in srgb, var(--brand-deep-teal) 24%, transparent);
 }
 
 .runtime-sidebar-nav,
@@ -149,7 +161,7 @@
 
 .runtime-screen {
   min-height: 100vh;
-  margin-left: 232px;
+  margin-left: var(--sidebar-width);
 }
 
 /* Home: preserve the calm chat/search opening, then surface only today's useful work. */

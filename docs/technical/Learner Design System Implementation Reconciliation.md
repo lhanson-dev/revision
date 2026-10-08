@@ -1,7 +1,7 @@
 # Learner Design System Implementation Reconciliation
 
 **Status:** Phase C implementation audit and rollout plan  
-**Baseline:** `main` at `b1e8014abd80a7729c329a02d910e4a0358880d8`  
+**Baseline:** Phase C1 merged to `main` at `292d455135e720c4819f0ac2aad1b77c2717f45f`  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the relevant specialist numbered authority  
 **Scope:** learner product only; public marketing, pricing and Admin redesign remain outside this programme
 
@@ -29,12 +29,12 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | `RevMark` four-state learner model | KEEP | Waiting/Listening/Thinking/Responding map to one Living E implementation | Preserve |
 | `RevPresence` Completed state + motion | REMOVE | fifth state survives only as legacy runtime/design-lab capability | Remove and assure four-state contract |
 | subject palette / `SubjectBadge` | KEEP | central hue/mark mapping and mark component exist | Preserve |
-| course header subject pictogram mapping | FIX | `CourseHeader.tsx` still uses briefcase/trending/general pictograms | Replace with canonical subject mark + name + hue and remove duplicate course identity elsewhere |
+| canonical course identity | KEEP after C2 | shared `CourseIdentity` consumes the central subject hue/mark map and is used by the page header and contextual course branch | Preserve one reusable mark + name + qualification/exam-board/specification pattern |
 | shared icon registry | KEEP | recurring UI/navigation glyph ownership is central | Preserve; add only proven reusable jobs |
-| learner desktop shell | FIX | `PlannerRuntime.tsx` hand-builds desktop sidebar while tablet/phone consume shared Rail/TabBar | Move desktop onto one shared shell/component ownership without changing route semantics |
-| unused/partial `AppShell` shell abstraction | FIX | correct responsive concept but not the canonical runtime shell; stale focus wording | Either make it the canonical shell or retire duplicate anatomy after migration |
+| learner desktop shell | KEEP after C2 | canonical `PlannerRuntime` consumes shared `Sidebar`, `Rail` and `TabBar` shell primitives | Preserve shared ownership and route semantics |
+| `AppShell` shell abstraction | KEEP as shared composition helper after C2 | desktop `Sidebar` anatomy is the same component consumed by canonical `PlannerRuntime`; Rail/TabBar remain shared | Do not reintroduce a separate desktop sidebar implementation |
 | contextual drawer / account overlay infrastructure | KEEP / FIX | shared focus shells are correct; visual radii still use old roles | Preserve interaction ownership; align geometry |
-| persistent REV access | KEEP | desktop/sidebar, tablet rail and phone tab action are implemented | Preserve while shell ownership consolidates |
+| persistent REV access | KEEP after C2 | desktop Sidebar, tablet Rail and phone TabBar all use the Living E with Deep Teal REV treatment | Preserve; ordinary actions remain Primary Teal |
 | Home composition | FIX | current REV/Home implementation mixes older fidelity/v2 layers | Recompose later against current Home authority using shared system; retain truthful recommendation logic |
 | Plan | FIX | product behaviour is coherent but v2/local visual roles remain | Migrate visual roles without altering adaptive-plan semantics |
 | learner-wide Progress | FIX | governed three measures are implemented; local v2 visual layer remains | Retain evidence semantics, migrate presentation to canonical roles |
@@ -48,31 +48,35 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | REV recommendation/conversation behaviour | KEEP | governed reasoning and contextual conversation implementation exist | Preserve behaviour; reconcile presentation to Deep Teal + Living E everywhere REV is genuinely present |
 | Light/Dark semantic base | KEEP | central theme translation and integrity tests exist | Preserve |
 | local/v2 theme roles | REMOVE (after migration) | `--rv-bg`, `--rv-surface`, etc. form a parallel theme generation | Migrate bounded consumers then delete |
-| responsive breakpoints/canvas | KEEP / FIX | 1100 / 820 / 760 and 960 / 620 model is present; shell ownership is split | Preserve geometry, consolidate ownership |
+| responsive breakpoints/canvas | KEEP after C2 | 1100 / 820 / 760 and 960 / 620 geometry remains; shell primitives now share ownership | Preserve |
 | visual/browser/accessibility assurance | KEEP / FIX | Playwright theme, accessibility, overflow and visual-regression gates exist | Extend assertions to reconciled roles; update visual baselines only after explicit Founder visual approval |
 | Design Lab | FIX (Phase D) | live reference surface uses real components but still contains stale specimens/gaps | Keep as derived production projection and comprehensively reconcile in Phase D |
 
 ## Phase C rollout order
 
-### C1 — shared learner foundations
+### C1 — shared learner foundations — complete
 
-Align the central learner radius/overlay contract, remove the obsolete REV Completed state, correct shared focus wording and add exact implementation assurance. Do not migrate page-local v2 compatibility roles in the same PR.
+Merged via PR #565. Central learner radius/overlay roles now match authority and the obsolete REV Completed state is removed.
 
-### C2 — shell, identity and course orientation
+### C2 — shell, identity and course orientation — implementation candidate
 
-Consolidate desktop/tablet/phone shell ownership, canonical course breadcrumb/header identity, subject mark/name/hue and REV shell treatment. Remove duplicate shell anatomy only after the canonical runtime consumes the shared implementation.
+The C2 branch moves the canonical runtime desktop sidebar onto the shared `Sidebar` primitive, retires the duplicate `.ui-sidebar` styling, preserves governed cross-device destination ordering, changes shell REV controls to Deep Teal + Living E, and introduces one reusable `CourseIdentity` pattern using the central subject mark/hue map. No route or account semantics change.
 
 ### C3 — v2 compatibility retirement by bounded surface family
 
 Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
-1. Home / Plan / learner-wide Progress;
-2. Courses / Course Overview;
-3. Learn / educational working surfaces;
-4. Practice;
-5. Exam Prep / Exam Simulator / contextual REV.
+1. Home / learner-wide Progress;
+2. Plan;
+3. Courses / Course Overview;
+4. Learn / educational working surfaces;
+5. Practice;
+6. Exam Prep / Exam Simulator / contextual REV;
+7. Auth / first-use / onboarding learner entry surfaces.
 
-Delete an alias only when repository search and assurance prove no live consumer remains.
+The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
+
+Before deleting the `--rv-*` namespace, decouple the canonical `--learning-status-*` roles and any remaining shared semantic roles (including the shared Practice scrim) from `--rv-*` values without changing their governed learner-facing meaning. Auth, first-use and onboarding are included because they are live learner entry surfaces and still consume the compatibility namespace; their inclusion does not reopen public marketing or wider brand work. Delete an alias only when repository search and assurance prove no live consumer remains.
 
 ### C4 — page-composition debts required by authority
 

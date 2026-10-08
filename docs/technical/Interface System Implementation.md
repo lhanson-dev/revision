@@ -42,7 +42,7 @@ Feature styles may own genuine composition. They must not create a parallel desi
 
 Migrated interface layers consume these roles instead of declaring page-local palettes or type scales.
 
-The public React registry under `src/app/ui/` supplies recurring structure including headers/surfaces, buttons, icon actions, text/select/textarea fields, semantic status, loading/empty states, overlay shells, menus, segmented controls, icons and canonical identity assets.
+The public React registry under `src/app/ui/` supplies recurring structure including learner shell primitives, canonical course identity, headers/surfaces, buttons, icon actions, text/select/textarea fields, semantic status, loading/empty states, overlay shells, menus, segmented controls, icons and canonical identity assets.
 
 ## Production migration state
 
@@ -143,3 +143,12 @@ Those completion conditions were satisfied by PR #148 and its governed productio
 B7 implements existing brand, identity, UX, accessibility and Interface System authority. No normative authority amendment or ADR was required for the final cleanup itself.
 
 The component registry, operating standard, B7 technical records, this implementation record and `INDEX.md` are maintained as current implementation truth. The original Design Acceptance audit remains historical point-in-time evidence; B7.5 added a separate acceptance rerun.
+
+
+## Phase C2 learner shell and course identity reconciliation
+
+The C2 implementation candidate moves the canonical desktop learner navigation in `PlannerRuntime` onto the same public `Sidebar` ownership used by the Interface System, while retaining the existing route-scoped course tree and account controls through explicit component slots. Tablet and phone remain on shared `Rail` and `TabBar` primitives.
+
+The learner-wide destination order is now explicit per governed band: desktop/tablet use Home → Plan → Progress → Courses, while phone keeps Home + Plan to the left of the raised REV control and Courses + Progress to the right. Shell REV controls use Deep Teal + Living E rather than ordinary Primary Teal action styling.
+
+`CourseIdentity` is the shared course-orientation pattern for the canonical page header and contextual course branch. It resolves the central subject hue/letter mark and keeps subject name plus qualification/exam-board/specification context visible. The former Business briefcase / Economics trend pictogram mapping is removed.

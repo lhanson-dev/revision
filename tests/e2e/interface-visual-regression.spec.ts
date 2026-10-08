@@ -62,12 +62,19 @@ const cases: ReadonlyArray<VisualCase> = [
  * Lee said "OK baselines, update them" after the before/after screenshots in
  * docs/design/learner-redesign-v2/screenshots/practice-v2.2-pr1/. Digests taken from the PR 545 CI run 37455570414
  * (the "Expected value" lines; the run and its retry agree), not from a local browser.
+ * Phone Home re-pinned on 7 October 2026 after Founder review of the C2 CI capture sheet and explicit
+ * approval ("Approve C2 visual baselines"). The only intended changes are the reconciled shell REV treatment
+ * and shell ownership. Digests come from CI #2832 reviewed captures.
+ * Desktop Home was re-pinned again on 7 October 2026 after the remaining desktop CTA override was
+ * corrected at its canonical owner so genuine REV presence also uses Deep Teal on desktop. The Founder
+ * reviewed the CI #2837 desktop capture sheet and explicitly approved it
+ * ("Approve C2 desktop Deep Teal baselines").
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'd2135190e6e018783aaede294e0379c88364e901672d7d82d761a8a22b1f4649',
-  'phone:dark': 'e4bcfc5b77d010e50a14dcb7279b94ac6397b0b9f596e79b0965cfcaf431b52b',
-  'desktop:light': 'c0d790f46d0e34f110c915b2ff670668d5c212ceca5f841879a06effe6db0f78',
-  'desktop:dark': '350f6d6e248d2285f32e8cf2305028db69852da2e2a812828822a864640ebfd6',
+  'phone:light': 'a4bc6e132ca52a3fda0ccbbdd3e1a0d52ad69bf58aaf77410bfb46cadf0338a8',
+  'phone:dark': '08db9a7d22970719e2656e961ff95b4e8cd0b04dbf8a874b3068c8bd0b978710',
+  'desktop:light': '5ecd083ca3290df576f872ba4b5c69c3cc14217bff5fb177610676689e019b59',
+  'desktop:dark': '3cc04503c0e968c5c2e0e6c0ac937c7b8d55b4ceba63d79894f86c7b3821530a',
 }
 
 /**
@@ -88,10 +95,16 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * Re-pinned on 6 October 2026 for Learn content styles v2.2 (PR 536): the Founder was shown the
  * before/after screenshots in docs/design/learner-redesign-v2/screenshots/learn-v2.2/ and replied
  * "approved 536". Digests from CI run 37379430851 (run and retry agree).
+ * Re-pinned on 7 October 2026 after Founder review of the C2 CI capture sheet and explicit approval
+ * ("Approve C2 visual baselines") for the canonical subject mark/name/hue course identity and reconciled shell.
+ * Digests come from CI #2832 reviewed captures.
+ * Desktop Learn was re-pinned again on 7 October 2026 after the canonical desktop Ask REV CTA moved to
+ * Deep Teal. The Founder reviewed the CI #2837 desktop capture sheet and explicitly approved it
+ * ("Approve C2 desktop Deep Teal baselines").
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '5cbe660e7162b375fed77cab3b5149108b49c683f26d2039c6f6872120878835',
-  'desktop:dark': 'f0237d5fb3ad18d743f478ed07aeaaeb170d4b6683f5234c3a1ed6ac69a472a3',
+  'desktop:light': '76ae73dd75b4debf1c24feeb295a901231a0bd8624b572b6df1bc585ad077075',
+  'desktop:dark': 'f7730b702b6f80332ef00eb37cf83ef04b1c679be6375468320895a3788999e1',
 }
 
 /**
@@ -141,16 +154,23 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * pictures in docs/design/learner-redesign-v2/screenshots/exam-prep-v2.2-pr1/, and the approval request said these baselines would
  * be re-pinned from CI. Digests taken from the PR 559 CI run 37531070439 (the "Received" lines; the run and its retry agree), not
  * from a local browser. The timed-exam picture is still the existing simulator and will be re-pinned again in PR 2.
+ * Phone Practice, Tablet Courses and Tablet Exam Prep were re-pinned on 7 October 2026 after Founder review
+ * of the C2 CI capture sheet and explicit approval ("Approve C2 visual baselines"). These captures reflect the
+ * reconciled shell REV treatment and canonical course identity. Timed-exam and Admin baselines were not changed.
+ * Digests come from CI #2832 reviewed captures.
+ * Desktop Plan was re-pinned again on 7 October 2026 after the canonical desktop Ask REV CTA moved to
+ * Deep Teal. The Founder reviewed the CI #2837 desktop capture sheet and explicitly approved it
+ * ("Approve C2 desktop Deep Teal baselines"). Timed-exam and Admin baselines remain unchanged.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '38e0c47bd3f10e04233d75314e0c35a99fb3aca68381b5077136b18ee521d080',
-  'desktop:plan:dark': '1a4eac96443b4a983054ecedfeb13cb34ba5db0dc95ea33d5290ea3944bf22b2',
-  'tablet:courses:light': '3e4717b19b8c3b116352bf12799cc8753155583f7a0c6df3d6aa00d1b7074a87',
-  'tablet:courses:dark': 'c092394818b6ec07d64afe753583e624994c517b2b2237a23fc7eefc4f9e7ce9',
-  'phone:practice:light': 'e3693725275a37e67935c0250652521e300d12591a37d9e84e62add16f59273e',
-  'phone:practice:dark': '5c8f027c3f337cbd4500b44de6a4302e6fccfab1c39b44bb091c00a87ad22628',
-  'tablet:exam-prep:light': 'cf2879de93f3db8cac114439bf623b0406f53779868ef3ed33992f7696c5ec99',
-  'tablet:exam-prep:dark': '937a802517672ff0a8d528675bc1ecbc704ba3976080da8ed8198c482b1266bf',
+  'desktop:plan:light': '40efd5ab15880eb3c62ca532ac6dd1c1b56f6a373d76c0b21ace813f11cd8a3e',
+  'desktop:plan:dark': '69ed9b6a6ab336d9f78e2a77b70f76a634ad48d5a2d47e3801da8f320b5da079',
+  'tablet:courses:light': 'd54c643773e9ad4f21eb05388e69ee9a1784a1361835b320805f763b5e70c51b',
+  'tablet:courses:dark': 'c0bdd22e8bdac165d5a03f4b6fab9679a22bb3282cbcabe9fa4cc94b564e3cc8',
+  'phone:practice:light': '35a6b07fbe5d07cd634eddc4f5527ae9fcb002994f16f595b7047eea21a46a54',
+  'phone:practice:dark': '70a23c9bb56f58e95086e73fff8662f87106a77c0775c88e2b7ebf21b5492e17',
+  'tablet:exam-prep:light': '573d3877f47aaf420a28e5d742b9298a07361ce39a6aba52823e288c0e077905',
+  'tablet:exam-prep:dark': '77fa5108170cfb3b7bfa4bacfea03e5bffaa2aedf6e0628d029381bd221438a5',
   'tablet:timed-exam:light': '187017f6ac090191dc0b438697abb25f3cf665479f9043d21ae92f25eb3b9069',
   'tablet:timed-exam:dark': 'b26580fd8b7400af5f2c040b35f45d7e2c739a5e43428f3c8d4e6fef9a73f89d',
 }

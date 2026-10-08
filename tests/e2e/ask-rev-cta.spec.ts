@@ -112,7 +112,7 @@ test('Ask REV uses one contained, centred living high-contrast CTA across breakp
     const box = await askRev.boundingBox()
     expect(box?.width ?? 0).toBeGreaterThanOrEqual(48)
     expect(box?.height ?? 0).toBeGreaterThanOrEqual(48)
-    expect(await askRev.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe('rgb(43, 182, 163)')
+    expect(await askRev.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe('rgb(15, 47, 54)')
     const motion = () => askRev.evaluate((element) => ({
       halo: getComputedStyle(element.querySelector('.rev-halo') as Element).animationName,
       mark: getComputedStyle(element.querySelector('.rev-living-e') as Element).animationName,
@@ -180,8 +180,8 @@ test('Ask REV uses one contained, centred living high-contrast CTA across breakp
     }
   })
 
-  expect(appearance.background).toBe('rgb(43, 182, 163)')
-  expect(appearance.color).toBe('rgb(19, 32, 38)')
+  expect(appearance.background).toBe('rgb(15, 47, 54)')
+  expect(appearance.color).toBe('rgb(255, 255, 255)')
   expect(appearance.barFill).toBe('rgb(255, 255, 255)')
   expect(appearance.haloOpacity).toBeGreaterThan(0.5)
   expect(appearance.haloAnimation).toBe('revCtaRestingBreathe')
