@@ -71,7 +71,7 @@ Merged via PR #566 / `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The C2 implemen
 - governed learning-status colours keep their existing learner semantics/values but no longer depend on the compatibility namespace;
 - shared Practice scrim and compatibility focus-border helpers no longer depend on `--rv-*`;
 - Home/Progress behaviour, planner logic and evidence semantics are unchanged;
-- visual changes are expected where old 24px cards, v2 surfaces and focus rings move to the canonical 20px/semantic roles, so screenshot baselines remain fail-closed pending explicit Founder review.
+- visual changes are expected where old 24px cards, v2 surfaces and focus rings move to the canonical 20px/semantic roles; Home exact digests remain fail-closed and C3.1 adds new fail-closed desktop Light/Dark Progress digests so both surfaces require explicit Founder visual review.
 
 Remaining groups:
 
