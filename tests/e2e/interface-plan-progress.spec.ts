@@ -138,13 +138,12 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
 
   const headingStyle = await heading.evaluate((element) => {
     const style = getComputedStyle(element)
-    return { fontSize: style.fontSize, lineHeight: style.lineHeight }
+    return { fontSize: Number.parseFloat(style.fontSize), lineHeight: Number.parseFloat(style.lineHeight) }
   })
-  if ((page.viewportSize()?.width ?? 0) <= 620) {
-    expect(headingStyle).toEqual({ fontSize: '30px', lineHeight: '38px' })
-  } else {
-    expect(headingStyle).toEqual({ fontSize: '36px', lineHeight: '44px' })
-  }
+  const viewportWidth = page.viewportSize()?.width ?? 0
+  const expectedHeadingSize = Math.min(46, Math.max(34, viewportWidth * 0.024 + 18))
+  expect(headingStyle.fontSize).toBeCloseTo(expectedHeadingSize, 2)
+  expect(headingStyle.lineHeight).toBeCloseTo(expectedHeadingSize * 1.02, 2)
 
   await page.getByRole('button', { name: 'Set study time' }).click()
   await expect(page.getByRole('button', { name: 'More study time on Monday' })).toBeVisible()
@@ -190,12 +189,14 @@ test('Configured Plan opens on Day, with time against plan, exams and study time
 
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.locator('.pln-summary')).toHaveCSS('border-radius', '20px')
   await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
   await expect(page.getByRole('tablist', { name: 'Days of the week' })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await page.getByRole('button', { name: 'Month', exact: true }).click()
   await expect(page.locator('.pln-month')).toBeVisible()
+  await expect(page.locator('.pln-month')).toHaveCSS('border-radius', '20px')
   await expectNoPageOverflow(page)
 })
 

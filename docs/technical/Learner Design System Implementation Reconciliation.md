@@ -24,7 +24,7 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | --- | --- | --- | --- |
 | `src/app/brand-tokens.css` semantic Brand/Neutral/Functional roles | KEEP | Calm Teal, semantic themes, spacing, controls and learner canvas already central | Preserve as canonical implementation owner |
 | canonical learner radii / overlay roles | FIX | feature 32px, modal 24px and menu 16px predate the 7 Oct authority | Align shared roles to 28 / 20 / 12 and keep REV major conversational layer at 28 |
-| `--rv-*` v2 token namespace | REMOVE (after migration) | parallel colour/radius generation still drives Home, Course Overview, Progress, Exam and other v2 styles | Migrate consumers to canonical semantic roles in bounded PRs, then delete aliases proven unused |
+| `--rv-*` v2 token namespace | REMOVE (after migration) | parallel colour/radius generation remains in Plan, Course Overview, Exam and other later C3 surfaces; Home and learner-wide Progress no longer consume it | Migrate consumers to canonical semantic roles in bounded PRs, then delete aliases proven unused |
 | shared `Button`, fields, status, overlay shells and focus contract | KEEP | central `src/app/ui/` ownership with established accessibility assurance | Reuse; only adjust shared visual roles where authority changed |
 | `RevMark` four-state learner model | KEEP | Waiting/Listening/Thinking/Responding map to one Living E implementation | Preserve |
 | `RevPresence` Completed state + motion | REMOVE | fifth state survives only as legacy runtime/design-lab capability | Remove and assure four-state contract |
@@ -37,7 +37,7 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | persistent REV access | KEEP after C2 | desktop Sidebar, tablet Rail and phone TabBar all use the Living E with Deep Teal REV treatment | Preserve; ordinary actions remain Primary Teal |
 | Home composition | FIX | current REV/Home implementation mixes older fidelity/v2 layers | Recompose later against current Home authority using shared system; retain truthful recommendation logic |
 | Plan | FIX | product behaviour is coherent but v2/local visual roles remain | Migrate visual roles without altering adaptive-plan semantics |
-| learner-wide Progress | FIX | governed three measures are implemented; local v2 visual layer remains | Retain evidence semantics, migrate presentation to canonical roles |
+| learner-wide Progress | KEEP after C3 slice 1 | governed three measures are implemented and the learner-wide route now consumes canonical semantic roles with no direct `--rv-*` dependency | Preserve evidence semantics and canonical presentation; course-level Progress remains separately scoped |
 | Courses | FIX | current responsive course UI works but carries v2/local visual layer | Reconcile visual system and canonical subject identity |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
 | Learn | KEEP / FIX | reading-first workspace and shared educational treatments are sound; some local 24px/v2 styling survives | Preserve educational structure; migrate visual values and course identity |
@@ -66,8 +66,8 @@ Merged via PR #566 and production-verified. The canonical runtime desktop sideba
 
 Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
-1. Home / learner-wide Progress — active bounded slice;
-2. Plan;
+1. Home / learner-wide Progress — complete and production-verified via PR #575;
+2. Plan — active bounded slice;
 3. Courses / Course Overview;
 4. Learn / educational working surfaces;
 5. Practice;
@@ -75,9 +75,13 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 7. Auth / first-use / onboarding learner entry surfaces.
 
 
-The active Home/Progress slice removes `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moves ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and adds centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning remain unchanged. The Founder explicitly approved the four Home visual baselines (phone/desktop × light/dark) from exact-head CI #2882 on 8 October 2026 after reviewing the retained captures; those approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`. Final exact-head assurance remains required before merge.
+The Home/Progress slice is complete and production-verified via PR #575 / merge `7d53e4747ee5f8780e153eb1bd5b3577fb3298cc`. It removed direct `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moved ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and added centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning were unchanged. The Founder explicitly approved the four Home visual baselines (phone/desktop × light/dark) from exact-head CI #2882 on 8 October 2026; post-merge CI #2888, production deployment #466, production smoke and `revision/path-to-live` all passed.
 
-The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
+The active Plan slice is deliberately separate from Home/Progress. It removes Plan's direct `--rv-*` consumption, moves Plan surfaces/text/actions/focus onto canonical roles, replaces historical 24px / 18px / 16px / 10px shape values with the canonical 12 / 14 / 20 / 28 / 999 family according to component job, and adopts the centrally owned learner display heading roles. Planner calculation, assessment setup, availability, session persistence, Day/Week/Month behaviour and recommendation semantics remain unchanged. The Founder reviewed the retained desktop light/dark captures and approved the C3 Plan visual baselines on 8 October 2026; exact-head CI #2899 reproduced those reviewed captures identically on run and retry. The approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`; final exact-head assurance remains required before merge.
+
+### C3 assurance execution rule
+
+For each remaining C3 surface, reconcile only the tests that directly exercise that surface before implementation. Keep behavioural, persistence, accessibility, evidence, security and navigation contracts intact. Update or remove only assertions that clearly encode superseded visual implementation details such as retired local radii, fixed heading sizes, old theme colours or `--rv-*` roles. Do not start a repository-wide test-modernisation or opportunistic cleanup programme. Visual baselines continue to fail closed once per intentional appearance change and are re-pinned only after explicit Founder review.
 
 Before deleting the `--rv-*` namespace, decouple the canonical `--learning-status-*` roles and any remaining shared semantic roles (including the shared Practice scrim) from `--rv-*` values without changing their governed learner-facing meaning. Auth, first-use and onboarding are included because they are live learner entry surfaces and still consume the compatibility namespace; their inclusion does not reopen public marketing or wider brand work. Delete an alias only when repository search and assurance prove no live consumer remains.
 
