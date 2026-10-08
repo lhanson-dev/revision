@@ -314,18 +314,47 @@ type Ao = { ao1: number; ao2: number; ao3: number; ao4: number }
 type ProductionExamQuestion = z.infer<typeof examQuestionSchema>
 function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3, ao4: 0 } }
 
-function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, allocation: Ao, extra: string[] = []) {
+type GuidanceMode = 'outline' | 'application' | 'application-evaluation' | 'evaluation' | 'discussion' | 'embedded-rm'
+
+function aoSelfMarkRule(allocation: Ao, mode: GuidanceMode): string[] {
+  const rules: string[] = []
+  if (allocation.ao1 === 4) rules.push('AO1 (4): award up to 2 marks for each of two accurate relevant points — 1 mark for accurate identification/description and 1 further mark for relevant development or detail.')
+  else if (allocation.ao1 === 2) rules.push('AO1 (2): award 1 mark for each of up to two accurate relevant knowledge points.')
+  else if (allocation.ao1 === 1) rules.push('AO1 (1): award 1 mark for one accurate relevant knowledge point.')
+
+  if (allocation.ao2 === 6 && mode === 'embedded-rm') rules.push('AO2 (6): award up to 4 marks for application to the case (up to two developed cue-to-concept links, 2 marks each) and up to 2 marks for a precise operationalisation plus a justified reason it supports reproducibility or reliable measurement.')
+  else if (allocation.ao2 === 6) rules.push('AO2 (6): award up to 2 marks for each of three developed applications — 1 mark for selecting a relevant case cue and 1 mark for explaining how that cue supports the psychological point.')
+  else if (allocation.ao2 === 4) rules.push('AO2 (4): award up to 2 marks for each of two developed applications — 1 mark for a relevant case cue and 1 mark for explaining the psychological link.')
+  else if (allocation.ao2 === 5) rules.push('AO2 (5): 1–2 marks for limited or partly accurate application; 3–4 for clear developed application to multiple relevant details; 5 for sustained, accurate application covering the main contextual demands.')
+  else if (allocation.ao2 > 0) rules.push(`AO2 (${allocation.ao2}): award only for accurate application, calculation or method use tied to the supplied context; do not credit generic description as AO2.`)
+
+  if (allocation.ao3 === 5) rules.push('AO3 (5): 1–2 marks for a limited evaluative point; 3–4 for a developed evaluative chain explaining why the issue matters; 5 for a developed judgement that weighs the issue and reaches a proportionate conclusion.')
+  else if (allocation.ao3 === 4) rules.push('AO3 (4): 1–2 marks for a relevant but limited evaluation; 3–4 for a developed limitation or boundary that explains its consequence for the claim, evidence or method.')
+  else if (allocation.ao3 === 2) rules.push('AO3 (2): 1 mark for a relevant limitation or alternative interpretation and 1 further mark for explaining why it changes the strength or certainty of the application.')
+  else if (allocation.ao3 === 1) rules.push('AO3 (1): award 1 mark for one valid evaluative or interpretive conclusion that is justified by the supplied evidence.')
+
+  return rules
+}
+
+function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, allocation: Ao, mode: GuidanceMode, extra: string[] = []) {
   const list = Array.isArray(requirements) ? requirements : [requirements]
   const knowledge = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
   const evidence = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
   const evaluation = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
+  const indicative = [
+    ...knowledge.slice(0, mode === 'outline' ? 4 : 2).map((point) => `Indicative knowledge: ${point}`),
+    ...(mode === 'application' || mode === 'application-evaluation' || mode === 'embedded-rm'
+      ? evidence.slice(0, 2).map((point) => `Indicative application route: ${point}`) : []),
+    ...(mode === 'evaluation' || mode === 'discussion' || mode === 'application-evaluation'
+      ? evaluation.slice(0, 2).map((point) => `Indicative evaluation route: ${point}`) : []),
+  ]
   return [
-    `Maximum ${marks} marks. Self-assess only against relevant creditworthy material for the exact prompt and declared assessment objectives.`,
-    ...(allocation.ao1 > 0 ? knowledge.map((point) => `Knowledge: ${point}`) : []),
-    ...(allocation.ao2 > 0 ? evidence.map((point) => `Evidence/relationship for application: ${point}`) : []),
-    ...(allocation.ao3 > 0 ? evaluation.map((point) => `Evaluation/limit: ${point}`) : []),
+    `Maximum ${marks} marks. Self-mark against the exact prompt; equivalent accurate routes may earn credit even when they are not listed below.`,
+    `Mark allocation: AO1 ${allocation.ao1} · AO2 ${allocation.ao2} · AO3 ${allocation.ao3}.`,
+    ...aoSelfMarkRule(allocation, mode),
+    ...indicative,
     ...extra,
-    'Do not award credit for material outside the command or declared assessment objectives, or for conclusions that go beyond the evidence.',
+    'The indicative points are examples, not a checklist. Do not require every listed point and do not award credit for material outside the command or declared assessment objectives.',
   ]
 }
 
@@ -338,20 +367,20 @@ function requirementById(id: string) {
 const applicationStimulusByTopic: Record<number, string> = {
   1: 'At a training centre, a senior supervisor in a formal role tells a new employee to continue an unpleasant task after another person objects. The employee is visibly uncomfortable but continues while the supervisor remains present.',
   2: 'A student tries to repeat a spoken phone number while mentally following a route on a map. The verbal task becomes much harder when another spoken message is added, while the route task is affected more by a second visual-spatial task.',
-  3: 'A toddler seeks a familiar caregiver when distressed, uses that caregiver as a secure base for exploration, and shows expectations about comfort when entering a new nursery setting.',
+  3: 'A toddler seeks a familiar caregiver when distressed, explores more confidently when that caregiver is nearby, and reacts differently when the caregiver leaves and returns in an unfamiliar nursery room.',
   4: 'A student experiences repeated intrusive thoughts about contamination and responds by washing their hands many times, even though they recognise that the ritual is excessive and it disrupts daily life.',
   5: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager later copies the behaviour, especially when the admired student is present.',
-  6: 'After touching a very hot surface, a person quickly withdraws their hand. Sensory information travels towards the central nervous system, is relayed, and a motor response is sent to the muscles; chemical transmission occurs at synapses.',
-  8: 'Two psychologists explain the same behaviour differently. One emphasises biological and environmental causes, while the other argues that people can still make meaningful choices within constraints.',
-  9: 'Jamie and Rowan have been together for several years. Recently Jamie has felt less satisfied and has started spending more time apart, while Rowan thinks the relationship still has important benefits and shared commitments. After repeated disagreements, Jamie raises concerns directly and both partners begin reconsidering what they want from the relationship.',
-  10: 'A young adult describes their gender as non-binary. In a separate research task they complete a trait questionnaire that measures culturally gendered characteristics rather than assigning biological sex.',
-  11: 'A child cannot solve a puzzle alone, but succeeds when an adult gives prompts, models the first step and gradually removes support. On a later attempt the child completes more of the task independently.',
-  12: 'A person develops hallucination-like experiences and reduced motivation. There is a family history of similar difficulties, and researchers are considering genetic vulnerability and neural explanations without assuming that biology guarantees the outcome.',
-  13: 'A participant reports stronger hunger before a meal and reduced hunger after eating. Researchers are considering hypothalamic regulation and hormonal signals such as ghrelin and leptin rather than treating eating as a purely conscious choice.',
-  14: 'An employee experiences sustained high workload and low control for several months. They show prolonged physiological stress responses and report more frequent illness symptoms during the same period.',
-  15: 'An animal shows a rapid, stereotyped aggressive response when a territorial cue appears. Researchers are considering whether the behaviour reflects evolved mechanisms while also allowing for environmental influence.',
-  16: 'Researchers find that offending risk is associated with both family/genetic factors and differences in neural functioning. They are careful not to treat either association as proof that an individual is destined to offend.',
-  17: 'Two people are exposed to the same addictive substance, but one has a stronger family history of addiction and also spends more time with peers who regularly use the substance. Researchers are considering biological and social vulnerability together.',
+  6: 'After touching a very hot surface, a person quickly withdraws their hand. Information travels from receptors towards the central nervous system and a response is sent to the muscles; transmission between nerve cells occurs at junctions between them.',
+  8: 'A student repeatedly misses revision sessions. One researcher points to patterns in the student’s past reinforcement and measured physiological responses, while another notes occasions when the student deliberately changes behaviour despite those pressures.',
+  9: 'Jamie and Rowan have been together for several years. Jamie has become less satisfied and spends more time apart, while Rowan still values the relationship and the commitments they share. After repeated disagreements Jamie raises concerns directly and both partners begin reconsidering what they want.',
+  10: 'Morgan says that neither “man” nor “woman” fully describes their sense of gender and that the description they use can change over time. In a separate study, Morgan rates how strongly traits such as assertiveness, tenderness and independence describe them.',
+  11: 'A child cannot solve a puzzle alone. With an adult asking guiding questions and demonstrating one step, the child completes it; on later attempts the adult gives less help and the child completes more independently.',
+  12: 'One member of an identical-twin pair develops hallucination-like experiences while the other does not. A separate scan shows group-average differences in activity in several brain regions, and a neurotransmitter-related measure also differs on average; none of these findings predicts an individual outcome with certainty.',
+  13: 'A participant reports stronger hunger before meals and less hunger after eating. Blood samples show one signal tends to rise before meals while another tracks longer-term energy stores, and brain activity changes in regions involved in feeding across the same period.',
+  14: 'An employee experiences months of intense deadlines with little recovery time. During the same period, repeated measurements show higher blood pressure, a weaker response on one immune-function measure and more frequent minor infections.',
+  15: 'Male birds attack a model only when a particular coloured patch is visible. The attack sequence is similar across many birds, appears rapidly without training and is much less likely when the patch is covered.',
+  16: 'In one dataset, offending histories are more similar within identical-twin pairs than within non-identical pairs. A separate imaging study reports average differences in regions linked with impulse control, although many people with similar biological features never offend.',
+  17: 'Two people use the same addictive substance for a similar period. One has several close relatives with dependence, scores highly on impulsivity and spends most evenings with friends who normalise heavy use; only that person develops persistent loss of control.',
 }
 
 function applicationStimulus(topic: TruthTopic) {
