@@ -39,6 +39,8 @@
   --color-action-text: var(--brand-graphite);
   --color-inverse-action: var(--brand-deep-teal);
   --color-inverse-action-text: var(--neutral-0);
+  --color-inverse-text-secondary: color-mix(in srgb, var(--neutral-0) 72%, var(--brand-deep-teal));
+  --color-inverse-accent-text: color-mix(in srgb, var(--brand-soft-aqua) 64%, var(--brand-primary-teal));
   --color-accent-text: #0f5d54;
 
   /* Semantic status roles. */
@@ -71,6 +73,15 @@
   --type-h4-size: 18px;
   --type-h4-line: 26px;
   --type-h4-weight: 700;
+
+  /* Canonical responsive learner display roles from Learner Design System.md. */
+  --type-learner-h1-size: clamp(34px, 2.4vw + 18px, 46px);
+  --type-learner-h1-line: 1.02;
+  --type-learner-h2-size: clamp(26px, 1.2vw + 18px, 32px);
+  --type-learner-h2-line: 1.08;
+  --type-learner-h3-size: 22px;
+  --type-learner-h3-line: 1;
+
   --type-body-l-size: 18px;
   --type-body-l-line: 28px;
   --type-body-l-weight: 400;
