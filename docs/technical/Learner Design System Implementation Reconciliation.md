@@ -1,7 +1,7 @@
 # Learner Design System Implementation Reconciliation
 
 **Status:** Phase C implementation audit and rollout plan  
-**Baseline:** Phase C1 merged to `main` at `292d455135e720c4819f0ac2aad1b77c2717f45f`  
+**Baseline:** Phase C2 merged to `main` via PR #566 at `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the relevant specialist numbered authority  
 **Scope:** learner product only; public marketing, pricing and Admin redesign remain outside this programme
 
@@ -35,9 +35,9 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | `AppShell` shell abstraction | KEEP as shared composition helper after C2 | desktop `Sidebar` anatomy is the same component consumed by canonical `PlannerRuntime`; Rail/TabBar remain shared | Do not reintroduce a separate desktop sidebar implementation |
 | contextual drawer / account overlay infrastructure | KEEP / FIX | shared focus shells are correct; visual radii still use old roles | Preserve interaction ownership; align geometry |
 | persistent REV access | KEEP after C2 | desktop Sidebar, tablet Rail and phone TabBar all use the Living E with Deep Teal REV treatment | Preserve; ordinary actions remain Primary Teal |
-| Home composition | FIX | current REV/Home implementation mixes older fidelity/v2 layers | Recompose later against current Home authority using shared system; retain truthful recommendation logic |
+| Home composition | FIX after C3.1 | canonical `PlannerHomeScreen` behaviour is retained; `home-v2.css` now consumes semantic colour/type/radius/focus roles instead of `--rv-*` | Preserve deterministic recommendation behaviour; treat any later composition change as separate page work |
 | Plan | FIX | product behaviour is coherent but v2/local visual roles remain | Migrate visual roles without altering adaptive-plan semantics |
-| learner-wide Progress | FIX | governed three measures are implemented; local v2 visual layer remains | Retain evidence semantics, migrate presentation to canonical roles |
+| learner-wide Progress | KEEP after C3.1 visual approval | governed three measures remain unchanged; `progress-v2.css` and shared Progress measures now consume canonical semantic/type/radius roles | Preserve evidence semantics and exact visual assurance |
 | Courses | FIX | current responsive course UI works but carries v2/local visual layer | Reconcile visual system and canonical subject identity |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
 | Learn | KEEP / FIX | reading-first workspace and shared educational treatments are sound; some local 24px/v2 styling survives | Preserve educational structure; migrate visual values and course identity |
@@ -58,13 +58,19 @@ No current Phase C item requires a new Founder design decision. Existing authori
 
 Merged via PR #565. Central learner radius/overlay roles now match authority and the obsolete REV Completed state is removed.
 
-### C2 — shell, identity and course orientation — implementation candidate
+### C2 — shell, identity and course orientation — complete
 
-The C2 branch moves the canonical runtime desktop sidebar onto the shared `Sidebar` primitive, retires the duplicate `.ui-sidebar` styling, preserves governed cross-device destination ordering, changes shell REV controls to Deep Teal + Living E, and introduces one reusable `CourseIdentity` pattern using the central subject mark/hue map. No route or account semantics change.
+Merged via PR #566 at `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The canonical runtime desktop sidebar now consumes the shared `Sidebar` primitive, duplicate shell anatomy is retired, governed destination ordering is preserved, shell REV controls use Deep Teal + Living E, and course identity uses the central subject mark/hue map. No route or account semantics changed.
 
 ### C3 — v2 compatibility retirement by bounded surface family
 
-Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
+#### C3.1 — Home + learner-wide Progress — implementation candidate
+
+This slice migrates `home-v2.css` and `progress-v2.css` completely off `--rv-*`, moves their display hierarchy onto central learner H1/H2/H3/hero roles, replaces obsolete 24px ordinary progress surfaces with the canonical 20px surface role, and decouples shared learning-status colours plus the Practice scrim from the compatibility namespace without changing their current values or meaning.
+
+The slice deliberately does **not** change Home recommendation/planner behaviour, progress/readiness calculations, course content, marking or entitlement behaviour. Home's existing exact captures will fail closed because the canonical Canvas/Surface/theme roles differ from the old v2 palette. Global Progress gains four exact light/dark phone/desktop capture contracts with temporary fail-closed sentinels. Those hashes may be pinned only after Founder visual review.
+
+After C3.1, continue retained `--rv-*` and hard-coded legacy learner values in small groups:
 
 1. Home / learner-wide Progress;
 2. Plan;
