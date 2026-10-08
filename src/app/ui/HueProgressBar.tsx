@@ -30,7 +30,7 @@ export function HueProgressBar({ value, hue = 'brand', size = 'md', label, value
       >
         <div
           className="ui-hue-bar__fill"
-          style={{ width: `${clamped}%`, background: hue === 'brand' ? 'var(--rv-teal)' : `var(--subject-${hue})` }}
+          style={{ width: `${clamped}%`, background: hue === 'brand' ? 'var(--brand-primary-teal)' : `var(--subject-${hue})` }}
         />
       </div>
       {valueText && <span className="ui-hue-bar__text">{valueText}</span>}

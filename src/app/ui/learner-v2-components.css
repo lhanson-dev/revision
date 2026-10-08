@@ -130,12 +130,12 @@
 /* ---- Progress measures ------------------------------------------------- */
 .ui-progress-measures { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; }
 .ui-progress-measures--stack { grid-template-columns: minmax(0, 1fr); }
-.ui-progress-measure { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 22px; border: 1px solid var(--color-border); border-radius: 24px; background: var(--color-surface); }
+.ui-progress-measure { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 22px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
 .ui-progress-measure p { margin: 0; }
 .ui-progress-measure__stat { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-.ui-progress-measure__number { color: var(--color-text); font: 800 clamp(40px, 3vw + 18px, 56px)/1 var(--font-family-display); letter-spacing: var(--tracking-display); }
+.ui-progress-measure__number { color: var(--color-text); font: var(--type-learner-display-weight) var(--type-learner-hero-size)/1 var(--font-family-display); letter-spacing: var(--type-learner-display-tracking); }
 .ui-progress-measure__of { color: var(--color-text); font: 800 18px/1 var(--font-family-product); }
-.ui-progress-measure__readiness { color: var(--color-text); font: 800 32px/1.05 var(--font-family-display); letter-spacing: -.02em; }
+.ui-progress-measure__readiness { color: var(--color-text); font: var(--type-learner-display-weight) var(--type-learner-h2-size)/var(--type-learner-h2-line) var(--font-family-display); letter-spacing: var(--type-learner-display-tracking); }
 .ui-progress-measure__no-evidence { display: flex; align-items: center; gap: 8px; color: var(--color-text); font: 800 16px/1.3 var(--font-family-product); }
 .ui-progress-measure__no-evidence .ui-icon { color: var(--learning-status-started-ink); }
 .ui-progress-measure__note { color: var(--color-text-secondary); font: 600 14px/1.45 var(--font-family-product); }
