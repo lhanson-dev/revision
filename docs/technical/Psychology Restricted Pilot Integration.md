@@ -147,3 +147,22 @@ That is corrected before paid assurance:
 - Paper 3 application questions now have concrete Revision-owned scenarios.
 
 This correction does not enable automated marking. It improves only the learner-visible launch assessment material.
+
+
+### Live assurance evidence-retention correction
+
+The first live production launch-assurance run against `main` commit
+`ce4d37d6798f2299f21a6f1a8d2129e77264d62b` completed the provider review and correctly returned `fail_hold` with 20 blocking/material findings and 20 blocking/material review dimensions.
+
+However, the test harness then deleted the output directory in its unconditional `afterEach` cleanup before the workflow's artifact-upload step ran. The workflow log therefore retained only the aggregate failure counts, not the packet review JSON or final receipt.
+
+The assurance verdict remains a hold: absence of retained details is not permission to treat the course as passed. A new live review is required before remediation can be evidence-led.
+
+The retention fix changes the implementation so that:
+
+- ordinary provider-free tests continue cleaning temporary assurance files;
+- an explicitly enabled live run preserves all packet reviews and the final receipt after success or fail-hold;
+- the workflow upload step fails if the live-review step executed but no evidence files exist;
+- a deterministic regression test proves fail-hold evidence is written before the runner throws.
+
+This is an assurance implementation correction only. It does not alter the content gate, the severity threshold, or the Psychology publication boundary.
