@@ -104,6 +104,10 @@ export const examQuestionSchema = z.object({
   assessmentObjectives: assessmentObjectiveSchema,
   prompt: z.string().min(1),
   markingGuidance: z.array(z.string().min(1)).min(1),
+  /** Optional learner-facing section metadata for full-paper simulations. */
+  sectionLabel: z.string().min(1).optional(),
+  sectionTitle: z.string().min(1).optional(),
+  sectionMarks: z.number().int().positive().optional(),
   /** Optional-choice metadata. One choice option may contain several questions (for example a Psychology Paper 3 topic section). */
   choiceGroup: slugSchema.nullable().optional(),
   choiceOption: slugSchema.nullable().optional(),
@@ -122,6 +126,11 @@ export const examQuestionSchema = z.object({
   const aoTotal = Object.values(question.assessmentObjectives).reduce((sum, marks) => sum + marks, 0)
   if (aoTotal !== question.marks) {
     context.addIssue({ code: 'custom', path: ['assessmentObjectives'], message: `AO marks (${aoTotal}) must equal question marks (${question.marks})` })
+  }
+  const sectionMetadata = [question.sectionLabel, question.sectionTitle, question.sectionMarks]
+  const sectionMetadataCount = sectionMetadata.filter((value) => value !== undefined).length
+  if (sectionMetadataCount > 0 && sectionMetadataCount < sectionMetadata.length) {
+    context.addIssue({ code: 'custom', path: ['sectionLabel'], message: 'sectionLabel, sectionTitle and sectionMarks must be supplied together' })
   }
   if (question.choiceOption && !question.choiceGroup) {
     context.addIssue({ code: 'custom', path: ['choiceOption'], message: 'choiceOption requires choiceGroup' })
