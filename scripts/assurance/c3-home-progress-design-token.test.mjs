@@ -5,11 +5,13 @@ const brandTokens = readFileSync(new URL('../../src/app/brand-tokens.css', impor
 const home = readFileSync(new URL('../../src/app/home-v2.css', import.meta.url), 'utf8')
 const progress = readFileSync(new URL('../../src/app/progress-v2.css', import.meta.url), 'utf8')
 const learnerComponents = readFileSync(new URL('../../src/app/ui/learner-v2-components.css', import.meta.url), 'utf8')
+const hueProgressBar = readFileSync(new URL('../../src/app/ui/HueProgressBar.tsx', import.meta.url), 'utf8')
 
 describe('C3 Home and Progress design-token migration', () => {
   it('keeps Home and learner-wide Progress off the retired --rv-* compatibility namespace', () => {
     expect(home).not.toContain('--rv-')
     expect(progress).not.toContain('--rv-')
+    expect(hueProgressBar).not.toContain('--rv-')
   })
 
   it('owns learner display roles centrally instead of page-local H1/H2 scales', () => {
