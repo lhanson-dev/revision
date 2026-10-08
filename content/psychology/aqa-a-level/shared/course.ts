@@ -500,7 +500,8 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       },
       prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
       markingGuidance: [
-        'Maximum 4 marks. Mark allocation: AO1 1 · AO2 3 · AO3 0.',
+        'Maximum 4 marks.',
+        'Mark allocation: AO1 1 · AO2 3 · AO3 0.',
         'AO1 (1): award 1 mark only if the response correctly identifies the distraction condition as the independent variable and recall performance as the dependent variable.',
         'AO2 (1): operationalise the independent variable as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
         'AO2 (1): operationalise the dependent variable as the number of target words correctly written immediately after the ten-minute interval.',
@@ -531,7 +532,8 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       },
       prompt: 'Calculate the mean, median, mode and range for the scores. Show enough working for each answer to be checked.',
       markingGuidance: [
-        'Maximum 8 marks. Mark allocation: AO1 0 · AO2 8 · AO3 0.',
+        'Maximum 8 marks.',
+        'Mark allocation: AO1 0 · AO2 8 · AO3 0.',
         'Mean (2): 1 mark for a correct method using all five scores, and 1 mark for the correct mean of 7.',
         'Median (2): 1 mark for correctly locating the middle score in the ordered data, and 1 mark for the correct median of 6.',
         'Mode (2): 1 mark for correctly identifying the repeated score, and 1 mark for the correct mode of 6.',
@@ -552,7 +554,8 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       },
       prompt: 'Discuss the validity of this study. Apply relevant types of validity to the context and explain at least one defensible improvement.',
       markingGuidance: [
-        'Maximum 12 marks. Mark allocation: AO1 2 · AO2 5 · AO3 5.',
+        'Maximum 12 marks.',
+        'Mark allocation: AO1 2 · AO2 5 · AO3 5.',
         'AO1 (2): award 1 mark for each of two accurate validity concepts relevant to the answer, such as construct validity and population/external validity.',
         'AO2 (5): 1–2 marks for limited reference to the study; 3–4 for clear application to more than one concrete feature (for example the single self-report item, immediate post-mock timing, volunteer sample or one-college sampling); 5 for sustained accurate application across the main validity issues used.',
         'AO3 (5): 1–2 marks for a limited judgement or generic improvement; 3–4 for a developed explanation of why the identified validity weakness matters and how a specific improvement addresses it; 5 for a balanced, justified judgement that recognises both what the change improves and any remaining limitation.',
@@ -583,7 +586,8 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       },
       prompt: 'Use the sign-test procedure on the data: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
       markingGuidance: [
-        'Maximum 12 marks. Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'Maximum 12 marks.',
+        'Mark allocation: AO1 0 · AO2 11 · AO3 1.',
         'AO2 (5): award 1 mark for each correct row classification: A +, B tie, C −, D +, E +.',
         'AO2 (1): remove the tied pair from the sign-test calculation.',
         'AO2 (1): state the effective n as 4.',
@@ -606,7 +610,8 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       },
       prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',
       markingGuidance: [
-        'Maximum 12 marks. Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'Maximum 12 marks.',
+        'Mark allocation: AO1 0 · AO2 11 · AO3 1.',
         'AO2 (1): select Spearman’s rho.',
         'AO2 (3): justify the choice using the ranked/ordinal form of the two variables, the paired scores from the same participants and the hypothesis about association.',
         'AO2 (1): identify that a two-tailed decision is required because the hypothesis does not predict direction.',
