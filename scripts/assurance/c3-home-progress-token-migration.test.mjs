@@ -24,6 +24,9 @@ describe('C3 Home and learner-wide Progress canonical token migration', () => {
     expect(home).toContain('var(--radius-feature)')
     expect(home).toContain('var(--type-learner-h1-size)')
     expect(progress).toContain('var(--type-learner-h1-size)')
+    expect(progress).toContain('main[aria-labelledby="global-progress-title"] .ui-progress-measure')
+    expect(progress).toContain('border-radius: var(--radius-pill)')
+    expect(progress).toContain('background: var(--color-border)')
   })
 
   it('keeps the canonical responsive display and inverse feature roles centrally owned', () => {
