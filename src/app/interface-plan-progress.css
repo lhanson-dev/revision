@@ -23,10 +23,11 @@
 .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
   margin: 0;
   color: var(--color-text);
-  font-size: var(--type-h1-size);
-  font-weight: var(--type-h1-weight);
-  line-height: var(--type-h1-line);
-  letter-spacing: -.035em;
+  font-family: var(--font-family-display);
+  font-size: var(--type-learner-h1-size);
+  font-weight: var(--type-learner-display-weight);
+  line-height: var(--type-learner-h1-line);
+  letter-spacing: var(--type-learner-display-tracking);
 }
 
 .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading > p:last-child {
@@ -334,10 +335,11 @@
 .plan-upcoming-exams h2 {
   margin: 0;
   color: var(--color-text);
-  font-size: var(--type-h2-size);
-  font-weight: var(--type-h2-weight);
-  line-height: var(--type-h2-line);
-  letter-spacing: -.025em;
+  font-family: var(--font-family-display);
+  font-size: var(--type-learner-h2-size);
+  font-weight: var(--type-learner-display-weight);
+  line-height: var(--type-learner-h2-line);
+  letter-spacing: var(--type-learner-display-tracking);
 }
 
 .interface-plan-screen .planner-panel-heading p {
@@ -841,10 +843,11 @@
 
 .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-copy h2 {
   color: var(--color-text);
-  font-size: var(--type-h3-size);
-  font-weight: var(--type-h3-weight);
-  line-height: var(--type-h3-line);
-  letter-spacing: -.02em;
+  font-family: var(--font-family-display);
+  font-size: var(--type-learner-h3-size);
+  font-weight: var(--type-learner-display-weight);
+  line-height: var(--type-learner-h3-line);
+  letter-spacing: var(--type-learner-display-tracking);
 }
 
 .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
