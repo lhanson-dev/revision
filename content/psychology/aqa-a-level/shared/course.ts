@@ -59,6 +59,8 @@ const truthTopics = [
   topic10, topic11, topic12, topic13, topic14, topic15, topic16, topic17,
 ] as unknown as TruthTopic[]
 
+export const psychologyCourseTruthTopics = truthTopics
+
 function slug(value: string) {
   return value.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
