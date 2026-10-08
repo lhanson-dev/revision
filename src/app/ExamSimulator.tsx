@@ -80,7 +80,7 @@ function titleCaseSlug(value: string) {
 
 function choiceGroupLabel(value: string) {
   const match = value.match(/^section-([a-z])$/i)
-  return match ? `Section ${match[1].toUpperCase()}` : titleCaseSlug(value)
+  return match ? `Section ${match[1].toUpperCase()}` : `section ${value}`
 }
 
 function choiceOptionLabel(item: ExamQuestionRuntime) {
