@@ -198,6 +198,12 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
 
     const validity = p2.find((question) => question.id === 'psy-7182-2-c-rm-q3')
     expect(validity?.assessmentObjectives).toEqual({ ao1: 2, ao2: 5, ao3: 5, ao4: 0 })
+    const paper2AoTotals = p2.reduce((totals, question) => ({
+      ao1: totals.ao1 + question.assessmentObjectives.ao1,
+      ao2: totals.ao2 + question.assessmentObjectives.ao2,
+      ao3: totals.ao3 + question.assessmentObjectives.ao3,
+    }), { ao1: 0, ao2: 0, ao3: 0 })
+    expect(paper2AoTotals).toEqual({ ao1: 21, ao2: 50, ao3: 25 })
 
     const clinical = p1.find((question) => question.id === 'psy-7182-1-d-4-q2')
     expect(clinical?.prompt).toContain('consistent with OCD')
