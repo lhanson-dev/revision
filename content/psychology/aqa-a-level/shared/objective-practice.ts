@@ -49,6 +49,6 @@ export function psychologyObjectivePracticeConcept(requirement: PracticeRequirem
   return {
     label,
     definition: firstClause,
-    prompt: `Which concept or approach is described here? This concept ${predicate}`,
+    prompt: `Which concept or approach completes this definition? _____ ${predicate}`,
   }
 }
