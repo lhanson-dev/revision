@@ -1,3 +1,6 @@
+import { readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+
 import { describe, expect, it } from 'vitest'
 
 import paper1 from './paper-1'
@@ -5,6 +8,7 @@ import paper2 from './paper-2'
 import paper3 from './paper-3'
 import {
   psychologyCourseSummary,
+  psychologyDataDrills,
   psychologyFlashcards,
   psychologyLearn,
   psychologyQuestions,
@@ -93,27 +97,64 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('keeps every revision card complete for the learner-visible knowledge its prompt claims to revise', () => {
-    const pages = psychologyLearn.chapters.flatMap((chapter) =>
-      chapter.groups.flatMap((group) => group.pages),
-    )
-    const coveredHeadings = new Set(['Core knowledge', 'Research and relationships', 'Evaluation and limits'])
+  it('keeps revision cards and Research Methods drill answers complete against approved Course Truth', () => {
+    type TruthRequirement = {
+      requirementId: string
+      boardAlignment: { summary: string }
+      subjectTruth: {
+        definitionsAndCoreConcepts?: unknown
+        modelsResearchAndRelationships?: unknown
+        evaluationAndLimits?: unknown
+      }
+    }
+    type TruthTopic = {
+      topicNumber: number
+      requirements: TruthRequirement[]
+    }
 
-    for (const card of psychologyFlashcards) {
-      const sourceSectionId = card.id.replace(/^psy-/, '').replace(/-card$/, '')
-      const page = pages.find((candidate) => candidate.sourceSectionIds.includes(sourceSectionId))
-      expect(page, card.id).toBeDefined()
-      expect(card.prompt, card.id).toMatch(/^Revise the key definitions, evidence\/relationships and limits for:/)
+    const truthDir = 'research/source-first-course-prototype/psychology-course-truth'
+    const truthTopics = readdirSync(truthDir)
+      .filter((name) => /^topic-\\d{2}-.*\\.json$/.test(name))
+      .sort()
+      .map((name) => JSON.parse(readFileSync(join(truthDir, name), 'utf8')) as TruthTopic)
 
-      const requiredParagraphs = page?.blocks.flatMap((block) =>
-        block.type === 'explanation' && block.heading && coveredHeadings.has(block.heading)
-          ? block.paragraphs
-          : [],
-      ) ?? []
+    const asStrings = (value: unknown) =>
+      Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
 
-      expect(requiredParagraphs.length, card.id).toBeGreaterThan(0)
+    for (const topic of truthTopics) {
+      for (const requirement of topic.requirements) {
+        const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
+        const card = psychologyFlashcards.find((candidate) => candidate.id === cardId)
+        expect(card, cardId).toBeDefined()
+        expect(card?.prompt, cardId).toContain(requirement.boardAlignment.summary)
+
+        const requiredParagraphs = [...new Set([
+          ...asStrings(requirement.subjectTruth.definitionsAndCoreConcepts),
+          ...asStrings(requirement.subjectTruth.modelsResearchAndRelationships),
+          ...asStrings(requirement.subjectTruth.evaluationAndLimits),
+        ])]
+        expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
+
+        for (const paragraph of requiredParagraphs) {
+          expect(card?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
+        }
+      }
+    }
+
+    const researchMethods = truthTopics.find((topic) => topic.topicNumber === 7)
+    expect(researchMethods).toBeDefined()
+    for (const [index, requirement] of (researchMethods?.requirements ?? []).slice(0, 12).entries()) {
+      const drill = psychologyDataDrills[index]
+      expect(drill, `psy-rm-drill-${index + 1}`).toBeDefined()
+      expect(drill?.prompt, drill?.id).toContain(requirement.boardAlignment.summary)
+
+      const requiredParagraphs = [...new Set([
+        ...asStrings(requirement.subjectTruth.definitionsAndCoreConcepts),
+        ...asStrings(requirement.subjectTruth.modelsResearchAndRelationships),
+        ...asStrings(requirement.subjectTruth.evaluationAndLimits),
+      ])]
       for (const paragraph of requiredParagraphs) {
-        expect(card.answer, `${card.id}: ${paragraph}`).toContain(paragraph)
+        expect(drill?.answer, `${drill?.id}: ${paragraph}`).toContain(paragraph)
       }
     }
   })
