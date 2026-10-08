@@ -1,6 +1,3 @@
-import { readFileSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
-
 import { describe, expect, it } from 'vitest'
 
 import paper1 from './paper-1'
@@ -8,6 +5,7 @@ import paper2 from './paper-2'
 import paper3 from './paper-3'
 import {
   psychologyCourseSummary,
+  psychologyCourseTruthTopics,
   psychologyDataDrills,
   psychologyFlashcards,
   psychologyLearn,
@@ -98,30 +96,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   })
 
   it('keeps revision cards and Research Methods drill answers complete against approved Course Truth', () => {
-    type TruthRequirement = {
-      requirementId: string
-      boardAlignment: { summary: string }
-      subjectTruth: {
-        definitionsAndCoreConcepts?: unknown
-        modelsResearchAndRelationships?: unknown
-        evaluationAndLimits?: unknown
-      }
-    }
-    type TruthTopic = {
-      topicNumber: number
-      requirements: TruthRequirement[]
-    }
-
-    const truthDir = 'research/source-first-course-prototype/psychology-course-truth'
-    const truthTopics = readdirSync(truthDir)
-      .filter((name) => /^topic-\\d{2}-.*\\.json$/.test(name))
-      .sort()
-      .map((name) => JSON.parse(readFileSync(join(truthDir, name), 'utf8')) as TruthTopic)
-
-    const asStrings = (value: unknown) =>
-      Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
-
-    for (const topic of truthTopics) {
+    for (const topic of psychologyCourseTruthTopics) {
       for (const requirement of topic.requirements) {
         const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
         const card = psychologyFlashcards.find((candidate) => candidate.id === cardId)
@@ -129,9 +104,9 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         expect(card?.prompt, cardId).toContain(requirement.boardAlignment.summary)
 
         const requiredParagraphs = [...new Set([
-          ...asStrings(requirement.subjectTruth.definitionsAndCoreConcepts),
-          ...asStrings(requirement.subjectTruth.modelsResearchAndRelationships),
-          ...asStrings(requirement.subjectTruth.evaluationAndLimits),
+          ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
+          ...(requirement.subjectTruth.modelsResearchAndRelationships ?? []),
+          ...(requirement.subjectTruth.evaluationAndLimits ?? []),
         ])]
         expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
 
@@ -141,7 +116,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
       }
     }
 
-    const researchMethods = truthTopics.find((topic) => topic.topicNumber === 7)
+    const researchMethods = psychologyCourseTruthTopics.find((topic) => topic.topicNumber === 7)
     expect(researchMethods).toBeDefined()
     for (const [index, requirement] of (researchMethods?.requirements ?? []).slice(0, 12).entries()) {
       const drill = psychologyDataDrills[index]
@@ -149,9 +124,9 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
       expect(drill?.prompt, drill?.id).toContain(requirement.boardAlignment.summary)
 
       const requiredParagraphs = [...new Set([
-        ...asStrings(requirement.subjectTruth.definitionsAndCoreConcepts),
-        ...asStrings(requirement.subjectTruth.modelsResearchAndRelationships),
-        ...asStrings(requirement.subjectTruth.evaluationAndLimits),
+        ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
+        ...(requirement.subjectTruth.modelsResearchAndRelationships ?? []),
+        ...(requirement.subjectTruth.evaluationAndLimits ?? []),
       ])]
       for (const paragraph of requiredParagraphs) {
         expect(drill?.answer, `${drill?.id}: ${paragraph}`).toContain(paragraph)
