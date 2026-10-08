@@ -93,19 +93,29 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('keeps revision-card answers aligned to the full approved requirement rather than truncating central content', () => {
-    const card = (id: string) => (psychologyFlashcards.find((candidate) => candidate.id === id)?.answer ?? '')
-      .toLocaleLowerCase('en-GB')
-      .replace(/[‐‑–—]/gu, '-')
+  it('keeps every revision card complete for the learner-visible knowledge its prompt claims to revise', () => {
+    const pages = psychologyLearn.chapters.flatMap((chapter) =>
+      chapter.groups.flatMap((group) => group.pages),
+    )
+    const coveredHeadings = new Set(['Core knowledge', 'Research and relationships', 'Evaluation and limits'])
 
-    expect(card('psy-psy0202-card')).toContain('phonological loop')
-    expect(card('psy-psy0202-card')).toContain('visuospatial sketchpad')
-    expect(card('psy-psy0303-card')).toContain('insecure-avoidant')
-    expect(card('psy-psy0403-card')).toContain('systematic desensitisation')
-    expect(card('psy-psy0605-card')).toContain('event-related potential')
-    expect(card('psy-psy1202-card')).toContain('atypical')
-    expect(card('psy-psy1301-card')).toContain('ghrelin')
-    expect(card('psy-psy1301-card')).toContain('leptin')
+    for (const card of psychologyFlashcards) {
+      const sourceSectionId = card.id.replace(/^psy-/, '').replace(/-card$/, '')
+      const page = pages.find((candidate) => candidate.sourceSectionIds.includes(sourceSectionId))
+      expect(page, card.id).toBeDefined()
+      expect(card.prompt, card.id).toMatch(/^Revise the key definitions, evidence\/relationships and limits for:/)
+
+      const requiredParagraphs = page?.blocks.flatMap((block) =>
+        block.type === 'explanation' && block.heading && coveredHeadings.has(block.heading)
+          ? block.paragraphs
+          : [],
+      ) ?? []
+
+      expect(requiredParagraphs.length, card.id).toBeGreaterThan(0)
+      for (const paragraph of requiredParagraphs) {
+        expect(card.answer, `${card.id}: ${paragraph}`).toContain(paragraph)
+      }
+    }
   })
 
   it('states consistently that range is sensitive to extreme scores', () => {
