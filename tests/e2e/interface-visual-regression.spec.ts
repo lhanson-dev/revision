@@ -69,12 +69,16 @@ const cases: ReadonlyArray<VisualCase> = [
  * corrected at its canonical owner so genuine REV presence also uses Deep Teal on desktop. The Founder
  * reviewed the CI #2837 desktop capture sheet and explicitly approved it
  * ("Approve C2 desktop Deep Teal baselines").
+ * Home (phone + desktop, light + dark) re-pinned on 8 October 2026 after Founder review
+ * of the C3 CI #2882 exact captures and explicit approval ("approved") to the requested
+ * "Approve C3 Home visual baselines" gate. These captures reflect only the canonical
+ * Home token/palette/radius migration in PR #575; Home recommendation behaviour is unchanged.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'a4bc6e132ca52a3fda0ccbbdd3e1a0d52ad69bf58aaf77410bfb46cadf0338a8',
-  'phone:dark': '08db9a7d22970719e2656e961ff95b4e8cd0b04dbf8a874b3068c8bd0b978710',
-  'desktop:light': '5ecd083ca3290df576f872ba4b5c69c3cc14217bff5fb177610676689e019b59',
-  'desktop:dark': '3cc04503c0e968c5c2e0e6c0ac937c7b8d55b4ceba63d79894f86c7b3821530a',
+  'phone:light': '290afc86d233e000eca51acbd07f6d579e4d015fddbc6cd2d0ae836d06efa2c3',
+  'phone:dark': '7c91ca0d2c4519bb21f74fc4adf9ea65be19fb53861edf8b3cf09a0231e77ebf',
+  'desktop:light': '94f82ced34e14dc0a8949982bab9a870fd5a499eaaa9bac2a8c5237e554b7580',
+  'desktop:dark': 'd91b1fad53a28d32cfbb3605d1a43e58f6ea8763cd4350bc3c6869d46ec7f4bd',
 }
 
 /**

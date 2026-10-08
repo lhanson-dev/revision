@@ -175,7 +175,7 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
   await expect(progressSection).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
 
   const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .progress-course-card').first()
-  await expect(courseCard).toHaveCSS('border-radius', '24px')
+  await expect(courseCard).toHaveCSS('border-radius', '20px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
 
   const progressAction = courseCard.getByRole('button', { name: /^Open .* progress$/ })
@@ -217,8 +217,8 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
 
   await page.goto(`${appPath}#/progress`)
   const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .progress-course-card').first()
-  await expect(courseCard).toHaveCSS('background-color', 'rgb(18, 31, 36)')
-  await expect(courseCard).toHaveCSS('border-radius', '24px')
+  await expect(courseCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
+  await expect(courseCard).toHaveCSS('border-radius', '20px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)
 })
