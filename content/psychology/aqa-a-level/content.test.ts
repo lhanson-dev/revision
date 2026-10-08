@@ -5,6 +5,8 @@ import paper2 from './paper-2'
 import paper3 from './paper-3'
 import {
   psychologyCourseSummary,
+  psychologyCourseTruthTopics,
+  psychologyDataDrills,
   psychologyFlashcards,
   psychologyLearn,
   psychologyQuestions,
@@ -82,6 +84,112 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
       [120, 96],
     ])
     expect(aqaPsychology7182ExamPapers.assessmentObjectives.map((ao) => ao.id)).toEqual(['AO1', 'AO2', 'AO3'])
+  })
+
+
+  it('uses requirement-specific objective Practice rather than the generic absolute template', () => {
+    expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
+    for (const question of psychologyQuestions) {
+      expect(new Set(question.options).size, question.id).toBe(question.options.length)
+      expect(question.options.join(' '), question.id).not.toMatch(/always produces the same outcome|proves that no alternative psychological explanation can apply|fixed rule without considering/i)
+    }
+  })
+
+  it('keeps revision cards and Research Methods drill answers complete against approved Course Truth', () => {
+    for (const topic of psychologyCourseTruthTopics) {
+      for (const requirement of topic.requirements) {
+        const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
+        const card = psychologyFlashcards.find((candidate) => candidate.id === cardId)
+        expect(card, cardId).toBeDefined()
+        expect(card?.prompt, cardId).toContain(requirement.boardAlignment.summary)
+
+        const requiredParagraphs = [...new Set([
+          ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
+          ...(requirement.subjectTruth.modelsResearchAndRelationships ?? []),
+          ...(requirement.subjectTruth.evaluationAndLimits ?? []),
+        ])]
+        expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
+
+        for (const paragraph of requiredParagraphs) {
+          expect(card?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
+        }
+      }
+    }
+
+    const researchMethods = psychologyCourseTruthTopics.find((topic) => topic.topicNumber === 7)
+    expect(researchMethods).toBeDefined()
+    for (const [index, requirement] of (researchMethods?.requirements ?? []).slice(0, 12).entries()) {
+      const drill = psychologyDataDrills[index]
+      expect(drill, `psy-rm-drill-${index + 1}`).toBeDefined()
+      expect(drill?.prompt, drill?.id).toContain(requirement.boardAlignment.summary)
+
+      const requiredParagraphs = [...new Set([
+        ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
+        ...(requirement.subjectTruth.modelsResearchAndRelationships ?? []),
+        ...(requirement.subjectTruth.evaluationAndLimits ?? []),
+      ])]
+      for (const paragraph of requiredParagraphs) {
+        expect(drill?.answer, `${drill?.id}: ${paragraph}`).toContain(paragraph)
+      }
+    }
+  })
+
+  it('states consistently that range is sensitive to extreme scores', () => {
+    const learnPage = psychologyLearn.chapters
+      .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+      .find((page) => page.id.endsWith('psy0726'))
+    const card = psychologyFlashcards.find((candidate) => candidate.id === 'psy-psy0726-card')
+    expect(JSON.stringify(learnPage)).toContain('range is directly determined by the minimum and maximum and is therefore sensitive to extreme scores')
+    expect(card?.answer).toContain('range is directly determined by the minimum and maximum and is therefore sensitive to extreme scores')
+    expect(JSON.stringify(learnPage)).not.toContain('range/other robust summaries can be more resistant')
+  })
+
+  it('uses calibrated 6 and 8 mark extended-response tariffs in generic mock sections', () => {
+    expect(paper1.exams[0]?.questions.map((question) => question.marks)).toEqual(
+      Array.from({ length: 4 }, () => [4, 8, 6, 6]).flat(),
+    )
+    expect(paper2.exams[0]?.questions.slice(0, 8).map((question) => question.marks)).toEqual(
+      Array.from({ length: 2 }, () => [4, 8, 6, 6]).flat(),
+    )
+    const paper3Marks = paper3.exams[0]?.questions.map((question) => question.marks) ?? []
+    for (let index = 0; index < paper3Marks.length; index += 4) {
+      expect(paper3Marks.slice(index, index + 4)).toEqual([4, 8, 6, 6])
+    }
+    expect(paper1.exams[0]?.questions.some((question) => question.marks === 12)).toBe(false)
+  })
+
+  it('aligns application prompts, AO demand and self-marking guidance', () => {
+    const p1 = paper1.exams[0]?.questions ?? []
+    const p2 = paper2.exams[0]?.questions ?? []
+    expect(p1.filter((question) => question.id.endsWith('-q2')).every((question) =>
+      question.markingGuidance.some((line) => line.startsWith('Operationalisation credit:')),
+    )).toBe(true)
+    expect(p2.filter((question) => /-a-5-q2$|-b-6-q2$/.test(question.id)).every((question) =>
+      !question.prompt.includes('limitation or alternative interpretation'),
+    )).toBe(true)
+    const clinical = p1.find((question) => question.id === 'psy-7182-1-d-4-q2')
+    expect(clinical?.prompt).toContain('consistent with OCD')
+    expect(clinical?.stimulus?.narrative).toContain('intrusive thoughts')
+  })
+
+  it('makes the Paper 2 variables task unambiguous and the Paper 3 route learner-visible', () => {
+    const rmVariables = paper2.exams[0]?.questions.find((question) => question.id === 'psy-7182-2-c-rm-q1')
+    expect(rmVariables?.stimulus?.narrative).toContain('digit-cancellation')
+    expect(rmVariables?.stimulus?.narrative).toContain('sitting quietly')
+    expect(rmVariables?.markingGuidance.join(' ')).toContain('Independent variable: distraction condition')
+
+    const relationships = paper3.exams[0]?.questions.find((question) => question.id === 'psy-7182-3-b-9-q2')
+    expect(relationships?.stimulus?.narrative).toContain('mutual friends become involved')
+    expect(relationships?.stimulus?.narrative).toContain('after the breakup')
+
+    const p3 = paper3.exams[0]
+    expect(p3?.printedMarks).toBeUndefined()
+    expect(p3?.caseHtml).toContain('Section A')
+    expect(p3?.caseHtml).toContain('Section B')
+    expect(p3?.caseHtml).toContain('Section C')
+    expect(p3?.caseHtml).toContain('Section D')
+    expect(p3?.caseHtml).toContain('96 marks')
+    expect(p3?.learnerClaim).toContain('exactly one topic from each of Sections B, C and D')
   })
 
   it('stays preview-only until final independent assurance passes', () => {

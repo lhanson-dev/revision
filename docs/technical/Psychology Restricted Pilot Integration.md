@@ -166,3 +166,14 @@ The retention fix changes the implementation so that:
 - a deterministic regression test proves fail-hold evidence is written before the runner throws.
 
 This is an assurance implementation correction only. It does not alter the content gate, the severity threshold, or the Psychology publication boundary.
+
+
+### Production launch assurance run 2 remediation
+
+The second live production launch assurance reviewed exact main commit `1d261bb08d0970e02f8bb0a7c7d4e5353dcd9481` in Actions run `37705620510`.
+
+All 10 review packets completed and the retained receipt recorded `fail_hold` with 23 material findings. Provider spend was US$0.993998.
+
+The remediation corrects the recurring production issues identified by that review: weak objective-practice distractors, incomplete flashcard coverage, the Research Methods range statement, a learner-facing scope label, and bounded Paper 1 to Paper 3 prompt, route and self-marking guidance defects. Regression coverage is added for those failure modes.
+
+Psychology remains `preview`. This remediation does not authorise FI-007 assisted marking.
