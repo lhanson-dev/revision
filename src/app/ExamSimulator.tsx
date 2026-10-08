@@ -429,6 +429,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <p className="question-grid-key" aria-hidden="true"><span><Icon name="check" size="inline" /> Answered</span><span><Icon name="flag" size="inline" /> Flagged</span><span className="question-grid-key-current">Current: dark</span></p>
             {question && (
               <article className="exam-question-sheet">
+                {question.sectionLabel && question.sectionTitle && question.sectionMarks && (
+                  <div className="practice-meta exam-section-context">
+                    <strong>{question.sectionLabel}</strong> · {question.sectionTitle} · {question.sectionMarks} marks
+                  </div>
+                )}
                 <div className="practice-meta">Question {questionIndex + 1} of {exam.questions.length} · {question.marks} marks</div>
                 {question.choiceGroup && (
                   <label className="exam-choice-select">

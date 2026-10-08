@@ -196,3 +196,24 @@ Compared with run 2, the remaining launch blockers are narrower:
 The run-3 remediation changes only those production patterns. Objective Practice is regenerated from Course Truth using evidence/relationship cues, same-topic conceptually closer distractors and non-cyclic deterministic option placement. Mock guidance becomes AO-aware, the operationalisation distinction is corrected, the Paper 2 validity item is rebalanced while preserving approved paper-level AO contribution ranges, Paper 3 four-mark prompts are narrowed, and the Relationships stimulus is made non-leading.
 
 Psychology remains `preview`. A fresh exact-main launch-assurance run is required after this remediation merges. FI-007 assisted marking remains outside this gate.
+
+### Production launch assurance run 4 root-cause remediation
+
+The fourth live production launch assurance reviewed exact Psychology remediation commit `a7b7d0da264fd798a5f6814176c1c60578fc3454` in Actions run `37800997662`.
+
+All 10 packets completed, retained artifact `11561302129` uploaded successfully, and the final receipt returned `fail_hold` with 21 material findings across 14 material review dimensions. Provider spend was US$1.016534.
+
+The higher finding count exposed two systemic implementation defects rather than a new Course Truth failure:
+
+- objective Practice generated stems from one Course Truth relationship/evidence statement while keying a different first-definition statement from the same requirement, so valid source material could still produce an invalid answer key;
+- the representative mocks still relied on broad syllabus-summary prompts and unranked indicative-content banks, leaving section structure and learner self-marking insufficiently operational.
+
+The run-4 remediation replaces those contracts rather than patching individual findings:
+
+- every objective-Practice item is generated as a definition-cloze contract in which the stem and keyed concept come from the same approved Course Truth clause; distractors are distinct concept labels from the same topic and answer positions remain deterministic without a fixed cycle;
+- mock prompts explicitly make broad syllabus lists selectable rather than cumulatively compulsory and narrow application questions to one identified focus;
+- learner self-marking guidance now exposes AO allocations and question-type scoring rules, with explicit mark-by-mark criteria for Paper 2 Research Methods;
+- optional section metadata is carried by exam questions and rendered by Exam Simulator so learner-facing Paper 1–3 section identity and marks are explicit;
+- Paper 3 application stimuli use indirect behavioural/data cues rather than naming the target mechanism or theory.
+
+Psychology remains `preview`. A fresh exact-main launch-assurance run is still required after this remediation merges. FI-007 remains outside the launch gate.

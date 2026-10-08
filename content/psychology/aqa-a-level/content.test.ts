@@ -9,6 +9,7 @@ import {
   psychologyDataDrills,
   psychologyFlashcards,
   psychologyLearn,
+  psychologyObjectivePracticeContracts,
   psychologyQuestions,
   psychologyTopics,
 } from './shared/course'
@@ -87,20 +88,28 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   })
 
 
-  it('uses concept-discriminating objective Practice without title matching or answer-position cycles', () => {
+  it('binds every objective Practice stem and key to the same approved Course Truth definition', () => {
+    expect(psychologyObjectivePracticeContracts).toHaveLength(118)
+    expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
 
     let offset = 0
     for (const topic of psychologyCourseTruthTopics) {
       const topicQuestions = psychologyQuestions.slice(offset, offset + topic.requirements.length)
+      const contracts = psychologyObjectivePracticeContracts.slice(offset, offset + topic.requirements.length)
       offset += topic.requirements.length
 
       for (const [index, question] of topicQuestions.entries()) {
-        const requirement = topic.requirements[index]
-        expect(new Set(question.options).size, question.id).toBe(question.options.length)
-        expect(question.prompt, question.id).not.toContain(requirement.boardAlignment.summary)
-        expect(question.prompt, question.id).not.toContain('Which statement is the best match for this course requirement')
-        expect(question.options.join(' '), question.id).not.toMatch(/always produces the same outcome|proves that no alternative psychological explanation can apply|fixed rule without considering/i)
+        const contract = contracts[index]
+        expect(contract, question.id).toBeDefined()
+        expect(new Set(question.options).size, question.id).toBe(4)
+        expect(question.options[question.correctOption], question.id).toBe(contract?.label)
+        expect(question.prompt, question.id).toBe(contract?.prompt)
+        expect(question.explanation, question.id).toContain(contract?.definition)
+        expect(question.prompt.toLowerCase(), question.id).not.toContain(contract?.label.toLowerCase())
+        for (const option of question.options) {
+          expect(contracts.some((candidate) => candidate.label === option), `${question.id}: ${option}`).toBe(true)
+        }
       }
 
       if (topicQuestions.length >= 8) {
@@ -173,27 +182,30 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(paper1.exams[0]?.questions.some((question) => question.marks === 12)).toBe(false)
   })
 
-  it('aligns application prompts, AO demand and self-marking guidance', () => {
+  it('aligns prompt scope, section structure, AO demand and operational self-marking guidance', () => {
     const p1 = paper1.exams[0]?.questions ?? []
     const p2 = paper2.exams[0]?.questions ?? []
     const p3 = paper3.exams[0]?.questions ?? []
-    expect(p1.filter((question) => question.id.endsWith('-q2')).every((question) =>
-      question.markingGuidance.some((line) => line.startsWith('Operationalisation credit:')),
-    )).toBe(true)
-    expect(p2.filter((question) => /-a-5-q2$|-b-6-q2$/.test(question.id)).every((question) =>
-      !question.prompt.includes('limitation or alternative interpretation'),
-    )).toBe(true)
+    const all = [...p1, ...p2, ...p3]
 
-    for (const question of [...p1, ...p2, ...p3]) {
-      if (question.assessmentObjectives.ao3 === 0) {
-        expect(question.markingGuidance.join(' '), question.id).not.toContain('Evaluation/limit:')
-      }
+    for (const question of all) {
+      expect(question.sectionLabel, question.id).toMatch(/^Section [A-D]$/)
+      expect(question.sectionTitle?.length, question.id).toBeGreaterThan(2)
+      expect(question.sectionMarks, question.id).toBeGreaterThan(0)
+      expect(question.markingGuidance.some((line) => line.startsWith('Mark allocation:')), question.id).toBe(true)
+      if (question.assessmentObjectives.ao1 > 0) expect(question.markingGuidance.join(' '), question.id).toContain(`AO1 (${question.assessmentObjectives.ao1})`)
+      if (question.assessmentObjectives.ao2 > 0) expect(question.markingGuidance.join(' '), question.id).toContain(`AO2 (${question.assessmentObjectives.ao2})`)
+      if (question.assessmentObjectives.ao3 > 0) expect(question.markingGuidance.join(' '), question.id).toContain(`AO3 (${question.assessmentObjectives.ao3})`)
+    }
+
+    for (const question of [...p1, ...p2].filter((candidate) => /-q1$|-q3$|-q4$/.test(candidate.id) && !candidate.id.includes('-rm-'))) {
+      expect(question.prompt, question.id).toMatch(/choose any two|Focus on one issue only|do not need to cover every named element/i)
     }
 
     const embeddedRm = p1.filter((question) => question.id.endsWith('-q2'))
     for (const question of embeddedRm) {
       expect(question.markingGuidance.join(' '), question.id).toContain('reproducibility')
-      expect(question.markingGuidance.join(' '), question.id).toMatch(/construct validity requires separate evidence/i)
+      expect(question.markingGuidance.join(' '), question.id).toContain('Construct validity is separate')
     }
 
     const validity = p2.find((question) => question.id === 'psy-7182-2-c-rm-q3')
@@ -210,23 +222,24 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(clinical?.stimulus?.narrative).toContain('intrusive thoughts')
   })
 
-  it('makes the Paper 2 variables task unambiguous and the Paper 3 route learner-visible', () => {
-    const rmVariables = paper2.exams[0]?.questions.find((question) => question.id === 'psy-7182-2-c-rm-q1')
-    expect(rmVariables?.stimulus?.narrative).toContain('digit-cancellation')
-    expect(rmVariables?.stimulus?.narrative).toContain('sitting quietly')
-    expect(rmVariables?.markingGuidance.join(' ')).toContain('Independent variable: distraction condition')
+  it('makes Research Methods markable and Paper 3 application cues non-leading', () => {
+    const rm = paper2.exams[0]?.questions.filter((question) => question.id.startsWith('psy-7182-2-c-rm-')) ?? []
+    expect(rm[0]?.markingGuidance.join(' ')).toContain('AO1 (1)')
+    expect(rm[1]?.markingGuidance.join(' ')).toContain('Mean (2)')
+    expect(rm[1]?.markingGuidance.join(' ')).toContain('Range (2)')
+    expect(rm[2]?.markingGuidance.join(' ')).toContain('AO3 (5)')
+    expect(rm[3]?.markingGuidance.join(' ')).toContain('effective n as 4')
+    expect(rm[4]?.markingGuidance.join(' ')).toContain('Spearman’s rho')
 
     const p3Questions = paper3.exams[0]?.questions ?? []
-    for (const question of p3Questions.filter((candidate) => candidate.id.endsWith('-q1'))) {
-      expect(question.prompt, question.id).toMatch(/^Outline two key points about /)
-      expect(question.prompt, question.id).not.toContain('including')
-    }
+    const applicationText = p3Questions.filter((question) => question.id.endsWith('-q2')).map((question) => question.stimulus?.narrative ?? '').join(' ')
+    expect(applicationText).not.toMatch(/non-binary|ghrelin|leptin|genetic vulnerability|neural explanations|evolved mechanisms|fixed action pattern|innate releasing mechanism/i)
 
-    const relationships = p3Questions.find((question) => question.id === 'psy-7182-3-b-9-q2')
-    expect(relationships?.stimulus?.narrative).not.toContain('rewards and costs')
-    expect(relationships?.stimulus?.narrative).not.toContain('private dissatisfaction')
-    expect(relationships?.stimulus?.narrative).not.toContain('after the breakup')
-    expect(relationships?.stimulus?.narrative).toContain('relationship')
+    const p1 = paper1.exams[0]
+    expect(p1?.caseHtml).toContain('Section A — Social influence — 24 marks')
+    expect(p1?.caseHtml).toContain('Section D — Clinical Psychology and Mental Health — 24 marks')
+    const p2 = paper2.exams[0]
+    expect(p2?.caseHtml).toContain('Section C — Research methods — 48 marks')
 
     const p3 = paper3.exams[0]
     expect(p3?.printedMarks).toBeUndefined()
