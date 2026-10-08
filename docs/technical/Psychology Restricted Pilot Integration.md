@@ -231,3 +231,15 @@ The retained evidence exposed one remaining generator contract defect: heterogen
 The run-5 remediation adds explicit application-question contracts for the affected heterogeneous requirements. Each contract binds one declared focus, one supporting stimulus and the indicative AO1/AO2/AO3 routes used for self-marking. Deterministic regressions prohibit the off-prompt theories identified by run 5 from reappearing in those items.
 
 Psychology remains `preview`. This remediation does not change Course Truth, learner Learn/Practice content, publication authority or FI-007 assisted marking. A fresh exact-main launch-assurance run is still required after the remediation merges.
+
+### Production launch assurance run 6 — bounded remediation
+
+Run 6 reviewed exact `main` commit `3dfd536923250ae0703794510f8b4826b6785e2a` in Actions run `37841718938`.
+
+Exact-main verification and deterministic prerequisites passed. All ten packets completed, artifact `11577524362` was retained, and observed provider spend was US$0.913430.
+
+The final decision remained `fail_hold` with three material findings across five material dimensions. The remaining issues were limited to Research Methods experiment classification wording, two overlapping objective-Practice answer labels, and incomplete self-marking coverage for several broad Paper 3 choice routes.
+
+The remediation clarifies the qualification-specific experiment taxonomy, prevents the overlapping labels from competing as distractors, and makes self-marking guidance cover every Course Truth route expressly offered by generic outline, evaluation and discussion prompts. Two minor learner-facing issues from the same run are also corrected: objective-Practice grammar and command-word coaching.
+
+Psychology remains `preview`. FI-007 remains outside this gate. A fresh exact-main launch-assurance run is still required after this remediation merges.

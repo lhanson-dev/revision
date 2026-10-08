@@ -74,7 +74,7 @@
         "definitionsAndCoreConcepts": [
           "A true experiment manipulates an independent variable and compares its effect on a dependent variable while attempting to control alternative explanations.",
           "A laboratory experiment is conducted in a deliberately controlled setting; a field experiment manipulates an independent variable in a more natural setting.",
-          "A natural experiment studies an exposure or change that occurs independently of researcher assignment; a quasi-experiment compares naturally pre-existing or non-randomised groups/conditions rather than randomly assigning participants to all levels."
+          "A natural experiment studies an exposure or change that occurs independently of researcher assignment. In the AQA course taxonomy, a quasi-experiment compares conditions defined by a pre-existing participant characteristic or naturally occurring difference that the researcher does not manipulate; lack of random allocation can reduce control, but non-random allocation alone does not define the AQA quasi-experiment category."
         ],
         "modelsResearchAndRelationships": [
           "Laboratory and field experiments differ mainly in setting and degree of control, whereas natural and quasi-experiments reduce or remove the researcher's ability to assign the causal exposure.",
@@ -120,7 +120,7 @@
         }
       ],
       "revisionSynthesis": [
-        "Revision uses the exact laboratory/field/natural/quasi labels as AQA alignment while independently explaining the causal-control distinctions from reusable evidence."
+        "Revision uses the exact laboratory/field/natural/quasi labels as AQA alignment while independently explaining the causal-control distinctions from reusable evidence. For AQA course classification, quasi-experiment is tied to a pre-existing or naturally occurring independent-variable difference; broader research-methods traditions may use quasi-experimental more widely for manipulated interventions without random assignment."
       ],
       "readiness": {
         "courseTruthStatus": "course_truth_ready",

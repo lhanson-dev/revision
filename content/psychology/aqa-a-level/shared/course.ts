@@ -99,10 +99,18 @@ function completeRevisionSummary(requirement: TruthRequirement) {
   ])].join(' ')
 }
 
+const objectivePracticeDistractorConflicts = new Set([
+  ['PSY-15-03', 'PSY-15-05'].sort().join('|'),
+])
+
+function objectivePracticeDistractorIsDistinct(requirementId: string, candidateId: string) {
+  return !objectivePracticeDistractorConflicts.has([requirementId, candidateId].sort().join('|'))
+}
+
 function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement) {
   const correct = psychologyObjectivePracticeConcept(requirement)
   const distractors = topic.requirements
-    .filter((candidate) => candidate.requirementId !== requirement.requirementId)
+    .filter((candidate) => candidate.requirementId !== requirement.requirementId && objectivePracticeDistractorIsDistinct(requirement.requirementId, candidate.requirementId))
     .map((candidate) => ({
       id: candidate.requirementId,
       label: psychologyObjectivePracticeConcept(candidate).label,
@@ -354,12 +362,18 @@ function guidance(requirements: TruthRequirement | TruthRequirement[], marks: nu
   const knowledge = override?.knowledge ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
   const evidence = override?.application ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
   const evaluation = override?.evaluation ?? [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
+  const knowledgeForGuidance = mode === 'outline' || mode === 'evaluation' || mode === 'discussion'
+    ? knowledge
+    : knowledge.slice(0, 2)
+  const evaluationForGuidance = mode === 'evaluation' || mode === 'discussion'
+    ? evaluation
+    : evaluation.slice(0, 2)
   const indicative = [
-    ...knowledge.slice(0, mode === 'outline' ? 4 : 2).map((point) => `Indicative knowledge: ${point}`),
+    ...knowledgeForGuidance.map((point) => `Indicative knowledge: ${point}`),
     ...(mode === 'application' || mode === 'application-evaluation' || mode === 'embedded-rm'
       ? evidence.slice(0, 2).map((point) => `Indicative application route: ${point}`) : []),
     ...(mode === 'evaluation' || mode === 'discussion' || mode === 'application-evaluation'
-      ? evaluation.slice(0, 2).map((point) => `Indicative evaluation route: ${point}`) : []),
+      ? evaluationForGuidance.map((point) => `Indicative evaluation route: ${point}`) : []),
   ]
   return [
     `Maximum ${marks} marks. Self-mark against the exact prompt; equivalent accurate routes may earn credit even when they are not listed below.`,
