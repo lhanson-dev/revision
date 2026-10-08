@@ -11,7 +11,7 @@ export type PsychologyObjectivePracticeConcept = {
   prompt: string
 }
 
-const conceptPattern = /^(.{2,110}?)\s+((?:(?:historically|primarily|partly|commonly|often)\s+)?(?:is|are|refers to|means|involves|concerns|describes|reflects|proposes|propose|proposed|examines|examine|examined|focuses on|focus on|uses|measures|explains|distinguishes|models|records|obtains|obtain|prepares|estimates|manipulates|classifies|converts|specifies|follows|relies on|relies|presents|argued|argues|studies|assigns|supports|predicts|seeks|emphasises|emphasizes|links|link|acts on|can reduce|can serve|can alter|can create|can support|defines|separates|consists of|transmit|restrict|protects|gives|organise|organises))\b(.*)$/i
+const conceptPattern = /^(.{2,110}?)\s+((?:(?:historically|primarily|partly|commonly|often)\s+)?(?:is|are|refers to|means|involves|concerns|describes|occurs when|treats|reflects|proposes|propose|proposed|examines|examine|examined|focuses on|focus on|uses|measures|explains|distinguishes|models|records|obtains|obtain|prepares|estimates|manipulates|classifies|converts|specifies|follows|relies on|relies|presents|argued|argues|studies|assigns|supports|predicts|seeks|emphasises|emphasizes|links|link|acts on|can reduce|can serve|can alter|can create|can support|defines|separates|consists of|transmit|restrict|protects|gives|organise|organises))\b(.*)$/i
 
 export function stablePsychologyPracticeHash(value: string) {
   let hash = 2166136261
