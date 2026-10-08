@@ -222,6 +222,56 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(clinical?.stimulus?.narrative).toContain('intrusive thoughts')
   })
 
+  it('binds heterogeneous mock application questions to one coherent concept contract', () => {
+    const questions = [
+      ...(paper1.exams[0]?.questions ?? []),
+      ...(paper2.exams[0]?.questions ?? []),
+      ...(paper3.exams[0]?.questions ?? []),
+    ]
+    const question = (id: string) => {
+      const found = questions.find((candidate) => candidate.id === id)
+      expect(found, id).toBeDefined()
+      return found!
+    }
+    const indicative = (id: string) => question(id).markingGuidance
+      .filter((line) => line.startsWith('Indicative '))
+      .join(' ')
+
+    const attachment = question('psy-7182-1-c-3-q2')
+    expect(attachment.prompt).toContain('Bowlby')
+    expect(indicative(attachment.id)).not.toMatch(/conditioning|classical conditioning|operant conditioning/i)
+
+    const clinical = question('psy-7182-1-d-4-q2')
+    expect(clinical.prompt).toMatch(/choose any two/i)
+    expect(clinical.stimulus?.narrative).toContain('intense anxiety')
+    expect(indicative(clinical.id)).toMatch(/OCD|obsessive-compulsive|compulsion|obsession/i)
+    expect(indicative(clinical.id)).not.toMatch(/phobia|depression/i)
+
+    const biopsychology = question('psy-7182-2-b-6-q2')
+    expect(biopsychology.prompt).toContain('sensory, relay and motor neurons')
+    expect(indicative(biopsychology.id)).toMatch(/sensory neurons|relay|interneurons|motor neurons/i)
+    expect(indicative(biopsychology.id)).not.toMatch(/glutamate|GABA|summation/i)
+
+    const relationships = question('psy-7182-3-b-9-q2')
+    expect(relationships.prompt).toContain('Rusbult')
+    expect(indicative(relationships.id)).toMatch(/satisfaction|alternatives|investment/i)
+    expect(indicative(relationships.id)).not.toMatch(/equity|Duck/i)
+
+    const schizophrenia = question('psy-7182-3-c-12-q2')
+    expect(schizophrenia.prompt).toContain('genetic explanations of schizophrenia')
+    expect(schizophrenia.stimulus?.narrative).not.toMatch(/scan|neurotransmitter/i)
+    expect(indicative(schizophrenia.id)).not.toMatch(/dopamine|neural correlate|antipsychotic/i)
+
+    const eating = question('psy-7182-3-c-13-q2')
+    expect(eating.prompt).toContain('neural and hormonal control of eating behaviour')
+    expect(indicative(eating.id)).toMatch(/hypothalam|ghrelin|leptin/i)
+
+    const forensic = question('psy-7182-3-d-16-q2')
+    expect(forensic.prompt).toContain('genetic explanations of offending behaviour')
+    expect(forensic.stimulus?.narrative).not.toMatch(/imaging|brain region/i)
+    expect(indicative(forensic.id)).not.toMatch(/neural explanations|brain structure|imaging/i)
+  })
+
   it('makes Research Methods markable and Paper 3 application cues non-leading', () => {
     const rm = paper2.exams[0]?.questions.filter((question) => question.id.startsWith('psy-7182-2-c-rm-')) ?? []
     expect(rm[0]?.markingGuidance.join(' ')).toContain('AO1 (1)')
