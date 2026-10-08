@@ -147,8 +147,25 @@ The component registry, operating standard, B7 technical records, this implement
 
 ## Phase C2 learner shell and course identity reconciliation
 
-The C2 implementation candidate moves the canonical desktop learner navigation in `PlannerRuntime` onto the same public `Sidebar` ownership used by the Interface System, while retaining the existing route-scoped course tree and account controls through explicit component slots. Tablet and phone remain on shared `Rail` and `TabBar` primitives.
+C2 is live via PR #566 / merge `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The canonical desktop learner navigation in `PlannerRuntime` now uses the same public `Sidebar` ownership as the Interface System, while retaining the existing route-scoped course tree and account controls through explicit component slots. Tablet and phone remain on shared `Rail` and `TabBar` primitives.
 
 The learner-wide destination order is now explicit per governed band: desktop/tablet use Home → Plan → Progress → Courses, while phone keeps Home + Plan to the left of the raised REV control and Courses + Progress to the right. Shell REV controls use Deep Teal + Living E rather than ordinary Primary Teal action styling.
 
 `CourseIdentity` is the shared course-orientation pattern for the canonical page header and contextual course branch. It resolves the central subject hue/letter mark and keeps subject name plus qualification/exam-board/specification context visible. The former Business briefcase / Economics trend pictogram mapping is removed.
+
+
+## Phase C3.1 Home and learner-wide Progress semantic migration
+
+The first C3 slice migrates Home and learner-wide Progress away from the retired `--rv-*` compatibility namespace without changing their product or evidence behaviour.
+
+Implementation ownership is:
+
+- `src/app/brand-tokens.css` — canonical learner display roles, semantic inverse-surface roles and learning-status roles;
+- `src/app/home-v2.css` — Home composition consuming only canonical semantic/type/radius/focus roles;
+- `src/app/progress-v2.css` — learner-wide Progress composition consuming only canonical roles;
+- `src/app/ui/learner-v2-components.css` — shared Progress measures using the canonical 20px ordinary-surface radius and central learner display roles;
+- `src/app/interface-plan-progress.css` — global Progress bridge aligned to the same learner display roles.
+
+The governed learning-status labels and colours are not reinterpreted. Their light/dark values are preserved while their implementation no longer depends on `--rv-*`. The shared Practice scrim is likewise decoupled from `--rv-deep` without changing its appearance.
+
+Visual acceptance remains fail-closed. Home's existing exact light/dark phone/desktop digests are expected to change because canonical Canvas/Surface roles differ from the old v2 palette. Global Progress adds exact light/dark phone/desktop captures. New hashes are not approved until the Founder reviews the CI captures.
