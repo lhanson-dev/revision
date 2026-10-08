@@ -57,7 +57,7 @@ describe('Revision Interface System governance', () => {
   it('keeps migrated learner and Admin families on semantic roles', () => {
     expect(interfaceSystem).toContain('font-family: var(--font-family-product);')
     expect(interfaceComponents).toContain('.ui-field--textarea')
-    expect(interfacePlanProgress).toContain('font-size: var(--type-h1-size);')
+    expect(interfacePlanProgress).toContain('font-size: var(--type-learner-h1-size);')
     expect(interfaceSubjectsCourse).toContain('background: var(--color-surface);')
     expect(interfaceLearnPractice).toContain('var(--status-success-fg)')
     expect(interfaceLearnPractice).toContain('var(--status-error-fg)')
