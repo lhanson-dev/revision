@@ -20,6 +20,20 @@
 .progress-topic-list__name strong { overflow-wrap: anywhere; }
 .progress-topic-list__name small { color: var(--color-text-secondary); font-weight: 600; }
 
+/* Scope shared Progress primitives to the canonical learner roles on the learner-wide Progress route only.
+   Course-level Progress retains its current treatment until the later bounded course slice. */
+.planner-runtime main[aria-labelledby="global-progress-title"] .ui-progress-measure {
+  border-radius: var(--radius-surface);
+}
+.planner-runtime main[aria-labelledby="global-progress-title"] .ui-hue-bar__track {
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+}
+.planner-runtime main[aria-labelledby="global-progress-title"] .ui-hue-bar__fill,
+.planner-runtime main[aria-labelledby="global-progress-title"] .ui-understanding__segment {
+  border-radius: var(--radius-pill);
+}
+
 /* Empty state, redesign v2 screen 14: dashed tiles and a REV card that invites the first session. */
 .progress-empty-card { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 28px 32px; border: 1px solid var(--color-border); border-radius: var(--radius-feature); background: var(--color-surface); }
 .progress-empty-card .rev-presence { width: 72px; height: 72px; flex: none; }
