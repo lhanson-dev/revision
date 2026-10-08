@@ -139,7 +139,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   })
 
   it('coaches explain contextually and includes discuss and evaluate command words', () => {
-    const byWord = new Map(aqaPsychology7182ExamPapers.commandWords.map((entry) => [entry.word, entry]))
+    const byWord = new Map((aqaPsychology7182ExamPapers.commandWords ?? []).map((entry) => [entry.word, entry]))
     expect(byWord.has('discuss')).toBe(true)
     expect(byWord.has('evaluate')).toBe(true)
     for (const word of ['explain', 'explain how', 'explain why']) {
