@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'progress' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -18,6 +18,8 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'home', theme: 'dark' },
   { project: 'desktop', state: 'plan', theme: 'light' },
   { project: 'desktop', state: 'plan', theme: 'dark' },
+  { project: 'desktop', state: 'progress', theme: 'light' },
+  { project: 'desktop', state: 'progress', theme: 'dark' },
   { project: 'tablet', state: 'courses', theme: 'light' },
   { project: 'tablet', state: 'courses', theme: 'dark' },
   { project: 'desktop', state: 'learn', theme: 'light' },
@@ -75,6 +77,16 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
   'phone:dark': '08db9a7d22970719e2656e961ff95b4e8cd0b04dbf8a874b3068c8bd0b978710',
   'desktop:light': '5ecd083ca3290df576f872ba4b5c69c3cc14217bff5fb177610676689e019b59',
   'desktop:dark': '3cc04503c0e968c5c2e0e6c0ac937c7b8d55b4ceba63d79894f86c7b3821530a',
+}
+
+/**
+ * C3.1 introduces the first dedicated learner-wide Progress visual contracts.
+ * Empty arrays deliberately mean "captured but not Founder-approved yet".
+ * CI must fail closed and surface the exact digest until the capture is reviewed.
+ */
+const approvedProgressScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:light': [],
+  'desktop:dark': [],
 }
 
 /**
@@ -278,6 +290,7 @@ async function openState(page: Page, state: VisualState) {
   const paths: Record<Exclude<VisualState, 'timed-exam'>, string> = {
     home: appPath,
     plan: `${appPath}#/plan`,
+    progress: `${appPath}#/progress`,
     courses: `${appPath}#/courses`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
@@ -289,6 +302,7 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
+  if (state === 'progress') await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
@@ -313,7 +327,7 @@ for (const visualCase of cases) {
 
     const canvasKey = `${visualCase.project}:${visualCase.state}:${visualCase.theme}`
     const approvedCanvasDigest = approvedCanvasScreenshotDigests[canvasKey]
-    if (visualCase.state === 'home' || visualCase.state === 'learn' || approvedCanvasDigest) {
+    if (visualCase.state === 'home' || visualCase.state === 'progress' || visualCase.state === 'learn' || approvedCanvasDigest) {
       const screenshot = await page.screenshot({
         animations: 'disabled',
         caret: 'hide',
@@ -323,9 +337,11 @@ for (const visualCase of cases) {
       const digest = createHash('sha256').update(screenshot).digest('hex')
       const approved = visualCase.state === 'home'
         ? approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
-        : visualCase.state === 'learn'
-          ? approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
-          : approvedCanvasDigest
+        : visualCase.state === 'progress'
+          ? approvedProgressScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+          : visualCase.state === 'learn'
+            ? approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+            : approvedCanvasDigest
       const approvedDigests = typeof approved === 'string' ? [approved] : approved
       expect(approvedDigests).toContain(digest)
       return

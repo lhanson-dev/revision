@@ -1,6 +1,6 @@
 # Revision Interface System Implementation
 
-**Status:** B1–B7 live; 7 October learner-design Phase C reconciliation in progress from the B7 baseline  
+**Status:** B1–B7 live; learner-design Phase C reconciliation in progress, with C1–C2 live and C3 compatibility retirement underway  
 **Authority:** learner implementation follows `20-brand-and-experience/Learner Design System.md`; wider identity/product principles remain in `Visual Brand System.md` and `Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -147,8 +147,23 @@ The component registry, operating standard, B7 technical records, this implement
 
 ## Phase C2 learner shell and course identity reconciliation
 
-The C2 implementation candidate moves the canonical desktop learner navigation in `PlannerRuntime` onto the same public `Sidebar` ownership used by the Interface System, while retaining the existing route-scoped course tree and account controls through explicit component slots. Tablet and phone remain on shared `Rail` and `TabBar` primitives.
+C2 is live via PR #566 / merge `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The implementation moves the canonical desktop learner navigation in `PlannerRuntime` onto the same public `Sidebar` ownership used by the Interface System, while retaining the existing route-scoped course tree and account controls through explicit component slots. Tablet and phone remain on shared `Rail` and `TabBar` primitives.
 
 The learner-wide destination order is now explicit per governed band: desktop/tablet use Home → Plan → Progress → Courses, while phone keeps Home + Plan to the left of the raised REV control and Courses + Progress to the right. Shell REV controls use Deep Teal + Living E rather than ordinary Primary Teal action styling.
 
 `CourseIdentity` is the shared course-orientation pattern for the canonical page header and contextual course branch. It resolves the central subject hue/letter mark and keeps subject name plus qualification/exam-board/specification context visible. The former Business briefcase / Economics trend pictogram mapping is removed.
+
+
+## Phase C3 compatibility retirement — Home and learner-wide Progress
+
+C3.1 migrates the first bounded surface family away from the learner-v2 compatibility namespace without changing product behaviour or evidence meaning.
+
+- `home-v2.css` and `progress-v2.css` consume canonical `--color-*`, `--radius-*`, focus and learner display roles rather than `--rv-*`.
+- `brand-tokens.css` centrally owns responsive learner H1/H2/H3/hero display sizes so migrated pages do not repeat local display scales.
+- governed learning-status semantic roles retain their existing teal/yellow/coral/neutral learner values while no longer aliasing `--rv-*`.
+- the shared Practice scrim and retained compatibility focus-border helper are also decoupled from the v2 palette so future namespace deletion does not break shared semantics.
+- static assurance in `scripts/assurance/c3-home-progress-design-system.test.mjs` prevents Home/Progress from reintroducing `--rv-*`.
+- exact Home visual digests remain fail-closed until the changed Light/Dark captures are reviewed and explicitly approved.
+- C3.1 adds dedicated desktop Light/Dark exact-digest Progress visual contracts, initially unapproved/fail-closed so Progress receives the same explicit visual acceptance rather than relying only on CSS assertions.
+
+Plan remains a separate C3 slice because its visual debt includes additional non-canonical local radii as well as token migration.

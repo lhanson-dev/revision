@@ -39,6 +39,8 @@
   --color-action-text: var(--brand-graphite);
   --color-inverse-action: var(--brand-deep-teal);
   --color-inverse-action-text: var(--neutral-0);
+  --color-inverse-text-muted: #b7cfcc;
+  --color-inverse-text-accent: #7fe3d3;
   --color-accent-text: #0f5d54;
 
   /* Semantic status roles. */
@@ -89,6 +91,16 @@
   --type-caption-size: 12px;
   --type-caption-line: 16px;
   --type-caption-weight: 500;
+
+  /* Canonical learner display roles from Learner Design System.md.
+     These coexist temporarily with older generic type tokens while Phase C migrates page families. */
+  --type-learner-hero-size: clamp(40px, 3vw + 18px, 56px);
+  --type-learner-h1-size: clamp(34px, 2.4vw + 18px, 46px);
+  --type-learner-h1-line: 1.02;
+  --type-learner-h2-size: clamp(26px, 1.2vw + 18px, 32px);
+  --type-learner-h2-line: 1.08;
+  --type-learner-h3-size: 22px;
+  --type-learner-h3-line: 1;
 
   /* Reusable shape and depth roles. */
   --radius-compact: 12px;
@@ -289,28 +301,29 @@
   --tracking-eyebrow: 0.12em;
 
   /* Learning status: Got it / Nearly there / Needs work / Just started / Not started.
-     Always rendered as icon + text on the tint. Coral means "look at this", never error red. */
-  --learning-status-gotit: var(--rv-teal);
-  --learning-status-gotit-tint: var(--rv-soft);
-  --learning-status-gotit-ink: var(--rv-accent);
-  --learning-status-gotit-on: var(--rv-teal-text);
-  --learning-status-nearly: var(--rv-yellow);
-  --learning-status-nearly-tint: var(--rv-sun-soft);
-  --learning-status-nearly-ink: var(--rv-sun-text);
+     These are semantic learning roles, not functional Success/Warning/Error roles.
+     Values intentionally preserve the Founder-approved learner palette while removing --rv-* dependency. */
+  --learning-status-gotit: #2bb6a3;
+  --learning-status-gotit-tint: #e2f3ef;
+  --learning-status-gotit-ink: #0f7a6d;
+  --learning-status-gotit-on: #0f2f36;
+  --learning-status-nearly: #ffc53d;
+  --learning-status-nearly-tint: #fff1c9;
+  --learning-status-nearly-ink: #7a5600;
   --learning-status-nearly-on: #3d2b00;
-  --learning-status-needswork: var(--rv-coral);
-  --learning-status-needswork-tint: var(--rv-coral-soft);
-  --learning-status-needswork-ink: var(--rv-coral-text);
+  --learning-status-needswork: #ff7a59;
+  --learning-status-needswork-tint: #ffe7df;
+  --learning-status-needswork-ink: #b13d1f;
   --learning-status-needswork-on: #3a130a;
   --learning-status-started: #9aaba8;
   --learning-status-started-tint: #edf2f0;
   --learning-status-started-ink: #4f6268;
-  --learning-status-notstarted: var(--rv-line);
+  --learning-status-notstarted: #dde8e4;
   --learning-status-notstarted-tint: #edf2f0;
   --learning-status-notstarted-ink: #4f6268;
 
-  /* Focus ring used by the v2 components: 2px teal border plus a soft ring. */
-  --rv-focus-border: 2px solid var(--rv-teal);
+  /* Compatibility name retained for untouched v2 components, now backed by canonical action colour. */
+  --rv-focus-border: 2px solid var(--color-action);
 
   /* Layout geometry. Breakpoints are reference values (CSS cannot use variables in @media):
      1160 laptop, 1100 stack, 960 rail, 620 tab bar, 390 small phone. */
@@ -326,11 +339,11 @@
   --gutter-phone: 20px;
   --touch-min: 44px;
 
-  /* Hero line on the Practice summary (design system `--type-hero`). */
-  --type-hero-size: clamp(40px, 3vw + 18px, 56px);
+  /* Compatibility alias retained while Practice migrates to the canonical learner display role. */
+  --type-hero-size: var(--type-learner-hero-size);
 
-  /* Practice pop-up backdrop (v2.2). The only transparency outside the REV card. */
-  --scrim: color-mix(in srgb, var(--rv-deep) 72%, transparent);
+  /* Shared Practice backdrop is semantic Deep Teal, no longer dependent on --rv-* compatibility colour. */
+  --scrim: color-mix(in srgb, var(--brand-deep-teal) 72%, transparent);
 
   /* REV Living E thinking loop (Founder decision 1 Oct 2026; inside the 1.4 to 2.2s standard range). */
   --rev-thinking-loop: 1.4s;
@@ -417,9 +430,16 @@
 .auth-shell[data-theme="dark"],
 .loading-shell[data-theme="dark"],
 .first-use-shell[data-theme="dark"] {
+  --learning-status-gotit-tint: #163430;
+  --learning-status-gotit-ink: #52d6c2;
+  --learning-status-nearly-tint: #372d14;
+  --learning-status-nearly-ink: #ffd97a;
+  --learning-status-needswork-tint: #3b231d;
+  --learning-status-needswork-ink: #ffab94;
   --learning-status-started: #4d6368;
   --learning-status-started-tint: #1b2a2f;
   --learning-status-started-ink: #a9bcbc;
+  --learning-status-notstarted: #233639;
   --learning-status-notstarted-tint: #1b2a2f;
   --learning-status-notstarted-ink: #a9bcbc;
   --subject-violet-tint: #302846;
