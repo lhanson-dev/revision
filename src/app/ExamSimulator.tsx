@@ -70,6 +70,23 @@ function paperLabel(exam: Exam) {
   return exam.title.match(/Paper\s+\d+/i)?.[0] ?? 'exam'
 }
 
+function titleCaseSlug(value: string) {
+  return value
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+}
+
+function choiceGroupLabel(value: string) {
+  const match = value.match(/^section-([a-z])$/i)
+  return match ? `Section ${match[1].toUpperCase()}` : titleCaseSlug(value)
+}
+
+function choiceOptionLabel(item: ExamQuestionRuntime) {
+  return titleCaseSlug(item.topic)
+}
+
 export type ExamSimulatorProps = {
   exam: ExamRuntime
   moduleId: string
@@ -416,7 +433,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 {question.choiceGroup && (
                   <label className="exam-choice-select">
                     <input type="radio" name={question.choiceGroup} checked={selectedChoices[question.choiceGroup] === choiceOptionKey(question)} onChange={() => setSelectedChoices((current) => ({ ...current, [question.choiceGroup as string]: choiceOptionKey(question) }))} />
-                    Attempt this {question.choiceOption ? 'topic option' : 'question'} for section {question.choiceGroup}
+                    Attempt {question.choiceOption ? choiceOptionLabel(question) : 'this question'} for {choiceGroupLabel(question.choiceGroup)}
                   </label>
                 )}
                 {question.stimulus && (
