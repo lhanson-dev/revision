@@ -1,7 +1,8 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152; Recovery 5 proposed via PR #538, completion pending  
-**Date:** 2026-08-23
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 completed via PR #151; merge-boundary prevention verified through PR #152; Recovery 5 completed via PR #538  
+**Date:** 2026-08-23  
+**Last updated:** 2026-10-06
 
 ## Purpose
 
@@ -284,9 +285,9 @@ Recovery 5 is proposed through PR #538 and is not complete merely because the co
 8. pass production backend readiness, build, Pages deployment and production smoke; and
 9. publish durable `revision/path-to-live = success` on the recovery merge commit.
 
-DEF-2026-008 remains open until those production conditions are evidenced.
+Those production conditions are now evidenced. Founder-approved PR #538 exact head `66a8d2896de4508b4012c2269b46da2642fbd5aa` merged as `751dd68ec53f7f667808bea0ee8b362927c5d9ae`. Pages #434 / run `37437764120` passed governed lineage, production backend readiness, build, Pages deployment and production smoke, then published durable `revision/path-to-live = success`. Post-merge Revision CI #2718 / run `37437763900` also passed.
 
-The incident evidence is preserved in `audits/Path-to-Live GitHub Actions Incident Recovery 2026-10-06.md`.
+Recovery 5 is therefore complete and DEF-2026-008 is closed. The incident evidence is preserved in `audits/Path-to-Live GitHub Actions Incident Recovery 2026-10-06.md`.
 
 ## Guardrail
 
