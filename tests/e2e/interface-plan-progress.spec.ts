@@ -190,12 +190,14 @@ test('Configured Plan opens on Day, with time against plan, exams and study time
 
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.locator('.pln-summary')).toHaveCSS('border-radius', '20px')
   await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
   await expect(page.getByRole('tablist', { name: 'Days of the week' })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await page.getByRole('button', { name: 'Month', exact: true }).click()
   await expect(page.locator('.pln-month')).toBeVisible()
+  await expect(page.locator('.pln-month')).toHaveCSS('border-radius', '20px')
   await expectNoPageOverflow(page)
 })
 
