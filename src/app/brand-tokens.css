@@ -39,6 +39,8 @@
   --color-action-text: var(--brand-graphite);
   --color-inverse-action: var(--brand-deep-teal);
   --color-inverse-action-text: var(--neutral-0);
+  --color-inverse-text-muted: #b7cfcc;
+  --color-inverse-text-accent: #7fe3d3;
   --color-accent-text: #0f5d54;
 
   /* Semantic status roles. */
