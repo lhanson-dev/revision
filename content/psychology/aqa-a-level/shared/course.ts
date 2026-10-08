@@ -67,7 +67,13 @@ function strings(values?: string[]) {
   return values ?? []
 }
 
+const learnerTitleOverrides: Record<string, string> = {
+  'PSY-04-02': 'Characteristics of phobias, depression and OCD',
+}
+
 function titleFor(requirement: TruthRequirement) {
+  const override = learnerTitleOverrides[requirement.requirementId]
+  if (override) return override
   const first = strings(requirement.subjectTruth.definitionsAndCoreConcepts)[0]
   if (!first) return requirement.boardAlignment.summary
   const match = first.match(/^(.{2,90}?)\s+(?:is|are|refers to|means|involves|concerns|describes|occurs when|reflects|treats|proposes|examines|focuses on|uses|measures)\b/i)
@@ -86,6 +92,28 @@ function assertion(requirement: TruthRequirement) {
   return strings(requirement.subjectTruth.definitionsAndCoreConcepts)[0]
     ?? strings(requirement.subjectTruth.modelsResearchAndRelationships)[0]
     ?? requirement.boardAlignment.summary
+}
+
+function completeRevisionSummary(requirement: TruthRequirement) {
+  return [...new Set([
+    ...strings(requirement.subjectTruth.definitionsAndCoreConcepts),
+    ...strings(requirement.subjectTruth.modelsResearchAndRelationships),
+    ...strings(requirement.subjectTruth.evaluationAndLimits),
+  ])].join(' ')
+}
+
+function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement, requirementIndex: number) {
+  const correct = assertion(requirement)
+  const distractors: string[] = []
+  for (let offset = 1; offset < topic.requirements.length && distractors.length < 3; offset += 1) {
+    const candidate = assertion(topic.requirements[(requirementIndex + offset) % topic.requirements.length])
+    if (candidate !== correct && !distractors.includes(candidate)) distractors.push(candidate)
+  }
+  if (distractors.length < 3) throw new Error(`Psychology objective Practice needs three distinct topic-specific distractors for ${requirement.requirementId}`)
+  const correctOption = (topic.topicNumber + requirementIndex) % 4
+  const options = [...distractors]
+  options.splice(correctOption, 0, correct)
+  return { correct, correctOption, options }
 }
 
 for (const topic of truthTopics) {
@@ -183,31 +211,21 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) => flashcardSchema.parse({
     id: `psy-${requirementSectionId(requirement)}-card`,
     topic: topicId(topic),
-    prompt: `What do you need to know about ${titleFor(requirement)}?`,
-    answer: [
-      ...strings(requirement.subjectTruth.definitionsAndCoreConcepts).slice(0, 2),
-      ...strings(requirement.subjectTruth.modelsResearchAndRelationships).slice(0, 1),
-      ...strings(requirement.subjectTruth.evaluationAndLimits).slice(0, 1),
-    ].join(' '),
+    prompt: `Revise the key definitions, evidence/relationships and limits for: ${requirement.boardAlignment.summary}`,
+    answer: completeRevisionSummary(requirement),
   })),
 )
 
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
-  topic.requirements.map((requirement) => {
-    const correct = assertion(requirement)
-    const label = titleFor(requirement)
+  topic.requirements.map((requirement, requirementIndex) => {
+    const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement, requirementIndex)
     return multipleChoiceQuestionSchema.parse({
       id: `psy-${requirementSectionId(requirement)}-check`,
       topic: topicId(topic),
-      prompt: `Which statement about ${label} is supported by the course content?`,
-      options: [
-        correct,
-        `${label} always produces the same outcome in every person and context.`,
-        `Evidence about ${label} proves that no alternative psychological explanation can apply.`,
-        `${label} can be treated as a fixed rule without considering the limits of the evidence.`,
-      ],
-      correctOption: 0,
-      explanation: `${correct} Check the Learn page for the relevant limits and evaluation before generalising this claim.`,
+      prompt: `Which statement is the best match for this course requirement: ${requirement.boardAlignment.summary}`,
+      options,
+      correctOption,
+      explanation: `${correct} The other options are real statements from nearby requirements in ${topic.topic}, so choose by the psychological distinction rather than by generic wording.`,
     })
   }),
 )
@@ -217,11 +235,7 @@ export const psychologyDataDrills = (researchMethodsTopic?.requirements ?? []).s
   id: `psy-rm-drill-${index + 1}`,
   title: titleFor(requirement),
   prompt: `Use the Research Methods course content to explain or apply this requirement: ${requirement.boardAlignment.summary}`,
-  answer: [
-    ...strings(requirement.subjectTruth.definitionsAndCoreConcepts).slice(0, 2),
-    ...strings(requirement.subjectTruth.modelsResearchAndRelationships).slice(0, 1),
-    ...strings(requirement.subjectTruth.evaluationAndLimits).slice(0, 1),
-  ].join(' '),
+  answer: completeRevisionSummary(requirement),
 }))
 
 export const psychologyTopicLinks = truthTopics.flatMap((topic) => {
@@ -288,14 +302,14 @@ function ao(ao1: number, ao2: number, ao3: number): Ao { return { ao1, ao2, ao3,
 
 function guidance(requirements: TruthRequirement | TruthRequirement[], marks: number, extra: string[] = []) {
   const list = Array.isArray(requirements) ? requirements : [requirements]
-  const material = list.flatMap((requirement) => [
-    ...strings(requirement.subjectTruth.definitionsAndCoreConcepts),
-    ...strings(requirement.subjectTruth.modelsResearchAndRelationships),
-    ...strings(requirement.subjectTruth.evaluationAndLimits),
-  ])
+  const knowledge = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.definitionsAndCoreConcepts)))]
+  const evidence = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.modelsResearchAndRelationships)))]
+  const evaluation = [...new Set(list.flatMap((requirement) => strings(requirement.subjectTruth.evaluationAndLimits)))]
   return [
     `Maximum ${marks} marks. Self-assess only against relevant creditworthy material for the exact prompt.`,
-    ...[...new Set(material)].slice(0, 8),
+    ...knowledge.map((point) => `Knowledge: ${point}`),
+    ...evidence.map((point) => `Evidence/relationship: ${point}`),
+    ...evaluation.map((point) => `Evaluation/limit: ${point}`),
     ...extra,
     'Do not award credit for conclusions that go beyond the evidence or ignore a material boundary in the course content.',
   ]
@@ -315,7 +329,7 @@ const applicationStimulusByTopic: Record<number, string> = {
   5: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager later copies the behaviour, especially when the admired student is present.',
   6: 'After touching a very hot surface, a person quickly withdraws their hand. Sensory information travels towards the central nervous system, is relayed, and a motor response is sent to the muscles; chemical transmission occurs at synapses.',
   8: 'Two psychologists explain the same behaviour differently. One emphasises biological and environmental causes, while the other argues that people can still make meaningful choices within constraints.',
-  9: 'One partner is comparing the rewards and costs of a relationship, the quality of available alternatives and how much they have already invested. The couple also report that fairness matters to whether the relationship feels satisfactory.',
+  9: 'One partner is comparing the rewards and costs of a relationship, the quality of available alternatives and how much they have already invested. The couple also report that fairness matters to whether the relationship feels satisfactory. Later, one partner privately questions the relationship, they then discuss the problems directly, mutual friends become involved, and after the breakup each constructs an account of what happened.',
   10: 'A young adult describes their gender as non-binary. In a separate research task they complete a trait questionnaire that measures culturally gendered characteristics rather than assigning biological sex.',
   11: 'A child cannot solve a puzzle alone, but succeeds when an adult gives prompts, models the first step and gradually removes support. On a later attempt the child completes more of the task independently.',
   12: 'A person develops hallucination-like experiences and reduced motivation. There is a family history of similar difficulties, and researchers are considering genetic vulnerability and neural explanations without assuming that biology guarantees the outcome.',
@@ -333,26 +347,55 @@ function applicationStimulus(topic: TruthTopic) {
 
 function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, choiceGroup?: string, choiceOption?: string): ProductionExamQuestion[] {
   const requirements = topic.requirements
-  const tariffs = [4, 8, 12]
+  const tariffs = [4, 8, 6, 6]
   return tariffs.map((tariff, index) => {
     const requirement = requirements[index % requirements.length]
     let allocation: Ao
     if (paperId === '7182/1' || paperId === '7182/2') {
-      allocation = index === 0 ? ao(4, 0, 0) : index === 1 ? ao(2, 6, 0) : ao(3, 0, 9)
+      allocation = index === 0
+        ? ao(4, 0, 0)
+        : index === 1
+          ? ao(2, 6, 0)
+          : index === 2
+            ? ao(2, 0, 4)
+            : ao(1, 0, 5)
     } else {
-      allocation = index === 0 ? ao(4, 0, 0) : index === 1 ? ao(2, 4, 2) : ao(2, 0, 10)
+      allocation = index === 0
+        ? ao(4, 0, 0)
+        : index === 1
+          ? ao(2, 4, 2)
+          : index === 2
+            ? ao(1, 0, 5)
+            : ao(1, 0, 5)
     }
 
-    const label = titleFor(requirement)
+    const label = requirement.boardAlignment.summary
     const embeddedRm = paperId === '7182/1' && index === 1
     const rmRequirement = embeddedRm ? requirementById('PSY-07-14') : undefined
+    const isClinicalCharacteristics = embeddedRm && requirement.requirementId === 'PSY-04-02'
     const prompt = index === 0
       ? `Outline ${label} accurately.`
       : index === 1
         ? embeddedRm
-          ? `Using the stimulus, explain how ${label} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
-          : `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus and include one limitation or alternative interpretation where the evidence does not justify certainty.`
-        : `Discuss ${label} in relation to ${topic.topic}. Develop accurate knowledge, use relevant evidence or relationships, evaluate important limitations, and reach a proportionate conclusion.`
+          ? isClinicalCharacteristics
+            ? 'Using the stimulus, explain how the behavioural, emotional and cognitive characteristics shown are consistent with OCD. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.'
+            : `Using the stimulus, explain how ${label} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
+          : paperId === '7182/2'
+            ? `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus.`
+            : `Using the stimulus, explain how ${label} applies to the case. Use specific cues from the stimulus and include one limitation or alternative interpretation where the evidence does not justify certainty.`
+        : index === 2
+          ? `Evaluate one important strength, limitation or boundary of ${label}. Support the judgement with accurate psychological knowledge.`
+          : `Discuss ${label}, focusing on one reasoned evaluative judgement and a proportionate conclusion.`
+
+    const extraGuidance = embeddedRm
+      ? [
+          'Operationalisation credit: define one variable or procedure in observable, measurable or repeatable terms tied directly to the supplied case.',
+          'Justification credit: explain how precise operationalisation supports reproducibility, reliability and/or validity; a vague claim that it is simply “more accurate” is insufficient without development.',
+          ...(isClinicalCharacteristics ? ['Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.'] : []),
+        ]
+      : index >= 2
+        ? ['AO3 credit must address the exact requirement through a defensible limitation, alternative, evidence-based qualification or boundary; descriptive material alone is insufficient.']
+        : []
 
     return examQuestionSchema.parse({
       id: `psy-${paperId.replace('/', '-')}-${sectionId.toLowerCase()}-${topic.topicNumber}-q${index + 1}`,
@@ -370,7 +413,7 @@ function genericSectionQuestions(topic: TruthTopic, sectionId: string, paperId: 
           table: null,
         },
       } : {}),
-      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff),
+      markingGuidance: guidance(rmRequirement ? [requirement, rmRequirement] : requirement, tariff, extraGuidance),
       ...(choiceGroup ? { choiceGroup } : {}),
       ...(choiceOption ? { choiceOption } : {}),
     })
@@ -395,11 +438,14 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned study context',
-        narrative: 'A psychologist recruits 40 volunteer sixth-form students to investigate whether a ten-minute distraction task affects immediate word recall. The researcher must define both the distraction task and the recall score clearly enough for the procedure to be repeated.',
+        narrative: 'A psychologist recruits 40 volunteer sixth-form students. After all students learn the same 20-word list, 20 complete a ten-minute digit-cancellation distraction task while 20 spend the same ten minutes sitting quietly. Immediately afterwards, each student writes down as many target words as they can remember. The researcher must define the two conditions and the recall score clearly enough for the procedure to be repeated.',
         table: null,
       },
       prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
-      markingGuidance: guidance(variables, 4),
+      markingGuidance: guidance(variables, 4, [
+        'Independent variable: distraction condition, operationalised as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
+        'Dependent variable: immediate recall score, operationalised as the number of target words correctly written after the ten-minute interval.',
+      ]),
     },
     {
       id: 'psy-7182-2-c-rm-q2',
@@ -507,15 +553,20 @@ function paperExam(paperId: '7182/1' | '7182/2' | '7182/3') {
       return sectionQuestions(topic, section.id, paperId, section.marks, `section-${section.id.toLowerCase()}`, `topic-${number}`)
     })
   })
+  const isPaper3 = paperId === '7182/3'
   return examSchema.parse({
     id: `psychology-aqa-7182-paper-${paperId.slice(-1)}-mock`,
     title: `AQA A-level Psychology 7182 · Paper ${paperId.slice(-1)}`,
     subtitle: paper.name,
     durationMinutes: paper.durationMinutes,
     totalMarks: paper.rawMarks,
-    printedMarks: questions.reduce((sum, question) => sum + question.marks, 0),
-    caseHtml: '<p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>',
-    learnerClaim: 'Revision-authored AQA-aligned practice; not an official AQA paper. Self-marked until Revision assisted marking is separately validated.',
+    ...(isPaper3 ? {} : { printedMarks: questions.reduce((sum, question) => sum + question.marks, 0) }),
+    caseHtml: isPaper3
+      ? '<p><strong>Paper route:</strong> Answer all questions in Section A (Issues and Debates), then choose exactly one 24-mark topic from Section B (Relationships, Gender, or Cognition and Development), one from Section C (Schizophrenia, Eating Behaviour, or Stress), and one from Section D (Aggression, Forensic Psychology, or Addiction). Your attempted paper totals 96 marks.</p><p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>'
+      : '<p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>',
+    learnerClaim: isPaper3
+      ? 'Revision-authored AQA-aligned practice; not an official AQA paper. Attempt Section A plus exactly one topic from each of Sections B, C and D. Self-marked until Revision assisted marking is separately validated.'
+      : 'Revision-authored AQA-aligned practice; not an official AQA paper. Self-marked until Revision assisted marking is separately validated.',
     restrictedPilot: false,
     questions,
   })
