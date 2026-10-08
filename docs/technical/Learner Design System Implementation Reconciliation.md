@@ -75,17 +75,16 @@ Merged via PR #566 / `e0cfa16336b679e117f6d2dcebf2e30b032d25e2`. The C2 implemen
 
 Remaining groups:
 
-1. Home / learner-wide Progress;
-2. Plan;
-3. Courses / Course Overview;
-4. Learn / educational working surfaces;
-5. Practice;
-6. Exam Prep / Exam Simulator / contextual REV;
-7. Auth / first-use / onboarding learner entry surfaces.
+1. Plan;
+2. Courses / Course Overview;
+3. Learn / educational working surfaces;
+4. Practice;
+5. Exam Prep / Exam Simulator / contextual REV;
+6. Auth / first-use / onboarding learner entry surfaces.
 
 The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
 
-Before deleting the `--rv-*` namespace, decouple the canonical `--learning-status-*` roles and any remaining shared semantic roles (including the shared Practice scrim) from `--rv-*` values without changing their governed learner-facing meaning. Auth, first-use and onboarding are included because they are live learner entry surfaces and still consume the compatibility namespace; their inclusion does not reopen public marketing or wider brand work. Delete an alias only when repository search and assurance prove no live consumer remains.
+C3.1 decouples the canonical `--learning-status-*` roles, shared Practice scrim and compatibility focus-border helper from `--rv-*` without changing their governed learner-facing meaning. Before deleting the namespace, prove that no other shared semantic role still depends on it. Auth, first-use and onboarding are included because they are live learner entry surfaces and still consume the compatibility namespace; their inclusion does not reopen public marketing or wider brand work. Delete an alias only when repository search and assurance prove no live consumer remains.
 
 ### C4 — page-composition debts required by authority
 
