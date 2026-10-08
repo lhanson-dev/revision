@@ -503,6 +503,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
         'Maximum 4 marks.',
         'Mark allocation: AO1 1 · AO2 3 · AO3 0.',
         'AO1 (1): award 1 mark only if the response correctly identifies the distraction condition as the independent variable and recall performance as the dependent variable.',
+        'AO2 (3): award the three application marks using the operationalisation criteria below; each sub-mark is worth 1 mark.',
         'AO2 (1): operationalise the independent variable as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
         'AO2 (1): operationalise the dependent variable as the number of target words correctly written immediately after the ten-minute interval.',
         'AO2 (1): award for making the proposed measurement/manipulation sufficiently observable and repeatable in this exact study.',
@@ -534,6 +535,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       markingGuidance: [
         'Maximum 8 marks.',
         'Mark allocation: AO1 0 · AO2 8 · AO3 0.',
+        'AO2 (8): award the eight application/calculation marks across mean, median, mode and range using the criteria below.',
         'Mean (2): 1 mark for a correct method using all five scores, and 1 mark for the correct mean of 7.',
         'Median (2): 1 mark for correctly locating the middle score in the ordered data, and 1 mark for the correct median of 6.',
         'Mode (2): 1 mark for correctly identifying the repeated score, and 1 mark for the correct mode of 6.',
@@ -588,6 +590,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       markingGuidance: [
         'Maximum 12 marks.',
         'Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'AO2 (11): award the eleven application/calculation marks across sign assignment, tie handling, effective n, smaller sign count and critical-value reasoning using the criteria below.',
         'AO2 (5): award 1 mark for each correct row classification: A +, B tie, C −, D +, E +.',
         'AO2 (1): remove the tied pair from the sign-test calculation.',
         'AO2 (1): state the effective n as 4.',
@@ -612,6 +615,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       markingGuidance: [
         'Maximum 12 marks.',
         'Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'AO2 (11): award the eleven application/calculation marks across test selection, justification, tail choice, comparison, decision and interpretation using the criteria below.',
         'AO2 (1): select Spearman’s rho.',
         'AO2 (3): justify the choice using the ranked/ordinal form of the two variables, the paired scores from the same participants and the hypothesis about association.',
         'AO2 (1): identify that a two-tailed decision is required because the hypothesis does not predict direction.',
