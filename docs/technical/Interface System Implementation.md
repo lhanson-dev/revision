@@ -164,5 +164,6 @@ C3.1 migrates the first bounded surface family away from the learner-v2 compatib
 - the shared Practice scrim and retained compatibility focus-border helper are also decoupled from the v2 palette so future namespace deletion does not break shared semantics.
 - static assurance in `scripts/assurance/c3-home-progress-design-system.test.mjs` prevents Home/Progress from reintroducing `--rv-*`.
 - exact Home visual digests remain fail-closed until the changed Light/Dark captures are reviewed and explicitly approved.
+- C3.1 adds dedicated desktop Light/Dark exact-digest Progress visual contracts, initially unapproved/fail-closed so Progress receives the same explicit visual acceptance rather than relying only on CSS assertions.
 
 Plan remains a separate C3 slice because its visual debt includes additional non-canonical local radii as well as token migration.
