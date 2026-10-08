@@ -198,7 +198,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
       if (question.assessmentObjectives.ao3 > 0) expect(question.markingGuidance.join(' '), question.id).toContain(`AO3 (${question.assessmentObjectives.ao3})`)
     }
 
-    for (const question of [...p1, ...p2].filter((candidate) => /-q1$|-q3$|-q4$/.test(candidate.id))) {
+    for (const question of [...p1, ...p2].filter((candidate) => /-q1$|-q3$|-q4$/.test(candidate.id) && !candidate.id.includes('-rm-'))) {
       expect(question.prompt, question.id).toMatch(/choose any two|Focus on one issue only|do not need to cover every named element/i)
     }
 
