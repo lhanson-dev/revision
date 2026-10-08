@@ -29,6 +29,7 @@ import topic15 from '../../../../research/source-first-course-prototype/psycholo
 import topic16 from '../../../../research/source-first-course-prototype/psychology-course-truth/topic-16-forensic-psychology.json'
 import topic17 from '../../../../research/source-first-course-prototype/psychology-course-truth/topic-17-addiction.json'
 import examTruth from '../../../../research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
+import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 
 type TruthRequirement = {
   requirementId: string
@@ -90,12 +91,6 @@ function requirementSectionId(requirement: TruthRequirement) {
   return requirement.requirementId.toLowerCase().replaceAll('-', '')
 }
 
-function assertion(requirement: TruthRequirement) {
-  return strings(requirement.subjectTruth.definitionsAndCoreConcepts)[0]
-    ?? strings(requirement.subjectTruth.modelsResearchAndRelationships)[0]
-    ?? requirement.boardAlignment.summary
-}
-
 function completeRevisionSummary(requirement: TruthRequirement) {
   return [...new Set([
     ...strings(requirement.subjectTruth.definitionsAndCoreConcepts),
@@ -104,88 +99,36 @@ function completeRevisionSummary(requirement: TruthRequirement) {
   ])].join(' ')
 }
 
-const practiceStopWords = new Set([
-  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'because', 'by', 'can', 'for', 'from', 'has', 'in', 'into',
-  'is', 'it', 'may', 'of', 'on', 'or', 'that', 'the', 'their', 'this', 'to', 'which', 'with',
-])
-
-function conceptTokens(value: string) {
-  return new Set(
-    value
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, ' ')
-      .split(/\s+/)
-      .filter((token) => token.length > 3 && !practiceStopWords.has(token)),
-  )
-}
-
-function stablePracticeHash(value: string) {
-  let hash = 2166136261
-  for (const character of value) {
-    hash ^= character.charCodeAt(0)
-    hash = Math.imul(hash, 16777619)
-  }
-  hash ^= hash >>> 16
-  hash = Math.imul(hash, 0x7feb352d)
-  hash ^= hash >>> 15
-  hash = Math.imul(hash, 0x846ca68b)
-  hash ^= hash >>> 16
-  return hash >>> 0
-}
-
-function objectivePracticeCue(requirement: TruthRequirement) {
-  const relationship = strings(requirement.subjectTruth.modelsResearchAndRelationships)[0]
-  if (relationship) {
-    return {
-      text: relationship,
-      prompt: `Which core idea is most directly supported or illustrated by this evidence or relationship? ${relationship}`,
-    }
-  }
-  const evaluation = strings(requirement.subjectTruth.evaluationAndLimits)[0]
-  if (evaluation) {
-    return {
-      text: evaluation,
-      prompt: `Which core idea is being evaluated by this limitation or qualification? ${evaluation}`,
-    }
-  }
-  const definitions = strings(requirement.subjectTruth.definitionsAndCoreConcepts)
-  const detail = definitions[1] ?? definitions[0] ?? requirement.boardAlignment.summary
-  return {
-    text: detail,
-    prompt: `Which core idea best explains this psychological detail? ${detail}`,
-  }
-}
-
 function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement) {
-  const correct = assertion(requirement)
-  const cue = objectivePracticeCue(requirement)
-  const referenceTokens = conceptTokens(`${cue.text} ${correct}`)
-  const rankedDistractors = topic.requirements
+  const correct = psychologyObjectivePracticeConcept(requirement)
+  const distractors = topic.requirements
     .filter((candidate) => candidate.requirementId !== requirement.requirementId)
-    .map((candidate) => {
-      const option = assertion(candidate)
-      const candidateTokens = conceptTokens(option)
-      const overlap = [...candidateTokens].filter((token) => referenceTokens.has(token)).length
-      return {
-        id: candidate.requirementId,
-        option,
-        overlap,
-        tieBreak: stablePracticeHash(`${requirement.requirementId}:${candidate.requirementId}`),
-      }
-    })
+    .map((candidate) => ({
+      id: candidate.requirementId,
+      label: psychologyObjectivePracticeConcept(candidate).label,
+      order: stablePsychologyPracticeHash(`${requirement.requirementId}:${candidate.requirementId}`),
+    }))
     .filter((candidate, index, candidates) =>
-      candidate.option !== correct && candidates.findIndex((other) => other.option === candidate.option) === index,
+      candidate.label !== correct.label && candidates.findIndex((other) => other.label === candidate.label) === index,
     )
-    .sort((a, b) => b.overlap - a.overlap || a.tieBreak - b.tieBreak)
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 3)
+    .map((candidate) => candidate.label)
 
-  const distractors = rankedDistractors.slice(0, 3).map((candidate) => candidate.option)
-  if (distractors.length < 3) throw new Error(`Psychology objective Practice needs three distinct topic-specific distractors for ${requirement.requirementId}`)
-
-  const correctOption = stablePracticeHash(requirement.requirementId) % 4
+  if (distractors.length < 3) throw new Error(`Psychology objective Practice needs three distinct same-topic concept distractors for ${requirement.requirementId}`)
+  const correctOption = stablePsychologyPracticeHash(requirement.requirementId) % 4
   const options = [...distractors]
-  options.splice(correctOption, 0, correct)
-  return { correct, correctOption, options, prompt: cue.prompt }
+  options.splice(correctOption, 0, correct.label)
+  return { correct, correctOption, options }
 }
+
+export const psychologyObjectivePracticeContracts = truthTopics.flatMap((topic) =>
+  topic.requirements.map((requirement) => ({
+    requirementId: requirement.requirementId,
+    topic: topicId(topic),
+    ...psychologyObjectivePracticeConcept(requirement),
+  })),
+)
 
 for (const topic of truthTopics) {
   for (const requirement of topic.requirements) {
@@ -289,14 +232,14 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
 
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) => {
-    const { correct, correctOption, options, prompt } = objectivePracticeOptions(topic, requirement)
+    const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
     return multipleChoiceQuestionSchema.parse({
       id: `psy-${requirementSectionId(requirement)}-check`,
       topic: topicId(topic),
-      prompt,
+      prompt: correct.prompt,
       options,
       correctOption,
-      explanation: `${correct} The alternatives are deliberately close statements from the same topic, so use the evidence or relationship in the stem to discriminate between the concepts.`,
+      explanation: `${correct.definition} The keyed answer names the concept defined by the stem; the alternatives are different concepts from the same topic.`,
     })
   }),
 )
