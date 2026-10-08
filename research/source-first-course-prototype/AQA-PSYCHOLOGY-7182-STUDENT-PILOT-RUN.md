@@ -449,3 +449,15 @@ The findings have one common implementation cause rather than six independent Co
 The remediation therefore introduces an explicit coherent application contract for affected heterogeneous requirements: declared focus, supporting stimulus, indicative knowledge/application/evaluation routes and any item-specific self-marking constraint travel together. Provider-free regressions check the exact run-5 failure modes. Course Truth itself is unchanged.
 
 Psychology remains `preview`. FI-007 is not part of this remediation, and a fresh exact-main launch-assurance run remains required before publication.
+
+### Production launch assurance run #6 — final bounded blockers
+
+Run #6 reviewed exact `main` commit `3dfd536923250ae0703794510f8b4826b6785e2a` in GitHub Actions run `37841718938`.
+
+Exact-main verification and deterministic prerequisites passed. All ten packets completed, retained artifact `11577524362` was preserved, and observed provider spend was US$0.913430.
+
+The final decision remained `fail_hold` with three material findings across five material dimensions. Eight packets passed; the remaining blockers were confined to one Research Methods taxonomy statement, two overlapping objective-Practice distractors, and incomplete Paper 3 self-marking coverage where prompts expressly allowed more routes than the guidance documented.
+
+The remediation corrects those contracts directly and also closes the two minor findings from the same run: learner-facing objective-Practice grammar and incomplete/over-general command-word coaching.
+
+This does not reopen the wider Course Truth, reduce course scope, publish Psychology or authorise FI-007. A fresh exact-main launch-assurance run remains required after merge.
