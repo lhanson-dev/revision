@@ -622,9 +622,9 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
 
 function sectionQuestions(topic: TruthTopic, sectionId: string, paperId: string, marks: number, choiceGroup?: string, choiceOption?: string): ProductionExamQuestion[] {
   if (paperId === '7182/2' && sectionId === 'C' && marks === 48) {
-    return researchMethodsSectionQuestions(topic)
+    return researchMethodsSectionQuestions(topic, sectionId, marks)
   }
-  return genericSectionQuestions(topic, sectionId, paperId, choiceGroup, choiceOption)
+  return genericSectionQuestions(topic, sectionId, paperId, marks, choiceGroup, choiceOption)
 }
 
 function paperExam(paperId: '7182/1' | '7182/2' | '7182/3') {
@@ -654,9 +654,11 @@ function paperExam(paperId: '7182/1' | '7182/2' | '7182/3') {
     durationMinutes: paper.durationMinutes,
     totalMarks: paper.rawMarks,
     ...(isPaper3 ? {} : { printedMarks: questions.reduce((sum, question) => sum + question.marks, 0) }),
-    caseHtml: isPaper3
-      ? '<p><strong>Paper route:</strong> Answer all questions in Section A (Issues and Debates), then choose exactly one 24-mark topic from Section B (Relationships, Gender, or Cognition and Development), one from Section C (Schizophrenia, Eating Behaviour, or Stress), and one from Section D (Aggression, Forensic Psychology, or Addiction). Your attempted paper totals 96 marks.</p><p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>'
-      : '<p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>',
+    caseHtml: paperId === '7182/1'
+      ? '<p><strong>Paper route:</strong> Answer all questions. Section A — Social influence — 24 marks. Section B — Memory — 24 marks. Section C — Attachment — 24 marks. Section D — Clinical Psychology and Mental Health — 24 marks. Total 96 marks.</p><p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>'
+      : paperId === '7182/2'
+        ? '<p><strong>Paper route:</strong> Answer all questions. Section A — Approaches in Psychology — 24 marks. Section B — Biopsychology — 24 marks. Section C — Research methods — 48 marks. Total 96 marks.</p><p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>'
+        : '<p><strong>Paper route:</strong> Answer all questions in Section A (Issues and Debates), then choose exactly one 24-mark topic from Section B (Relationships, Gender, or Cognition and Development), one from Section C (Schizophrenia, Eating Behaviour, or Stress), and one from Section D (Aggression, Forensic Psychology, or Addiction). Your attempted paper totals 96 marks.</p><p>Revision-authored AQA-aligned practice paper. This is not an official AQA paper.</p>',
     learnerClaim: isPaper3
       ? 'Revision-authored AQA-aligned practice; not an official AQA paper. Attempt Section A plus exactly one topic from each of Sections B, C and D. Self-marked until Revision assisted marking is separately validated.'
       : 'Revision-authored AQA-aligned practice; not an official AQA paper. Self-marked until Revision assisted marking is separately validated.',
