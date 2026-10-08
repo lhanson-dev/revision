@@ -58,21 +58,24 @@ No current Phase C item requires a new Founder design decision. Existing authori
 
 Merged via PR #565. Central learner radius/overlay roles now match authority and the obsolete REV Completed state is removed.
 
-### C2 — shell, identity and course orientation — implementation candidate
+### C2 — shell, identity and course orientation — complete
 
-The C2 branch moves the canonical runtime desktop sidebar onto the shared `Sidebar` primitive, retires the duplicate `.ui-sidebar` styling, preserves governed cross-device destination ordering, changes shell REV controls to Deep Teal + Living E, and introduces one reusable `CourseIdentity` pattern using the central subject mark/hue map. No route or account semantics change.
+Merged via PR #566 and production-verified. The canonical runtime desktop sidebar now uses the shared `Sidebar` primitive, duplicate `.ui-sidebar` styling is retired, governed cross-device destination ordering is preserved, shell REV controls use Deep Teal + Living E, and `CourseIdentity` provides one reusable subject mark/name/hue pattern. No route or account semantics changed.
 
 ### C3 — v2 compatibility retirement by bounded surface family
 
 Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
-1. Home / learner-wide Progress;
+1. Home / learner-wide Progress — active bounded slice;
 2. Plan;
 3. Courses / Course Overview;
 4. Learn / educational working surfaces;
 5. Practice;
 6. Exam Prep / Exam Simulator / contextual REV;
 7. Auth / first-use / onboarding learner entry surfaces.
+
+
+The active Home/Progress slice removes `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moves ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and adds centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning remain unchanged. The Founder explicitly approved the four Home visual baselines (phone/desktop × light/dark) from exact-head CI #2882 on 8 October 2026 after reviewing the retained captures; those approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`. Final exact-head assurance remains required before merge.
 
 The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
 
