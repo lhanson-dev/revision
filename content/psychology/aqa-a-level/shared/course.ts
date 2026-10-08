@@ -371,12 +371,6 @@ function guidance(requirements: TruthRequirement | TruthRequirement[], marks: nu
   ]
 }
 
-function requirementById(id: string) {
-  const requirement = truthTopics.flatMap((topic) => topic.requirements).find((candidate) => candidate.requirementId === id)
-  if (!requirement) throw new Error(`Missing Psychology Course Truth requirement ${id}`)
-  return requirement
-}
-
 const applicationQuestionContracts: Record<string, ApplicationQuestionContract> = {
   'PSY-03-02': {
     focus: 'Bowlby’s biologically grounded theory of attachment',
