@@ -112,8 +112,9 @@ For an `exam-question` recommendation, Home therefore routes directly to the gov
 Subject colour is implemented centrally through:
 
 - `src/app/subject-accents.ts` — stable semantic mapping;
-- `src/app/subject-accents.css` — reusable visual roles; and
-- existing Brand System foundation tokens.
+- `src/app/subject-accents.css` — reusable subject visual roles;
+- `src/app/home-v2.css` — current Home composition styling, now consuming canonical semantic colour, display, focus and radius roles rather than the retired `--rv-*` compatibility palette; and
+- `src/app/brand-tokens.css` — canonical learner foundation and semantic roles.
 
 Current mapping:
 
@@ -155,6 +156,7 @@ The existing responsive learner shell and persistent bottom Ask REV dock remain 
 - `src/app/subject-accents.css` — reusable subject visual roles.
 - `src/app/returning-home.css` — base locked Home composition and responsive/Light/Dark treatment.
 - `src/app/returning-home-fidelity.css` — Founder-directed visual fidelity corrections: larger REV, white/aqua bloom, Powered by REV styling and full-width hero input.
+- `src/app/home-v2.css` — live Home layout/details using canonical learner semantic roles; C3.1 removed all `--rv-*` consumers from this file without changing task-selection or navigation behaviour.
 - `src/main.tsx` — loads Home/subject styles and the fidelity layer after the existing Interface System layers.
 
 ## Assurance
@@ -175,7 +177,7 @@ The implementation must remain covered by:
 - full-width Home Ask REV layout at responsive viewports; and
 - explicit visual evidence for Living E scale and white/aqua atmospheric halo.
 
-The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) remain pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. Any fidelity correction must deliberately review the newly captured Home images and update only those exact approved digests; the wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
+The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) remain pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. C3.1 deliberately leaves those digests unchanged until the semantic-token/radius migration is visually reviewed. Any visual correction must review the newly captured Home images and update only explicitly approved digests; the wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
 
 ## Documentation impact
 
