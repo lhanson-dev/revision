@@ -75,7 +75,7 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 7. Auth / first-use / onboarding learner entry surfaces.
 
 
-The active Home/Progress slice removes `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moves ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and adds centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning remain unchanged. Visual baselines must be reviewed explicitly because the canonical dark surfaces, accents and 20px ordinary-surface radius differ from the retired v2 compatibility values.
+The active Home/Progress slice removes `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moves ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and adds centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning remain unchanged. The Founder explicitly approved the four Home visual baselines (phone/desktop × light/dark) from exact-head CI #2882 on 8 October 2026 after reviewing the retained captures; those approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`. Final exact-head assurance remains required before merge.
 
 The Home/Progress and Plan migrations are deliberately separate. Home/Progress are primarily semantic surface/text/action migrations, while Plan also carries extensive local 24px / 18px / 16px / 10px shape debt that needs its own visual review against the canonical 12 / 14 / 20 / 28 / 999 family.
 
