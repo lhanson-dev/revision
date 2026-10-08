@@ -479,38 +479,40 @@ function genericSectionQuestions(
   })
 }
 
-function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuestion[] {
-  const variables = requirementById('PSY-07-14')
-  const descriptive = requirementById('PSY-07-26')
-  const validity = requirementById('PSY-07-21')
-  const signTest = requirementById('PSY-07-32')
-  const significance = requirementById('PSY-07-33')
-  const testChoice = requirementById('PSY-07-34')
-  const correlation = requirementById('PSY-07-29')
-
+function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, sectionMarks: number): ProductionExamQuestion[] {
+  const sectionMetadata = {
+    sectionLabel: `Section ${sectionId}`,
+    sectionTitle: topic.topic,
+    sectionMarks,
+  }
   const questions = [
     {
       id: 'psy-7182-2-c-rm-q1',
       marks: 4,
       topic: topicId(topic),
       assessmentObjectives: ao(1, 3, 0),
+      ...sectionMetadata,
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned study context',
-        narrative: 'A psychologist recruits 40 volunteer sixth-form students. After all students learn the same 20-word list, 20 complete a ten-minute digit-cancellation distraction task while 20 spend the same ten minutes sitting quietly. Immediately afterwards, each student writes down as many target words as they can remember. The researcher must define the two conditions and the recall score clearly enough for the procedure to be repeated.',
+        narrative: 'A psychologist recruits 40 volunteer sixth-form students. After all students learn the same 20-word list, 20 complete a ten-minute digit-cancellation distraction task while 20 spend the same ten minutes sitting quietly. Immediately afterwards, each student writes down as many target words as they can remember.',
         table: null,
       },
       prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
-      markingGuidance: guidance(variables, 4, ao(1, 3, 0), [
-        'Independent variable: distraction condition, operationalised as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
-        'Dependent variable: immediate recall score, operationalised as the number of target words correctly written after the ten-minute interval.',
-      ]),
+      markingGuidance: [
+        'Maximum 4 marks. Mark allocation: AO1 1 · AO2 3 · AO3 0.',
+        'AO1 (1): award 1 mark only if the response correctly identifies the distraction condition as the independent variable and recall performance as the dependent variable.',
+        'AO2 (1): operationalise the independent variable as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
+        'AO2 (1): operationalise the dependent variable as the number of target words correctly written immediately after the ten-minute interval.',
+        'AO2 (1): award for making the proposed measurement/manipulation sufficiently observable and repeatable in this exact study.',
+      ],
     },
     {
       id: 'psy-7182-2-c-rm-q2',
       marks: 8,
       topic: topicId(topic),
       assessmentObjectives: ao(0, 8, 0),
+      ...sectionMetadata,
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned quantitative dataset',
@@ -528,13 +530,20 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         },
       },
       prompt: 'Calculate the mean, median, mode and range for the scores. Show enough working for each answer to be checked.',
-      markingGuidance: guidance(descriptive, 8, ao(0, 8, 0), ['For this constructed dataset: mean = 7, median = 6, mode = 6, range = 7.']),
+      markingGuidance: [
+        'Maximum 8 marks. Mark allocation: AO1 0 · AO2 8 · AO3 0.',
+        'Mean (2): 1 mark for a correct method using all five scores, and 1 mark for the correct mean of 7.',
+        'Median (2): 1 mark for correctly locating the middle score in the ordered data, and 1 mark for the correct median of 6.',
+        'Mode (2): 1 mark for correctly identifying the repeated score, and 1 mark for the correct mode of 6.',
+        'Range (2): 1 mark for the correct maximum-minus-minimum method (11 − 4), and 1 mark for the correct range of 7.',
+      ],
     },
     {
       id: 'psy-7182-2-c-rm-q3',
       marks: 12,
       topic: topicId(topic),
       assessmentObjectives: ao(2, 5, 5),
+      ...sectionMetadata,
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned validity context',
@@ -542,13 +551,20 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         table: null,
       },
       prompt: 'Discuss the validity of this study. Apply relevant types of validity to the context and explain at least one defensible improvement.',
-      markingGuidance: guidance(validity, 12, ao(2, 5, 5), ['AO3 credit should evaluate validity evidence and trade-offs in this exact study and justify why the proposed improvement would address the identified weakness.']),
+      markingGuidance: [
+        'Maximum 12 marks. Mark allocation: AO1 2 · AO2 5 · AO3 5.',
+        'AO1 (2): award 1 mark for each of two accurate validity concepts relevant to the answer, such as construct validity and population/external validity.',
+        'AO2 (5): 1–2 marks for limited reference to the study; 3–4 for clear application to more than one concrete feature (for example the single self-report item, immediate post-mock timing, volunteer sample or one-college sampling); 5 for sustained accurate application across the main validity issues used.',
+        'AO3 (5): 1–2 marks for a limited judgement or generic improvement; 3–4 for a developed explanation of why the identified validity weakness matters and how a specific improvement addresses it; 5 for a balanced, justified judgement that recognises both what the change improves and any remaining limitation.',
+        'A defensible route could improve construct validity by using a validated multi-item measure or converging measures, and could improve generalisability by sampling beyond one volunteer sixth-form group.',
+      ],
     },
     {
       id: 'psy-7182-2-c-rm-q4',
       marks: 12,
       topic: topicId(topic),
       assessmentObjectives: ao(0, 11, 1),
+      ...sectionMetadata,
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned sign-test data',
@@ -566,13 +582,22 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         },
       },
       prompt: 'Use the sign-test procedure on the data: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
-      markingGuidance: guidance(signTest, 12, ao(0, 11, 1), ['For this constructed dataset the signs are +, tie, −, +, +; effective n = 4; the smaller sign count is 1. A significance decision then requires the appropriate critical value convention for the stated alpha and test direction.']),
+      markingGuidance: [
+        'Maximum 12 marks. Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'AO2 (5): award 1 mark for each correct row classification: A +, B tie, C −, D +, E +.',
+        'AO2 (1): remove the tied pair from the sign-test calculation.',
+        'AO2 (1): state the effective n as 4.',
+        'AO2 (1): state the smaller sign count as 1.',
+        'AO2 (3): identify that the appropriate critical value depends on the chosen significance level and whether the hypothesis is one- or two-tailed, and that the observed smaller sign count must be compared with that critical value.',
+        'AO3 (1): state that statistical significance cannot be concluded from the supplied data alone until the appropriate critical value convention is specified.',
+      ],
     },
     {
       id: 'psy-7182-2-c-rm-q5',
       marks: 12,
       topic: topicId(topic),
       assessmentObjectives: ao(0, 11, 1),
+      ...sectionMetadata,
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned inferential-test context',
@@ -580,7 +605,16 @@ function researchMethodsSectionQuestions(topic: TruthTopic): ProductionExamQuest
         table: null,
       },
       prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',
-      markingGuidance: guidance([testChoice, significance, correlation], 12, ao(0, 11, 1), ['The defensible test is Spearman’s rho because the data are paired ranks and the hypothesis concerns association. Compare absolute rho: 0.62 > 0.587, so the result is significant at the supplied threshold. The negative sign describes direction; significance does not establish causation or practical importance.']),
+      markingGuidance: [
+        'Maximum 12 marks. Mark allocation: AO1 0 · AO2 11 · AO3 1.',
+        'AO2 (1): select Spearman’s rho.',
+        'AO2 (3): justify the choice using the ranked/ordinal form of the two variables, the paired scores from the same participants and the hypothesis about association.',
+        'AO2 (1): identify that a two-tailed decision is required because the hypothesis does not predict direction.',
+        'AO2 (2): use the absolute observed coefficient, 0.62, and compare it with the supplied critical magnitude, 0.587.',
+        'AO2 (2): conclude that the result is statistically significant at the supplied 0.05 threshold and reject the no-association/null model for this practice question.',
+        'AO2 (2): state that the negative coefficient indicates that higher values on one ranked variable are associated with lower values on the other.',
+        'AO3 (1): state one justified limit on the conclusion, such as that statistical association does not establish causation or practical importance.',
+      ],
     },
   ]
   return questions.map((question) => examQuestionSchema.parse(question))
