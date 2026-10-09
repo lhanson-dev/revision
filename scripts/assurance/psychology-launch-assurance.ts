@@ -29,6 +29,8 @@ type SubjectTruth = {
 type Requirement = {
   requirementId: string
   subjectTruth: SubjectTruth
+  sourceEvidence?: Array<Record<string, unknown>>
+  revisionSynthesis?: string[]
 }
 
 type Topic = {
@@ -98,8 +100,18 @@ type AssessmentPacket = {
   rightsBoundary: {
     officialAqaSourceTextIncluded: false
     webSearchPermitted: false
-    referenceBasis: 'approved_structured_exam_truth_only'
+    referenceBasis: 'approved_structured_exam_truth_and_course_truth'
   }
+  approvedCourseTruth: Array<{
+    topicNumber: number
+    topic: string
+    requirements: Array<{
+      requirementId: string
+      subjectTruth: SubjectTruth
+      sourceEvidence: Array<Record<string, unknown>>
+      revisionSynthesis: string[]
+    }>
+  }>
   structuredExamTruth: {
     course: Record<string, unknown>
     paper: ExamTruth['assessmentModel']['papers'][number]
@@ -211,6 +223,25 @@ function productionTopicFor(topicNumber: number) {
   return found
 }
 
+function scopedProductionTopicFor(topicNumber: number, requirements: Array<{ requirementId: string }>, split: boolean) {
+  const productionTopic = productionTopicFor(topicNumber)
+  if (!split) return productionTopic
+  const allowedSections = new Set(requirements.map((requirement) => sectionId(requirement.requirementId)))
+  return {
+    ...productionTopic,
+    sections: productionTopic.sections.filter((section) => allowedSections.has(section.id)),
+  }
+}
+
+function paperTopicNumbers(paper: ExamTruth['assessmentModel']['papers'][number]): number[] {
+  return unique(paper.sections.flatMap((section) => {
+    const scope = (section as { scope?: { topicNumber?: number; topicNumbers?: number[] } }).scope
+    if (!scope) return []
+    if (typeof scope.topicNumber === 'number') return [scope.topicNumber]
+    return Array.isArray(scope.topicNumbers) ? scope.topicNumbers : []
+  }))
+}
+
 const examPackByPaperId = new Map<string, unknown>([
   ['7182/1', paper1.exams[0]],
   ['7182/2', paper2.exams[0]],
@@ -241,7 +272,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
       return {
         topicNumber,
         topic: topic.topic,
-        productionTopic: productionTopicFor(topicNumber),
+        productionTopic: scopedProductionTopicFor(topicNumber, requirements, required !== null),
         topicLinks: psychologyTopicLinks.filter((link) => link.topic === productionTopicFor(topicNumber).id),
         requirements,
       }
@@ -275,7 +306,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
         referenceBasis: 'approved_course_truth_only',
       },
       topics: selectedTopics,
-      reviewInstruction: 'Adversarially review the exact production learner content against the supplied approved Course Truth. Check factual fidelity, omissions, misleading simplification or certainty, exam-relevant depth, Learn clarity, misconception treatment, flashcard usefulness, objective-Practice answer validity and distractor quality, Research Methods/data correctness where present, and whether topic connections make a defensible educational claim. Do not rewrite for style. Findings must identify real learner harm or trust risk, not preferences. Treat the supplied Course Truth as the approved factual reference and do not browse the web.',
+      reviewInstruction: 'Adversarially review the exact production learner content against the supplied approved Course Truth. Check factual fidelity, omissions, misleading simplification or certainty, exam-relevant depth, Learn clarity, misconception treatment, flashcard usefulness, objective-Practice answer validity and distractor quality, Research Methods/data correctness where present, and whether topic connections make a defensible educational claim. Do not rewrite for style. Findings must identify real learner harm or trust risk, not preferences. Treat the supplied Course Truth as the approved factual reference and do not browse the web. When a topic is split across packets, productionTopic is deliberately scoped to only the requirement sections listed in this packet; do not infer an omission from sections assigned to the companion packet.',
     }
     assertPacketSize(packet, packet.packetId)
     return packet
@@ -290,6 +321,20 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
     const productionPaperGuide = aqaPsychology7182ExamPapers.papers.find((paper) => paper.number === paperNumber)
     if (!productionPaperGuide) throw new Error(`Missing production paper guide for ${paperId}`)
     const questionIds = (productionMock as { questions: Array<{ id: string }> }).questions.map((question) => question.id)
+    const approvedCourseTruth = paperTopicNumbers(paperTruth).map((topicNumber) => {
+      const topic = topicByNumber.get(topicNumber)
+      if (!topic) throw new Error(`Missing Course Truth topic ${topicNumber} for ${paperId}`)
+      return {
+        topicNumber,
+        topic: topic.topic,
+        requirements: topic.requirements.map((requirement) => ({
+          requirementId: requirement.requirementId,
+          subjectTruth: requirement.subjectTruth,
+          sourceEvidence: requirement.sourceEvidence ?? [],
+          revisionSynthesis: requirement.revisionSynthesis ?? [],
+        })),
+      }
+    })
     const reviewScopeIds = unique([
       `PRODUCTION-PAPER-GUIDE-${paperNumber}`,
       `PRODUCTION-MOCK-${paperNumber}`,
@@ -306,8 +351,9 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
       rightsBoundary: {
         officialAqaSourceTextIncluded: false,
         webSearchPermitted: false,
-        referenceBasis: 'approved_structured_exam_truth_only',
+        referenceBasis: 'approved_structured_exam_truth_and_course_truth',
       },
+      approvedCourseTruth,
       structuredExamTruth: {
         course: examTruth.course,
         paper: paperTruth,
@@ -324,7 +370,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
       productionLevelsNote: aqaPsychology7182ExamPapers.levelsNote,
       productionExamTechnique: psychologyExamTechnique,
       productionMock,
-      reviewInstruction: 'Adversarially review the exact production Exam Prep and mock content against the supplied structured Exam Truth. Check paper/section/option structure, timing and marks, AO allocations, prompt-stimulus coherence, authenticity of demand, Research Methods and maths tasks, numerical correctness, self-marking guidance, legitimate conclusions, option handling, and whether any learner-facing wording could teach a wrong exam habit or falsely imply official AQA authorship. Do not assess FI-007 automated marking: it is explicitly out of launch scope. Do not browse the web or reconstruct protected AQA questions or mark schemes.',
+      reviewInstruction: 'Adversarially review the exact production Exam Prep and mock content against the supplied structured Exam Truth and approved Course Truth. Use Exam Truth for paper structure, AO demand and assessment conventions; use Course Truth and its source metadata for learner-facing psychology claims and indicative self-marking content. Check paper/section/option structure, timing and marks, AO allocations, prompt-stimulus coherence, authenticity of demand, Research Methods and maths tasks, numerical correctness, self-marking guidance, legitimate conclusions, option handling, and whether any learner-facing wording could teach a wrong exam habit or falsely imply official AQA authorship. Do not assess FI-007 automated marking: it is explicitly out of launch scope. Do not browse the web or reconstruct protected AQA questions or mark schemes.',
     }
     assertPacketSize(packet, packet.packetId)
     return packet
