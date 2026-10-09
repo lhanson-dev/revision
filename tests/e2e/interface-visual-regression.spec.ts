@@ -170,12 +170,17 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * visual-baseline gate). Exact-head CI #2899 reproduced the reviewed captures identically on run
  * and retry: light 59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a;
  * dark 96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577.
+ * Tablet Courses (light and dark) was re-pinned on 9 October 2026 after Founder review of the C3
+ * canonical-token migration captures and explicit approval ("Approved" to the requested C3 Courses
+ * visual-baseline gate). CI #2909 produced identical captures on the initial run and retry:
+ * light a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a;
+ * dark 7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
-  'tablet:courses:light': 'd54c643773e9ad4f21eb05388e69ee9a1784a1361835b320805f763b5e70c51b',
-  'tablet:courses:dark': 'c0bdd22e8bdac165d5a03f4b6fab9679a22bb3282cbcabe9fa4cc94b564e3cc8',
+  'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
+  'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
   'phone:practice:light': '35a6b07fbe5d07cd634eddc4f5527ae9fcb002994f16f595b7047eea21a46a54',
   'phone:practice:dark': '70a23c9bb56f58e95086e73fff8662f87106a77c0775c88e2b7ebf21b5492e17',
   'tablet:exam-prep:light': '573d3877f47aaf420a28e5d742b9298a07361ce39a6aba52823e288c0e077905',
