@@ -67,8 +67,8 @@ Merged via PR #566 and production-verified. The canonical runtime desktop sideba
 Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
 1. Home / learner-wide Progress — complete and production-verified via PR #575;
-2. Plan — active bounded slice;
-3. Courses / Course Overview;
+2. Plan — complete and production-deployed via PR #578;
+3. Courses / Course Overview — active bounded slice;
 4. Learn / educational working surfaces;
 5. Practice;
 6. Exam Prep / Exam Simulator / contextual REV;
@@ -77,7 +77,11 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
 The Home/Progress slice is complete and production-verified via PR #575 / merge `7d53e4747ee5f8780e153eb1bd5b3577fb3298cc`. It removed direct `--rv-*` consumption from `home-v2.css` and `progress-v2.css`, moved ordinary surfaces/borders/text/actions/focus/radii onto canonical semantic roles, and added centrally owned responsive learner H1/H2/H3 display roles plus inverse-feature secondary/accent text roles. Behavioural Home recommendation logic and governed Progress meaning were unchanged. The Founder explicitly approved the four Home visual baselines (phone/desktop × light/dark) from exact-head CI #2882 on 8 October 2026; post-merge CI #2888, production deployment #466, production smoke and `revision/path-to-live` all passed.
 
-The active Plan slice is deliberately separate from Home/Progress. It removes Plan's direct `--rv-*` consumption, moves Plan surfaces/text/actions/focus onto canonical roles, replaces historical 24px / 18px / 16px / 10px shape values with the canonical 12 / 14 / 20 / 28 / 999 family according to component job, and adopts the centrally owned learner display heading roles. Planner calculation, assessment setup, availability, session persistence, Day/Week/Month behaviour and recommendation semantics remain unchanged. The Founder reviewed the retained desktop light/dark captures and approved the C3 Plan visual baselines on 8 October 2026; exact-head CI #2899 reproduced those reviewed captures identically on run and retry. The approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`; final exact-head assurance remains required before merge.
+The Plan slice merged via PR #578 / merge `f974631b907452375963a490a24e85b490c23949`. It removed Plan's direct `--rv-*` consumption, moved Plan surfaces/text/actions/focus onto canonical roles, replaced historical 24px / 18px / 16px / 10px shape values with the canonical 12 / 14 / 20 / 28 / 999 family according to component job, and adopted the centrally owned learner display heading roles. Planner calculation, assessment setup, availability, session persistence, Day/Week/Month behaviour and recommendation semantics remained unchanged. The Founder approved the retained desktop light/dark captures; exact-head CI #2904 passed before merge, and production deployment #470 plus durable `revision/path-to-live` passed after merge. Post-merge CI #2907 was still running when the next bounded slice began.
+
+### C3 slice 3 — Courses / Course Overview
+
+The active slice migrates only the live Courses index and Course Overview presentation onto canonical learner roles. `#/courses` is served by `PlannerRuntime → CoursesScreen`; the saved-course Overview route is served by `PlannerRuntime → CourseExperienceScreen`. `courses-v2.css`, `course-overview-v2.css` and the Courses mobile modal are in scope. Course membership, Add/Remove behaviour, navigation hierarchy, progress/evidence meaning, REV recommendation behaviour and the later C4 Course Overview composition cleanup are explicitly out of scope. Existing shared REV-card and Exam Prep `--rv-*` consumers remain for their later scheduled C3 slices rather than being opportunistically migrated here.
 
 ### C3 assurance execution rule
 
