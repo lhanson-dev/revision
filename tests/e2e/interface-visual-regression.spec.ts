@@ -305,7 +305,7 @@ async function openState(page: Page, state: VisualState) {
 
   if (state === 'timed-exam') {
     await page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first().getByRole('button', { name: 'Start timed' }).click()
-    await expect(page.locator('.exam-session-page')).toBeVisible()
+    await expect(page.locator('.mock-brief')).toBeVisible()
   }
 
   await page.evaluate(async () => {

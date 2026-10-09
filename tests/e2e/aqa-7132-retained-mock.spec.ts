@@ -19,16 +19,23 @@ test('retained Paper 1 is clearly labelled and enforces its two printed choice s
   await seedReturningStudent(page)
   await openExamPrep(page)
 
-  await page.locator('.exam-mock').filter({ hasText: 'Paper 1: Business 1' }).getByRole('button', { name: 'Start timed' }).click()
+  const row = page.locator('.exam-mock').filter({ hasText: 'Paper 1: Business 1' })
+  await expect(row.getByText('Revision-authored; not an official AQA paper.')).toBeVisible()
+  await row.getByRole('button', { name: 'Start timed' }).click()
+  await page.getByRole('button', { name: 'Start the clock' }).click()
 
-  const finish = page.getByRole('button', { name: 'Finish and self-mark' })
+  const squares = page.getByRole('group', { name: 'Questions' }).getByRole('button')
+  // The last question is in a choice section; Finish stays off until both printed choices are made.
+  await squares.last().click()
+  const finish = page.getByRole('button', { name: 'Finish' })
   await expect(finish).toBeDisabled()
+  await expect(page.getByText(/Choose one question from section P1-C and P1-D to finish\./)).toBeVisible()
 
-  const questions = page.getByRole('navigation', { name: 'Exam questions' }).getByRole('button')
-  await questions.nth(21).click()
+  await squares.nth(21).click()
   await page.getByLabel('Attempt this question for section P1-C').check()
-  await questions.nth(23).click()
+  await squares.nth(23).click()
   await page.getByLabel('Attempt this question for section P1-D').check()
+  await squares.last().click()
   await expect(finish).toBeEnabled()
 })
 
@@ -37,8 +44,9 @@ test('retained Paper 3 renders its shared context without horizontal page overfl
   await openExamPrep(page)
 
   await page.locator('.exam-mock').filter({ hasText: 'Paper 3: Business 3' }).getByRole('button', { name: 'Start timed' }).click()
+  await page.getByRole('button', { name: 'Start the clock' }).click()
 
-  await expect(page.getByRole('region', { name: 'Northstar Home Systems: scaling a connected heating-controls range' })).toBeVisible()
+  await expect(page.getByText('Northstar Home Systems: scaling a connected heating-controls range')).toBeVisible()
   await expect(page.getByText('Northstar planning and investment data')).toBeVisible()
 
   const dimensions = await page.evaluate(() => ({

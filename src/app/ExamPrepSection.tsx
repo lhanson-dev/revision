@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { CatalogueCourse, ModuleLearningState } from './catalogue-model'
-import { ExamSimulator, type ExamSimulatorProps } from './ExamSimulator'
+import type { ExamSimulatorProps } from './ExamSimulator'
+import { MockExamFlow } from './MockExamFlow'
 import { examDateLabel, examPapersFor, lastMockFrom, mockRowFor, suggestMock, topicsCoveredPhrase, weeksAwayPhrase, type MockRow } from './exam-prep'
 import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
 import { resolveSubjectIdentity } from './subject-palette'
 import { topicProgressFor } from './topic-status'
-import { accentStyle, ExamPrepPage, PracticeBarTitle, PracticeDialog, type ExamMockMode } from './ui'
+import { accentStyle, ExamPrepPage, type ExamMockMode } from './ui'
 
 type MockExam = ExamSimulatorProps['exam']
 
@@ -15,6 +16,7 @@ type ExamPrepSectionProps = {
   state: ModuleLearningState
   subjectId: string
   subjectName: string
+  userId: string
   /** The student's next exam from their own exam dates (onboarding). Null when none is set. */
   nextExam: { title: string; assessmentDate: string } | null
   saving: boolean
@@ -38,7 +40,7 @@ function mockExamsFor(course: CatalogueCourse): Array<{ exam: MockExam; moduleId
  * Exam Prep in the normal learner shell (v2.2): the page, and the pop-up a mock opens in. The pop-up is the
  * Practice pop-up shell; the mock itself is still the existing simulator until the timed/untimed mock flow lands.
  */
-export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence }: ExamPrepSectionProps) {
+export function ExamPrepSection({ course, state, subjectId, subjectName, userId, nextExam, saving, saveError, onRecordEvidence }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
   const [active, setActive] = useState<{ id: string; mode: ExamMockMode } | null>(null)
   const identity = resolveSubjectIdentity(subjectId, subjectName)
@@ -54,8 +56,6 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     [guide, progress, topicIds],
   )
   const activeMock = active ? mocks.find(({ exam }) => exam.id === active.id) ?? null : null
-  // Single-question practice is not offered for the retained pilot papers.
-  const untimedUnavailable = mocks.filter(({ exam }) => exam.restrictedPilot).map(({ exam }) => exam.id)
 
   return (
     <>
@@ -67,21 +67,25 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
         guide={guide}
         topicsCovered={topicsCovered}
         mocks={rows}
-        untimedUnavailable={untimedUnavailable}
         suggestion={suggestion}
         lastMock={lastMock}
         onStartMock={(id, mode) => setActive({ id, mode })}
       />
       {active && activeMock && (
-        <PracticeDialog
-          label={`Mock exam: ${activeMock.exam.title}`}
+        <MockExamFlow
+          key={`${active.id}-${active.mode}`}
+          exam={activeMock.exam}
+          moduleId={activeMock.moduleId}
+          name={rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title}
+          mode={active.mode}
+          userId={userId}
           subjectMark={identity.mark}
-          accentStyle={accentStyle(identity.hue)}
+          hue={identity.hue}
+          saving={saving}
+          saveError={saveError}
+          onRecordEvidence={onRecordEvidence}
           onClose={() => setActive(null)}
-          bar={<PracticeBarTitle title={rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title} detail={active.mode === 'timed' ? 'Timed mock · like the real exam' : 'Untimed practice'} />}
-        >
-          <ExamSimulator exam={activeMock.exam} moduleId={activeMock.moduleId} saving={saving} saveError={saveError} onRecordEvidence={onRecordEvidence} autoStart={active.mode} />
-        </PracticeDialog>
+        />
       )}
     </>
   )

@@ -93,21 +93,38 @@ export type ExamSimulatorProps = {
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
-  /** Opened from the Exam Prep page: skip the launch screen. `untimed` opens single-question practice. */
-  autoStart?: 'timed' | 'untimed'
+  /**
+   * Set when the Exam Prep mock flow hands a finished attempt over for self-marking (until REV marking replaces it).
+   * The paper is already written, so this starts at "Self-mark your paper".
+   */
+  resume?: ExamSimulatorResume
+  /** Called instead of going back to the launch screen when the student is done with a handed-over attempt. */
+  onExit?: () => void
+  /** Called once the result has been saved, so the saved draft of the paper can be cleared. */
+  onResultSaved?: () => void
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart }: ExamSimulatorProps) {
-  const [started, setStarted] = useState(autoStart === 'timed')
-  const [finishedWriting, setFinishedWriting] = useState(false)
+export type ExamSimulatorResume = {
+  answers: Record<string, string>
+  selectedChoices: Record<string, string>
+  flagged: Record<string, boolean>
+  /** Active seconds the student spent writing. */
+  elapsedSeconds: number
+  /** Only a mock that stayed timed from the first second to the last counts as timed. */
+  timed: boolean
+}
+
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, resume, onExit, onResultSaved }: ExamSimulatorProps) {
+  const [started, setStarted] = useState(Boolean(resume))
+  const [finishedWriting, setFinishedWriting] = useState(Boolean(resume))
   const [submitted, setSubmitted] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [answers, setAnswers] = useState<Record<string, string>>(resume?.answers ?? {})
   const [marks, setMarks] = useState<Record<string, Marks>>({})
   const [secondsRemaining, setSecondsRemaining] = useState(exam.durationMinutes * 60)
   const [result, setResult] = useState<ExamResult | null>(null)
   const [submissionIds, setSubmissionIds] = useState<Record<string, string>>({})
-  const [questionPractice, setQuestionPractice] = useState(autoStart === 'untimed')
+  const [questionPractice, setQuestionPractice] = useState(false)
   const [practiceIndex, setPracticeIndex] = useState(0)
   const [practiceDraft, setPracticeDraft] = useState('')
   const [practiceGuidance, setPracticeGuidance] = useState(false)
@@ -115,12 +132,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [practiceSaved, setPracticeSaved] = useState(false)
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
   // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
-  const [flagged, setFlagged] = useState<Record<string, boolean>>({})
-  const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
+  const [flagged, setFlagged] = useState<Record<string, boolean>>(resume?.flagged ?? {})
+  const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>(resume?.selectedChoices ?? {})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
   const totalPausedMs = useRef(0)
-  useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
 
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
@@ -276,9 +292,14 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   async function saveResult() {
     if (!finishedWriting || submitted) return
     const ids = buildSubmissionIds()
-    const activeDurationMs = startedAt.current
-      ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
-      : exam.durationMinutes * 60_000
+    const activeDurationMs = resume
+      ? resume.elapsedSeconds * 1000
+      : startedAt.current
+        ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
+        : exam.durationMinutes * 60_000
+    // Only a mock that stayed timed counts as a timed attempt. An untimed (or left) mock saves each question's marks
+    // as Understanding evidence but no whole-paper attempt, so it never feeds Exam readiness.
+    const timed = resume ? resume.timed : true
     const durationMinutes = Math.min(exam.durationMinutes, activeDurationMs / 60_000)
 
     try {
@@ -294,6 +315,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         }))
       }
 
+      if (!timed) {
+        setResult({ totalAwarded: totals.totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed, ao: totals.ao })
+        setSubmitted(true)
+        onResultSaved?.()
+        return
+      }
       const attempt: LearningEvidence = {
         id: ids.attempt,
         moduleId,
@@ -305,18 +332,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         marksAwarded: totals.totalAwarded,
         marksAvailable: exam.totalMarks,
         durationMinutes,
-        timed: true,
+        timed,
         markingMethod: 'self_assessed',
       }
       await onRecordEvidence(attempt)
-      setResult({ totalAwarded: totals.totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao: totals.ao })
+      setResult({ totalAwarded: totals.totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed, ao: totals.ao })
       setSubmitted(true)
+      onResultSaved?.()
     } catch {
       return
     }
   }
 
   function resetExam() {
+    if (resume && onExit) { onExit(); return }
     stopExam()
   }
 
@@ -393,12 +422,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <div className="exam-session-controls">
             {!finishedWriting && <button className="exam-control" type="button" onClick={() => beginInterruption('paused')}>Pause</button>}
             {!finishedWriting && <button className="exam-control exam-control-stop" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</button>}
-            <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
+            {!resume && <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
               {secondsRemaining <= 600 && <Icon name="clock" size="inline" />}
               <span>{formatTime(secondsRemaining)}</span>
               {secondsRemaining <= 600 && <small className="timer-note">Under 10 min</small>}
-            </div>
-            <p className="exam-time-notice" role="status" aria-live="polite">{started && !finishedWriting ? timeNoticeFor(secondsRemaining) : ''}</p>
+            </div>}
+            {!resume && <p className="exam-time-notice" role="status" aria-live="polite">{started && !finishedWriting ? timeNoticeFor(secondsRemaining) : ''}</p>}
           </div>
         </div>
 
