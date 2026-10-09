@@ -165,10 +165,15 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Desktop Plan was re-pinned again on 7 October 2026 after the canonical desktop Ask REV CTA moved to
  * Deep Teal. The Founder reviewed the CI #2837 desktop capture sheet and explicitly approved it
  * ("Approve C2 desktop Deep Teal baselines"). Timed-exam and Admin baselines remain unchanged.
+ * Desktop Plan (light and dark) was re-pinned on 8 October 2026 after Founder review of the C3
+ * canonical-token migration captures and explicit approval ("Approved" to the requested C3 Plan
+ * visual-baseline gate). Exact-head CI #2899 reproduced the reviewed captures identically on run
+ * and retry: light 59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a;
+ * dark 96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '40efd5ab15880eb3c62ca532ac6dd1c1b56f6a373d76c0b21ace813f11cd8a3e',
-  'desktop:plan:dark': '69ed9b6a6ab336d9f78e2a77b70f76a634ad48d5a2d47e3801da8f320b5da079',
+  'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
+  'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'd54c643773e9ad4f21eb05388e69ee9a1784a1361835b320805f763b5e70c51b',
   'tablet:courses:dark': 'c0bdd22e8bdac165d5a03f4b6fab9679a22bb3282cbcabe9fa4cc94b564e3cc8',
   'phone:practice:light': '35a6b07fbe5d07cd634eddc4f5527ae9fcb002994f16f595b7047eea21a46a54',
