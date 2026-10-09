@@ -369,10 +369,11 @@ function guidance(requirements: TruthRequirement | TruthRequirement[], marks: nu
   const evaluationForGuidance = mode === 'evaluation' || mode === 'discussion'
     ? evaluation
     : evaluation.slice(0, 2)
+  const applicationRouteLimit = override && mode === 'application' && allocation.ao2 === 6 ? 3 : 2
   const indicative = [
     ...knowledgeForGuidance.map((point) => `Indicative knowledge: ${point}`),
     ...(mode === 'application' || mode === 'application-evaluation' || mode === 'embedded-rm'
-      ? evidence.slice(0, 2).map((point) => `Indicative application route: ${point}`) : []),
+      ? evidence.slice(0, applicationRouteLimit).map((point) => `Indicative application route: ${point}`) : []),
     ...(mode === 'evaluation' || mode === 'discussion' || mode === 'application-evaluation'
       ? evaluationForGuidance.map((point) => `Indicative evaluation route: ${point}`) : []),
   ]
