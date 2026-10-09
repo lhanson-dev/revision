@@ -414,6 +414,18 @@ const applicationQuestionContracts: Record<string, ApplicationQuestionContract> 
       'Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.',
     ],
   },
+  'PSY-05-02': {
+    focus: 'social learning theory',
+    stimulus: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager pays close attention, remembers what the student did and later copies the behaviour, especially when the admired student is present.',
+    knowledge: [
+      'Social learning theory explains how behaviour can be acquired through observing other people rather than only through direct reinforcement.',
+      'Attention, retention, reproduction and motivation are mediational processes affecting whether observed behaviour is learned and performed.',
+    ],
+    application: [
+      'The admired older student acts as a model, and the teenager’s later copying is consistent with imitation after observing that model.',
+      'Praise and attention provide vicarious reinforcement, while the teenager’s attention, memory and later reproduction are consistent with the mediational processes described by social learning theory.',
+    ],
+  },
   'PSY-06-02': {
     focus: 'sensory, relay and motor neurons in the reflex pathway',
     stimulus: 'After touching a very hot surface, receptors in the skin generate a signal that travels toward the central nervous system. Within the central nervous system the signal is passed between connecting neurons, and a command then travels to the arm muscles so the hand is withdrawn quickly.',
@@ -560,10 +572,10 @@ function genericSectionQuestions(
       ? `Outline two accurate points from this area. You may choose any two relevant aspects: ${area}.`
       : index === 1
         ? applicationContract?.prompt ?? (embeddedRm
-          ? `Using the stimulus, explain how ${focus} applies to the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
+          ? `Using the stimulus, use ${focus} to explain the case. Then identify one variable or procedure that would need to be operationalised if a psychologist investigated the case, and explain why precise operationalisation matters.`
           : paperId === '7182/2'
-            ? `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus.`
-            : `Using the stimulus, explain how ${focus} applies to the case. Use specific cues from the stimulus and explain one limitation or alternative interpretation of that application.`)
+            ? `Using the stimulus, use ${focus} to explain the case. Use specific cues from the stimulus.`
+            : `Using the stimulus, use ${focus} to explain the case. Use specific cues from the stimulus and explain one limitation or alternative interpretation of that application.`)
         : index === 2
           ? `Evaluate one limitation or boundary relevant to this area. Focus on one issue only: ${area}.`
           : `Discuss one evaluative issue relevant to this area and reach a proportionate conclusion. You do not need to cover every named element: ${area}.`
@@ -737,7 +749,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned inferential-test context',
-        narrative: 'Twelve participants are ranked on weekly revision time and ranked on exam-anxiety score. The research hypothesis predicts an association but does not predict its direction. A Spearman calculation gives rho = -0.62. For this practice question, the supplied two-tailed critical magnitude at alpha = 0.05 is 0.587.',
+        narrative: 'Twelve participants are ranked on weekly revision time and ranked on exam-anxiety score. The research hypothesis predicts an association but does not predict its direction. An appropriate rank-correlation calculation gives an observed coefficient of -0.62. For this practice question, the supplied two-tailed critical magnitude at alpha = 0.05 is 0.587.',
         table: null,
       },
       prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',
