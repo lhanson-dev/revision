@@ -4,10 +4,10 @@ document_id: "revision-educational-treatment-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.4"
+version: "1.5"
 owner: "Founder"
 effective_date: "2026-10-07"
-last_reviewed: "2026-10-07"
+last_reviewed: "2026-10-09"
 content_review_status: "founder-approved"
 source_of_truth_for: ["educational treatment visual semantics", "cross-subject treatment consistency", "subject-accent parameterisation of educational treatments", "shared educational treatment extension rules", "in-reading quick check treatment"]
 depends_on: ["Learner Design System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint", "Claims and Progress Governance"]
@@ -45,7 +45,7 @@ Consistency includes, where applicable:
 
 ## Approval status
 
-Founder approved on 30 September 2026. Version 1.2 promotes this document from proposed to active authority and adds the **Quick check** treatment family.
+Founder approved on 30 September 2026. Version 1.2 promotes this document from proposed to active authority and adds the **Quick check** treatment family. Version 1.5 reconciles duplicated treatment geometry with the newer Learner Design System: treatment meaning and anatomy are unchanged, while exact learner type/radius roles now use the canonical design-system family.
 
 Quick check is approved at authority level. The reusable component exists in `src/app/ui/` (design-system v2.1); the content block that feeds it is added through the Content Factory process, and the Learn screen wiring follows in the Learn PR. Implementation must follow the New treatment rule and Documentation impact sections below.
 
@@ -99,16 +99,16 @@ Source: `Learn Page Final` and `LearnBlock` (design system v2.1). Implementation
 
 | Type | Surface | Content |
 | --- | --- | --- |
-| explanation | none | h3 Bricolage 800 26/1.15, −.02em; paragraphs `--type-lead`, `--tx` |
+| explanation | none | h3 Bricolage 800 using the canonical learner H3 role; paragraphs `--type-lead`, `--tx` |
 | key-idea | `--accent-tint`, r20, P | label `--accent-ink`; term Bricolage 800 20 `--accent-ink`; definition 600 16/1.5; terms one above another in the margin, auto-fit 240px otherwise |
 | example | `--sf` + 1px `--line` inset, r20, P | label `--tx2`; title 800 20; body 600 16/1.6 |
-| worked-example | `--accent-tint`, r24, P | `setup` (the situation and the numbers the steps work from) and `task` (what to work out, e.g. "Work out the margin of safety.") are shown first as "Your task"; without them a student cannot work a step out before it is shown, so every worked example needs both. Factory output gets its task from the example's formula name. Step-through: step 1, then "Show step N" and "Show all"; hidden steps show a dashed "Work this one out, then show it"; steps separated by `--line`; 36px number tile (r12); conclusion on `--sf`, r16, only once all steps are shown |
-| relationship | `--bg`, r20, P | chain of pills (r16, 800 15), the last on `--accent-tint`; a row on desktop and tablet, a column on mobile |
+| worked-example | `--accent-tint`, r20, P | `setup` (the situation and the numbers the steps work from) and `task` (what to work out, e.g. "Work out the margin of safety.") are shown first as "Your task"; without them a student cannot work a step out before it is shown, so every worked example needs both. Factory output gets its task from the example's formula name. Step-through: step 1, then "Show step N" and "Show all"; hidden steps show a dashed "Work this one out, then show it"; steps separated by the canonical border role; 36px number tile (r12); conclusion on `--sf`, r12, only once all steps are shown |
+| relationship | `--bg`, r20, P | chain of compact nodes (r12, 800 15), the last on `--accent-tint`; a row on desktop and tablet, a column on mobile |
 | comparison | none | 2–3 columns on `--accent-tint`, r20; rows separated by `--line`; stack on mobile |
-| quantitative | `--bg`, r24, P | legend; series 1 `--accent` 3px, series 2 `--tx` 3px, series 3 `--tx2` 2px dashed; the crossing of series 1 and 2 is worked out and marked (dot, dashed drop line, label); "Show the data" toggle opens a per-series table; `role="img"` with a label |
+| quantitative | `--bg`, r20, P | legend; series 1 `--accent` 3px, series 2 `--tx` 3px, series 3 `--tx2` 2px dashed; the crossing of series 1 and 2 is worked out and marked (dot, dashed drop line, label); "Show the data" toggle opens a per-series table; `role="img"` with a label |
 | misconception | `--neutral-tint`, r20, P | 40px `--sf` icon tile; label `--neutral-ink`; never coral or warning |
-| quick-check | governed: `--sf`, 2px dashed `--line`, r24, P | "Not scored"; aim for at most 2 per page, placed after what it checks (guidance for Content Factory; the schema does not reject more) |
-| recap | `--accent-tint`, r24, P | numbered list in 2 columns on desktop and tablet, 1 on mobile; always renders last |
+| quick-check | governed: `--sf`, 2px dashed canonical border, r20, P | "Not scored"; aim for at most 2 per page, placed after what it checks (guidance for Content Factory; the schema does not reject more) |
+| recap | `--accent-tint`, r20, P | numbered list in 2 columns on desktop and tablet, 1 on mobile; always renders last |
 
 **Placement** (`LearnPageLayout`). On desktop a `key-idea` sits in the right-hand margin (`minmax(0,1fr) 264px`, gap 48), top-aligned with the first block it sits beside: the run of `explanation` blocks directly before it (Content Factory pages put key terms after all their sections), or, when none, the explanation, example or worked example directly after it. It never sits beside a chart, comparison or chain. Every other block, quick check included, spans the full article width. Tablet and mobile are one column in content order. Content order is kept except that `recap` is always last; Content Factory places any `misconception` directly before the recap so the page closes with Common mix-up, then What to remember.
 
