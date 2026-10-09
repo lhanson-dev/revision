@@ -227,6 +227,36 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(JSON.stringify(learnPage)).not.toContain('range/other robust summaries can be more resistant')
   })
 
+  it('keeps Paper 2 inferential-test selection undisclosed until the learner selects it', () => {
+    const question = paper2.exams[0]?.questions.find((candidate) => candidate.id === 'psy-7182-2-c-rm-q5')
+    expect(question).toBeDefined()
+    expect(question?.prompt).toContain('Select and justify the appropriate inferential test')
+    expect(question?.stimulus?.narrative).not.toContain('Spearman')
+    expect(question?.stimulus?.narrative).toContain('observed coefficient of -0.62')
+    expect(question?.markingGuidance.join(' ')).toContain('select Spearman’s rho')
+  })
+
+  it('keeps generic application prompts grammar-neutral and case-linked', () => {
+    const all = [
+      ...(paper1.exams[0]?.questions ?? []),
+      ...(paper2.exams[0]?.questions ?? []),
+      ...(paper3.exams[0]?.questions ?? []),
+    ]
+    for (const id of ['psy-7182-3-c-12-q2', 'psy-7182-3-d-16-q2']) {
+      const question = all.find((candidate) => candidate.id === id)
+      expect(question, id).toBeDefined()
+      expect(question?.prompt, id).toContain('use genetic explanations')
+      expect(question?.prompt, id).not.toMatch(/explanations .* applies/i)
+    }
+
+    const socialLearning = all.find((candidate) => candidate.id === 'psy-7182-2-a-5-q2')
+    expect(socialLearning).toBeDefined()
+    const guidance = socialLearning?.markingGuidance.join(' ') ?? ''
+    expect(guidance).toContain('teenager’s later copying')
+    expect(guidance).toContain('vicarious reinforcement')
+    expect(guidance).not.toContain("Bobo-doll research demonstrated")
+  })
+
   it('uses calibrated 6 and 8 mark extended-response tariffs in generic mock sections', () => {
     expect(paper1.exams[0]?.questions.map((question) => question.marks)).toEqual(
       Array.from({ length: 4 }, () => [4, 8, 6, 6]).flat(),
