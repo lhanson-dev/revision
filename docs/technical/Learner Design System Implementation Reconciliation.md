@@ -38,9 +38,9 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | Home composition | FIX | current REV/Home implementation mixes older fidelity/v2 layers | Recompose later against current Home authority using shared system; retain truthful recommendation logic |
 | Plan | KEEP after C3 slice 2 | product behaviour is unchanged and the canonical Plan stylesheet now consumes learner semantic/display/radius roles with no direct `--rv-*` dependency | Preserve adaptive-plan semantics and canonical presentation |
 | learner-wide Progress | KEEP after C3 slice 1 | governed three measures are implemented and the learner-wide route now consumes canonical semantic roles with no direct `--rv-*` dependency | Preserve evidence semantics and canonical presentation; course-level Progress remains separately scoped |
-| Courses | FIX — active C3 slice | current responsive course UI works and canonical subject identity is present, but local v2 visual roles/radii remain | Retire local compatibility roles without changing course membership or navigation behaviour |
+| Courses | KEEP after C3 slice 3 | responsive course UI uses canonical learner semantic/display/radius roles with governed subject identity; PR #583 is production-verified | Preserve course membership/navigation behaviour and canonical presentation |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
-| Learn | KEEP / FIX | reading-first workspace and shared educational treatments are sound; some local 24px/v2 styling survives | Preserve educational structure; migrate visual values and course identity |
+| Learn | FIX — active C3 slice | reading-first workspace, hierarchy and shared treatments are sound; local REV aliases, generic heading roles and pre-reconciliation treatment radii remain | Preserve educational structure and evidence boundaries while migrating visual roles/geometry |
 | Practice sustained `PracticeDialog` activity | REMOVE | active Practice still runs the sustained learner task inside a dialog | Replace with page-level focused Practice workspace; keep evidence/feedback behaviour |
 | Practice task/feedback components | KEEP / FIX | flashcards, questions, calculations, written work and feedback are implemented and tested | Recompose into focused workspace rather than rewrite learning logic |
 | Exam Prep | FIX | page remains a course section but existing exam experience still carries older focus/dialog assumptions | Keep preparation page in shell; focus only dedicated exam-performance activity |
@@ -68,8 +68,8 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 
 1. Home / learner-wide Progress — complete and production-verified via PR #575;
 2. Plan — complete and production-verified via PR #578;
-3. Courses / Course Overview — active bounded slice;
-4. Learn / educational working surfaces;
+3. Courses / Course Overview — complete and production-verified via PR #583;
+4. Learn / educational working surfaces — active bounded slice;
 5. Practice;
 6. Exam Prep / Exam Simulator / contextual REV;
 7. Auth / first-use / onboarding learner entry surfaces.
@@ -79,7 +79,9 @@ The Home/Progress slice is complete and production-verified via PR #575 / merge 
 
 The Plan slice is complete and production-verified via PR #578 / merge `f974631b907452375963a490a24e85b490c23949`. It removed Plan's direct `--rv-*` consumption, moved Plan surfaces/text/actions/focus onto canonical roles, replaced historical 24px / 18px / 16px / 10px shape values with the canonical 12 / 14 / 20 / 28 / 999 family according to component job, and adopted the centrally owned learner display heading roles. Planner calculation, assessment setup, availability, session persistence, Day/Week/Month behaviour and recommendation semantics remained unchanged. The Founder approved the retained desktop light/dark captures; exact-head CI #2904 passed and the governed production workflow `37908725991` completed successfully.
 
-The active Courses / Course Overview slice retires direct local `--rv-*` usage and superseded local radii from the Courses index and existing Course Overview presentation. It keeps course membership, Add/Remove Course behaviour, navigation hierarchy, progress meaning and recommendation semantics unchanged. The Founder reviewed and approved the retained tablet Courses light/dark captures on 9 October 2026; CI #2909 produced identical candidate digests on the initial run and retry, and those approved digests are pinned in `tests/e2e/interface-visual-regression.spec.ts`. The known Course Overview composition debt — duplicate identity hero, full `Your path` treatment and separate `Weak spots` panel — remains deliberately deferred to C4, where it will be redesigned against the approved orientation-and-decision hierarchy. Shared `RevSuggestionCard` compatibility styling is also excluded from this local slice because changing that shared component would affect multiple learner surfaces; it remains part of the later shared/contextual REV retirement work.
+The Courses / Course Overview slice is complete and production-verified via PR #583 / merge `9b8dfd7b288583f92456f6d19c49905e318bcd04`. It retired direct local `--rv-*` usage and superseded local radii from the Courses index and existing Course Overview presentation without changing membership, Add/Remove Course behaviour, navigation hierarchy, progress meaning or recommendation semantics. The Founder approved the tablet Courses light/dark visual baselines; exact-head CI #2911 passed, post-merge CI #2912 passed, and production workflow `37944287567` completed successfully. The known Course Overview composition debt — duplicate identity hero, full `Your path` treatment and separate `Weak spots` panel — remains deliberately deferred to C4. Shared `RevSuggestionCard` compatibility styling remains part of later shared/contextual REV retirement work.
+
+The active Learn slice keeps the Founder-approved reading-first route, hierarchy, teaching narrative, outer course-section frame, treatment semantics, contextual REV help, previous/next flow and Practice handoff unchanged. It moves the outer Learn frame and educational treatments onto canonical learner surface/radius roles, replaces Learn-local direct `--rv-*` REV aliases with inverse semantic roles, adopts canonical learner H2/H3 display roles, aligns Quick Check geometry, and uses the shared focus ring. The desktop Learn light/dark visual baselines must fail closed once for Founder review before re-pinning.
 
 ### C3 assurance execution rule
 
