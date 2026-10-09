@@ -461,3 +461,15 @@ The final decision remained `fail_hold` with three material findings across five
 The remediation corrects those contracts directly and also closes the two minor findings from the same run: learner-facing objective-Practice grammar and incomplete/over-general command-word coaching.
 
 This does not reopen the wider Course Truth, reduce course scope, publish Psychology or authorise FI-007. A fresh exact-main launch-assurance run remains required after merge.
+
+### Production launch assurance run #7 — two final launch blockers
+
+Run #7 reviewed exact `main` commit `a645fd63d2e30922f6f5b201bcdd3f9d6e87ad2e` in GitHub Actions run `37856904674`.
+
+All deterministic prerequisites and exact-main checks passed. All ten review packets completed, retained artifact `11585120575` was preserved, and observed provider spend was US$0.841642.
+
+The run returned `fail_hold` with two material findings across three material dimensions. One was not a missing-content defect: the first half of split Research Methods assurance supplied requirements 1–17 while still presenting the reviewer with the full 34-section production topic, causing the reviewer to treat the companion half as absent. The second was a genuine Paper 2 assessment defect: q5 named Spearman’s rho in the stimulus while awarding credit for selecting the same test.
+
+The bounded remediation scopes split production-topic content to the exact requirement slice being reviewed, supplies assessment reviewers with approved Course Truth/source metadata for learner-facing subject claims, removes the inferential-test disclosure, makes Social Learning Theory AO2 guidance case-linked and makes generic application wording number-neutral.
+
+This does not reopen the 118-requirement Course Truth, reduce course scope, authorise FI-007 or publish Psychology. The next required launch step after merge is one fresh exact-main production launch-assurance run. A pass then leaves canonical restricted-account learner-route verification and a separate Founder-approved promotion to the usable restricted-pilot state.

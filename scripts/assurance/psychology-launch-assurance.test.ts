@@ -35,6 +35,36 @@ describe('Psychology launch assurance', () => {
     expect(new Set(packets.educational.flatMap((packet) => packet.topicNumbers)).size).toBe(17)
   })
 
+  test('keeps split Research Methods packets scoped to the requirements they review', () => {
+    const first = packets.educational.find((packet) => packet.packetId === 'LAUNCH-EDU-03A')
+    const second = packets.educational.find((packet) => packet.packetId === 'LAUNCH-EDU-03B')
+    expect(first).toBeDefined()
+    expect(second).toBeDefined()
+
+    const firstTopic = first?.topics[0]
+    const secondTopic = second?.topics[0]
+    const firstSections = ((firstTopic?.productionTopic as { sections?: Array<{ id: string }> })?.sections ?? []).map((section) => section.id)
+    const secondSections = ((secondTopic?.productionTopic as { sections?: Array<{ id: string }> })?.sections ?? []).map((section) => section.id)
+    const expectedFirst = first?.requirementIds.map((id) => id.toLowerCase().replaceAll('-', '')) ?? []
+    const expectedSecond = second?.requirementIds.map((id) => id.toLowerCase().replaceAll('-', '')) ?? []
+
+    expect(firstSections).toEqual(expectedFirst)
+    expect(secondSections).toEqual(expectedSecond)
+    expect(new Set([...firstSections, ...secondSections]).size).toBe(34)
+  })
+
+  test('gives assessment review approved Course Truth for learner-facing psychology claims', () => {
+    const paper3 = packets.assessment.find((packet) => packet.paperId === '7182/3')
+    expect(paper3).toBeDefined()
+    expect(paper3?.rightsBoundary.referenceBasis).toBe('approved_structured_exam_truth_and_course_truth')
+
+    const forensic = paper3?.approvedCourseTruth.find((topic) => topic.topicNumber === 16)
+    const custody = forensic?.requirements.find((requirement) => requirement.requirementId === 'PSY-16-04')
+    expect(custody).toBeDefined()
+    expect(custody?.subjectTruth.evaluationAndLimits?.join(' ')).toContain('2024 token-economy review')
+    expect(custody?.sourceEvidence.some((source) => String(source.url).includes('10.5812/mejrh-142886'))).toBe(true)
+  })
+
   test('reviews exact production Learn, flashcard and objective Practice against Course Truth', () => {
     for (const packet of packets.educational) {
       expect(packet.rightsBoundary.officialAqaSourceTextIncluded).toBe(false)
