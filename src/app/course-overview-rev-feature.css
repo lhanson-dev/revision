@@ -208,7 +208,7 @@
   align-items: center;
   padding: 6px 6px 6px 17px;
   border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 18px;
+  border-radius: var(--radius-control);
   background: rgba(255, 255, 255, .97);
   box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
 }
@@ -236,7 +236,7 @@
   min-height: 44px;
   padding: 0 18px;
   border: 0;
-  border-radius: 13px;
+  border-radius: var(--radius-control);
   background: var(--brand-primary-teal);
   color: var(--brand-graphite);
   font-weight: 760;

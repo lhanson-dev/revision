@@ -163,11 +163,22 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await expect(runtime).toHaveAttribute('data-theme', 'dark')
 
   await clickNavigation(page, 'Courses')
+
+  const courseCard = page.locator('.courses-programme-card').first()
+  const courseCardSurface = await backgroundRoleStyles(courseCard, '--color-surface')
+  expect(courseCardSurface.actual).toBe(courseCardSurface.expected)
+  await expect(courseCard).toHaveCSS('border-radius', '20px')
+
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
   const hero = page.locator('.course-overview-hero')
   await expect(hero).toBeVisible()
+  await expect(hero).toHaveCSS('border-radius', '28px')
+  const heroStat = hero.locator('.course-overview-hero-stats > div').first()
+  const heroStatSurface = await backgroundRoleStyles(heroStat, '--color-surface')
+  expect(heroStatSurface.actual).toBe(heroStatSurface.expected)
+  await expect(heroStat).toHaveCSS('border-radius', '20px')
   await expect(hero.getByText('Exam date', { exact: true })).toBeVisible()
   await expect(hero.getByText(/\d+ days|1 day|Today/)).toBeVisible()
 

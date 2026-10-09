@@ -1,4 +1,4 @@
-/* Course Overview, redesign v2 (design_handoff_revision_v2 screen 04). */
+/* Course Overview: canonical learner roles; composition debt remains separately governed in C4. */
 .course-overview-v2 { display: flex; flex-direction: column; gap: 24px; }
 
 .course-overview-hero {
@@ -8,9 +8,9 @@
   gap: 24px;
   flex-wrap: wrap;
   padding: 28px 30px;
-  border-radius: var(--rv-radius-hero);
-  background: var(--hero-solid, var(--rv-surface));
-  color: var(--hero-on, var(--rv-text));
+  border-radius: var(--radius-feature);
+  background: var(--hero-solid, var(--color-surface));
+  color: var(--hero-on, var(--color-text));
 }
 .course-overview-hero p { margin: 0; }
 .course-overview-hero-eyebrow { font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
@@ -18,33 +18,33 @@
 .course-overview-hero-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .course-overview-hero-id > div { min-width: 0; }
 .course-overview-hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; max-width: 100%; }
-.course-overview-hero-stats div { min-width: 0; flex: 1 1 104px; padding: 14px 18px; border-radius: 20px; background: var(--rv-surface); text-align: center; }
+.course-overview-hero-stats div { min-width: 0; flex: 1 1 104px; padding: 14px 18px; border-radius: var(--radius-surface); background: var(--color-surface); text-align: center; }
 .course-overview-hero-stats dt { order: 2; font-weight: 700; font-size: 12px; }
-.course-overview-hero-stats dd { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -.02em; }
+.course-overview-hero-stats dd { margin: 0; font-family: var(--font-family-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -.02em; }
 .course-overview-hero-stats div { display: flex; flex-direction: column; }
 
 .course-overview-columns { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
 .course-overview-side { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
 
-.course-overview-path h2, .course-overview-weak h2 { margin: 0 0 14px; font-family: var(--rv-font-display); font-weight: 800; font-size: 22px; line-height: 1; }
+.course-overview-path h2, .course-overview-weak h2 { margin: 0 0 14px; font-family: var(--font-family-display); font-weight: 800; font-size: var(--type-learner-h3-size); line-height: var(--type-learner-h3-line); }
 .course-overview-path ol { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.course-overview-path li { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
-.course-overview-path-mark { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: var(--rv-soft); color: var(--rv-accent); font-weight: 800; font-size: 18px; }
-.course-overview-path li[data-band="good"] .course-overview-path-mark { background: var(--rv-teal); color: var(--rv-teal-text); }
+.course-overview-path li { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
+.course-overview-path-mark { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-control); background: var(--color-surface-soft); color: var(--color-accent-text); font-weight: 800; font-size: 18px; }
+.course-overview-path li[data-band="good"] .course-overview-path-mark { background: var(--learning-status-gotit); color: var(--learning-status-gotit-on); }
 .course-overview-path-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .course-overview-path-copy strong { font-weight: 800; font-size: 16px; }
-.course-overview-path-copy small { font-weight: 600; font-size: 13px; color: var(--rv-text-2); }
-.course-overview-path li[data-next="true"] { background: var(--rv-deep); border-color: var(--rv-deep); color: var(--rv-on-deep); }
-.course-overview-path li[data-next="true"] .course-overview-path-mark { background: var(--rv-on-deep-tint-2); color: var(--rv-on-deep); }
-.course-overview-path li[data-next="true"] small { color: var(--rv-on-deep-muted); }
+.course-overview-path-copy small { font-weight: 600; font-size: 13px; color: var(--color-text-secondary); }
+.course-overview-path li[data-next="true"] { background: var(--color-inverse-action); border-color: var(--color-inverse-action); color: var(--color-inverse-action-text); }
+.course-overview-path li[data-next="true"] .course-overview-path-mark { background: color-mix(in srgb, var(--color-inverse-action-text) 10%, transparent); color: var(--color-inverse-action-text); }
+.course-overview-path li[data-next="true"] small { color: var(--color-inverse-text-secondary); }
 /* Rows are no longer dimmed for topics with little evidence: the status label carries the meaning and must stay readable (WCAG contrast). */
 
-.course-overview-weak { display: flex; flex-direction: column; gap: 4px; padding: 22px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.course-overview-weak { display: flex; flex-direction: column; gap: 4px; padding: 22px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
 .course-overview-weak ul { display: flex; flex-direction: column; gap: 14px; margin: 0 0 14px; padding: 0; list-style: none; }
 .course-overview-weak li { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; font-weight: 700; font-size: 15px; }
-.course-overview-weak li b { color: var(--rv-coral-text); }
-.course-overview-weak-bar { grid-column: 1 / -1; display: block; height: 8px; border-radius: var(--rv-radius-bar); background: var(--rv-line); overflow: hidden; }
-.course-overview-weak-bar span { display: block; height: 100%; border-radius: var(--rv-radius-bar); background: var(--rv-coral); }
+.course-overview-weak li b { color: var(--learning-status-needswork-ink); }
+.course-overview-weak-bar { grid-column: 1 / -1; display: block; height: 8px; border-radius: var(--radius-pill); background: var(--color-border); overflow: hidden; }
+.course-overview-weak-bar span { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--learning-status-needswork); }
 
 @media (max-width: 1100px) { .course-overview-columns { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 620px) {
@@ -53,8 +53,8 @@
 }
 
 /* Stat boxes are solid surfaces so their small labels stay readable on any subject colour. */
-.course-overview-hero .course-overview-hero-stats dt { color: var(--rv-text-2); }
-.course-overview-hero .course-overview-hero-stats dd { color: var(--rv-text); }
+.course-overview-hero .course-overview-hero-stats dt { color: var(--color-text-secondary); }
+.course-overview-hero .course-overview-hero-stats dd { color: var(--color-text); }
 
 /* The status badge sits at the end of each path row and each weak spot; its icon and words carry the meaning. */
 .course-overview-path li { flex-wrap: wrap; }
