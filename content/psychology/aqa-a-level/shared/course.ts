@@ -415,6 +415,19 @@ const applicationQuestionContracts: Record<string, ApplicationQuestionContract> 
       'Application credit in this item is for OCD characteristics shown by the scenario; phobia or depression material is not relevant unless used explicitly to distinguish the case.',
     ],
   },
+  'PSY-05-02': {
+    focus: 'social learning theory',
+    stimulus: 'A teenager watches an admired older student receive praise and attention for a particular behaviour. The teenager later copies the behaviour, especially when the admired student is present.',
+    knowledge: [
+      'Social learning theory explains how behaviour can be acquired through observing models, with mediational processes affecting whether observed behaviour is later performed.',
+      'Identification can make a model more influential, while vicarious reinforcement can increase motivation to reproduce behaviour that appears rewarded.',
+    ],
+    application: [
+      'The admired older student is a salient model and the teenager’s admiration is consistent with identification, making the observed behaviour more influential.',
+      'Seeing the older student receive praise and attention provides vicarious reinforcement, increasing motivation to reproduce the behaviour.',
+      'The teenager later copying the behaviour is imitation following observational learning; copying it especially when the model is present is consistent with context and motivation affecting performance.',
+    ],
+  },
   'PSY-06-02': {
     focus: 'sensory, relay and motor neurons in the reflex pathway',
     stimulus: 'After touching a very hot surface, receptors in the skin generate a signal that travels toward the central nervous system. Within the central nervous system the signal is passed between connecting neurons, and a command then travels to the arm muscles so the hand is withdrawn quickly.',
@@ -628,15 +641,15 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
         narrative: 'A psychologist recruits 40 volunteer sixth-form students. After all students learn the same 20-word list, 20 complete a ten-minute digit-cancellation distraction task while 20 spend the same ten minutes sitting quietly. Immediately afterwards, each student writes down as many target words as they can remember.',
         table: null,
       },
-      prompt: 'Identify the independent and dependent variables and explain how each should be operationalised in this study.',
+      prompt: 'Identify the independent and dependent variables, explain how each is operationalised in this study, and state one procedure that should be standardised across the two conditions.',
       markingGuidance: [
         'Maximum 4 marks.',
         'Mark allocation: AO1 1 · AO2 3 · AO3 0.',
         'AO1 (1): award 1 mark only if the response correctly identifies the distraction condition as the independent variable and recall performance as the dependent variable.',
-        'AO2 (3): award the three application marks using the operationalisation criteria below; each sub-mark is worth 1 mark.',
-        'AO2 (1): operationalise the independent variable as ten minutes of digit-cancellation versus ten minutes sitting quietly after learning the same word list.',
+        'AO2 (3): award 1 mark for each of the three distinct applied requirements below.',
+        'AO2 (1): operationalise the independent variable as ten minutes of digit-cancellation versus ten minutes sitting quietly.',
         'AO2 (1): operationalise the dependent variable as the number of target words correctly written immediately after the ten-minute interval.',
-        'AO2 (1): award for making the proposed measurement/manipulation sufficiently observable and repeatable in this exact study.',
+        'AO2 (1): state one relevant procedure that should be standardised across conditions, such as using the same 20-word list and recall instructions for both groups.',
       ],
     },
     {
