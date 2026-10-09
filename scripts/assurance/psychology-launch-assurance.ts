@@ -211,6 +211,19 @@ function productionTopicFor(topicNumber: number) {
   return found
 }
 
+function productionTopicForPacket(topicNumber: number, selectedRequirementIds?: string[]) {
+  const found = productionTopicFor(topicNumber)
+  if (!selectedRequirementIds) return found
+
+  const selectedSectionIds = new Set(
+    selectedRequirementIds.map((requirementId) => requirementId.toLowerCase().replaceAll('-', '')),
+  )
+  return {
+    ...found,
+    sections: found.sections.filter((section) => selectedSectionIds.has(section.id)),
+  }
+}
+
 const examPackByPaperId = new Map<string, unknown>([
   ['7182/1', paper1.exams[0]],
   ['7182/2', paper2.exams[0]],
@@ -241,7 +254,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
       return {
         topicNumber,
         topic: topic.topic,
-        productionTopic: productionTopicFor(topicNumber),
+        productionTopic: productionTopicForPacket(topicNumber, group.requirementIds),
         topicLinks: psychologyTopicLinks.filter((link) => link.topic === productionTopicFor(topicNumber).id),
         requirements,
       }
