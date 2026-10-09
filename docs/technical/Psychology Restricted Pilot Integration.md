@@ -269,3 +269,18 @@ The remaining run-9 findings are bounded:
 Run 9 did not repeat the run-7 Spearman disclosure finding even though no Psychology implementation changed between those reviewed states. Because a known material finding remains open until corrected rather than until a later reviewer happens not to repeat it, the same bounded remediation also closes that defect.
 
 Psychology remains `preview`. FI-007 assisted marking remains outside this gate. A fresh exact-current-main production launch-assurance run is still required after this remediation merges.
+
+### Production launch assurance run 10 — Paper 2-only hold
+
+Run 10 reviewed exact `main` commit `15758b93013a5e237c8007facdc080a686fae1f4` in Actions run `37957442460`.
+
+Exact-main verification and deterministic prerequisites passed. All ten packets completed, retained artifact `11630815298` was preserved, and observed provider spend was US$0.824590. All seven educational packets, Paper 1 and Paper 3 passed. The final decision remained `fail_hold` because Paper 2 reported two material findings across two material review dimensions.
+
+The two material findings are confined to self-marking coherence:
+
+- the Social Learning Theory application item exposed generic Bobo-doll research as an AO2 application route even though the prompt requires specific use of the teenager scenario. The item now has an explicit application contract with case-linked routes for identification, observed praise as vicarious reinforcement, and later imitation;
+- the first Research Methods item awarded a third AO2 mark for being observable/repeatable after the IV and DV had already been fully operationalised. The prompt now asks for a separate standardisation/control decision, and the third AO2 mark is tied only to that distinct response evidence.
+
+Run 10 also reported two minor educational clarity/construction findings. They are retained as non-blocking assurance evidence and are not expanded into this material-remediation branch, consistent with the gate's separation of material blockers from non-material improvements.
+
+Psychology remains `preview`. The 96-mark paper total and existing AO totals are unchanged. FI-007 remains outside this gate. A fresh exact-current-main launch-assurance run is required after merge.
