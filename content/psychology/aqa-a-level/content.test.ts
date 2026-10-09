@@ -331,6 +331,28 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(indicative(forensic.id)).not.toMatch(/neural explanations|brain structure|imaging/i)
   })
 
+  it('closes run-10 Paper 2 self-marking blockers', () => {
+    const questions = paper2.exams[0]?.questions ?? []
+
+    const slt = questions.find((question) => question.id === 'psy-7182-2-a-5-q2')
+    expect(slt).toBeDefined()
+    expect(slt?.stimulus?.narrative).toContain('admired older student')
+    const sltIndicative = slt?.markingGuidance.filter((line) => line.startsWith('Indicative ')).join(' ') ?? ''
+    expect(sltIndicative).toMatch(/identification/i)
+    expect(sltIndicative).toMatch(/vicarious reinforcement/i)
+    expect(sltIndicative).toMatch(/imitation/i)
+    expect(sltIndicative).not.toMatch(/Bobo|doll/i)
+
+    const rm = questions.find((question) => question.id === 'psy-7182-2-c-rm-q1')
+    expect(rm).toBeDefined()
+    expect(rm?.prompt).toContain('state one procedure that should be standardised')
+    const rmGuidance = rm?.markingGuidance.join(' ') ?? ''
+    expect(rmGuidance).toContain('three distinct applied requirements')
+    expect(rmGuidance).toContain('standardised across conditions')
+    expect(rmGuidance).toContain('same 20-word list and recall instructions')
+    expect(rmGuidance).not.toContain('sufficiently observable and repeatable')
+  })
+
   it('keeps run-7 and run-9 Research Methods and Paper 3 contracts markable', () => {
     const histogram = psychologyLearn.chapters
       .flatMap((chapter) => chapter.groups)
