@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'courses' | 'course-overview' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -20,6 +20,8 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'plan', theme: 'dark' },
   { project: 'tablet', state: 'courses', theme: 'light' },
   { project: 'tablet', state: 'courses', theme: 'dark' },
+  { project: 'desktop', state: 'course-overview', theme: 'light' },
+  { project: 'desktop', state: 'course-overview', theme: 'dark' },
   { project: 'desktop', state: 'learn', theme: 'light' },
   { project: 'desktop', state: 'learn', theme: 'dark' },
   { project: 'phone', state: 'practice', theme: 'light' },
@@ -176,6 +178,8 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'd54c643773e9ad4f21eb05388e69ee9a1784a1361835b320805f763b5e70c51b',
   'tablet:courses:dark': 'c0bdd22e8bdac165d5a03f4b6fab9679a22bb3282cbcabe9fa4cc94b564e3cc8',
+  'desktop:course-overview:light': 'pending-founder-review-c3-course-overview-light',
+  'desktop:course-overview:dark': 'pending-founder-review-c3-course-overview-dark',
   'phone:practice:light': '35a6b07fbe5d07cd634eddc4f5527ae9fcb002994f16f595b7047eea21a46a54',
   'phone:practice:dark': '70a23c9bb56f58e95086e73fff8662f87106a77c0775c88e2b7ebf21b5492e17',
   'tablet:exam-prep:light': '573d3877f47aaf420a28e5d742b9298a07361ce39a6aba52823e288c0e077905',
@@ -288,6 +292,7 @@ async function openState(page: Page, state: VisualState) {
     home: appPath,
     plan: `${appPath}#/plan`,
     courses: `${appPath}#/courses`,
+    'course-overview': `${appPath}#/courses/${course}`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
     'exam-prep': `${appPath}#/courses/${course}/exam-prep`,
@@ -298,6 +303,7 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
+  if (state === 'course-overview') await expect(page.locator('.course-overview-v2')).toBeVisible()
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()

@@ -115,7 +115,7 @@
 }
 
 .courses-add-item span {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -148,6 +148,6 @@
     width: 100%;
     max-height: 88vh;
     transform: none;
-    border-radius: 24px 24px 0 0;
+    border-radius: var(--radius-surface) var(--radius-surface) 0 0;
   }
 }
