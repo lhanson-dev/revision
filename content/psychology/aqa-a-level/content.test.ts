@@ -331,6 +331,45 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(indicative(forensic.id)).not.toMatch(/neural explanations|brain structure|imaging/i)
   })
 
+  it('keeps run-7 and run-9 Research Methods and Paper 3 contracts markable', () => {
+    const histogram = psychologyLearn.chapters
+      .flatMap((chapter) => chapter.groups)
+      .find((group) => group.id === 'psy0727')
+    const histogramText = JSON.stringify(histogram)
+    expect(histogramText).toContain('frequency density')
+    expect(histogramText).toContain('frequency divided by class width')
+    expect(histogramText).toContain("bar's area")
+    expect(histogramText).toContain('plotting raw frequency as bar height with unequal widths would distort')
+
+    const rm = paper2.exams[0]?.questions.filter((question) => question.id.startsWith('psy-7182-2-c-rm-')) ?? []
+    const signTest = rm.find((question) => question.id === 'psy-7182-2-c-rm-q4')
+    expect(signTest?.prompt).toContain('+ to mean After is greater than Before')
+    expect(signTest?.prompt).toContain('− to mean After is less than Before')
+    expect(signTest?.markingGuidance.join(' ')).toContain('A +, B tie, C −, D +, E +')
+
+    const inferential = rm.find((question) => question.id === 'psy-7182-2-c-rm-q5')
+    expect(inferential?.prompt).toMatch(/Select and justify the appropriate inferential test/)
+    expect(inferential?.stimulus?.narrative).not.toMatch(/Spearman/i)
+    expect(inferential?.markingGuidance.join(' ')).toContain('select Spearman’s rho')
+
+    const p3 = paper3.exams[0]?.questions ?? []
+    const evaluationQuestions = p3.filter((question) => question.id.endsWith('-q3'))
+    expect(evaluationQuestions).toHaveLength(10)
+    for (const question of evaluationQuestions) {
+      expect(question.prompt).toContain('Evaluate one limitation or boundary')
+      expect(question.prompt).not.toMatch(/conclusion|judgement/i)
+      const ao3Rule = question.markingGuidance.find((line) => line.startsWith('AO3 (5):')) ?? ''
+      expect(ao3Rule).toContain('one fully developed limitation or boundary')
+      expect(ao3Rule).not.toMatch(/conclusion|judgement/i)
+    }
+
+    const discussionQuestions = p3.filter((question) => question.id.endsWith('-q4'))
+    for (const question of discussionQuestions) {
+      expect(question.prompt).toMatch(/reach a proportionate conclusion/i)
+      expect(question.markingGuidance.join(' ')).toMatch(/judgement.*proportionate conclusion/i)
+    }
+  })
+
   it('makes Research Methods markable and Paper 3 application cues non-leading', () => {
     const rm = paper2.exams[0]?.questions.filter((question) => question.id.startsWith('psy-7182-2-c-rm-')) ?? []
     expect(rm[0]?.markingGuidance.join(' ')).toContain('AO1 (1)')
