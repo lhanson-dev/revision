@@ -284,3 +284,19 @@ The two material findings are confined to self-marking coherence:
 Run 10 also reported two minor educational clarity/construction findings. They are retained as non-blocking assurance evidence and are not expanded into this material-remediation branch, consistent with the gate's separation of material blockers from non-material improvements.
 
 Psychology remains `preview`. The 96-mark paper total and existing AO totals are unchanged. FI-007 remains outside this gate. A fresh exact-current-main launch-assurance run is required after merge.
+
+### Production launch assurance run 11 — pass and promotion-candidate route gate
+
+Run 11 reviewed exact `main` commit `81dd0b4bffdf4626fe110de266a46e6907654fd7` in Actions run `37985705217`.
+
+Exact-main verification and deterministic prerequisites passed. All ten review packets completed. The retained artifact is `11643181753`; observed provider spend was US$0.815658. All seven educational packets and all three paper-specific assessment packets passed, with all 118 Course Truth requirements covered and zero unresolved BLOCKING or MATERIAL findings or dimensions. The final decision was `pass`.
+
+One minor Eating Behaviour wording comment remained non-blocking and is retained as assurance evidence rather than reopening paid launch review.
+
+The final publication prerequisite is verified on the exact promotion candidate rather than by adding a permanent preview bypass. The promotion branch changes the three Psychology 7182 manifests from `preview` to `available` and adds `tests/e2e/psychology-restricted-pilot-route.spec.ts`. That browser test uses a synthetic authenticated restricted-pilot learner whose only active course membership is `aqa:aqa-a-level:7182`, then traverses the canonical runtime journey:
+
+`Courses → Psychology → Overview → Learn → Practice → Exam Prep → Progress`.
+
+The test asserts the published catalogue resolves Psychology as one shared three-paper course, the canonical hash routes are emitted, real learner content renders in each section, all three exam papers and mocks are reachable, and course Progress exposes all 17 topics. Successful exact-head Revision CI on the promotion candidate is the retained route-verification evidence required by the publication gate.
+
+FI-007 remains outside this promotion. Written Psychology exam work remains self-assessed and lower-confidence until the separate assisted-marking gate is completed.

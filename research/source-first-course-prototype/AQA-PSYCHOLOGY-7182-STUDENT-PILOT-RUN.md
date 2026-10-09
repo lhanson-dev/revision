@@ -483,3 +483,13 @@ All seven educational packets, Paper 1 and Paper 3 passed. The remaining materia
 The remediation is limited to those two blockers. The SLT question now uses case-linked identification, vicarious-reinforcement and imitation routes. The Research Methods question now explicitly requests one standardisation/control decision for its third AO2 mark. The 96-mark total and paper AO totals are preserved. Two minor educational comments from the same run remain retained as non-blocking evidence rather than being pulled into this material-fix cycle.
 
 Psychology remains `preview`; no course-scope reduction, publication change or FI-007 promotion occurs. A fresh exact-current-main launch-assurance pass remains required.
+
+### Production launch assurance run #11 — launch-assurance pass
+
+Run #11 reviewed exact `main` commit `81dd0b4bffdf4626fe110de266a46e6907654fd7` in GitHub Actions run `37985705217`. Exact-main verification and deterministic prerequisites passed. All ten packets completed; retained artifact `11643181753` records US$0.815658 provider spend, complete 118/118 requirement coverage, zero unresolved BLOCKING or MATERIAL findings or dimensions, and final decision `pass`.
+
+All seven educational packets and all three paper-specific assessment packets passed. One minor Eating Behaviour wording comment remained non-blocking and is retained as evidence rather than triggering another paid review cycle.
+
+The remaining restricted-pilot gate is canonical learner-route verification on the exact promotion candidate. The governed promotion branch changes the three Psychology manifests from `preview` to `available` and verifies a synthetic authenticated restricted learner with only `aqa:aqa-a-level:7182` active can traverse `Courses → Psychology → Overview → Learn → Practice → Exam Prep → Progress` through the real learner runtime. Exact-head CI success on that candidate is required before Founder publication approval.
+
+FI-007 remains excluded; Psychology written exam work remains self-assessed until separately validated.

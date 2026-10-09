@@ -421,7 +421,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(p3?.learnerClaim).toContain('exactly one topic from each of Sections B, C and D')
   })
 
-  it('stays preview-only until final independent assurance passes', () => {
-    expect([paper1, paper2, paper3].map((pack) => pack.manifest.status)).toEqual(['preview', 'preview', 'preview'])
+  it('is available only on the governed promotion candidate after launch assurance passes', () => {
+    expect([paper1, paper2, paper3].map((pack) => pack.manifest.status)).toEqual(['available', 'available', 'available'])
   })
 })
