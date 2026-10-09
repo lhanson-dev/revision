@@ -461,3 +461,15 @@ The final decision remained `fail_hold` with three material findings across five
 The remediation corrects those contracts directly and also closes the two minor findings from the same run: learner-facing objective-Practice grammar and incomplete/over-general command-word coaching.
 
 This does not reopen the wider Course Truth, reduce course scope, publish Psychology or authorise FI-007. A fresh exact-main launch-assurance run remains required after merge.
+
+### Production launch assurance runs #7–#9 — final targeted remediation continues
+
+Run #7 reviewed exact `main` commit `a645fd63d2e30922f6f5b201bcdd3f9d6e87ad2e` in GitHub Actions run `37856904674`. All ten packets completed, artifact `11585120575` was retained, provider spend was US$0.841642, and the final decision remained `fail_hold` with two material findings across three material dimensions. One was a real Paper 2 defect where the stimulus named Spearman while asking the learner to select the inferential test. The other exposed a review-packet scoping defect: the deliberately split Research Methods reviews each received the full production-topic section list, allowing the reviewer to mistake companion-packet assets for missing coverage even though the deterministic requirement union remained 34/34.
+
+Run #8 (`37913262656`) was stopped by the exact-current-main guard before provider review because unrelated work had advanced `main`; it contributes no educational verdict or provider spend.
+
+Run #9 reviewed exact `main` commit `f974631b907452375963a490a24e85b490c23949` in GitHub Actions run `37916283559`. All ten packets completed, artifact `11609594705` was retained, provider spend was US$0.843322, and the result remained `fail_hold` with three material findings across four material dimensions. These are limited to the unequal-width histogram/frequency-density rule, the missing sign convention in one sign-test question, and a Paper 3 q3 self-marking rule that required a conclusion the prompt did not ask for.
+
+The remediation remains deliberately small: correct the histogram teaching statement, state the sign convention, align the Paper 3 evaluation rubric to its prompt, remove the known Spearman answer disclosure from run #7, and scope the split assurance packets to the production sections actually under review. Regression tests cover each failure mode. There is no wider Course Truth regeneration, no course-scope reduction, no publication change and no FI-007 promotion.
+
+Psychology remains `preview` pending a fresh exact-current-main launch-assurance pass and the remaining restricted-pilot verification steps.

@@ -35,6 +35,24 @@ describe('Psychology launch assurance', () => {
     expect(new Set(packets.educational.flatMap((packet) => packet.topicNumbers)).size).toBe(17)
   })
 
+  test('scopes split Research Methods production topics to the exact packet requirements', () => {
+    const firstHalf = packets.educational.find((packet) => packet.packetId === 'LAUNCH-EDU-03A')
+    const secondHalf = packets.educational.find((packet) => packet.packetId === 'LAUNCH-EDU-03B')
+    expect(firstHalf).toBeDefined()
+    expect(secondHalf).toBeDefined()
+
+    const sectionIds = (packet: NonNullable<typeof firstHalf>) =>
+      ((packet.topics[0]?.productionTopic as { sections: Array<{ id: string }> }).sections ?? []).map((section) => section.id)
+
+    expect(sectionIds(firstHalf!)).toEqual(
+      Array.from({ length: 17 }, (_, index) => `psy07${String(index + 1).padStart(2, '0')}`),
+    )
+    expect(sectionIds(secondHalf!)).toEqual(
+      Array.from({ length: 17 }, (_, index) => `psy07${String(index + 18).padStart(2, '0')}`),
+    )
+    expect(new Set([...sectionIds(firstHalf!), ...sectionIds(secondHalf!)]).size).toBe(34)
+  })
+
   test('reviews exact production Learn, flashcard and objective Practice against Course Truth', () => {
     for (const packet of packets.educational) {
       expect(packet.rightsBoundary.officialAqaSourceTextIncluded).toBe(false)

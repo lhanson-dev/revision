@@ -349,7 +349,8 @@ function aoSelfMarkRule(allocation: Ao, mode: GuidanceMode): string[] {
   else if (allocation.ao2 === 5) rules.push('AO2 (5): 1–2 marks for limited or partly accurate application; 3–4 for clear developed application to multiple relevant details; 5 for sustained, accurate application covering the main contextual demands.')
   else if (allocation.ao2 > 0) rules.push(`AO2 (${allocation.ao2}): award only for accurate application, calculation or method use tied to the supplied context; do not credit generic description as AO2.`)
 
-  if (allocation.ao3 === 5) rules.push('AO3 (5): 1–2 marks for a limited evaluative point; 3–4 for a developed evaluative chain explaining why the issue matters; 5 for a developed judgement that weighs the issue and reaches a proportionate conclusion.')
+  if (allocation.ao3 === 5 && mode === 'evaluation') rules.push('AO3 (5): 1–2 marks for a limited evaluative point; 3–4 for a developed evaluative chain explaining why the issue matters; 5 for one fully developed limitation or boundary that explains its consequence for the claim, evidence or method.')
+  else if (allocation.ao3 === 5) rules.push('AO3 (5): 1–2 marks for a limited evaluative point; 3–4 for a developed evaluative chain explaining why the issue matters; 5 for a developed judgement that weighs the issue and reaches a proportionate conclusion.')
   else if (allocation.ao3 === 4) rules.push('AO3 (4): 1–2 marks for a relevant but limited evaluation; 3–4 for a developed limitation or boundary that explains its consequence for the claim, evidence or method.')
   else if (allocation.ao3 === 2) rules.push('AO3 (2): 1 mark for a relevant limitation or alternative interpretation and 1 further mark for explaining why it changes the strength or certainty of the application.')
   else if (allocation.ao3 === 1) rules.push('AO3 (1): award 1 mark for one valid evaluative or interpretive conclusion that is justified by the supplied evidence.')
@@ -715,7 +716,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
           ],
         },
       },
-      prompt: 'Use the sign-test procedure on the data: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
+      prompt: 'Use the sign-test procedure on the data, taking + to mean After is greater than Before and − to mean After is less than Before: assign signs, remove the tie, state the effective n and calculate the smaller sign count. Then explain what further information is needed before deciding statistical significance.',
       markingGuidance: [
         'Maximum 12 marks.',
         'Mark allocation: AO1 0 · AO2 11 · AO3 1.',
@@ -737,7 +738,7 @@ function researchMethodsSectionQuestions(topic: TruthTopic, sectionId: string, s
       responseType: 'written' as const,
       stimulus: {
         title: 'Revision-owned inferential-test context',
-        narrative: 'Twelve participants are ranked on weekly revision time and ranked on exam-anxiety score. The research hypothesis predicts an association but does not predict its direction. A Spearman calculation gives rho = -0.62. For this practice question, the supplied two-tailed critical magnitude at alpha = 0.05 is 0.587.',
+        narrative: 'Twelve participants are ranked on weekly revision time and ranked on exam-anxiety score. The research hypothesis predicts an association but does not predict its direction. The calculated correlation coefficient is -0.62. For this practice question, the supplied two-tailed critical magnitude at alpha = 0.05 is 0.587.',
         table: null,
       },
       prompt: 'Select and justify the appropriate inferential test. Use the observed coefficient and supplied critical magnitude to make the statistical decision, then state what the result does and does not justify about the relationship.',

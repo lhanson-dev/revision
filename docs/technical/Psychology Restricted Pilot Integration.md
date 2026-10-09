@@ -243,3 +243,29 @@ The final decision remained `fail_hold` with three material findings across five
 The remediation clarifies the qualification-specific experiment taxonomy, prevents the overlapping labels from competing as distractors, and makes self-marking guidance cover every Course Truth route expressly offered by generic outline, evaluation and discussion prompts. Two minor learner-facing issues from the same run are also corrected: objective-Practice grammar and command-word coaching.
 
 Psychology remains `preview`. FI-007 remains outside this gate. A fresh exact-main launch-assurance run is still required after this remediation merges.
+
+### Production launch assurance run 7 — packet-scope and inferential-test remediation
+
+Run 7 reviewed exact `main` commit `a645fd63d2e30922f6f5b201bcdd3f9d6e87ad2e` in Actions run `37856904674`.
+
+Exact-main verification and deterministic prerequisites passed. All ten packets completed, retained artifact `11585120575` was preserved, observed provider spend was US$0.841642, and the final decision remained `fail_hold` with two material findings across three material review dimensions.
+
+One finding was an assurance-packet scoping defect rather than a learner-content coverage gap. Research Methods is deliberately divided into requirements 01–17 and 18–34 so each educational review packet remains bounded, but each packet still carried the full 34-section production topic. A reviewer could therefore see production headings whose matching Learn/Practice assets correctly lived in the companion packet and misclassify the absent companion assets as missing learner coverage. The launch packet builder now scopes the production topic sections to the exact requirement IDs in each packet while retaining the deterministic 34/34 combined coverage check.
+
+The other finding was a genuine Paper 2 Research Methods defect: the inferential-test stimulus named Spearman while the prompt and rubric awarded a mark for selecting the appropriate test. The stimulus is corrected to provide the ranked paired-variable context and calculated coefficient without disclosing the test name.
+
+### Production launch assurance runs 8 and 9 — exact-main guard and bounded remaining remediation
+
+Run 8, Actions run `37913262656`, was dispatched with an older reviewed SHA after unrelated learner-design work had advanced `main`. The exact-current-main guard stopped the workflow before deterministic or provider review, so it created no new educational verdict or provider spend.
+
+Run 9 reviewed exact `main` commit `f974631b907452375963a490a24e85b490c23949` in Actions run `37916283559`. Exact-main verification and deterministic prerequisites passed, all ten packets completed, retained artifact `11609594705` was preserved, and observed provider spend was US$0.843322. The final decision remained `fail_hold` with three material findings across four material review dimensions.
+
+The remaining run-9 findings are bounded:
+
+- Research Methods histogram teaching did not state the unequal-class-width rule precisely enough. Course Truth and its learner projection now state that unequal-width histograms use frequency density, calculated as frequency divided by class width, so bar area represents frequency; raw frequency as height with unequal widths would distort the distribution.
+- The Paper 2 sign-test question did not define the sign convention while its self-marking guidance assumed one convention. The prompt now explicitly defines `+` as After greater than Before and `−` as After less than Before.
+- Ten Paper 3 q3 prompts ask for one limitation or boundary, but the shared five-mark AO3 rule previously reserved the top mark for a conclusion/judgement that the prompt did not request. Evaluation-mode self-marking now awards the top mark for one fully developed limitation or boundary and its consequence; the separate discussion questions retain their explicit conclusion requirement.
+
+Run 9 did not repeat the run-7 Spearman disclosure finding even though no Psychology implementation changed between those reviewed states. Because a known material finding remains open until corrected rather than until a later reviewer happens not to repeat it, the same bounded remediation also closes that defect.
+
+Psychology remains `preview`. FI-007 assisted marking remains outside this gate. A fresh exact-current-main production launch-assurance run is still required after this remediation merges.
