@@ -243,3 +243,18 @@ The final decision remained `fail_hold` with three material findings across five
 The remediation clarifies the qualification-specific experiment taxonomy, prevents the overlapping labels from competing as distractors, and makes self-marking guidance cover every Course Truth route expressly offered by generic outline, evaluation and discussion prompts. Two minor learner-facing issues from the same run are also corrected: objective-Practice grammar and command-word coaching.
 
 Psychology remains `preview`. FI-007 remains outside this gate. A fresh exact-main launch-assurance run is still required after this remediation merges.
+
+### Production launch assurance run 7 — final launch-contract remediation
+
+Run 7 reviewed exact `main` commit `a645fd63d2e30922f6f5b201bcdd3f9d6e87ad2e` in Actions run `37856904674`.
+
+Exact-main verification and deterministic prerequisites passed. All ten packets completed, retained artifact `11585120575` was preserved, and observed provider spend was US$0.841642.
+
+The final decision remained `fail_hold` with two material findings across three material dimensions:
+
+- `LAUNCH-EDU-03A` reported missing later Research Methods learner assets because the assurance slice contained Course Truth for PSY-07-01 to PSY-07-17 but still exposed the whole 34-section production Topic 7. The companion packet already contained PSY-07-18 to PSY-07-34 and its learner assets, so this was an assurance-packet scope defect rather than missing learner content.
+- Paper 2 Research Methods q5 named Spearman’s rho in the stimulus while also awarding a mark for selecting Spearman’s rho. This was a genuine learner-assessment defect.
+
+The same remediation also closes the run-7 minor findings: AO2 application guidance for Social Learning Theory is made case-linked, generic application-prompt grammar is made number-neutral, and assessment packets receive the approved Course Truth/source metadata needed to verify learner-facing psychology claims such as the token-economy evidence route.
+
+Psychology remains `preview`. FI-007 remains outside this launch gate. After this remediation merges, one fresh exact-main production launch-assurance run is required; if it passes, the remaining Phase 1 work is restricted-account canonical learner-route verification and the separate Founder-approved promotion to the usable restricted-pilot state.
