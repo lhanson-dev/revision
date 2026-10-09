@@ -1628,14 +1628,14 @@
       "subjectTruth": {
         "definitionsAndCoreConcepts": [
           "Tables organise numerical values in labelled rows and columns so exact results can be compared.",
-          "Bar charts display frequencies or summary values for discrete categories using separated bars; histograms display frequencies/density for continuous grouped intervals using adjoining bars whose horizontal position represents the measurement scale.",
+          "Bar charts display frequencies or summary values for discrete categories using separated bars; histograms display continuous grouped intervals using adjoining bars. When class widths are unequal, the vertical axis should show frequency density (frequency divided by class width) so that each bar's area, rather than its height alone, represents frequency.",
           "Scattergrams plot paired values for two co-variables so direction, form, strength and outliers in an association can be inspected."
         ],
         "modelsResearchAndRelationships": [
           "Graph choice should match data type and analytic purpose: categorical comparisons suit bar charts, continuous distributions suit histograms and bivariate association suits scattergrams."
         ],
         "evaluationAndLimits": [
-          "Misleading axis ranges, unequal bins or inappropriate chart types can distort interpretation even when the underlying numbers are correct.",
+          "Misleading axis ranges or inappropriate chart types can distort interpretation. Unequal histogram class widths are valid when frequency density is used so bar area represents frequency; plotting raw frequency as bar height with unequal widths would distort the distribution.",
           "A graph displays a pattern but does not by itself test whether the pattern is statistically significant or causal."
         ],
         "misconceptionsAndBoundaries": [
