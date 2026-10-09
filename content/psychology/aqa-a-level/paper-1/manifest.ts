@@ -4,7 +4,7 @@ import { psychologyTopicIds } from '../shared/course'
 export const manifest = contentManifestSchema.parse({
   id: 'psychology-aqa-a-level-7182-paper-1',
   schemaVersion: 1,
-  status: 'preview',
+  status: 'available',
   subject: { id: 'psychology', name: 'Psychology' },
   qualification: { id: 'aqa-a-level', name: 'AQA A-level' },
   examBoard: { id: 'aqa', name: 'AQA' },
