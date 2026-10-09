@@ -24,13 +24,13 @@ async function seedRestrictedPsychologyLearner(page: Page) {
         aud: 'authenticated',
         role: 'authenticated',
         email: 'psychology-restricted-pilot@revision.invalid',
-        email_confirmed_at: '2026-10-09T20:30:00.000Z',
+        email_confirmed_at: '2026-08-23T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
         user_metadata: { first_name: 'Pilot' },
         identities: [],
-        created_at: '2026-10-09T20:30:00.000Z',
-        updated_at: '2026-10-09T20:30:00.000Z',
+        created_at: '2026-08-23T12:00:00.000Z',
+        updated_at: '2026-08-23T12:00:00.000Z',
       },
     }))
   }, { key: storageKey, id: userId })
@@ -44,13 +44,13 @@ async function seedRestrictedPsychologyLearner(page: Page) {
         aud: 'authenticated',
         role: 'authenticated',
         email: 'psychology-restricted-pilot@revision.invalid',
-        email_confirmed_at: '2026-10-09T20:30:00.000Z',
+        email_confirmed_at: '2026-08-23T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
         user_metadata: { first_name: 'Pilot' },
         identities: [],
-        created_at: '2026-10-09T20:30:00.000Z',
-        updated_at: '2026-10-09T20:30:00.000Z',
+        created_at: '2026-08-23T12:00:00.000Z',
+        updated_at: '2026-08-23T12:00:00.000Z',
       }),
     })
   })
@@ -67,7 +67,7 @@ async function seedRestrictedPsychologyLearner(page: Page) {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify([{ user_id: userId, course_id: courseId, created_at: '2026-10-09T20:30:00.000Z' }]),
+      body: JSON.stringify([{ user_id: userId, course_id: courseId, created_at: '2026-08-23T12:00:00.000Z' }]),
     })
   })
 
