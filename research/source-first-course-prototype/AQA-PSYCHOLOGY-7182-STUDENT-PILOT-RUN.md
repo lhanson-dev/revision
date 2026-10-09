@@ -473,3 +473,13 @@ Run #9 reviewed exact `main` commit `f974631b907452375963a490a24e85b490c23949` i
 The remediation remains deliberately small: correct the histogram teaching statement, state the sign convention, align the Paper 3 evaluation rubric to its prompt, remove the known Spearman answer disclosure from run #7, and scope the split assurance packets to the production sections actually under review. Regression tests cover each failure mode. There is no wider Course Truth regeneration, no course-scope reduction, no publication change and no FI-007 promotion.
 
 Psychology remains `preview` pending a fresh exact-current-main launch-assurance pass and the remaining restricted-pilot verification steps.
+
+### Production launch assurance run #10 — Paper 2-only material blockers
+
+Run #10 reviewed exact `main` commit `15758b93013a5e237c8007facdc080a686fae1f4` in GitHub Actions run `37957442460`. Exact-main verification and deterministic prerequisites passed. All ten packets completed, artifact `11630815298` was retained, provider spend was US$0.824590, and the final decision remained `fail_hold` with two material findings across two material dimensions.
+
+All seven educational packets, Paper 1 and Paper 3 passed. The remaining material blockers were both Paper 2 self-marking defects: generic Bobo-doll evidence was presented as an AO2 application route for a case-specific Social Learning Theory question, and the first Research Methods item duplicated an operationalisation criterion instead of providing distinct evidence for its fourth mark.
+
+The remediation is limited to those two blockers. The SLT question now uses case-linked identification, vicarious-reinforcement and imitation routes. The Research Methods question now explicitly requests one standardisation/control decision for its third AO2 mark. The 96-mark total and paper AO totals are preserved. Two minor educational comments from the same run remain retained as non-blocking evidence rather than being pulled into this material-fix cycle.
+
+Psychology remains `preview`; no course-scope reduction, publication change or FI-007 promotion occurs. A fresh exact-current-main launch-assurance pass remains required.
