@@ -121,7 +121,7 @@ The contextual REV prompt uses the current teaching-page title and opens the exi
 
 The bounded C3 Learn slice preserves the existing reading-first product behaviour and educational hierarchy. The governed outer course-section frame remains in place, but it uses the canonical ordinary-surface border/radius rather than the older feature-radius treatment. Learn-local REV colours now consume the canonical inverse semantic roles; the page title and teaching subheads consume the learner H2/H3 roles; educational treatment surfaces use the canonical 20px/12px family according to job; Quick Check uses the same 20px ordinary educational surface; and local focus treatment uses the shared focus ring.
 
-This slice does not change teaching content, treatment selection, route structure, nested navigation, Quick Check evidence semantics, Practice handoff, progress/readiness meaning or Content Factory publication gates. The existing desktop Learn light/dark visual digests are expected to fail closed once and must not be re-pinned without explicit Founder visual review.
+This slice does not change teaching content, treatment selection, route structure, nested navigation, Quick Check evidence semantics, Practice handoff, progress/readiness meaning or Content Factory publication gates. The Founder explicitly approved the C3 desktop Learn light/dark captures on 9 October 2026. Exact-head CI #2917 on `862e0940f9bda8fa7e3a426dff86fb7c7af01b83` reproduced identical run/retry digests before those approved baselines were pinned.
 
 ## Responsive behaviour
 
