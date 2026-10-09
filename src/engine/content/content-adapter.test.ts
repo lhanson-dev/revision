@@ -46,7 +46,7 @@ describe('shared content adapter', () => {
 
   it('exposes catalogue metadata from the same manifests used by learning', () => {
     const entries = listCatalogueEntries()
-    expect(entries).toHaveLength(4)
+    expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length)
     expect(entries).toEqual(expect.arrayContaining([
       expect.objectContaining({
         id: 'business-aqa-as-paper-2',
@@ -80,11 +80,38 @@ describe('shared content adapter', () => {
         totalMarks: 100,
         topicCount: 10,
       }),
+      expect.objectContaining({
+        id: 'psychology-aqa-a-level-7182-paper-1',
+        subject: 'Psychology',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 96,
+        topicCount: 17,
+      }),
+      expect.objectContaining({
+        id: 'psychology-aqa-a-level-7182-paper-2',
+        subject: 'Psychology',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 96,
+        topicCount: 17,
+      }),
+      expect.objectContaining({
+        id: 'psychology-aqa-a-level-7182-paper-3',
+        subject: 'Psychology',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 96,
+        topicCount: 17,
+      }),
     ]))
     expect(getContentAdapter('business-aqa-as-paper-2')?.manifest.subject.name).toBe('Business')
     expect(getContentAdapter('business-aqa-a-level-7132-paper-1')?.manifest.status).toBe('available')
     expect(getContentAdapter('business-aqa-a-level-7132-paper-2')?.manifest.status).toBe('available')
     expect(getContentAdapter('business-aqa-a-level-7132-paper-3')?.manifest.status).toBe('available')
+    expect(getContentAdapter('psychology-aqa-a-level-7182-paper-1')?.manifest.status).toBe('available')
+    expect(getContentAdapter('psychology-aqa-a-level-7182-paper-2')?.manifest.status).toBe('available')
+    expect(getContentAdapter('psychology-aqa-a-level-7182-paper-3')?.manifest.status).toBe('available')
     expect(getContentAdapter('missing-module')).toBeUndefined()
   })
 
