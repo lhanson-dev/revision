@@ -59,7 +59,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(questions.reduce((sum, question) => sum + question.marks, 0)).toBe(48)
     expect(questions[1]?.stimulus?.table?.rows).toHaveLength(5)
     expect(questions[3]?.stimulus?.table?.rows).toHaveLength(5)
-    expect(questions[4]?.stimulus?.narrative).toContain('rho = -0.62')
+    expect(questions[4]?.stimulus?.narrative).toContain('calculated correlation coefficient is -0.62')
     expect(questions[4]?.stimulus?.narrative).toContain('0.587')
   })
 
