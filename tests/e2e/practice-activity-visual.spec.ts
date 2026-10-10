@@ -20,7 +20,7 @@ for (const visualCase of cases) {
     await page.addInitScript((theme) => localStorage.setItem('revision:theme', theme), visualCase.theme)
     await seedReturningStudent(page)
     await page.goto(practicePath)
-    const start = page.getByRole('button', { name: /^Start \\d+ questions?$/ })
+    const start = page.getByRole('button', { name: /^Start [0-9]+ questions?$/ })
     await expect(start).toBeVisible()
     await start.click()
     await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
