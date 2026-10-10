@@ -30,6 +30,8 @@ The reading-first implementation:
 
 The legacy Learn-specific workspace heading, local topic selector, `Topic notes / Link topics` switch and generic `Learning activity` framing are no longer the target Learn composition.
 
+The current C3 design-system reconciliation is visual-only for Learn: it preserves this responsibility split and aligns the existing course-section frame, educational treatments, REV end-card roles, heading roles and Quick Check surface with the canonical learner token/radius/focus system. Practice behaviour and styling are not changed by this Learn slice.
+
 ### Practice
 
 `FocusedLearningWorkspace` remains the canonical Practice implementation.
