@@ -95,6 +95,10 @@ The Founder explicitly approved the six Practice visual captures presented for P
 
 The two existing Practice start-screen SHA-256 digests and four focused-activity SHA-256 digests are pinned to those exact captures, with the active screenshots attached to each future test execution. The original 18-state B7 acceptance matrix and other page baselines remain unchanged. **This approval permits baseline pinning only:** fresh exact-head CI, main refresh and separate PR-specific merge approval remain mandatory. No normative design authority changes were introduced.
 
+### Practice screenshot determinism (CI #2938 follow-up)
+
+The approved phone screenshot mismatch in CI #2938 was limited to animated Living E pixels in the global bottom dock (pixel-by-pixel analysis: no changed pixels elsewhere); the prior viewport-scroll diagnosis was not sufficient. The focused Practice screenshot assertion hashes decoded pixels from the Founder-reviewed CI #2936 images, excluding only the animated glyph square (64 × 64 at phone size) while retaining the unmasked native PNG evidence. Everything else, including all desktop pixels, remains exact-pixel fail-closed. No additional design approval, normative change or unrelated test cleanup is implied.
+
 ### C3 assurance execution rule
 
 For each remaining C3 surface, reconcile only the tests that directly exercise that surface before implementation. Keep behavioural, persistence, accessibility, evidence, security and navigation contracts intact. Update or remove only assertions that clearly encode superseded visual implementation details such as retired local radii, fixed heading sizes, old theme colours or `--rv-*` roles. Do not start a repository-wide test-modernisation or opportunistic cleanup programme. Visual baselines continue to fail closed once per intentional appearance change and are re-pinned only after explicit Founder review.
