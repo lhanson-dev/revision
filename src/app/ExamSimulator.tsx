@@ -95,9 +95,11 @@ export type ExamSimulatorProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   /** Opened from the Exam Prep page: skip the launch screen. `untimed` opens single-question practice. */
   autoStart?: 'timed' | 'untimed'
+  /** Return to the owning Exam Prep page after explicitly discarding a timed attempt. */
+  onExit?: () => void
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -119,8 +121,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
+  const focusRegion = useRef<HTMLDivElement>(null)
   const totalPausedMs = useRef(0)
   useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
+
+  // A timed attempt owns the full working environment, without global
+  // navigation or Ask REV competing for attention or keyboard focus.
+  useEffect(() => {
+    if (!started || submitted) return
+    const shell = document.querySelector('.planner-runtime')
+    if (!shell) return
+    shell.classList.add('planner-runtime--exam-focus')
+    focusRegion.current?.focus()
+    return () => shell.classList.remove('planner-runtime--exam-focus')
+  }, [started, submitted])
 
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
@@ -198,7 +212,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setSessionOverlay(null)
   }
 
-  function stopExam() {
+  function stopExam(returnToPrep = true) {
     setStarted(false)
     setFinishedWriting(false)
     setSubmitted(false)
@@ -214,6 +228,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     startedAt.current = null
     pauseStartedAt.current = null
     totalPausedMs.current = 0
+    if (returnToPrep && autoStart === 'timed') onExit?.()
   }
 
   function updateMark(key: AoKey, value: number) {
@@ -317,7 +332,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function resetExam() {
-    stopExam()
+    // Restarting from a saved result preserves the simulator's prior launch flow.
+    // Only explicit confirmed Stop returns to the owning Exam Prep page.
+    stopExam(false)
   }
 
   if (!started && questionPractice && practiceQuestion) {
@@ -386,7 +403,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   return (
-    <div className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
+    <div ref={focusRegion} tabIndex={-1} className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
           <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{exam.questions.length} answered</span></div>
@@ -532,7 +549,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <h2 id="stop-exam-title">Are you sure?</h2>
             <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
             <div className="exam-confirm-actions">
-              <button className="danger" type="button" onClick={stopExam}>Yes, stop exam</button>
+              <button className="danger" type="button" onClick={() => stopExam()}>Yes, stop exam</button>
               <button className="primary" type="button" onClick={resumeExam}>Continue exam</button>
             </div>
           </ModalShell>

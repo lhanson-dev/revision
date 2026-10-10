@@ -99,15 +99,31 @@ test('mock exams: real mocks, honest notes, two buttons, and the last mock', asy
   await expect(page.getByText(/^Last mock: .* · 21 of 100 · Timed · /)).toBeVisible()
 })
 
-test('Start timed opens the mock as a pop-up over the page and closing returns focus', async ({ page }) => {
+test('timed mock enters a focused full-viewport exam, then stop confirmation returns to Exam Prep and restores focus', async ({ page }) => {
   await open(page)
   const button = page.locator('.exam-mock').first().getByRole('button', { name: 'Start timed' })
   await button.click()
-  const dialog = page.getByRole('dialog')
-  await expect(dialog).toBeVisible()
-  await expect(dialog).toHaveAttribute('aria-modal', 'true')
-  await page.keyboard.press('Escape')
-  await expect(dialog).toHaveCount(0)
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.locator('.practice-overlay')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Stop exam' }).click()
+  const confirmation = page.getByRole('dialog', { name: 'Are you sure?' })
+  await confirmation.getByRole('button', { name: 'Yes, stop exam' }).click()
+  await expect(page.locator('.exam-session-page')).toHaveCount(0)
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
+  await expect(button).toBeFocused()
+})
+
+test('untimed mock uses the in-page workspace rather than a dialog', async ({ page }) => {
+  await open(page)
+  // Restricted-pilot papers deliberately disable untimed practice. Select
+  // a published non-pilot paper instead of bypassing its entitlement boundary.
+  const button = page.locator('.exam-mock .exam-button--secondary:not([disabled])').first()
+  await expect(button).toBeEnabled()
+  await button.click()
+  await expect(page.locator('.exam-prep-activity')).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
   await expect(button).toBeFocused()
 })
 
@@ -147,13 +163,13 @@ if (shots) {
 if (shots) {
   for (const theme of ['light', 'dark'] as const) {
     for (const width of [1440, 834, 390]) {
-      test(`screenshot pop-up ${theme} ${width}`, async ({ page }) => {
+      test(`screenshot focused mock ${theme} ${width}`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 })
         await open(page, { theme })
         await page.locator('.exam-mock').filter({ hasText: /Paper 1 Simulation/ }).getByRole('button', { name: 'Start timed' }).click()
-        await expect(page.getByRole('dialog')).toBeVisible()
+        await expect(page.locator('.exam-session-page')).toBeVisible()
         await page.waitForTimeout(300)
-        await page.screenshot({ path: `${shots}/exam-prep-mock-popup-${theme}-${width}.png` })
+        await page.screenshot({ path: `${shots}/exam-prep-focused-mock-${theme}-${width}.png` })
       })
     }
   }
