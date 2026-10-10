@@ -1085,6 +1085,6 @@ Use the current approved consolidated learner visual system and shared programme
 
 The Founder explicitly approved proceeding with **preparation** on 2026-10-10. This authorises `Analyse` only. No `Ready`, production implementation, PR merge or release approval is recorded.
 
-Before seeking Ready: confirm truthful Today completion/aggregation, typed Ask REV forwarding and existing exam-date manager route, course chooser eligibility, independent section-error handling, and required measurement/assurance implementation. Recheck new approved main and any relevant concurrently merged first-use/design changes. The analysis record lists all 17 Definition-of-Ready criteria, risks and evidence requirements.
+Technical analysis on current main confirmed that Plan already owns correct completion and minute aggregates, the shared REV panel accepts a Home draft, the Plan screen owns exam-date management, and course-section eligibility is centrally defined. Bounded implementation tasks (one-submit REV handoff, Plan-owned exam-manager deep link, independent Home section errors) are identified rather than left as product decisions. The analysis record lists all 17 Definition-of-Ready criteria, measurement, risks and acceptance requirements. Recheck current main and concurrently merged first-use/design changes before implementation.
 
 **Next governed decision:** product-authority proposal review and explicit human `Analyse → Ready` approval, only after technical feasibility and measurement checks pass. Production code changes are blocked until then.
