@@ -214,11 +214,13 @@ test('course overview uses the governed REV feature treatment and semantic dark 
 
   const mockRow = page.locator('.exam-mock').first()
   await expect(mockRow).toBeVisible()
-  const mockSurface = await backgroundRoleStyles(mockRow, '--rv-surface')
+  const mockSurface = await backgroundRoleStyles(mockRow, '--color-surface')
   expect(mockSurface.actual).toBe(mockSurface.expected)
   expect(mockSurface.actual).not.toBe('rgb(255, 255, 255)')
 
   await mockRow.getByRole('button', { name: 'Start timed' }).click()
-  const simulator = page.getByRole('dialog').locator('.exam-session-page, .exam-simulator').first()
+  const simulator = page.getByRole('region', { name: /timed exam$/ })
   await expect(simulator).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.locator('.planner-runtime')).toHaveClass(/planner-runtime--exam-focus/)
 })

@@ -116,7 +116,10 @@ test('timed mock enters a focused full-viewport exam, then stop confirmation ret
 
 test('untimed mock uses the in-page workspace rather than a dialog', async ({ page }) => {
   await open(page)
-  const button = page.locator('.exam-mock').filter({ hasText: /Paper 1 style/ }).first().getByRole('button', { name: 'Practise untimed' })
+  // Restricted-pilot papers deliberately disable untimed practice. Select
+  // a published non-pilot paper instead of bypassing its entitlement boundary.
+  const button = page.locator('.exam-mock .exam-button--secondary:not([disabled])').first()
+  await expect(button).toBeEnabled()
   await button.click()
   await expect(page.locator('.exam-prep-activity')).toBeVisible()
   await expect(page.getByRole('dialog')).toHaveCount(0)
