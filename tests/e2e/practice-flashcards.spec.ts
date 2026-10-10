@@ -8,7 +8,7 @@ async function openFlashcards(page: Page, theme: 'light' | 'dark' = 'light') {
   const saved = await captureEvidence(page)
   await page.goto(practicePath)
   await page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Flashcards/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.locator('.practice-flashcard__card')).toBeVisible()
   return saved
 }
@@ -26,9 +26,9 @@ async function rate(page: Page, label: 'No' | 'Partly' | 'Yes') {
   else await expect(page.getByRole('heading', { name: /^You knew/ })).toBeVisible()
 }
 
-test('the flashcard pop-up has the warm-up bar, a card count that does not wrap, and the warm-up label', async ({ page }) => {
+test('the flashcard page-level workspace has the warm-up bar, a card count that does not wrap, and the warm-up label', async ({ page }) => {
   await openFlashcards(page)
-  const dialog = page.getByRole('dialog')
+  const dialog = page.getByRole('region', { name: /^Practice:/ })
   await expect(dialog.getByText(/· Warm-up · Flashcards$/)).toBeVisible()
   await expect(page.getByText(/^Card 1 of \d+$/)).toBeVisible()
   const count = page.getByText(/^Card 1 of \d+$/)
@@ -157,6 +157,6 @@ for (const width of [1440, 960, 620, 390, 320]) {
     await page.getByRole('button', { name: 'Show answer' }).click()
     await page.waitForTimeout(650)
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0)
-    expect(await page.locator('.practice-dialog__body').evaluate((node) => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(0)
+    expect(await page.locator('.practice-activity__body').evaluate((node) => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(0)
   })
 }

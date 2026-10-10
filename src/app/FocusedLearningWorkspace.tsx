@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
@@ -47,7 +47,7 @@ import {
   Icon,
   PracticeBarTitle,
   PracticeCalculationView,
-  PracticeDialog,
+  PracticeActivityWorkspace,
   PracticeFlashcardDone,
   PracticeFlashcardView,
   PracticeProgressBar,
@@ -170,11 +170,20 @@ export function FocusedLearningWorkspace({
     return topics[0]?.id ?? ''
   })
   const [mode, setMode] = useState<WorkspaceMode | null>(null)
-  // Practice: which exercise is open in the pop-up, and the choices on the start screen.
+  // In-page focused Practice activity and the choices on the start screen.
   const [openActivity, setOpenActivity] = useState<WorkspaceMode | null>(null)
+  const activityLaunchLabel = useRef<string | null>(null)
+  useEffect(() => {
+    if (openActivity || !activityLaunchLabel.current) return
+    // Setup is remounted when leaving the focused activity. The old DOM button
+    // is detached, so restore focus to the corresponding new launch control.
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.practice-start button'))
+    buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)?.focus()
+    activityLaunchLabel.current = null
+  }, [openActivity])
   const [length, setLength] = useState<PracticeLength>(PRACTICE_LENGTHS[0])
   const [selectedTypes, setSelectedTypes] = useState<PracticeQuestionType[]>(['multiple-choice'])
-  // The scored session in progress. Closing the pop-up keeps it (every answer is already saved as evidence),
+  // The scored session in progress. Leaving the activity keeps it (every answer is already saved as evidence),
   // and the start screen then offers "Carry on".
   const [session, setSession] = useState<QuestionSession | null>(null)
   const [statusSeen, setStatusSeen] = useState<{ topicId: string; status: LearningStatus | undefined } | null>(null)
@@ -303,6 +312,12 @@ export function FocusedLearningWorkspace({
     setOpenActivity(null)
   }
 
+  /** Start the focused in-page activity, remembering the trigger for keyboard focus return. */
+  function beginActivity(activity: WorkspaceMode) {
+    if (!openActivity && document.activeElement instanceof HTMLElement) activityLaunchLabel.current = document.activeElement.textContent?.trim() ?? null
+    setOpenActivity(activity)
+  }
+
   /** Starts a fresh scored session: the chosen length (capped at what the topic has) and a clean retry queue. */
   function startQuestions() {
     if (startCount === 0) return
@@ -314,19 +329,20 @@ export function FocusedLearningWorkspace({
     setChecked(null)
     resetWritten()
     setStatusMove(null)
-    setOpenActivity('quick-check')
+    beginActivity('quick-check')
   }
 
-  /** Closing never discards anything: saved answers are already evidence, and the session stays for "Carry on". */
+  /** Returning to setup never discards saved evidence or the resumable session. */
   function closeActivity() {
     setOpenActivity(null)
   }
 
-  /** "See how you did": the pop-up closes onto the summary in the Practice tab. */
+  /** "See how you did": the focused activity ends on an in-page summary. */
   function showSummary() {
     if (!session) return
     setSummary({ session, startStatus: sessionStartStatus })
     setNextDismissed(false)
+    activityLaunchLabel.current = null
     setSession(null)
     setSelectedOption(null)
     setChecked(null)
@@ -353,7 +369,7 @@ export function FocusedLearningWorkspace({
   function openFlashcards() {
     setDeck(startDeck(cards, knownRatings))
     setFlipped(false)
-    setOpenActivity('flashcards')
+    beginActivity('flashcards')
   }
 
   async function rateFlashcard(rating: FlashRating) {
@@ -781,13 +797,13 @@ export function FocusedLearningWorkspace({
     }
     const questionFeedback = <div className="practice-feedback-region" aria-live="polite">{feedbackFor()}</div>
 
-    const dialogBar = openActivity === 'quick-check' && session
+    const activityBar = openActivity === 'quick-check' && session
       ? <PracticeProgressBar total={session.total} done={Math.min(freshAnswered, session.total)} topicName={topicShort} status={progress?.status} move={statusMove} />
       : <PracticeBarTitle title={`${topicShort} · ${openLabels[openActivity ?? 'quick-check'] ?? ''}`} />
 
     return (
       <section className="learning-workspace focused-workspace focused-practice practice-workspace" aria-label="Practice">
-        {summaryModel ? (
+        {!openActivity && (summaryModel ? (
           <PracticeSummary
             topicTitle={topic?.title ?? topicShort}
             topicShort={topicShort}
@@ -815,26 +831,27 @@ export function FocusedLearningWorkspace({
             selectedTypes={chosenTypes}
             onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
             onStart={startQuestions}
-            carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => setOpenActivity('quick-check') } : null}
+            carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => beginActivity('quick-check') } : null}
             extraScored={extraScored}
-            onOpenExtraScored={(id) => setOpenActivity(id as WorkspaceMode)}
+            onOpenExtraScored={(id) => beginActivity(id as WorkspaceMode)}
             warmups={warmups}
-            onOpenWarmup={(id) => (id === 'flashcards' ? openFlashcards() : setOpenActivity(id as WorkspaceMode))}
+            onOpenWarmup={(id) => (id === 'flashcards' ? openFlashcards() : beginActivity(id as WorkspaceMode))}
             revReason={revReason}
           />
         ) : (
           <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topicShort} yet. Try another topic.</p></div>
-        )}
+        ))}
 
         {saveError && <p className="error" role="alert">{saveError}</p>}
 
         {openActivity && (
-          <PracticeDialog
+          <PracticeActivityWorkspace
+            key={openActivity}
             label={`Practice: ${topicShort}, ${(openLabels[openActivity] ?? '').toLowerCase()}`}
             subjectMark={subjectIdentity.mark}
             accentStyle={accentStyle(subjectIdentity.hue)}
             onClose={closeActivity}
-            bar={dialogBar}
+            bar={activityBar}
             footer={openActivity === 'quick-check' ? questionFeedback : undefined}
           >
             {openActivity === 'quick-check' && questionBody}
@@ -963,7 +980,7 @@ export function FocusedLearningWorkspace({
       )}
 
             {saving && <p className="muted" aria-live="polite">Saving your activity…</p>}
-          </PracticeDialog>
+          </PracticeActivityWorkspace>
         )}
       </section>
     )

@@ -48,31 +48,25 @@ test('the start button never promises more questions than the topic has', async 
   if (count < 15) await expect(scored.getByText(/for now, so that is what you will get/)).toBeVisible()
 })
 
-test('every exercise opens as a real pop-up: Esc and the close button leave it and focus returns to the button', async ({ page }) => {
+test('Practice activity is page-level and returns keyboard focus to its launch control', async ({ page }) => {
   await openPractice(page)
   const start = startButton(page)
   await start.click()
-  const dialog = page.getByRole('dialog')
-  await expect(dialog).toBeVisible()
-  await expect(dialog).toHaveAttribute('aria-modal', 'true')
-  await expect(dialog.getByRole('button', { name: 'Close practice' })).toBeFocused()
-
-  // Focus is trapped: tabbing around never reaches the page behind.
-  for (let press = 0; press < 12; press += 1) {
-    await page.keyboard.press('Tab')
-    expect(await dialog.evaluate((node) => node.contains(document.activeElement))).toBe(true)
-  }
-
-  await page.keyboard.press('Escape')
-  await expect(dialog).toHaveCount(0)
+  const workspace = page.getByRole('region', { name: /^Practice:/ })
+  await expect(workspace).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(start).toHaveCount(0)
+  await expect(workspace.getByRole('button', { name: 'Back to practice' })).toBeFocused()
+  await workspace.getByRole('button', { name: 'Back to practice' }).click()
+  await expect(workspace).toHaveCount(0)
   await expect(start).toBeFocused()
 
   const flashcards = page.getByRole('button', { name: /^Flashcards/ })
   await flashcards.click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(workspace).toBeVisible()
   await expect(page.getByText('Warm-up · doesn’t count towards Exam readiness')).toBeVisible()
-  await page.getByRole('button', { name: 'Close practice' }).click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await workspace.getByRole('button', { name: 'Back to practice' }).click()
+  await expect(workspace).toHaveCount(0)
   await expect(flashcards).toBeFocused()
 })
 
@@ -82,20 +76,20 @@ test('closing mid-session keeps every saved answer and the start screen offers C
   await answerWith(page, 0)
   expect(saved).toHaveLength(1)
 
-  await page.getByRole('button', { name: 'Close practice' }).click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Back to practice' }).click()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toHaveCount(0)
   expect(saved, 'closing must not lose or repeat a saved answer').toHaveLength(1)
 
   await expect(page.getByText('You have a session open.')).toBeVisible()
   await page.getByRole('button', { name: 'Carry on' }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   // The answer that was already checked is still on screen, with its feedback.
   await expect(page.locator('.ui-feedback-bar')).toBeVisible()
   await page.getByRole('button', { name: 'Next question' }).click()
   await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
 })
 
-test('the question pop-up shows the segmented strip and the topic status', async ({ page }) => {
+test('the question page-level workspace shows the segmented strip and the topic status', async ({ page }) => {
   await openPractice(page)
   await startButton(page).click()
   const total = Number((await page.locator('.practice-progress__count').textContent())?.match(/of (\d+)/)?.[1])
@@ -105,7 +99,7 @@ test('the question pop-up shows the segmented strip and the topic status', async
 })
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`start screen and pop-up meet the automated WCAG A/AA baseline (${theme})`, async ({ page }) => {
+  test(`start screen and page-level workspace meet the automated WCAG A/AA baseline (${theme})`, async ({ page }) => {
     await openPractice(page, theme)
     const audit = async (label: string) => {
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -113,12 +107,12 @@ for (const theme of ['light', 'dark'] as const) {
     }
     await audit(`start screen (${theme})`)
     await startButton(page).click()
-    await expect(page.getByRole('dialog')).toBeVisible()
-    await audit(`question pop-up (${theme})`)
-    await page.getByRole('button', { name: 'Close practice' }).click()
+    await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
+    await audit(`question page-level workspace (${theme})`)
+    await page.getByRole('button', { name: 'Back to practice' }).click()
     await page.getByRole('button', { name: /^Flashcards/ }).click()
     await expect(page.getByRole('button', { name: 'Show answer' })).toBeVisible()
-    await audit(`flashcards pop-up (${theme})`)
+    await audit(`flashcards page-level workspace (${theme})`)
   })
 }
 
@@ -128,12 +122,12 @@ for (const width of [1440, 960, 620, 390, 320]) {
     await openPractice(page)
     await expectNoSidewaysScroll(page)
     await startButton(page).click()
-    await expect(page.getByRole('dialog')).toBeVisible()
+    await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
     await expectNoSidewaysScroll(page)
-    const box = await page.getByRole('dialog').boundingBox()
+    const box = await page.getByRole('region', { name: /^Practice:/ }).boundingBox()
     expect(box!.x).toBeGreaterThanOrEqual(0)
     expect(box!.x + box!.width).toBeLessThanOrEqual(width + 0.5)
-    await page.getByRole('button', { name: 'Close practice' }).click()
+    await page.getByRole('button', { name: 'Back to practice' }).click()
     await page.getByRole('button', { name: /^Flashcards/ }).click()
     await expectNoSidewaysScroll(page)
   })

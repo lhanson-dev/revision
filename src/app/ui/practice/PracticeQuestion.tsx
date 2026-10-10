@@ -75,7 +75,7 @@ type QuestionHeadProps = Pick<PracticeQuestionViewProps, 'eyebrow' | 'level' | '
 export function QuestionHead({ eyebrow, level, marksLabel, sourceChip, levelNote, context, table }: QuestionHeadProps) {
   return (
     <>
-      <div className="practice-dialog__meta">
+      <div className="practice-activity__meta">
         <span className="ui-eyebrow">{eyebrow}</span>
         <span className="practice-chip">{level}</span>
         <span className="practice-chip">{marksLabel}</span>

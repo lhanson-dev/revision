@@ -166,17 +166,17 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await expectWcagBaseline(page, 'Practice start screen')
 
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await page.locator('.practice-question__options button').first().click()
   await expect(page.getByRole('button', { name: 'Fairly sure' })).toBeVisible()
-  await expectWcagBaseline(page, 'Practice question pop-up')
-  await page.getByRole('button', { name: 'Close practice' }).click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expectWcagBaseline(page, 'Practice question activity')
+  await page.getByRole('button', { name: 'Back to practice' }).click()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toHaveCount(0)
 
   await page.getByRole('button', { name: /^Flashcards/ }).click()
   await expect(page.getByRole('button', { name: 'Show answer' })).toBeVisible()
   await expectWcagBaseline(page, 'Practice flashcards')
-  await page.getByRole('button', { name: 'Close practice' }).click()
+  await page.getByRole('button', { name: 'Back to practice' }).click()
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
   await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
