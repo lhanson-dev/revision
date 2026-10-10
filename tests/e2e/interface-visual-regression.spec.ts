@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'courses' | 'course-overview' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -212,6 +212,39 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'tablet:timed-exam:dark': 'd1b7023b509c659ee8dc81090382debcfea478d2913261e5fc28077c9e331ec1',
 }
 
+/**
+ * C4-specific visual acceptance (not part of the fixed 18-state B7 inventory).
+ * Four separately approved Course Overview captures fail closed on future
+ * visual drift. Keep the original 18 B7 matrix and digests unchanged.
+ */
+const courseOverviewVisualReview = [
+  ['desktop', 'light'],
+  ['desktop', 'dark'],
+  ['phone', 'light'],
+  ['phone', 'dark'],
+] as const satisfies readonly (readonly ['desktop' | 'phone', Theme])[]
+
+/**
+ * C4 PR #592 Course Overview, desktop/phone Light/Dark visual baselines:
+ * Founder explicitly replied "Approve PR #592" on 10 October 2026 to the
+ * immediately preceding request "Approve PR #592 Course Overview visual
+ * baselines" after seeing the four CI screenshot comparisons. Visual
+ * approval only; NOT an instruction to merge PR #592.
+ * Source: exact-head CI #2961, run 38057084252, approved head
+ * 88ccc7aac1a68bb70304a7666044545d17c76b22.
+ * Retained screenshot artifact: interface-visual-regression-38057084252,
+ * ID 11671549345; each SHA-256 matches the browser log. 437 other browser
+ * checks, all 1,307 unit tests, typecheck, lint, build, security and DB/RLS
+ * passed. These four new C4 digests do not alter any of the 18 B7 baselines.
+ * Final merge requires separate explicit Founder approval after green CI.
+ */
+const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:light': '72a5d911af7b70dce1223e6fcd5e350ae7b832f2187f3568efb0118a363dbdd6',
+  'desktop:dark': '4c2d41dce90d2cb86c52dbb255bda110b798ff80a121f14eaa766a9b6ac1b975',
+  'phone:light': '7d183a2bba207e9e731b50434474d575f89fc8c3d8b90268263240e71a91b62d',
+  'phone:dark': '7e9b568e351d40e92508f7ce7b859e37a0c869adf1a601763fd8316929c4653c',
+}
+
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
   await page.clock.setFixedTime(new Date('2026-08-23T12:00:00.000Z'))
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -316,6 +349,7 @@ async function openState(page: Page, state: VisualState) {
     home: appPath,
     plan: `${appPath}#/plan`,
     courses: `${appPath}#/courses`,
+    'course-overview': `${appPath}#/courses/${course}/overview`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
     'exam-prep': `${appPath}#/courses/${course}/exam-prep`,
@@ -328,6 +362,7 @@ async function openState(page: Page, state: VisualState) {
 
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
+  if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
 
@@ -374,5 +409,28 @@ for (const visualCase of cases) {
       fullPage: false,
       maxDiffPixelRatio: 0.01,
     })
+  })
+}
+
+/**
+ * C4's additive visual checks are separate from the 18 B7 acceptance slots.
+ * Screenshot mismatch is an intentional visual-approval hold, not permission
+ * to silently pin a new rendering or expand B7's baseline matrix.
+ */
+for (const [project, theme] of courseOverviewVisualReview) {
+  test(`${project} course overview ${theme} C4 visual review`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== project, `Captured only in the ${project} canonical viewport.`)
+    await seedSession(page, theme, false)
+    await openState(page, 'course-overview')
+    const screenshot = await page.screenshot({
+      animations: 'disabled',
+      caret: 'hide',
+      fullPage: false,
+    })
+    await testInfo.attach(`course-overview-${theme}-${project}.png`, { body: screenshot, contentType: 'image/png' })
+    const digest = createHash('sha256').update(screenshot).digest('hex')
+    const approved = approvedCourseOverviewDigests[`${project}:${theme}`]
+    const approvedDigests = typeof approved === 'string' ? [approved] : approved
+    expect(approvedDigests).toContain(digest)
   })
 }
