@@ -1,29 +1,29 @@
-/* Onboarding course choice, redesign v2 (PR 13): Level, then subjects, then exam board. One question per screen. */
+/* Canonical onboarding choice/Plan styling. Existing step order remains unchanged. */
 .onb-choice { display: grid; gap: 18px; min-width: 0; }
-.onb-choice__step { margin: 4px 0 0; font-weight: 700; color: var(--rv-text-2); }
+.onb-choice__step { margin: 4px 0 0; font-weight: 700; color: var(--color-text-secondary); }
 .onb-choice__group { display: grid; gap: 14px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.onb-choice__group > legend, .onb-choice__question { padding: 0; margin: 0 0 6px; font-family: var(--rv-font-display); font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; color: var(--rv-text); }
-.onb-choice__hint, .onb-choice__note { margin: 0; font-weight: 600; color: var(--rv-text-2); }
+.onb-choice__group > legend, .onb-choice__question { padding: 0; margin: 0 0 6px; font-family: var(--font-family-display); font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; color: var(--color-text); }
+.onb-choice__hint, .onb-choice__note { margin: 0; font-weight: 600; color: var(--color-text-secondary); }
 .onb-choice__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
-.onb-card { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 16px; border: 2px solid var(--color-border-control); border-radius: var(--rv-radius-card); background: var(--rv-surface); color: var(--rv-text); cursor: pointer; min-width: 0; }
-.onb-card:hover { border-color: var(--rv-teal); }
-.onb-card:has(input:checked) { border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
-.onb-card:focus-within { border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
-.onb-card input { width: 22px; height: 22px; flex: none; accent-color: var(--rv-teal); }
+.onb-card { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 16px; border: 2px solid var(--color-border-control); border-radius: var(--radius-surface); background: var(--color-surface); color: var(--color-text); cursor: pointer; min-width: 0; }
+.onb-card:hover { border-color: var(--color-action); }
+.onb-card:has(input:checked) { border-color: var(--color-action); box-shadow: var(--focus-ring); }
+.onb-card:focus-within { border-color: var(--color-action); box-shadow: var(--focus-ring); }
+.onb-card input { width: 22px; height: 22px; flex: none; accent-color: var(--color-action); }
 .onb-card__text { display: grid; min-width: 0; }
 .onb-card__text strong { overflow-wrap: anywhere; }
-.onb-card__text small { color: var(--rv-text-2); font-weight: 600; }
-.onb-choice__subject { display: grid; gap: 10px; margin: 0; padding: 16px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); min-width: 0; }
+.onb-card__text small { color: var(--color-text-secondary); font-weight: 600; }
+.onb-choice__subject { display: grid; gap: 10px; margin: 0; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); min-width: 0; }
 .onb-choice__subject > legend { display: flex; align-items: center; gap: 10px; padding: 0 6px; font-weight: 800; }
-.onb-choice__single { margin: 0; font-weight: 700; color: var(--rv-text); overflow-wrap: anywhere; }
+.onb-choice__single { margin: 0; font-weight: 700; color: var(--color-text); overflow-wrap: anywhere; }
 .onb-choice__actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
 /* Steps 4 and 5: exam dates and weekly study time. */
 .onb-dates { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
 .onb-time { display: grid; gap: 8px; }
-.onb-time__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 6px 16px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.onb-time__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 6px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
 .onb-time__row--all { border-style: dashed; }
 .onb-time__stepper { display: flex; align-items: center; gap: 10px; }
 .onb-time__stepper span { min-width: 72px; text-align: center; font-weight: 800; }
-.onb-time__stepper button { width: 48px; height: 48px; border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); background: var(--rv-surface); color: var(--rv-text); font: inherit; font-size: 22px; font-weight: 800; cursor: pointer; }
-.onb-time__stepper button:focus-visible { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
+.onb-time__stepper button { width: 48px; height: 48px; border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: 22px; font-weight: 800; cursor: pointer; }
+.onb-time__stepper button:focus-visible { outline: 0; border-color: var(--color-action); box-shadow: var(--focus-ring); }

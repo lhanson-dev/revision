@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page, type Route } from '@playwright/test'
 
@@ -454,3 +455,29 @@ test('exam dates and study time steps never scroll sideways and pass the accessi
   result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(result.violations.map((item) => item.id)).toEqual([])
 })
+
+/** C3 approved visual-only account-choice baselines; behavioural checks stay intact.
+ * Founder approved PR #593's reviewed phone Light/Dark screenshots on
+ * 10 October 2026 (CI #2965, run 38062078446, artifact 11673104330),
+ * by replying "Approve PR #593" to the four-baseline review request.
+ * Keep outside B7's fixed 18-state visual matrix; no merge approval.
+ */
+const approvedFirstUseDigests: Record<'light' | 'dark', string> = {
+  light: '0d0700c8fe36608b7fb020358797dec8853e797cbd3d602fdc8c94033dc27be0',
+  dark: 'c9fe02595f5fe5accd04e866f8647194d28efc26c69c22ec69babb4dae4f21be',
+}
+for (const theme of ['light', 'dark'] as const) {
+  test(`phone experience selection ${theme} C3 visual review`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'phone', 'Canonical phone review viewport only')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript((selectedTheme) => localStorage.setItem('revision:theme', selectedTheme), theme)
+    await seedNewStudentSession(page, { dark: theme === 'dark' })
+    await stubFirstUseBackend(page)
+    await page.goto(appPath)
+    await expect(page.getByRole('heading', { name: 'How will you use Revision?' })).toBeVisible()
+    await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0) })
+    const screenshot = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: false })
+    await testInfo.attach(`first-use-account-${theme}-phone.png`, { body: screenshot, contentType: 'image/png' })
+    expect([approvedFirstUseDigests[theme]]).toContain(createHash('sha256').update(screenshot).digest('hex'))
+  })
+}

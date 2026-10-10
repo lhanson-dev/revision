@@ -1,21 +1,21 @@
-/* First-use screens, redesign v2 look (design_handoff_revision_v2 screen 10). Visual only: the existing flow is unchanged. */
-.first-use-shell .first-use-card { border-radius: var(--rv-radius-hero); box-shadow: none; }
+/* Canonical first-use visual roles. No change to flow, account state or evidence. */
+.first-use-shell .first-use-card { border-radius: var(--radius-feature); box-shadow: none; }
 .first-use-shell .first-use-heading h1,
-.first-use-shell .first-use-ready-title h1 { font-family: var(--rv-font-display); font-weight: 800; letter-spacing: -.025em; }
+.first-use-shell .first-use-ready-title h1 { font-family: var(--font-family-display); font-weight: 800; letter-spacing: -.025em; }
 
 /* Answer and choice rows: rounded, two-pixel outline, teal when picked. */
 .first-use-shell .first-use-options label,
-.first-use-shell .first-use-experience-card { border: 2px solid var(--color-border-control); border-radius: var(--rv-radius-row); }
+.first-use-shell .first-use-experience-card { border: 2px solid var(--color-border-control); border-radius: var(--radius-control); }
 .first-use-shell .first-use-options label:hover,
-.first-use-shell .first-use-experience-card.is-available:hover { border-color: var(--rv-teal); }
-.first-use-shell .first-use-options label.is-selected { border-color: var(--rv-teal); background: var(--rv-soft); box-shadow: var(--rv-ring); }
+.first-use-shell .first-use-experience-card.is-available:hover { border-color: var(--color-action); }
+.first-use-shell .first-use-options label.is-selected { border-color: var(--color-action); background: var(--color-surface-soft); box-shadow: var(--focus-ring); }
 
 /* Fields and buttons match Sign in. */
 .first-use-shell .first-use-card input:not([type="radio"]):not([type="checkbox"]),
-.first-use-shell .first-use-card select { border: 2px solid var(--color-border-control); border-radius: var(--rv-radius-row); }
+.first-use-shell .first-use-card select { border: 2px solid var(--color-border-control); border-radius: var(--radius-control); }
 .first-use-shell .first-use-card input:not([type="radio"]):not([type="checkbox"]):focus-visible,
-.first-use-shell .first-use-card select:focus-visible { border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
-.first-use-shell .first-use-card .ui-button--primary { border-radius: var(--radius-pill); background: var(--rv-teal); border-color: var(--rv-teal); color: var(--rv-teal-text); font-weight: 800; }
+.first-use-shell .first-use-card select:focus-visible { border-color: var(--color-action); box-shadow: var(--focus-ring); }
+.first-use-shell .first-use-card .ui-button--primary { border-radius: var(--radius-pill); background: var(--color-action); border-color: var(--color-action); color: var(--color-action-text); font-weight: 800; }
 
 /* REV recommends badge and note use the dark REV panel look. */
-.first-use-shell .first-use-rev-badge { background: var(--rv-deep); color: var(--rv-on-deep-label); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.first-use-shell .first-use-rev-badge { background: var(--color-inverse-action); color: var(--color-inverse-accent-text); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }

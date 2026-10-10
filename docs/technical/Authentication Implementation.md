@@ -115,3 +115,7 @@ Supabase Security Advisor currently reports leaked-password protection disabled.
 ## B7 documentation impact
 
 This bounded B7.1 increment changes implementation ownership rather than authentication behaviour. It updates this technical implementation record in the same branch. No normative authentication/product/brand authority change or ADR is required because the approved Visual Brand System and Interface System already require canonical asset use. The historical Design Acceptance Review remains unchanged.
+
+## C3 learner-entry visual-role reconciliation — pending governed PR (10 October 2026)
+
+The sole public learner entry remains `/app/ → AuthGate`. The `auth-v2.css` sign-in/create-account/recovery presentation is migrated to centrally owned learner action, inverse REV, display, focus and radius roles; no AuthGate, provider capability, form submission, recovery or identity semantics change. The two desktop Light/Dark visual review slots are fail-closed pending Founder approval; existing authentication/browser security contracts remain. This work does not adopt proposed Student lifecycle changes from unmerged PR #590.
