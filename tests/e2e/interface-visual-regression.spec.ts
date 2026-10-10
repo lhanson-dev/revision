@@ -20,10 +20,6 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'plan', theme: 'dark' },
   { project: 'tablet', state: 'courses', theme: 'light' },
   { project: 'tablet', state: 'courses', theme: 'dark' },
-  { project: 'desktop', state: 'course-overview', theme: 'light' },
-  { project: 'desktop', state: 'course-overview', theme: 'dark' },
-  { project: 'phone', state: 'course-overview', theme: 'light' },
-  { project: 'phone', state: 'course-overview', theme: 'dark' },
   { project: 'desktop', state: 'learn', theme: 'light' },
   { project: 'desktop', state: 'learn', theme: 'dark' },
   { project: 'phone', state: 'practice', theme: 'light' },
@@ -203,16 +199,7 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Playwright checks passed. The remaining 14 B7 visual contracts are intact.
  * This approves the four screenshot baselines only, NOT the PR merge.
  */
-/**
- * C4 Course Overview visual review slots. Deliberately unapproved placeholders
- * must fail closed while attaching exact Light/Dark screenshots for Founder review.
- * Pin only after Founder signs off the four captured images.
- */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:course-overview:light': 'PENDING_FOUNDER_APPROVAL',
-  'desktop:course-overview:dark': 'PENDING_FOUNDER_APPROVAL',
-  'phone:course-overview:light': 'PENDING_FOUNDER_APPROVAL',
-  'phone:course-overview:dark': 'PENDING_FOUNDER_APPROVAL',
   'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
@@ -223,6 +210,25 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'tablet:exam-prep:dark': 'bb16589e3ebc911c7ae7a72d51afa9920390a57151e4a24c20b999161755f129',
   'tablet:timed-exam:light': '3a72b9e666f5d44aa2cec8941cd8ab28ceb55fc0dd39d32aa01b7808ae39d882',
   'tablet:timed-exam:dark': 'd1b7023b509c659ee8dc81090382debcfea478d2913261e5fc28077c9e331ec1',
+}
+
+/**
+ * C4-specific visual acceptance (not part of the fixed 18-state B7 inventory).
+ * Four extra bounded Course Overview captures are deliberately fail-closed
+ * until Founder screenshot approval. Keep original B7 matrix unchanged.
+ */
+const courseOverviewVisualReview = [
+  ['desktop', 'light'],
+  ['desktop', 'dark'],
+  ['phone', 'light'],
+  ['phone', 'dark'],
+] as const satisfies readonly (readonly ['desktop' | 'phone', Theme])[]
+
+const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:light': 'PENDING_FOUNDER_APPROVAL',
+  'desktop:dark': 'PENDING_FOUNDER_APPROVAL',
+  'phone:light': 'PENDING_FOUNDER_APPROVAL',
+  'phone:dark': 'PENDING_FOUNDER_APPROVAL',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
@@ -389,5 +395,28 @@ for (const visualCase of cases) {
       fullPage: false,
       maxDiffPixelRatio: 0.01,
     })
+  })
+}
+
+/**
+ * C4's additive visual checks are separate from the 18 B7 acceptance slots.
+ * Screenshot mismatch is an intentional visual-approval hold, not permission
+ * to silently pin a new rendering or expand B7's baseline matrix.
+ */
+for (const [project, theme] of courseOverviewVisualReview) {
+  test(`${project} course overview ${theme} C4 visual review`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== project, `Captured only in the ${project} canonical viewport.`)
+    await seedSession(page, theme, false)
+    await openState(page, 'course-overview')
+    const screenshot = await page.screenshot({
+      animations: 'disabled',
+      caret: 'hide',
+      fullPage: false,
+    })
+    await testInfo.attach(`course-overview-${theme}-${project}.png`, { body: screenshot, contentType: 'image/png' })
+    const digest = createHash('sha256').update(screenshot).digest('hex')
+    const approved = approvedCourseOverviewDigests[`${project}:${theme}`]
+    const approvedDigests = typeof approved === 'string' ? [approved] : approved
+    expect(approvedDigests).toContain(digest)
   })
 }
