@@ -29,10 +29,17 @@ for (const visualCase of cases) {
     await start.click()
     await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
     await expect(page.getByRole('dialog')).toHaveCount(0)
+    // Phone browsers can still be in a smooth-scroll transition from the
+    // activity launch. The prior screenshot assertion waited for stability;
+    // a single immediate page.screenshot() did not. Explicitly restore the
+    // actual page viewport before capturing the already-approved pixels.
     await page.evaluate(async () => {
       await document.fonts.ready
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
     })
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+    await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeInViewport()
 
     // Digest comparison is exact (stricter than a pixel-difference tolerance).
     // Always attach the native PNG so an unexpected change remains inspectable.
