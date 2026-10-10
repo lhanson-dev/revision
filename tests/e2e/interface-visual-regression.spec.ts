@@ -214,8 +214,8 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
 
 /**
  * C4-specific visual acceptance (not part of the fixed 18-state B7 inventory).
- * Four extra bounded Course Overview captures are deliberately fail-closed
- * until Founder screenshot approval. Keep original B7 matrix unchanged.
+ * Four separately approved Course Overview captures fail closed on future
+ * visual drift. Keep the original 18 B7 matrix and digests unchanged.
  */
 const courseOverviewVisualReview = [
   ['desktop', 'light'],
@@ -224,11 +224,25 @@ const courseOverviewVisualReview = [
   ['phone', 'dark'],
 ] as const satisfies readonly (readonly ['desktop' | 'phone', Theme])[]
 
+/**
+ * C4 PR #592 Course Overview, desktop/phone Light/Dark visual baselines:
+ * Founder explicitly replied "Approve PR #592" on 10 October 2026 to the
+ * immediately preceding request "Approve PR #592 Course Overview visual
+ * baselines" after seeing the four CI screenshot comparisons. Visual
+ * approval only; NOT an instruction to merge PR #592.
+ * Source: exact-head CI #2961, run 38057084252, approved head
+ * 88ccc7aac1a68bb70304a7666044545d17c76b22.
+ * Retained screenshot artifact: interface-visual-regression-38057084252,
+ * ID 11671549345; each SHA-256 matches the browser log. 437 other browser
+ * checks, all 1,307 unit tests, typecheck, lint, build, security and DB/RLS
+ * passed. These four new C4 digests do not alter any of the 18 B7 baselines.
+ * Final merge requires separate explicit Founder approval after green CI.
+ */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'PENDING_FOUNDER_APPROVAL',
-  'desktop:dark': 'PENDING_FOUNDER_APPROVAL',
-  'phone:light': 'PENDING_FOUNDER_APPROVAL',
-  'phone:dark': 'PENDING_FOUNDER_APPROVAL',
+  'desktop:light': '72a5d911af7b70dce1223e6fcd5e350ae7b832f2187f3568efb0118a363dbdd6',
+  'desktop:dark': '4c2d41dce90d2cb86c52dbb255bda110b798ff80a121f14eaa766a9b6ac1b975',
+  'phone:light': '7d183a2bba207e9e731b50434474d575f89fc8c3d8b90268263240e71a91b62d',
+  'phone:dark': '7e9b568e351d40e92508f7ce7b859e37a0c869adf1a601763fd8316929c4653c',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
