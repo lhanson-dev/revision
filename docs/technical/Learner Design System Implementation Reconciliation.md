@@ -41,8 +41,8 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | Courses | KEEP after C3 slice 3 | responsive course UI uses canonical learner semantic/display/radius roles with governed subject identity; PR #583 is production-verified | Preserve course membership/navigation behaviour and canonical presentation |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
 | Learn | KEEP after PR #585 | reading-first learner experience now uses canonical headings, surface, radius, REV and focus roles; merged at `127439007325712bb088f467e1991db1f4c4616e` | Preserve its educational structure and previously approved visual baselines |
-| Practice sustained `PracticeDialog` activity | REMOVE | active Practice still runs the sustained learner task inside a dialog | Replace with page-level focused Practice workspace; keep evidence/feedback behaviour |
-| Practice task/feedback components | KEEP / FIX | flashcards, questions, calculations, written work and feedback are implemented and tested | Recompose into focused workspace rather than rewrite learning logic |
+| Practice activity workspace | KEEP after PR #589 | live Practice now uses page-level `PracticeActivityWorkspace`; approved six visual baselines and evidence contracts are production-verified | Preserve the page-level composition and scoped task semantics |
+| Practice task/feedback components | KEEP after PR #589 | flashcards, questions, calculations, written work, feedback and evidence are retained in the canonical workspace | Preserve established learning, retry, evidence and feedback contracts |
 | Exam Prep | FIX — active Exam reconciliation package | page remains a course section but existing exam experience still carries older focus/dialog assumptions | Keep preparation page in shell; focus only dedicated exam-performance activity |
 | Exam Simulator / timed mock | FIX — active Exam reconciliation package | existing full-paper implementation and persistence are useful | Move focused activity to canonical full working environment; preserve timing/persistence/evidence contracts |
 | REV recommendation/conversation behaviour | KEEP | governed reasoning and contextual conversation implementation exist | Preserve behaviour; reconcile presentation to Deep Teal + Living E everywhere REV is genuinely present |
@@ -70,8 +70,8 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 2. Plan — complete and production-verified via PR #578;
 3. Courses / Course Overview — complete and production-verified via PR #583;
 4. Learn / educational working surfaces — complete and production-verified via PR #585;
-5. Practice — combined page-level workspace composition and compatibility retirement;
-6. Exam Prep / Exam Simulator / contextual REV;
+5. Practice — complete and production-verified via PR #589;
+6. Exam Prep / Exam Simulator — active combined composition and compatibility slice; contextual REV retirement follows with shared entry work;
 7. Auth / first-use / onboarding learner entry surfaces.
 
 
@@ -83,17 +83,17 @@ The Courses / Course Overview slice is complete and production-verified via PR #
 
 The completed Learn slice keeps the Founder-approved reading-first route, hierarchy, teaching narrative, outer course-section frame, treatment semantics, contextual REV help, previous/next flow and Practice handoff unchanged. It moves the outer Learn frame and educational treatments onto canonical learner surface/radius roles, replaces Learn-local direct `--rv-*` REV aliases with inverse semantic roles, adopts canonical learner H2/H3 display roles, aligns Quick Check geometry, and uses the shared focus ring. The Founder reviewed and explicitly approved the desktop Learn light/dark captures on 9 October 2026. Exact-head CI #2917 on `862e0940f9bda8fa7e3a426dff86fb7c7af01b83` reproduced identical run/retry digests, and those approved baselines are pinned in `tests/e2e/interface-visual-regression.spec.ts`.
 
-### Current bounded Practice implementation package (draft branch; unmerged)
+### Completed bounded Practice package (PR #589)
 
-Following the verified PR #585 Learn merge (`127439007325712bb088f467e1991db1f4c4616e`; CI #2928 and Pages #475 passed), Practice is the next package. `PlannerRuntime → CourseExperienceScreen → FocusedLearningWorkspace` is the canonical route owner. Sustained Practice work no longer uses `PracticeDialog` or its scrim/focus trap; only the Exam Prep mock still uses the legacy dialog until the Exam package while retaining the existing setup, question/deck/written task state, feedback, summary, evidence/save, retry and Learn-topic handoff. Practice CSS now uses canonical learner semantic, display, radius and focus roles rather than direct `--rv-*` values. This is a single governed composition-and-token change, not two passes or a learning-logic rewrite. Existing approved Practice screenshots must fail closed until newly captured Light/Dark responsive visuals are reviewed by the Founder; no baseline digests are re-pinned in this branch.
+After PR #589 merged, Practice is no longer an active package. `PlannerRuntime → CourseExperienceScreen → FocusedLearningWorkspace` is the canonical route owner. Sustained Practice work no longer uses `PracticeDialog` or its scrim/focus trap; the separate Exam package now retires the final Exam mock dialog consumer while retaining the existing setup, question/deck/written task state, feedback, summary, evidence/save, retry and Learn-topic handoff. Practice CSS now uses canonical learner semantic, display, radius and focus roles rather than direct `--rv-*` values. This is a single governed composition-and-token change, not two passes or a learning-logic rewrite. The Founder-approved Practice screenshots are pinned and exact-head CI #2939, post-merge CI #2941, Pages #476 and path-to-live have passed.
 
-The remaining packages are Exam Prep/Simulator, Course Overview composition (including PR #582 supersession review), Auth/First Use/Onboarding plus shared REV and final compatibility retirement, then derived Design Lab reconciliation. Keep the obsolete compatibility namespace until **all** live consumers are proven migrated.
+The remaining packages after Exam Prep/Simulator are Course Overview composition (including PR #582 supersession review), Auth/First Use/Onboarding plus shared REV and final compatibility retirement, then derived Design Lab reconciliation. Keep the obsolete compatibility namespace until **all** live consumers are proven migrated.
 
-### Practice visual baseline approval — 10 October 2026 (PR #589, unmerged)
+### Practice visual baseline approval — 10 October 2026 (PR #589, merged)
 
 The Founder explicitly approved the six Practice visual captures presented for PR #589: the phone start screen in Light and Dark, and focused active Practice on phone and desktop in Light and Dark. The reviewed source is CI #2936, commit `dffe1cac8c1199d798bc764c60351cdc727cc7be`, retained artifact `interface-visual-regression-38034719673` (ID `11663751219`). All 430 non-visual browser tests, 1,307 unit tests, typecheck, lint, production build, security scan and database assurance passed on that head; the six failures were exclusively unapproved visual baselines.
 
-The two existing Practice start-screen SHA-256 digests and four focused-activity SHA-256 digests are pinned to those exact captures, with the active screenshots attached to each future test execution. The original 18-state B7 acceptance matrix and other page baselines remain unchanged. **This approval permits baseline pinning only:** fresh exact-head CI, main refresh and separate PR-specific merge approval remain mandatory. No normative design authority changes were introduced.
+The two existing Practice start-screen SHA-256 digests and four focused-activity SHA-256 digests are pinned to those exact captures, with the active screenshots attached to each future test execution. The original 18-state B7 acceptance matrix and other page baselines remain unchanged. The Founder later approved the exact PR #589 merge, and the merge/deployment assurance subsequently completed successfully. No normative design authority changes were introduced.
 
 ### Practice screenshot determinism (CI #2938 follow-up)
 
@@ -116,7 +116,7 @@ Before deleting the `--rv-*` namespace, decouple the canonical `--learning-statu
 Handle the material composition changes that are not token substitutions:
 
 - Course Overview duplication removal;
-- page-level focused Practice replacing sustained `PracticeDialog`;
+- continued retirement of superseded learner dialogs only where live consumers are proven migrated;
 - Exam Prep versus focused exam-activity boundary;
 - any reusable REV/Progress/course-orientation pattern exposed by those changes.
 
