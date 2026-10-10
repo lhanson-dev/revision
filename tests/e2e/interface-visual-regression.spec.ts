@@ -188,6 +188,17 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * artifact interface-visual-regression-38034719673 (ID 11663751219).
  * The other 16 B7 visual contracts are unchanged; merge is not approved here.
  */
+/**
+ * PR #591 Exam Prep / timed Exam Simulator (tablet Light/Dark) baselines
+ * approved by the Founder on 10 October 2026 ("Approve PR #591"), in response
+ * to the explicit "Approve PR #591 Exam visual baselines" review request.
+ * Approved captures came from exact-head CI #2948 (run 38042624110,
+ * commit 8b2cb15eb78c8d319ebd398cdb714f89aeda53c4), retained artifact
+ * interface-visual-regression-38042624110 (ID 11666565708).
+ * All 4 initial and retry screenshot SHA-256 digests match; 433 other
+ * Playwright checks passed. The remaining 14 B7 visual contracts are intact.
+ * This approves the four screenshot baselines only, NOT the PR merge.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
@@ -195,10 +206,10 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
   'phone:practice:light': 'a71cd28ea165533d3d3c482bf215b6ea35fd591a257c52b1d0ce04cb92fc795c',
   'phone:practice:dark': '652352e87674ce37d0c001656926c8568a7d7168e69e5761ce0ec5b64ccc4e1a',
-  'tablet:exam-prep:light': '573d3877f47aaf420a28e5d742b9298a07361ce39a6aba52823e288c0e077905',
-  'tablet:exam-prep:dark': '77fa5108170cfb3b7bfa4bacfea03e5bffaa2aedf6e0628d029381bd221438a5',
-  'tablet:timed-exam:light': '187017f6ac090191dc0b438697abb25f3cf665479f9043d21ae92f25eb3b9069',
-  'tablet:timed-exam:dark': 'b26580fd8b7400af5f2c040b35f45d7e2c739a5e43428f3c8d4e6fef9a73f89d',
+  'tablet:exam-prep:light': 'bff5bc1af00066e64ce5255c631528725599ae2c325e6a1ab32cb51c365ecee6',
+  'tablet:exam-prep:dark': 'bb16589e3ebc911c7ae7a72d51afa9920390a57151e4a24c20b999161755f129',
+  'tablet:timed-exam:light': '3a72b9e666f5d44aa2cec8941cd8ab28ceb55fc0dd39d32aa01b7808ae39d882',
+  'tablet:timed-exam:dark': 'd1b7023b509c659ee8dc81090382debcfea478d2913261e5fc28077c9e331ec1',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

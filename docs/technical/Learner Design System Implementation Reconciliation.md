@@ -103,7 +103,11 @@ The approved phone screenshot mismatch in CI #2938 was limited to animated Livin
 
 PR #589 merged the canonical page-level Practice workspace to `main` as `7e722d895f6dd49e9ba00ffb072bb2d9f775a20f`; post-merge CI #2941 and Pages #476 passed. The remaining `PracticeDialog` live consumer is the mock entry in `ExamPrepSection`. The Exam package removes the legacy dialog wrapper and styles, keeps `ExamPrepPage` in the ordinary learner shell, displays untimed question work in-page, and gives timed full papers their existing dedicated full-viewport simulator. It migrates Exam Prep/Simulator direct `--rv-*` consumer CSS together. The rest of the timer, pause/stop, written-answer, self-marking, evidence and persistence engine remains unchanged. This resolves a superseded composition and its styling debt together instead of polishing an obsolete dialog.
 
-Visual regression baselines for Exam Prep and timed mocks must fail closed for explicit Founder Light/Dark and responsive visual review; no re-pins occur until approved. Current normative `Learner Design System.md` §20 already requires this boundary, so the B5 implementation record is updated without creating competing design authority.
+Exam Prep and timed mock tablet Light/Dark screenshot differences were held fail closed in CI #2948; the Founder subsequently approved those four captures on 10 October 2026 and only those B7 hashes are re-pinned. Any future change remains fail closed. Fresh exact-head CI and independent PR #591 merge approval are still required. Current normative `Learner Design System.md` §20 already requires this boundary, so the B5 implementation record is updated without creating competing design authority.
+
+### PR #591 Exam Prep visual baseline approval — 10 October 2026 (draft; unmerged)
+
+Founder response “Approve PR #591” is interpreted as approval of the four screenshots explicitly requested in the preceding visual review, **not** a merge instruction. The four tablet Light/Dark captures from CI #2948, SHA-256 reproducible across initial run/retry and retained as artifact `11666565708`, are pinned without touching other B7 states. CI #2948 had 433 browser passes and only four anticipated visual mismatches; all non-visual job gates were green. Subsequent exact-head CI and separate explicit `Approve merge PR #591` remain mandatory.
 
 ### C3 assurance execution rule
 
