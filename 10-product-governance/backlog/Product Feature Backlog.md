@@ -1063,3 +1063,28 @@ FI-022 does not include Stripe, checkout/payment collection, invoices/customer p
 ### Production state
 
 FI-022 is **Live** on the canonical production runtime. Production Supabase exposes the `plan-state-v1` readiness contract and the protected `learner-plan-operations` function, while the merged application revision `df7d9b520fec60d4b804c49dfc2c441498f37b99` has successful backend-readiness, Pages deployment, production-smoke and durable path-to-live evidence. Future material changes to this foundation must follow the governed feature/change workflow; differentiated paid access remains an FI-002 change rather than an FI-022 extension by implication.
+
+---
+
+## FI-023 — Returning Student Home v3 command centre
+
+**Status:** Analyse — no Ready or implementation approval  
+**Captured:** 2026-10-10 (Founder-selected Home v3 visual direction and approval to begin preparation)  
+**Capability fit:** Guide; Plan; Progress and Readiness; course/activity discovery  
+**Analysis and readiness record:** [FI-023 Returning Student Home v3 Analysis.md](FI-023%20Returning%20Student%20Home%20v3%20Analysis.md)  
+**Proposed normative contract:** [FI-023 Home v3 Proposed Authority.md](FI-023%20Home%20v3%20Proposed%20Authority.md) — proposal only; current approved `Returning Student Home Experience.md` v1.2 remains active.  
+**Visual reference:** Founder-selected Claude Home v3 frozen version `v1791470408875449` and associated uploaded handoff; prototype evidence is not product authority.
+
+### Student need and intended scope
+
+Make Home the learner-wide starting point for both guided and independent students: one accurate REV recommendation with direct Start; today's actual plan; distinct upcoming mock/official exam dates; a truthful compact three-measure Progress overview; active courses; and concise explanation/navigation for Learn, Practice, Exam Prep, Plan, Progress and Courses.
+
+Use the current approved consolidated learner visual system and shared programme/evidence/assessment/navigation data; do not copy prototype CSS, create a second design system, change planning priorities for visual consistency, or add a new inline conversational answer UI. No new exam-date schema, predicted grade, content, Admin redesign or subscription tier differences belong in this slice.
+
+### Lifecycle evidence and current blockers
+
+The Founder explicitly approved proceeding with **preparation** on 2026-10-10. This authorises `Analyse` only. No `Ready`, production implementation, PR merge or release approval is recorded.
+
+Before seeking Ready: confirm truthful Today completion/aggregation, typed Ask REV forwarding and existing exam-date manager route, course chooser eligibility, independent section-error handling, and required measurement/assurance implementation. Recheck new approved main and any relevant concurrently merged first-use/design changes. The analysis record lists all 17 Definition-of-Ready criteria, risks and evidence requirements.
+
+**Next governed decision:** product-authority proposal review and explicit human `Analyse → Ready` approval, only after technical feasibility and measurement checks pass. Production code changes are blocked until then.
