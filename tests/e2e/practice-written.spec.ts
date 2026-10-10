@@ -24,7 +24,7 @@ async function startWritten(page: Page, query = '') {
   await scored.getByRole('button', { name: 'Written answers' }).click()
   await scored.getByRole('button', { name: 'Multiple choice' }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Ask REV to mark it' })).toBeVisible()
 }
 
@@ -144,7 +144,7 @@ test('Next question moves on after marking, and a written answer is not asked ag
 
 for (const theme of ['light', 'dark'] as const) {
   test(`the written answer screens meet the automated WCAG A/AA baseline (${theme})`, async ({ page }) => {
-    // Tall enough for the whole marking card, so no row is scrolled under the pop-up bar while axe measures it.
+    // Tall enough for the whole marking card, so no row is scrolled under the page-level workspace bar while axe measures it.
     await page.setViewportSize({ width: 1440, height: 1500 })
     await startWritten(page, `?theme=${theme}`)
     const audit = async (label: string) => {
@@ -170,7 +170,7 @@ for (const width of [1440, 960, 620, 390, 320]) {
     await expect(page.locator('.practice-rev-card__score')).toBeVisible()
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow).toBeLessThanOrEqual(0)
-    const bodyOverflow = await page.locator('.practice-dialog__body').evaluate((node) => node.scrollWidth - node.clientWidth)
+    const bodyOverflow = await page.locator('.practice-activity__body').evaluate((node) => node.scrollWidth - node.clientWidth)
     expect(bodyOverflow).toBeLessThanOrEqual(0)
   })
 }

@@ -708,7 +708,7 @@
   }
 }
 
-/* Practice (v2.2): the start screen, the pop-up and the question layout live in ui/practice/practice.css.
+/* Practice: the start screen, focused in-page activity and question layout live in ui/practice/practice.css.
    The old .pw-* workspace layout (side panel, "Other ways to practise" grid) was removed with that change. */
 .planner-runtime .practice-workspace {
   display: block;

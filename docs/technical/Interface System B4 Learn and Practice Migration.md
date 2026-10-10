@@ -1,6 +1,6 @@
 # Interface System B4 — Learn and Practice Migration
 
-**Status:** B4 original migration live via PR #119; Learn reading-first evolution In Progress under Issue #381  
+**Status:** B4 original migration and reading-first Learn live; page-level Practice reconciliation proposed in a governed draft PR  
 **Authority:** `10-product-governance/Learn MVP Experience.md`, `20-brand-and-experience/Educational Treatment System.md`, `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Canonical runtime:** `/revision/app/` → `app/index.html` → `src/main.tsx` → `AuthGate` → `FirstUseBoundary` → `PlannerRuntime` → `CourseExperienceScreen`
 
@@ -36,7 +36,7 @@ The current C3 design-system reconciliation is visual-only for Learn: it preserv
 
 `FocusedLearningWorkspace` remains the canonical Practice implementation.
 
-Practice continues to own:
+Practice continues to own the same educational responsibilities after replacing the sustained dialog with a page-level focused activity region (no backdrop, modal focus trap or locked viewport):
 
 - topic selection/context;
 - activity-mode selection;
@@ -49,7 +49,7 @@ Practice continues to own:
 - evidence recording; and
 - recommendation continuity.
 
-Issue #381 does not change Practice scoring, evidence meaning, readiness calculation or activity contracts. A Learn → Practice handoff may provide the exact topic in the URL so Practice opens in the intended academic context.
+The Practice composition slice does not change scoring, evidence meaning, readiness calculation or activity contracts. A Learn → Practice handoff may provide the exact topic in the URL so Practice opens in the intended academic context.
 
 ## Learn content and adapter boundary
 
@@ -100,7 +100,7 @@ Learn-specific presentation uses:
 - stackable contextual REV, Practice and previous/next controls; and
 - no ordinary-content horizontal scrolling requirement.
 
-Practice retains the existing responsive B4 task-led presentation.
+Practice uses the same task-led component and evidence contracts in the normal page flow. Active work replaces the setup controls in place; the activity bar, task and feedback stay together across phone, tablet and desktop. Returning to setup retains an unfinished session and saved evidence.
 
 ## Navigation and route continuity
 
@@ -154,3 +154,11 @@ Targeted coverage includes:
 The focused current implementation record is `docs/technical/Learn Reading Experience Implementation.md`.
 
 Issue #381 updates this migration record and the Interface System component registry because Learn now has a reusable `EducationalTreatment` component and structured visual treatment contracts. Normative Learn/treatment authority already exists; the implementation does not redefine educational truth, evidence semantics or Content Factory release gates.
+
+## Practice page-level implementation update (10 October 2026, draft/unmerged)
+
+The canonical Practice route remains `PlannerRuntime → CourseExperienceScreen → FocusedLearningWorkspace`; no alternate route/runtime is introduced. `PracticeActivityWorkspace` replaces `PracticeDialog` as the presentation shell: it is an in-page named region with a keyboard-focused back action and focus return to the triggering setup control. The session/flashcard/written/calculation state and persisted evidence remain in `FocusedLearningWorkspace`. No modal or background scroll locking applies to an ordinary learner Practice task.
+
+`src/app/ui/practice/practice.css` consumes central semantic/theme, display-heading, radius and focus roles. Deep Teal is reserved for actual REV-assisted written marking. Direct Practice `--rv-*` compatibility consumption is retired; aliases stay globally until the final zero-consumer audit. Only Practice presentation/browser assertions that assumed the superseded modal are updated; evidence, marking, question and accessibility contracts remain. Light/Dark visual approvals and exact-head CI are release gates, not presumed successes.
+
+**Documentation-impact check:** current `Learner Design System.md` §18 already requires this composition. No normative authority change or new ADR is required; this record, the implementation reconciliation and component registry record the technical change. Historical PR #119 and Issue #381 evidence remains intact.

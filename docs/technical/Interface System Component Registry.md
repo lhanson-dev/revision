@@ -170,7 +170,7 @@ Specialist evidence controls such as AO mark allocation may remain feature-owned
 
 ### Practice
 
-`FocusedLearningWorkspace` continues to use:
+`FocusedLearningWorkspace` continues to own session/evidence logic, while `PracticeActivityWorkspace` is the in-page activity region replacing the retired dialog. Practice uses:
 
 - `SelectField` for topic choice;
 - `SegmentedControl` + `Button` for activity mode selection;

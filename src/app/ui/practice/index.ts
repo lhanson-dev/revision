@@ -1,4 +1,4 @@
-export { PracticeBarTitle, PracticeDialog, PracticeProgressBar, WarmupChip, type PracticeBarTitleProps, type PracticeDialogProps, type PracticeProgressBarProps } from './PracticeDialog'
+export { PracticeActivityWorkspace, PracticeBarTitle, PracticeProgressBar, WarmupChip, type PracticeActivityWorkspaceProps, type PracticeBarTitleProps, type PracticeProgressBarProps } from './PracticeActivityWorkspace'
 export { PracticeStart, type PracticeCarryOn, type PracticeStartProps, type PracticeWarmupRow } from './PracticeStart'
 export { PracticeCalculationView, PracticeQuestionView, confidenceChoices, type PracticeCalculationViewProps, type PracticeOptionState, type PracticeQuestionViewProps } from './PracticeQuestion'
 export { PracticeWrittenQuestion, type PracticeWrittenQuestionProps, type WrittenChallengeView, type WrittenPhase, type WrittenResultView } from './PracticeWrittenQuestion'

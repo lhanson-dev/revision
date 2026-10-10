@@ -1,51 +1,42 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
 import { Icon } from '../Icon'
-import { ModalShell } from '../overlays'
 import { StatusBadge } from '../StatusBadge'
 import type { LearningStatus } from '../learning-status'
-import { classNames } from '../classNames'
 
-export interface PracticeDialogProps {
-  /** Accessible name for the dialog, e.g. "Practice: Break-even, questions". */
+export interface PracticeActivityWorkspaceProps {
+  /** Accessible label for the current Practice activity. */
   label: string
-  /** Subject letter mark, always shown beside the close button. */
   subjectMark: string
-  /** `--accent*` variables for the subject hue (see `accentStyle` in the Learn components). */
   accentStyle: CSSProperties
-  /** Esc and the close button both call this. Closing never discards a saved answer. */
+  /** Return to setup without discarding saved evidence or session state. */
   onClose: () => void
-  /** The activity's own bar content: a progress strip for questions, or a title for a warm-up. */
   bar: ReactNode
   children: ReactNode
-  /** Pinned under the body, e.g. the feedback bar. */
+  /** Feedback follows the task in normal page flow, not in a modal footer. */
   footer?: ReactNode
-  className?: string
 }
 
-/**
- * Every Practice exercise opens in this pop-up (v2.2). It is a real dialog: focus is trapped, Esc and the
- * close button leave it, and focus goes back to the button that opened it (the shared overlay contract).
- * On desktop and tablet it floats over the dimmed page; on a phone it is a full-height sheet.
- */
-export function PracticeDialog({ label, subjectMark, accentStyle, onClose, bar, children, footer, className }: PracticeDialogProps) {
+/** A real page-level work area. No scrim, focus trap, viewport locking or dialog semantics. */
+export function PracticeActivityWorkspace({ label, subjectMark, accentStyle, onClose, bar, children, footer }: PracticeActivityWorkspaceProps) {
+  const backButton = useRef<HTMLButtonElement>(null)
+  useEffect(() => { backButton.current?.focus() }, [])
+
   return (
-    <div className="practice-overlay" style={accentStyle}>
-      <ModalShell className={classNames('practice-dialog', className)} label={label} onDismiss={onClose}>
-        <div className="practice-dialog__bar">
-          <div className="practice-dialog__bar-inner">
-            <button type="button" className="practice-dialog__close" aria-label="Close practice" onClick={onClose}>
-              <Icon name="close" size="standard" />
-            </button>
-            <span className="practice-dialog__mark" aria-hidden="true">{subjectMark}</span>
-            {bar}
-          </div>
+    <section className="practice-activity" role="region" aria-label={label} style={accentStyle}>
+      <header className="practice-activity__bar">
+        <div className="practice-activity__bar-inner">
+          <button ref={backButton} type="button" className="practice-activity__close" aria-label="Back to practice" onClick={onClose}>
+            <Icon name="arrow-left" size="standard" />
+          </button>
+          <span className="practice-activity__mark" aria-hidden="true">{subjectMark}</span>
+          {bar}
         </div>
-        <div className="practice-dialog__body" tabIndex={0} role="region" aria-label="Practice content">
-          <div className="practice-dialog__column">{children}</div>
-        </div>
-        {footer}
-      </ModalShell>
-    </div>
+      </header>
+      <div className="practice-activity__body" role="group" aria-label="Practice content">
+        <div className="practice-activity__column">{children}</div>
+      </div>
+      {footer && <div className="practice-activity__footer">{footer}</div>}
+    </section>
   )
 }
 

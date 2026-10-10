@@ -18,7 +18,7 @@ async function startCalculations(page: Page, theme: 'light' | 'dark' = 'light') 
   await scored.getByRole('button', { name: 'Calculations' }).click()
   await scored.getByRole('button', { name: 'Multiple choice' }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.locator('.practice-calc__input')).toBeVisible()
   return saved
 }
@@ -142,6 +142,6 @@ test('the calculation screen never scrolls sideways at 1440, 960, 620, 390 and 3
   for (const width of [1440, 960, 620, 390, 320]) {
     await page.setViewportSize({ width, height: 900 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), `${width}px`).toBeLessThanOrEqual(0)
-    expect(await page.locator('.practice-dialog__body').evaluate((node) => node.scrollWidth - node.clientWidth), `${width}px dialog`).toBeLessThanOrEqual(0)
+    expect(await page.locator('.practice-activity__body').evaluate((node) => node.scrollWidth - node.clientWidth), `${width}px workspace`).toBeLessThanOrEqual(0)
   }
 })

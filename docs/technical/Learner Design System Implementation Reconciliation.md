@@ -40,7 +40,7 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | learner-wide Progress | KEEP after C3 slice 1 | governed three measures are implemented and the learner-wide route now consumes canonical semantic roles with no direct `--rv-*` dependency | Preserve evidence semantics and canonical presentation; course-level Progress remains separately scoped |
 | Courses | KEEP after C3 slice 3 | responsive course UI uses canonical learner semantic/display/radius roles with governed subject identity; PR #583 is production-verified | Preserve course membership/navigation behaviour and canonical presentation |
 | Course Overview | REMOVE + FIX | implementation repeats a subject hero, full `Your path` status treatment and separate `Weak spots` panel alongside REV | Remove duplicate dashboard structures and rebuild as calm orientation/decision surface; preserve evidence and recommendation semantics |
-| Learn | FIX — active C3 slice | reading-first workspace, hierarchy and shared treatments are sound; local REV aliases, generic heading roles and pre-reconciliation treatment radii remain | Preserve educational structure and evidence boundaries while migrating visual roles/geometry |
+| Learn | KEEP after PR #585 | reading-first learner experience now uses canonical headings, surface, radius, REV and focus roles; merged at `127439007325712bb088f467e1991db1f4c4616e` | Preserve its educational structure and previously approved visual baselines |
 | Practice sustained `PracticeDialog` activity | REMOVE | active Practice still runs the sustained learner task inside a dialog | Replace with page-level focused Practice workspace; keep evidence/feedback behaviour |
 | Practice task/feedback components | KEEP / FIX | flashcards, questions, calculations, written work and feedback are implemented and tested | Recompose into focused workspace rather than rewrite learning logic |
 | Exam Prep | FIX | page remains a course section but existing exam experience still carries older focus/dialog assumptions | Keep preparation page in shell; focus only dedicated exam-performance activity |
@@ -69,8 +69,8 @@ Migrate retained `--rv-*` and hard-coded legacy learner values in small groups:
 1. Home / learner-wide Progress — complete and production-verified via PR #575;
 2. Plan — complete and production-verified via PR #578;
 3. Courses / Course Overview — complete and production-verified via PR #583;
-4. Learn / educational working surfaces — active bounded slice;
-5. Practice;
+4. Learn / educational working surfaces — complete and production-verified via PR #585;
+5. Practice — combined page-level workspace composition and compatibility retirement;
 6. Exam Prep / Exam Simulator / contextual REV;
 7. Auth / first-use / onboarding learner entry surfaces.
 
@@ -81,7 +81,13 @@ The Plan slice is complete and production-verified via PR #578 / merge `f974631b
 
 The Courses / Course Overview slice is complete and production-verified via PR #583 / merge `9b8dfd7b288583f92456f6d19c49905e318bcd04`. It retired direct local `--rv-*` usage and superseded local radii from the Courses index and existing Course Overview presentation without changing membership, Add/Remove Course behaviour, navigation hierarchy, progress meaning or recommendation semantics. The Founder approved the tablet Courses light/dark visual baselines; exact-head CI #2911 passed, post-merge CI #2912 passed, and production workflow `37944287567` completed successfully. The known Course Overview composition debt — duplicate identity hero, full `Your path` treatment and separate `Weak spots` panel — remains deliberately deferred to C4. Shared `RevSuggestionCard` compatibility styling remains part of later shared/contextual REV retirement work.
 
-The active Learn slice keeps the Founder-approved reading-first route, hierarchy, teaching narrative, outer course-section frame, treatment semantics, contextual REV help, previous/next flow and Practice handoff unchanged. It moves the outer Learn frame and educational treatments onto canonical learner surface/radius roles, replaces Learn-local direct `--rv-*` REV aliases with inverse semantic roles, adopts canonical learner H2/H3 display roles, aligns Quick Check geometry, and uses the shared focus ring. The Founder reviewed and explicitly approved the desktop Learn light/dark captures on 9 October 2026. Exact-head CI #2917 on `862e0940f9bda8fa7e3a426dff86fb7c7af01b83` reproduced identical run/retry digests, and those approved baselines are pinned in `tests/e2e/interface-visual-regression.spec.ts`.
+The completed Learn slice keeps the Founder-approved reading-first route, hierarchy, teaching narrative, outer course-section frame, treatment semantics, contextual REV help, previous/next flow and Practice handoff unchanged. It moves the outer Learn frame and educational treatments onto canonical learner surface/radius roles, replaces Learn-local direct `--rv-*` REV aliases with inverse semantic roles, adopts canonical learner H2/H3 display roles, aligns Quick Check geometry, and uses the shared focus ring. The Founder reviewed and explicitly approved the desktop Learn light/dark captures on 9 October 2026. Exact-head CI #2917 on `862e0940f9bda8fa7e3a426dff86fb7c7af01b83` reproduced identical run/retry digests, and those approved baselines are pinned in `tests/e2e/interface-visual-regression.spec.ts`.
+
+### Current bounded Practice implementation package (draft branch; unmerged)
+
+Following the verified PR #585 Learn merge (`127439007325712bb088f467e1991db1f4c4616e`; CI #2928 and Pages #475 passed), Practice is the next package. `PlannerRuntime → CourseExperienceScreen → FocusedLearningWorkspace` is the canonical route owner. The sustained `PracticeDialog` and its scrim/focus-trap presentation are retired in favour of an in-page activity workspace while retaining the existing setup, question/deck/written task state, feedback, summary, evidence/save, retry and Learn-topic handoff. Practice CSS now uses canonical learner semantic, display, radius and focus roles rather than direct `--rv-*` values. This is a single governed composition-and-token change, not two passes or a learning-logic rewrite. Existing approved Practice screenshots must fail closed until newly captured Light/Dark responsive visuals are reviewed by the Founder; no baseline digests are re-pinned in this branch.
+
+The remaining packages are Exam Prep/Simulator, Course Overview composition (including PR #582 supersession review), Auth/First Use/Onboarding plus shared REV and final compatibility retirement, then derived Design Lab reconciliation. Keep the obsolete compatibility namespace until **all** live consumers are proven migrated.
 
 ### C3 assurance execution rule
 
@@ -89,7 +95,7 @@ For each remaining C3 surface, reconcile only the tests that directly exercise t
 
 Before deleting the `--rv-*` namespace, decouple the canonical `--learning-status-*` roles and any remaining shared semantic roles (including the shared Practice scrim) from `--rv-*` values without changing their governed learner-facing meaning. Auth, first-use and onboarding are included because they are live learner entry surfaces and still consume the compatibility namespace; their inclusion does not reopen public marketing or wider brand work. Delete an alias only when repository search and assurance prove no live consumer remains.
 
-### C4 — page-composition debts required by authority
+### Remaining page-composition corrections (combine with token retirement when they share a live surface)
 
 Handle the material composition changes that are not token substitutions:
 
