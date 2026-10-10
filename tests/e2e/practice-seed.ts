@@ -116,7 +116,7 @@ export type Sure = 'Guessing' | 'Fairly sure' | 'Certain'
 
 export async function startQuestions(page: Page) {
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.locator('.practice-question__prompt')).toBeVisible()
 }
 

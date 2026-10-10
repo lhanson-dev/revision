@@ -53,7 +53,7 @@ const mixed: Plan = [
 test('the summary shows the hero line, the status card, the skills map, what to go over, REV’s one next step and two ways out', async ({ page }) => {
   test.setTimeout(120_000)
   await openSummary(page, mixed)
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toHaveCount(0)
   await expect(page.getByText(/^Session done · /)).toBeVisible()
   await expect(page.getByRole('heading', { level: 2 }).filter({ hasText: /^\d+ of \d+ right$/ })).toBeVisible()
 
@@ -89,7 +89,7 @@ test('Practise again starts a new session, and Back to Practice returns to the s
   test.setTimeout(120_000)
   await openSummary(page, mixed)
   await page.getByRole('button', { name: 'Practise again' }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.locator('.practice-question__prompt')).toBeVisible()
   await expect(page.getByText(/^Session done · /)).toHaveCount(0)
 })
