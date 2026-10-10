@@ -67,7 +67,7 @@
 .planner-runtime .practice-activity__bar-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; max-width: 820px; margin: 0 auto; }
 .planner-runtime .practice-activity__close { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); background: var(--color-surface); color: var(--color-text-secondary); cursor: pointer; }
 .planner-runtime .practice-activity__close:hover { color: var(--color-text); }
-.planner-runtime .practice-activity__close:focus-visible { outline: 2px solid var(--color-action); box-shadow: var(--focus-ring); outline-offset: 2px; box-shadow: var(--focus-ring); }
+.planner-runtime .practice-activity__close:focus-visible { outline: 2px solid var(--color-action); outline-offset: 2px; box-shadow: var(--focus-ring); }
 .planner-runtime .practice-activity__mark { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: var(--radius-compact); background: var(--accent); color: var(--accent-on); font: 800 15px/1 var(--font-family-display); }
 .planner-runtime .practice-activity__body { min-width: 0; padding: 36px 28px 24px; }
 .planner-runtime .practice-activity__column { display: flex; flex-direction: column; gap: 24px; max-width: 820px; margin: 0 auto; min-width: 0; }

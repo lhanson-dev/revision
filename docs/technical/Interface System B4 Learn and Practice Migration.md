@@ -30,7 +30,7 @@ The reading-first implementation:
 
 The legacy Learn-specific workspace heading, local topic selector, `Topic notes / Link topics` switch and generic `Learning activity` framing are no longer the target Learn composition.
 
-The current C3 design-system reconciliation is visual-only for Learn: it preserves this responsibility split and aligns the existing course-section frame, educational treatments, REV end-card roles, heading roles and Quick Check surface with the canonical learner token/radius/focus system. Practice behaviour and styling are not changed by this Learn slice.
+The completed C3 design-system reconciliation was visual-only for Learn: it preserves this responsibility split and aligns the existing course-section frame, educational treatments, REV end-card roles, heading roles and Quick Check surface with the canonical learner token/radius/focus system. Practice behaviour and styling are not changed by this Learn slice.
 
 ### Practice
 
@@ -162,3 +162,5 @@ The canonical Practice route remains `PlannerRuntime → CourseExperienceScreen 
 `src/app/ui/practice/practice.css` consumes central semantic/theme, display-heading, radius and focus roles. Deep Teal is reserved for actual REV-assisted written marking. Direct Practice `--rv-*` compatibility consumption is retired; aliases stay globally until the final zero-consumer audit. Only Practice presentation/browser assertions that assumed the superseded modal are updated; evidence, marking, question and accessibility contracts remain. Light/Dark visual approvals and exact-head CI are release gates, not presumed successes.
 
 **Documentation-impact check:** current `Learner Design System.md` §18 already requires this composition. No normative authority change or new ADR is required; this record, the implementation reconciliation and component registry record the technical change. Historical PR #119 and Issue #381 evidence remains intact.
+
+The 18-state historical B7 visual acceptance matrix remains unchanged. A separate `tests/e2e/practice-activity-visual.spec.ts` captures the new focused activity on phone and desktop in both themes and intentionally fails closed until Founder-approved images are pinned; existing Practice start-screen baselines remain governed independently.
