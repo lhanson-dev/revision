@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { RevSuggestionCard } from './RevSuggestionCard'
@@ -38,7 +39,20 @@ describe('REV suggestion card', () => {
     expect(markup).toContain('data-state="upcoming"')
     expect(markup).toContain('>15 min<')
     expect(markup).toContain('>Done<')
+    expect(markup).toContain('ui-icon--inline')
     expect(markup).toContain('<h3')
     expect(markup).not.toContain('rev-suggestion-card__actions')
+  })
+})
+
+// This is the live Home and Course Overview shared component; do not restore v2 role aliases.
+describe('REV recommendation appearance contract', () => {
+  it('uses canonical inverse, action and shape roles without direct --rv-* dependencies', () => {
+    const styles = readFileSync(new URL('./rev-suggestion-card.css', import.meta.url), 'utf8')
+    expect(styles).not.toMatch(/var\(--rv-/)
+    expect(styles).toContain('var(--color-inverse-action)')
+    expect(styles).toContain('var(--color-action)')
+    expect(styles).toContain('var(--radius-feature)')
+    expect(styles).toContain('var(--radius-surface)')
   })
 })
