@@ -1063,3 +1063,28 @@ FI-022 does not include Stripe, checkout/payment collection, invoices/customer p
 ### Production state
 
 FI-022 is **Live** on the canonical production runtime. Production Supabase exposes the `plan-state-v1` readiness contract and the protected `learner-plan-operations` function, while the merged application revision `df7d9b520fec60d4b804c49dfc2c441498f37b99` has successful backend-readiness, Pages deployment, production-smoke and durable path-to-live evidence. Future material changes to this foundation must follow the governed feature/change workflow; differentiated paid access remains an FI-002 change rather than an FI-022 extension by implication.
+
+---
+
+## FI-023 — Returning Student Home v3 command centre
+
+**Status:** Ready — Founder approved FI-023 Definition of Ready on 2026-10-10; implementation has not started  
+**Captured:** 2026-10-10 (Founder-selected Home v3 visual direction and approval to begin preparation)  
+**Capability fit:** Guide; Plan; Progress and Readiness; course/activity discovery  
+**Analysis and readiness record:** [FI-023 Returning Student Home v3 Analysis.md](FI-023%20Returning%20Student%20Home%20v3%20Analysis.md)  
+**Founder-approved normative contract:** `10-product-governance/Returning Student Home Experience.md` v1.3 in PR #595. Main's v1.2 remains in force until this PR is separately approved for merge and integrated.  
+**Visual reference:** Founder-selected Claude Home v3 frozen version `v1791470408875449` and associated uploaded handoff; prototype evidence is not product authority.
+
+### Student need and intended scope
+
+Make Home the learner-wide starting point for both guided and independent students: one accurate REV recommendation with direct Start; today's actual plan; distinct upcoming mock/official exam dates; a truthful compact three-measure Progress overview; active courses; and concise explanation/navigation for Learn, Practice, Exam Prep, Plan, Progress and Courses.
+
+Use the current approved consolidated learner visual system and shared programme/evidence/assessment/navigation data; do not copy prototype CSS, create a second design system, change planning priorities for visual consistency, or add a new inline conversational answer UI. No new exam-date schema, predicted grade, content, Admin redesign or subscription tier differences belong in this slice.
+
+### Lifecycle evidence and current blockers
+
+After approving preparation and review on 2026-10-10, the Founder explicitly approved `Analyse → Ready` by replying **“Approve”** to the immediately preceding **“Approve FI-023 Ready”** request on 2026-10-10. The 17-point analysis and the Home v1.3 authority contract are recorded in PR #595. This approval does not authorise PR merge, production-code implementation before Home v1.3 enters main, or any release.
+
+Technical analysis on current main confirmed that Plan already owns correct completion and minute aggregates, the shared REV panel accepts a Home draft, the Plan screen owns exam-date management, and course-section eligibility is centrally defined. Bounded implementation tasks (one-submit REV handoff, Plan-owned exam-manager deep link, independent Home section errors) are identified rather than left as product decisions. The analysis record lists all 17 Definition-of-Ready criteria, measurement, risks and acceptance requirements. Recheck current main and concurrently merged first-use/design changes before implementation.
+
+**Next governed decision:** run exact-head assurance against current main for PR #595 and request separate Founder permission to merge the approved authority. Once integrated, begin the implementation on a new governed branch/PR; reverify current main, inherited design tokens, approved route, technical documentation and visual tests.
