@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'courses' | 'course-overview' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -20,6 +20,10 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'plan', theme: 'dark' },
   { project: 'tablet', state: 'courses', theme: 'light' },
   { project: 'tablet', state: 'courses', theme: 'dark' },
+  { project: 'desktop', state: 'course-overview', theme: 'light' },
+  { project: 'desktop', state: 'course-overview', theme: 'dark' },
+  { project: 'phone', state: 'course-overview', theme: 'light' },
+  { project: 'phone', state: 'course-overview', theme: 'dark' },
   { project: 'desktop', state: 'learn', theme: 'light' },
   { project: 'desktop', state: 'learn', theme: 'dark' },
   { project: 'phone', state: 'practice', theme: 'light' },
@@ -199,7 +203,16 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Playwright checks passed. The remaining 14 B7 visual contracts are intact.
  * This approves the four screenshot baselines only, NOT the PR merge.
  */
+/**
+ * C4 Course Overview visual review slots. Deliberately unapproved placeholders
+ * must fail closed while attaching exact Light/Dark screenshots for Founder review.
+ * Pin only after Founder signs off the four captured images.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:course-overview:light': 'PENDING_FOUNDER_APPROVAL',
+  'desktop:course-overview:dark': 'PENDING_FOUNDER_APPROVAL',
+  'phone:course-overview:light': 'PENDING_FOUNDER_APPROVAL',
+  'phone:course-overview:dark': 'PENDING_FOUNDER_APPROVAL',
   'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
@@ -316,6 +329,7 @@ async function openState(page: Page, state: VisualState) {
     home: appPath,
     plan: `${appPath}#/plan`,
     courses: `${appPath}#/courses`,
+    'course-overview': `${appPath}#/courses/${course}/overview`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
     'exam-prep': `${appPath}#/courses/${course}/exam-prep`,
@@ -328,6 +342,7 @@ async function openState(page: Page, state: VisualState) {
 
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
+  if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
 
