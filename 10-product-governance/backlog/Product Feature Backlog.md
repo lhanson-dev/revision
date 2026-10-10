@@ -1068,11 +1068,11 @@ FI-022 is **Live** on the canonical production runtime. Production Supabase expo
 
 ## FI-023 — Returning Student Home v3 command centre
 
-**Status:** Analyse — no Ready or implementation approval  
+**Status:** Ready — Founder approved FI-023 Definition of Ready on 2026-10-10; implementation has not started  
 **Captured:** 2026-10-10 (Founder-selected Home v3 visual direction and approval to begin preparation)  
 **Capability fit:** Guide; Plan; Progress and Readiness; course/activity discovery  
 **Analysis and readiness record:** [FI-023 Returning Student Home v3 Analysis.md](FI-023%20Returning%20Student%20Home%20v3%20Analysis.md)  
-**Proposed normative contract:** [FI-023 Home v3 Proposed Authority.md](FI-023%20Home%20v3%20Proposed%20Authority.md) — proposal only; current approved `Returning Student Home Experience.md` v1.2 remains active.  
+**Founder-approved normative contract:** `10-product-governance/Returning Student Home Experience.md` v1.3 in PR #595. Main's v1.2 remains in force until this PR is separately approved for merge and integrated.  
 **Visual reference:** Founder-selected Claude Home v3 frozen version `v1791470408875449` and associated uploaded handoff; prototype evidence is not product authority.
 
 ### Student need and intended scope
@@ -1083,8 +1083,8 @@ Use the current approved consolidated learner visual system and shared programme
 
 ### Lifecycle evidence and current blockers
 
-The Founder explicitly approved proceeding with **preparation** on 2026-10-10. This authorises `Analyse` only. No `Ready`, production implementation, PR merge or release approval is recorded.
+After approving preparation and review on 2026-10-10, the Founder explicitly approved `Analyse → Ready` by replying **“Approve”** to the immediately preceding **“Approve FI-023 Ready”** request on 2026-10-10. The 17-point analysis and the Home v1.3 authority contract are recorded in PR #595. This approval does not authorise PR merge, production-code implementation before Home v1.3 enters main, or any release.
 
 Technical analysis on current main confirmed that Plan already owns correct completion and minute aggregates, the shared REV panel accepts a Home draft, the Plan screen owns exam-date management, and course-section eligibility is centrally defined. Bounded implementation tasks (one-submit REV handoff, Plan-owned exam-manager deep link, independent Home section errors) are identified rather than left as product decisions. The analysis record lists all 17 Definition-of-Ready criteria, measurement, risks and acceptance requirements. Recheck current main and concurrently merged first-use/design changes before implementation.
 
-**Next governed decision:** product-authority proposal review and explicit human `Analyse → Ready` approval, only after technical feasibility and measurement checks pass. Production code changes are blocked until then.
+**Next governed decision:** run exact-head assurance against current main for PR #595 and request separate Founder permission to merge the approved authority. Once integrated, begin the implementation on a new governed branch/PR; reverify current main, inherited design tokens, approved route, technical documentation and visual tests.
