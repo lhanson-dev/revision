@@ -143,11 +143,18 @@ test('sign in and account creation use the canonical dark identity and central d
   await assertNoLegacyDarkThemeLeaks(authShell, 'Create account')
 })
 
-/** C3 entry-design review, separate from the fixed B7 18-state visual matrix.
- * Founder approval required before these capture digests may be pinned. */
+/** C3 entry-design visual baselines, separate from the fixed B7 18-state visual matrix.
+ * Founder explicitly approved the four PR #593 screenshots (desktop sign-in
+ * Light/Dark and phone first-use Light/Dark) on 10 October 2026 by replying
+ * "Approve PR #593" to the immediately preceding visual-baseline request.
+ * These hashes are from exact-head CI #2965 (run 38062078446, artifact
+ * interface-visual-regression-38062078446 ID 11673104330), originally
+ * captured on head 52b09049e94ef98a4fa886d9c20556cc3acd1aba.
+ * This approval covers visual baselines only, NOT the PR merge.
+ */
 const approvedSignInDigests: Record<'light' | 'dark', string> = {
-  light: 'PENDING_FOUNDER_APPROVAL',
-  dark: 'PENDING_FOUNDER_APPROVAL',
+  light: 'd69e3bdb83fa5f5188e8f62bf31add2cc525fc7b99654a8980f8397bd2853128',
+  dark: '005c17ae47f605d2bcc2e0a2aef5535a0256271dd84f9373290352bf899771b5',
 }
 for (const theme of ['light', 'dark'] as const) {
   test(`desktop sign-in ${theme} C3 visual review`, async ({ page }, testInfo) => {

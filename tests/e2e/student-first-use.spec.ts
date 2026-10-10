@@ -456,11 +456,15 @@ test('exam dates and study time steps never scroll sideways and pass the accessi
   expect(result.violations.map((item) => item.id)).toEqual([])
 })
 
-/** C3 visual-only account-choice review; fixed first-use behavioural checks stay intact.
- * Keep outside the existing B7 visual matrix. */
+/** C3 approved visual-only account-choice baselines; behavioural checks stay intact.
+ * Founder approved PR #593's reviewed phone Light/Dark screenshots on
+ * 10 October 2026 (CI #2965, run 38062078446, artifact 11673104330),
+ * by replying "Approve PR #593" to the four-baseline review request.
+ * Keep outside B7's fixed 18-state visual matrix; no merge approval.
+ */
 const approvedFirstUseDigests: Record<'light' | 'dark', string> = {
-  light: 'PENDING_FOUNDER_APPROVAL',
-  dark: 'PENDING_FOUNDER_APPROVAL',
+  light: '0d0700c8fe36608b7fb020358797dec8853e797cbd3d602fdc8c94033dc27be0',
+  dark: 'c9fe02595f5fe5accd04e866f8647194d28efc26c69c22ec69babb4dae4f21be',
 }
 for (const theme of ['light', 'dark'] as const) {
   test(`phone experience selection ${theme} C3 visual review`, async ({ page }, testInfo) => {
