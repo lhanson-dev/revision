@@ -200,7 +200,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setSessionOverlay(null)
   }
 
-  function stopExam() {
+  function stopExam(returnToPrep = true) {
     setStarted(false)
     setFinishedWriting(false)
     setSubmitted(false)
@@ -216,7 +216,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     startedAt.current = null
     pauseStartedAt.current = null
     totalPausedMs.current = 0
-    if (autoStart === 'timed') onExit?.()
+    if (returnToPrep && autoStart === 'timed') onExit?.()
   }
 
   function updateMark(key: AoKey, value: number) {
@@ -320,7 +320,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function resetExam() {
-    stopExam()
+    // Restarting from a saved result preserves the simulator's prior launch flow.
+    // Only explicit confirmed Stop returns to the owning Exam Prep page.
+    stopExam(false)
   }
 
   if (!started && questionPractice && practiceQuestion) {
@@ -535,7 +537,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <h2 id="stop-exam-title">Are you sure?</h2>
             <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
             <div className="exam-confirm-actions">
-              <button className="danger" type="button" onClick={stopExam}>Yes, stop exam</button>
+              <button className="danger" type="button" onClick={() => stopExam()}>Yes, stop exam</button>
               <button className="primary" type="button" onClick={resumeExam}>Continue exam</button>
             </div>
           </ModalShell>
