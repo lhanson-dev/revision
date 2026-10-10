@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Button } from '../controls'
 import { Icon, type IconName } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
-import { WarmupChip } from './PracticeDialog'
+import { WarmupChip } from './PracticeActivityWorkspace'
 import { flashRatingChoices, type FlashRating } from '../../practice-flashcards'
 
 const ratingIcon: Record<FlashRating, IconName> = { 0: 'status-needswork', 1: 'status-nearly', 2: 'status-gotit' }
