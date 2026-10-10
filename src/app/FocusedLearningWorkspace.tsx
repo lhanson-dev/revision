@@ -846,6 +846,7 @@ export function FocusedLearningWorkspace({
 
         {openActivity && (
           <PracticeActivityWorkspace
+            key={openActivity}
             label={`Practice: ${topicShort}, ${(openLabels[openActivity] ?? '').toLowerCase()}`}
             subjectMark={subjectIdentity.mark}
             accentStyle={accentStyle(subjectIdentity.hue)}
