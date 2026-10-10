@@ -310,3 +310,6 @@
 .planner-runtime .practice-calc__hint { color: var(--color-text-secondary); font: 600 14px/1.4 var(--font-family-product); }
 .planner-runtime .practice-calc__error { color: var(--learning-status-needswork-ink); font: 700 14px/1.4 var(--font-family-product); }
 .planner-runtime .practice-summary__item-reason { white-space: pre-line; }
+
+/* The shared icon is forward-pointing; rotate it for the return-to-setup action. */
+.planner-runtime .practice-activity__close .ui-icon { transform: rotate(180deg); }

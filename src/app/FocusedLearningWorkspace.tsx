@@ -172,12 +172,14 @@ export function FocusedLearningWorkspace({
   const [mode, setMode] = useState<WorkspaceMode | null>(null)
   // In-page focused Practice activity and the choices on the start screen.
   const [openActivity, setOpenActivity] = useState<WorkspaceMode | null>(null)
-  const activityLaunchControl = useRef<HTMLElement | null>(null)
+  const activityLaunchLabel = useRef<string | null>(null)
   useEffect(() => {
-    if (!openActivity && activityLaunchControl.current) {
-      activityLaunchControl.current.focus()
-      activityLaunchControl.current = null
-    }
+    if (openActivity || !activityLaunchLabel.current) return
+    // Setup is remounted when leaving the focused activity. The old DOM button
+    // is detached, so restore focus to the corresponding new launch control.
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.practice-start button'))
+    buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)?.focus()
+    activityLaunchLabel.current = null
   }, [openActivity])
   const [length, setLength] = useState<PracticeLength>(PRACTICE_LENGTHS[0])
   const [selectedTypes, setSelectedTypes] = useState<PracticeQuestionType[]>(['multiple-choice'])
@@ -312,7 +314,7 @@ export function FocusedLearningWorkspace({
 
   /** Start the focused in-page activity, remembering the trigger for keyboard focus return. */
   function beginActivity(activity: WorkspaceMode) {
-    if (!openActivity && document.activeElement instanceof HTMLElement) activityLaunchControl.current = document.activeElement
+    if (!openActivity && document.activeElement instanceof HTMLElement) activityLaunchLabel.current = document.activeElement.textContent?.trim() ?? null
     setOpenActivity(activity)
   }
 
@@ -340,7 +342,7 @@ export function FocusedLearningWorkspace({
     if (!session) return
     setSummary({ session, startStatus: sessionStartStatus })
     setNextDismissed(false)
-    activityLaunchControl.current = null
+    activityLaunchLabel.current = null
     setSession(null)
     setSelectedOption(null)
     setChecked(null)
