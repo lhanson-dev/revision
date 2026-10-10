@@ -105,10 +105,15 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * Desktop Learn was re-pinned again on 7 October 2026 after the canonical desktop Ask REV CTA moved to
  * Deep Teal. The Founder reviewed the CI #2837 desktop capture sheet and explicitly approved it
  * ("Approve C2 desktop Deep Teal baselines").
+ * Re-pinned on 9 October 2026 for the C3 Learn canonical-token migration after the Founder explicitly
+ * approved the reviewed light/dark captures ("Approve C3 Learn visual baselines"). Exact-head CI #2917
+ * on 862e0940f9bda8fa7e3a426dff86fb7c7af01b83 reproduced identical run/retry digests:
+ * light d23f3be12cec9c1459bf98d8bc051a5b9d623fd89bafe5a0291cba96895b6e1e;
+ * dark f860f2a930f5c182076b26f60fe8de2914cda55cec39a64042de5a73cfc92e47.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '76ae73dd75b4debf1c24feeb295a901231a0bd8624b572b6df1bc585ad077075',
-  'desktop:dark': 'f7730b702b6f80332ef00eb37cf83ef04b1c679be6375468320895a3788999e1',
+  'desktop:light': 'd23f3be12cec9c1459bf98d8bc051a5b9d623fd89bafe5a0291cba96895b6e1e',
+  'desktop:dark': 'f860f2a930f5c182076b26f60fe8de2914cda55cec39a64042de5a73cfc92e47',
 }
 
 /**

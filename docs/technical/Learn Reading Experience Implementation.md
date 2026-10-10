@@ -117,6 +117,12 @@ The contextual REV prompt uses the current teaching-page title and opens the exi
 
 `src/app/learn-navigation.css` owns the progressive-disclosure presentation inside the existing navigation grammar.
 
+## C3 learner-design reconciliation
+
+The bounded C3 Learn slice preserves the existing reading-first product behaviour and educational hierarchy. The governed outer course-section frame remains in place, but it uses the canonical ordinary-surface border/radius rather than the older feature-radius treatment. Learn-local REV colours now consume the canonical inverse semantic roles; the page title and teaching subheads consume the learner H2/H3 roles; educational treatment surfaces use the canonical 20px/12px family according to job; Quick Check uses the same 20px ordinary educational surface; and local focus treatment uses the shared focus ring.
+
+This slice does not change teaching content, treatment selection, route structure, nested navigation, Quick Check evidence semantics, Practice handoff, progress/readiness meaning or Content Factory publication gates. The Founder explicitly approved the C3 desktop Learn light/dark captures on 9 October 2026. Exact-head CI #2917 on `862e0940f9bda8fa7e3a426dff86fb7c7af01b83` reproduced identical run/retry digests before those approved baselines were pinned.
+
 ## Responsive behaviour
 
 `src/app/learn-reading.css` owns the teaching-page composition only. The existing shell continues to own desktop rail and responsive drawer behaviour.
@@ -196,4 +202,4 @@ This implementation does not:
 
 ## Documentation impact
 
-Issue #381 introduces a new current implementation boundary for Learn. The governed PR therefore updates the Interface System Learn/Practice technical record and shared component registry alongside this focused implementation record. The merged Educational Treatment System authority metadata is also corrected where its frontmatter still describes the already-merged direction as pending.
+Issue #381 introduced the current implementation boundary for Learn. The C3 design-system reconciliation keeps that boundary intact while aligning the live Learn surface and treatment geometry with current learner design authority. The Educational Treatment System is reconciled in the same governed change only where it repeats superseded visual geometry; educational semantics and content requirements are unchanged.
