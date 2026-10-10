@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page, type Route } from '@playwright/test'
 
@@ -454,3 +455,25 @@ test('exam dates and study time steps never scroll sideways and pass the accessi
   result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(result.violations.map((item) => item.id)).toEqual([])
 })
+
+/** C3 visual-only account-choice review; fixed first-use behavioural checks stay intact.
+ * Keep outside the existing B7 visual matrix. */
+const approvedFirstUseDigests: Record<'light' | 'dark', string> = {
+  light: 'PENDING_FOUNDER_APPROVAL',
+  dark: 'PENDING_FOUNDER_APPROVAL',
+}
+for (const theme of ['light', 'dark'] as const) {
+  test(`phone experience selection ${theme} C3 visual review`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'phone', 'Canonical phone review viewport only')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript((selectedTheme) => localStorage.setItem('revision:theme', selectedTheme), theme)
+    await seedNewStudentSession(page, { dark: theme === 'dark' })
+    await stubFirstUseBackend(page)
+    await page.goto(appPath)
+    await expect(page.getByRole('heading', { name: 'How will you use Revision?' })).toBeVisible()
+    await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0) })
+    const screenshot = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: false })
+    await testInfo.attach(`first-use-account-${theme}-phone.png`, { body: screenshot, contentType: 'image/png' })
+    expect([approvedFirstUseDigests[theme]]).toContain(createHash('sha256').update(screenshot).digest('hex'))
+  })
+}

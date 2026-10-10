@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
 const appPath = '/revision/app/'
@@ -141,3 +142,24 @@ test('sign in and account creation use the canonical dark identity and central d
   await assertCanonicalWordmark(page, 'dark')
   await assertNoLegacyDarkThemeLeaks(authShell, 'Create account')
 })
+
+/** C3 entry-design review, separate from the fixed B7 18-state visual matrix.
+ * Founder approval required before these capture digests may be pinned. */
+const approvedSignInDigests: Record<'light' | 'dark', string> = {
+  light: 'PENDING_FOUNDER_APPROVAL',
+  dark: 'PENDING_FOUNDER_APPROVAL',
+}
+for (const theme of ['light', 'dark'] as const) {
+  test(`desktop sign-in ${theme} C3 visual review`, async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Canonical desktop review viewport only')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript((selectedTheme) => localStorage.setItem('revision:theme', selectedTheme), theme)
+    await stubAuthSettings(page, true)
+    await page.goto(appPath)
+    await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
+    await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0) })
+    const screenshot = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: false })
+    await testInfo.attach(`auth-entry-${theme}-desktop.png`, { body: screenshot, contentType: 'image/png' })
+    expect([approvedSignInDigests[theme]]).toContain(createHash('sha256').update(screenshot).digest('hex'))
+  })
+}
