@@ -1,17 +1,17 @@
 # FI-023 — Returning Student Home v3 — analysis and Definition-of-Ready assessment
 
 **Document type:** non-authoritative product-management analysis / implementation readiness assessment  
-**Lifecycle:** Analyse — **not Ready, not In Progress, not Live**  
+**Lifecycle:** Ready — Founder explicitly approved the completed Definition of Ready on 2026-10-10; **not In Progress or Live**  
 **Prepared:** 2026-10-10  
 **Canonical baseline assessed:** approved `main` `4a746a2cfcc6223841b554074f673b0a7803e7c0`  
 **Owner:** Product / Founder  
-**Proposed product contract:** [FI-023 Home v3 Proposed Authority.md](FI-023%20Home%20v3%20Proposed%20Authority.md) (not active)  
-**Live authority until approval:** `10-product-governance/Returning Student Home Experience.md` v1.2  
+**Approved product authority in PR #595:** `10-product-governance/Returning Student Home Experience.md` v1.3 (becomes active when this PR merges)  
+**Current main authority until merge:** `10-product-governance/Returning Student Home Experience.md` v1.2  
 **Visual evidence:** Founder-selected Claude Home v3 at version `v1791470408875449`; uploaded `design_handoff_home_v3/README.md` and `HomeV3.frozen.dc.html`, with the accompanying Founder-viewed desktop Light and Dark images in the conversation. The separate H1–H8/S1–S4 gallery is not present in the supplied ZIP; do not assert its screenshots were inspected.
 
 ## Lifecycle and authority
 
-The Founder selected the Home v3 visual direction and explicitly approved proceeding with **preparation and readiness** on 2026-10-10. This establishes that the material Home expansion belongs in the product and authorises this Analyse work. It **does not** approve `Analyse → Ready`, production-code implementation, or any PR merge.
+The Founder selected the Home v3 visual direction and approved **preparation and readiness analysis** on 2026-10-10, moving FI-023 into Analyse. After the completed 17-point Definition-of-Ready assessment was presented in the conversation, the Founder replied **“Approve”** to the immediately preceding request to **“Approve FI-023 Ready”**, on 2026-10-10. This is the explicit Founder `Analyse → Ready` transition for the bounded Home v3 feature and approval of its proposed v1.3 authority, recorded here. It is **not** approval to merge PR #595, begin production changes before the authority PR merges, or merge any later implementation PR.
 
 Do not infer that the material change is just design-token alignment: it expands the currently approved Home contract (which ends after Today's Plan) into five information/navigation areas. `REV Guidance and Conversation Pattern.md` v2.1 already supersedes the older requirement to place the promoted task as a separate Plan element; the proposed Home authority incorporates that precedence explicitly rather than claiming code or prototype authority.
 
@@ -103,21 +103,21 @@ Scope/effort estimate: **medium** frontend/product-integration change (one Home 
 
 Risk level **medium/high learner-journey** due route changes and cross-section evidence. Unit test deterministic matching, count aggregation and date-grouping; integration test against plan/assessment/evidence stores; browser test correct Home route, recommendation Start and persistence, section buttons, focus and chooser, one course/many courses/no course, Plan complete/empty, date kinds, partial failures, REV overlay, 320px/no overflow/zoom, phone/tablet/desktop Light/Dark and reduced motion. Protect existing GJ-01 and Progress checks. Continue fail-closed Home baseline review: do not re-pin SHA-256 digests without exact Founder screenshot approval. Do not rewrite other page snapshots.
 
-### 15. Documentation/authority impact — PASS identified, **not yet promoted**
+### 15. Documentation/authority impact — PASS; authority approved on PR #595, pending governed integration
 
-- **Proposed authority:** v1.3 `Returning Student Home Experience.md`, submitted as a **separate candidate** while v1.2 stays active on main.
+- **Normative authority:** Founder-approved Home v1.3 replaces Home v1.2 in `10-product-governance/Returning Student Home Experience.md` in PR #595. v1.2 stays operative on current `main` until PR #595 has its own explicit merge approval and is merged; no duplicate candidate authority remains.
 - **Normative adjacent sources:** specialist REV, learner design, navigation, claims and planning remain intact unless a genuine new contract conflict is proven.
 - **On implementation:** update `docs/technical/Returning Student Home Implementation.md` (some sections still describe older composition and outdated subject palette), `docs/features/home.md`, `docs/technical/Learner Design System Implementation Reconciliation.md`, tests/visual digests/assurance register.
 - **Decision record/indexes:** add an ADR or decision register entry only if a material new architecture/evidence contract is introduced, not merely for approved page composition. Track FI-023 in the canonical backlog.
 - Historical Claude design and prior screenshots remain historical evidence, not active policy.
 
-### 16. Blocking decisions — NONE outstanding beyond explicit Ready and authority approval
+### 16. Blocking decisions — NONE outstanding; implementation still waits for integrated approved authority
 
-The Founder selected the page hierarchy and identity treatment. Product analysis recommends the shared contextual Ask REV layer, no additional exam data schema and exact-match Plan labelling rather than two independent competing recommendation narratives. Criterion 13 feasibility checks now confirm the existing components and required bounded adjustments; criterion 10 identifies the existing telemetry owner and guardrail. No additional Founder behaviour/commercial/evidence choice is needed before requesting Ready.
+The Founder selected the page hierarchy and identity treatment. Product analysis recommends the shared contextual Ask REV layer, no additional exam data schema and exact-match Plan labelling rather than two independent competing recommendation narratives. Criterion 13 feasibility checks now confirm the existing components and required bounded adjustments; criterion 10 identifies the existing telemetry owner and guardrail. No additional Founder behaviour/commercial/evidence choice was needed for the approved Ready decision.
 
-### 17. Human Ready approval — BLOCKED by definition
+### 17. Human Ready approval — PASS (2026-10-10)
 
-**Not given.** "Approved to go forward" in this thread authorised this preparation, not `Ready` and not any merge. Present a final complete criterion assessment and proposed authority before asking the Founder to explicitly approve FI-023 Ready.
+**Given.** The Founder replied **“Approve”** to the immediately preceding explicit invitation **“Approve FI-023 Ready”** on 2026-10-10 after the full assessment had been recorded in this PR. This records readiness approval **only**, not a merge approval for PR #595. Product implementation begins later, on a governed branch, after this authority is integrated into main.
 
 ## Dependency/implementation boundary
 
@@ -134,7 +134,7 @@ The Founder selected the page hierarchy and identity treatment. Product analysis
 
 ## Recommended next action
 
-Present the proposed Home v1.3 authority together with the **complete** Ready assessment and request explicit `Approve FI-023 Ready`. If granted, promote the approved Home v1.3 into the numbered active authority and update FI-023 to Ready on the governed PR, then seek separate explicit approval for that specific PR merge. Only after the approved Ready authority is integrated may a production-implementation branch/PR begin. Until then FI-023 stays **Analyse**; no production implementation or merge is authorised.
+Complete final integration/assurance for PR #595 against current `main` and provide a plain-language Founder merge summary. Request the **separate** `Approve merge PR #595` only when merge-ready; do not merge before that approval. Once the approved v1.3 Home product authority is on main, start implementation from the then-current main on a new governed branch/PR and update technical documentation and assurance. FI-023 is **Ready**, not In Progress or Live.
 
 ## Design handoff provenance (non-authoritative)
 
