@@ -6,7 +6,7 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
-type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'practice-activity' | 'exam-prep' | 'timed-exam' | 'admin'
 type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
@@ -24,6 +24,11 @@ const cases: ReadonlyArray<VisualCase> = [
   { project: 'desktop', state: 'learn', theme: 'dark' },
   { project: 'phone', state: 'practice', theme: 'light' },
   { project: 'phone', state: 'practice', theme: 'dark' },
+  // New focused-work composition: never accept a screenshot without Founder review.
+  { project: 'phone', state: 'practice-activity', theme: 'light' },
+  { project: 'phone', state: 'practice-activity', theme: 'dark' },
+  { project: 'desktop', state: 'practice-activity', theme: 'light' },
+  { project: 'desktop', state: 'practice-activity', theme: 'dark' },
   { project: 'tablet', state: 'exam-prep', theme: 'light' },
   { project: 'tablet', state: 'exam-prep', theme: 'dark' },
   { project: 'tablet', state: 'timed-exam', theme: 'light' },
@@ -300,6 +305,7 @@ async function openState(page: Page, state: VisualState) {
     courses: `${appPath}#/courses`,
     learn: `${appPath}#/courses/${course}/learn`,
     practice: `${appPath}#/courses/${course}/practice`,
+    'practice-activity': `${appPath}#/courses/${course}/practice`,
     'exam-prep': `${appPath}#/courses/${course}/exam-prep`,
     admin: `${appPath}#/admin`,
   }
@@ -309,7 +315,11 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
-  if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
+  if (state === 'practice' || state === 'practice-activity') await expect(page.locator('.focused-practice')).toBeVisible()
+  if (state === 'practice-activity') {
+    await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+    await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
+  }
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
 
