@@ -12,13 +12,12 @@
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(288px, 1fr);
   gap: var(--space-5);
-  align-items: stretch;
+  align-items: start;
   min-width: 0;
 }
 
 .planner-runtime .course-overview-rev { min-width: 0; }
 .planner-runtime .course-overview-rev .rev-suggestion-card {
-  height: 100%;
   min-width: 0;
   border-radius: var(--radius-feature);
 }
@@ -32,9 +31,9 @@
 .planner-runtime .course-overview-summary {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
   min-width: 0;
-  padding: var(--space-5);
+  padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-surface);
   background: var(--color-surface);
@@ -50,6 +49,17 @@
 .planner-runtime .course-overview-summary .ui-progress-measures {
   min-width: 0;
   margin: 0;
+  gap: var(--space-3);
+}
+/* Compact aggregate evidence only; topic-level detail remains in Progress.
+   These are scoped presentation overrides, not changes to metric meaning. */
+.planner-runtime .course-overview-summary .ui-progress-measure {
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-surface);
+}
+.planner-runtime .course-overview-summary .ui-progress-measure__number {
+  font-size: clamp(32px, 2vw, 44px);
 }
 .planner-runtime .course-overview-exam {
   display: flex;
