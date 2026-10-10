@@ -1,9 +1,11 @@
 # Interface System B5 — Exam Prep and Exam Experience Migration
 
 **Status:** live in production via PR #121  
-**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
+**Current learner authority:** `20-brand-and-experience/Learner Design System.md` §20 and `20-brand-and-experience/Product UX Principles.md`
+**Original B5 authority (historical):** `20-brand-and-experience/Visual Brand System.md` v1.0 and `Product UX Principles.md` v0.4  
 **Depends on:** B4 Learn/Practice live via PR #119  
-**Canonical runtime:** `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` → compatibility `App` → contextual Exam Prep → `ExamSimulator`
+**Canonical signed-in runtime (current):** `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` → `CourseExperienceScreen` → `ExamPrepSection` → `ExamPrepPage` or the focused `ExamSimulator`
+**Original B5 runtime (historical):** `PlannerRuntime` → compatibility `App` → contextual Exam Prep → `ExamSimulator`
 
 ## Production evidence
 
