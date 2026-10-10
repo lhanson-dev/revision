@@ -60,6 +60,8 @@ Assessment setup should stay simple and should exploit information Revision alre
 
 The learner should not have to select from an unnecessarily long syllabus list or repeatedly enter information Revision already holds merely to add an assessment.
 
+**Student first use:** Once one exact supported course has been saved, the learner may optionally enter any known public exam-paper dates during onboarding, **before and without** completing a starting check. Unknown dates are left blank; skipping dates must not delay first useful revision, and saving dates must not create educational evidence or require any diagnostic signal. Plan → Manage exams remains the later edit/add/remove route. The specialist lifecycle contract and `Core User Journeys.md` own onboarding order.
+
 ## 3. Availability
 
 Revision asks for **realistically available revision time**, not aspirational study hours.
@@ -76,7 +78,7 @@ The default recurring model should support separate normal availability for:
 
 It should also support date-specific exceptions where normal availability does not apply.
 
-The learner should be able to edit this recurring weekly pattern from **Plan settings**. During missing-plan setup, the same weekly pattern may be shown directly because it is required to build a realistic plan.
+The learner should be able to edit this recurring weekly pattern from **Plan settings**. During missing-plan setup **in Plan**, the same weekly pattern may be shown directly because it is required to build a realistic plan. **Do not ask for weekly study availability during initial Student onboarding before the first completed useful revision activity and its feedback.** After first value, students can add realistic Monday–Sunday time through Plan when ready; a missing availability profile must not block Home access or further supported revision. A full capacity-aware plan may remain incomplete and should be described truthfully until the learner adds time.
 
 Availability is capacity, not a target or proof of study. Revision must not shame a learner for entering low availability or treat entered time as learning evidence.
 
