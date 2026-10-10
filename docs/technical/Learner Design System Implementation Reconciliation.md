@@ -43,8 +43,8 @@ No current Phase C item requires a new Founder design decision. Existing authori
 | Learn | KEEP after PR #585 | reading-first learner experience now uses canonical headings, surface, radius, REV and focus roles; merged at `127439007325712bb088f467e1991db1f4c4616e` | Preserve its educational structure and previously approved visual baselines |
 | Practice sustained `PracticeDialog` activity | REMOVE | active Practice still runs the sustained learner task inside a dialog | Replace with page-level focused Practice workspace; keep evidence/feedback behaviour |
 | Practice task/feedback components | KEEP / FIX | flashcards, questions, calculations, written work and feedback are implemented and tested | Recompose into focused workspace rather than rewrite learning logic |
-| Exam Prep | FIX | page remains a course section but existing exam experience still carries older focus/dialog assumptions | Keep preparation page in shell; focus only dedicated exam-performance activity |
-| Exam Simulator / timed mock | FIX | existing full-paper implementation and persistence are useful | Move focused activity to canonical full working environment; preserve timing/persistence/evidence contracts |
+| Exam Prep | FIX — active Exam reconciliation package | page remains a course section but existing exam experience still carries older focus/dialog assumptions | Keep preparation page in shell; focus only dedicated exam-performance activity |
+| Exam Simulator / timed mock | FIX — active Exam reconciliation package | existing full-paper implementation and persistence are useful | Move focused activity to canonical full working environment; preserve timing/persistence/evidence contracts |
 | REV recommendation/conversation behaviour | KEEP | governed reasoning and contextual conversation implementation exist | Preserve behaviour; reconcile presentation to Deep Teal + Living E everywhere REV is genuinely present |
 | Light/Dark semantic base | KEEP | central theme translation and integrity tests exist | Preserve |
 | local/v2 theme roles | REMOVE (after migration) | `--rv-bg`, `--rv-surface`, etc. form a parallel theme generation | Migrate bounded consumers then delete |
@@ -98,6 +98,12 @@ The two existing Practice start-screen SHA-256 digests and four focused-activity
 ### Practice screenshot determinism (CI #2938 follow-up)
 
 The approved phone screenshot mismatch in CI #2938 was limited to animated Living E pixels in the global bottom dock (pixel-by-pixel analysis: no changed pixels elsewhere); the prior viewport-scroll diagnosis was not sufficient. The focused Practice screenshot assertion hashes decoded pixels from the Founder-reviewed CI #2936 images, excluding only the animated glyph square (64 × 64 at phone size) while retaining the unmasked native PNG evidence. Everything else, including all desktop pixels, remains exact-pixel fail-closed. No additional design approval, normative change or unrelated test cleanup is implied.
+
+### Exam Prep / Simulator current bounded package (draft, unmerged)
+
+PR #589 merged the canonical page-level Practice workspace to `main` as `7e722d895f6dd49e9ba00ffb072bb2d9f775a20f`; post-merge CI #2941 and Pages #476 passed. The remaining `PracticeDialog` live consumer is the mock entry in `ExamPrepSection`. The Exam package removes the legacy dialog wrapper and styles, keeps `ExamPrepPage` in the ordinary learner shell, displays untimed question work in-page, and gives timed full papers their existing dedicated full-viewport simulator. It migrates Exam Prep/Simulator direct `--rv-*` consumer CSS together. The rest of the timer, pause/stop, written-answer, self-marking, evidence and persistence engine remains unchanged. This resolves a superseded composition and its styling debt together instead of polishing an obsolete dialog.
+
+Visual regression baselines for Exam Prep and timed mocks must fail closed for explicit Founder Light/Dark and responsive visual review; no re-pins occur until approved. Current normative `Learner Design System.md` §20 already requires this boundary, so the B5 implementation record is updated without creating competing design authority.
 
 ### C3 assurance execution rule
 

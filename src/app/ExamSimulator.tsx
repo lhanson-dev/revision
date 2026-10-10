@@ -95,9 +95,11 @@ export type ExamSimulatorProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   /** Opened from the Exam Prep page: skip the launch screen. `untimed` opens single-question practice. */
   autoStart?: 'timed' | 'untimed'
+  /** Return to the owning Exam Prep page after explicitly discarding a timed attempt. */
+  onExit?: () => void
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -214,6 +216,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     startedAt.current = null
     pauseStartedAt.current = null
     totalPausedMs.current = 0
+    if (autoStart === 'timed') onExit?.()
   }
 
   function updateMark(key: AoKey, value: number) {

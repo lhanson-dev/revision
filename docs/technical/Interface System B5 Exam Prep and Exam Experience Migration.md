@@ -125,3 +125,14 @@ The exact Founder approval marker and `revision/founder-approval = success` were
 ## Documentation impact
 
 B5 implemented existing approved product journey and Brand/UX authority. No ADR or normative product-authority change was required because canonical runtime, persistence, evidence architecture and service boundaries remained unchanged. Historical audits/research remain unchanged.
+## Learner design reconciliation after PR #589 — proposed Exam package (10 October 2026, unmerged)
+
+**Current implementation owner:** `PlannerRuntime → CourseExperienceScreen → ExamPrepSection → ExamPrepPage` for the learner course-page preparation state. The B5 record's historical compatibility-`App` path remains true of the original migration, but does not describe the current canonical signed-in learner route.
+
+**Focused exam boundary:** The old `PracticeDialog` wrapper was still a live modal parent for a timed `ExamSimulator`, even though `ExamSimulator` already owns a dedicated full-viewport `exam-session-page`. Remove this duplicate Practice-owned modal and its transitional `exam-v2.css` styles. Keep preparation and choice on `ExamPrepPage` inside the normal learner shell, untimed mock question practice in a page-level `exam-prep-activity`, and the timed full-paper session in the one existing dedicated full-viewport simulator. Existing in-progress answer/timer/pause/stop/marking/persistence logic stays in `ExamSimulator`, including explicit stop confirmation; after deliberate discard, return to Exam Prep with keyboard focus restored to the initiating control.
+
+**Visual implementation:** `ui/exam/exam-prep.css` and `exam-v2.css` migrate all direct `--rv-*` reads to canonical theme, action, learning/functional status, typography, shape and focus roles. The focused exam top bar uses the neutral Graphite performance role rather than REV-only Deep Teal. Shared interruption modals for Pause and Stop remain live and preserve the governed focus, timer and obscuring behaviour. The canonical Exam Prep guide retains paper choice, AOs, commands, exam guidance and mock availability.
+
+**Documentation impact:** This is implementation alignment to already approved `20-brand-and-experience/Learner Design System.md` §20 and governing Core Journeys/Course Placement, so no new normative decision or ADR is needed. This B5 record and the implementation reconciliation document change in the same PR. Existing B5 production evidence is preserved as historical.
+
+**Assurance boundary:** Only directly affected Exam Prep modal-structure tests are updated; timed controls, pause/resume/stop, navigation, scoring, marking, security, accessibility and response persistence tests remain. Exam Prep and timed-exam visual baselines stay pinned and must **fail closed for Founder visual approval** before re-pinning.
