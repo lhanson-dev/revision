@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -32,7 +32,7 @@ import { resolveSubjectIdentity } from './subject-palette'
 import { lastFlashcardRatings } from './practice-flashcards'
 import { lastAnsweredByContent } from './practice-questions'
 import { topicLearningStatus, topicProgressFor, understandingCounts } from './topic-status'
-import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge, SubjectBadge } from './ui'
+import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge } from './ui'
 
 type CourseExperienceScreenProps = {
   client: SupabaseClient
@@ -285,14 +285,8 @@ export function CourseExperienceScreen({
     const recommendationTopic = state.recommendationTopic
     const recommendationSection: CourseSection = recommendation?.activity === 'exam-question' ? 'exam-prep' : 'practice'
     const nextExam = findNextCourseExam(examAssessments, course, catalogue, memberships)
-    const { hue, mark } = resolveSubjectIdentity(subject.id, subject.name)
+    const { hue } = resolveSubjectIdentity(subject.id, subject.name)
     const understanding = understandingCounts([state])
-    const weakSpots = state.topicKnowledge.topics
-      .filter((item) => item.band === 'low')
-      .sort((left, right) => (left.score ?? 0) - (right.score ?? 0))
-      .slice(0, 3)
-      .map((item) => ({ topicId: item.topicId, title: adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId }))
-
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
         <CourseHeader course={course} subjectName={subject.name} navLabel={label} sections={sections} section={section} titleId="course-page-title" onOpenCourses={onOpenCourses} onOpenSection={(next) => onOpenCourseSection(course.id, next)} />
@@ -300,60 +294,36 @@ export function CourseExperienceScreen({
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
 
         {section === 'overview' && <div className="paper-section-content course-overview-content course-overview-v2">
-          <section className="course-overview-hero" aria-label={`${subject.name} at a glance`} style={{ '--hero-solid': `var(--subject-${hue})`, '--hero-on': `var(--subject-${hue}-on)` } as CSSProperties}>
-            <div className="course-overview-hero-id">
-              <SubjectBadge hue={hue} mark={mark} size="panel" onSolid />
-              <div>
-                <p className="course-overview-hero-eyebrow">{course.examBoardName} · {course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}</p>
-                <p className="course-overview-hero-facts">{subject.name} · {topics.length} topics</p>
-              </div>
-            </div>
-            <dl className="course-overview-hero-stats">
-              <div><dt>Exam date</dt><dd>{examDateStatus === 'ready' && nextExam ? examCountdownShort(nextExam.assessmentDate) : 'Not set'}</dd></div>
-            </dl>
-          </section>
-
-          <ProgressMeasures
-            hue={hue}
-            covered={state.evidencedTopics}
-            total={state.topicCount}
-            understanding={understanding}
-            readiness={readinessFor(state).value}
-            readinessNote={readinessFor(state).note}
-          />
-
-          <div className="course-overview-columns">
-            <section className="course-overview-path" aria-labelledby="course-topics-title">
-              <h2 id="course-topics-title">Your path</h2>
-              <ol>
-                {topics.map((topic, index) => {
-                  const knowledge = state.topicKnowledge.topics.find((item) => item.topicId === topic.id)
-                  const band = knowledge?.band ?? 'not-enough-evidence'
-                  const isNext = recommendation?.topicId === topic.id
-                  return <li key={topic.id} data-band={band} data-next={isNext ? 'true' : undefined}>
-                    <span className="course-overview-path-mark" aria-hidden="true">{band === 'good' ? '✓' : index + 1}</span>
-                    <span className="course-overview-path-copy"><strong>{topic.shortTitle}</strong><StatusBadge status={topicLearningStatus(band, state.evidence.some((entry) => entry.topicId === topic.id))} size="sm" /></span>
-                    {isNext && sections.includes(recommendationSection) && <Button size="compact" onClick={() => onOpenCourseSection(course.id, recommendationSection)}>Continue</Button>}
-                  </li>
-                })}
-              </ol>
-            </section>
-
-            <aside className="course-overview-side">
-              {weakSpots.length > 0 && <section className="course-overview-weak" aria-labelledby="course-weak-title">
-                <h2 id="course-weak-title">Weak spots</h2>
-                <ul>
-                  {weakSpots.map((item) => <li key={item.topicId}><span>{item.title}</span><StatusBadge status="needswork" size="sm" /></li>)}
-                </ul>
-                {sections.includes('practice') && <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'practice')}>Practise these</Button>}
-              </section>}
+          <section className="course-overview-decision" aria-label="Course next step and overall progress">
+            <div className="course-overview-rev">
               <RevSuggestionCard
+                variant="hero"
                 eyebrow="REV’s advice"
+                title="Your next useful step"
                 reason={recommendation && recommendationTopic ? `${recommendationHeading(recommendationTopic.shortTitle, recommendation.activity)}. ${recommendationCopy(recommendation)}` : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}
                 primaryAction={sections.includes(recommendationSection) ? { label: recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice', onClick: () => onOpenCourseSection(course.id, recommendationSection) } : undefined}
-                secondaryAction={{ label: 'Ask REV about this course', onClick: () => onOpenRev() }}
               />
-            </aside>
+            </div>
+            <section className="course-overview-summary" aria-labelledby="course-overview-summary-heading">
+              <h2 id="course-overview-summary-heading">Your progress at a glance</h2>
+              <ProgressMeasures
+                stack
+                hue={hue}
+                covered={state.evidencedTopics}
+                total={state.topicCount}
+                understanding={understanding}
+                readiness={readinessFor(state).value}
+                readinessNote={readinessFor(state).note}
+              />
+              <p className="course-overview-exam">
+                <span>Exam date</span>
+                <strong>{examDateStatus === 'loading' ? 'Checking…' : examDateStatus === 'error' ? 'Unavailable' : nextExam ? examCountdownShort(nextExam.assessmentDate) : 'Not set'}</strong>
+              </p>
+            </section>
+          </section>
+          <div className="course-overview-ask">
+            <p>Need help deciding what to do next? Ask REV about this course.</p>
+            <Button variant="secondary" onClick={() => onOpenRev()}>Ask REV about this course</Button>
           </div>
         </div>}
 

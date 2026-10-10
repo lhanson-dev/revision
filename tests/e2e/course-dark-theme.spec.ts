@@ -172,38 +172,41 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
-  const hero = page.locator('.course-overview-hero')
-  await expect(hero).toBeVisible()
-  await expect(hero).toHaveCSS('border-radius', '28px')
-  const heroStat = hero.locator('.course-overview-hero-stats > div').first()
-  const heroStatSurface = await backgroundRoleStyles(heroStat, '--color-surface')
-  expect(heroStatSurface.actual).toBe(heroStatSurface.expected)
-  await expect(heroStat).toHaveCSS('border-radius', '20px')
-  await expect(hero.getByText('Exam date', { exact: true })).toBeVisible()
-  await expect(hero.getByText(/\d+ days|1 day|Today/)).toBeVisible()
+  // Identity is owned solely by the canonical CourseHeader. The Overview
+  // chooses one useful next action and shows aggregate evidence, not a topic list.
+  await expect(page.locator('.course-header-identity')).toBeVisible()
+  await expect(page.locator('.course-overview-hero, .course-overview-path, .course-overview-weak')).toHaveCount(0)
+  const overview = page.locator('.course-overview-v2')
+  await expect(overview.getByRole('heading', { name: 'Your next useful step' })).toBeVisible()
+  await expect(overview.getByRole('heading', { name: 'Your progress at a glance' })).toBeVisible()
+  await expect(overview.getByRole('heading', { name: 'Your path' })).toHaveCount(0)
 
-  // The three progress measures sit under the hero, never blended into one percentage.
-  const measures = page.locator('.ui-progress-measures')
+  const summary = page.locator('.course-overview-summary')
+  const summarySurface = await backgroundRoleStyles(summary, '--color-surface')
+  expect(summarySurface.actual).toBe(summarySurface.expected)
+  await expect(summary).toHaveCSS('border-radius', '20px')
+  await expect(summary.getByText('Exam date', { exact: true })).toBeVisible()
+  await expect(summary.getByText(/\d+ days|1 day|Today/)).toBeVisible()
+
+  const measures = summary.locator('.ui-progress-measures')
   await expect(measures.getByRole('heading', { name: 'Topics covered' })).toBeVisible()
   await expect(measures.getByRole('heading', { name: 'Understanding' })).toBeVisible()
   await expect(measures.getByRole('heading', { name: 'Exam readiness' })).toBeVisible()
   await expect(measures.getByText('Not enough evidence yet')).toBeVisible()
 
-  const path = page.locator('.course-overview-path')
-  await expect(path.getByRole('heading', { name: 'Your path' })).toBeVisible()
-  await expect(path.getByText('Not started').first()).toBeVisible()
-
-  const advice = page.locator('.course-overview-side .rev-suggestion-card')
+  const advice = overview.locator('.course-overview-rev .rev-suggestion-card')
   await expect(advice).toBeVisible()
   await expect(advice.getByText('REV’s advice', { exact: true })).toBeVisible()
   await expect(advice.getByText(/A quick check is the best starting point because REV has no scored evidence/i)).toBeVisible()
   await expect(advice.getByRole('button', { name: /^Start quick check$/i })).toBeVisible()
-
+  await expect(advice).toHaveCSS('border-radius', '28px')
   const adviceSurface = await backgroundRoleStyles(advice, '--rv-deep')
   expect(adviceSurface.actual).toBe(adviceSurface.expected)
   expect(adviceSurface.actual).not.toBe('rgb(255, 255, 255)')
 
-  await advice.getByRole('button', { name: 'Ask REV about this course' }).click()
+  // Contextual Ask REV follows the recommendation/summary rather than
+  // duplicating the primary action inside another dashboard panel.
+  await overview.locator('.course-overview-ask').getByRole('button', { name: 'Ask REV about this course' }).click()
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(revDialog).toBeVisible()
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
