@@ -22,6 +22,7 @@ Use this file to find the governing source before substantive work.
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
+- Revision product reconciliation / controlled learner-runtime recovery sequence → `docs/technical/Revision Product Reconciliation Plan.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - Returning Student Home / direct useful-activity implementation → `docs/technical/Returning Student Home Implementation.md`
@@ -161,6 +162,7 @@ Use this file to find the governing source before substantive work.
 - Registers/current governance state → `90-governance-registers/`
 
 ## Current implementation and history
+- 7 October 2026 product reconciliation baseline audit → `audits/2026-10-07-revision-product-reconciliation.md`
 - Current/target implementation documentation → `docs/technical/`
 - Prototype / Staging / Production path-to-live target → `docs/technical/Path to Live Environments.md`
 - Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
