@@ -73,12 +73,18 @@ const cases: ReadonlyArray<VisualCase> = [
  * of the C3 CI #2882 exact captures and explicit approval ("approved") to the requested
  * "Approve C3 Home visual baselines" gate. These captures reflect only the canonical
  * Home token/palette/radius migration in PR #575; Home recommendation behaviour is unchanged.
+ * PR #594 shared REV recommendation-card migration: Founder explicitly approved
+ * the four changed Home Light/Dark phone/desktop captures on 10 October 2026
+ * ("Approve PR #594 visual baselines"). Exact old/new hashes were independently
+ * identical in CI #2970 and #2971 (head 6b1fa83abd2ef624bf3aa0cbbb62ee8430320dbe).
+ * Reviewed visual sheet and retained CI #2971 artifact 11682782227.
+ * These four changes are visual approval only, not merge approval.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '290afc86d233e000eca51acbd07f6d579e4d015fddbc6cd2d0ae836d06efa2c3',
-  'phone:dark': '7c91ca0d2c4519bb21f74fc4adf9ea65be19fb53861edf8b3cf09a0231e77ebf',
-  'desktop:light': '94f82ced34e14dc0a8949982bab9a870fd5a499eaaa9bac2a8c5237e554b7580',
-  'desktop:dark': 'd91b1fad53a28d32cfbb3605d1a43e58f6ea8763cd4350bc3c6869d46ec7f4bd',
+  'phone:light': 'c2eaa5f95941e06b66aeab23530ddca9bbe7570a90d0d51c6f0fb2062383ab53',
+  'phone:dark': '0ac3c897c5385e41084ece8fedaaa7ab6099ca636e458feb8297dd19e6044f07',
+  'desktop:light': '7eb750bd2e0e681e6a4dafc3e2c07e643fb72b9464e9764bc2c95eacc1101700',
+  'desktop:dark': '1a346fc337ab5ea79d148551feb284cdf20ec9d6a3c5784b8f0095b78258826f',
 }
 
 /**
@@ -237,12 +243,18 @@ const courseOverviewVisualReview = [
  * checks, all 1,307 unit tests, typecheck, lint, build, security and DB/RLS
  * passed. These four new C4 digests do not alter any of the 18 B7 baselines.
  * Final merge requires separate explicit Founder approval after green CI.
+ * PR #594 shared REV recommendation card: four changed Course Overview captures
+ * (phone/desktop, Light/Dark) approved separately by Founder on 10 October 2026
+ * ("Approve PR #594 visual baselines"). Exact screenshot hashes match both
+ * CI #2970 and CI #2971 on approved head 6b1fa83abd2ef624bf3aa0cbbb62ee8430320dbe;
+ * retained CI #2971 visual artifact 11682782227. No other B7/C4 digests repinned.
+ * This is not permission to merge PR #594.
  */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '72a5d911af7b70dce1223e6fcd5e350ae7b832f2187f3568efb0118a363dbdd6',
-  'desktop:dark': '4c2d41dce90d2cb86c52dbb255bda110b798ff80a121f14eaa766a9b6ac1b975',
-  'phone:light': '7d183a2bba207e9e731b50434474d575f89fc8c3d8b90268263240e71a91b62d',
-  'phone:dark': '7e9b568e351d40e92508f7ce7b859e37a0c869adf1a601763fd8316929c4653c',
+  'desktop:light': '8ae21166a1a9106c80ced5b5a72966ac10c668af302517babb52aa227258ee90',
+  'desktop:dark': '5259dfef6d000088fdb9fd5c97db9f713b6b0de79da039ee091153963895a643',
+  'phone:light': '33926a42ebbaca09c1ac2c330a455b47ccd3302709259d223fbf7f48ba208863',
+  'phone:dark': '3e321f90e506a2106cceb3339dd07b0fd7ec6a4cb42728cd661b1a9dac3c556a',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

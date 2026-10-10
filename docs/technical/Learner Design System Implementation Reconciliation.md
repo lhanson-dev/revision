@@ -174,3 +174,19 @@ Do not patch a page to conceal a system-level defect.
 This document records current implementation debt and rollout order only. It does not create design authority.
 
 Each Phase C PR must update this record and the relevant existing technical documentation when implementation ownership changes. Historical B1–B7 evidence remains historical and is not rewritten.
+
+### Shared REV recommendation component — canonical role migration (10 October 2026; draft)
+
+Canonical runtime: `/app/` → `src/main.tsx` → `AuthGate` → `FirstUseBoundary` → `PlannerRuntime`. Live `RevSuggestionCard` consumers include `PlannerHomeScreen` and `CourseExperienceScreen`; `RevCard` is an export alias of that same component, not a second implementation. The shared `RevPresence`/`RevMark` pair already uses one Living E drawing; no new REV identity component is warranted.
+
+**FIX (bounded):** `src/app/ui/rev-suggestion-card.css` previously consumed direct `--rv-*` deep-panel, text, action and radius aliases. It now uses the existing central inverse-surface/text, ordinary action, display-font and 20px/28px semantic roles. Nested recommendation steps use the compact role and the shared `Icon` registry for completed-step iconography rather than an embedded SVG data URL. Default buttons meet a 44px minimum. The reason/action contract, ranking, dismiss/plan behaviour, route context, state transitions and evidence semantics are unchanged.
+
+**KEEP:** canonical `RevPresence`, `RevMark`, existing learner shell Ask REV controls and contextual overlay focus/behaviour. Home v3 is not implemented by this package, and PR #590 onboarding-journey proposals are not incorporated.
+
+**DEFER / verify later:** `ask-rev-v2.css` still styles the live `PlannerRevScreen` conversation using `--rv-*`; older `rev-chat-v2.css` and `planner-rev.css` retain selectors whose live consumers must be proved before removal. `brand-tokens.css` still supplies learning-status and scrim roles through compatibility aliases, so token definitions cannot yet be removed. The Design Lab remains Phase D after these shared owners are coherent.
+
+**Assurance / approval:** targeted `RevSuggestionCard` component test plus direct CSS token review, normal exact-head CI, and Home + Course Overview Light/Dark responsive visual comparison; Founder approval is required for changed visual baselines separately from approval to merge this PR. Existing earlier approvals and unrelated baselines remain preserved; the eight new Home/Course Overview comparison digests were subsequently approved and pinned as recorded below.
+
+### PR #594 shared REV visual-baseline approval — 10 October 2026 (not merge approval)
+
+Founder explicitly approved **only** the eight Home and Course Overview screenshots (phone and desktop in Light and Dark) in response to the request `Approve PR #594 visual baselines`. The approved new screenshot SHA-256 values are taken from browser evidence on exact head `6b1fa83abd2ef624bf3aa0cbbb62ee8430320dbe`, Revision CI #2971 (run `38085655212`, retained visual artifact `11682782227`) and independently repeated with identical hashes on preceding CI #2970 (run `38081595816`). No unrelated existing B7 / C4 baseline was changed. `tests/e2e/interface-visual-regression.spec.ts` records the eight new digests and approval lineage. This does **not** approve the PR merge: fresh exact-head CI on the re-pinned commit and a separate Founder `Approve merge PR #594` decision are required before integration.
