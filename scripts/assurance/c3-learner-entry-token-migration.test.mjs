@@ -14,9 +14,14 @@ describe('C3 canonical learner entry visual migration', () => {
     for (const css of [entry, firstUse, onboarding]) {
       expect(css).toContain('var(--color-action)')
       expect(css).toContain('var(--focus-ring)')
-      expect(css).toContain('var(--radius-control)')
       expect(css).toContain('var(--font-family-display)')
     }
+    // Only account form and first-use controls use control-radius rows.
+    // Onboarding's cards are ordinary surfaces and time steppers are pills.
+    expect(entry).toContain('var(--radius-control)')
+    expect(firstUse).toContain('var(--radius-control)')
+    expect(onboarding).toContain('var(--radius-surface)')
+    expect(onboarding).toContain('var(--radius-pill)')
     expect(entry).toContain('var(--color-inverse-action)')
     expect(entry).toContain('var(--color-inverse-action-text)')
     expect(firstUse).toContain('var(--radius-feature)')
