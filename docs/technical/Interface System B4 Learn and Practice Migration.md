@@ -164,3 +164,7 @@ The canonical Practice route remains `PlannerRuntime → CourseExperienceScreen 
 **Documentation-impact check:** current `Learner Design System.md` §18 already requires this composition. No normative authority change or new ADR is required; this record, the implementation reconciliation and component registry record the technical change. Historical PR #119 and Issue #381 evidence remains intact.
 
 The 18-state historical B7 visual acceptance matrix remains unchanged. A separate `tests/e2e/practice-activity-visual.spec.ts` captures the new focused activity on phone and desktop in both themes and intentionally fails closed until Founder-approved images are pinned; existing Practice start-screen baselines remain governed independently.
+
+### Practice browser assurance correction
+
+After the page-level cutover, the shared Practice browser fixture and the critical-journey accessibility test must target the named activity region instead of the removed dialog; otherwise they fail before reaching the unchanged question, evidence and feedback checks. Written Practice uses the same in-page metadata class as other activity formats. The REV marking panel uses inverse text roles for legible not-awarded labels on Deep Teal and permits its header to wrap at 320px. These are bounded interface/accessibility corrections; no evidence, scoring or marking logic is modified.

@@ -49,7 +49,7 @@ export interface PracticeWrittenQuestionProps {
 }
 
 /**
- * A written answer in the Practice pop-up (v2.2): a text box, "Ask REV to mark it", REV's thinking state, then a deep card
+ * A written answer in the focused Practice activity: a text box, "Ask REV to mark it", REV's thinking state, then a deep card
  * with one row per mark point, one note on how to earn the missing mark, and a way to challenge a mark.
  * REV's marking is a guide, not an exam board mark, and the card says so.
  */
@@ -58,7 +58,7 @@ export function PracticeWrittenQuestion(props: PracticeWrittenQuestionProps) {
   const locked = phase !== 'writing'
   return (
     <div className="practice-question">
-      <div className="practice-dialog__meta">
+      <div className="practice-activity__meta">
         <span className="ui-eyebrow">{eyebrow}</span>
         <span className="practice-chip">{level}</span>
         <span className="practice-chip">{marksLabel}</span>

@@ -41,7 +41,7 @@ export function PracticeFlashcardView({ number, total, question, answer, flipped
 
   return (
     <div className="practice-flashcard">
-      <div className="practice-dialog__meta">
+      <div className="practice-activity__meta">
         <span className="ui-eyebrow practice-nowrap">Card {number} of {total}</span>
         <WarmupChip />
       </div>
@@ -125,7 +125,7 @@ export function PracticeFlashcardDone({ yes, partly, no, total, onStartQuestions
   ]
   return (
     <div className="practice-flashcard-done">
-      <div className="practice-dialog__meta">
+      <div className="practice-activity__meta">
         <span className="ui-eyebrow practice-nowrap">Warm-up done</span>
         <WarmupChip />
       </div>
