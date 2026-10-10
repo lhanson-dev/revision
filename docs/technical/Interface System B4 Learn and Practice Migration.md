@@ -168,3 +168,7 @@ The 18-state historical B7 visual acceptance matrix remains unchanged. A separat
 ### Practice browser assurance correction
 
 After the page-level cutover, the shared Practice browser fixture and the critical-journey accessibility test must target the named activity region instead of the removed dialog; otherwise they fail before reaching the unchanged question, evidence and feedback checks. Written Practice uses the same in-page metadata class as other activity formats. The REV marking panel uses inverse text roles for legible not-awarded labels on Deep Teal and permits its header to wrap at 320px. These are bounded interface/accessibility corrections; no evidence, scoring or marking logic is modified.
+
+### Founder visual baseline approval for Practice (10 October 2026)
+
+The Founder reviewed and approved all six Practice review images sourced from CI #2936 (commit `dffe1cac8c1199d798bc764c60351cdc727cc7be`, artifact `11663751219`). The phone Practice start-screen baselines in the historic 18-state visual contract are updated only for those two states; the four page-level active workspace screenshots use exact SHA-256 captured-image baselines in the separate Practice visual spec, with native PNG test attachments. Every future visual difference continues to fail closed. The approval is **not** a PR merge authorisation: exact-head CI, any refresh against main and explicit PR #589 merge approval are separate gates.

@@ -181,13 +181,20 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * light a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a;
  * dark 7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92.
  */
+/**
+ * Phone Practice start screen (Light/Dark) baseline re-pinned 10 October 2026
+ * with the Founder's explicit "approved" response to the six-image PR #589
+ * visual review request. The exact captures were inspected from CI #2936,
+ * artifact interface-visual-regression-38034719673 (ID 11663751219).
+ * The other 16 B7 visual contracts are unchanged; merge is not approved here.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
-  'phone:practice:light': '35a6b07fbe5d07cd634eddc4f5527ae9fcb002994f16f595b7047eea21a46a54',
-  'phone:practice:dark': '70a23c9bb56f58e95086e73fff8662f87106a77c0775c88e2b7ebf21b5492e17',
+  'phone:practice:light': 'a71cd28ea165533d3d3c482bf215b6ea35fd591a257c52b1d0ce04cb92fc795c',
+  'phone:practice:dark': '652352e87674ce37d0c001656926c8568a7d7168e69e5761ce0ec5b64ccc4e1a',
   'tablet:exam-prep:light': '573d3877f47aaf420a28e5d742b9298a07361ce39a6aba52823e288c0e077905',
   'tablet:exam-prep:dark': '77fa5108170cfb3b7bfa4bacfea03e5bffaa2aedf6e0628d029381bd221438a5',
   'tablet:timed-exam:light': '187017f6ac090191dc0b438697abb25f3cf665479f9043d21ae92f25eb3b9069',

@@ -1,16 +1,20 @@
+import { createHash } from 'node:crypto'
 import { expect, test } from '@playwright/test'
 import { practicePath, seedReturningStudent } from './practice-seed'
 
 /**
  * Additional Practice C3/C4 visual contract. The historical B7 18-state
- * visual acceptance matrix stays unchanged. New activity baselines must be
- * reviewed by the Founder before any snapshots are committed.
+ * visual acceptance matrix stays unchanged. The Founder explicitly approved
+ * all four active Practice screenshots on 10 October 2026 after reviewing
+ * CI #2936 (artifact 11663751219) alongside both Practice start screens.
+ * Each approved screenshot is SHA-256 pinned below; any visual drift fails
+ * closed and its new PNG is attached for review, never auto-approved.
  */
 const cases = [
-  { project: 'phone', theme: 'light' },
-  { project: 'phone', theme: 'dark' },
-  { project: 'desktop', theme: 'light' },
-  { project: 'desktop', theme: 'dark' },
+  { project: 'phone', theme: 'light', sha256: '78f8c8078cd86423a6566d982558ce32356b29281007c9350864394714e629a5' },
+  { project: 'phone', theme: 'dark', sha256: '665438758ac8631ea228dd1865ea9f7461dd2662084a66ad2cd6e01cb53cd495' },
+  { project: 'desktop', theme: 'light', sha256: '3746582265280051fd3d8e5e21efdd3eeb2e2118152dab5ce3ed45ae537c442a' },
+  { project: 'desktop', theme: 'dark', sha256: 'c39dc3a270e9962c468f6628f8b96fe5c4848729feab46ca199beb4266add3fa' },
 ] as const
 
 for (const visualCase of cases) {
@@ -30,12 +34,18 @@ for (const visualCase of cases) {
       window.scrollTo(0, 0)
     })
 
-    // No initial approved snapshots: fail closed and retain the exact captures.
-    await expect(page).toHaveScreenshot(`practice-activity-${visualCase.theme}.png`, {
+    // Digest comparison is exact (stricter than a pixel-difference tolerance).
+    // Always attach the native PNG so an unexpected change remains inspectable.
+    const screenshot = await page.screenshot({
       animations: 'disabled',
       caret: 'hide',
       fullPage: false,
-      maxDiffPixelRatio: 0.01,
     })
+    await testInfo.attach(`practice-activity-${visualCase.theme}-${visualCase.project}.png`, {
+      body: screenshot,
+      contentType: 'image/png',
+    })
+    const digest = createHash('sha256').update(screenshot).digest('hex')
+    expect(digest).toBe(visualCase.sha256)
   })
 }

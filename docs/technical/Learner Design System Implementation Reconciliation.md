@@ -89,6 +89,12 @@ Following the verified PR #585 Learn merge (`127439007325712bb088f467e1991db1f4c
 
 The remaining packages are Exam Prep/Simulator, Course Overview composition (including PR #582 supersession review), Auth/First Use/Onboarding plus shared REV and final compatibility retirement, then derived Design Lab reconciliation. Keep the obsolete compatibility namespace until **all** live consumers are proven migrated.
 
+### Practice visual baseline approval — 10 October 2026 (PR #589, unmerged)
+
+The Founder explicitly approved the six Practice visual captures presented for PR #589: the phone start screen in Light and Dark, and focused active Practice on phone and desktop in Light and Dark. The reviewed source is CI #2936, commit `dffe1cac8c1199d798bc764c60351cdc727cc7be`, retained artifact `interface-visual-regression-38034719673` (ID `11663751219`). All 430 non-visual browser tests, 1,307 unit tests, typecheck, lint, production build, security scan and database assurance passed on that head; the six failures were exclusively unapproved visual baselines.
+
+The two existing Practice start-screen SHA-256 digests and four focused-activity SHA-256 digests are pinned to those exact captures, with the active screenshots attached to each future test execution. The original 18-state B7 acceptance matrix and other page baselines remain unchanged. **This approval permits baseline pinning only:** fresh exact-head CI, main refresh and separate PR-specific merge approval remain mandatory. No normative design authority changes were introduced.
+
 ### C3 assurance execution rule
 
 For each remaining C3 surface, reconcile only the tests that directly exercise that surface before implementation. Keep behavioural, persistence, accessibility, evidence, security and navigation contracts intact. Update or remove only assertions that clearly encode superseded visual implementation details such as retired local radii, fixed heading sizes, old theme colours or `--rv-*` roles. Do not start a repository-wide test-modernisation or opportunistic cleanup programme. Visual baselines continue to fail closed once per intentional appearance change and are re-pinned only after explicit Founder review.
