@@ -83,6 +83,9 @@ test('timed exam opens as a dedicated page and pause fully blocks the paper whil
   await openAsPaper2Exam(page)
 
   const session = page.locator('.exam-session-page')
+  await expect(page.locator('.runtime-sidebar')).toBeHidden()
+  await expect(page.locator('.ui-rail')).toBeHidden()
+  await expect(page.locator('.ui-tabbar')).toBeHidden()
   await expect(session).toBeVisible()
   expect(await session.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
   await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible()

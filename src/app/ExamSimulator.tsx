@@ -121,8 +121,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
+  const focusRegion = useRef<HTMLDivElement>(null)
   const totalPausedMs = useRef(0)
   useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
+
+  // A timed attempt owns the full working environment, without global
+  // navigation or Ask REV competing for attention or keyboard focus.
+  useEffect(() => {
+    if (!started || submitted) return
+    const shell = document.querySelector('.planner-runtime')
+    if (!shell) return
+    shell.classList.add('planner-runtime--exam-focus')
+    focusRegion.current?.focus()
+    return () => shell.classList.remove('planner-runtime--exam-focus')
+  }, [started, submitted])
 
   const question = exam.questions[questionIndex]
   const practiceQuestion = exam.questions[practiceIndex]
@@ -391,7 +403,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   return (
-    <div className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
+    <div ref={focusRegion} tabIndex={-1} className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
           <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{exam.questions.length} answered</span></div>

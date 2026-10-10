@@ -68,3 +68,12 @@
 
 /* Full paper is a true viewport-level activity; it must cover the mobile tab bar (z71). */
 .planner-runtime .exam-session-page { z-index: 90; }
+
+/* Timed Exam Simulator owns the work environment, hiding normal learner chrome.
+   Paused/Stop dialogs remain visible inside the focused session. */
+.planner-runtime--exam-focus > .runtime-sidebar,
+.planner-runtime--exam-focus > .ui-rail,
+.planner-runtime--exam-focus > .runtime-mobile-topbar,
+.planner-runtime--exam-focus > .ui-tabbar,
+.planner-runtime--exam-focus .runtime-ask-rev,
+.planner-runtime--exam-focus .ask-rev-cta { display: none !important; }
