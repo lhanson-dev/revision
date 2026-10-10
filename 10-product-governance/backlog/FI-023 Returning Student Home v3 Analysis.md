@@ -40,17 +40,17 @@ Strengthens the connected loop: learner course membership, exam timing, planned 
 
 Compared with current Home, an established learner should reach the next useful activity or independently find Plan, Progress, an exam or a course section with fewer navigation hops and less hesitation, while seeing no fabricated performance information. Evaluate through route-success metrics, targeted moderated testing and journey assertions. Fails if learners cannot distinguish recommendation from schedule, search fruitlessly for sections, or misunderstand low-evidence readiness.
 
-### 4. Experience and simplicity — PASS with implementation-state verification pending
+### 4. Experience and simplicity — PASS
 
 The five-part layout and its priorities are fixed: REV → Today's Plan / Exams → Progress → Courses → What do you want to do? The latter is explanatory, not another primary navigation. Desktop may place Plan and Exams side by side; phones stack them in the same order. Defined new/returning, no course, loading, completed Plan, no dates, only mocks, only official exams, insufficient evidence, no recommendation and recoverable failures.
 
 **Important:** The handoff's distinct inline REV answer-preview UI has **not** been approved as new functionality; Home Ask REV will open the existing shared contextual conversation layer with the submitted question. Its prototype should not imply new model endpoints.
 
-### 5. Evidence/intelligence model — PASS for reuse; **verification required** for completion aggregation
+### 5. Evidence/intelligence model — PASS
 
 Read existing saved courses, `RevisionAssessment` (`assessmentType` differentiates mock/public exam), planner snapshot/accepted sessions and stored educational evidence. Progress uses the current global Progress computation (`progressMeasuresFor`, `readinessAcross`) and shared three measures. No new schema or learner-grade estimator.
 
-**Known integrity boundary:** `PlannedSession.status = done/planned/skipped` exists, while inferred planner `today` items are not automatically equivalent to durable completed sessions. Confirm which rows can truthfully show "Done" and what status source drives the proposed progress bar; never derive Done from suggestion, clicks or completed animations.
+**Verified integrity boundary:** `src/app/plan-model.ts` already defines `createPlanDayBuilder` and `PlanDay` with `plannedMinutes`, `doneMinutes`, `studyCount`, `doneCount`, and `allDone`, deriving Done only from accepted `PlannedSession.status === 'done'`. Derived suggested items are not persisted Done. Reuse this exact Plan mapping and its contract for Home. Do not count “started” as completed, or imply all derived suggestions were done when no matching durable completion is recorded.
 
 ### 6. REV role — PASS
 
@@ -74,9 +74,9 @@ REV remains deterministic, context-aware, one recommendation plus factual reason
 
 No differentiated feature or new upgrade messaging; fake urgency would be counterproductive around exam dates. Deferred commercial expansion requires separate authority and cannot piggyback on FI-023.
 
-### 10. Measurement contract — PASS conceptually; confirm instrumentation owner before Ready
+### 10. Measurement contract — PASS
 
-**Primary:** proportion of eligible returning Home sessions leading to a useful activity start or a clear self-chosen section within the visit. **Supporting:** Home view, REV recommended task start, Plan route, Course Overview, Learn/Practice/Exam Prep chooser, Progress route, exam-date edit route; relevant denominator is returning active Students with an accessible Home. **Value:** time/hops to first action, successful task completion/evidence write through existing events, qualitative "understood what to do" tester measure. **Guardrails:** no non-member course route, no false plan tag, no misleading readiness, no duplicated completion event, no increase in Home failure or excessive load time. **Cost:** no new per-view model calls; measure database reads/error rate and contextual Ask REV invocation separately. Instrumentation should reuse existing planner/activity/router telemetry when present; any additional event must be minimal, consent/privacy compatible and defined in implementation records, not fabricated by click counts.
+**Primary:** proportion of eligible returning Home sessions leading to a useful activity start or a clear self-chosen section within the visit. **Supporting:** Home view, REV recommended task start, Plan route, Course Overview, Learn/Practice/Exam Prep chooser, Progress route, exam-date edit route; relevant denominator is returning active Students with an accessible Home. **Value:** time/hops to first action, successful task completion/evidence write through existing events, qualitative "understood what to do" tester measure. **Guardrails:** no non-member course route, no false plan tag, no misleading readiness, no duplicated completion event, no increase in Home failure or excessive load time. **Cost:** no new per-view model calls; measure database reads/error rate and contextual Ask REV invocation separately. Instrumentation owner: use `PlannerHomeScreen.recordTaskStart` / `recordPlannerActivityEvent` and the existing course-open telemetry in `PlannerRuntime.openCourse` where the user actually starts/chooses; add only bounded Home route/action events through the existing product analytics boundary if a gap is proven during implementation. All measured conversion denominators and route outcomes must be defined from real visits/events, not assumed from prototype UI. Implementation tests must verify events where changed.
 
 ### 11. Founder/Admin assurance — PASS as an assurance contract
 
@@ -86,18 +86,18 @@ Existing journey/availability signals and ordinary issue/CI/production smoke rep
 
 Major hazards: misleading readiness, invented dates/plan completion, AI-generated priority changes, route to unsupported paper, stale learner programme identity, hidden focus in course chooser, high-contrast/radius drift, broken mobile shell. Controls: existing progress engine/assessment types, deterministic REV logic, exact route validation, no invented AI answers, keyboard/Escape/focus return, 44px targets, reduced motion, clear non-colour status labels, approved Light/Dark semantic tokens, WCAG 2.2 AA and test-user data isolation.
 
-### 13. Technical feasibility and dependencies — **OPEN (bounded verification)**
+### 13. Technical feasibility and dependencies — PASS (implementation work bounded)
 
-The canonical React runtime and main service contracts are present. Before Ready, verify explicitly:
+Code inspection against the approved baseline established each required integration boundary:
 
-1. The accepted/planner `today` output can be composed into ordered rows with truthful stable completion and total-minute semantics. If not, define a compliant, non-fabricated reduced summary; do not silently add a new persistence model.
-2. Whether Home can pass a typed prompt to `PlannerRuntime.openRev(draft?)`, and whether Plan's Manage Exams can be opened through existing routing without duplicating ownership.
-3. How the short course chooser determines section availability per saved course and uses only shared shell routes.
-4. Independent error boundaries for Progress versus Plan/Exams, since some current Home loads are in one `Promise.all` and a failure can blank unrelated data.
-5. Size of the compositional change in `PlannerHomeScreen`/styles and impact on Home exact screenshot-digest tests.
-6. Inspect any subsequent merged learner design/first-use PR at implementation start. No reliance on unmerged PR code.
+1. **Plan completeness:** `src/app/plan-model.ts` already builds an ordered day with accepted sessions, derived suggestions, `plannedMinutes`, `doneMinutes`, `studyCount` and `doneCount`. `PlanScreen` uses `createPlanDayBuilder` and `buildPlannerSnapshot`; `PlannedSession.status` supplies real Done. Home should consume the same model and not create a new completion calculation. Derived suggestions are not durable completed sessions; that constraint remains visible rather than being guessed away.
+2. **Ask REV:** `PlannerRuntime.openRev(draft?: string)` already accepts the user's draft and displays the shared contextual conversation panel; `PlannerRevScreen` reads the draft. Home's prop needs only a bounded forwarder and keyboard-safe form. **Sending automatically versus opening with a populated draft** must follow the real shared chat submit contract; do not fake a submitted answer or create an inline preview.
+3. **Exam management:** `PlanScreen` already owns Manage Exams as `examsOpen` local modal state, with `assessmentType` preserved on `RevisionAssessment`. Add a small addressable Plan `manage-exams` navigation intent or equivalent shared Plan-owned activation rather than a Home exam editor or new schema. Direct Edit dates should open that existing manager, not strand the learner on Plan without identifying the action.
+4. **Course chooser:** `availableCourseSections(course)` in `catalogue-model.ts` is already consumed by `CourseExperienceScreen` to validate supported sections. Filter only saved eligible `LearnerProgrammeCourse` entries by that same helper and use canonical `learnerCourseRoute` to navigate. No new course registry.
+5. **Partial failure:** `PlannerHomeScreen` currently combines planner setup and learning evidence in a single `Promise.all`, so a single rejection loses both. Refactor the Home composition into independently resolved section results with explicit retry/fallback, preserving existing programme/evidence and Planner services. This is UI data orchestration, not a new database or recommendation model.
+6. **Visual assurance and integration:** `home-v2.css` is already on semantic tokens after merged PR #575; other learner surfaces have been migrated by PRs #578/#583/#585/#589/#591/#592/#593. Build from current `main` with page composition and shared components. Existing fail-closed Home visual hashes demand Founder review of the new captures.
 
-These are bounded feasibility checks, not permission to implement a new planner or change content governance during analysis. The requested missing handoff gallery can be replaced by independent browser renders of the frozen prototype or annotated captures before visual acceptance.
+Scope/effort estimate: **medium** frontend/product-integration change (one Home page composition plus small Plan-owned navigation intent and targeted view-model/tests), with **no database migration or new AI model**. The outstanding design-gallery file can be replaced by independently captured browser screenshots at the handoff's sizes for final fidelity acceptance. These are implementation tasks and acceptance checks, not fundamental unresolved product decisions.
 
 ### 14. Test/assurance — PASS as a planned contract
 
@@ -111,9 +111,9 @@ Risk level **medium/high learner-journey** due route changes and cross-section e
 - **Decision record/indexes:** add an ADR or decision register entry only if a material new architecture/evidence contract is introduced, not merely for approved page composition. Track FI-023 in the canonical backlog.
 - Historical Claude design and prior screenshots remain historical evidence, not active policy.
 
-### 16. Blocking decisions — no new Founder design choice; bounded technical confirmation open
+### 16. Blocking decisions — NONE outstanding beyond explicit Ready and authority approval
 
-The Founder selected the page hierarchy and identity treatment. Product analysis recommends the shared contextual Ask REV layer, no additional exam data schema and exact-match Plan labelling rather than two independent competing recommendation narratives. The technical checks in criterion 13 and measurement owner in criterion 10 still need validation to prove an honest product can be implemented without altering those decisions.
+The Founder selected the page hierarchy and identity treatment. Product analysis recommends the shared contextual Ask REV layer, no additional exam data schema and exact-match Plan labelling rather than two independent competing recommendation narratives. Criterion 13 feasibility checks now confirm the existing components and required bounded adjustments; criterion 10 identifies the existing telemetry owner and guardrail. No additional Founder behaviour/commercial/evidence choice is needed before requesting Ready.
 
 ### 17. Human Ready approval — BLOCKED by definition
 
@@ -134,4 +134,8 @@ The Founder selected the page hierarchy and identity treatment. Product analysis
 
 ## Recommended next action
 
-Perform the five bounded technical confirmations above, update this assessment with evidence, prepare the proposed Home v1.3 authority for human approval, and present the Definition-of-Ready decision. Until then FI-023 stays **Analyse**; no production implementation or merge is authorised.
+Present the proposed Home v1.3 authority together with the **complete** Ready assessment and request explicit `Approve FI-023 Ready`. If granted, promote the approved Home v1.3 into the numbered active authority and update FI-023 to Ready on the governed PR, then seek separate explicit approval for that specific PR merge. Only after the approved Ready authority is integrated may a production-implementation branch/PR begin. Until then FI-023 stays **Analyse**; no production implementation or merge is authorised.
+
+## Design handoff provenance (non-authoritative)
+
+Frozen Claude handoff: version `v1791470408875449`; uploaded ZIP `Revision Design SystemV2.zip` SHA-256 `8935b1d036257d340d96da3e6353057e387da6b422b10148589871fa8d90149c`; contained `design_handoff_home_v3/README.md` SHA-256 `55713f2086feb9ba0ff1ea881ce257e2b89190799326731d3b2f7a6e1929964e` and `HomeV3.frozen.dc.html` SHA-256 `ae0447efe4dc18152fa03557bc4fefddc2c2eb0e147cec1ab92128316c09cf5a`. The separate layout/state gallery is not in the ZIP; the text specification and screenshots already reviewed by the Founder are retained as inputs. Do not treat prototype code as shared implementation.
