@@ -3,171 +3,125 @@ title: "Returning Student Home Experience"
 document_id: "revision-returning-student-home-experience"
 document_type: "domain-authority"
 authority: "product-governance"
-status: "active"
-version: "1.2"
+status: "proposed"
+version: "1.3-proposal"
 owner: "Founder"
-effective_date: "2026-10-07"
-last_reviewed: "2026-10-07"
-content_review_status: "founder-approved"
-source_of_truth_for: ["returning Student Home hierarchy", "Returning Student Home screen-purpose contract", "Home REV hero", "Today's revision plan composition", "Home recommendation launch behaviour"]
-depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Learner Design System", "Global Learner Navigation", "Identity Asset Usage Rules"]
-supersedes: ["Core User Journeys returning-student example requiring course-open then mode selection", "Information Architecture Home clause describing Today's plan as necessarily smaller than REV guidance", "Adaptive Revision Planning clause describing Today's plan as necessarily smaller than the Home recommendation"]
+effective_date: "pending-Founder-approval"
+last_reviewed: "2026-10-10"
+content_review_status: "pending-founder-approval"
+source_of_truth_for: ["returning Student Home hierarchy", "Home REV recommendation and plan relationship", "Home exams and progress orientation", "Home course and activity discovery", "Home experience assurance"]
+depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Learner Design System", "Global Learner Navigation", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Identity Asset Usage Rules"]
+supersedes: ["Returning Student Home Experience v1.2 composition only, if approved", "older Home rule placing the promoted recommendation separately inside Today's Plan, already overridden by REV Guidance and Conversation Pattern v2.1"]
 ---
-> **Current relationship:** REV suggestion rules are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md`; learner visual foundations are in `20-brand-and-experience/Learner Design System.md`. This document remains the specialist Home screen-purpose and composition authority.
 
-# Returning Student Home Experience
+> **PROPOSED AUTHORITY — not active.** This is the FI-023 Home v3 product-contract candidate for Founder review. Approved `main` v1.2 remains the current Home authority until this proposal is expressly approved and merged. The approved consolidated Learner Design System is unchanged.
 
-## Purpose
+# Returning Student Home Experience — proposed v1.3
 
-Define the Founder-approved screen contract and composition for the default returning Student Home experience.
+## Purpose and authority boundary
 
-`Learner Design System.md` owns shared learner visual values and responsive geometry. This document owns Home's job, hierarchy, required REV/plan relationship and direct useful-action behaviour.
+Home is a returning Student's personalised command centre. It helps the learner quickly choose useful work, understand today's commitments, check approaching assessments, interpret limited learner-wide progress and find available study experiences. This expands the v1.2 Home composition that ended after Today's Plan, while retaining a single dominant REV recommendation and avoiding a second analytics or recommendation engine.
 
-This authority specialises the general Home and Returning Student rules in `Core User Journeys.md`, `Information Architecture.md` and `Adaptive Revision Planning.md`. Where those documents describe an older Returning Student path or require Today's plan to be visually smaller than the recommendation, this document is the more specific current authority.
+`20-brand-and-experience/Learner Design System.md` owns shared visual roles, spacing, responsive shell, type and component grammar. `REV Guidance and Conversation Pattern.md` owns REV behaviour, selection rules, voice and contextual conversation. `Global Learner Navigation.md` owns the four global destinations and course section hierarchy. `Claims and Progress Governance.md` owns educational-evidence and readiness meaning. This document owns only Home's screen purpose, content order and navigation/disclosure composition. It does not alter those specialist authorities.
 
-Version 1.1 records the Founder fidelity correction of 25 August 2026 after the first production implementation did not fully reproduce the approved Home prototype. The correction is deliberately narrow: it restores the approved `Powered by REV` treatment, strengthens the visible white/aqua Living E bloom, increases the REV feature scale and restores the Ask REV field as a full-width bottom row of the hero.
+The product contract and frozen Claude Home v3 visual handoff complement one another: the visual handoff specifies visual intent, not permission to add new backend schemas, evidence calculations or AI conversation modes.
 
-## Journey
+## Student journey and screen-purpose contract
 
-The Returning Student journey is:
+`return/login → meaningful Home orientation → choose recommended work or independently navigate → exact useful activity / Plan / Progress / course Overview / Exam Prep`.
 
-`return / login → Home orientation → REV presence → today's revision plan → promoted first task → exact useful activity`
+- **Student intent:** "What should I do next? What is planned? How am I progressing? What exams are near? Where do I go?"
+- **Primary action:** start one evidence-based, deterministic, learner-wide REV recommendation directly in its exact supported activity.
+- **Alternative intents:** review or edit today's work, inspect assessment dates, see evidence-based Progress, open an active course, or select Learn/Practice/Exam Prep for an eligible course.
+- **REV's job:** select one next action using the already-governed model, explain its factual reason, and enable contextual Ask REV without inventing a second recommendation engine.
+- **Success:** the learner can identify a next useful action within seconds and independently reach a main product area without guessing a navigation path.
+- **No-course boundary:** GJ-01/first-use remains responsible for first course choice and initial first value. Home must not bypass that journey.
 
-The central learner question remains:
+## Proposed Home hierarchy
 
-> **I've opened Revision. What is the most useful thing for me to do right now?**
+All devices retain this content order. The established global shell stays unchanged.
 
-Home must also make the rest of today's intended revision visible without forcing the learner to interpret a dense dashboard.
+1. **REV hero — next useful action.** Large Deep Teal feature with canonical Living E and bright white/aqua atmospheric halo, correct compact `Powered by REV` identity, personal greeting, subject/topic/activity/duration, one truthful reason, direct Start, secondary Plan action and full-width contextual Ask REV input. Visual greeting target: "Hey {first name}. Here’s what I’d do next." Ordinary loading must not simulate REV Thinking.
+2. **Today's Plan and Your Exams.** Distinct, equally legible sections side by side only where the consolidated responsive canvas supports it; otherwise stack with Plan first. Today's Plan shows today's genuine activities, durations, honest completion state and link to Plan; Exams shows the next actual assessment and later records, with mocks clearly distinguished from official exams.
+3. **Your Progress.** Compact plain-English learner-wide summary followed by the three existing, distinct governed measures: Topics covered, Understanding and Exam readiness (or honest insufficiency). Link to global Progress. Never add a competing "Needs work" priority list, blended score or grade prediction.
+4. **Your Courses.** Compact recognition cards for active/saved courses, mark + name + qualification/board where available, truthful coverage and a direct route to each course Overview. The global Courses index remains the management destination.
+5. **What do you want to do?** Quiet, practical introductions to Learn, Practice, Exam Prep, Plan, Progress and Courses, describing what each does. Contextual destinations use a bounded chooser of the learner's active eligible courses. Do not reproduce global navigation as another persistent shell.
 
-## Screen-purpose contract
+No standalone "Topics that need work" block, extra dashboard widgets, punitive study streaks, decorative metrics or duplicate course navigation trees.
 
-- **User goal:** quickly understand what to do today and start useful revision.
-- **Screen job:** orient the learner, make REV feel immediately available, and turn the adaptive plan into an obvious executable first action.
-- **Immediate understanding:** REV is available; today's plan is clear; one activity is the best place to start.
-- **Primary CTA:** start the promoted first activity directly.
-- **Secondary actions:** Ask REV naturally through the hero input; open the full Plan; navigate through normal learner navigation.
-- **Essential content:** REV hero, today's total workload, promoted first task, remaining planned activities and enough reason text to make the first task credible.
-- **Progressive detail:** the full adaptive programme belongs in Plan rather than being expanded on Home.
-- **REV role:** prominent, living and conversational; explain, coach and respond using learner-wide context without replacing deterministic planner logic.
-- **Success condition:** the learner can understand today's priority within seconds and enter the exact recommended useful activity in one action.
-- **Next state:** the exact supported Learn, Practice or Exam Prep activity selected by the governed planner/recommendation logic.
+## REV and Today's Plan consistency
 
-## Locked Home hierarchy
+REV recommends from the learner's **active programme only**. The approved deterministic REV prioritisation governs selection; AI may explain evidence but must not invent priorities. The planner's `today` schedule is a separate, truthful set of intended activities. UI composition may reuse their shared identity, but must not silently conflate them.
 
-### 1. REV hero
+- A hero task is labelled **On today's plan** only when its exact course/topic/activity is demonstrably present among that day's actionable plan items.
+- Otherwise use **Not on today's plan** (or **Not on a plan yet** when setup genuinely does not exist). The hero may still suggest useful fallback activity without a plan or exam dates.
+- When an exact match exists, show the same task in Today's Plan as **Up next**, with no repeated reason; never duplicate its full promotion.
+- When no exact match exists, do **not** highlight an unrelated Plan row or silently insert the recommendation into the schedule.
+- If today's work is completed, show the real completed state without inventing more scheduled tasks. An optional "If you want to do more" suggestion may appear only with a real eligible candidate and a calm acknowledgement that stopping is reasonable.
+- "Suggest something else" / "Not now" semantics from REV Guidance remain governed even if rendered through a compact disclosure rather than visually competing with Start.
+- If the present planner and suggestion pipelines cannot truthfully meet this contract, reconcile through an explicit implementation plan and tests; do not quietly rewrite `rankSuggestions` or planning priorities as styling work.
 
-REV is the major feature moment at the top of Home.
+## Exams
 
-The hero must:
+Use existing `RevisionAssessment` data, including `assessmentType` (e.g. `mock`, `public_exam`), recorded title, course identity, date and scope. New `kind` and `paper` database columns are **not** part of FI-023.
 
-- give the Living E substantial feature scale and breathing room rather than treating it as a large icon;
-- keep the Living E visibly larger than the first production implementation, while scaling proportionately across desktop, tablet and phone;
-- use the approved soft atmospheric halo with a clearly visible near-white/aqua luminous centre around the Living E, fading softly into teal rather than reading as a teal-only haze;
-- use genuine semantic state motion and preserve Light and Dark quality;
-- render the approved compact `Powered by REV` identity treatment above the greeting;
-- present a personalised greeting such as `Hi {first name}, what shall we do today?`;
-- provide the main `Ask REV anything…` input as a full-width row along the bottom of the hero, spanning the hero's usable inner width beneath the graphic/copy row;
-- avoid decorative prompt-button clutter beneath the input by default; and
-- avoid visible idle-status copy such as `REV is ready` where the visual presence already communicates availability.
+- Show the nearest actual upcoming eligible exam/assessment as next, including its kind; use the stored paper/component title when known.
+- Distinguish later mock dates and official exam dates. Never conflate their proximity or imply that a mock is an official exam.
+- Hide absent groups; when none exist, offer **Add exam dates** through the existing Plan owner.
+- Dates and countdowns use local calendar days, neutral text and accessible labels, never learning-status yellow.
+- **Edit dates** routes into the existing Plan exam-management experience. If a direct deep link to its manager does not yet exist, scope an addressable intent/reuse that owner instead of inventing a separate Home editor.
+- Link into the selected course's Exam Prep only when the assessment resolves unambiguously to an active course and that section is supported; otherwise show an honest Plan/assessment-detail fallback.
 
-The `Powered by REV` treatment must use the governed compact REV identity treatment in `Identity Asset Usage Rules.md`. Production must not improvise a different REV lock-up locally.
+## Progress and courses
 
-REV is visually prominent without becoming sci-fi, neon or a mascot.
+Use the same active-course dataset, shared `progressMeasuresFor`, `ProgressMeasures`, `UnderstandingBar` and readiness contract as learner-wide Progress. Aggregate covered and total topic counts and understanding distributions only over distinct current course states and with the same filters as global Progress. Never claim an aggregate learner-wide readiness percentage or roll multiple course readiness values into a pseudo-grade. If readiness is unsupported, show **Not enough evidence yet**.
 
-### 2. Today's revision plan
+Course cards display existing course identity, not a new subject palette. Click/tap opens the canonical saved-course Overview, not an arbitrary default activity.
 
-Immediately below the REV hero, Home presents **Today's revision plan**.
+## Activity introductions and navigation
 
-The plan should state the day's intended workload concisely, for example total minutes and number of activities, and provide a route to the full Plan.
+The six introductory descriptions are secondary orientation, not six competing primary CTAs. Learn, Practice and Exam Prep are **course-specific**, while Plan, Progress and Courses are learner-wide.
 
-The plan is one coherent section, not a grid of unrelated dashboard cards.
+- For course-specific actions, show a keyboard-operable chooser scoped to the learner's active supported courses that offer the requested section.
+- With exactly one eligible course, use a direct explicit action for that course. With none, explain the missing prerequisite and direct to Courses; do not show a broken link.
+- For Plan, Progress and Courses, link directly using canonical route helpers.
+- Accessible names, focus restoration, Escape dismissal and no duplicate global navigation tree are required.
 
-### 3. Promoted first task
+## Required data, loading and unavailable states
 
-The first task is visually promoted within Today's revision plan rather than presented as a disconnected recommendation widget.
+Required: established returning Student; meaningful GJ-01 return; multiple courses; one eligible course; limited/no evidence; no plan/availability; no exam dates; mocks-only; official-exams-only; today complete; no REV candidate; full and partial loading; per-section recoverable error; authentic REV state changes; responsive Light/Dark and reduced motion.
 
-It should show:
+- Render the REV identity/greeting immediately while Home data loads; use normal skeletons and an accessible loading announcement, not semantic REV Thinking.
+- One failed Exams or Progress request must not erase otherwise usable Home/REV/Plan content. Provide a bounded section error and retry action.
+- Do not infer completed session counts from mere recommendation or attendance. Only show `done` when durable completion evidence exists; if it does not, show the plan without a fabricated `1 of 3 done`.
+- No unsupported claims, invented exam dates, invented readiness, simulated REV answers, guessed courses, or prototype/sample data in the shipped UI.
+- Preserve the Free journey. Home's orientation, valid next task, basic plan, exam summary, progress and navigation remain useful on Free; no new tier gates are added.
 
-- topic/activity title;
-- unambiguous course/subject identity;
-- activity mode where useful;
-- expected duration where useful;
-- one concise evidence-based reason for its priority; and
-- one dominant action-labelled CTA.
+## Responsive and visual requirements
 
-A separate `Why this first?` control is not required on Home when the concise priority reason is already visible.
+Use the consolidated responsive shell and outer canvas; Home cannot fork the sidebar, tablet rail or phone tab bar. Preserve the REV hero as the dominant feature, with the full-width Ask REV row. On phone, the approved v3 visual reference shows a smaller Living E beside the greeting to expose the Start action early; use canonical Living E geometry and halo, not custom bars or state animation. Exact scale and layout must be validated against the approved shared component and responsive design authority rather than copied from prototype CSS.
 
-The primary CTA must route directly to the exact supported activity. It must not merely open a generic course homepage and require the learner to rediscover the recommendation.
+Use central semantic colours, Manrope/Bricolage roles, canonical subject accents, shared controls, canonical radii (14px controls, 20px ordinary surfaces, 28px REV major feature), genuine Light/Dark themes, keyboard access and WCAG 2.2 AA expectations. No new `--rv-*` use or hard-coded page-local visual system.
 
-### 4. Remaining activities today
+## Definition of implementation acceptance
 
-The other planned activities for the day appear alongside or beneath the promoted first task according to responsive space.
+A governed Home v3 implementation must prove:
 
-They should be visibly subordinate to the first task while remaining easy to scan.
+1. Correct main-route Home screen, preserving `AuthGate → FirstUseBoundary → PlannerRuntime → PlannerHomeScreen` and GJ-01.
+2. Ordered hierarchy and section scanability across desktop/tablet/phone in Light and Dark from 320px with no horizontal scroll.
+3. One truthful deterministic REV suggestion with exact activity launch; clear matching/unmatching Plan tags; no artificial plan duplicate or paper identity.
+4. Honest plan completion, empty states and independent error recovery; no unsupported counts.
+5. Accurate upcoming assessment types, dates, active-course navigation and useful dates-empty state.
+6. Identical three-measure Progress semantics to global Progress, with evidence-threshold honesty.
+7. Working course cards, available-section-only chooser, keyboard/Escape/focus behaviour, correct global navigation.
+8. Shared Ask REV contextual conversation, actual Living E state transitions, reduced motion and no artificial completion/thinking state.
+9. Bounded tests for changed logic, direct-activity journey, cross-page data consistency, accessibility, and Founder-reviewed responsive Light/Dark screenshot baselines.
+10. Updated code/technical documentation, visual-test digests and assurance/coverage records in the implementing PR; no historical evidence rewriting.
 
-Home does not need a `Choose something else` control inside the plan. Learner agency is already preserved through the full Plan, Courses, normal navigation and Ask REV.
+## Documentation and approval
 
-### 5. End of current Home composition
+This proposal is tracked as FI-023 (`10-product-governance/backlog/FI-023 Returning Student Home v3 Analysis.md`). It is not an implementation authorisation or a merge authorisation. The product contract must receive human approval and `Ready` must be separately confirmed under the complete Definition of Ready before production code work begins. Before merging this proposed authority, set the metadata to approved/active with a valid effective date and obtain explicit Founder approval for that exact PR.
 
-No additional dashboard tiles or speculative lower modules are required after Today's revision plan in the current approved composition.
+On implementation: update `docs/technical/Returning Student Home Implementation.md`, `docs/features/home.md`, the learner design reconciliation record, journey and visual assurance and any directly affected shared-component documentation. No new general Learner Design System, Navigation or Claims authority amendment is justified unless implementing review finds a *real* specialist-contract change; their existing rules are reused.
 
-Future Home modules require their own justified screen job and deliberate design approval rather than being added to fill space.
-
-## Responsive behaviour
-
-The hierarchy is identical across desktop, tablet and phone:
-
-`REV hero → Today's revision plan → promoted first task → remaining planned activities`
-
-Within the REV hero, the responsive composition preserves:
-
-`large Living E + Powered by REV/greeting → full-width Ask REV field beneath`
-
-Desktop may place the first task and remaining activities side-by-side. Tablet/phone may stack them, with the promoted first task first.
-
-On constrained screens:
-
-- REV remains a meaningful hero rather than collapsing into a generic icon;
-- the Living E remains visually prominent, with the glow still clearly visible;
-- the Ask REV field remains a full-width hero row and easy to reach;
-- the first task and primary CTA remain visible without excessive scrolling;
-- remaining activities follow in plan order; and
-- the governed persistent Ask REV mobile/tablet action remains available.
-
-All interactions must preserve keyboard usability, visible focus, touch targets, reduced-motion support and WCAG 2.2 AA expectations.
-
-## Planning and evidence rules
-
-The planner remains deterministic and testable. REV explains planning decisions; it does not calculate the priority order through unconstrained LLM judgement.
-
-Home must remain useful with incomplete learner evidence. Missing target grade, full timetable, assessment setup or revision availability must not automatically make useful Home behaviour impossible when a credible deterministic next activity can still be selected.
-
-Recommendation language must match evidence strength and avoid invented weakness, false precision or unsupported grade/readiness claims.
-
-## Free product rule
-
-Returning Student Home, REV orientation, today's useful plan and the ability to start the promoted useful activity must remain coherent and useful on Free. Parent, Teacher, School or paid subscription functionality must not become dependencies for this core Student journey.
-
-## Assurance expectations
-
-Implementation should cover at minimum:
-
-- first meaningful Home entry after GJ-01;
-- established returning Student;
-- one active course and multiple active courses;
-- limited evidence / deterministic fallback;
-- direct promoted-task-to-exact-activity routing;
-- full Plan route;
-- genuine REV resting/listening/thinking/responding states;
-- presence of the governed `Powered by REV` treatment;
-- full-width hero Ask REV field at phone, tablet and desktop;
-- Living E feature scale and visible white/aqua atmospheric halo;
-- reduced motion;
-- Light and Dark;
-- phone, tablet and desktop hierarchy;
-- keyboard/focus behaviour; and
-- Free entitlement behaviour.
-
-## Documentation impact
-
-Version 1.1 records the Founder-approved fidelity correction agreed 25 August 2026. Implementation must update the current Home technical documentation and visual assurance baseline when production behaviour changes. Historical GJ-01 design/research evidence and the original prototype remain historical/research evidence and must not be rewritten.
+Historical Home v1.2 and Claude prototype evidence remain historical. Main's approved v1.2 authority remains operative until this v1.3 proposal is approved and merged.
