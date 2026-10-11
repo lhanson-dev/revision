@@ -137,16 +137,17 @@ test('Add to plan puts the REV suggestion on a day, says so in words, and REV mo
   await fakePlannedSessions(page, rows)
   await page.goto(appPath)
 
-  const card = page.locator('.home-v2-hero')
-  const before = await card.locator('.rev-suggestion-card__title').textContent()
-  const add = card.getByRole('button', { name: /^Add to (today|tomorrow|[A-Z][a-z]+day)$/ })
+  const card = page.locator('.home-v3-hero')
+  const before = await card.locator('.home-v3-next h2').textContent()
+  await card.locator('.home-v3-alternatives summary').click()
+  const add = card.getByRole('button', { name: 'Add to Plan' })
   await expect(add).toBeVisible()
   await add.click()
 
   await expect(page.getByRole('status').filter({ hasText: /^Added .+ to (today|tomorrow|[A-Z][a-z]+day)\. You can move it on Plan\.$/ })).toBeVisible()
   expect(rows).toHaveLength(1)
   expect(rows[0]).toMatchObject({ added_by: 'rev', activity_type: 'practice', course_id: businessCourseId })
-  await expect(card.locator('.rev-suggestion-card__title')).not.toHaveText(before ?? '')
+  await expect(card.locator('.home-v3-next h2')).not.toHaveText(before ?? '')
 })
 
 test('Home shows no Add to button and no error when the sessions table is not available yet', async ({ page }) => {
@@ -156,7 +157,8 @@ test('Home shows no Add to button and no error when the sessions table is not av
 
   const card = page.locator('.home-v2-hero')
   await expect(card).toBeVisible()
-  await expect(card.getByRole('button', { name: /^Add to / })).toHaveCount(0)
+  await card.locator('.home-v3-alternatives summary').click()
+  await expect(card.getByRole('button', { name: 'Add to Plan' })).toHaveCount(0)
   await expect(card.getByRole('button', { name: 'Suggest something else' })).toBeVisible()
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
 })
@@ -221,7 +223,8 @@ test('Plan and Home with accepted sessions meet the automated WCAG A/AA baseline
   expect(plan.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 
   await page.goto(appPath)
-  await expect(page.getByRole('button', { name: /^Add to / })).toBeVisible()
+  await expect(page.locator('.home-v3-plan-row')).toHaveCount(2)
+  await expect(page.locator('.home-v3-plan-row .home-v3-done')).toHaveCount(1)
   const home = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(home.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 })
