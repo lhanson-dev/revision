@@ -208,7 +208,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     sentHomeQuestion.current = true
     submitText(pendingHomeQuestion)
     setPendingHomeQuestion('')
-  }, [loading, error, pendingHomeQuestion])
+  }, [loading, error, pendingHomeQuestion, submitText])
 
   function submitText(raw: string) {
     const text = raw.trim()
