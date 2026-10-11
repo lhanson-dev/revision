@@ -15,6 +15,7 @@ import { homeTaskOnToday, homeTaskMatchesPlanRow, homeToday, upcomingHomeExams, 
 import { progressMeasuresFor, progressSummarySentence, readinessAcross } from './progress-summary'
 import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
+import { PoweredByRev } from './RevCompactWordmark'
 import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge, type IconName } from './ui'
 import type { PlanItem } from './plan-model'
 
@@ -327,9 +328,7 @@ export function PlannerHomeScreen({
             <RevMark state={askFocused || askValue ? 'listening' : 'waiting'} size="hero" />
           </div>
           <div className="home-v3-hero-main">
-            <div className="powered-by-rev">
-              Powered by <span className="rev-compact-wordmark">R<span className="rev-compact-wordmark-e" aria-label="E"><i /><i /><i /></span>V</span>
-            </div>
+            <PoweredByRev />
             <h1 id="home-v3-heading">{todayPlan?.allDone ? 'That’s today done, ' + name + '. Nice work.' : 'Hey ' + name + '. Here’s what I’d do next.'}</h1>
             {loadingHero ? <p role="status" className="home-v3-hero-status">Finding your next useful step…</p> :
               evidenceError ? <div className="home-v3-hero-status" role="alert">REV could not read your current progress. <Button variant="secondary" onClick={retryHome}>Try again</Button></div> :
