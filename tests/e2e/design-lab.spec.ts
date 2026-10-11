@@ -131,6 +131,47 @@ test('Design Lab projects production REV, progress, status and typography in bot
   }
 })
 
+test('Design Lab course specimens project production CourseIdentity without duplicate navigation', async ({ page }) => {
+  await seedSession(page, true)
+  await page.goto(designLabPath)
+
+  const specimens = page.locator('.design-lab-course-identity-specimens')
+  await expect(specimens.locator('.ui-course-identity--header')).toHaveCount(1)
+  await expect(specimens.locator('.ui-course-identity--compact')).toHaveCount(1)
+  await expect(specimens.locator('.ui-subject-badge')).toHaveCount(2)
+  await expect(specimens.locator('.ui-course-identity--header h1')).toHaveText('Business')
+  await expect(specimens.locator('.ui-course-identity--compact strong')).toHaveText('Business')
+  await expect(specimens.getByText('AQA A-level · 7132')).toHaveCount(2)
+  await expect(page.getByRole('heading', { name: 'Route-scoped navigation ownership' })).toBeVisible()
+
+  // The Lab must not draw a misleading parallel course header, nav tree or inactive tabs.
+  await expect(page.locator('.design-lab-nav-tree, .design-lab-course-header, .design-lab-course-tabs, .design-lab-next-step')).toHaveCount(0)
+
+  for (const theme of ['light', 'dark'] as const) {
+    await page.getByRole('button', { name: theme === 'light' ? 'Light' : 'Dark' }).click()
+    const style = await specimens.locator('.ui-course-identity--header h1').evaluate((element) => {
+      const computed = getComputedStyle(element)
+      return { font: computed.fontFamily, weight: computed.fontWeight, color: computed.color }
+    })
+    expect(style.font).toContain('Bricolage')
+    expect(style.weight).toBe('800')
+    expect(style.color).not.toBe('rgba(0, 0, 0, 0)')
+  }
+})
+
+test('Design Lab shows the live unscored Quick Check without a fake exam simulator', async ({ page }) => {
+  await seedSession(page, true)
+  await page.goto(designLabPath)
+
+  const check = page.locator('.design-lab-section[aria-labelledby="assessment"] .ui-quick-check')
+  await expect(check).toHaveCount(1)
+  await expect(check.getByText('Not scored')).toBeVisible()
+  await check.getByRole('button', { name: /A group of customers with similar needs/ }).click()
+  await expect(check.getByText(/This doesn’t count towards your progress/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Exam Prep versus focused exam' })).toBeVisible()
+  await expect(page.locator('.exam-simulator, .design-lab-next-step')).toHaveCount(0)
+})
+
 test('non-admin cannot open the Design Lab', async ({ page }) => {
   await seedSession(page, false)
   await page.goto(designLabPath)

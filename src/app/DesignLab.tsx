@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { RevPresence } from './RevPresence'
 import {
   BrandAsset,
   Button,
+  CourseIdentity,
   DrawerShell,
   EmptyState,
   Icon,
@@ -10,6 +11,7 @@ import {
   LearnBlock,
   HueProgressBar,
   ProgressMeasures,
+  QuickCheck,
   RevSuggestionCard,
   LoadingState,
   Menu,
@@ -51,6 +53,7 @@ const navItems = [
   { id: 'feedback', label: 'Status & feedback' },
   { id: 'navigation', label: 'Navigation & page structure' },
   { id: 'education', label: 'Educational treatments' },
+  { id: 'assessment', label: 'Assessment boundaries' },
   { id: 'data', label: 'Progress & data' },
   { id: 'states', label: 'Empty, loading & overlays' },
   { id: 'icons', label: 'Icons & graphic language' },
@@ -129,8 +132,6 @@ export function DesignLab() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
   const [menuSelection, setMenuSelection] = useState('Learn')
-
-  const courseSections = useMemo(() => ['Overview', 'Learn', 'Practice', 'Exam Prep', 'Progress'], [])
 
   function changeTheme(nextTheme: ThemeName) {
     setTheme(nextTheme)
@@ -271,7 +272,7 @@ export function DesignLab() {
                 <Button variant="tertiary">View all <Icon name="arrow-right" size="inline" /></Button>
                 <Button variant="destructive"><Icon name="trash" size="inline" />Remove course</Button>
               </div>
-              <p className="design-lab-note">Hover, keyboard focus and pressed movement are live — interact with the controls rather than judging a screenshot.</p>
+              <p className="design-lab-note">These are visual action specimens: hover, focus and press styles are real; actions without onClick handlers do not submit work or navigate.</p>
             </SpecimenCard>
 
             <SpecimenCard title="Sizes & states">
@@ -409,7 +410,7 @@ export function DesignLab() {
         </section>
 
         <section className="design-lab-section" aria-labelledby="navigation">
-          <SectionHeading id="navigation" title="Navigation & page structure" description="A compact inventory of the approved navigation hierarchy and page-level structural building blocks — not copies of production pages." />
+          <SectionHeading id="navigation" title="Navigation & page structure" description="Real shared Menu, CourseIdentity and PageHeader components. Route-bound navigation is documented as page-owned composition, not reconstructed with fake tabs or a duplicate sidebar." />
           <div className="design-lab-grid design-lab-grid--2">
             <SpecimenCard title="Shared menu">
               <Menu label="Example menu" className="design-lab-menu">
@@ -419,31 +420,47 @@ export function DesignLab() {
               </Menu>
             </SpecimenCard>
 
-            <SpecimenCard title="Locked learner hierarchy" coverage="page">
-              <div className="design-lab-nav-tree">
-                <span>Home</span><span>Plan</span><span>Progress</span><strong>Courses</strong>
-                <div className="design-lab-course-identity"><b>BUSINESS</b><small>A-level · AQA · 7132</small></div>
-                {courseSections.map((section) => <span key={section} className={section === 'Learn' ? 'active' : ''}>{section}</span>)}
-                <span className="level-2">1. What is business?</span>
-                <span className="level-3">Marketing</span>
-                <span className="level-4">3.1 Target markets</span>
+            <SpecimenCard title="Shared course identity">
+              <div className="design-lab-course-identity-specimens">
+                <div>
+                  <p className="design-lab-note">Course canvas header</p>
+                  <CourseIdentity
+                    variant="header"
+                    subjectId="business"
+                    subjectName="Business"
+                    qualificationName="A-level"
+                    examBoardName="AQA"
+                    specificationCode="7132"
+                    titleId="design-lab-course-identity-heading"
+                  />
+                </div>
+                <div>
+                  <p className="design-lab-note">Compact contextual identity</p>
+                  <CourseIdentity
+                    variant="compact"
+                    subjectId="business"
+                    subjectName="Business"
+                    qualificationName="A-level"
+                    examBoardName="AQA"
+                    specificationCode="7132"
+                  />
+                </div>
               </div>
-              <p className="design-lab-note">Course identity resets the hierarchy. Only academic descendants beneath Learn add progressive indentation.</p>
+              <p className="design-lab-note">These are the production CourseIdentity components, including their subject mark, name and specification context. No invented subject icon or page-local identity styling.</p>
             </SpecimenCard>
 
             <SpecimenCard title="Page header">
               <PageHeader titleId="design-lab-header-example" eyebrow="AQA · Specification 7132" title="AQA A-level Business" description="A page title has one clear job, an optional eyebrow and a concise explanation of what the learner can do here." />
             </SpecimenCard>
 
-            <SpecimenCard title="Course header pattern" coverage="page">
-              <div className="design-lab-course-header">
-                <div><p className="eyebrow">BUSINESS</p><h3>AQA A-level Business</h3><span>A-level · AQA · 7132</span></div>
-                <div className="design-lab-course-tabs">{courseSections.map((section) => <button type="button" key={section} className={section === 'Learn' ? 'active' : ''}>{section}</button>)}</div>
+            <SpecimenCard title="Route-scoped navigation ownership" coverage="page">
+              <div className="design-lab-hierarchy-notes">
+                <p><strong>Global navigation:</strong> Home · Plan · Progress · Courses. Ask REV is a distinct persistent action.</p>
+                <p><strong>Selected course:</strong> Courses reveals enrolled courses, then Overview · Learn · Practice · Exam Prep · Progress for the selected course only.</p>
+                <p><strong>Active Learn:</strong> Only the current Learn branch expands into chapters, groups and teaching pages. An exact teaching page has the current-page state.</p>
+                <p><strong>Course header:</strong> The production CourseHeader owns real breadcrumbs, shared CourseIdentity and route-bound underline tabs. It is not a standalone general-purpose menu.</p>
               </div>
-            </SpecimenCard>
-
-            <SpecimenCard title="Next-step block" coverage="page">
-              <div className="design-lab-next-step"><div><p className="eyebrow">Next up</p><h4>3.1 Target markets</h4><p>Understand how businesses identify and target different market segments.</p><span>~ 25 minutes</span></div><Button>Start <Icon name="arrow-right" size="inline" /></Button></div>
+              <p className="design-lab-note">This is an anatomy reference, not a clickable imitation of the learner sidebar or course tabs. The real responsive navigation lives in Sidebar, Rail, TabBar, ContextualLearnerNavigation and CourseHeader.</p>
             </SpecimenCard>
           </div>
         </section>
@@ -452,6 +469,34 @@ export function DesignLab() {
           <SectionHeading id="education" title="Learn blocks" description="One shared style per Learn content type (tinted). The content says what a block is; the UI decides how it looks; the course supplies only its subject hue." coverage="shared" />
           <div className="learn-reading-workspace learn-reading-workspace--specimen" style={accentStyle('blue')}>
             {everyBlockType.map((block, index) => <LearnBlock key={`${block.type}-${index}`} block={block} />)}
+          </div>
+        </section>
+
+        <section className="design-lab-section" aria-labelledby="assessment">
+          <SectionHeading id="assessment" title="Assessment boundaries" description="Production component fidelity without a second exam simulator: unscored learning checks are distinct from governed exam work and scored evidence." />
+          <div className="design-lab-grid design-lab-grid--2">
+            <SpecimenCard title="Unscored Learn Quick Check">
+              <QuickCheck
+                question="Which statement best describes a market segment?"
+                options={[
+                  { id: 'a', text: 'A group of customers with similar needs' },
+                  { id: 'b', text: 'Every customer in the market' },
+                  { id: 'c', text: 'A business department' },
+                ]}
+                correctOptionId="a"
+                explanation="A segment groups customers with shared needs or characteristics."
+              />
+              <p className="design-lab-note">Live QuickCheck. Answers provide immediate feedback but never create scored Practice or readiness evidence.</p>
+            </SpecimenCard>
+            <SpecimenCard title="Exam Prep versus focused exam" coverage="page">
+              <div className="design-lab-hierarchy-notes">
+                <p><strong>Exam Prep:</strong> remains a navigable course page inside the standard learner shell, with the real CourseHeader and course navigation.</p>
+                <p><strong>Timed full paper:</strong> enters the separately owned full-viewport ExamSimulator and hides the ordinary global navigation while the assessment is in progress.</p>
+                <p><strong>Feedback:</strong> follows the existing assessment and marking contracts. Unscored Quick Check feedback must not be represented as a mark, grade or readiness signal.</p>
+                <p><strong>ExaminerGuide:</strong> a shared assessment component that remains subject to its existing release gate; displaying it here must not be taken as evidence that it is enabled for learners.</p>
+              </div>
+              <p className="design-lab-note">This is a boundary reference only. The actual timed simulator, countdown, pause/stop and persistence remain owned by Exam Prep/ExamSimulator; no inert imitation is displayed in the Lab.</p>
+            </SpecimenCard>
           </div>
         </section>
 
@@ -487,7 +532,7 @@ export function DesignLab() {
           <SectionHeading id="states" title="Empty, loading & overlays" description="The working states that stop the UI becoming ambiguous when content is absent, loading or temporarily layered." />
           <div className="design-lab-grid design-lab-grid--2">
             <SpecimenCard title="Empty state">
-              <EmptyState title="No practice recorded yet" description="Complete a practice activity and Revision will start building useful evidence here." action={<Button>Choose a topic</Button>} />
+              <EmptyState title="No practice recorded yet" description="Complete a practice activity and Revision will start building useful evidence here." />
             </SpecimenCard>
             <SpecimenCard title="Loading state">
               <LoadingState>Loading your latest progress…</LoadingState>
@@ -516,7 +561,7 @@ export function DesignLab() {
 
         <footer className="design-lab-footer">
           <strong>This canvas is not design authority.</strong>
-          <span>Approved rules remain recorded in the Visual Brand System, Interactive Component Quality Standard and related product/experience documentation.</span>
+          <span>Current learner authority is the Learner Design System, alongside specialist navigation, assessment and interactive quality standards. Missing shared controls are identified as gaps rather than new design rules.</span>
         </footer>
       </main>
 

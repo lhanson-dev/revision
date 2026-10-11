@@ -122,7 +122,6 @@
 
 .design-lab-hero .eyebrow,
 .design-lab-section-heading .eyebrow,
-.design-lab-next-step .eyebrow,
 .design-lab-modal .eyebrow,
 .design-lab-drawer .eyebrow {
   margin: 0 0 var(--space-2);
@@ -656,74 +655,21 @@
   background: var(--color-surface-soft);
 }
 
-.design-lab-nav-tree {
+.design-lab-course-identity-specimens {
   display: grid;
-  gap: 2px;
-  max-width: 360px;
+  gap: var(--space-6);
 }
-
-.design-lab-nav-tree > span,
-.design-lab-nav-tree > strong,
-.design-lab-course-identity {
-  min-height: 38px;
-  display: flex;
-  align-items: center;
-  padding: 0 var(--space-3);
-  border-radius: var(--menu-item-radius);
-  color: var(--color-text-secondary);
-  font-size: var(--type-body-s-size);
-}
-
-.design-lab-nav-tree > strong,
-.design-lab-nav-tree > span.active {
-  background: var(--color-surface-soft);
-  color: var(--color-accent-text);
-}
-
-.design-lab-course-identity {
-  min-height: auto;
+.design-lab-course-identity-specimens > div {
   display: grid;
-  gap: 1px;
-  margin-top: var(--space-2);
-  padding-block: var(--space-3);
-  color: var(--color-text);
+  gap: var(--space-3);
+  min-width: 0;
 }
-
-.design-lab-course-identity small { color: var(--color-text-secondary); }
-.design-lab-nav-tree .level-2 { margin-left: 20px; }
-.design-lab-nav-tree .level-3 { margin-left: 40px; }
-.design-lab-nav-tree .level-4 { margin-left: 60px; }
-
-.design-lab-course-header {
+.design-lab-hierarchy-notes {
   display: grid;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-surface);
-  background: var(--color-surface);
+  gap: var(--space-3);
 }
-
-.design-lab-course-header h3 { margin: 0; color: var(--color-text); }
-.design-lab-course-header > div:first-child > span { color: var(--color-text-secondary); font-size: var(--type-body-s-size); }
-.design-lab-course-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-.design-lab-course-tabs button { min-height: 44px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-control); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
-.design-lab-course-tabs button.active { background: var(--brand-deep-teal); color: var(--neutral-0); }
-.design-lab-course-tabs button:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
-
-.design-lab-next-step {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-surface);
-  background: var(--color-surface);
-}
-
-.design-lab-next-step h4 { margin: 0 0 var(--space-1); color: var(--color-text); }
-.design-lab-next-step p { max-width: 520px; }
-.design-lab-next-step span { display: block; margin-top: var(--space-2); color: var(--color-text-secondary); font-size: var(--type-caption-size); }
+.design-lab-hierarchy-notes p { margin: 0; color: var(--color-text-secondary); }
+.design-lab-hierarchy-notes strong { color: var(--color-text); }
 
 .design-lab-progress-primitives {
   display: grid;
@@ -917,7 +863,6 @@
   .design-lab-form-grid { grid-template-columns: 1fr; }
   .design-lab-form-grid .ui-field-group:last-child { grid-column: auto; }
   .design-lab-radius-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .design-lab-next-step { align-items: stretch; flex-direction: column; }
 }
 
 @media (max-width: 560px) {

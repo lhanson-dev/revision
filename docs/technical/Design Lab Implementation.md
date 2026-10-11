@@ -1,6 +1,6 @@
 # Design Lab Implementation
 
-**Status:** Live via PR #426; Phase D1 now projects production learner components, with remaining Phase D reconciliation tracked below  
+**Status:** Live via PR #426; Phase D1 production specimens merged via PR #599; Phase D2 course-navigation fidelity recorded below, with remaining specialist reference work pending  
 **Date:** 29 September 2026  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the applicable specialist numbered authorities  
 **Implementation references:** `docs/technical/Interface System Component Registry.md`, `docs/technical/Interactive Component Quality Implementation.md`  
@@ -43,7 +43,7 @@ Theme selection uses the existing `revision:theme` preference because the purpos
 
 ## Canvas organisation
 
-The first Design Lab version is a component canvas rather than a gallery of copied product pages. It includes:
+The initial Design Lab version was a component canvas rather than a gallery of copied product pages. Its original inventory included:
 
 - visual foundations: colours, type roles, spacing, radius and depth;
 - canonical Revision identity and REV state treatments;
@@ -173,3 +173,27 @@ This document records the new implementation surface, its access/data boundary a
 **Learner typography and scope.** Display/H1/H2/H3 specimens now use canonical `--type-hero-size`, `--type-learner-h1-size`, `--type-learner-h2-size`, `--type-learner-h3-size` and `--font-family-display` (Bricolage 800), not the old 28/24/21/18px Design Lab display scale. Manrope remains the reading/UI type family. Out-of-programme pricing/entitlement examples and parallel hand-drawn REV/status/progress styles were removed, along with their orphaned CSS selectors.
 
 **Assurance and boundaries.** The protected access route and shared actions remain unchanged. The focused Playwright test verifies shared production DOM owners, the deliberate absence of parallel showcase families/pricing, the distinct Tag/StatusBadge contract, real progress visual anatomy, and Bricolage 800 responsive H1 in Light/Dark at Playwright viewports. The governed merge requires green exact-head CI and explicit Founder approval; existing learner visual baselines are not touched. Subsequent Phase D slices still need to examine page-owned navigation/course headers, exam-specific composition, remaining selection-control gaps, and reference completeness. No new normative rule or ADR is needed because `Learner Design System.md` already governs component ownership and presentation. `INDEX.md` already points here, so no index change is required. Prior approval/evidence records remain untouched.
+
+## Phase D2 — course identity and navigation composition (11 October 2026)
+
+**Route/runtime ownership.** `/revision/design-lab.html` remains the separate, authenticated Admin-protected reference entry (`src/design-lab.tsx`, `src/app/DesignLab.tsx`). Production learner navigation still belongs only to `/revision/app/` (`src/main.tsx`, `src/app/PlannerRuntime.tsx`). Production `PlannerRuntime` composes shared `Sidebar`, `Rail`, `TabBar` with route-driven `ContextualLearnerNavigation`; the learner `CourseExperienceScreen` uses `CourseHeader` to supply breadcrumbs, the shared `CourseIdentity`, and live course-section tabs. Design Lab cannot replace these route-bound components without a duplicate learner navigation implementation.
+
+**Correction.** The Design Lab previously simulated the global/course/academic hierarchy as a custom `.design-lab-nav-tree` and constructed a second course header with filled local tab buttons. Those visuals were not the current production `ContextualLearnerNavigation`/`CourseHeader` and could incorrectly be adopted as reusable design guidance. D2 removes those specimens and their CSS, plus a locally composed Next-step card with a non-operational Start button. The canvas instead renders the real shared `CourseIdentity` in header and compact variants (including canonical subject mark, name and AQA specification context), retains real shared `Menu`/`PageHeader` specimens, and records route-scoped global/course/Learn hierarchy as explanatory anatomy, explicitly labelled not a clickable sidebar/course-tab prototype. No replacement nav system, new component or CSS token is introduced.
+
+**Assurance.** `tests/e2e/design-lab.spec.ts` adds Admin-protected browser coverage proving both real `CourseIdentity` variants, canonical subject badge anatomy, Bricolage 800 in Light/Dark, and the absence of the old lab-only tree, header, tabs or Next-step mock. Existing access tests remain. The PR requires exact-head full CI before merge; no screenshot hashes are revised and no production navigation test is removed.
+
+**Scope and documentation check.** The change is strictly to the Design Lab reference and its implementation documentation; no normative update to `Global Learner Navigation.md` or `Learner Design System.md` is needed because this corrects drift toward those already-approved sources. `INDEX.md` already points to this implementation note. The `Interface System Component Registry.md` remains the public shared-component inventory, not a separate authority. Exam-specific composition, selection-control gaps, responsive shell demonstration and complete component reference coverage remain follow-on Design Lab work; no Admin redesign, public marketing or pricing work is included. Historical evidence remains unchanged.
+
+## Phase D closeout candidate — bounded reference completeness (11 October 2026)
+
+**One governed target.** Production learner route `/revision/app/` (`src/main.tsx` → `PlannerRuntime`) and the separate Admin-gated reference `/revision/design-lab.html` (`src/design-lab.tsx` → `DesignLab`) remain unchanged. The Lab is a derivative component reference, never a substitute for route-level screenshots or student-journey assurance.
+
+**Shared exam and learning meaning.** The Lab now mounts the actual `QuickCheck` component, with example multiple-choice content and its real unscored feedback behaviour. It does not submit scored evidence or claim readiness. Exam Prep versus full-paper focus is a *documented page-owned boundary*, not another imitation of `ExamSimulator`; timed assessment, countdown, pause/stop, navigation hiding, scoring and persistence remain exercised on real learner routes. `ExaminerGuide` remains subject to its existing release gate and is not presented as a universally live learner capability. The EmptyState example no longer includes a non-functional destination action. Other action-hierarchy buttons are explicitly described as visual specimens, not working navigation or saves.
+
+**KEEP — canonical and verified by existing ownership:** the approved learner token/CSS source; real `BrandAsset`, `RevPresence`, `RevSuggestionCard`, `CourseIdentity`, `ProgressMeasures`, `HueProgressBar`, `UnderstandingBar`, `StatusBadge`, `Tag`, `QuickCheck`, `LearnBlock`, `PageHeader`, controls, overlays and icon registry. The Design Lab has no independent learner progress or assessment data.
+
+**REMOVE — misleading parallel specimens:** local REV family, fake status/progress rendering, bespoke course identity, faux nested learner navigation, filled course tabs, non-functional Next-step/EmptyState action, retired visual CSS and out-of-scope pricing example. Actual route-owned sidebar/tab/course-section systems are not copied into another reference implementation.
+
+**DEFER — explicitly not a reason to prolong this reconciliation:** shared checkbox/radio wrapper, toggle and general chip/multiselect components remain marked as missing shared primitives. Their native-control demonstrations are **illustrative gaps**, not endorsed new production component APIs. Optional fuller shell-frame gallery, simulator/page screenshot gallery and exact page-composition examples require separate feature-owned acceptance, rather than inventing a parallel Lab runtime. These gaps should be evaluated only when a live learner surface demonstrates genuine reuse need. The specialist `ExaminerGuide` release switch is governed independently. Generic brand/marketing/Admin redesign, pricing and Home v3 are outside this phase.
+
+**Acceptance/exit evidence needed before programme close:** full exact-head typecheck, lint, unit, production build, database/RLS/security, Admin access and responsive Light/Dark browser checks; no re-pinning accepted page screenshot hashes; verified branch integration against then-current approved `main`; specific Founder PR approval; post-merge CI and deployment smoke. Do not claim these exit gates passed before GitHub reports them. `20-brand-and-experience/Learner Design System.md`, `Global Learner Navigation.md`, `AUTHORITY_HIERARCHY.md` and `AI Agent Constitution.md` remain normative; this entry is an implementation record. `INDEX.md` continues to point here. No new authority/ADR is necessary, and no historical evidence is rewritten.
