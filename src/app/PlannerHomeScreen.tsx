@@ -107,7 +107,6 @@ export function PlannerHomeScreen({
   // Each data owner is independent. A failed exam/setup read does not erase valid Progress data.
   useEffect(() => {
     let active = true
-    setEvidenceLoading(true)
     const evidenceStore = createSupabaseEvidenceStore(client)
     const adapters = adaptersForProgramme(programme)
     Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id)))
@@ -131,7 +130,6 @@ export function PlannerHomeScreen({
 
   useEffect(() => {
     let active = true
-    setSetupLoading(true)
     loadPlannerSetup(client, userId)
       .then((value) => {
         if (!active) return
@@ -147,7 +145,6 @@ export function PlannerHomeScreen({
 
   useEffect(() => {
     let active = true
-    setSessionsLoading(true)
     loadPlannedSessions(client, userId, todayKey, addDays(todayKey, 27))
       .then((sessions) => {
         if (!active) return
@@ -220,6 +217,10 @@ export function PlannerHomeScreen({
   const planEmpty = planCardEmptyCopy({ hasExamDates: assessments.length > 0, hasStudyTimes: hasPlanSetup })
 
   function retryHome() {
+    // Refreshes are user actions; effects only settle the resulting asynchronous requests.
+    setEvidenceLoading(true)
+    setSetupLoading(true)
+    setSessionsLoading(true)
     setPlanNote('')
     setRefreshKey((value) => value + 1)
   }
@@ -241,7 +242,7 @@ export function PlannerHomeScreen({
   async function startTask(task: HomeTask) {
     await recordTaskStart(task)
     if (task.activityType === 'exam-question') {
-      window.location.hash = routeHash(learnerCourseRoute(task.courseId, 'exam-prep'))
+      window.location.assign(routeHash(learnerCourseRoute(task.courseId, 'exam-prep')))
       return
     }
     setActiveTask(task)
@@ -253,7 +254,7 @@ export function PlannerHomeScreen({
       if (row.done || !programme.some((item) => item.course.id === row.session.courseId)) return
       const section = row.session.activityType === 'learn' ? 'learn' : row.session.activityType === 'exam_prep' ? 'exam-prep' : 'practice'
       if (section === 'practice') {
-        window.location.hash = routeHash(learnerCourseRoute(row.session.courseId, 'practice', { topicId: row.session.topicId }))
+        window.location.assign(routeHash(learnerCourseRoute(row.session.courseId, 'practice', { topicId: row.session.topicId })))
       } else onOpenCourseSection(row.session.courseId, section)
       return
     }
