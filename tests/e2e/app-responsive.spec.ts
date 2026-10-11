@@ -276,7 +276,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await accountDialog.getByRole('button', { name: 'Save' }).click()
   await expect(accountDialog.getByRole('status')).toHaveText('Name updated.')
   await expect(firstNameInput).toHaveValue('Alex')
-  await expect(page.getByRole('heading', { name: /Hey Alex\.\s*Here.s what I.d do today\./ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Alex\.\s*Here.s what I.d do next\./ })).toBeVisible()
 
   const accountSections = accountDialog.getByRole('navigation', { name: 'Account sections' })
   await expect(accountSections.getByRole('button', { name: 'Profile' })).toHaveAttribute('aria-current', 'page')
@@ -410,7 +410,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
 test('database admin access stays secondary while protected Admin remains reachable', async ({ page }) => {
   await seedSyntheticSession(page, { isAdmin: true })
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do next\./ })).toBeVisible()
 
   if (!isMobileLayout(page)) {
     const primaryNav = desktopPrimaryNavigation(page)
