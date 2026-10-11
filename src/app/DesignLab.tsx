@@ -11,6 +11,7 @@ import {
   LearnBlock,
   HueProgressBar,
   ProgressMeasures,
+  QuickCheck,
   RevSuggestionCard,
   LoadingState,
   Menu,
@@ -52,6 +53,7 @@ const navItems = [
   { id: 'feedback', label: 'Status & feedback' },
   { id: 'navigation', label: 'Navigation & page structure' },
   { id: 'education', label: 'Educational treatments' },
+  { id: 'assessment', label: 'Assessment boundaries' },
   { id: 'data', label: 'Progress & data' },
   { id: 'states', label: 'Empty, loading & overlays' },
   { id: 'icons', label: 'Icons & graphic language' },
@@ -270,7 +272,7 @@ export function DesignLab() {
                 <Button variant="tertiary">View all <Icon name="arrow-right" size="inline" /></Button>
                 <Button variant="destructive"><Icon name="trash" size="inline" />Remove course</Button>
               </div>
-              <p className="design-lab-note">Hover, keyboard focus and pressed movement are live — interact with the controls rather than judging a screenshot.</p>
+              <p className="design-lab-note">These are visual action specimens: hover, focus and press styles are real; actions without onClick handlers do not submit work or navigate.</p>
             </SpecimenCard>
 
             <SpecimenCard title="Sizes & states">
@@ -470,6 +472,34 @@ export function DesignLab() {
           </div>
         </section>
 
+        <section className="design-lab-section" aria-labelledby="assessment">
+          <SectionHeading id="assessment" title="Assessment boundaries" description="Production component fidelity without a second exam simulator: unscored learning checks are distinct from governed exam work and scored evidence." />
+          <div className="design-lab-grid design-lab-grid--2">
+            <SpecimenCard title="Unscored Learn Quick Check">
+              <QuickCheck
+                question="Which statement best describes a market segment?"
+                options={[
+                  { id: 'a', text: 'A group of customers with similar needs' },
+                  { id: 'b', text: 'Every customer in the market' },
+                  { id: 'c', text: 'A business department' },
+                ]}
+                correctOptionId="a"
+                explanation="A segment groups customers with shared needs or characteristics."
+              />
+              <p className="design-lab-note">Live QuickCheck. Answers provide immediate feedback but never create scored Practice or readiness evidence.</p>
+            </SpecimenCard>
+            <SpecimenCard title="Exam Prep versus focused exam" coverage="page">
+              <div className="design-lab-hierarchy-notes">
+                <p><strong>Exam Prep:</strong> remains a navigable course page inside the standard learner shell, with the real CourseHeader and course navigation.</p>
+                <p><strong>Timed full paper:</strong> enters the separately owned full-viewport ExamSimulator and hides the ordinary global navigation while the assessment is in progress.</p>
+                <p><strong>Feedback:</strong> follows the existing assessment and marking contracts. Unscored Quick Check feedback must not be represented as a mark, grade or readiness signal.</p>
+                <p><strong>ExaminerGuide:</strong> a shared assessment component that remains subject to its existing release gate; displaying it here must not be taken as evidence that it is enabled for learners.</p>
+              </div>
+              <p className="design-lab-note">This is a boundary reference only. The actual timed simulator, countdown, pause/stop and persistence remain owned by Exam Prep/ExamSimulator; no inert imitation is displayed in the Lab.</p>
+            </SpecimenCard>
+          </div>
+        </section>
+
         <section className="design-lab-section" aria-labelledby="data">
           <SectionHeading id="data" title="Progress, metrics & data visualisation" description="The production components keep coverage, understanding and readiness distinct. Values here are fixed examples, not evidence about a real learner." coverage="shared" />
           <div className="design-lab-grid design-lab-grid--2">
@@ -502,7 +532,7 @@ export function DesignLab() {
           <SectionHeading id="states" title="Empty, loading & overlays" description="The working states that stop the UI becoming ambiguous when content is absent, loading or temporarily layered." />
           <div className="design-lab-grid design-lab-grid--2">
             <SpecimenCard title="Empty state">
-              <EmptyState title="No practice recorded yet" description="Complete a practice activity and Revision will start building useful evidence here." action={<Button>Choose a topic</Button>} />
+              <EmptyState title="No practice recorded yet" description="Complete a practice activity and Revision will start building useful evidence here." />
             </SpecimenCard>
             <SpecimenCard title="Loading state">
               <LoadingState>Loading your latest progress…</LoadingState>
@@ -531,7 +561,7 @@ export function DesignLab() {
 
         <footer className="design-lab-footer">
           <strong>This canvas is not design authority.</strong>
-          <span>Approved rules remain recorded in the Visual Brand System, Interactive Component Quality Standard and related product/experience documentation.</span>
+          <span>Current learner authority is the Learner Design System, alongside specialist navigation, assessment and interactive quality standards. Missing shared controls are identified as gaps rather than new design rules.</span>
         </footer>
       </main>
 
