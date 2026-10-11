@@ -239,8 +239,12 @@ export function PlannerRuntime() {
     navigate(learnerCourseRoute(courseId))
   }
 
-  function openRev(draft?: string) {
-    if (draft?.trim()) window.sessionStorage.setItem('revision:rev-draft', draft.trim())
+  function openRev(draft?: string, submit = false) {
+    if (draft?.trim()) {
+      window.sessionStorage.setItem('revision:rev-draft', draft.trim())
+      if (submit) window.sessionStorage.setItem('revision:rev-submit', '1')
+      else window.sessionStorage.removeItem('revision:rev-submit')
+    }
     setMenuOpen(false)
     setMobileAccountOpen(false)
     setAccountMenuOpen(false)
@@ -302,7 +306,7 @@ export function PlannerRuntime() {
   } else if (route.kind !== 'admin' && programmeError) {
     screen = <main className="dashboard screen-dashboard page-screen"><Status tone="error">{programmeError} Revision will not substitute the published catalogue for your programme.</Status></main>
   } else if (route.kind === 'home' || route.kind === 'rev') {
-    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={(draft, submit) => openRev(draft, submit)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenProgress={() => navigate(progressRoute())} onOpenExamDates={() => navigate(planRoute({ intent: 'manage-exams' }))} onOpenCourseSection={(courseId, section) => navigate(learnerCourseRoute(courseId, section))} />
   } else if (route.kind === 'plan') {
     screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject') {
