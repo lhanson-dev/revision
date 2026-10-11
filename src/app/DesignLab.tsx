@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { RevPresence } from './RevPresence'
 import {
   BrandAsset,
   Button,
+  CourseIdentity,
   DrawerShell,
   EmptyState,
   Icon,
@@ -129,8 +130,6 @@ export function DesignLab() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
   const [menuSelection, setMenuSelection] = useState('Learn')
-
-  const courseSections = useMemo(() => ['Overview', 'Learn', 'Practice', 'Exam Prep', 'Progress'], [])
 
   function changeTheme(nextTheme: ThemeName) {
     setTheme(nextTheme)
@@ -409,7 +408,7 @@ export function DesignLab() {
         </section>
 
         <section className="design-lab-section" aria-labelledby="navigation">
-          <SectionHeading id="navigation" title="Navigation & page structure" description="A compact inventory of the approved navigation hierarchy and page-level structural building blocks — not copies of production pages." />
+          <SectionHeading id="navigation" title="Navigation & page structure" description="Real shared Menu, CourseIdentity and PageHeader components. Route-bound navigation is documented as page-owned composition, not reconstructed with fake tabs or a duplicate sidebar." />
           <div className="design-lab-grid design-lab-grid--2">
             <SpecimenCard title="Shared menu">
               <Menu label="Example menu" className="design-lab-menu">
@@ -419,31 +418,47 @@ export function DesignLab() {
               </Menu>
             </SpecimenCard>
 
-            <SpecimenCard title="Locked learner hierarchy" coverage="page">
-              <div className="design-lab-nav-tree">
-                <span>Home</span><span>Plan</span><span>Progress</span><strong>Courses</strong>
-                <div className="design-lab-course-identity"><b>BUSINESS</b><small>A-level · AQA · 7132</small></div>
-                {courseSections.map((section) => <span key={section} className={section === 'Learn' ? 'active' : ''}>{section}</span>)}
-                <span className="level-2">1. What is business?</span>
-                <span className="level-3">Marketing</span>
-                <span className="level-4">3.1 Target markets</span>
+            <SpecimenCard title="Shared course identity">
+              <div className="design-lab-course-identity-specimens">
+                <div>
+                  <p className="design-lab-note">Course canvas header</p>
+                  <CourseIdentity
+                    variant="header"
+                    subjectId="business"
+                    subjectName="Business"
+                    qualificationName="A-level"
+                    examBoardName="AQA"
+                    specificationCode="7132"
+                    titleId="design-lab-course-identity-heading"
+                  />
+                </div>
+                <div>
+                  <p className="design-lab-note">Compact contextual identity</p>
+                  <CourseIdentity
+                    variant="compact"
+                    subjectId="business"
+                    subjectName="Business"
+                    qualificationName="A-level"
+                    examBoardName="AQA"
+                    specificationCode="7132"
+                  />
+                </div>
               </div>
-              <p className="design-lab-note">Course identity resets the hierarchy. Only academic descendants beneath Learn add progressive indentation.</p>
+              <p className="design-lab-note">These are the production CourseIdentity components, including their subject mark, name and specification context. No invented subject icon or page-local identity styling.</p>
             </SpecimenCard>
 
             <SpecimenCard title="Page header">
               <PageHeader titleId="design-lab-header-example" eyebrow="AQA · Specification 7132" title="AQA A-level Business" description="A page title has one clear job, an optional eyebrow and a concise explanation of what the learner can do here." />
             </SpecimenCard>
 
-            <SpecimenCard title="Course header pattern" coverage="page">
-              <div className="design-lab-course-header">
-                <div><p className="eyebrow">BUSINESS</p><h3>AQA A-level Business</h3><span>A-level · AQA · 7132</span></div>
-                <div className="design-lab-course-tabs">{courseSections.map((section) => <button type="button" key={section} className={section === 'Learn' ? 'active' : ''}>{section}</button>)}</div>
+            <SpecimenCard title="Route-scoped navigation ownership" coverage="page">
+              <div className="design-lab-hierarchy-notes">
+                <p><strong>Global navigation:</strong> Home · Plan · Progress · Courses. Ask REV is a distinct persistent action.</p>
+                <p><strong>Selected course:</strong> Courses reveals enrolled courses, then Overview · Learn · Practice · Exam Prep · Progress for the selected course only.</p>
+                <p><strong>Active Learn:</strong> Only the current Learn branch expands into chapters, groups and teaching pages. An exact teaching page has the current-page state.</p>
+                <p><strong>Course header:</strong> The production CourseHeader owns real breadcrumbs, shared CourseIdentity and route-bound underline tabs. It is not a standalone general-purpose menu.</p>
               </div>
-            </SpecimenCard>
-
-            <SpecimenCard title="Next-step block" coverage="page">
-              <div className="design-lab-next-step"><div><p className="eyebrow">Next up</p><h4>3.1 Target markets</h4><p>Understand how businesses identify and target different market segments.</p><span>~ 25 minutes</span></div><Button>Start <Icon name="arrow-right" size="inline" /></Button></div>
+              <p className="design-lab-note">This is an anatomy reference, not a clickable imitation of the learner sidebar or course tabs. The real responsive navigation lives in Sidebar, Rail, TabBar, ContextualLearnerNavigation and CourseHeader.</p>
             </SpecimenCard>
           </div>
         </section>
