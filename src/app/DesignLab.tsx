@@ -8,6 +8,9 @@ import {
   Icon,
   IconButton,
   LearnBlock,
+  HueProgressBar,
+  ProgressMeasures,
+  RevSuggestionCard,
   LoadingState,
   Menu,
   MenuItem,
@@ -18,7 +21,10 @@ import {
   SegmentedControl,
   SelectField,
   Status,
+  StatusBadge,
   Surface,
+  Tag,
+  UnderstandingBar,
   TextAreaField,
   TextField,
   accentStyle,
@@ -151,7 +157,7 @@ export function DesignLab() {
         <BrandAsset asset="wordmark" className="design-lab-wordmark" alt="Revision" />
         <div className="design-lab-sidebar-title">
           <strong>Design Lab</strong>
-          <span>Approved component canvas</span>
+          <span>Production component reference</span>
         </div>
         <nav>
           {navItems.map((item) => <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}
@@ -167,7 +173,7 @@ export function DesignLab() {
           <div>
             <p className="eyebrow">Founder review surface</p>
             <h1>Revision Design Canvas</h1>
-            <p>Live, interactive examples of the foundations, components and approved page patterns available when composing Revision screens.</p>
+            <p>Production components and governed learner foundations, shown with illustrative data. Page-owned sketches remain labelled separately; this canvas is not design authority.</p>
           </div>
           <div className="design-lab-theme-switch" aria-label="Canvas theme">
             <Button variant={theme === 'light' ? 'primary' : 'secondary'} size="compact" onClick={() => changeTheme('light')}><Icon name="sun" size="inline" />Light</Button>
@@ -183,7 +189,7 @@ export function DesignLab() {
         </div>
 
         <section className="design-lab-section" aria-labelledby="foundations">
-          <SectionHeading id="foundations" title="Foundations" description="The fixed visual grammar: Calm Teal colour roles, Manrope typography, spacing, radius and depth." />
+          <SectionHeading id="foundations" title="Foundations" description="The governed Calm Teal foundation: Bricolage learner headings, Manrope reading text, shared colour, spacing, radius and depth roles." />
           <div className="design-lab-grid design-lab-grid--2">
             <SpecimenCard title="Colour system">
               <div className="design-lab-token-grid">
@@ -202,14 +208,14 @@ export function DesignLab() {
 
             <SpecimenCard title="Typography">
               <div className="design-lab-type-scale">
-                <TypeRow role="Display L" sample="Revision that adapts to you" meta="44 / 52 · 700" className="design-lab-type-display" />
-                <TypeRow role="H1" sample="Page title" meta="36 / 44 · 700" className="design-lab-type-h1" />
-                <TypeRow role="H2" sample="Section title" meta="28 / 36 · 700" className="design-lab-type-h2" />
-                <TypeRow role="H3" sample="Working-area heading" meta="22 / 30 · 700" className="design-lab-type-h3" />
-                <TypeRow role="Body L" sample="Introductory explanation for a learner." meta="18 / 28" className="design-lab-type-body-l" />
-                <TypeRow role="Body" sample="Default product and learning copy." meta="16 / 24" className="design-lab-type-body" />
-                <TypeRow role="Label" sample="FIELD LABEL" meta="13 / 18 · 600" className="design-lab-type-label" />
-                <TypeRow role="Caption" sample="Metadata and timestamps" meta="12 / 16" className="design-lab-type-caption" />
+                <TypeRow role="Learner hero" sample="Revision that adapts to you" meta="40–56px · Bricolage 800" className="design-lab-type-display" />
+                <TypeRow role="Learner H1" sample="Page title" meta="34–46px · Bricolage 800" className="design-lab-type-h1" />
+                <TypeRow role="Learner H2" sample="Section title" meta="26–32px · Bricolage 800" className="design-lab-type-h2" />
+                <TypeRow role="Learner H3" sample="Working-area heading" meta="22px · Bricolage 800" className="design-lab-type-h3" />
+                <TypeRow role="Body L" sample="Introductory explanation for a learner." meta="18 / 28 · Manrope" className="design-lab-type-body-l" />
+                <TypeRow role="Body" sample="Default product and learning copy." meta="16 / 24 · Manrope" className="design-lab-type-body" />
+                <TypeRow role="Label" sample="Field label" meta="13 / 18 · Manrope 600" className="design-lab-type-label" />
+                <TypeRow role="Caption" sample="Metadata and timestamps" meta="12 / 16 · Manrope 500" className="design-lab-type-caption" />
               </div>
             </SpecimenCard>
 
@@ -361,20 +367,18 @@ export function DesignLab() {
               <Surface variant="floating"><h4>Popover content</h4><p>Compact elevated context, menus and overlays.</p></Surface>
             </SpecimenCard>
 
-            <SpecimenCard title="Guidance / recommendation" coverage="page">
-              <div className="design-lab-family design-lab-family--guidance"><span className="design-lab-family-icon"><Icon name="arrow-right" /></span><div><p className="eyebrow">Recommended next</p><h4>Practise price elasticity</h4><p>REV is suggesting this because your last check showed uncertainty in this area.</p></div></div>
-            </SpecimenCard>
-            <SpecimenCard title="REV surface" coverage="page">
-              <div className="design-lab-family design-lab-family--rev"><RevPresence size="compact" state="resting" /><div><p className="eyebrow">REV</p><h4>What would help?</h4><p>Ask about the topic, your plan or what to do next.</p></div></div>
-            </SpecimenCard>
-            <SpecimenCard title="Exam / performance" coverage="page">
-              <div className="design-lab-family design-lab-family--exam"><div><small>Next exam</small><strong>42 days</strong><span>AQA Business · Paper 1</span></div><div className="design-lab-mini-progress"><span style={{ width: '68%' }} /></div><small>68% of planned coverage complete</small></div>
-            </SpecimenCard>
-            <SpecimenCard title="Subject accent" coverage="page">
-              <div className="design-lab-family design-lab-family--subject"><span className="design-lab-subject-marker" /><div><small>BUSINESS</small><h4>AQA A-level Business</h4><span>A-level · AQA · 7132</span></div></div>
-            </SpecimenCard>
-            <SpecimenCard title="Pricing / entitlement" coverage="page">
-              <div className="design-lab-family design-lab-family--pricing"><div><small>Plan</small><h4>Revision Plus</h4><p>Explain the learner value and entitlement boundary directly.</p></div><Button variant="secondary">View plan</Button></div>
+            <SpecimenCard title="Shared REV recommendation">
+              <RevSuggestionCard
+                eyebrow="REV suggests · demonstration"
+                title="Practise price elasticity"
+                reason="Illustrative only: a recent check indicated uncertainty about this topic. Real recommendations require learner evidence."
+                steps={[
+                  { id: 'learn', label: 'Review the key idea', state: 'done' },
+                  { id: 'practice', label: 'Practise this topic', state: 'current' },
+                  { id: 'review', label: 'Review your feedback', state: 'upcoming' },
+                ]}
+              />
+              <p className="design-lab-note">Live RevSuggestionCard component, not a Design Lab recreation. Actions are omitted because this example has no learner session.</p>
             </SpecimenCard>
           </div>
         </section>
@@ -390,15 +394,16 @@ export function DesignLab() {
                 <Status tone="error" label="Could not save">Your work is still here. Try saving again.</Status>
               </div>
             </SpecimenCard>
-            <SpecimenCard title="Tags & compact state" coverage="gap">
+            <SpecimenCard title="Brand tag and learning statuses">
               <div className="design-lab-tag-cloud">
-                <span className="design-lab-tag">Not started</span>
-                <span className="design-lab-tag design-lab-tag--info">In progress</span>
-                <span className="design-lab-tag design-lab-tag--success">Completed</span>
-                <span className="design-lab-tag design-lab-tag--warning">Needs work</span>
-                <span className="design-lab-tag design-lab-tag--focus">Exam focus</span>
+                <Tag>REV pick</Tag>
+                <StatusBadge status="gotit" />
+                <StatusBadge status="nearly" />
+                <StatusBadge status="needswork" />
+                <StatusBadge status="started" />
+                <StatusBadge status="notstarted" />
               </div>
-              <p className="design-lab-note">The visual language is governed, but Revision does not yet expose one general reusable Tag/Chip component.</p>
+              <p className="design-lab-note">The shared Tag is a brand label, not a learning-status chip. Each shared StatusBadge includes its approved icon and label.</p>
             </SpecimenCard>
           </div>
         </section>
@@ -451,20 +456,29 @@ export function DesignLab() {
         </section>
 
         <section className="design-lab-section" aria-labelledby="data">
-          <SectionHeading id="data" title="Progress, metrics & data visualisation" description="Evidence should be explained, not decorated. Different measures stay distinct rather than collapsing into one confidence score." coverage="page" />
-          <div className="design-lab-grid design-lab-grid--3">
-            <SpecimenCard title="Bounded progress" coverage="page">
-              <div className="design-lab-metric"><strong>68%</strong><span>12 of 18 topics completed</span></div>
-              <div className="design-lab-progress"><span style={{ width: '68%' }} /></div>
+          <SectionHeading id="data" title="Progress, metrics & data visualisation" description="The production components keep coverage, understanding and readiness distinct. Values here are fixed examples, not evidence about a real learner." coverage="shared" />
+          <div className="design-lab-grid design-lab-grid--2">
+            <SpecimenCard title="Three separate measures">
+              <ProgressMeasures
+                covered={12}
+                total={18}
+                understanding={{ gotit: 3, nearly: 4, needswork: 2, started: 3, notstarted: 6 }}
+                readiness={null}
+                readinessNote="Exam readiness is withheld until sufficient assessed evidence is available."
+                stack
+              />
             </SpecimenCard>
-            <SpecimenCard title="Countdown" coverage="page">
-              <div className="design-lab-countdown"><Icon name="plan" /><div><strong>42 days</strong><span>until your first exam</span></div></div>
-            </SpecimenCard>
-            <SpecimenCard title="Comparison bars" coverage="page">
-              <div className="design-lab-bars"><div><span>Marketing</span><i><b style={{ width: '78%' }} /></i><strong>78</strong></div><div><span>Finance</span><i><b style={{ width: '54%' }} /></i><strong>54</strong></div><div><span>Operations</span><i><b style={{ width: '66%' }} /></i><strong>66</strong></div></div>
-            </SpecimenCard>
-            <SpecimenCard title="List / table row" coverage="page">
-              <div className="design-lab-table" role="table" aria-label="Topic progress example"><div role="row"><strong role="columnheader">Topic</strong><strong role="columnheader">Status</strong></div><div role="row"><span role="cell">1. What is business?</span><span role="cell" className="design-lab-tag design-lab-tag--success">Completed</span></div><div role="row"><span role="cell">2. Managers and leadership</span><span role="cell" className="design-lab-tag design-lab-tag--info">In progress</span></div></div>
+            <SpecimenCard title="Reusable progress and understanding">
+              <div className="design-lab-progress-primitives">
+                <div>
+                  <p className="design-lab-note">Topics covered · bounded count</p>
+                  <HueProgressBar value={12 / 18 * 100} label="Illustrative topics covered" valueText="12 of 18 topics" />
+                </div>
+                <div>
+                  <p className="design-lab-note">Understanding · separate learning statuses</p>
+                  <UnderstandingBar counts={{ gotit: 3, nearly: 4, needswork: 2, started: 3, notstarted: 6 }} />
+                </div>
+              </div>
             </SpecimenCard>
           </div>
         </section>
