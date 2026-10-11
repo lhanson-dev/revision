@@ -190,7 +190,7 @@ export function PlannerHomeScreen({
   [setup, evidenceLoading, evidenceError, learningStates, assessments, plannedSessions, today])
 
   const todayPlan = useMemo(() => {
-    if (!setup || setupLoading || evidenceLoading || evidenceError || sessionsLoading || plannedSessions === null) return null
+    if (!setup || setupLoading || sessionsLoading || plannedSessions === null) return null
     return homeToday(todayKey, plannedSessions, snapshot?.schedule ?? [], assessments,
       setup.availability?.weeklyMinutes ?? null, setup.exceptions, programme, learningStates)
   }, [setup, setupLoading, evidenceLoading, evidenceError, sessionsLoading, plannedSessions, todayKey, snapshot, assessments, programme, learningStates])
