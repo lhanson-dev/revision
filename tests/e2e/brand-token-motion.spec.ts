@@ -244,3 +244,81 @@ test('Ask REV messages use canonical semantic roles in both themes', async ({ pa
     await dialog.getByRole('button', { name: 'Close Ask REV' }).click()
   }
 })
+
+test('five learning-status colours survive legacy token retirement in Light and Dark', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await page.goto(appPath)
+
+  for (const theme of ['light', 'dark'] as const) {
+    if (theme === 'dark') {
+      await page.evaluate((key) => localStorage.setItem(key, 'dark'), themeKey)
+      await page.reload()
+    }
+    await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', theme)
+    const palette = await page.locator('.planner-runtime').evaluate((runtime) => {
+      const resolved = (role: string) => {
+        const probe = document.createElement('span')
+        probe.style.backgroundColor = `var(${role})`
+        runtime.appendChild(probe)
+        const value = getComputedStyle(probe).backgroundColor
+        probe.remove()
+        return value
+      }
+      return {
+        gotit: resolved('--learning-status-gotit'),
+        nearly: resolved('--learning-status-nearly'),
+        needswork: resolved('--learning-status-needswork'),
+        gotitTint: resolved('--learning-status-gotit-tint'),
+        nearlyTint: resolved('--learning-status-nearly-tint'),
+        needsworkTint: resolved('--learning-status-needswork-tint'),
+        notstarted: resolved('--learning-status-notstarted'),
+      }
+    })
+    expect(palette).toEqual({
+      gotit: 'rgb(43, 182, 163)',
+      nearly: 'rgb(255, 197, 61)',
+      needswork: 'rgb(255, 122, 89)',
+      gotitTint: theme === 'light' ? 'rgb(226, 243, 239)' : 'rgb(22, 52, 48)',
+      nearlyTint: theme === 'light' ? 'rgb(255, 241, 201)' : 'rgb(55, 45, 20)',
+      needsworkTint: theme === 'light' ? 'rgb(255, 231, 223)' : 'rgb(59, 35, 29)',
+      notstarted: theme === 'light' ? 'rgb(221, 232, 228)' : 'rgb(35, 54, 57)',
+    })
+  }
+})
+
+test('shared selection and progress roles match approved Light/Dark appearance', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await page.goto(appPath)
+
+  for (const theme of ['light', 'dark'] as const) {
+    if (theme === 'dark') {
+      await page.evaluate((key) => localStorage.setItem(key, 'dark'), themeKey)
+      await page.reload()
+    }
+    await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', theme)
+    const rendered = await page.locator('.planner-runtime').evaluate((runtime) => {
+      const stylesFor = (classes: string) => {
+        const element = document.createElement('div')
+        element.className = classes
+        runtime.appendChild(element)
+        const style = getComputedStyle(element)
+        const result = { background: style.backgroundColor, text: style.color }
+        element.remove()
+        return result
+      }
+      return {
+        selectedNav: stylesFor('ui-shell-nav__item is-active'),
+        selectedTab: stylesFor('ui-tabbar__item is-active'),
+        tag: stylesFor('ui-tag'),
+        track: stylesFor('ui-hue-bar__track'),
+      }
+    })
+    const surface = theme === 'light' ? 'rgb(226, 243, 239)' : 'rgb(22, 52, 48)'
+    const ink = theme === 'light' ? 'rgb(15, 122, 109)' : 'rgb(82, 214, 194)'
+    const track = theme === 'light' ? 'rgb(221, 232, 228)' : 'rgb(35, 54, 57)'
+    expect(rendered.selectedNav).toMatchObject({ background: surface, text: ink })
+    expect(rendered.selectedTab.text).toBe(ink)
+    expect(rendered.tag).toMatchObject({ background: surface, text: ink })
+    expect(rendered.track.background).toBe(track)
+  }
+})
