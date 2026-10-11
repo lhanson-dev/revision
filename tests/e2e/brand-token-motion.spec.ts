@@ -202,3 +202,45 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
   expect(reducedMotion.name).toBe('none')
   expect(reducedMotion.duration).toBe('0s')
 })
+test('Ask REV messages use canonical semantic roles in both themes', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await page.goto(appPath)
+  for (const theme of ['light', 'dark'] as const) {
+    if (theme === 'dark') {
+      await page.evaluate((key) => localStorage.setItem(key, 'dark'), themeKey)
+      await page.reload()
+    }
+    await openAskRev(page)
+    const dialog = page.getByRole('dialog', { name: 'Ask REV' })
+    const styles = await dialog.evaluate((element) => {
+      const chat = element.querySelector<HTMLElement>('.rev-chat')
+      const response = element.querySelector<HTMLElement>('.rev-chat__message--rev')
+      const input = element.querySelector<HTMLElement>('.rev-chat__input')
+      const chip = element.querySelector<HTMLElement>('.rev-chat__chip')
+      if (!chat || !response || !input || !chip) throw new Error('Canonical REV chat specimen missing')
+      const role = (name: string) => getComputedStyle(element).getPropertyValue(name).trim()
+      const backgroundForRole = (name: string) => {
+        const probe = document.createElement('span')
+        probe.style.backgroundColor = `var(${name})`
+        element.appendChild(probe)
+        const value = getComputedStyle(probe).backgroundColor
+        probe.remove()
+        return value
+      }
+      return {
+        revBackground: getComputedStyle(response).backgroundColor,
+        expectedRevBackground: backgroundForRole('--color-inverse-action'),
+        inputBackground: getComputedStyle(input).backgroundColor,
+        expectedInputBackground: backgroundForRole('--color-surface'),
+        chipBackground: getComputedStyle(chip).backgroundColor,
+        expectedChipBackground: backgroundForRole('--color-surface'),
+        inputFocusRole: role('--focus-ring'),
+      }
+    })
+    expect(styles.revBackground).toBe(styles.expectedRevBackground)
+    expect(styles.inputBackground).toBe(styles.expectedInputBackground)
+    expect(styles.chipBackground).toBe(styles.expectedChipBackground)
+    expect(styles.inputFocusRole).not.toBe('')
+    await dialog.getByRole('button', { name: 'Close Ask REV' }).click()
+  }
+})
