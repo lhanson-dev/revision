@@ -123,8 +123,8 @@ test('sign-in meets the automated WCAG A/AA baseline', async ({ page }) => {
 test('global Home, Plan and Ask REV surfaces meet the automated WCAG A/AA baseline', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Ask REV anything' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do next\./ })).toBeVisible()
+  await expect(page.locator('.home-v3-hero').getByRole('textbox', { name: 'Ask REV anything' })).toBeVisible()
   await expectWcagBaseline(page, 'Home')
 
   await navigateGlobally(page, 'Plan')
