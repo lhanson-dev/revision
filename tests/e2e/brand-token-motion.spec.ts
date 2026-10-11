@@ -145,7 +145,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
   expect(light.backgroundColor).toBe('rgb(250, 252, 251)')
   expect(light.backgroundImage).toBe('none')
   expect(light.actionBackground).toBe('rgb(43, 182, 163)')
-  expect(light.actionText).toBe('rgb(15, 47, 54)')
+  expect(light.actionText).toBe('rgb(19, 32, 38)') // canonical Graphite Ink on Primary Teal
 
   await page.evaluate((key) => localStorage.setItem(key, 'dark'), themeKey)
   await page.reload()
@@ -155,7 +155,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
   expect(dark.backgroundColor).toBe('rgb(15, 32, 36)')
   expect(dark.backgroundImage).toBe('none')
   expect(dark.actionBackground).toBe('rgb(43, 182, 163)')
-  expect(dark.actionText).toBe('rgb(15, 47, 54)')
+  expect(dark.actionText).toBe('rgb(19, 32, 38)') // same semantic contrast in Dark
 })
 
 test('REV motion uses governed timings, genuine listening state and reduced-motion fallback', async ({ page }) => {

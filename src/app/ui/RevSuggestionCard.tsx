@@ -57,7 +57,7 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
         <ol className="rev-suggestion-card__steps">
           {steps.map((step) => (
             <li key={step.id} className="rev-suggestion-card__step" data-state={step.state} aria-current={step.state === 'current' ? 'step' : undefined}>
-              <span className="rev-suggestion-card__step-mark" aria-hidden="true" />
+              <span className="rev-suggestion-card__step-mark" aria-hidden="true">{step.state === 'done' && <Icon name="check" size="inline" />}</span>
               <span className="rev-suggestion-card__step-label">{step.label}</span>
               <span className="rev-suggestion-card__step-meta">{step.meta ?? stepStateLabel[step.state]}</span>
             </li>

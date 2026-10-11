@@ -141,7 +141,7 @@ async function themeStyles(locator: Locator, kind: 'surface' | 'accent') {
   }, kind)
 }
 
-async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action' | '--rv-deep' | '--rv-surface') {
+async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action') {
   return locator.evaluate((element, requestedRole) => {
     const style = getComputedStyle(element)
     const probe = document.createElement('span')
@@ -200,7 +200,7 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await expect(advice.getByText(/A quick check is the best starting point because REV has no scored evidence/i)).toBeVisible()
   await expect(advice.getByRole('button', { name: /^Start quick check$/i })).toBeVisible()
   await expect(advice).toHaveCSS('border-radius', '28px')
-  const adviceSurface = await backgroundRoleStyles(advice, '--rv-deep')
+  const adviceSurface = await backgroundRoleStyles(advice, '--color-inverse-action')
   expect(adviceSurface.actual).toBe(adviceSurface.expected)
   expect(adviceSurface.actual).not.toBe('rgb(255, 255, 255)')
 

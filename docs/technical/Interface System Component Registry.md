@@ -273,3 +273,9 @@ For educational treatment content:
   <p>Use normal learner-facing content here.</p>
 </EducationalTreatment>
 ```
+
+## Shared REV recommendation surface (10 October 2026; draft)
+
+`RevCard` is a public alias of `RevSuggestionCard`, not a separate card implementation. Live learner Home and Course Overview import the same shared component. Its presentation lives in `src/app/ui/rev-suggestion-card.css`, consuming central inverse REV, Primary Teal action, typography and 20px/28px radius roles from `src/app/brand-tokens.css`. Completed steps use the existing shared `Icon` registry. Do not build an alternative REV card or reintroduce direct `--rv-*` token dependencies. Genuine recommendations must provide a truthful reason and must not adopt course-specific evidence semantics in the shared component.
+
+This change does not alter the public component API, REV logic or the `RevPresence`/`RevMark` identity ownership. The separate live REV conversation stylesheet remains a later migration; Design Lab specimens remain derived documentation, not another component authority.

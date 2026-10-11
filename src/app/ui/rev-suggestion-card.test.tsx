@@ -38,6 +38,7 @@ describe('REV suggestion card', () => {
     expect(markup).toContain('data-state="upcoming"')
     expect(markup).toContain('>15 min<')
     expect(markup).toContain('>Done<')
+    expect(markup).toContain('ui-icon--inline')
     expect(markup).toContain('<h3')
     expect(markup).not.toContain('rev-suggestion-card__actions')
   })
