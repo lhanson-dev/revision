@@ -19,6 +19,7 @@ const semanticLayers = [
   'ui/rev-suggestion-card.css',
   'ui/learner-v2-components.css',
   'home-v2.css',
+  'home-v3.css',
   'plan-v2.css',
   'courses-v2.css',
   'course-overview-v2.css',
@@ -102,6 +103,17 @@ describe('site-wide theme integrity governance', () => {
     expect(interfaceLearnPractice).toContain('background: var(--color-surface-soft);')
     expect(interfaceLearnPractice).toContain('.planner-runtime .focused-practice .recommendation-card .eyebrow')
     expect(interfaceLearnPractice).toContain('color: var(--color-accent-text);')
+  })
+
+  it('keeps the Home v3 feature composition on existing semantic surface and action roles', () => {
+    const home = readFileSync(new URL('../../src/app/home-v3.css', import.meta.url), 'utf8')
+    expect(home).toContain('var(--color-surface)')
+    expect(home).toContain('var(--color-border)')
+    expect(home).toContain('var(--radius-feature)')
+    expect(home).toContain('var(--font-family-display)')
+    expect(home).not.toMatch(/#[0-9a-f]{3,8}\b/i)
+    expect(home).not.toMatch(/\brgba?\s*\(/i)
+    expect(home).not.toMatch(/var\(\s*--rv-/i)
   })
 
   it('classifies every stylesheet loaded by the canonical runtime as semantic or deliberately retained feature composition', () => {
