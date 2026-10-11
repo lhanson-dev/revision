@@ -1,6 +1,6 @@
 # Design Lab Implementation
 
-**Status:** Live via PR #426; Phase D reconciliation/expansion pending against the 7 October learner design authority  
+**Status:** Live via PR #426; Phase D1 now projects production learner components, with remaining Phase D reconciliation tracked below  
 **Date:** 29 September 2026  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the applicable specialist numbered authorities  
 **Implementation references:** `docs/technical/Interface System Component Registry.md`, `docs/technical/Interactive Component Quality Implementation.md`  
@@ -163,3 +163,13 @@ This increment does not:
 The original increment did not create normative design authority. Following the 7 October reconciliation, `Learner Design System.md` is the canonical learner-design source and the Design Lab must be updated in Phase D where its current specimens differ.
 
 This document records the new implementation surface, its access/data boundary and the rule that it is a visual projection of authority rather than a competing source of truth. Historical design evidence is unchanged.
+
+## Phase D1 — production specimen fidelity (11 October 2026)
+
+**Runtime and access.** The canonical production learner application remains `/revision/app/`, entered through `src/main.tsx` → `PlannerRuntime`. The protected Design Lab remains `/revision/design-lab.html`, entered through `src/design-lab.tsx` → `DesignLab`, with the unchanged authenticated Admin profile gate. It is a reference surface, not another learner product, and uses no live learner progress/evidence data. No modification to public, marketing, pricing/upgrade or Admin redesign authority is proposed.
+
+**Production component ownership.** The Design Lab's independent Vite entry now includes the existing production `ui/rev-suggestion-card.css` and `ui/learner-v2-components.css` after the canonical shared styling layers. The REV recommendation specimen uses the actual `RevSuggestionCard`; no separate Design Lab-only REV/guidance composition or REV halo palette is reproduced. The brand label is the actual shared `Tag`, and all five learning statuses are the live `StatusBadge` with their fixed labels/icons. The shared `ProgressMeasures`, `HueProgressBar` and `UnderstandingBar` replace hand-drawn completion/progress/comparison graphics. These use sample data and do not imply readiness or learner achievement: readiness explicitly remains "Not enough evidence yet". Presentation-only examples omit operational learner actions where the demo cannot actually start work.
+
+**Learner typography and scope.** Display/H1/H2/H3 specimens now use canonical `--type-hero-size`, `--type-learner-h1-size`, `--type-learner-h2-size`, `--type-learner-h3-size` and `--font-family-display` (Bricolage 800), not the old 28/24/21/18px Design Lab display scale. Manrope remains the reading/UI type family. Out-of-programme pricing/entitlement examples and parallel hand-drawn REV/status/progress styles were removed, along with their orphaned CSS selectors.
+
+**Assurance and boundaries.** The protected access route and shared actions remain unchanged. The focused Playwright test verifies shared production DOM owners, the deliberate absence of parallel showcase families/pricing, the distinct Tag/StatusBadge contract, real progress visual anatomy, and Bricolage 800 responsive H1 in Light/Dark at Playwright viewports. The governed merge requires green exact-head CI and explicit Founder approval; existing learner visual baselines are not touched. Subsequent Phase D slices still need to examine page-owned navigation/course headers, exam-specific composition, remaining selection-control gaps, and reference completeness. No new normative rule or ADR is needed because `Learner Design System.md` already governs component ownership and presentation. `INDEX.md` already points here, so no index change is required. Prior approval/evidence records remain untouched.
