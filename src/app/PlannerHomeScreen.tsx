@@ -11,7 +11,7 @@ import { learnerCourseRoute, routeHash, type CourseSection } from './navigation'
 import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-model'
 import { addDays, dayWord, nextFreeDay, plannedTopicKeys, sessionActivityForTask } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
-import { homeTaskOnToday, homeToday, upcomingHomeExams, type HomeExam } from './home-v3-model'
+import { homeTaskOnToday, homeTaskMatchesPlanRow, homeToday, upcomingHomeExams, type HomeExam } from './home-v3-model'
 import { progressMeasuresFor, progressSummarySentence, readinessAcross } from './progress-summary'
 import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
@@ -389,12 +389,7 @@ export function PlannerHomeScreen({
                 valueText={todayPlan.doneMinutes + ' of ' + todayPlan.plannedMinutes + ' minutes done'} />
               <ol className="home-v3-plan-rows">
                 {selectedPlanRows.map((row) => {
-                  if (row.kind === 'exam') return null
-                  const isNext = firstTask && onToday && (
-                    row.kind === 'session'
-                      ? row.session.recommendationId === firstTask.id
-                      : row.item.recommendationId === firstTask.id
-                  )
+                  const isNext = Boolean(firstTask && onToday && homeTaskMatchesPlanRow(firstTask, row))
                   return <li key={row.key} className={isNext ? 'home-v3-plan-row home-v3-plan-row--next' : 'home-v3-plan-row'}>
                     <SubjectBadge hue={row.subject.hue} mark={row.subject.mark} size="plan" />
                     <span className="home-v3-plan-row-copy">
