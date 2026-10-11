@@ -97,6 +97,11 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [input, setInput] = useState(() => window.sessionStorage.getItem('revision:rev-draft') ?? '')
+  const [pendingHomeQuestion, setPendingHomeQuestion] = useState(() =>
+    window.sessionStorage.getItem('revision:rev-submit') === '1'
+      ? window.sessionStorage.getItem('revision:rev-draft') ?? ''
+      : '')
+  const sentHomeQuestion = useRef(false)
   const [inputFocused, setInputFocused] = useState(false)
   const [messages, setMessages] = useState<ConversationMessage[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
@@ -116,6 +121,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   useEffect(() => {
     window.sessionStorage.removeItem('revision:rev-draft')
+    window.sessionStorage.removeItem('revision:rev-submit')
     return () => {
       if (respondingTimer.current !== null) window.clearTimeout(respondingTimer.current)
     }
@@ -194,6 +200,15 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     if (respondingTimer.current !== null) window.clearTimeout(respondingTimer.current)
     respondingTimer.current = window.setTimeout(() => setResponding(false), 1400)
   }
+
+  // The Home hero's Send action enters the real conversation once, after learner context loads.
+  // React StrictMode may replay effects: the synchronous guard prevents duplicate messages.
+  useEffect(() => {
+    if (loading || error || !pendingHomeQuestion.trim() || sentHomeQuestion.current) return
+    sentHomeQuestion.current = true
+    submitText(pendingHomeQuestion)
+    setPendingHomeQuestion('')
+  }, [loading, error, pendingHomeQuestion])
 
   function submitText(raw: string) {
     const text = raw.trim()
