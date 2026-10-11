@@ -42,6 +42,11 @@
   --color-inverse-text-secondary: color-mix(in srgb, var(--neutral-0) 72%, var(--brand-deep-teal));
   --color-inverse-accent-text: color-mix(in srgb, var(--brand-soft-aqua) 64%, var(--brand-primary-teal));
   --color-accent-text: #0f5d54;
+  /* Distinct semantic roles for selected learner navigation/tags and neutral progress tracks.
+     Keep their approved Light/Dark appearance without misusing learning-status colours. */
+  --color-selection-surface: #e2f3ef;
+  --color-selection-text: #0f7a6d;
+  --color-progress-track: #dde8e4;
 
   /* Semantic status roles. */
   --status-success-fg: #2d7a5d;
@@ -180,8 +185,6 @@
   --green: var(--brand-primary-teal);
   --cream: var(--color-bg);
   --white: var(--color-surface);
-
-
 }
 
 .planner-runtime[data-theme="dark"],
@@ -201,6 +204,9 @@
   --color-inverse-action: var(--brand-deep-teal);
   --color-inverse-action-text: var(--neutral-0);
   --color-accent-text: #74d9ca;
+  --color-selection-surface: #163430;
+  --color-selection-text: #52d6c2;
+  --color-progress-track: #233639;
 
   --ink-soft: #c9dcda;
   --rev-halo-core: rgba(43, 182, 163, .30);
