@@ -283,3 +283,9 @@ This change does not alter the public component API, REV logic or the `RevPresen
 ## Canonical Ask REV conversation ownership — 11 October 2026 (draft)
 
 `PlannerRuntime` owns the contextual `DrawerShell` and responsive presentation. `PlannerRevScreen` owns the single live REV conversation content and semantic states; `src/app/ask-rev-v2.css` owns `.rev-chat*` visual rules using central learner semantic tokens. Deep Teal is reserved for genuine REV messages and Living E, while learner messages use neutral UI surfaces and ordinary actions use Primary Teal. The same chat component supports the expanded workspace; no parallel conversation implementation or state store is added. Older `.planner-message-bubble`/`.planner-rev-input` styling remains compatibility-only pending a separate live-consumer audit. Shared overlay focus/scroll mechanisms are unchanged.
+
+## Retired legacy REV conversation styles — 11 October 2026 (draft PR)
+
+The canonical PlannerRuntime / DrawerShell / PlannerRevScreen interaction remains the only live Ask REV conversation. Emitted chat anatomy uses .rev-chat* selectors from ask-rev-v2.css. Source-level consumer verification found no emitted TSX selectors for the obsolete planner-rev.css and rev-chat-v2.css structures. Their entrypoint imports, files and dead scoped overrides have been retired. Existing conversational presentation and overlay focus ownership remain unchanged.
+
+This supersedes earlier draft references to retained legacy chat selectors. The active shared learner v2 stylesheet, HueProgressBar, semantic learning-status aliases and central scrim/token definitions remain until a separately governed migration. This registry records implementation ownership and is not additional learner design authority.
