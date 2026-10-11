@@ -205,4 +205,6 @@ Canonical route `/app/` uses `src/main.tsx` → `PlannerRuntime` → shared `Dra
 
 **KEEP / migrate separately:** src/app/ui/learner-v2-components.css still reads legacy --rv-* roles for status, progress and control styling; src/app/ui/HueProgressBar.tsx reads the brand teal alias; src/app/brand-tokens.css still derives learning-status and scrim roles from legacy aliases. These are active shared component contracts and their central definitions must not be deleted in this cleanup. Migrate them in bounded role-preserving work; learning-status semantics must not be confused with REV colours. Design Lab remains Phase D.
 
+**Fixture import ownership:** the dev-only `src/practice-fixtures.tsx` browser fixture has a separate stylesheet import list from `src/main.tsx`. Browser CI exposed its two stale imports after the initial deletions; this PR now removes those imports too. `src/learn-fixtures.tsx` and `src/design-lab.tsx` do not import these legacy styles. The fixture's written-answer marking harness and interactions are unchanged.
+
 **Documentation and assurance:** technical implementation and registry updated. No new normative rule is introduced. Existing responsive Light/Dark, interaction, overlay/focus and visual baselines should remain unchanged; CI must confirm.
