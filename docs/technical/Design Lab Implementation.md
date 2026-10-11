@@ -1,6 +1,6 @@
 # Design Lab Implementation
 
-**Status:** Live via PR #426; Phase D1 production specimens merged via PR #599; Phase D2 course-navigation fidelity proposed for review  
+**Status:** Live via PR #426; Phase D1 production specimens merged via PR #599; Phase D2 course-navigation fidelity recorded below, with remaining specialist reference work pending  
 **Date:** 29 September 2026  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the applicable specialist numbered authorities  
 **Implementation references:** `docs/technical/Interface System Component Registry.md`, `docs/technical/Interactive Component Quality Implementation.md`  
@@ -174,7 +174,7 @@ This document records the new implementation surface, its access/data boundary a
 
 **Assurance and boundaries.** The protected access route and shared actions remain unchanged. The focused Playwright test verifies shared production DOM owners, the deliberate absence of parallel showcase families/pricing, the distinct Tag/StatusBadge contract, real progress visual anatomy, and Bricolage 800 responsive H1 in Light/Dark at Playwright viewports. The governed merge requires green exact-head CI and explicit Founder approval; existing learner visual baselines are not touched. Subsequent Phase D slices still need to examine page-owned navigation/course headers, exam-specific composition, remaining selection-control gaps, and reference completeness. No new normative rule or ADR is needed because `Learner Design System.md` already governs component ownership and presentation. `INDEX.md` already points here, so no index change is required. Prior approval/evidence records remain untouched.
 
-## Phase D2 — course identity and navigation composition (11 October 2026; proposed)
+## Phase D2 — course identity and navigation composition (11 October 2026)
 
 **Route/runtime ownership.** `/revision/design-lab.html` remains the separate, authenticated Admin-protected reference entry (`src/design-lab.tsx`, `src/app/DesignLab.tsx`). Production learner navigation still belongs only to `/revision/app/` (`src/main.tsx`, `src/app/PlannerRuntime.tsx`). Production `PlannerRuntime` composes shared `Sidebar`, `Rail`, `TabBar` with route-driven `ContextualLearnerNavigation`; the learner `CourseExperienceScreen` uses `CourseHeader` to supply breadcrumbs, the shared `CourseIdentity`, and live course-section tabs. Design Lab cannot replace these route-bound components without a duplicate learner navigation implementation.
 
