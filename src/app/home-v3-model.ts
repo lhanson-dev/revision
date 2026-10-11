@@ -1,7 +1,7 @@
 import type { PlannerScheduledDay } from '../engine/planning/planning'
 import type { RevisionAssessment, RevisionAvailabilityException, RevisionWeeklyAvailability } from '../services/planning/planner-service'
 import type { PlannedSession } from '../services/planning/planned-session-service'
-import { createPlanDayBuilder, type PlanDay, type PlanSubject } from './plan-model'
+import { createPlanDayBuilder, type PlanDay, type PlanItem, type PlanSubject } from './plan-model'
 import { resolveSubjectIdentity } from './subject-palette'
 import { courseIdForLearningState } from './planner-model'
 import type { ModuleLearningState } from './catalogue-model'
@@ -46,17 +46,19 @@ export function homeToday(
 }
 
 /** Match course, topic AND activity. A matching topic with a different activity is not the hero task. */
+export function homeTaskMatchesPlanRow(task: HomeTask, row: PlanItem): boolean {
+  if (row.kind === 'session') return !row.done &&
+    row.session.courseId === task.courseId &&
+    row.session.topicId === task.topicId &&
+    row.session.activityType === sessionActivityForTask(task.activityType) &&
+    row.session.recommendationId === task.id
+  if (row.kind === 'suggested') return row.item.courseId === task.courseId &&
+    row.item.topicId === task.topicId && row.item.activityType === task.activityType
+  return false
+}
+
 export function homeTaskOnToday(task: HomeTask, day: PlanDay): boolean {
-  return day.items.some((row) => {
-    if (row.kind === 'session') return !row.done &&
-      row.session.courseId === task.courseId &&
-      row.session.topicId === task.topicId &&
-      row.session.activityType === sessionActivityForTask(task.activityType) &&
-      row.session.recommendationId === task.id
-    if (row.kind === 'suggested') return row.item.courseId === task.courseId &&
-      row.item.topicId === task.topicId && row.item.activityType === task.activityType
-    return false
-  })
+  return day.items.some((row) => homeTaskMatchesPlanRow(task, row))
 }
 
 export type HomeExam = {
