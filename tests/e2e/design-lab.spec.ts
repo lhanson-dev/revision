@@ -159,6 +159,19 @@ test('Design Lab course specimens project production CourseIdentity without dupl
   }
 })
 
+test('Design Lab shows the live unscored Quick Check without a fake exam simulator', async ({ page }) => {
+  await seedSession(page, true)
+  await page.goto(designLabPath)
+
+  const check = page.locator('.ui-quick-check')
+  await expect(check).toHaveCount(1)
+  await expect(check.getByText('Not scored')).toBeVisible()
+  await check.getByRole('button', { name: /A group of customers with similar needs/ }).click()
+  await expect(check.getByText(/This doesn’t count towards your progress/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Exam Prep versus focused exam' })).toBeVisible()
+  await expect(page.locator('.exam-simulator, .design-lab-next-step')).toHaveCount(0)
+})
+
 test('non-admin cannot open the Design Lab', async ({ page }) => {
   await seedSession(page, false)
   await page.goto(designLabPath)
