@@ -29,12 +29,13 @@ describe('Home v3 data boundaries', () => {
   })
 
   it('never labels a different activity or completed session as REV’s next task', () => {
-    const task = { courseId: 'business-aqa', topicId: 'finance', activityType: 'flashcards' } as HomeTask
+    const task = { id: 'rev-exact', courseId: 'business-aqa', topicId: 'finance', activityType: 'flashcards' } as HomeTask
     const day = { items: [{
-      kind: 'session', done: false, session: { courseId: 'business-aqa', topicId: 'finance', activityType: 'practice' },
+      kind: 'session', done: false, session: { courseId: 'business-aqa', topicId: 'finance', activityType: 'practice', recommendationId: 'rev-exact' },
     }] } as PlanDay
     expect(homeTaskOnToday(task, day)).toBe(true)
     expect(homeTaskOnToday({ ...task, activityType: 'exam-question' }, day)).toBe(false)
+    expect(homeTaskOnToday({ ...task, id: 'different' }, day)).toBe(false)
     expect(homeTaskOnToday(task, { ...day, items: [{ ...day.items[0], done: true }] } as PlanDay)).toBe(false)
   })
 })
