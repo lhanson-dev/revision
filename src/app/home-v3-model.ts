@@ -51,7 +51,8 @@ export function homeTaskOnToday(task: HomeTask, day: PlanDay): boolean {
     if (row.kind === 'session') return !row.done &&
       row.session.courseId === task.courseId &&
       row.session.topicId === task.topicId &&
-      row.session.activityType === sessionActivityForTask(task.activityType)
+      row.session.activityType === sessionActivityForTask(task.activityType) &&
+      row.session.recommendationId === task.id
     if (row.kind === 'suggested') return row.item.courseId === task.courseId &&
       row.item.topicId === task.topicId && row.item.activityType === task.activityType
     return false
