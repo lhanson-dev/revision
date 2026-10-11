@@ -8,6 +8,8 @@ import appCss from './app/app.css?inline'
 import authEntryCss from './app/auth-entry.css?inline'
 import interfaceSystemCss from './app/interface-system.css?inline'
 import uiComponentsCss from './app/ui/ui-components.css?inline'
+import revSuggestionCardCss from './app/ui/rev-suggestion-card.css?inline'
+import learnerComponentsCss from './app/ui/learner-v2-components.css?inline'
 import livingECss from './app/living-e.css?inline'
 import livingEAccessibilityCss from './app/living-e-accessibility.css?inline'
 import learnReadingCss from './app/learn-reading.css?inline'
@@ -23,6 +25,8 @@ const designLabCssText = [
   authEntryCss,
   interfaceSystemCss,
   uiComponentsCss,
+  revSuggestionCardCss,
+  learnerComponentsCss,
   livingECss,
   livingEAccessibilityCss,
   learnReadingCss,
