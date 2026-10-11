@@ -57,6 +57,7 @@ import './app/course-overview-rev-feature.css'
 import './app/interface-layout.css'
 import './app/interactive-component-quality.css'
 import './app/shell-v2.css'
+import './app/home-v3.css'
 
 const root = document.getElementById('root')
 
