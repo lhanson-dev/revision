@@ -72,6 +72,9 @@ async function seedReturningStudent(page: Page) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -85,35 +88,36 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
-test('Returning Home leads with a REV suggestion that says why, and gives a useful fallback without planner setup', async ({ page }) => {
+test('Returning Home keeps the approved REV → Plan/Exams → Progress → Courses → activities hierarchy', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Ask REV anything' })).toBeVisible()
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero.getByRole('heading', { name: /Hey Synthetic.*Here.s what I.d do next/ })).toBeVisible()
+  await expect(hero.getByRole('textbox', { name: 'Ask REV anything' })).toBeVisible()
+  await expect(hero.getByText('Your next useful step')).toBeVisible()
+  await expect(hero.locator('.home-v3-hero-reason')).not.toBeEmpty()
+  await expect(hero.getByText('Not on a plan yet')).toBeVisible()
 
-  const suggestion = page.locator('.home-v2-hero')
-  await expect(suggestion).toBeVisible()
-  await expect(suggestion.getByText(/^REV suggests · \d+ min$/)).toBeVisible()
-  await expect(suggestion.locator('.rev-suggestion-card__reason')).toContainText('Why:')
-  await expect(suggestion.getByRole('button', { name: 'Suggest something else' })).toBeVisible()
-  await expect(suggestion.getByRole('button', { name: 'Not now' })).toBeVisible()
-
+  await expect(page.getByRole('heading', { name: 'Today’s plan' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your exams' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your progress' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Your courses' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Open Business' })).toBeVisible()
-  // Three separate measures, never one percentage: Topics covered here, Understanding as a labelled bar.
-  await expect(page.getByRole('button', { name: 'Open Business' }).getByText(/^0 of \d+ topics covered$/)).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Open Business' }).getByRole('img', { name: /^Understanding: \d+ not started$/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What do you want to do?' })).toBeVisible()
+  await expect(page.getByText('Topics covered', { exact: true })).toBeVisible()
+  await expect(page.getByText('Understanding', { exact: true })).toBeVisible()
+  await expect(page.getByText('Exam readiness', { exact: true })).toBeVisible()
+  await expect(page.locator('.home-v3-course-card').first()).toContainText(/0 of \d+ topics covered/)
   await expect(page.getByText(/% mastered/)).toHaveCount(0)
   await expect(page.locator('.planner-home-primary-grid')).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 })
 
-test('promoted Home task starts the exact quick-check topic in one action', async ({ page }) => {
+test('Home v3 starts the exact governed focused activity with one Start action', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const start = page.getByRole('button', { name: /^Start \d+ min$/ })
+  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start \d+ min quick check/i })
   await expect(start).toBeVisible()
   await start.click()
 
@@ -124,23 +128,47 @@ test('promoted Home task starts the exact quick-check topic in one action', asyn
   await expectNoHorizontalOverflow(page)
 })
 
-test('Suggest something else moves to another topic and Not now hides suggestions until tomorrow', async ({ page }) => {
+test('Home v3 retains Suggest something else and a real Not now rest state', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const suggestion = page.locator('.home-v2-hero')
-  const title = suggestion.locator('.rev-suggestion-card__title')
+  const suggestion = page.locator('.home-v3-next')
+  const title = suggestion.locator('h2')
+  await expect(suggestion).toBeVisible()
   const first = await title.textContent()
+  await suggestion.locator('summary').click()
   await suggestion.getByRole('button', { name: 'Suggest something else' }).click()
   await expect(title).not.toHaveText(first ?? '')
 
-  // Hide every suggestion for today: the page then says so honestly instead of inventing one.
+  // Suppressing the last eligible suggestion must not reappear through the fallback path.
   for (let index = 0; index < 100 && await suggestion.isVisible(); index += 1) {
+    if (!await suggestion.getByRole('button', { name: 'Not now' }).isVisible()) await suggestion.locator('summary').click()
     await suggestion.getByRole('button', { name: 'Not now' }).click()
   }
-  await expect(page.getByRole('heading', { name: 'That’s all I’d suggest for today.' })).toBeVisible()
+  await expect(page.locator('.home-v3-no-task')).toContainText('put today’s suggestions aside')
   await expectNoHorizontalOverflow(page)
 
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'That’s all I’d suggest for today.' })).toBeVisible()
+  await expect(page.locator('.home-v3-no-task')).toContainText('put today’s suggestions aside')
+})
+
+test('Home exam-date action opens the one Plan-owned Manage Exams editor', async ({ page }) => {
+  await seedReturningStudent(page)
+  await page.goto(appPath)
+  await page.locator('.home-v3-exams').getByRole('button', { name: /Edit dates/ }).click()
+
+  await expect(page).toHaveURL(/#\/plan\?intent=manage-exams/)
+  await expect(page.locator('#manage-exams-title')).toBeVisible()
+  await expect(page.locator('.pln-dialog')).toBeVisible()
+})
+
+test('Submitting Home Ask REV sends once through the shared contextual conversation', async ({ page }) => {
+  await seedReturningStudent(page)
+  await page.goto(appPath)
+  const input = page.locator('#home-v3-ask-input')
+  await input.fill('what should I do today?')
+  await input.press('Enter')
+  const dialog = page.getByRole('dialog', { name: 'Ask REV' })
+  await expect(dialog).toBeVisible()
+  await expect(dialog.getByText('what should I do today?', { exact: true })).toHaveCount(1)
 })
