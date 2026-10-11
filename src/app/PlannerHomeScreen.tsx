@@ -215,7 +215,8 @@ export function PlannerHomeScreen({
   const readiness = useMemo(() => readinessAcross(learningStates), [learningStates])
   const onToday = firstTask && todayPlan ? homeTaskOnToday(firstTask, todayPlan) : false
   const hasPlanSetup = Boolean(setup?.availability)
-  const planTag = onToday ? 'On today’s plan' : hasPlanSetup ? 'Not on today’s plan' : 'Not on a plan yet'
+  const planTag = todayPlan === null ? (loadingPlanUnavailable(setupLoading, sessionsLoading, evidenceLoading) ? 'Checking today’s plan' : 'Plan status unavailable') :
+    onToday ? 'On today’s plan' : hasPlanSetup ? 'Not on today’s plan' : 'Not on a plan yet'
   const planEmpty = planCardEmptyCopy({ hasExamDates: assessments.length > 0, hasStudyTimes: hasPlanSetup })
 
   function retryHome() {
@@ -502,9 +503,9 @@ export function PlannerHomeScreen({
                   eligible.length === 1 ?
                     <Button variant="tertiary" onClick={() => onOpenCourseSection(eligible[0].course.id, mode)}>Open {entryLabel(eligible[0].subject.name)} {activity.title} <Icon name="arrow-right" size="inline" /></Button> :
                     <>
-                      <Button variant="tertiary" aria-expanded={isOpen} aria-controls={'home-v3-choose-' + mode}
+                      <button type="button" className="ui-button ui-button--tertiary" aria-expanded={isOpen} aria-controls={'home-v3-choose-' + mode}
                         ref={(node) => { chooserToggles.current[mode] = node }}
-                        onClick={() => focusMode(mode)}>Choose a course <Icon name="chevron-right" size="inline" /></Button>
+                        onClick={() => focusMode(mode)}>Choose a course <Icon name="chevron-right" size="inline" /></button>
                       {isOpen && <ul className="home-v3-course-chooser" id={'home-v3-choose-' + mode}>
                         {eligible.map((entry) => <li key={entry.course.id}>
                           <button type="button" onClick={() => { setChooser(null); onOpenCourseSection(entry.course.id, mode) }}>{entry.label}</button>
@@ -522,6 +523,8 @@ export function PlannerHomeScreen({
     </main>
   )
 }
+
+function loadingPlanUnavailable(...values: boolean[]) { return values.some(Boolean) }
 
 function entryLabel(subject: string) {
   return subject.trim() || 'course'
