@@ -498,72 +498,7 @@
   overflow: auto;
 }
 
-.runtime-rev-panel .planner-rev-page {
-  max-width: none;
-  margin: 0;
-  padding: 0;
-}
-
-.runtime-rev-panel .page-heading,
-.runtime-rev-panel .quiet-note,
-.runtime-rev-panel .rev-presence-conversation {
-  display: none;
-}
-
-.runtime-rev-panel .rev-page-hero {
-  min-height: 100%;
-  display: block;
-  margin: 0;
-  padding: 22px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  color: var(--color-text);
-}
-
-.runtime-rev-panel .rev-page-hero::before {
-  display: none;
-}
-
-.runtime-rev-panel .planner-rev-copy,
-.runtime-rev-panel .rev-page-hero h2,
-.runtime-rev-panel .planner-message-bubble,
-.runtime-rev-panel .planner-rev-input label {
-  color: var(--color-text);
-}
-
-.runtime-rev-panel .rev-pill {
-  border-color: var(--color-border);
-  background: var(--color-surface-soft);
-  color: var(--color-accent-text);
-}
-
-.runtime-rev-panel .planner-message-bubble.rev {
-  background: var(--color-surface-soft);
-}
-
-.runtime-rev-panel .planner-message-bubble.learner {
-  background: var(--brand-primary-teal);
-  color: var(--brand-graphite);
-}
-
-.runtime-rev-panel .planner-rev-input input {
-  background: var(--color-surface);
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
-
-.runtime-rev-panel .rev-primary {
-  background: var(--color-action);
-  color: var(--color-action-text);
-}
-
-.runtime-rev-panel .rev-secondary {
-  border-color: var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
+/* Legacy REV page/bubble overrides retired: the contextual drawer renders .rev-chat. */
 
 @media (max-width: 1160px) and (min-width: 961px) {
   .runtime-sidebar {
