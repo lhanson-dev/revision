@@ -163,7 +163,7 @@ test('Design Lab shows the live unscored Quick Check without a fake exam simulat
   await seedSession(page, true)
   await page.goto(designLabPath)
 
-  const check = page.locator('.ui-quick-check')
+  const check = page.locator('.design-lab-section[aria-labelledby="assessment"] .ui-quick-check')
   await expect(check).toHaveCount(1)
   await expect(check.getByText('Not scored')).toBeVisible()
   await check.getByRole('button', { name: /A group of customers with similar needs/ }).click()
