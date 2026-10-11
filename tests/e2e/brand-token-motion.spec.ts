@@ -78,10 +78,10 @@ async function seedSyntheticSession(page: Page) {
 }
 
 async function readThemeSnapshot(page: Page) {
-  await expect(page.locator('.rev-suggestion-card__primary')).toBeVisible()
+  await expect(page.locator('.home-v3-hero-actions .ui-button:first-child')).toBeVisible()
   return page.evaluate(() => {
     const runtime = document.querySelector<HTMLElement>('.planner-runtime')
-    const send = document.querySelector<HTMLElement>('.rev-suggestion-card__primary')
+    const send = document.querySelector<HTMLElement>('.home-v3-hero-actions .ui-button:first-child')
     if (!runtime || !send) throw new Error('Brand token assurance could not find the learner runtime.')
     const runtimeStyle = getComputedStyle(runtime)
     const sendStyle = getComputedStyle(send)
