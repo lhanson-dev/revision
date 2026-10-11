@@ -80,7 +80,7 @@ Use this file to find the governing source before substantive work.
 - Product system model / structured learner intelligence / Weakness Repair / adaptive recall foundations → `10-product-governance/Product System Model.md`
 - Course learning design / learning-node classification / Learn-Practice-Exam Prep treatment selection → `10-product-governance/Course Learning Blueprint.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
-- Returning Student Home hierarchy / REV hero / Today's plan / direct first-task launch → `10-product-governance/Returning Student Home Experience.md`
+- Returning Student Home hierarchy / REV recommendation / today's plan / exams / global Progress / courses and activity orientation → `10-product-governance/Returning Student Home Experience.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
 - Pre-commercial learner plan state / default-Free / manual test assignment / temporary all-access rule → `10-product-governance/Pre-Commercial Subscription Foundation.md`
@@ -92,6 +92,7 @@ Use this file to find the governing source before substantive work.
 - Learner visual/layout/canvas authority / shared learner design foundations → `20-brand-and-experience/Learner Design System.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
+- FI-023 Home v3 Definition-of-Ready and implementation boundaries → `10-product-governance/backlog/FI-023 Returning Student Home v3 Analysis.md` (readiness evidence; not normative Home authority)
 - Personalised Revision Intelligence strategy-to-feature mapping / strategic execution spine → `10-product-governance/backlog/Personalised Revision Intelligence Strategy Mapping.md` (non-authoritative lifecycle mapping)
 - Product backlog folder rules / strategic-anchor requirement → `10-product-governance/backlog/README.md`
 - Other Founder/strategy authority → `00-company-foundation/`
