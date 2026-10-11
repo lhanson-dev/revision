@@ -1,6 +1,6 @@
 # Design Lab Implementation
 
-**Status:** Live via PR #426; Phase D1 component-projection correction proposed in a draft PR (not yet merged)  
+**Status:** Live via PR #426; Phase D1 now projects production learner components, with remaining Phase D reconciliation tracked below  
 **Date:** 29 September 2026  
 **Authority:** `20-brand-and-experience/Learner Design System.md` plus the applicable specialist numbered authorities  
 **Implementation references:** `docs/technical/Interface System Component Registry.md`, `docs/technical/Interactive Component Quality Implementation.md`  
@@ -164,7 +164,7 @@ The original increment did not create normative design authority. Following the 
 
 This document records the new implementation surface, its access/data boundary and the rule that it is a visual projection of authority rather than a competing source of truth. Historical design evidence is unchanged.
 
-## Phase D1 — production specimen fidelity (11 October 2026; draft)
+## Phase D1 — production specimen fidelity (11 October 2026)
 
 **Runtime and access.** The canonical production learner application remains `/revision/app/`, entered through `src/main.tsx` → `PlannerRuntime`. The protected Design Lab remains `/revision/design-lab.html`, entered through `src/design-lab.tsx` → `DesignLab`, with the unchanged authenticated Admin profile gate. It is a reference surface, not another learner product, and uses no live learner progress/evidence data. No modification to public, marketing, pricing/upgrade or Admin redesign authority is proposed.
 
@@ -172,4 +172,4 @@ This document records the new implementation surface, its access/data boundary a
 
 **Learner typography and scope.** Display/H1/H2/H3 specimens now use canonical `--type-hero-size`, `--type-learner-h1-size`, `--type-learner-h2-size`, `--type-learner-h3-size` and `--font-family-display` (Bricolage 800), not the old 28/24/21/18px Design Lab display scale. Manrope remains the reading/UI type family. Out-of-programme pricing/entitlement examples and parallel hand-drawn REV/status/progress styles were removed, along with their orphaned CSS selectors.
 
-**Assurance and boundaries.** The protected access route and shared actions remain unchanged. The focused Playwright test verifies shared production DOM owners, the deliberate absence of parallel showcase families/pricing, the distinct Tag/StatusBadge contract, real progress visual anatomy, and Bricolage 800 responsive H1 in Light/Dark at Playwright viewports. Standard CI must pass before this can merge; existing learner visual baselines are not touched. Subsequent Phase D slices still need to examine page-owned navigation/course headers, exam-specific composition, remaining selection-control gaps, and reference completeness. No new normative rule or ADR is needed because `Learner Design System.md` already governs component ownership and presentation. `INDEX.md` already points here, so no index change is required. Prior approval/evidence records remain untouched.
+**Assurance and boundaries.** The protected access route and shared actions remain unchanged. The focused Playwright test verifies shared production DOM owners, the deliberate absence of parallel showcase families/pricing, the distinct Tag/StatusBadge contract, real progress visual anatomy, and Bricolage 800 responsive H1 in Light/Dark at Playwright viewports. The governed merge requires green exact-head CI and explicit Founder approval; existing learner visual baselines are not touched. Subsequent Phase D slices still need to examine page-owned navigation/course headers, exam-specific composition, remaining selection-control gaps, and reference completeness. No new normative rule or ADR is needed because `Learner Design System.md` already governs component ownership and presentation. `INDEX.md` already points here, so no index change is required. Prior approval/evidence records remain untouched.
