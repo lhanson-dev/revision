@@ -97,6 +97,40 @@ test('admin can use the live Design Lab component canvas', async ({ page }) => {
   await expect(page.getByRole('dialog', { name: 'Example modal' })).toHaveCount(0)
 })
 
+test('Design Lab projects production REV, progress, status and typography in both themes', async ({ page }) => {
+  await seedSession(page, true)
+  await page.goto(designLabPath)
+
+  await expect(page.locator('.rev-suggestion-card')).toHaveCount(1)
+  await expect(page.locator('.rev-suggestion-card__title')).toHaveText('Practise price elasticity')
+  await expect(page.locator('.ui-progress-measures')).toHaveCount(1)
+  await expect(page.locator('.ui-status-badge')).toHaveCount(5)
+  await expect(page.locator('.design-lab-tag-cloud .ui-tag')).toHaveText('REV pick')
+  await expect(page.locator('.design-lab-family')).toHaveCount(0)
+  await expect(page.getByText('Revision Plus')).toHaveCount(0)
+
+  for (const theme of ['light', 'dark'] as const) {
+    await page.getByRole('button', { name: theme === 'light' ? 'Light' : 'Dark' }).click()
+    await expect(page.locator('.design-lab-runtime')).toHaveAttribute('data-theme', theme)
+    const appearance = await page.evaluate(() => {
+      const style = (selector: string) => getComputedStyle(document.querySelector(selector)!)
+      return {
+        heading: { family: style('.design-lab-type-h1').fontFamily, weight: style('.design-lab-type-h1').fontWeight, size: parseFloat(style('.design-lab-type-h1').fontSize) },
+        rev: style('.rev-suggestion-card').backgroundColor,
+        status: style('.ui-status-badge--gotit').backgroundColor,
+        track: style('.ui-hue-bar__track').backgroundColor,
+        expectedH1: Math.min(46, Math.max(34, window.innerWidth * .024 + 18)),
+      }
+    })
+    expect(appearance.heading.family).toContain('Bricolage')
+    expect(appearance.heading.weight).toBe('800')
+    expect(appearance.heading.size).toBeCloseTo(appearance.expectedH1, 0)
+    expect(appearance.rev).not.toBe('rgba(0, 0, 0, 0)')
+    expect(appearance.status).not.toBe('rgba(0, 0, 0, 0)')
+    expect(appearance.track).not.toBe('rgba(0, 0, 0, 0)')
+  }
+})
+
 test('non-admin cannot open the Design Lab', async ({ page }) => {
   await seedSession(page, false)
   await page.goto(designLabPath)
