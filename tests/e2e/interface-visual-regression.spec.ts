@@ -465,3 +465,63 @@ for (const [project, theme] of courseOverviewVisualReview) {
     expect(approvedDigests).toContain(digest)
   })
 }
+
+
+// FI-023 Founder review evidence, NOT an approved screenshot baseline.
+// The normal four Home digest checks above remain fail-closed. This fixture
+// gives the review a real Plan/Exams composition without inserting sample
+// records or measurements into production.
+async function seedConfiguredHomeVisual(page: Page) {
+  const today = '2026-08-23' // pinned by seedSession's fixed-time clock
+  const base = {
+    user_id: userId, course_id: asCourseId,
+    created_at: '2026-08-23T09:00:00.000Z', updated_at: '2026-08-23T09:00:00.000Z',
+  }
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([
+        { ...base, session_id: 'home-review-done', planned_date: today, topic_id: 'finance', activity_type: 'learn', minutes: 15,
+          added_by: 'student', recommendation_id: null, status: 'done' },
+        { ...base, session_id: 'home-review-next', planned_date: today, topic_id: 'marketing', activity_type: 'practice', minutes: 20,
+          added_by: 'student', recommendation_id: null, status: 'planned' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([
+        { assessment_id: 'home-review-mock', user_id: userId, course_id: asCourseId, subject_id: 'business',
+          module_id: null, assessment_type: 'mock', title: 'Business Paper 1 mock', assessment_date: '2026-09-12',
+          relative_importance: 'high', scope: {}, is_active: true },
+        { assessment_id: 'home-review-exam', user_id: userId, course_id: asCourseId, subject_id: 'business',
+          module_id: null, assessment_type: 'public_exam', title: 'Business Paper 1', assessment_date: '2027-05-10',
+          relative_importance: 'high', scope: {}, is_active: true },
+      ]),
+    })
+  })
+}
+
+for (const device of ['phone', 'desktop'] as const) {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`FI-023 configured Home ${device} ${theme} full-page Founder review evidence`, async ({ page }, testInfo) => {
+      test.skip(testInfo.project.name !== device, `Only ${device} configured review capture.`)
+      await seedSession(page, theme, false)
+      await seedConfiguredHomeVisual(page)
+      await openState(page, 'home')
+
+      const day = page.locator('.home-v3-plan')
+      await expect(day).toContainText('35 min planned')
+      await expect(day).toContainText('1 of 2 done')
+      await expect(day.locator('.home-v3-done')).toHaveCount(1)
+      const exams = page.locator('.home-v3-exams')
+      await expect(exams).toContainText('Business Paper 1 mock')
+      await expect(exams).toContainText('Official exams')
+      await expect(exams).toContainText('Business Paper 1')
+
+      const full = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })
+      await testInfo.attach(`home-v3-configured-${device}-${theme}.png`, { body: full, contentType: 'image/png' })
+    })
+  }
+}
