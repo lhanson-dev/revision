@@ -468,7 +468,6 @@ test('weekly study availability is added from Plan only after first useful revis
     }
   })
   await page.goto(appPath)
-  await page.getByRole('button', { name: /^Student\b/ }).click()
   await chooseStudentAndAddAlevelBusiness(page)
   expect(profiles).toHaveLength(0)
   await page.getByRole('button', { name: 'Skip for now' }).click()
