@@ -86,6 +86,7 @@ Use this file to find the governing source before substantive work.
 - Pre-commercial learner plan state / default-Free / manual test assignment / temporary all-access rule → `10-product-governance/Pre-Commercial Subscription Foundation.md`
 - Assisted exam-answer marking / FI-007 MVP, learner experience and marking allowance rules → `10-product-governance/Assisted Exam Answer Marking.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
+- Student lifecycle journey screen-purpose / acceptance contracts (PR #590; effective only after Founder-approved merge) → `10-product-governance/Student Lifecycle Journey Contracts.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`

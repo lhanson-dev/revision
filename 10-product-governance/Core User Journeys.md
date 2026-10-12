@@ -66,6 +66,12 @@ Only one course is required before first value. Additional courses are added lat
 
 Once the course is added, Revision should clearly confirm success and explain why the next short check is useful before asking the Student to continue.
 
+### Optional exam dates during onboarding
+
+Once the exact saved course is known, Revision may offer the Student a short opportunity to enter **any exam-paper dates they already know**, before the starting check. This is **optional**: every unknown date may remain blank and the Student may skip the step without delaying first revision. Dates are tied to the saved exact course and the known paper/component identities where available, and remain editable in **Plan → Manage exams**. The Student **does not need to begin or complete any starting check, create learning evidence or demonstrate readiness** to save an exam date. A date is planning context only and never a diagnostic answer or learning achievement.
+
+Weekly study-time availability is **not** requested as a mandatory or optional first-use onboarding step before the first useful activity. After that activity and its feedback, the Student can enter a realistic recurring weekly availability from **Plan** when ready; missing availability must not prevent Home or further useful revision. This is the approved product target and may require a separately governed implementation correction; current technical documentation/code remains evidence of the implementation until corrected.
+
 ### Step 3 — Find a starting point
 
 Revision should offer a short, low-stakes starting check to improve the first recommendation.
@@ -145,11 +151,11 @@ Interrupted onboarding should resume safely where practical rather than restarti
 
 ### Intended GJ-01 flow
 
-`successful account creation → Student experience selected → one supported course saved → starting check offered → cautious first recommendation → exact useful activity → useful feedback → meaningful Student Home`
+`successful account creation → Student experience selected → one supported course saved → optional known exam dates (save or skip) → starting check offered → cautious first recommendation → exact useful activity → useful feedback → meaningful Student Home → optional weekly availability through Plan`
 
 Where the starting check is skipped or unavailable:
 
-`one supported course saved → deterministic starter activity → useful feedback → meaningful Student Home`
+`one supported course saved → optional known exam dates (save or skip) → deterministic starter activity → useful feedback → meaningful Student Home`
 
 ### GJ-01 success condition
 
@@ -164,6 +170,8 @@ The implementation should provide scenario-mapped assurance for the primary path
 - existing Student bypasses first-use onboarding;
 - new Student account-type selection;
 - first-course persistence;
+- optional known exam-paper date saving/skip *before and without* a starting check, with correct course/paper mapping;
+- no weekly-availability collection or availability requirement before first useful activity; later optional Plan setup;
 - starting-check completion;
 - starting-check skip/partial/interruption;
 - direct recommendation-to-activity routing;
