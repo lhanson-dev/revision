@@ -1,7 +1,7 @@
 # Returning Student Home Implementation
 
-**Status:** FI-023 Home v3 implementation candidate — draft PR #601, not yet merged or Live  
-**Updated:** 2026-10-11  
+**Status:** FI-023 Home v3 Live — verified production deployment after PR #601  
+**Updated:** 2026-10-12  
 **Normative authority:** `10-product-governance/Returning Student Home Experience.md` v1.3 (Founder approved, integrated through PR #595), `20-brand-and-experience/Learner Design System.md` v1.0, `20-brand-and-experience/REV Guidance and Conversation Pattern.md` v2.1, `40-evidence-and-trust/Claims and Progress Governance.md` and existing global navigation/Plan authority.
 
 ## Route, current-state boundary and entry
@@ -9,11 +9,11 @@
 **Canonical signed-in target:** `/revision/app/#/home` in the GitHub Pages deployment.  
 **Owner:** `app/index.html → src/main.tsx → AuthGate → FirstUseBoundary → PlannerRuntime → PlannerHomeScreen`.
 
-FI-023 changes only that runtime's Home composition and bounded route handoffs. Historical `src/app/App.tsx` is not a second signed-in Home and remains an unrelated compatibility surface. There is no new route to a second Home, no second shell, no database migration, and no new model/inference API.
+FI-023 changed only that runtime's Home composition and bounded route handoffs. Historical `src/app/App.tsx` is not a second signed-in Home and remains an unrelated compatibility surface. There is no new route to a second Home, no second shell, no database migration, and no new model/inference API.
 
 **Before FI-023:** `PlannerHomeScreen` rendered a separate welcome row, shared `RevSuggestionCard`, subject tiles, and an aside with next-exam/Plan summary, rather than the approved v3 hierarchy. Its setup/evidence `Promise.all` failed the whole Home when either dependency failed.
 
-**Proposed FI-023 candidate:** `src/app/PlannerHomeScreen.tsx` composes exactly five areas:
+**Live FI-023 implementation:** `src/app/PlannerHomeScreen.tsx` composes exactly five areas:
 1. REV hero, one next useful action and full-width Ask REV input;
 2. Today's Plan and Your Exams (side by side desktop, stacked below 1160px);
 3. Your Progress using the shared three measures;
@@ -38,16 +38,18 @@ All user-facing layout additions are in `src/app/home-v3.css`, imported by `src/
 
 The main layout follows approved breakpoints: >1160 desktop, 961–1160 laptop, 621–960 tablet, ≤620 phone, including a 320px minimum. Phone hero gives the Living E a 100px presence (84px ≤360), so the next useful action appears promptly. Light/Dark and reduced motion retain central ownership. Old `home-v2.css` is temporarily imported because GJ-01-compatible `HomeSetupEmpty` uses its setup selectors. Historical `returning-home.css` and `returning-home-fidelity.css` also contain styling used by existing focused/compatibility renderers; do not blindly remove them in this feature slice. Retire only proven orphaned owners in a later reconciled cleanup.
 
-## Acceptance / assurance still required
+## Assurance and verified production release
 
-The following are **implementation targets, not proven success** until exact-head checks and visual review:
+**Implementation and assurance (12 October 2026):** PR #601's final exact head `e517b420ee3920df0797f2bc5376ccebb8a6aece` passed Revision CI #38251769839 with successful security/secret scan, TypeScript, lint, unit, production build, database/RLS and protected-service checks, responsive learner browser tests and Home Light/Dark visual baselines. The four phone/desktop Home screenshot hashes were separately approved by the Founder on 12 October 2026 and re-pinned from CI #38214052147 (retained artifact `11732295608`); no other surface hashes were repinned.
 
-- unit: daily Plan counts/actual Done, exact REV/Plan match and unrelated activity mismatch, exam grouping and course filtering, reloadable Plan exam-management intent;
-- browser: authentic Home runtime, directed REV Start, no duplicate chat submission, saved course and chooser navigation, Plan rows and evidence persistence, mocks versus official exams, empty/partial-error states and Free journey;
-- visual: 1440/1024/834/390/320 responsive cases in Light/Dark, four REV states and reduced motion, 44px targets, visible focus, no horizontal overflow and no unsupported Progress claims;
-- exact-head CI: typecheck, lint, unit, build, database/security and targeted end-to-end;
-- **Founder-approved Home v3 visual baselines (12 October 2026):** after reviewing phone/desktop Light/Dark captures, the Founder replied **“Approved”** to the Home v3 visual baseline approval request. Exact-head CI #38214052147 on `8dd3d96a8ae3d5ab8778081b2bcdf47f511af1cc` produced four stable original/retry viewport SHA-256 digests, recorded in `tests/e2e/interface-visual-regression.spec.ts`; retained artifact `11732295608`. This approval covers **only four Home v3 baseline images** and is explicitly **not a PR #601 merge approval**. Full-page Light/Dark captures and configured synthetic learner examples remain supporting visual evidence, never production records. Post-repin CI, specific PR merge approval, and verified path-to-live remain outstanding.
+**Governed merge:** The Founder explicitly approved merge of PR #601. The exact-head machine-readable approval comment and `revision/founder-approval = success` were independently verified immediately before merge. PR #601 merged as `b405f52b21e61517e4ff16786b2513d93aef617b`.
+
+**Production path-to-live:** GitHub Actions deployment #38254172559 for that exact merge commit completed **success**, including release lineage, production backend readiness, Pages build/deploy, canonical React-app and legacy-retirement production smoke, and publish of durable `revision/path-to-live = success`. The verified canonical learner route is `/revision/app/#/home` on the governed Pages deployment. This supports **FI-023 Live**, not merely merged or staged.
+
+**Boundaries of evidence:** Production smoke proves the deployed canonical application and release checks, rather than individual personalised account journeys in production. The critical real-data boundaries, keyboard/responsive learner routes, one-submit contextual Ask REV and Plan persistence were tested using controlled unit/integration/browser fixtures. Continue ordinary monitoring and optional usability checks with real testers; do not claim direct production-user sign-off.
+
+**Remaining non-blocking cleanup:** `home-v2.css` is retained because `HomeSetupEmpty` still uses its setup selectors. Historical `returning-home*.css` is retained for other consumers; removing either without independent reference checks could break unrelated surfaces. No new educational claims, score calculation or database schema is introduced by FI-023.
 
 ## Documentation impact
 
-The product rule is already active Home v1.3; this document records the current PR candidate only. `docs/features/home.md`, `docs/technical/Learner Design System Implementation Reconciliation.md`, the FI-023 backlog record and `90-governance-registers/Assurance Coverage Register.md` are updated with this same implementation candidate. Actual production status must be recorded only after an approved merge and verified deployment/smoke. Historical Home prototype, screenshots, v1.2 decision and prior CI remain historical evidence and are not rewritten.
+The Founder-approved Home v1.3 normative contract is unchanged. This file now records the verified Live implementation, alongside matching updates to `docs/features/home.md`, `docs/technical/Learner Design System Implementation Reconciliation.md`, the FI-023 feature-backlog entry and `90-governance-registers/Assurance Coverage Register.md`. The release follow-up is documentation-only: no learner code, historical prototype, earlier CI result, old decision or image evidence is rewritten.
