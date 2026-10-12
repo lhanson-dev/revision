@@ -445,7 +445,7 @@ test('partial two-paper exam save can retry without duplicating paper dates or w
     if (method === 'POST') {
       const body = route.request().postDataJSON() as Record<string, unknown>
       insertCount += 1
-      if (body.title === 'Paper 2' && failPaperTwo) {
+      if (body.title === 'Paper 2: Business 2' && failPaperTwo) {
         failPaperTwo = false
         await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ code: 'PGRST500', message: 'simulated second paper save failure' }) })
         return
@@ -520,7 +520,7 @@ test('an existing course-and-title exam date is reconciled to the exact paper wi
     subject_id: 'business',
     course_id: aLevelCourseId,
     module_id: null,
-    title: 'Paper 1',
+    title: 'Paper 1: Business 1',
     assessment_type: 'public_exam',
     assessment_date: '2027-06-01',
     relative_importance: 'high',
