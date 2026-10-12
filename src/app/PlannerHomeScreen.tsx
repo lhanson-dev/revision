@@ -390,7 +390,7 @@ export function PlannerHomeScreen({
               <ol className="home-v3-plan-rows">
                 {selectedPlanRows.map((row) => {
                   const isNext = Boolean(firstTask && onToday && homeTaskMatchesPlanRow(firstTask, row))
-                  return <li key={row.key} className={isNext ? 'home-v3-plan-row home-v3-plan-row--next' : 'home-v3-plan-row'}>
+                  return <li key={row.key} data-kind={row.kind} className={isNext ? 'home-v3-plan-row home-v3-plan-row--next' : 'home-v3-plan-row'}>
                     <SubjectBadge hue={row.subject.hue} mark={row.subject.mark} size="plan" />
                     <span className="home-v3-plan-row-copy">
                       <strong>{row.topic}</strong>
