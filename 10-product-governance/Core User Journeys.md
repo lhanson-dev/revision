@@ -353,7 +353,31 @@ The learner should not feel that they are starting a different tutor conversatio
 
 REV may explain or help a learner find a supported course, but FI-020 does not require REV to add or remove course membership conversationally. Programme membership changes remain explicit learner actions.
 
-## Journey 10 — Parent / payer / supporter support
+## Journey 9A — REV supports imperfect revision days
+
+**Student goal:** "Help me make progress even when I'm tired, anxious, behind, short of time, or struggling to start."
+
+This is a companion dimension of the existing returning-student, guided-revision and REV-conversation journeys — **not** a separate assistant, onboarding questionnaire or mood-tracking feature. REV's canonical voice, behavioural decision rules and safety constraints live in `20-brand-and-experience/REV Guidance and Conversation Pattern.md`.
+
+**Starting conditions and expected outcome:**
+
+| Student situation | REV experience | Success / acceptance |
+| --- | --- | --- |
+| Ready for a routine session | Brief natural greeting, grounded recommendation and a direct Start route | Learner can act immediately without first answering "how are you feeling?" |
+| Says they have little motivation | Acknowledge briefly, offer a small supported first step and a legitimate alternative | Learner can begin a manageable action or decline without pressure |
+| Says they are exhausted or have less time | Offer realistic smaller work, adjusted focus or a break; confirm material preference changes | Recommendation remains truthful; student is not penalised for reduced capacity |
+| Returns after missed revision | Welcome back, use the latest recalculated priorities, and offer one useful restart | No overdue debt, guilt, attendance interrogation or assumed emotional state |
+| Exam is approaching and student is anxious | State only verified timing and evidence; prioritise useful exam-relevant practice, acknowledge uncertainty | Useful action without false reassurance, invented readiness or panic rhetoric |
+| Student disagrees with REV | Listen, explain genuine competing priorities and support an informed choice | No silent plan changes, nagging or false improvement of evidence |
+| Genuine progress occurs | Recognise what the evidence actually supports and explain a sensible next step | Encouragement is specific and does not equate activity with mastery |
+
+**End state:** The student understands one achievable next action, knows they are free to choose differently, and can continue with revision, take a break or seek contextual help. When activity genuinely produces evidence, the shared learner model and future guidance change normally; conversational encouragement alone does not alter readiness.
+
+**Boundaries:** A student's stated energy or feelings are ephemeral coaching context unless another lawful, separately governed data purpose applies. REV does not guess mental-health states, act as a counselling service, send guilt-based external nudges, make human-friendship claims or replace the existing safeguarding process. No new FI-003 implementation is approved by specifying this journey.
+
+**Repeatable journey tests:** Exercise each row with both sufficient and insufficient learner evidence, plus at least one student rejection. Check the greeting is non-blocking; the recommendation is deterministic and linked to the active course; data, timing and reassurance claims are grounded; low-capacity choices are genuinely actionable; declined suggestions do not recur intrusively; and the system does not create multiple conversation identities or conflicting planner state.
+
+
 
 Parent/supporter functionality is a separate experience from the student's everyday revision flow.
 

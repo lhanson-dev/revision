@@ -105,7 +105,7 @@ Use this file to find the governing source before substantive work.
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Company-wide identity + wider cross-channel brand expression (learner-specific overlap delegated to Learner Design System) → `20-brand-and-experience/Visual Brand System.md`
 - Button/action sizing, hierarchy, feedback states and action language → `20-brand-and-experience/Interactive Component Quality Standard.md`
-- REV-led decision surfaces / proactive guidance + Ask REV interaction pattern → `20-brand-and-experience/REV Guidance and Conversation Pattern.md`
+- REV-led decision surfaces / supportive study-companion behaviour / proactive guidance + Ask REV interaction pattern → `20-brand-and-experience/REV Guidance and Conversation Pattern.md`
 - Educational treatments for teaching content (Key Idea, Example, Worked Example, Diagram, Misconception, Quick check, Recap) → `20-brand-and-experience/Educational Treatment System.md`
 - Subject accent colour mapping / usage / accessibility → `20-brand-and-experience/Subject Accent Colour System.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
