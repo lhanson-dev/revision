@@ -14,7 +14,7 @@ depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revisio
 supersedes: ["Returning Student Home Experience v1.2 composition", "older Home rule placing the promoted recommendation separately inside Today's Plan, already overridden by REV Guidance and Conversation Pattern v2.1"]
 ---
 
-> **Authority transition:** The Founder approved FI-023 Definition of Ready on 10 October 2026 after reviewing the complete readiness assessment and candidate Home v1.3 contract. This document is the approved v1.3 Home product authority **once its governed PR merges to `main`**. Until then, the existing v1.2 document on `main` remains operative. The consolidated Learner Design System and specialist authorities are unchanged.
+> **Authority transition (verified):** The Founder approved FI-023 Definition of Ready on 10 October 2026, and Home v1.3 became the active product authority when PR #595 merged to `main`. Its implementation in PR #601 subsequently received specific Founder merge approval, merged 12 October 2026 and passed the governed production path-to-live verification. The consolidated Learner Design System and specialist authorities remain independently authoritative. This note records the effective transition; it does not modify the Home v1.3 behavioural rules.
 
 # Returning Student Home Experience
 
