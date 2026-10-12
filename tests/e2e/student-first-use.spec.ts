@@ -494,6 +494,138 @@ test('weekly study availability is added from Plan only after first useful revis
   expect(state.learningEvidence).toHaveLength(1)
 })
 
+test('an interrupted starting check restores only unanswered questions and can use a partial signal', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Recovery journey runs once on the canonical desktop viewport.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await chooseStudentAndAddAlevelBusiness(page)
+
+  await page.getByRole('button', { name: 'Find my starting point' }).click()
+  await expect(page.locator('.first-use-check-progress strong')).toHaveText('1 of 5')
+  const firstPrompt = await page.locator('#starting-check-heading').textContent()
+  await page.locator('.first-use-options input[type="radio"]').first().check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expect(page.locator('.first-use-check-progress strong')).toHaveText('2 of 5')
+  expect(state.startingEvidence).toHaveLength(1)
+  expect(state.account?.onboarding_stage).toBe('starting_check')
+  const firstAnswer = state.startingEvidence[0].payload
+  expect(firstAnswer.questionId).toBeTruthy()
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.reload()
+  await expect(page.locator('.first-use-check-progress strong')).toHaveText('2 of 5')
+  await expect(page.locator('#starting-check-heading')).not.toHaveText(firstPrompt ?? '')
+  expect(state.startingEvidence).toHaveLength(1)
+  expect(state.startingEvidence[0].payload.questionId).toBe(firstAnswer.questionId)
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await expect(page.getByText('REV recommends', { exact: true })).toBeVisible()
+  expect(state.account?.onboarding_stage).toBe('recommendation')
+  expect(state.startingEvidence).toHaveLength(1)
+  expect(state.learningEvidence).toHaveLength(0)
+  await expect.poll(() => state.firstUseEvents.some((event) =>
+    event.event_type === 'starting_check_partial' &&
+    (event.metadata as Record<string, unknown> | undefined)?.answered_count === 1,
+  )).toBe(true)
+
+  await page.reload()
+  await expect(page.getByText('REV recommends', { exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Start revision' })).toBeEnabled()
+  expect(state.startingEvidence).toHaveLength(1)
+  expect(state.account?.onboarding_completed_at).toBeNull()
+})
+
+test('a saved first revision activity and its feedback resume after reload without duplicating evidence', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Activity/feedback recovery runs once.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await chooseStudentAndAddAlevelBusiness(page)
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await page.getByRole('button', { name: 'Start revision' }).click()
+  const activityPrompt = await page.locator('#first-activity-heading').textContent()
+  const starterTopic = state.account?.starter_topic_id
+  expect(state.account?.onboarding_stage).toBe('activity')
+  expect(starterTopic).toBeTruthy()
+  expect(state.account?.starter_activity).toBe('flashcard')
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.reload()
+  await expect(page.locator('#first-activity-heading')).toHaveText(activityPrompt ?? '')
+  await expect(page.getByRole('button', { name: 'Show answer' })).toBeVisible()
+  expect(state.account?.starter_topic_id).toBe(starterTopic)
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.getByRole('button', { name: 'Show answer' }).click()
+  await page.getByRole('button', { name: 'Knew it' }).click()
+  await expect(page.getByText('First revision complete', { exact: true })).toBeVisible()
+  expect(state.account?.onboarding_stage).toBe('feedback')
+  expect(state.learningEvidence).toHaveLength(1)
+  const savedEvidence = state.learningEvidence[0].payload
+  expect(savedEvidence.topicId).toBe(starterTopic)
+
+  await page.reload()
+  await expect(page.getByText('First revision complete', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'You knew that one.' })).toBeVisible()
+  expect(state.learningEvidence).toHaveLength(1)
+  expect(state.learningEvidence[0].payload.id).toBe(savedEvidence.id)
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expect(page.getByRole('heading', { name: /Hey New\.\s*Here.s what I.d do next\./ })).toBeVisible()
+  expect(state.account?.onboarding_stage).toBe('complete')
+  expect(state.account?.onboarding_completed_at).not.toBeNull()
+  expect(state.learningEvidence).toHaveLength(1)
+})
+
+test('failed first learning-evidence save leaves the activity retryable and cannot complete onboarding', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Evidence-write recovery runs once.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  let remainingFailures = 1
+  let attemptedWrites = 0
+  // Intercept only the first write. On retry, fall through to the existing persisted mock store.
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    if (route.request().method() === 'POST') {
+      attemptedWrites += 1
+      if (remainingFailures > 0) {
+        remainingFailures -= 1
+        await route.fulfill({
+          status: 503,
+          contentType: 'application/json',
+          body: JSON.stringify({ message: 'simulated evidence store unavailable', code: 'PGRST500' }),
+        })
+        return
+      }
+    }
+    await route.fallback()
+  })
+
+  await page.goto(appPath)
+  await chooseStudentAndAddAlevelBusiness(page)
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await page.getByRole('button', { name: 'Start revision' }).click()
+  await page.getByRole('button', { name: 'Show answer' }).click()
+  await page.getByRole('button', { name: 'Knew it' }).click()
+
+  await expect(page.getByText(/Could not save learning evidence: simulated evidence store unavailable/)).toBeVisible()
+  await expect(page.getByText(/Your work is still on screen; try again/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Knew it' })).toBeVisible()
+  await expect(page.getByText('First revision complete', { exact: true })).toHaveCount(0)
+  expect(attemptedWrites).toBe(1)
+  expect(state.account?.onboarding_stage).toBe('activity')
+  expect(state.account?.onboarding_completed_at).toBeNull()
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.getByRole('button', { name: 'Knew it' }).click()
+  await expect(page.getByText('First revision complete', { exact: true })).toBeVisible()
+  expect(attemptedWrites).toBe(2)
+  expect(state.learningEvidence).toHaveLength(1)
+  expect(state.account?.onboarding_stage).toBe('feedback')
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expect(page.getByRole('heading', { name: /Hey New\.\s*Here.s what I.d do next\./ })).toBeVisible()
+  expect(state.account?.onboarding_completed_at).not.toBeNull()
+  expect(state.learningEvidence).toHaveLength(1)
+})
+
 /** C3 approved visual-only account-choice baselines; behavioural checks stay intact.
  * Founder approved PR #593's reviewed phone Light/Dark screenshots on
  * 10 October 2026 (CI #2965, run 38062078446, artifact 11673104330),

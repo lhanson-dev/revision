@@ -8,7 +8,7 @@ last_reviewed: 2026-10-12
 
 Document the production implementation of FI-021 / GJ-01: the governed new-Student path from successful authentication to a genuinely useful first revision activity, useful feedback and meaningful Student Home.
 
-This document describes the canonical implementation, including the **WP3 first-use setup correction proposed on a governed branch**. Until that correction merges and deploys, the extra pre-first-value weekly-time step remains part of the current live UI. Product behaviour is governed by `10-product-governance/Student Lifecycle Journey Contracts.md` v1.0 (D-01/D-01b), `Authentication Experience.md`, `Core User Journeys.md`, `Adaptive Revision Planning.md`, `20-brand-and-experience/Product UX Principles.md` and the approved FI-021 Definition-of-Ready.
+This document describes the canonical implementation on approved `main`. WP3's date-only onboarding correction merged in **PR #605** (12 October 2026); the removed weekly-time screen is no longer present in `main`. An independently verified production deployment of that particular change has not been established in this document; merged code must not be confused with observed live behaviour. Product behaviour is governed by `10-product-governance/Student Lifecycle Journey Contracts.md` v1.0 (D-01/D-01b), `Authentication Experience.md`, `Core User Journeys.md`, `Adaptive Revision Planning.md`, `20-brand-and-experience/Product UX Principles.md` and the approved FI-021 Definition-of-Ready.
 
 # Canonical runtime
 
@@ -229,3 +229,17 @@ The canonical `AuthGate → FirstUseBoundary → FirstUseGate` route is unchange
 The source correction is confined to `src/app/OnboardingPlanSetup.tsx`, the four-step counter in `src/app/OnboardingCourseChoice.tsx`, first-use browser assertions and this technical document. The canonical route is unchanged. The outdated C3 paragraph immediately above records the *then-existing* optional weekly-time screen and former draft-PR #590 dependency; it is historical and superseded for current product intent by merged PR #590, the WP2 audit in PR #604 and the WP3 candidate described here.
 
 **Documentation-impact decision:** Existing product authorities already specify optional known exam dates and post-first-value optional availability. No normative rewrite, index/register promotion, schema change or new ADR is needed for this small implementation correction. The active `Assurance Coverage Register.md` retains its existing JRN-08/07 and DATA-04 claims until new exact-head and production evidence has been verified. Do not claim this correction is Live from a PR branch or from passing tests alone.
+
+## WP3 first-use interruption and evidence-save recovery assurance (candidate, 12 October 2026)
+
+The next narrow assurance slice adds **three browser regression scenarios** to the existing `tests/e2e/student-first-use.spec.ts` without changing production onboarding logic:
+
+1. **Partially answered starting check → reload → continue at next unanswered item → Skip** retains the one durably saved sampled answer, records a partial-check transition, creates no ordinary learning evidence or completion, and restores the same recommendation after another reload.
+2. **Saved first activity → reload → finish → feedback → reload** restores the exact starter topic/activity and feedback from the persisted learning result, then reaches Home without duplicate learning-evidence writes.
+3. **First normal learning-evidence write fails → recover in place → retry** surfaces an error with the answer still available, leaves the account in `activity` without recorded learning evidence or onboarding completion, then accepts a successful retry and transitions through feedback to Home with exactly one saved evidence row.
+
+All three use the **existing synthetic authenticated browser identity and controlled REST stores**. They are scenario evidence only, not proof of a real new-account identity-provider transaction, isolated real-service persistence, or deployed-route behaviour. Existing owner-scoped RLS and real database/CI tests remain separate; none are weakened or recast.
+
+**Assurance status:** This paragraph records test intent while the candidate PR is under review. Do not claim the three scenarios pass until exact-head Revision CI completes successfully. `90-governance-registers/Assurance Coverage Register.md` JRN-08 and DATA-07 remain at their previously evidenced layer, with no status promotion from source edits alone. No new normative rule, database migration, frontend route, assessment model, Home view or canonical user-facing behaviour is added.
+
+**Documentation impact check:** Existing GJ-01, Student Lifecycle and evidence/UX/REV authorities already require safe recovery, so a product authority or ADR change is unnecessary for test-only assurance. This technical document is updated to record the scenario boundary; the WP2 point-in-time audit remains unchanged. More extensive authenticated real-service testing, exam-date retry/paper identity, and Home FI-023 exact exam-activity gaps remain deliberately separate.
