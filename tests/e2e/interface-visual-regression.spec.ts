@@ -326,6 +326,10 @@ async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    // A successful, empty persisted-plan dataset — not an absent table.
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -372,6 +376,15 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
+  if (state === 'home') {
+    // A Home snapshot must show the settled, genuine UI, never a half-loaded plan
+    // that produces nondeterministic digests or hides data-owner failures.
+    for (const area of ['.home-v3-plan', '.home-v3-exams', '.home-v3-progress']) {
+      await expect(page.locator(area)).toHaveAttribute('aria-busy', 'false')
+    }
+    await expect(page.locator('.home-v3-plan .home-v3-error')).toHaveCount(0)
+  }
+
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
@@ -404,6 +417,12 @@ for (const visualCase of cases) {
         fullPage: false,
       })
       await testInfo.attach(`${visualCase.state}-${visualCase.theme}-${visualCase.project}.png`, { body: screenshot, contentType: 'image/png' })
+      if (visualCase.state === 'home') {
+        // Separate full-page visual evidence for Founder review. The protected
+        // viewport SHA-256 comparison below stays fail-closed until approved.
+        const full = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })
+        await testInfo.attach(`home-v3-${visualCase.theme}-${visualCase.project}-full.png`, { body: full, contentType: 'image/png' })
+      }
       const digest = createHash('sha256').update(screenshot).digest('hex')
       const approved = visualCase.state === 'home'
         ? approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
