@@ -179,7 +179,7 @@ export function FirstUseGate({ children }: { children: ReactNode }) {
   const [loadedEvidenceKey, setLoadedEvidenceKey] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
-  /** Courses just added, while the student sets exam dates and study time before the first plan. */
+  /** Courses just added, while the student may optionally enter known exam dates before first revision. */
   const [planSetupCourseIds, setPlanSetupCourseIds] = useState<string[] | null>(null)
   const [startingOption, setStartingOption] = useState<number | null>(null)
   const [overrideTopicId, setOverrideTopicId] = useState('')
