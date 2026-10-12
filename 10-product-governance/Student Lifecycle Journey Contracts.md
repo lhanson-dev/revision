@@ -115,17 +115,17 @@ If the starting check is skipped, interrupted or unavailable, use the determinis
 
 ### Student intention and promise
 
-"I've opened Revision. Show me what matters today, why it matters, and take me straight into useful work; let me choose otherwise."
+"I've opened Revision. Help me see what matters next, what is planned, what exams are approaching and how I'm progressing—then let me start recommended work or choose my own."
 
-**Primary path:** `Return/login → Home → REV hero + Today's revision plan → promoted first task with concise reason → Start exact supported activity → complete and receive feedback → persist evidence → update future recommendation/Progress as warranted`.
+**Primary path:** `Return/login → meaningful Home → REV hero with one justified recommendation and direct Start → exact supported activity → complete and receive feedback → persist evidence → update next recommendation/Progress where warranted`. Students may instead choose Today's Plan, Exams, Progress, an active Course, or a supported study mode directly from Home.
 
-This respects the *specific* approved `Returning Student Home Experience.md` authority. Do **not** revert to the older generic "open course then choose a mode" Home path or a detached recommendation card.
+This follows the *specific* approved **`Returning Student Home Experience.md` v1.3** contract on current `main` (FI-023), which supersedes the earlier Home v1.2 composition. Keep the v1.3 hierarchy **REV hero → Today's Plan + Your Exams → Your Progress → Your Courses → What do you want to do?**, with one dominant direct recommendation, truthful Plan membership, supported navigation and contextual Ask REV. Do **not** revert to the older generic "open course then choose a mode" Home path or create an unrelated second recommendation engine.
 
 ### SL-03 screen-purpose matrix
 
 | Screen/state | Student intent; screen job | Immediate understanding / essential content | Primary action; next state | Secondary / REV role | Pass condition |
 | --- | --- | --- | --- | --- | --- |
-| Returning Home | Decide what to revise right now | Personal REV hero and Ask REV; Today's revision plan; one promoted task; remaining tasks subordinate; honest reason and duration | Start first task → resolved useful activity | Ask REV, open full Plan, choose Courses | First action apparent and directly operable; no dashboard decoding |
+| Returning Home | Decide what to revise next, check commitments/exams/progress and locate study options | Personal REV hero with one reasoned exact recommendation and contextual Ask REV; **Today's Plan + Your Exams**; three honest **Your Progress** measures; active **Your Courses**; quiet **What do you want to do?** study-mode introductions, in that order | Start REV-recommended exact supported activity directly → useful work | Open Plan, manage exam dates through Plan, Progress, an eligible course or supported mode; Ask REV once through the shared conversation path | First action is obvious; scheduled task matching is truthful; no invented exam/progress data or duplicate dashboard/recommendation engine |
 | Focused task | Study the specified course/topic | Clear course identity, activity and task instructions | Complete supported Learn/Practice/Exam Prep activity | Exit/return where safe | Correct academic context, no bogus cross-course substitution |
 | Feedback / repair | Understand results and improve | Relevant feedback; evidence strength; what to revisit or retest | Next useful action | REV explanation where available | Persisted evidence drives legitimate subsequent changes |
 | Full Plan | Look ahead or revise capacity/exams | Adaptive Day/Week/Month forecast, Week default; no immutable timetable or debt | Start a recommended activity | Manage exams, Plan settings, bounded preference discussion with REV | Deterministic forecast; no mastery change from plan preference |
@@ -135,16 +135,17 @@ This respects the *specific* approved `Returning Student Home Experience.md` aut
 
 ### SL-03 acceptance examples
 
-- **SL03-A1:** Returning completed Student bypasses onboarding and reaches approved Home; promoted first activity is visible and starts the actual supported task in one action.
+- **SL03-A1:** Returning completed Student bypasses onboarding and reaches the **approved Home v1.3** hierarchy; the REV hero's single promoted recommendation is visible and starts the exact supported task in one action.
 - **SL03-A2:** Where multiple courses are saved, recommendation, explanation, direct route and evidence use the correct *exact course*; published-but-unsaved courses cannot appear as priorities.
 - **SL03-A3:** Feedback creates appropriate evidence; future Home/Plan/Progress may change for defensible reasons; isolated low-quality responses are not exaggerated into mastery or grade claims.
 - **SL03-A4:** Learner can go via Courses to a different topic; Plan and REV do not force the promoted task or silently manufacture evidence for changing priorities.
 - **SL03-A5:** Missed work does not create an overdue-debt list; revision plan recalculates from current state and realistic availability.
-- **SL03-A6:** Ask REV inherits the relevant context and returns to the same task; timed exam-performance focus maintains its protected interaction rules.
+- **SL03-A6:** Ask REV inherits the relevant context; Home's input submits **once** through the existing shared contextual conversation pathway without double invocation or a fabricated inline preview, and focused timed exam-performance maintains its protected interaction rules.
+- **SL03-A7:** Home distinguishes REV's recommendation from Today's Plan and labels plan membership only on an exact match. Real upcoming exams distinguish mocks from official exams; the three Progress measures preserve evidence limits; active course cards and section chooser resolve to legitimate saved supported courses. Empty, missing-plan and partial-failure states remain useful rather than inventing tasks or hiding healthy sections.
 
 ### Known WP2 audit boundary (not a new product decision)
 
-The current Home implementation routes some planner `exam-question` tasks to the course Exam Prep surface because the planner item does not carry a paper/module identity. WP2 must check whether each promoted task genuinely meets the approved *exact supported activity* requirement and record any mismatch; do **not** mark this complete merely because navigation occurs.
+The earlier Home implementation routes some planner `exam-question` tasks to the course Exam Prep surface because the planner item may lack a paper/module identity. **Since Home v1.3 authority and its separate FI-023 implementation programme have advanced on `main`, WP2 must inspect the current exact route and test evidence rather than assume this earlier observation remains accurate.** Check whether each REV-promoted task launches an exact supported activity and whether Plan membership is matched truthfully; do **not** mark either complete merely because navigation occurs. Keep Home v3 implementation/acceptance ownership with FI-023, not this lifecycle-contract PR.
 
 ## 6. Cross-journey experience and trust invariants
 
@@ -169,7 +170,7 @@ These are **candidate assertions to map against existing evidence**, not a claim
 | --- | --- | --- |
 | SL-01 / SL01-A1–A6, A2D, A2T | `tests/e2e/student-first-use.spec.ts`, `tests/e2e/auth-entry.spec.ts`, `tests/e2e/database-persistence.spec.ts`; register `JRN-08`, `AUTH-01`, `DATA-07` | Verify dates can be saved *before and without* any starting check, including partial dates; weekly availability is **not** prompted before first value and is offered later via Plan; date save/skip is independent of starting-check save/skip; real registration path is **not** established by production smoke; prove direct activity/evidence and interruption |
 | SL-02 / SL02-A1–A5 | First-use browser/recovery tests, Plan/learner-programme tests; `JRN-01`, `JRN-02`, `JRN-07`, `DATA-04`, `DATA-05` | Establish separate fixtures for unfinished first use, incomplete Plan and empty active course set |
-| SL-03 / SL03-A1–A6 | Home, responsive and persistence suites; `JRN-01`, `JRN-03`, `JRN-04`, `JRN-05`, `JRN-06`, `JRN-07` | Check direct Home task targeting, complete Learn interaction, exam submission/result lifecycle and evidence-driven next decision |
+| SL-03 / SL03-A1–A7 | Home, responsive and persistence suites; `JRN-01`, `JRN-03`, `JRN-04`, `JRN-05`, `JRN-06`, `JRN-07` | Check direct Home task targeting, complete Learn interaction, exam submission/result lifecycle and evidence-driven next decision |
 
 For every declared scenario, WP2 should record: **contract ID → present test/evidence → assurance layer → current status (Covered/Partial/Uncovered/Unknown) → exact missing assertion → owner/action**. Follow `50-engineering-standards/Testing & Assurance Standard.md` and update `90-governance-registers/Assurance Coverage Register.md` **only when coverage is actually verified or changed**.
 
@@ -203,7 +204,7 @@ No new Parent/Teacher experience, payments, public marketing, course content pro
 
 - **WP1 (this PR):** Founder-reviewed lifecycle/intent contracts and screen-purpose matrices, acceptance examples, product authority alignment for onboarding/Plan and discovery link in `INDEX.md`. **No production code or tests are changed.**
 - **Founder gate:** D-01 and D-01b directions have both been supplied on 10 October 2026. Their **product** direction is settled; the Founder still must approve merging exact PR #590 for these contracts/authority edits to become active on `main`. Do not interpret 'continue' as merge approval.
-- **WP2 (separate governed task):** compare exact canonical runtime `/app/ → AuthGate → FirstUseBoundary → FirstUseGate → PlannerRuntime`, current Home/Plan/Courses, accepted design baselines and existing tests. Create a small Keep/Fix/Remove/Decide matrix and evidence-backed assurance gap list.
+- **WP2 (separate governed task):** compare exact canonical runtime `/app/ → AuthGate → FirstUseBoundary → FirstUseGate → PlannerRuntime`, current **Home v1.3 authority and FI-023 implementation state**, Plan/Courses, accepted design baselines and existing tests. Create a small Keep/Fix/Remove/Decide matrix and evidence-backed assurance gap list; avoid duplicating Home v3 design/implementation/assurance ownership.
 - **WP3 (separate, bounded PRs after readiness/approval where applicable):** only correct observed/approved mismatches; preserve current technical and normative ownership; update code, technical docs, affected authorities, assurance evidence and any necessary register entries together.
 - Do not modify historic decision/audit evidence. Do not reopen ongoing C3/C4 design rollout through this document, or confuse presentation baselines with learning behaviour.
 
