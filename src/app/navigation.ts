@@ -13,7 +13,7 @@ export type LearningRouteContext = {
 
 export type AppRoute =
   | { kind: 'home' }
-  | { kind: 'plan'; view?: PlanViewKey; date?: string }
+  | { kind: 'plan'; view?: PlanViewKey; date?: string; intent?: 'manage-exams' }
   | { kind: 'courses' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
@@ -24,7 +24,7 @@ export type AppRoute =
   | { kind: 'admin'; section?: AdminSection }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
-export const planRoute = (options: { view?: PlanViewKey; date?: string } = {}): AppRoute => ({ kind: 'plan', ...options })
+export const planRoute = (options: { view?: PlanViewKey; date?: string; intent?: 'manage-exams' } = {}): AppRoute => ({ kind: 'plan', ...options })
 export const coursesRoute = (): AppRoute => ({ kind: 'courses' })
 
 // Compatibility constructors retained while old subject-first links are migrated.
@@ -64,6 +64,7 @@ export function routeHash(route: AppRoute) {
       const params = new URLSearchParams()
       if (route.view) params.set('view', route.view)
       if (route.date) params.set('date', route.date)
+      if (route.intent === 'manage-exams') params.set('intent', 'manage-exams')
       const query = params.toString()
       return query ? `#/plan?${query}` : '#/plan'
     }
@@ -108,6 +109,7 @@ export function parsePlanRoute(hash: string): AppRoute {
   return planRoute({
     view: planViewKeys.find((key) => key === view),
     date: date && validDateKey(date) ? date : undefined,
+    intent: params.get('intent') === 'manage-exams' ? 'manage-exams' : undefined,
   })
 }
 

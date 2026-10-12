@@ -113,7 +113,7 @@ test('phone tab bar leaves ordinary learner actions reachable without overlap', 
   expect(barBox).not.toBeNull()
   if (barBox) expect(reservedSpace).toBeGreaterThanOrEqual(barBox.height + 24)
 
-  await expectNoDockOverlap(tabBar, page.locator('.home-v2-ask'))
+  await expectNoDockOverlap(tabBar, page.locator('.home-v3-ask'))
   const homeButtons = page.locator('.runtime-screen button:visible')
   const count = await homeButtons.count()
   if (count > 0) await expectNoDockOverlap(tabBar, homeButtons.nth(count - 1))

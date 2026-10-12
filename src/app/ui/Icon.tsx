@@ -5,6 +5,8 @@ export type IconName =
   | 'home'
   | 'plan'
   | 'progress'
+  | 'book'
+  | 'paper'
   | 'subjects'
   | 'courses'
   | 'menu'
@@ -45,6 +47,8 @@ const drawings: Record<IconName, ReactNode> = {
   home: <><path d="M3 11.5 12 4l9 7.5" /><path d="M5.5 10.5V20h13v-9.5" /><path d="M9.5 20v-6h5v6" /></>,
   plan: <><rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M8 3v4M16 3v4M3.5 9.5h17" /><path d="m9 14 2 2 4-4" /></>,
   progress: <><path d="M4 20V10M10 20V5M16 20v-8M22 20V3" /><path d="M2 20h20" /></>,
+  book: <><path d="M4 4.5A2 2 0 0 1 6 3h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H6a2 2 0 0 0-2 2z" /><path d="M20 4.5A2 2 0 0 0 18 3h-4v18a3 3 0 0 1 3-3h1a2 2 0 0 1 2 2z" /></>,
+  paper: <><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></>,
   subjects: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H6.5A2.5 2.5 0 0 0 4 20.5Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H14v18a3 3 0 0 1 3-3h.5a2.5 2.5 0 0 1 2.5 2.5Z" /></>,
   courses: <path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" />,
   menu: <><path d="M4 8h16M4 16h16" /></>,

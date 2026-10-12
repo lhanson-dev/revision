@@ -79,12 +79,21 @@ const cases: ReadonlyArray<VisualCase> = [
  * identical in CI #2970 and #2971 (head 6b1fa83abd2ef624bf3aa0cbbb62ee8430320dbe).
  * Reviewed visual sheet and retained CI #2971 artifact 11682782227.
  * These four changes are visual approval only, not merge approval.
+ * FI-023 Home v3 on PR #601: Founder explicitly approved the four Home Light/Dark
+ * phone/desktop visual baselines on 12 October 2026, replying "Approved" to the
+ * immediately preceding Home v3 visual-approval request. This is visual
+ * approval ONLY, not permission to merge PR #601. The new digests are from
+ * exact-head CI #38214052147 (run 38214052147; head
+ * 8dd3d96a8ae3d5ab8778081b2bcdf47f511af1cc), captured after the
+ * duplicate Ask REV label correction. Each original and retry digest agreed.
+ * CI retained interface-visual-regression artifact 11732295608.
+ * Other surfaces and all previously recorded historical digests are unchanged.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'c2eaa5f95941e06b66aeab23530ddca9bbe7570a90d0d51c6f0fb2062383ab53',
-  'phone:dark': '0ac3c897c5385e41084ece8fedaaa7ab6099ca636e458feb8297dd19e6044f07',
-  'desktop:light': '7eb750bd2e0e681e6a4dafc3e2c07e643fb72b9464e9764bc2c95eacc1101700',
-  'desktop:dark': '1a346fc337ab5ea79d148551feb284cdf20ec9d6a3c5784b8f0095b78258826f',
+  'phone:light': '54a5549638e1b6447e2641da855ecc42ab5132efd3f5cbdac7ee91a2dcdb01b9',
+  'phone:dark': '75fd94bbdb908937fd49ed9b91bd154661a9e3e3706b22b8c38de8ea237e47cf',
+  'desktop:light': 'fdf7e0fac64070430cc84b29637daee4bf424b1f587a90a151e55e7bcd806e2b',
+  'desktop:dark': '36f2b5e3d7f3321e9f5b19533bf8dd538f43582528a926a2e5b733806a08fdbf',
 }
 
 /**
@@ -326,6 +335,10 @@ async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    // A successful, empty persisted-plan dataset — not an absent table.
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -372,6 +385,15 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
+  if (state === 'home') {
+    // A Home snapshot must show the settled, genuine UI, never a half-loaded plan
+    // that produces nondeterministic digests or hides data-owner failures.
+    for (const area of ['.home-v3-plan', '.home-v3-exams', '.home-v3-progress']) {
+      await expect(page.locator(area)).toHaveAttribute('aria-busy', 'false')
+    }
+    await expect(page.locator('.home-v3-plan .home-v3-error')).toHaveCount(0)
+  }
+
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
@@ -404,6 +426,12 @@ for (const visualCase of cases) {
         fullPage: false,
       })
       await testInfo.attach(`${visualCase.state}-${visualCase.theme}-${visualCase.project}.png`, { body: screenshot, contentType: 'image/png' })
+      if (visualCase.state === 'home') {
+        // Separate full-page visual evidence for Founder review. The protected
+        // viewport SHA-256 comparison below stays fail-closed until approved.
+        const full = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })
+        await testInfo.attach(`home-v3-${visualCase.theme}-${visualCase.project}-full.png`, { body: full, contentType: 'image/png' })
+      }
       const digest = createHash('sha256').update(screenshot).digest('hex')
       const approved = visualCase.state === 'home'
         ? approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
@@ -445,4 +473,64 @@ for (const [project, theme] of courseOverviewVisualReview) {
     const approvedDigests = typeof approved === 'string' ? [approved] : approved
     expect(approvedDigests).toContain(digest)
   })
+}
+
+
+// FI-023 Founder review evidence, NOT an approved screenshot baseline.
+// The normal four Home digest checks above remain fail-closed. This fixture
+// gives the review a real Plan/Exams composition without inserting sample
+// records or measurements into production.
+async function seedConfiguredHomeVisual(page: Page) {
+  const today = '2026-08-23' // pinned by seedSession's fixed-time clock
+  const base = {
+    user_id: userId, course_id: asCourseId,
+    created_at: '2026-08-23T09:00:00.000Z', updated_at: '2026-08-23T09:00:00.000Z',
+  }
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([
+        { ...base, session_id: 'home-review-done', planned_date: today, topic_id: 'finance', activity_type: 'learn', minutes: 15,
+          added_by: 'student', recommendation_id: null, status: 'done' },
+        { ...base, session_id: 'home-review-next', planned_date: today, topic_id: 'marketing', activity_type: 'practice', minutes: 20,
+          added_by: 'student', recommendation_id: null, status: 'planned' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([
+        { assessment_id: 'home-review-mock', user_id: userId, course_id: asCourseId, subject_id: 'business',
+          module_id: null, assessment_type: 'mock', title: 'Business Paper 1 mock', assessment_date: '2026-09-12',
+          relative_importance: 'high', scope: {}, is_active: true },
+        { assessment_id: 'home-review-exam', user_id: userId, course_id: asCourseId, subject_id: 'business',
+          module_id: null, assessment_type: 'public_exam', title: 'Business Paper 1', assessment_date: '2027-05-10',
+          relative_importance: 'high', scope: {}, is_active: true },
+      ]),
+    })
+  })
+}
+
+for (const device of ['phone', 'desktop'] as const) {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`FI-023 configured Home ${device} ${theme} full-page Founder review evidence`, async ({ page }, testInfo) => {
+      test.skip(testInfo.project.name !== device, `Only ${device} configured review capture.`)
+      await seedSession(page, theme, false)
+      await seedConfiguredHomeVisual(page)
+      await openState(page, 'home')
+
+      const day = page.locator('.home-v3-plan')
+      await expect(day).toContainText('35 min planned')
+      await expect(day).toContainText('1 of 2 done')
+      await expect(day.locator('.home-v3-done')).toHaveCount(1)
+      const exams = page.locator('.home-v3-exams')
+      await expect(exams).toContainText('Business Paper 1 mock')
+      await expect(exams).toContainText('Official exams')
+      await expect(exams).toContainText('Business Paper 1')
+
+      const full = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })
+      await testInfo.attach(`home-v3-configured-${device}-${theme}.png`, { body: full, contentType: 'image/png' })
+    })
+  }
 }

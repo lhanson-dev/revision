@@ -93,7 +93,7 @@ async function seedSession(page: Page) {
 test('desktop gets the sidebar, tablet the icon rail and phone the bottom tab bar with REV raised in the centre', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey CTA\.\s*Here.s what I.d do today\./ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey CTA\.\s*Here.s what I.d do next\./ })).toBeVisible()
 
   const width = page.viewportSize()?.width ?? 0
   const nav = page.getByRole('navigation', { name: 'Primary navigation' })

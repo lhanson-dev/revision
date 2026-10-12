@@ -172,7 +172,7 @@ test('there is no separate Ask REV page: the old link opens the pop-up over Home
   await dialog.getByRole('button', { name: 'Close Ask REV' }).click()
   await expect(dialog).toHaveCount(0)
   await expect(page).toHaveURL(/#\/$|#\/home|app\/$/)
-  await expect(page.getByRole('heading', { name: /Here.s what I.d do today/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Here.s what I.d do next/ })).toBeVisible()
 })
 
 test('on a phone Ask REV fills the screen and never scrolls sideways at 320px', async ({ page }) => {
