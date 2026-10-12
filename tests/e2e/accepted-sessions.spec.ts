@@ -155,7 +155,7 @@ test('Home shows no Add to button and no error when the sessions table is not av
   await fakePlannedSessions(page, null)
   await page.goto(appPath)
 
-  const card = page.locator('.home-v2-hero')
+  const card = page.locator('.home-v3-hero')
   await expect(card).toBeVisible()
   await card.locator('.home-v3-alternatives summary').click()
   await expect(card.getByRole('button', { name: 'Add to Plan' })).toHaveCount(0)
@@ -223,7 +223,7 @@ test('Plan and Home with accepted sessions meet the automated WCAG A/AA baseline
   expect(plan.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 
   await page.goto(appPath)
-  await expect(page.locator('.home-v3-plan-row')).toHaveCount(2)
+  await expect(page.locator('.home-v3-plan-row[data-kind="session"]')).toHaveCount(2)
   await expect(page.locator('.home-v3-plan-row .home-v3-done')).toHaveCount(1)
   const home = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(home.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
