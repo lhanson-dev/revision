@@ -468,7 +468,7 @@ test('weekly study availability is added from Plan only after first useful revis
     }
   })
   await page.goto(appPath)
-  await page.getByRole('button', { name: /^Student\\b/ }).click()
+  await page.getByRole('button', { name: /^Student\b/ }).click()
   await chooseStudentAndAddAlevelBusiness(page)
   expect(profiles).toHaveLength(0)
   await page.getByRole('button', { name: 'Skip for now' }).click()
@@ -479,7 +479,7 @@ test('weekly study availability is added from Plan only after first useful revis
   await expect(page.getByText('First revision complete', { exact: true })).toBeVisible()
   expect(profiles).toHaveLength(0)
   await page.getByRole('button', { name: 'Continue' }).click()
-  await expect(page.getByRole('heading', { name: /Hey New\\.\\s*Here.s what I.d do next\\./ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey New\.\s*Here.s what I.d do next\./ })).toBeVisible()
   expect(state.learningEvidence).toHaveLength(1)
   expect(profiles).toHaveLength(0)
 
