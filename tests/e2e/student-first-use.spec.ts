@@ -214,21 +214,19 @@ async function chooseStudentAndAddAlevelBusiness(page: Page) {
   await page.getByRole('button', { name: /^Student\b/ }).click()
   await expect(page.getByRole('heading', { name: 'Add your courses' })).toBeVisible()
   // Step 1: level. Only levels with a live course are offered; with one, it is already chosen.
-  await expect(page.getByText('Step 1 of 5')).toBeVisible()
+  await expect(page.getByText('Step 1 of 4')).toBeVisible()
   await expect(page.getByRole('radio', { name: /A-level/ })).toBeChecked()
   await page.getByRole('button', { name: 'Continue' }).click()
   // Step 2: subjects at that level.
-  await expect(page.getByText('Step 2 of 5')).toBeVisible()
+  await expect(page.getByText('Step 2 of 4')).toBeVisible()
   await page.getByRole('checkbox', { name: 'Business' }).check()
   await page.getByRole('button', { name: 'Continue' }).click()
   // Step 3: exam board (and AS or full A-level) for each subject.
-  await expect(page.getByText('Step 3 of 5')).toBeVisible()
+  await expect(page.getByText('Step 3 of 4')).toBeVisible()
   await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
   await page.getByRole('button', { name: 'Add 1 course' }).click()
-  // Steps 4 and 5: exam dates and weekly study time, both optional here and changeable on Plan.
-  await expect(page.getByText('Step 4 of 5')).toBeVisible()
-  await page.getByRole('button', { name: 'Skip for now' }).click()
-  await expect(page.getByText('Step 5 of 5')).toBeVisible()
+  // Step 4: optional exam dates only. Weekly study time belongs to Plan after first value.
+  await expect(page.getByText('Step 4 of 4')).toBeVisible()
   await page.getByRole('button', { name: 'Skip for now' }).click()
   await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
   await expect(page.getByText('Course added', { exact: true })).toBeVisible()
@@ -374,10 +372,10 @@ test('course choice is usable, accessible and never scrolls sideways from 320px 
   expect(result.violations.map((item) => item.id)).toEqual([])
 })
 
-test('onboarding saves exam dates and weekly study time with the plan, and both can be skipped or changed later on Plan', async ({ page }, testInfo) => {
+test('onboarding saves a known exam date before any starting check, without requiring weekly availability', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Flow runs once; layout is checked at every width.')
   await seedNewStudentSession(page)
-  await stubFirstUseBackend(page)
+  const state = await stubFirstUseBackend(page)
   const assessments: Array<Record<string, unknown>> = []
   const profiles: Array<Record<string, unknown>> = []
   await page.route('**/rest/v1/revision_assessments**', async (route) => {
@@ -407,7 +405,7 @@ test('onboarding saves exam dates and weekly study time with the plan, and both 
   await page.getByRole('button', { name: 'Add 1 course' }).click()
 
   // Step 4: dates are chosen on the calendar (past days cannot be picked) and saved against the right course.
-  await expect(page.getByText('Step 4 of 5')).toBeVisible()
+  await expect(page.getByText('Step 4 of 4')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Save dates and continue' })).toBeDisabled()
   await page.getByRole('button', { name: /^Paper 1 date/ }).click()
   const picker = page.getByRole('dialog', { name: 'Choose paper 1 date' })
@@ -417,23 +415,19 @@ test('onboarding saves exam dates and weekly study time with the plan, and both 
   const iso = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`
   await picker.locator('.ui-date-day:not(.ui-date-day--outside)').first().click()
   await page.getByRole('button', { name: 'Save dates and continue' }).click()
-  await expect(page.getByText('Step 5 of 5')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
   expect(assessments).toHaveLength(1)
   expect(assessments[0]).toMatchObject({ course_id: aLevelCourseId, assessment_date: iso, assessment_type: 'public_exam' })
-
-  // Step 5: study time. Nothing can be saved until some time is set; "every day" sets all seven days.
-  await expect(page.getByRole('button', { name: 'Save and continue' })).toBeDisabled()
-  await expect(page.getByRole('button', { name: 'Increase Mon study time' })).toHaveCSS('height', '48px')
-  await page.getByRole('button', { name: 'Increase every day by 15 minutes' }).click()
-  await page.getByRole('button', { name: 'Increase Sat study time' }).click()
-  await expect(page.getByText('That’s 2h a week.')).toBeVisible()
-  await page.getByRole('button', { name: 'Save and continue' }).click()
-  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
-  expect(profiles).toHaveLength(1)
-  expect(profiles[0]).toMatchObject({ monday_minutes: 15, saturday_minutes: 30, sunday_minutes: 15 })
+  expect(profiles).toHaveLength(0)
+  expect(state.startingEvidence).toHaveLength(0)
+  expect(state.learningEvidence).toHaveLength(0)
+  await expect(page.getByText('How much time can you revise each day?')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Find my starting point' }).click()
+  await expect(page.getByText('Starting check', { exact: true })).toBeVisible()
+  expect(profiles).toHaveLength(0)
 })
 
-test('exam dates and study time steps never scroll sideways and pass the accessibility check', async ({ page }) => {
+test('optional exam dates screen remains responsive and accessible without a study-time step', async ({ page }) => {
   await seedNewStudentSession(page)
   await stubFirstUseBackend(page)
   await page.goto(appPath)
@@ -450,10 +444,54 @@ test('exam dates and study time steps never scroll sideways and pass the accessi
   let result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(result.violations.map((item) => item.id)).toEqual([])
   await page.getByRole('button', { name: 'Skip for now' }).click()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
   await page.setViewportSize({ width: 320, height: 900 })
   await expectNoPageOverflow(page)
   result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(result.violations.map((item) => item.id)).toEqual([])
+})
+
+test('weekly study availability is added from Plan only after first useful revision', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Post-first-value Plan entry runs once.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  const profiles: Array<Record<string, unknown>> = []
+  let savedAvailability: Record<string, unknown> | null = null
+  await page.route('**/rest/v1/revision_availability_profiles**', async (route) => {
+    if (route.request().method() === 'POST') {
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      profiles.push(body)
+      savedAvailability = { ...body, user_id: syntheticUserId, weekday_minutes: 0, weekend_minutes: 0, timezone: 'Europe/London' }
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(savedAvailability) })
+    } else {
+      await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(savedAvailability) })
+    }
+  })
+  await page.goto(appPath)
+  await chooseStudentAndAddAlevelBusiness(page)
+  expect(profiles).toHaveLength(0)
+  await page.getByRole('button', { name: 'Skip for now' }).click()
+  await expect(page.getByText('REV recommends', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Start revision' }).click()
+  await page.getByRole('button', { name: 'Show answer' }).click()
+  await page.getByRole('button', { name: 'Knew it' }).click()
+  await expect(page.getByText('First revision complete', { exact: true })).toBeVisible()
+  expect(profiles).toHaveLength(0)
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await expect(page.getByRole('heading', { name: /Hey New\.\s*Here.s what I.d do next\./ })).toBeVisible()
+  expect(state.learningEvidence).toHaveLength(1)
+  expect(profiles).toHaveLength(0)
+
+  await page.goto(`${appPath}#/plan`)
+  await expect(page.getByRole('heading', { name: 'Study time' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Set study time' })).toBeVisible()
+  await page.getByRole('button', { name: 'Set study time' }).click()
+  await page.getByRole('button', { name: 'More study time on Monday' }).click()
+  await page.getByRole('button', { name: 'Save study time' }).click()
+  await expect(page.getByRole('button', { name: 'Change study time' })).toBeVisible()
+  expect(profiles).toHaveLength(1)
+  expect(profiles[0]).toMatchObject({ monday_minutes: 15 })
+  expect(state.learningEvidence).toHaveLength(1)
 })
 
 /** C3 approved visual-only account-choice baselines; behavioural checks stay intact.

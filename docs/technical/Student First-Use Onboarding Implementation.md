@@ -1,14 +1,14 @@
 ---
 title: Student First-Use Onboarding Implementation
 status: implementation
-last_reviewed: 2026-08-24
+last_reviewed: 2026-10-12
 ---
 
 # Purpose
 
 Document the production implementation of FI-021 / GJ-01: the governed new-Student path from successful authentication to a genuinely useful first revision activity, useful feedback and meaningful Student Home.
 
-This document describes current implementation truth. Product behaviour remains governed by `10-product-governance/Authentication Experience.md`, `10-product-governance/Core User Journeys.md`, `20-brand-and-experience/Product UX Principles.md` and the approved FI-021 Definition-of-Ready record.
+This document describes the canonical implementation, including the **WP3 first-use setup correction proposed on a governed branch**. Until that correction merges and deploys, the extra pre-first-value weekly-time step remains part of the current live UI. Product behaviour is governed by `10-product-governance/Student Lifecycle Journey Contracts.md` v1.0 (D-01/D-01b), `Authentication Experience.md`, `Core User Journeys.md`, `Adaptive Revision Planning.md`, `20-brand-and-experience/Product UX Principles.md` and the approved FI-021 Definition-of-Ready.
 
 # Canonical runtime
 
@@ -24,13 +24,13 @@ No onboarding-only learner runtime, duplicate course identity, duplicate content
 
 The enabled new-Student path is:
 
-`successful account creation → experience choice → Student → first supported Course → Course added / Course ready → starting check → cautious recommendation → exact useful revision activity → useful feedback → Student Home`
+`successful account creation → experience choice → Student → save exact supported course → optional known exam-paper dates (save or skip) → Course added / Course ready → optional starting check → cautious recommendation → exact useful revision activity → useful feedback → Student Home → optional weekly study time in Plan`
 
 The recovery path for a skipped or unavailable starting check is:
 
-`first supported Course → deterministic starter recommendation → exact useful revision activity → useful feedback → Student Home`
+`first supported Course → optional exam-paper date skip → deterministic starter recommendation → exact useful revision activity → useful feedback → Student Home`
 
-Normal Home is not rendered for an eligible new Student merely because authentication succeeded or a course was saved. The first-use state is completed only after normal learning evidence has been created by a useful activity and the feedback state has been reached.
+Normal Home is not rendered for an eligible new Student merely because authentication succeeded or a course was saved. The first-use state is completed only after normal learning evidence has been created by a useful activity and the feedback state has been reached. **Saving an exam date does not require starting-check completion or create learning evidence; weekly availability is not a first-use gate.**
 
 # Existing-account compatibility
 
@@ -76,6 +76,14 @@ First-course setup reuses FI-020 `learner_courses` and the published catalogue i
 The UI resolves the exact supported course progressively. It asks only the qualification/subject/exam-board/course choices still required to remove ambiguity. When a level of the choice is unique it is shown as resolved rather than asking a redundant question.
 
 Only one course is required before first value. Later course management remains the responsibility of normal Courses.
+
+# Optional exam dates before first value (WP3 correction)
+
+After saving the exact supported course, the canonical `FirstUseGate` displays the date-only `OnboardingPlanSetup` step **4 of 4**. Each published paper is labelled with its course, and students can save one or more known public-exam dates through the existing learner-owned `revision_assessments` service or **Skip for now**. Successful saving and skipping both invoke the same `finishPlanSetup` transition into durable `course_ready`; neither depends on or writes starting-check/ordinary learning evidence.
+
+The previously offered **fifth** onboarding screen for Monday–Sunday study capacity has been removed in the WP3 candidate. The existing `PlanScreen` study-time card remains the owner of recurring availability through `saveAvailabilityProfile`, available after first useful revision and feedback. Students without exam dates or weekly availability can still complete initial revision and reach useful Home with honest missing-plan guidance. No planner, evidence schema, assessment model, Home v3 component or subscription behaviour is changed.
+
+**Known follow-up:** Exam-date rows retain their existing course and paper title but the shared assessment helper writes `module_id: null`; partial multiple-date insert retry/idempotency and durable paper identity remain WP2 **verification items**, not defects silently corrected by this sequencing change.
 
 # Course-ready bridge
 
@@ -177,7 +185,7 @@ The journey preserves useful state rather than restarting unnecessarily:
 
 # Assurance
 
-PR #163 adds scenario-mapped assurance for:
+Original FI-021 PR #163 added scenario-mapped assurance for:
 
 - new-account Student selection;
 - Parent/Teacher unavailable state;
@@ -193,6 +201,8 @@ PR #163 adds scenario-mapped assurance for:
 - Dark mode and horizontal-overflow checks;
 - owner-scoped account-state/event RLS; and
 - post-migration new accounts not being compatibility-seeded.
+
+WP3 specifically updates the existing `tests/e2e/student-first-use.spec.ts` browser journeys: **four** setup steps rather than five, date save/skip reaching course-ready without any availability write or starting-check prerequisite, changed-date-step accessibility/responsiveness, and later Plan availability entry after a completed first activity with unchanged learning evidence. Existing first-use, Home v3, RLS and persistence suites remain controlling. CI and deployed-route evidence must be recorded after running; changing assertions alone is not proof of a passing build.
 
 The full repository typecheck, lint, unit, build, responsive browser, migration replay, pgTAP, authenticated persistence and protected-service checks remain mandatory before merge readiness.
 
@@ -210,6 +220,12 @@ FI-021 changes current implementation truth but does not redesign the already-ap
 - the FI-021 backlog/Definition-of-Ready record must move from `Ready` to `In Progress` when this implementation begins while preserving its historical Ready approval evidence;
 - this technical document records how the accepted behaviour is implemented; and
 - assurance/register status must not be promoted to Covered/Live until repeatable CI and production evidence actually exist.
-## C3 first-use presentation-only reconciliation — pending governed PR (10 October 2026)
+## Historical C3 first-use presentation-only reconciliation (10 October 2026; preserved point-in-time)
 
 The canonical `AuthGate → FirstUseBoundary → FirstUseGate` route is unchanged. Retired direct `--rv-*` roles in `first-use-v2.css` and `onboarding-v2.css` are replaced with central learner surface, text, control, display, focus and geometry roles, including course choices and currently offered Plan-setup controls. The four-state first-use/account model, account choice, saved-course persistence, optional exam dates, currently positioned weekly-time step, starting check, evidence and Home transition are unchanged. A narrow new stylesheet assurance and phone account-choice Light/Dark visual gates supplement existing journey and accessibility tests. Proposed journey-order changes in draft PR #590 are expressly out of scope until separately approved and implemented. No normative authority change in this migration.
+
+## WP3 first-use sequencing correction (candidate, 12 October 2026)
+
+The source correction is confined to `src/app/OnboardingPlanSetup.tsx`, the four-step counter in `src/app/OnboardingCourseChoice.tsx`, first-use browser assertions and this technical document. The canonical route is unchanged. The outdated C3 paragraph immediately above records the *then-existing* optional weekly-time screen and former draft-PR #590 dependency; it is historical and superseded for current product intent by merged PR #590, the WP2 audit in PR #604 and the WP3 candidate described here.
+
+**Documentation-impact decision:** Existing product authorities already specify optional known exam dates and post-first-value optional availability. No normative rewrite, index/register promotion, schema change or new ADR is needed for this small implementation correction. The active `Assurance Coverage Register.md` retains its existing JRN-08/07 and DATA-04 claims until new exact-head and production evidence has been verified. Do not claim this correction is Live from a PR branch or from passing tests alone.
