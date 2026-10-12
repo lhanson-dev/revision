@@ -32,7 +32,7 @@ The interface uses the canonical consolidated semantic tokens, Living E, typogra
 
 ## Tests / release gate
 
-Domain test: `src/app/home-v3-model.test.ts`. Navigation contract: `src/app/navigation.test.ts`. Existing REV/Plan/Progress unit and learner browser suites remain protective. The implementing PR must pass exact-head CI and obtain explicit Founder approval of updated Home Light/Dark screenshot captures before any visual baseline re-pinning. PR merge requires separate specific Founder approval and production path-to-live evidence before the feature can be marked Live.
+Domain test: `src/app/home-v3-model.test.ts`. Navigation contract: `src/app/navigation.test.ts`. Existing REV/Plan/Progress unit and learner browser suites remain protective. For PR #601, the Founder approved the four Home v3 Light/Dark phone/desktop visual captures on 12 October 2026, and only those four exact-head digests have been re-pinned (CI #38214052147, artifact `11732295608`). The implementation still requires fresh exact-head CI on the re-pinned commit. PR merge requires separate specific Founder approval and production path-to-live evidence before the feature can be marked Live.
 
 ## Deliberate exclusions
 
