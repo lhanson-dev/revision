@@ -37,7 +37,8 @@ export interface ExamPrepPageProps {
 
 /**
  * The Exam Prep tab (v2.2): your papers, what examiners look for, mock exams. It lives in the normal learner
- * shell. Only a mock opens in a pop-up. Presentation only: every number and sentence arrives as a prop.
+ * shell. Timed mocks use the dedicated focused exam viewport; untimed paper questions stay in-page.
+ * Presentation only: every number and sentence arrives as a prop.
  */
 export function ExamPrepPage(props: ExamPrepPageProps) {
   const { courseName, boardName, accentStyle, firstExam, guide, topicsCovered, mocks, untimedUnavailable = [], suggestion, lastMock, onStartMock } = props
@@ -151,7 +152,7 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
         ) : (
           <ul className="exam-mocks">
             {mocks.map((mock) => (
-              <li key={mock.id} className="exam-mock">
+              <li key={mock.id} data-mock-id={mock.id} className="exam-mock">
                 <div className="exam-mock__copy">
                   <strong className="exam-mock__name">{mock.name}</strong>
                   <span className="exam-mock__meta">{mock.meta}</span>

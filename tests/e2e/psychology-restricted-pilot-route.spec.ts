@@ -114,7 +114,13 @@ test('restricted Psychology learner can traverse the canonical course journey on
   await expect(courseNav.getByRole('button')).toHaveText(['Overview', 'Learn', 'Practice', 'Exam Prep', 'Progress'])
   await expect(page).toHaveURL(new RegExp(`#/courses/${encodedCourseId}/overview$`))
   await expect(courseNav.getByRole('button', { name: 'Overview' })).toHaveAttribute('aria-current', 'page')
-  await expect(page.getByText('Psychology · 17 topics', { exact: true })).toBeVisible()
+  // Canonical CourseHeader owns the course identity. Topic-count dashboard
+  // text was removed from Overview; the 17-topic academic route is still
+  // assured below in the Progress section.
+  const courseIdentity = page.locator('.course-header-identity')
+  await expect(courseIdentity.getByRole('heading', { name: 'Psychology', level: 1 })).toBeVisible()
+  await expect(courseIdentity).toContainText('7182')
+  await expect(page.getByRole('heading', { name: 'Your next useful step' })).toBeVisible()
 
   await courseNav.getByRole('button', { name: 'Learn' }).click()
   await expect(page).toHaveURL(new RegExp(`#/courses/${encodedCourseId}/learn$`))

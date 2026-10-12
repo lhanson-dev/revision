@@ -273,3 +273,27 @@ For educational treatment content:
   <p>Use normal learner-facing content here.</p>
 </EducationalTreatment>
 ```
+
+## Shared REV recommendation surface (10 October 2026; draft)
+
+`RevCard` is a public alias of `RevSuggestionCard`, not a separate card implementation. Live learner Home and Course Overview import the same shared component. Its presentation lives in `src/app/ui/rev-suggestion-card.css`, consuming central inverse REV, Primary Teal action, typography and 20px/28px radius roles from `src/app/brand-tokens.css`. Completed steps use the existing shared `Icon` registry. Do not build an alternative REV card or reintroduce direct `--rv-*` token dependencies. Genuine recommendations must provide a truthful reason and must not adopt course-specific evidence semantics in the shared component.
+
+This change does not alter the public component API, REV logic or the `RevPresence`/`RevMark` identity ownership. The separate live REV conversation stylesheet remains a later migration; Design Lab specimens remain derived documentation, not another component authority.
+
+## Canonical Ask REV conversation ownership — 11 October 2026 (draft)
+
+`PlannerRuntime` owns the contextual `DrawerShell` and responsive presentation. `PlannerRevScreen` owns the single live REV conversation content and semantic states; `src/app/ask-rev-v2.css` owns `.rev-chat*` visual rules using central learner semantic tokens. Deep Teal is reserved for genuine REV messages and Living E, while learner messages use neutral UI surfaces and ordinary actions use Primary Teal. The same chat component supports the expanded workspace; no parallel conversation implementation or state store is added. Older `.planner-message-bubble`/`.planner-rev-input` styling remains compatibility-only pending a separate live-consumer audit. Shared overlay focus/scroll mechanisms are unchanged.
+
+## Retired legacy REV conversation styles — 11 October 2026 (draft PR)
+
+The canonical PlannerRuntime / DrawerShell / PlannerRevScreen interaction remains the only live Ask REV conversation. Emitted chat anatomy uses .rev-chat* selectors from ask-rev-v2.css. Source-level consumer verification found no emitted TSX selectors for the obsolete planner-rev.css and rev-chat-v2.css structures. Their entrypoint imports, files and dead scoped overrides have been retired. Existing conversational presentation and overlay focus ownership remain unchanged.
+
+This supersedes earlier draft references to retained legacy chat selectors. The active shared learner v2 stylesheet, HueProgressBar, semantic learning-status aliases and central scrim/token definitions remain until a separately governed migration. This registry records implementation ownership and is not additional learner design authority.
+
+## Shared primitives: single-token ownership — 11 October 2026 (draft PR)
+
+The live shared `StatusBadge`, `UnderstandingBar`, `HueProgressBar`, `Tag`, Quick Check answer-option focus, `Rail`, `TabBar` and shared shell nav are consumers of `src/app/ui/learner-v2-components.css`, `HueProgressBar.tsx` and canonical `src/app/brand-tokens.css`. The legacy v2 `--rv-*` namespace is retired. Components use semantic `--color-*`, `--learning-status-*`, `--focus-ring`, `--radius-*` and shared spacing/action roles instead; no parallel theme palette is permitted.
+
+**Rendering fidelity:** The shared `Tag`, active `Rail`/`TabBar` navigation and neutral `HueProgressBar` track use central `--color-selection-surface`, `--color-selection-text` and `--color-progress-track` roles. These roles preserve the approved Light/Dark component colours without aliasing the old `--rv-*` namespace and without borrowing learning-status semantics. A browser test asserts actual computed colours in both themes. This resolves CI #2991's 16 image-mismatch hold at the shared-style owner; confirmation requires fresh exact-head CI rather than baseline re-pinning.
+
+The five learning-status hues/tints/ink combinations remain defined only as status semantics, separately from subject identity, ordinary brand controls, REV identity and functional success/error. A source-level guardrail prevents reintroducing `--rv-*` declarations or CSS var() references. This is implementation/registry reconciliation only; it does not change the underlying progress or evidence model. The Design Lab remains a derived production specimen gallery: Phase D1 is merged via PR #599, and Phase D2 corrects its course identity/navigation specimen drift; further specialist/reference coverage is still pending. Browser screenshot hashes are subject to separate Founder visual approval if altered.

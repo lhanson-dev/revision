@@ -1,4 +1,4 @@
-/* Sign in, redesign v2 (design_handoff_revision_v2 screen 11): dark REV panel beside the form. */
+/* Canonical learner-entry visual roles; the desktop REV feature uses an inverse surface. */
 .auth-shell--split { display: grid; grid-template-columns: minmax(0, 1fr); align-content: stretch; place-items: stretch; gap: 0; padding: 0; }
 
 .auth-hero { display: none; }
@@ -13,28 +13,26 @@
     justify-content: flex-end;
     gap: 20px;
     padding: 56px;
-    background: var(--rv-deep);
-    color: var(--rv-on-deep);
+    background: var(--color-inverse-action);
+    color: var(--color-inverse-action-text);
     overflow: hidden;
   }
   .auth-hero .rev-presence { position: absolute; top: 18%; right: -6%; width: 420px; height: 420px; }
   .auth-hero-copy { position: relative; display: flex; flex-direction: column; gap: 16px; max-width: 460px; }
-  .auth-hero-headline { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -.03em; color: var(--rv-on-deep); }
-  .auth-hero-headline span { color: var(--rv-teal); }
-  .auth-hero-blurb { margin: 0; font-weight: 600; font-size: 18px; line-height: 1.5; color: var(--rv-on-deep-muted); }
+  .auth-hero-headline { margin: 0; font-family: var(--font-family-display); font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -.03em; color: var(--color-inverse-action-text); }
+  .auth-hero-headline span { color: var(--color-action); }
+  .auth-hero-blurb { margin: 0; font-weight: 600; font-size: 18px; line-height: 1.5; color: var(--color-inverse-text-secondary); }
   .auth-hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .auth-hero-tags li { padding: 8px 14px; border-radius: 999px; font-weight: 800; font-size: 13px; }
-  .auth-hero-tags li[data-tone="coral"] { background: var(--rv-coral-soft); color: var(--rv-coral-text); }
-  .auth-hero-tags li[data-tone="sun"] { background: var(--rv-sun-soft); color: var(--rv-sun-text); }
-  .auth-hero-tags li[data-tone="violet"] { background: var(--rv-violet-soft); color: var(--rv-violet-text); }
+  /* Feature tags describe capabilities, not evidence/status or subject hue. */
+  .auth-hero-tags li { padding: 8px 14px; border-radius: var(--radius-pill); background: color-mix(in srgb, var(--color-inverse-action-text) 12%, transparent); color: var(--color-inverse-action-text); font-weight: 800; font-size: 13px; }
 }
 
-.auth-shell--split .auth-card h1 { font-family: var(--rv-font-display); font-weight: 800; }
-.auth-shell--split .auth-card { box-shadow: none; border-radius: var(--rv-radius-hero); }
-.auth-shell--split .auth-card input { border: 2px solid var(--color-border-control); border-radius: var(--rv-radius-row); }
-.auth-shell--split .auth-card input:focus-visible { border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
-.auth-shell--split .auth-provider-button { border-radius: var(--rv-radius-row); font-weight: 800; }
-.auth-shell--split .auth-card .primary.auth-wide-action { min-height: 52px; border-radius: var(--radius-pill); background: var(--rv-teal); border-color: var(--rv-teal); color: var(--rv-teal-text); font-weight: 800; }
+.auth-shell--split .auth-card h1 { font-family: var(--font-family-display); font-weight: 800; }
+.auth-shell--split .auth-card { box-shadow: none; border-radius: var(--radius-feature); }
+.auth-shell--split .auth-card input { border: 2px solid var(--color-border-control); border-radius: var(--radius-control); }
+.auth-shell--split .auth-card input:focus-visible { border-color: var(--color-action); box-shadow: var(--focus-ring); }
+.auth-shell--split .auth-provider-button { border-radius: var(--radius-control); font-weight: 800; }
+.auth-shell--split .auth-card .primary.auth-wide-action { min-height: 52px; border-radius: var(--radius-pill); background: var(--color-action); border-color: var(--color-action); color: var(--color-action-text); font-weight: 800; }
 
 /* The hero panel is always dark, so REV uses its dark-theme glow there. */
 .auth-hero { --rev-halo-core: rgba(43, 182, 163, .30); --rev-halo-mid: rgba(43, 182, 163, .14); --rev-halo-outer: rgba(43, 182, 163, .18); }

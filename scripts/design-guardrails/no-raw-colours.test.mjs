@@ -22,7 +22,6 @@ const knownLegacyHexCounts = {
   'src/app/founder-assurance.css': 13,
   'src/app/hierarchy.css': 15,
   'src/app/home-view.ts': 8,
-  'src/app/planner-rev.css': 8,
   'src/app/planner-today.css': 10,
   'src/app/planner.css': 22,
   'src/app/profile-edit.css': 1,

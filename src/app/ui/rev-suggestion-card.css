@@ -1,12 +1,12 @@
-/* REV suggestion card (redesign v2). Dark "deep" panel; always carries the reason for the suggestion. */
+/* Canonical shared REV recommendation surface. Inverse roles keep REV distinct from ordinary actions. */
 .rev-suggestion-card {
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding: 22px;
-  border-radius: var(--rv-radius-card);
-  background: var(--rv-deep);
-  color: var(--rv-on-deep);
+  border-radius: var(--radius-surface);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
   font-family: var(--font-family-product);
 }
 
@@ -19,12 +19,12 @@
   line-height: 1;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--rv-on-deep-label);
+  color: var(--color-inverse-accent-text);
 }
 
 .rev-suggestion-card__title {
   margin: 0;
-  font-family: var(--rv-font-display);
+  font-family: var(--font-family-display);
   font-weight: 800;
   font-size: 32px;
   line-height: 1.08;
@@ -32,7 +32,7 @@
 }
 
 .rev-suggestion-card__reason { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.45; }
-.rev-suggestion-card__title + .rev-suggestion-card__reason { font-weight: 600; font-size: 15px; line-height: 1.5; color: var(--rv-on-deep-muted); }
+.rev-suggestion-card__title + .rev-suggestion-card__reason { font-weight: 600; font-size: 15px; line-height: 1.5; color: var(--color-inverse-text-secondary); }
 
 .rev-suggestion-card__steps { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
 
@@ -41,8 +41,8 @@
   align-items: center;
   gap: 14px;
   padding: 14px 16px;
-  border-radius: var(--rv-radius-row);
-  background: var(--rv-on-deep-tint-1);
+  border-radius: var(--radius-compact);
+  background: color-mix(in srgb, var(--color-inverse-action-text) 8%, transparent);
 }
 
 .rev-suggestion-card__step-mark {
@@ -51,18 +51,21 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid var(--rv-on-deep-outline);
+  border: 2px solid color-mix(in srgb, var(--color-inverse-action-text) 30%, transparent);
 }
 
 .rev-suggestion-card__step-label { flex: 1; font-weight: 700; font-size: 16px; line-height: 1.2; }
-.rev-suggestion-card__step-meta { font-weight: 700; font-size: 13px; line-height: 1; color: var(--rv-on-deep-muted); }
+.rev-suggestion-card__step-meta { font-weight: 700; font-size: 13px; line-height: 1; color: var(--color-inverse-text-secondary); }
 
-.rev-suggestion-card__step[data-state="current"] { background: var(--rv-on-deep-tint-3); box-shadow: inset 0 0 0 2px var(--rv-teal); }
-.rev-suggestion-card__step[data-state="current"] .rev-suggestion-card__step-mark { border-color: var(--rv-teal); }
+.rev-suggestion-card__step[data-state="current"] { background: color-mix(in srgb, var(--color-inverse-action-text) 14%, transparent); box-shadow: inset 0 0 0 2px var(--color-action); }
+.rev-suggestion-card__step[data-state="current"] .rev-suggestion-card__step-mark { border-color: var(--color-action); }
 
 .rev-suggestion-card__step[data-state="done"] .rev-suggestion-card__step-mark {
-  border-color: var(--rv-teal);
-  background: var(--rv-teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f2f36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center / 16px no-repeat;
+  border-color: var(--color-action);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  display: grid;
+  place-items: center;
 }
 .rev-suggestion-card__step[data-state="done"] .rev-suggestion-card__step-label { text-decoration: line-through; opacity: .6; }
 
@@ -70,7 +73,7 @@
 
 .rev-suggestion-card__primary,
 .rev-suggestion-card__secondary {
-  min-height: 36px;
+  min-height: 44px;
   padding: 9px 14px;
   border: 0;
   border-radius: var(--radius-pill);
@@ -80,27 +83,27 @@
   cursor: pointer;
 }
 
-.rev-suggestion-card__primary { background: var(--rv-teal); color: var(--rv-teal-text); font-weight: 800; }
-.rev-suggestion-card__secondary { background: var(--rv-on-deep-tint-2); color: inherit; font-weight: 700; }
+.rev-suggestion-card__primary { background: var(--color-action); color: var(--color-action-text); font-weight: 800; }
+.rev-suggestion-card__secondary { background: color-mix(in srgb, var(--color-inverse-action-text) 10%, transparent); color: inherit; font-weight: 700; }
 
 .rev-suggestion-card__primary:focus-visible,
-.rev-suggestion-card__secondary:focus-visible { outline: 2px solid var(--rv-on-deep-label); outline-offset: 2px; }
+.rev-suggestion-card__secondary:focus-visible { outline: 2px solid var(--color-inverse-accent-text); outline-offset: 2px; }
 
 @media (max-width: 620px) {
   .rev-suggestion-card__title { font-size: 26px; }
 }
 
 /* Hero variant: Home's main suggestion. */
-.rev-suggestion-card--hero { gap: 22px; padding: 30px; border-radius: var(--rv-radius-hero); }
+.rev-suggestion-card--hero { gap: 22px; padding: 30px; border-radius: var(--radius-feature); }
 .rev-suggestion-card--hero .rev-suggestion-card__actions { align-items: center; gap: 16px; }
 .rev-suggestion-card--hero .rev-suggestion-card__primary { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; font-size: 16px; }
-.rev-suggestion-card--hero .rev-suggestion-card__secondary { min-height: 48px; padding: 0 10px; background: none; font-size: 14px; color: var(--rv-on-deep-muted); text-decoration: underline; }
+.rev-suggestion-card--hero .rev-suggestion-card__secondary { min-height: 48px; padding: 0 10px; background: none; font-size: 14px; color: var(--color-inverse-text-secondary); text-decoration: underline; }
 
 /* Global heading/paragraph colour rules must not leak onto the dark panel. */
-.rev-suggestion-card h3.rev-suggestion-card__title { color: var(--rv-on-deep); }
-.rev-suggestion-card p.rev-suggestion-card__reason { color: var(--rv-on-deep); }
-.rev-suggestion-card h3.rev-suggestion-card__title + p.rev-suggestion-card__reason { color: var(--rv-on-deep-muted); }
+.rev-suggestion-card h3.rev-suggestion-card__title { color: var(--color-inverse-action-text); }
+.rev-suggestion-card p.rev-suggestion-card__reason { color: var(--color-inverse-action-text); }
+.rev-suggestion-card h3.rev-suggestion-card__title + p.rev-suggestion-card__reason { color: var(--color-inverse-text-secondary); }
 
 /* "Add to Thursday": an outlined pill beside the main button. */
-.rev-suggestion-card__plan { min-height: 48px; padding: 0 20px; border: 2px solid var(--rv-teal); border-radius: var(--radius-pill); background: transparent; color: inherit; font: inherit; font-size: 15px; font-weight: 800; line-height: 1; cursor: pointer; }
-.rev-suggestion-card__plan:focus-visible { outline: 2px solid var(--rv-on-deep-label); outline-offset: 2px; }
+.rev-suggestion-card__plan { min-height: 48px; padding: 0 20px; border: 2px solid var(--color-action); border-radius: var(--radius-pill); background: transparent; color: inherit; font: inherit; font-size: 15px; font-weight: 800; line-height: 1; cursor: pointer; }
+.rev-suggestion-card__plan:focus-visible { outline: 2px solid var(--color-inverse-accent-text); outline-offset: 2px; }

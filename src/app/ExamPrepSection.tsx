@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { CatalogueCourse, ModuleLearningState } from './catalogue-model'
 import { ExamSimulator, type ExamSimulatorProps } from './ExamSimulator'
@@ -6,7 +6,7 @@ import { examDateLabel, examPapersFor, lastMockFrom, mockRowFor, suggestMock, to
 import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
 import { resolveSubjectIdentity } from './subject-palette'
 import { topicProgressFor } from './topic-status'
-import { accentStyle, ExamPrepPage, PracticeBarTitle, PracticeDialog, type ExamMockMode } from './ui'
+import { accentStyle, ExamPrepPage, type ExamMockMode } from './ui'
 
 type MockExam = ExamSimulatorProps['exam']
 
@@ -35,12 +35,34 @@ function mockExamsFor(course: CatalogueCourse): Array<{ exam: MockExam; moduleId
 }
 
 /**
- * Exam Prep in the normal learner shell (v2.2): the page, and the pop-up a mock opens in. The pop-up is the
- * Practice pop-up shell; the mock itself is still the existing simulator until the timed/untimed mock flow lands.
+ * Exam Prep is a normal course page. The learner opens untimed questions
+ * in-page, while a timed full paper uses ExamSimulator's dedicated viewport.
+ * The presentation shell never owns exam timer, marks or saved evidence.
  */
 export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
   const [active, setActive] = useState<{ id: string; mode: ExamMockMode } | null>(null)
+  const launchControl = useRef<{ id: string; mode: ExamMockMode; label: string } | null>(null)
+  useEffect(() => {
+    if (active || !launchControl.current) return
+    const previous = launchControl.current
+    launchControl.current = null
+    // The preparation page remounts after focused work: restore focus to the
+    // corresponding live button, never to a detached element.
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('.exam-mock'))
+    const row = rows.find((item) => item.dataset.mockId === previous.id)
+    const action = row?.querySelectorAll<HTMLButtonElement>('button')[previous.mode === 'timed' ? 0 : 1]
+    const revAction = Array.from(document.querySelectorAll<HTMLButtonElement>('.exam-prep__rev button')).find(
+      (item) => item.textContent?.trim() === previous.label,
+    )
+    ;(previous.label === 'Start it' ? revAction : action)?.focus()
+  }, [active])
+
+  function startMock(id: string, mode: ExamMockMode) {
+    const label = document.activeElement instanceof HTMLElement ? document.activeElement.textContent?.trim() ?? '' : ''
+    launchControl.current = { id, mode, label }
+    setActive({ id, mode })
+  }
   const identity = resolveSubjectIdentity(subjectId, subjectName)
   const guide = examPapersFor(course.examBoardName, course.specificationCode)
   const progress = useMemo(() => topicProgressFor(state), [state])
@@ -57,9 +79,34 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
   // Single-question practice is not offered for the retained pilot papers.
   const untimedUnavailable = mocks.filter(({ exam }) => exam.restrictedPilot).map(({ exam }) => exam.id)
 
+  if (active && activeMock) {
+    return (
+      <section className="exam-prep-activity" aria-label={`Mock exam: ${activeMock.exam.title}`} style={accentStyle(identity.hue)}>
+        <header className="exam-prep-activity__header">
+          <button type="button" className="exam-prep-activity__back" onClick={() => setActive(null)}>
+            Back to Exam Prep
+          </button>
+          <div>
+            <p className="ui-eyebrow">{active.mode === 'timed' ? 'Timed mock' : 'Untimed paper practice'}</p>
+            <h2>{rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title}</h2>
+          </div>
+        </header>
+        <ExamSimulator
+          key={active.id + active.mode}
+          exam={activeMock.exam}
+          moduleId={activeMock.moduleId}
+          saving={saving}
+          saveError={saveError}
+          onRecordEvidence={onRecordEvidence}
+          autoStart={active.mode}
+          onExit={() => setActive(null)}
+        />
+      </section>
+    )
+  }
+
   return (
-    <>
-      <ExamPrepPage
+    <ExamPrepPage
         courseName={subjectName}
         boardName={`${course.examBoardName} ${course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}`.trim()}
         accentStyle={accentStyle(identity.hue)}
@@ -70,19 +117,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
         untimedUnavailable={untimedUnavailable}
         suggestion={suggestion}
         lastMock={lastMock}
-        onStartMock={(id, mode) => setActive({ id, mode })}
-      />
-      {active && activeMock && (
-        <PracticeDialog
-          label={`Mock exam: ${activeMock.exam.title}`}
-          subjectMark={identity.mark}
-          accentStyle={accentStyle(identity.hue)}
-          onClose={() => setActive(null)}
-          bar={<PracticeBarTitle title={rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title} detail={active.mode === 'timed' ? 'Timed mock · like the real exam' : 'Untimed practice'} />}
-        >
-          <ExamSimulator exam={activeMock.exam} moduleId={activeMock.moduleId} saving={saving} saveError={saveError} onRecordEvidence={onRecordEvidence} autoStart={active.mode} />
-        </PracticeDialog>
-      )}
-    </>
+        onStartMock={startMock}
+    />
   )
 }

@@ -73,7 +73,7 @@ async function openAsPaper2Exam(page: Page) {
   const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
   await asCourseCard.getByRole('button', { name: 'Open course' }).click()
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
-  // Exam Prep v2.2: a mock row on the page, opened as a pop-up. (The mock inside is still the existing simulator until PR 2.)
+  // Exam Prep launches timed work in the dedicated full-viewport simulator.
   const mock = page.locator('.exam-mock').filter({ hasText: /Paper 2 style/ }).first()
   await mock.getByRole('button', { name: 'Start timed' }).click()
 }
@@ -83,6 +83,9 @@ test('timed exam opens as a dedicated page and pause fully blocks the paper whil
   await openAsPaper2Exam(page)
 
   const session = page.locator('.exam-session-page')
+  await expect(page.locator('.runtime-sidebar')).toBeHidden()
+  await expect(page.locator('.ui-rail')).toBeHidden()
+  await expect(page.locator('.ui-tabbar')).toBeHidden()
   await expect(session).toBeVisible()
   expect(await session.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
   await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible()
@@ -120,7 +123,7 @@ test('stop exam requires confirmation and lets the learner either continue or di
   await stopDialog.getByRole('button', { name: 'Yes, stop exam' }).click()
 
   await expect(page.locator('.exam-session-page')).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: 'Full 90-minute exam' }).first()).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: 'Get ready for the exams' })).toBeVisible()
 })
 
 test('question grid wraps (no sideways scroll), is 48px or more, and says answered, flagged and current in words', async ({ page }) => {

@@ -22,20 +22,19 @@ describe('C3 Courses and Course Overview canonical token migration', () => {
       'var(--type-learner-h1-size)',
     ]) expect(courses).toContain(role)
 
+    // The governed C4 composition removes whole-topic status rows and their
+    // local state/pill styling. Those roles still belong to shared Progress
+    // and REV primitives; verify only roles owned by the live Overview page.
     for (const role of [
       'var(--color-surface)',
       'var(--color-surface-soft)',
       'var(--color-border)',
       'var(--color-text)',
       'var(--color-text-secondary)',
-      'var(--color-inverse-action)',
-      'var(--learning-status-gotit)',
-      'var(--learning-status-needswork)',
-      'var(--radius-control)',
       'var(--radius-surface)',
       'var(--radius-feature)',
-      'var(--radius-pill)',
       'var(--type-learner-h3-size)',
+      'var(--font-family-display)',
     ]) expect(overview).toContain(role)
   })
 

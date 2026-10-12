@@ -1,74 +1,112 @@
-/* Course Overview: canonical learner roles; composition debt remains separately governed in C4. */
-.course-overview-v2 { display: flex; flex-direction: column; gap: 24px; }
+/* Course Overview: canonical orientation → REV recommendation, concise evidence,
+   then contextual Ask REV. CourseHeader owns identity; Progress owns topic detail.
+   No local palette or duplicated course dashboard. */
+.planner-runtime .course-overview-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
 
-.course-overview-hero {
+.planner-runtime .course-overview-decision {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(288px, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  min-width: 0;
+}
+
+.planner-runtime .course-overview-rev { min-width: 0; }
+.planner-runtime .course-overview-rev .rev-suggestion-card {
+  min-width: 0;
+  border-radius: var(--radius-feature);
+}
+.planner-runtime .course-overview-rev .rev-suggestion-card__reason { max-width: 60ch; }
+.planner-runtime .course-overview-rev .rev-suggestion-card__title {
+  font-family: var(--font-family-display);
+  font-size: var(--type-learner-h2-size);
+  line-height: var(--type-learner-h2-line);
+}
+
+.planner-runtime .course-overview-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.planner-runtime .course-overview-summary h2 {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: var(--type-learner-h3-size);
+  line-height: var(--type-learner-h3-line);
+  font-weight: 800;
+}
+.planner-runtime .course-overview-summary .ui-progress-measures {
+  min-width: 0;
+  margin: 0;
+  gap: var(--space-3);
+}
+/* Compact aggregate evidence only; topic-level detail remains in Progress.
+   These are scoped presentation overrides, not changes to metric meaning. */
+.planner-runtime .course-overview-summary .ui-progress-measure {
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-surface);
+}
+.planner-runtime .course-overview-summary .ui-progress-measure__number {
+  font-size: clamp(32px, 2vw, 44px);
+}
+.planner-runtime .course-overview-exam {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
   flex-wrap: wrap;
-  padding: 28px 30px;
-  border-radius: var(--radius-feature);
-  background: var(--hero-solid, var(--color-surface));
-  color: var(--hero-on, var(--color-text));
+  gap: var(--space-2);
+  margin: auto 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
 }
-.course-overview-hero p { margin: 0; }
-.course-overview-hero-eyebrow { font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
-.course-overview-hero-facts { margin-top: 8px !important; font-weight: 700; font-size: 18px; }
-.course-overview-hero-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.course-overview-hero-id > div { min-width: 0; }
-.course-overview-hero-stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; max-width: 100%; }
-.course-overview-hero-stats div { min-width: 0; flex: 1 1 104px; padding: 14px 18px; border-radius: var(--radius-surface); background: var(--color-surface); text-align: center; }
-.course-overview-hero-stats dt { order: 2; font-weight: 700; font-size: 12px; }
-.course-overview-hero-stats dd { margin: 0; font-family: var(--font-family-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -.02em; }
-.course-overview-hero-stats div { display: flex; flex-direction: column; }
-
-.course-overview-columns { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
-.course-overview-side { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-
-.course-overview-path h2, .course-overview-weak h2 { margin: 0 0 14px; font-family: var(--font-family-display); font-weight: 800; font-size: var(--type-learner-h3-size); line-height: var(--type-learner-h3-line); }
-.course-overview-path ol { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.course-overview-path li { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
-.course-overview-path-mark { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-control); background: var(--color-surface-soft); color: var(--color-accent-text); font-weight: 800; font-size: 18px; }
-.course-overview-path li[data-band="good"] .course-overview-path-mark { background: var(--learning-status-gotit); color: var(--learning-status-gotit-on); }
-.course-overview-path-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.course-overview-path-copy strong { font-weight: 800; font-size: 16px; }
-.course-overview-path-copy small { font-weight: 600; font-size: 13px; color: var(--color-text-secondary); }
-.course-overview-path li[data-next="true"] { background: var(--color-inverse-action); border-color: var(--color-inverse-action); color: var(--color-inverse-action-text); }
-.course-overview-path li[data-next="true"] .course-overview-path-mark { background: color-mix(in srgb, var(--color-inverse-action-text) 10%, transparent); color: var(--color-inverse-action-text); }
-.course-overview-path li[data-next="true"] small { color: var(--color-inverse-text-secondary); }
-/* Rows are no longer dimmed for topics with little evidence: the status label carries the meaning and must stay readable (WCAG contrast). */
-
-.course-overview-weak { display: flex; flex-direction: column; gap: 4px; padding: 22px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
-.course-overview-weak ul { display: flex; flex-direction: column; gap: 14px; margin: 0 0 14px; padding: 0; list-style: none; }
-.course-overview-weak li { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; font-weight: 700; font-size: 15px; }
-.course-overview-weak li b { color: var(--learning-status-needswork-ink); }
-.course-overview-weak-bar { grid-column: 1 / -1; display: block; height: 8px; border-radius: var(--radius-pill); background: var(--color-border); overflow: hidden; }
-.course-overview-weak-bar span { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--learning-status-needswork); }
-
-@media (max-width: 1100px) { .course-overview-columns { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 620px) {
-  .course-overview-hero { padding: 22px 20px; }
-  .course-overview-path li { padding: 14px; }
+.planner-runtime .course-overview-exam strong {
+  color: var(--color-text);
+  font-weight: 800;
 }
 
-/* Stat boxes are solid surfaces so their small labels stay readable on any subject colour. */
-.course-overview-hero .course-overview-hero-stats dt { color: var(--color-text-secondary); }
-.course-overview-hero .course-overview-hero-stats dd { color: var(--color-text); }
+.planner-runtime .course-overview-ask {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-soft);
+}
+.planner-runtime .course-overview-ask p {
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 220px;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+.planner-runtime .course-overview-ask .ui-button { min-height: 48px; }
 
-/* The status badge sits at the end of each path row and each weak spot; its icon and words carry the meaning. */
-.course-overview-path li { flex-wrap: wrap; }
-.course-overview-path-copy { flex: 1 1 140px; }
-.course-overview-weak li { align-items: center; }
-.course-overview-path li button, .course-overview-weak .ui-button { min-height: 48px; }
-/* Progress measures sit between the hero and the path. */
-.course-overview-v2 .ui-progress-measures { margin: 0; }
-
-/* On a phone the course tabs wrap onto a second row instead of scrolling sideways (scroll down, never sideways). */
+/* The course header's existing mobile navigation wrapping remains shared. */
+@media (max-width: 1100px) {
+  .planner-runtime .course-overview-decision { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 620px) {
+  .planner-runtime .course-overview-summary,
+  .planner-runtime .course-overview-ask { padding: var(--space-4); }
   .planner-runtime .course-nav { position: static; flex-wrap: wrap; overflow-x: visible; }
   .planner-runtime .course-nav button { flex: 1 1 auto; min-height: 48px; }
 }
-
-/* A status badge keeps its own width instead of stretching across the row. */
-.course-overview-path-copy .ui-status-badge { align-self: flex-start; }

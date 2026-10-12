@@ -498,43 +498,12 @@
 .planner-runtime .today-icon,
 .planner-runtime .subject-mark { background: var(--color-surface-soft); color: var(--color-accent-text); }
 
-/* REV conversation surface */
-.planner-runtime .planner-rev-page .rev-hero {
-  min-height: 0;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 28px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: var(--rev-shadow);
-}
-
-.planner-runtime .planner-rev-page .rev-hero::before { display: none; }
-.planner-runtime .planner-rev-page .rev-hero h2,
-.planner-runtime .planner-rev-page .rev-pill { color: var(--color-text); }
-.planner-runtime .planner-rev-page .rev-pill {
-  border-color: var(--color-border);
-  background: var(--color-surface-soft);
-}
-.planner-runtime .planner-rev-page .planner-message-bubble.rev {
-  background: var(--color-surface-soft);
-  color: var(--color-text);
-}
-.planner-runtime .planner-rev-page .planner-message-bubble.learner {
-  background: var(--color-inverse-action);
-  color: var(--color-inverse-action-text);
-}
-.planner-runtime .planner-rev-page .planner-rev-input input {
-  border-color: var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-.planner-runtime .planner-rev-page .rev-primary,
+/* Keep generic legacy control styling until its other consumers are independently retired. */
 .planner-runtime .primary {
   background: var(--color-action);
   color: var(--color-action-text);
 }
-.planner-runtime .planner-rev-page .rev-secondary,
+
 .planner-runtime .secondary {
   border-color: var(--color-border);
   background: var(--color-surface-soft);
@@ -591,8 +560,6 @@
   .living-home-feature-grid { grid-template-columns: 1fr; }
   .living-home-feature { min-height: 152px; }
   .living-home-feature-icon { margin-bottom: 24px; }
-  .planner-runtime .planner-rev-page .rev-hero { grid-template-columns: 1fr; }
-  .planner-runtime .planner-rev-page .rev-presence-conversation { justify-self: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
