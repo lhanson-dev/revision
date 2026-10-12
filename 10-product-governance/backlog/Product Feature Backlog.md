@@ -1076,11 +1076,11 @@ FI-022 is **Live** on the canonical production runtime. Production Supabase expo
 
 ## FI-023 — Returning Student Home v3 command centre
 
-**Status:** Ready — Founder approved FI-023 Definition of Ready on 2026-10-10; implementation has not started  
+**Status:** Live — PR #601 merged and governed production path-to-live verified on 2026-10-12  
 **Captured:** 2026-10-10 (Founder-selected Home v3 visual direction and approval to begin preparation)  
 **Capability fit:** Guide; Plan; Progress and Readiness; course/activity discovery  
 **Analysis and readiness record:** [FI-023 Returning Student Home v3 Analysis.md](FI-023%20Returning%20Student%20Home%20v3%20Analysis.md)  
-**Founder-approved normative contract:** `10-product-governance/Returning Student Home Experience.md` v1.3 in PR #595. Main's v1.2 remains in force until this PR is separately approved for merge and integrated.  
+**Founder-approved normative contract:** `10-product-governance/Returning Student Home Experience.md` v1.3, integrated into approved `main` through Founder-approved PR #595 (merge `ad08032331d9c2b322fd9f7297c4723414517cf5`).  
 **Visual reference:** Founder-selected Claude Home v3 frozen version `v1791470408875449` and associated uploaded handoff; prototype evidence is not product authority.
 
 ### Student need and intended scope
@@ -1095,4 +1095,4 @@ After approving preparation and review on 2026-10-10, the Founder explicitly app
 
 Technical analysis on current main confirmed that Plan already owns correct completion and minute aggregates, the shared REV panel accepts a Home draft, the Plan screen owns exam-date management, and course-section eligibility is centrally defined. Bounded implementation tasks (one-submit REV handoff, Plan-owned exam-manager deep link, independent Home section errors) are identified rather than left as product decisions. The analysis record lists all 17 Definition-of-Ready criteria, measurement, risks and acceptance requirements. Recheck current main and concurrently merged first-use/design changes before implementation.
 
-**Next governed decision:** run exact-head assurance against current main for PR #595 and request separate Founder permission to merge the approved authority. Once integrated, begin the implementation on a new governed branch/PR; reverify current main, inherited design tokens, approved route, technical documentation and visual tests.
+**Production completion evidence (12 October 2026):** Founder approved merge of PR #601 on exact head `e517b420ee3920df0797f2bc5376ccebb8a6aece` after all required CI checks passed (`Revision CI` #38251769839). The required exact-head Founder approval status succeeded and PR #601 merged as `b405f52b21e61517e4ff16786b2513d93aef617b`. Production workflow #38254172559 then passed governed release lineage, backend readiness, build, Pages deployment and production smoke; that exact merge commit has durable **`revision/path-to-live = success`**. These combined checks establish FI-023 **In Progress → Live** on the canonical signed-in learner Home `/revision/app/#/home`. Approved Home phone/desktop Light/Dark digests were retained, and technical/feature/assurance records are aligned in a subsequent documentation-only PR. There is no new database migration, AI engine, entitlement gate or independent Home route. Optional real-learner exploratory usability feedback is follow-up improvement work, not an unproven release prerequisite.

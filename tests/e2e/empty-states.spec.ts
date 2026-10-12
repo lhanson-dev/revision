@@ -73,6 +73,11 @@ async function seedReturningStudent(page: Page) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  // A genuine empty schedule is not the same as an unavailable table.
+  // Return successful empty sessions so Home can show a truthful setup action.
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -97,12 +102,14 @@ async function expectNoAxeViolations(page: Page) {
 test('Home plan card says what is missing, with a way to fix it, instead of promising a plan', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(`${appPath}#/home`)
-  const card = page.locator('.home-v2-plan-link')
+  const card = page.locator('.home-v3-plan')
   await expect(card).toContainText('Add your exam dates and I’ll start building your plan.')
-  await expect(card.getByRole('button', { name: /Add exam dates/ })).toHaveCSS('min-height', '48px')
+  const edit = page.locator('.home-v3-exams').getByRole('button', { name: /Edit dates/ })
+  await expect(edit).toBeVisible()
   await expect(card).not.toContainText('as Revision learns more')
-  await card.getByRole('button', { name: /Add exam dates/ }).click()
-  await expect(page.getByRole('heading', { name: 'Your week', exact: true })).toBeVisible()
+  await edit.click()
+  await expect(page).toHaveURL(/#\/plan\?intent=manage-exams/)
+  await expect(page.locator('#manage-exams-title')).toBeVisible()
   await expectNoSidewaysScroll(page)
   await expectNoAxeViolations(page)
 })

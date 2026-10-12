@@ -1,182 +1,55 @@
 # Returning Student Home Implementation
 
-**Status:** current implementation description; fidelity correction in review  
-**Updated:** 2026-08-25
+**Status:** FI-023 Home v3 Live — verified production deployment after PR #601  
+**Updated:** 2026-10-12  
+**Normative authority:** `10-product-governance/Returning Student Home Experience.md` v1.3 (Founder approved, integrated through PR #595), `20-brand-and-experience/Learner Design System.md` v1.0, `20-brand-and-experience/REV Guidance and Conversation Pattern.md` v2.1, `40-evidence-and-trust/Claims and Progress Governance.md` and existing global navigation/Plan authority.
 
-## Purpose
+## Route, current-state boundary and entry
 
-Describe the canonical implementation of the Founder-approved Returning Student Home experience.
+**Canonical signed-in target:** `/revision/app/#/home` in the GitHub Pages deployment.  
+**Owner:** `app/index.html → src/main.tsx → AuthGate → FirstUseBoundary → PlannerRuntime → PlannerHomeScreen`.
 
-For Home composition and Home-specific runtime behaviour, this document supersedes the older **Home composition** section in `docs/technical/REV Homepage Shell Implementation.md`. That wider document remains current for the learner shell, navigation, account, Admin and contextual REV architecture.
+FI-023 changed only that runtime's Home composition and bounded route handoffs. Historical `src/app/App.tsx` is not a second signed-in Home and remains an unrelated compatibility surface. There is no new route to a second Home, no second shell, no database migration, and no new model/inference API.
 
-Normative product/experience authority remains:
+**Before FI-023:** `PlannerHomeScreen` rendered a separate welcome row, shared `RevSuggestionCard`, subject tiles, and an aside with next-exam/Plan summary, rather than the approved v3 hierarchy. Its setup/evidence `Promise.all` failed the whole Home when either dependency failed.
 
-- `10-product-governance/Returning Student Home Experience.md`;
-- `20-brand-and-experience/Identity Asset Usage Rules.md`;
-- `20-brand-and-experience/Subject Accent Colour System.md`;
-- `10-product-governance/Adaptive Revision Planning.md`; and
-- `20-brand-and-experience/Product UX Principles.md`.
+**Live FI-023 implementation:** `src/app/PlannerHomeScreen.tsx` composes exactly five areas:
+1. REV hero, one next useful action and full-width Ask REV input;
+2. Today's Plan and Your Exams (side by side desktop, stacked below 1160px);
+3. Your Progress using the shared three measures;
+4. Your Courses (saved-course Overview links);
+5. quiet Learn, Practice, Exam Prep, Plan, Progress and Courses introductions with eligible-course selection.
 
-## Canonical target
+The existing GJ-01/first-use gate remains ahead of Home. Accounts with no active courses retain `HomeSetupEmpty`, rather than a fabricated empty dashboard. Home on all tiers preserves the same substantive Free capability.
 
-The user-facing target is:
+## Trusted data ownership
 
-`/revision/app/#/home`
+- **REV recommendation:** `rankSuggestions` and `pickSuggestion` in `rev-suggestions.ts`; `fallbackHomeTasks` provides a bounded evidence-backed fallback. `Not now` retains browser-session behaviour. No model invents priority.
+- **Today:** `home-v3-model.ts` calls the same `createPlanDayBuilder` from `plan-model.ts` used by Plan, with the planner's `schedule`, accepted `PlannedSession` records, availability and locally dated assessments. Completed means only `PlannedSession.status === 'done'`. `homeTaskMatchesPlanRow` requires an exact course/topic/activity for derived tasks, or the exact original REV recommendation ID for accepted sessions whose stored activity type is coarser than flashcards/quick-check.
+- **Start actions:** current `home-task.ts` and `HomeFocusedActivity` remain the source for REV focused work. A Home exam-question recommendation launches the eligible course's Exam Prep without making up a paper identity. Accepted session rows open their actual Learn, Practice topic or Exam Prep destination. A saved course never leads to a removed/out-of-programme course.
+- **Exams:** `RevisionAssessment.assessmentType` distinguishes `mock` from `public_exam`; Home shows stored titles and real local calendar-day distances for active saved courses. The existing `PlanScreen` owns adding/removing dates through its Manage Exams overlay, now addressable by `planRoute({intent:'manage-exams'})`. No duplicate Home date editor or extra `paper` column exists.
+- **Progress:** `progressMeasuresFor`, `readinessAcross` and `ProgressMeasures` are reused exactly as on learner-wide Progress; no blended percentage or predicted grade. Course tiles reuse saved programme identity and `buildCourseTiles`.
+- **Ask REV:** Home submits the typed question once using `PlannerRuntime.openRev(draft, true)` and a one-shot `PlannerRevScreen` handoff after current context has loaded. It uses the existing contextual panel and safeguards. There is no second inline answer-preview system or new token spend per Home render.
+- **Failures:** learning evidence, planner setup and accepted sessions load independently with section-specific retry. An unavailable accepted-session store does not invent an empty or completed day; the rest of Home is still accessible. A missing course uses the governed first-use recovery.
 
-The runtime path is:
+## Visual implementation ownership
 
-`app/index.html` → `src/main.tsx` → `AuthGate` → `FirstUseBoundary` → `PlannerRuntime` → `PlannerHomeScreen`
+All user-facing layout additions are in `src/app/home-v3.css`, imported by `src/main.tsx` after the current shared learner shell, with canonical semantic surface, action, type, radius, focus and subject tokens. `RevMark` delegates to the one `RevPresence` Living E; Home scopes only size and bloom, not an additional icon drawing. The shared `Button`, `ProgressMeasures`, `SubjectBadge`, `HueProgressBar` and `Icon` are reused. `book` and `paper` are newly registered shared glyphs.
 
-The older Home/REV compatibility rendering inside `src/app/App.tsx` is not the canonical signed-in Home and is not modified by this implementation.
+The main layout follows approved breakpoints: >1160 desktop, 961–1160 laptop, 621–960 tablet, ≤620 phone, including a 320px minimum. Phone hero gives the Living E a 100px presence (84px ≤360), so the next useful action appears promptly. Light/Dark and reduced motion retain central ownership. Old `home-v2.css` is temporarily imported because GJ-01-compatible `HomeSetupEmpty` uses its setup selectors. Historical `returning-home.css` and `returning-home-fidelity.css` also contain styling used by existing focused/compatibility renderers; do not blindly remove them in this feature slice. Retire only proven orphaned owners in a later reconciled cleanup.
 
-## Home hierarchy
+## Assurance and verified production release
 
-`PlannerHomeScreen` renders one coherent hierarchy:
+**Implementation and assurance (12 October 2026):** PR #601's final exact head `e517b420ee3920df0797f2bc5376ccebb8a6aece` passed Revision CI #38251769839 with successful security/secret scan, TypeScript, lint, unit, production build, database/RLS and protected-service checks, responsive learner browser tests and Home Light/Dark visual baselines. The four phone/desktop Home screenshot hashes were separately approved by the Founder on 12 October 2026 and re-pinned from CI #38214052147 (retained artifact `11732295608`); no other surface hashes were repinned.
 
-1. large Deep Teal REV hero;
-2. enlarged Living E with a clearly visible white/aqua atmospheric halo;
-3. governed compact `Powered by REV` treatment;
-4. personalised `Hi {first name}, what shall we do today?` greeting;
-5. full-width `Ask REV anything…` input across the bottom of the hero;
-6. `Today’s revision plan`;
-7. one promoted **Start here** task; and
-8. remaining useful activities, visually subordinate to the first task.
+**Governed merge:** The Founder explicitly approved merge of PR #601. The exact-head machine-readable approval comment and `revision/founder-approval = success` were independently verified immediately before merge. PR #601 merged as `b405f52b21e61517e4ff16786b2513d93aef617b`.
 
-The Living E and greeting occupy the hero's upper graphic/copy row. The Ask REV form is deliberately outside that two-column row so it spans the hero's full usable inner width on desktop, tablet and phone, matching the Founder-approved composition.
+**Production path-to-live:** GitHub Actions deployment #38254172559 for that exact merge commit completed **success**, including release lineage, production backend readiness, Pages build/deploy, canonical React-app and legacy-retirement production smoke, and publish of durable `revision/path-to-live = success`. The verified canonical learner route is `/revision/app/#/home` on the governed Pages deployment. This supports **FI-023 Live**, not merely merged or staged.
 
-Home currently ends after the revision plan. It does not render the previous standalone `REV recommends` card, separate `Why this?` action, quick-prompt buttons or speculative lower dashboard modules.
+**Boundaries of evidence:** Production smoke proves the deployed canonical application and release checks, rather than individual personalised account journeys in production. The critical real-data boundaries, keyboard/responsive learner routes, one-submit contextual Ask REV and Plan persistence were tested using controlled unit/integration/browser fixtures. Continue ordinary monitoring and optional usability checks with real testers; do not claim direct production-user sign-off.
 
-The persistent learner-shell Ask REV action remains independently available on desktop and responsive layouts.
-
-## REV visual treatment
-
-The canonical `RevPresence` component and three-bar Living E geometry remain unchanged.
-
-`src/app/returning-home.css` continues to own the base locked Home composition. `src/app/returning-home-fidelity.css` is loaded immediately after it and contains the Founder-directed fidelity corrections made after the first production release exposed visual drift from the approved prototype.
-
-The Home-specific treatment now provides:
-
-- a larger feature-scale Living E than the first production implementation;
-- a Deep Teal feature surface;
-- a clearly luminous near-white/aqua halo centre around the three bars;
-- soft aqua-to-teal falloff with wider blurred outer bloom rather than a teal-only haze;
-- the existing semantic Resting / Listening / Thinking / Responding / Completed motion states; and
-- responsive scaling that keeps REV visually prominent on phone and tablet.
-
-The halo treatment remains scoped to `.returning-home-hero .rev-presence-hero`, so nav, conversation and other REV usages retain their existing geometry and halo treatment. Reduced-motion behaviour remains owned by the existing Living E accessibility/motion rules, with the Home-specific glow remaining visible when animation is disabled.
-
-## Powered by REV identity treatment
-
-The Returning Student Home now renders the Founder-approved `Powered by REV` treatment above the greeting.
-
-`src/app/RevCompactWordmark.tsx` is the canonical product implementation of the compact REV wordmark defined by `Identity Asset Usage Rules.md`. It uses Manrope ExtraBold `R` and `V` with the governed three-bar E grammar and is composed inside a restrained translucent attribution pill.
-
-This treatment is deliberately scoped to the Home REV feature moment. It does not replace the full canonical `REVISION` wordmark in shell brand ownership locations.
-
-## Deterministic Home task selection
-
-Home first attempts to use the existing FI-001 deterministic planner snapshot.
-
-`src/app/home-task.ts` maps planner `today` items into Home tasks without changing planner scoring or allowing REV/LLM output to determine priority.
-
-When planner setup is incomplete or no planner `today` item can be produced, Home falls back to the existing deterministic learning-state recommendation model:
-
-`ModuleLearningState` → `chooseRecommendedModule(...)` → existing `RevisionRecommendation`
-
-This means missing assessment dates or revision availability do not automatically block useful Home behaviour. The fallback uses only active learner courses and their recorded evidence. It does not fabricate a schedule, assessment or weakness.
-
-Planner items remain preferred whenever an actionable planner result exists.
-
-## Direct useful-activity start
-
-Flashcard and quick-check Home tasks start in one learner action through `HomeFocusedActivity`.
-
-The focused surface:
-
-- uses the exact recommended course/topic/activity held by the deterministic Home task;
-- reads content from the existing `LearningContentAdapter`;
-- records evidence through the existing `learning-evidence-service`;
-- creates standard evidence through `practice-evidence.ts`; and
-- refreshes Home after the learner returns so the next recommendation can use the new evidence.
-
-It does not create a second evidence schema or AI recommendation engine.
-
-### Exam-question boundary
-
-Current planner `PlannerItem` records `courseId`, `topicId` and `activityType`, but does not carry a paper/module identity.
-
-For an `exam-question` recommendation, Home therefore routes directly to the governed course **Exam Prep** surface rather than pretending that a specific paper has been selected. This is a deliberate truthfulness boundary. A future planner contract may add exact paper/activity identity; until then, production must not infer it.
-
-## Subject accent implementation
-
-Subject colour is implemented centrally through:
-
-- `src/app/subject-accents.ts` — stable semantic mapping;
-- `src/app/subject-accents.css` — reusable visual roles; and
-- existing Brand System foundation tokens.
-
-Current mapping:
-
-- Business → Sage;
-- Economics → Stone Blue;
-- unmapped subject → neutral fallback.
-
-Dark mode derives subject surfaces/foregrounds from the same governed accent rather than inventing an unrelated dark palette.
-
-Home uses subject accents only for small recognition cues: subject chip, promoted-task edge and thin remaining-task marker. Activity type, duration, body text, CTA and semantic status remain neutral/brand/functional as governed.
-
-## Free and entitlement behaviour
-
-No subscription check is introduced by this implementation. Returning Home, the useful plan and direct Home activity start remain part of the coherent Student Free journey.
-
-Parent, Teacher and School functionality are not dependencies.
-
-## Responsive behaviour
-
-The hierarchy is invariant across breakpoints:
-
-`REV hero → Today’s revision plan → Start here → remaining activities`
-
-Within the REV hero the implementation preserves:
-
-`large Living E + Powered by REV/greeting → full-width Ask REV field`
-
-Desktop uses the approved asymmetric two-column upper hero composition and asymmetric two-column plan composition. Tablet reduces the REV graphic column while retaining the larger feature treatment. Phone keeps the Living E visually meaningful and the Ask REV field remains a full-width row under the compact upper hero layout.
-
-The existing responsive learner shell and persistent bottom Ask REV dock remain authoritative and unchanged.
-
-## Key files
-
-- `src/app/PlannerHomeScreen.tsx` — canonical Home composition, planner/fallback selection and start behaviour.
-- `src/app/RevCompactWordmark.tsx` — governed compact REV / `Powered by REV` product identity component.
-- `src/app/home-task.ts` — deterministic mapping/fallback task model.
-- `src/app/HomeFocusedActivity.tsx` — one-action flashcard/quick-check focused session using normal evidence persistence.
-- `src/app/subject-accents.ts` — central subject mapping.
-- `src/app/subject-accents.css` — reusable subject visual roles.
-- `src/app/returning-home.css` — base locked Home composition and responsive/Light/Dark treatment.
-- `src/app/returning-home-fidelity.css` — Founder-directed visual fidelity corrections: larger REV, white/aqua bloom, Powered by REV styling and full-width hero input.
-- `src/main.tsx` — loads Home/subject styles and the fidelity layer after the existing Interface System layers.
-
-## Assurance
-
-The implementation must remain covered by:
-
-- TypeScript typecheck;
-- lint;
-- unit tests, including deterministic fallback/subject mapping;
-- production build;
-- automated accessibility baseline;
-- responsive browser assurance for phone, tablet and desktop;
-- Light/Dark theme assurance;
-- no horizontal overflow;
-- GJ-01 first-use regression assurance;
-- exact Home interaction assurance for promoted task start and evidence persistence;
-- presence of the governed `Powered by REV` treatment;
-- full-width Home Ask REV layout at responsive viewports; and
-- explicit visual evidence for Living E scale and white/aqua atmospheric halo.
-
-The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) remain pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. Any fidelity correction must deliberately review the newly captured Home images and update only those exact approved digests; the wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
+**Remaining non-blocking cleanup:** `home-v2.css` is retained because `HomeSetupEmpty` still uses its setup selectors. Historical `returning-home*.css` is retained for other consumers; removing either without independent reference checks could break unrelated surfaces. No new educational claims, score calculation or database schema is introduced by FI-023.
 
 ## Documentation impact
 
-This is a current technical implementation record. It does not rewrite historical GJ-01 evidence, the original prototype or the PR #162 governance decision. `REV Homepage Shell Implementation.md` remains the wider shell document; this file is the more specific current implementation source for Returning Student Home.
+The Founder-approved Home v1.3 normative contract is unchanged. This file now records the verified Live implementation, alongside matching updates to `docs/features/home.md`, `docs/technical/Learner Design System Implementation Reconciliation.md`, the FI-023 feature-backlog entry and `90-governance-registers/Assurance Coverage Register.md`. The release follow-up is documentation-only: no learner code, historical prototype, earlier CI result, old decision or image evidence is rewritten.

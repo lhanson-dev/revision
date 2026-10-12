@@ -144,7 +144,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [studyDraft, setStudyDraft] = useState<RevisionWeeklyAvailability | null>(null)
   const [addSessionOpen, setAddSessionOpen] = useState(false)
   const [addSessionError, setAddSessionError] = useState('')
-  const [examsOpen, setExamsOpen] = useState(false)
+  const [examsOpen, setExamsOpen] = useState(() => { const route = parseRoute(window.location.hash); return route.kind === 'plan' && route.intent === 'manage-exams' })
   const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [examTemplateKey, setExamTemplateKey] = useState(() => examTemplates[0]?.key ?? '')
   const [examDate, setExamDate] = useState('')
@@ -167,7 +167,11 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   // Back, forward and the Plan link in the navigation change the address; follow it.
   useEffect(() => {
     const follow = () => {
-      if (parseRoute(window.location.hash).kind === 'plan') setPlace(readPlace(todayKey))
+      const route = parseRoute(window.location.hash)
+      if (route.kind === 'plan') {
+        setPlace(readPlace(todayKey))
+        if (route.intent === 'manage-exams') setExamsOpen(true)
+      }
     }
     window.addEventListener('hashchange', follow)
     return () => window.removeEventListener('hashchange', follow)
@@ -519,11 +523,19 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
   /* ----------------------------------------------------------------- View */
 
+  function closeExamManager() {
+    setExamsOpen(false)
+    const route = parseRoute(window.location.hash)
+    if (route.kind === 'plan' && route.intent === 'manage-exams') {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${routeHash(planRoute({ view, date: anchor }))}`)
+    }
+  }
+
   function renderExamManager() {
     return (
       <div className="pln-overlay">
-        <OverlayBackdrop label="Close exam dates" onClick={() => setExamsOpen(false)} />
-        <ModalShell className="pln-dialog pln-dialog--wide" labelledBy="manage-exams-title" onDismiss={() => setExamsOpen(false)} initialFocusSelector="select, input">
+        <OverlayBackdrop label="Close exam dates" onClick={closeExamManager} />
+        <ModalShell className="pln-dialog pln-dialog--wide" labelledBy="manage-exams-title" onDismiss={closeExamManager} initialFocusSelector="select, input">
           <div className="pln-dialog__form">
             <div className="pln-dialog__head">
               <div>
@@ -531,7 +543,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
                 <h2 id="manage-exams-title">Your exams</h2>
                 <p className="pln-card__note">REV uses these dates to see what is getting closer and when exam-style work becomes more useful.</p>
               </div>
-              <Button variant="tertiary" size="compact" onClick={() => setExamsOpen(false)}>Close</Button>
+              <Button variant="tertiary" size="compact" onClick={closeExamManager}>Close</Button>
             </div>
             {activeAssessments.length > 0 && (
               <ol className="plan-exam-list">

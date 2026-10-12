@@ -222,3 +222,22 @@ Canonical route `/app/` uses `src/main.tsx` → `PlannerRuntime` → shared `Dra
 **Assurance:** new guardrail scans every CSS/TypeScript source and browser fixture to reject any new `--rv-*` declaration or runtime var() use; the normal exact-head type/lint/unit/browser/Light-Dark visual suite remains fail-closed. Any approved screenshot hash difference must be reviewed and explicitly approved by the Founder before repinning. This is not a self-approved visual change. The separate Design Lab specimen reconciliation remains Phase D.
 
 **Documentation impact:** this technical migration record and shared component registry are updated. No new normative decisions: `Learner Design System.md` already owns semantic roles, radius, Light/Dark and status separation. Historical screenshots/ADRs and previous PR evidence are not rewritten. Pending a green merge and production smoke, this remains a draft implementation proposal on a governed branch.
+
+## FI-023 Returning Student Home v3 implementation candidate — 11 October 2026, draft PR #601
+
+The canonical signed-in learner route remains `/revision/app/#/home` through `PlannerRuntime → PlannerHomeScreen`, after the GJ-01 first-use gate. The Founder-approved Home v1.3 composition was integrated into `main` via PR #595; this follow-up branch implements it without creating a separate learner design system, route or dashboard responsibility.
+
+**KEEP:** the existing shared sidebar/rail/tab-bar shell, `RevMark/RevPresence` Living E, canonical semantic colour/type/radius/focus roles, shared `ProgressMeasures`, `SubjectBadge`, `HueProgressBar`, course identity/eligibility and existing adaptive planning/REV recommendation rules.
+
+**FIX:** older standalone Home recommendation/sidebar orientation becomes one genuine REV next-step hero plus full-width Ask REV field, Today's Plan and Exams, learner-wide Progress, saved Courses and quiet activity introductions, in that order. The `home-v3-model` uses Plan's current `createPlanDayBuilder` for real done/count/minute semantics and exact REV/Plan match, not parallel priority/completion rules; `PlanScreen` still owns exam-date editing; `PlannerRevScreen` still owns one contextual conversation with one-shot Home draft submission. Light/Dark and 320–1440 layouts use `home-v3.css` and the shared learner roles without any new `--rv-*` use.
+
+**REMOVE/DEFER:** no new Page Home route or bespoke Living E asset. Existing `home-v2.css` remains imported for the legacy first-use `HomeSetupEmpty` presentation; historical `returning-home*.css` is not deleted until every focused/compatibility consumer is independently verified. Design Lab changes remain a separate ownership package. This avoids a risky broad cleanup in a Home behaviour change.
+
+**Assurance:** first PR #601 CI identified a TypeScript narrowing error in the new Home Plan-row mapping; this was corrected without changing unrelated tests. Specific browser Home v3 journey assertions replace obsolete v2 selectors, while prior visual screenshot hashes remain fail-closed. New Founder-reviewed phone and desktop Light/Dark captures are required before any re-pin. PR #601 is **In Progress**; not approved for merge or production, and this technical record is a candidate until that approval.
+
+
+## FI-023 Home v3 — production closure (12 October 2026)
+
+The previous 11 October section above records the then-unmerged implementation candidate and its assurance plan. **Current state:** the same Home v3 design has now passed the final exact-head PR assurance (Revision CI #38251769839), with all four Founder-approved phone/desktop Light/Dark baselines, and PR #601 was explicitly Founder-approved and merged at `b405f52b21e61517e4ff16786b2513d93aef617b`. The governed production deployment #38254172559 passed backend readiness, build, Pages deploy, canonical-app smoke and durable `revision/path-to-live = success`. **FI-023 is Live** on `/revision/app/#/home`.
+
+No competing Home runtime or `--rv-*` token system was introduced. The shared Living E, semantic roles, Plan truth and progress claims remain centrally owned. Existing `home-v2.css`/legacy fidelity selectors serving other still-live consumers are intentionally retained for separate, reference-verified cleanup; they are not newly blessed as a parallel design system. The product specification remains Home authority v1.3. This closure is descriptive documentation, not a new visual, behavioural or architectural approval.

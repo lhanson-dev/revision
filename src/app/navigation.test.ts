@@ -25,6 +25,12 @@ describe('learner navigation model', () => {
     expect(parseRoute('#/plan?date=2026-11-01&view=month')).toEqual(planRoute({ view: 'month', date: '2026-11-01' }))
   })
 
+  it('opens only the Plan-owned Manage Exams intent and preserves it on reload', () => {
+    expect(routeHash(planRoute({ intent: 'manage-exams' }))).toBe('#/plan?intent=manage-exams')
+    expect(parseRoute('#/plan?intent=manage-exams')).toEqual(planRoute({ intent: 'manage-exams' }))
+    expect(parseRoute('#/plan?intent=unexpected')).toEqual(planRoute())
+  })
+
   it('drops a Plan view or date that is not real instead of guessing', () => {
     expect(parseRoute('#/plan?view=year&date=2026-02-30')).toEqual(planRoute())
     expect(routeHash(parseRoute('#/plan?view=day&date=tomorrow'))).toBe('#/plan?view=day')

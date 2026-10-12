@@ -1,64 +1,39 @@
-# Home
+# Returning Student Home — Home v3
 
-**Status:** built in PR 5 (draft, awaiting Founder review).
-**Authority:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md` (sections 1, 2, 3, 8, 9), `docs/design/learner-redesign-v2/data-model-proposal.md` (sections 8 and 11).
+**Status:** Live — PR #601 merged 2026-10-12, governed production deployment and smoke verified  
+**Authority:** `10-product-governance/Returning Student Home Experience.md` v1.3, `20-brand-and-experience/Learner Design System.md` v1.0 and `REV Guidance and Conversation Pattern.md` v2.1.  
+**Handoff:** Founder-selected Claude Home v3 frozen `v1791470408875449`. The prototype supplies visual intent but not a new production design system.
 
-## What the student sees
+## What the returning Student sees
 
-1. **A greeting and today's date**, and an "Ask REV anything" button (opens the Ask REV pop-up).
-2. **REV's suggestion**: a large card with one topic, how long it takes, and a line starting "Why:" that gives the reason from the student's own work. Three buttons: **Start**, **Suggest something else**, **Not now**.
-3. **Your courses**: one card per course in the subject's colour with its letter mark. Each shows **Topics covered** ("3 of 10 topics covered") and **Understanding** (a labelled bar, e.g. "1 got it · 2 nearly there · 7 not started"). There is no single percentage.
-4. **Next exam** (only if the student has set exam dates): the days to go as neutral text with a clock icon. It is not yellow, because yellow means Nearly there only.
-5. **Your plan**: a one-line summary of what the planner has for today, or an honest line saying a next step will appear as Revision learns more.
-6. A brand-new student with no courses still sees the existing **set-up empty state**.
+The ordered experience is a personal REV feature with one credible next activity and the full-width Ask REV question field; Today's Plan and upcoming mock/official exams; learner-wide Progress (Topics covered, Understanding, Exam readiness); active saved Courses; and quiet introductions to Learn, Practice, Exam Prep, Plan, Progress and Courses.
 
-## How REV chooses the topic (rules, never a model)
+Plan and exams share a row only when the responsive shell gives enough room. On phone they stack in the same order. Home never adds a second site navigation tree, a second REV assistant or a new evidence/readiness score. The first-use/GJ-01 journey remains the owner of student signup and initial course choice.
 
-In order, using the engine's topic states (`src/app/rev-suggestions.ts`):
+## REV and Today's Plan
 
-1. An exam within 14 days covers a topic marked **Needs work**.
-2. A topic marked **Needs work**, then **Nearly there** (lowest score first).
-3. A topic an upcoming exam covers that has not been studied for 7 days or more (or ever).
-4. The next **not started** topic, in course order.
+REV's four existing deterministic priority rules and Not now / Suggest something else state remain in `src/app/rev-suggestions.ts`. Home Start launches the suggested exact supported focused session. Exam-question tasks route to the saved course's Exam Prep without inventing paper identity.
 
-Each topic is offered once, under the first rule that fits. The reason shown is built from the real data behind that rule (the exam's name and days to go, the topic's status, or the number of days since the student last studied it). If nothing qualifies, no card is shown. The 14-day and 7-day windows are starting values to be tuned after testing (open item 3).
+Today is constructed using Plan's `createPlanDayBuilder`, so saved/done sessions and derived planner items have the same meanings on Home and Plan. A task is explicitly marked On today's plan only with a verified match: course/topic/activity for derived items, or an exact saved REV recommendation identity where session format is coarser. An unrelated row must not be shown as REV's pick. No completed count is inferred from suggestion or mere start.
 
-**Suggest something else** moves to the next candidate. When the student has been through them all it starts again, because they asked. **Not now** hides that suggestion until tomorrow. If everything has been put to one side the page says so ("That's all I'd suggest for today.") and offers the plan and Ask REV.
+Plan's own Manage Exams overlay handles Add/Edit dates, using a reloadable Plan navigation intent; Home has no date editing logic. Only real stored mock and public-exam records from active saved courses are shown.
 
-## Status labels
+## Progress and navigation
 
-`src/app/topic-status.ts` turns the engine's band into the fixed words: good is **Got it**, medium is **Nearly there**, low is **Needs work**, and "not enough evidence" is **Just started** if the student has answered anything in the topic, otherwise **Not started**. No new thresholds.
+Home uses the same `progressMeasuresFor`, `readinessAcross`, `ProgressMeasures`, `SubjectBadge` and course identity filters as global Progress and Courses. There is no global blended readiness percentage or predicted grade. A card opens the saved course Overview. Activity introductions list only courses with the selected Learn/Practice/Exam Prep section and use a single keyboard-operable chooser (or a direct action for one eligible course).
 
-## Data used
+Home Ask REV opens the shared contextual conversation and submits the typed question once using its existing question rules, safeguards and learner context. The Home hero has no inline artificial answer preview. Generic loading never impersonates REV Thinking.
 
-Existing data only: saved courses, learning evidence, exam dates and study times. "Not now" is kept in the browser for the current session only. Remembering it across devices needs the suggestion-events table in the data model proposal (agreed, its own migration PR). Until then, closing the browser brings the suggestion back.
+## Data, accessibility and resilience
 
-## Rules as built
+The three existing read groups—evidence, planner setup and accepted sessions—resolve independently, so a failure cannot wipe every Home section. When a Plan source is unavailable, Home does not claim zero sessions or schedule completion. Supported empty states include no course, no Plan, no exams, no evidence, no recommended task and a completed real plan.
 
-- Controls are 48px; the card's text links are 48px tall. Status is always icon plus text. The page never scrolls sideways (checked at 320 to 1440px).
-- Subject colours come from tokens through `src/app/subject-palette.ts`; a subject with no entry yet gets a neutral hue and a first-letter mark.
-- The Home card no longer shows a Learn, Practice, Exam Prep step list. A guided session needs the accepted-sessions data (Plan, PR 6).
+The interface uses the canonical consolidated semantic tokens, Living E, typography, subject accents, light/dark themes, keyboard focus and reduced-motion contract, with no `--rv-*` compatibility tokens or page-local semantic status palette.
 
-## Tests that cover it
+## Tests / release gate
 
-- `src/app/rev-suggestions.test.ts`: each of the four rules, the reasons, one entry per topic, skip, wrap-round, "Not now" until tomorrow, the rest state, and the course-tile counts.
-- `src/app/topic-status.test.ts`: the label mapping.
-- `tests/e2e/returning-home.spec.ts`: the card and its reason, Suggest something else, Not now until nothing is left (also after a reload), Topics covered and Understanding on the course card, no "% mastered", Start opens the quick check.
-- `tests/e2e/horizontal-scroll.spec.ts`, `accessibility.spec.ts`, `app-responsive.spec.ts`.
+Domain tests: `src/app/home-v3-model.test.ts`, navigation contract `src/app/navigation.test.ts`, existing REV/Plan/Progress unit and learner browser suites. The Founder explicitly approved the four Home v3 Light/Dark phone/desktop visual captures on 12 October 2026; only these four hashes were re-pinned (CI #38214052147, artifact `11732295608`). Final PR #601 head `e517b420ee3920df0797f2bc5376ccebb8a6aece` passed Revision CI #38251769839. After specific Founder approval and successful exact-head approval gate, merge commit `b405f52b21e61517e4ff16786b2513d93aef617b` passed production deployment #38254172559 and `revision/path-to-live = success`, establishing Live. The production smoke checks canonical React delivery and release integrity; controlled browser tests provide the learner-interaction evidence.
 
-## Screenshots
+## Deliberate exclusions
 
-Before and after, same data, in `docs/design/learner-redesign-v2/screenshots/pr-05/`: desktop, tablet, phone, phone dark, 320px, desktop dark. The test student is brand new (one course, no answers), so these show the first-day state; the other rules are proved by the unit tests.
-
-## Not done here
-
-- Cross-device "Not now" and a record of suggestions shown (suggestion-events migration).
-- "Add to plan" and guided session steps (Plan, PR 6).
-- The sample-colour palette in `home-view.ts` stays for Plan, Courses and Progress until their PRs; Home no longer uses it.
-
-## Add to plan (PR 8)
-
-- REV's card has an **Add to Thursday** button (the day is the next one with enough study time left after sessions already on the plan; with no study time set it offers tomorrow). Pressing it saves a session on that day, marked as a REV suggestion, and says so in words: "Added Finance to Thursday. You can move it on Plan."
-- A topic already on the plan is not suggested again until it is done or skipped.
-- If the sessions table cannot be read yet, the button is not shown and nothing is said about it.
-- The student can move, finish, skip or remove the session on Plan.
+No new database assessment kind/paper columns, new AI backend, changed planner scoring, new course evidence semantics, additional Admin dashboard, pricing or entitlement limitations. No retired historic prototype is rewritten as new evidence.
