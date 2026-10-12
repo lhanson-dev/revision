@@ -128,7 +128,7 @@
   margin-top: 28px;
   padding: 6px 6px 6px 18px;
   border-radius: var(--radius-control);
-  background: var(--neutral-0);
+  background: var(--color-surface);
   border: 1px solid var(--color-border-control);
 }
 .home-v3-ask:focus-within { outline: 3px solid var(--brand-primary-teal); outline-offset: 3px; }
@@ -137,7 +137,7 @@
   flex: 1 1 auto;
   border: 0;
   outline: none;
-  color: var(--brand-graphite);
+  color: var(--color-text);
   background: transparent;
   font: inherit;
   font-size: 16px;
