@@ -203,10 +203,10 @@ jobs:
       - name: Install Chromium for database-backed browser assurance
         timeout-minutes: 10
         run: npx playwright install chromium
-      - name: Run database-backed browser persistence and reload assurance
+      - name: Run isolated database-backed browser persistence and new-account first-use assurance
         env:
           REVISION_BROWSER_DB_INTEGRATION: '1'
-        run: npx playwright test tests/e2e/database-persistence.spec.ts --project=desktop
+        run: npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts --project=desktop
       - name: Stop isolated Supabase test stack
         if: always()
         run: |
