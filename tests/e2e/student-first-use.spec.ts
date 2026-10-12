@@ -427,6 +427,144 @@ test('onboarding saves a known exam date before any starting check, without requ
   expect(profiles).toHaveLength(0)
 })
 
+test('partial two-paper exam save can retry without duplicating paper dates or writing learning evidence', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Multi-paper write recovery runs once.')
+  await seedNewStudentSession(page)
+  const state = await stubFirstUseBackend(page)
+  const stored: Array<Record<string, unknown>> = []
+  let failPaperTwo = true
+  let insertCount = 0
+  let updateCount = 0
+
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    const method = route.request().method()
+    if (method === 'GET') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(stored) })
+      return
+    }
+    if (method === 'POST') {
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      insertCount += 1
+      if (body.title === 'Paper 2: Business 2' && failPaperTwo) {
+        failPaperTwo = false
+        await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ code: 'PGRST500', message: 'simulated second paper save failure' }) })
+        return
+      }
+      const saved = { ...body, assessment_id: 'assessment-' + insertCount }
+      stored.push(saved)
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(saved) })
+      return
+    }
+    if (method === 'PATCH') {
+      updateCount += 1
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      const id = route.request().url().match(/assessment_id=eq\.([^&]+)/)?.[1]
+      const existing = stored.find((row) => row.assessment_id === id)
+      if (!existing) {
+        await route.fulfill({ status: 404, contentType: 'application/json', body: JSON.stringify({ message: 'Unknown assessment' }) })
+        return
+      }
+      Object.assign(existing, body)
+      await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(existing) })
+      return
+    }
+    await route.fulfill({ status: 405, contentType: 'application/json', body: '{}' })
+  })
+
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+  await expect(page.getByText('Step 4 of 4')).toBeVisible()
+
+  for (const paper of [1, 2]) {
+    await page.getByRole('button', { name: new RegExp('^Paper ' + paper + ' date') }).click()
+    const picker = page.getByRole('dialog', { name: 'Choose paper ' + paper + ' date' })
+    await picker.getByRole('button', { name: 'Next month' }).click()
+    await picker.locator('.ui-date-day:not(.ui-date-day--outside)').first().click()
+  }
+  await page.getByRole('button', { name: 'Save dates and continue' }).click()
+  await expect(page.getByText(/simulated second paper save failure/)).toBeVisible()
+  await expect(page.getByText('Step 4 of 4')).toBeVisible()
+  expect(stored).toHaveLength(1)
+  expect(stored[0]).toMatchObject({ course_id: aLevelCourseId, assessment_type: 'public_exam', is_active: true })
+  expect(stored[0].module_id).toBeTruthy()
+  expect(state.startingEvidence).toHaveLength(0)
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.getByRole('button', { name: 'Save dates and continue' }).click()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
+  expect(stored).toHaveLength(2)
+  expect(new Set(stored.map((row) => row.module_id)).size).toBe(2)
+  expect(stored.every((row) => row.course_id === aLevelCourseId && row.assessment_type === 'public_exam')).toBe(true)
+  expect(insertCount).toBe(3) // Paper 1 once, Paper 2 failed once then succeeded.
+  expect(updateCount).toBe(0)
+  expect(state.startingEvidence).toHaveLength(0)
+  expect(state.learningEvidence).toHaveLength(0)
+
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
+  expect(stored).toHaveLength(2)
+})
+
+test('an existing course-and-title exam date is reconciled to the exact paper without another insert', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Legacy exam date reconciliation runs once.')
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  const stored: Record<string, unknown> = {
+    assessment_id: 'legacy-paper-1',
+    user_id: syntheticUserId,
+    subject_id: 'business',
+    course_id: aLevelCourseId,
+    module_id: null,
+    title: 'Paper 1: Business 1',
+    assessment_type: 'public_exam',
+    assessment_date: '2027-06-01',
+    relative_importance: 'high',
+    scope: {},
+    is_active: true,
+  }
+  let writes = 0
+  let updates = 0
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    const method = route.request().method()
+    if (method === 'GET') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([stored]) })
+      return
+    }
+    if (method === 'PATCH') {
+      updates += 1
+      Object.assign(stored, route.request().postDataJSON() as Record<string, unknown>)
+      await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(stored) })
+      return
+    }
+    writes += 1
+    await route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ message: 'Unexpected new assessment row' }) })
+  })
+
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+  await page.getByRole('button', { name: /^Paper 1 date/ }).click()
+  const picker = page.getByRole('dialog', { name: 'Choose paper 1 date' })
+  await picker.getByRole('button', { name: 'Next month' }).click()
+  await picker.locator('.ui-date-day:not(.ui-date-day--outside)').first().click()
+  await page.getByRole('button', { name: 'Save dates and continue' }).click()
+  await expect(page.getByRole('heading', { name: 'Business is ready.' })).toBeVisible()
+  expect(writes).toBe(0)
+  expect(updates).toBe(1)
+  expect(stored.module_id).toBeTruthy()
+  expect(stored.assessment_id).toBe('legacy-paper-1')
+  expect(stored.course_id).toBe(aLevelCourseId)
+})
+
 test('optional exam dates screen remains responsive and accessible without a study-time step', async ({ page }) => {
   await seedNewStudentSession(page)
   await stubFirstUseBackend(page)

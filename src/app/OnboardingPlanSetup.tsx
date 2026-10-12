@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { saveCourseAssessment } from '../services/courses/course-planner-service'
+import { saveKnownPaperDates } from '../services/courses/course-planner-service'
 import { paperLabel } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { Button, Status, TextField } from './ui'
@@ -32,6 +32,7 @@ export function OnboardingPlanSetup({ client, userId, courses, onDone }: Onboard
     key: `${item.course.id}::${module.manifest.id}`,
     courseId: item.course.id,
     subjectId: item.subject.id,
+    moduleId: module.manifest.id,
     paperLabel: paperLabel(module),
     title: module.manifest.paper.name,
   }))), [courses])
@@ -46,16 +47,13 @@ export function OnboardingPlanSetup({ client, userId, courses, onDone }: Onboard
     setBusy(true)
     setError('')
     try {
-      for (const paper of chosen) {
-        await saveCourseAssessment(client, userId, {
-          courseId: paper.courseId,
-          subjectId: paper.subjectId,
-          title: paper.title,
-          assessmentDate: dates[paper.key],
-          assessmentType: 'public_exam',
-          relativeImportance: 'high',
-        })
-      }
+      await saveKnownPaperDates(client, userId, chosen.map((paper) => ({
+        courseId: paper.courseId,
+        subjectId: paper.subjectId,
+        moduleId: paper.moduleId,
+        title: paper.title,
+        assessmentDate: dates[paper.key],
+      })))
       onDone()
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : 'Could not save your exam dates.')
