@@ -358,8 +358,7 @@ export function PlannerHomeScreen({
           </div>
         </div>
         <form className="home-v3-ask" onSubmit={sendHomeQuestion} aria-label="Ask REV">
-          <label htmlFor="home-v3-ask-input" className="sr-only">Ask REV anything</label>
-          <input id="home-v3-ask-input" value={askValue} maxLength={240}
+          <input id="home-v3-ask-input" aria-label="Ask REV anything" value={askValue} maxLength={240}
             placeholder="Ask REV anything…" onChange={(event) => setAskValue(event.target.value)}
             onFocus={() => setAskFocused(true)} onBlur={() => setAskFocused(false)} />
           <Button type="submit" aria-label={askValue.trim() ? 'Send question to REV' : 'Open Ask REV'}><Icon name="arrow-up" /></Button>
