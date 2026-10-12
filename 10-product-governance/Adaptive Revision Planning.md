@@ -242,6 +242,12 @@ There should be no punitive backlog, streak debt or failure state created merely
 
 Day/Week/Month views must therefore display the latest forecast rather than accumulating overdue cards from earlier forecasts.
 
+### Supportive restart behaviour
+
+REV should translate the latest recalculated priority into a friendly, specific **restart invitation**, not a report on what the learner failed to do. On a return after missed work, a brief welcome and one current useful action are preferable to enumerating missed sessions. The student must not be required to explain absence or complete an emotional check-in to resume.
+
+A learner's own statement that they are tired, unmotivated or have less time can affect coaching tone, offered task size and an explicitly confirmed planning preference; it is **not** assessment evidence or permission for the planner to invent a mood-based priority. The underlying priority calculation remains deterministic, with the wider programme trade-offs kept clear. Detailed companion behaviour and example interactions are governed by `20-brand-and-experience/REV Guidance and Conversation Pattern.md`.
+
 ## 9. Activity state and reconciliation
 
 Where possible, Revision should infer useful activity state from reliable in-product evidence.
