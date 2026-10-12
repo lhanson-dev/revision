@@ -282,6 +282,14 @@ Examples include:
 - moving naturally between explanation, questioning, practice and recommendation; and
 - remembering appropriate learning context over time so the student does not need to repeatedly explain their situation.
 
+### Supportive study-companion capability
+
+The Founder has clarified that FI-003 must realise a **friendly, supportive, empathetic and motivating companion** that is useful on imperfect days, not merely an AI tutor when a student follows a plan. It should help with starting, adapting to explicitly expressed low energy or reduced time, returning after missed revision, preparing calmly for approaching exams and recognising genuine progress.
+
+The normative product/experience contract and bounded learner test scenarios are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md` and `10-product-governance/Core User Journeys.md` (Journey 9A). Preserve the distinction between trusted educational context and student-expressed circumstances; no inferred mood monitoring, unapproved memory collection, compulsory check-in, automated pressure campaign or separate planner is implied.
+
+This clarification strengthens FI-003's future Definition-of-Ready and assurance requirements **without changing its To Do lifecycle state** or authorising production implementation.
+
 ### REV should feel embedded in Revision
 
 REV should not behave like an external chatbot bolted onto the app.
