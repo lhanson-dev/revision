@@ -8,7 +8,7 @@ The governed learner product is the React application at:
 
 `/revision/app/`
 
-Its signed-in Home is led by **REV**, Revision's non-human intelligent study-guide identity. Home answers the immediate question **What should I do today?** through a prominent REV hero followed directly by **Today’s revision plan**, where one useful first task is promoted and the rest of today’s work remains easy to scan. When full planner setup is incomplete, Home can use the existing deterministic evidence recommendation model rather than blocking useful revision on missing assessment or availability data.
+Its signed-in Home is led by **REV**, Revision's non-human intelligent study-guide identity. The live Home v3 experience (FI-023, PR #601, deployed 12 October 2026) answers **What should I do next?** with one truthful REV recommendation, a direct Start action and access to the shared Ask REV conversation. Below are **Today's Plan and Your Exams**, evidence-backed **Your Progress**, the learner's saved **Courses**, and quiet links to Learn, Practice, Exam Prep, Plan and Progress. Home reuses the planner's persisted completion truth and distinguishes mock exams from official exams. It remains useful without complete planner setup, while unavailable data is not presented as zero or completion.
 
 The adaptive planner uses deterministic, testable logic rather than an AI-model call to calculate priorities. It combines assessment dates, realistic learner availability, specification/topic coverage, existing learning/readiness evidence and bounded learner planning preferences. REV explains and discusses those priorities but does not replace the planner calculation.
 
