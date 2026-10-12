@@ -73,6 +73,11 @@ async function seedReturningStudent(page: Page) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  // A genuine empty schedule is not the same as an unavailable table.
+  // Return successful empty sessions so Home can show a truthful setup action.
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
