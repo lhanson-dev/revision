@@ -123,6 +123,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     key: `${item.course.id}::${module.manifest.id}`,
     courseId: item.course.id,
     subjectId: item.subject.id,
+    moduleId: module.manifest.id,
     courseLabel: item.label,
     paperLabel: paperLabel(module),
     title: module.manifest.paper.name,
@@ -359,7 +360,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
     const duplicate = activeAssessments.some((assessment) => assessment.courseId === selectedExamTemplate.courseId
       && assessment.assessmentType === 'public_exam'
-      && assessment.title === selectedExamTemplate.title)
+      && (assessment.moduleId === selectedExamTemplate.moduleId
+        || (assessment.moduleId === null && assessment.title === selectedExamTemplate.title)))
     if (duplicate) {
       setMessage('That exam is already in your plan. Remove the existing date first if you need to replace it.')
       return
@@ -371,6 +373,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       const saved = await saveCourseAssessment(client, userId, {
         courseId: selectedExamTemplate.courseId,
         subjectId: selectedExamTemplate.subjectId,
+        moduleId: selectedExamTemplate.moduleId,
         title: selectedExamTemplate.title,
         assessmentDate: examDate,
         assessmentType: 'public_exam',
