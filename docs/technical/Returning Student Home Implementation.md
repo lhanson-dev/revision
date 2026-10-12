@@ -46,7 +46,7 @@ The following are **implementation targets, not proven success** until exact-hea
 - browser: authentic Home runtime, directed REV Start, no duplicate chat submission, saved course and chooser navigation, Plan rows and evidence persistence, mocks versus official exams, empty/partial-error states and Free journey;
 - visual: 1440/1024/834/390/320 responsive cases in Light/Dark, four REV states and reduced motion, 44px targets, visible focus, no horizontal overflow and no unsupported Progress claims;
 - exact-head CI: typecheck, lint, unit, build, database/security and targeted end-to-end;
-- **Founder review required:** the new Home screen captures must be explicitly approved before replacing Home SHA-256 baseline hashes. Previously approved baseline digests are not silently replaced.
+- **Founder review required:** the new Home screen captures must be explicitly approved before replacing Home SHA-256 baseline hashes. Previously approved baseline digests are not silently replaced. The visual fixture now waits until Home Plan, Exams and Progress leave loading states and provides full-page phone/desktop Light/Dark captures, plus separately labelled **configured synthetic learner** examples with a real saved/done Plan pair and mock/official exam dates. The configured fixture is browser-only evidence, never production demo data. The normal viewport hash tests remain fail-closed.
 
 ## Documentation impact
 
