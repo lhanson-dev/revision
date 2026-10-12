@@ -1,6 +1,6 @@
 # Returning Student Home — Home v3
 
-**Status:** implementation candidate, draft PR #601 (not yet Live)  
+**Status:** Live — PR #601 merged 2026-10-12, governed production deployment and smoke verified  
 **Authority:** `10-product-governance/Returning Student Home Experience.md` v1.3, `20-brand-and-experience/Learner Design System.md` v1.0 and `REV Guidance and Conversation Pattern.md` v2.1.  
 **Handoff:** Founder-selected Claude Home v3 frozen `v1791470408875449`. The prototype supplies visual intent but not a new production design system.
 
@@ -32,7 +32,7 @@ The interface uses the canonical consolidated semantic tokens, Living E, typogra
 
 ## Tests / release gate
 
-Domain test: `src/app/home-v3-model.test.ts`. Navigation contract: `src/app/navigation.test.ts`. Existing REV/Plan/Progress unit and learner browser suites remain protective. For PR #601, the Founder approved the four Home v3 Light/Dark phone/desktop visual captures on 12 October 2026, and only those four exact-head digests have been re-pinned (CI #38214052147, artifact `11732295608`). The implementation still requires fresh exact-head CI on the re-pinned commit. PR merge requires separate specific Founder approval and production path-to-live evidence before the feature can be marked Live.
+Domain tests: `src/app/home-v3-model.test.ts`, navigation contract `src/app/navigation.test.ts`, existing REV/Plan/Progress unit and learner browser suites. The Founder explicitly approved the four Home v3 Light/Dark phone/desktop visual captures on 12 October 2026; only these four hashes were re-pinned (CI #38214052147, artifact `11732295608`). Final PR #601 head `e517b420ee3920df0797f2bc5376ccebb8a6aece` passed Revision CI #38251769839. After specific Founder approval and successful exact-head approval gate, merge commit `b405f52b21e61517e4ff16786b2513d93aef617b` passed production deployment #38254172559 and `revision/path-to-live = success`, establishing Live. The production smoke checks canonical React delivery and release integrity; controlled browser tests provide the learner-interaction evidence.
 
 ## Deliberate exclusions
 
