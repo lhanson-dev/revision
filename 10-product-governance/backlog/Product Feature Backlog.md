@@ -125,6 +125,12 @@ The feature must not become a generic calendar or homework-management system. It
 - optimising solely for syllabus completion when evidence indicates a different priority; and
 - presenting an impossible plan as achievable when available time is insufficient.
 
+### Evidence-led programme enhancement — analysis (12 October 2026)
+
+FI-001 remains **Live** for its current behaviour. A separately governed material enhancement is being defined to extend the programme through the last known examination, balance active courses, create research-informed retrieval/checkpoint opportunities and enforce strict paper-date safety without another planning engine. Non-authoritative sources: `research/Evidence-led Adaptive Planner Proposal - 2026-10-12.md`, `research/Evidence-led Planner Algorithm and Benchmark Contract - 2026-10-12.md`, `research/Evidence-led Planner Learning Science Register - 2026-10-12.md`, and `research/FI-001 Evidence-led Planner Definition of Ready Assessment - 2026-10-12.md` (draft research PR #606; none is approved authority until merged). The proposed planner authority and REV recommendation reconciliation are under separate Founder review.
+
+**Lifecycle gate:** this is analysis of a material change to an existing Live feature, not an automatic `Ready` approval. No production implementation until the applicable feature-specific Definition of Ready is satisfied and explicitly approved. FI-006 stays `Ready` for the optional low-strength starting check only; FI-009, FI-010, FI-011 and FI-012 retain their current `New` status and own approval boundaries. No second planning feature/engine is created.
+
 ### Remaining maturity work
 
 FI-001 is live, but the Assurance Coverage Register still records deliberate gaps including:

@@ -1,8 +1,8 @@
 # Adaptive Revision Planning
 
-> **Pointer** (1 October 2026, Founder): REV's next-topic priority order and the Not now / Suggest something else rules are in `20-brand-and-experience/REV Guidance and Conversation Pattern.md` (v2.0). Reconcile this document's planner logic with that order when the Home and Plan screens are rebuilt.
+> **Authority relationship (12 October 2026 amendment):** FI-001 owns one programme-wide deterministic planning priority; `20-brand-and-experience/REV Guidance and Conversation Pattern.md` owns how REV presents, explains and negotiates that priority, including Not now / Suggest something else. The legacy fixed 14-day / 7-day suggestion ordering is superseded by this programme-aware policy if this amendment receives Founder-approved merge.
 
-**Status:** Active authority — v0.5 Founder-approved  
+**Status:** Active authority — v0.6 upon Founder-approved merge of this amendment (v0.5 remains the governing `main` version until then)  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
 **Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27. Plan task rationale presentation refinement approved 2026-09-29.  
@@ -102,6 +102,29 @@ Exact weighting and thresholds are evidence and implementation questions, but th
 
 Internal weighting must not be presented as false-precision learner scores.
 
+### Evidence-led, whole-programme planning requirements
+
+The planner should maintain **one coherent programme** from today through the learner's **last known future assessment or public exam paper**, with no arbitrary 60-day programme cutoff. A programme must not be confused with a frozen calendar of daily tasks. Precision declines with distance:
+
+1. **Programme horizon:** all relevant known exam dates, course/paper-specific scope, broad preparation phases, coverage and skill opportunities, coarse feasibility and retrieval/checkpoint milestones until the final known paper.
+2. **Rolling weekly priorities:** transparent, capacity-aware allocation across the learner's active courses, relevant papers, important gaps and reassessment needs. A course cannot be silently starved merely because many separate candidates in another course have marginally higher scores.
+3. **Near-term forecast:** concrete, supported and feasible activity recommendations for a bounded future window (7–14 days is a starting design hypothesis, not a scientifically validated optimum).
+4. **Today:** one most-useful supported task, appropriately sized for the learner's current context, drawn from the same recommendation authority used by the Plan and REV.
+
+Known exam dates remain optional and can be entered during onboarding without a starting check. Without exam dates, Revision should suggest useful learning, supported retrieval or evidence-building based on known active courses; no invented countdown, artificial assessment or unsupported promise of a plan through an unknown final exam. Without a recurring availability profile, a useful immediate task must remain possible, but an invented capacity-aware calendar must not be shown.
+
+**Scheduling hard constraints:** no endorsed paper-specific revision after the exam it serves, including on the exam date if its start time is unknown; no activity for inactive learner courses, unselected course options or unsupported assessment scope; no day over its known available time; no invalid or absent learning assets; no duplicate shared-course obligation manufactured separately for every paper. Shared knowledge and paper-specific exam-response skills are distinct. Preserve legitimate student-chosen sessions as explicit commitments without converting automatically generated suggestions into mandatory task debt. A further-out programme must not require loading many months of individually accepted sessions into Plan upfront.
+
+**Research-informed opportunity selection:** use the Course Learning Blueprint and governed evidence to distinguish initial acquisition, independent retrieval, delayed revisit, uncertainty check, misconception repair/retest and authentic exam-demand practice. Retrieval and distribution across time should normally be preferred where educationally suitable. Mixed or interleaved practice is appropriate when discrimination/strategy selection is itself useful and initial learning is sufficient; **do not** require multiple subjects per day or treat arbitrary switching as proven learning gain. Protect uninterrupted work for complex reasoning and timed assessments.
+
+**Cross-course balancing:** optimise plausible preparation across the overall programme, not independent one-topic scores. Consider verified weakness, evidence uncertainty and age, course/paper relevance, assessment proximity, competing dates, realistic capacity, minimum feasible opportunities across subjects and bounded learner preferences. Do not impose equal course ratios or scientifically 'optimal' session minutes. If capacity genuinely cannot cover meaningful remaining work, expose the trade-offs calmly and select attainable high-value activity, not an impossible completion promise.
+
+**Knowledge checkpoints and adaptation:** the programme may identify opportunities for targeted retests, mixed-topic retrieval, broadly sampled knowledge checks and authentic exam-style assessments. Trigger consideration from meaningful evidence gaps, conflict, breadth/recency uncertainty, repaired errors, exam demand and preparation milestones — not an arbitrary fixed 'test every N days'. A sampled result never proves whole-course mastery. Only scope-appropriate, assured, valid assessment evidence updates understanding/readiness through the existing governed evidence engine; the planner must not invent its own mastery/forgetting formula. Old evidence alone may prompt reassessment or reduced *confidence*; it is not proof of actual learning deterioration. FI-006 remains the low-strength initial starting check only. FI-009/010/011/012 keep their own feature lifecycle and require explicit readiness approval for new material implementations.
+
+**Rule versioning and verification:** deterministic decisions must carry traceable, truthful reasons and stable repeatable inputs/configuration. Exact weights, caps, revisit intervals, task sizes, daily subject combinations and checkpoint selection thresholds require simulated-journey evaluation and later student feedback. Functional assurance must test deadline eligibility on the scheduled day, shared-paper scope, multi-course non-neglect, >60-day programme horizon, varied/zero capacity, exam-date changes, contradictory/positive checks, unknown dates, missed work and Home/Plan/REV agreement. Educational-outcome efficacy requires separate product-specific evidence; no study effect size is a claimed Revision result.
+
+**Implementation boundary:** this amendment specifies future product behaviour if approved; it does not declare the existing FI-001 implementation compliant or promote FI-009/010/011/012 to Ready. Preserve the Feature Definition and Measurement Workflow and Founder Definition-of-Ready gate before production implementation.
+
 REV interprets and explains material decisions in natural language. It does not replace the planner calculation.
 
 ### Learner-facing explanation of the adaptive plan
@@ -190,13 +213,13 @@ Month is a strategic outlook, not a 30-day grid of falsely precise tasks.
 
 It should emphasise:
 
-- exam dates and important assessment milestones;
+- exam dates and important assessment milestones, including those beyond the next two months when known;
 - week-level subject or skill priorities;
 - broad workload/capacity outlook;
 - where exam-style work is likely to become more important; and
 - material constrained-capacity periods where useful.
 
-Exact task precision should deliberately decline further into the future. The learner should be able to see direction without being misled into believing Revision knows the exact task they will need weeks in advance.
+Exact task precision should deliberately decline further into the future. The learner should be able to see direction without being misled into believing Revision knows the exact task they will need weeks in advance. Month navigation and an appropriate concise programme outlook must allow the learner to understand the whole known examination horizon, not imply preparation stops at 60 days. A long-range milestone is not a precise dated practice-task commitment.
 
 ### Missing setup state
 
