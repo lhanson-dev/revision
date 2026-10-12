@@ -143,7 +143,7 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await page.goto(appPath)
 
   await navigateGlobally(page, 'Courses')
-  await expect(page.getByRole('heading', { name: 'Courses' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Courses', exact: true })).toBeVisible()
   await expectWcagBaseline(page, 'Courses')
 
   const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
