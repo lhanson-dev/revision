@@ -79,12 +79,21 @@ const cases: ReadonlyArray<VisualCase> = [
  * identical in CI #2970 and #2971 (head 6b1fa83abd2ef624bf3aa0cbbb62ee8430320dbe).
  * Reviewed visual sheet and retained CI #2971 artifact 11682782227.
  * These four changes are visual approval only, not merge approval.
+ * FI-023 Home v3 on PR #601: Founder explicitly approved the four Home Light/Dark
+ * phone/desktop visual baselines on 12 October 2026, replying "Approved" to the
+ * immediately preceding Home v3 visual-approval request. This is visual
+ * approval ONLY, not permission to merge PR #601. The new digests are from
+ * exact-head CI #38214052147 (run 38214052147; head
+ * 8dd3d96a8ae3d5ab8778081b2bcdf47f511af1cc), captured after the
+ * duplicate Ask REV label correction. Each original and retry digest agreed.
+ * CI retained interface-visual-regression artifact 11732295608.
+ * Other surfaces and all previously recorded historical digests are unchanged.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'c2eaa5f95941e06b66aeab23530ddca9bbe7570a90d0d51c6f0fb2062383ab53',
-  'phone:dark': '0ac3c897c5385e41084ece8fedaaa7ab6099ca636e458feb8297dd19e6044f07',
-  'desktop:light': '7eb750bd2e0e681e6a4dafc3e2c07e643fb72b9464e9764bc2c95eacc1101700',
-  'desktop:dark': '1a346fc337ab5ea79d148551feb284cdf20ec9d6a3c5784b8f0095b78258826f',
+  'phone:light': '54a5549638e1b6447e2641da855ecc42ab5132efd3f5cbdac7ee91a2dcdb01b9',
+  'phone:dark': '75fd94bbdb908937fd49ed9b91bd154661a9e3e3706b22b8c38de8ea237e47cf',
+  'desktop:light': 'fdf7e0fac64070430cc84b29637daee4bf424b1f587a90a151e55e7bcd806e2b',
+  'desktop:dark': '36f2b5e3d7f3321e9f5b19533bf8dd538f43582528a926a2e5b733806a08fdbf',
 }
 
 /**
