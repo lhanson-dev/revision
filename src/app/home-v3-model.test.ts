@@ -25,6 +25,17 @@ describe('Home v3 data boundaries', () => {
     expect(result.officials.map((entry) => entry.assessment.assessmentId)).toEqual(['official'])
   })
 
+  it('combines later mock and official assessments in local date order and bounds to two', () => {
+    const result = upcomingHomeExams([
+      assessment('later-mock', '2026-10-14', 'mock'),
+      assessment('b-official', '2026-10-12', 'public_exam'),
+      assessment('a-mock', '2026-10-12', 'mock'),
+      assessment('today', '2026-10-11', 'public_exam'),
+    ], [course], new Date(2026, 9, 11, 23))
+    expect(result.next?.daysAway).toBe(0)
+    expect(result.later.map((entry) => entry.assessment.assessmentId)).toEqual(['a-mock', 'b-official'])
+  })
+
   it('will not reveal exams from courses the learner has removed', () => {
     expect(upcomingHomeExams([assessment('x', '2026-10-22', 'public_exam')], [], new Date(2026,9,11)).next).toBeNull()
   })

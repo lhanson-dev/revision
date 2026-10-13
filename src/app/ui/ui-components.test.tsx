@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { BrandAsset, brandAssetSources } from './BrandAsset'
 import { Button, SelectField, TextAreaField, TextField } from './controls'
+import { ProgressMeasures } from './ProgressMeasures'
 import { Status } from './feedback'
 import { Icon } from './Icon'
 import { EmptyState, PageHeader, Surface } from './layout'
@@ -61,6 +62,16 @@ describe('Revision reusable interface components', () => {
     expect(markup).toContain('>Warning</strong>')
     expect(markup).toContain('Capacity is limited this week.')
     expect(markup).toContain('aria-hidden="true"')
+  })
+
+  it('flat progress preserves default evidence and readiness content without a new criterion', () => {
+    const data = { covered: 3, total: 8, understanding: { gotit: 2, nearly: 1 }, readiness: null, readinessNote: 'More varied evidence is needed.' }
+    const ordinary = renderToStaticMarkup(<ProgressMeasures {...data} />)
+    const flat = renderToStaticMarkup(<ProgressMeasures {...data} variant="flat" />)
+    expect(flat.replace(' ui-progress-measures--flat', '')).toBe(ordinary)
+    expect(flat).toContain('More varied evidence is needed.')
+    expect(flat).not.toContain('one timed question')
+    expect(renderToStaticMarkup(<ProgressMeasures {...data} readiness="72%" variant="flat" stack />)).toContain('72%')
   })
 
   it('uses one controlled rounded-line icon registry', () => {

@@ -1,5 +1,27 @@
 # Returning Student Home Implementation
 
+**Current proposed change:** Issue #622, Founder-approved bounded refinement, not yet merged or visually accepted. Approved integration baseline: `501388ee77484ffd896a7dad876a657d822b6ccb` (13 October 2026). The earlier release evidence below remains historical.
+
+## Issue #622 implementation contract
+
+Canonical route remains `/revision/app/#/home`: `app/index.html → src/main.tsx → AuthGate → FirstUseBoundary → PlannerRuntime → PlannerHomeScreen`. `src/app/App.tsx` remains compatibility, not the implementation target. GJ-01 and the global shell remain unchanged.
+
+- Shared `todayRecommendations` and exact supported `taskForTodayRow` remain the deterministic owners. Home exposes Start plus Suggest something else and reuses `revision.home.not-now.<userId>` session storage as bounded local-day rotation state, compatible with Plan/REV. No separate dismissal or persistence mutation is added. Exhaustion shows Open Plan and never claims completed work. A true completed, rest, empty or unavailable day stays distinct.
+- Today's Plan derives full-day counts/minutes/progress from the same PlanDay. Display only the first three outstanding actionable rows, retaining order; hidden unsupported commitments remain in totals and Plan. Highlight only a matching visible exact task. Later alternatives do not reorder rows.
+- Exams keep the existing local-calendar calculation. `upcomingHomeExams.later` supplies two chronologically ordered mocks/officials combined; the nearest shows subject identity, stored title/date and real countdown. Edit dates retains the Plan editor. Courses retains independent Exam Prep.
+- `ProgressMeasures variant="flat"` adds divided presentation without changing evidence content; default `cards` and stack consumers remain supported. `RevPresence`/`RevMark onInverse` own inverse halo treatment, with the same SVG geometry, semantic states and shared reduced motion.
+- `RevSuggestionSteps` extracts the existing shared checklist renderer for both RevSuggestionCard and zero-course Home. Optional dates/time do not gate GJ-01. Zero-course Ask REV uses the same once-only submission contract. `home-v2.css` is no longer imported because its only live consumer was the migrated setup view; the historical file is retained. Other historical/focused CSS imports remain.
+- Layout uses the canonical 1100px canvas and gutters, 1100px Plan/Exams stacking and role-based typography. Standard/large Button geometry and focus remain shared; composer input focus has one owning container ring. Course buttons retain Overview and use canonical subject coverage bars.
+
+No changes to ranking, schema, auth, routes, global navigation, learning thresholds, readiness/evidence calculations, accepted-session storage or model invocation. Course Practice symbols already have no competing live icon callsite after removal of the Home introduction; no navigation redesign is introduced.
+
+Authority changes accompany implementation in Returning Student Home Experience, REV Guidance and Conversation Pattern and Student Lifecycle Journey Contracts. Core User Journeys was checked: it does not prescribe the removed six tiles and requires no change. Component Registry, feature documentation and assurance register record the change. No general design standard or architecture decision is needed.
+
+Reference limitation: neither frozen `design_system_v3/Home Mockup.dc.html` nor `Home Mockup-selection9.png` exists in the checkout/issue attachments. Written Issue #622 controls the implementation; no pixel-fidelity claim. New visual baselines remain blocked on explicit Founder comparison approval. See the dated refinement audit for executed assurance and remaining gates.
+
+## Historical implementation and release record (before Issue #622)
+
+
 **Status:** FI-023 Home v3 Live — verified production deployment after PR #601  
 **Updated:** 2026-10-13  
 **Normative authority:** `10-product-governance/Returning Student Home Experience.md` v1.3 (Founder approved, integrated through PR #595), `20-brand-and-experience/Learner Design System.md` v1.0, `20-brand-and-experience/REV Guidance and Conversation Pattern.md` v2.1, `40-evidence-and-trust/Claims and Progress Governance.md` and existing global navigation/Plan authority.

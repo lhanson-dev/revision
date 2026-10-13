@@ -77,3 +77,9 @@
 .rev-suggestion-card h3.rev-suggestion-card__title { color: var(--color-inverse-action-text); }
 .rev-suggestion-card p.rev-suggestion-card__reason { color: var(--color-inverse-action-text); }
 .rev-suggestion-card h3.rev-suggestion-card__title + p.rev-suggestion-card__reason { color: var(--color-inverse-text-secondary); }
+
+/* Shared checklist on an ordinary surface, for optional setup context. */
+.rev-suggestion-card__steps--neutral .rev-suggestion-card__step { background: var(--color-bg); color: var(--color-text); flex-wrap: wrap; }
+.rev-suggestion-card__steps--neutral .rev-suggestion-card__step-mark { border-color: var(--color-border-control); }
+.rev-suggestion-card__steps--neutral .rev-suggestion-card__step-meta { color: var(--color-text-secondary); line-height: 1.5; }
+.rev-suggestion-card__steps--neutral .rev-suggestion-card__step[data-state="current"] { background: var(--color-selection-surface); }

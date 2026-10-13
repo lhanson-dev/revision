@@ -18,6 +18,8 @@ export interface ProgressMeasuresProps {
   readinessNote?: string
   /** Stack the three measures in one column. */
   stack?: boolean
+  /** Divided measures inside one owning card, retaining the same evidence semantics. */
+  variant?: 'cards' | 'flat'
   className?: string
 }
 
@@ -25,10 +27,10 @@ export interface ProgressMeasuresProps {
  * The three progress measures, side by side and never blended into one percentage:
  * Topics covered, Understanding, Exam readiness.
  */
-export function ProgressMeasures({ hue = 'brand', covered, total, understanding, readiness, readinessNote, stack = false, className }: ProgressMeasuresProps) {
+export function ProgressMeasures({ hue = 'brand', covered, total, understanding, readiness, readinessNote, stack = false, variant = 'cards', className }: ProgressMeasuresProps) {
   const id = useId()
   return (
-    <div className={classNames('ui-progress-measures', stack && 'ui-progress-measures--stack', className)}>
+    <div className={classNames('ui-progress-measures', variant === 'flat' && 'ui-progress-measures--flat', stack && 'ui-progress-measures--stack', className)}>
       <section className="ui-progress-measure" aria-labelledby={`${id}-covered`}>
         <h3 className="ui-eyebrow" id={`${id}-covered`}>Topics covered</h3>
         <p className="ui-progress-measure__stat">

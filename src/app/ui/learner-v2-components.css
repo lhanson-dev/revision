@@ -388,3 +388,16 @@
   .ui-feedback-bar { animation: ui-feedback-bar-in 220ms ease-out; }
   @keyframes ui-feedback-bar-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 }
+
+/* Flat measures share all semantic content with the default component. */
+.ui-progress-measures--flat { gap: 0; }
+.ui-progress-measures--flat > .ui-progress-measure { border: 0; border-radius: 0; padding: 0 20px; background: transparent; }
+.ui-progress-measures--flat > .ui-progress-measure:first-child { padding-left: 0; }
+.ui-progress-measures--flat > .ui-progress-measure:last-child { padding-right: 0; }
+.ui-progress-measures--flat > .ui-progress-measure + .ui-progress-measure { border-left: 1px solid var(--color-border); }
+.ui-progress-measures--flat.ui-progress-measures--stack > .ui-progress-measure { padding: 20px 0; }
+.ui-progress-measures--flat.ui-progress-measures--stack > .ui-progress-measure + .ui-progress-measure { border-left: 0; border-top: 1px solid var(--color-border); }
+@media (max-width: 1100px) {
+  .ui-progress-measures--flat > .ui-progress-measure { padding: 20px 0; }
+  .ui-progress-measures--flat > .ui-progress-measure + .ui-progress-measure { border-left: 0; border-top: 1px solid var(--color-border); }
+}

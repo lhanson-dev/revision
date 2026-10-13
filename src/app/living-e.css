@@ -572,3 +572,14 @@
     transition: none !important;
   }
 }
+
+/* Shared inverse REV feature halo, preserving the canonical Living E geometry. */
+.rev-presence--inverse .rev-halo {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--neutral-0) 40%, transparent) 0%,
+    color-mix(in srgb, var(--brand-soft-aqua) 80%, transparent) 31%,
+    color-mix(in srgb, var(--brand-primary-teal) 28%, transparent) 58%,
+    transparent 82%);
+  filter: blur(16px);
+  opacity: 1;
+}

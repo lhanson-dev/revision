@@ -5,6 +5,7 @@ interface RevPresenceProps {
   state?: RevPresenceState
   size?: RevPresenceSize
   decorative?: boolean
+  onInverse?: boolean
   className?: string
 }
 
@@ -15,10 +16,10 @@ const stateLabels: Record<RevPresenceState, string> = {
   responding: 'REV is responding',
 }
 
-export function RevPresence({ state = 'resting', size = 'hero', decorative = false, className = '' }: RevPresenceProps) {
+export function RevPresence({ state = 'resting', size = 'hero', decorative = false, onInverse = false, className = '' }: RevPresenceProps) {
   return (
     <div
-      className={`rev-presence rev-presence-${size} ${className}`.trim()}
+      className={`rev-presence rev-presence-${size} ${onInverse ? 'rev-presence--inverse' : ''} ${className}`.trim()}
       data-state={state}
       role={decorative ? undefined : 'img'}
       aria-hidden={decorative ? true : undefined}

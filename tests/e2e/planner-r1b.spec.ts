@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { appPath, seedPlanStudent, plannedRow, businessCourseId, planUserId } from './plan-seed'
 
-test('R1-07 accepted choice agrees on Home, Plan and REV; dismissal persists across routes', async ({ page }) => {
+test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice persists across routes', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [plannedRow('chosen', '2026-10-05', 'finance')] })
   await page.goto(appPath)
   const hero = page.locator('.home-v3-hero')
@@ -16,8 +16,7 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; dismissal persists acr
   await page.goto(`${appPath}#/rev`)
   await expect(page.getByRole('log')).toContainText('Finance — Quick check')
   await page.goto(appPath)
-  await hero.getByText('Other options', { exact: true }).click()
-  await hero.getByRole('button', { name: 'Not now', exact: true }).click()
+  await hero.getByRole('button', { name: 'Suggest something else', exact: true }).click()
   await expect(hero.getByRole('heading', { level: 2 })).not.toHaveText('Finance')
   await page.goto(`${appPath}#/rev`)
   await expect(page.getByRole('log')).not.toContainText('Finance — Quick check')
@@ -106,10 +105,8 @@ test('review: ambiguous accepted Exam Prep remains stored with an honest limitat
   }) }))
   await page.goto(appPath)
   await expect(page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ })).toHaveCount(0)
-  const row = page.locator('.home-v3-plan-row[data-kind="session"]')
-  await expect(row).toContainText('Finance')
-  await row.getByRole('button', { name: /^Start/ }).click()
-  await expect(page.getByRole('status')).toContainText('Your session has been kept')
+  await expect(page.locator('.home-v3-plan-row')).toHaveCount(0)
+  await expect(page.locator('.home-v3-plan')).toContainText('Your remaining sessions have been kept')
   await expect(page.locator('.exam-simulator')).toHaveCount(0)
   await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
   await page.locator('.pln-row[data-kind="session"]').getByRole('button', { name: /^Start/ }).click()

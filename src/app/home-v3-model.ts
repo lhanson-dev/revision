@@ -78,7 +78,7 @@ export function upcomingHomeExams(
   assessments: readonly RevisionAssessment[],
   programme: readonly LearnerProgrammeCourse[],
   now: Date,
-): { next: HomeExam | null; mocks: HomeExam[]; officials: HomeExam[] } {
+): { next: HomeExam | null; mocks: HomeExam[]; officials: HomeExam[]; later: HomeExam[] } {
   const current = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
   const dated: HomeExam[] = assessments.flatMap((assessment) => {
     if (!assessment.isActive || (assessment.assessmentType !== 'mock' && assessment.assessmentType !== 'public_exam')) return []
@@ -95,6 +95,7 @@ export function upcomingHomeExams(
   const next = dated[0] ?? null
   return {
     next,
+    later: dated.slice(1, 3),
     mocks: dated.filter((entry) => entry.kind === 'mock' && entry !== next).slice(0, 3),
     officials: dated.filter((entry) => entry.kind === 'public_exam' && entry !== next),
   }

@@ -131,30 +131,25 @@ const todayKey = () => {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 }
 
-test('Add to plan puts the REV suggestion on a day, says so in words, without inventing another due activity', async ({ page }) => {
+test('Home alternative choice never writes a booking or evidence', async ({ page }) => {
   const rows: Row[] = []
   await seedReturningStudent(page)
   await fakePlannedSessions(page, rows)
+  const writes: string[] = []
+  page.on('request', (request) => {
+    if (request.method() !== 'GET' && /learner_planned_sessions|learning_evidence/.test(request.url())) writes.push(request.url())
+  })
   await page.goto(appPath)
-
-  const card = page.locator('.home-v3-hero')
-  const before = await card.locator('.home-v3-next h2').textContent()
-  await card.locator('.home-v3-alternatives summary').click()
-  const add = card.getByRole('button', { name: 'Add to Plan' })
-  await expect(add).toBeVisible()
-  await add.click()
-
-  await expect(page.getByRole('status').filter({ hasText: /^Added .+ to (today|tomorrow|[A-Z][a-z]+day)\. You can move it on Plan\.$/ })).toBeVisible()
-  expect(rows).toHaveLength(1)
-  expect(rows[0]).toMatchObject({ added_by: 'rev', activity_type: 'practice', course_id: businessCourseId })
-  expect(rows[0].topic_id).toBeTruthy()
-  if (rows[0].planned_date === todayKey()) {
-    await expect(card.locator('.home-v3-next h2')).toHaveText(before ?? '')
-    await expect(card).toContainText('On today’s plan')
-  } else {
-    await expect(card.locator('.home-v3-next h2')).toHaveText(before ?? '')
-    await expect(card).toContainText('Not on a plan yet')
-  }
+  const hero = page.locator('.home-v3-hero')
+  const title = hero.locator('.home-v3-next h2')
+  await expect(title).toBeVisible()
+  const before = await title.textContent()
+  await expect(hero.getByRole('button', { name: 'Add to Plan' })).toHaveCount(0)
+  await hero.getByRole('button', { name: 'Suggest something else' }).click()
+  await expect(title).not.toHaveText(before ?? '')
+  expect(rows).toEqual([])
+  expect(writes).toEqual([])
+  await expect(hero).toContainText('Not on a plan yet')
 })
 
 test('Home withholds Start and alternatives and explains unavailable accepted sessions', async ({ page }) => {
@@ -232,8 +227,9 @@ test('Plan and Home with accepted sessions meet the automated WCAG A/AA baseline
   expect(plan.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 
   await page.goto(appPath)
-  await expect(page.locator('.home-v3-plan-row[data-kind="session"]')).toHaveCount(2)
-  await expect(page.locator('.home-v3-plan-row .home-v3-done')).toHaveCount(1)
+  await expect(page.locator('.home-v3-plan-row[data-kind="session"]')).toHaveCount(1)
+  await expect(page.locator('.home-v3-plan-summary')).toContainText('1 of')
+  await expect(page.locator('.home-v3-plan-row')).not.toContainText('Marketing')
   const home = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(home.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])
 })

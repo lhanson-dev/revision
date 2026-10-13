@@ -27,6 +27,7 @@ export interface RevMarkProps {
   size?: RevPresenceSize
   /** Called when the responding state has settled back to waiting. */
   onSettled?: () => void
+  onInverse?: boolean
   className?: string
 }
 
@@ -38,7 +39,7 @@ export interface RevMarkProps {
  * "reduce motion" on, the mark stays still and the same text becomes visible, for example
  * "REV is thinking".
  */
-export function RevMark({ state = 'waiting', size = 'compact', onSettled, className }: RevMarkProps) {
+export function RevMark({ state = 'waiting', size = 'compact', onSettled, onInverse = false, className }: RevMarkProps) {
   // Responding settles back to waiting by itself. `settledFor` remembers which responding run has
   // settled, so a new run (the prop changes away and back) plays again.
   const [runs, setRuns] = useState({ requested: state, settled: false })
@@ -56,7 +57,7 @@ export function RevMark({ state = 'waiting', size = 'compact', onSettled, classN
 
   return (
     <span className={classNames('ui-rev-mark', shown !== 'waiting' && 'ui-rev-mark--active', className)}>
-      <RevPresence state={presenceState[shown]} size={size} decorative />
+      <RevPresence onInverse={onInverse} state={presenceState[shown]} size={size} decorative />
       <span className="ui-rev-mark__text" aria-live="polite">{stateText[shown]}</span>
     </span>
   )
