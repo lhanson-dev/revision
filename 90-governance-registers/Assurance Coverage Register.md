@@ -93,3 +93,9 @@ This section does **not** claim PR #403 is Live. The final reconciled PR head mu
 ## Maintenance model
 
 Update this register when a material PR introduces a new critical journey/control, changes its required assurance, closes a listed gap, removes/weakens an evidence source, or changes production smoke/control ownership. Historical CI runs, audits and incidents remain evidence in their own sources; this register records the current coverage model.
+
+## FI-001 R1a candidate assurance boundary
+
+R1a adds registry-derived deterministic deadline/scope/shared-paper fixtures in `src/app/planner-r1a.test.ts` and canonical route/accepted-session failure browser checks in `tests/e2e/planner-r1a.spec.ts`. The fixture index and explicit partial/oracle boundaries are in `docs/technical/Adaptive Revision Planner Implementation.md`. This candidate extends JRN-07 and protects DATA-04 by reading evidence without changing its semantics; it introduces no database migration, new security boundary or new evidence source.
+
+This is candidate evidence, not a Live or full-R1 claim. R1-07/R1-08 remain R1b, and full cross-surface/starting-check/Quick-check integration remains R1c. Paper-format/AO-specific exact activity selection is not asserted from a generic topic bridge; existing coarse accepted-session identities are retained. Current-head CI, independent review, explicit Founder merge approval and governed release verification remain outstanding.

@@ -92,7 +92,8 @@ function toSuggestion(candidate: Candidate, rule: SuggestionRule, reason: string
   const course = programme.find((item) => item.course.id === candidate.courseId)
   const topic = candidate.state.adapter.getTopic(candidate.topicId)
   if (!course || !topic) return null
-  const activity: HomeActivityType = activityForTopic(candidate.state, candidate.topicId, candidate.exam?.daysAway ?? 999, candidate.score === null ? null : candidate.score / 100)
+  const activity: HomeActivityType | null = activityForTopic(candidate.state, candidate.topicId, candidate.exam?.daysAway ?? 999, candidate.score === null ? null : candidate.score / 100)
+  if (!activity) return null
   return {
     key: `${candidate.courseId}:${candidate.topicId}`,
     rule,

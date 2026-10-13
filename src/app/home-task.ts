@@ -61,6 +61,7 @@ function programmeCourse(programme: readonly LearnerProgrammeCourse[], courseId:
 function stateForPlannerItem(states: readonly ModuleLearningState[], item: PlannerItem) {
   return states.find((state) => {
     if (item.courseId && courseIdForLearningState(state) !== item.courseId) return false
+    if (item.moduleId && state.adapter.manifest.id !== item.moduleId) return false
     return Boolean(state.adapter.getTopic(item.topicId))
   }) ?? null
 }

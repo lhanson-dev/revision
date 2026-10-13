@@ -208,3 +208,47 @@ This readiness proof confirms required backend capability presence; it does not 
 ## Documentation impact
 
 The 29 September 2026 task-rationale presentation refinement updates the normative adaptive-planning authority, this implementation record, `PlanScreen` and configured-Plan browser assurance in the same governed change. It removes only the repeated inline rationale text from Plan task cards; structured reason codes, planner calculation, REV explanation capability, persistence, backend contracts and historical evidence are unchanged.
+
+## FI-001 R1a — deadline, scope and shared-paper correctness (implementation candidate)
+
+This bounded change implements the R1a safe subset authorised by the Founder Ready receipt in the [R1 analysis](../../10-product-governance/backlog/FI-001%20Evidence-led%20Planner%20R1%20Readiness%20Analysis.md). It is not evidence of merge, deployment, or completion of R1b/R1c.
+
+`planner-model.ts` resolves assessments against the supplied active programme states. Course, subject and optional module identifiers must agree; legacy subject-only records are used only when exactly one state resolves. Invalid explicit topic scopes no longer widen to a whole course. Published Exam Prep paper guides constrain paper topic eligibility; a missing mapping for a multi-paper shared course fails closed. Dates must be real local calendar dates, and date-only exams expire at the beginning of their date. Calendar-day arithmetic uses local date components and UTC ordinals, avoiding elapsed-hour errors across DST.
+
+Candidates carry `assessmentTargets` with assessment/date, module/paper identity where known, and verified topic scope. Generic work is merged by course + shared learning context + topic + supported activity only when the existing catalogue declares shared learning. Component-specific contexts retain their module in the intent key. All applicable future assessment references remain on the candidate. Each proposed scheduled day discards expired targets and uses the nearest surviving assessment for its reason context; a shared task can therefore survive for a later paper without continuing to target an expired paper. Candidate and recommendation intent IDs do not depend on the assessment date or assessment order. Existing accepted-session recommendation IDs are not rewritten; course/topic suppression and planned/done/skipped capacity handling remain compatible.
+
+The bridge offers only topic-backed Quick check or Flashcards. It no longer invents an `exam-question` candidate from a score/urgency threshold: the existing exam Start leads to generic Exam Prep, not a verified exact question. Missing assets produce no candidate, with a Flashcards fallback when that asset exists. Explicit scoped topics provide the only existing selection input for optional Psychology content; published exam choice-group metadata rejects multiple choices from one group. Without an explicit choice, optional topics are excluded, leaving mapped compulsory topics available. No learner-option persistence or new syllabus/AO mapping is introduced.
+
+Allocation requires the full existing coarse activity estimate to fit the day's remaining capacity. A 30-minute task is never described as a complete 15-minute task. Plan Start now routes to the exact course/component and topic Practice destination. If accepted-session loading fails, derived Plan suggestions are withheld and an accessible status explains that commitments could not be checked. Evidence-load failure clears stale derived learning states. Persisted commitments remain learner choices and are not deleted or marked completed because an assessment changes.
+
+### Fixture index and limits
+
+The deterministic cases below live in `src/app/planner-r1a.test.ts`, derived from `listAvailableContentAdapters()` and the real catalogue identities `aqa:aqa-a-level:7132` and `aqa:aqa-a-level:7182`.
+
+| R1 oracle | R1a test name / coverage | Boundary |
+| --- | --- | --- |
+| R1-01 | merges shared Business 7132 intents and retains both paper scopes; keeps distinct paper intents separate in the scheduler | PASS for generic assets and distinct engine intents; paper-format engine fixture is explicitly synthetic, not a shipped exact-question claim |
+| R1-02 | cuts off paper-only work on the exam day while shared later-paper work survives | PASS for per-day cutoff and later-paper provenance |
+| R1-03 | replans earlier/later/archived dates without changing stable intent IDs or accepted sessions | PASS for rebuild/identity/immutability |
+| R1-04 | only resolves exact active courses and unambiguous legacy scopes; rejects invalid explicit scopes | PASS for active-state identity, conflicting modules and invalid scope |
+| R1-05 | preserves planned/done/skipped commitments and legacy keys | PASS for existing accepted-session suppression/capacity contract |
+| R1-06 | leaves absent/unknown dates and unsupported assets honest | PASS for R1a null timed-plan contract; Home/REV fallback integration remains R1b |
+| R1-07 / R1-08 | not implemented in this change | R1b ranking unification and dismissal/midnight integration explicitly excluded |
+| R1-09 | limits Psychology 7182 to the mapped paper and explicit option choice | PASS for scoped selections, missing/conflicting choices, inactive assessments and unknown paper IDs; no option-selection storage added |
+| R1-10 | never truncates work into invented durations at 0/15/30 minutes | PASS for capacity/full-estimate behavior; accepted-session deductions tested separately |
+| R1-11 / R1-14 | reads existing evidence without changing understanding/readiness when deadlines shift | PASS for read-only evidence and date-safe replanning; full starting-check/Quick-check journey integration remains R1c |
+| R1-12 | uses local calendar days across 2026-03-29, 2026-10-25 and 2026-12-31 deterministically | PASS under Europe/London for DST and year boundaries |
+| R1-13 | leaves absent/unknown dates and unsupported assets honest; browser: hides derived tasks when accepted commitments cannot be loaded; supported Plan Start keeps exact course/topic Practice identity | Unit asset fallback plus canonical browser failure/route smoke |
+
+Remaining constraints are deliberate: the existing 60-day horizon, evidence/readiness calculations, preference weights, storage, RLS and entitlements are unchanged. The current session schema has no paper/question intent, so existing coarse course/topic accepted-session suppression is retained rather than inventing a migration. Actual paper-specific format/AO selection and exact-question Start cannot be assured by this generic bridge; no new paper-skill work is fabricated or merged into shared knowledge. Unknown paper maps fail closed. R1b must reconcile Home/Plan/REV ranking and fallback; this PR does not claim those surfaces now agree. Independent review and exact-head CI remain required before any Founder merge decision.
+
+### Executed local validation for this candidate
+
+- `TZ=Europe/London npx vitest run src/app/planner-r1a.test.ts src/engine/planning/planning.test.ts src/app/planner-model.test.ts src/app/accepted-sessions.test.ts src/app/rev-suggestions.test.ts`: 50 passed. An earlier baseline run found the old partial-duration expectation; that assertion was corrected to the approved R1-10 rule.
+- `npm run validate`: typecheck, lint, all unit tests and production build passed; 1,332 tests passed and 35 skipped (235 test files passed, 13 skipped). Two existing React Hooks lint warnings and the existing bundle-size warning remain. No paid provider workflow was run.
+- `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright npx playwright install chromium`: completed successfully with the pinned Playwright browser.
+- `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright npx playwright test tests/e2e/planner-r1a.spec.ts tests/e2e/plan-screen-v22.spec.ts --workers=2`: initially 47 passed, 84 intentionally skipped, one failed assertion expecting duplicated weekly minutes. The one relevant expectation was corrected from 5h 15m to 3h 55m (160m of shared work plus 75m of accepted sessions).
+- `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright npx playwright test tests/e2e/plan-screen-v22.spec.ts --project=desktop --grep 'summary is time against plan' --workers=1`: the affected test passed after that assertion correction. New R1a failure/Start checks passed at all three viewport classes; existing keyboard and WCAG A/AA cases passed in the broader run.
+- `git diff --check`: passed. `origin/main` remained `f07bbbb0b8f2059e4fcd7f5cf811a8e0975b0a54` at the final integration check.
+
+No database/RLS service tests or production smoke were executed for this frontend-only change. GitHub CI and independent ChatGPT review are separate outstanding evidence; passing local tests does not authorise merge or establish deployment.

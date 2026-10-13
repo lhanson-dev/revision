@@ -29,7 +29,7 @@ import {
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
+import { learnerCourseRoute, learnerModuleRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
 import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
@@ -115,7 +115,7 @@ function monthLabel(anchor: string, todayKey: string) {
   return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCourse }: PlanScreenProps) {
+export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScreenProps) {
   const now = useMemo(() => new Date(), [])
   const todayKey = toKey(now)
 
@@ -134,7 +134,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [exceptions, setExceptions] = useState<RevisionAvailabilityException[]>([])
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
-  // Sessions the student accepted. Null means the table cannot be read yet, so Plan shows none and says nothing about it.
+  // Unknown accepted commitments cannot safely be treated as spare capacity.
   const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
   const [sessionsLoadedRange, setSessionsLoadedRange] = useState<{ from: string; to: string } | null>(null)
   const [sessionsUnavailable, setSessionsUnavailable] = useState(false)
@@ -203,6 +203,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       })
       .catch((error: unknown) => {
         if (!active) return
+        setLearningStates([])
         setMessage(error instanceof Error ? error.message : 'Could not load your plan.')
       })
       .finally(() => {
@@ -235,7 +236,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       })
       .catch(() => {
         if (!active) return
-        // The table cannot be read (for example it has not been applied yet): show no accepted sessions and say nothing.
+        // Keep derived suggestions unavailable rather than overbooking unknown commitments.
         setPlannedSessions(null)
         setSessionsUnavailable(true)
         setSessionsLoadedRange({ from, to })
@@ -258,8 +259,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   )
 
   const snapshot = useMemo(
-    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions ?? []),
-    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, now],
+    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions),
+    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, sessionsUnavailable, now],
   )
 
   const setupMissingExams = activeAssessments.length === 0
@@ -450,7 +451,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     } catch (error: unknown) {
       setMessage(error instanceof Error ? `${error.message} You can still continue with the revision activity.` : 'Could not record the planner start. You can still continue.')
     }
-    if (item.courseId) onOpenCourse(item.courseId)
+    if (item.courseId) window.location.assign(routeHash(item.moduleId
+      ? learnerModuleRoute(item.courseId, item.moduleId, 'practice', { topicId: item.topicId })
+      : learnerCourseRoute(item.courseId, 'practice', { topicId: item.topicId })))
     else onOpenCourses()
   }
 
@@ -609,6 +612,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       </header>
 
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
+      {sessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Your saved sessions could not be loaded. Revision suggestions are unavailable until your commitments can be checked. Reload to try again.</Status>}
 
       {loading
         ? <LoadingState className="planner-panel">Loading your plan…</LoadingState>
