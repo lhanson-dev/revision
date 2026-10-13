@@ -307,3 +307,36 @@ Only the four Home SHA-256 values and their dated audit comment changed in the v
 The four targeted Home cases were run locally with `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright npx playwright test tests/e2e/interface-visual-regression.spec.ts --grep '(phone|desktop) home (light|dark) visual contract' --project=phone --project=desktop --output work/baseline-targeted-results --workers=2`: four local hash mismatches, four intentional viewport skips. This executor already reproduces different hashes for unmodified approved main; those local rasterisation results do not replace the specifically approved CI values. No retry, assertion suppression or unrelated repin. All four checks must pass in the required new CI before closure is reported.
 
 Approved main `9afcbe36e83166b5adf498c07a84c625b431a794` remains an ancestor of the PR branch. Keep #617 draft and do not merge. R1-11 remains a separately owned R1c engineering/assurance gap; no full-R1/Live claim.
+
+## FI-001 R1c — evidence-provenance assurance candidate (13 October 2026)
+
+**Baseline:** Main `501388ee77484ffd896a7dad876a657d822b6ccb` (#618), containing merged R1a/R1b #617 and authority #619. The earlier #617 candidate sections in this file are retained as dated pre-merge implementation/review evidence; #617 is now **merged, deployed and path-to-live verified** by workflow #38401029075 at `e9d1266791f234753780ffbb489f0126ce12eadf`. That production result covers R1a/R1b, **not** R1c.
+
+**Canonical runtime:** React/Vite authenticated `/app/`, published as `/revision/app/` via `src/app/PlannerRuntime.tsx`. The Home, Plan and REV screens and learner Progress use `loadLearningEvidence` with `createCourseLearningState`/`createModuleLearningState`. Onboarding saves FI-006 directional observations through the distinct `starting_check_evidence` store. The Learn `QuickCheck` component is labelled “Not scored” and has no evidence callback; scored Practice is a different activity and intentionally persists `learning_evidence`. No new scoring algorithm, data schema or entitlement is introduced.
+
+**Candidate assurance — exact-head rerun required after latest browser addition, not a completed R1-11 claim:** New `src/app/planner-r1c.test.tsx` covers a real Business 7132 course and question identity, starting-check directional persistence vs empty scored stream, stable planner/Progress/REV snapshot with no new scored evidence, the unscored Learn component's fixture-level contract, and validated scored Practice positive-control state. `tests/e2e/planner-r1c.spec.ts` covers starting-check UI submission with five stored directional answers and no scored answers, a synthetic return to Home/Plan/REV/Progress, navigation/reload and no invented topic coverage/readiness, plus preserved accepted Today commitment across directional-only reload. The synthetic account-state transition is for regression verification; it does not assert that first-use production routing skips the first useful revision requirement. Existing `tests/e2e/progress.spec.ts` covers scored Practice -> persisted evidence -> Progress increase, and existing R1a/R1b tests cover route identities and planner safety.
+
+**Important assurance limit:** The checked-in Learn UI supports unscored Quick checks, but the inspected authored Business 7132 and Psychology 7182 Learn paths do not publish a `quick-check` block. The existing dev-only `/revision/learn-fixtures.html` renders the actual production `QuickCheck` component and already tests interactive answers/retry. New `planner-r1c.spec.ts` now completes a wrong answer, retries and answers correctly in that **existing dev-only Learn fixture**, then returns to a synthetic authenticated learner on Home/Plan/REV/Progress with the same accepted commitment, unchanged scored evidence, coverage and readiness. The fixture is not published course content, so this is a production-component browser boundary check rather than a fully published course learning journey. Do not add a fake shipped educational asset or overstate coverage. R1-11 must remain **Partial** if no assured, real, publishable unscored learning asset or equivalent valid production-surface proof can be exercised. Psychology 7182 option/asset checks remain in existing R1a fixtures; no syllabus data were manufactured.
+
+### R1 acceptance evidence inventory at this candidate head (not test results)
+
+| Oracle | Existing/added verification source | Candidate state |
+| --- | --- | --- |
+| R1-01 | `planner-r1a.test.ts` shared-paper generic intent | Existing tests; CI pending |
+| R1-02 | `planner-r1a.test.ts` per-day cutoff and later paper | Existing tests; CI pending |
+| R1-03 | `planner-r1a.test.ts` changed/archived date | Existing tests; CI pending |
+| R1-04 | `planner-r1a.test.ts` active course/unambiguous scope | Existing tests; CI pending |
+| R1-05 | `accepted-sessions.test.ts`, `planner-r1b.spec.ts`, new R1c browser commitment reload | Existing plus candidate; CI pending |
+| R1-06 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
+| R1-07 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
+| R1-08 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
+| R1-09 | `planner-r1a.test.ts` Psychology 7182 exact option/scope | Existing tests; CI pending |
+| R1-10 | `planner-r1a.test.ts`, `planning.test.ts` capacity | Existing tests; CI pending |
+| R1-11 | `planner-r1c.test.tsx`, `planner-r1c.spec.ts`, `learn-blocks.spec.ts`, `progress.spec.ts`, `learn-quick-check.test.tsx` | **PARTIAL**: actual unscored component browser completion + planner reroute in dev-only fixture; no published 7132/7182 Learn Quick check; final CI pending |
+| R1-12 | `planner-r1a.test.ts`, `today-recommendations.test.ts` local date/DST | Existing tests; CI pending |
+| R1-13 | `planner-r1a.spec.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
+| R1-14 | `planner-r1a.test.ts` date-safety and scored-evidence interaction | Existing tests; CI pending |
+
+**Documentation impact:** Narrow active authority-status wording corrected for previously merged #619, and the R1 backlog lifecycle/current implementation status separated from its historical preapproval snapshot. Assurance Coverage Register tracks R1-11 as Partial until appropriate CI, independent review and required published-content journey evidence. No ADR, schema or scoring change required. R2–R5 remain outside R1 and require their own DoR/Founder approval.
+
+**Executed CI evidence for prior candidate head:** Revision CI [#38467737756](https://github.com/lhanson-dev/revision/actions/runs/38467737756) passed at `e7fe803b7123fa6e7afde5983425849301b010c9`: typecheck, lint, 1,344 passing unit tests (35 skipped), production build, 569 Playwright passing tests (324 skipped), and isolated database/RLS/protected services. The latest added dev-fixture-to-learner browser test and this documentation update require **fresh exact-head CI**; the earlier green run does not cover those changes. Production release is **not** claimed for PR #624. R1-11 remains Partial until a real published unscored Learn activity can be exercised or a separately authorised assurance disposition is recorded.
