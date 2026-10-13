@@ -15,7 +15,7 @@
 .first-use-shell .first-use-card select { border: 2px solid var(--color-border-control); border-radius: var(--radius-control); }
 .first-use-shell .first-use-card input:not([type="radio"]):not([type="checkbox"]):focus-visible,
 .first-use-shell .first-use-card select:focus-visible { border-color: var(--color-action); box-shadow: var(--focus-ring); }
-.first-use-shell .first-use-card .ui-button--primary { border-radius: var(--radius-pill); background: var(--color-action); border-color: var(--color-action); color: var(--color-action-text); font-weight: 800; }
+.first-use-shell .first-use-card .ui-button--primary { background: var(--color-action); border-color: var(--color-action); color: var(--color-action-text); font-weight: 800; }
 
 /* REV recommends badge and note use the dark REV panel look. */
 .first-use-shell .first-use-rev-badge { background: var(--color-inverse-action); color: var(--color-inverse-accent-text); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
