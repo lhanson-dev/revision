@@ -252,3 +252,28 @@ Remaining constraints are deliberate: the existing 60-day horizon, evidence/read
 - `git diff --check`: passed. `origin/main` remained `f07bbbb0b8f2059e4fcd7f5cf811a8e0975b0a54` at the final integration check.
 
 No database/RLS service tests or production smoke were executed for this frontend-only change. GitHub CI and independent ChatGPT review are separate outstanding evidence; passing local tests does not authorise merge or establish deployment.
+
+## FI-001 R1b integrated candidate — 13 October 2026
+
+The #617 branch incorporates approved main `9afcbe36` (#612 exact question Start and #619 Today-first authority). R1a cutoffs, shared-intent nonduplication, scope joins, full-duration capacity and accepted-session protections remain.
+
+`today-recommendations.ts` is the shared presentation source over the existing `PlanDay` and engine. Accepted actionable commitments sort by creation timestamp then stable session ID before derived engine order; no clock appointments are inferred. Home promotes the same identity that Plan marks Up next, and REV's opening/today reply describes the same topic, course, activity and factual reason. Confirmed preferences still use the existing governed save path; they do not rewrite accepted commitments or evidence.
+
+`activityForTopic` now permits a real exam-question when the existing recommendation calls for it or the existing near-assessment/evidence context supports exam practice. `exactExamTarget` resolves only published unrestricted assets, respecting the assessed module and selected topic scope. Candidate IDs retain exact module/question identity, so distinct paper intents are not collapsed into generic shared work. Module/exam/question identity is carried through the engine and the #612 focused launcher on all three screens. Generic Quick checks and Flashcards remain asset-backed.
+
+Not now/another suggestion exclude stable IDs for the local day, leave persisted sessions untouched and exhaust honestly. Missing planning inputs permit explicitly unscheduled intents ranked by the same engine (with actual assessment candidates where available, otherwise neutral deadline inputs); no timed plan or availability is inferred. Completed/rest days and partial data do not invoke this fallback. All screens use the same bounded accepted-session horizon and refresh local-date calculations at midnight/DST.
+
+Legacy accepted sessions lack paper/question/card fields. Broad Practice resolves a supported Quick check (or Flashcards if retained recommendation identity specifies it); broad Exam Prep resolves the first assured unrestricted question. New exact-question recommendation keys preserve module/question identity without a database migration. Unsupported accepted sessions remain stored and visible; no unsupported lead recommendation is offered. Paper/AO-specific generation beyond available asset/scope assurance remains excluded.
+
+Additional fixture index:
+
+| Oracle | Test / evidence |
+| --- | --- |
+| R1-06 | `today-recommendations.test.ts`: missing inputs unscheduled; browser missing setup |
+| R1-07 | same file: accepted before derived, exact row/REV reason, exact real paper/question; `planner-r1b.spec.ts`: all three Starts |
+| R1-08 | same file: exclusion/exhaustion/local-day expiry; browser cross-route dismissal |
+| R1-10/13 | same file: rest/completed/partial data/removed course; existing R1a failure browser check |
+
+R1-01..05/09..14 retain the R1a fixtures above. R1-11's full starting-check/unscored activity journey, live database/RLS and production smoke are not newly claimed by these tests. No scoring, RLS, entitlement, telemetry schema, paid operation, 60-day expansion or R2–R5 changes. The assurance register and PR state the actual final results and limitations.
+
+Documentation-impact check: planner, Home and contextual REV technical docs and assurance register updated; no ADR/schema change. Historical analysis and audits preserved. The merged #619 authority still contains prospective status text (including FI-001's “v0.7 proposed” banner); flag this for a separate narrow source-status correction, without interpreting it as unmerged policy or changing policy here.

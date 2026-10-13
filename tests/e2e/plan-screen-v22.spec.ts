@@ -147,10 +147,10 @@ test('month view: Monday-first grid, exam day in solid subject colour with its l
   await expect(page.locator('.pln-row--exam')).toContainText('Exam day · in 17 days')
 })
 
-test('rows: Continue for a REV pick today, Start for the rest, done is muted with a tick', async ({ page }) => {
+test('rows: Up next for the first actionable commitment today, Start for the rest, done is muted with a tick', async ({ page }) => {
   await openPlan(page, '#/plan')
   const list = page.locator('.pln-list')
-  await expect(list.getByRole('button', { name: /^Continue/ })).toHaveCount(1)
+  await expect(list.getByRole('button', { name: /^Up next/ })).toHaveCount(1)
   await expect(list.getByRole('button', { name: /^Start/ }).first()).toBeVisible()
   const done = page.locator('.pln-row[data-done]')
   await expect(done).toContainText('Done')

@@ -9,7 +9,7 @@ import { courseIdForLearningState } from './planner-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { subjectAccentKey, type SubjectAccentKey } from './subject-accents'
 
-export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question'
+export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question' | 'learn'
 
 export type HomeTask = {
   id: string
@@ -25,10 +25,13 @@ export type HomeTask = {
   estimatedMinutes: number
   reason: string
   adapter: LearningContentAdapter
+  sessionId?: string
+  examTarget?: PlannerItem['examTarget']
   plannerItem?: PlannerItem
 }
 
 export function homeActivityLabel(activity: HomeActivityType) {
+  if (activity === 'learn') return 'Learn'
   if (activity === 'flashcards') return 'Flashcards'
   if (activity === 'quick-check') return 'Quick check'
   return 'Exam practice'
@@ -94,6 +97,7 @@ export function tasksFromPlanner(
       reason: reason ? `This comes first because ${plannerReasonLabel(reason)}.` : 'This is the strongest next step from your current plan and evidence.',
       adapter: state.adapter,
       plannerItem: item,
+      examTarget: item.examTarget,
     }]
   })
 }

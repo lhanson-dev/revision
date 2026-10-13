@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerItem } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
   addPlannedSession,
@@ -29,10 +28,14 @@ import {
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, learnerModuleRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
+import { learnerCourseRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
 import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
+import { HomeFocusedActivity } from './HomeFocusedActivity'
+import type { HomeTask } from './home-task'
+import { todayRecommendations, taskForTodayRow, readTodayChoice } from './today-recommendations'
+import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import {
   addDaysToKey,
@@ -116,8 +119,9 @@ function monthLabel(anchor: string, todayKey: string) {
 }
 
 export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScreenProps) {
-  const now = useMemo(() => new Date(), [])
+  const now = useLocalDay()
   const todayKey = toKey(now)
+  const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
 
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
@@ -437,29 +441,21 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   }
 
   async function handleStartSuggested(entry: PlanSuggestedItem) {
-    const item: PlannerItem = entry.item
+    const task = taskForTodayRow(entry, learningStates, programme)
+    if (!task) { setMessage('This exact activity is unavailable. Choose another item or open Courses.'); return }
     try {
-      await recordPlannerActivityEvent(client, userId, {
-        recommendationId: item.recommendationId,
-        eventType: 'started',
-        subjectId: item.subjectId,
-        courseId: item.courseId,
-        topicId: item.topicId,
-        activityType: item.activityType,
-        metadata: { plannerVersion: 1, source: 'plan' },
-      })
-    } catch (error: unknown) {
-      setMessage(error instanceof Error ? `${error.message} You can still continue with the revision activity.` : 'Could not record the planner start. You can still continue.')
-    }
-    if (item.courseId) window.location.assign(routeHash(item.moduleId
-      ? learnerModuleRoute(item.courseId, item.moduleId, 'practice', { topicId: item.topicId })
-      : learnerCourseRoute(item.courseId, 'practice', { topicId: item.topicId })))
-    else onOpenCourses()
+      await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
+        subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
+        activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan' } })
+    } catch { /* Recording failure must not block supported work. */ }
+    setActiveTask(task)
   }
 
   function startSession(session: PlannedSession) {
-    const section = session.activityType === 'learn' ? 'learn' : session.activityType === 'exam_prep' ? 'exam-prep' : 'practice'
-    window.location.assign(routeHash(learnerCourseRoute(session.courseId, section)))
+    const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme)
+    if (!task) { setMessage('This session’s activity is unavailable. Your commitment has been kept.'); return }
+    if (task.activityType === 'learn') window.location.assign(routeHash(learnerCourseRoute(task.courseId, 'learn', { topicId: task.topicId })))
+    else setActiveTask(task)
   }
 
   function replaceSession(updated: PlannedSession) {
@@ -519,7 +515,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     }
   }
 
+  const nextTask = todayRecommendations(buildDay(todayKey), learningStates, programme, !setupComplete,
+    !loading && !sessionsUnavailable && plannedSessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)[0] ?? null
   const actions: PlanRowActions = {
+    nextTaskId: nextTask?.id,
     onStartSession: startSession,
     onStartSuggested: (entry) => void handleStartSuggested(entry),
     onStatus: (session, status) => void changeSessionStatus(session, status),
@@ -603,6 +602,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     : setupMissingExams
       ? 'Add your exam dates and REV will plan what to work on.'
       : 'Add your study time and REV will plan what fits your week.'
+
+  if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme} backLabel="Plan"
+    onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); window.location.reload() }} />
 
   return (
     <main className="dashboard page-screen planner-screen interface-plan-screen pln" aria-labelledby="plan-page-title">

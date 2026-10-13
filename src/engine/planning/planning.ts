@@ -43,6 +43,7 @@ export interface PlannerCandidate {
   recentlyCompleted: boolean
   assessmentTargets?: readonly PlannerAssessmentTarget[]
   moduleId?: string
+  examTarget?: { moduleId: string; examId: string; questionId: string }
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
@@ -67,6 +68,7 @@ export interface PlannerItem {
   reasons: PlannerReasonCode[]
   moduleId?: string
   assessmentTargets?: readonly PlannerAssessmentTarget[]
+  examTarget?: { moduleId: string; examId: string; questionId: string }
 }
 
 export interface PlannerScheduledDay {
@@ -171,6 +173,7 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     estimatedMinutes,
     reasons,
     moduleId: candidate.moduleId,
+    examTarget: candidate.examTarget,
     assessmentTargets: candidate.assessmentTargets,
   }
 }

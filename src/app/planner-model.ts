@@ -108,11 +108,10 @@ function topicEvidenceSummary(state: ModuleLearningState, topicId: string) {
   return { evidence, understanding, evidenceStrength }
 }
 
-export function activityForTopic(state: ModuleLearningState, topicId: string, daysUntilAssessment: number, understanding: number | null) {
-  // Exam questions currently open a generic Exam Prep page, not an exact supported
-  // question. Keep this bridge to asset-backed generic practice until exact routing exists.
-  void daysUntilAssessment
-  void understanding
+export function activityForTopic(state: ModuleLearningState, topicId: string, daysUntilAssessment: number, understanding: number | null, moduleId?: string, allowOption = false) {
+  if ((state.recommendation?.topicId === topicId && state.recommendation.activity === 'exam-question'
+    || daysUntilAssessment <= 21 && understanding !== null && understanding >= 0.55)
+    && exactExamTarget(state, topicId, moduleId, allowOption)) return 'exam-question'
   const hasQuickCheck = state.adapter.listQuestions(topicId).length > 0
   const hasFlashcards = state.adapter.listFlashcards(topicId).length > 0
   if (state.recommendation?.topicId === topicId && state.recommendation.activity === 'flashcards' && hasFlashcards) return 'flashcards'
@@ -121,7 +120,21 @@ export function activityForTopic(state: ModuleLearningState, topicId: string, da
   return null
 }
 
-export function scopeTopicIds(assessment: RevisionAssessment, state: ModuleLearningState) {
+/** Published single-question assets only; optional content requires an explicit scoped selection. */
+export function exactExamTarget(state: ModuleLearningState, topicId: string, moduleId?: string, allowOption = false) {
+  for (const adapter of state.course?.modules ?? [state.adapter]) {
+    if (moduleId && adapter.manifest.id !== moduleId || adapter.manifest.status !== 'available') continue
+    for (const exam of adapter.listExams()) {
+      if (exam.restrictedPilot) continue
+      const matches = exam.questions.filter((q) => q.topic === topicId && (allowOption || !q.choiceGroup))
+      const question = matches.find((q) => q.marks >= 4) ?? matches[0]
+      if (question) return { moduleId: adapter.manifest.id, examId: exam.id, questionId: question.id }
+    }
+  }
+  return undefined
+}
+
+export function scopeTopicIds(assessment: Pick<RevisionAssessment, 'scope' | 'moduleId'>, state: ModuleLearningState) {
   if (Object.keys(assessment.scope).some((key) => key !== 'topicIds')) return []
   const explicit = assessment.scope.topicIds
   if (explicit !== undefined && (!Array.isArray(explicit) || explicit.length === 0 || explicit.some((id) => typeof id !== 'string'))) return []
@@ -180,7 +193,9 @@ export function plannerCandidatesFromLearningState(
 
     return topicIds.flatMap((topicId) => {
       const summary = topicEvidenceSummary(state, topicId)
-      const activityType = activityForTopic(state, topicId, daysUntilAssessment, summary.understanding)
+      let activityType = activityForTopic(state, topicId, daysUntilAssessment, summary.understanding, assessment.moduleId ?? undefined, Array.isArray(assessment.scope.topicIds))
+      const examTarget = activityType === 'exam-question' ? exactExamTarget(state, topicId, assessment.moduleId ?? undefined, Array.isArray(assessment.scope.topicIds)) : undefined
+      if (activityType === 'exam-question' && !examTarget) activityType = state.adapter.listQuestions(topicId).length ? 'quick-check' : state.adapter.listFlashcards(topicId).length ? 'flashcards' : null
       if (!activityType) return []
       const topicCoverage = summary.evidence.length > 0 ? 1 : 0
       const evidenceStrength = summary.evidence.length === 0
@@ -191,7 +206,8 @@ export function plannerCandidatesFromLearningState(
       const moduleId = shared ? undefined : state.adapter.manifest.id
       const targetModule = assessment.moduleId ? (state.course?.modules ?? [state.adapter]).find((adapter) => adapter.manifest.id === assessment.moduleId) : undefined
       return [{
-        id: `${courseId}:${shared ? 'shared' : moduleId}:${topicId}:${activityType}`,
+        id: `${courseId}:${shared ? 'shared' : moduleId}:${topicId}:${activityType}${examTarget ? ':' + examTarget.moduleId + ':' + examTarget.questionId : ''}`,
+        examTarget,
         subjectId: assessment.subjectId,
         courseId,
         assessmentId: assessment.assessmentId,

@@ -215,3 +215,7 @@ This document records the current Course Overview implementation, Topic Knowledg
 No normative authority change is required for the recommendation/exam-date fidelity correction: existing authority already requires REV to explain its recommendation credibly and the Course Overview blueprint already calls for upcoming assessment date/context where available. Historical design and proof evidence remain unchanged.
 
 The active product/experience authority remains the source of what should be true. If future calibration changes Topic Knowledge thresholds without changing its governed meaning, this implementation record and assurance must be updated with the new current mechanics.
+
+## FI-001 R1b contextual conversation candidate — 13 October 2026
+
+`PlannerRevScreen` loads accepted commitments over the same 60-day window as Home/Plan and builds the same PlanDay. Its opening and answers to Today questions use `todayRecommendations` and `recommendationExplanation`; they no longer select an independent Progress action or omit accepted sessions. The current exact activity can Start through the shared focused launcher. Error states withhold claimed priority. Preferences retain explicit learner confirmation and existing subject-level limitations. Course Overview's scoped guidance remains separate from the programme-wide Today responsibility. See the planner implementation document for ordering, fallback, exact identity and test boundaries.

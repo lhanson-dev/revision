@@ -131,7 +131,7 @@ describe('FI-001 R1a approved registry fixtures', () => {
     expect(candidates([exam(business, 1, { assessmentDate: '' })])).toEqual([])
     expect(candidates([exam(business, 1, { assessmentDate: '2026-02-30' })])).toEqual([])
     expect(buildPlannerSnapshot([businessState], [], null, [], [], now)).toBeNull()
-    const noAssets = { ...businessState, adapter: { ...businessState.adapter, listQuestions: () => [], listFlashcards: () => [] } }
+    const noAssets = { ...businessState, course: undefined, adapter: { ...businessState.adapter, listExams: () => [], listQuestions: () => [], listFlashcards: () => [] } }
     expect(activityForTopic(noAssets, topic, 1, 0.9)).toBeNull()
     expect(candidates([exam()], [noAssets])).toEqual([])
     const flashOnly = { ...noAssets, adapter: { ...noAssets.adapter, listFlashcards: businessState.adapter.listFlashcards } }

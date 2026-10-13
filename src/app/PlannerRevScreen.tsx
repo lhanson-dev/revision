@@ -1,14 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerReasonCode } from '../engine/planning/planning'
 import { loadPlannerSetup, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
+import { HomeFocusedActivity } from './HomeFocusedActivity'
+import { plannerReasonLabel } from './home-task'
+import type { HomeTask } from './home-task'
+import { homeToday } from './home-v3-model'
+import { todayRecommendations, recommendationExplanation, readTodayChoice } from './today-recommendations'
+import { useLocalDay } from './use-local-day'
+import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { buildPlannerSnapshot } from './planner-model'
 import { RevPresence, type RevPresenceState } from './RevPresence'
 import type { CourseSection } from './navigation'
-import { answerExams, answerProgress, answerToday, CANNOT_ANSWER_YET, classifyQuestion, promptChips, SAFEGUARDING_FOLLOW_ON, safeguardingReply, screenForSafeguarding, type RevAnswer } from './rev-answers'
+import { answerExams, answerProgress, CANNOT_ANSWER_YET, classifyQuestion, promptChips, SAFEGUARDING_FOLLOW_ON, safeguardingReply, screenForSafeguarding, type RevAnswer } from './rev-answers'
 import { Button } from './ui'
 
 interface PlannerRevScreenProps {
@@ -54,22 +60,6 @@ function plusDays(date: Date, days: number) {
   return localDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + days))
 }
 
-function reasonLabel(reason: PlannerReasonCode) {
-  switch (reason) {
-    case 'ASSESSMENT_SOON': return 'the assessment is getting closer'
-    case 'HIGH_IMPORTANCE_ASSESSMENT': return 'it is one of your higher-priority assessments'
-    case 'LOW_EVIDENCE': return 'I do not have much evidence in that area yet'
-    case 'WEAK_EVIDENCE': return 'recent evidence suggests it needs more work'
-    case 'UNDER_COVERED': return 'it has less evidence coverage than other areas'
-    case 'EXAM_PRACTICE_DUE': return 'exam-style practice is becoming more useful now'
-    case 'HIGH_MARK_OPPORTUNITY': return 'there is a larger known mark opportunity there'
-    case 'ALREADY_STRONG': return 'you already have stronger evidence there'
-    case 'LEARNER_PRIORITY': return 'you asked me to give it more attention'
-    case 'COMPETING_PRIORITY': return 'I am balancing it with another important priority'
-    case 'CAPACITY_CONSTRAINED': return 'available time is tight, so I am protecting the highest-value work'
-  }
-}
-
 function preferenceIntent(text: string): PlanningPreferenceType {
   const normalized = text.toLocaleLowerCase()
   if (/\b(less|reduce|lower|not today|ease off|pause)\b/.test(normalized)) return 'reduce_subject'
@@ -94,6 +84,9 @@ function mentionedProgrammeItems(programme: readonly LearnerProgrammeCourse[], t
 }
 
 export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection }: PlannerRevScreenProps) {
+  const now = useLocalDay()
+  const [sessions, setSessions] = useState<PlannedSession[] | null>(null)
+  const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [input, setInput] = useState(() => window.sessionStorage.getItem('revision:rev-draft') ?? '')
@@ -133,9 +126,10 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     const evidenceStore = createSupabaseEvidenceStore(client)
     Promise.all([
       loadPlannerSetup(client, userId),
+      loadPlannedSessions(client, userId, localDate(now), plusDays(now, 60)),
       Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
     ])
-      .then(([plannerSetup, evidenceByModule]) => {
+      .then(([plannerSetup, accepted, evidenceByModule]) => {
         if (!active) return
         const evidence = evidenceByModule.flat()
         const states: ModuleLearningState[] = []
@@ -144,6 +138,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
           else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence)))
         })
         setLearningStates(states)
+        setSessions(accepted)
         setSetup(plannerSetup)
         setPreferences(plannerSetup.preferences)
         setError('')
@@ -155,7 +150,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
         if (active) setLoading(false)
       })
     return () => { active = false }
-  }, [client, programme, userId])
+  }, [client, programme, userId, now])
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => setup?.assessments.filter((assessment) => {
@@ -164,23 +159,15 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   }) ?? [], [activeCourseIds, programme, setup])
 
   const snapshot = useMemo(() => setup
-    ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences)
+    ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [])
     : null,
-  [activeAssessments, learningStates, setup, preferences])
+  [activeAssessments, learningStates, setup, preferences, now, sessions])
 
-  const topItem = snapshot?.today[0]
-  const topReason = topItem?.reasons.find((reason) => reason !== 'CAPACITY_CONSTRAINED' && reason !== 'ALREADY_STRONG')
-  const topLabel = topItem ? courseLabel(programme, topItem.courseId, topItem.subjectId) : null
-
-  const opening = error
-    ? 'I cannot read your full planner context right now, so I will not pretend I know what should change. You can still open your plan or Courses.'
-    : programme.length === 0
-      ? 'Add the courses you’re studying and I can help you decide what to revise and when.'
-      : !setup?.availability || activeAssessments.length === 0
-        ? 'I can talk through your revision any time. Add your exam dates and the time you have each week on Plan, and I can help you shape the whole week too.'
-        : topItem
-          ? `Right now I’m giving ${topLabel} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
-          : 'Nothing needs to jump the queue right now. We can still talk about how you want to use the next few days.'
+  const todayPlan = setup && sessions !== null ? homeToday(localDate(now), sessions, snapshot?.schedule ?? [], activeAssessments,
+    setup.availability?.weeklyMinutes ?? null, setup.exceptions, programme, learningStates) : null
+  const nextTask = todayRecommendations(todayPlan, learningStates, programme, !setup?.availability || activeAssessments.length === 0,
+    !loading && !error && sessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)[0] ?? null
+  const opening = error ? 'I cannot read your full planner context right now. Open Plan or Courses to choose your work.' : recommendationExplanation(nextTask)
 
   const revVisualState: RevPresenceState = loading
     ? 'thinking'
@@ -225,11 +212,10 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     }
 
     // 2. Questions REV can answer from the student's own plan, results and exam dates.
-    const now = new Date()
     const wantsPlanChange = /\b(focus|prioriti[sz]e|more|less|reduce|ease off|pause|not today)\b/i.test(text) && mentionedProgrammeItems(programme, text).length > 0
     if (!wantsPlanChange) {
       const kind = classifyQuestion(text)
-      if (kind === 'today') return reply(answerToday(learningStates, programme, now))
+      if (kind === 'today') return reply({ text: recommendationExplanation(nextTask) })
       if (kind === 'progress') return reply(answerProgress(learningStates, programme, text))
       if (kind === 'exams') return reply(answerExams(activeAssessments, programme, now))
       // 3. Anything else: say honestly that this is not possible yet. Never a made-up answer.
@@ -252,11 +238,11 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     const preferenceType = preferenceIntent(text)
     const startsOn = localDate(now)
     const endsOn = plusDays(now, 6)
-    const currentTop = snapshot?.today[0]
+    const currentTop = nextTask?.plannerItem
     const currentTopName = currentTop ? courseLabel(programme, currentTop.courseId, currentTop.subjectId) : null
     const currentTopReason = currentTop?.reasons.find((reason) => reason !== 'CAPACITY_CONSTRAINED' && reason !== 'ALREADY_STRONG')
     const consequence = currentTop && currentTop.subjectId !== selected.subject.id
-      ? ` ${currentTopName} is currently ahead in the plan${currentTopReason ? ` because ${reasonLabel(currentTopReason)}` : ''}. If we shift the balance, it may need more attention later.`
+      ? ` ${currentTopName} is currently ahead in the plan${currentTopReason ? ` because ${plannerReasonLabel(currentTopReason)}` : ''}. If we shift the balance, it may need more attention later.`
       : ''
 
     const pending: PendingPreference = {
@@ -315,6 +301,9 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   const chips = promptChips(programme, activeAssessments.length > 0)
   const learnerHasAsked = messages.some((message) => message.speaker === 'learner')
 
+  if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme} backLabel="REV"
+    onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); window.location.reload() }} />
+
   return (
     <main className="rev-chat" aria-labelledby="planner-rev-title">
       <header className="rev-chat__head">
@@ -326,7 +315,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
       </header>
 
       <div ref={logRef} className="rev-chat__log" tabIndex={0} role="log" aria-label="Conversation with REV" aria-live="polite">
-        <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p></div>
+        <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p>{nextTask && <Button onClick={() => nextTask.activityType === 'learn' ? onOpenCourseSection(nextTask.courseId, 'learn') : setActiveTask(nextTask)}>Start {nextTask.topicLabel}</Button>}</div>
         {messages.map((message) => (
           <div key={message.id} className={`rev-chat__message rev-chat__message--${message.speaker}${message.safety ? ' rev-chat__message--safety' : ''}`}>
             <span className="rev-chat__who">{message.speaker === 'rev' ? 'REV says' : 'You said'}</span>
@@ -363,7 +352,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
       <p className="rev-chat__note">REV suggests; you decide. Nothing in your plan changes until you say so. This chat isn’t saved after you close it.</p>
       <div className="rev-chat__links">
         <Button variant="secondary" onClick={onOpenPlan}>Open my plan</Button>
-        {topItem?.courseId ? <Button variant="secondary" onClick={() => onOpenCourse(topItem.courseId!)}>Open {topLabel}</Button> : <Button variant="secondary" onClick={onOpenCourses}>Show my courses</Button>}
+        {nextTask ? <Button variant="secondary" onClick={() => onOpenCourse(nextTask.courseId)}>Open {nextTask.courseLabel}</Button> : <Button variant="secondary" onClick={onOpenCourses}>Show my courses</Button>}
       </div>
     </main>
   )

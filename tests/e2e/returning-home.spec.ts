@@ -117,7 +117,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start \d+ min quick check/i })
+  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i })
   await expect(start).toBeVisible()
   await start.click()
 
@@ -219,7 +219,7 @@ test('Home exam-practice Start opens the exact question, saves real evidence onc
   await page.goto(appPath)
   const hero = page.locator('.home-v3-hero')
   await expect(hero).toContainText('Finance')
-  const start = hero.getByRole('button', { name: /^Start \d+ min exam practice/i })
+  const start = hero.getByRole('button', { name: /^Start .*exam practice/i })
   await expect(start).toBeVisible()
   await start.click()
 
