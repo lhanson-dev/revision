@@ -5,6 +5,7 @@ import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practic
 import type { HomeTask } from './home-task'
 import { Button, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
+import type { LearningEvidence } from '../engine/evidence/evidence'
 import { resolveHomeExamQuestion } from './home-exam-question'
 import type { LearnerProgrammeCourse } from './learner-programme'
 
@@ -29,7 +30,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, onBack, o
   const [error, setError] = useState('')
   const [completed, setCompleted] = useState(false)
   const examTarget = useMemo(() => task.activityType === 'exam-question' ? resolveHomeExamQuestion(task, programme) : null, [task, programme])
-  async function saveExamEvidence(evidence: Parameters<NonNullable<import('./ExamSimulator').ExamSimulatorProps['onRecordEvidence']>>[0]) {
+  async function saveExamEvidence(evidence: LearningEvidence) {
     setSaving(true)
     setError('')
     try {
