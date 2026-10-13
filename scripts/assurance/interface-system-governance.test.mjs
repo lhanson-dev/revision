@@ -12,6 +12,13 @@ const interfaceExamExperience = read('../../src/app/interface-exam-experience.cs
 const interfaceAdmin = read('../../src/app/interface-admin.css')
 const interactiveComponentQuality = read('../../src/app/interactive-component-quality.css')
 const mobileNavigation = read('../../src/app/mobile-navigation.css')
+const authEntryCss = read('../../src/app/auth-v2.css')
+const firstUseCss = read('../../src/app/first-use-v2.css')
+const practiceCss = read('../../src/app/ui/practice/practice.css')
+const examPrepCss = read('../../src/app/ui/exam/exam-prep.css')
+const learnerComponentsCss = read('../../src/app/ui/learner-v2-components.css')
+const examPrepPage = read('../../src/app/ui/exam/ExamPrepPage.tsx')
+const examPrepSection = read('../../src/app/ExamPrepSection.tsx')
 const mainEntry = read('../../src/main.tsx')
 const examSimulator = read('../../src/app/ExamSimulator.tsx')
 const componentIndex = read('../../src/app/ui/index.ts')
@@ -73,6 +80,22 @@ describe('Revision Interface System governance', () => {
     expect(interactiveComponentQuality).toContain('.plan-capacity-stepper button')
     expect(interactiveComponentQuality).toContain('min-height: 48px;')
     expect(mainEntry).toContain("import './app/interactive-component-quality.css'")
+  })
+
+  it('blocks ordinary learner action-radius forks at known production owners', () => {
+    expect(interfaceSystem).toMatch(/\.ui-button\s*\{[^}]*border-radius:\s*var\(--radius-control\)/)
+    expect(authEntryCss).toContain('.primary.auth-wide-action { min-height: 52px; border-radius: var(--radius-control);')
+    expect(firstUseCss).not.toMatch(/\.first-use-card \.ui-button--primary\s*\{[^}]*border-radius:/)
+    expect(practiceCss).not.toMatch(/\.practice-start__button\s*\{[^}]*border-radius:/)
+    expect(examPrepCss).not.toContain('.exam-button {')
+    expect(examPrepCss).not.toMatch(/\.exam-prep-activity__back\s*\{[^}]*border-radius:/)
+    expect(examPrepPage).toContain('<Button variant="secondary"')
+    expect(examPrepSection).toContain('<Button variant="secondary" className="exam-prep-activity__back"')
+  })
+
+  it('keeps shared progress and examiner surfaces on canonical surface radii', () => {
+    expect(learnerComponentsCss).toMatch(/\.ui-progress-measure\s*\{[^}]*border-radius:\s*var\(--radius-surface\)/)
+    expect(learnerComponentsCss).toMatch(/\.ui-examiner-guide\s*\{[^}]*border-radius:\s*var\(--radius-surface\)/)
   })
 
   it('keeps Learn as a reading workspace rather than nested bordered cards', () => {
