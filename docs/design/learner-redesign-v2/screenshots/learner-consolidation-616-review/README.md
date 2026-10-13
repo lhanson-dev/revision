@@ -15,3 +15,7 @@ Application rendering is based on commit `880d7a8b8d19a6754dfbca6bed6949f441462a
 Classification and limits: `audits/2026-10-13-learner-design-consistency-616.md`.
 
 Independent ChatGPT review verified all image/computed-record hashes and found no material visual blocker in representative captures inspected. This does not constitute Founder visual approval.
+
+## Subsequent approval — 13 October 2026
+
+The original unapproved evidence description above is historical. The Founder subsequently approved the images ("images are approved so you can continue"). The corresponding 20 CI visual baseline updates and provenance are recorded in `audits/2026-10-13-learner-616-visual-approval.md`. This is visual acceptance only; exact-head CI, distinct PR #618 merge approval and production verification remain separate gates.

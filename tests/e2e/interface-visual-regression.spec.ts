@@ -101,11 +101,20 @@ const cases: ReadonlyArray<VisualCase> = [
  * not used. The paired review images retain the approved unscheduled-copy changes.
  * All other surface hashes and all historical audit entries remain unchanged.
  */
+/**
+ * PR #618 learner consolidation: Founder approved the visual bundle on
+ * 13 October 2026: "images are approved so you can continue".
+ * The 20 changed active baselines use CI run 38443372753 on head
+ * 970db224507a28fec2c4e305ca6175e1af85b9f6; initial/retry digests agree.
+ * Provenance and old/new digests: audits/2026-10-13-learner-616-visual-approval.md.
+ * Existing comparison algorithms, masks and unchanged baselines are retained.
+ * This is visual approval only; PR #618 merge approval remains separate.
+ */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'fa8bb402542a6e7c4f32b77ee543df0a6115f4760810325712a9bc279da7e911',
-  'phone:dark': '740062bb86dd877491baa98999446b547f8ec663806740bfcccc2ccc0d697787',
-  'desktop:light': 'baa5e1a7dc58928015d319df792f09a603b4408f74a0af1338f6f274be6f32fe',
-  'desktop:dark': '9053b9bd095be35b86e0067ab129883c7c4ab32810b4369d228b898c927ba726',
+  'phone:light': '29b376006580d0c5ba534bc4401fbaa266d9402959447b31d01401687ad3389f',
+  'phone:dark': '496b44b5a8d0ce9e94660858293bd843928c6a95b282004d9a2db3cb4c6ea87c',
+  'desktop:light': 'b43dff4327a509f387d8711755bfd6227c7088b07cb1cbfaeb0c5a82ec1910d6',
+  'desktop:dark': 'a13e547ad0af4b511c72d9aca39e2e8defcc5e7de27a6b3475fcc18f6d4cc821',
 }
 
 /**
@@ -139,8 +148,8 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * dark f860f2a930f5c182076b26f60fe8de2914cda55cec39a64042de5a73cfc92e47.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'd23f3be12cec9c1459bf98d8bc051a5b9d623fd89bafe5a0291cba96895b6e1e',
-  'desktop:dark': 'f860f2a930f5c182076b26f60fe8de2914cda55cec39a64042de5a73cfc92e47',
+  'desktop:light': 'f3304b023cbaddabdacf20194e4125e5aea77e29106b51d684b9555fc9d27062',
+  'desktop:dark': '24a3903d8aabc8900141d9e64568ee27e539d0e3ddd875a55b658b143a18c8f0',
 }
 
 /**
@@ -231,12 +240,12 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
-  'phone:practice:light': 'a71cd28ea165533d3d3c482bf215b6ea35fd591a257c52b1d0ce04cb92fc795c',
-  'phone:practice:dark': '652352e87674ce37d0c001656926c8568a7d7168e69e5761ce0ec5b64ccc4e1a',
-  'tablet:exam-prep:light': 'bff5bc1af00066e64ce5255c631528725599ae2c325e6a1ab32cb51c365ecee6',
-  'tablet:exam-prep:dark': 'bb16589e3ebc911c7ae7a72d51afa9920390a57151e4a24c20b999161755f129',
-  'tablet:timed-exam:light': '3a72b9e666f5d44aa2cec8941cd8ab28ceb55fc0dd39d32aa01b7808ae39d882',
-  'tablet:timed-exam:dark': 'd1b7023b509c659ee8dc81090382debcfea478d2913261e5fc28077c9e331ec1',
+  'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
+  'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
+  'tablet:exam-prep:light': '9c4fedac7ff928735906fe02953370ac1a8c230640b8462d78a33cb134853997',
+  'tablet:exam-prep:dark': '5cf54eb772be1a0c5b259adcce0e21db47dff516e218d10602afa137f30f0912',
+  'tablet:timed-exam:light': 'd2c94a6d3fce080858c19a111a41c4fc75c09e2141bb923e9c210747918f61f6',
+  'tablet:timed-exam:dark': '45445c124c8b237077769c6ec8c4a8c3550e33519b107108780f6930f1374aa7',
 }
 
 /**
@@ -272,10 +281,10 @@ const courseOverviewVisualReview = [
  * This is not permission to merge PR #594.
  */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '8ae21166a1a9106c80ced5b5a72966ac10c668af302517babb52aa227258ee90',
-  'desktop:dark': '5259dfef6d000088fdb9fd5c97db9f713b6b0de79da039ee091153963895a643',
-  'phone:light': '33926a42ebbaca09c1ac2c330a455b47ccd3302709259d223fbf7f48ba208863',
-  'phone:dark': '3e321f90e506a2106cceb3339dd07b0fd7ec6a4cb42728cd661b1a9dac3c556a',
+  'desktop:light': '8ef7f730770162cccd4c826df7b900131ff1a8d15770053a65eef0da4ca19132',
+  'desktop:dark': '5ac454abb01c9e53e0057b6fb033958d0a7d14274fb5968592498ece07efbb00',
+  'phone:light': 'fa07b3e1b999642e14c3b588ab0063ef020f1572c579d9289f17a6c1901f43af',
+  'phone:dark': 'd0cfca9db327fae04bad5a322c677c66df56b1a604a470b745f8d32d946c9b1c',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

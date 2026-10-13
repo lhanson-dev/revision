@@ -13,11 +13,20 @@ import { practicePath, seedReturningStudent } from './practice-seed'
  * outside that square fails closed. The hashes below were derived from the
  * Founder-reviewed native CI #2936 PNGs using the same RGBA normalisation.
  */
+/**
+ * PR #618 learner consolidation: Founder approved the visual bundle on
+ * 13 October 2026: "images are approved so you can continue".
+ * The 20 changed active baselines use CI run 38443372753 on head
+ * 970db224507a28fec2c4e305ca6175e1af85b9f6; initial/retry digests agree.
+ * Provenance and old/new digests: audits/2026-10-13-learner-616-visual-approval.md.
+ * Existing comparison algorithms, masks and unchanged baselines are retained.
+ * This is visual approval only; PR #618 merge approval remains separate.
+ */
 const cases = [
   { project: 'phone', theme: 'light', sha256: '5bf11bece88b8b726337ad22e957a31bf654776ea4b2c03c971a4eb4b88c50a0' },
   { project: 'phone', theme: 'dark', sha256: '738fad8f44753dfacb0a7422e6cb3a6b22970336a76f84e381a8b2d7c14f7f4b' },
-  { project: 'desktop', theme: 'light', sha256: 'd3ba2dc3791abffa78e69a6e8239dfb2ddcc1e97fec3c45ba0865888cd7253c0' },
-  { project: 'desktop', theme: 'dark', sha256: '02112642af5ffc011ee697a8a3633769dc87a99eeb3c7e581481fde8db6305b6' },
+  { project: 'desktop', theme: 'light', sha256: 'ebf1eae802610e9154b4e11b95f6ce5b1547ce4d77a8f70ceb1dea06c3346add' },
+  { project: 'desktop', theme: 'dark', sha256: 'bbeb6868999be29a721de6380d8af81e80f1e982199c174ee38be6d48a2b32b0' },
 ] as const
 
 for (const visualCase of cases) {

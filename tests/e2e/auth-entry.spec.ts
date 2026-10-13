@@ -152,9 +152,18 @@ test('sign in and account creation use the canonical dark identity and central d
  * captured on head 52b09049e94ef98a4fa886d9c20556cc3acd1aba.
  * This approval covers visual baselines only, NOT the PR merge.
  */
+/**
+ * PR #618 learner consolidation: Founder approved the visual bundle on
+ * 13 October 2026: "images are approved so you can continue".
+ * The 20 changed active baselines use CI run 38443372753 on head
+ * 970db224507a28fec2c4e305ca6175e1af85b9f6; initial/retry digests agree.
+ * Provenance and old/new digests: audits/2026-10-13-learner-616-visual-approval.md.
+ * Existing comparison algorithms, masks and unchanged baselines are retained.
+ * This is visual approval only; PR #618 merge approval remains separate.
+ */
 const approvedSignInDigests: Record<'light' | 'dark', string> = {
-  light: 'd69e3bdb83fa5f5188e8f62bf31add2cc525fc7b99654a8980f8397bd2853128',
-  dark: '005c17ae47f605d2bcc2e0a2aef5535a0256271dd84f9373290352bf899771b5',
+  light: '184f09590d89b580e5a0b3074d54f90569fefed4054b82675aa46546ed264528',
+  dark: 'a9cf53340b3f8faf4f1b5a1f79fadac59c3c7dd89e4157692b3d3904d77ce4c7',
 }
 for (const theme of ['light', 'dark'] as const) {
   test(`desktop sign-in ${theme} C3 visual review`, async ({ page }, testInfo) => {
