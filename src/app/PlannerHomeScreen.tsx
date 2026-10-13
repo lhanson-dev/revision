@@ -1,27 +1,26 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
-import { addPlannedSession, loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
+import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
-import { availableCourseSections, createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
+import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { homeActivityLabel, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { type CourseSection } from './navigation'
-import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-model'
-import { addDays, dayWord, nextFreeDay, sessionActivityForTask } from './accepted-sessions'
+import { buildPlannerSnapshot } from './planner-model'
+import { addDays } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
 import { homeTaskOnToday, homeTaskMatchesPlanRow, homeToday, upcomingHomeExams, type HomeExam } from './home-v3-model'
 import { progressMeasuresFor, progressSummarySentence, readinessAcross } from './progress-summary'
 import { activeNotNow, dayKey, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
 import { PoweredByRev } from './RevCompactWordmark'
-import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge, type IconName } from './ui'
+import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge } from './ui'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow } from './today-recommendations'
+import { resolveSubjectIdentity } from './subject-palette'
 import { useLocalDay } from './use-local-day'
 import type { PlanItem } from './plan-model'
-
-type LearningMode = 'learn' | 'practice' | 'exam-prep'
 
 interface PlannerHomeScreenProps {
   client: SupabaseClient
@@ -46,44 +45,30 @@ function readNotNow(userId: string): NotNowRecord | null {
     const raw = window.sessionStorage.getItem(notNowStorageKey(userId))
     if (!raw) return null
     const parsed = JSON.parse(raw) as NotNowRecord
-    return typeof parsed.day === 'string' && Array.isArray(parsed.keys) ? parsed : null
+    return typeof parsed.day === 'string' && Array.isArray(parsed.keys) && parsed.keys.every((key) => typeof key === 'string') ? parsed : null
   } catch { return null }
 }
 
 function writeNotNow(userId: string, record: NotNowRecord) {
   try { window.sessionStorage.setItem(notNowStorageKey(userId), JSON.stringify(record)) }
-  catch { /* Suggestions remain dismissible for this browser visit. */ }
+  catch { /* Alternative choices remain available for this browser visit. */ }
 }
 
 function examTypeLabel(kind: HomeExam['kind']) {
   return kind === 'public_exam' ? 'Official exam' : 'Mock exam'
 }
 
-function examDateLabel(key: string) {
+function examDateLabel(key: string, short = false) {
   return new Date(key + 'T12:00:00').toLocaleDateString('en-GB', {
-    weekday: 'long', day: 'numeric', month: 'long',
+    weekday: short ? undefined : 'long', day: 'numeric', month: short ? 'short' : 'long',
   })
 }
-
-const activityIntroductions: readonly {
-  id: LearningMode | 'plan' | 'progress' | 'courses'
-  title: string
-  summary: string
-  icon: IconName
-}[] = [
-  { id: 'learn', title: 'Learn', summary: 'Understand the topics and ideas you need to know.', icon: 'book' },
-  { id: 'practice', title: 'Practice', summary: 'Check what you remember, then use your feedback.', icon: 'progress' },
-  { id: 'exam-prep', title: 'Exam Prep', summary: 'Work on exam questions, papers and technique.', icon: 'paper' },
-  { id: 'plan', title: 'Plan', summary: 'See your week and decide when you can study.', icon: 'plan' },
-  { id: 'progress', title: 'Progress', summary: 'See what your answers actually show.', icon: 'progress' },
-  { id: 'courses', title: 'Courses', summary: 'Find and manage the courses you study.', icon: 'courses' },
-]
 
 /** One real Home runtime: the global shell, planner, evidence and REV conversation remain the owners. */
 export function PlannerHomeScreen({
   client, userId, learnerName, programme,
   onOpenPlan, onOpenExamDates, onOpenProgress, onOpenRev, onOpenCourses,
-  onOpenCourse, onOpenCourseSection,
+  onOpenCourse,
 }: PlannerHomeScreenProps) {
   const [evidenceLoading, setEvidenceLoading] = useState(true)
   const [setupLoading, setSetupLoading] = useState(true)
@@ -100,9 +85,6 @@ export function PlannerHomeScreen({
   const [planNote, setPlanNote] = useState('')
   const [askValue, setAskValue] = useState('')
   const [askFocused, setAskFocused] = useState(false)
-  const [chooser, setChooser] = useState<LearningMode | null>(null)
-  const chooserRoot = useRef<HTMLDivElement>(null)
-  const chooserToggles = useRef<Partial<Record<LearningMode, HTMLButtonElement | null>>>({})
   const today = useLocalDay()
   const todayKey = dayKey(today)
 
@@ -162,24 +144,6 @@ export function PlannerHomeScreen({
     return () => { active = false }
   }, [client, refreshKey, todayKey, userId])
 
-  useEffect(() => {
-    if (!chooser) return
-    const onOutside = (event: PointerEvent) => {
-      if (!chooserRoot.current?.contains(event.target as Node)) setChooser(null)
-    }
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      setChooser(null)
-      chooserToggles.current[chooser]?.focus()
-    }
-    document.addEventListener('pointerdown', onOutside)
-    document.addEventListener('keydown', onEscape)
-    return () => {
-      document.removeEventListener('pointerdown', onOutside)
-      document.removeEventListener('keydown', onEscape)
-    }
-  }, [chooser])
-
   const assessments = useMemo(() => setup?.assessments.filter((assessment) => {
     if (!assessment.isActive) return false
     if (assessment.courseId) return programme.some((item) => item.course.id === assessment.courseId)
@@ -203,7 +167,10 @@ export function PlannerHomeScreen({
   const firstTask = choices[0] ?? null
   const suggestion = firstTask ? { key: firstTask.id } : null
   const recommendedReason = firstTask?.reason
-  const pick = { allHidden: hiddenToday.length > 0 && choices.length === 0 }
+  const availableChoices = todayRecommendations(todayPlan, learningStates, programme, !setup?.availability || assessments.length === 0,
+    !evidenceLoading && !setupLoading && !sessionsLoading && !evidenceError && !setupError && !sessionsError && plannedSessions !== null, today, null, assessments, setup?.preferences ?? [])
+  const alternativesExhausted = availableChoices.length > 0 && hiddenToday.length > 0 && choices.length === 0 &&
+    !evidenceError && !setupError && !sessionsError && !evidenceLoading && !setupLoading && !sessionsLoading && !todayPlan?.allDone
   const exams = useMemo(() => upcomingHomeExams(assessments, programme, today), [assessments, programme, today])
   const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [programme, learningStates])
   const measures = useMemo(() => progressMeasuresFor(learningStates), [learningStates])
@@ -251,31 +218,10 @@ export function PlannerHomeScreen({
   }
 
   function suggestSomethingElse() {
-    hideUntilTomorrow()
-  }
-
-  function hideUntilTomorrow() {
     if (!suggestion) return
     const record = { day: todayKey, keys: [...hiddenToday, suggestion.key] }
     setNotNow(record)
     writeNotNow(userId, record)
-  }
-
-  async function addToPlan() {
-    if (!suggestion || !firstTask || !setup || plannedSessions === null) return
-    const days = plannerDaysFromAvailability(setup.availability, setup.exceptions, assessments, today)
-    const date = nextFreeDay(days, plannedSessions, firstTask.estimatedMinutes, todayKey)
-    try {
-      const saved = await addPlannedSession(client, userId, {
-        plannedDate: date, courseId: firstTask.courseId, topicId: firstTask.topicId,
-        activityType: sessionActivityForTask(firstTask.activityType), minutes: firstTask.estimatedMinutes,
-        addedBy: 'rev', recommendationId: firstTask.id,
-      })
-      setPlannedSessions((current) => [...(current ?? []), saved])
-      setPlanNote('Added ' + firstTask.topicLabel + ' to ' + dayWord(date, todayKey) + '. You can move it on Plan.')
-    } catch (error: unknown) {
-      setPlanNote(error instanceof Error ? error.message : 'Could not add this to your plan.')
-    }
   }
 
   function sendHomeQuestion(event: FormEvent<HTMLFormElement>) {
@@ -289,18 +235,16 @@ export function PlannerHomeScreen({
   const name = learnerName.trim() || 'there'
   const loadingHero = evidenceLoading || setupLoading || sessionsLoading
   const loadingPlan = setupLoading || sessionsLoading || evidenceLoading
-  const selectedPlanRows = todayPlan?.items.filter((item) => item.kind !== 'exam') ?? []
-  const focusMode = (mode: LearningMode) => {
-    setChooser((current) => current === mode ? null : mode)
-  }
-
+  const allStudyRows = todayPlan?.items.filter((item) => item.kind !== 'exam') ?? []
+  const outstandingRows = allStudyRows.filter((row) => taskForTodayRow(row, learningStates, programme, assessments, todayKey) !== null)
+  const selectedPlanRows = outstandingRows.slice(0, 3)
   if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme}
     onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); retryHome() }} />
 
   if (programme.length === 0) return (
-    <main className="dashboard screen-dashboard home-v2" aria-label="Home">
+    <main className="dashboard screen-dashboard home-v3" aria-label="Home">
       <HomeSetupEmpty courseCount={0} hasExamDates={false} hasStudyTimes={false}
-        onOpenCourses={onOpenCourses} onOpenPlan={onOpenPlan} onOpenRev={() => onOpenRev()} />
+        onOpenCourses={onOpenCourses} onOpenPlan={onOpenPlan} onOpenRev={onOpenRev} />
     </main>
   )
 
@@ -309,33 +253,25 @@ export function PlannerHomeScreen({
       <section className="home-v3-hero" aria-labelledby="home-v3-heading">
         <div className="home-v3-hero-layout">
           <div className="home-v3-hero-presence">
-            <RevMark state={askFocused || askValue ? 'listening' : 'waiting'} size="hero" />
+            <RevMark state={askFocused || askValue ? 'listening' : 'waiting'} onInverse size="hero" />
+            <PoweredByRev />
           </div>
           <div className="home-v3-hero-main">
-            <PoweredByRev />
-            <h1 id="home-v3-heading">{todayPlan?.allDone ? 'That’s today done, ' + name + '. Nice work.' : 'Hey ' + name + '. Here’s what I’d do next.'}</h1>
+            <h1 id="home-v3-heading">{!loadingHero && !setupError && !sessionsError && !evidenceError && todayPlan?.allDone ? 'That’s today done, ' + name + '. Nice work.' : 'Hey ' + name + '. Here’s what I’d do next.'}</h1>
             {loadingHero ? <p role="status" className="home-v3-hero-status">Finding your next useful step…</p> :
-              evidenceError ? <div className="home-v3-hero-status" role="alert">REV could not read your current progress. <Button variant="secondary" onInverse onClick={retryHome}>Try again</Button></div> :
+              evidenceError ? <div className="home-v3-hero-status" role="alert">I couldn’t read your progress just now. <Button variant="secondary" onInverse onClick={retryHome}>Try again</Button></div> :
               firstTask ? <div className="home-v3-next">
-                <p className="home-v3-hero-eyebrow">{todayPlan?.allDone ? 'If you want to do more' : 'Your next useful step'}</p>
-                <p className="home-v3-topic-meta">{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : firstTask.estimatedMinutes + ' min'}</p>
+                <p className="ui-eyebrow">{todayPlan?.allDone ? 'If you want to do more' : 'Your next useful step'}</p>
+                <p className="home-v3-topic-meta"><SubjectBadge {...resolveSubjectIdentity(firstTask.subjectId, firstTask.subjectName)} size="plan" />{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : firstTask.estimatedMinutes + ' min'}</p>
                 <h2>{firstTask.topicLabel}</h2>
                 <p className="home-v3-hero-reason">{recommendedReason}{todayPlan?.allDone ? ' You can also stop for today.' : ''}</p>
-                <span className="home-v3-plan-tag">{planTag}</span>
+                <span className="home-v3-plan-tag"><Icon name="clock" size="inline" />{planTag}</span>
                 <div className="home-v3-hero-actions">
-                  <Button onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
-                  <Button variant="secondary" onInverse onClick={onOpenPlan}>Open Plan</Button>
+                  <Button size="large" onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
+                  <Button variant="tertiary" onInverse onClick={suggestSomethingElse}>Suggest something else</Button>
                 </div>
-                {suggestion && <details className="home-v3-alternatives">
-                  <summary>Other options</summary>
-                  <div>
-                    <Button variant="tertiary" onInverse onClick={suggestSomethingElse}>Suggest something else</Button>
-                    <Button variant="tertiary" onInverse onClick={hideUntilTomorrow}>Not now</Button>
-                    {plannedSessions !== null && !onToday && <Button variant="tertiary" onInverse onClick={() => void addToPlan()}>Add to Plan</Button>}
-                  </div>
-                </details>}
               </div> : <div className="home-v3-no-task">
-                <p>{pick.allHidden ? 'You’ve put today’s suggestions aside. They’ll be back tomorrow.' : 'There’s no recommended activity to start just now.'}</p>
+                <p>{setupError || sessionsError ? 'I couldn’t check today’s plan just now.' : todayPlan?.allDone ? 'Everything on today’s plan is done. You can stop for today.' : alternativesExhausted ? "That's everything I'd suggest for today. You can still choose what you'd like to work on in your plan." : todayPlan?.rest && todayPlan.studyCount === 0 ? 'There’s no planned work for today. You can choose your own work in Courses.' : 'There’s no supported recommendation to start just now. You can choose your own work in Courses.'}</p>
                 <Button variant="secondary" onInverse onClick={onOpenPlan}>Open Plan</Button>
               </div>
             }
@@ -354,7 +290,7 @@ export function PlannerHomeScreen({
       <div className="home-v3-upper">
         <section className="home-v3-card home-v3-plan" aria-labelledby="home-v3-plan-title" aria-busy={loadingPlan}>
           <header className="home-v3-card-heading">
-            <div><p className="home-v3-eyebrow">Your day</p><h2 id="home-v3-plan-title">Today’s plan</h2></div>
+            <div><h2 id="home-v3-plan-title">Today’s plan</h2></div>
             <Button variant="tertiary" onClick={onOpenPlan}>Open Plan <Icon name="arrow-right" size="inline" /></Button>
           </header>
           {loadingPlan ? <p className="home-v3-muted" role="status">Loading today’s plan…</p> :
@@ -362,7 +298,7 @@ export function PlannerHomeScreen({
               <p>Your plan is unavailable right now. Your other sections are unaffected.</p>
               <Button variant="secondary" onClick={retryHome}>Try again</Button>
             </div> :
-            todayPlan && selectedPlanRows.length > 0 ? <>
+            todayPlan && allStudyRows.length > 0 ? <>
               <p className="home-v3-plan-summary">
                 <strong>{todayPlan.plannedMinutes} min planned</strong>
                 <span> · {todayPlan.doneCount} of {todayPlan.studyCount} done · {todayPlan.plannedMinutes - todayPlan.doneMinutes} min left</span>
@@ -370,6 +306,7 @@ export function PlannerHomeScreen({
               <HueProgressBar value={todayPlan.plannedMinutes > 0 ? todayPlan.doneMinutes / todayPlan.plannedMinutes * 100 : 0}
                 hue="brand" size="sm" label="Time done against today's plan"
                 valueText={todayPlan.doneMinutes + ' of ' + todayPlan.plannedMinutes + ' minutes done'} />
+              {todayPlan.allDone ? <p className="home-v3-done"><Icon name="check" size="inline" />Everything on today’s plan is done.</p> : <>
               <ol className="home-v3-plan-rows">
                 {selectedPlanRows.map((row) => {
                   const isNext = Boolean(firstTask && onToday && homeTaskMatchesPlanRow(firstTask, row))
@@ -377,21 +314,23 @@ export function PlannerHomeScreen({
                     <SubjectBadge hue={row.subject.hue} mark={row.subject.mark} size="plan" />
                     <span className="home-v3-plan-row-copy">
                       <strong>{row.topic}</strong>
-                      <small>{row.subject.name} · {row.activityLabel} · {row.minutes} min{isNext ? ' · REV’s pick above' : ''}</small>
+                      <small>{row.subject.name} · {row.activityLabel} · {row.minutes} min{isNext ? ' · REV’s pick' : ''}</small>
                     </span>
-                    {row.kind === 'session' && row.done ? <span className="home-v3-done"><Icon name="check" size="inline" /> Done</span> :
-                      <Button variant="tertiary" size="compact" onClick={() => startPlanRow(row)}>{isNext ? 'Up next' : 'Start'} <Icon name="arrow-right" size="inline" /></Button>}
+                    <Button variant="secondary" onClick={() => startPlanRow(row)}>Start <Icon name="arrow-right" size="inline" /></Button>
                   </li>
                 })}
               </ol>
+              {outstandingRows.length > 3 && <p className="home-v3-muted">{outstandingRows.length - 3} more later today · see them all in Plan</p>}
+              {outstandingRows.length === 0 && <p className="home-v3-muted">Your remaining sessions have been kept. Open their courses to choose supported work.</p>}
+              </>}
             </> : <div className="home-v3-empty">
-              <p>{planEmpty.text}</p><Button variant="secondary" onClick={onOpenPlan}>{hasPlanSetup ? 'Open Plan' : 'Set up Plan'}</Button>
+              <p>{todayPlan?.rest ? 'There’s no planned work for today.' : planEmpty.text}</p><Button variant="secondary" onClick={onOpenPlan}>{hasPlanSetup ? 'Open Plan' : 'Set up Plan'}</Button>
             </div>}
         </section>
 
         <section className="home-v3-card home-v3-exams" aria-labelledby="home-v3-exams-title" aria-busy={setupLoading}>
           <header className="home-v3-card-heading">
-            <div><p className="home-v3-eyebrow">Coming up</p><h2 id="home-v3-exams-title">Your exams</h2></div>
+            <div><h2 id="home-v3-exams-title">Your exams</h2></div>
             <Button variant="tertiary" onClick={onOpenExamDates}>Edit dates <Icon name="pencil" size="inline" /></Button>
           </header>
           {setupLoading ? <p className="home-v3-muted" role="status">Loading your exam dates…</p> :
@@ -399,25 +338,19 @@ export function PlannerHomeScreen({
             exams.next ? <>
               {(() => {
                 const next = exams.next
-                const canOpen = programme.some((entry) => entry.course.id === next.courseId && availableCourseSections(entry.course).includes('exam-prep'))
-                return <div className="home-v3-next-exam">
-                  <p className="home-v3-eyebrow">Next · {examTypeLabel(next.kind)}</p>
-                  <strong className="home-v3-exam-countdown">{next.daysAway === 0 ? 'Today' : 'In ' + next.daysAway + (next.daysAway === 1 ? ' day' : ' days')}</strong>
-                  <p>{next.assessment.title}</p>
-                  <small>{examDateLabel(next.assessment.assessmentDate)}</small>
-                  {canOpen && <Button variant="tertiary" onClick={() => onOpenCourseSection(next.courseId, 'exam-prep')}>Open Exam Prep <Icon name="arrow-right" size="inline" /></Button>}
+                const entry = programme.find((item) => item.course.id === next.courseId)!
+                const identity = resolveSubjectIdentity(entry.subject.id, entry.subject.name)
+                return <div className="home-v3-next-exam" style={{ background: `var(--subject-${identity.hue}-tint)` }}>
+                  <strong className="home-v3-exam-countdown">{next.daysAway === 0 ? 'Today' : <>{next.daysAway}<small>{next.daysAway === 1 ? 'day away' : 'days away'}</small></>}</strong>
+                  <div><p className="home-v3-topic-meta"><SubjectBadge {...identity} size="plan" />{entry.subject.name}</p>
+                    <p>{examTypeLabel(next.kind)}</p>
+                    <p>{next.assessment.title}</p>
+                    <small>{examDateLabel(next.assessment.assessmentDate)}</small></div>
                 </div>
               })()}
-              {exams.mocks.length > 0 && <div className="home-v3-exam-group">
-                <p className="home-v3-eyebrow">Then · mocks</p>
-                <ul>{exams.mocks.map((exam) => <li key={exam.assessment.assessmentId}>
-                  <span>{exam.assessment.title}</span><small>{examDateLabel(exam.assessment.assessmentDate)}</small>
-                </li>)}</ul>
-              </div>}
-              {exams.officials.length > 0 && <div className="home-v3-exam-group">
-                <p className="home-v3-eyebrow">Official exams</p>
-                <ul>{exams.officials.slice(0, 3).map((exam) => <li key={exam.assessment.assessmentId}>
-                  <span>{exam.assessment.title}</span><small>{examDateLabel(exam.assessment.assessmentDate)}</small>
+              {exams.later.length > 0 && <div className="home-v3-exam-group">
+                <ul>{exams.later.map((exam) => <li key={exam.assessment.assessmentId}>
+                  <span>{exam.assessment.title} · {examTypeLabel(exam.kind)}</span><small>{examDateLabel(exam.assessment.assessmentDate, true)}</small>
                 </li>)}</ul>
               </div>}
             </> : <div className="home-v3-empty"><p>No upcoming mock or official exam dates added yet.</p>
@@ -427,21 +360,21 @@ export function PlannerHomeScreen({
 
       <section className="home-v3-card home-v3-progress" aria-labelledby="home-v3-progress-title" aria-busy={evidenceLoading}>
         <header className="home-v3-card-heading">
-          <div><p className="home-v3-eyebrow">How you’re doing</p><h2 id="home-v3-progress-title">Your progress</h2></div>
+          <div><h2 id="home-v3-progress-title">Your progress</h2></div>
           <Button variant="tertiary" onClick={onOpenProgress}>Open Progress <Icon name="arrow-right" size="inline" /></Button>
         </header>
         {evidenceLoading ? <p className="home-v3-muted" role="status">Loading your progress…</p> :
           evidenceError ? <div className="home-v3-error" role="alert"><p>Your learning evidence could not be loaded.</p>
             <Button variant="secondary" onClick={retryHome}>Try again</Button></div> : <>
             <p className="home-v3-section-summary">{progressSummarySentence(measures, firstTask?.topicLabel ?? null)}</p>
-            <ProgressMeasures covered={measures.covered} total={measures.total}
+            <ProgressMeasures variant="flat" covered={measures.covered} total={measures.total}
               understanding={measures.understanding} readiness={readiness.value} readinessNote={readiness.note} />
           </>}
       </section>
 
-      <section className="home-v3-courses" aria-labelledby="home-v3-courses-title">
+      <section className="home-v3-card home-v3-courses" aria-labelledby="home-v3-courses-title">
         <header className="home-v3-card-heading">
-          <div><p className="home-v3-eyebrow">Your subjects</p><h2 id="home-v3-courses-title">Your courses</h2></div>
+          <div><h2 id="home-v3-courses-title">Your courses</h2></div>
           <Button variant="tertiary" onClick={onOpenCourses}>All courses <Icon name="arrow-right" size="inline" /></Button>
         </header>
         <div className="home-v3-course-grid">
@@ -449,10 +382,10 @@ export function PlannerHomeScreen({
             const tile = courseTiles.find((item) => item.courseId === entry.course.id)
             return <button key={entry.course.id} type="button" className="home-v3-course-card"
               onClick={() => onOpenCourse(entry.course.id)} aria-label={'Open ' + entry.label + ' Overview'}>
-              <SubjectBadge hue={tile?.hue ?? 'blue'} mark={tile?.mark ?? entry.subject.name.charAt(0)} size="tile" />
+              <SubjectBadge hue={tile?.hue ?? resolveSubjectIdentity(entry.subject.id, entry.subject.name).hue} mark={tile?.mark ?? resolveSubjectIdentity(entry.subject.id, entry.subject.name).mark} size="tile" />
               <span><strong>{entry.subject.name}</strong><small>{entry.label}</small>
                 {!evidenceLoading && !evidenceError && tile && <span className="home-v3-course-covered">
-                  {tile.covered} of {tile.total} topics covered
+                  <HueProgressBar value={tile.total > 0 ? tile.covered / tile.total * 100 : 0} hue={tile.hue} size="sm" label={entry.label + ' topics covered'} valueText={tile.covered + ' of ' + tile.total + ' topics covered'} />
                 </span>}
               </span>
               <Icon name="chevron-right" size="compact" />
@@ -461,49 +394,8 @@ export function PlannerHomeScreen({
         </div>
       </section>
 
-      <section className="home-v3-activities" aria-labelledby="home-v3-activities-title" ref={chooserRoot}>
-        <div className="home-v3-activities-head">
-          <p className="home-v3-eyebrow">Your choice</p>
-          <h2 id="home-v3-activities-title">What do you want to do?</h2>
-          <p>You can always choose your own next step.</p>
-        </div>
-        <div className="home-v3-activity-grid">
-          {activityIntroductions.map((activity) => {
-            const specific = activity.id === 'learn' || activity.id === 'practice' || activity.id === 'exam-prep'
-            const mode = specific ? activity.id as LearningMode : null
-            const eligible = mode ? programme.filter((entry) => availableCourseSections(entry.course).includes(mode)) : []
-            const isOpen = mode !== null && chooser === mode
-            return <div className="home-v3-activity" key={activity.id}>
-              <span className="home-v3-activity-icon" aria-hidden="true"><Icon name={activity.icon} /></span>
-              <div className="home-v3-activity-copy"><h3>{activity.title}</h3><p>{activity.summary}</p>
-                {mode ? eligible.length === 0 ?
-                  <Button variant="tertiary" onClick={onOpenCourses}>Find a course</Button> :
-                  eligible.length === 1 ?
-                    <Button variant="tertiary" onClick={() => onOpenCourseSection(eligible[0].course.id, mode)}>Open {entryLabel(eligible[0].subject.name)} {activity.title} <Icon name="arrow-right" size="inline" /></Button> :
-                    <>
-                      <Button variant="tertiary" aria-expanded={isOpen} aria-controls={'home-v3-choose-' + mode}
-                        ref={(node) => { chooserToggles.current[mode] = node }}
-                        onClick={() => focusMode(mode)}>Choose a course <Icon name="chevron-right" size="inline" /></Button>
-                      {isOpen && <ul className="home-v3-course-chooser" id={'home-v3-choose-' + mode}>
-                        {eligible.map((entry) => <li key={entry.course.id}>
-                          <button type="button" onClick={() => { setChooser(null); onOpenCourseSection(entry.course.id, mode) }}>{entry.label}</button>
-                        </li>)}
-                      </ul>}
-                    </> :
-                  <Button variant="tertiary" onClick={activity.id === 'plan' ? onOpenPlan : activity.id === 'progress' ? onOpenProgress : onOpenCourses}>
-                    Open {activity.title} <Icon name="arrow-right" size="inline" />
-                  </Button>}
-              </div>
-            </div>
-          })}
-        </div>
-      </section>
     </main>
   )
 }
 
 function loadingPlanUnavailable(...values: boolean[]) { return values.some(Boolean) }
-
-function entryLabel(subject: string) {
-  return subject.trim() || 'course'
-}

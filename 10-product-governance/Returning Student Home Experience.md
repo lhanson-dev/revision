@@ -4,7 +4,7 @@ document_id: "revision-returning-student-home-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.4"
+version: "1.5"
 owner: "Founder"
 effective_date: "2026-10-13"
 last_reviewed: "2026-10-13"
@@ -41,11 +41,11 @@ The product contract and frozen Claude Home v3 visual handoff complement one ano
 
 All devices retain this content order. The established global shell stays unchanged.
 
-1. **REV hero — next useful action.** Large Deep Teal feature with canonical Living E and bright white/aqua atmospheric halo, correct compact `Powered by REV` identity, personal greeting, subject/topic/activity/duration, one truthful reason, direct Start, secondary Plan action and full-width contextual Ask REV input. Submitting that Home input sends the question **once** through the existing contextual Ask REV conversation pipeline and opens the shared conversation layer; no second Enter press, duplicate model invocation or invented inline answer preview. Visual greeting target: "Hey {first name}. Here’s what I’d do next." Ordinary loading must not simulate REV Thinking.
+1. **REV hero — next useful action.** Large Deep Teal feature with canonical Living E and bright white/aqua atmospheric halo, correct compact `Powered by REV` identity, personal greeting, subject/topic/activity/duration, one truthful reason, direct Start and one exposed tertiary Suggest something else action and full-width contextual Ask REV input. Submitting that Home input sends the question **once** through the existing contextual Ask REV conversation pipeline and opens the shared conversation layer; no second Enter press, duplicate model invocation or invented inline answer preview. Visual greeting target: "Hey {first name}. Here’s what I’d do next." Ordinary loading must not simulate REV Thinking.
 2. **Today's Plan and Your Exams.** Distinct, equally legible sections side by side only where the consolidated responsive canvas supports it; otherwise stack with Plan first. Today's Plan shows today's genuine activities, durations, honest completion state and link to Plan; Exams shows the next actual assessment and later records, with mocks clearly distinguished from official exams.
 3. **Your Progress.** Compact plain-English learner-wide summary followed by the three existing, distinct governed measures: Topics covered, Understanding and Exam readiness (or honest insufficiency). Link to global Progress. Never add a competing "Needs work" priority list, blended score or grade prediction.
 4. **Your Courses.** Compact recognition cards for active/saved courses, mark + name + qualification/board where available, truthful coverage and a direct route to each course Overview. The global Courses index remains the management destination.
-5. **What do you want to do?** Quiet, practical introductions to Learn, Practice, Exam Prep, Plan, Progress and Courses, describing what each does. Contextual destinations use a bounded chooser of the learner's active eligible courses. Do not reproduce global navigation as another persistent shell.
+Home ends after Your Courses. Independent Learn, Practice and Exam Prep remain reachable through Courses and the governed course navigation; no mode-introduction tiles or course chooser appear on Home.
 
 No standalone "Topics that need work" block, extra dashboard widgets, punitive study streaks, decorative metrics or duplicate course navigation trees.
 
@@ -55,7 +55,7 @@ No standalone "Topics that need work" block, extra dashboard widgets, punitive s
 
 - **Plan has actionable work:** the REV hero and **Up next** in Today's Plan identify the same exact next eligible item (course, topic, activity, and paper/question identity where the supported item requires it). Prefer actual persisted learner commitments at their known slot/order when they are due and actionable; do not ignore a learner's selected work in favour of an unrelated suggestion. Where no time-of-day or manual ordering is stored, use one deterministic declared priority/tie-break contract shared by Home, Plan and REV; **do not invent a clock appointment**.
 - **Direct Start:** opens that supported activity, not a generic course/paper landing when a precise question/activity was promised. Quick checks, flashcards and real, eligible exam questions remain legitimate activity types; availability of a simple route may not be used to change educational priority.
-- **Another option / Not now:** 'Suggest something else' advances to the next genuinely eligible *today* plan item, respecting student choice; 'Not now' hides that candidate for the current local day, does not edit the persisted schedule or claim completion. If there is no other actionable entry, say so and offer Plan/Ask REV instead of manufacturing more due work. A student-confirmed adjustment to plan preferences is handled through the existing governed workflow.
+- **One alternative:** Suggest something else advances through eligible same-day work in shared plan order without repeating the immediate previous candidate, changing persisted commitments, completion or evidence. Retain bounded per-user/local-day exclusions; there is no separate Home dismissal. Missing setup may use the existing honestly labelled supported fallback set. When choices are exhausted say **"That's everything I'd suggest for today. You can still choose what you'd like to work on in your plan."** and offer **Open Plan**. Exhaustion is not completion. While a recommendation exists the hero has only Start and Suggest something else; no Open Plan, Not now/Not today, Add to Plan, Other options, hidden-suggestions or restore controls. Today's Plan retains Open Plan.
 - **No actionable items today:** show genuine completed/rest/empty status without immediately fabricating a new booked activity. If genuinely missing planning inputs prevent calculating a meaningful calendar, an evidence-grounded supported fallback may be offered, explicitly labelled **Not on a plan yet**; it is not silently inserted into today's intended workload. If the calendar exists but has no tasks because the day is free, do not pose an unscheduled fallback as required work.
 - **Partial/stale data:** do not claim a 'next planned' item if accepted sessions, eligibility or the current day have not loaded reliably; show bounded explanation/retry or an explicitly unplanned, safely supported action only where the governing fallback contract permits it.
 - **Presentation:** keep the approved single large REV hero and smaller truthful Today's Plan summary; show one promoted item, not a duplicated reason card or second competing recommendation list. Keep explanatory Ask REV, relevant subject/course and the learner's independent navigation.
@@ -66,11 +66,11 @@ No standalone "Topics that need work" block, extra dashboard widgets, punitive s
 Use existing `RevisionAssessment` data, including `assessmentType` (e.g. `mock`, `public_exam`), recorded title, course identity, date and scope. New `kind` and `paper` database columns are **not** part of FI-023.
 
 - Show the nearest actual upcoming eligible exam/assessment as next, including its kind; use the stored paper/component title when known.
-- Distinguish later mock dates and official exam dates. Never conflate their proximity or imply that a mock is an official exam.
+- Show two later assessments, mocks and official exams combined in genuine local-calendar order, with explicit kind and short date. The nearest assessment has a subject-tint block and separate countdown tile; same-day is Today. Never invent paper identity.
 - Hide absent groups; when none exist, offer **Add exam dates** through the existing Plan owner.
 - Dates and countdowns use local calendar days, neutral text and accessible labels, never learning-status yellow.
 - **Edit dates** routes into the existing Plan exam-management experience. If a direct deep link to its manager does not yet exist, scope an addressable intent/reuse that owner instead of inventing a separate Home editor.
-- Link into the selected course's Exam Prep only when the assessment resolves unambiguously to an active course and that section is supported; otherwise show an honest Plan/assessment-detail fallback.
+- Home has no inline Open Exam Prep link. Self-directed Exam Prep remains reachable through Courses; Edit dates retains the Plan owner.
 
 ## Progress and courses
 
@@ -78,14 +78,9 @@ Use the same active-course dataset, shared `progressMeasuresFor`, `ProgressMeasu
 
 Course cards display existing course identity, not a new subject palette. Click/tap opens the canonical saved-course Overview, not an arbitrary default activity.
 
-## Activity introductions and navigation
+## Independent navigation
 
-The six introductory descriptions are secondary orientation, not six competing primary CTAs. Learn, Practice and Exam Prep are **course-specific**, while Plan, Progress and Courses are learner-wide.
-
-- For course-specific actions, show a keyboard-operable chooser scoped to the learner's active supported courses that offer the requested section.
-- With exactly one eligible course, use a direct explicit action for that course. With none, explain the missing prerequisite and direct to Courses; do not show a broken link.
-- For Plan, Progress and Courses, link directly using canonical route helpers.
-- Accessible names, focus restoration, Escape dismissal and no duplicate global navigation tree are required.
+Home ends after Your Courses. Course cards open canonical Overview; the governed course experience owns Learn, Practice and Exam Prep navigation. The global shell stays unchanged. Do not recreate the removed six mode introductions elsewhere.
 
 ## Required data, loading and unavailable states
 
@@ -113,7 +108,7 @@ A governed Home v3 implementation must prove:
 4. Honest plan completion, empty states and independent error recovery; no unsupported counts.
 5. Accurate upcoming assessment types, dates, active-course navigation and useful dates-empty state.
 6. Identical three-measure Progress semantics to global Progress, with evidence-threshold honesty.
-7. Working course cards, available-section-only chooser, keyboard/Escape/focus behaviour, correct global navigation.
+7. Working course Overview cards and independent course study navigation, keyboard focus and unchanged global navigation.
 8. Shared Ask REV contextual conversation, actual Living E state transitions, reduced motion and no artificial completion/thinking state.
 9. Bounded tests for changed logic, direct-activity journey, cross-page data consistency, accessibility, and Founder-reviewed responsive Light/Dark screenshot baselines.
 10. Updated code/technical documentation, visual-test digests and assurance/coverage records in the implementing PR; no historical evidence rewriting.
@@ -128,3 +123,15 @@ Historical Home v1.2 and Claude prototype evidence remain historical. Home v1.2 
 
 
 > **Revision history / pending change (13 October 2026):** v1.4 is proposed for Founder-governed merge following explicit feedback that REV must recommend what is next on today's plan. The earlier v1.3 distinct off-plan hero allowance above was superseded in the specific REV/Today's Plan relationship; all existing v1.3 visual hierarchy and historical implementation evidence remain unchanged. Do not claim implementation until R1b code, tests and release verification prove it.
+
+## Issue #622 refinement — approved design direction, pending governed merge
+
+Founder approved the bounded refinement on 13 October 2026 in [Issue #622](https://github.com/lhanson-dev/revision/issues/622). These v1.5 changes become integrated authority only on approved PR merge; that design/work approval does not approve screenshots, baseline digests or a PR merge.
+
+Today's Plan shows the first three outstanding supported actionable rows in actual plan order and counts the remaining actionable rows. Full-day minutes, progress and completion retain the entire genuine day, including commitments that cannot currently Start. Highlight only an exact visible REV match using selection-surface. Real all-done states alone use “That's today done, {name}. Nice work.” and “Everything on today's plan is done.” Empty, rest, unavailable and exhausted remain distinct.
+
+Progress uses shared flat measures inside one ordinary card; readiness explanations remain engine-produced or truthfully generic. Courses use neutral rows, canonical subject badges and subject-coloured coverage bars. The hero centres Powered by REV under the genuine Living E, with H1 above the task and full-width existing single-submit Ask REV beneath. Shared learner type, 1100px canvas, 40/28/24/20 gutters, 1100px Plan/Exams stack, 48px standard and 52px large controls, focus and reduced motion remain owned by the existing standards. No page-local control geometry or new tokens.
+
+Zero-course Home uses the same feature treatment and a shared optional checklist. Add Course is the primary action. Dates and weekly times are optional context, never a mandatory three-step gate or a replacement for GJ-01 first value.
+
+The frozen `design_system_v3/Home Mockup.dc.html` and `Home Mockup-selection9.png` must be checked for accessibility. Written requirements govern implementation when unavailable; do not claim pixel fidelity without the reference. Founder must review before/after phone/tablet/desktop Light/Dark states before accepting new screenshot baselines. Preserve old baselines until explicit approval.

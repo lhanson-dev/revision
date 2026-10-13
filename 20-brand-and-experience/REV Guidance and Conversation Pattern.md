@@ -4,7 +4,7 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.4"
+version: "2.5"
 owner: "Founder"
 effective_date: "2026-10-13"
 last_reviewed: "2026-10-13"
@@ -151,7 +151,7 @@ Measure useful first-action starts, resumption after interruption, completion of
 - **Recommendation ownership:** the FI-001 programme-wide, deterministic planner owns the prioritised work. **On Home, when today's plan has actionable work, REV promotes the next exact actionable item from that plan** (including genuine accepted commitments), not an independently chosen course/topic/activity. REV must not apply a separate competing per-topic ranking, fixed 14-day/7-day priority override or another LLM-generated recommendation order. When planning inputs are missing, a supported immediate unplanned fallback can be offered and must be labelled truthfully. Those earlier windows were provisional hypotheses, not scientifically established defaults.
 - **Priority is contextual:** immediate exam need, verified weakness, stale or narrow evidence, opportunities for independent retrieval, actual paper/AO demand, reasonable study capacity and competing active subjects all matter. No rule such as 'Needs work always wins' can override paper deadline safety, asset eligibility or cross-course feasibility. The five learner-facing topic statuses in `Claims and Progress Governance.md` retain their existing evidence meaning; REV must not recalculate them.
 - **One explanation source:** every recommendation card has at least one true, learner-comprehensible structured reason supplied by that same planner result. REV may make the explanation shorter, more supportive and conversational, but must not change why that activity was selected or claim an unsupported learning outcome.
-- **Choice and dismissal remain unchanged:** **Suggest something else** advances to the next eligible, actionable item of **today's plan**, when one exists, rather than selecting an unrelated unscheduled Home suggestion. **Not now** hides the current recommendation until the next local day without marking it complete, deleting accepted work or rewriting the plan. If no other today's item exists, state that and allow a deliberate Plan/Ask REV choice. If a meaningful timed plan cannot be formed, alternatives may instead come from a truthful explicitly *unplanned* supported fallback set. Do not recommend the same topic twice in a day unless the learner asks. A confirmed temporary preference may alter future scheduling, without changing objective evidence or hiding material trade-offs.
+- **Home alternative choice (Issue #622):** expose only **Suggest something else** beside the exact Start. It advances through eligible today's work in governed order with bounded per-user/local-day exclusions, without altering persisted commitments, evidence or completion. A genuinely missing plan permits the existing explicitly unscheduled supported fallback. No separate Not now/Not today dismissal, Add to Plan, Other options, all-hidden or restore UX in the Home hero. When alternatives are exhausted, say **"That's everything I'd suggest for today. You can still choose what you'd like to work on in your plan."** and show **Open Plan**. Exhaustion never claims the plan is done. Ordinary independent navigation and contextual Ask REV remain available. No ranking, safeguarding or planning policy change.
 
 ## Answering questions
 
@@ -382,3 +382,5 @@ Implementation changes must update their relevant technical documentation and vi
 ## Documentation impact — learner design reconciliation
 
 Version 2.1 keeps REV behaviour and voice here while delegating learner visual treatment to `Learner Design System.md` and current progress semantics to `Claims and Progress Governance.md`. No recommendation, safeguarding or conversation rule changes.
+
+Issue #622 (13 October 2026) records Founder design/work approval for this Home simplification. The v2.5 amendment remains proposed until governed merge; screenshot-baseline and PR-merge approval are separate. Earlier version notes above are historical decisions, not current Home controls.

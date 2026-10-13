@@ -1,4 +1,13 @@
-# Returning Student Home — Home v3
+# Returning Student Home — Issue #622 refinement candidate
+
+The proposed Home ends after REV → Today's Plan/Exams → Progress → Courses. REV starts the exact next shared Today task with one exposed Suggest something else alternative. Rotation does not write bookings or evidence; exhausted choices offer Open Plan without claiming completion. Today's Plan keeps full-day totals and shows three supported outstanding rows, followed by the genuine remaining count. Exams show the nearest real assessment and two later mocks/officials in date order. Shared flat progress measures preserve evidence/readiness truth. Neutral course rows show factual coverage and open Overview, with self-directed Learn/Practice/Exam Prep reachable there.
+
+Zero-course Home retains Add Course and explicitly optional dates/study times, using the same REV/Ask REV treatment and shared checklist. Existing GJ-01, navigation, routes, planner and evidence semantics remain unchanged. No Home mode tiles, separate dismissal or Add-to-Plan actions remain.
+
+Status: implementation proposal on a governed branch; Founder design/work approval is recorded in Issue #622. Written handoff is available, frozen HTML and named screenshot are not accessible in the repository or issue attachments. Founder visually approved the comparison bundle on 13 October 2026; corresponding Home hashes use verified matching CI evidence. Exact-head CI, independent final review and specific PR merge approval remain gates. Existing baselines are not repinned.
+
+## Historical Home v3 release evidence
+
 
 **Status:** Live — PR #601 merged 2026-10-12, governed production deployment and smoke verified  
 **Authority:** `10-product-governance/Returning Student Home Experience.md` v1.3, `20-brand-and-experience/Learner Design System.md` v1.0 and `REV Guidance and Conversation Pattern.md` v2.1.  

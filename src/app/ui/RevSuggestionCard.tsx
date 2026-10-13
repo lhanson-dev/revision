@@ -54,17 +54,7 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
       </header>
       {title && <h3 className="rev-suggestion-card__title">{title}</h3>}
       <p className="rev-suggestion-card__reason">{reason}</p>
-      {steps && steps.length > 0 && (
-        <ol className="rev-suggestion-card__steps">
-          {steps.map((step) => (
-            <li key={step.id} className="rev-suggestion-card__step" data-state={step.state} aria-current={step.state === 'current' ? 'step' : undefined}>
-              <span className="rev-suggestion-card__step-mark" aria-hidden="true">{step.state === 'done' && <Icon name="check" size="inline" />}</span>
-              <span className="rev-suggestion-card__step-label">{step.label}</span>
-              <span className="rev-suggestion-card__step-meta">{step.meta ?? stepStateLabel[step.state]}</span>
-            </li>
-          ))}
-        </ol>
-      )}
+      {steps && steps.length > 0 && <RevSuggestionSteps steps={steps} />}
       {(primaryAction || planAction || secondaryAction || tertiaryAction) && (
         <div className="rev-suggestion-card__actions">
           {primaryAction && <Button size={variant === 'hero' ? 'large' : 'standard'} className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}{variant === 'hero' && <Icon name="arrow-right" size="inline" />}</Button>}
@@ -79,3 +69,19 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
 
 /** The design system calls this component RevCard. It is the same component: one REV card, not two. */
 export { RevSuggestionCard as RevCard }
+
+/** Shared optional setup/session checklist; never implies a mandatory wizard. */
+export function RevSuggestionSteps({ steps, onInverse = true }: { steps: readonly RevSuggestionStep[]; onInverse?: boolean }) {
+  return (
+
+        <ol className={classNames('rev-suggestion-card__steps', !onInverse && 'rev-suggestion-card__steps--neutral')}>
+          {steps.map((step) => (
+            <li key={step.id} className="rev-suggestion-card__step" data-state={step.state} aria-current={step.state === 'current' ? 'step' : undefined}>
+              <span className="rev-suggestion-card__step-mark" aria-hidden="true">{step.state === 'done' && <Icon name="check" size="inline" />}</span>
+              <span className="rev-suggestion-card__step-label">{step.label}</span>
+              <span className="rev-suggestion-card__step-meta">{step.meta ?? stepStateLabel[step.state]}</span>
+            </li>
+          ))}
+        </ol>
+  )
+}

@@ -88,7 +88,7 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
-test('Returning Home keeps the approved REV → Plan/Exams → Progress → Courses → activities hierarchy', async ({ page }) => {
+test('Returning Home keeps the approved REV → Plan/Exams → Progress → Courses hierarchy', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
@@ -103,7 +103,7 @@ test('Returning Home keeps the approved REV → Plan/Exams → Progress → Cour
   await expect(page.getByRole('heading', { name: 'Your exams' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Your progress' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Your courses' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What do you want to do?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What do you want to do?' })).toHaveCount(0)
   await expect(page.getByText('Topics covered', { exact: true })).toBeVisible()
   await expect(page.getByText('Understanding', { exact: true })).toBeVisible()
   await expect(page.getByText('Exam readiness', { exact: true })).toBeVisible()
@@ -128,7 +128,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await expectNoHorizontalOverflow(page)
 })
 
-test('Home v3 retains Suggest something else and a real Not now rest state', async ({ page }) => {
+test('Home v3 exposes one alternative and retains exhausted choices after reload', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
@@ -136,20 +136,22 @@ test('Home v3 retains Suggest something else and a real Not now rest state', asy
   const title = suggestion.locator('h2')
   await expect(suggestion).toBeVisible()
   const first = await title.textContent()
-  await suggestion.locator('summary').click()
   await suggestion.getByRole('button', { name: 'Suggest something else' }).click()
   await expect(title).not.toHaveText(first ?? '')
 
-  // Suppressing the last eligible suggestion must not reappear through the fallback path.
+  await expect(page.locator('.home-v3-hero').getByRole('button', { name: 'Open Plan', exact: true })).toHaveCount(0)
+  await expect(page.locator('.home-v3-hero').getByRole('button', { name: 'Not now', exact: true })).toHaveCount(0)
+  // Rotating past the last eligible suggestion must not reappear through the fallback path.
   for (let index = 0; index < 100 && await suggestion.isVisible(); index += 1) {
-    if (!await suggestion.getByRole('button', { name: 'Not now' }).isVisible()) await suggestion.locator('summary').click()
-    await suggestion.getByRole('button', { name: 'Not now' }).click()
+    await suggestion.getByRole('button', { name: 'Suggest something else' }).click()
   }
-  await expect(page.locator('.home-v3-no-task')).toContainText('put today’s suggestions aside')
+  await expect(page.locator('.home-v3-no-task')).toContainText("That's everything I'd suggest for today.")
+  await expect(page.locator('.home-v3-no-task').getByRole('button', { name: 'Open Plan' })).toBeVisible()
+  await expect(page.locator('.home-v3-hero h1')).not.toContainText('today done')
   await expectNoHorizontalOverflow(page)
 
   await page.reload()
-  await expect(page.locator('.home-v3-no-task')).toContainText('put today’s suggestions aside')
+  await expect(page.locator('.home-v3-no-task')).toContainText("That's everything I'd suggest for today.")
 })
 
 test('Home exam-date action opens the one Plan-owned Manage Exams editor', async ({ page }) => {
