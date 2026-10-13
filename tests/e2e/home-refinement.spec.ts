@@ -134,7 +134,7 @@ test('Home rotation expires on local-day change and never changes accepted work'
 
 test('Home evidence error and no-dates state retain independent navigation and truthful copy', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
-  await page.route('**/rest/v1/learning_evidence**', route => route.fulfill({ status: 503, contentType: 'application/json', body: '{"message":"unavailable"}' }))
+  await page.route('**/rest/v1/learning_evidence**', route => route.fulfill({ status: 400, contentType: 'application/json', body: '{"message":"unavailable"}' }))
   await page.goto(appPath)
   await expect(page.locator('.home-v3-hero')).toContainText('I couldn’t read your progress just now.')
   await expect(page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ })).toHaveCount(0)
@@ -145,4 +145,19 @@ test('Home evidence error and no-dates state retain independent navigation and t
   for (const label of ['Learn', 'Practice', 'Exam Prep']) await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible()
   await nav.getByRole('button', { name: 'Exam Prep', exact: true }).click()
   await expect(page).toHaveURL(/\/exam-prep$/)
+})
+
+test('Home responsive boundaries preserve canonical presence and control geometry', async ({ page }) => {
+  await setup(page, 'returning', 'light')
+  for (const width of [320, 390, 620, 621, 820, 960, 961, 1100, 1101, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    const geometry = await page.evaluate(() => ({
+      width: innerWidth, scroll: document.documentElement.scrollWidth,
+      presence: document.querySelector('.home-v3-hero .rev-presence')!.getBoundingClientRect().width,
+      start: document.querySelector('.home-v3-hero .ui-button--large')!.getBoundingClientRect().height,
+    }))
+    expect(geometry.scroll, `overflow at ${width}px`).toBeLessThanOrEqual(width)
+    expect(geometry.presence).toBe(width <= 620 ? 88 : width <= 960 ? 150 : width <= 1100 ? 188 : 248)
+    expect(geometry.start).toBeGreaterThanOrEqual(52)
+  }
 })
