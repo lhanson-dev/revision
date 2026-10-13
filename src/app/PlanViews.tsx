@@ -227,7 +227,7 @@ function SessionOptions({ item, todayKey, actions }: { item: PlanSessionItem; to
       {moveOpen && (
         <div className="pln-row__move">
           <TextField label="Move to" type="date" min={todayKey} value={moveDate} onChange={(event) => setMoveDate(event.target.value)} />
-          <Button size="compact" onClick={async () => { if (await actions.onMove(session, moveDate)) { setMoveOpen(false); setMoveDate('') } }}>Move</Button>
+          <Button onClick={async () => { if (await actions.onMove(session, moveDate)) { setMoveOpen(false); setMoveDate('') } }}>Move</Button>
         </div>
       )}
     </details>

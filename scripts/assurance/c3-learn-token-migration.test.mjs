@@ -19,11 +19,13 @@ describe('C3 Learn canonical token migration', () => {
       'var(--color-inverse-text-secondary)',
       'var(--radius-compact)',
       'var(--radius-surface)',
-      'var(--radius-pill)',
       'var(--type-learner-h2-size)',
       'var(--type-learner-h3-size)',
       'var(--focus-ring)',
     ]) expect(learn).toContain(role)
+    // Ordinary reveal actions now use shared Button; their retired pill family
+    // must not remain a prerequisite for the reading frame's token migration.
+    expect(learn).not.toContain('.learn-pill')
   })
 
   it('does not retain the superseded Learn surface radius values', () => {

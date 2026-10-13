@@ -56,8 +56,6 @@
 .home-setup-hero h2 { margin: 0; font-family: var(--font-family-display); font-weight: 800; font-size: var(--type-learner-h2-size); line-height: var(--type-learner-h2-line); letter-spacing: -.02em; color: var(--color-inverse-action-text); }
 .home-setup-hero p:not(.home-v2-eyebrow) { margin: 0; font-weight: 600; font-size: 16px; line-height: 1.5; color: var(--color-inverse-text-secondary); }
 .home-setup-actions { margin-top: 8px; }
-.home-setup-primary { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border: 0; border-radius: var(--radius-pill); background: var(--color-action); color: var(--color-action-text); font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; }
-.home-setup-primary:focus-visible { outline: 2px solid var(--color-inverse-accent-text); outline-offset: 3px; }
 
 .home-setup-side { display: flex; flex-direction: column; gap: 14px; }
 .home-setup-side ol { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }

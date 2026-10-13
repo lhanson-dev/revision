@@ -4,8 +4,6 @@
 .planner-runtime .exam-sticky-bar { --exam-control-wash: color-mix(in srgb, var(--color-inverse-action-text) 12%, transparent); background: var(--brand-graphite); border-bottom: 0; color: var(--color-inverse-action-text); backdrop-filter: none; }
 .planner-runtime .exam-sticky-bar strong { color: var(--color-inverse-action-text); font-weight: 800; }
 .planner-runtime .exam-sticky-bar span { color: var(--color-inverse-text-secondary); }
-.planner-runtime .exam-sticky-bar .exam-control { border: 0; background: var(--exam-control-wash); color: var(--color-inverse-action-text); border-radius: var(--radius-pill); }
-.planner-runtime .exam-sticky-bar .exam-control-stop { background: var(--status-error-bg); color: var(--status-error-fg); }
 .planner-runtime .exam-sticky-bar .timer {
   background: none;
   color: var(--color-inverse-action-text);

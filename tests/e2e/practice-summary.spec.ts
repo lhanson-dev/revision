@@ -1,42 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { answerWith, bankCorrectIndex, captureEvidence, practicePath, seedReturningStudent, startQuestions, type Sure } from './practice-seed'
+import { captureEvidence, finishQuestionSession, practicePath, seedReturningStudent, startQuestions, type QuestionSessionPlan } from './practice-seed'
 
-type Plan = Array<{ right: boolean; sure: Sure }>
-
-/** Runs a whole session through the real screens. Each answer follows the plan; once the plan runs out, answers are right. */
-async function finishSession(page: Page, plan: Plan) {
-  const done = page.getByText(/^Session done · /)
-  const learned = new Map<string, number>()
-  const planned = new Map<string, { right: boolean; sure: Sure }>()
-  for (let index = 0; index < 40; index += 1) {
-    if (await done.isVisible()) return
-    const prompt = (await page.locator('.practice-question__prompt').textContent()) ?? ''
-    // The plan covers each question's first go. A retry is answered right and sure, which is what ends the session.
-    const seen = planned.has(prompt)
-    if (!seen) planned.set(prompt, plan[planned.size] ?? { right: true, sure: 'Certain' as Sure })
-    const step = seen ? { right: true, sure: 'Certain' as Sure } : planned.get(prompt)!
-    const known = bankCorrectIndex(prompt) ?? learned.get(prompt) ?? null
-    if (known === null) {
-      // Outside the AQA bank: guess by position, then read the right option from the feedback so a retry can be answered properly.
-      await answerWith(page, 0, step.sure)
-      learned.set(prompt, await page.locator('.practice-question__options button').evaluateAll((buttons) => buttons.findIndex((button) => button.classList.contains('ui-answer-option--correct'))))
-    } else {
-      const count = await page.locator('.practice-question__options button').count()
-      await answerWith(page, step.right ? known : (known + 1) % count, step.sure)
-    }
-    await page.getByRole('button', { name: /^(Next question|See how you did)/ }).click()
-  }
-  await expect(done).toBeVisible()
-}
-
-async function openSummary(page: Page, plan: Plan, theme: 'light' | 'dark' = 'light') {
+async function openSummary(page: Page, plan: QuestionSessionPlan, theme: 'light' | 'dark' = 'light') {
   await page.addInitScript((value) => localStorage.setItem('revision:theme', value), theme)
   await seedReturningStudent(page)
   const saved = await captureEvidence(page)
   await page.goto(practicePath)
   await startQuestions(page)
-  await finishSession(page, plan)
+  await finishQuestionSession(page, plan)
   return saved
 }
 
@@ -44,7 +16,7 @@ test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Widths are set inside the tests; the desktop project covers them all.')
 })
 
-const mixed: Plan = [
+const mixed: QuestionSessionPlan = [
   { right: false, sure: 'Certain' },
   { right: true, sure: 'Guessing' },
   { right: true, sure: 'Certain' },

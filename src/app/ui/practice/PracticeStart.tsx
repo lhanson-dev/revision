@@ -117,7 +117,7 @@ export function PracticeStart(props: PracticeStartProps) {
           {carryOn && (
             <div className="practice-carry-on">
               <span className="practice-carry-on__text"><strong>You have a session open.</strong> {carryOn.progress}. Your saved answers are kept.</span>
-              <Button size="compact" onClick={carryOn.onCarryOn}>Carry on</Button>
+              <Button onClick={carryOn.onCarryOn}>Carry on</Button>
             </div>
           )}
 
@@ -153,7 +153,7 @@ export function PracticeStart(props: PracticeStartProps) {
               )}
 
               <div className="practice-start__action">
-                <Button className="practice-start__button" onClick={onStart}>
+                <Button size="large" className="practice-start__button" onClick={onStart}>
                   Start {sessionCount} {sessionCount === 1 ? 'question' : 'questions'}
                   <Icon name="arrow-right" size="compact" />
                 </Button>

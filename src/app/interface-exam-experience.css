@@ -51,36 +51,6 @@
   margin-top: var(--space-6);
 }
 
-.planner-runtime .exam-launch .primary,
-.planner-runtime .exam-launch .secondary,
-.planner-runtime .exam-results .secondary,
-.planner-runtime .exam-nav-actions .primary,
-.planner-runtime .exam-nav-actions .secondary,
-.planner-runtime .exam-submit-summary .primary {
-  min-height: var(--control-height-standard);
-  padding: 0 var(--space-5);
-  border-radius: var(--radius-control);
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-  font-weight: var(--type-button-weight);
-}
-
-.planner-runtime .exam-launch .primary,
-.planner-runtime .exam-nav-actions .primary,
-.planner-runtime .exam-submit-summary .primary {
-  border: 1px solid var(--color-action);
-  background: var(--color-action);
-  color: var(--color-action-text);
-}
-
-.planner-runtime .exam-launch .secondary,
-.planner-runtime .exam-results .secondary,
-.planner-runtime .exam-nav-actions .secondary {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
 .planner-runtime .exam-launch button:focus-visible,
 .planner-runtime .exam-results button:focus-visible,
 .planner-runtime .exam-session button:focus-visible,
@@ -160,24 +130,6 @@
   align-items: center;
   gap: var(--space-2);
   flex: 0 0 auto;
-}
-
-.planner-runtime .exam-control {
-  min-height: var(--control-height-standard);
-  padding: 0 var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-  font-weight: var(--type-button-weight);
-  cursor: pointer;
-}
-
-.planner-runtime .exam-control-stop {
-  border-color: color-mix(in srgb, var(--status-error-fg) 42%, var(--color-border));
-  color: var(--status-error-fg);
 }
 
 .planner-runtime .timer {
@@ -443,7 +395,7 @@
   width: min(540px, 100%);
   padding: var(--space-8);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-feature);
+  border-radius: var(--radius-surface);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -453,9 +405,10 @@
 .planner-runtime .exam-interruption-card h2 {
   margin: var(--space-1) 0 var(--space-3);
   color: var(--color-text);
-  font-size: var(--type-h1-size);
-  line-height: var(--type-h1-line);
-  font-weight: var(--type-h1-weight);
+  font-size: var(--type-learner-h2-size);
+  line-height: var(--type-learner-h2-line);
+  font-weight: 800;
+  font-family: var(--font-family-display);
 }
 
 .planner-runtime .exam-interruption-card p:not(.eyebrow) {
@@ -470,59 +423,11 @@
   padding-block: var(--space-10);
 }
 
-.planner-runtime .exam-resume-button {
-  display: inline-grid;
-  place-items: center;
-  gap: var(--space-2);
-  min-width: 220px;
-  min-height: 112px;
-  padding: var(--space-5) var(--space-8);
-  border: 1px solid var(--color-inverse-action);
-  border-radius: var(--radius-surface);
-  background: var(--color-inverse-action);
-  color: var(--color-inverse-action-text);
-  font-size: var(--type-h2-size);
-  line-height: var(--type-h2-line);
-  font-weight: var(--type-h2-weight);
-  cursor: pointer;
-}
-
-.planner-runtime .exam-resume-button span {
-  color: inherit;
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-}
-
 .planner-runtime .exam-confirm-actions {
   display: flex;
   justify-content: center;
   gap: var(--space-3);
   flex-wrap: wrap;
-}
-
-.planner-runtime .exam-confirm-actions .danger {
-  min-height: var(--control-height-standard);
-  padding: 0 var(--space-5);
-  border: 1px solid var(--status-error-fg);
-  border-radius: var(--radius-control);
-  background: var(--status-error-bg);
-  color: var(--status-error-fg);
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-  font-weight: var(--type-button-weight);
-  cursor: pointer;
-}
-
-.planner-runtime .exam-confirm-actions .primary {
-  min-height: var(--control-height-standard);
-  padding: 0 var(--space-5);
-  border: 1px solid var(--color-action);
-  border-radius: var(--radius-control);
-  background: var(--color-action);
-  color: var(--color-action-text);
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-  font-weight: var(--type-button-weight);
 }
 
 @media (max-width: 620px) {
@@ -548,12 +453,6 @@
     gap: var(--space-1);
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-
-  .planner-runtime .exam-control {
-    min-height: var(--control-height-standard);
-    padding: 0 var(--space-3);
-    font-size: var(--type-label-size);
   }
 
   .planner-runtime .timer {

@@ -332,8 +332,8 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
             <p>{message.text}</p>
             {message.list && <ul className="rev-chat__support">{message.list.map((line) => <li key={line}>{line}</li>)}</ul>}
             {message.after && <p>{message.after}</p>}
-            {message.task && <Button size="compact" onClick={() => startTask(message.task!)}>Start {message.task.topicLabel}</Button>}
-            {message.action && <Button size="compact" onClick={() => onOpenCourseSection(message.action!.courseId, message.action!.section)}>{message.action.label}</Button>}
+            {message.task && <Button onClick={() => startTask(message.task!)}>Start {message.task.topicLabel}</Button>}
+            {message.action && <Button onClick={() => onOpenCourseSection(message.action!.courseId, message.action!.section)}>{message.action.label}</Button>}
           </div>
         ))}
       </div>

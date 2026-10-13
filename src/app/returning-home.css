@@ -419,15 +419,8 @@
   padding: 42px 40px 92px;
 }
 
-.home-focused-back {
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-accent-text);
-  font-weight: 750;
-  cursor: pointer;
-}
+.home-focused-back { padding-inline: 0; }
+.home-focused-back-icon { transform: rotate(180deg); }
 
 .home-focused-card {
   position: relative;

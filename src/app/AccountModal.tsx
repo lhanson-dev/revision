@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Icon, IconButton, ModalShell, OverlayBackdrop } from './ui'
+import { Button, Icon, IconButton, ModalShell, OverlayBackdrop } from './ui'
 
 type AccountSection = 'profile' | 'settings'
 type ThemeName = 'light' | 'dark' | 'system'
@@ -124,9 +124,9 @@ export function AccountModal({
                         setNameError('')
                       }}
                     />
-                    <button className="ui-button ui-button--primary ui-button--compact" type="submit" disabled={nameSaveState === 'saving' || nameDraft.trim().replace(/\s+/g, ' ') === learnerName}>
+                    <Button type="submit" disabled={nameSaveState === 'saving' || nameDraft.trim().replace(/\s+/g, ' ') === learnerName}>
                       {nameSaveState === 'saving' ? 'Saving…' : 'Save'}
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <div className="runtime-profile-readonly-row">

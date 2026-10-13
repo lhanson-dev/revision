@@ -37,50 +37,10 @@
 .runtime-profile-edit-control {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
-.runtime-profile-edit-control input {
-  width: 100%;
-  min-width: 0;
-  min-height: 42px;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 11px;
-  background: var(--color-surface);
-  color: var(--color-text);
-  font: inherit;
-  font-size: 14px;
-}
-
-.runtime-profile-edit-control input:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--brand-primary-teal) 32%, transparent);
-  outline-offset: 1px;
-  border-color: var(--brand-primary-teal);
-}
-
-.runtime-profile-edit-control button {
-  min-height: 42px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 11px;
-  background: var(--brand-primary-teal);
-  color: var(--brand-graphite);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.runtime-profile-edit-control button:hover:not(:disabled),
-.runtime-profile-edit-control button:focus-visible:not(:disabled) {
-  filter: brightness(.96);
-}
-
-.runtime-profile-edit-control button:disabled {
-  opacity: .48;
-  cursor: default;
-}
+.runtime-profile-edit-control input { width: 100%; min-width: 0; }
 
 .runtime-profile-readonly-row strong {
   min-width: 0;
@@ -102,7 +62,7 @@
 }
 
 .runtime-profile-save-error {
-  color: var(--color-danger-text, #8a2c2c);
+  color: var(--status-error-fg);
 }
 
 @media (max-width: 700px) {
@@ -110,15 +70,11 @@
   .runtime-profile-readonly-row {
     grid-template-columns: 1fr;
     align-items: start;
-    gap: 10px;
-  }
+    gap: var(--space-3);
+}
 
   .runtime-profile-edit-control {
     grid-template-columns: 1fr;
-  }
+}
 
-  .runtime-profile-edit-control button {
-    justify-self: start;
-    min-width: 96px;
-  }
 }

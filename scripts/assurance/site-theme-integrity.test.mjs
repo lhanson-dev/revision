@@ -71,7 +71,6 @@ const retainedFeatureSources = new Set([
   'contextual-navigation.css',
   'returning-home.css',
   'returning-home-fidelity.css',
-  'course-overview-rev-feature.css',
 ])
 
 describe('site-wide theme integrity governance', () => {
@@ -85,7 +84,8 @@ describe('site-wide theme integrity governance', () => {
       expect(css).toContain('var(--color-border)')
     }
     expect(guidance).toContain('var(--color-action)')
-    expect(authEntry).toContain('var(--color-action)')
+    // Auth actions now consume Button's shared semantic action owner.
+    expect(readFileSync(new URL('../../src/app/AuthGate.tsx', import.meta.url), 'utf8')).toContain('BrandAsset, Button')
     expect(authEntry).toContain('var(--field-height-standard)')
   })
 

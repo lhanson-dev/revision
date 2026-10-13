@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 import type { HomeTask } from './home-task'
-import { Button, Status } from './ui'
+import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { resolveHomeExamQuestion } from './home-exam-question'
@@ -95,7 +95,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
-      <button type="button" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}>← Back to {backLabel}</button>
+      <Button variant="tertiary" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}><Icon name="arrow-right" size="inline" className="home-focused-back-icon" /> Back to {backLabel}</Button>
       <section className="home-focused-card">
         <header className="home-focused-heading">
           <div className="home-focused-labels">
@@ -117,7 +117,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
             <p className="eyebrow">Flashcard</p>
             <h2>{card.prompt}</h2>
             {!showAnswer ? (
-              <Button className="primary" onClick={() => setShowAnswer(true)}>Show answer</Button>
+              <Button onClick={() => setShowAnswer(true)}>Show answer</Button>
             ) : (
               <>
                 <div className="home-focused-answer"><strong>Answer</strong><p>{card.answer}</p></div>
@@ -144,7 +144,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
                 </label>
               ))}
             </div>
-            <Button className="primary" disabled={selectedOption === null || saving} onClick={() => void checkQuestion()}>Check answer</Button>
+            <Button disabled={selectedOption === null || saving} onClick={() => void checkQuestion()}>Check answer</Button>
           </div>
         )}
 
@@ -153,7 +153,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
             <p className="eyebrow">Result saved</p>
             <h2>{selectedOption === question.correctOption ? 'Correct.' : 'Not quite.'}</h2>
             <p>{question.explanation}</p>
-            <Button className="primary" onClick={onFinish}>Back to today’s plan</Button>
+            <Button onClick={onFinish}>Back to today’s plan</Button>
           </div>
         )}
 
@@ -162,7 +162,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
             <p className="eyebrow">Evidence saved</p>
             <h2>Useful revision recorded.</h2>
             <p>Revision will use this result with the rest of your evidence when it recalculates what matters next.</p>
-            <Button className="primary" onClick={onFinish}>Back to today’s plan</Button>
+            <Button onClick={onFinish}>Back to today’s plan</Button>
           </div>
         )}
 

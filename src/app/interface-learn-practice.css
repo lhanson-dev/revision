@@ -408,9 +408,7 @@
   gap: var(--space-3);
 }
 
-.planner-runtime .focused-workspace .rating-actions button,
-.planner-runtime .focused-workspace .primary,
-.planner-runtime .focused-workspace .secondary {
+.planner-runtime .focused-workspace .rating-actions button {
   min-height: var(--control-height-standard);
   border-radius: var(--radius-control);
   font-size: var(--type-button-size);
@@ -423,14 +421,6 @@
     box-shadow var(--motion-fast) var(--motion-ease-standard);
 }
 
-.planner-runtime .focused-workspace .primary {
-  padding: 0 var(--space-5);
-  border: 1px solid var(--color-action);
-  background: var(--color-action);
-  color: var(--color-action-text);
-}
-
-.planner-runtime .focused-workspace .secondary,
 .planner-runtime .focused-workspace .rating-actions button {
   padding: 0 var(--space-4);
   border: 1px solid var(--color-border);
@@ -438,21 +428,19 @@
   color: var(--color-text);
 }
 
-.planner-runtime .focused-workspace .primary:hover:not(:disabled),
-.planner-runtime .focused-workspace .secondary:hover:not(:disabled),
+
 .planner-runtime .focused-workspace .rating-actions button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: var(--shadow-raised);
 }
 
-.planner-runtime .focused-workspace .primary:focus-visible,
-.planner-runtime .focused-workspace .secondary:focus-visible,
+
 .planner-runtime .focused-workspace .rating-actions button:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
-.planner-runtime .focused-workspace button:disabled,
+.planner-runtime .focused-workspace button:not(.ui-button):disabled,
 .planner-runtime .focused-workspace textarea:disabled,
 .planner-runtime .focused-workspace input:disabled {
   cursor: not-allowed;
@@ -695,14 +683,13 @@
   .planner-runtime .focused-workspace .mode-tabs button,
   .planner-runtime .focused-workspace .option-list label,
   .planner-runtime .focused-workspace .rating-actions button,
-  .planner-runtime .focused-workspace .primary,
-  .planner-runtime .focused-workspace .secondary,
+
+
   .planner-runtime .focused-workspace .answer-label textarea {
     transition: none;
   }
 
-  .planner-runtime .focused-workspace .primary:hover:not(:disabled),
-  .planner-runtime .focused-workspace .secondary:hover:not(:disabled),
+
   .planner-runtime .focused-workspace .rating-actions button:hover:not(:disabled) {
     transform: none;
   }

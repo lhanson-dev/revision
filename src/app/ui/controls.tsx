@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type ButtonHTMLAttributes, type ChangeEvent, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type ButtonHTMLAttributes, type ChangeEvent, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type Ref, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { classNames } from './classNames'
 import { Icon } from './Icon'
 
@@ -6,23 +6,27 @@ export type ButtonVariant = 'primary' | 'strong' | 'secondary' | 'tertiary' | 'd
 export type ButtonSize = 'compact' | 'standard' | 'large'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ref?: Ref<HTMLButtonElement>
   variant?: ButtonVariant
   size?: ButtonSize
   loading?: boolean
   loadingLabel?: ReactNode
+  /** Secondary/tertiary action on a genuine inverse surface; geometry stays shared. */
+  onInverse?: boolean
 }
 
-export function Button({ variant = 'primary', size = 'standard', loading = false, loadingLabel, className, type = 'button', disabled, children, ...props }: ButtonProps) {
+export function Button({ variant = 'primary', size = 'standard', loading = false, loadingLabel, onInverse = false, className, type = 'button', disabled, children, ...props }: ButtonProps) {
   return (
     <button
       {...props}
       type={type}
       disabled={disabled || loading}
-      aria-busy={loading || undefined}
+      aria-busy={loading || props['aria-busy'] || undefined}
       className={classNames(
         'ui-button',
         `ui-button--${variant}`,
         size !== 'standard' && `ui-button--${size}`,
+        onInverse && 'ui-button--on-inverse',
         className,
       )}
     >
@@ -33,6 +37,7 @@ export function Button({ variant = 'primary', size = 'standard', loading = false
 }
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ref?: Ref<HTMLButtonElement>
   label: string
 }
 

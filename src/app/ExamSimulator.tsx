@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSelfAssessedExamQuestionEvidence } from './practice-evidence'
-import { Icon, ModalShell } from './ui'
+import { Button, Icon, ModalShell } from './ui'
 
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 type Marks = Record<AoKey, number>
@@ -358,20 +358,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <textarea rows={12} disabled={practiceSaved} value={practiceDraft} onChange={(event) => setPracticeDraft(event.target.value)} placeholder="Answer as you would in the exam." />
         </label>
         {!practiceGuidance ? (
-          <button className="primary" disabled={!practiceDraft.trim()} onClick={() => setPracticeGuidance(true)}>Show marking guidance</button>
+          <Button disabled={!practiceDraft.trim()} onClick={() => setPracticeGuidance(true)}>Show marking guidance</Button>
         ) : (
           <>
             <div className="mark-guidance"><strong>Marking guidance</strong><ul>{practiceQuestion.markingGuidance.map((line) => <li key={line}>{line}</li>)}</ul></div>
             <div className="ao-marker-grid">
               {aoKeys.filter((key) => practiceQuestion.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{practiceQuestion.assessmentObjectives[key]}</span><input type="number" min={0} max={practiceQuestion.assessmentObjectives[key]} disabled={practiceSaved} value={practiceMarks[key]} onChange={(event) => updatePracticeMark(key, Number(event.target.value))} /></label>)}
             </div>
-            {!practiceSaved ? <button className="primary" disabled={saving || practiceSaving} onClick={savePracticeQuestion}>Record this result</button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
+            {!practiceSaved ? <Button disabled={saving || practiceSaving} onClick={savePracticeQuestion}>Record this result</Button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
           </>
         )}
         <div className="exam-nav-actions">
-          <button className="secondary" disabled={practiceIndex === 0 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex - 1)}>Previous</button>
-          <button className="secondary" disabled={practiceIndex === exam.questions.length - 1 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex + 1)}>Next question</button>
-          {!preferredQuestionId && <button className="secondary" onClick={() => setQuestionPractice(false)}>Back to {pLabel}</button>}
+          <Button variant="secondary" disabled={practiceIndex === 0 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex - 1)}>Previous</Button>
+          <Button variant="secondary" disabled={practiceIndex === exam.questions.length - 1 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex + 1)}>Next question</Button>
+          {!preferredQuestionId && <Button variant="secondary" onClick={() => setQuestionPractice(false)}>Back to {pLabel}</Button>}
         </div>
         {saveError && <p className="error" role="alert">{saveError}</p>}
       </section>
@@ -386,7 +386,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <p className="intro">{exam.title}. {exam.printedMarks && exam.printedMarks !== exam.totalMarks ? `${exam.printedMarks} marks are printed; you attempt ${exam.totalMarks} marks by choosing one question from each choice section.` : `${exam.totalMarks} marks.`} Work under the full {exam.durationMinutes}-minute timer.</p>
         {exam.learnerClaim && <p className="exam-learner-claim">{exam.learnerClaim}</p>}
         <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
-        <div className="inline-actions">{!exam.restrictedPilot && <button className="secondary" onClick={startQuestionPractice}>Practise one question</button>}<button className="primary" aria-label="Start timed exam" onClick={startExam}>Open timed exam</button></div>
+        <div className="inline-actions">{!exam.restrictedPilot && <Button variant="secondary" onClick={startQuestionPractice}>Practise one question</Button>}<Button aria-label="Start timed exam" onClick={startExam}>Open timed exam</Button></div>
       </section>
     )
   }
@@ -407,7 +407,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           })}
         </div>
         <div className="next-step"><strong>What should I do next?</strong><span>Use the weakest AO above to choose your next practice. If AO2/AO3 is weakest, return to targeted paper questions. If AO4 is weakest, practise conditional judgements on extended responses.</span></div>
-        <button className="secondary" onClick={resetExam}>Start another attempt</button>
+        <Button variant="secondary" onClick={resetExam}>Start another attempt</Button>
       </section>
     )
   }
@@ -418,8 +418,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <div className="exam-sticky-bar">
           <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{exam.questions.length} answered</span></div>
           <div className="exam-session-controls">
-            {!finishedWriting && <button className="exam-control" type="button" onClick={() => beginInterruption('paused')}>Pause</button>}
-            {!finishedWriting && <button className="exam-control exam-control-stop" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</button>}
+            {!finishedWriting && <Button variant="secondary" type="button" onClick={() => beginInterruption('paused')}>Pause</Button>}
+            {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}
             <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
               {secondsRemaining <= 600 && <Icon name="clock" size="inline" />}
               <span>{formatTime(secondsRemaining)}</span>
@@ -506,9 +506,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                   </p>
                 )}
                 <div className="exam-nav-actions">
-                  <button className="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</button>
-                  {questionIndex < exam.questions.length - 1 && <button className="primary" onClick={() => setQuestionIndex((index) => index + 1)}>Next question</button>}
-                  <button className="secondary" disabled={missingChoiceGroups.length > 0} onClick={finishWriting}>Finish and self-mark</button>
+                  <Button variant="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</Button>
+                  {questionIndex < exam.questions.length - 1 && <Button onClick={() => setQuestionIndex((index) => index + 1)}>Next question</Button>}
+                  <Button variant="secondary" disabled={missingChoiceGroups.length > 0} onClick={finishWriting}>Finish and self-mark</Button>
                 </div>
               </article>
             )}
@@ -529,12 +529,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                   {aoKeys.filter((key) => question.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{question.assessmentObjectives[key]}</span><input type="number" min={0} max={question.assessmentObjectives[key]} value={currentMarks[key]} onChange={(event) => updateMark(key, Number(event.target.value))} /></label>)}
                 </div>
                 <div className="exam-nav-actions">
-                  <button className="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</button>
-                  {questionIndex < exam.questions.length - 1 && <button className="primary" onClick={() => setQuestionIndex((index) => index + 1)}>Next to mark</button>}
+                  <Button variant="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</Button>
+                  {questionIndex < exam.questions.length - 1 && <Button onClick={() => setQuestionIndex((index) => index + 1)}>Next to mark</Button>}
                 </div>
               </article>
             )}
-            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>All marks are self-assessed.</span><button className="primary" disabled={saving} onClick={saveResult}>Save exam result</button></div>
+            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>All marks are self-assessed.</span><Button disabled={saving} onClick={saveResult}>Save exam result</Button></div>
             {saveError && <p className="error" role="alert">{saveError}</p>}
             {saving && <p className="muted" aria-live="polite">Saving your exam evidence…</p>}
           </div>
@@ -543,24 +543,24 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
 
       {sessionOverlay === 'paused' && (
         <div className="exam-interruption">
-          <ModalShell className="exam-interruption-card exam-pause-card" labelledBy="exam-paused-title" onDismiss={resumeExam} initialFocusSelector=".exam-resume-button">
+          <ModalShell className="exam-interruption-card exam-pause-card" labelledBy="exam-paused-title" onDismiss={resumeExam} initialFocusSelector=".ui-button--large">
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
-            <button className="exam-resume-button" type="button" onClick={resumeExam}><Icon name="play" size="compact" /><span>Continue exam</span></button>
+            <Button size="large" type="button" onClick={resumeExam}><Icon name="play" size="compact" /><span>Continue exam</span></Button>
           </ModalShell>
         </div>
       )}
 
       {sessionOverlay === 'stop-confirm' && (
         <div className="exam-interruption">
-          <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .primary">
+          <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .ui-button--primary">
             <p className="eyebrow">Stop exam?</p>
             <h2 id="stop-exam-title">Are you sure?</h2>
             <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
             <div className="exam-confirm-actions">
-              <button className="danger" type="button" onClick={() => stopExam()}>Yes, stop exam</button>
-              <button className="primary" type="button" onClick={resumeExam}>Continue exam</button>
+              <Button variant="destructive" type="button" onClick={() => stopExam()}>Yes, stop exam</Button>
+              <Button type="button" onClick={resumeExam}>Continue exam</Button>
             </div>
           </ModalShell>
         </div>

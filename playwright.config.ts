@@ -8,6 +8,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4173',
     trace: 'retain-on-failure',
+    // Managed environments may require an explicitly selected HTTPS proxy.
+    proxy: process.env.REVISION_BROWSER_PROXY ? { server: process.env.REVISION_BROWSER_PROXY, bypass: '127.0.0.1,localhost' } : undefined,
   },
   projects: [
     { name: 'phone', use: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } },

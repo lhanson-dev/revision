@@ -75,7 +75,7 @@ export function PracticeFlashcardView({ number, total, question, answer, flipped
 
       {!flipped && (
         <div>
-          <button ref={showRef} type="button" className="ui-button ui-button--primary practice-start__button" onClick={onFlip}>Show answer</button>
+          <Button ref={showRef} size="large" className="practice-start__button" onClick={onFlip}>Show answer</Button>
         </div>
       )}
 

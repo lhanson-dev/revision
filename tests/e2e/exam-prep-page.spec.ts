@@ -118,7 +118,7 @@ test('untimed mock uses the in-page workspace rather than a dialog', async ({ pa
   await open(page)
   // Restricted-pilot papers deliberately disable untimed practice. Select
   // a published non-pilot paper instead of bypassing its entitlement boundary.
-  const button = page.locator('.exam-mock .exam-button--secondary:not([disabled])').first()
+  const button = page.locator('.exam-mock').getByRole('button', { name: 'Practise untimed', exact: true }).and(page.locator(':enabled')).first()
   await expect(button).toBeEnabled()
   await button.click()
   await expect(page.locator('.exam-prep-activity')).toBeVisible()
@@ -135,7 +135,7 @@ for (const width of widths) {
     await expect(page.getByRole('region', { name: 'How Paper 1 runs' })).toBeVisible()
     await noSidewaysScroll(page)
     // Labels, chips and times never wrap mid-label.
-    const wrapped = await page.evaluate(() => Array.from(document.querySelectorAll<HTMLElement>('.exam-chip, .exam-ao__chip, .exam-run__time, .exam-mock__time, .exam-button')).filter((node) => { const range = document.createRange(); range.selectNodeContents(node); return range.getClientRects().length > 1 && node.getClientRects().length > 0 && getComputedStyle(node).whiteSpace !== 'nowrap' }).map((node) => node.textContent))
+    const wrapped = await page.evaluate(() => Array.from(document.querySelectorAll<HTMLElement>('.exam-chip, .exam-ao__chip, .exam-run__time, .exam-mock__time, .exam-mock__actions button')).filter((node) => { const range = document.createRange(); range.selectNodeContents(node); return range.getClientRects().length > 1 && node.getClientRects().length > 0 && getComputedStyle(node).whiteSpace !== 'nowrap' }).map((node) => node.textContent))
     expect(wrapped).toEqual([])
   })
 }
