@@ -4,7 +4,7 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.2"
+version: "2.3"
 owner: "Founder"
 effective_date: "2026-10-07"
 last_reviewed: "2026-10-07"
@@ -148,14 +148,10 @@ Measure useful first-action starts, resumption after interruption, completion of
 
 - **Every REV card includes a reason taken from real data.** No reason, no card: show the screen's empty state instead.
 - **The topic is chosen by rules, not by a language model.** A model may only reword the reason.
-- Priority order, using the progress statuses (Got it, Nearly there, Needs work, Just started, Not started) from `Claims and Progress Governance.md`:
-  1. An exam within **14 days** covers a topic marked Needs work.
-  2. A topic marked Needs work, then Nearly there.
-  3. A topic with an exam coming that has not been studied for **7 or more days**.
-  4. The next unstarted topic in course order.
-- The 14-day and 7-day windows are starting values, to be tuned after testing (open item, Founder to decide).
-- **Suggest something else** moves to the next candidate. **Not now** hides that suggestion until tomorrow. The same topic is not suggested twice in a day unless the student asks.
-- The recommendation logic that already exists in the planner must be reconciled with this order when the Home screen is rebuilt; the order above governs the learner-facing result.
+- **Recommendation ownership:** the FI-001 programme-wide, deterministic planner selects the top eligible supported next activity across the learner's active courses, using the approved `Adaptive Revision Planning.md` allocation and evidence constraints. REV must not apply a separate competing per-topic ranking, fixed 14-day/7-day priority override or another LLM-generated recommendation order. Those earlier windows were provisional hypotheses, not scientifically established defaults.
+- **Priority is contextual:** immediate exam need, verified weakness, stale or narrow evidence, opportunities for independent retrieval, actual paper/AO demand, reasonable study capacity and competing active subjects all matter. No rule such as 'Needs work always wins' can override paper deadline safety, asset eligibility or cross-course feasibility. The five learner-facing topic statuses in `Claims and Progress Governance.md` retain their existing evidence meaning; REV must not recalculate them.
+- **One explanation source:** every recommendation card has at least one true, learner-comprehensible structured reason supplied by that same planner result. REV may make the explanation shorter, more supportive and conversational, but must not change why that activity was selected or claim an unsupported learning outcome.
+- **Choice and dismissal remain unchanged:** **Suggest something else** moves to the next eligible alternative from that same planner decision. **Not now** hides the suggestion until the next local day. Do not recommend the same topic twice in a day unless the learner asks. A confirmed temporary preference may alter future scheduling, without changing objective evidence or hiding material trade-offs.
 
 ## Answering questions
 
@@ -364,6 +360,8 @@ The existing persistent tablet/mobile Ask REV dock remains governed and should n
 
 ## Documentation impact
 
+Version 2.3 (proposed 12 October 2026, effective upon Founder-approved merge): unify REV's learner-facing recommendation with FI-001's programme-wide planning authority. This explicitly supersedes the earlier fixed 14-day/7-day ranking, preserves Not now and Suggest something else and the same truthful reason vocabulary, and does **not** alter live code or provide feature Definition-of-Ready approval. Historical v2.0/v2.2 notes below are retained as decision context rather than competing current priority authority.
+
 Proposed v2.2 (12 October 2026, pending Founder review): codify the supportive-companion behaviour across ordinary, interrupted, low-motivation and exam-pressure revision. This is an experience-authority amendment only; it does not change recommendation authority, safeguarding, feature readiness or implementation state. The proposal becomes normative only if approved and merged.\n\n
 Version 2.0 records the Founder decisions of 1 October 2026 for the learner redesign v2.1 (effective on merge of the design-system v2.1 PR; full record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`):
 
@@ -372,7 +370,7 @@ Version 2.0 records the Founder decisions of 1 October 2026 for the learner rede
 - The Course Overview Exam Readiness plus Topic Knowledge pair is replaced by the three measures. This also supersedes the 22 September 2026 Topic Knowledge terminology below.
 - The Completed Living E state is not used in the learner app.
 
-Open items for the Founder: the 14-day and 7-day suggestion windows, the safeguarding review before any parent or school alerts, and the "REV noticed" evidence bar.
+Historical v2.0 open items (1 October 2026): the 14-day and 7-day suggestion windows, the safeguarding review before parent or school alerts, and the "REV noticed" evidence bar. If the v2.3 amendment is approved, the 14/7-day fixed priority question is superseded by the unified FI-001 policy; the safeguarding and "REV noticed" questions remain open.
 
 Version 1.2 records the Founder-approved decision of 22 September 2026 to use **Topic Knowledge** rather than `Topics Secure` as the plain learner-facing knowledge-progress concept. Topic Knowledge uses Low / Medium / Good topic bands, remains distinct from evidence confidence and Exam Readiness, and can roll up transparently to subject/course progress.
 
