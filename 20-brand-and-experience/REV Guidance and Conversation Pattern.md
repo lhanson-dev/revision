@@ -4,7 +4,7 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "2.3"
+version: "2.4"
 owner: "Founder"
 effective_date: "2026-10-13"
 last_reviewed: "2026-10-13"
@@ -148,10 +148,10 @@ Measure useful first-action starts, resumption after interruption, completion of
 
 - **Every REV card includes a reason taken from real data.** No reason, no card: show the screen's empty state instead.
 - **The topic is chosen by rules, not by a language model.** A model may only reword the reason.
-- **Recommendation ownership:** the FI-001 programme-wide, deterministic planner selects the top eligible supported next activity across the learner's active courses, using the approved `Adaptive Revision Planning.md` allocation and evidence constraints. REV must not apply a separate competing per-topic ranking, fixed 14-day/7-day priority override or another LLM-generated recommendation order. Those earlier windows were provisional hypotheses, not scientifically established defaults.
+- **Recommendation ownership:** the FI-001 programme-wide, deterministic planner owns the prioritised work. **On Home, when today's plan has actionable work, REV promotes the next exact actionable item from that plan** (including genuine accepted commitments), not an independently chosen course/topic/activity. REV must not apply a separate competing per-topic ranking, fixed 14-day/7-day priority override or another LLM-generated recommendation order. When planning inputs are missing, a supported immediate unplanned fallback can be offered and must be labelled truthfully. Those earlier windows were provisional hypotheses, not scientifically established defaults.
 - **Priority is contextual:** immediate exam need, verified weakness, stale or narrow evidence, opportunities for independent retrieval, actual paper/AO demand, reasonable study capacity and competing active subjects all matter. No rule such as 'Needs work always wins' can override paper deadline safety, asset eligibility or cross-course feasibility. The five learner-facing topic statuses in `Claims and Progress Governance.md` retain their existing evidence meaning; REV must not recalculate them.
 - **One explanation source:** every recommendation card has at least one true, learner-comprehensible structured reason supplied by that same planner result. REV may make the explanation shorter, more supportive and conversational, but must not change why that activity was selected or claim an unsupported learning outcome.
-- **Choice and dismissal remain unchanged:** **Suggest something else** moves to the next eligible alternative from that same planner decision. **Not now** hides the suggestion until the next local day. Do not recommend the same topic twice in a day unless the learner asks. A confirmed temporary preference may alter future scheduling, without changing objective evidence or hiding material trade-offs.
+- **Choice and dismissal remain unchanged:** **Suggest something else** advances to the next eligible, actionable item of **today's plan**, when one exists, rather than selecting an unrelated unscheduled Home suggestion. **Not now** hides the current recommendation until the next local day without marking it complete, deleting accepted work or rewriting the plan. If no other today's item exists, state that and allow a deliberate Plan/Ask REV choice. If a meaningful timed plan cannot be formed, alternatives may instead come from a truthful explicitly *unplanned* supported fallback set. Do not recommend the same topic twice in a day unless the learner asks. A confirmed temporary preference may alter future scheduling, without changing objective evidence or hiding material trade-offs.
 
 ## Answering questions
 
@@ -305,7 +305,7 @@ The same proactive pattern uses different context boundaries depending on the le
 
 Home uses **learner-wide scope**.
 
-REV should select the most useful next task from the learner's active programme, including all active subjects/courses and relevant planned work, using the governed planner/recommendation model.
+REV should **promote the next eligible actionable activity already on Today's Plan** from the learner's active programme, with the same verified course/topic/activity and direct Start. Today's Plan retains the remaining workload and actual accepted/done states. If no plan can be built owing to missing dates/availability, give an appropriately labelled, genuinely supported unscheduled first action; if today's plan is genuinely complete or empty, do not introduce unscheduled task debt or imply scheduled work is waiting.
 
 The Home REV feature area should therefore make one best next task immediately available, explain why it matters, and provide the shared Ask REV conversation strip in the same feature moment.
 
