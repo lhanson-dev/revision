@@ -212,6 +212,13 @@
   padding-inline: var(--space-6);
 }
 
+/* Compact secondary actions are a pointer-density choice, not smaller touch targets. */
+@media (pointer: coarse) {
+  .planner-runtime .ui-button--compact:not(.ui-segmented-control .ui-button, .admin-operations .ui-button) {
+    min-height: var(--control-height-standard);
+  }
+}
+
 .ui-button--primary {
   background: var(--color-action);
   color: var(--color-action-text);
@@ -243,6 +250,22 @@
 .ui-button--tertiary {
   background: transparent;
   color: var(--color-accent-text);
+}
+
+/* Shared contextual translation for ordinary alternatives on REV/inverse panels. */
+.ui-button--on-inverse.ui-button--secondary,
+.ui-button--on-inverse.ui-button--tertiary {
+  background: transparent;
+  color: var(--color-inverse-action-text);
+}
+
+.ui-button--on-inverse.ui-button--secondary {
+  border-color: var(--color-inverse-action-text);
+}
+
+.ui-button--on-inverse:is(.ui-button--secondary, .ui-button--tertiary):is(:hover, :focus-visible):not(:disabled) {
+  background: color-mix(in srgb, var(--color-inverse-action-text) 12%, var(--color-inverse-action));
+  color: var(--color-inverse-action-text);
 }
 
 .ui-button--destructive {

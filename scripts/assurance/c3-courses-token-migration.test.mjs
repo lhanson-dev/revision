@@ -1,10 +1,9 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const courses = readFileSync(new URL('../../src/app/courses-v2.css', import.meta.url), 'utf8')
 const coursesBase = readFileSync(new URL('../../src/app/courses.css', import.meta.url), 'utf8')
 const overview = readFileSync(new URL('../../src/app/course-overview-v2.css', import.meta.url), 'utf8')
-const overviewRev = readFileSync(new URL('../../src/app/course-overview-rev-feature.css', import.meta.url), 'utf8')
 
 describe('C3 Courses and Course Overview canonical token migration', () => {
   it('removes direct retired v2 compatibility roles from the local C3 stylesheets', () => {
@@ -39,8 +38,9 @@ describe('C3 Courses and Course Overview canonical token migration', () => {
   })
 
   it('does not retain the superseded local Courses/Overview radius values', () => {
-    for (const css of [courses, coursesBase, overview, overviewRev]) {
+    for (const css of [courses, coursesBase, overview]) {
       expect(css).not.toMatch(/border-radius:\s*(?:10|13|16|18|24)px/)
     }
+    expect(existsSync(new URL('../../src/app/course-overview-rev-feature.css', import.meta.url))).toBe(false)
   })
 })

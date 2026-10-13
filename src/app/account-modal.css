@@ -25,7 +25,7 @@
   overflow: hidden;
   transform: translate(-50%, -50%);
   border: 1px solid var(--color-border);
-  border-radius: 24px;
+  border-radius: var(--radius-surface);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -67,7 +67,7 @@
 }
 
 .runtime-account-modal-nav nav button {
-  min-height: 42px;
+  min-height: var(--control-height-standard);
   display: grid;
   grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
@@ -122,31 +122,15 @@
 .runtime-account-modal-header h2 {
   margin: 0;
   color: var(--color-text);
-  font-size: 26px;
-  line-height: 1.2;
+  font-family: var(--font-family-display);
+  font-weight: 800;
+  font-size: var(--type-learner-h2-size);
+  line-height: var(--type-learner-h2-line);
 }
 
-.runtime-account-modal-close {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  border: 0;
-  border-radius: 12px;
-  background: transparent;
-  color: var(--color-text-secondary);
-  font: inherit;
-  font-size: 26px;
-  line-height: 1;
-  cursor: pointer;
-}
+.runtime-account-modal-close { flex: 0 0 auto; }
 
 .runtime-account-modal-close:hover,
-.runtime-account-modal-close:focus-visible {
-  background: var(--color-surface-soft);
-  color: var(--color-text);
-}
 
 .runtime-account-modal-section {
   display: grid;
@@ -181,7 +165,10 @@
 .runtime-account-admin-tools h3 {
   margin: 0;
   color: var(--color-text);
-  font-size: 16px;
+  font-family: var(--font-family-display);
+  font-weight: 800;
+  font-size: var(--type-learner-h3-size);
+  line-height: var(--type-learner-h3-line);
 }
 
 .runtime-account-profile-hero p,
@@ -242,7 +229,7 @@
 }
 
 .runtime-theme-choice button {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 14px;
   border: 0;
   border-radius: 9px;

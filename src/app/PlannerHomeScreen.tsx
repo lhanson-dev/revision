@@ -315,7 +315,7 @@ export function PlannerHomeScreen({
             <PoweredByRev />
             <h1 id="home-v3-heading">{todayPlan?.allDone ? 'That’s today done, ' + name + '. Nice work.' : 'Hey ' + name + '. Here’s what I’d do next.'}</h1>
             {loadingHero ? <p role="status" className="home-v3-hero-status">Finding your next useful step…</p> :
-              evidenceError ? <div className="home-v3-hero-status" role="alert">REV could not read your current progress. <Button variant="secondary" onClick={retryHome}>Try again</Button></div> :
+              evidenceError ? <div className="home-v3-hero-status" role="alert">REV could not read your current progress. <Button variant="secondary" onInverse onClick={retryHome}>Try again</Button></div> :
               firstTask ? <div className="home-v3-next">
                 <p className="home-v3-hero-eyebrow">{todayPlan?.allDone ? 'If you want to do more' : 'Your next useful step'}</p>
                 <p className="home-v3-topic-meta">{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : firstTask.estimatedMinutes + ' min'}</p>
@@ -324,19 +324,19 @@ export function PlannerHomeScreen({
                 <span className="home-v3-plan-tag">{planTag}</span>
                 <div className="home-v3-hero-actions">
                   <Button onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
-                  <Button variant="secondary" onClick={onOpenPlan}>Open Plan</Button>
+                  <Button variant="secondary" onInverse onClick={onOpenPlan}>Open Plan</Button>
                 </div>
                 {suggestion && <details className="home-v3-alternatives">
                   <summary>Other options</summary>
                   <div>
-                    <Button variant="tertiary" onClick={suggestSomethingElse}>Suggest something else</Button>
-                    <Button variant="tertiary" onClick={hideUntilTomorrow}>Not now</Button>
-                    {plannedSessions !== null && !onToday && <Button variant="tertiary" onClick={() => void addToPlan()}>Add to Plan</Button>}
+                    <Button variant="tertiary" onInverse onClick={suggestSomethingElse}>Suggest something else</Button>
+                    <Button variant="tertiary" onInverse onClick={hideUntilTomorrow}>Not now</Button>
+                    {plannedSessions !== null && !onToday && <Button variant="tertiary" onInverse onClick={() => void addToPlan()}>Add to Plan</Button>}
                   </div>
                 </details>}
               </div> : <div className="home-v3-no-task">
                 <p>{pick.allHidden ? 'You’ve put today’s suggestions aside. They’ll be back tomorrow.' : 'There’s no recommended activity to start just now.'}</p>
-                <Button variant="secondary" onClick={onOpenPlan}>Open Plan</Button>
+                <Button variant="secondary" onInverse onClick={onOpenPlan}>Open Plan</Button>
               </div>
             }
           </div>
@@ -481,9 +481,9 @@ export function PlannerHomeScreen({
                   eligible.length === 1 ?
                     <Button variant="tertiary" onClick={() => onOpenCourseSection(eligible[0].course.id, mode)}>Open {entryLabel(eligible[0].subject.name)} {activity.title} <Icon name="arrow-right" size="inline" /></Button> :
                     <>
-                      <button type="button" className="ui-button ui-button--tertiary" aria-expanded={isOpen} aria-controls={'home-v3-choose-' + mode}
+                      <Button variant="tertiary" aria-expanded={isOpen} aria-controls={'home-v3-choose-' + mode}
                         ref={(node) => { chooserToggles.current[mode] = node }}
-                        onClick={() => focusMode(mode)}>Choose a course <Icon name="chevron-right" size="inline" /></button>
+                        onClick={() => focusMode(mode)}>Choose a course <Icon name="chevron-right" size="inline" /></Button>
                       {isOpen && <ul className="home-v3-course-chooser" id={'home-v3-choose-' + mode}>
                         {eligible.map((entry) => <li key={entry.course.id}>
                           <button type="button" onClick={() => { setChooser(null); onOpenCourseSection(entry.course.id, mode) }}>{entry.label}</button>

@@ -290,6 +290,16 @@ The canonical PlannerRuntime / DrawerShell / PlannerRevScreen interaction remain
 
 This supersedes earlier draft references to retained legacy chat selectors. The active shared learner v2 stylesheet, HueProgressBar, semantic learning-status aliases and central scrim/token definitions remain until a separately governed migration. This registry records implementation ownership and is not additional learner design authority.
 
+## Learner ordinary-control corrective candidate — 13 October 2026, Issue #616 / draft PR #618
+
+`Button` remains the single ordinary-action implementation. Authentication, REV recommendation actions, Learn reveal/retry, first-course Home, Practice alternatives and exam actions now consume it rather than separate local button families or legacy primary/secondary hooks. Native default `type="button"`, handlers, labels and disabled semantics are preserved. `Button` and `IconButton` accept native refs for existing focus owners. An explicitly supplied `aria-busy` is preserved alongside the first-class `loading` state.
+
+The shared `onInverse` contextual modifier translates secondary/tertiary foreground, border and hover/focus on genuine inverse panels. It changes no geometry or action hierarchy. Use `<Button variant="secondary" onInverse>` or tertiary only in a real inverse context; do not recreate it in feature CSS. Primary remains Primary Teal. Learner compact secondary controls use standard targets on coarse pointers; specialist selectors retain their distinct target/anatomy contract, and Admin descendants are excluded from this learner rule.
+
+Shared ProgressMeasures/ExaminerGuide surfaces use 20px and named spacing; identity/answer-option compact anatomy uses canonical radius roles. Existing specialist rating/answer choices, question grid, calendar/steppers, prompt chips, circular icon controls and navigation tiles remain distinct from ordinary buttons. The unused Course Overview feature stylesheet is retired after TSX consumer verification; existing live composition sources are not removed by filename alone.
+
+Inventory and exception rationale: `audits/2026-10-13-learner-design-consistency-616.md`. New rendered assurance: `tests/e2e/learner-design-consistency.spec.ts`; source ownership guard: `scripts/assurance/learner-control-ownership.test.mjs`. This is a draft implementation record, not visual approval, programme closure or a new design authority. Existing screenshot baselines remain unchanged pending Founder visual review and exact-head CI.
+
 ## Shared primitives: single-token ownership — 11 October 2026 (draft PR)
 
 The live shared `StatusBadge`, `UnderstandingBar`, `HueProgressBar`, `Tag`, Quick Check answer-option focus, `Rail`, `TabBar` and shared shell nav are consumers of `src/app/ui/learner-v2-components.css`, `HueProgressBar.tsx` and canonical `src/app/brand-tokens.css`. The legacy v2 `--rv-*` namespace is retired. Components use semantic `--color-*`, `--learning-status-*`, `--focus-ring`, `--radius-*` and shared spacing/action roles instead; no parallel theme palette is permitted.

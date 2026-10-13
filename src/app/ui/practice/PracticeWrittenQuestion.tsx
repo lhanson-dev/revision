@@ -146,7 +146,7 @@ export function PracticeWrittenQuestion(props: PracticeWrittenQuestionProps) {
                 {challenge.error && <p className="practice-rev-card__error" role="alert">{challenge.error}</p>}
                 <div className="practice-rev-card__actions">
                   <Button disabled={!challenge.text.trim() || challenge.state === 'sending'} loading={challenge.state === 'sending'} loadingLabel="REV is checking" onClick={onChallengeSend}>Send to REV</Button>
-                  <button type="button" className="practice-rev-card__button" disabled={challenge.state === 'sending'} onClick={onChallengeCancel}>Cancel</button>
+                  <Button variant="secondary" onInverse className="practice-rev-card__button" disabled={challenge.state === 'sending'} onClick={onChallengeCancel}>Cancel</Button>
                 </div>
               </div>
             ) : (
@@ -154,7 +154,7 @@ export function PracticeWrittenQuestion(props: PracticeWrittenQuestionProps) {
                 {challenge.reply && <p className="practice-rev-card__reply">{challenge.reply}</p>}
                 <div className="practice-rev-card__actions">
                   <Button onClick={onNext}>{nextLabel} <Icon name="arrow-right" size="compact" /></Button>
-                  {challenge.state === 'closed' && <button type="button" className="practice-rev-card__button" onClick={onChallengeOpen}>Challenge a mark</button>}
+                  {challenge.state === 'closed' && <Button variant="secondary" onInverse className="practice-rev-card__button" onClick={onChallengeOpen}>Challenge a mark</Button>}
                 </div>
               </>
             )}

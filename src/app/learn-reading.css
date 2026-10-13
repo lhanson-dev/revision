@@ -74,15 +74,6 @@
 .planner-runtime .learn-block__title--display { font-family: var(--font-family-display); font-size: var(--type-learner-h3-size); line-height: var(--type-learner-h3-line); letter-spacing: -.02em; }
 .planner-runtime .learn-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-.planner-runtime .learn-pill {
-  display: inline-flex; align-items: center; justify-content: center; align-self: start; justify-self: start;
-  min-height: var(--touch-min); padding: 0 20px; border: 0; border-radius: var(--radius-pill);
-  background: var(--sf); box-shadow: inset 0 0 0 1px var(--color-border); color: var(--tx);
-  font: 800 14px/1 var(--font-family-product); cursor: pointer;
-}
-.planner-runtime .learn-pill--strong { background: var(--tx); box-shadow: none; color: var(--bg); }
-.planner-runtime .learn-pill:hover { filter: brightness(.95); }
-.planner-runtime .learn-pill:focus-visible { outline: 0; box-shadow: var(--focus-ring); }
 
 /* ---- explanation: no surface ---- */
 .planner-runtime .learn-block--explanation { gap: 14px; }

@@ -89,9 +89,9 @@ export function PracticeSummary({ topicTitle, topicShort, model, onReadPage, onS
                   <span className="practice-summary__item-title">{item.title}</span>
                   <span className="practice-summary__item-reason">{item.reason}</span>
                   {item.learn && (
-                    <button type="button" className="practice-summary__read" onClick={() => onReadPage(item.learn!.id)}>
+                    <Button variant="tertiary" className="practice-summary__read" onClick={() => onReadPage(item.learn!.id)}>
                       Read: {item.learn.title}<Icon name="arrow-right" size="inline" />
-                    </button>
+                    </Button>
                   )}
                 </div>
               </li>
@@ -113,7 +113,7 @@ export function PracticeSummary({ topicTitle, topicShort, model, onReadPage, onS
 
       <div className="practice-summary__actions">
         <Button variant="secondary" onClick={onPractiseAgain}>Practise again</Button>
-        <button type="button" className="practice-link" onClick={onBack}>Back to Practice</button>
+        <Button variant="tertiary" onClick={onBack}>Back to Practice</Button>
       </div>
     </div>
   )

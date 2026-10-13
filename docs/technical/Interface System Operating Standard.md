@@ -204,6 +204,8 @@ Primary files include:
 - `tests/e2e/b7-final-acceptance.spec.ts`; and
 - `tests/e2e/interface-visual-regression.spec.ts`.
 
+Issue #616 adds `tests/e2e/learner-design-consistency.spec.ts` for numeric rendered geometry, loaded typography, fields, action palette, responsive overflow and ordinary/specialist state checks, plus `scripts/assurance/learner-control-ownership.test.mjs` for recurring owner forks. Screenshots can be captured with `LEARNER_DESIGN_SHOTS=1`; captures never automatically approve baselines. The dated learner audit records classified exceptions and current acceptance limits. Imported tokens and source assertions alone are insufficient evidence of correct rendering.
+
 Enforcement should expand when the shared contract expands; it must not become a second source of design authority.
 
 ## Migration sequence

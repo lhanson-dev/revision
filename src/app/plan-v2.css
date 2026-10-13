@@ -225,7 +225,7 @@
 .pln-dialog { position: relative; z-index: 1; width: min(480px, 100%); max-height: calc(100dvh - 48px); padding: 24px; overflow-y: auto; }
 .pln-dialog--wide { width: min(640px, 100%); }
 .pln-dialog__form { display: flex; flex-direction: column; gap: 16px; }
-.pln-dialog__form h2 { margin: 4px 0 6px; font-size: var(--type-h2-size); line-height: var(--type-h2-line); }
+.pln-dialog__form h2 { margin: var(--space-1) 0 var(--space-2); font-family: var(--font-family-display); font-weight: 800; font-size: var(--type-learner-h2-size); line-height: var(--type-learner-h2-line); }
 .pln-dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .pln-dialog__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 620px) {

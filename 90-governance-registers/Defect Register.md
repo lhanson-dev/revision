@@ -72,3 +72,7 @@ GitHub's 5 October 2026 Actions incident caused Revision's post-merge assurance 
 This is classified P1 under the existing path-to-live severity model: the governed production deployment path is blocked while an older known-good production deployment remains available, and no unverified release was published. DEF-2026-008 is therefore open pending Recovery 5.
 
 ADR-0030 deliberately uses a prospective recovery trust root rather than creating retrospective status evidence. The steady-state release verifier remains unchanged. Closure requires successful production evidence from the Founder-approved Recovery 5 merge, not merely a green recovery PR.
+
+### Learner design drift — Issue #616, corrective candidate 13 October 2026
+
+Mixed ordinary-action radii and redundant feature button families are tracked in Issue #616 / draft PR #618 as learner presentation/consistency defects. Further audit found Home target shrink, profile control overrides and remaining ordinary REV/Learn/Practice/exam owner forks. The candidate corrections and rendered/exception inventory are recorded in `audits/2026-10-13-learner-design-consistency-616.md`. **Status: Fix in review; open.** Founder visual acceptance, final exact-head CI, explicit merge approval and production verification remain outstanding. This note does not inflate P0/P1/P2 counts for cosmetic findings or rewrite any historical closure evidence.

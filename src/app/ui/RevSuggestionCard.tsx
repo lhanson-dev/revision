@@ -1,5 +1,6 @@
 import { RevPresence } from '../RevPresence'
 import { Icon } from './Icon'
+import { Button } from './controls'
 import { classNames } from './classNames'
 
 export type RevSuggestionStepState = 'done' | 'current' | 'upcoming'
@@ -66,10 +67,10 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
       )}
       {(primaryAction || planAction || secondaryAction || tertiaryAction) && (
         <div className="rev-suggestion-card__actions">
-          {primaryAction && <button type="button" className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}{variant === 'hero' && <Icon name="arrow-right" size="inline" />}</button>}
-          {planAction && <button type="button" className="rev-suggestion-card__plan" onClick={planAction.onClick}>{planAction.label}</button>}
-          {secondaryAction && <button type="button" className="rev-suggestion-card__secondary" onClick={secondaryAction.onClick}>{secondaryAction.label}</button>}
-          {tertiaryAction && <button type="button" className="rev-suggestion-card__secondary" onClick={tertiaryAction.onClick}>{tertiaryAction.label}</button>}
+          {primaryAction && <Button size={variant === 'hero' ? 'large' : 'standard'} className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}{variant === 'hero' && <Icon name="arrow-right" size="inline" />}</Button>}
+          {planAction && <Button variant="secondary" onInverse className="rev-suggestion-card__plan" onClick={planAction.onClick}>{planAction.label}</Button>}
+          {secondaryAction && <Button variant="tertiary" onInverse className="rev-suggestion-card__secondary" onClick={secondaryAction.onClick}>{secondaryAction.label}</Button>}
+          {tertiaryAction && <Button variant="tertiary" onInverse className="rev-suggestion-card__secondary" onClick={tertiaryAction.onClick}>{tertiaryAction.label}</Button>}
         </div>
       )}
     </article>

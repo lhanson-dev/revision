@@ -1,3 +1,4 @@
+import { Button } from '../controls'
 import { useId, useState } from 'react'
 import { useBreakpoint } from '../useBreakpoint'
 import { BlockLabel } from './BlockLabel'
@@ -76,9 +77,9 @@ export function Quantitative({ block }: { block: LearnBlockOf<'quantitative'> })
         </svg>
         <figcaption>{block.title}{block.explanation ? `. ${block.explanation}` : ''}</figcaption>
       </figure>
-      <button type="button" className="learn-pill" aria-expanded={showData} aria-controls={tableId} onClick={() => setShowData((open) => !open)}>
+      <Button variant="secondary" aria-expanded={showData} aria-controls={tableId} onClick={() => setShowData((open) => !open)}>
         {showData ? 'Hide the data' : 'Show the data'}
-      </button>
+      </Button>
       {showData && (
         <div id={tableId} className="learn-chart__data">
           {block.series.map((series) => (

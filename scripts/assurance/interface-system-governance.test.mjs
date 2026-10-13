@@ -84,7 +84,8 @@ describe('Revision Interface System governance', () => {
 
   it('blocks ordinary learner action-radius forks at known production owners', () => {
     expect(interfaceSystem).toMatch(/\.ui-button\s*\{[^}]*border-radius:\s*var\(--radius-control\)/)
-    expect(authEntryCss).toContain('.primary.auth-wide-action { min-height: 52px; border-radius: var(--radius-control);')
+    expect(authEntryCss).not.toMatch(/\.auth-wide-action\s*\{[^}]*border-radius:/)
+    expect(read('../../src/app/AuthGate.tsx')).toContain('<Button size="large" className="auth-wide-action"')
     expect(firstUseCss).not.toMatch(/\.first-use-card \.ui-button--primary\s*\{[^}]*border-radius:/)
     expect(practiceCss).not.toMatch(/\.practice-start__button\s*\{[^}]*border-radius:/)
     expect(examPrepCss).not.toContain('.exam-button {')

@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { loadAuthCapabilities } from '../services/auth/auth-capabilities'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
 import { RevPresence } from './RevPresence'
-import { BrandAsset } from './ui'
+import { BrandAsset, Button } from './ui'
 
 type AuthMode = 'sign-in' | 'create-account'
 type ThemeName = 'light' | 'dark'
@@ -185,7 +185,7 @@ export function AuthGate({ children }: AuthGateProps) {
           <div className="auth-email-form">
             <label>New password<input type="password" autoComplete="new-password" minLength={8} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} /></label>
             <label>Confirm new password<input type="password" autoComplete="new-password" minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} /></label>
-            <button className="primary auth-wide-action" disabled={busy} onClick={updatePassword}>Update password</button>
+            <Button size="large" className="auth-wide-action" aria-busy={busy || undefined} disabled={busy} onClick={updatePassword}>Update password</Button>
           </div>
           <p className="message" aria-live="polite">{message}</p>
         </section>
@@ -219,7 +219,7 @@ export function AuthGate({ children }: AuthGateProps) {
         <p className="intro">{creatingAccount ? 'Create an account so Revision can remember your subjects and progress.' : 'Welcome back. Sign in to continue your revision.'}</p>
 
         {googleEnabled && (
-          <button className="auth-provider-button" type="button" disabled={busy} onClick={continueWithGoogle}>
+          <Button variant="secondary" className="auth-provider-button" type="button" disabled={busy} onClick={continueWithGoogle}>
             <svg className="google-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
               <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
               <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
@@ -227,7 +227,7 @@ export function AuthGate({ children }: AuthGateProps) {
               <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
             </svg>
             Continue with Google
-          </button>
+          </Button>
         )}
 
         {googleEnabled && <div className="auth-divider" aria-hidden="true"><span>or</span></div>}
@@ -238,20 +238,20 @@ export function AuthGate({ children }: AuthGateProps) {
           <label>Password<input type="password" autoComplete={creatingAccount ? 'new-password' : 'current-password'} minLength={creatingAccount ? 8 : undefined} value={password} onChange={(event) => setPassword(event.target.value)} /></label>
 
           {creatingAccount ? (
-            <button className="primary auth-wide-action" disabled={busy} onClick={createAccount}>Create account</button>
+            <Button size="large" className="auth-wide-action" aria-busy={busy || undefined} disabled={busy} onClick={createAccount}>Create account</Button>
           ) : (
             <>
-              <button className="primary auth-wide-action" disabled={busy} onClick={signIn}>Sign in</button>
-              <button className="auth-recovery-link" type="button" disabled={busy} onClick={requestPasswordReset}>Forgot password?</button>
+              <Button size="large" className="auth-wide-action" aria-busy={busy || undefined} disabled={busy} onClick={signIn}>Sign in</Button>
+              <Button variant="tertiary" className="auth-recovery-link" type="button" disabled={busy} onClick={requestPasswordReset}>Forgot password?</Button>
             </>
           )}
         </div>
 
         <div className="auth-switch">
           <span>{creatingAccount ? 'Already have an account?' : 'New to Revision?'}</span>
-          <button type="button" disabled={busy} onClick={() => switchMode(creatingAccount ? 'sign-in' : 'create-account')}>
+          <Button variant="tertiary" disabled={busy} onClick={() => switchMode(creatingAccount ? 'sign-in' : 'create-account')}>
             {creatingAccount ? 'Sign in' : 'Create account'}
-          </button>
+          </Button>
         </div>
 
         <p className="message" aria-live="polite">{message}</p>

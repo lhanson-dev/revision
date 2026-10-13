@@ -742,7 +742,7 @@ export function FocusedLearningWorkspace({
     // The feedback bar: what happened, why, and one action. No Learn or Ask REV links per question (they are in the summary).
     const feedbackFor = () => {
       if (question?.type === 'calculation' && calcChecked) {
-        const action = <Button onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
+        const action = <Button size="large" onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
         const workings = question.workings
         if (calcChecked.right) {
           const guessed = calcChecked.confidence === 'guess'
@@ -771,7 +771,7 @@ export function FocusedLearningWorkspace({
       const correct = checked.selected === question.correctOption
       const letter = 'ABCDEF'[checked.selected]
       const why = question.options[checked.selected]?.why
-      const action = <Button onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
+      const action = <Button size="large" onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
       if (correct) {
         const guessed = checked.confidence === 'guess'
         return (
@@ -895,12 +895,12 @@ export function FocusedLearningWorkspace({
               <h3>{caseQuestion.prompt}</h3>
               <TextAreaField groupClassName="answer-label" label="Draft your answer" rows={9} value={caseDraft} onChange={(event) => setCaseDraft(event.target.value)} placeholder="Use the case evidence and build a clear chain of reasoning." />
               {!showCaseGuidance ? (
-                <Button className="primary" disabled={!caseDraft.trim()} onClick={() => setShowCaseGuidance(true)}>Compare with guidance</Button>
+                <Button disabled={!caseDraft.trim()} onClick={() => setShowCaseGuidance(true)}>Compare with guidance</Button>
               ) : (
                 <>
                   <div className="answer-panel"><strong>What a strong answer should do</strong><p>{caseQuestion.guidance}</p></div>
                   <div className="next-step"><strong>What should I improve?</strong><span>Compare your answer with the guidance. Look for missing case evidence, weak chains of reasoning, or a judgement that is not conditional enough.</span></div>
-                  <Button className="primary" onClick={nextCaseQuestion}>Next case question</Button>
+                  <Button onClick={nextCaseQuestion}>Next case question</Button>
                 </>
               )}
             </article>
@@ -918,7 +918,7 @@ export function FocusedLearningWorkspace({
             <TextAreaField groupClassName="answer-label" label="Write your answer" rows={12} value={examDraft} disabled={examRecorded} onChange={(event) => setExamDraft(event.target.value)} placeholder="Answer as you would in the exam. Use the case where relevant and show calculations." />
             <p className="muted small-note">Your written draft stays on this screen only. Revision saves the marks you record, not the text of this answer.</p>
             {!showMarkingGuidance ? (
-              <Button className="primary" disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</Button>
+              <Button disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</Button>
             ) : (
               <>
                 <div className="answer-panel">
@@ -940,11 +940,11 @@ export function FocusedLearningWorkspace({
                   <div className="mark-total"><span>Your self-assessed mark</span><strong>{examTotalAwarded} / {examQuestion.marks}</strong></div>
                 </div>
                 {!examRecorded ? (
-                  <Button className="primary" disabled={saving} onClick={recordExamQuestion}>Record this result</Button>
+                  <Button disabled={saving} onClick={recordExamQuestion}>Record this result</Button>
                 ) : (
                   <>
                     <div className="result-explanation" aria-live="polite"><strong>Result recorded: {examTotalAwarded} / {examQuestion.marks}</strong><span>This is exam evidence, but because you marked it yourself Revision limits the confidence it can claim. Use the guidance above to identify what to improve next.</span></div>
-                    <Button className="primary" onClick={nextExamQuestion}>Next exam question</Button>
+                    <Button onClick={nextExamQuestion}>Next exam question</Button>
                   </>
                 )}
               </>
@@ -961,8 +961,8 @@ export function FocusedLearningWorkspace({
                 <div className="practice-meta">Formula {(formulaIndex % formulas.length) + 1} of {formulas.length}</div>
                 <h3>{formula.name}</h3>
                 <p className="muted">Write the formula from memory before revealing it.</p>
-                {showFormula ? <div className="answer-panel"><strong>Formula</strong><p>{formula.expression}</p></div> : <Button variant="secondary" className="secondary" onClick={() => setShowFormula(true)}>Reveal formula</Button>}
-                {showFormula && <Button className="primary" onClick={nextFormula}>Next formula</Button>}
+                {showFormula ? <div className="answer-panel"><strong>Formula</strong><p>{formula.expression}</p></div> : <Button variant="secondary" onClick={() => setShowFormula(true)}>Reveal formula</Button>}
+                {showFormula && <Button onClick={nextFormula}>Next formula</Button>}
               </article>
             )}
             {drill && (
@@ -970,8 +970,8 @@ export function FocusedLearningWorkspace({
                 <div className="practice-meta">Data drill {(drillIndex % drills.length) + 1} of {drills.length}</div>
                 <h3>{drill.title}</h3>
                 <p>{drill.prompt}</p>
-                {showDrillAnswer ? <div className="answer-panel"><strong>Model answer</strong><p>{drill.answer}</p></div> : <Button variant="secondary" className="secondary" onClick={() => setShowDrillAnswer(true)}>Show model answer</Button>}
-                {showDrillAnswer && <Button className="primary" onClick={nextDrill}>Next data drill</Button>}
+                {showDrillAnswer ? <div className="answer-panel"><strong>Model answer</strong><p>{drill.answer}</p></div> : <Button variant="secondary" onClick={() => setShowDrillAnswer(true)}>Show model answer</Button>}
+                {showDrillAnswer && <Button onClick={nextDrill}>Next data drill</Button>}
               </article>
             )}
           </div>

@@ -27,6 +27,7 @@ Use this file to find the governing source before substantive work.
 - Returning Student Home / direct useful-activity implementation → `docs/technical/Returning Student Home Implementation.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
 - Learner design-system Phase C implementation reconciliation / KEEP-FIX-REMOVE plan → `docs/technical/Learner Design System Implementation Reconciliation.md`
+- Learner design consistency Issue #616 corrective inventory and acceptance limits (13 October 2026; evidence, not authority) → `audits/2026-10-13-learner-design-consistency-616.md`
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
 - Interactive component quality / button sizing, states and page-level implementation → `docs/technical/Interactive Component Quality Implementation.md`

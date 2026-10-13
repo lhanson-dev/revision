@@ -20,7 +20,6 @@
   outline: 3px solid var(--color-action);
   outline-offset: 3px;
 }
-.home-v3 .ui-button { min-height: 44px; }
 .home-v3-hero {
   position: relative;
   overflow: hidden;
@@ -109,16 +108,9 @@
   margin-top: 20px;
 }
 .home-v3-hero-actions .ui-button { white-space: nowrap; }
-.home-v3-hero .ui-button--secondary {
-  color: var(--color-inverse-action-text);
-  background: transparent;
-  border-color: color-mix(in srgb, var(--brand-soft-aqua) 40%, transparent);
-}
-.home-v3-hero .ui-button--secondary:hover { background: color-mix(in srgb, var(--brand-soft-aqua) 10%, transparent); }
 .home-v3-alternatives { margin-top: 14px; font-size: 14px; }
 .home-v3-alternatives summary { width: fit-content; min-height: 44px; display: flex; align-items: center; color: var(--color-inverse-text-secondary); cursor: pointer; }
 .home-v3-alternatives > div { display: flex; flex-wrap: wrap; gap: 6px; }
-.home-v3-alternatives .ui-button--tertiary { color: var(--color-inverse-action-text); }
 .home-v3-ask {
   display: flex;
   width: 100%;
@@ -143,7 +135,7 @@
   font-size: 16px;
 }
 .home-v3-ask input:focus-visible { outline: none; }
-.home-v3-ask .ui-button { padding-inline: 12px; min-height: 44px; }
+.home-v3-ask .ui-button { padding-inline: var(--space-3); min-height: var(--control-height-standard); }
 .home-v3-hero .ui-rev-mark__text { color: var(--color-inverse-text-secondary); }
 .home-v3-notice { padding: 14px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface-soft); }
 
@@ -251,7 +243,7 @@
 .home-v3-activity h3 { margin: 0 0 6px; font-family: var(--font-family-display); color: var(--color-text); font-size: 18px; font-weight: 800; }
 .home-v3-activity p { margin: 0 0 12px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.5; }
 .home-v3-activity-copy { min-width: 0; }
-.home-v3-activity .ui-button { height: auto; min-height: 44px; justify-content: flex-start; text-align: left; white-space: normal; }
+.home-v3-activity .ui-button { height: auto; justify-content: flex-start; text-align: left; white-space: normal; }
 .home-v3-course-chooser {
   position: relative; z-index: 2; padding: 5px; margin: 6px 0 0;
   list-style: none; border: 1px solid var(--color-border);

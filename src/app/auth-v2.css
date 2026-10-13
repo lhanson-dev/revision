@@ -31,8 +31,6 @@
 .auth-shell--split .auth-card { box-shadow: none; border-radius: var(--radius-feature); }
 .auth-shell--split .auth-card input { border: 2px solid var(--color-border-control); border-radius: var(--radius-control); }
 .auth-shell--split .auth-card input:focus-visible { border-color: var(--color-action); box-shadow: var(--focus-ring); }
-.auth-shell--split .auth-provider-button { border-radius: var(--radius-control); font-weight: 800; }
-.auth-shell--split .auth-card .primary.auth-wide-action { min-height: 52px; border-radius: var(--radius-control); background: var(--color-action); border-color: var(--color-action); color: var(--color-action-text); font-weight: 800; }
 
 /* The hero panel is always dark, so REV uses its dark-theme glow there. */
 .auth-hero { --rev-halo-core: rgba(43, 182, 163, .30); --rev-halo-mid: rgba(43, 182, 163, .14); --rev-halo-outer: rgba(43, 182, 163, .18); }

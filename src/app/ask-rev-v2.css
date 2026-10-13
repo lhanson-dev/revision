@@ -31,7 +31,7 @@
 .rev-chat__composer { display: grid; gap: 6px; }
 .rev-chat__label { font-weight: 800; font-size: var(--type-label-size); color: var(--color-text-secondary); }
 .rev-chat__composer-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; }
-.rev-chat__input { min-width: 0; min-height: var(--field-height-standard); padding: 0 var(--space-5); border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); background: var(--color-surface); color: var(--color-text); font: inherit; font-weight: 600; }
+.rev-chat__input { min-width: 0; min-height: var(--field-height-standard); padding: 0 var(--space-5); border: 2px solid var(--color-border-control); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: var(--type-body-size); font-weight: 600; }
 .rev-chat__input:focus-visible { outline: 0; border-color: var(--color-action); box-shadow: var(--focus-ring); }
 
 .rev-chat__note { margin: 0; font-weight: 600; color: var(--color-text-secondary); }

@@ -144,3 +144,31 @@ export function bankMarkPoints(prompt: string) {
   expect(record, `"${prompt.slice(0, 60)}" should be in the AQA bank`).toBeTruthy()
   return record!.question.mark_scheme.points ?? []
 }
+
+export type QuestionSessionPlan = Array<{ right: boolean; sure: Sure }>
+
+/** Runs a whole session through the real screens. Each answer follows the plan; once the plan runs out, answers are right. */
+export async function finishQuestionSession(page: Page, plan: QuestionSessionPlan) {
+  const done = page.getByText(/^Session done · /)
+  const learned = new Map<string, number>()
+  const planned = new Map<string, { right: boolean; sure: Sure }>()
+  for (let index = 0; index < 40; index += 1) {
+    if (await done.isVisible()) return
+    const prompt = (await page.locator('.practice-question__prompt').textContent()) ?? ''
+    // The plan covers each question's first go. A retry is answered right and sure, which is what ends the session.
+    const seen = planned.has(prompt)
+    if (!seen) planned.set(prompt, plan[planned.size] ?? { right: true, sure: 'Certain' as Sure })
+    const step = seen ? { right: true, sure: 'Certain' as Sure } : planned.get(prompt)!
+    const known = bankCorrectIndex(prompt) ?? learned.get(prompt) ?? null
+    if (known === null) {
+      // Outside the AQA bank: guess by position, then read the right option from the feedback so a retry can be answered properly.
+      await answerWith(page, 0, step.sure)
+      learned.set(prompt, await page.locator('.practice-question__options button').evaluateAll((buttons) => buttons.findIndex((button) => button.classList.contains('ui-answer-option--correct'))))
+    } else {
+      const count = await page.locator('.practice-question__options button').count()
+      await answerWith(page, step.right ? known : (known + 1) % count, step.sure)
+    }
+    await page.getByRole('button', { name: /^(Next question|See how you did)/ }).click()
+  }
+  await expect(done).toBeVisible()
+}

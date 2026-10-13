@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { Icon } from './Icon'
+import { Button } from './controls'
 import { classNames } from './classNames'
 
 export interface QuickCheckOption {
@@ -63,9 +64,9 @@ export function QuickCheck({ question, options, correctOptionId, explanation, cl
           <>
             <p><b>{correct ? 'Yep.' : 'Not quite.'}</b> {explanation} This doesn’t count towards your progress.</p>
             {!correct && (
-              <button type="button" className="ui-quick-check__retry" onClick={() => setPickedId(null)}>
+              <Button variant="secondary" className="ui-quick-check__retry" onClick={() => setPickedId(null)}>
                 <Icon name="retry" size="inline" />Try again
-              </button>
+              </Button>
             )}
           </>
         )}

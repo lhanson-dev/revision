@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
+import { IconButton } from '../controls'
 import { Icon } from '../Icon'
 import { StatusBadge } from '../StatusBadge'
 import type { LearningStatus } from '../learning-status'
@@ -25,9 +26,9 @@ export function PracticeActivityWorkspace({ label, subjectMark, accentStyle, onC
     <section className="practice-activity" role="region" aria-label={label} style={accentStyle}>
       <header className="practice-activity__bar">
         <div className="practice-activity__bar-inner">
-          <button ref={backButton} type="button" className="practice-activity__close" aria-label="Back to practice" onClick={onClose}>
+          <IconButton ref={backButton} className="practice-activity__close" label="Back to practice" onClick={onClose}>
             <Icon name="arrow-right" size="standard" />
-          </button>
+          </IconButton>
           <span className="practice-activity__mark" aria-hidden="true">{subjectMark}</span>
           {bar}
         </div>

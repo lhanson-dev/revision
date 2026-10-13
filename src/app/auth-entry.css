@@ -96,21 +96,7 @@
   box-shadow: var(--focus-ring);
 }
 
-.auth-provider-button {
-  width: 100%;
-  min-height: var(--field-height-standard);
-  margin-top: var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-weight: var(--type-button-weight);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-}
+.auth-provider-button { width: 100%; margin-top: var(--space-5); }
 
 .auth-provider-button:disabled,
 .auth-recovery-link:disabled,
@@ -138,30 +124,9 @@
 .auth-divider::after { content: ''; height: 1px; flex: 1; background: var(--color-border); }
 
 .auth-email-form { display: grid; gap: 0; }
-.auth-card .primary.auth-wide-action {
-  width: 100%;
-  min-height: var(--control-height-standard);
-  margin-top: var(--space-5);
-  border: 1px solid var(--color-action);
-  border-radius: var(--radius-control);
-  background: var(--color-action);
-  color: var(--color-action-text);
-  font-size: var(--type-button-size);
-  line-height: var(--type-button-line);
-  font-weight: var(--type-button-weight);
-}
+.auth-wide-action { width: 100%; margin-top: var(--space-5); }
 
-.auth-recovery-link {
-  justify-self: start;
-  min-height: var(--control-height-standard);
-  margin-top: var(--space-2);
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-accent-text);
-  font-weight: var(--type-button-weight);
-  cursor: pointer;
-}
+.auth-recovery-link { justify-self: start; margin-top: var(--space-2); padding-inline: 0; }
 
 .auth-switch {
   display: flex;
@@ -176,15 +141,7 @@
   line-height: var(--type-body-s-line);
 }
 
-.auth-switch button {
-  min-height: var(--control-height-standard);
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-accent-text);
-  font-weight: var(--type-button-weight);
-  cursor: pointer;
-}
+.auth-switch .ui-button { padding-inline: 0; }
 
 .auth-card .message {
   min-height: 22px;
@@ -197,5 +154,5 @@
   .auth-brand { width: min(168px, 52vw); }
   .auth-card,
   .auth-entry-card { padding: var(--space-6) var(--space-5); }
-  .auth-provider-button { min-height: 50px; }
+  .auth-provider-button { width: 100%; margin-top: var(--space-5); }
 }

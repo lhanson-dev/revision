@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Button } from '../controls'
 import { BlockLabel } from './BlockLabel'
 import type { LearnBlockOf } from './types'
 
@@ -43,8 +44,8 @@ export function WorkedExample({ block }: { block: LearnBlockOf<'worked-example'>
       <div className="learn-sr-only" aria-live="polite">{stepping ? `Showing step ${visible} of ${total}.` : ''}</div>
       {!done && (
         <div className="learn-worked__actions">
-          <button type="button" className="learn-pill learn-pill--strong" onClick={() => setShown(visible + 1)}>Show step {visible + 1}</button>
-          <button type="button" className="learn-pill" onClick={() => setShown(total)}>Show all</button>
+          <Button onClick={() => setShown(visible + 1)}>Show step {visible + 1}</Button>
+          <Button variant="secondary" onClick={() => setShown(total)}>Show all</Button>
         </div>
       )}
       {done && block.conclusion && <p className="learn-worked__conclusion">{block.conclusion}</p>}

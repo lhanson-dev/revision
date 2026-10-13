@@ -1,5 +1,5 @@
 import { RevPresence } from './RevPresence'
-import { Icon } from './ui'
+import { Button, Icon } from './ui'
 
 interface HomeSetupEmptyProps {
   courseCount: number
@@ -43,7 +43,7 @@ export function HomeSetupEmpty({ courseCount, hasExamDates, hasStudyTimes, onOpe
           <h2 id="home-setup-title">{next.headline}</h2>
           <p>Takes about two minutes. After a few sessions I’ll start suggesting what to focus on.</p>
           <div className="home-setup-actions">
-            <button type="button" className="home-setup-primary" onClick={next.target === 'courses' ? onOpenCourses : onOpenPlan}>{next.label}<Icon name="arrow-right" size="inline" /></button>
+            <Button size="large" onClick={next.target === 'courses' ? onOpenCourses : onOpenPlan}>{next.label}<Icon name="arrow-right" size="inline" /></Button>
           </div>
         </div>
       </section>
