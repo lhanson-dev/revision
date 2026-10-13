@@ -6,7 +6,7 @@ import { examDateLabel, examPapersFor, lastMockFrom, mockRowFor, suggestMock, to
 import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
 import { resolveSubjectIdentity } from './subject-palette'
 import { topicProgressFor } from './topic-status'
-import { accentStyle, ExamPrepPage, type ExamMockMode } from './ui'
+import { accentStyle, Button, ExamPrepPage, type ExamMockMode } from './ui'
 
 type MockExam = ExamSimulatorProps['exam']
 
@@ -83,9 +83,9 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     return (
       <section className="exam-prep-activity" aria-label={`Mock exam: ${activeMock.exam.title}`} style={accentStyle(identity.hue)}>
         <header className="exam-prep-activity__header">
-          <button type="button" className="exam-prep-activity__back" onClick={() => setActive(null)}>
+          <Button variant="secondary" className="exam-prep-activity__back" onClick={() => setActive(null)}>
             Back to Exam Prep
-          </button>
+          </Button>
           <div>
             <p className="ui-eyebrow">{active.mode === 'timed' ? 'Timed mock' : 'Untimed paper practice'}</p>
             <h2>{rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title}</h2>
