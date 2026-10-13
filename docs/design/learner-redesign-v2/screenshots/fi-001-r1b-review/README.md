@@ -24,3 +24,7 @@ The separate shared Information Status token changes only its foreground from `#
 ## Unresolved gate
 
 Founder visual-baseline approval is still required for the **four changed Home CI captures** before any new digests can be accepted, under `CLAUDE.md`'s visual-baseline rule and the existing protected assertions. Review the final exact-head CI artifact and these expected content differences; inspect for runner/font rasterisation differences as well. Do not copy these local hashes into approved constants or infer approval from the R1 product Ready decision. The implementation remains draft and must not merge.
+
+## Subsequent Founder approval and baseline update — 13 October 2026
+
+The unresolved-gate description above records this evidence pack's original state. The Founder subsequently approved all four Home changes in https://github.com/lhanson-dev/revision/pull/617#issuecomment-6144958070. Only the four protected Home values are updated from the agreed initial/retry CI browser digests in run #38387830199, head `fdf83fd85b5943b508e51095e2286a23da5a9145`, artifact `11807429017`. These local images and their original evidence limits remain unchanged. Artifact metadata matches; raw ZIP retrieval remains blocked (403), so PNG-byte recomputation is not asserted. The new exact-head CI must confirm the four baseline checks; its actual outcome is recorded on #617. This approval does not authorise merge, ready-for-merge conversion or full R1 completion.
