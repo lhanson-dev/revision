@@ -110,11 +110,19 @@ const cases: ReadonlyArray<VisualCase> = [
  * Existing comparison algorithms, masks and unchanged baselines are retained.
  * This is visual approval only; PR #618 merge approval remains separate.
  */
+/** PR #623: Founder replied “approved” to its Home visual-comparison request,
+ * 13 October 2026, reviewed head 134a020c739714bce81f46286b0f3bab1b503425.
+ * Visual approval only; no merge approval. Four CI-derived Home digests from
+ * run 38465031057 / head 114f3cf9cb208d4ad5db8eb3fbf487fb70ddeb1f;
+ * production source, protected fixture and Playwright config are identical to
+ * the reviewed head. Initial/retry hashes agree. All other baselines untouched.
+ * Provenance: audits/2026-10-13-home-622-visual-approval.md.
+ */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '29b376006580d0c5ba534bc4401fbaa266d9402959447b31d01401687ad3389f',
-  'phone:dark': '496b44b5a8d0ce9e94660858293bd843928c6a95b282004d9a2db3cb4c6ea87c',
-  'desktop:light': 'b43dff4327a509f387d8711755bfd6227c7088b07cb1cbfaeb0c5a82ec1910d6',
-  'desktop:dark': 'a13e547ad0af4b511c72d9aca39e2e8defcc5e7de27a6b3475fcc18f6d4cc821',
+  'phone:light': '47d5f153515b778dd79dab6bd35fd73918d1b5a1b4d8c8918e49b499f2856eb4',
+  'phone:dark': '5b6c3f993641752c0c1889a552272d40d18f0749d802e6455670d2c8eb84896b',
+  'desktop:light': '0018cdcc656f188de5b9b2ac0b442d7d92c73ed36354146ec35f376f6ef48661',
+  'desktop:dark': '8f6d19aec968e8a153b152c7d13a14176d002ddc3a20cbf2acf5ff2c14664a45',
 }
 
 /**
@@ -544,10 +552,18 @@ for (const device of ['phone', 'desktop'] as const) {
       const day = page.locator('.home-v3-plan')
       await expect(day).toContainText('35 min planned')
       await expect(day).toContainText('1 of 2 done')
-      await expect(day.locator('.home-v3-done')).toHaveCount(1)
+      // Completed work remains in the full-day summary, not among outstanding Start rows.
+      await expect(day.locator('.home-v3-done')).toHaveCount(0)
+      await expect(day.locator('.home-v3-plan-row')).toHaveCount(1)
+      await expect(day.locator('.home-v3-plan-row')).toContainText('Marketing')
+      await expect(day.locator('.home-v3-plan-row').getByRole('button', { name: /^Start/ })).toHaveCount(1)
+      await expect(day.getByRole('progressbar')).toHaveAttribute('aria-valuetext', '15 of 35 minutes done')
       const exams = page.locator('.home-v3-exams')
       await expect(exams).toContainText('Business Paper 1 mock')
-      await expect(exams).toContainText('Official exams')
+      await expect(exams.locator('.home-v3-next-exam')).toContainText('Mock exam')
+      await expect(exams.locator('.home-v3-exam-group li')).toHaveCount(1)
+      await expect(exams.locator('.home-v3-exam-group li')).toContainText('Official exam')
+      await expect(exams.locator('.home-v3-exam-group li')).toContainText('10 May')
       await expect(exams).toContainText('Business Paper 1')
 
       const full = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })

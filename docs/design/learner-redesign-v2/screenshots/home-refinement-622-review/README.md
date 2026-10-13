@@ -7,3 +7,7 @@ Before: approved main `501388ee77484ffd896a7dad876a657d822b6ccb`. After rendered
 The frozen Claude `design_system_v3/Home Mockup.dc.html` and named `Home Mockup-selection9.png` are inaccessible in approved main/Issue #622. Written handoff governs this proposal; no pixel-fidelity claim. All after captures loaded actual Manrope and Bricolage Grotesque. Native full-page capture retains the real fixed shell; controls may overlay content at the first viewport boundary.
 
 **Founder visual approval needed before any new baselines are accepted.** These images are review evidence, not approved baselines or merge approval. Existing hashes remain active. See the dated Issue #622 audit for executed assurance and external CI/font limitations.
+
+## Visual approval recorded
+
+On 13 October 2026 the Founder replied **“approved”** to the visual-comparison request for PR #623 at reviewed head `134a020c739714bce81f46286b0f3bab1b503425`. Approval is recorded in [PR comment 6155109930](https://github.com/lhanson-dev/revision/pull/623#issuecomment-6155109930). The original ZIP labels remain historical. Corresponding Home baseline updates must use verified CI evidence; this does not authorise merge or unrelated baselines. See `audits/2026-10-13-home-622-visual-approval.md` for provenance and final assurance.

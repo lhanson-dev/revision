@@ -1,6 +1,6 @@
 # Returning Student Home Implementation
 
-**Current proposed change:** Issue #622, Founder-approved bounded refinement, not yet merged or visually accepted. Approved integration baseline: `501388ee77484ffd896a7dad876a657d822b6ccb` (13 October 2026). The earlier release evidence below remains historical.
+**Current proposed change:** Issue #622, Founder-approved bounded refinement, not yet merged; visuals approved by the Founder on 13 October 2026, final exact-head assurance pending. Approved integration baseline: `501388ee77484ffd896a7dad876a657d822b6ccb` (13 October 2026). The earlier release evidence below remains historical.
 
 ## Issue #622 implementation contract
 
@@ -17,7 +17,7 @@ No changes to ranking, schema, auth, routes, global navigation, learning thresho
 
 Authority changes accompany implementation in Returning Student Home Experience, REV Guidance and Conversation Pattern and Student Lifecycle Journey Contracts. Core User Journeys was checked: it does not prescribe the removed six tiles and requires no change. Component Registry, feature documentation and assurance register record the change. No general design standard or architecture decision is needed.
 
-Reference limitation: neither frozen `design_system_v3/Home Mockup.dc.html` nor `Home Mockup-selection9.png` exists in the checkout/issue attachments. Written Issue #622 controls the implementation; no pixel-fidelity claim. New visual baselines remain blocked on explicit Founder comparison approval. See the dated refinement audit for executed assurance and remaining gates.
+Reference limitation: neither frozen `design_system_v3/Home Mockup.dc.html` nor `Home Mockup-selection9.png` exists in the checkout/issue attachments. Written Issue #622 controls the implementation; no pixel-fidelity claim. Founder comparison approval was recorded on 13 October 2026; new Home baselines use matching CI evidence documented in `audits/2026-10-13-home-622-visual-approval.md`. Fresh exact-head assurance remains required. See the dated refinement audit for executed assurance and remaining gates.
 
 ## Historical implementation and release record (before Issue #622)
 

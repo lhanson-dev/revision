@@ -4,7 +4,7 @@ The proposed Home ends after REV → Today's Plan/Exams → Progress → Courses
 
 Zero-course Home retains Add Course and explicitly optional dates/study times, using the same REV/Ask REV treatment and shared checklist. Existing GJ-01, navigation, routes, planner and evidence semantics remain unchanged. No Home mode tiles, separate dismissal or Add-to-Plan actions remain.
 
-Status: implementation proposal on a governed branch; Founder design/work approval is recorded in Issue #622. Written handoff is available, frozen HTML and named screenshot are not accessible in the repository or issue attachments. Visual-baseline acceptance, exact-head CI, independent final review and specific PR merge approval remain gates. Existing baselines are not repinned.
+Status: implementation proposal on a governed branch; Founder design/work approval is recorded in Issue #622. Written handoff is available, frozen HTML and named screenshot are not accessible in the repository or issue attachments. Founder visually approved the comparison bundle on 13 October 2026; corresponding Home hashes use verified matching CI evidence. Exact-head CI, independent final review and specific PR merge approval remain gates. Existing baselines are not repinned.
 
 ## Historical Home v3 release evidence
 
