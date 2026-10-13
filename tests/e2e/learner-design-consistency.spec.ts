@@ -59,6 +59,7 @@ async function inspect(page: Page, info: TestInfo, state: string) {
           border: css.border, shadow: css.boxShadow, disabled: el.matches(':disabled'),
           field: el.matches('.ui-field, .auth-card input, .rev-chat__input'),
           surface: el.matches('.ui-progress-measure, .ui-examiner-guide'),
+          flatMeasure: el.matches('.ui-progress-measures--flat > .ui-progress-measure'),
           icon: el.matches('.ui-icon-button, .pln-nav__step, .pln-picker__step, .ui-date-nav, .practice-activity__close'),
           ordinary: el.matches('.ui-button, .primary, .secondary, .rev-suggestion-card__primary, .rev-suggestion-card__secondary, .rev-suggestion-card__plan'),
           // Segmented/theme choices select a state rather than perform an action.
@@ -97,7 +98,7 @@ async function inspect(page: Page, info: TestInfo, state: string) {
     expect.soft(field.fontSize, `${state}: field text`).toBe('16px')
   }
   for (const surface of evidence.controls.filter(c => c.surface)) {
-    expect.soft(surface.radius, `${state}: surface ${surface.classes}`).toBe('20px')
+    expect.soft(surface.radius, `${state}: surface ${surface.classes}`).toBe(surface.flatMeasure ? '0px' : '20px')
   }
   for (const icon of evidence.controls.filter(c => c.icon)) {
     expect.soft(icon.height, `${state}: icon target height`).toBeGreaterThanOrEqual(44)
@@ -233,7 +234,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.addInitScript(t => localStorage.setItem('revision:theme', t), theme)
     await page.route('**/rest/v1/learner_planned_sessions**', r => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
     await page.goto('/revision/app/#/home')
-    const action = page.locator('.home-v3-hero').getByRole('button', { name: 'Open Plan', exact: true })
+    const action = page.locator('.home-v3-hero').getByRole('button', { name: 'Suggest something else', exact: true })
     await expect(action).toBeVisible()
     await action.hover()
     await expect(action).toHaveCSS('color', 'rgb(255, 255, 255)')

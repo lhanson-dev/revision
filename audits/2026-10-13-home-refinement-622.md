@@ -17,7 +17,7 @@ The frozen `design_system_v3/Home Mockup.dc.html` is absent from approved main; 
 - One Home secondary alternative, no dismissal/book/reschedule API; bounded shared local-day exclusions retain compatibility with Plan/REV. Exhaustion is distinct from completion/rest/error.
 - Three supported outstanding rows in genuine order, full-day summary preserved, no fabricated later-row pick highlight. Unsupported commitments remain stored and inspectable in Plan.
 - Combined chronological later assessments, same-day Today, explicit kind/date and Plan-owned Edit dates; independent Exam Prep through Courses.
-- Shared flat progress, inverse halo and extracted checklist; default component consumers preserved. No new semantic tokens, colours, radius or type families. No live Home v2 consumer remains; historical stylesheet retained without import.
+- Shared flat progress, inverse halo and extracted checklist; default component consumers preserved. No new semantic tokens, colours, radius or type families. No live Home v2 layout consumer remains; two shared RevSuggestionCard head glyph rules were moved unchanged into its canonical shared stylesheet before retiring the import. Historical stylesheet retained.
 - Tests assert exact Start across Home/Plan/REV, persistence, once-only Ask REV, optional setup, unavailable/unsupported states, actual evidence and readiness semantics, accessible responsive controls. Old mode/dismiss/book assertions are replaced with the approved contract's nonmutation and independent-navigation assertions, not removed for a green result.
 
 ## Executed evidence and current limits
@@ -27,3 +27,11 @@ Initial sandboxed full test run failed because the sandbox blocked child process
 Initial browser runs caught and corrected shared checklist Light contrast, exhaustion on an accepted zero-capacity day, attribution phone layout and obsolete completed-row expectations. Concurrent browser runners shared a fixture server that one runner tore down; final validation runs use a single runner. Initial failing runs are not completion evidence.
 
 New screenshot baselines are deliberately unchanged pending Founder review. Expected changed Home visual hashes must not be bypassed or pinned from an unapproved local run. Exact-head CI, final current-main integration and independent final diff review remain required before requesting merge approval. No merge or production deployment is authorised by this task.
+
+## Corrected Home browser evidence
+
+One consolidated production-build browser runner passed **79 tests / 2 existing viewport skips** across phone/tablet/desktop (`work/home-final.log`). This includes all four review states Light/Dark, 320px text enlargement, reduced motion/listening text, forced-colours operability, Axe, full-day counts with three rows, no fabricated fourth-row pick, exact Home/Plan/REV Start, accepted work nonmutation, unsupported Starts, Plan date editor and single-submit Ask REV. Final additional midnight/error/navigation checks and shared consistency run follow separately.
+
+Final focused unit selection passed **66 tests / 16 files** after checklist contrast and glyph ownership corrections. The 24 approved-main before captures were completed using the same synthetic fixtures and pinned clock. New review images are evidence only, not accepted baselines.
+
+Shared regression review found two ordinary-component assurances requiring explicit contract alignment: flat progress has no nested 20px cards (zero inner radius, one outer card), and the regular Home inverse alternative is now Suggest something else rather than Open Plan. The radius/contrast/hover/focus assertions remain active for the correct owners. The legacy Home v2 import had also carried two live shared-card glyph rules; those were relocated unchanged to shared `rev-suggestion-card.css` to preserve other consumers before removing the import.

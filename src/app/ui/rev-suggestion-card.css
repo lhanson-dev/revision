@@ -83,3 +83,7 @@
 .rev-suggestion-card__steps--neutral .rev-suggestion-card__step-mark { border-color: var(--color-border-control); }
 .rev-suggestion-card__steps--neutral .rev-suggestion-card__step-meta { color: var(--color-text-secondary); line-height: 1.5; }
 .rev-suggestion-card__steps--neutral .rev-suggestion-card__step[data-state="current"] { background: var(--color-selection-surface); }
+/* Preserve the compact bare mark formerly supplied by home-v2.css.
+   This shared card has live Course/Practice/Exam Prep consumers. */
+.rev-suggestion-card__head .rev-halo { display: none; }
+.rev-suggestion-card__head .rev-living-e { width: 100%; height: 100%; }

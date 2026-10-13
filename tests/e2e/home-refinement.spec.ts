@@ -60,6 +60,10 @@ for (const theme of ['light', 'dark']) for (const state of ['returning', 'all-do
       await expect(home).toContainText('Exam dates · optional')
       await expect(home).toContainText('Study times · optional')
     }
+    const viewport = page.viewportSize()!
+    await page.setViewportSize({ width: 320, height: 900 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+    await page.setViewportSize(viewport)
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.evaluate(() => document.fonts.ready)
     if (process.env.HOME_REVIEW_SHOTS || process.env.LEARNER_DESIGN_SHOTS) {
@@ -107,4 +111,38 @@ test('Home mixed exams use chronological stored dates and Today; no inline Exam 
   await expect(exams.locator('.home-v3-exam-group li').first()).toContainText('a-official · Official exam')
   await expect(exams.locator('.home-v3-exam-group li').last()).toContainText('b-mock · Mock exam')
   await expect(exams.getByRole('button', { name: /Open Exam Prep/ })).toHaveCount(0)
+})
+
+test('Home rotation expires on local-day change and never changes accepted work', async ({ page }) => {
+  const sessions = [plannedRow('1', '2026-10-05', 'finance'), plannedRow('2', '2026-10-05', 'marketing'), plannedRow('tomorrow', '2026-10-06', 'finance')]
+  await seedPlanStudent(page, { sessions })
+  await noDerivedWork(page)
+  const writes: string[] = []
+  page.on('request', request => { if (request.method() !== 'GET' && /learner_planned_sessions|learning_evidence/.test(request.url())) writes.push(request.url()) })
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero.getByRole('heading', { level: 2 })).toHaveText('Finance')
+  await hero.getByRole('button', { name: 'Suggest something else' }).click()
+  await expect(hero.getByRole('heading', { level: 2 })).toHaveText('Marketing')
+  await page.reload()
+  await expect(hero.getByRole('heading', { level: 2 })).toHaveText('Marketing')
+  await page.clock.fastForward(12 * 60 * 60 * 1000 + 1000)
+  await expect(hero.getByRole('heading', { level: 2 })).toHaveText('Finance')
+  expect(writes).toEqual([])
+  expect(sessions.map(row => row.status)).toEqual(['planned', 'planned', 'planned'])
+})
+
+test('Home evidence error and no-dates state retain independent navigation and truthful copy', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
+  await page.route('**/rest/v1/learning_evidence**', route => route.fulfill({ status: 503, contentType: 'application/json', body: '{"message":"unavailable"}' }))
+  await page.goto(appPath)
+  await expect(page.locator('.home-v3-hero')).toContainText('I couldn’t read your progress just now.')
+  await expect(page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ })).toHaveCount(0)
+  await expect(page.locator('.home-v3-exams')).toContainText('No upcoming mock or official exam dates added yet.')
+  await page.locator('.home-v3-course-card').first().click()
+  await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/overview/)
+  const nav = page.getByRole('navigation', { name: /AQA A-level Business navigation/ })
+  for (const label of ['Learn', 'Practice', 'Exam Prep']) await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible()
+  await nav.getByRole('button', { name: 'Exam Prep', exact: true }).click()
+  await expect(page).toHaveURL(/\/exam-prep$/)
 })

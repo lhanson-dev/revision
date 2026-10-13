@@ -45,13 +45,13 @@ function readNotNow(userId: string): NotNowRecord | null {
     const raw = window.sessionStorage.getItem(notNowStorageKey(userId))
     if (!raw) return null
     const parsed = JSON.parse(raw) as NotNowRecord
-    return typeof parsed.day === 'string' && Array.isArray(parsed.keys) ? parsed : null
+    return typeof parsed.day === 'string' && Array.isArray(parsed.keys) && parsed.keys.every((key) => typeof key === 'string') ? parsed : null
   } catch { return null }
 }
 
 function writeNotNow(userId: string, record: NotNowRecord) {
   try { window.sessionStorage.setItem(notNowStorageKey(userId), JSON.stringify(record)) }
-  catch { /* Suggestions remain dismissible for this browser visit. */ }
+  catch { /* Alternative choices remain available for this browser visit. */ }
 }
 
 function examTypeLabel(kind: HomeExam['kind']) {
@@ -382,7 +382,7 @@ export function PlannerHomeScreen({
             const tile = courseTiles.find((item) => item.courseId === entry.course.id)
             return <button key={entry.course.id} type="button" className="home-v3-course-card"
               onClick={() => onOpenCourse(entry.course.id)} aria-label={'Open ' + entry.label + ' Overview'}>
-              <SubjectBadge hue={tile?.hue ?? 'blue'} mark={tile?.mark ?? entry.subject.name.charAt(0)} size="tile" />
+              <SubjectBadge hue={tile?.hue ?? resolveSubjectIdentity(entry.subject.id, entry.subject.name).hue} mark={tile?.mark ?? resolveSubjectIdentity(entry.subject.id, entry.subject.name).mark} size="tile" />
               <span><strong>{entry.subject.name}</strong><small>{entry.label}</small>
                 {!evidenceLoading && !evidenceError && tile && <span className="home-v3-course-covered">
                   <HueProgressBar value={tile.total > 0 ? tile.covered / tile.total * 100 : 0} hue={tile.hue} size="sm" label={entry.label + ' topics covered'} valueText={tile.covered + ' of ' + tile.total + ' topics covered'} />
