@@ -97,9 +97,11 @@ export type ExamSimulatorProps = {
   autoStart?: 'timed' | 'untimed'
   /** Return to the owning Exam Prep page after explicitly discarding a timed attempt. */
   onExit?: () => void
+  /** Focused Home practice: an already-verified question in this exam. */
+  preferredQuestionId?: string
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -110,11 +112,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [result, setResult] = useState<ExamResult | null>(null)
   const [submissionIds, setSubmissionIds] = useState<Record<string, string>>({})
   const [questionPractice, setQuestionPractice] = useState(autoStart === 'untimed')
-  const [practiceIndex, setPracticeIndex] = useState(0)
+  const [practiceIndex, setPracticeIndex] = useState(() => preferredQuestionId ? Math.max(0, exam.questions.findIndex((item) => item.id === preferredQuestionId)) : 0)
   const [practiceDraft, setPracticeDraft] = useState('')
   const [practiceGuidance, setPracticeGuidance] = useState(false)
   const [practiceMarks, setPracticeMarks] = useState<Marks>(emptyMarks)
   const [practiceSaved, setPracticeSaved] = useState(false)
+  const [practiceSaving, setPracticeSaving] = useState(false)
+  const practiceEvidenceId = useRef<string | null>(null)
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
   // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
   const [flagged, setFlagged] = useState<Record<string, boolean>>({})
@@ -254,13 +258,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setPracticeGuidance(false)
     setPracticeMarks(emptyMarks())
     setPracticeSaved(false)
+    practiceEvidenceId.current = null
   }
 
   async function savePracticeQuestion() {
-    if (!practiceQuestion || !practiceGuidance || practiceSaved) return
+    if (!practiceQuestion || !practiceGuidance || practiceSaved || practiceSaving) return
+    setPracticeSaving(true)
+    if (!practiceEvidenceId.current) practiceEvidenceId.current = attemptId('exam-question')
     try {
       await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
-        id: attemptId('exam-question'),
+        id: practiceEvidenceId.current,
         moduleId,
         topicId: practiceQuestion.topic,
         contentId: practiceQuestion.id,
@@ -270,6 +277,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       setPracticeSaved(true)
     } catch {
       return
+    } finally {
+      setPracticeSaving(false)
     }
   }
 
@@ -355,13 +364,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <div className="ao-marker-grid">
               {aoKeys.filter((key) => practiceQuestion.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{practiceQuestion.assessmentObjectives[key]}</span><input type="number" min={0} max={practiceQuestion.assessmentObjectives[key]} disabled={practiceSaved} value={practiceMarks[key]} onChange={(event) => updatePracticeMark(key, Number(event.target.value))} /></label>)}
             </div>
-            {!practiceSaved ? <button className="primary" disabled={saving} onClick={savePracticeQuestion}>Record this result</button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
+            {!practiceSaved ? <button className="primary" disabled={saving || practiceSaving} onClick={savePracticeQuestion}>Record this result</button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
           </>
         )}
         <div className="exam-nav-actions">
-          <button className="secondary" disabled={practiceIndex === 0} onClick={() => resetPracticeQuestion(practiceIndex - 1)}>Previous</button>
-          <button className="secondary" disabled={practiceIndex === exam.questions.length - 1} onClick={() => resetPracticeQuestion(practiceIndex + 1)}>Next question</button>
-          <button className="secondary" onClick={() => setQuestionPractice(false)}>Back to {pLabel}</button>
+          <button className="secondary" disabled={practiceIndex === 0 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex - 1)}>Previous</button>
+          <button className="secondary" disabled={practiceIndex === exam.questions.length - 1 || Boolean(preferredQuestionId)} onClick={() => resetPracticeQuestion(practiceIndex + 1)}>Next question</button>
+          {!preferredQuestionId && <button className="secondary" onClick={() => setQuestionPractice(false)}>Back to {pLabel}</button>}
         </div>
         {saveError && <p className="error" role="alert">{saveError}</p>}
       </section>
