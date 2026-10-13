@@ -51,7 +51,7 @@ No standalone "Topics that need work" block, extra dashboard widgets, punitive s
 
 ## REV and Today's Plan consistency
 
-**Proposed v1.4 Founder clarification (13 October 2026): the hero promotes today's next actual planned activity.** The approved FI-001 planner's deterministic, capacity-aware ordered work for the learner's active programme determines Today's Plan. REV may explain that decision, not independently rank a different Home 'best task'. The plan may include explicit student-accepted commitments and derived recommendations; distinguish those honestly and do not silently convert one into the other.
+**Founder-approved v1.4 clarification (PR #619, merged 13 October 2026): the hero promotes today's next actual planned activity.** The approved FI-001 planner's deterministic, capacity-aware ordered work for the learner's active programme determines Today's Plan. REV may explain that decision, not independently rank a different Home 'best task'. The plan may include explicit student-accepted commitments and derived recommendations; distinguish those honestly and do not silently convert one into the other.
 
 - **Plan has actionable work:** the REV hero and **Up next** in Today's Plan identify the same exact next eligible item (course, topic, activity, and paper/question identity where the supported item requires it). Prefer actual persisted learner commitments at their known slot/order when they are due and actionable; do not ignore a learner's selected work in favour of an unrelated suggestion. Where no time-of-day or manual ordering is stored, use one deterministic declared priority/tie-break contract shared by Home, Plan and REV; **do not invent a clock appointment**.
 - **Direct Start:** opens that supported activity, not a generic course/paper landing when a precise question/activity was promised. Quick checks, flashcards and real, eligible exam questions remain legitimate activity types; availability of a simple route may not be used to change educational priority.
@@ -122,7 +122,7 @@ On implementation: update `docs/technical/Returning Student Home Implementation.
 Historical Home v1.2 and Claude prototype evidence remain historical. Home v1.2 stays operative on `main` until this approved v1.3 authority is merged. Implementation work follows on a separate governed branch after that integration.
 
 
-> **Revision history / pending change (13 October 2026):** v1.4 is proposed for Founder-governed merge following explicit feedback that REV must recommend what is next on today's plan. The earlier v1.3 distinct off-plan hero allowance above was superseded in the specific REV/Today's Plan relationship; all existing v1.3 visual hierarchy and historical implementation evidence remain unchanged. Do not claim implementation until R1b code, tests and release verification prove it.
+> **Revision history / approved clarification (13 October 2026):** The previously proposed v1.4 Today-first rule was Founder-approved and merged in PR #619, before R1b implementation merged through PR #617 and production path-to-live #38401029075 succeeded. The earlier v1.3 distinct off-plan hero allowance was superseded specifically for the REV/Today's Plan relationship; its approved visual hierarchy and the earlier design evidence remain historical. R1c evidence-integrity assurance remains separately partial under #621.
 
 ## Issue #622 refinement — approved design direction, pending governed merge
 
