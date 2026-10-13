@@ -1,8 +1,8 @@
 # Adaptive Revision Planning
 
-> **Authority relationship (12 October 2026 amendment):** FI-001 owns one programme-wide deterministic planning priority; `20-brand-and-experience/REV Guidance and Conversation Pattern.md` owns how REV presents, explains and negotiates that priority, including Not now / Suggest something else. The legacy fixed 14-day / 7-day suggestion ordering is superseded by this programme-aware policy if this amendment receives Founder-approved merge.
+> **Authority relationship (Founder-approved PR #609, merged 13 October 2026):** FI-001 owns one programme-wide deterministic planning priority; `20-brand-and-experience/REV Guidance and Conversation Pattern.md` owns how REV presents, explains and negotiates that priority, including Not now / Suggest something else. The legacy fixed 14-day / 7-day suggestion ordering was superseded by this programme-aware policy in PR #609.
 
-**Status:** Active authority — v0.6 upon Founder-approved merge of this amendment (v0.5 remains the governing `main` version until then)  
+**Status:** Active authority — v0.6 Founder-approved and merged in PR #609 (13 October 2026)  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
 **Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27. Plan task rationale presentation refinement approved 2026-09-29.  
