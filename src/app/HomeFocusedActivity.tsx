@@ -35,6 +35,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, onBack, o
     setError('')
     try {
       await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, evidence)
+      setCompleted(true)
     } catch (reason: unknown) {
       const message = reason instanceof Error ? reason.message : 'Could not save this exam answer.'
       setError(message)
@@ -93,7 +94,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, onBack, o
 
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
-      <button type="button" className="home-focused-back" onClick={onBack}>← Back to Home</button>
+      <button type="button" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}>← Back to Home</button>
       <section className="home-focused-card">
         <header className="home-focused-heading">
           <div className="home-focused-labels">
