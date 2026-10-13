@@ -124,9 +124,9 @@ Historical Home v1.2 and Claude prototype evidence remain historical. Home v1.2 
 
 > **Revision history / pending change (13 October 2026):** v1.4 is proposed for Founder-governed merge following explicit feedback that REV must recommend what is next on today's plan. The earlier v1.3 distinct off-plan hero allowance above was superseded in the specific REV/Today's Plan relationship; all existing v1.3 visual hierarchy and historical implementation evidence remain unchanged. Do not claim implementation until R1b code, tests and release verification prove it.
 
-## Issue #622 refinement — approved design direction, pending governed merge
+## Issue #622 refinement — active through approved PR #623
 
-Founder approved the bounded refinement on 13 October 2026 in [Issue #622](https://github.com/lhanson-dev/revision/issues/622). These v1.5 changes become integrated authority only on approved PR merge; that design/work approval does not approve screenshots, baseline digests or a PR merge.
+Founder approved the bounded refinement on 13 October 2026 in [Issue #622](https://github.com/lhanson-dev/revision/issues/622). Following separate Founder visual-baseline and exact-head merge approvals, [PR #623](https://github.com/lhanson-dev/revision/pull/623) merged into approved `main` (`b5dfdd9d0611ec46818f804b4ed33f9c455d8def`) and passed the governed production release. The v1.5 Home refinement is now active authority; this statement does not retroactively approve other PRs.
 
 Today's Plan shows the first three outstanding supported actionable rows in actual plan order and counts the remaining actionable rows. Full-day minutes, progress and completion retain the entire genuine day, including commitments that cannot currently Start. Highlight only an exact visible REV match using selection-surface. Real all-done states alone use “That's today done, {name}. Nice work.” and “Everything on today's plan is done.” Empty, rest, unavailable and exhausted remain distinct.
 
@@ -134,4 +134,4 @@ Progress uses shared flat measures inside one ordinary card; readiness explanati
 
 Zero-course Home uses the same feature treatment and a shared optional checklist. Add Course is the primary action. Dates and weekly times are optional context, never a mandatory three-step gate or a replacement for GJ-01 first value.
 
-The frozen `design_system_v3/Home Mockup.dc.html` and `Home Mockup-selection9.png` must be checked for accessibility. Written requirements govern implementation when unavailable; do not claim pixel fidelity without the reference. Founder must review before/after phone/tablet/desktop Light/Dark states before accepting new screenshot baselines. Preserve old baselines until explicit approval.
+The frozen `design_system_v3/Home Mockup.dc.html` and `Home Mockup-selection9.png` were unavailable to the implementation and are not claimed as pixel-comparison evidence. The Founder approved rendered before/after phone/tablet/desktop Light/Dark comparisons and the four matching Home visual baselines. Written requirements and active design/accessibility authority controlled implementation. Provenance is retained in `audits/2026-10-13-home-622-visual-approval.md`.
