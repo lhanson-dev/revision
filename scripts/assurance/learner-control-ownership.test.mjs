@@ -32,7 +32,9 @@ describe('learner ordinary-control ownership', () => {
 
   it('retires the unused competing Course Overview family without a replacement masking layer', () => {
     expect(existsSync(resolve(root, 'src/app/course-overview-rev-feature.css'))).toBe(false)
-    expect(entry).not.toContain('course-overview-rev-feature.css')
+    for (const path of ['src/main.tsx', 'src/learn-fixtures.tsx', 'src/practice-fixtures.tsx']) {
+      expect(read(path)).not.toContain('course-overview-rev-feature.css')
+    }
     expect(entry).not.toContain('interface-theme-integrity.css')
   })
 

@@ -124,7 +124,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await expect(page.locator('.home-focused-activity')).toBeVisible()
   await expect(page.getByText('Quick check', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '← Back to Home' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Back to Home' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 })
 
@@ -241,7 +241,7 @@ test('Home exam-practice Start opens the exact question, saves real evidence onc
   expect(posted).toHaveLength(1)
   expect(posted[0]).toMatchObject({ module_id: moduleId, topic_id: topicId, source: 'exam_question', content_id: 'p1-q16' })
 
-  await activity.getByRole('button', { name: '← Back to Home' }).click()
+  await activity.getByRole('button', { name: 'Back to Home' }).click()
   await expect(page.locator('.home-v3-hero')).toBeVisible()
   expect(posted).toHaveLength(1)
   await expectNoHorizontalOverflow(page)

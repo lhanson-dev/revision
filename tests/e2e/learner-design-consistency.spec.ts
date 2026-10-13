@@ -51,7 +51,13 @@ async function inspect(page: Page, info: TestInfo, state: string) {
     }
   })
   await info.attach(`${state}-computed.json`, { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' })
-  if (process.env.LEARNER_DESIGN_SHOTS) await info.attach(`${state}.png`, { body: await page.screenshot({ fullPage: true, animations: 'disabled' }), contentType: 'image/png' })
+  if (process.env.LEARNER_DESIGN_SHOTS) {
+    // Viewport capture is the actual visible state, especially for fixed layers.
+    await info.attach(`${state}.png`, { body: await page.screenshot({ animations: 'disabled' }), contentType: 'image/png' })
+    if (!await page.getByRole('dialog').isVisible().catch(() => false) && !await page.locator('.exam-session-page').isVisible().catch(() => false)) {
+      await info.attach(`${state}-full.png`, { body: await page.screenshot({ fullPage: true, animations: 'disabled' }), contentType: 'image/png' })
+    }
+  }
   expect(evidence.scrollWidth, `${state}: horizontal overflow`).toBeLessThanOrEqual(evidence.width + 1)
   expect(evidence.fontsLoaded, `${state}: real Manrope font loaded`).toContain('Manrope')
   expect(evidence.fontsLoaded, `${state}: real display font loaded`).toContain('Bricolage Grotesque')
@@ -90,6 +96,19 @@ async function inspect(page: Page, info: TestInfo, state: string) {
 }
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`Learn production components retain shared reveal controls in ${theme}`, async ({ page }, info) => {
+    // Supplemental production-component fixture; not a deployed learner route.
+    await page.goto(`http://127.0.0.1:4174/revision/learn-fixtures.html?hue=blue&theme=${theme}&page=break-even`)
+    const worked = page.locator('.learn-block--worked-example')
+    await expect(worked.getByRole('button', { name: 'Show step 2', exact: true })).toBeVisible()
+    await inspect(page, info, `component-learn-reveal-${theme}`)
+    await worked.getByRole('button', { name: 'Show step 2', exact: true }).click()
+    await expect(worked.locator('.learn-worked__counter')).toHaveText('Step 2 of 3')
+    await page.getByRole('button', { name: 'Show the data', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Hide the data', exact: true })).toHaveAttribute('aria-expanded', 'true')
+    await inspect(page, info, `component-learn-data-${theme}`)
+  })
+
   test(`empty Home keeps its first-course action shared in ${theme}`, async ({ page }, info) => {
     await seedReturningStudent(page)
     await page.addInitScript(t => localStorage.setItem('revision:theme', t), theme)
