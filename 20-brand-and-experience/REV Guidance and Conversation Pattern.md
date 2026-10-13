@@ -6,8 +6,8 @@ authority: "brand-and-experience"
 status: "active"
 version: "2.3"
 owner: "Founder"
-effective_date: "2026-10-07"
-last_reviewed: "2026-10-07"
+effective_date: "2026-10-13"
+last_reviewed: "2026-10-13"
 content_review_status: "founder-review-pending"
 source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context", "REV's jobs, voice and suggestion rules", "REV answering questions", "REV safeguarding launch rule"]
 depends_on: ["Product Strategy", "Product UX Principles", "Learner Design System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Claims and Progress Governance"]
@@ -360,7 +360,7 @@ The existing persistent tablet/mobile Ask REV dock remains governed and should n
 
 ## Documentation impact
 
-Version 2.3 (proposed 12 October 2026, effective upon Founder-approved merge): unify REV's learner-facing recommendation with FI-001's programme-wide planning authority. This explicitly supersedes the earlier fixed 14-day/7-day ranking, preserves Not now and Suggest something else and the same truthful reason vocabulary, and does **not** alter live code or provide feature Definition-of-Ready approval. Historical v2.0/v2.2 notes below are retained as decision context rather than competing current priority authority.
+Version 2.3 (Founder-approved and merged in PR #609, 13 October 2026): unify REV's learner-facing recommendation with FI-001's programme-wide planning authority. This explicitly supersedes the earlier fixed 14-day/7-day ranking, preserves Not now and Suggest something else and the same truthful reason vocabulary, and does **not** alter live code or provide feature Definition-of-Ready approval. Historical v2.0/v2.2 notes below are retained as decision context rather than competing current priority authority.
 
 Proposed v2.2 (12 October 2026, pending Founder review): codify the supportive-companion behaviour across ordinary, interrupted, low-motivation and exam-pressure revision. This is an experience-authority amendment only; it does not change recommendation authority, safeguarding, feature readiness or implementation state. The proposal becomes normative only if approved and merged.\n\n
 Version 2.0 records the Founder decisions of 1 October 2026 for the learner redesign v2.1 (effective on merge of the design-system v2.1 PR; full record in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`):
@@ -370,7 +370,7 @@ Version 2.0 records the Founder decisions of 1 October 2026 for the learner rede
 - The Course Overview Exam Readiness plus Topic Knowledge pair is replaced by the three measures. This also supersedes the 22 September 2026 Topic Knowledge terminology below.
 - The Completed Living E state is not used in the learner app.
 
-Historical v2.0 open items (1 October 2026): the 14-day and 7-day suggestion windows, the safeguarding review before parent or school alerts, and the "REV noticed" evidence bar. If the v2.3 amendment is approved, the 14/7-day fixed priority question is superseded by the unified FI-001 policy; the safeguarding and "REV noticed" questions remain open.
+Historical v2.0 open items (1 October 2026): the 14-day and 7-day suggestion windows, the safeguarding review before parent or school alerts, and the "REV noticed" evidence bar. Since v2.3 was approved and merged in PR #609, the 14/7-day fixed priority question is superseded by the unified FI-001 policy; the safeguarding and "REV noticed" questions remain open.
 
 Version 1.2 records the Founder-approved decision of 22 September 2026 to use **Topic Knowledge** rather than `Topics Secure` as the plain learner-facing knowledge-progress concept. Topic Knowledge uses Low / Medium / Good topic bands, remains distinct from evidence confidence and Exam Readiness, and can roll up transparently to subject/course progress.
 
