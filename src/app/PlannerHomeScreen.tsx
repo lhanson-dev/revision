@@ -4,19 +4,21 @@ import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planni
 import { addPlannedSession, loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { availableCourseSections, createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
-import { tasksFromPlanner, fallbackHomeTasks, homeActivityLabel, type HomeTask } from './home-task'
+import { homeActivityLabel, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, routeHash, type CourseSection } from './navigation'
+import { type CourseSection } from './navigation'
 import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-model'
-import { addDays, dayWord, nextFreeDay, plannedTopicKeys, sessionActivityForTask } from './accepted-sessions'
+import { addDays, dayWord, nextFreeDay, sessionActivityForTask } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
 import { homeTaskOnToday, homeTaskMatchesPlanRow, homeToday, upcomingHomeExams, type HomeExam } from './home-v3-model'
 import { progressMeasuresFor, progressSummarySentence, readinessAcross } from './progress-summary'
-import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
+import { activeNotNow, dayKey, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
 import { PoweredByRev } from './RevCompactWordmark'
 import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge, type IconName } from './ui'
+import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow } from './today-recommendations'
+import { useLocalDay } from './use-local-day'
 import type { PlanItem } from './plan-model'
 
 type LearningMode = 'learn' | 'practice' | 'exam-prep'
@@ -95,14 +97,13 @@ export function PlannerHomeScreen({
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
   const [notNow, setNotNow] = useState<NotNowRecord | null>(() => readNotNow(userId))
-  const [skipped, setSkipped] = useState<string[]>([])
   const [planNote, setPlanNote] = useState('')
   const [askValue, setAskValue] = useState('')
   const [askFocused, setAskFocused] = useState(false)
   const [chooser, setChooser] = useState<LearningMode | null>(null)
   const chooserRoot = useRef<HTMLDivElement>(null)
   const chooserToggles = useRef<Partial<Record<LearningMode, HTMLButtonElement | null>>>({})
-  const today = useMemo(() => new Date(), [])
+  const today = useLocalDay()
   const todayKey = dayKey(today)
 
   // Each data owner is independent. A failed exam/setup read does not erase valid Progress data.
@@ -146,7 +147,7 @@ export function PlannerHomeScreen({
 
   useEffect(() => {
     let active = true
-    loadPlannedSessions(client, userId, todayKey, addDays(todayKey, 27))
+    loadPlannedSessions(client, userId, todayKey, addDays(todayKey, 60))
       .then((sessions) => {
         if (!active) return
         setPlannedSessions(sessions)
@@ -196,17 +197,13 @@ export function PlannerHomeScreen({
       setup.availability?.weeklyMinutes ?? null, setup.exceptions, programme, learningStates)
   }, [setup, setupLoading, evidenceLoading, evidenceError, sessionsLoading, plannedSessions, todayKey, snapshot, assessments, programme, learningStates])
 
-  const ranked = useMemo(() => evidenceLoading || evidenceError ? [] :
-    rankSuggestions(learningStates, assessments, programme, today, plannedTopicKeys(plannedSessions ?? [])),
-  [evidenceLoading, evidenceError, learningStates, assessments, programme, today, plannedSessions])
   const hiddenToday = activeNotNow(notNow, today)
-  const pick = pickSuggestion(ranked, hiddenToday, skipped)
-  const suggestion = pick.suggestion
-  const firstTask = suggestion?.task ??
-    (!evidenceLoading && !evidenceError && !pick.allHidden ? fallbackHomeTasks(learningStates, programme, 1)[0] ?? null : null)
-  const recommendedReason = suggestion?.reason ?? firstTask?.reason
-  const plannerTasks = useMemo(() => snapshot ? tasksFromPlanner(snapshot.today, learningStates, programme) : [],
-    [snapshot, learningStates, programme])
+  const choices = todayRecommendations(todayPlan, learningStates, programme, !setup?.availability || assessments.length === 0,
+    !evidenceLoading && !setupLoading && !sessionsLoading && !evidenceError && !setupError && !sessionsError && plannedSessions !== null, today, notNow, assessments, setup?.preferences ?? [])
+  const firstTask = choices[0] ?? null
+  const suggestion = firstTask ? { key: firstTask.id } : null
+  const recommendedReason = firstTask?.reason
+  const pick = { allHidden: hiddenToday.length > 0 && choices.length === 0 }
   const exams = useMemo(() => upcomingHomeExams(assessments, programme, today), [assessments, programme, today])
   const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [programme, learningStates])
   const measures = useMemo(() => progressMeasuresFor(learningStates), [learningStates])
@@ -214,7 +211,7 @@ export function PlannerHomeScreen({
   const onToday = firstTask && todayPlan ? homeTaskOnToday(firstTask, todayPlan) : false
   const hasPlanSetup = Boolean(setup?.availability)
   const planTag = todayPlan === null ? (loadingPlanUnavailable(setupLoading, sessionsLoading, evidenceLoading) ? 'Checking today’s plan' : 'Plan status unavailable') :
-    onToday ? 'On today’s plan' : hasPlanSetup ? 'Not on today’s plan' : 'Not on a plan yet'
+    onToday ? 'On today’s plan' : hasPlanSetup && assessments.length > 0 ? 'Not on today’s plan' : 'Not on a plan yet'
   const planEmpty = planCardEmptyCopy({ hasExamDates: assessments.length > 0, hasStudyTimes: hasPlanSetup })
 
   function retryHome() {
@@ -241,28 +238,20 @@ export function PlannerHomeScreen({
   }
 
   async function startTask(task: HomeTask) {
+    if (task.activityType === 'learn') { window.location.assign(learnRouteForTask(task)!); return }
     await recordTaskStart(task)
     setActiveTask(task)
   }
 
   function startPlanRow(row: PlanItem) {
     if (row.kind === 'exam') return
-    if (row.kind === 'session') {
-      if (row.done || !programme.some((item) => item.course.id === row.session.courseId)) return
-      const section = row.session.activityType === 'learn' ? 'learn' : row.session.activityType === 'exam_prep' ? 'exam-prep' : 'practice'
-      if (section === 'practice') {
-        window.location.assign(routeHash(learnerCourseRoute(row.session.courseId, 'practice', { topicId: row.session.topicId })))
-      } else onOpenCourseSection(row.session.courseId, section)
-      return
-    }
-    const task = plannerTasks.find((item) => item.plannerItem?.recommendationId === row.item.recommendationId)
+    const task = taskForTodayRow(row, learningStates, programme, assessments, todayKey)
     if (task) void startTask(task)
-    else onOpenPlan()
+    else setPlanNote(ACCEPTED_ACTIVITY_UNAVAILABLE)
   }
 
   function suggestSomethingElse() {
-    if (!suggestion) return
-    setSkipped(pickSuggestion(ranked, hiddenToday, [...skipped, suggestion.key]).skipped)
+    hideUntilTomorrow()
   }
 
   function hideUntilTomorrow() {
@@ -283,7 +272,6 @@ export function PlannerHomeScreen({
         addedBy: 'rev', recommendationId: firstTask.id,
       })
       setPlannedSessions((current) => [...(current ?? []), saved])
-      setSkipped([])
       setPlanNote('Added ' + firstTask.topicLabel + ' to ' + dayWord(date, todayKey) + '. You can move it on Plan.')
     } catch (error: unknown) {
       setPlanNote(error instanceof Error ? error.message : 'Could not add this to your plan.')
@@ -299,7 +287,7 @@ export function PlannerHomeScreen({
   }
 
   const name = learnerName.trim() || 'there'
-  const loadingHero = evidenceLoading
+  const loadingHero = evidenceLoading || setupLoading || sessionsLoading
   const loadingPlan = setupLoading || sessionsLoading || evidenceLoading
   const selectedPlanRows = todayPlan?.items.filter((item) => item.kind !== 'exam') ?? []
   const focusMode = (mode: LearningMode) => {
@@ -330,12 +318,12 @@ export function PlannerHomeScreen({
               evidenceError ? <div className="home-v3-hero-status" role="alert">REV could not read your current progress. <Button variant="secondary" onClick={retryHome}>Try again</Button></div> :
               firstTask ? <div className="home-v3-next">
                 <p className="home-v3-hero-eyebrow">{todayPlan?.allDone ? 'If you want to do more' : 'Your next useful step'}</p>
-                <p className="home-v3-topic-meta">{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.estimatedMinutes} min</p>
+                <p className="home-v3-topic-meta">{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : firstTask.estimatedMinutes + ' min'}</p>
                 <h2>{firstTask.topicLabel}</h2>
                 <p className="home-v3-hero-reason">{recommendedReason}{todayPlan?.allDone ? ' You can also stop for today.' : ''}</p>
                 <span className="home-v3-plan-tag">{planTag}</span>
                 <div className="home-v3-hero-actions">
-                  <Button onClick={() => void startTask(firstTask)}>Start {firstTask.estimatedMinutes} min {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
+                  <Button onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
                   <Button variant="secondary" onClick={onOpenPlan}>Open Plan</Button>
                 </div>
                 {suggestion && <details className="home-v3-alternatives">

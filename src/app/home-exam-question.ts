@@ -14,18 +14,19 @@ export type HomeExamQuestion = {
  * Business topics can appear on any of the course's eligible paper packs.
  */
 export function resolveHomeExamQuestion(
-  task: Pick<HomeTask, 'courseId' | 'topicId'>,
+  task: Pick<HomeTask, 'courseId' | 'topicId' | 'examTarget'>,
   programme: readonly LearnerProgrammeCourse[],
 ): HomeExamQuestion | null {
   const saved = programme.find(({ course }) => course.id === task.courseId)
   if (!saved) return null
 
   for (const adapter of saved.course.modules) {
+    if (task.examTarget && adapter.manifest.id !== task.examTarget.moduleId) continue
     if (adapter.manifest.status !== 'available' || !adapter.getTopic(task.topicId)) continue
     for (const exam of adapter.listExams()) {
       // The retained pilot packs explicitly prohibit untimed single-question use.
-      if (exam.restrictedPilot) continue
-      const matching = exam.questions.filter((question) => question.topic === task.topicId)
+      if (exam.restrictedPilot || (task.examTarget && exam.id !== task.examTarget.examId)) continue
+      const matching = exam.questions.filter((question) => question.topic === task.topicId && (!task.examTarget || question.id === task.examTarget.questionId))
       // Prefer a written, multi-mark response when it actually exists in this
       // paper; never invent a question, paper or cross-course fallback.
       const selected = matching.find((question) => question.marks >= 4) ?? matching[0]

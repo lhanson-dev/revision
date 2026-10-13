@@ -47,13 +47,14 @@ export function homeToday(
 
 /** Match course, topic AND activity. A matching topic with a different activity is not the hero task. */
 export function homeTaskMatchesPlanRow(task: HomeTask, row: PlanItem): boolean {
+  if (row.kind === 'session' && task.sessionId) return !row.done && row.session.sessionId === task.sessionId
   if (row.kind === 'session') return !row.done &&
     row.session.courseId === task.courseId &&
     row.session.topicId === task.topicId &&
     row.session.activityType === sessionActivityForTask(task.activityType) &&
     row.session.recommendationId === task.id
   if (row.kind === 'suggested') return row.item.courseId === task.courseId &&
-    row.item.topicId === task.topicId && row.item.activityType === task.activityType
+    row.item.topicId === task.topicId && row.item.activityType === task.activityType && row.item.recommendationId === task.id
   return false
 }
 

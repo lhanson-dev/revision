@@ -93,3 +93,33 @@ This section does **not** claim PR #403 is Live. The final reconciled PR head mu
 ## Maintenance model
 
 Update this register when a material PR introduces a new critical journey/control, changes its required assurance, closes a listed gap, removes/weakens an evidence source, or changes production smoke/control ownership. Historical CI runs, audits and incidents remain evidence in their own sources; this register records the current coverage model.
+
+## FI-001 R1a candidate assurance boundary
+
+R1a adds registry-derived deterministic deadline/scope/shared-paper fixtures in `src/app/planner-r1a.test.ts` and canonical route/accepted-session failure browser checks in `tests/e2e/planner-r1a.spec.ts`. The fixture index and explicit partial/oracle boundaries are in `docs/technical/Adaptive Revision Planner Implementation.md`. This candidate extends JRN-07 and protects DATA-04 by reading evidence without changing its semantics; it introduces no database migration, new security boundary or new evidence source.
+
+This is candidate evidence, not a Live or full-R1 claim. R1-07/R1-08 remain R1b, and full cross-surface/starting-check/Quick-check integration remains R1c. Paper-format/AO-specific exact activity selection is not asserted from a generic topic bridge; existing coarse accepted-session identities are retained. Current-head CI, independent review, explicit Founder merge approval and governed release verification remain outstanding.
+
+## FI-001 R1a + R1b integrated candidate assurance — 13 October 2026
+
+Draft #617 now combines R1a with the approved #612/#619 main baseline. `today-recommendations.test.ts` covers R1-06/07/08 and rest/completed/partial-data safety on real registry fixtures; `planner-r1b.spec.ts` covers Home/Plan/REV same-item selection, cross-route dismissal and exact-question Start. The existing R1a engine/scope/date fixtures are retained. Technical docs index the oracles; the PR records actual commands/results and limits, including R1-11's remaining full-journey assurance and live RLS/production coverage. No Live claim, visual baseline repinning or Founder approval is inferred. Independent ChatGPT review, exact-head CI and separate Founder merge approval remain required.
+
+## #617 independent-review repair assurance — 13 October 2026
+
+Review: https://github.com/lhanson-dev/revision/pull/617#issuecomment-6143541718. Old CI #38380380403 failed 19 browser cases; its unit, build, DB/RLS/protected-service and secret checks passed. Fifteen functional failures were stale fixtures/contracts; all affected functional specs now pass in the focused 84-pass/6-viewport-skip run. The serious Plan Information Status contrast defect was independently reproduced and corrected at the shared semantic token; `status-contrast.spec.ts` verifies Light/Dark.
+
+`today-recommendations.test.ts` adds real Learn page/course/component routing, unavailable Learn and conservative ambiguous/expired/archived Exam Prep identity. `planner-r1b.spec.ts` adds Home/Plan/REV Learn Start (including direct Today-reply action) and responsive retained Exam Prep limitations. Existing R1a/R1b acceptance tests are preserved.
+
+Four protected Home screenshot gates remain unresolved; no approved digests were changed. Local paired main/candidate captures and evidence limits are recorded in the review README. Final-head CI is required and its actual state is recorded in #617. This is not merge-ready/Live evidence. R1-11 remains PARTIAL with R1c engineering/assurance responsible for starting-check-only/unscored-Quick-check replan journey coverage. No approval, production verification or new evidence semantics are inferred.
+
+## Founder-approved Home baseline closure — 13 October 2026
+
+The Founder explicitly approved only the four Home Desktop/Phone Light/Dark baseline changes: https://github.com/lhanson-dev/revision/pull/617#issuecomment-6144958070. This is visual approval, not merge approval.
+
+The four values in `tests/e2e/interface-visual-regression.spec.ts` now use exact-head CI #38387830199, implementation head `fdf83fd85b5943b508e51095e2286a23da5a9145`, artifact `11807429017`. Artifact metadata independently matches the run/head and is unexpired. Each hash matches two actual protected-fixture assertion results (initial and retry); no local screenshot digest is accepted. Raw artifact ZIP download returned 403 in this executor, so independent recomputation from PNG bytes is not claimed. New exact-head CI is the required execution check; final outcomes are recorded in #617.
+
+Only the four Home SHA-256 values and their dated audit comment changed in the visual test. All other digest sequences were compared programmatically and remain identical; no visual assertion, fixture, application behavior or normative authority changed. Existing local review captures are unchanged historical evidence.
+
+The four targeted Home cases were run locally with `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright npx playwright test tests/e2e/interface-visual-regression.spec.ts --grep '(phone|desktop) home (light|dark) visual contract' --project=phone --project=desktop --output work/baseline-targeted-results --workers=2`: four local hash mismatches, four intentional viewport skips. This executor already reproduces different hashes for unmodified approved main; those local rasterisation results do not replace the specifically approved CI values. No retry, assertion suppression or unrelated repin. All four checks must pass in the required new CI before closure is reported.
+
+Approved main `9afcbe36e83166b5adf498c07a84c625b431a794` remains an ancestor of the PR branch. Keep #617 draft and do not merge. R1-11 remains a separately owned R1c engineering/assurance gap; no full-R1/Live claim.

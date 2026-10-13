@@ -13,6 +13,7 @@ export function plannedKey(courseId: string, topicId: string) {
 
 /** What a Home task becomes when the student adds it to their plan. */
 export function sessionActivityForTask(activity: HomeActivityType): PlannedSessionActivity {
+  if (activity === 'learn') return 'learn'
   return activity === 'exam-question' ? 'exam_prep' : 'practice'
 }
 

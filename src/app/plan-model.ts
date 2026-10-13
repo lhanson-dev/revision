@@ -130,7 +130,7 @@ export function createPlanDayBuilder(context: PlanContext) {
       ...examLabels(assessment),
     }))
 
-    const sessions: PlanSessionItem[] = (sessionsByDate.get(key) ?? []).map((session) => ({
+    const sessions: PlanSessionItem[] = [...(sessionsByDate.get(key) ?? [])].sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.sessionId.localeCompare(b.sessionId)).map((session) => ({
       kind: 'session',
       key: `session:${session.sessionId}`,
       subject: context.subjectForCourse(session.courseId),

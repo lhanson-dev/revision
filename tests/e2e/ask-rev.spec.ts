@@ -73,6 +73,7 @@ async function seedReturningStudent(page: Page) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_planned_sessions**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -120,7 +121,7 @@ test('Ask REV is a pop-up that answers "what should I do today?" from the studen
   await expect(log).toContainText('I’d start with')
   await expect(log).toContainText('You said')
   await expect(log).toContainText('REV says')
-  await expect(log.getByRole('button', { name: /^Practise / })).toBeVisible()
+  await expect(log.locator('.rev-chat__message--rev').last().getByRole('button', { name: /^Start / })).toBeVisible()
   await expect(dialog.getByRole('group', { name: 'Things you can ask' })).toHaveCount(0)
   await expect(dialog.getByText('This chat isn’t saved after you close it.')).toBeVisible()
 

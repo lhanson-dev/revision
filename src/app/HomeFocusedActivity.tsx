@@ -14,6 +14,7 @@ interface HomeFocusedActivityProps {
   userId: string
   task: HomeTask
   programme: readonly LearnerProgrammeCourse[]
+  backLabel?: string
   onBack: () => void
   onFinish: () => void
 }
@@ -22,7 +23,7 @@ function evidenceId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
 
-export function HomeFocusedActivity({ client, userId, task, programme, onBack, onFinish }: HomeFocusedActivityProps) {
+export function HomeFocusedActivity({ client, userId, task, programme, backLabel = 'Home', onBack, onFinish }: HomeFocusedActivityProps) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [checked, setChecked] = useState(false)
@@ -94,7 +95,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, onBack, o
 
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
-      <button type="button" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}>← Back to Home</button>
+      <button type="button" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}>← Back to {backLabel}</button>
       <section className="home-focused-card">
         <header className="home-focused-heading">
           <div className="home-focused-labels">

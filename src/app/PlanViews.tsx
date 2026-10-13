@@ -187,6 +187,7 @@ export function PlanDayStrip({ days, selectedKey, onSelect }: PlanStripProps) {
 /* ------------------------------------------------------------------ Rows */
 
 export interface PlanRowActions {
+  nextTaskId?: string
   onStartSession: (session: PlannedSession) => void
   onStartSuggested: (item: PlanSuggestedItem) => void
   onStatus: (session: PlannedSession, status: PlannedSessionStatus) => void
@@ -246,9 +247,11 @@ export function PlanRow({ item, day, todayKey, actions, compact = false }: PlanR
   const { hue, mark, name } = item.subject
   const done = item.kind === 'session' && item.done
   const revPick = item.kind === 'session' && item.revPick
+  const isNext = day.today && actions.nextTaskId === (item.kind === 'session' ? item.key : item.item.recommendationId)
   const meta = `${item.activityLabel} · ${formatMinutes(item.minutes)}`
   let action: ReactNode = null
-  if (done) action = <span className="pln-row__done"><Icon name="check" size="inline" />Done</span>
+  if (isNext) action = <Button onClick={() => item.kind === 'session' ? actions.onStartSession(item.session) : actions.onStartSuggested(item)}>Up next<span className="sr-only"> {item.topic}</span></Button>
+  else if (done) action = <span className="pln-row__done"><Icon name="check" size="inline" />Done</span>
   else if (day.today && item.kind === 'session' && revPick) action = <Button onClick={() => actions.onStartSession(item.session)}>Continue<span className="sr-only"> {item.topic}</span></Button>
   else if (day.today && !compact) {
     action = <Button variant="secondary" onClick={() => (item.kind === 'session' ? actions.onStartSession(item.session) : actions.onStartSuggested(item))}>Start<span className="sr-only"> {item.topic}</span></Button>

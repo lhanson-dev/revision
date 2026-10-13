@@ -88,12 +88,24 @@ const cases: ReadonlyArray<VisualCase> = [
  * duplicate Ask REV label correction. Each original and retry digest agreed.
  * CI retained interface-visual-regression artifact 11732295608.
  * Other surfaces and all previously recorded historical digests are unchanged.
+ * FI-001 R1b PR #617: Founder explicitly approved Desktop Light/Dark and Phone Light/Dark
+ * on 13 October 2026 (VISUAL BASELINES ONLY, not merge approval):
+ * https://github.com/lhanson-dev/revision/pull/617#issuecomment-6144958070
+ * Only these four hashes are updated. Source is exact-head CI #38387830199 on
+ * fdf83fd85b5943b508e51095e2286a23da5a9145; artifact 11807429017:
+ * https://github.com/lhanson-dev/revision/actions/runs/38387830199/artifacts/11807429017
+ * Each SHA-256 was independently checked against the protected fixture's actual
+ * browser assertion logs; initial capture and retry agree for every case.
+ * The artifact metadata matches that run/head. Raw ZIP retrieval returned 403 in
+ * the executor; direct PNG-byte recomputation is not claimed. Local hashes are
+ * not used. The paired review images retain the approved unscheduled-copy changes.
+ * All other surface hashes and all historical audit entries remain unchanged.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '54a5549638e1b6447e2641da855ecc42ab5132efd3f5cbdac7ee91a2dcdb01b9',
-  'phone:dark': '75fd94bbdb908937fd49ed9b91bd154661a9e3e3706b22b8c38de8ea237e47cf',
-  'desktop:light': 'fdf7e0fac64070430cc84b29637daee4bf424b1f587a90a151e55e7bcd806e2b',
-  'desktop:dark': '36f2b5e3d7f3321e9f5b19533bf8dd538f43582528a926a2e5b733806a08fdbf',
+  'phone:light': 'fa8bb402542a6e7c4f32b77ee543df0a6115f4760810325712a9bc279da7e911',
+  'phone:dark': '740062bb86dd877491baa98999446b547f8ec663806740bfcccc2ccc0d697787',
+  'desktop:light': 'baa5e1a7dc58928015d319df792f09a603b4408f74a0af1338f6f274be6f32fe',
+  'desktop:dark': '9053b9bd095be35b86e0067ab129883c7c4ab32810b4369d228b898c927ba726',
 }
 
 /**

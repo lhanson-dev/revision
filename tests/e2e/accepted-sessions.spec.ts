@@ -131,7 +131,7 @@ const todayKey = () => {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 }
 
-test('Add to plan puts the REV suggestion on a day, says so in words, and REV moves on to something else', async ({ page }) => {
+test('Add to plan puts the REV suggestion on a day, says so in words, without inventing another due activity', async ({ page }) => {
   const rows: Row[] = []
   await seedReturningStudent(page)
   await fakePlannedSessions(page, rows)
@@ -147,19 +147,28 @@ test('Add to plan puts the REV suggestion on a day, says so in words, and REV mo
   await expect(page.getByRole('status').filter({ hasText: /^Added .+ to (today|tomorrow|[A-Z][a-z]+day)\. You can move it on Plan\.$/ })).toBeVisible()
   expect(rows).toHaveLength(1)
   expect(rows[0]).toMatchObject({ added_by: 'rev', activity_type: 'practice', course_id: businessCourseId })
-  await expect(card.locator('.home-v3-next h2')).not.toHaveText(before ?? '')
+  expect(rows[0].topic_id).toBeTruthy()
+  if (rows[0].planned_date === todayKey()) {
+    await expect(card.locator('.home-v3-next h2')).toHaveText(before ?? '')
+    await expect(card).toContainText('On today’s plan')
+  } else {
+    await expect(card.locator('.home-v3-next h2')).toHaveText(before ?? '')
+    await expect(card).toContainText('Not on a plan yet')
+  }
 })
 
-test('Home shows no Add to button and no error when the sessions table is not available yet', async ({ page }) => {
+test('Home withholds Start and alternatives and explains unavailable accepted sessions', async ({ page }) => {
   await seedReturningStudent(page)
   await fakePlannedSessions(page, null)
   await page.goto(appPath)
 
   const card = page.locator('.home-v3-hero')
   await expect(card).toBeVisible()
-  await card.locator('.home-v3-alternatives summary').click()
+  await expect(card.getByRole('button', { name: /^Start/ })).toHaveCount(0)
+  await expect(card.locator('.home-v3-alternatives')).toHaveCount(0)
+  await expect(page.getByText('Your plan is unavailable right now.', { exact: false })).toBeVisible()
   await expect(card.getByRole('button', { name: 'Add to Plan' })).toHaveCount(0)
-  await expect(card.getByRole('button', { name: 'Suggest something else' })).toBeVisible()
+  await expect(card.getByRole('button', { name: 'Suggest something else' })).toHaveCount(0)
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
 })
 

@@ -13,6 +13,17 @@ export type PlannerReasonCode =
 
 export type PlannerCapacityState = 'normal' | 'prioritising'
 
+/** Verified assessment opportunities for one content/intent unit. Dates are local date keys. */
+export interface PlannerAssessmentTarget {
+  assessmentId: string
+  moduleId?: string
+  paperId?: string
+  assessmentDate: string
+  topicIds: readonly string[]
+  daysUntilAssessment: number
+  assessmentImportance: 'normal' | 'high'
+}
+
 export interface PlannerCandidate {
   id: string
   subjectId: string
@@ -30,6 +41,9 @@ export interface PlannerCandidate {
   examWeight: number | null
   learnerPreference: -1 | 0 | 1 | 2 | 3
   recentlyCompleted: boolean
+  assessmentTargets?: readonly PlannerAssessmentTarget[]
+  moduleId?: string
+  examTarget?: { moduleId: string; examId: string; questionId: string }
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
@@ -52,6 +66,9 @@ export interface PlannerItem {
   activityType: string
   estimatedMinutes: number
   reasons: PlannerReasonCode[]
+  moduleId?: string
+  assessmentTargets?: readonly PlannerAssessmentTarget[]
+  examTarget?: { moduleId: string; examId: string; questionId: string }
 }
 
 export interface PlannerScheduledDay {
@@ -136,6 +153,7 @@ function usefulCandidate(candidate: RankedPlannerCandidate) {
 }
 
 function recommendationId(candidate: PlannerCandidate) {
+  if (candidate.assessmentTargets) return `planner-v1:${candidate.id}`
   return `planner-v1:${candidate.assessmentId}:${candidate.courseId ?? candidate.subjectId}:${candidate.topicId}:${candidate.activityType}`
 }
 
@@ -154,6 +172,9 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     activityType: candidate.activityType,
     estimatedMinutes,
     reasons,
+    moduleId: candidate.moduleId,
+    examTarget: candidate.examTarget,
+    assessmentTargets: candidate.assessmentTargets,
   }
 }
 
@@ -170,12 +191,13 @@ function buildSchedule(
 
     for (const candidate of useful) {
       if (allocated.has(candidate.id) || remaining <= 0) continue
-      if (candidate.estimatedMinutes > remaining && items.length > 0) continue
+      const eligible = candidateForDay(candidate, day.date)
+      if (!eligible || candidate.estimatedMinutes > remaining) continue
 
-      const allocatedMinutes = Math.min(candidate.estimatedMinutes, remaining)
+      const allocatedMinutes = candidate.estimatedMinutes
       if (allocatedMinutes <= 0) continue
 
-      items.push(plannerItem(candidate, allocatedMinutes, capacityState))
+      items.push(plannerItem(rankPlannerCandidate(eligible), allocatedMinutes, capacityState))
       allocated.add(candidate.id)
       remaining -= allocatedMinutes
     }
@@ -189,11 +211,31 @@ function buildSchedule(
   })
 }
 
+function candidateForDay(candidate: PlannerCandidate, date: string): PlannerCandidate | null {
+  // Compatibility callers without assessment provenance retain their existing ranking contract.
+  if (!candidate.assessmentTargets) return candidate
+  const targets = candidate.assessmentTargets.filter((target) => date < target.assessmentDate)
+    .sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate) || left.assessmentId.localeCompare(right.assessmentId))
+  const nearest = targets[0]
+  if (!nearest) return null
+  return {
+    ...candidate,
+    assessmentTargets: targets,
+    assessmentId: nearest.assessmentId,
+    daysUntilAssessment: nearest.daysUntilAssessment,
+    assessmentImportance: nearest.assessmentImportance,
+  }
+}
+
 export function buildAdaptivePlan(
   candidates: readonly PlannerCandidate[],
   days: readonly PlannerDay[],
 ): PlannerResult {
-  const ranked = candidates.map(rankPlannerCandidate).sort((left, right) => {
+  const eligible = days[0] ? candidates.flatMap((candidate) => {
+    const current = candidateForDay(candidate, days[0].date)
+    return current ? [current] : []
+  }) : candidates
+  const ranked = eligible.map(rankPlannerCandidate).sort((left, right) => {
     if (right.priority !== left.priority) return right.priority - left.priority
     if (left.daysUntilAssessment !== right.daysUntilAssessment) return left.daysUntilAssessment - right.daysUntilAssessment
     return left.id.localeCompare(right.id)
