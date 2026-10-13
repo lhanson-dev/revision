@@ -352,6 +352,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <p className="eyebrow">Targeted {pLabel} practice</p>
         <h2 id={`question-practice-${exam.id}`}>Practise one exam question</h2>
         <div className="practice-meta">Question {practiceIndex + 1} of {exam.questions.length} · {practiceQuestion.marks} marks</div>
+        {exam.caseHtml && <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />}
         <h3>{practiceQuestion.prompt}</h3>
         <label className="answer-label">Write your answer
           <textarea rows={12} disabled={practiceSaved} value={practiceDraft} onChange={(event) => setPracticeDraft(event.target.value)} placeholder="Answer as you would in the exam." />
