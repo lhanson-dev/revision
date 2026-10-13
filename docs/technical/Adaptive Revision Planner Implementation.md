@@ -263,7 +263,7 @@ The #617 branch incorporates approved main `9afcbe36` (#612 exact question Start
 
 Not now/another suggestion exclude stable IDs for the local day, leave persisted sessions untouched and exhaust honestly. Missing planning inputs permit explicitly unscheduled intents ranked by the same engine (with actual assessment candidates where available, otherwise neutral deadline inputs); no timed plan or availability is inferred. Completed/rest days and partial data do not invoke this fallback. All screens use the same bounded accepted-session horizon and refresh local-date calculations at midnight/DST.
 
-Legacy accepted sessions lack paper/question/card fields. Broad Practice resolves a supported Quick check (or Flashcards if retained recommendation identity specifies it); broad Exam Prep resolves the first assured unrestricted question. New exact-question recommendation keys preserve module/question identity without a database migration. Unsupported accepted sessions remain stored and visible; no unsupported lead recommendation is offered. Paper/AO-specific generation beyond available asset/scope assurance remains excluded.
+Legacy accepted sessions lack paper/question/card fields. Broad Practice resolves a supported Quick check (or Flashcards if retained recommendation identity specifies it); broad Exam Prep cannot establish an exact question and now fails closed with a clear limitation. New exact-question recommendation keys preserve module/question identity without a database migration. Unsupported accepted sessions remain stored and visible; no unsupported lead recommendation is offered. Paper/AO-specific generation beyond available asset/scope assurance remains excluded.
 
 Additional fixture index:
 
@@ -277,3 +277,21 @@ Additional fixture index:
 R1-01..05/09..14 retain the R1a fixtures above. R1-11's full starting-check/unscored activity journey, live database/RLS and production smoke are not newly claimed by these tests. No scoring, RLS, entitlement, telemetry schema, paid operation, 60-day expansion or R2–R5 changes. The assurance register and PR state the actual final results and limitations.
 
 Documentation-impact check: planner, Home and contextual REV technical docs and assurance register updated; no ADR/schema change. Historical analysis and audits preserved. The merged #619 authority still contains prospective status text (including FI-001's “v0.7 proposed” banner); flag this for a separate narrow source-status correction, without interpreting it as unmerged policy or changing policy here.
+
+## Independent-review corrections to #617 — 13 October 2026
+
+The review of `c7d2d4e8` found that accepted Learn used ignored topic context, REV's Today reply omitted its action, broad accepted Exam Prep could substitute a question, and some browser fixtures assumed the superseded Home selector or did not mock accepted-session loading.
+
+Accepted Learn now resolves the first real adapter Learn page for the promised topic and carries `learnTarget` (page ID and component where required). All three surfaces route through `learnRouteForTask`, using canonical `learnPageId`, with a course route for shared learning or component route for component-specific learning. Ambiguous states/missing pages cannot lead a claimed exact Start. The first supported page is a topic entry point, not an invented page-level commitment.
+
+An accepted Exam Prep session without exact question identity is kept visible/stored and gives a limitation when Start is requested. A recognised exact recommendation key must resolve uniquely to a published unrestricted module/question **and** a currently active, future, matching module assessment whose verified scope covers the topic. Missing/ambiguous scope, expired/archived assessment, unmatched key or duplicate asset identities withhold exact Start; another paper is not substituted. No persistence migration or backfilled identity.
+
+The Today conversation reply retains its selected task and exposes direct Start. The action revalidates against the current next task so a preference change, dismissal or rollover cannot start a stale offered recommendation. Existing preference confirmation and safety replies remain unchanged.
+
+The shared Information Status foreground token now has 5.65:1 contrast on its unchanged semantic background (previously 4.47:1), covering Plan messages via the canonical component. No page-local styling exception. Tests reproduce the old violation on the real component and verify the corrected pair in both themes.
+
+Focused browser assurance: **84 passed, 6 intentional viewport skips** across accepted sessions, responsive hierarchy, Ask REV, brand/motion, accessibility, R1b and status contrast. Learn Start is covered from Home/Plan/REV Today reply at desktop; broad Exam Prep limitation is responsive. Frozen R1a/R1b/route tests remain, including deadline/shared-paper/capacity/choice behavior. Final relevant validation and exact-head CI are recorded in the PR. No local unrelated Content Factory/provider suite was run in this correction task.
+
+Home's four protected visual digests remain unchanged and unresolved. Paired local approved-main/candidate captures and inspection findings are retained in `docs/design/learner-redesign-v2/screenshots/fi-001-r1b-review/README.md`; they explain content-driven wrapping/height differences and the blocked original CI artifact download. They are review evidence, not approved CI baseline replacements.
+
+R1-11 remains PARTIAL. **R1c engineering/assurance owner** must add the full starting-check-only and unscored Quick-check → Home/Plan/REV replan journey, asserting unchanged understanding/progress/readiness with no scored evidence. No Live/full-R1 claim. Product-authority/historical documents were not modified, including the already-flagged stale proposed-status banner.

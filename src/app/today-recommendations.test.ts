@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
-import { buildCatalogue, createCourseLearningState } from './catalogue-model'
+import { buildCatalogue, createCourseLearningState, createModuleLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
 import { buildPlannerSnapshot } from './planner-model'
 import { homeToday, homeTaskOnToday } from './home-v3-model'
-import { todayRecommendations, recommendationExplanation } from './today-recommendations'
+import { todayRecommendations, recommendationExplanation, taskForTodayRow, learnRouteForTask } from './today-recommendations'
 import { resolveHomeExamQuestion } from './home-exam-question'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import type { PlannedSession } from '../services/planning/planned-session-service'
@@ -76,4 +76,33 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(choices(context(), state, false, false)).toEqual([])
     expect(todayRecommendations(context(), [state], [], false, true, now)).toEqual([])
   })
+  it('accepted Learn resolves an actual topic page and preserves shared/component routes', () => {
+    const accepted = { ...session('learn', 'finance'), activityType: 'learn' as const }
+    const row = context([accepted]).items.find((r) => r.kind === 'session')!
+    const task = taskForTodayRow(row, [state], programme)!
+    const page = state.adapter.getLearnPage(task.learnTarget!.learnPageId)!
+    expect(page.topicId).toBe('finance')
+    expect(learnRouteForTask(task)).toContain(`/learn/${page.id}`)
+    expect(learnRouteForTask(task)).not.toContain('/components/')
+    const component = createModuleLearningState(course.modules[0], [])
+    const componentTask = taskForTodayRow(row, [component], programme)!
+    expect(learnRouteForTask(componentTask)).toContain(`/components/${component.adapter.manifest.id}/learn/${componentTask.learnTarget!.learnPageId}`)
+    const noLearn = { ...state, adapter: { ...state.adapter, listLearnChapters: () => [] } }
+    expect(taskForTodayRow(row, [noLearn], programme)).toBeNull()
+    expect(accepted.status).toBe('planned')
+  })
+  it('accepted Exam Prep without exact identity, expired target or ambiguous scope never substitutes another question', () => {
+    const accepted = { ...session('exam', 'finance'), activityType: 'exam_prep' as const }
+    const row = context([accepted]).items.find((r) => r.kind === 'session')!
+    expect(taskForTodayRow(row, [state], programme, [assessment], '2026-10-13')).toBeNull()
+    const exact = resolveHomeExamQuestion({ courseId: course.id, topicId: 'finance' }, programme)!
+    const keyed = { ...row, session: { ...accepted, recommendationId: `planner-v1:${course.id}:shared:finance:exam-question:${exact.moduleId}:${exact.questionId}` } }
+    const task = taskForTodayRow(keyed, [state], programme, [assessment], '2026-10-13')!
+    expect(task.examTarget?.questionId).toBe(exact.questionId)
+    expect(taskForTodayRow(keyed, [state], programme, [{ ...assessment, assessmentDate: '2026-10-13' }], '2026-10-13')).toBeNull()
+    expect(taskForTodayRow(keyed, [state], programme, [{ ...assessment, moduleId: null }], '2026-10-13')).toBeNull()
+    expect(taskForTodayRow(keyed, [state], programme, [{ ...assessment, isActive: false }], '2026-10-13')).toBeNull()
+    expect(accepted.status).toBe('planned')
+  })
+
 })

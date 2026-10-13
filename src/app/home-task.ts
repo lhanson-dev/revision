@@ -25,6 +25,7 @@ export type HomeTask = {
   estimatedMinutes: number
   reason: string
   adapter: LearningContentAdapter
+  learnTarget?: { learnPageId: string; moduleId?: string }
   sessionId?: string
   examTarget?: PlannerItem['examTarget']
   plannerItem?: PlannerItem

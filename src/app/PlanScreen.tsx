@@ -28,13 +28,13 @@ import {
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
+import { parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
 import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import type { HomeTask } from './home-task'
-import { todayRecommendations, taskForTodayRow, readTodayChoice } from './today-recommendations'
+import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import {
@@ -441,7 +441,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   }
 
   async function handleStartSuggested(entry: PlanSuggestedItem) {
-    const task = taskForTodayRow(entry, learningStates, programme)
+    const task = taskForTodayRow(entry, learningStates, programme, activeAssessments, todayKey)
     if (!task) { setMessage('This exact activity is unavailable. Choose another item or open Courses.'); return }
     try {
       await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
@@ -452,9 +452,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   }
 
   function startSession(session: PlannedSession) {
-    const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme)
-    if (!task) { setMessage('This session’s activity is unavailable. Your commitment has been kept.'); return }
-    if (task.activityType === 'learn') window.location.assign(routeHash(learnerCourseRoute(task.courseId, 'learn', { topicId: task.topicId })))
+    const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme, activeAssessments, todayKey)
+    if (!task) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
+    if (task.activityType === 'learn') window.location.assign(learnRouteForTask(task)!)
     else setActiveTask(task)
   }
 

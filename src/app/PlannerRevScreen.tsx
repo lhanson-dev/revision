@@ -8,7 +8,7 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { plannerReasonLabel } from './home-task'
 import type { HomeTask } from './home-task'
 import { homeToday } from './home-v3-model'
-import { todayRecommendations, recommendationExplanation, readTodayChoice } from './today-recommendations'
+import { todayRecommendations, learnRouteForTask, recommendationExplanation, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { buildPlannerSnapshot } from './planner-model'
@@ -37,6 +37,7 @@ type ConversationMessage = {
   after?: string
   safety?: boolean
   action?: RevAnswer['action']
+  task?: HomeTask
 }
 
 type PendingPreference = {
@@ -177,6 +178,15 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
         ? 'listening'
         : 'resting'
 
+  function startTask(task: HomeTask) {
+    // Revalidate after date rollover, dismissal or a confirmed preference change.
+    if (task.id !== nextTask?.id) return
+    if (task.activityType === 'learn') {
+      const route = learnRouteForTask(task)
+      if (route) window.location.assign(route)
+    } else setActiveTask(task)
+  }
+
   function appendMessage(message: ConversationMessage) {
     setMessages((current) => [...current, message])
   }
@@ -215,7 +225,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     const wantsPlanChange = /\b(focus|prioriti[sz]e|more|less|reduce|ease off|pause|not today)\b/i.test(text) && mentionedProgrammeItems(programme, text).length > 0
     if (!wantsPlanChange) {
       const kind = classifyQuestion(text)
-      if (kind === 'today') return reply({ text: recommendationExplanation(nextTask) })
+      if (kind === 'today') return reply({ text: error ? opening : recommendationExplanation(nextTask), task: nextTask ?? undefined })
       if (kind === 'progress') return reply(answerProgress(learningStates, programme, text))
       if (kind === 'exams') return reply(answerExams(activeAssessments, programme, now))
       // 3. Anything else: say honestly that this is not possible yet. Never a made-up answer.
@@ -315,13 +325,14 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
       </header>
 
       <div ref={logRef} className="rev-chat__log" tabIndex={0} role="log" aria-label="Conversation with REV" aria-live="polite">
-        <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p>{nextTask && <Button onClick={() => nextTask.activityType === 'learn' ? onOpenCourseSection(nextTask.courseId, 'learn') : setActiveTask(nextTask)}>Start {nextTask.topicLabel}</Button>}</div>
+        <div className="rev-chat__message rev-chat__message--rev"><span className="rev-chat__who">REV says</span><p>{loading ? 'I’m checking your active courses, plan and results…' : opening}</p>{nextTask && <Button onClick={() => startTask(nextTask)}>Start {nextTask.topicLabel}</Button>}</div>
         {messages.map((message) => (
           <div key={message.id} className={`rev-chat__message rev-chat__message--${message.speaker}${message.safety ? ' rev-chat__message--safety' : ''}`}>
             <span className="rev-chat__who">{message.speaker === 'rev' ? 'REV says' : 'You said'}</span>
             <p>{message.text}</p>
             {message.list && <ul className="rev-chat__support">{message.list.map((line) => <li key={line}>{line}</li>)}</ul>}
             {message.after && <p>{message.after}</p>}
+            {message.task && <Button size="compact" onClick={() => startTask(message.task!)}>Start {message.task.topicLabel}</Button>}
             {message.action && <Button size="compact" onClick={() => onOpenCourseSection(message.action!.courseId, message.action!.section)}>{message.action.label}</Button>}
           </div>
         ))}

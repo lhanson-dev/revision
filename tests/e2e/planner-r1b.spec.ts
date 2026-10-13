@@ -74,3 +74,44 @@ test('R1-07 accepted Flashcards Start opens the same supported activity on all s
     await expect(page.locator('.home-focused-activity').getByRole('heading', { level: 1 })).toHaveText('Finance')
   }
 })
+
+
+test('review: accepted Learn starts the actual Finance page from Home, Plan and the Today reply', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Cross-surface route contract, no responsive-specific layout change.')
+  await seedPlanStudent(page, { sessions: [plannedRow('learn-finance', '2026-10-05', 'finance', { activity_type: 'learn' })] })
+  let exactUrl = ''
+  for (const hash of ['', '#/plan?view=day&date=2026-10-05', '#/rev']) {
+    await page.goto(appPath + hash)
+    if (!hash) await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
+    else if (hash.startsWith('#/plan')) await page.getByRole('button', { name: /^Up next/ }).click()
+    else {
+      await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
+      const answer = page.getByRole('log').locator('.rev-chat__message--rev').last()
+      await expect(answer).toContainText('Finance — Learn')
+      await answer.getByRole('button', { name: 'Start Finance', exact: true }).click()
+    }
+    await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/learn\/[^/]+$/)
+    await expect(page.locator('article.learn-reading-page')).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText(/Financial|Finance/i)
+    if (exactUrl) expect(page.url()).toBe(exactUrl)
+    else exactUrl = page.url()
+  }
+})
+
+test('review: ambiguous accepted Exam Prep remains stored with an honest limitation', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [plannedRow('broad-exam', '2026-10-05', 'finance', { activity_type: 'exam_prep' })] })
+  await page.route('**/rest/v1/revision_availability_profiles**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+    user_id: planUserId, weekday_minutes: 0, weekend_minutes: 0, timezone: 'Europe/London',
+    monday_minutes: 0, tuesday_minutes: 0, wednesday_minutes: 0, thursday_minutes: 0, friday_minutes: 0, saturday_minutes: 0, sunday_minutes: 0,
+  }) }))
+  await page.goto(appPath)
+  await expect(page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ })).toHaveCount(0)
+  const row = page.locator('.home-v3-plan-row[data-kind="session"]')
+  await expect(row).toContainText('Finance')
+  await row.getByRole('button', { name: /^Start/ }).click()
+  await expect(page.getByRole('status')).toContainText('Your session has been kept')
+  await expect(page.locator('.exam-simulator')).toHaveCount(0)
+  await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
+  await page.locator('.pln-row[data-kind="session"]').getByRole('button', { name: /^Start/ }).click()
+  await expect(page.getByRole('status')).toContainText('cannot be verified')
+})

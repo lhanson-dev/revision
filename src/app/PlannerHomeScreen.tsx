@@ -7,7 +7,7 @@ import { availableCourseSections, createCourseLearningState, createModuleLearnin
 import { homeActivityLabel, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, routeHash, type CourseSection } from './navigation'
+import { type CourseSection } from './navigation'
 import { buildPlannerSnapshot, plannerDaysFromAvailability } from './planner-model'
 import { addDays, dayWord, nextFreeDay, sessionActivityForTask } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
@@ -17,7 +17,7 @@ import { activeNotNow, dayKey, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
 import { PoweredByRev } from './RevCompactWordmark'
 import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge, type IconName } from './ui'
-import { todayRecommendations, taskForTodayRow } from './today-recommendations'
+import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import type { PlanItem } from './plan-model'
 
@@ -238,16 +238,16 @@ export function PlannerHomeScreen({
   }
 
   async function startTask(task: HomeTask) {
-    if (task.activityType === 'learn') { window.location.assign(routeHash(learnerCourseRoute(task.courseId, 'learn', { topicId: task.topicId }))); return }
+    if (task.activityType === 'learn') { window.location.assign(learnRouteForTask(task)!); return }
     await recordTaskStart(task)
     setActiveTask(task)
   }
 
   function startPlanRow(row: PlanItem) {
     if (row.kind === 'exam') return
-    const task = taskForTodayRow(row, learningStates, programme)
+    const task = taskForTodayRow(row, learningStates, programme, assessments, todayKey)
     if (task) void startTask(task)
-    else onOpenPlan()
+    else setPlanNote(ACCEPTED_ACTIVITY_UNAVAILABLE)
   }
 
   function suggestSomethingElse() {

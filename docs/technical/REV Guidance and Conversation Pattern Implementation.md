@@ -219,3 +219,7 @@ The active product/experience authority remains the source of what should be tru
 ## FI-001 R1b contextual conversation candidate — 13 October 2026
 
 `PlannerRevScreen` loads accepted commitments over the same 60-day window as Home/Plan and builds the same PlanDay. Its opening and answers to Today questions use `todayRecommendations` and `recommendationExplanation`; they no longer select an independent Progress action or omit accepted sessions. The current exact activity can Start through the shared focused launcher. Error states withhold claimed priority. Preferences retain explicit learner confirmation and existing subject-level limitations. Course Overview's scoped guidance remains separate from the programme-wide Today responsibility. See the planner implementation document for ordering, fallback, exact identity and test boundaries.
+
+## #617 Today-answer direct action correction — 13 October 2026
+
+A response to What should I do today? carries the same Home/Plan next-task identity and a direct Start in that response, rather than relying on the opening message's button. Its captured action is revalidated against the current next task before launch. Learn uses the exact real page route; supported practice/exam work uses the shared focused launcher. Unavailable context has no invented Start. The revised Ask REV fixtures retain reason/action, keyboard/focus, safety, learner-confirmed preferences and responsive/accessibility checks.

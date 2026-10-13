@@ -103,3 +103,11 @@ This is candidate evidence, not a Live or full-R1 claim. R1-07/R1-08 remain R1b,
 ## FI-001 R1a + R1b integrated candidate assurance — 13 October 2026
 
 Draft #617 now combines R1a with the approved #612/#619 main baseline. `today-recommendations.test.ts` covers R1-06/07/08 and rest/completed/partial-data safety on real registry fixtures; `planner-r1b.spec.ts` covers Home/Plan/REV same-item selection, cross-route dismissal and exact-question Start. The existing R1a engine/scope/date fixtures are retained. Technical docs index the oracles; the PR records actual commands/results and limits, including R1-11's remaining full-journey assurance and live RLS/production coverage. No Live claim, visual baseline repinning or Founder approval is inferred. Independent ChatGPT review, exact-head CI and separate Founder merge approval remain required.
+
+## #617 independent-review repair assurance — 13 October 2026
+
+Review: https://github.com/lhanson-dev/revision/pull/617#issuecomment-6143541718. Old CI #38380380403 failed 19 browser cases; its unit, build, DB/RLS/protected-service and secret checks passed. Fifteen functional failures were stale fixtures/contracts; all affected functional specs now pass in the focused 84-pass/6-viewport-skip run. The serious Plan Information Status contrast defect was independently reproduced and corrected at the shared semantic token; `status-contrast.spec.ts` verifies Light/Dark.
+
+`today-recommendations.test.ts` adds real Learn page/course/component routing, unavailable Learn and conservative ambiguous/expired/archived Exam Prep identity. `planner-r1b.spec.ts` adds Home/Plan/REV Learn Start (including direct Today-reply action) and responsive retained Exam Prep limitations. Existing R1a/R1b acceptance tests are preserved.
+
+Four protected Home screenshot gates remain unresolved; no approved digests were changed. Local paired main/candidate captures and evidence limits are recorded in the review README. Final-head CI is required and its actual state is recorded in #617. This is not merge-ready/Live evidence. R1-11 remains PARTIAL with R1c engineering/assurance responsible for starting-check-only/unscored-Quick-check replan journey coverage. No approval, production verification or new evidence semantics are inferred.

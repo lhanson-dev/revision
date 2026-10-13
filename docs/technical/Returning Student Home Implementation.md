@@ -74,3 +74,9 @@ Home and REV load the same bounded 60-day accepted-session context as Plan. Part
 Exact exam-target identity travels from candidate to planner item to HomeTask to the existing #612 resolver. The resolver must match module, exam and question when identity is supplied, so it cannot substitute another paper. Unrestricted published assets and existing paper/option scope are prerequisites. R1b does not add new option storage or AO coverage claims.
 
 Assurance: `today-recommendations.test.ts` and `tests/e2e/planner-r1b.spec.ts`; final commands/results and the R1 matrix are recorded in the #617 review handoff. This is a draft candidate, not deployment evidence.
+
+## #617 independent-review correction candidate — 13 October 2026
+
+Accepted Learn Start resolves a real page in the promised topic and uses the shared canonical `learnPageId` route, retaining course/component context. Missing/ambiguous Learn content withholds exact promotion. Accepted Exam Prep without exact identity no longer chooses an arbitrary first question; the commitment remains and a Start request explains the limitation. Known keys require unique, unrestricted assets and a future matching verified paper scope.
+
+Browser fixtures now provide reliable accepted-session reads where they expect useful Home content. A missing sessions table explicitly asserts no hero Start/alternatives plus an unavailable Plan explanation. Booking unscheduled work does not require the Home topic to change independently of Today's Plan. No useful assurance was deleted. Four visual hash assertions remain unresolved; paired local main/candidate review captures document expected unscheduled-copy changes without repinning.
