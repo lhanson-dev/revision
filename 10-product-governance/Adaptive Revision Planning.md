@@ -2,7 +2,7 @@
 
 > **Authority relationship (Founder-approved PR #609, merged 13 October 2026):** FI-001 owns one programme-wide deterministic planning priority; `20-brand-and-experience/REV Guidance and Conversation Pattern.md` owns how REV presents, explains and negotiates that priority, including Not now / Suggest something else. The legacy fixed 14-day / 7-day suggestion ordering was superseded by this programme-aware policy in PR #609.
 
-**Status:** Active authority — v0.6 Founder-approved and merged in PR #609 (13 October 2026)  
+**Status:** v0.7 proposed clarification for Founder-governed merge; v0.6 remains the approved authority until merge of this amendment  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
 **Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27. Plan task rationale presentation refinement approved 2026-09-29.  
@@ -109,7 +109,7 @@ The planner should maintain **one coherent programme** from today through the le
 1. **Programme horizon:** all relevant known exam dates, course/paper-specific scope, broad preparation phases, coverage and skill opportunities, coarse feasibility and retrieval/checkpoint milestones until the final known paper.
 2. **Rolling weekly priorities:** transparent, capacity-aware allocation across the learner's active courses, relevant papers, important gaps and reassessment needs. A course cannot be silently starved merely because many separate candidates in another course have marginally higher scores.
 3. **Near-term forecast:** concrete, supported and feasible activity recommendations for a bounded future window (7–14 days is a starting design hypothesis, not a scientifically validated optimum).
-4. **Today:** one most-useful supported task, appropriately sized for the learner's current context, drawn from the same recommendation authority used by the Plan and REV.
+4. **Today:** one most-useful supported task, appropriately sized for the learner's current context, drawn from the same recommendation authority used by the Plan and REV. **Where Today's Plan has actionable work, REV's lead next-task recommendation must be the next actionable entry in that same plan, not a different candidate independently ranked by Home.** An accepted commitment remains a student choice; do not misrepresent a derived task as accepted.
 
 Known exam dates remain optional and can be entered during onboarding without a starting check. Without exam dates, Revision should suggest useful learning, supported retrieval or evidence-building based on known active courses; no invented countdown, artificial assessment or unsupported promise of a plan through an unknown final exam. Without a recurring availability profile, a useful immediate task must remain possible, but an invented capacity-aware calendar must not be shown.
 
@@ -163,6 +163,10 @@ Near-term scheduled tasks should retain one or more concise human-understandable
 ## 6. Today and the wider Plan experience
 
 Home owns the immediate question: **What should I do now?**
+
+**Today's Plan-first REV rule (proposed Founder clarification, 13 October 2026):** When a trustworthy, actionable Today's Plan exists, the exact next eligible activity in that day's deterministic ordered work is the one REV recommends across Home and the contextual REV guidance. This includes genuine learner-accepted commitments, not only freshly generated suggestions; completed, skipped, ineligible or dismissed work is not promoted as a new next action. A learner may request the next eligible item *on that same day* without secretly changing the plan. If there is no actionable work left today, show the truthful done/rest/empty state rather than silently inserting an unscheduled obligation. If no meaningful plan can be calculated (e.g., dates or availability missing), REV may give a separate supported immediate fallback explicitly identified as **not scheduled**, never falsely called 'on today's plan'. Unavailable/partial accepted-session data must not create fictitious capacity or a next-planned-item claim. The Start action must reach the exact supported activity type and context, including a verified exam question where selected; do not replace it merely because another activity is easier to route.
+
+This refines **which** item Home/REV promotes and leaves the independent Course Overview course-scoped guidance, the student's freedom to choose, the learning-evidence model, and the rest of the weekly/long-term allocation rules unchanged.
 
 Home should include:
 

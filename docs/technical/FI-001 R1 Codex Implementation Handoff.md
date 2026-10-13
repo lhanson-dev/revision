@@ -37,10 +37,10 @@ Acceptance tests applicable to R1a: primarily **R1-01 through R1-05, R1-09 throu
 
 Canonical files: `src/app/PlannerHomeScreen.tsx`, `src/app/PlanScreen.tsx`, `src/app/PlannerRevScreen.tsx`, `src/app/rev-suggestions.ts`, `src/app/home-task.ts`, `src/app/home-v3-model.ts`, shared planner snapshot and related tests.
 
-- Retire `rankSuggestions` fixed 14-day/7-day **independent priority** and derive the prominent Home hero, Plan recommended actions and REV rationale from the same approved deterministic candidate/ranking source and consistent learner inputs.
-- Keep Home's one actionable supported `Start`, `Not now`, `Suggest something else`, genuine `On today's plan` exact-match semantics, no-dates/no-availability useful first action, and REV's conversational preference negotiation. A REV suggestion outside today's accepted forecast must not be described as a booked session.
+- Retire `rankSuggestions` fixed 14-day/7-day **independent priority**. When Today's Plan has actionable work, derive Home's promoted REV hero and REV rationale from **the exact next actionable today Plan item** (accepted or derived), preserving course/topic/activity and exact paper/question identity as applicable. Same source, same priority and truthful same-day alternatives; do not preserve a permanent parallel Home selector.
+- Keep Home's one supported exact-activity `Start`, `Not now`, `Suggest something else` traversing other **today-plan** work, genuine same-item `On today's plan`/`Up next`, no-dates/no-availability truthful **unscheduled** first action and REV's negotiated student preferences. If no actionable item remains today, do not silently refill a completed/rest day. If accepted sessions cannot be read, do not claim an agreed next planned activity.
 - Preserve **paper/course/activity identity** in direct Start destination; never route a chosen exact exam-question to a generic page in lieu of the selected activity.
-- Freeze contexts in tests to prove Home/Plan/REV consistency even with accepted sessions, repeated dismissal and local midnight.
+- Freeze contexts in tests to prove **the same exact next task on Home/Plan/REV** even with accepted sessions, repeated dismissal, missing dates, actual exam-question Start, completed days and local midnight. Cross-check against separately open Home exact-exam-question PR #612 and bounded R1a PR #617; do not merge either by implication.
 
 Acceptance tests: **R1-06 to R1-08**, with regression coverage for all R1a eligibility constraints.
 
