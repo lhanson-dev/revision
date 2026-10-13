@@ -2,6 +2,7 @@ import { useId, useState, type CSSProperties } from 'react'
 import type { ExamContentCheck, ExamPapersContent } from '../../../../content/exam-papers-schema'
 import { CHECK_MINUTES, durationLabel, pacedSections, timeSegments, type LastMock, type MockRow, type MockSuggestion } from '../../exam-prep'
 import { Icon } from '../Icon'
+import { Button } from '../controls'
 import { RevSuggestionCard } from '../RevSuggestionCard'
 import { classNames } from '../classNames'
 
@@ -161,8 +162,8 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
                   {mock.note && <span className="exam-mock__note">{mock.note}</span>}
                 </div>
                 <div className="exam-mock__actions">
-                  <button type="button" className="exam-button exam-button--primary" onClick={() => onStartMock(mock.id, 'timed')}>Start timed</button>
-                  <button type="button" className="exam-button exam-button--secondary" disabled={untimedUnavailable.includes(mock.id)} onClick={() => onStartMock(mock.id, 'untimed')}>Practise untimed</button>
+                  <Button onClick={() => onStartMock(mock.id, 'timed')}>Start timed</Button>
+                  <Button variant="secondary" disabled={untimedUnavailable.includes(mock.id)} onClick={() => onStartMock(mock.id, 'untimed')}>Practise untimed</Button>
                 </div>
               </li>
             ))}
