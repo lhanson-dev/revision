@@ -130,7 +130,7 @@
 /* ---- Progress measures ------------------------------------------------- */
 .ui-progress-measures { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; }
 .ui-progress-measures--stack { grid-template-columns: minmax(0, 1fr); }
-.ui-progress-measure { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 22px; border: 1px solid var(--color-border); border-radius: 24px; background: var(--color-surface); }
+.ui-progress-measure { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 22px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
 .ui-progress-measure p { margin: 0; }
 .ui-progress-measure__stat { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
 .ui-progress-measure__number { color: var(--color-text); font: 800 clamp(40px, 3vw + 18px, 56px)/1 var(--font-family-display); letter-spacing: var(--tracking-display); }
@@ -226,7 +226,7 @@
 .ui-answer-option--wrong .ui-answer-option__note { color: var(--learning-status-needswork-ink); }
 
 /* ---- Examiner guide ---------------------------------------------------- */
-.ui-examiner-guide { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--color-border); border-radius: 24px; background: var(--color-surface); }
+.ui-examiner-guide { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-surface); background: var(--color-surface); }
 .ui-examiner-guide__title { margin: 0; color: var(--color-text); font: 800 16px/1.2 var(--font-family-product); }
 .ui-examiner-guide__note { margin: 6px 0 0; color: var(--color-text-secondary); font: 600 13px/1.4 var(--font-family-product); }
 .ui-examiner-guide__points { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
