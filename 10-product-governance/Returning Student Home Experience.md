@@ -4,10 +4,10 @@ document_id: "revision-returning-student-home-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.3"
+version: "1.4"
 owner: "Founder"
-effective_date: "2026-10-10"
-last_reviewed: "2026-10-10"
+effective_date: "2026-10-13"
+last_reviewed: "2026-10-13"
 content_review_status: "founder-approved"
 source_of_truth_for: ["returning Student Home hierarchy", "Home REV recommendation and plan relationship", "Home exams and progress orientation", "Home course and activity discovery", "Home experience assurance"]
 depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Learner Design System", "Global Learner Navigation", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Identity Asset Usage Rules"]
@@ -33,7 +33,7 @@ The product contract and frozen Claude Home v3 visual handoff complement one ano
 - **Student intent:** "What should I do next? What is planned? How am I progressing? What exams are near? Where do I go?"
 - **Primary action:** start one evidence-based, deterministic, learner-wide REV recommendation directly in its exact supported activity.
 - **Alternative intents:** review or edit today's work, inspect assessment dates, see evidence-based Progress, open an active course, or select Learn/Practice/Exam Prep for an eligible course.
-- **REV's job:** select one next action using the already-governed model, explain its factual reason, and enable contextual Ask REV without inventing a second recommendation engine.
+- **REV's job:** promote the next actionable item from Today's Plan where available, explain its factual reason, and enable contextual Ask REV without inventing a second recommendation engine.
 - **Success:** the learner can identify a next useful action within seconds and independently reach a main product area without guessing a navigation path.
 - **No-course boundary:** GJ-01/first-use remains responsible for first course choice and initial first value. Home must not bypass that journey.
 
@@ -51,15 +51,15 @@ No standalone "Topics that need work" block, extra dashboard widgets, punitive s
 
 ## REV and Today's Plan consistency
 
-REV recommends from the learner's **active programme only**. The approved deterministic REV prioritisation governs selection; AI may explain evidence but must not invent priorities. The planner's `today` schedule is a separate, truthful set of intended activities. UI composition may reuse their shared identity, but must not silently conflate them.
+**Proposed v1.4 Founder clarification (13 October 2026): the hero promotes today's next actual planned activity.** The approved FI-001 planner's deterministic, capacity-aware ordered work for the learner's active programme determines Today's Plan. REV may explain that decision, not independently rank a different Home 'best task'. The plan may include explicit student-accepted commitments and derived recommendations; distinguish those honestly and do not silently convert one into the other.
 
-- A hero task is labelled **On today's plan** only when its exact course/topic/activity is demonstrably present among that day's actionable plan items.
-- Otherwise use **Not on today's plan** (or **Not on a plan yet** when setup genuinely does not exist). The hero may still suggest useful fallback activity without a plan or exam dates.
-- When an exact match exists, show the same task in Today's Plan as **Up next**, with no repeated reason; never duplicate its full promotion.
-- When no exact match exists, do **not** highlight an unrelated Plan row or silently insert the recommendation into the schedule.
-- If today's work is completed, show the real completed state without inventing more scheduled tasks. An optional "If you want to do more" suggestion may appear only with a real eligible candidate and a calm acknowledgement that stopping is reasonable.
-- "Suggest something else" / "Not now" semantics from REV Guidance remain governed even if rendered through a compact disclosure rather than visually competing with Start.
-- If the present planner and suggestion pipelines cannot truthfully meet this contract, reconcile through an explicit implementation plan and tests; do not quietly rewrite `rankSuggestions` or planning priorities as styling work.
+- **Plan has actionable work:** the REV hero and **Up next** in Today's Plan identify the same exact next eligible item (course, topic, activity, and paper/question identity where the supported item requires it). Prefer actual persisted learner commitments at their known slot/order when they are due and actionable; do not ignore a learner's selected work in favour of an unrelated suggestion. Where no time-of-day or manual ordering is stored, use one deterministic declared priority/tie-break contract shared by Home, Plan and REV; **do not invent a clock appointment**.
+- **Direct Start:** opens that supported activity, not a generic course/paper landing when a precise question/activity was promised. Quick checks, flashcards and real, eligible exam questions remain legitimate activity types; availability of a simple route may not be used to change educational priority.
+- **Another option / Not now:** 'Suggest something else' advances to the next genuinely eligible *today* plan item, respecting student choice; 'Not now' hides that candidate for the current local day, does not edit the persisted schedule or claim completion. If there is no other actionable entry, say so and offer Plan/Ask REV instead of manufacturing more due work. A student-confirmed adjustment to plan preferences is handled through the existing governed workflow.
+- **No actionable items today:** show genuine completed/rest/empty status without immediately fabricating a new booked activity. If genuinely missing planning inputs prevent calculating a meaningful calendar, an evidence-grounded supported fallback may be offered, explicitly labelled **Not on a plan yet**; it is not silently inserted into today's intended workload. If the calendar exists but has no tasks because the day is free, do not pose an unscheduled fallback as required work.
+- **Partial/stale data:** do not claim a 'next planned' item if accepted sessions, eligibility or the current day have not loaded reliably; show bounded explanation/retry or an explicitly unplanned, safely supported action only where the governing fallback contract permits it.
+- **Presentation:** keep the approved single large REV hero and smaller truthful Today's Plan summary; show one promoted item, not a duplicated reason card or second competing recommendation list. Keep explanatory Ask REV, relevant subject/course and the learner's independent navigation.
+- **Assurance:** test plan-order agreement on Home/Plan/REV with accepted, derived, done, skipped, dismissed, zero-capacity, missing-dates, after-exam, unknown-options and exam-question exact Start. No independent 14/7 day Home rank is permitted. This is **R1b** integration work, not a redesign of Home v3 or an R1a-only planner engine patch.
 
 ## Exams
 
@@ -125,3 +125,6 @@ This contract is tracked as FI-023 (`10-product-governance/backlog/FI-023 Return
 On implementation: update `docs/technical/Returning Student Home Implementation.md`, `docs/features/home.md`, the learner design reconciliation record, journey and visual assurance and any directly affected shared-component documentation. No new general Learner Design System, Navigation or Claims authority amendment is justified unless implementing review finds a *real* specialist-contract change; their existing rules are reused.
 
 Historical Home v1.2 and Claude prototype evidence remain historical. Home v1.2 stays operative on `main` until this approved v1.3 authority is merged. Implementation work follows on a separate governed branch after that integration.
+
+
+> **Revision history / pending change (13 October 2026):** v1.4 is proposed for Founder-governed merge following explicit feedback that REV must recommend what is next on today's plan. The earlier v1.3 distinct off-plan hero allowance above was superseded in the specific REV/Today's Plan relationship; all existing v1.3 visual hierarchy and historical implementation evidence remain unchanged. Do not claim implementation until R1b code, tests and release verification prove it.

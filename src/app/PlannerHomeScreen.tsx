@@ -242,10 +242,6 @@ export function PlannerHomeScreen({
 
   async function startTask(task: HomeTask) {
     await recordTaskStart(task)
-    if (task.activityType === 'exam-question') {
-      window.location.assign(routeHash(learnerCourseRoute(task.courseId, 'exam-prep')))
-      return
-    }
     setActiveTask(task)
   }
 
@@ -310,7 +306,7 @@ export function PlannerHomeScreen({
     setChooser((current) => current === mode ? null : mode)
   }
 
-  if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask}
+  if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme}
     onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); retryHome() }} />
 
   if (programme.length === 0) return (
