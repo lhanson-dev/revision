@@ -44,7 +44,7 @@ describe('Home focused exam-question launch', () => {
   it('renders the existing untimed question and actual topic on first Start, never a full paper launch', () => {
     const html = renderExam()
     expect(html).toContain('Practise one exam question')
-    expect(html).toContain('finance')
+    expect(html).toContain('Finance')
     expect(html).toContain('Write your answer')
     expect(html).toContain('Show marking guidance')
     expect(html).toContain('Back to Home')
