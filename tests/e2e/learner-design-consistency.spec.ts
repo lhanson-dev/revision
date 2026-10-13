@@ -1,3 +1,4 @@
+import { writeFile } from 'node:fs/promises'
 import { expect, test, type Page, type TestInfo } from '@playwright/test'
 import { seedReturningStudent, businessCourseId, practicePath, startQuestions, answerWith, bankCorrectIndex, finishQuestionSession, captureEvidence } from './practice-seed'
 import { seedNewStudentSession, stubFirstUseBackend } from './first-use-seed'
@@ -14,10 +15,26 @@ test.beforeEach(async ({ page }) => {
   }
 })
 
+async function attachEvidence(info: TestInfo, name: string, body: string | Buffer, contentType: string) {
+  // The CI line reporter does not persist in-memory attachments from passing
+  // tests. Save the same bytes for the existing test-results artifact upload.
+  await writeFile(info.outputPath(name), body)
+  await info.attach(name, { body, contentType })
+}
+
 // Numeric expectations come from Learner Design System §§3–5, 8, 11–12 and
 // Interactive Component Quality Standard. Tokens alone are not evidence.
 async function inspect(page: Page, info: TestInfo, state: string) {
-  await page.evaluate(() => document.fonts.ready)
+  // Inspect the resting state, not a click's lingering hover or an in-flight
+  // colour transition. Hover/focus states have their own explicit assertions.
+  await page.mouse.move(0, 0)
+  await page.evaluate(async () => {
+    await document.fonts.ready
+    await Promise.all([...document.querySelectorAll('button, input, select, textarea')]
+      .flatMap(el => el.getAnimations()
+        .filter(animation => animation instanceof CSSTransition)
+        .map(animation => animation.finished.catch(() => undefined))))
+  })
   const evidence = await page.evaluate(() => {
     const visible = (el: Element) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden'
     const nodes = [...document.querySelectorAll<HTMLElement>('button, input, select, textarea, .ui-surface, .ui-progress-measure, .ui-examiner-guide, .rev-suggestion-card')].filter(visible)
@@ -50,12 +67,12 @@ async function inspect(page: Page, info: TestInfo, state: string) {
       }),
     }
   })
-  await info.attach(`${state}-computed.json`, { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' })
+  await attachEvidence(info, `${state}-computed.json`, JSON.stringify(evidence, null, 2), 'application/json')
   if (process.env.LEARNER_DESIGN_SHOTS) {
     // Viewport capture is the actual visible state, especially for fixed layers.
-    await info.attach(`${state}.png`, { body: await page.screenshot({ animations: 'disabled' }), contentType: 'image/png' })
+    await attachEvidence(info, `${state}.png`, await page.screenshot({ animations: 'disabled' }), 'image/png')
     if (!await page.getByRole('dialog').isVisible().catch(() => false) && !await page.locator('.exam-session-page').isVisible().catch(() => false)) {
-      await info.attach(`${state}-full.png`, { body: await page.screenshot({ fullPage: true, animations: 'disabled' }), contentType: 'image/png' })
+      await attachEvidence(info, `${state}-full.png`, await page.screenshot({ fullPage: true, animations: 'disabled' }), 'image/png')
     }
   }
   expect(evidence.scrollWidth, `${state}: horizontal overflow`).toBeLessThanOrEqual(evidence.width + 1)
@@ -66,7 +83,8 @@ async function inspect(page: Page, info: TestInfo, state: string) {
     const compact = control.classes.includes('ui-button--compact') && !evidence.touch
     expect.soft(control.classes.includes('ui-button--compact') && control.classes.includes('ui-button--primary'), `${state}: compact primary action`).toBe(false)
     const large = control.classes.includes('ui-button--large')
-    expect.soft(control.height, `${state}: ${control.name} target`).toBeGreaterThanOrEqual(large ? 52 : compact ? 36 : 48)
+    // Bounding rectangles can undershoot CSS pixels by subpixel rounding.
+    expect.soft(control.height + 0.01, `${state}: ${control.name} target`).toBeGreaterThanOrEqual(large ? 52 : compact ? 36 : 48)
     expect.soft(control.font, `${state}: ${control.name} font`).toContain('Manrope')
     if (control.classes.includes('ui-button--primary')) {
       expect.soft(control.background, `${state}: primary colour`).toBe('rgb(43, 182, 163)')
