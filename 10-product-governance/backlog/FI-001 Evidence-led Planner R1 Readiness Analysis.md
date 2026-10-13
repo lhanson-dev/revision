@@ -1,6 +1,6 @@
 # FI-001 — Evidence-led Adaptive Planner R1: Correctness and Single Recommendation Authority
 
-**Lifecycle:** FI-001 existing capability remains **Live**. This is an `Analyse`-stage material **enhancement slice**. **Not Ready; no code implementation approved.**
+**Lifecycle (current):** FI-001 existing capability remains **Live**; **the bounded R1 enhancement achieved human-approved `Ready` on 13 October 2026** (decision and scope linked below). **Implementation has not started**; R2–R5 retain separate gates. This record's original assessment below is retained as the preapproval analysis snapshot.
 **Date / approved baseline:** 13 October 2026; main `3639bb3f782b6ed104824010db7dbd9e50f262b1` following Founder-approved #606 (non-authoritative research) and #609 (normative planning/REV alignment).
 **Owner:** Product / Engineering; Founder retains Definition-of-Ready and per-PR merge approval.
 **Governing authority:** `10-product-governance/Adaptive Revision Planning.md` v0.6, `20-brand-and-experience/REV Guidance and Conversation Pattern.md` v2.3, `10-product-governance/Returning Student Home Experience.md`, `10-product-governance/Course Learning Blueprint.md`, `40-evidence-and-trust/Claims and Progress Governance.md`, `80-company-workflows/Feature Definition and Measurement Workflow.md`.
@@ -115,7 +115,7 @@ Fixture references should use stable `aqa:aqa-a-level:7132` / `aqa:aqa-a-level:7
 
 If feasibility reveals an unsupported paper mapping, a brittle data migration or need to change scored-evidence semantics, **stop and return for a bounded product decision** rather than silently expanding R1.
 
-## 9. Definition of Ready — 17 required criteria
+## 9. Definition of Ready — 17 required criteria (original preapproval assessment)
 
 | # | Requirement | R1 assessment and proof |
 | --- | --- | --- |
@@ -144,3 +144,17 @@ If feasibility reveals an unsupported paper mapping, a brittle data migration or
 - **This analysis PR:** add this non-authoritative readiness record under `10-product-governance/backlog/`; link it from existing FI-001 backlog; mechanically correct v0.6/v2.3 status text if needed to reflect merged PR #609. No change to current runtime/technical truth; do not edit older research or historical decisions.
 - **Future R1 implementation PR(s), if human Ready approved:** tests/source, `docs/technical/Adaptive Revision Planner Implementation.md`, `Assurance Coverage Register` as applicable, Home/Plan/REV integration/visual tests, release lineage. No new ADR unless material architecture/schema changes. No need for new normative document or independent feature number.
 - **Future R2–R5:** separate product/feature DoR assessment and appropriate authority amendments for tiering/evidence changes. Historical research stays non-authoritative.
+
+## 11. Founder-approved R1 Ready decision (13 October 2026)
+
+**Human decision — APPROVED:** The Founder explicitly instructed `Approve FI-001 R1 Ready — implement via Codex` after the 17-point analysis was merged as PR #611. The decision is durably recorded as a Founder-authored [approval comment on PR #611](https://github.com/lhanson-dev/revision/pull/611#issuecomment-6139380663), posted after the merged readiness contract was verified on `main`.
+
+**Effect:** The **R1 slice alone** is `Ready` for implementation under the Governed Implementation Workflow. Existing FI-001 stays `Live` for its previously implemented behaviour until the enhanced implementation is merged, deployed and production-verified; the overall evidence-led planner programme is **not** wholly Ready. Approval authorises engineering to begin **R1a/R1b/R1c** in scoped PRs once this Ready record is present on approved `main`; each eventual PR merge requires new, specific Founder approval. This is not merge approval and must not be recorded as the `revision-founder-approval:v1` release marker.
+
+**Approved delivery method:** Codex to execute bounded engineering tasks. Product authority, validation of delegated work, risk assessment, integration and merge gates remain with the governing GitHub/Founder process. See `docs/technical/FI-001 R1 Codex Implementation Handoff.md`.
+
+**Scope kept frozen:** deadline/supported-asset/scope eligibility, legitimate shared-paper deduplication, one deterministic Home/Plan/REV priority authority, local-day choice/accepted-session handling, zero invented evidence/grades, stable route, zero scheduling LLM calls, all 14 frozen R1 acceptance scenarios. **Excluded:** R2 complete exam horizon, R3 balancing, R4/R5 retrieval/knowledge checks/mocks, new FI-009/010/011/012 implementations, algorithmic mastery/readiness changes, new subscription entitlements, a second planner engine. If a material change is required, return to product governance before implementing it.
+
+**Preapproval assessment preserved:** Criterion 17 above was correctly marked PENDING when the analysis was written. This dated addendum supplies subsequent human evidence without pretending the original research or analysis self-approved. The original prospective recommendation remains history.
+
+**Documentation impact:** The FI-001 backlog must simultaneously distinguish current `Live` capability from the `Ready` R1 enhancement. No runtime/technical implementation truth changes until coding PRs, which must update technical docs and assurance registers together with code. 

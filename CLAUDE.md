@@ -1,6 +1,8 @@
 # CLAUDE.md — Revision
 
-Read this at the start of every session. It applies to every AI tool that works on this repo (Claude, ChatGPT, Codex or anything else); `AGENTS.md` points here.
+Read this at the start of a **Content Factory** session, and consult it for historical project context or general Founder communication guidance in other tasks. `AGENTS.md` is the repository-wide agent entrypoint. All tools (Claude, ChatGPT, Codex or otherwise) must first apply the currently approved `INDEX.md`, `AUTHORITY_HIERARCHY.md`, `KNOWLEDGE_ARCHITECTURE.md` and `70-ai-operating-system/AI Agent Constitution.md`.
+
+> **Scope correction (FI-001 R1 Codex onboarding, 13 October 2026).** The Content Factory pipeline, frozen Subject Foundation architecture, specialised review thresholds, `content-factory/RUN_LOG.md` and dated Content Factory state below apply **only to Content Factory work**. They do not govern the learner app, REV planner, learner design, general backend or infrastructure. For those, follow `80-company-workflows/Governed Implementation Workflow.md` and the active numbered product/experience/engineering authorities. If legacy instructions here conflict with newer active authority, the latter governs; never override higher authority based on a historical context file. Approval to merge remains per PR. The general instructions about being clear to the Founder still apply.
 
 ## Who you are working with
 
@@ -17,7 +19,7 @@ A UK GCSE and A-level revision platform. Two parts:
 1. **Course content**: Learn, Practice and Exam Prep for each exact course, produced by the **Content Factory**.
 2. **REV**: the intelligent guide that tells a student what to do next, using evidence from their work on that content.
 
-Current focus is the Content Factory. Keep REV in mind: every piece of content must be tagged to the course map (Subject Foundation node and specification item) so REV can use student results later. Do not build REV features as part of factory work.
+The **Content Factory workstream** focuses on producing accurate tagged course content. Within that workstream, tag every asset to its course map (Subject Foundation node and specification item) so REV can use student results later. Do not build REV features **as part of factory work**. Other approved Revision workstreams, including FI-001 R1 planner implementation, remain governed by their own active authority.
 
 The first course is **AQA A-level Business 7132 (2027 exams)**.
 
