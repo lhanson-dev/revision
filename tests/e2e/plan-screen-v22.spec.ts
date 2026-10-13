@@ -69,7 +69,9 @@ test('summary is time against plan, with a status in words and an icon', async (
   await openPlan(page, '#/plan')
   const summary = page.locator('.pln-summary')
   await expect(summary).toContainText('This week')
-  await expect(summary).toContainText('of 5h 15m planned')
+  // R1a: 8 shared topic activities at 20m, plus 75m of accepted sessions.
+  // Multiple paper dates no longer multiply the generic course workload.
+  await expect(summary).toContainText('of 3h 55m planned')
   await expect(summary.locator('.pln-summary__label svg')).toBeVisible()
   await expect(summary.locator('.pln-summary__label')).toHaveText(/On track|Catching up|Finished|Coming up/)
 })
@@ -145,10 +147,10 @@ test('month view: Monday-first grid, exam day in solid subject colour with its l
   await expect(page.locator('.pln-row--exam')).toContainText('Exam day · in 17 days')
 })
 
-test('rows: Continue for a REV pick today, Start for the rest, done is muted with a tick', async ({ page }) => {
+test('rows: Up next for the first actionable commitment today, Start for the rest, done is muted with a tick', async ({ page }) => {
   await openPlan(page, '#/plan')
   const list = page.locator('.pln-list')
-  await expect(list.getByRole('button', { name: /^Continue/ })).toHaveCount(1)
+  await expect(list.getByRole('button', { name: /^Up next/ })).toHaveCount(1)
   await expect(list.getByRole('button', { name: /^Start/ }).first()).toBeVisible()
   const done = page.locator('.pln-row[data-done]')
   await expect(done).toContainText('Done')

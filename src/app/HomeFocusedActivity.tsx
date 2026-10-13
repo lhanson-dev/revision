@@ -4,11 +4,17 @@ import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 import type { HomeTask } from './home-task'
 import { Button, Status } from './ui'
+import { ExamSimulator } from './ExamSimulator'
+import type { LearningEvidence } from '../engine/evidence/evidence'
+import { resolveHomeExamQuestion } from './home-exam-question'
+import type { LearnerProgrammeCourse } from './learner-programme'
 
 interface HomeFocusedActivityProps {
   client: SupabaseClient
   userId: string
   task: HomeTask
+  programme: readonly LearnerProgrammeCourse[]
+  backLabel?: string
   onBack: () => void
   onFinish: () => void
 }
@@ -17,13 +23,28 @@ function evidenceId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
 
-export function HomeFocusedActivity({ client, userId, task, onBack, onFinish }: HomeFocusedActivityProps) {
+export function HomeFocusedActivity({ client, userId, task, programme, backLabel = 'Home', onBack, onFinish }: HomeFocusedActivityProps) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [checked, setChecked] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [completed, setCompleted] = useState(false)
+  const examTarget = useMemo(() => task.activityType === 'exam-question' ? resolveHomeExamQuestion(task, programme) : null, [task, programme])
+  async function saveExamEvidence(evidence: LearningEvidence) {
+    setSaving(true)
+    setError('')
+    try {
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, evidence)
+      setCompleted(true)
+    } catch (reason: unknown) {
+      const message = reason instanceof Error ? reason.message : 'Could not save this exam answer.'
+      setError(message)
+      throw reason
+    } finally {
+      setSaving(false)
+    }
+  }
 
   const cards = useMemo(() => task.adapter.listFlashcards(task.topicId), [task])
   const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
@@ -74,7 +95,7 @@ export function HomeFocusedActivity({ client, userId, task, onBack, onFinish }: 
 
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
-      <button type="button" className="home-focused-back" onClick={onBack}>← Back to Home</button>
+      <button type="button" className="home-focused-back" onClick={completed && task.activityType === 'exam-question' ? onFinish : onBack}>← Back to {backLabel}</button>
       <section className="home-focused-card">
         <header className="home-focused-heading">
           <div className="home-focused-labels">
@@ -87,6 +108,10 @@ export function HomeFocusedActivity({ client, userId, task, onBack, onFinish }: 
 
         {error && <Status tone="error">{error}</Status>}
 
+        {task.activityType === 'exam-question' && examTarget && (
+          <ExamSimulator key={examTarget.questionId} exam={examTarget.exam} moduleId={examTarget.moduleId} saving={saving} saveError={error} onRecordEvidence={saveExamEvidence} autoStart="untimed" preferredQuestionId={examTarget.questionId} />
+        )}
+        {task.activityType === 'exam-question' && !examTarget && <Status tone="warning">An assured exam question for this course and topic is not available yet. No activity or result has been recorded. Return to Home to choose another activity.</Status>}
         {task.activityType === 'flashcards' && card && !completed && (
           <div className="home-focused-practice">
             <p className="eyebrow">Flashcard</p>

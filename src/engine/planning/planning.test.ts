@@ -74,8 +74,9 @@ describe('adaptive planner', () => {
     expect(plan.capacityState).toBe('prioritising')
     expect(plan.requiredUsefulMinutes).toBe(180)
     expect(plan.remainingCapacityMinutes).toBe(90)
-    expect(plan.today.length).toBeGreaterThan(0)
-    expect(plan.today[0].reasons).toContain('CAPACITY_CONSTRAINED')
+    // R1-10: a 60-minute activity cannot be relabelled as a complete 45-minute task.
+    expect(plan.today).toEqual([])
+    expect(plan.unallocatedTodayMinutes).toBe(45)
   })
 
   it('builds a deterministic multi-day schedule without duplicating a candidate', () => {

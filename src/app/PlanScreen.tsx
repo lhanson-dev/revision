@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerItem } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
   addPlannedSession,
@@ -29,10 +28,14 @@ import {
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { learnerCourseRoute, parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
+import { parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
 import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
+import { HomeFocusedActivity } from './HomeFocusedActivity'
+import type { HomeTask } from './home-task'
+import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
+import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import {
   addDaysToKey,
@@ -115,9 +118,10 @@ function monthLabel(anchor: string, todayKey: string) {
   return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCourse }: PlanScreenProps) {
-  const now = useMemo(() => new Date(), [])
+export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScreenProps) {
+  const now = useLocalDay()
   const todayKey = toKey(now)
+  const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
 
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
@@ -134,7 +138,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [exceptions, setExceptions] = useState<RevisionAvailabilityException[]>([])
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
-  // Sessions the student accepted. Null means the table cannot be read yet, so Plan shows none and says nothing about it.
+  // Unknown accepted commitments cannot safely be treated as spare capacity.
   const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
   const [sessionsLoadedRange, setSessionsLoadedRange] = useState<{ from: string; to: string } | null>(null)
   const [sessionsUnavailable, setSessionsUnavailable] = useState(false)
@@ -203,6 +207,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       })
       .catch((error: unknown) => {
         if (!active) return
+        setLearningStates([])
         setMessage(error instanceof Error ? error.message : 'Could not load your plan.')
       })
       .finally(() => {
@@ -235,7 +240,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       })
       .catch(() => {
         if (!active) return
-        // The table cannot be read (for example it has not been applied yet): show no accepted sessions and say nothing.
+        // Keep derived suggestions unavailable rather than overbooking unknown commitments.
         setPlannedSessions(null)
         setSessionsUnavailable(true)
         setSessionsLoadedRange({ from, to })
@@ -258,8 +263,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   )
 
   const snapshot = useMemo(
-    () => buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions ?? []),
-    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, now],
+    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions),
+    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, sessionsUnavailable, now],
   )
 
   const setupMissingExams = activeAssessments.length === 0
@@ -436,27 +441,21 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   }
 
   async function handleStartSuggested(entry: PlanSuggestedItem) {
-    const item: PlannerItem = entry.item
+    const task = taskForTodayRow(entry, learningStates, programme, activeAssessments, todayKey)
+    if (!task) { setMessage('This exact activity is unavailable. Choose another item or open Courses.'); return }
     try {
-      await recordPlannerActivityEvent(client, userId, {
-        recommendationId: item.recommendationId,
-        eventType: 'started',
-        subjectId: item.subjectId,
-        courseId: item.courseId,
-        topicId: item.topicId,
-        activityType: item.activityType,
-        metadata: { plannerVersion: 1, source: 'plan' },
-      })
-    } catch (error: unknown) {
-      setMessage(error instanceof Error ? `${error.message} You can still continue with the revision activity.` : 'Could not record the planner start. You can still continue.')
-    }
-    if (item.courseId) onOpenCourse(item.courseId)
-    else onOpenCourses()
+      await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
+        subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
+        activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan' } })
+    } catch { /* Recording failure must not block supported work. */ }
+    setActiveTask(task)
   }
 
   function startSession(session: PlannedSession) {
-    const section = session.activityType === 'learn' ? 'learn' : session.activityType === 'exam_prep' ? 'exam-prep' : 'practice'
-    window.location.assign(routeHash(learnerCourseRoute(session.courseId, section)))
+    const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme, activeAssessments, todayKey)
+    if (!task) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
+    if (task.activityType === 'learn') window.location.assign(learnRouteForTask(task)!)
+    else setActiveTask(task)
   }
 
   function replaceSession(updated: PlannedSession) {
@@ -516,7 +515,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     }
   }
 
+  const nextTask = todayRecommendations(buildDay(todayKey), learningStates, programme, !setupComplete,
+    !loading && !sessionsUnavailable && plannedSessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)[0] ?? null
   const actions: PlanRowActions = {
+    nextTaskId: nextTask?.id,
     onStartSession: startSession,
     onStartSuggested: (entry) => void handleStartSuggested(entry),
     onStatus: (session, status) => void changeSessionStatus(session, status),
@@ -601,6 +603,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       ? 'Add your exam dates and REV will plan what to work on.'
       : 'Add your study time and REV will plan what fits your week.'
 
+  if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme} backLabel="Plan"
+    onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); window.location.reload() }} />
+
   return (
     <main className="dashboard page-screen planner-screen interface-plan-screen pln" aria-labelledby="plan-page-title">
       <header className="pln-head">
@@ -609,6 +614,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       </header>
 
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
+      {sessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Your saved sessions could not be loaded. Revision suggestions are unavailable until your commitments can be checked. Reload to try again.</Status>}
 
       {loading
         ? <LoadingState className="planner-panel">Loading your plan…</LoadingState>

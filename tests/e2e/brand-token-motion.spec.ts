@@ -65,6 +65,7 @@ async function seedSyntheticSession(page: Page) {
   await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_planned_sessions**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/revision_activity_events**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })

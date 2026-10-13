@@ -117,7 +117,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start \d+ min quick check/i })
+  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i })
   await expect(start).toBeVisible()
   await start.click()
 
@@ -171,4 +171,78 @@ test('Submitting Home Ask REV sends once through the shared contextual conversat
   const dialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(dialog).toBeVisible()
   await expect(dialog.getByText('what should I do today?', { exact: true })).toHaveCount(1)
+})
+
+
+// Uses normal learner evidence and an imminent exam to produce an exam-question
+// REV recommendation. The actual Home Start must reach the one valid question,
+// persist only after explicit self-marking, and return to Home.
+test('Home exam-practice Start opens the exact question, saves real evidence once and returns', async ({ page }) => {
+  await seedReturningStudent(page)
+  const moduleId = 'business-aqa-a-level-7132-paper-1'
+  const topicId = 'finance'
+  const occurredAt = new Date(Date.now() - 2 * 86_400_000).toISOString()
+  const base = { moduleId, topicId, occurredAt, schemaVersion: 1 }
+  const stored = [
+    ...[2, 1, 1].map((rating, index) => ({
+      ...base, id: `existing-recall-${index}`, contentId: `existing-recall-${index}`,
+      source: 'flashcard', rating,
+    })),
+    ...[true, true, false].map((correct, index) => ({
+      ...base, id: `existing-check-${index}`, contentId: `existing-check-${index}`,
+      source: 'multiple_choice', correct, selectedOption: correct ? 1 : 0, correctOption: 1,
+    })),
+  ]
+  const posted: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    if (route.request().method() === 'POST') {
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      posted.push(body)
+      await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+      return
+    }
+    const requestedModule = new URL(route.request().url()).searchParams.get('module_id')
+    const matches = requestedModule === `eq.${moduleId}`
+    const saved = matches ? [...stored.map((payload) => ({ payload })), ...posted.map((row) => ({ payload: row.payload }))] : []
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(saved) })
+  })
+  const date = new Date(Date.now() + 10 * 86_400_000).toISOString().slice(0, 10)
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([{ assessment_id: 'known-exam', user_id: userId, subject_id: 'business',
+        course_id: businessCourseId, module_id: null, assessment_type: 'public_exam', title: 'AQA Business exam',
+        assessment_date: date, relative_importance: 'normal', scope: { topicIds: [topicId] }, is_active: true }]),
+    })
+  })
+
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero).toContainText('Finance')
+  const start = hero.getByRole('button', { name: /^Start .*exam practice/i })
+  await expect(start).toBeVisible()
+  await start.click()
+
+  const activity = page.locator('.home-focused-activity')
+  await expect(activity.getByRole('heading', { name: 'Finance' })).toBeVisible()
+  await expect(activity.getByRole('heading', { name: 'Practise one exam question' })).toBeVisible()
+  await expect(activity).toContainText('Question 16 of 24')
+  await expect(activity.getByText(/Calculate the break-even output/)).toBeVisible()
+  await expect(activity.getByRole('button', { name: 'Open timed exam' })).toHaveCount(0)
+  expect(posted).toHaveLength(0)
+
+  await activity.getByRole('textbox', { name: 'Write your answer' }).fill('Contribution is £16, so £192,000 / £16 = 12,000 units.')
+  await activity.getByRole('button', { name: 'Show marking guidance' }).click()
+  await expect(activity.getByText('Marking guidance')).toBeVisible()
+  expect(posted).toHaveLength(0)
+  await activity.locator('.ao-marker-grid input').first().fill('1')
+  await activity.getByRole('button', { name: 'Record this result' }).click()
+  await expect(activity.getByText(/Result recorded:/)).toBeVisible()
+  expect(posted).toHaveLength(1)
+  expect(posted[0]).toMatchObject({ module_id: moduleId, topic_id: topicId, source: 'exam_question', content_id: 'p1-q16' })
+
+  await activity.getByRole('button', { name: '← Back to Home' }).click()
+  await expect(page.locator('.home-v3-hero')).toBeVisible()
+  expect(posted).toHaveLength(1)
+  await expectNoHorizontalOverflow(page)
 })
