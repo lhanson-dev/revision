@@ -11,7 +11,7 @@
 1. **Before modifying production files**, confirm approved main includes the exact human Ready receipt and correctly scoped root agent instructions. If the documentation PR recording Ready/handoff has not merged, **do not begin production changes**. Start a fresh, short-lived feature branch from then-current approved `main`; do not branch from this documentation PR.
 2. The requested engineering agent is **Codex**. Work serially in **R1a, R1b, R1c**, each with one bounded PR or a small set of separately reviewable commits. Never let R1b overwrite new main after R1a merges. A PR may be kept draft while iterating. The executing agent never merges, self-approves `Ready`, manufactures Founder approval, or bypasses exact-head CI.
 3. Do **not** introduce a second planner, new LLM scheduler, altered evidence/mastery/readiness score, new paid-tier constraint, new exam-date source, speculative syllabus/AO mapping, arbitrary learning-effect estimate or 60-day-to-full-programme expansion. R2–R5 and FI-009/010/011/012 are separate approval boundaries.
-4. Treat [the approved R1 analysis](../10-product-governance/backlog/FI-001%20Evidence-led%20Planner%20R1%20Readiness%20Analysis.md) as the acceptance contract; if facts in code appear to conflict with it, report the conflict rather than changing policy in code.
+4. Treat [the approved R1 analysis](../../10-product-governance/backlog/FI-001%20Evidence-led%20Planner%20R1%20Readiness%20Analysis.md) as the acceptance contract; if facts in code appear to conflict with it, report the conflict rather than changing policy in code.
 
 ## A. R1a — deadline and scope correctness (first Codex task)
 
