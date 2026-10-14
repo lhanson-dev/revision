@@ -241,7 +241,7 @@
 .pln-programme p { margin: 0; color: var(--color-text-secondary); font: 600 14px/1.5 var(--font-family-product); overflow-wrap: anywhere; }
 .pln-programme strong { color: var(--color-text); }
 .pln-programme__details { min-width: 0; }
-.pln-programme__details > summary { padding: var(--space-3) 0; cursor: pointer; color: var(--color-action); font-weight: 800; }
+.pln-programme__details > summary { padding: var(--space-3) 0; cursor: pointer; color: var(--color-accent-text); font-weight: 800; }
 .pln-programme__weeks { display: grid; gap: 0; max-height: min(460px, 55vh); overflow: auto; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--color-border); }
 .pln-programme__week { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-3); min-width: 0; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); }
 .pln-programme__week > div { min-width: 0; }
