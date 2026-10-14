@@ -33,3 +33,11 @@ export function combineAcceptedSessions<T extends { sessionId: string }>(
 ): T[] {
   return [...new Map([...near, ...visible].map((session) => [session.sessionId, session])).values()]
 }
+
+/** Keep distant visible commitments out of the shared short-term priority calculation. */
+export function nearTermAcceptedSessions<T extends { plannedDate: string }>(
+  sessions: readonly T[],
+  window: AcceptedSessionWindow,
+): T[] {
+  return sessions.filter((session) => session.plannedDate >= window.from && session.plannedDate <= window.to)
+}
