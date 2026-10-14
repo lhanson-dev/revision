@@ -38,7 +38,7 @@ import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE,
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
 import { buildPlannerProgramme } from '../engine/planning/programme'
-import { acceptedSessionWindows, combineAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
+import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
   addDaysToKey,
@@ -276,8 +276,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   // A future visible-month booking is shown in that month, but it must never
   // reshape today's exact recommended action by entering the rolling R1 plan.
   // Home and REV read only this same bounded accepted commitment window.
-  const nearTermSessions = useMemo(() => plannedSessions?.filter((session) =>
-    session.plannedDate >= sessionWindows.near.from && session.plannedDate <= sessionWindows.near.to) ?? null,
+  const nearTermSessions = useMemo(() => plannedSessions === null ? null :
+    nearTermAcceptedSessions(plannedSessions, sessionWindows.near),
   [plannedSessions, sessionWindows])
 
   const snapshot = useMemo(
