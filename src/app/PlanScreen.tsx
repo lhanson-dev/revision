@@ -68,6 +68,8 @@ interface PlanScreenProps {
 const MAX_STUDY_MINUTES = 240
 /** Only the next two weeks receive concrete automatic task recommendations. */
 const DETAIL_HORIZON_DAYS = 14
+/** Retain the existing 60-day accepted-choice lookahead; this is not 60 days of generated tasks. */
+const ACCEPTED_COMMITMENT_HORIZON_DAYS = 60
 
 function assessmentTypeLabel(type: AssessmentType) {
   if (type === 'public_exam') return 'Public exam'
@@ -228,7 +230,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     [view, anchor],
   )
   const sessionWindows = useMemo(
-    () => acceptedSessionWindows(todayKey, visibleKeys, DETAIL_HORIZON_DAYS),
+    () => acceptedSessionWindows(todayKey, visibleKeys, ACCEPTED_COMMITMENT_HORIZON_DAYS),
     [todayKey, visibleKeys],
   )
   const requestWindowKey = `${userId}:${sessionWindows.near.from}:${sessionWindows.near.to}:${sessionWindows.visible?.from ?? ''}:${sessionWindows.visible?.to ?? ''}`
