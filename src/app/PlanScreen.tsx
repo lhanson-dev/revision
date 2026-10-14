@@ -38,7 +38,7 @@ import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE,
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
 import { buildPlannerProgramme } from '../engine/planning/programme'
-import { acceptedSessionWindows, combineAcceptedSessions } from './plan-session-windows'
+import { acceptedSessionWindows, combineAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
   addDaysToKey,
@@ -66,10 +66,6 @@ interface PlanScreenProps {
 }
 
 const MAX_STUDY_MINUTES = 240
-/** Only the next two weeks receive concrete automatic task recommendations. */
-const DETAIL_HORIZON_DAYS = 14
-/** Retain the existing 60-day accepted-choice lookahead; this is not 60 days of generated tasks. */
-const ACCEPTED_COMMITMENT_HORIZON_DAYS = 60
 
 function assessmentTypeLabel(type: AssessmentType) {
   if (type === 'public_exam') return 'Public exam'
@@ -278,7 +274,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   )
 
   const snapshot = useMemo(
-    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions, DETAIL_HORIZON_DAYS),
+    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions, DETAILED_PLANNER_HORIZON_DAYS),
     [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, sessionsUnavailable, now],
   )
 
@@ -693,7 +689,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                     <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
                   )}
 
-                  {anchor > addDaysToKey(todayKey, DETAIL_HORIZON_DAYS - 1) && (
+                  {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) && (
                     <p className="pln-note">These are longer-term weeks. REV will choose concrete activities closer to the time; only sessions you accepted are fixed.</p>
                   )}
                   {sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
