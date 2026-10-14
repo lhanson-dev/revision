@@ -21,6 +21,12 @@ export interface ProgrammeMilestone {
   date: string
 }
 
+/** Coarse exam-proximity ordering, not a booked session or R3 balancing allocation. */
+export interface ProgrammeCoursePriority {
+  courseId: string
+  nextAssessmentDate: string
+}
+
 export interface ProgrammeWeek {
   /** Monday-based local calendar week; may begin before today. */
   weekStart: string
@@ -34,6 +40,8 @@ export interface ProgrammeWeek {
    * allocation, promised duration, or proven understanding.
    */
   supportedCourseIds: string[]
+  /** Earliest eligible paper first; no claim about fixed weekly allocation or mastery. */
+  priorities?: ProgrammeCoursePriority[]
 }
 
 export interface PlannerProgramme {
@@ -117,20 +125,19 @@ export function buildPlannerProgramme(
     const firstKey = dateKey(from)
     const lastKey = dateKey(until)
     const thisWeekMilestones = milestones.filter((m) => m.date >= firstKey && m.date <= lastKey)
-    const coursesWithAssets = new Set<string>()
+    const nearestEligiblePaper = new Map<string, string>()
 
     for (const candidate of supportedCandidates) {
       if (!candidate.courseId || !activeCourseIds.has(candidate.courseId)
         || candidate.estimatedMinutes <= 0) continue
       // Do not promote old compatibility candidates lacking real R1 paper
       // provenance into a distant commitment or entitlement.
-      if (candidate.assessmentTargets?.some((target) => {
+      for (const target of candidate.assessmentTargets ?? []) {
         const known = knownTargets.get(target.assessmentId)
-        return known !== undefined
-          && known.courseId === candidate.courseId
-          && known.date === target.assessmentDate
-          && known.date > firstKey
-      })) coursesWithAssets.add(candidate.courseId)
+        if (!known || known.courseId !== candidate.courseId || known.date !== target.assessmentDate || known.date <= firstKey) continue
+        const previous = nearestEligiblePaper.get(candidate.courseId)
+        if (!previous || known.date < previous) nearestEligiblePaper.set(candidate.courseId, known.date)
+      }
     }
 
     weeks.push({
@@ -138,7 +145,9 @@ export function buildPlannerProgramme(
       visibleFrom: firstKey,
       visibleUntil: lastKey,
       milestones: thisWeekMilestones,
-      supportedCourseIds: [...coursesWithAssets].sort(),
+      supportedCourseIds: [...nearestEligiblePaper.keys()].sort(),
+      priorities: [...nearestEligiblePaper].map(([courseId, nextAssessmentDate]) => ({ courseId, nextAssessmentDate }))
+        .sort((a, b) => a.nextAssessmentDate.localeCompare(b.nextAssessmentDate) || a.courseId.localeCompare(b.courseId)),
     })
   }
 
