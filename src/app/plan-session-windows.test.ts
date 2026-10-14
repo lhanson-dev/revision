@@ -9,7 +9,7 @@ describe('FI-001 R2-09 disjoint accepted-session windows', () => {
     const windows = acceptedSessionWindows(today, monthGridKeys(Number(future.slice(0, 4)), Number(future.slice(5, 7)) - 1))
     expect(windows.near).toEqual({ from: today, to: '2026-10-27' })
     expect(windows.visible).not.toBeNull()
-    expect(windows.visible!.from).toBeGreaterThan(windows.near.to)
+    expect(windows.visible!.from > windows.near.to).toBe(true)
     const spanDays = (Date.parse(windows.visible!.to) - Date.parse(windows.visible!.from)) / 86400000
     expect(spanDays).toBeLessThanOrEqual(41)
   })
