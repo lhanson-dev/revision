@@ -97,7 +97,7 @@ Use this file to find the governing source before substantive work.
 - Learner visual/layout/canvas authority / shared learner design foundations → `20-brand-and-experience/Learner Design System.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
-- FI-001 R2 full-exam programme Definition-of-Ready analysis (proposal; Founder approval pending) → `10-product-governance/backlog/FI-001 Evidence-led Planner R2 Readiness Analysis.md` (readiness evidence, not normative authority)
+- FI-001 R2 full-exam programme Definition-of-Ready analysis (Founder-approved Ready following PR #628; implementation In Progress, not full R2 Live) → `10-product-governance/backlog/FI-001 Evidence-led Planner R2 Readiness Analysis.md` (readiness evidence and decision history, not normative product authority; see `Adaptive Revision Planning.md`)
 - FI-023 Home v3 Definition-of-Ready and implementation boundaries → `10-product-governance/backlog/FI-023 Returning Student Home v3 Analysis.md` (readiness evidence; not normative Home authority)
 - Personalised Revision Intelligence strategy-to-feature mapping / strategic execution spine → `10-product-governance/backlog/Personalised Revision Intelligence Strategy Mapping.md` (non-authoritative lifecycle mapping)
 - Product backlog folder rules / strategic-anchor requirement → `10-product-governance/backlog/README.md`
