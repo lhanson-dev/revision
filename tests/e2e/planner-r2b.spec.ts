@@ -14,14 +14,20 @@ for (const lastDate of futureDates) {
       ]),
     }))
     const spans: number[] = []
+    const requestedWindows: Array<{ from: string; to: string }> = []
     page.on('request', (request) => {
       if (request.method() !== 'GET' || !request.url().includes('/learner_planned_sessions')) return
       const parts = new URL(request.url()).searchParams.getAll('planned_date')
       const start = parts.find((part) => part.startsWith('gte.'))?.slice(4)
       const end = parts.find((part) => part.startsWith('lte.'))?.slice(4)
-      if (start && end) spans.push((Date.parse(end) - Date.parse(start)) / 86_400_000 + 1)
+      if (start && end) {
+        spans.push((Date.parse(end) - Date.parse(start)) / 86_400_000 + 1)
+        requestedWindows.push({ from: start, to: end })
+      }
     })
     await page.goto(`${appPath}#/plan?view=month&date=${lastDate}`)
+    const expectedMonth = lastDate === '2027-02-02' ? 'February 2027' : lastDate === '2027-10-05' ? 'October 2027' : 'October 2028'
+    await expect(page.getByRole('heading', { level: 1, name: expectedMonth })).toBeVisible()
     const outlook = page.getByRole('region', { name: 'Your full exam programme' })
     await expect(outlook).toContainText('Business Final Paper')
     await expect(outlook).toContainText('not booked sessions')
@@ -31,6 +37,7 @@ for (const lastDate of futureDates) {
     await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
     expect(spans.length).toBeGreaterThan(0)
     expect(Math.max(...spans)).toBeLessThanOrEqual(60)
+    expect(requestedWindows.some(({ from, to }) => from <= lastDate && to >= lastDate)).toBe(true)
     expect((await new AxeBuilder({ page }).include('.pln-programme').withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
     // The fixed clock is not the current environment clock.
     expect(fixedNow.getFullYear()).toBe(2026)
