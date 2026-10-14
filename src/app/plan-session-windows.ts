@@ -6,17 +6,17 @@ export interface AcceptedSessionWindow {
 }
 
 /**
- * R2b: at most a short rolling detail window and the currently visible calendar
+ * R2b: at most the existing bounded accepted-commitment lookahead and visible calendar
  * range. Never bridge the unviewed gap between them into a year-long DB query.
  */
 export function acceptedSessionWindows(
   today: string,
   visibleKeys: readonly string[],
-  detailedDays = 14,
+  commitmentDays = 60,
 ): { near: AcceptedSessionWindow; visible: AcceptedSessionWindow | null } {
   if (visibleKeys.length === 0) throw new Error('Visible calendar dates are required')
-  if (!Number.isInteger(detailedDays) || detailedDays < 1 || detailedDays > 30) throw new Error('Invalid detailed horizon')
-  const near = { from: today, to: addDaysToKey(today, detailedDays - 1) }
+  if (!Number.isInteger(commitmentDays) || commitmentDays < 1 || commitmentDays > 60) throw new Error('Invalid accepted commitment horizon')
+  const near = { from: today, to: addDaysToKey(today, commitmentDays - 1) }
   const visible = { from: visibleKeys[0], to: visibleKeys[visibleKeys.length - 1] }
   // A view already inside the detailed window needs no redundant second read.
   return { near, visible: visible.from >= near.from && visible.to <= near.to ? null : visible }
