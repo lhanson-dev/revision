@@ -38,6 +38,8 @@ import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE,
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
 import { buildPlannerProgramme } from '../engine/planning/programme'
+import { withProgrammeWeeklyFocus } from '../engine/planning/weekly-focus'
+import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
@@ -301,9 +303,12 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
         isActive: assessment.isActive,
       }]
     })
-    return buildPlannerProgramme(todayKey, verified, activeCourseIds,
-      plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now))
-  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme])
+    const candidates = plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now)
+    const milestones = buildPlannerProgramme(todayKey, verified, activeCourseIds, candidates)
+    return withProgrammeWeeklyFocus(milestones, candidates,
+      (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
+        exceptions, nearTermSessions, sessionWindows.near.to))
+  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme, availability, exceptions, nearTermSessions, sessionWindows])
 
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
@@ -677,8 +682,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                 <div className="pln-main">
                   {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
                     courseLabel={(id) => courseLabel(programme, id)}
-                    weeklyAvailability={availability?.weeklyMinutes ?? null}
-                    availabilityExceptions={exceptions}
+                    topicLabel={topicLabel}
                     onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
                   {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
