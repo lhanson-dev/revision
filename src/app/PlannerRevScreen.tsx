@@ -156,6 +156,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => setup?.assessments.filter((assessment) => {
+    if (!assessment.isActive) return false
     if (assessment.courseId) return activeCourseIds.has(assessment.courseId)
     return programme.filter((item) => item.subject.id === assessment.subjectId).length === 1
   }) ?? [], [activeCourseIds, programme, setup])
