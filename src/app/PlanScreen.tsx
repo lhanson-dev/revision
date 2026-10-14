@@ -39,7 +39,7 @@ import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
 import { buildPlannerProgramme } from '../engine/planning/programme'
 import { withProgrammeWeeklyFocus } from '../engine/planning/weekly-focus'
-import { knownProgrammeWeekMinutes } from './plan-weekly-capacity'
+import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
@@ -306,8 +306,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     const candidates = plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now)
     const milestones = buildPlannerProgramme(todayKey, verified, activeCourseIds, candidates)
     return withProgrammeWeeklyFocus(milestones, candidates,
-      (week) => knownProgrammeWeekMinutes(week, availability?.weeklyMinutes ?? null, exceptions))
-  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme, availability, exceptions])
+      (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
+        exceptions, nearTermSessions, sessionWindows.near.to))
+  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme, availability, exceptions, nearTermSessions, sessionWindows])
 
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
