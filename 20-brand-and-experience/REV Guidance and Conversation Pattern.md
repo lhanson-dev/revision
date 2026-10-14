@@ -8,7 +8,7 @@ version: "2.5"
 owner: "Founder"
 effective_date: "2026-10-13"
 last_reviewed: "2026-10-13"
-content_review_status: "founder-review-pending"
+content_review_status: "founder-approved"
 source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context", "REV's jobs, voice and suggestion rules", "REV answering questions", "REV safeguarding launch rule"]
 depends_on: ["Product Strategy", "Product UX Principles", "Learner Design System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Claims and Progress Governance"]
 supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces", "REV Guidance and Conversation Pattern v1.1 Topics Secure terminology", "REV Guidance and Conversation Pattern v1.2 Topic Knowledge progress pair on REV-led headers", "REV Guidance and Conversation Pattern v1.2 five-state REV model in the learner app (Completed state)"]
@@ -383,4 +383,4 @@ Implementation changes must update their relevant technical documentation and vi
 
 Version 2.1 keeps REV behaviour and voice here while delegating learner visual treatment to `Learner Design System.md` and current progress semantics to `Claims and Progress Governance.md`. No recommendation, safeguarding or conversation rule changes.
 
-Issue #622 (13 October 2026) records Founder design/work approval for this Home simplification. The v2.5 amendment remains proposed until governed merge; screenshot-baseline and PR-merge approval are separate. Earlier version notes above are historical decisions, not current Home controls.
+Issue #622 (13 October 2026) records Founder design/work approval for this Home simplification. The v2.5 Home amendment became active after separate Founder visual-baseline and PR #623 merge approvals; PR #623 merged as `b5dfdd9d0611ec46818f804b4ed33f9c455d8def` and production verification passed. Earlier version notes above remain historical decision context, not current Home controls.

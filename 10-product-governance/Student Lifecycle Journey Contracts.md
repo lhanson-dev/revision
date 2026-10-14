@@ -210,6 +210,6 @@ No new Parent/Teacher experience, payments, public marketing, course content pro
 
 **Promotion note:** This branch contains the proposed **active-on-merge** contract and reconciled product authorities; the Founder has clarified **optional exam dates independently of the starting check (D-01)** and **weekly availability after first value (D-01b)**. The current approved `main` is unchanged until an exact PR-specific Founder merge approval is received and the governed merge completes.
 
-## Issue #622 refinement alignment (pending governed merge)
+## Issue #622 refinement alignment (active via approved PR #623)
 
 Founder-approved Home refinement removes the six mode introductions and Home chooser. Established Students retain exact recommended Start, one Suggest something else action, Plan/Exams/Progress/Courses orientation and independent Learn/Practice/Exam Prep through Courses. Recommendation exhaustion is distinct from completion. SL-01 first value, optional exam dates before the starting check and optional weekly availability after first value remain unchanged. The no-course checklist does not create a wizard or gate revision on dates/time.
