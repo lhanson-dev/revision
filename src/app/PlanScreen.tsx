@@ -627,7 +627,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     )
   }
 
-  const canAddSession = programme.length > 0 && !loading && !sessionsUnavailable && addSessionCourses.length > 0
+  const canAddSession = programme.length > 0 && !loading && sessionsReady && !sessionsUnavailable && !visibleSessionsUnavailable && addSessionCourses.length > 0
 
   const missingText = setupMissingExams && setupMissingAvailability
     ? 'Add your exam dates and your study time, and REV will plan what to work on.'
