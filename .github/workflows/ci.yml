@@ -86,7 +86,9 @@ jobs:
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Responsive browser assurance
-        timeout-minutes: 15
+        # Full responsive regression now exceeds 15 minutes on some hosted runners.
+        # Preserve all tests and retries; leave within the 30-minute job ceiling.
+        timeout-minutes: 20
         env:
           LEARNER_DESIGN_SHOTS: '1'
         run: npm run test:e2e
