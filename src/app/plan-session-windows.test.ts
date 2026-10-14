@@ -14,8 +14,10 @@ describe('FI-001 R2-09 disjoint accepted-session windows', () => {
     expect(spanDays).toBeLessThanOrEqual(41)
   })
 
-  it('does not make redundant reads for current week', () => {
-    expect(acceptedSessionWindows(today, weekKeys(today)).visible).toBeNull()
+  it('retains an independent current-week read for saved commitments before today', () => {
+    // The near-term window starts today; the current displayed week also includes Monday/Tuesday.
+    expect(acceptedSessionWindows(today, weekKeys(today)).visible)
+      .toEqual({ from: '2026-10-12', to: '2026-10-18' })
   })
 
   it('a future week is read separately even if it overlaps the next two weeks', () => {
