@@ -40,7 +40,9 @@ for (const lastDate of futureDates) {
 test('R2-06 no known papers does not fabricate a final date', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [], withExams: false })
   await page.goto(`${appPath}#/plan`)
-  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toContainText('Revision will not guess when your final paper is')
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toHaveCount(0)
+  await expect(page.getByText('Your plan is waiting on you', { exact: true })).toBeVisible()
+  await expect(page.getByText('Add your exam dates and REV will plan what to work on.', { exact: false })).toBeVisible()
 })
 
 test('R2-06 failed distant read does not disable near-term Plan guidance', async ({ page }) => {
