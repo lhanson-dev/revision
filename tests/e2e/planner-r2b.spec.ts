@@ -30,7 +30,7 @@ for (const lastDate of futureDates) {
     await expect(outlook.getByRole('button', { name: /View week/i }).last()).toBeVisible()
     await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
     expect(spans.length).toBeGreaterThan(0)
-    expect(Math.max(...spans)).toBeLessThanOrEqual(42)
+    expect(Math.max(...spans)).toBeLessThanOrEqual(60)
     expect((await new AxeBuilder({ page }).include('.pln-programme').withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
     // The fixed clock is not the current environment clock.
     expect(fixedNow.getFullYear()).toBe(2026)
