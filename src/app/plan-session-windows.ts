@@ -18,7 +18,7 @@ export function acceptedSessionWindows(
   if (!Number.isInteger(commitmentDays) || commitmentDays < 1 || commitmentDays > 60) throw new Error('Invalid accepted commitment horizon')
   const near = { from: today, to: addDaysToKey(today, commitmentDays - 1) }
   const visible = { from: visibleKeys[0], to: visibleKeys[visibleKeys.length - 1] }
-  // A view already inside the detailed window needs no redundant second read.
+  // A view already inside the bounded commitment window needs no redundant second read.
   return { near, visible: visible.from >= near.from && visible.to <= near.to ? null : visible }
 }
 
