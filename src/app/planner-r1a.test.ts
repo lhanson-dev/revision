@@ -5,6 +5,7 @@ import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import type { PlannedSession } from '../services/planning/planned-session-service'
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
+import { createMultipleChoiceEvidence } from './practice-evidence'
 import { allCatalogueCourses } from './learner-programme'
 import { activityForTopic, buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability, scopeTopicIds } from './planner-model'
 
@@ -150,6 +151,87 @@ describe('FI-001 R1a approved registry fixtures', () => {
     expect({ evidence: state.evidence, readiness: state.readiness, knowledge: state.topicKnowledge }).toEqual(before)
     const plan = buildAdaptivePlan(later, days)
     expect(plan.schedule.every((day) => day.items.every((item) => item.assessmentTargets?.every((target) => target.assessmentDate > day.date)))).toBe(true)
+  })
+
+  it('R1-14 keeps real stronger Psychology evidence distinct when the Business paper moves closer', () => {
+    const psychologyTopic = 'social-influence'
+    const businessQuestion = business.learningAdapter.listQuestions(topic)[0]
+    const psychologyQuestions = psychology.learningAdapter.listQuestions(psychologyTopic).slice(0, 3)
+    expect(businessQuestion).toBeDefined()
+    expect(psychologyQuestions.length).toBeGreaterThan(0)
+
+    const businessWeak = createMultipleChoiceEvidence({
+      id: 'r1-14-business-incorrect', moduleId: business.modules[0].manifest.id, topicId: topic,
+      contentId: businessQuestion.id,
+      selectedOption: (businessQuestion.correctOption + 1) % businessQuestion.options.length,
+      correctOption: businessQuestion.correctOption, occurredAt: '2026-10-12T12:00:00Z',
+    })
+    const psychologyStrong = psychologyQuestions.map((question, index) => createMultipleChoiceEvidence({
+      id: `r1-14-psychology-correct-${index}`, moduleId: psychology.modules[0].manifest.id,
+      topicId: psychologyTopic, contentId: question.id, selectedOption: question.correctOption,
+      correctOption: question.correctOption, occurredAt: '2026-10-12T12:00:00Z',
+    }))
+    const businessScoredState = createCourseLearningState(business, [businessWeak])
+    const psychologyScoredState = createCourseLearningState(psychology, psychologyStrong)
+    const states = [businessScoredState, psychologyScoredState]
+    const before = structuredClone(states.map((state) => ({
+      course: state.adapter.manifest.id, evidence: state.evidence, readiness: state.readiness,
+      topicKnowledge: state.topicKnowledge,
+    })))
+    const psychologyExam = exam(psychology, 1, {
+      assessmentDate: '2026-10-25', scope: { topicIds: [psychologyTopic] },
+    })
+    const farBusiness = exam(business, 1, {
+      assessmentDate: '2026-11-20', scope: { topicIds: [topic] },
+    })
+    const nearBusiness = { ...farBusiness, assessmentDate: '2026-10-14' }
+    const far = candidates([farBusiness, psychologyExam], states)
+    const near = candidates([nearBusiness, psychologyExam], states)
+    const forCourse = (items: ReturnType<typeof candidates>, courseId: string) => {
+      const match = items.find((item) => item.courseId === courseId)
+      expect(match).toBeDefined()
+      return match!
+    }
+    const bFar = forCourse(far, business.id)
+    const bNear = forCourse(near, business.id)
+    const pFar = forCourse(far, psychology.id)
+    const pNear = forCourse(near, psychology.id)
+
+    // Genuine contrasting marked responses from different, published course question registries.
+    expect(bNear.understanding).toBe(0)
+    expect(pNear.understanding).toBe(1)
+    expect(pNear.evidenceStrength).toBeGreaterThan(bNear.evidenceStrength)
+    expect(pNear.understanding).toBeGreaterThan(bNear.understanding!)
+    expect(pNear.assessmentTargets).toEqual(pFar.assessmentTargets)
+    expect(pNear.understanding).toBe(pFar.understanding)
+    expect(bNear.id).toBe(bFar.id)
+    expect(bNear.daysUntilAssessment).toBe(1)
+    expect(bNear.daysUntilAssessment).toBeLessThan(bFar.daysUntilAssessment)
+
+    const planDays = [
+      { date: '2026-10-13', availableMinutes: 90 },
+      { date: '2026-10-14', availableMinutes: 90 },
+      { date: '2026-10-15', availableMinutes: 90 },
+    ]
+    const beforeMove = buildAdaptivePlan(far, planDays)
+    const afterMove = buildAdaptivePlan(near, planDays)
+    const businessPriority = afterMove.ranked.find((item) => item.courseId === business.id)!
+    const psychologyPriority = afterMove.ranked.find((item) => item.courseId === psychology.id)!
+    expect(businessPriority.reasons).toContain('ASSESSMENT_SOON')
+    expect(businessPriority.reasons).toContain('WEAK_EVIDENCE')
+    expect(psychologyPriority.reasons).not.toContain('WEAK_EVIDENCE')
+    expect(beforeMove.ranked.find((item) => item.courseId === business.id)!.reasons).not.toContain('ASSESSMENT_SOON')
+    expect(afterMove.schedule.flatMap((day) => day.items.map((item) => ({ date: day.date, item }))).every(
+      ({ date, item }) => (item.assessmentTargets ?? []).every((target) => date < target.assessmentDate),
+    )).toBe(true)
+    expect(afterMove.schedule.flatMap((day) => day.items).every(
+      (item) => item.courseId === business.id || item.courseId === psychology.id,
+    )).toBe(true)
+    expect(buildAdaptivePlan(near, planDays)).toEqual(afterMove)
+    expect(states.map((state) => ({
+      course: state.adapter.manifest.id, evidence: state.evidence, readiness: state.readiness,
+      topicKnowledge: state.topicKnowledge,
+    }))).toEqual(before) // Deadline recalculation must not rewrite scored evidence or attainment.
   })
 
   it.each(['2026-03-29', '2026-10-25', '2026-12-31'])('R1-12 uses local calendar days across %s deterministically', (date) => {

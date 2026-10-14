@@ -318,24 +318,30 @@ Approved main `9afcbe36e83166b5adf498c07a84c625b431a794` remains an ancestor of 
 
 **Important assurance limit:** The checked-in Learn UI supports unscored Quick checks, but the inspected authored Business 7132 and Psychology 7182 Learn paths do not publish a `quick-check` block. The existing dev-only `/revision/learn-fixtures.html` renders the actual production `QuickCheck` component and already tests interactive answers/retry. New `planner-r1c.spec.ts` now completes a wrong answer, retries and answers correctly in that **existing dev-only Learn fixture**, then returns to a synthetic authenticated learner on Home/Plan/REV/Progress with the same accepted commitment, unchanged scored evidence, coverage and readiness. The fixture is not published course content, so this is a production-component browser boundary check rather than a fully published course learning journey. Do not add a fake shipped educational asset or overstate coverage. R1-11 must remain **Partial** if no assured, real, publishable unscored learning asset or equivalent valid production-surface proof can be exercised. Psychology 7182 option/asset checks remain in existing R1a fixtures; no syllabus data were manufactured.
 
-### R1 acceptance evidence inventory at this candidate head (not test results)
+### R1-01..R1-14 assessment and evidence scope (review correction, 14 October 2026)
 
-| Oracle | Existing/added verification source | Candidate state |
+**Verified existing baseline:** Revision CI [#38501428456](https://github.com/lhanson-dev/revision/actions/runs/38501428456) passed at `6f1671ef380d03df112132b547a0ab8053da4ee0` (1,346 unit passed/35 skipped; 610 browser passed/326 skipped; typecheck, lint, build, assurance plan, database/RLS and protected services). **The added R1-14 regression and this documentation revision are a new candidate** and need fresh exact-head CI before merge. These labels are acceptance-evidence assessments, not assertions that production users were tested.
+
+| Case | Named test evidence | Contract assessment before refreshed CI |
 | --- | --- | --- |
-| R1-01 | `planner-r1a.test.ts` shared-paper generic intent | Existing tests; CI pending |
-| R1-02 | `planner-r1a.test.ts` per-day cutoff and later paper | Existing tests; CI pending |
-| R1-03 | `planner-r1a.test.ts` changed/archived date | Existing tests; CI pending |
-| R1-04 | `planner-r1a.test.ts` active course/unambiguous scope | Existing tests; CI pending |
-| R1-05 | `accepted-sessions.test.ts`, `planner-r1b.spec.ts`, new R1c browser commitment reload | Existing plus candidate; CI pending |
-| R1-06 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
-| R1-07 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
-| R1-08 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
-| R1-09 | `planner-r1a.test.ts` Psychology 7182 exact option/scope | Existing tests; CI pending |
-| R1-10 | `planner-r1a.test.ts`, `planning.test.ts` capacity | Existing tests; CI pending |
-| R1-11 | `planner-r1c.test.tsx`, `planner-r1c.spec.ts`, `learn-blocks.spec.ts`, `progress.spec.ts`, `learn-quick-check.test.tsx` | **PARTIAL**: actual unscored component browser completion + planner reroute in dev-only fixture; no published 7132/7182 Learn Quick check; final CI pending |
-| R1-12 | `planner-r1a.test.ts`, `today-recommendations.test.ts` local date/DST | Existing tests; CI pending |
-| R1-13 | `planner-r1a.spec.ts`, `planner-r1b.spec.ts` | Existing tests; CI pending |
-| R1-14 | `planner-r1a.test.ts` date-safety and scored-evidence interaction | Existing tests; CI pending |
+| R1-01 | `planner-r1a.test.ts`: shared Business two-paper de-duplication and distinct paper intentions | PASS (existing deterministic scope) |
+| R1-02 | `planner-r1a.test.ts`: exam-day cutoff and later-paper carryover | PASS (existing deterministic scope) |
+| R1-03 | `planner-r1a.test.ts`: earlier/later/archived dates and accepted-session inputs | PASS (existing deterministic scope) |
+| R1-04 | `planner-r1a.test.ts`: multi-course state, invalid explicit/legacy scopes | PASS (existing deterministic scope) |
+| R1-05 | `planner-r1a.test.ts`, `accepted-sessions.test.ts`, `planner-r1b.spec.ts`, `planner-r1c.spec.ts` | PASS (booked-minute and accepted identity regression) |
+| R1-06 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | PASS (truthful unscheduled/empty-data behaviour) |
+| R1-07 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | PASS (shared next recommendation, supported exact Start) |
+| R1-08 | `today-recommendations.test.ts`, `planner-r1b.spec.ts` | PASS for approved local-day alternatives/dismissal; historical 'Not now' terminology interpreted through current authority |
+| R1-09 | `planner-r1a.test.ts`: mapped Psychology 7182 paper options and exclusions | PASS (existing deterministic scope) |
+| R1-10 | `planner-r1a.test.ts`, `planning.test.ts`, `today-recommendations.test.ts` | PASS (capacity, rest, unsupported duration) |
+| R1-11 | `planner-r1c.test.tsx`, `planner-r1c.spec.ts`, `progress.spec.ts`, `learn-blocks.spec.ts` | **PARTIAL**: production Learn QuickCheck only appears in dev fixture; starting-check store is mocked and browser return uses synthetic onboarding completion; no published-course unscored Learn completion-to-replan proof |
+| R1-12 | `planner-r1a.test.ts`, `today-recommendations.test.ts` | **PARTIAL for true zone-transition assurance**: local-calendar boundaries are deterministic, but suite does not independently exercise differing Europe/London timezone offsets during a real DST transition |
+| R1-13 | `planner-r1a.spec.ts`, `planner-r1b.spec.ts`, `today-recommendations.test.ts` | PASS (partial failures/unsupported routes give honest outcomes) |
+| R1-14 | `planner-r1a.test.ts`: new separate scored Business/Psychology comparison across earlier Business deadline, candidate reasons and date-safe schedule | **NEW CANDIDATE; exact-head CI pending**. Does not claim optimal cross-subject balance (R3). |
+
+**R1-11 semantics:** The store-mock unit test proves serialization and that a separately supplied empty scored array produces a stable result; it does not itself pipe saved directional data into planner ingestion. The browser test proves stored observations, then uses a synthetic account-stage transition and mock backend; the unscored Learn interaction uses a dev-only fixture instead of an assured published course. The scored-positive-control test uses real approved course identities and the existing evidence engine; the separate `progress.spec.ts` browser journey covers scored Practice persistence and displayed coverage. These remain useful bounded tests, not a complete R1-11 end-to-end oracle.
+
+**R1-12 semantics:** A date-only test passing near March/October boundaries is not a test that actually crosses a changing Europe/London offset; do not report the stronger assurance layer as executed. R1-12 timezone-transition precision can be completed in a targeted follow-up without changing planner algorithms.
 
 **Documentation impact:** Narrow active authority-status wording corrected for previously merged #619, and the R1 backlog lifecycle/current implementation status separated from its historical preapproval snapshot. Assurance Coverage Register tracks R1-11 as Partial until appropriate CI, independent review and required published-content journey evidence. No ADR, schema or scoring change required. R2–R5 remain outside R1 and require their own DoR/Founder approval.
 
@@ -346,3 +352,7 @@ Approved main `9afcbe36e83166b5adf498c07a84c625b431a794` remains an ancestor of 
 Draft PR #624 was reconstructed against the approved Home #623 integration main `b5dfdd9d0611ec46818f804b4ed33f9c455d8def`; its seven intended changed files were verified relative to that parent without overwriting the newer Home implementation and authority updates. The resulting integrated candidate `25a39255ff042b8520bd7bcd3babec584c4b2f3d` completed [Revision CI #38476263924](https://github.com/lhanson-dev/revision/actions/runs/38476263924): assurance plan and secrets scan **PASS**, foundation quality **PASS**, typecheck/lint/build **PASS**, Vitest **1,346 passed / 35 skipped**, Playwright **610 passed / 326 skipped**, database/RLS/protected services **PASS**. All three R1c unit tests were run; the three new R1c browser cases include deliberate non-desktop skips where another suite provides responsive coverage. These are sandboxed fixture and isolated database test results, not evidence of real production users or a deployment of #624.
 
 **Post-implementation evidence assessment (same implementing executor; independent PR review still required):** PASS for the bounded regression layer and current-main integration, **HOLD** for full R1-11 closure. The starting-check-only persisted observation and scored Practice positive-control paths are represented, and the real unscored Learn component was exercised in a dev-only fixture before Home/Plan/REV/Progress were revisited. Neither approved authored Business 7132 nor Psychology 7182 Learn currently publishes that unscored block, so the original R1-11 oracle's published-course completion-to-replan journey is not demonstrated. This is an assurance gap, **not** permission to invent course questions, amend mastery algorithms or promote R2 Ready. The issue #621 remains open. PR #624 remains draft pending specific Founder merge approval if released as a bounded partial-assurance increment; no R1-complete or R1c production-live status is claimed.
+
+### Review correction and CI provenance — 14 October 2026
+
+The material independent-review findings were (1) the previous R1-14 comparison lacked genuinely stronger scored evidence from a different subject, (2) the R1-11 mock-only unit test did not perform a production read-after-write replan, and (3) the matrix claimed pending CI after the baseline exact-head run passed. R1-14 now uses real approved Business/Psychology objective-question identities and keyed responses to test contrasting scored evidence, changing Business assessment urgency, attributable planner reasons, safe target dates and unchanged knowledge evidence. R1-11 remains **PARTIAL**, including unavailable published unscored Learn content, and R1-12 timezone-offset assurance remains explicitly **PARTIAL**. No new product behaviour, grading rules, R2 scope or educational-content authoring is introduced. The refreshed exact-head CI outcome must be linked on PR #624 before merge; existing passed baseline is referenced above and is not misrepresented as coverage of this new commit.

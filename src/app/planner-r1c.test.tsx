@@ -51,7 +51,7 @@ function measuresAndPlan(scoredEvidence: Parameters<typeof createCourseLearningS
 }
 
 describe('FI-001 R1-11 evidence provenance through course, planner, Progress and REV selection', () => {
-  it('starting-check-only observations remain separate directional records across persistence and recalculation', async () => {
+  it('mock starting-check records remain outside a separately supplied scored-only recalculation', async () => {
     expect(question).toBeDefined()
     const baseline = measuresAndPlan([])
     const directional = {
@@ -68,7 +68,7 @@ describe('FI-001 R1-11 evidence provenance through course, planner, Progress and
     }))
     expect(await loadStartingCheckEvidence(store, 'r1c-student', moduleId)).toEqual([directional])
 
-    // The official scored-learning stream remains empty, even after the starting check was saved.
+    // A scored-only recalculation using [] is an isolation control, not a production read-after-write integration test.
     const recalculated = measuresAndPlan([])
     expect(recalculated.measures).toEqual(baseline.measures)
     expect(recalculated.readiness).toEqual(baseline.readiness)
