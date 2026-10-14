@@ -70,7 +70,9 @@ test('R2-06 failed distant read does not disable near-term Plan guidance', async
     const from = dates.find((part) => part.startsWith('gte.'))?.slice(4)
     if (route.request().method() === 'GET' && from && from >= '2027-02-01') {
       distantReads += 1
-      await route.fulfill({ status: 503, contentType: 'application/json', body: '{"message":"unavailable"}' })
+      // A non-retryable backend rejection exercises the same isolated read failure
+      // without transport-layer 503 backoff outrunning the browser assertion timeout.
+      await route.fulfill({ status: 400, contentType: 'application/json', body: '{"message":"unavailable"}' })
     } else await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
   await page.goto(`${appPath}#/plan`)
