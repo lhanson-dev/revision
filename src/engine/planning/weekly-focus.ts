@@ -34,6 +34,11 @@ function maximumVisibleFocuses(minutes: number | null) {
   return 3
 }
 
+/** UTC date-key arithmetic: never let UK DST alter a paper countdown. */
+function dateDistance(from: string, until: string) {
+  return Math.round((Date.parse(until + 'T00:00:00Z') - Date.parse(from + 'T00:00:00Z')) / 86_400_000)
+}
+
 export function withProgrammeWeeklyFocus(
   programme: PlannerProgramme,
   candidates: readonly PlannerCandidate[],
@@ -49,7 +54,7 @@ export function withProgrammeWeeklyFocus(
       || a.topicId.localeCompare(b.topicId) || a.id.localeCompare(b.id),
   )
   const seen = new Set<string>()
-  const weeks = programme.weeks.map((week): ProgrammeFocusWeek => {
+  const weeks = programme.weeks.map((week, weekIndex): ProgrammeFocusWeek => {
     const capacity = capacityForWeek(week)
     // Null means unknown. Invalid data is treated as unknown, not unlimited.
     const availableMinutes = capacity !== null && (!Number.isFinite(capacity) || capacity < 0) ? null : capacity
@@ -74,6 +79,16 @@ export function withProgrammeWeeklyFocus(
     }
 
     const order = week.priorities?.map((course) => course.courseId) ?? [...byCourse.keys()].sort()
+    // With room for only one suggested topic, alternate eligible courses
+    // between weeks unless a genuine paper is immediately due. Otherwise
+    // a farther-away subject could be silently starved all term.
+    const nextPaper = week.priorities?.[0]?.nextAssessmentDate
+    const imminentlyDue = nextPaper !== undefined
+      && dateDistance(week.visibleFrom, nextPaper) <= 7
+    if (order.length > 1 && focusLimit === 1 && !imminentlyDue) {
+      const offset = weekIndex % order.length
+      order.push(...order.splice(0, offset))
+    }
     const topicFocus: ProgrammeTopicFocus[] = []
     const selectedHere = new Set<string>()
     // One choice per eligible course per pass prevents the nearest paper from
