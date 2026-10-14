@@ -67,4 +67,18 @@ describe('FI-001 R2c real-course programme projection and benchmark', () => {
     // Observations, not an invented product SLA: compare CI measurements in review.
     console.info(`FI-001 R2c ${days}-day real registry horizon: ${first.weeks.length} weeks, ${durationMs} ms first projection`)
   })
+
+  it('R2-03 real selected Psychology 7182 Paper 3 scope only exposes assured selected topics', () => {
+    const selected = paper(psychology, 3, '2027-06-11', {
+      topicIds: ['issues-and-debates-in-psychology', 'relationships', 'schizophrenia', 'aggression'],
+    })
+    const candidates = plannerCandidatesFromLearningState(states, [selected], [], now)
+    expect(candidates.length).toBeGreaterThan(0)
+    expect(candidates.every((item) => item.courseId === psychology.id
+      && (selected.scope.topicIds as string[]).includes(item.topicId)
+      && item.assessmentTargets?.every((target) => target.assessmentId === selected.assessmentId))).toBe(true)
+    const result = programme([selected])
+    expect(result.weeks[0].supportedCourseIds).toEqual([psychology.id])
+    expect(result.weeks[0].priorities).toEqual([{ courseId: psychology.id, nextAssessmentDate: selected.assessmentDate }])
+  })
 })
