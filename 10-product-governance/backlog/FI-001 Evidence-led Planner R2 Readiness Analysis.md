@@ -1,5 +1,7 @@
 # FI-001 R2 — Full-Exam-Horizon Programme and Rolling Weekly Plan: Definition of Ready
 
+**Current lifecycle (14 October 2026):** Founder-approved **R2 Ready** after PR #628 merged at `97d209c73025af9590ed06bb89034bf222fb3a4d`; [explicit conditional human approval receipt](https://github.com/lhanson-dev/revision/pull/628#issuecomment-6170900923). **R2a is now In Progress on a governed implementation branch, not Live.** The original preapproval analysis below is preserved as decision history. R3–R5 remain unapproved for development.
+
 **Status:** ANALYSE — proposed **Ready** assessment; **not approved** for implementation.  
 **Prepared:** 14 October 2026 against approved `main` `355a4f5d7619d8f6500c4aa02f6263c5b40c33ad` (R1 correctness / #624 and DST regression / #627 production-verified).  
 **Owner:** Product / Engineering; Founder controls Definition-of-Ready and PR merges.  
