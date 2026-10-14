@@ -47,14 +47,33 @@ test('R2-06 no known papers does not fabricate a final date', async ({ page }) =
 
 test('R2-06 failed distant read does not disable near-term Plan guidance', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
+  // Exercise a real learner jump from today's Plan to an assured future paper,
+  // rather than assuming that the URL alone proves the visible month changed.
+  await page.route('**/rest/v1/revision_assessments**', (route) => route.fulfill({
+    status: 200, contentType: 'application/json', body: JSON.stringify([{
+      assessment_id: 'future-paper', user_id: planUserId, course_id: businessCourseId,
+      subject_id: 'business', module_id: null, assessment_type: 'public_exam',
+      title: 'Future Business paper', assessment_date: '2027-02-02',
+      relative_importance: 'normal', scope: {}, is_active: true,
+    }]),
+  }))
+  let distantReads = 0
   await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
     const dates = new URL(route.request().url()).searchParams.getAll('planned_date')
     const from = dates.find((part) => part.startsWith('gte.'))?.slice(4)
-    if (from && from > '2026-10-18') {
+    if (route.request().method() === 'GET' && from && from >= '2027-02-01') {
+      distantReads += 1
       await route.fulfill({ status: 503, contentType: 'application/json', body: '{"message":"unavailable"}' })
     } else await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
-  await page.goto(`${appPath}#/plan?view=month&date=2027-02-02`)
+  await page.goto(`${appPath}#/plan`)
+  await expect(page.getByRole('button', { name: 'Add session', exact: true })).toBeVisible()
+  const outlook = page.getByRole('region', { name: 'Your full exam programme' })
+  await expect(outlook).toContainText('Future Business paper')
+  await outlook.locator('summary').click()
+  await outlook.getByRole('button', { name: /View week of Monday 1 February 2027/ }).click()
+  await expect(page.getByRole('heading', { name: /Week of 1 Feb 2027/ })).toBeVisible()
+  await expect.poll(() => distantReads).toBeGreaterThan(0)
   await expect(page.getByText('Saved sessions for these dates could not be loaded', { exact: false })).toBeVisible()
   await expect(page.getByText('Your saved sessions could not be loaded', { exact: false })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Add session', exact: true })).toHaveCount(0)
