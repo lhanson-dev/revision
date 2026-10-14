@@ -57,4 +57,5 @@ test('R2-06 failed distant read does not disable near-term Plan guidance', async
   await page.goto(`${appPath}#/plan?view=month&date=2027-02-02`)
   await expect(page.getByText('Saved sessions for these dates could not be loaded', { exact: false })).toBeVisible()
   await expect(page.getByText('Your saved sessions could not be loaded', { exact: false })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Add session', exact: true })).toHaveCount(0)
 })
