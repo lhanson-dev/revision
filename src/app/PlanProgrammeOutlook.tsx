@@ -18,7 +18,10 @@ function dated(key: string) {
 
 function weekFocus(week: ProgrammeWeek, courseLabel: Props['courseLabel']) {
   if (!week.supportedCourseIds.length) return 'No supported preparation activity identified yet. This does not mean the course is complete.'
-  return week.supportedCourseIds.map(courseLabel).join(' · ')
+  const priorities = week.priorities ?? []
+  if (!priorities.length) return week.supportedCourseIds.map(courseLabel).join(' · ')
+  const [first, ...other] = priorities
+  return `First to consider: ${courseLabel(first.courseId)} (next eligible paper ${dated(first.nextAssessmentDate)}).${other.length ? ` Other supported courses: ${other.map((item) => courseLabel(item.courseId)).join(' · ')}.` : ''} This is based on exam proximity, not a fixed weekly allocation.`
 }
 
 function capacityExplanation(week: ProgrammeWeek, weekly: RevisionWeeklyAvailability | null, exceptions: readonly RevisionAvailabilityException[]) {
@@ -47,7 +50,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, onOpenWeek, weekl
                     <li key={week.weekStart} className="pln-programme__week">
                       <div>
                         <strong>{weekRangeLabel(week.weekStart)} {week.visibleUntil.slice(0, 4)}</strong>
-                        <p>Preparation opportunities: {weekFocus(week, courseLabel)}</p>
+                        <p>Preparation focus: {weekFocus(week, courseLabel)}</p>
                         <p>{capacityExplanation(week, weeklyAvailability, availabilityExceptions)}</p>
                         {week.milestones.length > 0 && (
                           <ul aria-label="Exams and assessments this week">

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { acceptedSessionWindows, combineAcceptedSessions } from './plan-session-windows'
+import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
 import { monthGridKeys, weekKeys } from './plan-dates'
 
 describe('FI-001 R2-09 disjoint accepted-session windows', () => {
@@ -34,5 +34,20 @@ describe('FI-001 R2-09 disjoint accepted-session windows', () => {
     expect(combineAcceptedSessions([{ sessionId: 'a', status: 'planned' }], [
       { sessionId: 'a', status: 'done' }, { sessionId: 'b', status: 'planned' },
     ])).toEqual([{ sessionId: 'a', status: 'done' }, { sessionId: 'b', status: 'planned' }])
+  })
+
+  it('R2-07 keeps distant visible-month commitments out of the shared Today calculation', () => {
+    const future = '2028-10-04'
+    const windows = acceptedSessionWindows(today, monthGridKeys(2028, 9))
+    const accepted = [
+      { sessionId: 'today', plannedDate: today },
+      { sessionId: 'near', plannedDate: windows.near.to },
+      { sessionId: 'distant', plannedDate: future },
+    ]
+    const displayed = combineAcceptedSessions(accepted.slice(0, 2), accepted.slice(2))
+    expect(displayed).toHaveLength(3)
+    expect(nearTermAcceptedSessions(displayed, windows.near).map((session) => session.sessionId)).toEqual(['today', 'near'])
+    expect(DETAILED_PLANNER_HORIZON_DAYS).toBe(14)
+    expect(ACCEPTED_COMMITMENT_HORIZON_DAYS).toBe(60)
   })
 })

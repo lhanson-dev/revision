@@ -143,4 +143,50 @@ describe('FI-001 R2a full-exam weekly programme projection', () => {
       expect(result.weeks.flatMap((w) => w.milestones).map((m) => m.date)).toEqual([key])
     }
   })
+
+  it('R2-02/R2-11 orders weekly supported course focus by the closest still-eligible real paper', () => {
+    const businessFirst = exam({ assessmentDate: '2026-11-10' })
+    const businessLater = exam({ assessmentId: 'business-paper-2', assessmentDate: '2027-06-02' })
+    const psychologyPaper = exam({ assessmentId: 'psychology-paper-1', courseId: psychology, subjectId: 'psychology',
+      title: 'AQA Psychology Paper 1', assessmentDate: '2027-01-12' })
+    const businessCandidate = supported({ assessmentTargets: [
+      { assessmentId: 'business-paper-1', assessmentDate: businessFirst.assessmentDate, topicIds: ['marketing'],
+        daysUntilAssessment: 27, assessmentImportance: 'normal' },
+      { assessmentId: 'business-paper-2', assessmentDate: businessLater.assessmentDate, topicIds: ['marketing'],
+        daysUntilAssessment: 231, assessmentImportance: 'normal' },
+    ] })
+    const psychologyCandidate = supported({ id: 'psychology-supported', courseId: psychology, subjectId: 'psychology',
+      assessmentTargets: [{ assessmentId: 'psychology-paper-1', assessmentDate: psychologyPaper.assessmentDate,
+        topicIds: ['social-influence'], daysUntilAssessment: 90, assessmentImportance: 'normal' }] })
+    const assessments = [businessLater, psychologyPaper, businessFirst]
+    const candidates = [businessCandidate, psychologyCandidate]
+    const result = buildPlannerProgramme(today, assessments, active, candidates)
+    expect(result.weeks[0].priorities).toEqual([
+      { courseId: business, nextAssessmentDate: '2026-11-10' },
+      { courseId: psychology, nextAssessmentDate: '2027-01-12' },
+    ])
+    const afterBusinessFirst = result.weeks.find((week) => week.visibleFrom === '2026-11-16')
+    expect(afterBusinessFirst?.priorities).toEqual([
+      { courseId: psychology, nextAssessmentDate: '2027-01-12' },
+      { courseId: business, nextAssessmentDate: '2027-06-02' },
+    ])
+    // The last paper is on Wednesday, so Monday/Tuesday remain eligible; no work is fixed on exam day.
+    expect(result.weeks.at(-1)?.priorities).toEqual([
+      { courseId: business, nextAssessmentDate: '2027-06-02' },
+    ])
+    expect(result).toEqual(buildPlannerProgramme(today, [...assessments].reverse(), active, [...candidates].reverse()))
+  })
+
+  it('R2-03/R2-05 never prioritises an unsupported Psychology option or an expired course target', () => {
+    const psychologyPaper = exam({ assessmentId: 'psychology-paper-3', courseId: psychology, subjectId: 'psychology',
+      assessmentDate: '2027-06-11' })
+    const result = buildPlannerProgramme(today, [psychologyPaper], active, [
+      supported({ id: 'unverified-option', courseId: psychology, assessmentTargets: [{
+        assessmentId: 'not-selected-option', assessmentDate: '2027-06-11', topicIds: ['unknown'],
+        daysUntilAssessment: 240, assessmentImportance: 'normal',
+      }] }),
+    ])
+    expect(result.weeks.every((week) => week.priorities?.length === 0)).toBe(true)
+    expect(result.weeks.at(-1)?.milestones[0].assessmentId).toBe('psychology-paper-3')
+  })
 })

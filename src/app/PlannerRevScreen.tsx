@@ -12,6 +12,7 @@ import { todayRecommendations, learnRouteForTask, recommendationExplanation, rea
 import { useLocalDay } from './use-local-day'
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { buildPlannerSnapshot } from './planner-model'
+import { ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
 import { RevPresence, type RevPresenceState } from './RevPresence'
 import type { CourseSection } from './navigation'
 import { answerExams, answerProgress, CANNOT_ANSWER_YET, classifyQuestion, promptChips, SAFEGUARDING_FOLLOW_ON, safeguardingReply, screenForSafeguarding, type RevAnswer } from './rev-answers'
@@ -127,7 +128,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     const evidenceStore = createSupabaseEvidenceStore(client)
     Promise.all([
       loadPlannerSetup(client, userId),
-      loadPlannedSessions(client, userId, localDate(now), plusDays(now, 60)),
+      loadPlannedSessions(client, userId, localDate(now), plusDays(now, ACCEPTED_COMMITMENT_HORIZON_DAYS - 1)),
       Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
     ])
       .then(([plannerSetup, accepted, evidenceByModule]) => {
@@ -155,12 +156,13 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => setup?.assessments.filter((assessment) => {
+    if (!assessment.isActive) return false
     if (assessment.courseId) return activeCourseIds.has(assessment.courseId)
     return programme.filter((item) => item.subject.id === assessment.subjectId).length === 1
   }) ?? [], [activeCourseIds, programme, setup])
 
   const snapshot = useMemo(() => setup
-    ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [])
+    ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
     : null,
   [activeAssessments, learningStates, setup, preferences, now, sessions])
 

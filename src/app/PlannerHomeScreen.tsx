@@ -9,6 +9,7 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { type CourseSection } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
+import { ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
 import { addDays } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
 import { homeTaskOnToday, homeTaskMatchesPlanRow, homeToday, upcomingHomeExams, type HomeExam } from './home-v3-model'
@@ -129,7 +130,7 @@ export function PlannerHomeScreen({
 
   useEffect(() => {
     let active = true
-    loadPlannedSessions(client, userId, todayKey, addDays(todayKey, 60))
+    loadPlannedSessions(client, userId, todayKey, addDays(todayKey, ACCEPTED_COMMITMENT_HORIZON_DAYS - 1))
       .then((sessions) => {
         if (!active) return
         setPlannedSessions(sessions)
@@ -151,7 +152,7 @@ export function PlannerHomeScreen({
   }) ?? [], [setup, programme])
 
   const snapshot = useMemo(() => setup && !evidenceLoading && !evidenceError
-    ? buildPlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [])
+    ? buildPlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
     : null,
   [setup, evidenceLoading, evidenceError, learningStates, assessments, plannedSessions, today])
 
