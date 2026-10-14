@@ -7,7 +7,7 @@ describe('FI-001 R2-09 disjoint accepted-session windows', () => {
   it.each([120, 365, 730])('%i-day distant navigation never reads the unviewed gap', (days) => {
     const future = new Date(Date.parse(today + 'T00:00:00Z') + days * 86400000).toISOString().slice(0, 10)
     const windows = acceptedSessionWindows(today, monthGridKeys(Number(future.slice(0, 4)), Number(future.slice(5, 7)) - 1))
-    expect(windows.near).toEqual({ from: today, to: '2026-10-27' })
+    expect(windows.near).toEqual({ from: today, to: '2026-12-12' })
     expect(windows.visible).not.toBeNull()
     expect(windows.visible!.from > windows.near.to).toBe(true)
     const spanDays = (Date.parse(windows.visible!.to) - Date.parse(windows.visible!.from)) / 86400000
@@ -20,13 +20,13 @@ describe('FI-001 R2-09 disjoint accepted-session windows', () => {
       .toEqual({ from: '2026-10-12', to: '2026-10-18' })
   })
 
-  it('a future week is read separately even if it overlaps the next two weeks', () => {
-    const result = acceptedSessionWindows(today, weekKeys('2026-10-26'))
-    expect(result.near.to).toBe('2026-10-27')
-    expect(result.visible).toEqual({ from: '2026-10-26', to: '2026-11-01' })
+  it('an exam week beyond the existing commitment window is read separately', () => {
+    const result = acceptedSessionWindows(today, weekKeys('2026-12-14'))
+    expect(result.near.to).toBe('2026-12-12')
+    expect(result.visible).toEqual({ from: '2026-12-14', to: '2026-12-20' })
   })
 
-  it('rejects unbounded detailed horizons', () => {
+  it('rejects extending accepted reads across an unbounded horizon', () => {
     expect(() => acceptedSessionWindows(today, weekKeys(today), 365)).toThrow()
   })
 
