@@ -170,7 +170,10 @@ describe('FI-001 R2a full-exam weekly programme projection', () => {
       { courseId: psychology, nextAssessmentDate: '2027-01-12' },
       { courseId: business, nextAssessmentDate: '2027-06-02' },
     ])
-    expect(result.weeks.at(-1)?.priorities).toEqual([])
+    // The last paper is on Wednesday, so Monday/Tuesday remain eligible; no work is fixed on exam day.
+    expect(result.weeks.at(-1)?.priorities).toEqual([
+      { courseId: business, nextAssessmentDate: '2027-06-02' },
+    ])
     expect(result).toEqual(buildPlannerProgramme(today, [...assessments].reverse(), active, [...candidates].reverse()))
   })
 
