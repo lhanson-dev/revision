@@ -78,7 +78,10 @@ describe('FI-001 R2 meaningful weekly study focus', () => {
       courseId: business, topicId: 'topic-1', activityType: 'quick-check', revisit: true,
     }])
     expect(result.weeks.at(-1)?.topicFocus).toHaveLength(1) // Mon before Tuesday exam.
-    const examOnMonday = projection([candidate(1)], [paper({ assessmentDate: '2026-10-19' })])
+    const examOnMonday = projection([candidate(1, { assessmentTargets: [{
+      assessmentId: 'paper-business', assessmentDate: '2026-10-19', topicIds: ['topic-1'],
+      daysUntilAssessment: 5, assessmentImportance: 'normal',
+    }] })], [paper({ assessmentDate: '2026-10-19' })])
     expect(examOnMonday.weeks.at(-1)?.topicFocus).toEqual([])
   })
 
@@ -94,6 +97,21 @@ describe('FI-001 R2 meaningful weekly study focus', () => {
     const result = projection([candidate(1), candidate(2), psych], [paper(), psychologyPaper], 45)
     expect(result.weeks[0].topicFocus.map((focus) => focus.courseId)).toEqual([psychology, business])
     expect(result.weeks[0].topicFocus.map((focus) => focus.topicId)).toEqual(['topic-1', 'topic-1'])
+  })
+
+  it('R2 multi-course non-starvation alternates eligible subjects in narrow weekly capacity', () => {
+    const psychologyPaper = paper({ assessmentId: 'paper-psychology', courseId: psychology,
+      subjectId: 'psychology', assessmentDate: '2027-06-01' })
+    const psych = candidate(2, { id: 'psychology:topic-2', courseId: psychology, subjectId: 'psychology',
+      assessmentTargets: [{
+        assessmentId: 'paper-psychology', assessmentDate: '2027-06-01', topicIds: ['topic-2'],
+        daysUntilAssessment: 230, assessmentImportance: 'normal',
+      }],
+    })
+    const result = projection([candidate(1), psych], [paper(), psychologyPaper], 30)
+    expect(result.weeks.slice(0, 4).map((week) => week.topicFocus[0]?.courseId)).toEqual([
+      psychology, business, psychology, business,
+    ])
   })
 
   it('never suggests a topic from unsupported course, unselected paper or unverified assessment target', () => {
