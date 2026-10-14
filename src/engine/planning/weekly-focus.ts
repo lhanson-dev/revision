@@ -66,7 +66,7 @@ export function withProgrammeWeeklyFocus(
       if (!candidate.courseId || !eligibleCourseIds.has(candidate.courseId)) continue
       const eligible = candidate.assessmentTargets?.some((target) => {
         const milestone = milestones.get(target.assessmentId)
-        return milestone?.courseId === candidate.courseId
+        return milestone !== undefined && milestone.courseId === candidate.courseId
           && milestone.date === target.assessmentDate
           && milestone.date > week.visibleFrom
       })
@@ -102,6 +102,7 @@ export function withProgrammeWeeklyFocus(
         // Prefer a topic not yet surfaced in the programme; only suggest a
         // revisit when the currently supported distinct options are exhausted.
         const chosen = choices.find((item) => !seen.has(`${courseId}:${item.topicId}`)) ?? choices[0]
+        if (!chosen) continue
         const key = `${courseId}:${chosen.topicId}`
         const revisit = seen.has(key)
         topicFocus.push({ courseId, topicId: chosen.topicId, activityType: chosen.activityType, revisit })
