@@ -71,7 +71,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
           ? <p>Add known exam dates to see a longer-term programme. Revision will not guess when your final paper is.</p>
           : (
             <>
-              <p>Weekly topic priorities through <strong>{dated(final)}</strong>, across {programme.weeks.length} calendar weeks. These are provisional topics drawn from your selected courses and supported learning activities, not booked sessions or a fixed weekly allocation. REV will adapt them as your progress and exam dates change.</p>
+              <p>Weekly topic priorities through <strong>{dated(final)}</strong>, across {programme.weeks.length} calendar weeks. These are provisional topics drawn from your selected courses and supported learning activities, not booked sessions and not a fixed weekly allocation. REV will adapt them as your progress and exam dates change.</p>
               <p className="pln-card__note">Study time is based on your saved availability before any distant accepted commitments. Use Day/Week for your near-term activities.</p>
               <h3>Coming up</h3>
               <ol className="pln-programme__weeks">
