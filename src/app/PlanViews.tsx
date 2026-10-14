@@ -1,6 +1,7 @@
 import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { PlanDatePicker } from './PlanDatePicker'
 import {
+  addDaysToKey,
   countdownWords,
   formatMinutes,
   fromKey,
@@ -275,8 +276,9 @@ export function PlanRow({ item, day, todayKey, actions, compact = false }: PlanR
   )
 }
 
-function EmptyDay({ day, compact = false }: { day: PlanDay; compact?: boolean }) {
-  const text = day.rest ? 'Rest day. Nothing planned, on purpose.' : day.past ? 'Nothing was planned.' : 'Free. Nothing planned.'
+function EmptyDay({ day, todayKey, compact = false }: { day: PlanDay; todayKey: string; compact?: boolean }) {
+  const distant = day.key > addDaysToKey(todayKey, 13)
+  const text = distant ? 'No accepted sessions here yet. REV will recommend activities nearer the time.' : day.rest ? 'Rest day. Nothing planned, on purpose.' : day.past ? 'Nothing was planned.' : 'Free. Nothing planned.'
   return <p className={`pln-empty${compact ? ' pln-empty--compact' : ''}`}>{text}</p>
 }
 
@@ -302,7 +304,7 @@ export function PlanDayView({ days, selectedKey, todayKey, actions, onSelect }: 
         </div>
         {day.items.length > 0
           ? <ul className="pln-list">{day.items.map((item) => <PlanRow key={item.key} item={item} day={day} todayKey={todayKey} actions={actions} />)}</ul>
-          : <EmptyDay day={day} />}
+          : <EmptyDay day={day} todayKey={todayKey} />}
       </div>
     </div>
   )
@@ -326,7 +328,7 @@ export function PlanWeekView({ days, todayKey, actions, onOpenDay }: PlanWeekVie
           </button>
           {day.items.length > 0
             ? <ul className="pln-list pln-list--week" data-today={day.today || undefined}>{day.items.map((item) => <PlanRow key={item.key} item={item} day={day} todayKey={todayKey} actions={actions} compact />)}</ul>
-            : <EmptyDay day={day} compact />}
+            : <EmptyDay day={day} todayKey={todayKey} compact />}
         </section>
       ))}
     </div>

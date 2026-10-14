@@ -36,7 +36,10 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import type { HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
-import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
+import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
+import { buildPlannerProgramme } from '../engine/planning/programme'
+import { acceptedSessionWindows, combineAcceptedSessions } from './plan-session-windows'
+import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
   addDaysToKey,
   daysBetween,
@@ -63,8 +66,10 @@ interface PlanScreenProps {
 }
 
 const MAX_STUDY_MINUTES = 240
-/** The planner looks about two months ahead, so accepted sessions are loaded at least that far. */
-const PLANNER_HORIZON_DAYS = 60
+/** Only the next two weeks receive concrete automatic task recommendations. */
+const DETAIL_HORIZON_DAYS = 14
+/** Retain the existing 60-day accepted-choice lookahead; this is not 60 days of generated tasks. */
+const ACCEPTED_COMMITMENT_HORIZON_DAYS = 60
 
 function assessmentTypeLabel(type: AssessmentType) {
   if (type === 'public_exam') return 'Public exam'
@@ -139,9 +144,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   // Unknown accepted commitments cannot safely be treated as spare capacity.
-  const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
-  const [sessionsLoadedRange, setSessionsLoadedRange] = useState<{ from: string; to: string } | null>(null)
-  const [sessionsUnavailable, setSessionsUnavailable] = useState(false)
+  const [loadedPlannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
+  const [loadedWindowKey, setLoadedWindowKey] = useState('')
+  const [reportedSessionsUnavailable, setSessionsUnavailable] = useState(false)
+  const [reportedVisibleSessionsUnavailable, setVisibleSessionsUnavailable] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
@@ -217,36 +223,45 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     return () => { active = false }
   }, [client, programme, userId])
 
-  // The days on screen, and the planner's horizon, decide which accepted sessions to load. Loaded ranges only grow.
+  // Query today's rolling detail window separately from any distant visible range.
+  // Never request the unviewed gap as the learner browses exam months ahead.
   const visibleKeys = useMemo(
     () => (view === 'month' ? monthGridKeys(monthOf(anchor).year, monthOf(anchor).month) : weekKeys(anchor)),
     [view, anchor],
   )
-  const neededFrom = visibleKeys[0] < todayKey ? visibleKeys[0] : todayKey
-  const horizonKey = addDaysToKey(todayKey, PLANNER_HORIZON_DAYS)
-  const neededTo = visibleKeys[visibleKeys.length - 1] > horizonKey ? visibleKeys[visibleKeys.length - 1] : horizonKey
+  const sessionWindows = useMemo(
+    () => acceptedSessionWindows(todayKey, visibleKeys, ACCEPTED_COMMITMENT_HORIZON_DAYS),
+    [todayKey, visibleKeys],
+  )
+  const requestWindowKey = `${userId}:${sessionWindows.near.from}:${sessionWindows.near.to}:${sessionWindows.visible?.from ?? ''}:${sessionWindows.visible?.to ?? ''}`
+  const sessionsReady = loadedWindowKey === requestWindowKey
+  const plannedSessions = sessionsReady ? loadedPlannedSessions : null
+  const sessionsUnavailable = sessionsReady && reportedSessionsUnavailable
+  const visibleSessionsUnavailable = sessionsReady && reportedVisibleSessionsUnavailable
 
   useEffect(() => {
-    if (sessionsLoadedRange && sessionsLoadedRange.from <= neededFrom && sessionsLoadedRange.to >= neededTo) return
     let active = true
-    const from = sessionsLoadedRange && sessionsLoadedRange.from < neededFrom ? sessionsLoadedRange.from : neededFrom
-    const to = sessionsLoadedRange && sessionsLoadedRange.to > neededTo ? sessionsLoadedRange.to : neededTo
-    loadPlannedSessions(client, userId, from, to)
-      .then((sessions) => {
-        if (!active) return
-        setPlannedSessions(sessions)
-        setSessionsUnavailable(false)
-        setSessionsLoadedRange({ from, to })
-      })
-      .catch(() => {
-        if (!active) return
-        // Keep derived suggestions unavailable rather than overbooking unknown commitments.
+    const nearRequest = loadPlannedSessions(client, userId, sessionWindows.near.from, sessionWindows.near.to)
+    const visibleRequest = sessionWindows.visible
+      ? loadPlannedSessions(client, userId, sessionWindows.visible.from, sessionWindows.visible.to)
+      : Promise.resolve([] as PlannedSession[])
+    void Promise.allSettled([nearRequest, visibleRequest]).then(([near, visible]) => {
+      if (!active) return
+      if (near.status === 'rejected') {
+        // Never assume unknown accepted near-term commitments leave spare capacity.
         setPlannedSessions(null)
         setSessionsUnavailable(true)
-        setSessionsLoadedRange({ from, to })
-      })
+        setVisibleSessionsUnavailable(false)
+        setLoadedWindowKey(requestWindowKey)
+        return
+      }
+      setSessionsUnavailable(false)
+      setVisibleSessionsUnavailable(visible.status === 'rejected')
+      setPlannedSessions(combineAcceptedSessions(near.value, visible.status === 'fulfilled' ? visible.value : []))
+      setLoadedWindowKey(requestWindowKey)
+    })
     return () => { active = false }
-  }, [client, userId, neededFrom, neededTo, sessionsLoadedRange])
+  }, [client, userId, sessionWindows, requestWindowKey])
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => assessments.filter((assessment) => {
@@ -263,9 +278,28 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   )
 
   const snapshot = useMemo(
-    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions),
+    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions, DETAIL_HORIZON_DAYS),
     [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, sessionsUnavailable, now],
   )
+
+  const fullProgramme = useMemo(() => {
+    const verified = activeAssessments.flatMap((assessment) => {
+      const exactCourse = assessment.courseId
+        ? programme.find((entry) => entry.course.id === assessment.courseId)
+        : programme.find((entry) => entry.subject.id === assessment.subjectId)
+      if (!exactCourse || exactCourse.subject.id !== assessment.subjectId) return []
+      return [{
+        assessmentId: assessment.assessmentId,
+        courseId: exactCourse.course.id,
+        subjectId: assessment.subjectId,
+        title: assessment.title,
+        assessmentDate: assessment.assessmentDate,
+        isActive: assessment.isActive,
+      }]
+    })
+    return buildPlannerProgramme(todayKey, verified, activeCourseIds,
+      plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now))
+  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme])
 
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
@@ -595,7 +629,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     )
   }
 
-  const canAddSession = programme.length > 0 && !loading && !sessionsUnavailable && addSessionCourses.length > 0
+  const canAddSession = programme.length > 0 && !loading && sessionsReady && !sessionsUnavailable && !visibleSessionsUnavailable && addSessionCourses.length > 0
 
   const missingText = setupMissingExams && setupMissingAvailability
     ? 'Add your exam dates and your study time, and REV will plan what to work on.'
@@ -615,6 +649,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
       {sessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Your saved sessions could not be loaded. Revision suggestions are unavailable until your commitments can be checked. Reload to try again.</Status>}
+      {visibleSessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Saved sessions for these dates could not be loaded. Near-term guidance remains available, but this distant view may be incomplete.</Status>}
 
       {loading
         ? <LoadingState className="planner-panel">Loading your plan…</LoadingState>
@@ -636,7 +671,13 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
               <div className="pln-layout">
                 <div className="pln-main">
-                  <PlanSummaryCard label={summaryLabel} summary={summary} />
+                  {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
+                    courseLabel={(id) => courseLabel(programme, id)}
+                    weeklyAvailability={availability?.weeklyMinutes ?? null}
+                    availabilityExceptions={exceptions}
+                    onOpenWeek={(key) => goTo('week', key)} />}
+                  {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
+                  {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
 
                   {!setupComplete && (
                     <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
@@ -652,9 +693,12 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                     <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
                   )}
 
-                  {view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
-                  {view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
-                  {view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+                  {anchor > addDaysToKey(todayKey, DETAIL_HORIZON_DAYS - 1) && (
+                    <p className="pln-note">These are longer-term weeks. REV will choose concrete activities closer to the time; only sessions you accepted are fixed.</p>
+                  )}
+                  {sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
+                  {sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
+                  {sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
                 </div>
 
                 <div className="pln-side">

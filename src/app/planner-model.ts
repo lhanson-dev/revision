@@ -283,10 +283,15 @@ export function buildPlannerSnapshot(
   preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
   acceptedSessions: readonly PlannedSession[] = [],
+  detailedHorizonDays = 60,
 ): PlannerResult | null {
   // Sessions the student accepted are already placed: the derived plan works around them.
   const candidates = withoutPlannedTopics(plannerCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
-  const days = applyAcceptedSessionsToDays(plannerDaysFromAvailability(availability, exceptions, assessments, now), acceptedSessions)
+  // A bounded caller may project fewer concrete days while R1's default stays unchanged.
+  // The caller must load accepted sessions for every date in that concrete window.
+  const boundedDays = plannerDaysFromAvailability(availability, exceptions, assessments, now)
+    .slice(0, Math.max(1, Math.min(60, detailedHorizonDays)))
+  const days = applyAcceptedSessionsToDays(boundedDays, acceptedSessions)
   if (candidates.length === 0 || days.length === 0) return null
   return buildAdaptivePlan(candidates, days)
 }
