@@ -13,6 +13,14 @@ function dated(key: string) {
   return `${longDate(key)} ${key.slice(0, 4)}`
 }
 
+function activityHint(kind: string) {
+  if (kind === 'quick-check') return 'Quick check'
+  if (kind === 'flashcards') return 'Flashcards'
+  if (kind === 'exam-question') return 'Exam question practice'
+  if (kind === 'learn') return 'Learn'
+  return 'Supported study'
+}
+
 function weeklyTime(week: ProgrammeFocusWeek) {
   if (week.availableMinutes === null) return 'Study time not set'
   if (week.availableMinutes === 0) return 'No study time available in your settings'
@@ -31,7 +39,7 @@ function WeekOverview({ week, courseLabel, topicLabel, onOpenWeek }: Omit<Props,
             <ul aria-label={`Study topics for week of ${dated(week.weekStart)}`}>
               {week.topicFocus.map((focus) => (
                 <li key={`${focus.courseId}:${focus.topicId}`}>
-                  {courseLabel(focus.courseId)} — {topicLabel(focus.courseId, focus.topicId)}
+                  {courseLabel(focus.courseId)} — {topicLabel(focus.courseId, focus.topicId)} · {activityHint(focus.activityType)}
                   {focus.revisit ? ' (revisit opportunity)' : ''}
                 </li>
               ))}
