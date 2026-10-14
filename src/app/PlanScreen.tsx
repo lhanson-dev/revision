@@ -673,6 +673,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                 <div className="pln-main">
                   {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
                     courseLabel={(id) => courseLabel(programme, id)}
+                    weeklyAvailability={availability?.weeklyMinutes ?? null}
+                    availabilityExceptions={exceptions}
                     onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
                   {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
