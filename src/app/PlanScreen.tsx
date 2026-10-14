@@ -273,9 +273,16 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     [activeAssessments, todayKey],
   )
 
+  // A future visible-month booking is shown in that month, but it must never
+  // reshape today's exact recommended action by entering the rolling R1 plan.
+  // Home and REV read only this same bounded accepted commitment window.
+  const nearTermSessions = useMemo(() => plannedSessions?.filter((session) =>
+    session.plannedDate >= sessionWindows.near.from && session.plannedDate <= sessionWindows.near.to) ?? null,
+  [plannedSessions, sessionWindows])
+
   const snapshot = useMemo(
-    () => sessionsUnavailable || plannedSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, plannedSessions, DETAILED_PLANNER_HORIZON_DAYS),
-    [learningStates, activeAssessments, availability, exceptions, preferences, plannedSessions, sessionsUnavailable, now],
+    () => sessionsUnavailable || nearTermSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, DETAILED_PLANNER_HORIZON_DAYS),
+    [learningStates, activeAssessments, availability, exceptions, preferences, nearTermSessions, sessionsUnavailable, now],
   )
 
   const fullProgramme = useMemo(() => {
