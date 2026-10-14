@@ -40,7 +40,7 @@ function WeekOverview({ week, courseLabel, topicLabel, onOpenWeek }: Omit<Props,
               {week.topicFocus.map((focus) => (
                 <li key={`${focus.courseId}:${focus.topicId}`}>
                   {courseLabel(focus.courseId)} — {topicLabel(focus.courseId, focus.topicId)} · {activityHint(focus.activityType)}
-                  {focus.revisit ? ' (revisit opportunity)' : ''}
+                  {focus.revisit ? ' (also suggested in an earlier week)' : ''}
                 </li>
               ))}
             </ul>
