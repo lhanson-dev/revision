@@ -126,7 +126,8 @@ export function buildPlannerProgramme(
       // provenance into a distant commitment or entitlement.
       if (candidate.assessmentTargets?.some((target) => {
         const known = knownTargets.get(target.assessmentId)
-        return known?.courseId === candidate.courseId
+        return known !== undefined
+          && known.courseId === candidate.courseId
           && known.date === target.assessmentDate
           && known.date > firstKey
       })) coursesWithAssets.add(candidate.courseId)
