@@ -8,6 +8,10 @@ interface Props {
   onOpenWeek: (weekStart: string) => void
 }
 
+function dated(key: string) {
+  return `${longDate(key)} ${key.slice(0, 4)}`
+}
+
 function weekFocus(week: ProgrammeWeek, courseLabel: Props['courseLabel']) {
   if (!week.supportedCourseIds.length) return 'No supported preparation activity identified yet. This does not mean the course is complete.'
   return week.supportedCourseIds.map(courseLabel).join(' · ')
@@ -24,24 +28,24 @@ export function PlanProgrammeOutlook({ programme, courseLabel, onOpenWeek }: Pro
           ? <p>Add known exam dates to see your longer-term programme. Revision will not guess when your final paper is.</p>
           : (
             <>
-              <p>Planned outlook through <strong>{longDate(final)}</strong>, across {programme.weeks.length} calendar weeks. Dates shown are real saved assessment dates; future course focuses are possibilities, not booked sessions.</p>
+              <p>Planned outlook through <strong>{dated(final)}</strong>, across {programme.weeks.length} calendar weeks. Dates shown are real saved assessment dates; future course focuses are possibilities, not booked sessions.</p>
               <details className="pln-programme__details">
                 <summary>Explore all {programme.weeks.length} weeks and exam milestones</summary>
                 <ol className="pln-programme__weeks">
                   {programme.weeks.map((week) => (
                     <li key={week.weekStart} className="pln-programme__week">
                       <div>
-                        <strong>{weekRangeLabel(week.weekStart)}</strong>
+                        <strong>{weekRangeLabel(week.weekStart)} {week.visibleUntil.slice(0, 4)}</strong>
                         <p>Preparation opportunities: {weekFocus(week, courseLabel)}</p>
                         {week.milestones.length > 0 && (
                           <ul aria-label="Exams and assessments this week">
                             {week.milestones.map((milestone) => (
-                              <li key={milestone.assessmentId}>{milestone.title} · {courseLabel(milestone.courseId)} · {longDate(milestone.date)}</li>
+                              <li key={milestone.assessmentId}>{milestone.title} · {courseLabel(milestone.courseId)} · {dated(milestone.date)}</li>
                             ))}
                           </ul>
                         )}
                       </div>
-                      <Button variant="tertiary" size="compact" onClick={() => onOpenWeek(week.weekStart)}>View week<span className="sr-only"> of {longDate(week.weekStart)}</span></Button>
+                      <Button variant="tertiary" size="compact" onClick={() => onOpenWeek(week.weekStart)}>View week<span className="sr-only"> of {dated(week.weekStart)}</span></Button>
                     </li>
                   ))}
                 </ol>
