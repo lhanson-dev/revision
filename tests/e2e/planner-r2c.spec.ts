@@ -68,3 +68,29 @@ test('R2-06/R2-07 Not now on Home changes REV advice, never the saved accepted b
   await expect(page.locator('.pln-row[data-kind="session"]')).toContainText('Finance')
   expect(mutations).toBe(0)
 })
+
+test('R2-05 archived exam disappears from Home, Plan milestone list and REV answer', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [] })
+  await page.route('**/rest/v1/revision_assessments**', (route) => route.fulfill({
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify([
+      { assessment_id: 'real-future', user_id: planUserId, course_id: businessCourseId, subject_id: 'business',
+        module_id: null, assessment_type: 'public_exam', title: 'Active Business exam',
+        assessment_date: '2027-02-02', relative_importance: 'normal', scope: {}, is_active: true },
+      { assessment_id: 'archived-future', user_id: planUserId, course_id: businessCourseId, subject_id: 'business',
+        module_id: null, assessment_type: 'public_exam', title: 'Archived Business exam',
+        assessment_date: '2027-03-10', relative_importance: 'normal', scope: {}, is_active: false },
+    ]),
+  }))
+  await page.goto(appPath)
+  await expect(page.locator('.home-v3-exams')).not.toContainText('Archived Business exam')
+  await page.goto(`${appPath}#/plan`)
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toContainText('Active Business exam')
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).not.toContainText('Archived Business exam')
+  await expect(page.getByText('Archived Business exam', { exact: true })).toHaveCount(0)
+  await page.goto(`${appPath}#/rev`)
+  await page.getByRole('button', { name: 'When are my exams?', exact: true }).click()
+  const answer = page.getByRole('log').locator('.rev-chat__message--rev').last()
+  await expect(answer).toContainText('Active Business exam')
+  await expect(answer).not.toContainText('Archived Business exam')
+})
