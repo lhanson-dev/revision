@@ -1,11 +1,15 @@
 import type { PlannerProgramme, ProgrammeWeek } from '../engine/planning/programme'
-import { longDate, weekRangeLabel } from './plan-dates'
+import { formatMinutes, longDate, weekRangeLabel } from './plan-dates'
+import type { RevisionAvailabilityException, RevisionWeeklyAvailability } from '../services/planning/planner-service'
+import { knownProgrammeWeekMinutes } from './plan-weekly-capacity'
 import { Button, Surface } from './ui'
 
 interface Props {
   programme: PlannerProgramme
   courseLabel: (courseId: string) => string
   onOpenWeek: (weekStart: string) => void
+  weeklyAvailability: RevisionWeeklyAvailability | null
+  availabilityExceptions: readonly RevisionAvailabilityException[]
 }
 
 function dated(key: string) {
@@ -17,8 +21,15 @@ function weekFocus(week: ProgrammeWeek, courseLabel: Props['courseLabel']) {
   return week.supportedCourseIds.map(courseLabel).join(' · ')
 }
 
+function capacityExplanation(week: ProgrammeWeek, weekly: RevisionWeeklyAvailability | null, exceptions: readonly RevisionAvailabilityException[]) {
+  const minutes = knownProgrammeWeekMinutes(week, weekly, exceptions)
+  if (minutes === null) return 'Weekly study availability is unknown; Revision cannot yet say how much time may fit.'
+  if (minutes === 0) return 'No study time is currently available in your settings for these dates; preparation opportunities are not booked work.'
+  return `Study time in current availability settings: ${formatMinutes(minutes)} for these dates, before any accepted commitments. This is not a booking.`
+}
+
 /** A factual full-horizon overview, not an appointment calendar or predicted attainment. */
-export function PlanProgrammeOutlook({ programme, courseLabel, onOpenWeek }: Props) {
+export function PlanProgrammeOutlook({ programme, courseLabel, onOpenWeek, weeklyAvailability, availabilityExceptions }: Props) {
   const final = programme.finalKnownAssessment
   return (
     <section className="pln-programme" aria-label="Your full exam programme">
@@ -37,6 +48,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, onOpenWeek }: Pro
                       <div>
                         <strong>{weekRangeLabel(week.weekStart)} {week.visibleUntil.slice(0, 4)}</strong>
                         <p>Preparation opportunities: {weekFocus(week, courseLabel)}</p>
+                        <p>{capacityExplanation(week, weeklyAvailability, availabilityExceptions)}</p>
                         {week.milestones.length > 0 && (
                           <ul aria-label="Exams and assessments this week">
                             {week.milestones.map((milestone) => (
