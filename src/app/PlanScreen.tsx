@@ -261,6 +261,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => assessments.filter((assessment) => {
+    if (!assessment.isActive) return false
     if (assessment.courseId) return activeCourseIds.has(assessment.courseId)
     const subjectMatches = programme.filter((item) => item.subject.id === assessment.subjectId)
     return !assessment.moduleId && subjectMatches.length === 1
