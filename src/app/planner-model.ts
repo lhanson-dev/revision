@@ -10,6 +10,9 @@ import type {
   RevisionPlanningPreference,
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
+import { buildPlannerProgramme } from '../engine/planning/programme'
+import { buildProgrammeFirstDecision, programmeNearTermCandidates, type ProgrammeFirstDecision } from '../engine/planning/programme-first'
+import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
 
@@ -275,6 +278,36 @@ export function plannerDaysFromAvailability(
   })
 }
 
+export interface ProgrammePlannerSnapshot extends PlannerResult {
+  programme: ProgrammeFirstDecision
+}
+
+/** One domain programme decision, also available when the detailed calendar is unavailable. */
+export function buildWholeExamProgramme(
+  states: readonly ModuleLearningState[],
+  assessments: readonly RevisionAssessment[],
+  availability: RevisionAvailabilityProfile | null,
+  exceptions: readonly RevisionAvailabilityException[],
+  preferences: readonly RevisionPlanningPreference[] = [],
+  now = new Date(),
+  acceptedSessions: readonly PlannedSession[] | null = [],
+  acceptedLoadedThrough = localDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 59)),
+): ProgrammeFirstDecision {
+  const candidates = plannerCandidatesFromLearningState(states, assessments, preferences, now)
+  const known = assessments.flatMap((assessment) => {
+    const state = stateForAssessment(states, assessment)
+    if (!state) return []
+    return [{ assessmentId: assessment.assessmentId, courseId: courseIdForLearningState(state),
+      subjectId: assessment.subjectId, title: assessment.title,
+      assessmentDate: assessment.assessmentDate, isActive: assessment.isActive }]
+  })
+  const active = new Set(states.map(courseIdForLearningState))
+  const baseline = buildPlannerProgramme(localDate(now), known, active, candidates)
+  return buildProgrammeFirstDecision(baseline, candidates,
+    (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
+      exceptions, acceptedSessions, acceptedLoadedThrough))
+}
+
 export function buildPlannerSnapshot(
   states: readonly ModuleLearningState[],
   assessments: readonly RevisionAssessment[],
@@ -284,14 +317,19 @@ export function buildPlannerSnapshot(
   now = new Date(),
   acceptedSessions: readonly PlannedSession[] = [],
   detailedHorizonDays = 60,
-): PlannerResult | null {
+): ProgrammePlannerSnapshot | null {
   // Sessions the student accepted are already placed: the derived plan works around them.
   const candidates = withoutPlannedTopics(plannerCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
-  // A bounded caller may project fewer concrete days while R1's default stays unchanged.
-  // The caller must load accepted sessions for every date in that concrete window.
   const boundedDays = plannerDaysFromAvailability(availability, exceptions, assessments, now)
     .slice(0, Math.max(1, Math.min(60, detailedHorizonDays)))
   const days = applyAcceptedSessionsToDays(boundedDays, acceptedSessions)
   if (candidates.length === 0 || days.length === 0) return null
-  return buildAdaptivePlan(candidates, days)
+  const programme = buildWholeExamProgramme(states, assessments, availability, exceptions,
+    preferences, now, acceptedSessions)
+  // The near-term candidate set is derived from the same weekly objectives as
+  // the complete programme. There is no separate topic-rotation policy.
+  const selected = programme.finalKnownAssessment
+    ? programmeNearTermCandidates(programme, candidates, days.map((day) => day.date)) : candidates
+  if (!selected.length) return null
+  return { ...buildAdaptivePlan(selected, days), programme }
 }
