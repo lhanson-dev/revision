@@ -218,6 +218,15 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
     return { background: style.backgroundColor }
   })
   expect(studyStyle.background).not.toBe('rgb(255, 255, 255)')
+  // This learner has not entered dates/capacity; the correct default is a guided
+  // setup state, not a fictitious zero-of-zero calendar summary. Check the
+  // semantic surface now, then reveal the real calendar and check its styling.
+  const setup = page.getByLabel('Finish setting up your plan')
+  await expect(setup).toBeVisible()
+  await expect(page.locator('.pln-summary')).toHaveCount(0)
+  await expect(setup).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
+  await setup.getByRole('button', { name: 'View calendar' }).click()
+  await expect(page.locator('.pln-summary')).toBeVisible()
   await expect(page.locator('.pln-summary')).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
   await expectNoPageOverflow(page)
 
