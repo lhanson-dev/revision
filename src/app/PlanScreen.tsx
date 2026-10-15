@@ -466,11 +466,19 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   async function handleStartSuggested(entry: PlanSuggestedItem) {
     const task = taskForTodayRow(entry, learningStates, programme, activeAssessments, todayKey)
     if (!task) { setMessage('This exact activity is unavailable. Choose another item or open Courses.'); return }
+    // Learning is a real content page, not a focused Practice activity. Match
+    // Home's exact Learn Start route rather than opening the practice overlay.
+    const learnRoute = task.activityType === 'learn' ? learnRouteForTask(task) : null
+    if (task.activityType === 'learn' && !learnRoute) {
+      setMessage('This exact learning page is unavailable. Choose another item or open Courses.')
+      return
+    }
     try {
       await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
         subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
         activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan' } })
     } catch { /* Recording failure must not block supported work. */ }
+    if (learnRoute) { window.location.assign(learnRoute); return }
     setActiveTask(task)
   }
 
