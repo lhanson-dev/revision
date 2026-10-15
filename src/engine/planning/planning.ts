@@ -49,6 +49,9 @@ export interface PlannerCandidate {
   latestEligibleDate?: string
   preparationStage?: 'acquire' | 'check' | 'exam-practice'
   preparationPrerequisiteId?: string
+  /** Exact published paper-section mapping, not a guessed response-skill proxy. */
+  paperResponseSectionId?: string
+  paperResponseFormat?: string
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
