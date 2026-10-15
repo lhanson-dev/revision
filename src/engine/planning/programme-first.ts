@@ -1,4 +1,4 @@
-import { rankPlannerCandidate, type PlannerCandidate } from './planning'
+import { buildAdaptivePlan, rankPlannerCandidate, type PlannerCandidate, type PlannerDay, type PlannerResult } from './planning'
 import type { PlannerProgramme, ProgrammeWeek } from './programme'
 
 /**
@@ -192,4 +192,33 @@ export function programmeNearTermCandidates(decision: ProgrammeFirstDecision, ca
   const selected = new Set(decision.weeks.filter((week) => dayKeys.some((key) => key >= week.visibleFrom && key <= week.visibleUntil))
     .flatMap((week) => week.objectives.map((objective) => objective.candidateId)))
   return candidates.filter((candidate) => selected.has(candidate.id))
+}
+
+/**
+ * Build actual dated work within the associated programme week. Merely
+ * filtering by "any week in the next 14 days" would incorrectly pull a
+ * following week's objective into today. Exact day/paper safety stays with R1.
+ */
+export function buildProgrammeNearTermSchedule(
+  decision: ProgrammeFirstDecision,
+  candidates: readonly PlannerCandidate[],
+  days: readonly PlannerDay[],
+): PlannerResult | null {
+  if (!days.length) return null
+  const selected = programmeNearTermCandidates(decision, candidates, days.map((day) => day.date))
+  if (!selected.length) return null
+  const base = buildAdaptivePlan(selected, days)
+  const allocated = new Set<string>()
+  const schedule = days.map((day) => {
+    const programmeWeek = decision.weeks.find((week) =>
+      day.date >= week.visibleFrom && day.date <= week.visibleUntil)
+    const eligibleIds = new Set(programmeWeek?.objectives.map((objective) => objective.candidateId) ?? [])
+    const here = selected.filter((candidate) => eligibleIds.has(candidate.id) && !allocated.has(candidate.id))
+    const actual = buildAdaptivePlan(here, [day])
+    for (const item of actual.today) allocated.add(item.candidateId)
+    return actual.schedule[0] ?? { date: day.date, availableMinutes: day.availableMinutes,
+      items: [], unallocatedMinutes: day.availableMinutes }
+  })
+  return { ...base, schedule, today: schedule[0]?.items ?? [],
+    unallocatedTodayMinutes: schedule[0]?.unallocatedMinutes ?? 0 }
 }
