@@ -46,6 +46,7 @@ export interface PlannerCandidate {
   examTarget?: { moduleId: string; examId: string; questionId: string }
   learnTarget?: { learnPageId: string; moduleId?: string }
   earliestEligibleDate?: string
+  latestEligibleDate?: string
   preparationStage?: 'acquire' | 'check'
   preparationPrerequisiteId?: string
 }
@@ -222,6 +223,7 @@ function buildSchedule(
 
 function candidateForDay(candidate: PlannerCandidate, date: string): PlannerCandidate | null {
   if (candidate.earliestEligibleDate && date < candidate.earliestEligibleDate) return null
+  if (candidate.latestEligibleDate && date > candidate.latestEligibleDate) return null
   // Compatibility callers without assessment provenance retain their existing ranking contract.
   if (!candidate.assessmentTargets) return candidate
   const targets = candidate.assessmentTargets.filter((target) => date < target.assessmentDate)

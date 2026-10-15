@@ -40,6 +40,29 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     expect(snapshot?.today.every((item) => eligibleGoals.has(item.candidateId))).toBe(true)
     expect(snapshot?.today.every((item) => item.assessmentTargets?.some((target) => target.assessmentDate > '2026-10-15'))).toBe(true)
   })
+  it('pairs published Learn material with a later scored-check opportunity without treating exposure as mastery', () => {
+    const states = [createCourseLearningState(business, [])]
+    const assessments = [paper(business, 1, '2027-05-18')]
+    const candidates = preparationCandidatesFromLearningState(states, assessments, [], now)
+    const teaching = candidates.filter((item) => item.preparationStage === 'acquire')
+    const checks = candidates.filter((item) => item.preparationStage === 'check')
+    expect(teaching.length).toBeGreaterThan(0)
+    expect(checks.length).toBeGreaterThan(0)
+    for (const check of checks) {
+      const introduction = teaching.find((item) => item.id === check.preparationPrerequisiteId)
+      expect(introduction?.learnTarget?.learnPageId).toBeTruthy()
+      expect(check.understanding).toBeNull()
+    }
+    const result = buildLearnerPreparationProgramme(states, assessments, availability, [], [], now)
+    const ordered = result.programme.weeks.flatMap((week) => week.objectives.map((goal) => goal.candidateId))
+    for (const check of checks) {
+      const introduction = ordered.indexOf(check.preparationPrerequisiteId ?? '')
+      const verification = ordered.indexOf(check.id)
+      if (verification >= 0) expect(introduction).toBeGreaterThanOrEqual(0)
+      if (verification >= 0) expect(verification).toBeGreaterThan(introduction)
+    }
+  })
+
   it('unselected psychology paper 3 options never become preparation goals', () => {
     const state = createCourseLearningState(psychology, [])
     const disputed = paper(psychology, 3, '2027-06-11', { topicIds: ['relationships', 'gender'] })

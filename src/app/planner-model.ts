@@ -441,11 +441,14 @@ export function buildPlannerSnapshot(
   const lastDetailedDay = days.at(-1)?.date
   const goals = programme.weeks.flatMap((week) =>
     week.visibleFrom <= (lastDetailedDay ?? '') ? week.objectives.map((objective) => ({
-      id: objective.candidateId, firstDate: week.visibleFrom,
+      id: objective.candidateId, firstDate: week.visibleFrom, lastDate: week.visibleUntil,
     })) : [])
-  const starts = new Map(goals.map((goal) => [goal.id, goal.firstDate]))
-  const selected = candidates.filter((candidate) => starts.has(candidate.id))
-    .map((candidate) => ({ ...candidate, earliestEligibleDate: starts.get(candidate.id) }))
+  const selectedWeeks = new Map(goals.map((goal) => [goal.id, goal]))
+  const selected = candidates.filter((candidate) => selectedWeeks.has(candidate.id))
+    .map((candidate) => ({ ...candidate,
+      earliestEligibleDate: selectedWeeks.get(candidate.id)?.firstDate,
+      latestEligibleDate: selectedWeeks.get(candidate.id)?.lastDate,
+    }))
   const totalKnownCapacity = programme.weeks.reduce((sum, week) =>
     sum + (week.availableMinutes ?? 0), 0)
   const underCapacity = programme.unserved.length > 0 && programme.weeks.every((week) => week.availableMinutes !== null)
