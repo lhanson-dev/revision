@@ -128,6 +128,26 @@ export function buildPreparationProgramme(
   for (const item of demand) initialDemandByCourse.set(item.candidate.courseId!,
     (initialDemandByCourse.get(item.candidate.courseId!) ?? 0) + item.candidate.estimatedMinutes)
   const allocatedByCourse = new Map<string, number>()
+  const allocatedByPaper = new Map<string, number>()
+  // Real demand and pre-paper usable capacity define a feasible preparation
+  // pace. This is a policy hypothesis, not an optimal spaced-repetition
+  // interval, fixed subject ratio, arbitrary topic rotation or guaranteed
+  // exam gain. Constrained timelines are prioritised, not artificially spaced.
+  const totalDemandByPaper = new Map<string, number>()
+  for (const item of demand) totalDemandByPaper.set(item.target.assessmentId,
+    (totalDemandByPaper.get(item.target.assessmentId) ?? 0) + item.candidate.estimatedMinutes)
+  const pacingByPaper = new Map<string, { weekCapacity: number[]; totalCapacity: number }>()
+  for (const item of demand) {
+    if (pacingByPaper.has(item.target.assessmentId)) continue
+    const values = horizon.weeks.map((week) => {
+      if (week.visibleFrom >= item.target.date) return 0
+      const known = capacityBefore?.(week, item.target.date) ?? weekCapacity(week)
+      return known === null || !Number.isFinite(known) || known < 0 ? 0 : known
+    })
+    pacingByPaper.set(item.target.assessmentId, {
+      weekCapacity: values, totalCapacity: values.reduce((sum, value) => sum + value, 0),
+    })
+  }
   const weeks: PreparationWeek[] = []
   let allocatedMinutes = 0
   for (const week of horizon.weeks) {
@@ -151,6 +171,23 @@ export function buildPreparationProgramme(
         const usableBefore = capacityBefore?.(week, target.date) ?? availableMinutes
         const alreadyUsed = objectives.reduce((total, objective) => total + objective.estimatedMinutes, 0)
         if (usableBefore !== null && alreadyUsed + item.candidate.estimatedMinutes > usableBefore) return []
+        const pacing = pacingByPaper.get(item.target.assessmentId)
+        const paperDemand = totalDemandByPaper.get(item.target.assessmentId) ?? 0
+        // A feasible known horizon permits distributed preparation rather
+        // than front-loading every topic in week one. No fixed intervals;
+        // cumulative opportunity follows the real proportion of pre-paper
+        // study time elapsed and is recalculated on each material change.
+        if (pacing && pacing.totalCapacity >= paperDemand && paperDemand > 0) {
+          const elapsed = pacing.weekCapacity.slice(0, weeks.length + 1)
+            .reduce((sum, minutes) => sum + minutes, 0)
+          const intendedCumulative = paperDemand * elapsed / Math.max(1, pacing.totalCapacity)
+          const alreadyForPaper = (allocatedByPaper.get(item.target.assessmentId) ?? 0)
+            + objectives.filter((objective) => objective.assessmentId === item.target.assessmentId)
+              .reduce((sum, objective) => sum + objective.estimatedMinutes, 0)
+          const firstUsefulAction = weeks.length === 0 && objectives.length === 0
+          if (!firstUsefulAction
+            && alreadyForPaper + item.candidate.estimatedMinutes / 2 >= intendedCumulative) return []
+        }
         return [{ ...item, target, objective: describe(item.candidate, target) }]
       })
       if (!options.length) break
@@ -178,6 +215,8 @@ export function buildPreparationProgramme(
       remaining -= choice.candidate.estimatedMinutes
       allocatedMinutes += choice.candidate.estimatedMinutes
       allocatedByCourse.set(choice.candidate.courseId!, (allocatedByCourse.get(choice.candidate.courseId!) ?? 0) + choice.candidate.estimatedMinutes)
+      allocatedByPaper.set(choice.target.assessmentId,
+        (allocatedByPaper.get(choice.target.assessmentId) ?? 0) + choice.candidate.estimatedMinutes)
     }
     weeks.push({ ...week, availableMinutes, objectives, allocatedMinutes: objectives.reduce((sum, o) => sum + o.estimatedMinutes, 0),
       confidence: availableMinutes === null ? 'capacity-unknown' : 'capacity-known' })
