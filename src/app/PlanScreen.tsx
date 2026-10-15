@@ -99,8 +99,8 @@ function subjectFor(programme: readonly LearnerProgrammeCourse[], subjectId: str
 
 function readPlace(todayKey: string): { view: PlanViewKey; anchor: string } {
   const route = parseRoute(window.location.hash)
-  if (route.kind === 'plan') return { view: route.view ?? 'day', anchor: route.date ?? todayKey }
-  return { view: 'day', anchor: todayKey }
+  if (route.kind === 'plan') return { view: route.view ?? 'week', anchor: route.date ?? todayKey }
+  return { view: 'week', anchor: todayKey }
 }
 
 function weekTitle(anchor: string, todayKey: string) {
