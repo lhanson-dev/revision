@@ -127,6 +127,25 @@ Known exam dates remain optional and can be entered during onboarding without a 
 
 REV interprets and explains material decisions in natural language. It does not replace the planner calculation.
 
+### Programme-first preparation decision contract (15 October 2026 amendment)
+
+**The planner must optimise the student's preparation journey, not merely selection of the next activity.** "Exam-backwards" means first establishing the knowledge, skills and assessment demands of the learner's exact active course and applicable paper(s); then reconciling those demands against scoped learning evidence and uncertain/unassessed work; then distributing credible opportunities over the actual time remaining. Only then are the near-term objectives translated into eligible concrete activities. A high activity score cannot on its own justify a topic's place in a distant week.
+
+The one programme must explicitly represent, at a level justified by available data:
+
+1. **Preparation obligations:** stable, non-duplicated course-level knowledge/skill requirements and paper-specific response demands; exact applicable syllabus and option scope; prerequisite and demand relationships where governed metadata support them; and which obligations are unassessed or unsupported.
+2. **Evidence and educational treatment:** observed capability and confidence **separately** from coverage, no-evidence and exam-readiness; opportunities for initial explanation, scaffolded application, independent retrieval, misconception repair, wider knowledge sampling and authentic exam-demand practice as appropriate. Only validated evidence-engine outputs may define mastery/readiness.
+3. **Whole-horizon strategy:** each paper's last eligible preparation day; remaining weekly capacity after known commitments and exceptions where reliably known; coarse workload/feasibility, preparation phases and opportunities for consolidation/checking; cross-course conflicts and omissions explained honestly. Unknown dates or availability require truthful partial plans.
+4. **Committed weekly objectives:** named knowledge/skill *outcomes* and educational purpose, intended treatment and relationship to an exam or evidence gap, with a defensible workload envelope. Distant work may remain provisional but cannot consist only of course names, random topic rotations or a raw topic count.
+5. **Executable near-term work:** a supported, realistically sized and eligible task drawn from the selected weekly objective, with exact Start, reason, and a truthful outcome when the required treatment has no assured asset.
+6. **Revision and explanation:** changes propagate from dated exams, available time, actual learner choices and validated evidence into a versioned strategy, weekly objectives, Day, Home and REV. Explain meaningful trade-offs and protect genuine accepted commitments. Missed suggestions create no backlog debt.
+
+**Decision ownership:** one domain planning authority must emit both the programme and near-term recommendations. A read-only display projection can help render distant periods, but must not secretly become a second independently prioritised plan. Day, Week, Month, Home and REV are views/consumers of the same planning decision and version. This does not confer educational-evidence authority on the planner or grant production approval for a replacement algorithm.
+
+**Acceptance standard:** before declaring intelligent planning complete, evaluate real-content student journeys against clear counterfactual baselines, educationally defensible priority ordering, deadline/asset/capacity safety, unexplained neglect, coherent sequencing, justified revisits and learner comprehension. "Several different topics appeared across several weeks", "the final exam is visible" and passing CI alone are insufficient. No arbitrary weekly topic quota, universal subject rotation, predicted grades, universal recall interval or unsupported checkpoint is authorised.
+
+**Lifecycle boundary:** the prior bounded R2 Ready approval explicitly excludes R3 cross-course optimisation and FI-009/010/011/012 enhancements. This amendment clarifies *intended product behaviour*, not permission to implement excluded capabilities. Any material unified-programme implementation beyond the approved R2 scope requires a newly recorded complete Definition of Ready and explicit Founder authorisation. Existing published/planned work remains historical fact until replaced through a governed release.
+
 ### Learner-facing explanation of the adaptive plan
 
 Home and Plan should make the adaptive nature of the plan understandable in plain English without exposing proprietary weighting, thresholds or implementation detail.

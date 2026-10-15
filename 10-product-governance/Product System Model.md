@@ -47,6 +47,12 @@ The system combines curriculum need, learner evidence, exam timing, realistic av
 
 These forms of intelligence should reinforce one another rather than create separate product silos.
 
+### Planning intelligence is programme-first (15 October 2026 amendment)
+
+Curriculum obligations and paper demands, the learner's evidence and uncertainty, and the real time before examinations form **one preparation decision**, not three separate ranking/display systems. Plan translates that decision into a full-horizon strategy and increasingly detailed weekly/daily objectives; Home and REV promote/explain the exact eligible next activity rather than selecting unrelated work. A score-ranked candidate list can be an implementation input, but neither an activity list nor a topic rotation is an educational preparation strategy.
+
+Shared knowledge is learned once across relevant papers; distinct paper-format and assessment-objective skills remain explicit. Unsupported assets or incomplete options fail closed. Weak/unknown evidence may prompt the right type of learning or check but may not be converted into an invented ability estimate. The same versioned programme must explain why objectives were selected, why others were deferred and when constraints make coverage infeasible. This is an amendment to the existing intelligence model, not authorisation for FI-009–012 or a separate scheduler.
+
 ## Learner-facing course model
 
 Within a course, the primary focused learner jobs are:

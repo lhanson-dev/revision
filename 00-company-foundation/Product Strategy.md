@@ -73,6 +73,14 @@ Revision combines curriculum need, learner evidence, exam timing and realistic a
 
 These four layers should reinforce one another. A feature that generates activity without improving learning, evidence or guidance should be challenged.
 
+### Programme-first interpretation of planning intelligence (15 October 2026 amendment)
+
+The strategic planning question is not only "what is useful next?" It is **"what coherent preparation journey gives this learner the best reasonable chance to meet the demands of their known examinations using the time and evidence available?"** The next action is an output of that journey, never a substitute for developing it. This is the core intelligent-planner expression of Personalised Revision Intelligence.
+
+Revision, not the student, should work backwards from the real papers, their assessable knowledge and skills, remaining study opportunities and reliable evidence, then identify learning, retrieval, application, repair, exam-demand practice and justified checks. It should construct a feasible, adaptable programme to the last known paper, with declining scheduling precision rather than declining strategic intelligence. REV communicates and adapts the plan; it does not determine education priorities through an independent chat ranking.
+
+A rotating list of supported topic activities, a two-week activity forecast or a months-long display of exam dates is **not by itself** delivery of this strategic proposition. Product acceptance must judge whether a student can understand the wider preparation strategy, its trade-offs and its most useful current action. Missing data must create explicit uncertainty and a helpful next step, not false mastery, fictional exams or invented capacity. See `10-product-governance/Adaptive Revision Planning.md` for operative product constraints.
+
 ## REV's strategic role
 
 REV is not a generic chatbot attached to Revision.
