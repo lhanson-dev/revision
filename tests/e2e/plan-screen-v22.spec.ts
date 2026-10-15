@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { appPath, defaultSessions, seedPlanStudent } from './plan-seed'
+import { appPath, defaultSessions, plannedRow, seedPlanStudent } from './plan-seed'
 
 /**
  * Plan redesign v2.2: Day / Week / Month, with the view and date kept in the address.
@@ -201,6 +201,42 @@ test('with no sessions table and no exams the screen stays quiet and honest', as
   await expect(page.getByRole('button', { name: 'Add your exams' })).toBeVisible()
   await page.getByRole('button', { name: 'Set study time', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Save study time' })).toBeVisible()
+  await noSidewaysScroll(page)
+})
+
+test('missing study time leads with the one required step and does not invent weekly capacity', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [], withExams: true, withAvailability: false })
+  await page.goto(`${appPath}#/plan`)
+  const setup = page.getByLabel('Finish setting up your plan')
+  await expect(setup).toContainText('Add your study time and REV will plan what fits your week.')
+  await expect(setup.getByRole('button', { name: 'Set your weekly study time' })).toBeVisible()
+  await expect(setup.getByRole('button', { name: 'Add your exams' })).toHaveCount(0)
+  await expect(page.locator('.pln-summary, .pln-empty')).toHaveCount(0)
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toBeVisible()
+  await setup.getByRole('button', { name: 'Set your weekly study time' }).click()
+  await expect(page.getByRole('button', { name: 'Save study time' })).toBeVisible()
+  await noSidewaysScroll(page)
+})
+
+test('accepted learner sessions stay visible when exam dates and availability are missing', async ({ page }) => {
+  await seedPlanStudent(page, {
+    withExams: false,
+    withAvailability: false,
+    sessions: [plannedRow('manual-existing', '2026-10-05', 'finance')],
+  })
+  await page.goto(`${appPath}#/plan`)
+  await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.pln-row[data-kind="session"]').filter({ hasText: 'Finance' })).toHaveCount(1)
+  await noSidewaysScroll(page)
+})
+
+test('explicit Plan deep links remain navigable without setup', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
+  await page.goto(`${appPath}#/plan?view=month&date=2026-11-01`)
+  await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.pln-month')).toBeVisible()
+  await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
   await noSidewaysScroll(page)
 })
 
