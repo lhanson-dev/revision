@@ -120,6 +120,38 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
     expect(result.weeks.flatMap((w) => w.objectives)).toHaveLength(0)
     expect(result.unserved).toHaveLength(1)
   })
+  it('protects a later paper when its only whole-activity slot is now and an earlier paper has a future slot', () => {
+    const earlier = exam(business, '2026-10-20', 'business-early')
+    const later = exam(psychology, '2026-11-10', 'psychology-later')
+    const work = [
+      candidate('business-opportunity', business, earlier.assessmentDate, earlier.assessmentId),
+      candidate('psychology-opportunity', psychology, later.assessmentDate, later.assessmentId, {
+        estimatedMinutes: 30,
+      }),
+    ]
+    const horizon = buildPlannerProgramme(today, [earlier, later],
+      new Set([business, psychology]), work)
+    // The student has 30 minutes now, 20 minutes next Monday, and no later
+    // opportunities. Business can fit next Monday before Tuesday's paper;
+    // the 30-minute Psychology task cannot be split into that 20-minute slot.
+    const plan = buildPreparationProgramme(horizon, work, (week) =>
+      week.weekStart === '2026-10-12' ? 30
+        : week.weekStart === '2026-10-19' ? 20 : 0)
+    expect(plan.weeks[0].objectives.map((goal) => goal.candidateId))
+      .toEqual(['psychology-opportunity'])
+    expect(plan.weeks[1].objectives.map((goal) => goal.candidateId))
+      .toEqual(['business-opportunity'])
+    expect(plan.weeks[0].objectives[0].reason).toContain('too little available time')
+    expect(plan.unserved).toHaveLength(0)
+    expect(plan.allocatedMinutes).toBe(50)
+    expect(plan.weeks.flatMap((week) => week.objectives).every((goal) =>
+      goal.assessmentDate > (plan.weeks.find((week) => week.objectives.includes(goal))?.visibleFrom ?? '9999-12-31')))
+      .toBe(true)
+    expect(buildPreparationProgramme(horizon, [...work].reverse(), (week) =>
+      week.weekStart === '2026-10-12' ? 30
+        : week.weekStart === '2026-10-19' ? 20 : 0)).toEqual(plan)
+  })
+
   it('does not treat exam style practice as a flashcard or conflate paper demand', () => {
     const p = exam(psychology, laterExam, 'psych-paper')
     const c = candidate('exam-skill', psychology, laterExam, p.assessmentId, {
