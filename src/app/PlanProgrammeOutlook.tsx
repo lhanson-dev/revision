@@ -72,6 +72,17 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
           <>
             <p>Working towards <strong>{dated(final)}</strong> across {programme.weeks.length} weeks. Revision uses known paper deadlines, your evidence and saved study time to allocate supported preparation objectives. These remain adaptable forecasts, not booked sessions or promises of exam readiness.</p>
             <p>We have identified {programme.requiredMinutes > 0 ? formatMinutes(programme.requiredMinutes) : 'no measured time'} of currently supported preparation opportunities; {formatMinutes(programme.allocatedMinutes)} can be allocated with known availability. This is <strong>not</strong> a measurement of all syllabus work still needed.</p>
+            {programme.verifiedPaperDemands.length > 0 && (
+              <div aria-label="Verified paper response demands">
+                <h3>Exam-response skills to prepare for</h3>
+                <ul>{programme.verifiedPaperDemands.map((paper) =>
+                  <li key={paper.assessmentId}>
+                    <strong>{courseLabel(paper.courseId)} — {paper.title}</strong>
+                    <span> · {dated(paper.date)} · Verified practice covers {paper.assessmentObjectives.join(', ') || 'documented paper demands'} using {paper.questionCount} supported question opportunities.</span>
+                    <p>These are future exam-skill goals, not claims that the knowledge is already secure or that all paper demands are covered. Revision will adapt the next supported task using your evidence.</p>
+                  </li>)}</ul>
+              </div>
+            )}
             {programme.constraints.length > 0 && <div role="status" aria-label="Preparation limitations">
               <strong>What we cannot yet guarantee</strong>
               <ul>{programme.constraints.map((constraint) => <li key={constraint}>{constraint}</li>)}</ul>

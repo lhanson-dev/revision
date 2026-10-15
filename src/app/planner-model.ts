@@ -353,7 +353,35 @@ export function buildLearnerPreparationProgramme(
     }
   }
   const unsupportedRequirements = [...missing.values()]
-  const programme = { ...prepared, unsupportedRequirements,
+  // Paper-response intelligence is a factual capability summary, not a
+  // learner-readiness score or permission to schedule an unapproved mock.
+  const verifiedPaperDemands = assessments.flatMap((assessment) => {
+    if (!assessment.isActive || assessment.assessmentDate <= today || !assessment.moduleId) return []
+    const state = stateForAssessment(states, assessment)
+    const module = (state?.course?.modules ?? (state ? [state.adapter] : []))
+      .find((adapter) => adapter.manifest.id === assessment.moduleId
+        && adapter.manifest.status === 'available')
+    if (!state || !module) return []
+    const scoped = new Set(scopeTopicIds(assessment, state))
+    if (!scoped.size) return []
+    const questions = module.listExams().filter((exam) => !exam.restrictedPilot)
+      .flatMap((exam) => exam.questions.map((question) => ({ examId: exam.id, question })))
+      .filter(({ question }) => scoped.has(question.topic)
+        && (!question.choiceGroup || Array.isArray(assessment.scope.topicIds)
+          && (assessment.scope.topicIds as string[]).includes(question.topic)))
+    const distinct = [...new Map(questions.map(({ examId, question }) =>
+      [`${examId}:${question.id}`, question])).values()]
+    if (!distinct.length) return []
+    const aos = ['ao1', 'ao2', 'ao3', 'ao4'] as const
+    return [{
+      courseId: courseIdForLearningState(state), assessmentId: assessment.assessmentId,
+      title: assessment.title, date: assessment.assessmentDate,
+      questionCount: distinct.length,
+      assessmentObjectives: aos.filter((ao) => distinct.some((question) => question.assessmentObjectives[ao] > 0))
+        .map((ao) => ao.toUpperCase()),
+    }]
+  })
+  const programme = { ...prepared, unsupportedRequirements, verifiedPaperDemands,
     constraints: unsupportedRequirements.length
       ? [...prepared.constraints, `${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
       : prepared.constraints }
