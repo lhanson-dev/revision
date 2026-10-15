@@ -19,12 +19,16 @@ test('R1-13 exact supported Plan Start keeps the chosen course/topic and treatme
   await expect(row).toBeVisible()
   const offered = await row.innerText()
   await row.getByRole('button', { name: /^(Start|Up next)/ }).click()
-  if (offered.includes('Learn')) {
+  // Determine the actual supported route, not whether the nearby row copy
+  // happened to contain the word Learn. The latter falsely classifies an
+  // initial-learning action as practice when its accessibility label differs.
+  if (page.url().includes('/learn/')) {
     await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/learn\/[^/]+$/)
     await expect(page.locator('article.learn-reading-page')).toBeVisible()
   } else {
     await expect(page.locator('.home-focused-activity')).toBeVisible()
     await expect(page.locator('.home-focused-practice')).toContainText(/Quick check|Flashcards|Exam practice/)
+    expect(offered).toMatch(/Quick check|Flashcards|Exam practice/)
   }
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 })
