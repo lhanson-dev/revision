@@ -46,6 +46,25 @@ export interface PreparationKnowledgeRequirement {
   hasAcceptedSession: boolean
 }
 
+/**
+ * Real authorised paper section/response demand, derived from published Exam
+ * Truth, not from the number of candidate flashcards or available questions.
+ * Section-mapped practice is counted only when both exact question identity
+ * and section provenance are verifiable; otherwise it remains a visible gap.
+ */
+export interface PreparationPaperResponseRequirement {
+  courseId: string
+  assessmentId: string
+  assessmentDate: string
+  sectionId: string
+  sectionName: string
+  responseFormat: string
+  marks: number
+  verifiedPracticeCandidateIds: string[]
+  allocatedPracticeCandidateIds: string[]
+  verifiedAssessmentObjectives: string[]
+}
+
 export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
   policy: 'exam-backwards-v1'
   weeks: PreparationWeek[]
@@ -55,6 +74,7 @@ export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
   constraints: string[]
   unsupportedRequirements: Array<{ courseId: string; topicId: string; reason: string }>
   requirements: PreparationKnowledgeRequirement[]
+  paperResponseRequirements: PreparationPaperResponseRequirement[]
   verifiedPaperDemands: Array<{ courseId: string; assessmentId: string; title: string; date: string;
     questionCount: number; assessmentObjectives: string[] }>
 }
@@ -296,5 +316,5 @@ export function buildPreparationProgramme(
   if (!demand.length && horizon.finalKnownAssessment) constraints.push('No verified actionable study opportunities are available for the supplied paper scopes. This does not mean preparation is complete.')
   return { ...horizon, policy: 'exam-backwards-v1', weeks, unserved,
     requiredMinutes: demand.reduce((sum, item) => sum + item.candidate.estimatedMinutes, 0),
-    allocatedMinutes, constraints, requirements: [], unsupportedRequirements: [], verifiedPaperDemands: [] }
+    allocatedMinutes, constraints, requirements: [], paperResponseRequirements: [], unsupportedRequirements: [], verifiedPaperDemands: [] }
 }
