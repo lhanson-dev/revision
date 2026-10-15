@@ -47,7 +47,7 @@ export interface PlannerCandidate {
   learnTarget?: { learnPageId: string; moduleId?: string }
   earliestEligibleDate?: string
   latestEligibleDate?: string
-  preparationStage?: 'acquire' | 'check'
+  preparationStage?: 'acquire' | 'check' | 'exam-practice'
   preparationPrerequisiteId?: string
 }
 

@@ -63,6 +63,27 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     }
   })
 
+  it('builds exact paper-response opportunities only from verified, eligible published Business questions', () => {
+    const states = [createCourseLearningState(business, [])]
+    const exam = paper(business, 1, '2027-05-18')
+    const candidates = preparationCandidatesFromLearningState(states, [exam], [], now)
+    const practice = candidates.filter((item) => item.preparationStage === 'exam-practice')
+    expect(practice.length).toBeGreaterThan(0)
+    expect(practice.every((item) => item.examTarget?.moduleId === exam.moduleId
+      && item.assessmentTargets?.every((target) => target.assessmentId === exam.assessmentId
+        && target.assessmentDate === exam.assessmentDate))).toBe(true)
+    expect(practice.every((item) => item.preparationPrerequisiteId
+      && candidates.some((candidate) => candidate.id === item.preparationPrerequisiteId))).toBe(true)
+    const snapshot = buildLearnerPreparationProgramme(states, [exam], availability, [], [], now)
+    const ordered = snapshot.programme.weeks.flatMap((week) => week.objectives.map((goal) => goal.candidateId))
+    expect(ordered.filter((id) => practice.some((item) => item.id === id)).length).toBeGreaterThan(0)
+    for (const item of practice) {
+      const after = ordered.indexOf(item.id)
+      if (after < 0) continue
+      expect(after).toBeGreaterThan(ordered.indexOf(item.preparationPrerequisiteId!))
+    }
+  })
+
   it('unselected psychology paper 3 options never become preparation goals', () => {
     const state = createCourseLearningState(psychology, [])
     const disputed = paper(psychology, 3, '2027-06-11', { topicIds: ['relationships', 'gender'] })

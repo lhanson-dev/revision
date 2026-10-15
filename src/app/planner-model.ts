@@ -291,9 +291,32 @@ export function preparationCandidatesFromLearningState(
         learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
         examTarget: undefined, preparationStage: 'acquire',
       }
-      return [learn, { ...practice, preparationStage: 'check', preparationPrerequisiteId: learn.id }]
+      const checked: PlannerCandidate = { ...practice,
+        preparationStage: 'check', preparationPrerequisiteId: learn.id }
+      return [learn, checked, ...paperPractice(checked)]
     }
-    return [practice]
+    return [practice, ...paperPractice(practice)]
+
+    function paperPractice(known: PlannerCandidate): PlannerCandidate[] {
+      // The published Question Bank's exact module/paper question is the only
+      // permission to forecast exam-response practice. Shared knowledge
+      // remains one obligation; genuine paper demands are separate intents.
+      if (!state || candidate.activityType === 'exam-question') return []
+      return (candidate.assessmentTargets ?? []).flatMap((target): PlannerCandidate[] => {
+        if (!target.moduleId || !target.paperId || !target.topicIds.includes(candidate.topicId)) return []
+        const exact = exactExamTarget(state, candidate.topicId, target.moduleId, true)
+        if (!exact) return []
+        return [{
+          ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
+          activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
+          assessmentId: target.assessmentId, daysUntilAssessment: target.daysUntilAssessment,
+          assessmentImportance: target.assessmentImportance,
+          assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
+          learnTarget: undefined, preparationStage: 'exam-practice',
+          preparationPrerequisiteId: known.id,
+        }]
+      })
+    }
   })
 }
 
