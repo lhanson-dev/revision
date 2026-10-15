@@ -28,6 +28,24 @@ export interface PreparationWeek extends ProgrammeWeek {
   /** An objective is a forecast, never a student-accepted appointment. */
   confidence: 'capacity-known' | 'capacity-unknown'
 }
+/**
+ * Distinct confirmed course-topic requirement across real known paper scopes.
+ * The inventory comes from approved course/paper mapping, NOT from counting
+ * the activities the engine happened to choose.
+ */
+export interface PreparationKnowledgeRequirement {
+  courseId: string
+  topicId: string
+  papers: Array<{ assessmentId: string; assessmentDate: string }>
+  evidenceStatus: PreparationObjective['evidenceStatus']
+  /** Valid treatment opportunities, including ones hidden by accepted sessions. */
+  supportedCandidateIds: string[]
+  /** Supported future objectives allocated by the current forecast, not completed work. */
+  allocatedCandidateIds: string[]
+  /** Student-selected work exists; this never implies learning or mastery. */
+  hasAcceptedSession: boolean
+}
+
 export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
   policy: 'exam-backwards-v1'
   weeks: PreparationWeek[]
@@ -36,6 +54,7 @@ export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
   allocatedMinutes: number
   constraints: string[]
   unsupportedRequirements: Array<{ courseId: string; topicId: string; reason: string }>
+  requirements: PreparationKnowledgeRequirement[]
   verifiedPaperDemands: Array<{ courseId: string; assessmentId: string; title: string; date: string;
     questionCount: number; assessmentObjectives: string[] }>
 }
@@ -277,5 +296,5 @@ export function buildPreparationProgramme(
   if (!demand.length && horizon.finalKnownAssessment) constraints.push('No verified actionable study opportunities are available for the supplied paper scopes. This does not mean preparation is complete.')
   return { ...horizon, policy: 'exam-backwards-v1', weeks, unserved,
     requiredMinutes: demand.reduce((sum, item) => sum + item.candidate.estimatedMinutes, 0),
-    allocatedMinutes, constraints, unsupportedRequirements: [], verifiedPaperDemands: [] }
+    allocatedMinutes, constraints, requirements: [], unsupportedRequirements: [], verifiedPaperDemands: [] }
 }
