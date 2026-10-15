@@ -183,10 +183,12 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
   await expectNoPageOverflow(page)
 })
 
-test('Configured Plan opens on Day, with time against plan, exams and study time beside it', async ({ page }) => {
+test('Configured Plan opens on the governed Week view; Day retains its time, exams and study-time contract', async ({ page }) => {
   await seedSession(page, 'light', true)
   await page.goto(`${appPath}#/plan`)
 
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.pln-summary')).toBeVisible()
   await expect(page.locator('.pln-summary')).toHaveCSS('border-radius', '20px')
