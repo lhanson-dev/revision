@@ -152,6 +152,33 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
         : week.weekStart === '2026-10-19' ? 20 : 0)).toEqual(plan)
   })
 
+  it('prefers the unrepresented verified response format within the same equally pressured paper', () => {
+    const p = exam(business, '2026-10-20', 'business-paper')
+    const makeQuestion = (id: string, section: string): PlannerCandidate => candidate(
+      id, business, p.assessmentDate, p.assessmentId, {
+        activityType: 'exam-question', estimatedMinutes: 30,
+        examTarget: { moduleId: 'verified-paper', examId: 'published', questionId: id },
+        paperResponseSectionId: `${p.assessmentId}:section:${section}`,
+        paperResponseFormat: section === '1' ? 'Multiple choice' : 'Extended response',
+      },
+    )
+    const candidates = [
+      makeQuestion('a-section-1', '1'), makeQuestion('b-section-1', '1'),
+      makeQuestion('z-section-2', '2'),
+    ]
+    const horizon = buildPlannerProgramme(today, [p], new Set([business]), candidates)
+    const capacity = (week: { weekStart: string }) => week.weekStart === '2026-10-12' ? 60 : 0
+    const result = buildPreparationProgramme(horizon, candidates, capacity)
+    const proposed = result.weeks.flatMap((week) => week.objectives)
+    expect(proposed.map((objective) => objective.candidateId)).toEqual([
+      'a-section-1', 'z-section-2',
+    ])
+    expect(proposed[1].paperResponseSectionId).toBe('business-paper:section:2')
+    expect(proposed[1].purpose).toContain('Extended response')
+    expect(result.unserved.map((objective) => objective.candidateId)).toEqual(['b-section-1'])
+    expect(buildPreparationProgramme(horizon, [...candidates].reverse(), capacity)).toEqual(result)
+  })
+
   it('does not treat exam style practice as a flashcard or conflate paper demand', () => {
     const p = exam(psychology, laterExam, 'psych-paper')
     const c = candidate('exam-skill', psychology, laterExam, p.assessmentId, {
