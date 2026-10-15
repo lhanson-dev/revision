@@ -13,6 +13,8 @@ import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type Planner
 import { buildPlannerProgramme } from '../engine/planning/programme'
 import { buildPreparationProgramme } from '../engine/planning/preparation'
 import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
+import { capacityOn } from './plan-model'
+import { weekKeys } from './plan-dates'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
 
@@ -291,7 +293,7 @@ export function buildLearnerPreparationProgramme(
   exceptions: readonly RevisionAvailabilityException[],
   preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
-  acceptedSessions: readonly PlannedSession[] = [],
+  acceptedSessions: readonly PlannedSession[] | null = [],
   acceptedLoadedThrough?: string,
 ) {
   const today = localDate(now)
@@ -306,13 +308,27 @@ export function buildLearnerPreparationProgramme(
   })
   const active = new Set(states.map(courseIdForLearningState))
   const candidates = withoutPlannedTopics(
-    preparationCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
+    preparationCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions ?? [])
   const horizon = buildPlannerProgramme(today, verified, active, candidates)
   const nearThrough = acceptedLoadedThrough ??
     localDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 59))
   const programme = buildPreparationProgramme(horizon, candidates, (week) =>
     focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
-      exceptions, acceptedSessions, nearThrough))
+      exceptions, acceptedSessions, nearThrough),
+    (week, deadline) => {
+      if (!availability) return null
+      const eligibleKeys = weekKeys(week.weekStart)
+        .filter((key) => key >= week.visibleFrom && key <= week.visibleUntil && key < deadline)
+      const values = eligibleKeys.map((key) => capacityOn(key, availability.weeklyMinutes, exceptions))
+      if (values.some((value) => value === null || !Number.isFinite(value) || value < 0)) return null
+      if (acceptedSessions === null && eligibleKeys.some((key) => key <= nearThrough)) return null
+      const raw = values.reduce<number>((total, value) => total + (value ?? 0), 0)
+      if (week.visibleUntil > nearThrough) return raw // distant bookings not fetched
+      const booked = (acceptedSessions ?? []).filter((item) => item.status !== 'skipped'
+        && eligibleKeys.includes(item.plannedDate))
+        .reduce((total, item) => total + Math.max(0, item.minutes), 0)
+      return Math.max(0, raw - booked)
+    })
   return { programme, candidates }
 }
 

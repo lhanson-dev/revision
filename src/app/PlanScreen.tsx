@@ -287,7 +287,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
   const fullProgramme = useMemo(() =>
     buildLearnerPreparationProgramme(learningStates, activeAssessments, availability,
-      exceptions, preferences, now, nearTermSessions ?? [], sessionWindows.near.to).programme,
+      exceptions, preferences, now, nearTermSessions, sessionWindows.near.to).programme,
   [learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, sessionWindows])
 
   const setupMissingExams = activeAssessments.length === 0

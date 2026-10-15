@@ -40,6 +40,7 @@ export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
 interface Demand {
   candidate: PlannerCandidate
   target: ProgrammeMilestone
+  targets: ProgrammeMilestone[]
   objective: PreparationObjective
   urgency: number
 }
@@ -90,6 +91,7 @@ export function buildPreparationProgramme(
   horizon: PlannerProgramme,
   candidates: readonly PlannerCandidate[],
   weekCapacity: (week: ProgrammeWeek) => number | null,
+  capacityBefore?: (week: ProgrammeWeek, assessmentDate: string) => number | null,
 ): PreparationProgramme {
   const milestones = new Map(horizon.weeks.flatMap((week) => week.milestones)
     .map((milestone) => [milestone.assessmentId, milestone]))
@@ -110,7 +112,7 @@ export function buildPreparationProgramme(
       : candidate.understanding < 0.55 ? 1 : Math.max(0, 0.8 - candidate.understanding)
     const urgency = (target.date <= horizon.today ? 100 : 1 / Math.max(1, dayDistance(horizon.today, target.date)))
       + evidenceNeed / 10 + (candidate.activityType === 'exam-question' ? 0.02 : 0)
-    demand.push({ candidate, target, objective: describe(candidate, target), urgency })
+    demand.push({ candidate, target, targets: eligible, objective: describe(candidate, target), urgency })
   }
   // Stable inputs give stable results irrespective of network response ordering.
   demand.sort((a, b) => a.target.date.localeCompare(b.target.date)
@@ -132,8 +134,14 @@ export function buildPreparationProgramme(
     // comparatively under-served course demand instead of a global activity
     // score, arbitrary subject rotation or fixed quotas.
     while (remaining > 0) {
-      const options = [...outstanding.values()].filter((item) =>
-        item.target.date > week.visibleFrom && item.candidate.estimatedMinutes <= remaining)
+      const options = [...outstanding.values()].flatMap((item) => {
+        const target = item.targets.find((entry) => entry.date > week.visibleFrom)
+        if (!target || item.candidate.estimatedMinutes > remaining) return []
+        const usableBefore = capacityBefore?.(week, target.date) ?? availableMinutes
+        const alreadyUsed = objectives.reduce((total, objective) => total + objective.estimatedMinutes, 0)
+        if (usableBefore !== null && alreadyUsed + item.candidate.estimatedMinutes > usableBefore) return []
+        return [{ ...item, target, objective: describe(item.candidate, target) }]
+      })
       if (!options.length) break
       const demandsByCourse = new Map<string, number>()
       for (const item of outstanding.values()) demandsByCourse.set(item.candidate.courseId!,
@@ -159,7 +167,7 @@ export function buildPreparationProgramme(
     weeks.push({ ...week, availableMinutes, objectives, allocatedMinutes: objectives.reduce((sum, o) => sum + o.estimatedMinutes, 0),
       confidence: availableMinutes === null ? 'capacity-unknown' : 'capacity-known' })
   }
-  const unserved = [...outstanding.values()].map((item) => item.objective)
+  const unserved = [...outstanding.values()].map((item) => describe(item.candidate, item.targets.at(-1) ?? item.target))
   const constraints: string[] = []
   if (horizon.finalKnownAssessment === null) constraints.push('No confirmed future examination date; no final-exam timeline can be inferred.')
   if (weeks.some((w) => w.availableMinutes === null)) constraints.push('Study-time availability is unknown for some weeks; feasibility cannot be confirmed.')
