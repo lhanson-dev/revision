@@ -115,6 +115,20 @@ describe('Programme-first FI-001: exam requirements → evidence need → attain
     expect(result.weeks.flatMap((week) => week.objectives)).toHaveLength(0)
   })
 
+  it('SV-01 surfaces known syllabus demand with no published supported activity', () => {
+    const baseline = buildPlannerProgramme(today, [exam()], courses, [])
+    const result = buildProgrammeFirstDecision(baseline, [], () => 120, [{
+      courseId: business, topicId: 'unserved-required-area', paperId: 'business-paper-1',
+      examDate: '2027-05-18',
+    }])
+    expect(result.unserved).toEqual([{
+      obligationId: `${business}:unserved-required-area`, courseId: business,
+      topicId: 'unserved-required-area', examDate: '2027-05-18',
+      reason: 'unsupported-asset',
+    }])
+    expect(result.totalSuggestedMinutes).toBe(0)
+  })
+
   it('SV-07 near-term dates respect their assigned week and exam day cutoff', () => {
     const future = exam({ assessmentDate: '2026-10-24' })
     const first = topic('finance', { assessmentTargets: [{ assessmentId: future.assessmentId,
