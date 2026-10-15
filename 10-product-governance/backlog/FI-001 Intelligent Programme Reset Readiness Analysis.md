@@ -1,6 +1,8 @@
 # FI-001 — Programme-First Intelligent Planner Reset: Definition of Ready
 
-**Lifecycle:** Analyse — **proposed Ready recommendation only; Founder has NOT approved the new scope**. Prepared 15 October 2026 from approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`. This is an amendment to FI-001, not a new competing feature or engine. Historical R1/R2 scopes and their prior Founder approvals remain intact; this record proposes a *new* material scope whose readiness is independent. **Owner:** Product / Education / Engineering; Founder decides `Analyse → Ready` after the governing PR merges.
+**Current lifecycle (15 October 2026):** Founder-approved **Ready** following governance PR #633 merge at `931bee72de204e1910c2ad4d6b5fa1c0d0c39873` and explicit [Founder's Analyse → Ready decision](https://github.com/lhanson-dev/revision/pull/633#issuecomment-6188330812). The previous pending-approval analysis below remains dated decision history. The new implementation programme has begun on a governed draft branch/PR and is **not Live**. R3–R5 and FI-009–012 are not independently Ready.
+
+**Historical preapproval lifecycle:** Analyse — proposed Ready recommendation only; Founder had NOT approved the new scope at preparation time. Prepared 15 October 2026 from approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`. This is an amendment to FI-001, not a new competing feature or engine. Historical R1/R2 scopes and their prior Founder approvals remain intact; this record proposes a *new* material scope whose readiness is independent. **Owner:** Product / Education / Engineering; Founder decides `Analyse → Ready` after the governing PR merges.
 
 **Source hierarchy:** `00-company-foundation/Product Strategy.md` → `10-product-governance/Adaptive Revision Planning.md` + Product System Model/Course Learning Blueprint/Claims → proposed technical architecture and scenario contract. This backlog analysis is deliberately non-authoritative.
 
