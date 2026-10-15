@@ -47,6 +47,43 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
         && exam.assessmentDate === entry.assessmentDate)))).toBe(true)
   })
 
+  it('tracks all published Business 7132 response sections separately from ten shared knowledge topics', () => {
+    const state = createCourseLearningState(business, [])
+    const papers = [paper(business, 1, '2027-05-18'), paper(business, 2, '2027-06-02'),
+      paper(business, 3, '2027-06-11')]
+    const { programme } = buildLearnerPreparationProgramme([state], papers, availability, [], [], now)
+    const responseSections = programme.paperResponseRequirements
+    expect(programme.requirements).toHaveLength(10)
+    expect(responseSections).toHaveLength(8) // 4 + 3 + 1 actual published sections
+    expect(responseSections.filter((item) => item.assessmentId === papers[0].assessmentId))
+      .toHaveLength(4)
+    expect(responseSections.filter((item) => item.assessmentId === papers[1].assessmentId))
+      .toHaveLength(3)
+    expect(responseSections.filter((item) => item.assessmentId === papers[2].assessmentId))
+      .toHaveLength(1)
+    expect(papers.every((assessment) =>
+      responseSections.filter((item) => item.assessmentId === assessment.assessmentId)
+        .reduce((sum, item) => sum + item.marks, 0) === 100)).toBe(true)
+    const candidates = preparationCandidatesFromLearningState([state], papers, [], now)
+    const byId = new Map(candidates.map((item) => [item.id, item]))
+    for (const section of responseSections) {
+      expect(section.verifiedPracticeCandidateIds.every((id) => {
+        const candidate = byId.get(id)
+        const module = business.modules.find((part) => part.manifest.id === candidate?.examTarget?.moduleId)
+        const question = module?.getExam(candidate?.examTarget?.examId ?? '')?.questions.find((entry) =>
+          entry.id === candidate?.examTarget?.questionId)
+        return candidate?.activityType === 'exam-question'
+          && candidate.paperResponseSectionId === section.sectionId
+          && question?.sectionLabel?.toLowerCase() === section.sectionName.toLowerCase()
+      })).toBe(true)
+      expect(section.allocatedPracticeCandidateIds.every((id) =>
+        section.verifiedPracticeCandidateIds.includes(id))).toBe(true)
+    }
+    // Published formats with no exact, assured matching question stay visible,
+    // not silently conflated with knowledge learnt or quiz availability.
+    expect(responseSections.every((item) => item.sectionName && item.responseFormat)).toBe(true)
+  })
+
   it('retains the real paper requirement and existing supported assets when a session is accepted', () => {
     const state = createCourseLearningState(business, [])
     const exam = paper(business, 1, '2027-05-18')
@@ -77,6 +114,7 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     const exam = paper(psychology, 3, '2027-06-11', { topicIds: ['relationships', 'gender'] })
     const { programme } = buildLearnerPreparationProgramme([state], [exam], availability, [], [], now)
     expect(programme.requirements).toHaveLength(0)
+    expect(programme.paperResponseRequirements).toHaveLength(0)
     expect(programme.unsupportedRequirements.some((item) => item.reason.includes('scope'))).toBe(true)
   })
 
