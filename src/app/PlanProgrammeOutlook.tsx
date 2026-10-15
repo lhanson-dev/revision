@@ -126,7 +126,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
           : <>
             <p>Preparation objectives through <strong>{dated(final)}</strong>, covering your selected
               courses, supported work, evidence gaps and available time. These are provisional
-              opportunities, not a fixed weekly allocation, booked future appointments or a prediction of exam results.</p>
+              opportunities, not booked sessions, not a fixed weekly allocation, and not a prediction of exam results.</p>
             {omitted > 0 && <p className="pln-card__note">{omitted} preparation {omitted === 1 ? 'requirement has' : 'requirements have'}
               not yet been allocated to a known available slot. This is a capacity or evidence limitation,
               not a judgement of your ability.</p>}
