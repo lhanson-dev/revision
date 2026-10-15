@@ -181,9 +181,9 @@ export function buildPreparationProgramme(
           const elapsed = pacing.weekCapacity.slice(0, weeks.length + 1)
             .reduce((sum, minutes) => sum + minutes, 0)
           const intendedCumulative = paperDemand * elapsed / Math.max(1, pacing.totalCapacity)
-          const alreadyForPaper = (allocatedByPaper.get(item.target.assessmentId) ?? 0)
-            + objectives.filter((objective) => objective.assessmentId === item.target.assessmentId)
-              .reduce((sum, objective) => sum + objective.estimatedMinutes, 0)
+          // allocatedByPaper is updated as each objective is chosen, including
+          // the current week; never count current selections a second time.
+          const alreadyForPaper = allocatedByPaper.get(item.target.assessmentId) ?? 0
           const firstUsefulAction = weeks.length === 0 && objectives.length === 0
           if (!firstUsefulAction
             && alreadyForPaper + item.candidate.estimatedMinutes / 2 >= intendedCumulative) return []
