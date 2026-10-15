@@ -273,7 +273,11 @@ export function preparationCandidatesFromLearningState(
     const score = knowledge?.score == null ? null : knowledge.score / 100
     const strength = Math.min(1, (knowledge?.distinctContentItems ?? 0) / 6)
     const evidenceStrength = score === null ? Math.min(strength, 0.5) : strength
-    const chapter = score === null ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
+    // Existing scored observations can justify checking further breadth; do not
+    // force a fresh Learn page merely because the evidence sufficiency gate
+    // has not yet reached a publishable knowledge score.
+    const needsFoundation = score === null && (knowledge?.distinctContentItems ?? 0) === 0
+    const chapter = needsFoundation ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
     const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
     // A verified exact exam intent must not be silently substituted with Learn.
     if (page && candidate.activityType !== 'exam-question') return {
