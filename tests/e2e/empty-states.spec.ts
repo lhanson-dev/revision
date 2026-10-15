@@ -121,6 +121,8 @@ test('a new student on Plan is told what is missing, and the exam and study-time
   await expect(note).toContainText('Add your exam dates and your study time, and REV will plan what to work on.')
   await expect(page.getByRole('button', { name: 'Add exam date' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Set study time' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
   await expect(page.locator('.pln-empty').first()).toContainText('Free. Nothing planned.')
   await expectNoSidewaysScroll(page)
   await expectNoAxeViolations(page)
