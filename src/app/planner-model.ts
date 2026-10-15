@@ -383,7 +383,7 @@ export function buildLearnerPreparationProgramme(
       const key = `${courseId}:${topicId}`
       let requirement = requirementMap.get(key)
       if (!requirement) {
-        const knowledge = state.topicKnowledge.topics.find((topic) => topic.topicId === topicId)
+        const knowledge = state.topicKnowledge?.topics.find((topic) => topic.topicId === topicId)
         const score = knowledge?.score
         const evidenceStatus: PreparationKnowledgeRequirement['evidenceStatus'] =
           score === null || score === undefined ? 'unknown'
