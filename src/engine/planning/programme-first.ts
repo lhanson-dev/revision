@@ -163,7 +163,12 @@ export function buildProgrammeFirstDecision(
         .reduce((sum, obj) => sum + obj.minutes, 0)
       const total = week.proposedMinutes
       const space = week.capacityMinutes === null ? 0 : week.capacityMinutes
-      const latePenalty = (treatment === 'authentic-exam-practice' ? -1 : 1) * (i / Math.max(1, weeks.length - 1))
+      const daysToExam = Math.round((Date.parse(work.examDate + 'T00:00:00Z')
+        - Date.parse(baseline.today + 'T00:00:00Z')) / 86_400_000)
+      // When the real paper is imminent, reserve the earliest feasible
+      // opportunity instead of delaying the only supported practice to next week.
+      const latePenalty = (treatment === 'authentic-exam-practice' && daysToExam > 14 ? -1 : 1)
+        * (i / Math.max(1, weeks.length - 1))
       // Whole-exam capacity pressure: prefer underused weeks, protect other
       // subjects within that week, and keep earlier gaps ahead of later skills.
       return { week, i, score: (space > 0 ? total / space : total / 90) + courseMinutes / 90 + latePenalty }
