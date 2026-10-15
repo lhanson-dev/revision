@@ -122,6 +122,9 @@ export function buildPreparationProgramme(
     || a.candidate.id.localeCompare(b.candidate.id))
 
   const outstanding = new Map(demand.map((item) => [item.candidate.id, item]))
+  const initialDemandByCourse = new Map<string, number>()
+  for (const item of demand) initialDemandByCourse.set(item.candidate.courseId!,
+    (initialDemandByCourse.get(item.candidate.courseId!) ?? 0) + item.candidate.estimatedMinutes)
   const allocatedByCourse = new Map<string, number>()
   const weeks: PreparationWeek[] = []
   let allocatedMinutes = 0
@@ -154,7 +157,11 @@ export function buildPreparationProgramme(
         const pressureB = (demandsByCourse.get(b.candidate.courseId!) ?? 0) / daysB
         const servedA = allocatedByCourse.get(a.candidate.courseId!) ?? 0
         const servedB = allocatedByCourse.get(b.candidate.courseId!) ?? 0
-        return (pressureB / (1 + servedB / 120) - pressureA / (1 + servedA / 120))
+        // Compare unmet course need as a fraction of its actual known demand,
+        // not a fixed subject-time quota or an invented universal 120-min block.
+        const unmetShareA = 1 - servedA / Math.max(1, initialDemandByCourse.get(a.candidate.courseId!) ?? 1)
+        const unmetShareB = 1 - servedB / Math.max(1, initialDemandByCourse.get(b.candidate.courseId!) ?? 1)
+        return (pressureB * unmetShareB - pressureA * unmetShareA)
           || a.target.date.localeCompare(b.target.date)
           || b.urgency - a.urgency || a.candidate.id.localeCompare(b.candidate.id)
       })
