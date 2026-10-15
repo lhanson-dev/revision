@@ -235,6 +235,7 @@ function candidateForDay(candidate: PlannerCandidate, date: string): PlannerCand
 export function buildAdaptivePlan(
   candidates: readonly PlannerCandidate[],
   days: readonly PlannerDay[],
+  capacityOverride?: PlannerCapacityState,
 ): PlannerResult {
   const eligible = days[0] ? candidates.flatMap((candidate) => {
     // An objective selected for the second near-term week is not eligible
@@ -253,7 +254,8 @@ export function buildAdaptivePlan(
   const useful = ranked.filter(usefulCandidate)
   const requiredUsefulMinutes = useful.reduce((sum, item) => sum + item.estimatedMinutes, 0)
   const remainingCapacityMinutes = days.reduce((sum, day) => sum + Math.max(0, day.availableMinutes), 0)
-  const capacityState: PlannerCapacityState = requiredUsefulMinutes > remainingCapacityMinutes ? 'prioritising' : 'normal'
+  const capacityState: PlannerCapacityState = capacityOverride ??
+    (requiredUsefulMinutes > remainingCapacityMinutes ? 'prioritising' : 'normal')
   const schedule = buildSchedule(useful, days, capacityState)
   const today = schedule[0]?.items ?? []
   const unallocatedTodayMinutes = schedule[0]?.unallocatedMinutes ?? 0

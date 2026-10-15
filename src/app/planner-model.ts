@@ -275,7 +275,8 @@ export function preparationCandidatesFromLearningState(
     const evidenceStrength = score === null ? Math.min(strength, 0.5) : strength
     const chapter = score === null ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
     const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
-    if (page) return {
+    // A verified exact exam intent must not be silently substituted with Learn.
+    if (page && candidate.activityType !== 'exam-question') return {
       ...candidate, id: `${candidate.id}:learn:${page.id}`,
       activityType: 'learn', estimatedMinutes: 15, understanding: null, evidenceStrength,
       learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
@@ -383,5 +384,11 @@ export function buildPlannerSnapshot(
   const starts = new Map(goals.map((goal) => [goal.id, goal.firstDate]))
   const selected = candidates.filter((candidate) => starts.has(candidate.id))
     .map((candidate) => ({ ...candidate, earliestEligibleDate: starts.get(candidate.id) }))
-  return buildAdaptivePlan(selected, days)
+  const totalKnownCapacity = programme.weeks.reduce((sum, week) =>
+    sum + (week.availableMinutes ?? 0), 0)
+  const underCapacity = programme.unserved.length > 0 && programme.weeks.every((week) => week.availableMinutes !== null)
+  const result = buildAdaptivePlan(selected, days, underCapacity ? 'prioritising' : undefined)
+  return { ...result, capacityState: underCapacity ? 'prioritising' : result.capacityState,
+    requiredUsefulMinutes: programme.requiredMinutes,
+    remainingCapacityMinutes: totalKnownCapacity }
 }
