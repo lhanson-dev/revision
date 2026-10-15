@@ -26,6 +26,13 @@ export interface PreparationObjective {
   reason: string
 }
 
+export interface RequiredTopicDemand {
+  courseId: string
+  topicId: string
+  paperId: string
+  examDate: string
+}
+
 export interface UnservedPreparation {
   obligationId: string
   courseId: string
@@ -112,6 +119,7 @@ export function buildProgrammeFirstDecision(
   baseline: PlannerProgramme,
   candidates: readonly PlannerCandidate[],
   weeklyCapacity: (week: ProgrammeWeek) => number | null,
+  requiredTopics: readonly RequiredTopicDemand[] = [],
 ): ProgrammeFirstDecision {
   const weeks: ProgrammeDecisionWeek[] = baseline.weeks.map((week, i) => {
     const raw = weeklyCapacity(week)
@@ -143,6 +151,21 @@ export function buildProgrammeFirstDecision(
     || b.weight - a.weight || a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))
 
   const unserved: UnservedPreparation[] = []
+  const supported = new Set(workItems.map((work) => `${work.courseId}:${work.topicId}`))
+  const missing = new Map<string, RequiredTopicDemand>()
+  for (const demand of requiredTopics) {
+    const target = known.get(demand.paperId)
+    if (!target || target.courseId !== demand.courseId || target.date !== demand.examDate
+      || !demand.topicId || supported.has(`${demand.courseId}:${demand.topicId}`)) continue
+    const key = `${demand.courseId}:${demand.topicId}`
+    const existing = missing.get(key)
+    if (!existing || demand.examDate < existing.examDate) missing.set(key, demand)
+  }
+  for (const req of [...missing.values()].sort((a,b) =>
+    a.examDate.localeCompare(b.examDate) || a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))) {
+    unserved.push({ obligationId: `${req.courseId}:${req.topicId}`,
+      courseId: req.courseId, topicId: req.topicId, examDate: req.examDate, reason: 'unsupported-asset' })
+  }
   for (const work of workItems) {
     const fitting = weeks.map((week, i) => ({ week, i })).filter(({ week }) =>
       week.visibleFrom < work.examDate && week.capacityMinutes !== 0
