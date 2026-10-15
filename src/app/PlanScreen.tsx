@@ -36,10 +36,7 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import type { HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
-import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
-import { buildPlannerProgramme } from '../engine/planning/programme'
-import { withProgrammeWeeklyFocus } from '../engine/planning/weekly-focus'
-import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
+import { buildPlannerSnapshot, buildWholeExamProgramme, courseIdForLearningState } from './planner-model'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
@@ -288,27 +285,12 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     [learningStates, activeAssessments, availability, exceptions, preferences, nearTermSessions, sessionsUnavailable, now],
   )
 
-  const fullProgramme = useMemo(() => {
-    const verified = activeAssessments.flatMap((assessment) => {
-      const exactCourse = assessment.courseId
-        ? programme.find((entry) => entry.course.id === assessment.courseId)
-        : programme.find((entry) => entry.subject.id === assessment.subjectId)
-      if (!exactCourse || exactCourse.subject.id !== assessment.subjectId) return []
-      return [{
-        assessmentId: assessment.assessmentId,
-        courseId: exactCourse.course.id,
-        subjectId: assessment.subjectId,
-        title: assessment.title,
-        assessmentDate: assessment.assessmentDate,
-        isActive: assessment.isActive,
-      }]
-    })
-    const candidates = plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now)
-    const milestones = buildPlannerProgramme(todayKey, verified, activeCourseIds, candidates)
-    return withProgrammeWeeklyFocus(milestones, candidates,
-      (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
-        exceptions, nearTermSessions, sessionWindows.near.to))
-  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme, availability, exceptions, nearTermSessions, sessionWindows])
+  // The same programme decision supplies the short-range schedule and distant
+  // objectives; when capacity is missing show a truthful partial programme.
+  const fullProgramme = useMemo(() => snapshot?.programme ?? buildWholeExamProgramme(
+    learningStates, activeAssessments, availability, exceptions, preferences, now,
+    nearTermSessions, sessionWindows.near.to),
+  [snapshot, learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, sessionWindows])
 
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
