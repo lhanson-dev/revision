@@ -21,6 +21,35 @@
 - Keep the primary journey concise while allowing deeper information through progressive disclosure.
 - Treat the learner's persisted active course set as programme context; do not treat the whole published catalogue as though the learner studies it.
 
+## Cross-journey contract — help students manage the process of revision
+
+Revision must help with the process of organising, beginning, continuing and resuming revision, not just with the academic material. This is an inclusive default for all Students, not an ADHD screening flow, a medical service or a new REV identity.
+
+Across Journeys 1–9A, the Student should be able to:
+
+1. **Begin without organising everything:** establish only the minimum supported course context to access one useful action, without mandatory exam dates, weekly-capacity entry, full diagnostic, mood questionnaire or condition disclosure.
+2. **See the bigger picture without being overwhelmed by it:** use a coherent, evidence-aware programme across known exams and subjects, while being presented with one actionable task today and progressively disclosed detail.
+3. **Take a manageable supported first step:** begin the exact activity REV recommends. When the Student says they have limited time or are having difficulty starting, REV should offer a shorter *real* supported action, an alternative or a break, not relabel a long task or fabricate a new activity.
+4. **Make progress that means something:** receive feedback that distinguishes reviewed content, demonstrated understanding and exam-style readiness; show a clear next action rather than requiring the Student to decode raw scores.
+5. **Return without punishment:** after missed work, show currently useful priorities and preserve legitimate commitments and evidence; do not create overdue task debt, shame, forced emotional check-ins or unverified reassurance.
+6. **Choose freely:** provide an understandable explanation of trade-offs without nagging or silently changing learning truth.
+
+### Journey-to-experience and assurance mapping
+
+| Journey | Expected student result | Acceptance evidence to review (not yet a pass claim) |
+| --- | --- | --- |
+| First use (Journey 1 / SL-01) | One real activity and useful feedback without full plan setup | Starting check skipped/partial, no known dates/capacity, supported exact Start and persisted result |
+| Return with partial setup (Journey 2 / SL-02) | Resume useful work without repeated setup or fabricated planning context | Missing dates, missing capacity, interrupted first work, empty/unknown data and direct fallback |
+| Established Home and guided work (Journeys 2/4 / SL-03) | One clear relevant next task and reason drawn from the same Plan/REV recommendation | Multi-course exam priorities, real Start to correct course/topic/activity, no competing Home ranking |
+| Plan and available time (Journey 4; planner authority) | Understand wider exam programme and choose a feasible action today | Longer-than-60-day exams, weekly priorities, low/zero/changed capacity, displaced priorities and truthful short-term precision |
+| Learn and Practice (Journeys 5/6) | Start focused learning, see feedback, repair a gap and continue | Full activity → scored evidence → explanation → valid next supported action, including failed save/retry |
+| Exam Prep and Progress (Journeys 7/8) | Understand actual exam-relevant needs, progress and valid reassessment opportunities | Appropriate paper scope, confidence limits, useful exam checks and no mastery claim from passive tasks |
+| REV and interrupted days (Journey 9/9A) | Ask for help starting, a smaller task or a revised plan without guilt | Explicit 'I only have ten minutes', 'I can't start', missed-week restart, decline and unknown-evidence cases |
+
+**Assurance method:** map each row to existing implementation and tests first. Record Covered / Partial / Uncovered / Unknown and distinguish genuine product defects from missing evidence. Include phone, tablet, keyboard, screen reader and reduced-motion checks where relevant. Run observed student usability sessions across varied organisation/task-initiation needs before asserting that this experience reduces overwhelm or benefits any particular group. No fixed task-minute threshold, clinical efficacy claim or new tracking of diagnosis/emotion is approved by this contract.
+
+**Implementation boundary:** This document defines the intended experience, not an implementation sign-off. Existing FI-001 planner, FI-003 REV and other relevant feature readiness approvals remain required for material production changes. Changes to planner logic, conversation capability or learning evidence must occur through their existing owners, separate governed PRs and corresponding technical/assurance updates.
+
 ## Journey 1 — New Student setup and first useful action
 
 A newly registered Student should not be dropped directly onto an empty or generic Home screen and should not be asked to configure the entire product before receiving value.
