@@ -11,6 +11,16 @@ The challenge is not simply access to revision material. Students can have more 
 
 Revision should own this problem of prioritisation and coverage.
 
+## Revision-process friction is a primary part of the problem
+
+The student may understand the subject yet still struggle with the **process of revising**: deciding where to begin, dividing a daunting syllabus into sensible steps, balancing subjects, transitioning into work, continuing after interruptions or knowing whether effort is improving their preparation.
+
+This is not a niche problem limited to students with a named condition. Revision should make organising, beginning and resuming effective revision easier for **all** learners, including those who experience difficulties with attention, task initiation or organisation. A student should not need to disclose ADHD, a disability, personal circumstances or an emotional state to receive straightforward, manageable support.
+
+The intended answer is practical rather than clinical: build a meaningful programme from exam requirements, evidence and realistic capacity; show one attainable next step; provide a direct way to begin; allow genuinely useful smaller alternatives where supported; make learning progress intelligible; and recalculate without creating missed-task debt.
+
+Revision is an educational product, not a diagnostic or mental-health service. Research, inclusive-design review and representative learner observation should inform specific usability choices. Do not claim a particular method is clinically effective for ADHD or infer a learner's condition from behaviour.
+
 ## What commonly goes wrong
 
 When students do not have clear guidance, they may:
