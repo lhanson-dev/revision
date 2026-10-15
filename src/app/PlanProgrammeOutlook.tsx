@@ -72,6 +72,37 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
           <>
             <p>Working towards <strong>{dated(final)}</strong> across {programme.weeks.length} weeks. Revision uses known paper deadlines, your evidence and saved study time to allocate supported preparation objectives. These remain adaptable forecasts, not booked sessions or promises of exam readiness.</p>
             <p>We have identified {programme.requiredMinutes > 0 ? formatMinutes(programme.requiredMinutes) : 'no measured time'} of currently supported preparation opportunities; {formatMinutes(programme.allocatedMinutes)} can be allocated with known availability. This is <strong>not</strong> a measurement of all syllabus work still needed.</p>
+            {programme.requirements.length > 0 && (
+              <div aria-label="Verified course knowledge requirements">
+                <h3>What your known papers require</h3>
+                <p>The approved course and paper mappings identify {programme.requirements.length} distinct knowledge topics across your known exams. {programme.requirements.filter((req) => req.supportedCandidateIds.length > 0).length} currently have supported activity opportunities, and {programme.requirements.filter((req) => req.allocatedCandidateIds.length > 0).length} have at least one proposed preparation objective. These are planning facts, not evidence that a topic has been learnt or the whole syllabus has been covered.</p>
+                <details>
+                  <summary>Explore the knowledge requirements and preparation gaps</summary>
+                  <ul>
+                    {programme.requirements.map((requirement) => (
+                      <li key={requirement.courseId + ':' + requirement.topicId}>
+                        <strong>{courseLabel(requirement.courseId)} — {topicLabel(requirement.courseId, requirement.topicId)}</strong>
+                        <span> · Relevant paper dates: {requirement.papers.map((paper) => dated(paper.assessmentDate)).join(', ')}</span>
+                        <p>{requirement.evidenceStatus === 'unknown'
+                          ? 'Current understanding is unknown.'
+                          : requirement.evidenceStatus === 'needs-work'
+                            ? 'Existing scored evidence indicates more work is useful.'
+                            : requirement.evidenceStatus === 'provisional'
+                              ? 'Some evidence exists, but the picture is still provisional.'
+                              : 'There is supported scored evidence for this topic, not a guarantee of exam readiness.'}</p>
+                        <p>{requirement.hasAcceptedSession
+                          ? 'You have saved a session for this topic; that choice is not proof of completion or understanding.'
+                          : requirement.allocatedCandidateIds.length > 0
+                            ? 'Revision has proposed supported preparation activity for this topic.'
+                            : requirement.supportedCandidateIds.length > 0
+                              ? 'Approved activities exist, but none are allocated in the current forecast.'
+                              : 'No supported activity has been verified for this topic yet.'}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </div>
+            )}
             {programme.verifiedPaperDemands.length > 0 && (
               <div aria-label="Verified paper response demands">
                 <h3>Exam-response skills to prepare for</h3>
