@@ -38,7 +38,7 @@ import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE,
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, buildWholeExamProgramme, courseIdForLearningState } from './planner-model'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
-import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
+import { PlanProgrammeOutlook, PlanPeriodObjectives } from './PlanProgrammeOutlook'
 import {
   addDaysToKey,
   daysBetween,
@@ -668,6 +668,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                     onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
                   {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+                  {(view === 'month' || view === 'week') && <PlanPeriodObjectives
+                    programme={fullProgramme} from={periodStart} until={periodEnd}
+                    scope={view === 'month' ? 'month' : 'week'}
+                    courseLabel={(id) => courseLabel(programme, id)} topicLabel={topicLabel} />}
 
                   {!setupComplete && (
                     <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
