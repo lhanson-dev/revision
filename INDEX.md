@@ -91,6 +91,7 @@ Use this file to find the governing source before substantive work.
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Student lifecycle journey screen-purpose / acceptance contracts (PR #590; effective only after Founder-approved merge) → `10-product-governance/Student Lifecycle Journey Contracts.md`
 - WP2 Student lifecycle experience / code-vs-contract / targeted assurance audit (12 October 2026; point-in-time evidence, not authority) → `audits/2026-10-12-student-lifecycle-experience-and-assurance-wp2.md`
+- Revision-process support journey / inclusive task-initiation implementation audit (15 October 2026; evidence and follow-up programme, not authority) → `audits/2026-10-15-revision-process-support-journey-audit.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`

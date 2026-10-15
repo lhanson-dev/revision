@@ -147,6 +147,20 @@ This follows the *specific* approved **`Returning Student Home Experience.md`** 
 
 The earlier Home implementation routes some planner `exam-question` tasks to the course Exam Prep surface because the planner item may lack a paper/module identity. **Since Home v1.3 authority and its separate FI-023 implementation programme have advanced on `main`, WP2 must inspect the current exact route and test evidence rather than assume this earlier observation remains accurate.** Check whether each REV-promoted task launches an exact supported activity and whether Plan membership is matched truthfully; do **not** mark either complete merely because navigation occurs. Keep Home v3 implementation/acceptance ownership with FI-023, not this lifecycle-contract PR.
 
+## Inclusive revision-process assurance addendum — proposed for Founder review
+
+The experience must address student difficulty in **organising and starting** revision independently of academic difficulty. These are journey-level obligations, not claims of condition-specific ADHD treatment.
+
+- **SL-01 first value:** the student reaches one credible supported first activity without a full plan, diagnosis disclosure or compulsory long assessment. A direct Start must enter that activity and provide usable feedback.
+- **SL-02 interrupted/partial setup:** useful revision remains possible when exam dates or weekly availability are unknown; recovery reuses persisted work and does not require repeating successful setup or invent a time-budget forecast.
+- **SL-03 established return:** a relevant next action is easy to identify; students returning after missed days see recalculated work, not overdue-task debt. Today's activity must agree with Plan and REV.
+- **Cross-journey starting difficulty:** when the student explicitly says work feels overwhelming or they only have a short time, REV offers a truthful smaller *supported* step, alternative or break. No compulsory mood check, invented quick activity, diagnostic inference or implicit mastery update.
+- **Cross-journey progress:** results explain what the student has actually demonstrated and lead to the next improvement action; completion, coverage and exam readiness are not conflated.
+
+For every scenario, check the **observed student outcome**, not merely a page render or passing navigation test. Compare the current runtime and test inventory against the assertion; mark any gap Covered, Partial, Uncovered or Unknown only when there is matching evidence. Test representative students, including learners who find organisation or task initiation difficult, with appropriate consent and safeguarding. Set usability targets after establishing baselines rather than inventing measures of ADHD efficacy.
+
+This addendum does **not** approve FI-001 algorithm changes, FI-003 new AI capability, condition tracking, a separate neurodiversity mode, or a new release claim. Those require their governed feature decisions and assurance.
+
 ## 6. Cross-journey experience and trust invariants
 
 1. A screen has **one dominant job**, clearly understood within seconds, with a primary useful action and subordinate alternatives.
