@@ -11,7 +11,7 @@ import type {
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
 import { buildPlannerProgramme } from '../engine/planning/programme'
-import { buildPreparationProgramme, type PreparationKnowledgeRequirement } from '../engine/planning/preparation'
+import { buildPreparationProgramme, type PreparationKnowledgeRequirement, type PreparationPaperResponseRequirement } from '../engine/planning/preparation'
 import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { capacityOn } from './plan-model'
 import { weekKeys } from './plan-dates'
@@ -471,10 +471,72 @@ export function buildLearnerPreparationProgramme(
         .map((ao) => ao.toUpperCase()),
     }]
   })
-  const programme = { ...prepared, requirements, unsupportedRequirements, verifiedPaperDemands,
-    constraints: unsupportedRequirements.length
-      ? [...prepared.constraints, `${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
-      : prepared.constraints }
+  // Exam Truth supplies distinct response formats that knowing the topic
+  // cannot establish. Do not assume a candidate exam question covers every
+  // section: only a verified exact question with matching section provenance
+  // creates an attributed opportunity, still not exam readiness evidence.
+  const allocatedCandidateIds = new Set(prepared.weeks.flatMap((week) =>
+    week.objectives.map((objective) => objective.candidateId)))
+  const paperResponseRequirements: PreparationPaperResponseRequirement[] = []
+  for (const assessment of applicable) {
+    if (!assessment.moduleId) continue
+    const state = stateForAssessment(states, assessment)
+    if (!state) continue
+    const adapter = (state.course?.modules ?? [state.adapter]).find((module) =>
+      module.manifest.id === assessment.moduleId && module.manifest.status === 'available')
+    if (!adapter) continue
+    const guide = examPapersFor(adapter.manifest.examBoard.name, adapter.manifest.specificationCode)
+    const paper = guide?.papers.find((entry) => entry.number === adapter.manifest.paper.number)
+    const scopedTopics = new Set(scopeTopicIds(assessment, state))
+    if (!paper || !scopedTopics.size) continue
+    const eligiblePractice = supported.flatMap((candidate) => {
+      const exact = candidate.examTarget
+      if (!exact || candidate.activityType !== 'exam-question'
+        || exact.moduleId !== adapter.manifest.id || !scopedTopics.has(candidate.topicId)
+        || !candidate.assessmentTargets?.some((target) => target.assessmentId === assessment.assessmentId
+          && target.assessmentDate === assessment.assessmentDate)) return []
+      const question = adapter.getExam(exact.examId)?.questions.find((entry) =>
+        entry.id === exact.questionId && entry.topic === candidate.topicId)
+      if (!question || question.choiceGroup &&
+        (!Array.isArray(assessment.scope.topicIds)
+          || !assessment.scope.topicIds.includes(question.topic))) return []
+      return [{ candidateId: candidate.id, question }]
+    })
+    paper.sections.forEach((section, sectionIndex) => {
+      const matched = eligiblePractice.filter(({ question }) =>
+        question.sectionLabel?.trim().toLowerCase() === section.name.trim().toLowerCase())
+      const ids = [...new Set(matched.map((item) => item.candidateId))].sort()
+      const aos = ['ao1', 'ao2', 'ao3', 'ao4'] as const
+      paperResponseRequirements.push({
+        courseId: courseIdForLearningState(state),
+        assessmentId: assessment.assessmentId,
+        assessmentDate: assessment.assessmentDate,
+        sectionId: `${assessment.assessmentId}:section:${sectionIndex + 1}`,
+        sectionName: section.name,
+        responseFormat: section.type,
+        marks: section.marks,
+        verifiedPracticeCandidateIds: ids,
+        allocatedPracticeCandidateIds: ids.filter((id) => allocatedCandidateIds.has(id)),
+        verifiedAssessmentObjectives: aos.filter((ao) => matched.some(({ question }) =>
+          question.assessmentObjectives[ao] > 0)).map((ao) => ao.toUpperCase()),
+      })
+    })
+  }
+  paperResponseRequirements.sort((a, b) => a.assessmentDate.localeCompare(b.assessmentDate)
+    || a.courseId.localeCompare(b.courseId) || a.sectionId.localeCompare(b.sectionId))
+  const unmetResponseSections = paperResponseRequirements.filter((requirement) =>
+    !requirement.verifiedPracticeCandidateIds.length)
+  const responseConstraint = unmetResponseSections.length
+    ? `${unmetResponseSections.length} verified paper response sections do not yet have an exact section-mapped practice opportunity. Their preparation cannot be claimed covered.`
+    : null
+  const programme = { ...prepared, requirements, paperResponseRequirements, unsupportedRequirements, verifiedPaperDemands,
+    constraints: [
+      ...prepared.constraints,
+      ...(unsupportedRequirements.length
+        ? [`${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
+        : []),
+      ...(responseConstraint ? [responseConstraint] : []),
+    ] }
   return { programme, candidates }
 }
 
