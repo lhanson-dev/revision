@@ -83,7 +83,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                   </li>)}</ul>
               </div>
             )}
-            {programme.constraints.length > 0 && <div role="status" aria-label="Preparation limitations">
+            {programme.constraints.length > 0 && <div aria-label="Preparation limitations">
               <strong>What we cannot yet guarantee</strong>
               <ul>{programme.constraints.map((constraint) => <li key={constraint}>{constraint}</li>)}</ul>
             </div>}
