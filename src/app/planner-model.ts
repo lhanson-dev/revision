@@ -10,6 +10,9 @@ import type {
   RevisionPlanningPreference,
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
+import { buildPlannerProgramme } from '../engine/planning/programme'
+import { buildPreparationProgramme } from '../engine/planning/preparation'
+import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
 
@@ -249,6 +252,70 @@ export function plannerCandidatesFromLearningState(
   })
 }
 
+
+/** Programme decision consumes the approved Topic Knowledge engine; a raw
+ * average of a handful of answers must not confer mastery. An assured Learn
+ * page is a supported starting treatment where scored evidence is absent.
+ */
+export function preparationCandidatesFromLearningState(
+  states: readonly ModuleLearningState[],
+  assessments: readonly RevisionAssessment[],
+  preferences: readonly RevisionPlanningPreference[] = [],
+  now = new Date(),
+): PlannerCandidate[] {
+  return plannerCandidatesFromLearningState(states, assessments, preferences, now).map((candidate) => {
+    const state = states.find((value) => courseIdForLearningState(value) === candidate.courseId
+      && value.adapter.getTopic(candidate.topicId)
+      && (!candidate.moduleId || value.adapter.manifest.id === candidate.moduleId))
+    const knowledge = state?.topicKnowledge?.topics.find((item) => item.topicId === candidate.topicId)
+    const score = knowledge?.score == null ? null : knowledge.score / 100
+    const strength = Math.min(1, (knowledge?.distinctContentItems ?? 0) / 6)
+    const evidenceStrength = score === null ? Math.min(strength, 0.5) : strength
+    const chapter = score === null ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
+    const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
+    if (page) return {
+      ...candidate, id: `${candidate.id}:learn:${page.id}`,
+      activityType: 'learn', estimatedMinutes: 15, understanding: null, evidenceStrength,
+      learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
+      examTarget: undefined,
+    }
+    return { ...candidate, understanding: score, evidenceStrength }
+  })
+}
+
+/** The sole educational preparation decision shared by the programme and Today. */
+export function buildLearnerPreparationProgramme(
+  states: readonly ModuleLearningState[],
+  assessments: readonly RevisionAssessment[],
+  availability: RevisionAvailabilityProfile | null,
+  exceptions: readonly RevisionAvailabilityException[],
+  preferences: readonly RevisionPlanningPreference[] = [],
+  now = new Date(),
+  acceptedSessions: readonly PlannedSession[] = [],
+  acceptedLoadedThrough?: string,
+) {
+  const today = localDate(now)
+  const verified = assessments.flatMap((assessment) => {
+    const state = stateForAssessment(states, assessment)
+    if (!state) return []
+    return [{
+      assessmentId: assessment.assessmentId, subjectId: assessment.subjectId,
+      courseId: courseIdForLearningState(state), title: assessment.title,
+      assessmentDate: assessment.assessmentDate, isActive: assessment.isActive,
+    }]
+  })
+  const active = new Set(states.map(courseIdForLearningState))
+  const candidates = withoutPlannedTopics(
+    preparationCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
+  const horizon = buildPlannerProgramme(today, verified, active, candidates)
+  const nearThrough = acceptedLoadedThrough ??
+    localDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 59))
+  const programme = buildPreparationProgramme(horizon, candidates, (week) =>
+    focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
+      exceptions, acceptedSessions, nearThrough))
+  return { programme, candidates }
+}
+
 export function plannerDaysFromAvailability(
   availability: RevisionAvailabilityProfile | null,
   exceptions: readonly RevisionAvailabilityException[],
@@ -286,12 +353,19 @@ export function buildPlannerSnapshot(
   detailedHorizonDays = 60,
 ): PlannerResult | null {
   // Sessions the student accepted are already placed: the derived plan works around them.
-  const candidates = withoutPlannedTopics(plannerCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions)
-  // A bounded caller may project fewer concrete days while R1's default stays unchanged.
-  // The caller must load accepted sessions for every date in that concrete window.
+  const { programme, candidates } = buildLearnerPreparationProgramme(
+    states, assessments, availability, exceptions, preferences, now, acceptedSessions)
   const boundedDays = plannerDaysFromAvailability(availability, exceptions, assessments, now)
     .slice(0, Math.max(1, Math.min(60, detailedHorizonDays)))
   const days = applyAcceptedSessionsToDays(boundedDays, acceptedSessions)
   if (candidates.length === 0 || days.length === 0) return null
-  return buildAdaptivePlan(candidates, days)
+  const lastDetailedDay = days.at(-1)?.date
+  const goals = programme.weeks.flatMap((week) =>
+    week.visibleFrom <= (lastDetailedDay ?? '') ? week.objectives.map((objective) => ({
+      id: objective.candidateId, firstDate: week.visibleFrom,
+    })) : [])
+  const starts = new Map(goals.map((goal) => [goal.id, goal.firstDate]))
+  const selected = candidates.filter((candidate) => starts.has(candidate.id))
+    .map((candidate) => ({ ...candidate, earliestEligibleDate: starts.get(candidate.id) }))
+  return buildAdaptivePlan(selected, days)
 }

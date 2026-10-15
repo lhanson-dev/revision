@@ -55,7 +55,7 @@ export function plannerReasonLabel(reason: PlannerReasonCode) {
 }
 
 function supportedActivity(activity: string): activity is HomeActivityType {
-  return activity === 'flashcards' || activity === 'quick-check' || activity === 'exam-question'
+  return activity === 'flashcards' || activity === 'quick-check' || activity === 'exam-question' || activity === 'learn'
 }
 
 function programmeCourse(programme: readonly LearnerProgrammeCourse[], courseId: string) {
@@ -99,6 +99,7 @@ export function tasksFromPlanner(
       adapter: state.adapter,
       plannerItem: item,
       examTarget: item.examTarget,
+      learnTarget: item.learnTarget,
     }]
   })
 }
