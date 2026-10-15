@@ -306,6 +306,16 @@ export function preparationCandidatesFromLearningState(
         if (!target.moduleId || !target.paperId || !target.topicIds.includes(candidate.topicId)) return []
         const exact = exactExamTarget(state, candidate.topicId, target.moduleId, true)
         if (!exact) return []
+        const module = (state.course?.modules ?? [state.adapter]).find((adapter) =>
+          adapter.manifest.id === exact.moduleId && adapter.manifest.status === 'available')
+        const question = module?.getExam(exact.examId)?.questions.find((entry) =>
+          entry.id === exact.questionId && entry.topic === candidate.topicId)
+        const guide = module ? examPapersFor(module.manifest.examBoard.name, module.manifest.specificationCode) : null
+        const paper = guide?.papers.find((entry) => entry.number === module?.manifest.paper.number)
+        const sectionIndex = question?.sectionLabel ? paper?.sections.findIndex((section) =>
+          section.name.trim().toLowerCase() === question.sectionLabel?.trim().toLowerCase()) : undefined
+        const mappedSection = sectionIndex !== undefined && sectionIndex >= 0
+          ? paper?.sections[sectionIndex] : undefined
         return [{
           ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
           activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
@@ -313,6 +323,8 @@ export function preparationCandidatesFromLearningState(
           assessmentImportance: target.assessmentImportance,
           assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
           learnTarget: undefined, preparationStage: 'exam-practice',
+          paperResponseSectionId: mappedSection ? `${target.assessmentId}:section:${sectionIndex! + 1}` : undefined,
+          paperResponseFormat: mappedSection?.type,
           preparationPrerequisiteId: known.id,
         }]
       })
