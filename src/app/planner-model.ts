@@ -11,7 +11,7 @@ import type {
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
 import { buildPlannerProgramme } from '../engine/planning/programme'
-import { buildProgrammeFirstDecision, programmeNearTermCandidates, type ProgrammeFirstDecision } from '../engine/planning/programme-first'
+import { buildProgrammeFirstDecision, buildProgrammeNearTermSchedule, type ProgrammeFirstDecision } from '../engine/planning/programme-first'
 import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
@@ -328,8 +328,8 @@ export function buildPlannerSnapshot(
     preferences, now, acceptedSessions)
   // The near-term candidate set is derived from the same weekly objectives as
   // the complete programme. There is no separate topic-rotation policy.
-  const selected = programme.finalKnownAssessment
-    ? programmeNearTermCandidates(programme, candidates, days.map((day) => day.date)) : candidates
-  if (!selected.length) return null
-  return { ...buildAdaptivePlan(selected, days), programme }
+  const result = programme.finalKnownAssessment
+    ? buildProgrammeNearTermSchedule(programme, candidates, days)
+    : buildAdaptivePlan(candidates, days)
+  return result ? { ...result, programme } : null
 }
