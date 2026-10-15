@@ -255,6 +255,28 @@ export function plannerCandidatesFromLearningState(
 }
 
 
+/** Only the published paper's exact question section can attach a response
+ * requirement to a supported question. Never infer a section from a topic,
+ * paper proximity, question marks or an unapproved coaching note. */
+function verifiedPaperResponseSection(
+  state: ModuleLearningState,
+  target: NonNullable<PlannerCandidate['examTarget']>,
+  assessmentId: string,
+  topicId: string,
+): { id: string; format: string } | null {
+  const module = (state.course?.modules ?? [state.adapter]).find((adapter) =>
+    adapter.manifest.id === target.moduleId && adapter.manifest.status === 'available')
+  const question = module?.getExam(target.examId)?.questions.find((entry) =>
+    entry.id === target.questionId && entry.topic === topicId)
+  if (!module || !question?.sectionLabel) return null
+  const guide = examPapersFor(module.manifest.examBoard.name, module.manifest.specificationCode)
+  const paper = guide?.papers.find((entry) => entry.number === module.manifest.paper.number)
+  const index = paper?.sections.findIndex((section) =>
+    section.name.trim().toLowerCase() === question.sectionLabel?.trim().toLowerCase())
+  if (index === undefined || index < 0) return null
+  return { id: `${assessmentId}:section:${index + 1}`, format: paper!.sections[index].type }
+}
+
 /** Programme decision consumes the approved Topic Knowledge engine; a raw
  * average of a handful of answers must not confer mastery. An assured Learn
  * page is a supported starting treatment where scored evidence is absent.
@@ -280,7 +302,11 @@ export function preparationCandidatesFromLearningState(
     const chapter = needsFoundation ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
     const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
     // A verified exact exam intent must not be silently substituted with Learn.
-    const practice = { ...candidate, understanding: score, evidenceStrength }
+    const directSection = state && candidate.examTarget
+      ? verifiedPaperResponseSection(state, candidate.examTarget, candidate.assessmentId, candidate.topicId)
+      : null
+    const practice: PlannerCandidate = { ...candidate, understanding: score, evidenceStrength,
+      paperResponseSectionId: directSection?.id, paperResponseFormat: directSection?.format }
     if (page && candidate.activityType !== 'exam-question') {
       // Teaching and checking are two different preparation opportunities.
       // Neither is evidence of mastery until a legitimate scored result exists.
@@ -306,16 +332,7 @@ export function preparationCandidatesFromLearningState(
         if (!target.moduleId || !target.paperId || !target.topicIds.includes(candidate.topicId)) return []
         const exact = exactExamTarget(state, candidate.topicId, target.moduleId, true)
         if (!exact) return []
-        const module = (state.course?.modules ?? [state.adapter]).find((adapter) =>
-          adapter.manifest.id === exact.moduleId && adapter.manifest.status === 'available')
-        const question = module?.getExam(exact.examId)?.questions.find((entry) =>
-          entry.id === exact.questionId && entry.topic === candidate.topicId)
-        const guide = module ? examPapersFor(module.manifest.examBoard.name, module.manifest.specificationCode) : null
-        const paper = guide?.papers.find((entry) => entry.number === module?.manifest.paper.number)
-        const sectionIndex = question?.sectionLabel ? paper?.sections.findIndex((section) =>
-          section.name.trim().toLowerCase() === question.sectionLabel?.trim().toLowerCase()) : undefined
-        const mappedSection = sectionIndex !== undefined && sectionIndex >= 0
-          ? paper?.sections[sectionIndex] : undefined
+        const section = verifiedPaperResponseSection(state, exact, target.assessmentId, candidate.topicId)
         return [{
           ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
           activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
@@ -323,8 +340,8 @@ export function preparationCandidatesFromLearningState(
           assessmentImportance: target.assessmentImportance,
           assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
           learnTarget: undefined, preparationStage: 'exam-practice',
-          paperResponseSectionId: mappedSection ? `${target.assessmentId}:section:${sectionIndex! + 1}` : undefined,
-          paperResponseFormat: mappedSection?.type,
+          paperResponseSectionId: section?.id,
+          paperResponseFormat: section?.format,
           preparationPrerequisiteId: known.id,
         }]
       })
