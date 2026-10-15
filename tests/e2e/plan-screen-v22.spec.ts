@@ -72,7 +72,7 @@ test('summary is time against plan, with a status in words and an icon', async (
   // Programme-derived work changes as evidenced treatment needs change.
   // Unit/domain tests own minute arithmetic; the UI must show a truthful
   // dynamic total instead of an obsolete fixed 8-topic allocation.
-  await expect(summary).toContainText(/of (?:\\d+h(?: \\d+m)?|\\d+m) planned/)
+  await expect(summary).toContainText(/of (?:\d+h(?: \d+m)?|\d+m) planned/)
   await expect(summary.locator('.pln-summary__label svg')).toBeVisible()
   await expect(summary.locator('.pln-summary__label')).toHaveText(/On track|Catching up|Finished|Coming up/)
 })
