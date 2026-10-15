@@ -49,7 +49,7 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
     const activeWeeks = result.weeks.filter((week) => week.objectives.length > 0)
     expect(result.weeks.length).toBeGreaterThan(25)
     expect(activeWeeks.length).toBeGreaterThan(12)
-    expect(activeWeeks.at(-1)?.weekStart > '2027-02-01').toBe(true)
+    expect((activeWeeks.at(-1)?.weekStart ?? '') > '2027-02-01').toBe(true)
     expect(result.weeks.slice(0, 2).reduce((n, week) => n + week.objectives.length, 0))
       .toBeLessThan(candidates.length / 2)
     expect(result.allocatedMinutes).toBe(result.requiredMinutes)
