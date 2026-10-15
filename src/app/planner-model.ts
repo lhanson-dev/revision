@@ -303,9 +303,17 @@ export function buildWholeExamProgramme(
   })
   const active = new Set(states.map(courseIdForLearningState))
   const baseline = buildPlannerProgramme(localDate(now), known, active, candidates)
+  const requiredTopics = assessments.flatMap((assessment) => {
+    const state = stateForAssessment(states, assessment)
+    if (!state || !assessment.isActive) return []
+    return scopeTopicIds(assessment, state).map((topicId) => ({
+      courseId: courseIdForLearningState(state), topicId,
+      paperId: assessment.assessmentId, examDate: assessment.assessmentDate,
+    }))
+  })
   return buildProgrammeFirstDecision(baseline, candidates,
     (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
-      exceptions, acceptedSessions, acceptedLoadedThrough))
+      exceptions, acceptedSessions, acceptedLoadedThrough), requiredTopics)
 }
 
 export function buildPlannerSnapshot(
