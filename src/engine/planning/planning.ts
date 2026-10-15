@@ -46,6 +46,8 @@ export interface PlannerCandidate {
   examTarget?: { moduleId: string; examId: string; questionId: string }
   learnTarget?: { learnPageId: string; moduleId?: string }
   earliestEligibleDate?: string
+  preparationStage?: 'acquire' | 'check'
+  preparationPrerequisiteId?: string
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
@@ -188,6 +190,7 @@ function buildSchedule(
   capacityState: PlannerCapacityState,
 ): PlannerScheduledDay[] {
   const allocated = new Set<string>()
+  const scheduledCandidateIds = new Set(useful.map((item) => item.id))
 
   return days.map((day) => {
     let remaining = Math.max(0, day.availableMinutes)
@@ -195,6 +198,8 @@ function buildSchedule(
 
     for (const candidate of useful) {
       if (allocated.has(candidate.id) || remaining <= 0) continue
+      if (candidate.preparationPrerequisiteId && scheduledCandidateIds.has(candidate.preparationPrerequisiteId)
+        && !allocated.has(candidate.preparationPrerequisiteId)) continue
       const eligible = candidateForDay(candidate, day.date)
       if (!eligible || candidate.estimatedMinutes > remaining) continue
 
@@ -246,6 +251,12 @@ export function buildAdaptivePlan(
     return current ? [current] : []
   }) : candidates
   const ranked = eligible.map(rankPlannerCandidate).sort((left, right) => {
+    if (left.earliestEligibleDate && right.earliestEligibleDate && left.earliestEligibleDate !== right.earliestEligibleDate)
+      return left.earliestEligibleDate.localeCompare(right.earliestEligibleDate)
+    // When both appear on one day, offer the supported explanation before its
+    // dependent check; do not imply a score from the Learn task itself.
+    if (left.id === right.preparationPrerequisiteId) return -1
+    if (right.id === left.preparationPrerequisiteId) return 1
     if (right.priority !== left.priority) return right.priority - left.priority
     if (left.daysUntilAssessment !== right.daysUntilAssessment) return left.daysUntilAssessment - right.daysUntilAssessment
     return left.id.localeCompare(right.id)

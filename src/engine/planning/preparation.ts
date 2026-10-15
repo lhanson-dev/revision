@@ -141,6 +141,11 @@ export function buildPreparationProgramme(
     // score, arbitrary subject rotation or fixed quotas.
     while (remaining > 0) {
       const options = [...outstanding.values()].flatMap((item) => {
+        // An initial independent check cannot be placed ahead of its real
+        // supported acquisition opportunity. This is *sequencing*, not a
+        // claim that exposure produced scored evidence or proven retention.
+        if (item.candidate.preparationPrerequisiteId
+          && outstanding.has(item.candidate.preparationPrerequisiteId)) return []
         const target = item.targets.find((entry) => entry.date > week.visibleFrom)
         if (!target || item.candidate.estimatedMinutes > remaining) return []
         const usableBefore = capacityBefore?.(week, target.date) ?? availableMinutes

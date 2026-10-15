@@ -265,7 +265,7 @@ export function preparationCandidatesFromLearningState(
   preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
 ): PlannerCandidate[] {
-  return plannerCandidatesFromLearningState(states, assessments, preferences, now).map((candidate) => {
+  return plannerCandidatesFromLearningState(states, assessments, preferences, now).flatMap((candidate): PlannerCandidate[] => {
     const state = states.find((value) => courseIdForLearningState(value) === candidate.courseId
       && value.adapter.getTopic(candidate.topicId)
       && (!candidate.moduleId || value.adapter.manifest.id === candidate.moduleId))
@@ -280,13 +280,20 @@ export function preparationCandidatesFromLearningState(
     const chapter = needsFoundation ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
     const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
     // A verified exact exam intent must not be silently substituted with Learn.
-    if (page && candidate.activityType !== 'exam-question') return {
-      ...candidate, id: `${candidate.id}:learn:${page.id}`,
-      activityType: 'learn', estimatedMinutes: 15, understanding: null, evidenceStrength,
-      learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
-      examTarget: undefined,
+    const practice = { ...candidate, understanding: score, evidenceStrength }
+    if (page && candidate.activityType !== 'exam-question') {
+      // Teaching and checking are two different preparation opportunities.
+      // Neither is evidence of mastery until a legitimate scored result exists.
+      // Their independent IDs allow a real sequence instead of repeating Learn.
+      const learn: PlannerCandidate = {
+        ...practice, id: `${candidate.id}:learn:${page.id}`,
+        activityType: 'learn', estimatedMinutes: 15, understanding: null,
+        learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
+        examTarget: undefined, preparationStage: 'acquire',
+      }
+      return [learn, { ...practice, preparationStage: 'check', preparationPrerequisiteId: learn.id }]
     }
-    return { ...candidate, understanding: score, evidenceStrength }
+    return [practice]
   })
 }
 
