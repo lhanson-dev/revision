@@ -151,6 +151,27 @@ export function buildPreparationProgramme(
   const weeks: PreparationWeek[] = []
   let allocatedMinutes = 0
   for (const week of horizon.weeks) {
+    // A later paper must not be silently sacrificed to an earlier, already
+    // infeasible workload. Count only supported opportunities, never infer
+    // complete specification or exam-skill demand from candidate minutes.
+    const futureCapacityByAssessment = new Map<string, number | null>()
+    const knownCapacityAfterThisWeek = (target: ProgrammeMilestone): number | null => {
+      if (futureCapacityByAssessment.has(target.assessmentId)) {
+        return futureCapacityByAssessment.get(target.assessmentId)!
+      }
+      let total = 0
+      for (const future of horizon.weeks.slice(weeks.length + 1)) {
+        if (future.visibleFrom >= target.date) break
+        const minutes = capacityBefore?.(future, target.date) ?? weekCapacity(future)
+        if (minutes === null || !Number.isFinite(minutes) || minutes < 0) {
+          futureCapacityByAssessment.set(target.assessmentId, null)
+          return null
+        }
+        total += minutes
+      }
+      futureCapacityByAssessment.set(target.assessmentId, total)
+      return total
+    }
     const rawCapacity = weekCapacity(week)
     const availableMinutes = rawCapacity === null || !Number.isFinite(rawCapacity) || rawCapacity < 0
       ? null : rawCapacity
@@ -160,6 +181,14 @@ export function buildPreparationProgramme(
     // comparatively under-served course demand instead of a global activity
     // score, arbitrary subject rotation or fixed quotas.
     while (remaining > 0) {
+      const remainingByCoursePaper = new Map<string, number>()
+      for (const item of outstanding.values()) {
+        const next = item.targets.find((entry) => entry.date > week.visibleFrom)
+        if (!next) continue
+        const key = `${item.candidate.courseId}:${next.assessmentId}`
+        remainingByCoursePaper.set(key,
+          (remainingByCoursePaper.get(key) ?? 0) + item.candidate.estimatedMinutes)
+      }
       const options = [...outstanding.values()].flatMap((item) => {
         // An initial independent check cannot be placed ahead of its real
         // supported acquisition opportunity. This is *sequencing*, not a
@@ -188,13 +217,29 @@ export function buildPreparationProgramme(
           if (!firstUsefulAction
             && alreadyForPaper + item.candidate.estimatedMinutes / 2 >= intendedCumulative) return []
         }
-        return [{ ...item, target, objective: describe(item.candidate, target) }]
+        const laterMinutes = knownCapacityAfterThisWeek(target)
+        const remainingDemand = remainingByCoursePaper.get(`${item.candidate.courseId}:${target.assessmentId}`) ?? 0
+        const usableNow = Math.min(remaining, usableBefore === null ? remaining
+          : Math.max(0, usableBefore - alreadyUsed))
+        // Protect the last feasible chance to start *supported* work for a
+        // later paper. An already-impossible course does not automatically
+        // consume every week merely because its earlier exam is closer.
+        // Unknown future capacity cannot justify this preference.
+        const preserveFeasibleOpportunity = laterMinutes !== null
+          && remainingDemand > laterMinutes
+          && remainingDemand <= laterMinutes + usableNow
+          && usableNow >= item.candidate.estimatedMinutes
+        return [{ ...item, target, objective: describe(item.candidate, target),
+          preserveFeasibleOpportunity }]
       })
       if (!options.length) break
       const demandsByCourse = new Map<string, number>()
       for (const item of outstanding.values()) demandsByCourse.set(item.candidate.courseId!,
         (demandsByCourse.get(item.candidate.courseId!) ?? 0) + item.candidate.estimatedMinutes)
       options.sort((a, b) => {
+        if (a.preserveFeasibleOpportunity !== b.preserveFeasibleOpportunity) {
+          return a.preserveFeasibleOpportunity ? -1 : 1
+        }
         const daysA = Math.max(1, dayDistance(week.visibleFrom, a.target.date))
         const daysB = Math.max(1, dayDistance(week.visibleFrom, b.target.date))
         const pressureA = (demandsByCourse.get(a.candidate.courseId!) ?? 0) / daysA
@@ -210,7 +255,10 @@ export function buildPreparationProgramme(
           || b.urgency - a.urgency || a.candidate.id.localeCompare(b.candidate.id)
       })
       const choice = options[0]
-      objectives.push(choice.objective)
+      objectives.push(choice.preserveFeasibleOpportunity
+        ? { ...choice.objective, reason: choice.objective.reason
+          + ' Delaying this supported work could leave too little available time for the remaining opportunities before this paper.' }
+        : choice.objective)
       outstanding.delete(choice.candidate.id)
       remaining -= choice.candidate.estimatedMinutes
       allocatedMinutes += choice.candidate.estimatedMinutes
