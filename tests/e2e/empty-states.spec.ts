@@ -121,6 +121,11 @@ test('a new student on Plan is told what is missing, and the exam and study-time
   await expect(note).toContainText('Add your exam dates and your study time, and REV will plan what to work on.')
   await expect(page.getByRole('button', { name: 'Add exam date' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Set study time' })).toBeVisible()
+  // Do not lead an unconfigured learner with seven empty days or false 0m/0m progress.
+  await expect(note.getByRole('button', { name: 'Add your exams' })).toBeVisible()
+  await expect(page.locator('.pln-summary, .pln-empty, .pln-weekview')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveCount(0)
+  await note.getByRole('button', { name: 'View calendar' }).click()
   await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: 'Day', exact: true }).click()
   await expect(page.locator('.pln-empty').first()).toContainText('Free. Nothing planned.')
