@@ -35,6 +35,7 @@ export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
   requiredMinutes: number
   allocatedMinutes: number
   constraints: string[]
+  unsupportedRequirements: Array<{ courseId: string; topicId: string; reason: string }>
 }
 
 interface Demand {
@@ -175,5 +176,5 @@ export function buildPreparationProgramme(
   if (!demand.length && horizon.finalKnownAssessment) constraints.push('No verified actionable study opportunities are available for the supplied paper scopes. This does not mean preparation is complete.')
   return { ...horizon, policy: 'exam-backwards-v1', weeks, unserved,
     requiredMinutes: demand.reduce((sum, item) => sum + item.candidate.estimatedMinutes, 0),
-    allocatedMinutes, constraints }
+    allocatedMinutes, constraints, unsupportedRequirements: [] }
 }

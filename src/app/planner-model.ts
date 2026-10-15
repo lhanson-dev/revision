@@ -313,7 +313,7 @@ export function buildLearnerPreparationProgramme(
   const horizon = buildPlannerProgramme(today, verified, active, candidates)
   const nearThrough = acceptedLoadedThrough ??
     localDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 59))
-  const programme = buildPreparationProgramme(horizon, candidates, (week) =>
+  const prepared = buildPreparationProgramme(horizon, candidates, (week) =>
     focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
       exceptions, acceptedSessions, nearThrough),
     (week, deadline) => {
@@ -330,6 +330,29 @@ export function buildLearnerPreparationProgramme(
         .reduce((total, item) => total + Math.max(0, item.minutes), 0)
       return Math.max(0, raw - booked)
     })
+  const represented = new Set(candidates.map((item) => `${item.courseId}:${item.topicId}`))
+  const missing = new Map<string, { courseId: string; topicId: string; reason: string }>()
+  for (const assessment of assessments.filter((entry) => entry.isActive && entry.assessmentDate > today)) {
+    const state = stateForAssessment(states, assessment)
+    if (!state) continue
+    const courseId = courseIdForLearningState(state)
+    const requiredTopics = scopeTopicIds(assessment, state)
+    for (const topicId of requiredTopics) {
+      const key = `${courseId}:${topicId}`
+      if (!represented.has(key) && !missing.has(key)) missing.set(key, {
+        courseId, topicId, reason: 'The currently approved assets do not provide a verified actionable activity for this requirement.',
+      })
+    }
+    if (!requiredTopics.length) {
+      const key = `${courseId}:paper:${assessment.assessmentId}`
+      missing.set(key, { courseId, topicId: '', reason: `Paper scope for ${assessment.title} is unresolved or unsupported; no topic was assumed.` })
+    }
+  }
+  const unsupportedRequirements = [...missing.values()]
+  const programme = { ...prepared, unsupportedRequirements,
+    constraints: unsupportedRequirements.length
+      ? [...prepared.constraints, `${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
+      : prepared.constraints }
   return { programme, candidates }
 }
 
