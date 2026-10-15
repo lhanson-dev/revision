@@ -123,6 +123,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   const now = useLocalDay()
   const todayKey = toKey(now)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
+  // An unconfigured learner sees a guided setup journey, not seven empty suggested days.
+  // They can still elect to inspect their calendar or access an existing saved session.
+  const [showUnconfiguredCalendar, setShowUnconfiguredCalendar] = useState(false)
 
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
@@ -294,6 +297,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
   const setupComplete = !setupMissingExams && !setupMissingAvailability
+  const hasVisibleSavedSessions = Boolean(plannedSessions?.some((session) => visibleKeys.includes(session.plannedDate)))
+  const showCalendar = setupComplete || showUnconfiguredCalendar || hasVisibleSavedSessions
 
   const topicLabel = useCallback((forCourseId: string | undefined, topicId: string) => {
     const state = learningStates.find((candidate) => (!forCourseId || courseIdForLearningState(candidate) === forCourseId) && candidate.adapter.getTopic(topicId))
@@ -655,7 +660,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
           ? <EmptyState className="planner-panel" title="Add a course before building your plan" description="REV will not create a plan from courses you have not selected." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} />
           : (
             <>
-              <PlanNav
+              {showCalendar && <PlanNav
                 view={view}
                 anchorKey={anchor}
                 todayKey={todayKey}
@@ -665,10 +670,30 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                 onGo={(key) => goTo(view, key)}
                 onToday={() => goTo(view, todayKey)}
                 onView={(next) => goTo(next, anchor)}
-              />
+              />}
 
               <div className="pln-layout">
                 <div className="pln-main">
+                  {!setupComplete && (
+                    <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
+                      <Icon name="plan" />
+                      <div>
+                        <strong>Your plan is waiting on you</strong>
+                        <p>{missingText} You can use the setup cards beside this. You can start a supported activity from Courses without waiting for a complete plan.</p>
+                        <p>Exam dates do not require an initial knowledge check. You can change your study time later.</p>
+                        <div className="pln-card__actions">
+                          {setupMissingExams
+                            ? <Button onClick={() => setExamsOpen(true)}>Add your exams</Button>
+                            : <Button onClick={startEditingStudyTime}>Set your weekly study time</Button>}
+                          {!showCalendar && sessionsReady && !sessionsUnavailable && (
+                            <Button variant="secondary" onClick={() => setShowUnconfiguredCalendar(true)}>
+                              {plannedSessions?.length ? 'View saved sessions' : 'View calendar'}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </Surface>
+                  )}
                   {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
                     courseLabel={(id) => courseLabel(programme, id)}
                     topicLabel={topicLabel}
@@ -676,17 +701,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                     anchor={anchor}
                     onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
-                  {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
-
-                  {!setupComplete && (
-                    <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
-                      <Icon name="plan" />
-                      <div>
-                        <strong>Your plan is waiting on you</strong>
-                        <p>{missingText} You can do it in the cards beside this. Sessions you add yourself show here either way.</p>
-                      </div>
-                    </Surface>
-                  )}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
 
                   {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' && (
                     <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
@@ -695,9 +710,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                   {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) && (
                     <p className="pln-note">These are longer-term weeks. REV will choose concrete activities closer to the time; only sessions you accepted are fixed.</p>
                   )}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
                 </div>
 
                 <div className="pln-side">
