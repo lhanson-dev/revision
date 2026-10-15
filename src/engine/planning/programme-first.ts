@@ -206,7 +206,15 @@ export function buildProgrammeNearTermSchedule(
 ): PlannerResult | null {
   if (!days.length) return null
   const selected = programmeNearTermCandidates(decision, candidates, days.map((day) => day.date))
-  if (!selected.length) return null
+  if (!selected.length) {
+    // Preserve truthful `prioritising` / total remaining work state even
+    // when no genuine activity fits the week; never invent a task to fill it.
+    const diagnostic = buildAdaptivePlan(candidates, days)
+    const schedule = days.map((day) => ({ date: day.date, availableMinutes: day.availableMinutes,
+      items: [], unallocatedMinutes: day.availableMinutes }))
+    return { ...diagnostic, schedule, today: [],
+      unallocatedTodayMinutes: days[0]?.availableMinutes ?? 0 }
+  }
   const base = buildAdaptivePlan(selected, days)
   const allocated = new Set<string>()
   const schedule = days.map((day) => {
