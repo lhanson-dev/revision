@@ -73,7 +73,7 @@ Use this file to find the governing source before substantive work.
 
 - Proposed intelligent exam-backwards programme target (not current implementation) → `docs/technical/Intelligent Exam-Backwards Planner Target Architecture.md`
 - Programme-first FI-001 implementation/value gap audit (dated evidence) → `audits/2026-10-15-fi-001-vision-governance-implementation-gap.md`
-- New FI-001 programme-first Definition of Ready (Analyse; Founder Ready not yet approved) → `10-product-governance/backlog/FI-001 Intelligent Programme Reset Readiness Analysis.md`
+- New FI-001 programme-first Definition of Ready (Founder-approved Ready 15 October; draft PR #637 In Progress, not Live) → `10-product-governance/backlog/FI-001 Intelligent Programme Reset Readiness Analysis.md`
 - Student-value acceptance oracle (13 scenarios, not verified production passes) → `10-product-governance/backlog/FI-001 Programme Value Scenarios.md`
 - Proposed architecture decision (not yet accepted/implemented) → `decisions/ADR-0032-proposed-single-exam-backwards-programme.md`
 

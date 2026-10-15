@@ -1,6 +1,6 @@
 # Intelligent Exam-Backwards Planner — Proposed Target Architecture
 
-**Status:** Proposed design for FI-001 programme-first reset (Analyse, not production-authorised). **Baseline:** approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`, 15 October 2026. **Canonical route:** `/revision/app/#/plan`, React/Vite; Home and shared Ask REV are consumers. **Normative owner:** `10-product-governance/Adaptive Revision Planning.md`, under Product Strategy and the evidence/course authorities. This document describes the *target*, not an implemented or deployed capability.
+**Status:** Founder-approved FI-001 programme-first scope is Ready (15 October 2026); implementation candidate on draft PR #637, not merged or Live. The design describes intended target behaviour, not demonstrated production delivery. **Baseline:** approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`, 15 October 2026. **Canonical route:** `/revision/app/#/plan`, React/Vite; Home and shared Ask REV are consumers. **Normative owner:** `10-product-governance/Adaptive Revision Planning.md`, under Product Strategy and the evidence/course authorities. This document describes the *target*, not an implemented or deployed capability.
 
 ## Architectural decision
 
