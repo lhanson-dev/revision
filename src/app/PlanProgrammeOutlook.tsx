@@ -103,6 +103,30 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                 </details>
               </div>
             )}
+            {programme.paperResponseRequirements.length > 0 && (
+              <div aria-label="Verified paper response requirements">
+                <h3>Paper response formats</h3>
+                <p>Learning the topics is only part of exam preparation. Your known papers also require different answer formats. Revision identifies these from approved paper structures and only counts practice when an exact published question is mapped to the section.</p>
+                <details>
+                  <summary>Explore paper response requirements and practice gaps</summary>
+                  <ul>
+                    {programme.paperResponseRequirements.map((requirement) => (
+                      <li key={requirement.sectionId}>
+                        <strong>{courseLabel(requirement.courseId)} — {requirement.sectionName}</strong>
+                        <span> · {dated(requirement.assessmentDate)} · {requirement.responseFormat} · {requirement.marks} marks</span>
+                        <p>{requirement.allocatedPracticeCandidateIds.length
+                          ? 'Revision has proposed a verified, section-matched exam practice opportunity. This does not prove proficiency.'
+                          : requirement.verifiedPracticeCandidateIds.length
+                            ? 'A verified question exists for this format, but it is not allocated in the current forecast.'
+                            : 'No exact section-matched practice opportunity is verified yet. This requirement is not treated as covered.'}</p>
+                        {requirement.verifiedAssessmentObjectives.length > 0 &&
+                          <p>Verified practice question assessment objectives: {requirement.verifiedAssessmentObjectives.join(', ')}. These do not demonstrate mastery of the full paper.</p>}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </div>
+            )}
             {programme.verifiedPaperDemands.length > 0 && (
               <div aria-label="Verified paper response demands">
                 <h3>Exam-response skills to prepare for</h3>
