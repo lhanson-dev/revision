@@ -29,7 +29,7 @@ test('PLN-VALUE-01 long-range programme shows grounded learning objectives and c
   await expect(outlook).toContainText('Build the foundations')
   await expect(outlook).toContainText('Understanding has not been established')
   await expect(outlook).toContainText('not a measurement of all syllabus work')
-  await outlook.locator('summary').click()
+  await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
   const objectives = outlook.getByRole('list', { name: /Study objectives for week of/i })
   expect(await objectives.count()).toBeGreaterThan(0)
   await expect(outlook.getByText('Business final paper', { exact: false }).last()).toBeVisible()
