@@ -77,6 +77,7 @@ function activityLabel(activity: string) {
   if (activity === 'exam-question') return 'Exam practice'
   if (activity === 'quick-check') return 'Quick check'
   if (activity === 'flashcards') return 'Flashcards'
+  if (activity === 'learn') return 'Learn'
   return 'Revision activity'
 }
 
