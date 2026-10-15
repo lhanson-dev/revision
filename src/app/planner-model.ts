@@ -11,7 +11,7 @@ import type {
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
 import { buildPlannerProgramme } from '../engine/planning/programme'
-import { buildPreparationProgramme } from '../engine/planning/preparation'
+import { buildPreparationProgramme, type PreparationKnowledgeRequirement } from '../engine/planning/preparation'
 import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
 import { capacityOn } from './plan-model'
 import { weekKeys } from './plan-dates'
@@ -342,8 +342,11 @@ export function buildLearnerPreparationProgramme(
     }]
   })
   const active = new Set(states.map(courseIdForLearningState))
-  const candidates = withoutPlannedTopics(
-    preparationCandidatesFromLearningState(states, assessments, preferences, now), acceptedSessions ?? [])
+  // The educational requirement inventory must not be narrowed by accepted
+  // sessions. Accepted work consumes planning capacity; it does not remove
+  // its course topic from the real examination's scope or certify learning.
+  const supported = preparationCandidatesFromLearningState(states, assessments, preferences, now)
+  const candidates = withoutPlannedTopics(supported, acceptedSessions ?? [])
   const horizon = buildPlannerProgramme(today, verified, active, candidates)
   const nearThrough = acceptedLoadedThrough ??
     localDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 59))
@@ -364,25 +367,82 @@ export function buildLearnerPreparationProgramme(
         .reduce((total, item) => total + Math.max(0, item.minutes), 0)
       return Math.max(0, raw - booked)
     })
-  const represented = new Set(candidates.map((item) => `${item.courseId}:${item.topicId}`))
+  // Course Truth and verified paper scope define WHAT is required. Supported
+  // activities and allocated goals are joined afterwards as separate claims.
+  // In particular, an accepted session must not make a topic disappear.
+  const requirementMap = new Map<string, PreparationKnowledgeRequirement>()
   const missing = new Map<string, { courseId: string; topicId: string; reason: string }>()
-  for (const assessment of assessments.filter((entry) => entry.isActive && entry.assessmentDate > today)) {
+  const applicable = assessments.filter((entry) =>
+    entry.isActive && validDateKey(entry.assessmentDate) && entry.assessmentDate > today)
+  for (const assessment of applicable) {
     const state = stateForAssessment(states, assessment)
     if (!state) continue
     const courseId = courseIdForLearningState(state)
     const requiredTopics = scopeTopicIds(assessment, state)
     for (const topicId of requiredTopics) {
       const key = `${courseId}:${topicId}`
-      if (!represented.has(key) && !missing.has(key)) missing.set(key, {
-        courseId, topicId, reason: 'The currently approved assets do not provide a verified actionable activity for this requirement.',
-      })
+      let requirement = requirementMap.get(key)
+      if (!requirement) {
+        const knowledge = state.topicKnowledge.topics.find((topic) => topic.topicId === topicId)
+        const score = knowledge?.score
+        const evidenceStatus: PreparationKnowledgeRequirement['evidenceStatus'] =
+          score === null || score === undefined ? 'unknown'
+            : score < 55 ? 'needs-work'
+              : (knowledge?.distinctContentItems ?? 0) < 4 ? 'provisional' : 'supported'
+        requirement = {
+          courseId, topicId, papers: [], evidenceStatus,
+          supportedCandidateIds: [], allocatedCandidateIds: [],
+          hasAcceptedSession: false,
+        }
+        requirementMap.set(key, requirement)
+      }
+      if (!requirement.papers.some((paper) => paper.assessmentId === assessment.assessmentId)) {
+        requirement.papers.push({ assessmentId: assessment.assessmentId,
+          assessmentDate: assessment.assessmentDate })
+      }
     }
     if (!requiredTopics.length) {
-      const key = `${courseId}:paper:${assessment.assessmentId}`
-      missing.set(key, { courseId, topicId: '', reason: `Paper scope for ${assessment.title} is unresolved or unsupported; no topic was assumed.` })
+      missing.set(`${courseId}:paper:${assessment.assessmentId}`, {
+        courseId, topicId: '',
+        reason: `Paper scope for ${assessment.title} is unresolved or unsupported; no topic was assumed.`,
+      })
     }
   }
-  const unsupportedRequirements = [...missing.values()]
+  const allocatedByRequirement = new Map<string, Set<string>>()
+  for (const week of prepared.weeks) for (const objective of week.objectives) {
+    const key = `${objective.courseId}:${objective.topicId}`
+    const ids = allocatedByRequirement.get(key) ?? new Set<string>()
+    ids.add(objective.candidateId)
+    allocatedByRequirement.set(key, ids)
+  }
+  for (const requirement of requirementMap.values()) {
+    requirement.papers.sort((a, b) => a.assessmentDate.localeCompare(b.assessmentDate)
+      || a.assessmentId.localeCompare(b.assessmentId))
+    const matching = supported.filter((candidate) =>
+      candidate.courseId === requirement.courseId && candidate.topicId === requirement.topicId
+      && candidate.assessmentTargets?.some((target) => requirement.papers.some((paper) =>
+        paper.assessmentId === target.assessmentId && paper.assessmentDate === target.assessmentDate)))
+    requirement.supportedCandidateIds = [...new Set(matching.map((item) => item.id))].sort()
+    requirement.allocatedCandidateIds = [...allocatedByRequirement.get(
+      `${requirement.courseId}:${requirement.topicId}`) ?? []].sort()
+    // Only positive evidence from the *bounded* accepted-session read is
+    // reported. False does not claim distant sessions were queried.
+    requirement.hasAcceptedSession = (acceptedSessions ?? []).some((session) =>
+      session.courseId === requirement.courseId && session.topicId === requirement.topicId
+      && session.status !== 'skipped' && session.plannedDate >= today
+      && requirement.papers.some((paper) => session.plannedDate < paper.assessmentDate))
+    if (!requirement.supportedCandidateIds.length) {
+      const key = `${requirement.courseId}:${requirement.topicId}`
+      missing.set(key, {
+        courseId: requirement.courseId, topicId: requirement.topicId,
+        reason: 'The approved course/paper mapping requires this topic, but no verified supported activity is available.',
+      })
+    }
+  }
+  const requirements = [...requirementMap.values()].sort((a, b) =>
+    a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))
+  const unsupportedRequirements = [...missing.values()].sort((a, b) =>
+    a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))
   // Paper-response intelligence is a factual capability summary, not a
   // learner-readiness score or permission to schedule an unapproved mock.
   const verifiedPaperDemands = assessments.flatMap((assessment) => {
@@ -411,7 +471,7 @@ export function buildLearnerPreparationProgramme(
         .map((ao) => ao.toUpperCase()),
     }]
   })
-  const programme = { ...prepared, unsupportedRequirements, verifiedPaperDemands,
+  const programme = { ...prepared, requirements, unsupportedRequirements, verifiedPaperDemands,
     constraints: unsupportedRequirements.length
       ? [...prepared.constraints, `${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
       : prepared.constraints }
