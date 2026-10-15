@@ -1,62 +1,50 @@
-import type { FocusedPlannerProgramme, ProgrammeFocusWeek } from '../engine/planning/weekly-focus'
+import type { PreparationProgramme, PreparationWeek } from '../engine/planning/preparation'
 import { formatMinutes, longDate, weekRangeLabel } from './plan-dates'
 import { Button, Surface } from './ui'
 
 interface Props {
-  programme: FocusedPlannerProgramme
+  programme: PreparationProgramme
   courseLabel: (courseId: string) => string
   topicLabel: (courseId: string, topicId: string) => string
   onOpenWeek: (weekStart: string) => void
+  view: 'day' | 'week' | 'month'
+  anchor: string
 }
-
 function dated(key: string) {
   return `${longDate(key)} ${key.slice(0, 4)}`
 }
-
-function activityHint(kind: string) {
-  if (kind === 'quick-check') return 'Quick check'
-  if (kind === 'flashcards') return 'Flashcards'
-  if (kind === 'exam-question') return 'Exam question practice'
-  if (kind === 'learn') return 'Learn'
-  return 'Supported study'
-}
-
-function weeklyTime(week: ProgrammeFocusWeek) {
-  if (week.availableMinutes === null) return 'Study time not set'
-  if (week.availableMinutes === 0) return 'No study time available in your settings'
-  return `${formatMinutes(week.availableMinutes)} available in your settings`
-}
-
-function WeekOverview({ week, courseLabel, topicLabel, onOpenWeek }: Omit<Props, 'programme'> & { week: ProgrammeFocusWeek }) {
+function StudyWeek({ week, courseLabel, topicLabel, onOpenWeek }: Pick<Props, 'courseLabel' | 'topicLabel' | 'onOpenWeek'> & { week: PreparationWeek }) {
   return (
     <li className="pln-programme__week">
       <div>
         <strong>{weekRangeLabel(week.weekStart)} {week.visibleUntil.slice(0, 4)}</strong>
-        <p>{weeklyTime(week)}</p>
-        {week.topicFocus.length ? (
+        <p>{week.availableMinutes === null ? 'Available study time unknown'
+          : week.availableMinutes === 0 ? 'No saved study time for this week'
+            : `${formatMinutes(week.availableMinutes)} known available; ${formatMinutes(week.allocatedMinutes)} allocated to supported objectives`}</p>
+        {week.objectives.length ? (
           <>
-            <p><strong>Topics to focus on</strong></p>
-            <ul aria-label={`Study topics for week of ${dated(week.weekStart)}`}>
-              {week.topicFocus.map((focus) => (
-                <li key={`${focus.courseId}:${focus.topicId}`}>
-                  {courseLabel(focus.courseId)} — {topicLabel(focus.courseId, focus.topicId)} · {activityHint(focus.activityType)}
-                  {focus.revisit ? ' (also suggested in an earlier week)' : ''}
+            <p><strong>Preparation objectives</strong></p>
+            <ul aria-label={`Study objectives for week of ${dated(week.weekStart)}`}>
+              {week.objectives.map((objective) => (
+                <li key={objective.candidateId}>
+                  <strong>{courseLabel(objective.courseId)} — {topicLabel(objective.courseId, objective.topicId)}</strong>
+                  <span> · {objective.purpose} · {formatMinutes(objective.estimatedMinutes)} estimated</span>
+                  <p>{objective.reason}</p>
                 </li>
               ))}
             </ul>
           </>
         ) : (
           <p>{week.availableMinutes === 0
-            ? 'No study topics proposed while this week has no saved availability.'
-            : week.supportedCourseIds.length
-              ? 'No supported topic fits the study time currently set for this week.'
-              : 'No supported study topic can be identified for this week. This does not mean the course is complete.'}</p>
+            ? 'No objectives allocated while availability is zero.'
+            : week.availableMinutes === null
+              ? 'Set realistic study time to allocate objectives; you can still start an unscheduled activity.'
+              : 'No further verified activities are allocated this week. Later checks depend on new learning evidence; this is not proof the course is complete.'}</p>
         )}
         {week.milestones.length > 0 && (
           <ul aria-label="Exams and assessments this week">
-            {week.milestones.map((milestone) => (
-              <li key={milestone.assessmentId}>{milestone.title} · {courseLabel(milestone.courseId)} · {dated(milestone.date)}</li>
-            ))}
+            {week.milestones.map((milestone) =>
+              <li key={milestone.assessmentId}>{milestone.title} · {courseLabel(milestone.courseId)} · {dated(milestone.date)}</li>)}
           </ul>
         )}
       </div>
@@ -66,40 +54,53 @@ function WeekOverview({ week, courseLabel, topicLabel, onOpenWeek }: Omit<Props,
     </li>
   )
 }
-
-/** Read-only full-horizon topical outlook, not a dated task calendar. */
-export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpenWeek }: Props) {
+export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpenWeek, anchor, view }: Props) {
   const final = programme.finalKnownAssessment
-  const previewWeeks = programme.weeks.slice(0, 3)
+  const selected = programme.weeks.filter((week) =>
+    view === 'month' ? week.visibleUntil.slice(0, 7) >= anchor.slice(0, 7)
+      && week.visibleFrom.slice(0, 7) <= anchor.slice(0, 7)
+      : week.weekStart <= anchor && week.visibleUntil >= anchor)
+  const upcoming = programme.weeks.filter((week) => week.visibleUntil >= programme.today).slice(0, 3)
+  const listProps = { courseLabel, topicLabel, onOpenWeek }
   return (
     <section className="pln-programme" aria-label="Your full exam programme">
       <Surface variant="quiet" className="pln-programme__surface">
-        <h2>Your programme to your exams</h2>
-        {!final
-          ? <p>Add known exam dates to see a longer-term programme. Revision will not guess when your final paper is.</p>
-          : (
-            <>
-              <p>Weekly topic priorities through <strong>{dated(final)}</strong>, across {programme.weeks.length} calendar weeks. These are provisional topics drawn from your selected courses and supported learning activities, not booked sessions and not a fixed weekly allocation. REV will adapt them as your progress and exam dates change.</p>
-              <p className="pln-card__note">Study time is based on your saved availability before any distant accepted commitments. Use Day/Week for your near-term activities.</p>
-              <h3>Coming up</h3>
+        <h2>Preparation towards your exams</h2>
+        {!final ? (
+          <p>Add known exam dates to see a paper-linked programme. Revision will not invent your final exam date. Supported study remains available through Courses.</p>
+        ) : (
+          <>
+            <p>Working towards <strong>{dated(final)}</strong> across {programme.weeks.length} weeks. Revision uses known paper deadlines, your evidence and saved study time to allocate supported preparation objectives. These remain adaptable forecasts, not booked sessions or promises of exam readiness.</p>
+            <p>We have identified {programme.requiredMinutes > 0 ? formatMinutes(programme.requiredMinutes) : 'no measured time'} of currently supported preparation opportunities; {formatMinutes(programme.allocatedMinutes)} can be allocated with known availability. This is <strong>not</strong> a measurement of all syllabus work still needed.</p>
+            {programme.constraints.length > 0 && <div role="status" aria-label="Preparation limitations">
+              <strong>What we cannot yet guarantee</strong>
+              <ul>{programme.constraints.map((constraint) => <li key={constraint}>{constraint}</li>)}</ul>
+            </div>}
+            {selected.length > 0 && (
+              <>
+                <h3>{view === 'month' ? 'Objectives for this month' : 'Objectives for this week'}</h3>
+                <ol className="pln-programme__weeks">
+                  {selected.map((week) => <StudyWeek key={week.weekStart} week={week} {...listProps} />)}
+                </ol>
+              </>
+            )}
+            <details className="pln-programme__details">
+              <summary>Explore the whole preparation programme and examination milestones</summary>
               <ol className="pln-programme__weeks">
-                {previewWeeks.map((week) => (
-                  <WeekOverview key={week.weekStart} week={week} courseLabel={courseLabel} topicLabel={topicLabel} onOpenWeek={onOpenWeek} />
-                ))}
+                {programme.weeks.map((week) => <StudyWeek key={week.weekStart} week={week} {...listProps} />)}
               </ol>
-              {programme.weeks.length > 3 && (
-                <details className="pln-programme__details">
-                  <summary>Explore all {programme.weeks.length} weeks and exam milestones</summary>
-                  <ol className="pln-programme__weeks">
-                    {programme.weeks.map((week) => (
-                      <WeekOverview key={week.weekStart} week={week} courseLabel={courseLabel} topicLabel={topicLabel} onOpenWeek={onOpenWeek} />
-                    ))}
-                  </ol>
-                </details>
-              )}
-              <p className="pln-card__note">A future topic focus is not an assigned task, a learning result, a promise that all content fits or proof of readiness. You can change your study choices.</p>
-            </>
-          )}
+            </details>
+            {selected.length === 0 && (
+              <>
+                <h3>Coming up</h3>
+                <ol className="pln-programme__weeks">
+                  {upcoming.map((week) => <StudyWeek key={week.weekStart} week={week} {...listProps} />)}
+                </ol>
+              </>
+            )}
+            <p className="pln-card__note">Exact tasks appear in your near-term Day and Week plan. A preliminary objective is not accepted work; Revision will recalculate after meaningful evidence or availability changes.</p>
+          </>
+        )}
       </Surface>
     </section>
   )

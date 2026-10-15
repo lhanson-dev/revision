@@ -663,6 +663,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                   {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
                     courseLabel={(id) => courseLabel(programme, id)}
                     topicLabel={topicLabel}
+                    view={view}
+                    anchor={anchor}
                     onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
                   {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
