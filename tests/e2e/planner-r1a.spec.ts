@@ -18,17 +18,18 @@ test('R1-13 exact supported Plan Start keeps the chosen course/topic and treatme
   const row = page.locator('.pln-row[data-kind="suggested"]').first()
   await expect(row).toBeVisible()
   const offered = await row.innerText()
+  const treatment = (await row.locator('.pln-row__meta').innerText()).split(' · ')[0]
   await row.getByRole('button', { name: /^(Start|Up next)/ }).click()
-  // Determine the actual supported route, not whether the nearby row copy
-  // happened to contain the word Learn. The latter falsely classifies an
-  // initial-learning action as practice when its accessibility label differs.
-  if (page.url().includes('/learn/')) {
-    await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/learn\/[^/]+$/)
+  // Match the *offered* treatment to its actual Start. Inspecting the route
+  // alone would accept a Learn recommendation mistakenly opening Practice.
+  if (treatment === 'Learn') {
+    await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/(?:components\/[^/]+\/)?learn\/[^/?#]+$/)
     await expect(page.locator('article.learn-reading-page')).toBeVisible()
   } else {
+    expect(treatment).toMatch(/^(Quick check|Flashcards|Exam practice)$/)
     await expect(page.locator('.home-focused-activity')).toBeVisible()
     await expect(page.locator('.home-focused-practice')).toContainText(/Quick check|Flashcards|Exam practice/)
-    expect(offered).toMatch(/Quick check|Flashcards|Exam practice/)
+    expect(offered).toContain(treatment)
   }
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 })
