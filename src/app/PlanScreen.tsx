@@ -125,7 +125,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
   // An unconfigured learner sees a guided setup journey, not seven empty suggested days.
   // They can still elect to inspect their calendar or access an existing saved session.
-  const [showUnconfiguredCalendar, setShowUnconfiguredCalendar] = useState(false)
+  const [showUnconfiguredCalendar, setShowUnconfiguredCalendar] = useState(() => {
+    const route = parseRoute(window.location.hash)
+    return route.kind === 'plan' && (route.view !== undefined || route.date !== undefined)
+  })
 
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
@@ -170,6 +173,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
   /** Moves the screen and writes the view and date into the address, so a reload or a shared link lands in the same place. */
   const goTo = useCallback((nextView: PlanViewKey, nextAnchor: string) => {
+    setShowUnconfiguredCalendar(true)
     setPlace({ view: nextView, anchor: nextAnchor })
     window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${routeHash(planRoute({ view: nextView, date: nextAnchor }))}`)
   }, [])
@@ -179,6 +183,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     const follow = () => {
       const route = parseRoute(window.location.hash)
       if (route.kind === 'plan') {
+        if (route.view !== undefined || route.date !== undefined) setShowUnconfiguredCalendar(true)
         setPlace(readPlace(todayKey))
         if (route.intent === 'manage-exams') setExamsOpen(true)
       }
