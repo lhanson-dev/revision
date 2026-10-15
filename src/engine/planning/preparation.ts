@@ -1,4 +1,4 @@
-import { rankPlannerCandidate, type PlannerCandidate } from './planning'
+import type { PlannerCandidate } from './planning'
 import type { PlannerProgramme, ProgrammeWeek, ProgrammeMilestone } from './programme'
 
 /**

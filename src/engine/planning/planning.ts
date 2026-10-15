@@ -237,7 +237,11 @@ export function buildAdaptivePlan(
   days: readonly PlannerDay[],
 ): PlannerResult {
   const eligible = days[0] ? candidates.flatMap((candidate) => {
-    const current = candidateForDay(candidate, days[0].date)
+    // An objective selected for the second near-term week is not eligible
+    // today, but must remain schedulable when its appointed week arrives.
+    const firstEligible = candidate.earliestEligibleDate && candidate.earliestEligibleDate > days[0].date
+      ? candidate.earliestEligibleDate : days[0].date
+    const current = candidateForDay(candidate, firstEligible)
     return current ? [current] : []
   }) : candidates
   const ranked = eligible.map(rankPlannerCandidate).sort((left, right) => {
