@@ -20,6 +20,7 @@ export interface PreparationObjective {
   assessmentId: string
   assessmentDate: string
   estimatedMinutes: number
+  paperResponseSectionId?: string
 }
 export interface PreparationWeek extends ProgrammeWeek {
   availableMinutes: number | null
@@ -107,7 +108,9 @@ function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): Prep
   const evidenceStatus = evidenceState(candidate)
   const treatment = treatmentFor(candidate)
   const purpose = treatment === 'learn' ? 'Build the foundations before independent practice'
-    : treatment === 'exam-practice' ? 'Practise the demands of this paper with an assured question'
+    : treatment === 'exam-practice' ? candidate.paperResponseFormat
+      ? `Practise ${candidate.paperResponseFormat} using a verified paper question`
+      : 'Practise the demands of this paper with an assured question'
       : treatment === 'repair' ? 'Work on a gap indicated by the available scored evidence'
         : treatment === 'retrieve' ? 'Retrieve course knowledge independently'
           : evidenceStatus === 'unknown' ? 'Check what you know before choosing further study'
@@ -122,6 +125,7 @@ function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): Prep
     reason: `${why}; preparation remains relevant to ${target.title} on ${target.date}.`,
     evidenceStatus, assessmentId: target.assessmentId, assessmentDate: target.date,
     estimatedMinutes: candidate.estimatedMinutes,
+    paperResponseSectionId: candidate.paperResponseSectionId,
   }
 }
 /** 
@@ -168,6 +172,7 @@ export function buildPreparationProgramme(
     (initialDemandByCourse.get(item.candidate.courseId!) ?? 0) + item.candidate.estimatedMinutes)
   const allocatedByCourse = new Map<string, number>()
   const allocatedByPaper = new Map<string, number>()
+  const allocatedPaperResponseSections = new Set<string>()
   // Real demand and pre-paper usable capacity define a feasible preparation
   // pace. This is a policy hypothesis, not an optimal spaced-repetition
   // interval, fixed subject ratio, arbitrary topic rotation or guaranteed
@@ -289,8 +294,22 @@ export function buildPreparationProgramme(
         // not a fixed subject-time quota or an invented universal 120-min block.
         const unmetShareA = 1 - servedA / Math.max(1, initialDemandByCourse.get(a.candidate.courseId!) ?? 1)
         const unmetShareB = 1 - servedB / Math.max(1, initialDemandByCourse.get(b.candidate.courseId!) ?? 1)
-        return (pressureB * unmetShareB - pressureA * unmetShareA)
-          || a.target.date.localeCompare(b.target.date)
+        const pressureDifference = pressureB * unmetShareB - pressureA * unmetShareA
+        if (pressureDifference !== 0) return pressureDifference
+        // Within the same paper and equally pressured course, cover an
+        // unattempted *verified response section* before a second activity
+        // in a section already represented by this forecast. This is not
+        // evidence of real student competence or exhaustive paper coverage.
+        if (a.target.assessmentId === b.target.assessmentId
+          && a.candidate.activityType === 'exam-question'
+          && b.candidate.activityType === 'exam-question') {
+          const freshA = Boolean(a.candidate.paperResponseSectionId
+            && !allocatedPaperResponseSections.has(a.candidate.paperResponseSectionId))
+          const freshB = Boolean(b.candidate.paperResponseSectionId
+            && !allocatedPaperResponseSections.has(b.candidate.paperResponseSectionId))
+          if (freshA !== freshB) return freshA ? -1 : 1
+        }
+        return a.target.date.localeCompare(b.target.date)
           || b.urgency - a.urgency || a.candidate.id.localeCompare(b.candidate.id)
       })
       const choice = options[0]
@@ -298,6 +317,9 @@ export function buildPreparationProgramme(
         ? { ...choice.objective, reason: choice.objective.reason
           + ' Delaying this supported work could leave too little available time for the remaining opportunities before this paper.' }
         : choice.objective)
+      if (choice.candidate.activityType === 'exam-question' && choice.candidate.paperResponseSectionId) {
+        allocatedPaperResponseSections.add(choice.candidate.paperResponseSectionId)
+      }
       outstanding.delete(choice.candidate.id)
       remaining -= choice.candidate.estimatedMinutes
       allocatedMinutes += choice.candidate.estimatedMinutes
