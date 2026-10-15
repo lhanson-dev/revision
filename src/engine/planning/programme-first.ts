@@ -1,4 +1,4 @@
-import { rankPlannerCandidate, type PlannerCandidate, type PlannerItem, type PlannerDay, type PlannerResult } from './planning'
+import { rankPlannerCandidate, type PlannerCandidate } from './planning'
 import type { PlannerProgramme, ProgrammeWeek } from './programme'
 
 /**
@@ -143,7 +143,6 @@ export function buildProgrammeFirstDecision(
     || b.weight - a.weight || a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))
 
   const unserved: UnservedPreparation[] = []
-  const allocatedCourses = new Map<string, number>()
   for (const work of workItems) {
     const fitting = weeks.map((week, i) => ({ week, i })).filter(({ week }) =>
       week.visibleFrom < work.examDate && week.capacityMinutes !== 0
@@ -179,7 +178,6 @@ export function buildProgrammeFirstDecision(
       reason: reasonFor(work.need, treatment, work.examDate) })
     selected.proposedMinutes += work.candidate.estimatedMinutes
     if (selected.remainingMinutes !== null) selected.remainingMinutes -= work.candidate.estimatedMinutes
-    allocatedCourses.set(work.courseId, (allocatedCourses.get(work.courseId) ?? 0) + 1)
   }
   return { ...baseline, policyVersion: 'programme-first-v1', weeks, unserved,
     totalSuggestedMinutes: weeks.reduce((sum, week) => sum + week.proposedMinutes, 0) }
