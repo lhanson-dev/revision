@@ -253,9 +253,20 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * governed guided setup state. No other visual digest is altered.
  * This is visual approval ONLY, not educational acceptance or merge authority.
  */
+/** CI 38866205296 retried desktop Plan Dark: run PNG 2e47b5d2…,
+ * retry PNG 43e9bbf0…. Both native 1440×900 images were extracted and
+ * independently pixel-compared: exactly 14 of 1,296,000 pixels differ,
+ * confined to x293–296/y45–129 (text-edge rasterisation); no layout, words,
+ * contrast roles or actionable state differs. Keep exact hashing and admit
+ * ONLY these two inspected representations of the same Founder-approved
+ * 16 October Plan Dark baseline. No blanket tolerance or new visual state.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
-  'desktop:plan:dark': '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
+  'desktop:plan:dark': [
+    '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
+    '2e47b5d25aa2082b7706f618ddfc5d11682d2c6f6404f4267aa4695b10f41671',
+  ],
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
   'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
