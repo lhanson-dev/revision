@@ -1,6 +1,6 @@
 # Risk-Based Assurance Plan Implementation
 
-**Status:** Active on `main`; bounded Practice browser test selection proposed in the current maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
+**Status:** Active on `main`; full desktop browser sharding proposed in the current CI maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
 
 ## Purpose
 
@@ -114,7 +114,7 @@ The mapping is both human-reviewable (`learnTargetedSourceFiles` and `learnTarge
 
 This is implementation of the existing risk-proportionate assurance authority, not a normative change. Document control PTL-04 in the Assurance Coverage Register has a linked implementation candidate. Canonical learner React/Vite runtime and `/revision/app/` route remain unchanged; no learner interface code is modified by this PR.
 
-## Bounded Practice presentation journey selection (16 October 2026 — candidate)
+## Bounded Practice presentation journey selection (16 October 2026 — merged PR #642)
 
 The candidate adds `practice-targeted` selection exclusively for four explicit Practice presentation sources: `PracticeActivityWorkspace.tsx`, `PracticeFlashcard.tsx`, `PracticeStart.tsx` and `PracticeSummary.tsx` under `src/app/ui/practice/`. These components receive callbacks from the scored learning/evidence engine rather than owning persistence and scoring contracts. A qualifying change must touch at least one allowed Practice presentation file and **no changed files outside that list except approved governance/documentation Markdown**, and must remain Level 2 / Medium overall.
 
@@ -122,6 +122,20 @@ The candidate executes an immutable, precisely enumerated 25-file responsive Pla
 
 The following changes **must never use this shortcut** without a separate governed expansion: `PracticeQuestion.tsx` (choice/confidence/scored interaction), `PracticeWrittenQuestion.tsx` (REV marking/challenges), `practice.css` (cross-surface styling), `index.ts` barrel/shared contracts, scoring/evidence/learning-engine/progress/planner/Home/auth/persistence services, shared UI controls, question/content schema or packs, test files/fixtures, CI/build/configuration, new or unknown Practice modules, mixed Learn/Practice changes or any unclassified file. These retain `conservative-full` and require the existing full browser suite.
 
-`practiceTargetedSourceFiles` and `practiceTargetedBrowserSpecs` are declared in the classifier, written into the machine-readable plan and checked by `run-browser-tests.mjs` against the exact full list. Runner tests reject missing/extra/unrelated files and unknown project/mode; classifier tests verify every selected source and negative high-risk/mixed cases. **Because this implementation PR changes CI/assurance code, its own exact-head full CI is required and must be green before approval.** A later genuine Practice-only PR is still needed to measure savings under an actual `practice-targeted` workflow run. Do not interpret unit selection tests as observed live shortcut timing.
+`practiceTargetedSourceFiles` and `practiceTargetedBrowserSpecs` are declared in the classifier, written into the machine-readable plan and checked by `run-browser-tests.mjs` against the exact full list. Runner tests reject missing/extra/unrelated files and unknown project/mode; classifier tests verify every selected source and negative high-risk/mixed cases. **PR #642 completed full exact-head CI and deployed successfully** (1,405 unit tests, full phone/tablet/desktop Playwright, database/RLS/Edge and green production smoke). A later genuine Practice-only PR is still needed to measure savings under an actual `practice-targeted` workflow run. Do not interpret unit selection tests as observed live shortcut timing.
 
 **Documentation impact:** This expands the technical implementation of the existing active Testing & Assurance and Release & Deployment Standards; no normative product decision changes. Update Assurance Coverage Register PTL-04 in this PR and append observations after release without rewriting historical audit evidence. The learner product remains React/Vite under `/revision/app/`; this PR does not alter application runtime or student-facing features.
+
+## Complete desktop regression split into parallel Playwright shards (16 October 2026 — proposed CI PR)
+
+The full desktop browser project was the longest remaining Foundation quality lane on PR #642: 301 browser tests passed, 21 skipped; the desktop run reported **7.7 minutes**. The static/unit/build and phone/tablet lanes finished earlier. This proposal preserves all test names and all required checks while enabling GitHub to run desktop regression on two disjoint Playwright shards.
+
+- The static, checked-in workflow matrix runs `phone 1/1`, `tablet 1/1`, `desktop 1/2` and `desktop 2/2`, using Playwright's `--shard=1/2` and `--shard=2/2` on the existing `fullyParallel: true` desktop project. The two desktop job executions together cover the same desktop test inventory as the original single desktop job. Neither shard is an optional test sample or a replacement for coverage.
+- The existing `run-browser-tests.mjs` runner validates the project/shard combinations and still enforces the exact approved file lists for `learn-targeted` and `practice-targeted` modes. Invalid, missing and unrecognised shards fail closed; phone/tablet remain unsharded.
+- Unique run/project/shard visual artifact names prevent the two desktop jobs from uploading to the same evidence location. No screenshots or approved visual baselines are changed.
+- `Foundation quality` remains the required branch-protection check and depends on the entire responsive matrix; one failed, cancelled or absent expected shard prevents the matrix from succeeding. A dedicated Vitest workflow contract asserts the complete four-entry matrix, Playwright fully parallel execution, unique artifact names and the existing required aggregate check.
+- Assurance-plan/secret scanning, all unit tests, TypeScript/lint/build, database/RLS/Edge/protected-service integration and post-merge release lineage, backend readiness and production smoke continue unchanged.
+
+**Acceptance:** Since this PR changes CI tooling, it must classify High and complete exact-head full CI itself, showing both desktop shards and the unchanged phone/tablet suites green. The logged per-shard Playwright test totals should sum to the previous full desktop inventory, with omissions/duplicates investigated before approval. Compare elapsed CI time to the PR #642 baseline; timing varies with GitHub runner availability, so one successful run is an observation rather than an assured speed guarantee.
+
+**Documentation impact:** the active Testing & Assurance and Release & Deployment Standards already require risk-proportionate, complete high-risk regression; this changes only execution topology. Technical implementation documentation and PTL-04 assurance register update with the governed PR. The canonical learner React/Vite runtime and `/revision/app/` route are unchanged. No student experience or product authority changes.
