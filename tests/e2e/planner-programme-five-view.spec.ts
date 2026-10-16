@@ -1,7 +1,10 @@
 import { expect, test, type Page } from '@playwright/test'
-import { listAvailableContentAdapters } from '../../src/engine/content/content-registry'
-import { buildCatalogue } from '../../src/app/catalogue-model'
-import { allCatalogueCourses } from '../../src/app/learner-programme'
+// Published, schema-validated paper manifests are plain Node-compatible
+// modules. Do NOT load Vite-only import.meta.glob content-registry in Playwright.
+import { manifest as businessPaper1 } from '../../content/business/aqa-a-level/paper-1/manifest'
+import { manifest as businessPaper2 } from '../../content/business/aqa-a-level/paper-2/manifest'
+import { manifest as businessPaper3 } from '../../content/business/aqa-a-level/paper-3/manifest'
+import { manifest as psychologyPaper1 } from '../../content/psychology/aqa-a-level/paper-1/manifest'
 import { appPath, planUserId, seedPlanStudent } from './plan-seed'
 
 /**
@@ -9,17 +12,29 @@ import { appPath, planUserId, seedPlanStudent } from './plan-seed'
  * Controlled student rows and dates; this is acceptance-path assurance, not
  * real learner comprehension or comparative expert education sign-off.
  */
-const allCourses = allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
-const business = allCourses.find((entry) => entry.course.id === 'aqa:aqa-a-level:7132')!.course
-const psychology = allCourses.find((entry) => entry.course.id === 'aqa:aqa-a-level:7182')!.course
+type FixtureCourse = {
+  id: string
+  subjectId: string
+  modules: ReadonlyArray<{ id: string; status: string; paper: { number: number } }>
+}
+function realCourse(first: typeof businessPaper1, modules: FixtureCourse['modules']): FixtureCourse {
+  return {
+    id: first.examBoard.id + ':' + first.qualification.id + ':' + first.specificationCode,
+    subjectId: first.subject.id, modules,
+  }
+}
+// These are the same published paper IDs that the production registry imports.
+// No synthetic or guessed module identity is allowed in this browser oracle.
+const business = realCourse(businessPaper1, [businessPaper1, businessPaper2, businessPaper3])
+const psychology = realCourse(psychologyPaper1, [psychologyPaper1])
 
-function paper(course: typeof business, number: number, date: string, name: string) {
-  const module = course.modules.find((item) => item.manifest.paper.number === number)
-  if (!module) throw new Error('An assured published module is required for this browser scenario.')
+function paper(course: FixtureCourse, number: number, date: string, name: string) {
+  const module = course.modules.find((item) => item.paper.number === number)
+  if (!module || module.status !== 'available') throw new Error('An assured published module is required for this browser scenario.')
   return {
     assessment_id: course.id + ':paper-' + number,
     user_id: planUserId, course_id: course.id, subject_id: course.subjectId,
-    module_id: module.manifest.id, title: name,
+    module_id: module.id, title: name,
     assessment_type: 'public_exam', assessment_date: date,
     relative_importance: 'high', scope: {}, is_active: true,
   }
