@@ -24,6 +24,51 @@ const highRiskFiles = new Set([
   'src/app/navigation.ts',
 ])
 
+// Explicit, reviewable change-to-journey contract. Only Learn-local
+// presentation files are eligible. Unknown, test, configuration, shared and
+// cross-journey files must run the full browser suite.
+export const learnTargetedSourceFiles = Object.freeze([
+  'src/app/ui/learn/BlockLabel.tsx',
+  'src/app/ui/learn/Comparison.tsx',
+  'src/app/ui/learn/Example.tsx',
+  'src/app/ui/learn/Explanation.tsx',
+  'src/app/ui/learn/KeyIdea.tsx',
+  'src/app/ui/learn/LearnBlock.tsx',
+  'src/app/ui/learn/LearnPageLayout.tsx',
+  'src/app/ui/learn/Misconception.tsx',
+  'src/app/ui/learn/Quantitative.tsx',
+  'src/app/ui/learn/Recap.tsx',
+  'src/app/ui/learn/Relationship.tsx',
+  'src/app/ui/learn/WorkedExample.tsx',
+  'src/app/ui/learn/chart-geometry.ts',
+  'src/app/ui/learn/layout-plan.ts',
+])
+
+// These tests include Learn content, course navigation, responsive layouts,
+// accessibility, shared UX regressions and Founder-approved visual contracts.
+// A changed file outside the list above invalidates this reduced selection.
+export const learnTargetedBrowserSpecs = Object.freeze([
+  'tests/e2e/accessibility.spec.ts',
+  'tests/e2e/app-responsive.spec.ts',
+  'tests/e2e/b7-final-acceptance.spec.ts',
+  'tests/e2e/contextual-navigation.spec.ts',
+  'tests/e2e/course-dark-theme.spec.ts',
+  'tests/e2e/course-navigation-hierarchy.spec.ts',
+  'tests/e2e/design-lab.spec.ts',
+  'tests/e2e/horizontal-scroll.spec.ts',
+  'tests/e2e/interface-system.spec.ts',
+  'tests/e2e/interface-visual-regression.spec.ts',
+  'tests/e2e/learn-active-trail-navigation.spec.ts',
+  'tests/e2e/learn-blocks.spec.ts',
+  'tests/e2e/learner-design-consistency.spec.ts',
+  'tests/e2e/overlay-focus.spec.ts',
+  'tests/e2e/site-theme-integrity.spec.ts',
+  'tests/e2e/sitewide-content-canvas.spec.ts',
+  'tests/e2e/status-contrast.spec.ts',
+])
+
+const learnTargetedSourceSet = new Set(learnTargetedSourceFiles)
+
 const docsExtensions = ['.md', '.mdx']
 // Only these governance/documentation paths are safe to shortcut. Markdown
 // inside src, content, public, tests, config or unknown folders can be
@@ -184,6 +229,11 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   // Only the proven documentation-only category may skip executable suites.
   // Unknown, mixed or executable changes continue to run the complete suite.
   const docsOnly = isDocsOnly(files)
+  const learnChanges = Array.isArray(files) && files.filter(({ path }) => learnTargetedSourceSet.has(path))
+  const learnTargeted = !docsOnly && learnChanges.length > 0
+    && files.every(({ path }) => learnTargetedSourceSet.has(path) || isSafeDocumentationPath(path))
+    && risk.level === 2
+  const selectionMode = docsOnly ? 'docs-only' : learnTargeted ? 'learn-targeted' : 'conservative-full'
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -203,11 +253,14 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     baseSha,
     headSha,
     risk,
-    selectionMode: docsOnly ? 'docs-only' : 'conservative-full',
+    selectionMode,
     selectionPolicy: docsOnly
       ? 'Approved governance/documentation Markdown-only change: retain secret scanning, database/service assurance and required gate checks; static/unit/build and Playwright browser jobs may be skipped.'
-      : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
+      : learnTargeted
+        ? 'Known Learn-local presentation files only: run full static/unit/build and database/security assurance, and the mapped responsive Learn, accessibility, navigation and visual browser journeys.'
+        : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
     changedFiles: files.map(({ path }) => path),
+    selectedBrowserSpecs: learnTargeted ? [...learnTargetedBrowserSpecs] : [],
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
