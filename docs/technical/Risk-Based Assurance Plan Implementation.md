@@ -1,6 +1,6 @@
 # Risk-Based Assurance Plan Implementation
 
-**Status:** In review on PR #67. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
+**Status:** Active on `main`; parallel execution optimisation proposed in the current maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
 
 ## Purpose
 
@@ -70,3 +70,15 @@ PR #67's first classifier execution correctly classified its own CI/path-to-live
 ## Documentation impact
 
 No normative standard change is required because active engineering authority already mandates risk-based classification, progressive automation, inspectable assurance scope and fail-safe escalation. This document records implementation truth. The Technology Stack, INDEX and Assurance Coverage Register are updated in the same PR where the evidence changes current state.
+
+## Foundation quality execution optimisation (16 October 2026 — proposal)
+
+The previous full Foundation quality job ran unit/static/build checks, then all phone, tablet and desktop Playwright projects sequentially, using two browser workers. Exact-head PR #637 CI run 38866205296 took approximately 17m28s for Foundation quality; browser regression took approximately 15m18s (648 passed, 332 skipped, 1 flaky). Database/RLS assurance finished independently in approximately 2m39s. A previous run (38770327258) failed two browser assertions, reinforcing the need to retain visual/accessibility failure evidence.
+
+The proposed workflow splits the unchanged full Playwright regression across three parallel jobs (one per existing viewport project). Static, unit and build assurance also runs concurrently. Each browser project retains the existing automatic single retry and failure artifacts. The existing required **Foundation quality** job name remains, implemented as a fail-closed aggregator that succeeds only if assurance-plan, static/unit/build and the complete browser matrix all succeeded. Database, RLS and protected-service assurance remains a separate required job. No browser tests or required checks are removed.
+
+The workflow cancels superseded pull-request runs for the same PR, without cancelling main-branch push runs. npm caching is enabled on new test jobs. Timing and flakiness must be remeasured using multiple exact-head GitHub Actions runs; the estimated 8–10-minute full CI duration is not an observed result.
+
+**Test-selection boundary:** this PR does **not** enable selective execution or scheduled replacement testing. The active classifier remains `conservative-full`; it is hardened so central Home/Plan recommendation paths are classified High risk rather than Medium. Selective execution requires a separate, evidence-based coverage mapping and demonstration that changed critical/shared journeys trigger all required tests, with fallback to full assurance on uncertainty. A nightly full run cannot replace mandatory high-risk pre-merge checks.
+
+**Acceptance:** before merge, demonstrate successful exact-head Revision CI, all three Playwright projects, static/unit/build, DB/RLS, exact required status names, and correct fail-closed aggregator semantics. Preserve protected merge status `Foundation quality` and Founder approval rules. Record observed duration and any observed flaky baseline. The canonical production learner route remains `/revision/app/`; this infrastructure-only PR does not modify the deployed learner runtime or any learner-facing route.
