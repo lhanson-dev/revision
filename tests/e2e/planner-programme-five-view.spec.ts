@@ -213,11 +213,13 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
       })
     }
   }
+  let scoredEvidenceReads = 0
   await page.route('**/rest/v1/learning_evidence**', (route) => {
     const request = route.request()
     if (request.method() !== 'GET') {
       return route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
     }
+    scoredEvidenceReads += 1
     const moduleFilter = new URL(request.url()).searchParams.get('module_id')
     const requestedModule = moduleFilter?.startsWith('eq.') ? moduleFilter.slice(3) : null
     const rows = saved.filter((entry) => !requestedModule || entry.moduleId === requestedModule)
@@ -226,7 +228,15 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
   })
 
   const checkStatuses = async (weak: number, supported: number) => {
-    await page.goto(appPath + '#/plan?view=month&date=2027-03-01')
+    const route = appPath + '#/plan?view=month&date=2027-03-01'
+    const previousReads = scoredEvidenceReads
+    if (page.url().endsWith(route)) {
+      // A same-hash page.goto does not remount the app or re-read the user's
+      // persisted scores. A genuine reload is required after new evidence.
+      await page.reload()
+    } else {
+      await page.goto(route)
+    }
     const programme = page.getByRole('region', { name: 'Your full exam programme' })
     await expect(programme).toContainText('Business scored-evidence paper')
     const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
@@ -239,6 +249,9 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
       .toHaveCount(supported)
     await expect(requirements.filter({ hasText: 'Current understanding is unknown.' }))
       .toHaveCount(10 - weak - supported)
+    // Each phase must come from a fresh persisted-evidence read, not cached
+    // React state accidentally matching an expected counter.
+    expect(scoredEvidenceReads).toBeGreaterThan(previousReads)
     // Scored topic evidence is not equal to full-paper readiness or coverage.
     await expect(programme).toContainText('not a measurement of all syllabus work')
   }

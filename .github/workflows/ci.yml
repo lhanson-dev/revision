@@ -167,7 +167,7 @@ jobs:
             fi
             echo "Docs-only CI: secret scan, assurance-plan and independent database assurance remain required."
           else
-            if [ "$SELECTION_MODE" != "conservative-full" ] && [ "$SELECTION_MODE" != "learn-targeted" ]; then
+            if [ "$SELECTION_MODE" != "conservative-full" ] && [ "$SELECTION_MODE" != "learn-targeted" ] && [ "$SELECTION_MODE" != "practice-targeted" ]; then
               echo "::error::Unrecognised executable-code selection mode: $SELECTION_MODE"
               exit 1
             fi

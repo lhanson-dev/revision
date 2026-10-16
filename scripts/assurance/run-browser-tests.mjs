@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
-import { learnTargetedBrowserSpecs } from './change-classifier.mjs'
+import { learnTargetedBrowserSpecs, practiceTargetedBrowserSpecs } from './change-classifier.mjs'
 
 const projects = new Set(['phone', 'tablet', 'desktop'])
 
@@ -10,10 +10,13 @@ export function browserCliArguments({ project, mode, fileList }) {
     if (fileList) throw new Error('Full regression must not carry a targeted file selection.')
     return ['test', `--project=${project}`]
   }
-  if (mode !== 'learn-targeted') throw new Error('Unsupported browser assurance selection mode.')
+  const expected = mode === 'learn-targeted' ? learnTargetedBrowserSpecs
+    : mode === 'practice-targeted' ? practiceTargetedBrowserSpecs
+      : null
+  if (!expected) throw new Error('Unsupported browser assurance selection mode.')
   const files = fileList?.split(',') ?? []
-  if (files.join(',') !== learnTargetedBrowserSpecs.join(',') || files.length === 0) {
-    throw new Error('Browser selection does not exactly match the governed Learn journey coverage map.')
+  if (files.join(',') !== expected.join(',') || files.length === 0) {
+    throw new Error(`Browser selection does not exactly match the governed ${mode} journey coverage map.`)
   }
   for (const path of files) {
     if (!existsSync(path)) throw new Error(`Mapped browser spec is missing: ${path}`)

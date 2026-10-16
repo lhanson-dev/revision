@@ -67,6 +67,49 @@ export const learnTargetedBrowserSpecs = Object.freeze([
   'tests/e2e/status-contrast.spec.ts',
 ])
 
+// This intentionally excludes PracticeQuestion, PracticeWrittenQuestion, shared
+// scoring/marking/evidence code, and Practice CSS (which can affect other pages).
+// All four named components delegate persistence and scoring to their callers.
+export const practiceTargetedSourceFiles = Object.freeze([
+  'src/app/ui/practice/PracticeActivityWorkspace.tsx',
+  'src/app/ui/practice/PracticeFlashcard.tsx',
+  'src/app/ui/practice/PracticeStart.tsx',
+  'src/app/ui/practice/PracticeSummary.tsx',
+])
+
+// Includes complete Practice entry, interaction, completion, navigation,
+// evidence-boundary and representative cross-journey tests, and visual,
+// accessibility and responsive contracts on every applicable viewport.
+export const practiceTargetedBrowserSpecs = Object.freeze([
+  'tests/e2e/accepted-sessions.spec.ts',
+  'tests/e2e/accessibility.spec.ts',
+  'tests/e2e/app-responsive.spec.ts',
+  'tests/e2e/b7-final-acceptance.spec.ts',
+  'tests/e2e/contextual-navigation.spec.ts',
+  'tests/e2e/course-dark-theme.spec.ts',
+  'tests/e2e/course-navigation-hierarchy.spec.ts',
+  'tests/e2e/home-refinement.spec.ts',
+  'tests/e2e/horizontal-scroll.spec.ts',
+  'tests/e2e/interface-system.spec.ts',
+  'tests/e2e/interface-visual-regression.spec.ts',
+  'tests/e2e/learner-design-consistency.spec.ts',
+  'tests/e2e/overlay-focus.spec.ts',
+  'tests/e2e/planner-r1c.spec.ts',
+  'tests/e2e/practice-activity-visual.spec.ts',
+  'tests/e2e/practice-calculations.spec.ts',
+  'tests/e2e/practice-feedback.spec.ts',
+  'tests/e2e/practice-flashcards.spec.ts',
+  'tests/e2e/practice-start.spec.ts',
+  'tests/e2e/practice-summary.spec.ts',
+  'tests/e2e/practice-written.spec.ts',
+  'tests/e2e/returning-home.spec.ts',
+  'tests/e2e/site-theme-integrity.spec.ts',
+  'tests/e2e/sitewide-content-canvas.spec.ts',
+  'tests/e2e/status-contrast.spec.ts',
+])
+
+const practiceTargetedSourceSet = new Set(practiceTargetedSourceFiles)
+
 const learnTargetedSourceSet = new Set(learnTargetedSourceFiles)
 
 const docsExtensions = ['.md', '.mdx']
@@ -233,7 +276,14 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   const learnTargeted = !docsOnly && learnChanges.length > 0
     && files.every(({ path }) => learnTargetedSourceSet.has(path) || isSafeDocumentationPath(path))
     && risk.level === 2
-  const selectionMode = docsOnly ? 'docs-only' : learnTargeted ? 'learn-targeted' : 'conservative-full'
+  const practiceChanges = Array.isArray(files) && files.filter(({ path }) => practiceTargetedSourceSet.has(path))
+  const practiceTargeted = !docsOnly && practiceChanges.length > 0
+    && files.every(({ path }) => practiceTargetedSourceSet.has(path) || isSafeDocumentationPath(path))
+    && risk.level === 2
+  const selectionMode = docsOnly ? 'docs-only'
+    : learnTargeted ? 'learn-targeted'
+      : practiceTargeted ? 'practice-targeted'
+        : 'conservative-full'
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -258,9 +308,12 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
       ? 'Approved governance/documentation Markdown-only change: retain secret scanning, database/service assurance and required gate checks; static/unit/build and Playwright browser jobs may be skipped.'
       : learnTargeted
         ? 'Known Learn-local presentation files only: run full static/unit/build and database/security assurance, and the mapped responsive Learn, accessibility, navigation and visual browser journeys.'
-        : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
+        : practiceTargeted
+          ? 'Known Practice-local presentation files only: retain all static/unit/build and database/security checks and all mapped Practice, persistence-boundary, navigation, accessibility and visual browser journeys.'
+          : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
     changedFiles: files.map(({ path }) => path),
-    selectedBrowserSpecs: learnTargeted ? [...learnTargetedBrowserSpecs] : [],
+    selectedBrowserSpecs: learnTargeted ? [...learnTargetedBrowserSpecs]
+      : practiceTargeted ? [...practiceTargetedBrowserSpecs] : [],
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
