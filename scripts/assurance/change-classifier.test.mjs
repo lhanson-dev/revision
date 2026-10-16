@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildAssurancePlan, classifyChange } from './change-classifier.mjs'
+import { buildAssurancePlan, classifyChange, learnTargetedSourceFiles, learnTargetedBrowserSpecs } from './change-classifier.mjs'
 
 describe('change assurance classifier', () => {
   it('classifies documentation-only changes as low risk', () => {
@@ -69,6 +69,50 @@ describe('change assurance classifier', () => {
       expect(plan.executedCiPolicy.foundationStaticUnitBuild).toBe(true)
       expect(plan.executedCiPolicy.responsiveBrowser).toBe(true)
     }
+  })
+
+  it('maps bounded Learn presentation changes to an explicit responsive browser journey set', () => {
+    const base = { baseSha: 'a'.repeat(40), headSha: 'b'.repeat(40), eventName: 'pull_request' }
+    for (const path of learnTargetedSourceFiles) {
+      const plan = buildAssurancePlan({ ...base, files: [
+        { path, patch: '' },
+        { path: 'docs/technical/Example.md', patch: '' },
+      ] })
+      expect(plan.risk).toMatchObject({ level: 2, label: 'Medium' })
+      expect(plan.selectionMode).toBe('learn-targeted')
+      expect(plan.selectedBrowserSpecs).toEqual(learnTargetedBrowserSpecs)
+      expect(plan.executedCiPolicy).toMatchObject({
+        foundationStaticUnitBuild: true, responsiveBrowser: true, databaseRlsProtectedService: true,
+      })
+    }
+    expect(learnTargetedBrowserSpecs.length).toBeGreaterThanOrEqual(12)
+    expect(learnTargetedBrowserSpecs).toContain('tests/e2e/learn-blocks.spec.ts')
+    expect(learnTargetedBrowserSpecs).toContain('tests/e2e/learn-active-trail-navigation.spec.ts')
+    expect(learnTargetedBrowserSpecs).toContain('tests/e2e/accessibility.spec.ts')
+    expect(learnTargetedBrowserSpecs).toContain('tests/e2e/interface-visual-regression.spec.ts')
+  })
+
+  it('falls back to full regression for Learn changes mixed with unowned or high-risk files', () => {
+    const base = { baseSha: 'a'.repeat(40), headSha: 'b'.repeat(40), eventName: 'pull_request' }
+    const owned = { path: 'src/app/ui/learn/layout-plan.ts', patch: '' }
+    for (const additional of [
+      'src/app/ui/index.ts',
+      'src/app/ui/learn/index.ts',
+      'src/app/ui/learn/fixtures.ts',
+      'src/app/planner-model.ts',
+      'src/app/practice-session.ts',
+      'tests/e2e/learn-blocks.spec.ts',
+      'content/business/aqa-a-level/topic.md',
+      'supabase/migrations/20261015000000_more.sql',
+      '.github/workflows/ci.yml',
+      'playwright.config.ts',
+    ]) {
+      const plan = buildAssurancePlan({ ...base, files: [owned, { path: additional, patch: '' }] })
+      expect(plan.selectionMode).toBe('conservative-full')
+      expect(plan.selectedBrowserSpecs).toEqual([])
+    }
+    expect(buildAssurancePlan({ ...base, files: [{ path: 'src/app/ui/learn/Unmapped.tsx', patch: '' }] }).selectionMode)
+      .toBe('conservative-full')
   })
 
   it('keeps executable change assurance conservative while exposing required assurance', () => {
