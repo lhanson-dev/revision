@@ -592,7 +592,7 @@ for (const theme of ['light', 'dark'] as const) {
     const cards = page.locator('.first-use-experience-card')
     await expect(cards).toHaveCount(3)
     for (let index = 0; index < 3; index += 1) await expect(cards.nth(index)).toBeVisible()
-    await expect(page.getByRole('button', { name: /^Student\\b/ })).toBeEnabled()
+    await expect(page.getByRole('button', { name: /^Student\b/ })).toBeEnabled()
     await expect(page.getByText('Coming soon', { exact: true })).toHaveCount(2)
     await page.evaluate(async () => {
       await document.fonts.ready
