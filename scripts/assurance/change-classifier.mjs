@@ -144,8 +144,48 @@ export function classifyChange(files) {
   return { level, label: riskLabels[level], reasons: [...new Set(reasons)], affectedDomains }
 }
 
+// Only these document locations are known not to feed executable content or
+// assurance fixtures. Everything outside this narrow allowlist stays full.
+const nonExecutableDoc = (path) =>
+  path === 'README.md' ||
+  /^(docs\\/technical|docs\\/design|audits)\\/[a-zA-Z0-9/_ .-]+\\.mdx?$/.test(path)
+
+// A test-only edit cannot affect application runtime. Never use the fast path
+// for database-backed browser specs or removed/renamed test files.
+const browserSpec = (path) => /^tests\\/e2e\\/[a-z0-9-]+\\.spec\\.ts$/.test(path)
+const databaseBrowserSpec = (path) =>
+  /^tests\\/e2e\\/(database-persistence|first-use-real-service)\\.spec\\.ts$/.test(path)
+
+export function selectExecutionScope(files, eventName) {
+  // Main-branch pushes and unknown event shapes always get complete assurance.
+  if (eventName !== 'pull_request' || !Array.isArray(files) || files.length === 0) {
+    return { mode: 'full', runStatic: true, runBrowser: true, runDatabase: true, browserTestFiles: [] }
+  }
+
+  if (files.every(({ path }) => nonExecutableDoc(path))) {
+    return { mode: 'docs-only', runStatic: false, runBrowser: false, runDatabase: false, browserTestFiles: [] }
+  }
+
+  const changedSpecs = files.filter(({ path }) => browserSpec(path)).map(({ path }) => path)
+  if (changedSpecs.length > 0 && changedSpecs.length <= 8 &&
+      files.every(({ path, exists }) =>
+        nonExecutableDoc(path) ||
+        (browserSpec(path) && !databaseBrowserSpec(path) && exists !== false))) {
+    return {
+      mode: 'targeted-e2e',
+      runStatic: true,
+      runBrowser: true,
+      runDatabase: false,
+      browserTestFiles: [...new Set(changedSpecs)].sort(),
+    }
+  }
+
+  return { mode: 'full', runStatic: true, runBrowser: true, runDatabase: true, browserTestFiles: [] }
+}
+
 export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   const risk = classifyChange(files)
+  const execution = selectExecutionScope(files, eventName)
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -165,14 +205,18 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     baseSha,
     headSha,
     risk,
-    selectionMode: 'conservative-full',
-    selectionPolicy: 'Classifier is evidence-only in v1. Existing CI suites remain mandatory while classification data is calibrated.',
+    selectionMode: 'risk-selected',
+    selectionPolicy: 'Only allowlisted non-executable docs and isolated browser-test-only PRs use selective assurance. All other PRs and all main pushes run full static/browser/database assurance; uncertainty fails closed.',
+    execution,
     changedFiles: files.map(({ path }) => path),
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
       foundationQuality: true,
       databaseRlsProtectedService: true,
+      databaseChecksExecuted: execution.runDatabase,
+      browserChecksExecuted: execution.runBrowser,
+      staticChecksExecuted: execution.runStatic,
     },
   }
 }
