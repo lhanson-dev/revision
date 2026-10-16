@@ -16,7 +16,7 @@ if (!baseSha || !headSha) {
   throw new Error('Assurance plan requires base and head SHAs.')
 }
 
-const names = execFileSync('git', ['diff', '--name-only', '--diff-filter=ACDMRTUXB', baseSha, headSha], { encoding: 'utf8' })
+const names = execFileSync('git', ['diff', '--name-only', '--no-renames', '--diff-filter=ACDMRTUXB', baseSha, headSha], { encoding: 'utf8' })
   .split('\n')
   .map((line) => line.trim())
   .filter(Boolean)
