@@ -184,3 +184,88 @@ test('SV-13: unknown exam dates and study time keep five learner surfaces honest
   await expect(answer).toContainText('I don’t have any exam dates for you yet.')
   await expect(answer).not.toContainText('2027-03-01')
 })
+
+/** Published Business course + controlled persisted-shaped scored records.
+ * This exercises real React/Supabase-read/Topic Knowledge/Plan/Home/REV wiring
+ * across reloads. It does NOT claim the synthetic answers were learner-created.
+ */
+test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs while Home and REV share next action', async ({ page }) => {
+  const examRow = paper(business, 1, '2027-05-18', 'Business scored-evidence paper')
+  await seededCourses(page, [business.id], () => [examRow])
+
+  const moduleId = business.modules[0]!.id
+  type EvidenceRow = { id: string; moduleId: string; topicId: string; occurredAt: string;
+    contentId: string; schemaVersion: 1; source: 'flashcard' | 'multiple_choice';
+    rating?: number; correct?: boolean; selectedOption?: number; correctOption?: number }
+  const saved: EvidenceRow[] = []
+  const makeScores = (topicId: string, passed: boolean, at: string) => {
+    for (let index = 0; index < 3; index += 1) {
+      saved.push({
+        id: 'recall-' + topicId + '-' + at + '-' + index, moduleId, topicId,
+        occurredAt: at, contentId: 'published-topic-fixture-' + topicId + '-recall-' + index,
+        schemaVersion: 1, source: 'flashcard', rating: passed ? 2 : 0,
+      })
+      saved.push({
+        id: 'apply-' + topicId + '-' + at + '-' + index, moduleId, topicId,
+        occurredAt: at, contentId: 'published-topic-fixture-' + topicId + '-apply-' + index,
+        schemaVersion: 1, source: 'multiple_choice', correct: passed,
+        selectedOption: passed ? 0 : 1, correctOption: 0,
+      })
+    }
+  }
+  await page.route('**/rest/v1/learning_evidence**', (route) => {
+    const request = route.request()
+    if (request.method() !== 'GET') {
+      return route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+    }
+    const moduleFilter = new URL(request.url()).searchParams.get('module_id')
+    const requestedModule = moduleFilter?.startsWith('eq.') ? moduleFilter.slice(3) : null
+    const rows = saved.filter((entry) => !requestedModule || entry.moduleId === requestedModule)
+      .map((payload) => ({ payload }))
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(rows) })
+  })
+
+  const checkStatuses = async (weak: number, supported: number) => {
+    await page.goto(appPath + '#/plan?view=month&date=2027-03-01')
+    const programme = page.getByRole('region', { name: 'Your full exam programme' })
+    await expect(programme).toContainText('Business scored-evidence paper')
+    const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
+    await knowledge.locator('summary').click()
+    const requirements = knowledge.locator('li')
+    await expect(requirements).toHaveCount(10)
+    await expect(requirements.filter({ hasText: 'Existing scored evidence indicates more work is useful.' }))
+      .toHaveCount(weak)
+    await expect(requirements.filter({ hasText: 'There is supported scored evidence for this topic, not a guarantee of exam readiness.' }))
+      .toHaveCount(supported)
+    await expect(requirements.filter({ hasText: 'Current understanding is unknown.' }))
+      .toHaveCount(10 - weak - supported)
+    // Scored topic evidence is not equal to full-paper readiness or coverage.
+    await expect(programme).toContainText('not a measurement of all syllabus work')
+  }
+
+  // Two real published Business topics, six distinct source-family-mixed
+  // observations per topic: one weak, one strong.
+  makeScores('business', false, '2026-10-01T09:00:00.000Z')
+  makeScores('leadership', true, '2026-10-01T09:00:00.000Z')
+  await checkStatuses(1, 1)
+
+  // Six newer independent records for the same content IDs: canonical latest-
+  // per-content evidence replaces the earlier weakness, not double counts it.
+  makeScores('business', true, '2026-10-04T09:00:00.000Z')
+  await checkStatuses(0, 2)
+
+  // A new real evidence weakness is not ignored after a previously strong area.
+  makeScores('leadership', false, '2026-10-04T10:00:00.000Z')
+  await checkStatuses(1, 1)
+
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero.getByRole('button', { name: /^Start/ })).toBeVisible()
+  const topic = (await hero.getByRole('heading', { level: 2 }).innerText()).trim()
+  await page.goto(appPath + '#/plan')
+  await expect(page.locator('.pln-weekview .pln-row').filter({
+    has: page.getByRole('button', { name: /^Up next/ }),
+  })).toContainText(topic)
+  await page.goto(appPath + '#/rev')
+  await expect(page.getByRole('log')).toContainText(topic)
+})

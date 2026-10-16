@@ -19,10 +19,17 @@ test('R1-11: starting-check-only learner receives guidance but no scored Progres
   await page.getByRole('button', { name: 'Find my starting point' }).click()
 
   for (let i = 0; i < 5; i++) {
+    const prompt = page.locator('#starting-check-heading')
+    const previousPrompt = await prompt.textContent()
     const options = page.locator('.first-use-options input[type="radio"]')
     await expect(options.first()).toBeVisible()
     await options.first().check()
-    await page.getByRole('button', { name: i === 4 ? 'See my starting point' : 'Continue' }).click()
+    const continueButton = page.getByRole('button', { name: i === 4 ? 'See my starting point' : 'Continue' })
+    // Check transitions, not just radio visibility. A previous question's
+    // button can be briefly disabled while the next question is committing.
+    await expect(continueButton).toBeEnabled()
+    await continueButton.click()
+    if (i < 4 && previousPrompt) await expect(prompt).not.toHaveText(previousPrompt)
   }
   await expect(page.getByText('REV recommends', { exact: true })).toBeVisible()
   expect(state.memberships.map((item) => item.course_id)).toEqual([aLevelCourseId])
