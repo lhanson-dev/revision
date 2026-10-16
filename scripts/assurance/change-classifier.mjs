@@ -13,6 +13,14 @@ const highRiskPrefixes = [
 const highRiskFiles = new Set([
   'src/app/App.tsx',
   'src/app/PlannerRuntime.tsx',
+  'src/app/planner-model.ts',
+  'src/app/home-task.ts',
+  'src/app/home-v3-model.ts',
+  'src/app/plan-weekly-capacity.ts',
+  'src/app/plan-weekly-capacity.test.ts',
+  'src/app/PlanScreen.tsx',
+  'src/app/PlanProgrammeOutlook.tsx',
+  'src/app/PlannerHomeScreen.tsx',
   'src/app/navigation.ts',
 ])
 
