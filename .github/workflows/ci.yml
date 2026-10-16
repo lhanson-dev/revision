@@ -23,6 +23,11 @@ jobs:
     outputs:
       risk_level: ${{ steps.plan-output.outputs.risk_level }}
       risk_label: ${{ steps.plan-output.outputs.risk_label }}
+      selection_scope: ${{ steps.plan-output.outputs.selection_scope }}
+      run_static: ${{ steps.plan-output.outputs.run_static }}
+      run_browser: ${{ steps.plan-output.outputs.run_browser }}
+      run_db: ${{ steps.plan-output.outputs.run_db }}
+      browser_tests: ${{ steps.plan-output.outputs.browser_tests }}
     steps:
       - name: Checkout full change history
         uses: actions/checkout@v6
@@ -44,8 +49,8 @@ jobs:
           node <<'NODE'
           const fs = require('fs')
           const plan = JSON.parse(fs.readFileSync('assurance-plan.json', 'utf8'))
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\n`)
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `selection_scope=${plan.execution.mode}\nrun_static=${plan.execution.runStatic}\nrun_browser=${plan.execution.runBrowser}\nrun_db=${plan.execution.runDatabase}\nbrowser_tests=${plan.execution.browserTestFiles.join(' ')}\nrisk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\n`)
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode} / ${plan.execution.mode}\n\n**Checks executed:** static=${plan.execution.runStatic}, browser=${plan.execution.runBrowser}, database=${plan.execution.runDatabase}\n\n**Targeted browser files:** ${plan.execution.browserTestFiles.join(', ') || 'none'}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
           NODE
       - name: Scan repository for privileged secrets and config
         run: node scripts/assurance/scan-secrets.mjs
@@ -64,30 +69,44 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Document-only assurance selection
+        if: needs.assurance-plan.outputs.run_static != 'true'
+        run: echo "Static, unit and build assurance not applicable for allowlisted documentation-only PR."
       - name: Checkout
+        if: needs.assurance-plan.outputs.run_static == 'true'
         uses: actions/checkout@v6
       - name: Set up Node
+        if: needs.assurance-plan.outputs.run_static == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
           cache: npm
       - name: Pin npm
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies from lockfile
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Validate Business subject promotion provenance
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: node scripts/assurance/validate-business-subject-provenance.mjs
       - name: Validate Business subject fresh-reassurance contract
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
       - name: Validate AQA 7132 specification mapping and v0.7 gap scope
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
       - name: Typecheck
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm run typecheck
       - name: Lint
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm run lint
       - name: Unit tests
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm run test
       - name: Production build
+        if: needs.assurance-plan.outputs.run_static == 'true'
         run: npm run build
 
   responsive-browser:
@@ -100,27 +119,52 @@ jobs:
       matrix:
         project: [phone, tablet, desktop]
     steps:
+      - name: Browser assurance selection
+        if: needs.assurance-plan.outputs.run_browser != 'true'
+        run: echo "Browser assurance not applicable for allowlisted documentation-only PR."
       - name: Checkout
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         uses: actions/checkout@v6
       - name: Set up Node
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
           cache: npm
       - name: Pin npm
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies from lockfile
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Install Chromium for browser assurance
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Responsive browser assurance
+        if: needs.assurance-plan.outputs.run_browser == 'true'
         timeout-minutes: 20
         env:
           LEARNER_DESIGN_SHOTS: '1'
-        run: npx playwright test --project=${{ matrix.project }}
+          BROWSER_SELECTION: ${{ needs.assurance-plan.outputs.selection_scope }}
+          BROWSER_TEST_FILES: ${{ needs.assurance-plan.outputs.browser_tests }}
+        run: |
+          set -euo pipefail
+          if [ "$BROWSER_SELECTION" = "targeted-e2e" ]; then
+            read -r -a specs <<< "$BROWSER_TEST_FILES"
+            if [ "${#specs[@]}" -eq 0 ]; then
+              echo "::error::Targeted browser assurance requires at least one spec."
+              exit 1
+            fi
+            npx playwright test "${specs[@]}" --project=${{ matrix.project }}
+          elif [ "$BROWSER_SELECTION" = "full" ]; then
+            npx playwright test --project=${{ matrix.project }}
+          else
+            echo "::error::Unknown browser selection '$BROWSER_SELECTION'."
+            exit 1
+          fi
       - name: Upload interface visual regression evidence
-        if: always()
+        if: always() && needs.assurance-plan.outputs.run_browser == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: interface-visual-regression-${{ github.run_id }}-${{ matrix.project }}
@@ -152,7 +196,7 @@ jobs:
               exit 1
             fi
           done
-          echo "All Foundation quality prerequisites passed across phone, tablet and desktop."
+          echo "All applicable Foundation quality prerequisites passed; requested assurance scope: ${{ needs.assurance-plan.outputs.selection_scope }}."
 
   database-assurance:
     name: Database, RLS and protected service assurance
@@ -160,23 +204,33 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
+      - name: Database assurance selection
+        if: needs.assurance-plan.outputs.run_db != 'true'
+        run: echo "Database/RLS/protected-service assurance not applicable for selected PR-only documentation or isolated browser-test changes."
       - name: Checkout
+        if: needs.assurance-plan.outputs.run_db == 'true'
         uses: actions/checkout@v6
       - name: Set up Node
+        if: needs.assurance-plan.outputs.run_db == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
       - name: Pin npm
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies from lockfile
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Set up Supabase CLI
+        if: needs.assurance-plan.outputs.run_db == 'true'
         uses: supabase/setup-cli@v1
         with:
           version: 2.111.0
       - name: Start isolated Supabase test stack and replay migrations
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: supabase start
       - name: Export isolated Supabase client credentials
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: |
           set -euo pipefail
           eval "$(supabase status -o env)"
@@ -189,6 +243,7 @@ jobs:
             echo "REVISION_SUPABASE_INTEGRATION=1"
           } >> "$GITHUB_ENV"
       - name: Verify anonymous release readiness contract
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: |
           set -euo pipefail
           response="$(curl --fail --silent --show-error \
@@ -201,6 +256,7 @@ jobs:
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
       - name: Run pgTAP database and RLS assurance
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: |
           supabase test db supabase/tests/database-assurance.test.sql
           supabase test db supabase/tests/learner-plan-assurance.test.sql
@@ -208,6 +264,7 @@ jobs:
           supabase test db supabase/tests/student-first-use-assurance.test.sql
           supabase test db supabase/tests/learner-planned-sessions-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: npx vitest run tests/integration/supabase-persistence.test.ts
       # The Supabase CLI pulls the Edge runtime from public ECR, whose anonymous
       # data quota is shared across GitHub runners and can refuse the pull
@@ -215,6 +272,7 @@ jobs:
       # retag it so the CLI finds it locally. The tag must match what Supabase
       # CLI 2.111.0 expects; if both mirrors fail, the CLI still tries ECR.
       - name: Pre-load Edge runtime image from GHCR
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: |
           set -uo pipefail
           target='public.ecr.aws/supabase/edge-runtime:v1.74.2'
@@ -227,6 +285,7 @@ jobs:
           done
           echo "::warning::Could not pre-load the Edge runtime from GHCR or Docker Hub; falling back to public ECR."
       - name: Serve protected Edge Functions from repository source
+        if: needs.assurance-plan.outputs.run_db == 'true'
         run: |
           set -euo pipefail
           nohup supabase functions serve > /tmp/revision-edge-functions.log 2>&1 &
@@ -252,18 +311,21 @@ jobs:
             exit 1
           fi
       - name: Run protected Edge Function authorization integration assurance
+        if: needs.assurance-plan.outputs.run_db == 'true'
         env:
           REVISION_EDGE_INTEGRATION: '1'
         run: npx vitest run tests/integration/edge-operations.test.ts
       - name: Install Chromium for database-backed browser assurance
+        if: needs.assurance-plan.outputs.run_db == 'true'
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Run isolated database-backed browser persistence and new-account first-use assurance
+        if: needs.assurance-plan.outputs.run_db == 'true'
         env:
           REVISION_BROWSER_DB_INTEGRATION: '1'
         run: npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts --project=desktop
       - name: Stop isolated Supabase test stack
-        if: always()
+        if: always() && needs.assurance-plan.outputs.run_db == 'true'
         run: |
           if [ -f /tmp/revision-edge-functions.pid ]; then
             kill "$(cat /tmp/revision-edge-functions.pid)" 2>/dev/null || true
