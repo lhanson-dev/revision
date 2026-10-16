@@ -146,6 +146,9 @@ export function classifyChange(files) {
 
 export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   const risk = classifyChange(files)
+  // Only the proven documentation-only category may skip executable suites.
+  // Unknown, mixed or executable changes continue to run the complete suite.
+  const docsOnly = isDocsOnly(files)
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -165,13 +168,17 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     baseSha,
     headSha,
     risk,
-    selectionMode: 'conservative-full',
-    selectionPolicy: 'Classifier is evidence-only in v1. Existing CI suites remain mandatory while classification data is calibrated.',
+    selectionMode: docsOnly ? 'docs-only' : 'conservative-full',
+    selectionPolicy: docsOnly
+      ? 'Markdown-only change: retain secret scanning, production database/service assurance and required gate checks; static/unit/build and Playwright browser jobs may be skipped.'
+      : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
     changedFiles: files.map(({ path }) => path),
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
       foundationQuality: true,
+      foundationStaticUnitBuild: !docsOnly,
+      responsiveBrowser: !docsOnly,
       databaseRlsProtectedService: true,
     },
   }
