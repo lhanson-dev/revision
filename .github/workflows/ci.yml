@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# Later pushes to the same PR supersede obsolete CI work. Main-branch
+# production evidence is never cancelled by this setting.
+concurrency:
+  group: revision-ci-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   assurance-plan:
     name: Assurance plan and secret scan
@@ -52,11 +58,11 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  foundation-quality:
-    name: Foundation quality
+  foundation-static:
+    name: Foundation static, unit and build assurance
     needs: assurance-plan
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -64,6 +70,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
+          cache: npm
       - name: Pin npm
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies from lockfile
@@ -82,26 +89,70 @@ jobs:
         run: npm run test
       - name: Production build
         run: npm run build
+
+  responsive-browser:
+    name: Responsive browser assurance (${{ matrix.project }})
+    needs: assurance-plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [phone, tablet, desktop]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Install Chromium for browser assurance
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Responsive browser assurance
-        # Full responsive regression now exceeds 15 minutes on some hosted runners.
-        # Preserve all tests and retries; leave within the 30-minute job ceiling.
         timeout-minutes: 20
         env:
           LEARNER_DESIGN_SHOTS: '1'
-        run: npm run test:e2e
+        run: npx playwright test --project=${{ matrix.project }}
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: interface-visual-regression-${{ github.run_id }}
+          name: interface-visual-regression-${{ github.run_id }}-${{ matrix.project }}
           path: |
             test-results
             tests/e2e/interface-visual-regression.spec.ts-snapshots
           if-no-files-found: ignore
           retention-days: 30
+
+  # Preserve the required 'Foundation quality' status while failing closed if
+  # ANY browser viewport, static check or assurance-plan prerequisite fails.
+  foundation-quality:
+    name: Foundation quality
+    if: always()
+    needs: [assurance-plan, foundation-static, responsive-browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify all foundation assurance jobs succeeded
+        env:
+          ASSURANCE_PLAN: ${{ needs.assurance-plan.result }}
+          STATIC_QUALITY: ${{ needs.foundation-static.result }}
+          RESPONSIVE_BROWSER: ${{ needs.responsive-browser.result }}
+        run: |
+          set -euo pipefail
+          for result in "$ASSURANCE_PLAN" "$STATIC_QUALITY" "$RESPONSIVE_BROWSER"; do
+            if [ "$result" != "success" ]; then
+              echo "::error::Required foundation assurance was not successful (plan=$ASSURANCE_PLAN, static=$STATIC_QUALITY, browser=$RESPONSIVE_BROWSER)."
+              exit 1
+            fi
+          done
+          echo "All Foundation quality prerequisites passed across phone, tablet and desktop."
 
   database-assurance:
     name: Database, RLS and protected service assurance
