@@ -585,7 +585,21 @@ for (const theme of ['light', 'dark'] as const) {
     await stubFirstUseBackend(page)
     await page.goto(appPath)
     await expect(page.getByRole('heading', { name: 'How will you use Revision?' })).toBeVisible()
-    await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0) })
+    // The heading mounts before the theme and all three choice cards have
+    // finished rendering. Wait for the actual approved first-use state before
+    // hashing pixels, rather than comparing an intermediate frame.
+    await expect(page.locator('.first-use-shell')).toHaveAttribute('data-theme', theme)
+    const cards = page.locator('.first-use-experience-card')
+    await expect(cards).toHaveCount(3)
+    for (let index = 0; index < 3; index += 1) await expect(cards.nth(index)).toBeVisible()
+    await expect(page.getByRole('button', { name: /^Student\\b/ })).toBeEnabled()
+    await expect(page.getByText('Coming soon', { exact: true })).toHaveCount(2)
+    await page.evaluate(async () => {
+      await document.fonts.ready
+      window.scrollTo(0, 0)
+      // Allow layout/paint to consume the loaded fonts and selected theme.
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+    })
     const screenshot = await page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: false })
     await testInfo.attach(`first-use-account-${theme}-phone.png`, { body: screenshot, contentType: 'image/png' })
     expect([approvedFirstUseDigests[theme]]).toContain(createHash('sha256').update(screenshot).digest('hex'))
