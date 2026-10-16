@@ -85,7 +85,7 @@ The workflow cancels superseded pull-request runs for the same PR, without cance
 
 ## Bounded documentation-only selection (16 October 2026 — proposed maintenance PR)
 
-This narrowly controlled first selector enables `docs-only` **only** if the complete diff, between the exact configured base and head commits, contains one or more changed paths and every path ends in `.md` or `.mdx`. An empty/unknown diff, any executable change, even mixed Markdown and code, any CI change, configuration change or shared planner change retains `conservative-full`.
+This narrowly controlled first selector enables `docs-only` **only** if the complete diff, between the exact configured base and head commits, contains one or more changed paths, every path ends in `.md` or `.mdx`, **and every path belongs to an explicit documentation/governance allowlist**: root `README.md`/`INDEX.md`/agent and knowledge instructions, numbered governance folders, `docs/`, `decisions/`, `audits/`, `research/` or `archive/`. Markdown under `src/`, `content/`, `public/`, `tests/`, `.github/` and unclassified locations does **not** qualify, because it could influence runtime, learner content or test fixtures. An empty/unknown diff, any executable change, even mixed Markdown and code, any CI change, configuration change or shared planner change retains `conservative-full`.
 
 For a docs-only diff:
 
