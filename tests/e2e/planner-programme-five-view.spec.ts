@@ -175,8 +175,12 @@ test('SV-13: unknown exam dates and study time keep five learner surfaces honest
   await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
 
   await page.goto(appPath + '#/rev')
-  await page.getByRole('button', { name: 'When are my exams?', exact: true }).click()
+  // Prompt chips only advertise things the learner has supplied. No dates
+  // means there is no exam chip, but REV must still answer a typed question.
+  await expect(page.getByRole('button', { name: 'When are my exams?', exact: true })).toHaveCount(0)
+  await page.getByRole('textbox', { name: 'Message REV' }).fill('When are my exams?')
+  await page.getByRole('button', { name: 'Send', exact: true }).click()
   const answer = page.getByRole('log').locator('.rev-chat__message--rev').last()
-  await expect(answer).toBeVisible()
+  await expect(answer).toContainText('I don’t have any exam dates for you yet.')
   await expect(answer).not.toContainText('2027-03-01')
 })

@@ -480,10 +480,14 @@ async function openState(page: Page, state: VisualState) {
     window.scrollTo(0, 0)
   })
   if (state === 'plan') {
-    // The first paint after document.fonts.ready can vary in tiny glyph-edge
-    // raster pixels. Protect the same visual state after two settled frames.
+    // The guided setup is the approved screen. Never hash an empty calendar.
     await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
     await expect(page.locator('.pln-summary, .pln-weekview')).toHaveCount(0)
+  }
+  if (state === 'plan' || state === 'learn' || state === 'course-overview') {
+    // Fonts being available is not the same as their final raster having
+    // painted. Use the same settled frame boundary for protected learner
+    // reading/setup surfaces, without changing their accepted image digests.
     await page.evaluate(() => new Promise<void>((resolve) =>
       requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
   }

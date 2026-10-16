@@ -155,6 +155,12 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     expect(sourceCourses.has(business.id)).toBe(true)
     expect(sourceCourses.has(psychology.id)).toBe(true)
     expect(programme.finalKnownAssessment).toBe('2027-06-10')
+    const assignedCourses = new Set(programme.weeks.flatMap((week) =>
+      week.objectives.map((objective) => objective.courseId)))
+    // A displayed Psychology obligation without a single realistic supported
+    // objective anywhere before its paper would silently starve that course.
+    expect([...assignedCourses]).toContain(business.id)
+    expect(assignedCourses).toContain(psychology.id)
     safety(programme)
   })
 
@@ -180,6 +186,13 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     const { programme } = buildLearnerPreparationProgramme(
       [sourceState(), sourceState(psychology)], papers, profile, [], [], now)
     expect(programme.weeks.every((week) => week.allocatedMinutes <= 30)).toBe(true)
+    const realAssignments = programme.weeks.flatMap((week) => week.objectives)
+    expect(realAssignments.every((objective) => objective.estimatedMinutes <= 30)).toBe(true)
+    expect(realAssignments.length).toBeGreaterThan(0)
+    // A 30-minute week is not licence to abandon the later enrolled course
+    // over the entire exam horizon if supported small activities can fit.
+    expect(realAssignments.some((objective) => objective.courseId === business.id)).toBe(true)
+    expect(realAssignments.some((objective) => objective.courseId === psychology.id)).toBe(true)
     safety(programme)
   })
 
