@@ -24,6 +24,8 @@ jobs:
       risk_level: ${{ steps.plan-output.outputs.risk_level }}
       risk_label: ${{ steps.plan-output.outputs.risk_label }}
       docs_only: ${{ steps.plan-output.outputs.docs_only }}
+      selection_mode: ${{ steps.plan-output.outputs.selection_mode }}
+      browser_files: ${{ steps.plan-output.outputs.browser_files }}
     steps:
       - name: Checkout full change history
         uses: actions/checkout@v6
@@ -45,7 +47,7 @@ jobs:
           node <<'NODE'
           const fs = require('fs')
           const plan = JSON.parse(fs.readFileSync('assurance-plan.json', 'utf8'))
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\ndocs_only=${plan.selectionMode === 'docs-only'}\n`)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\ndocs_only=${plan.selectionMode === 'docs-only'}\nselection_mode=${plan.selectionMode}\nbrowser_files=${plan.selectedBrowserSpecs.join(',')}\n`)
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
           NODE
       - name: Scan repository for privileged secrets and config
@@ -121,7 +123,10 @@ jobs:
         timeout-minutes: 20
         env:
           LEARNER_DESIGN_SHOTS: '1'
-        run: npx playwright test --project=${{ matrix.project }}
+          REVISION_BROWSER_SELECTION: ${{ needs.assurance-plan.outputs.selection_mode }}
+          REVISION_BROWSER_FILES: ${{ needs.assurance-plan.outputs.browser_files }}
+          REVISION_BROWSER_PROJECT: ${{ matrix.project }}
+        run: node scripts/assurance/run-browser-tests.mjs "${REVISION_BROWSER_PROJECT}"
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -146,6 +151,7 @@ jobs:
         env:
           ASSURANCE_PLAN: ${{ needs.assurance-plan.result }}
           DOCS_ONLY: ${{ needs.assurance-plan.outputs.docs_only }}
+          SELECTION_MODE: ${{ needs.assurance-plan.outputs.selection_mode }}
           STATIC_QUALITY: ${{ needs.foundation-static.result }}
           RESPONSIVE_BROWSER: ${{ needs.responsive-browser.result }}
         run: |
@@ -161,11 +167,15 @@ jobs:
             fi
             echo "Docs-only CI: secret scan, assurance-plan and independent database assurance remain required."
           else
+            if [ "$SELECTION_MODE" != "conservative-full" ] && [ "$SELECTION_MODE" != "learn-targeted" ]; then
+              echo "::error::Unrecognised executable-code selection mode: $SELECTION_MODE"
+              exit 1
+            fi
             if [ "$STATIC_QUALITY" != "success" ] || [ "$RESPONSIVE_BROWSER" != "success" ]; then
               echo "::error::Required foundation assurance failed (static=$STATIC_QUALITY, browser=$RESPONSIVE_BROWSER)."
               exit 1
             fi
-            echo "All Foundation quality prerequisites passed across phone, tablet and desktop."
+            echo "All Foundation quality prerequisites passed across phone, tablet and desktop (mode=$SELECTION_MODE)."
           fi
 
   database-assurance:
