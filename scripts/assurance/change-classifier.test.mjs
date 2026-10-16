@@ -15,6 +15,17 @@ describe('change assurance classifier', () => {
     expect(classifyChange([{ path: '.github/workflows/ci.yml', patch: '' }])).toMatchObject({ level: 3, label: 'High' })
   })
 
+  it('escalates central learner planning decisions to high risk', () => {
+    for (const path of [
+      'src/app/planner-model.ts',
+      'src/app/home-task.ts',
+      'src/app/PlanScreen.tsx',
+      'src/engine/planning/preparation.ts',
+    ]) {
+      expect(classifyChange([{ path, patch: '' }])).toMatchObject({ level: 3, label: 'High' })
+    }
+  })
+
   it('escalates destructive migrations to critical risk', () => {
     expect(classifyChange([{ path: 'supabase/migrations/20260819000000_example.sql', patch: '+drop table public.learning_evidence;' }])).toMatchObject({ level: 4, label: 'Critical' })
   })
