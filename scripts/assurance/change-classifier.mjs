@@ -148,13 +148,13 @@ export function classifyChange(files) {
 // assurance fixtures. Everything outside this narrow allowlist stays full.
 const nonExecutableDoc = (path) =>
   path === 'README.md' ||
-  /^(docs\\/technical|docs\\/design|audits)\\/[a-zA-Z0-9/_ .-]+\\.mdx?$/.test(path)
+  /^(docs\/technical|docs\/design|audits)\/[a-zA-Z0-9/_ .-]+\.mdx?$/.test(path)
 
 // A test-only edit cannot affect application runtime. Never use the fast path
 // for database-backed browser specs or removed/renamed test files.
-const browserSpec = (path) => /^tests\\/e2e\\/[a-z0-9-]+\\.spec\\.ts$/.test(path)
+const browserSpec = (path) => /^tests\/e2e\/[a-z0-9-]+\.spec\.ts$/.test(path)
 const databaseBrowserSpec = (path) =>
-  /^tests\\/e2e\\/(database-persistence|first-use-real-service)\\.spec\\.ts$/.test(path)
+  /^tests\/e2e\/(database-persistence|first-use-real-service)\.spec\.ts$/.test(path)
 
 export function selectExecutionScope(files, eventName) {
   // Main-branch pushes and unknown event shapes always get complete assurance.
