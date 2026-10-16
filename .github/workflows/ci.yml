@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# Later pushes to the same PR supersede obsolete CI work. Main-branch
+# production evidence is never cancelled by this setting.
+concurrency:
+  group: revision-ci-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   assurance-plan:
     name: Assurance plan and secret scan
@@ -17,6 +23,7 @@ jobs:
     outputs:
       risk_level: ${{ steps.plan-output.outputs.risk_level }}
       risk_label: ${{ steps.plan-output.outputs.risk_label }}
+      docs_only: ${{ steps.plan-output.outputs.docs_only }}
     steps:
       - name: Checkout full change history
         uses: actions/checkout@v6
@@ -38,7 +45,7 @@ jobs:
           node <<'NODE'
           const fs = require('fs')
           const plan = JSON.parse(fs.readFileSync('assurance-plan.json', 'utf8'))
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\n`)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\ndocs_only=${plan.selectionMode === 'docs-only'}\n`)
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
           NODE
       - name: Scan repository for privileged secrets and config
@@ -52,11 +59,12 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  foundation-quality:
-    name: Foundation quality
+  foundation-static:
+    name: Foundation static, unit and build assurance
     needs: assurance-plan
+    if: ${{ needs.assurance-plan.outputs.docs_only != 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -64,6 +72,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
+          cache: npm
       - name: Pin npm
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Install dependencies from lockfile
@@ -82,26 +91,82 @@ jobs:
         run: npm run test
       - name: Production build
         run: npm run build
+
+  responsive-browser:
+    name: Responsive browser assurance (${{ matrix.project }})
+    needs: assurance-plan
+    if: ${{ needs.assurance-plan.outputs.docs_only != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [phone, tablet, desktop]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Install Chromium for browser assurance
         timeout-minutes: 10
         run: npx playwright install chromium
       - name: Responsive browser assurance
-        # Full responsive regression now exceeds 15 minutes on some hosted runners.
-        # Preserve all tests and retries; leave within the 30-minute job ceiling.
         timeout-minutes: 20
         env:
           LEARNER_DESIGN_SHOTS: '1'
-        run: npm run test:e2e
+        run: npx playwright test --project=${{ matrix.project }}
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: interface-visual-regression-${{ github.run_id }}
+          name: interface-visual-regression-${{ github.run_id }}-${{ matrix.project }}
           path: |
             test-results
             tests/e2e/interface-visual-regression.spec.ts-snapshots
           if-no-files-found: ignore
           retention-days: 30
+
+  # Preserve the required 'Foundation quality' status while failing closed if
+  # ANY browser viewport, static check or assurance-plan prerequisite fails.
+  foundation-quality:
+    name: Foundation quality
+    if: always()
+    needs: [assurance-plan, foundation-static, responsive-browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify risk-selected foundation assurance
+        env:
+          ASSURANCE_PLAN: ${{ needs.assurance-plan.result }}
+          DOCS_ONLY: ${{ needs.assurance-plan.outputs.docs_only }}
+          STATIC_QUALITY: ${{ needs.foundation-static.result }}
+          RESPONSIVE_BROWSER: ${{ needs.responsive-browser.result }}
+        run: |
+          set -euo pipefail
+          if [ "$ASSURANCE_PLAN" != "success" ]; then
+            echo "::error::Assurance plan or secret scanning failed: $ASSURANCE_PLAN"
+            exit 1
+          fi
+          if [ "$DOCS_ONLY" = "true" ]; then
+            if [ "$STATIC_QUALITY" != "skipped" ] || [ "$RESPONSIVE_BROWSER" != "skipped" ]; then
+              echo "::error::Docs-only plan requires explicit skips for both code and browser suites."
+              exit 1
+            fi
+            echo "Docs-only CI: secret scan, assurance-plan and independent database assurance remain required."
+          else
+            if [ "$STATIC_QUALITY" != "success" ] || [ "$RESPONSIVE_BROWSER" != "success" ]; then
+              echo "::error::Required foundation assurance failed (static=$STATIC_QUALITY, browser=$RESPONSIVE_BROWSER)."
+              exit 1
+            fi
+            echo "All Foundation quality prerequisites passed across phone, tablet and desktop."
+          fi
 
   database-assurance:
     name: Database, RLS and protected service assurance

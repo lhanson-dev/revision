@@ -261,8 +261,17 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * ONLY these two inspected representations of the same Founder-approved
  * 16 October Plan Dark baseline. No blanket tolerance or new visual state.
  */
+/** PR #637 Plan LIGHT repeatable Chromium raster variant, run 38871171517.
+ * Exact 1440x900 screenshots independently inspected against original founder-
+ * approved capture: 1,580 of 1,296,000 pixels differ in fine antialias/tone,
+ * but no content, controls or geometry changes. Only two known exact hashes
+ * are admitted for Plan Light; this is NOT a global screenshot tolerance.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
+  'desktop:plan:light': [
+    '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
+    '7d7c69d1b5241127511c4594bcdc64f2dbdfd6906586a4ff1cb78923f2258161',
+  ],
   'desktop:plan:dark': [
     '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
     '2e47b5d25aa2082b7706f618ddfc5d11682d2c6f6404f4267aa4695b10f41671',

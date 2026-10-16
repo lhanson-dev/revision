@@ -67,7 +67,74 @@ function safety(programme: ReturnType<typeof buildLearnerPreparationProgramme>['
   expect(new Set(ids).size).toBe(ids.length)
 }
 
+/** Real Business course topic with synthetic but schema-valid scored evidence.
+ * The second observation reuses content IDs to exercise latest-result policy.
+ */
+function scoredTopic(topicId: string, passed: boolean, when: string): import('../engine/evidence/evidence').LearningEvidence[] {
+  const moduleId = business.learningAdapter.manifest.id
+  const entries: import('../engine/evidence/evidence').LearningEvidence[] = []
+  for (let i = 0; i < 3; i++) {
+    entries.push({ id: 'flash-' + topicId + '-' + when + '-' + i, moduleId, topicId,
+      occurredAt: when, contentId: 'scenario-card-' + topicId + '-' + i,
+      source: 'flashcard', schemaVersion: 1, rating: passed ? 2 : 0 })
+    entries.push({ id: 'question-' + topicId + '-' + when + '-' + i, moduleId, topicId,
+      occurredAt: when, contentId: 'scenario-question-' + topicId + '-' + i,
+      source: 'multiple_choice', schemaVersion: 1, correct: passed,
+      selectedOption: passed ? 0 : 1, correctOption: 0 })
+  }
+  return entries
+}
+
 describe('FI-001 real-content scenario boundary probes (NOT five-view educational acceptance)', () => {
+  it('SV-02: Business paper topics distinguish strong and weak scored evidence', () => {
+    const topics = business.learningAdapter.listTopics().slice(0, 2).map((item) => item.id)
+    expect(topics).toHaveLength(2)
+    const state = createCourseLearningState(business, [
+      ...scoredTopic(topics[0], true, '2026-10-01T09:00:00.000Z'),
+      ...scoredTopic(topics[1], false, '2026-10-01T09:00:00.000Z'),
+    ])
+    const { programme, candidates } = buildLearnerPreparationProgramme(
+      [state], businessPapers(), fullCapacity, [], [], now)
+    expect(programme.requirements.find((item) => item.topicId === topics[0])?.evidenceStatus).toBe('supported')
+    expect(programme.requirements.find((item) => item.topicId === topics[1])?.evidenceStatus).toBe('needs-work')
+    expect(candidates.some((item) => item.topicId === topics[1] && item.understanding === 0)).toBe(true)
+    expect(candidates.some((item) => item.topicId === topics[0] && item.understanding === 1)).toBe(true)
+    safety(programme)
+  })
+
+  it('SV-09: newer weak scores revoke supported status, not paper obligations', () => {
+    const topicId = business.learningAdapter.listTopics()[0]!.id
+    const initial = scoredTopic(topicId, true, '2026-10-01T09:00:00.000Z')
+    const newer = scoredTopic(topicId, false, '2026-10-15T10:00:00.000Z')
+    const oldPlan = buildLearnerPreparationProgramme(
+      [createCourseLearningState(business, initial)], businessPapers(), fullCapacity, [], [], now)
+    const revised = buildLearnerPreparationProgramme(
+      [createCourseLearningState(business, [...initial, ...newer])], businessPapers(), fullCapacity, [], [], now)
+    const req = (plan: typeof oldPlan.programme) => plan.requirements.find((item) => item.topicId === topicId)!
+    expect(req(oldPlan.programme).evidenceStatus).toBe('supported')
+    expect(req(revised.programme).evidenceStatus).toBe('needs-work')
+    expect(req(revised.programme).papers).toEqual(req(oldPlan.programme).papers)
+    expect(revised.candidates.some((item) => item.topicId === topicId && item.understanding === 0)).toBe(true)
+    safety(revised.programme)
+  })
+
+  it('SV-10: newer improvement changes weak topic to supported but does not claim complete exam readiness', () => {
+    const topicId = business.learningAdapter.listTopics()[0]!.id
+    const initial = scoredTopic(topicId, false, '2026-10-01T09:00:00.000Z')
+    const newer = scoredTopic(topicId, true, '2026-10-15T10:00:00.000Z')
+    const oldPlan = buildLearnerPreparationProgramme(
+      [createCourseLearningState(business, initial)], businessPapers(), fullCapacity, [], [], now)
+    const revised = buildLearnerPreparationProgramme(
+      [createCourseLearningState(business, [...initial, ...newer])], businessPapers(), fullCapacity, [], [], now)
+    const status = (plan: typeof oldPlan.programme) => plan.requirements.find((item) => item.topicId === topicId)!.evidenceStatus
+    expect(status(oldPlan.programme)).toBe('needs-work')
+    expect(status(revised.programme)).toBe('supported')
+    expect(revised.candidates.some((item) => item.topicId === topicId && item.understanding === 1)).toBe(true)
+    expect(revised.programme.requirements).toHaveLength(10)
+    expect(revised.programme.paperResponseRequirements).toHaveLength(8)
+    safety(revised.programme)
+  })
+
   it('SV-01: a new Business learner has unknown evidence, three actual papers and a whole exam horizon', () => {
     const { programme } = buildLearnerPreparationProgramme(
       [sourceState()], businessPapers(), fullCapacity, [], [], now)
