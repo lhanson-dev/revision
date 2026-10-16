@@ -423,6 +423,18 @@ async function openState(page: Page, state: VisualState) {
     await expect(page.locator('.home-v3-plan .home-v3-error')).toHaveCount(0)
   }
 
+  if (state === 'plan') {
+    // The global shell disappears before Plan finishes its own independent
+    // assessment/evidence load and saved-session window load. In that gap the
+    // screenshot can capture either a loading panel or the settled programme.
+    // Require the actual Plan controls and calculated summary, not just the shell.
+    await expect(page.locator('#plan-page-title')).toBeVisible()
+    await expect(page.locator('.pln-nav')).toBeVisible()
+    await expect(page.locator('.pln-summary')).toBeVisible()
+    await expect(page.getByText('Loading your plan…')).toHaveCount(0)
+    await expect(page.getByText('Checking your saved sessions…')).toHaveCount(0)
+  }
+
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
