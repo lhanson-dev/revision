@@ -53,6 +53,12 @@ describe('change assurance classifier', () => {
     })
     for (const changed of [
       [{ path: 'README.md', patch: '' }, { path: 'src/app/SubjectScreen.tsx', patch: '' }],
+      [{ path: 'content/learner-lesson.md', patch: '' }],
+      [{ path: 'src/learning/lesson.md', patch: '' }],
+      [{ path: 'public/learner-guide.md', patch: '' }],
+      [{ path: 'tests/fixtures/topic.md', patch: '' }],
+      [{ path: '.github/CONTRIBUTING.md', patch: '' }],
+      [{ path: 'unclassified/notes.md', patch: '' }],
       [{ path: 'scripts/assurance/change-classifier.mjs', patch: '' }],
       [{ path: '.github/workflows/ci.yml', patch: '' }],
       [{ path: 'unknown-file', patch: '' }],
