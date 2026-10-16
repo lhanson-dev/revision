@@ -207,6 +207,10 @@ test('Configured Plan opens on the governed Week view; Day retains its time, exa
 
 test('Plan and Progress consume dark-theme semantic surfaces rather than hard-coded light values', async ({ page }) => {
   await seedSession(page, 'dark')
+  // A successful empty accepted-session read permits optional calendar viewing.
+  // Do not rely on an unstubbed backend table when asserting Plan's dark theme.
+  await page.route('**/rest/v1/learner_planned_sessions**', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.goto(`${appPath}#/plan`)
 
   const runtime = page.locator('.planner-runtime')
