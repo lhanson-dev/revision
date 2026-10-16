@@ -282,3 +282,35 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
   await page.goto(appPath + '#/rev')
   await expect(page.getByRole('log')).toContainText(topic)
 })
+
+test('SV-12: impossible saved capacity shows the exact supported course-topic preparation left out, without promising syllabus completion', async ({ page }) => {
+  const paperOne = paper(business, 1, '2026-11-03', 'Business early paper')
+  const paperTwo = paper(psychology, 1, '2026-11-17', 'Psychology later paper')
+  await seededCourses(page, [business.id, psychology.id], () => [paperOne, paperTwo])
+  // A real saved availability profile with every day at zero: the student
+  // has dates, but no feasible booked minute. This is not missing availability.
+  await page.route('**/rest/v1/revision_availability_profiles**', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json',
+      body: JSON.stringify({
+        user_id: planUserId, weekday_minutes: 0, weekend_minutes: 0,
+        timezone: 'Europe/London', monday_minutes: 0, tuesday_minutes: 0,
+        wednesday_minutes: 0, thursday_minutes: 0, friday_minutes: 0,
+        saturday_minutes: 0, sunday_minutes: 0,
+      }) }))
+
+  await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  const programme = page.getByRole('region', { name: 'Your full exam programme' })
+  await expect(programme).toContainText('Business early paper')
+  await expect(programme).toContainText('Psychology later paper')
+  await expect(programme).toContainText('0m can be allocated')
+  const omitted = programme.locator('[aria-label="Unallocated preparation opportunities"]')
+  await expect(omitted).toBeVisible()
+  await expect(omitted).toContainText('Business')
+  await expect(omitted).toContainText('not the complete measurement of remaining syllabus')
+  await expect(omitted.locator('li').first()).toContainText('not allocated before')
+  await expect(programme.locator('[aria-label="Preparation limitations"]')).toContainText('not allocated')
+  await expect(programme).not.toContainText('All preparation is complete')
+  await page.goto(appPath + '#/plan')
+  await expect(page.locator('.pln-weekview')).toBeVisible()
+  await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
+})

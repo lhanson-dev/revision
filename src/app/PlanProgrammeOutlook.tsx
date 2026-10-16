@@ -62,6 +62,35 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
       : week.weekStart <= anchor && week.visibleUntil >= anchor)
   const upcoming = programme.weeks.filter((week) => week.visibleUntil >= programme.today).slice(0, 3)
   const listProps = { courseLabel, topicLabel, onOpenWeek }
+  // A supported activity absent from the forecast is not a completed
+  // obligation. Group candidate-level omissions by the real course/topic so
+  // learners see meaningful gaps without duplicates from multiple papers.
+  const groupedOmissions = new Map<string, {
+    courseId: string; topicId: string; count: number; minutes: number; firstDeadline: string
+  }>()
+  for (const objective of programme.unserved) {
+    const key = objective.courseId + ':' + objective.topicId
+    const current = groupedOmissions.get(key)
+    if (current) {
+      current.count += 1
+      current.minutes += objective.estimatedMinutes
+      if (objective.assessmentDate < current.firstDeadline) current.firstDeadline = objective.assessmentDate
+    } else {
+      groupedOmissions.set(key, { courseId: objective.courseId, topicId: objective.topicId,
+        count: 1, minutes: objective.estimatedMinutes, firstDeadline: objective.assessmentDate })
+    }
+  }
+  const omittedTopics = [...groupedOmissions.values()].sort((a, b) =>
+    a.firstDeadline.localeCompare(b.firstDeadline)
+    || a.courseId.localeCompare(b.courseId)
+    || a.topicId.localeCompare(b.topicId))
+  const omission = (item: typeof omittedTopics[number]) => (
+    <li key={item.courseId + ':' + item.topicId}>
+      <strong>{courseLabel(item.courseId)} — {topicLabel(item.courseId, item.topicId)}</strong>
+      <span> · {item.count} currently supported {item.count === 1 ? 'opportunity' : 'opportunities'}
+        {' '}({formatMinutes(item.minutes)} estimated) not allocated before {dated(item.firstDeadline)}</span>
+    </li>
+  )
   return (
     <section className="pln-programme" aria-label="Your full exam programme">
       <Surface variant="quiet" className="pln-programme__surface">
@@ -142,6 +171,21 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
               <strong>What we cannot yet guarantee</strong>
               <ul>{programme.constraints.map((constraint) => <li key={constraint}>{constraint}</li>)}</ul>
             </div>}
+            {omittedTopics.length > 0 && (
+              <section aria-label="Unallocated preparation opportunities">
+                <h3>What does not fit in the current forecast</h3>
+                <p>{programme.unserved.length} currently supported preparation
+                  {programme.unserved.length === 1 ? ' opportunity is' : ' opportunities are'} not allocated across
+                  {' '}{omittedTopics.length} {omittedTopics.length === 1 ? 'course topic' : 'course topics'}.
+                  These are real activities, not the complete measurement of remaining syllabus or exam-response work.
+                  A missing allocation does not mean you know the topic or have finished preparing for its paper.</p>
+                <ul>{omittedTopics.slice(0, 3).map(omission)}</ul>
+                {omittedTopics.length > 3 && <details>
+                  <summary>See {omittedTopics.length - 3} more topics with unallocated activities</summary>
+                  <ul>{omittedTopics.slice(3).map(omission)}</ul>
+                </details>}
+              </section>
+            )}
             {selected.length > 0 && (
               <>
                 <h3>{view === 'month' ? 'Objectives for this month' : 'Objectives for this week'}</h3>
