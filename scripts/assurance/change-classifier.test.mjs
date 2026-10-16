@@ -34,7 +34,44 @@ describe('change assurance classifier', () => {
     expect(classifyChange([{ path: 'unknown.config', patch: '' }])).toMatchObject({ level: 3, label: 'High' })
   })
 
-  it('keeps v1 execution conservative while exposing required assurance', () => {
+  it('selects documentation-only assurance only when every changed path is Markdown', () => {
+    const base = { baseSha: 'a'.repeat(40), headSha: 'b'.repeat(40), eventName: 'pull_request' }
+    const docs = buildAssurancePlan({
+      ...base,
+      files: [
+        { path: 'docs/technical/Example.md', patch: '' },
+        { path: '50-engineering-standards/Testing & Assurance Standard.md', patch: '' },
+      ],
+    })
+    expect(docs.selectionMode).toBe('docs-only')
+    expect(docs.executedCiPolicy).toMatchObject({
+      assurancePlanAndSecretScan: true,
+      foundationQuality: true,
+      foundationStaticUnitBuild: false,
+      responsiveBrowser: false,
+      databaseRlsProtectedService: true,
+    })
+    for (const changed of [
+      [{ path: 'README.md', patch: '' }, { path: 'src/app/SubjectScreen.tsx', patch: '' }],
+      [{ path: 'content/learner-lesson.md', patch: '' }],
+      [{ path: 'src/learning/lesson.md', patch: '' }],
+      [{ path: 'public/learner-guide.md', patch: '' }],
+      [{ path: 'tests/fixtures/topic.md', patch: '' }],
+      [{ path: '.github/CONTRIBUTING.md', patch: '' }],
+      [{ path: 'unclassified/notes.md', patch: '' }],
+      [{ path: 'scripts/assurance/change-classifier.mjs', patch: '' }],
+      [{ path: '.github/workflows/ci.yml', patch: '' }],
+      [{ path: 'unknown-file', patch: '' }],
+      [],
+    ]) {
+      const plan = buildAssurancePlan({ ...base, files: changed })
+      expect(plan.selectionMode).toBe('conservative-full')
+      expect(plan.executedCiPolicy.foundationStaticUnitBuild).toBe(true)
+      expect(plan.executedCiPolicy.responsiveBrowser).toBe(true)
+    }
+  })
+
+  it('keeps executable change assurance conservative while exposing required assurance', () => {
     const plan = buildAssurancePlan({
       files: [{ path: 'src/app/SubjectScreen.tsx', patch: '' }],
       baseSha: 'a'.repeat(40),

@@ -25,10 +25,45 @@ const highRiskFiles = new Set([
 ])
 
 const docsExtensions = ['.md', '.mdx']
+// Only these governance/documentation paths are safe to shortcut. Markdown
+// inside src, content, public, tests, config or unknown folders can be
+// runtime/learner-facing material and must retain full assurance.
+const documentRootFiles = new Set([
+  'README.md',
+  'INDEX.md',
+  'AGENTS.md',
+  'CLAUDE.md',
+  'START_HERE.md',
+  'AUTHORITY_HIERARCHY.md',
+  'KNOWLEDGE_ARCHITECTURE.md',
+  'MIGRATING_EXISTING_PROJECT.md',
+])
+const documentPrefixes = [
+  '00-company-foundation/',
+  '10-product-governance/',
+  '20-brand-and-experience/',
+  '30-marketing-governance/',
+  '40-evidence-and-trust/',
+  '50-engineering-standards/',
+  '60-business-operations/',
+  '70-ai-operating-system/',
+  '80-company-workflows/',
+  '90-governance-registers/',
+  'docs/',
+  'decisions/',
+  'audits/',
+  'research/',
+  'archive/',
+]
+function isSafeDocumentationPath(path) {
+  return docsExtensions.some((extension) => path.endsWith(extension))
+    && (documentRootFiles.has(path) || documentPrefixes.some((prefix) => path.startsWith(prefix)))
+}
+
 const destructiveSql = /\b(drop\s+(table|schema|column)|truncate\s+table|delete\s+from|alter\s+table[\s\S]{0,120}\bdrop\b)\b/i
 
 function isDocsOnly(files) {
-  return files.length > 0 && files.every((file) => docsExtensions.some((extension) => file.path.endsWith(extension)))
+  return files.length > 0 && files.every((file) => isSafeDocumentationPath(file.path))
 }
 
 function addDomain(domains, name) {
@@ -129,7 +164,7 @@ export function classifyChange(files) {
       continue
     }
 
-    if (!docsExtensions.some((extension) => path.endsWith(extension))) {
+    if (!isSafeDocumentationPath(path)) {
       level = Math.max(level, 3)
       reasons.push(`${path}: unclassified non-documentation change escalated fail-safe.`)
       addDomain(affectedDomains, 'path-to-live')
@@ -146,6 +181,9 @@ export function classifyChange(files) {
 
 export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   const risk = classifyChange(files)
+  // Only the proven documentation-only category may skip executable suites.
+  // Unknown, mixed or executable changes continue to run the complete suite.
+  const docsOnly = isDocsOnly(files)
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -165,13 +203,17 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     baseSha,
     headSha,
     risk,
-    selectionMode: 'conservative-full',
-    selectionPolicy: 'Classifier is evidence-only in v1. Existing CI suites remain mandatory while classification data is calibrated.',
+    selectionMode: docsOnly ? 'docs-only' : 'conservative-full',
+    selectionPolicy: docsOnly
+      ? 'Approved governance/documentation Markdown-only change: retain secret scanning, database/service assurance and required gate checks; static/unit/build and Playwright browser jobs may be skipped.'
+      : 'Conservative full CI for any executable, mixed or uncertain change. Unmapped paths fail safe.',
     changedFiles: files.map(({ path }) => path),
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
       foundationQuality: true,
+      foundationStaticUnitBuild: !docsOnly,
+      responsiveBrowser: !docsOnly,
       databaseRlsProtectedService: true,
     },
   }

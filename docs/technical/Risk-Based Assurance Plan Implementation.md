@@ -1,6 +1,6 @@
 # Risk-Based Assurance Plan Implementation
 
-**Status:** Active on `main`; parallel execution optimisation proposed in the current maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
+**Status:** Active on `main`; first bounded selective-execution change proposed in the current CI maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
 
 ## Purpose
 
@@ -34,9 +34,9 @@ The generated plan includes exact `baseSha` and `headSha`, so the evidence can b
 
 ## Conservative execution mode
 
-Version 1 uses `selectionMode: conservative-full`.
+The mainline baseline uses `selectionMode: conservative-full`.
 
-The classifier declares the minimum assurance implied by risk, but **does not skip any existing CI suite**. `Foundation quality` and `Database, RLS and protected service assurance` both remain mandatory after the plan job succeeds.
+The classifier declares the minimum assurance implied by risk. Before the bounded docs-only change is merged, it **does not skip any existing CI suite**. `Foundation quality` and `Database, RLS and protected service assurance` both remain mandatory after the plan job succeeds.
 
 This is deliberate. The first stage is to make classification transparent and collect trustworthy evidence. Selective execution may only be introduced later through a governed change after the classifier has demonstrated reliable boundaries; uncertainty must continue to escalate rather than skip assurance.
 
@@ -71,14 +71,31 @@ PR #67's first classifier execution correctly classified its own CI/path-to-live
 
 No normative standard change is required because active engineering authority already mandates risk-based classification, progressive automation, inspectable assurance scope and fail-safe escalation. This document records implementation truth. The Technology Stack, INDEX and Assurance Coverage Register are updated in the same PR where the evidence changes current state.
 
-## Foundation quality execution optimisation (16 October 2026 — proposal)
+## Foundation quality execution optimisation (16 October 2026 — merged PR #638)
 
 The previous full Foundation quality job ran unit/static/build checks, then all phone, tablet and desktop Playwright projects sequentially, using two browser workers. Exact-head PR #637 CI run 38866205296 took approximately 17m28s for Foundation quality; browser regression took approximately 15m18s (648 passed, 332 skipped, 1 flaky). Database/RLS assurance finished independently in approximately 2m39s. A previous run (38770327258) failed two browser assertions, reinforcing the need to retain visual/accessibility failure evidence.
 
-The proposed workflow splits the unchanged full Playwright regression across three parallel jobs (one per existing viewport project). Static, unit and build assurance also runs concurrently. Each browser project retains the existing automatic single retry and failure artifacts. The existing required **Foundation quality** job name remains, implemented as a fail-closed aggregator that succeeds only if assurance-plan, static/unit/build and the complete browser matrix all succeeded. Database, RLS and protected-service assurance remains a separate required job. No browser tests or required checks are removed.
+The merged workflow splits the unchanged full Playwright regression across three parallel jobs (one per existing viewport project). Static, unit and build assurance also runs concurrently. Each browser project retains the existing automatic single retry and failure artifacts. The existing required **Foundation quality** job name remains, implemented as a fail-closed aggregator that succeeds only if assurance-plan, static/unit/build and the complete browser matrix all succeeded. Database, RLS and protected-service assurance remains a separate required job. No browser tests or required checks are removed.
 
 The workflow cancels superseded pull-request runs for the same PR, without cancelling main-branch push runs. npm caching is enabled on new test jobs. Timing and flakiness must be remeasured using multiple exact-head GitHub Actions runs; the estimated 8–10-minute full CI duration is not an observed result.
 
-**Test-selection boundary:** this PR does **not** enable selective execution or scheduled replacement testing. The active classifier remains `conservative-full`; it is hardened so central Home/Plan recommendation paths are classified High risk rather than Medium. Selective execution requires a separate, evidence-based coverage mapping and demonstration that changed critical/shared journeys trigger all required tests, with fallback to full assurance on uncertainty. A nightly full run cannot replace mandatory high-risk pre-merge checks.
+**Test-selection boundary of PR #638:** this work did **not** enable selective execution or scheduled replacement testing. The active classifier remains `conservative-full`; it is hardened so central Home/Plan recommendation paths are classified High risk rather than Medium. Selective execution requires a separate, evidence-based coverage mapping and demonstration that changed critical/shared journeys trigger all required tests, with fallback to full assurance on uncertainty. A nightly full run cannot replace mandatory high-risk pre-merge checks.
 
-**Acceptance:** before merge, demonstrate successful exact-head Revision CI, all three Playwright projects, static/unit/build, DB/RLS, exact required status names, and correct fail-closed aggregator semantics. Preserve protected merge status `Foundation quality` and Founder approval rules. Record observed duration and any observed flaky baseline. The canonical production learner route remains `/revision/app/`; this infrastructure-only PR does not modify the deployed learner runtime or any learner-facing route.
+**PR #638 acceptance:** exact-head Revision CI passed with all three Playwright projects, static/unit/build, DB/RLS and a green fail-closed Foundation quality aggregator. One timed-exam visual assertion passed on retry. The 6m33s run was a first observation, not an assured future duration. Preserve protected merge status `Foundation quality` and Founder approval rules. Record observed duration and any observed flaky baseline. The canonical production learner route remains `/revision/app/`; this infrastructure-only PR does not modify the deployed learner runtime or any learner-facing route.
+
+## Bounded documentation-only selection (16 October 2026 — proposed maintenance PR)
+
+This narrowly controlled first selector enables `docs-only` **only** if the complete diff, between the exact configured base and head commits, contains one or more changed paths, every path ends in `.md` or `.mdx`, **and every path belongs to an explicit documentation/governance allowlist**: root `README.md`/`INDEX.md`/agent and knowledge instructions, numbered governance folders, `docs/`, `decisions/`, `audits/`, `research/` or `archive/`. Markdown under `src/`, `content/`, `public/`, `tests/`, `.github/` and unclassified locations does **not** qualify, because it could influence runtime, learner content or test fixtures. An empty/unknown diff, any executable change, even mixed Markdown and code, any CI change, configuration change or shared planner change retains `conservative-full`.
+
+For a docs-only diff:
+
+- The assurance-plan and repository secret scanner always run; the risk classification, selected mode, base/head SHA and reasons are kept in the CI artifact and summary.
+- The static/unit/build and three responsive browser projects are explicitly skipped by GitHub Actions conditions.
+- The **Foundation quality** aggregate retains its required check name and succeeds only with an affirmative docs-only decision plus the expected skipped-code/browser results, or with all suites succeeding on a non-docs change; an unknown/failed assurance plan always fails closed.
+- The existing **Database, RLS and protected service assurance** job always runs and remains a separate required check in this first rollout. The production deployment/release-lineage workflow, post-deployment smoke and Founder approval status are unchanged.
+
+This first step does **not** selectively skip tests for TypeScript/CSS/UI/educational content, and does **not** create a nightly-only substitute for a required PR test. Future medium-risk targeting needs verified dependency-to-journey mapping, responsive/accessibility coverage, and an independently demonstrated conservative fallback before replacing full regression on executable changes.
+
+The documented baseline of PR #638 remains one observed ~6m33s high-risk run. Documentation-only savings are not yet measured; the always-on database assurance sets a floor until an independent gated change safely optimises it.
+
+**Documentation impact:** existing numbered Testing & Assurance and Release & Deployment Standards already authorize this proportionate docs-only selection. This is a technical implementation change, not a new product policy. Maintain PTL-04 in the Assurance Coverage Register when merged. The canonical learner runtime and route remain React/Vite `/revision/app/`; no learner product surface is changed.
