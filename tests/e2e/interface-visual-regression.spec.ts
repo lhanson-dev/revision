@@ -243,9 +243,19 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Playwright checks passed. The remaining 14 B7 visual contracts are intact.
  * This approves the four screenshot baselines only, NOT the PR merge.
  */
+/** FI-001 PR #637 Plan guided setup, desktop Light/Dark only.
+ * Founder explicitly approved "Approve PR #637 Plan visual baselines"
+ * after viewing side-by-side approved-versus-changed captures.
+ * Capture source: exact-head CI 38812328043 on a80d709915db67e4ee2fe18a33720f7fda8efab4,
+ * retained visual artifact 12009562571; hashes taken from failed
+ * screenshot assertions (initial and retry match), not local rendering.
+ * The approved change replaces seven misleading empty setup days with the
+ * governed guided setup state. No other visual digest is altered.
+ * This is visual approval ONLY, not educational acceptance or merge authority.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
-  'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
+  'desktop:plan:light': '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
+  'desktop:plan:dark': '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
   'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
