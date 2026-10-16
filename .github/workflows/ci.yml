@@ -95,15 +95,30 @@ jobs:
         run: npm run build
 
   responsive-browser:
-    name: Responsive browser assurance (${{ matrix.project }})
+    name: Responsive browser assurance (${{ matrix.project }}, shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
     needs: assurance-plan
     if: ${{ needs.assurance-plan.outputs.docs_only != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     strategy:
       fail-fast: false
+      # Desktop is the long-running browser lane. Split its complete project
+      # into two disjoint Playwright shards; phone and tablet stay unsharded.
+      # All four jobs must pass for the matrix result and Foundation quality.
       matrix:
-        project: [phone, tablet, desktop]
+        include:
+          - project: phone
+            shardIndex: 1
+            shardTotal: 1
+          - project: tablet
+            shardIndex: 1
+            shardTotal: 1
+          - project: desktop
+            shardIndex: 1
+            shardTotal: 2
+          - project: desktop
+            shardIndex: 2
+            shardTotal: 2
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -126,12 +141,13 @@ jobs:
           REVISION_BROWSER_SELECTION: ${{ needs.assurance-plan.outputs.selection_mode }}
           REVISION_BROWSER_FILES: ${{ needs.assurance-plan.outputs.browser_files }}
           REVISION_BROWSER_PROJECT: ${{ matrix.project }}
+          REVISION_BROWSER_SHARD: ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         run: node scripts/assurance/run-browser-tests.mjs "${REVISION_BROWSER_PROJECT}"
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: interface-visual-regression-${{ github.run_id }}-${{ matrix.project }}
+          name: interface-visual-regression-${{ github.run_id }}-${{ matrix.project }}-${{ matrix.shardIndex }}of${{ matrix.shardTotal }}
           path: |
             test-results
             tests/e2e/interface-visual-regression.spec.ts-snapshots
@@ -139,7 +155,7 @@ jobs:
           retention-days: 30
 
   # Preserve the required 'Foundation quality' status while failing closed if
-  # ANY browser viewport, static check or assurance-plan prerequisite fails.
+  # ANY browser viewport/shard, static check or assurance-plan prerequisite fails.
   foundation-quality:
     name: Foundation quality
     if: always()
