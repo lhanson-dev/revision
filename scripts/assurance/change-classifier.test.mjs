@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildAssurancePlan, classifyChange, learnTargetedSourceFiles, learnTargetedBrowserSpecs } from './change-classifier.mjs'
+import { buildAssurancePlan, classifyChange, learnTargetedSourceFiles, learnTargetedBrowserSpecs, practiceTargetedSourceFiles, practiceTargetedBrowserSpecs } from './change-classifier.mjs'
 
 describe('change assurance classifier', () => {
   it('classifies documentation-only changes as low risk', () => {
@@ -113,6 +113,63 @@ describe('change assurance classifier', () => {
     }
     expect(buildAssurancePlan({ ...base, files: [{ path: 'src/app/ui/learn/Unmapped.tsx', patch: '' }] }).selectionMode)
       .toBe('conservative-full')
+  })
+
+  it('selects Practice presentation with all mapped Practice journeys and unchanged security checks', () => {
+    const base = { baseSha: 'a'.repeat(40), headSha: 'b'.repeat(40), eventName: 'pull_request' }
+    for (const path of practiceTargetedSourceFiles) {
+      const plan = buildAssurancePlan({
+        ...base,
+        files: [{ path, patch: '' }, { path: 'docs/technical/Example.md', patch: '' }],
+      })
+      expect(plan.risk).toMatchObject({ level: 2, label: 'Medium' })
+      expect(plan.selectionMode).toBe('practice-targeted')
+      expect(plan.selectedBrowserSpecs).toEqual(practiceTargetedBrowserSpecs)
+      expect(plan.executedCiPolicy).toMatchObject({
+        foundationStaticUnitBuild: true, responsiveBrowser: true, databaseRlsProtectedService: true,
+      })
+    }
+    expect(practiceTargetedBrowserSpecs.length).toBeGreaterThanOrEqual(20)
+    for (const path of [
+      'tests/e2e/accepted-sessions.spec.ts',
+      'tests/e2e/planner-r1c.spec.ts',
+      'tests/e2e/practice-feedback.spec.ts',
+      'tests/e2e/practice-flashcards.spec.ts',
+      'tests/e2e/practice-start.spec.ts',
+      'tests/e2e/practice-summary.spec.ts',
+      'tests/e2e/practice-written.spec.ts',
+      'tests/e2e/accessibility.spec.ts',
+      'tests/e2e/interface-visual-regression.spec.ts',
+    ]) expect(practiceTargetedBrowserSpecs).toContain(path)
+  })
+
+  it('escalates Practice UI changes with shared/scoring/marking/CSS/config/fixture changes to complete regression', () => {
+    const base = { baseSha: 'a'.repeat(40), headSha: 'b'.repeat(40), eventName: 'pull_request' }
+    const owned = { path: 'src/app/ui/practice/PracticeStart.tsx', patch: '' }
+    for (const other of [
+      'src/app/ui/practice/practice.css',
+      'src/app/ui/practice/PracticeQuestion.tsx',
+      'src/app/ui/practice/PracticeWrittenQuestion.tsx',
+      'src/app/ui/practice/index.ts',
+      'src/app/practice-session.ts',
+      'src/app/planner-model.ts',
+      'src/engine/evidence/evidence.ts',
+      'src/app/ui/learn/LearnBlock.tsx',
+      'src/app/ui/controls.tsx',
+      'tests/e2e/practice-summary.spec.ts',
+      'content/business/aqa-a-level/topic.md',
+      'supabase/migrations/20261016000000_change.sql',
+      '.github/workflows/ci.yml',
+      'playwright.config.ts',
+    ]) {
+      const plan = buildAssurancePlan({ ...base, files: [owned, { path: other, patch: '' }] })
+      expect(plan.selectionMode).toBe('conservative-full')
+      expect(plan.selectedBrowserSpecs).toEqual([])
+    }
+    expect(buildAssurancePlan({ ...base, files: [{ path: 'src/app/ui/practice/Unknown.tsx', patch: '' }] }).selectionMode)
+      .toBe('conservative-full')
+    expect(buildAssurancePlan({ ...base, files: [owned, { path: 'src/app/ui/practice/PracticeFlashcard.tsx', patch: '' }] }).selectionMode)
+      .toBe('practice-targeted')
   })
 
   it('keeps executable change assurance conservative while exposing required assurance', () => {

@@ -1,6 +1,6 @@
 # Risk-Based Assurance Plan Implementation
 
-**Status:** Active on `main`; Learn-local mapped browser selection proposed in this CI maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
+**Status:** Active on `main`; bounded Practice browser test selection proposed in the current maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
 
 ## Purpose
 
@@ -100,7 +100,7 @@ The documented baseline of PR #638 remains one observed ~6m33s high-risk run. Do
 
 **Documentation impact:** existing numbered Testing & Assurance and Release & Deployment Standards already authorize this proportionate docs-only selection. This is a technical implementation change, not a new product policy. Maintain PTL-04 in the Assurance Coverage Register when merged. The canonical learner runtime and route remain React/Vite `/revision/app/`; no learner product surface is changed.
 
-## Learn-local presentation journey selection (16 October 2026 — proposed PR)
+## Learn-local presentation journey selection (16 October 2026 — merged PR #641)
 
 This first **executable-code** selector is intentionally limited to an explicit allowlist of 14 Learn presentation paths under `src/app/ui/learn/`, e.g. LearnBlock, LearnPageLayout, chart geometry and local layout calculation. These specific source paths may be selected together with approved documentation files only. At least one allowed Learn source file must change, the complete diff must contain no other files, and the highest applicable classifier risk must remain Level 2 / Medium.
 
@@ -110,6 +110,18 @@ The mapping is both human-reviewable (`learnTargetedSourceFiles` and `learnTarge
 
 **Escalation:** changes in shared `src/app/ui/` outside this exact list, any test/fixture/schema/config/lockfile, Learn barrel/index or type contract, any navigation/Planner/Home/evidence/auth/persistence/exam/Practice source, new Learn component not yet registered, mixed unexpected Markdown or any unknown path must still run `conservative-full`. A future new Learner test or critical dependency must trigger mapping review during the same governed change; the explicit list is not a general wildcard for any `learn/` source.
 
-**Acceptance boundary:** because the proposal edits workflow and assurance tooling, its own exact-head CI must classify as High and execute full responsive regression. Unit tests must prove complete coverage of both lists and the selection runner rejects partial/modified inputs. A subsequent actual PR containing only mapped Learn source must verify the narrow GitHub execution end-to-end; absent such a run, treat runtime savings for medium-risk changes as **unverified**. Do not enable generic or other-domain medium-risk selection from this proof alone.
+**PR #641 verification:** its exact-head CI classified High, executed full responsive regression and passed (1,401 unit tests; phone 173, tablet 166 and desktop 301 browser tests; database/security and required Foundation quality passed). The complete allowlist and fail-closed runner were unit-tested. A subsequent actual PR containing only mapped Learn source is still needed to establish the narrower GitHub Actions path and its observed runtime; treat medium-risk savings as **unverified** until measured. Do not enable generic or other-domain medium-risk selection from this proof alone.
 
 This is implementation of the existing risk-proportionate assurance authority, not a normative change. Document control PTL-04 in the Assurance Coverage Register has a linked implementation candidate. Canonical learner React/Vite runtime and `/revision/app/` route remain unchanged; no learner interface code is modified by this PR.
+
+## Bounded Practice presentation journey selection (16 October 2026 — candidate)
+
+The candidate adds `practice-targeted` selection exclusively for four explicit Practice presentation sources: `PracticeActivityWorkspace.tsx`, `PracticeFlashcard.tsx`, `PracticeStart.tsx` and `PracticeSummary.tsx` under `src/app/ui/practice/`. These components receive callbacks from the scored learning/evidence engine rather than owning persistence and scoring contracts. A qualifying change must touch at least one allowed Practice presentation file and **no changed files outside that list except approved governance/documentation Markdown**, and must remain Level 2 / Medium overall.
+
+The candidate executes an immutable, precisely enumerated 25-file responsive Playwright set on the existing phone, tablet and desktop projects. The tests cover Practice start, flashcards and feedback, calculations and written-question routes, completion, visual layouts, planned/accepted sessions, returned Home, evidence-boundary regression, course navigation, accessibility, cross-journey learner styles, visual contracts, contrast, overflow, theme and overlays. The complete unit test suite, TypeScript, lint, production build, subject/content provenance checks, assurance-plan/secret scan and independent database/RLS/protected-service assurance still run. The protected `Foundation quality` aggregate stays fail-closed with the new explicitly recognised mode. GitHub Founder approval and production lineage/smoke remain unchanged.
+
+The following changes **must never use this shortcut** without a separate governed expansion: `PracticeQuestion.tsx` (choice/confidence/scored interaction), `PracticeWrittenQuestion.tsx` (REV marking/challenges), `practice.css` (cross-surface styling), `index.ts` barrel/shared contracts, scoring/evidence/learning-engine/progress/planner/Home/auth/persistence services, shared UI controls, question/content schema or packs, test files/fixtures, CI/build/configuration, new or unknown Practice modules, mixed Learn/Practice changes or any unclassified file. These retain `conservative-full` and require the existing full browser suite.
+
+`practiceTargetedSourceFiles` and `practiceTargetedBrowserSpecs` are declared in the classifier, written into the machine-readable plan and checked by `run-browser-tests.mjs` against the exact full list. Runner tests reject missing/extra/unrelated files and unknown project/mode; classifier tests verify every selected source and negative high-risk/mixed cases. **Because this implementation PR changes CI/assurance code, its own exact-head full CI is required and must be green before approval.** A later genuine Practice-only PR is still needed to measure savings under an actual `practice-targeted` workflow run. Do not interpret unit selection tests as observed live shortcut timing.
+
+**Documentation impact:** This expands the technical implementation of the existing active Testing & Assurance and Release & Deployment Standards; no normative product decision changes. Update Assurance Coverage Register PTL-04 in this PR and append observations after release without rewriting historical audit evidence. The learner product remains React/Vite under `/revision/app/`; this PR does not alter application runtime or student-facing features.
