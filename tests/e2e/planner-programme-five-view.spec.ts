@@ -1,32 +1,35 @@
 import { expect, test, type Page } from '@playwright/test'
-// Published, schema-validated paper manifests are plain Node-compatible
-// modules. Do NOT load Vite-only import.meta.glob content-registry in Playwright.
-import { manifest as businessPaper1 } from '../../content/business/aqa-a-level/paper-1/manifest'
-import { manifest as businessPaper2 } from '../../content/business/aqa-a-level/paper-2/manifest'
-import { manifest as businessPaper3 } from '../../content/business/aqa-a-level/paper-3/manifest'
-import { manifest as psychologyPaper1 } from '../../content/psychology/aqa-a-level/paper-1/manifest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { appPath, planUserId, seedPlanStudent } from './plan-seed'
 
-/**
- * FI-001 cross-surface browser traces on genuine published course and paper IDs.
- * Controlled student rows and dates; this is acceptance-path assurance, not
- * real learner comprehension or comparative expert education sign-off.
- */
+/** Node-only browser fixture: verify authoritative paper-manifest identities by
+ * reading text, not executing the Vite/JSON content-loader module graph. */
 type FixtureCourse = {
   id: string
   subjectId: string
-  modules: ReadonlyArray<{ id: string; status: string; paper: { number: number } }>
+  modules: readonly { id: string; status: 'available'; paper: { number: number } }[]
 }
-function realCourse(first: typeof businessPaper1, modules: FixtureCourse['modules']): FixtureCourse {
-  return {
-    id: first.examBoard.id + ':' + first.qualification.id + ':' + first.specificationCode,
-    subjectId: first.subject.id, modules,
-  }
+function publishedCourse(subject: string, specification: string, papers: readonly number[]): FixtureCourse {
+  const modules = papers.map((number) => {
+    const path = 'content/' + subject + '/aqa-a-level/paper-' + number + '/manifest.ts'
+    const text = readFileSync(resolve(process.cwd(), path), 'utf8')
+    const id = subject + '-aqa-a-level-' + specification + '-paper-' + number
+    for (const clause of [
+      "id: '" + id + "'",
+      "status: 'available'",
+      "subject: { id: '" + subject + "'",
+      "specificationCode: '" + specification + "'",
+      "number: " + number,
+    ]) {
+      if (!text.includes(clause)) throw new Error('Published paper manifest mismatch: ' + path + ', ' + clause)
+    }
+    return { id, status: 'available' as const, paper: { number } }
+  })
+  return { id: 'aqa:aqa-a-level:' + specification, subjectId: subject, modules }
 }
-// These are the same published paper IDs that the production registry imports.
-// No synthetic or guessed module identity is allowed in this browser oracle.
-const business = realCourse(businessPaper1, [businessPaper1, businessPaper2, businessPaper3])
-const psychology = realCourse(psychologyPaper1, [psychologyPaper1])
+const business = publishedCourse('business', '7132', [1, 2, 3])
+const psychology = publishedCourse('psychology', '7182', [1])
 
 function paper(course: FixtureCourse, number: number, date: string, name: string) {
   const module = course.modules.find((item) => item.paper.number === number)
