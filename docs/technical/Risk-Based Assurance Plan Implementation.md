@@ -1,6 +1,6 @@
 # Risk-Based Assurance Plan Implementation
 
-**Status:** Active on `main`; parallel execution optimisation proposed in the current maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
+**Status:** Active on `main`; selective execution candidate proposed in the current governed maintenance PR. Normative policy remains `50-engineering-standards/Testing & Assurance Standard.md` and `50-engineering-standards/Release & Deployment Standard.md`.
 
 ## Purpose
 
@@ -32,13 +32,20 @@ The classifier implements the highest-applicable-factor rule from the Testing & 
 
 The generated plan includes exact `baseSha` and `headSha`, so the evidence can be tied to the proposed revision.
 
-## Conservative execution mode
+## Risk-selected execution mode (governed proposal)
 
-Version 1 uses `selectionMode: conservative-full`.
+The current released implementation uses `conservative-full`: all PRs execute full CI. The proposed implementation uses `risk-selected` with only two deterministic, narrow exceptions for **pull requests**. All `main` pushes and other PRs run the full static, responsive browser and database/Edge assurance suites.
 
-The classifier declares the minimum assurance implied by risk, but **does not skip any existing CI suite**. `Foundation quality` and `Database, RLS and protected service assurance` both remain mandatory after the plan job succeeds.
+1. **Allowlisted non-executable Markdown only:** `README.md`, `docs/technical/**/*.md`, `docs/design/**/*.md` and `audits/**/*.md`. These paths cannot change executable runtime or governed educational inputs. The assurance-plan and secret scan run. Other Markdown paths, including numbered governance authorities, content factories and registers, are full CI by default.
+2. **Isolated browser-spec maintenance:** at most eight existing `tests/e2e/<name>.spec.ts` files, optionally with the allowlisted Markdown files. Typecheck, lint, validators, unit tests and production build all run. Phone, tablet and desktop each run the changed browser spec(s), with existing retries, accessibility/snapshot assertions and failure evidence intact. The separate database-backed browser specs `database-persistence.spec.ts` and `first-use-real-service.spec.ts` trigger full assurance.
 
-This is deliberate. The first stage is to make classification transparent and collect trustworthy evidence. Selective execution may only be introduced later through a governed change after the classifier has demonstrated reliable boundaries; uncertainty must continue to escalate rather than skip assurance.
+**Fail-safe:** changed application code, shared component styles, learner planning/educational scoring, authentication, RLS, database migrations, workflow/configuration changes, mixed executable+test diffs, deleted/renamed browser tests, unknown paths, missing changed-file evidence or more than eight changed specs all trigger full CI. A Medium risk classification alone does **not** enable selection: the specific change must meet the allowlist proof. The classifier uses no speculative dependency-to-test mapping.
+
+**Required status integrity:** all required job names are retained, including `Foundation quality` (the fail-closed aggregate) and `Database, RLS and protected service assurance`. For an inapplicable layer the job executes an explicit no-op reporting why it was not run; a passing not-applicable job does not mean the browser or database tests executed. The plan artifact and job summary expose mode, changed files, browser targets and executed layers. Failures, missing/unknown selection modes and upstream plan failure block the required Foundation gate.
+
+**Release boundary:** every merge still needs an exact-head successful `Revision CI` for its *appropriate* scope, the machine-readable Founder approval, current-`main` integration and production release lineage. All pushes to `main` run the complete regression suite; a nightly full run is not needed as a substitute for the full post-merge push and must never substitute for high-risk PR testing.
+
+**Candidate acceptance:** independently test documentation, isolated browser specs, mixed changes, deleted/renamed specs, database-backed specs, planner/auth/security paths, unclassified files and push events. Prove unchanged mandatory status names, all-viewport targeted test execution, full assurance for this workflow PR, and fail-closed behaviour. Do not claim a measured fast-path duration until an eligible PR completes.
 
 ## Repository secret/config scanning
 
@@ -71,14 +78,14 @@ PR #67's first classifier execution correctly classified its own CI/path-to-live
 
 No normative standard change is required because active engineering authority already mandates risk-based classification, progressive automation, inspectable assurance scope and fail-safe escalation. This document records implementation truth. The Technology Stack, INDEX and Assurance Coverage Register are updated in the same PR where the evidence changes current state.
 
-## Foundation quality execution optimisation (16 October 2026 — proposal)
+## Foundation quality execution optimisation (16 October 2026 — merged PR #638)
 
 The previous full Foundation quality job ran unit/static/build checks, then all phone, tablet and desktop Playwright projects sequentially, using two browser workers. Exact-head PR #637 CI run 38866205296 took approximately 17m28s for Foundation quality; browser regression took approximately 15m18s (648 passed, 332 skipped, 1 flaky). Database/RLS assurance finished independently in approximately 2m39s. A previous run (38770327258) failed two browser assertions, reinforcing the need to retain visual/accessibility failure evidence.
 
-The proposed workflow splits the unchanged full Playwright regression across three parallel jobs (one per existing viewport project). Static, unit and build assurance also runs concurrently. Each browser project retains the existing automatic single retry and failure artifacts. The existing required **Foundation quality** job name remains, implemented as a fail-closed aggregator that succeeds only if assurance-plan, static/unit/build and the complete browser matrix all succeeded. Database, RLS and protected-service assurance remains a separate required job. No browser tests or required checks are removed.
+The merged workflow splits the unchanged full Playwright regression across three parallel jobs (one per existing viewport project). Static, unit and build assurance also runs concurrently. Each browser project retains the existing automatic single retry and failure artifacts. The existing required **Foundation quality** job name remains, implemented as a fail-closed aggregator that succeeds only if assurance-plan, static/unit/build and the complete browser matrix all succeeded. Database, RLS and protected-service assurance remains a separate required job. No browser tests or required checks are removed.
 
-The workflow cancels superseded pull-request runs for the same PR, without cancelling main-branch push runs. npm caching is enabled on new test jobs. Timing and flakiness must be remeasured using multiple exact-head GitHub Actions runs; the estimated 8–10-minute full CI duration is not an observed result.
+The workflow cancels superseded pull-request runs for the same PR, without cancelling main-branch push runs. npm caching is enabled on new test jobs. PR #638 exact-head CI run 38870291231 completed successfully in ~6m33s, compared with ~17m28s for the earlier serial Foundation job; one tablet visual assertion passed on retry. This is one observed comparison, not an assured typical time. Release run 38871877134 then passed lineage, backend, build, production smoke and durable `revision/path-to-live = success`.
 
-**Test-selection boundary:** this PR does **not** enable selective execution or scheduled replacement testing. The active classifier remains `conservative-full`; it is hardened so central Home/Plan recommendation paths are classified High risk rather than Medium. Selective execution requires a separate, evidence-based coverage mapping and demonstration that changed critical/shared journeys trigger all required tests, with fallback to full assurance on uncertainty. A nightly full run cannot replace mandatory high-risk pre-merge checks.
+**PR #638 boundary:** the merged optimisation did not enable selective execution; Home/Plan core decisions remain High risk. Selective scope is proposed only through the narrow eligibility rules above; learner code and shared dependencies stay on full assurance.
 
 **Acceptance:** before merge, demonstrate successful exact-head Revision CI, all three Playwright projects, static/unit/build, DB/RLS, exact required status names, and correct fail-closed aggregator semantics. Preserve protected merge status `Foundation quality` and Founder approval rules. Record observed duration and any observed flaky baseline. The canonical production learner route remains `/revision/app/`; this infrastructure-only PR does not modify the deployed learner runtime or any learner-facing route.
