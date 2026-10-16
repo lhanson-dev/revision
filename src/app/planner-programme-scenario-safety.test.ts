@@ -148,7 +148,12 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     const requirement = programme.requirements.find((entry) => entry.topicId === topicId)!
     expect(requirement.hasAcceptedSession).toBe(true)
     expect(requirement.evidenceStatus).toBe('unknown')
-    expect(candidates.some((candidate) => candidate.topicId === topicId)).toBe(false)
+    // Finished, unscored activity must not permanently hide the topic.
+    // Only still-planned commitments suppress duplicate suggestions.
+    expect(candidates.some((candidate) => candidate.topicId === topicId)).toBe(true)
+    const chosen = buildLearnerPreparationProgramme([state], papers, fullCapacity, [], [], now,
+      [session(topicId, '2026-10-19', 'planned')])
+    expect(chosen.candidates.some((candidate) => candidate.topicId === topicId)).toBe(false)
     safety(programme)
   })
 
