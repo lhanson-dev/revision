@@ -147,3 +147,36 @@ test('SV-11: changed actual paper dates rebuild milestones and retain common fiv
   await expect(programme).toContainText('23 June 2027')
   await expect(programme).not.toContainText('2 June 2027')
 })
+
+// SV-13 also exercises the case when *both* planning inputs are unknown.
+// A useful first activity remains possible, but no paper date or time budget
+// may be fabricated and navigating ahead must not imply a booked session.
+test('SV-13: unknown exam dates and study time keep five learner surfaces honest without invented plans', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
+
+  await page.goto(appPath)
+  await expect(page.locator('.home-v3-hero')).toBeVisible()
+  await expect(page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ })).toBeVisible()
+
+  await page.goto(appPath + '#/plan')
+  const setup = page.getByLabel('Finish setting up your plan')
+  await expect(setup).toBeVisible()
+  await expect(setup).toContainText('Add your exam dates and your study time')
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toHaveCount(0)
+  await expect(page.locator('.pln-summary, .pln-weekview')).toHaveCount(0)
+
+  await page.goto(appPath + '#/plan?view=month&date=2027-03-01')
+  await expect(page.locator('.pln-month')).toBeVisible()
+  await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toHaveCount(0)
+
+  await page.goto(appPath + '#/plan?view=day&date=2026-10-05')
+  await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
+  await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
+
+  await page.goto(appPath + '#/rev')
+  await page.getByRole('button', { name: 'When are my exams?', exact: true }).click()
+  const answer = page.getByRole('log').locator('.rev-chat__message--rev').last()
+  await expect(answer).toBeVisible()
+  await expect(answer).not.toContainText('2027-03-01')
+})

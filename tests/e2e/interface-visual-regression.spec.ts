@@ -267,10 +267,21 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * but no content, controls or geometry changes. Only two known exact hashes
  * are admitted for Plan Light; this is NOT a global screenshot tolerance.
  */
+/** CI 38893190109 Plan Light first capture 61e78740... matched the first
+ * Founder-reviewed CI #38812328043 *retry* image byte-for-byte. Both are
+ * 1440x900; compared with the explicitly approved first image 0ce6b4...,
+ * exactly 14 pixels vary (x293-296, y45-129; maximum RGB channel delta 14).
+ * The newer 7d7c... capture had a separate 1,580 tiny glyph-edge variation,
+ * previously visually inspected. All three exact hashes are from retained CI
+ * images of the same approved guided-setup screen; unknown images still FAIL.
+ * Wait two settled animation frames, and assert expected DOM setup state,
+ * before capturing. This neither masks any region nor widens other baselines.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': [
     '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
     '7d7c69d1b5241127511c4594bcdc64f2dbdfd6906586a4ff1cb78923f2258161',
+    '61e78740437207ebceb1c6c8485b5882b35030d819b24397832143848c7c8a94',
   ],
   'desktop:plan:dark': [
     '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
@@ -468,6 +479,14 @@ async function openState(page: Page, state: VisualState) {
     await document.fonts.ready
     window.scrollTo(0, 0)
   })
+  if (state === 'plan') {
+    // The first paint after document.fonts.ready can vary in tiny glyph-edge
+    // raster pixels. Protect the same visual state after two settled frames.
+    await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
+    await expect(page.locator('.pln-summary, .pln-weekview')).toHaveCount(0)
+    await page.evaluate(() => new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
+  }
 }
 
 for (const visualCase of cases) {
