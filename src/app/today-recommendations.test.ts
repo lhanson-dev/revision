@@ -39,8 +39,16 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(tasks).toEqual(choices(context(sessions.reverse())))
   })
   it('R1-07 exact exam intent remains the identical real paper/question through Start', () => {
-    const evidence = Array.from({ length: 4 }, (_, i) => ({ id: `e${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
-      topicId: 'finance', contentId: `q${i}`, occurredAt: '2026-10-10T12:00:00Z', source: 'multiple_choice' as const, correct: true, selectedOption: 0, correctOption: 0 }))
+    // Six distinct scored observations across independent recall/application
+    // satisfy the real Topic Knowledge engine, unlike four quiz responses.
+    const evidence = [
+      ...Array.from({ length: 3 }, (_, i) => ({ id: `q${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
+        topicId: 'finance', contentId: `q${i}`, occurredAt: '2026-10-10T12:00:00Z',
+        source: 'multiple_choice' as const, correct: true, selectedOption: 0, correctOption: 0 })),
+      ...Array.from({ length: 3 }, (_, i) => ({ id: `f${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
+        topicId: 'finance', contentId: `f${i}`, occurredAt: '2026-10-10T12:00:00Z',
+        source: 'flashcard' as const, rating: 2 as const })),
+    ]
     const current = createCourseLearningState(course, evidence)
     const scoped = { ...assessment, scope: { topicIds: ['finance'] } }
     const snapshot = buildPlannerSnapshot([current], [scoped], availability, [], [], now, [])!
