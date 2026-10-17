@@ -90,3 +90,7 @@ The approved main branch advanced seven commits to `7e253fa5`, overlapping the c
 4. Hold any PR merge when scenario or hard-gate evidence is absent, even if all CI jobs are green. The Founder alone can authorise merge PR #637 after the governed requirements are met.
 
 **Documentation impact:** `docs/technical/Adaptive Revision Planner Implementation.md`, the Assurance Coverage Register and this historical audit are updated in the same branch. The approved normative educational strategy is unchanged. History stays as recorded.
+
+### FI-001 weak-topic scenario test typecheck correction (17 October 2026)
+
+[CI #38986002132](https://github.com/lhanson-dev/revision/actions/runs/38986002132) failed at TypeScript typechecking in the new SV-02/09 Business test. The ISO date string passed to Vitest's numeric toBeGreaterThan matcher caused a TS2345 error; every Playwright webServer-dependent job subsequently failed to start, propagating to Foundation Quality. The test now compares lexically ordered YYYY-MM-DD keys and asserts the boolean, preserving the deadline requirement. No production code, accepted visual digest or normative product rule is modified. A fresh full exact-head CI is required; educational acceptance remains PARTIAL/NOT ACCEPTED.

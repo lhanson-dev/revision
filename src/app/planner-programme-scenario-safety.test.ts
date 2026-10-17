@@ -130,7 +130,8 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
       treatment: 'learn', evidenceStatus: 'needs-work',
     })
     expect(ordered[explanationPosition].purpose).toContain('demonstrated gap')
-    expect(ordered[checkPosition].assessmentDate).toBeGreaterThan('2026-10-15')
+    // ISO date keys compare in calendar order, unlike Vitest's numeric matcher.
+    expect(ordered[checkPosition].assessmentDate > '2026-10-15').toBe(true)
     // Genuine newer success should remove unnecessary foundation repetition,
     // while remaining paper demands and the scored result stay authoritative.
     const improved = createCourseLearningState(business, [
