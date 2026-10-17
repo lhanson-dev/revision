@@ -1,6 +1,7 @@
 import type { PlannedSession } from '../services/planning/planned-session-service'
 import { applyAcceptedSessionsToDays, withoutPlannedTopics } from './accepted-sessions'
 import { evidencePercentage } from '../engine/evidence/evidence'
+import { GOOD_SCORE_MIN, MEDIUM_SCORE_MIN } from '../engine/knowledge/topic-knowledge'
 import type { ModuleLearningState } from './catalogue-model'
 import type {
   RevisionAssessment,
@@ -304,7 +305,7 @@ export function preparationCandidatesFromLearningState(
     // Insufficient-but-nonzero evidence alone does not force the learner to
     // reread; a valid scored low band or no exposure is required.
     const needsSupportedExplanation =
-      score !== null && score < 0.55
+      score !== null && score < MEDIUM_SCORE_MIN / 100
       || score === null && (knowledge?.distinctContentItems ?? 0) === 0
     const chapter = needsSupportedExplanation
       ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId)
@@ -425,8 +426,8 @@ export function buildLearnerPreparationProgramme(
         const score = knowledge?.score
         const evidenceStatus: PreparationKnowledgeRequirement['evidenceStatus'] =
           score === null || score === undefined ? 'unknown'
-            : score < 55 ? 'needs-work'
-              : (knowledge?.distinctContentItems ?? 0) < 4 ? 'provisional' : 'supported'
+            : score < MEDIUM_SCORE_MIN ? 'needs-work'
+              : score < GOOD_SCORE_MIN ? 'provisional' : 'supported'
         requirement = {
           courseId, topicId, papers: [], evidenceStatus,
           supportedCandidateIds: [], allocatedCandidateIds: [],

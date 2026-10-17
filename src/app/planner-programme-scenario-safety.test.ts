@@ -102,6 +102,41 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(programme)
   })
 
+
+  it('SV-02/SV-10: the planner uses authoritative Topic Knowledge bands at the 50% Nearly there boundary', () => {
+    const topicId = business.learningAdapter.listTopics()[0]!.id
+    // Six distinct scored items spanning recall and application: 1/3
+    // flashcards and 2/3 questions correct -> the governed engine gives 50%.
+    const mixed = scoredTopic(topicId, false, '2026-10-01T09:00:00.000Z')
+      .map((item) => {
+        if (item.source === 'flashcard') {
+          return { ...item, rating: item.contentId.endsWith('-0') ? 2 : 0 }
+        }
+        if (item.source === 'multiple_choice') {
+          const correct = !item.contentId.endsWith('-2')
+          return { ...item, correct, selectedOption: correct ? 0 : 1 }
+        }
+        return item
+      })
+    const state = createCourseLearningState(business, mixed)
+    const knowledge = state.topicKnowledge.topics.find((item) => item.topicId === topicId)
+    expect(knowledge).toMatchObject({ score: 50, band: 'medium' })
+    const { programme, candidates } = buildLearnerPreparationProgramme(
+      [state], businessPapers(), fullCapacity, [], [], now)
+    expect(programme.requirements.find((item) => item.topicId === topicId)?.evidenceStatus)
+      .toBe('provisional')
+    // A scored Nearly there topic should not be declared weak or forced
+    // through introductory learning on a second, ungoverned 55% threshold.
+    expect(candidates.some((item) => item.topicId === topicId
+      && item.preparationStage === 'acquire')).toBe(false)
+    const objectives = programme.weeks.flatMap((week) => week.objectives)
+      .filter((item) => item.topicId === topicId)
+    expect(objectives.length).toBeGreaterThan(0)
+    expect(objectives.every((item) => item.evidenceStatus === 'provisional'
+      && item.treatment !== 'repair')).toBe(true)
+    safety(programme)
+  })
+
   it('SV-02/SV-09: real weak evidence produces supported explanation before a later check without wiping the scored weakness', () => {
     const published = business.learningAdapter.listLearnChapters().find((chapter) =>
       chapter.groups.some((group) => group.pages.some((page) => page.topicId === chapter.topicId)))

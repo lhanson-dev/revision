@@ -1,4 +1,5 @@
 import type { PlannerCandidate } from './planning'
+import { GOOD_SCORE_MIN, MEDIUM_SCORE_MIN } from '../knowledge/topic-knowledge'
 import type { PlannerProgramme, ProgrammeWeek, ProgrammeMilestone } from './programme'
 
 /**
@@ -93,14 +94,14 @@ function dayDistance(a: string, b: string) {
 }
 function evidenceState(candidate: PlannerCandidate): PreparationObjective['evidenceStatus'] {
   if (candidate.understanding === null) return 'unknown'
-  if (candidate.understanding < 0.55) return 'needs-work'
-  if (candidate.evidenceStrength < 0.6) return 'provisional'
+  if (candidate.understanding < MEDIUM_SCORE_MIN / 100) return 'needs-work'
+  if (candidate.understanding < GOOD_SCORE_MIN / 100 || candidate.evidenceStrength < 0.6) return 'provisional'
   return 'supported'
 }
 function treatmentFor(candidate: PlannerCandidate): PreparationTreatment {
   if (candidate.activityType === 'learn') return 'learn'
   if (candidate.activityType === 'exam-question') return 'exam-practice'
-  if (candidate.understanding !== null && candidate.understanding < 0.55) return 'repair'
+  if (candidate.understanding !== null && candidate.understanding < MEDIUM_SCORE_MIN / 100) return 'repair'
   if (candidate.activityType === 'flashcards') return 'retrieve'
   return 'check'
 }
@@ -120,7 +121,7 @@ function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): Prep
             : 'Apply and check understanding using an approved activity'
   const why = evidenceStatus === 'unknown' ? 'Understanding has not been established by sufficient evidence'
     : evidenceStatus === 'needs-work' ? 'Existing evidence indicates that this area needs attention'
-      : evidenceStatus === 'provisional' ? 'Existing evidence is not broad enough for a confident judgement'
+      : evidenceStatus === 'provisional' ? 'Scored evidence suggests developing understanding; further independent practice remains useful'
         : 'This is a supported opportunity to consolidate demonstrated knowledge'
   return {
     candidateId: candidate.id, courseId: candidate.courseId!, topicId: candidate.topicId,
@@ -158,7 +159,7 @@ export function buildPreparationProgramme(
     if (!target || seen.has(candidate.id)) continue
     seen.add(candidate.id)
     const evidenceNeed = candidate.understanding === null ? 0.6
-      : candidate.understanding < 0.55 ? 1 : Math.max(0, 0.8 - candidate.understanding)
+      : candidate.understanding < MEDIUM_SCORE_MIN / 100 ? 1 : Math.max(0, 0.8 - candidate.understanding)
     const urgency = (target.date <= horizon.today ? 100 : 1 / Math.max(1, dayDistance(horizon.today, target.date)))
       + evidenceNeed / 10 + (candidate.activityType === 'exam-question' ? 0.02 : 0)
     demand.push({ candidate, target, targets: eligible, objective: describe(candidate, target), urgency })

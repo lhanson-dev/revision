@@ -117,7 +117,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                           : requirement.evidenceStatus === 'needs-work'
                             ? 'Existing scored evidence indicates more work is useful.'
                             : requirement.evidenceStatus === 'provisional'
-                              ? 'Some evidence exists, but the picture is still provisional.'
+                              ? 'Scored evidence suggests developing understanding. Further independent practice would help.'
                               : 'There is supported scored evidence for this topic, not a guarantee of exam readiness.'}</p>
                         <p>{requirement.hasAcceptedSession
                           ? 'You have saved a session for this topic; that choice is not proof of completion or understanding.'
