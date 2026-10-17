@@ -176,6 +176,20 @@ test('critical course, learning, practice, exam and progress journey meets the a
 
   await page.getByRole('button', { name: /^Flashcards/ }).click()
   await expect(page.getByRole('button', { name: 'Show answer' })).toBeVisible()
+  // Flashcards may scroll the in-page activity into view, leaving the 36px
+  // course breadcrumb partially clipped by the phone viewport. Normalise the
+  // viewport to the settled course header before a full-page axe audit, and
+  // check the actual rendered touch target instead of ignoring target-size.
+  await page.evaluate(async () => {
+    window.scrollTo(0, 0)
+    await document.fonts.ready
+    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+  })
+  const breadcrumb = page.locator('.course-header .breadcrumbs > button[type="button"]')
+  await expect(breadcrumb).toBeVisible()
+  const touchTarget = await breadcrumb.boundingBox()
+  expect(touchTarget?.width ?? 0).toBeGreaterThanOrEqual(24)
+  expect(touchTarget?.height ?? 0).toBeGreaterThanOrEqual(24)
   await expectWcagBaseline(page, 'Practice flashcards')
   await page.getByRole('button', { name: 'Back to practice' }).click()
 
