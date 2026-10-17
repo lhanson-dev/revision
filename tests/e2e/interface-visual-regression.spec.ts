@@ -483,7 +483,9 @@ async function openState(page: Page, state: VisualState) {
     // The guided setup is the approved screen. Never hash an empty calendar.
     await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
     await expect(page.locator('#plan-page-title')).toBeVisible()
-    await expect(page.locator('.pln-nav')).toBeVisible()
+    // Unlike configured Plan, the published guided-setup view has no .pln-nav.
+    // Assert that truth instead of requiring an element the product omits.
+    await expect(page.locator('.pln-nav')).toHaveCount(0)
     // main #644 correctly waits for the settled Plan route. This governed
     // FI-001 fixture has NO saved exams/availability, so its approved output
     // is guided setup, not the legacy .pln-summary calendar from main.

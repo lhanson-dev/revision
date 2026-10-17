@@ -53,3 +53,40 @@ The new browser SV-02/09/10 test failed in all three responsive suites because i
 ## Integration of main #644 QA correction (16 October 2026)
 
 The approved main branch advanced seven commits to `7e253fa5`, overlapping the candidate's screenshot readiness and R1-11 first-use stability checks. The main Plan visual stability rule expects a settled calendar summary; on FI-001 PR #637's **approved unconfigured Plan design** that would be a false expectation. The branch now waits for settled actual guided setup instead, with Plan loading indicator absence and exact protected image hash. Main's improved first-use screenshot readiness and equivalent R1-11 transition rules were accepted. This integration does not alter scheduling, domain educational rules, accepted student commitments or approved visual pixels. New exact-head CI and all 13 educational acceptance judgements remain required; the PR is still HOLD and no merge approval is inferred.
+
+## Expert educational desk review and remediation: 17 October 2026
+
+**Review basis:** normative `10-product-governance/Adaptive Revision Planning.md`; frozen thirteen-case expected outcomes in `10-product-governance/backlog/FI-001 Programme Value Scenarios.md`; source inspection of `src/app/planner-model.ts`, `src/engine/planning/preparation.ts`, `src/app/PlanProgrammeOutlook.tsx`; real-content domain tests and responsive browser checks. **This is a source/evidence gap analysis, not the required same-input production-baseline execution, human review of rendered outputs, or learner study.** The previous green CI #38932984112 was superseded by [#38971354659](https://github.com/lhanson-dev/revision/actions/runs/38971354659), which failed only desktop Plan Light/Dark screenshot checks because the #644 merge added an assertion that `.pln-nav` exists even on the *approved guided setup* state. All non-desktop-shard-1 jobs passed. The current branch fixes the test to assert guided setup and no `.pln-nav`, retains loading checks, font/paint settling and strict hashes. New exact-head CI is required.
+
+### Scenario-by-scenario educational verdicts (no artificial 13/13 pass)
+
+| Case | Real approved-paper/candidate evidence | Educational verdict and missing proof |
+| --- | --- | --- |
+| SV-01 New learner | Shared Business paper knowledge, future horizon, first Learn then check, supported Start/browser trace | **PARTIAL:** no expert score of the whole period's phase quality; no observed learner clarity |
+| SV-02 Uneven evidence | Published mixed-evidence domain + browser status changes; weak-topic supported Learn→check candidate and sequencing now strengthened | **PARTIAL:** insufficient verified long-range targeted gap/skill distribution and independent educational adjudication |
+| SV-03 Two subjects | Both genuine Business/Psychology obligations and nonzero feasible allocation proven | **PARTIAL:** no compared warranted allocation ratio/opportunity cost or weekly no-starvation evidence for authentic mixed mastery |
+| SV-04 Three Business papers | Shared obligations deduplicated, eight source-derived paper sections, date-safe response candidates | **PARTIAL:** cannot prove complete and timely AO/response progression for all papers |
+| SV-05 30 minutes/week | Real-course capacity and indivisible-task bounds; both subjects have feasible work | **PARTIAL:** no justified ranking of scarce time against omitted learning/AO demand |
+| SV-06 Late start | Date-safe paper deadlines and short horizon | **PARTIAL:** insufficient demonstrated educational triage of learning versus exam technique |
+| SV-07 Missed week | Recalculation does not convert absence to weaker scored knowledge | **PARTIAL:** no full five-view resumption explanation or commitment continuity review |
+| SV-08 Extra completion | Completed unscored work is not mastery; active saved choices suppress duplicate suggestions | **PARTIAL:** no authentic excess-scored-work advancement and next-objective transition adjudication |
+| SV-09 New weakness | Latest distinct scored evidence reduces topic status; supported explanation candidate added when a published Learn page exists | **PARTIAL:** verify scored-event persistence through real activities, later retest appropriateness and on-screen reason |
+| SV-10 Improvement | Latest scored content reclassifies a topic and suppresses unnecessary foundation reread | **PARTIAL:** no supported proof of appropriate independent exam-answer progression after improvement |
+| SV-11 Moved exam | Actual paper dates update Month/Week/Home/REV tests | **PARTIAL:** needs expert reallocation and accepted-session validity review after a deadline moves |
+| SV-12 Impossible time | Named, grouped real course-topic *supported opportunity* omissions in Month plus zero-capacity browser evidence | **PARTIAL:** supported-candidate minutes do **not** measure total course, AO or response-skill workload |
+| SV-13 Missing inputs | Honest guided setup and usable unscheduled Home; typed REV no-date response tested | **PARTIAL:** mixed known/unknown one-input cases and genuine learner comprehensibility remain unproven |
+
+### First substantive educational finding and correction
+
+**Finding E-01 (real, not just missing test):** `preparationCandidatesFromLearningState` previously generated an assured Learn→check sequence only for zero observed content. For a **sufficiently evidenced weak topic**, it returned a scored check/flashcard intent directly, despite an approved Learn page potentially being available. A programme could therefore label the work 'repair' without containing a pedagogically useful explanation step.
+
+**Correction on PR #637:** If the evidence-engine's validated topic score is below 55% *and* the course adapter exposes an exact approved Learn page, create a distinct supported explanation opportunity before the existing check; preserve `understanding` and `evidenceStatus='needs-work'` throughout, avoid unsupported content, preserve the check prerequisite and all paper deadlines. New real Business fixture asserts the weak Learn→check ordering and that new sufficient strong evidence removes the unnecessary Learn repeat. An intermediate nonzero *unscored/inconclusive* evidence state does not manufacture a weakness or force a fresh Learn page. This is a bounded opportunity-sequencing improvement, **not** a new mastery algorithm, FI-009/010/011/012 feature or guarantee of future scored gain. The candidate requires new exact-head CI before claiming successful implementation.
+
+### Hard-stop educational acceptance gaps
+
+1. Frozen **identical fixture** execution and recorded metric-by-metric comparison against approved main baseline `fd856583` for all thirteen, not just inferred code differences. Current source comparison does not satisfy this.
+2. Expert per-week educational judgements of topic/skill prerequisites, actual published response/AO mappings, authentic activity Start, realistic daily exceptions/timezone and defensible course share for sparse time.
+3. A **real student accessible comprehension test** of why a task is suggested, what is deliberately unallocated, how to begin, and how the plan changes after an evidenced event. No claim of educational efficacy or better grades until independently evaluated.
+4. Hold any PR merge when scenario or hard-gate evidence is absent, even if all CI jobs are green. The Founder alone can authorise merge PR #637 after the governed requirements are met.
+
+**Documentation impact:** `docs/technical/Adaptive Revision Planner Implementation.md`, the Assurance Coverage Register and this historical audit are updated in the same branch. The approved normative educational strategy is unchanged. History stays as recorded.

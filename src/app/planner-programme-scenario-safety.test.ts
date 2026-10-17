@@ -102,6 +102,51 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(programme)
   })
 
+  it('SV-02/SV-09: real weak evidence produces supported explanation before a later check without wiping the scored weakness', () => {
+    const published = business.learningAdapter.listLearnChapters().find((chapter) =>
+      chapter.groups.some((group) => group.pages.some((page) => page.topicId === chapter.topicId)))
+    expect(published).toBeDefined()
+    const topicId = published!.topicId
+    const weak = createCourseLearningState(business,
+      scoredTopic(topicId, false, '2026-10-01T09:00:00.000Z'))
+    const { candidates, programme } = buildLearnerPreparationProgramme(
+      [weak], businessPapers(), fullCapacity, [], [], now)
+    const teaching = candidates.find((item) =>
+      item.topicId === topicId && item.preparationStage === 'acquire')
+    const checking = candidates.find((item) =>
+      item.topicId === topicId && item.preparationStage === 'check'
+      && item.preparationPrerequisiteId === teaching?.id)
+    expect(teaching?.learnTarget?.learnPageId).toBeTruthy()
+    expect(teaching?.understanding).toBe(0)
+    expect(checking).toBeDefined()
+    expect(programme.requirements.find((item) => item.topicId === topicId)?.evidenceStatus)
+      .toBe('needs-work')
+    const ordered = programme.weeks.flatMap((week) => week.objectives)
+    const explanationPosition = ordered.findIndex((item) => item.candidateId === teaching?.id)
+    const checkPosition = ordered.findIndex((item) => item.candidateId === checking?.id)
+    expect(explanationPosition).toBeGreaterThanOrEqual(0)
+    expect(checkPosition).toBeGreaterThan(explanationPosition)
+    expect(ordered[explanationPosition]).toMatchObject({
+      treatment: 'learn', evidenceStatus: 'needs-work',
+    })
+    expect(ordered[explanationPosition].purpose).toContain('demonstrated gap')
+    expect(ordered[checkPosition].assessmentDate).toBeGreaterThan('2026-10-15')
+    // Genuine newer success should remove unnecessary foundation repetition,
+    // while remaining paper demands and the scored result stay authoritative.
+    const improved = createCourseLearningState(business, [
+      ...scoredTopic(topicId, false, '2026-10-01T09:00:00.000Z'),
+      ...scoredTopic(topicId, true, '2026-10-15T10:00:00.000Z'),
+    ])
+    const following = buildLearnerPreparationProgramme(
+      [improved], businessPapers(), fullCapacity, [], [], now)
+    expect(following.programme.requirements.find((item) =>
+      item.topicId === topicId)?.evidenceStatus).toBe('supported')
+    expect(following.candidates.some((item) =>
+      item.topicId === topicId && item.preparationStage === 'acquire')).toBe(false)
+    safety(programme)
+    safety(following.programme)
+  })
+
   it('SV-09: newer weak scores revoke supported status, not paper obligations', () => {
     const topicId = business.learningAdapter.listTopics()[0]!.id
     const initial = scoredTopic(topicId, true, '2026-10-01T09:00:00.000Z')

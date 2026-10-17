@@ -298,8 +298,17 @@ export function preparationCandidatesFromLearningState(
     // Existing scored observations can justify checking further breadth; do not
     // force a fresh Learn page merely because the evidence sufficiency gate
     // has not yet reached a publishable knowledge score.
-    const needsFoundation = score === null && (knowledge?.distinctContentItems ?? 0) === 0
-    const chapter = needsFoundation ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId) : undefined
+    // A verified weak result is not the same as an unseen topic. Where the
+    // published course has a direct Learn page, offer supported explanation
+    // before another independent check, without erasing the scored weakness.
+    // Insufficient-but-nonzero evidence alone does not force the learner to
+    // reread; a valid scored low band or no exposure is required.
+    const needsSupportedExplanation =
+      score !== null && score < 0.55
+      || score === null && (knowledge?.distinctContentItems ?? 0) === 0
+    const chapter = needsSupportedExplanation
+      ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId)
+      : undefined
     const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
     // A verified exact exam intent must not be silently substituted with Learn.
     const directSection = state && candidate.examTarget
@@ -313,7 +322,7 @@ export function preparationCandidatesFromLearningState(
       // Their independent IDs allow a real sequence instead of repeating Learn.
       const learn: PlannerCandidate = {
         ...practice, id: `${candidate.id}:learn:${page.id}`,
-        activityType: 'learn', estimatedMinutes: 15, understanding: null,
+        activityType: 'learn', estimatedMinutes: 15, understanding: score,
         learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
         examTarget: undefined, preparationStage: 'acquire',
       }

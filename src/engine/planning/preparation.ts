@@ -107,7 +107,10 @@ function treatmentFor(candidate: PlannerCandidate): PreparationTreatment {
 function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): PreparationObjective {
   const evidenceStatus = evidenceState(candidate)
   const treatment = treatmentFor(candidate)
-  const purpose = treatment === 'learn' ? 'Build the foundations before independent practice'
+  const purpose = treatment === 'learn'
+    ? evidenceStatus === 'needs-work'
+      ? 'Revisit a demonstrated gap using published explanation before checking it again'
+      : 'Build the foundations before independent practice'
     : treatment === 'exam-practice' ? candidate.paperResponseFormat
       ? `Practise ${candidate.paperResponseFormat} using a verified paper question`
       : 'Practise the demands of this paper with an assured question'
