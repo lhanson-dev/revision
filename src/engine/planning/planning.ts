@@ -54,6 +54,9 @@ export interface PlannerCandidate {
   /** Exact published paper-section mapping, not a guessed response-skill proxy. */
   paperResponseSectionId?: string
   paperResponseFormat?: string
+  /** Programme-first learner explanation, not an independent priority score. */
+  preparationPurpose?: string
+  preparationReason?: string
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
@@ -76,6 +79,8 @@ export interface PlannerItem {
   activityType: string
   estimatedMinutes: number
   reasons: PlannerReasonCode[]
+  preparationPurpose?: string
+  preparationReason?: string
   moduleId?: string
   assessmentTargets?: readonly PlannerAssessmentTarget[]
   examTarget?: { moduleId: string; examId: string; questionId: string }
@@ -183,6 +188,8 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     activityType: candidate.activityType,
     estimatedMinutes,
     reasons,
+    preparationPurpose: candidate.preparationPurpose,
+    preparationReason: candidate.preparationReason,
     moduleId: candidate.moduleId,
     examTarget: candidate.examTarget,
     learnTarget: candidate.learnTarget,

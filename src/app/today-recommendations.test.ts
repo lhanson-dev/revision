@@ -38,6 +38,24 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(tasks.some((t) => t.sessionId === 'done' || t.sessionId === 'skip')).toBe(false)
     expect(tasks).toEqual(choices(context(sessions.reverse())))
   })
+  it('FI-001: Home and REV use the exam-linked objective explanation chosen by the programme', () => {
+    const snapshot = buildPlannerSnapshot([state], [assessment], availability, [], [], now, [])!
+    const item = snapshot.today[0]
+    expect(item).toBeDefined()
+    expect(item.preparationPurpose).toBeTruthy()
+    expect(item.preparationReason).toContain('Paper 1')
+    expect(item.preparationReason).toContain('2026-10-20')
+    expect(item.preparationReason).toContain('Understanding has not been established')
+    const first = choices(context())[0]
+    expect(first.id).toBe(item.recommendationId)
+    expect(first.reason).toBe(`${item.preparationPurpose}. ${item.preparationReason}`)
+    expect(recommendationExplanation(first)).toContain(first.reason)
+    // A student-chosen appointment still has its own authentic explanation;
+    // it must not masquerade as a new programme-selected objective.
+    const accepted = choices(context([session('chosen', 'finance')]))[0]
+    expect(accepted.reason).toContain('You chose this session')
+  })
+
   it('R1-07 exact exam intent remains the identical real paper/question through Start', () => {
     // Six distinct scored observations across independent recall/application
     // satisfy the real Topic Knowledge engine, unlike four quiz responses.

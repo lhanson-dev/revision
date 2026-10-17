@@ -95,7 +95,10 @@ export function tasksFromPlanner(
       topicLabel: topic.shortTitle,
       activityType: item.activityType,
       estimatedMinutes: item.estimatedMinutes,
-      reason: reason ? `This comes first because ${plannerReasonLabel(reason)}.` : 'This is the strongest next step from your current plan and evidence.',
+      reason: item.preparationPurpose && item.preparationReason
+        ? `${item.preparationPurpose}. ${item.preparationReason}`
+        : reason ? `This comes first because ${plannerReasonLabel(reason)}.`
+          : 'This is the strongest next step from your current plan and evidence.',
       adapter: state.adapter,
       plannerItem: item,
       examTarget: item.examTarget,

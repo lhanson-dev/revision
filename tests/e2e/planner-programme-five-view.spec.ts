@@ -62,6 +62,10 @@ async function observeFiveViews(page: Page, paperNames: string[], month = '2027-
   await expect(hero.getByRole('button', { name: /^Start/ })).toBeVisible()
   const nextTopic = (await hero.getByRole('heading', { level: 2 }).innerText()).trim()
   expect(nextTopic.length).toBeGreaterThan(2)
+  // The programme's exact educational purpose and named paper reach Home,
+  // rather than being replaced by a generic independent ranking message.
+  await expect(hero.locator('.home-v3-hero-reason')).toContainText('preparation remains relevant to')
+  await expect(hero.locator('.home-v3-hero-reason')).toContainText(paperNames[0].split(' ')[0])
 
   await page.goto(appPath + '#/plan')
   await expect(page.locator('.pln-weekview')).toBeVisible()
@@ -99,8 +103,9 @@ async function observeFiveViews(page: Page, paperNames: string[], month = '2027-
   await page.goto(appPath + '#/rev')
   await expect(page.getByRole('log')).toContainText(nextTopic)
   await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
-  await expect(page.getByRole('log').locator('.rev-chat__message--rev').last())
-    .toContainText(nextTopic)
+  const revReply = page.getByRole('log').locator('.rev-chat__message--rev').last()
+  await expect(revReply).toContainText(nextTopic)
+  await expect(revReply).toContainText('preparation remains relevant to')
   return nextTopic
 }
 
