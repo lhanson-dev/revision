@@ -86,6 +86,34 @@ function scoredTopic(topicId: string, passed: boolean, when: string): import('..
 }
 
 describe('FI-001 real-content scenario boundary probes (NOT five-view educational acceptance)', () => {
+
+  it('SV-09: one high-scoring application answer is not sufficient proof for exam-practice promotion', () => {
+    const examined = business.modules[0]!
+    const published = examined.listExams().flatMap((paper) => paper.questions)
+      .find((question) => !question.choiceGroup && business.learningAdapter.getTopic(question.topic))
+    expect(published).toBeDefined()
+    const topicId = published!.topic
+    const oneCorrect: import('../engine/evidence/evidence').LearningEvidence = {
+      id: 'one-scored-answer', moduleId: business.learningAdapter.manifest.id, topicId,
+      occurredAt: '2026-10-15T08:00:00.000Z', contentId: 'one-question',
+      source: 'multiple_choice', schemaVersion: 1, correct: true,
+      selectedOption: 0, correctOption: 0,
+    }
+    const state = createCourseLearningState(business, [oneCorrect])
+    expect(state.topicKnowledge.topics.find((item) => item.topicId === topicId)?.score).toBeNull()
+    const near = [exam(business, 1, '2026-10-24')]
+    const result = buildLearnerPreparationProgramme([state], near, fullCapacity, [], [], now)
+    const candidates = result.candidates.filter((candidate) => candidate.topicId === topicId)
+    expect(candidates.length).toBeGreaterThan(0)
+    expect(candidates.every((candidate) => candidate.understanding === null)).toBe(true)
+    expect(candidates.some((candidate) => candidate.activityType !== 'exam-question')).toBe(true)
+    expect(result.programme.requirements.find((item) => item.topicId === topicId)?.evidenceStatus)
+      .toBe('unknown')
+    // Paper requirements stay visible, but one correct answer cannot force the
+    // first recommendation into the exam-question pathway by raw percentage.
+    safety(result.programme)
+  })
+
   it('SV-02: Business paper topics distinguish strong and weak scored evidence', () => {
     const topics = business.learningAdapter.listTopics().slice(0, 2).map((item) => item.id)
     expect(topics).toHaveLength(2)
@@ -110,7 +138,7 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     const mixed = scoredTopic(topicId, false, '2026-10-01T09:00:00.000Z')
       .map((item) => {
         if (item.source === 'flashcard') {
-          return { ...item, rating: item.contentId.endsWith('-0') ? 2 : 0 }
+          return { ...item, rating: item.contentId.endsWith('-0') ? 2 as const : 0 as const }
         }
         if (item.source === 'multiple_choice') {
           const correct = !item.contentId.endsWith('-2')

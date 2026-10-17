@@ -1,3 +1,5 @@
+import { MEDIUM_SCORE_MIN } from '../knowledge/topic-knowledge'
+
 export type PlannerReasonCode =
   | 'ASSESSMENT_SOON'
   | 'HIGH_IMPORTANCE_ASSESSMENT'
@@ -117,7 +119,7 @@ function candidateReasons(candidate: PlannerCandidate): PlannerReasonCode[] {
   if (candidate.daysUntilAssessment <= 14) reasons.push('ASSESSMENT_SOON')
   if (candidate.assessmentImportance === 'high') reasons.push('HIGH_IMPORTANCE_ASSESSMENT')
   if (candidate.evidenceStrength < 0.35) reasons.push('LOW_EVIDENCE')
-  if (candidate.understanding !== null && candidate.understanding < 0.55) reasons.push('WEAK_EVIDENCE')
+  if (candidate.understanding !== null && candidate.understanding < MEDIUM_SCORE_MIN / 100) reasons.push('WEAK_EVIDENCE')
   if (candidate.coverage < 0.6) reasons.push('UNDER_COVERED')
   if (candidate.daysUntilAssessment <= 21 && candidate.readiness !== null && candidate.readiness < 0.65) reasons.push('EXAM_PRACTICE_DUE')
   if (candidate.examWeight !== null && candidate.examWeight >= 0.2) reasons.push('HIGH_MARK_OPPORTUNITY')

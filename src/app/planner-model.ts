@@ -1,6 +1,5 @@
 import type { PlannedSession } from '../services/planning/planned-session-service'
 import { applyAcceptedSessionsToDays, withoutPlannedTopics } from './accepted-sessions'
-import { evidencePercentage } from '../engine/evidence/evidence'
 import { GOOD_SCORE_MIN, MEDIUM_SCORE_MIN } from '../engine/knowledge/topic-knowledge'
 import type { ModuleLearningState } from './catalogue-model'
 import type {
@@ -106,10 +105,11 @@ function learnerPreferenceForCandidate(
 
 function topicEvidenceSummary(state: ModuleLearningState, topicId: string) {
   const evidence = state.evidence.filter((item) => item.topicId === topicId)
-  const percentages = evidence.map(evidencePercentage).filter((value): value is number => value !== null)
-  const understanding = percentages.length === 0
-    ? null
-    : percentages.reduce((sum, value) => sum + value, 0) / percentages.length / 100
+  // Planning must not infer a supported understanding score from a few answers:
+  // the existing Topic Knowledge engine owns sufficiency, distinct-item
+  // de-duplication and evidence-family weighting.
+  const score = state.topicKnowledge?.topics.find((item) => item.topicId === topicId)?.score
+  const understanding = score === null || score === undefined ? null : score / 100
   const evidenceStrength = Math.min(1, evidence.length / 4)
   return { evidence, understanding, evidenceStrength }
 }
