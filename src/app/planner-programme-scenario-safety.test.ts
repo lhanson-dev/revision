@@ -285,6 +285,57 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(programme)
   })
 
+
+  it('SV-05: 20 weekly minutes split into 10+10 cannot fit a whole 15-minute activity', () => {
+    const profile: RevisionAvailabilityProfile = {
+      ...fullCapacity,
+      weeklyMinutes: { monday: 10, tuesday: 10, wednesday: 0, thursday: 0,
+        friday: 0, saturday: 0, sunday: 0 },
+    }
+    const paper = exam(business, 1, '2026-10-27')
+    const first = buildLearnerPreparationProgramme(
+      [sourceState()], [paper], profile, [], [], now)
+    expect(first.programme.weeks.every((week) => week.allocatedMinutes === 0)).toBe(true)
+    expect(first.programme.unserved.length).toBeGreaterThan(0)
+    // Adding one feasible whole-activity slot should create a real supported
+    // objective, while the 10-minute slots remain insufficient individually.
+    const feasible = { ...profile, weeklyMinutes: { ...profile.weeklyMinutes, tuesday: 20 } }
+    const second = buildLearnerPreparationProgramme(
+      [sourceState()], [paper], feasible, [], [], now)
+    const placed = second.programme.weeks.flatMap((week) => week.objectives)
+    expect(placed.length).toBeGreaterThan(0)
+    expect(placed.every((objective) => objective.forecastDate
+      && objective.forecastDate < objective.assessmentDate)).toBe(true)
+    expect(placed.every((objective) => objective.forecastDate?.endsWith('20') === false)).toBe(true)
+    safety(second.programme)
+  })
+
+  it('SV-05: same-week paper cutoff and saved commitments must leave an actual day that fits', () => {
+    const profile: RevisionAvailabilityProfile = {
+      ...fullCapacity,
+      weeklyMinutes: { monday: 0, tuesday: 0, wednesday: 0, thursday: 0,
+        friday: 0, saturday: 30, sunday: 30 },
+    }
+    const paper = exam(business, 1, '2026-10-17') // Saturday: no paper-specific work on exam date.
+    const before = buildLearnerPreparationProgramme(
+      [sourceState()], [paper], profile, [], [], now)
+    expect(before.programme.allocatedMinutes).toBe(0)
+    const moved = exam(business, 1, '2026-10-27')
+    const booked: PlannedSession = {
+      ...session(business.learningAdapter.listTopics()[0]!.id, '2026-10-17', 'planned'),
+      minutes: 25,
+    }
+    const after = buildLearnerPreparationProgramme(
+      [sourceState()], [moved], profile, [], [], now, [booked])
+    const firstWeek = after.programme.weeks[0]
+    expect(firstWeek.availableMinutes).toBe(35) // 5m Saturday and 30m Sunday
+    const placed = firstWeek.objectives
+    expect(placed.every((objective) => objective.forecastDate === '2026-10-18')).toBe(true)
+    expect(placed.reduce((sum, objective) => sum + objective.estimatedMinutes, 0))
+      .toBeLessThanOrEqual(30)
+    safety(after.programme)
+  })
+
   it('SV-05: one 30-minute opportunity per week cannot allocate larger whole-activity workload', () => {
     const profile: RevisionAvailabilityProfile = {
       ...fullCapacity, weekdayMinutes: 6, weekendMinutes: 0,

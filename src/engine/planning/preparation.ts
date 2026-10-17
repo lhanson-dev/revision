@@ -22,6 +22,8 @@ export interface PreparationObjective {
   assessmentDate: string
   estimatedMinutes: number
   paperResponseSectionId?: string
+  /** Recomputed daily fit within the forecast, not a persisted appointment. */
+  forecastDate?: string
 }
 export interface PreparationWeek extends ProgrammeWeek {
   availableMinutes: number | null
@@ -142,6 +144,7 @@ export function buildPreparationProgramme(
   candidates: readonly PlannerCandidate[],
   weekCapacity: (week: ProgrammeWeek) => number | null,
   capacityBefore?: (week: ProgrammeWeek, assessmentDate: string) => number | null,
+  dailyCapacity?: (week: ProgrammeWeek) => readonly { date: string; availableMinutes: number }[] | null,
 ): PreparationProgramme {
   const milestones = new Map(horizon.weeks.flatMap((week) => week.milestones)
     .map((milestone) => [milestone.assessmentId, milestone]))
@@ -224,7 +227,18 @@ export function buildPreparationProgramme(
     const availableMinutes = rawCapacity === null || !Number.isFinite(rawCapacity) || rawCapacity < 0
       ? null : rawCapacity
     const objectives: PreparationObjective[] = []
-    let remaining = availableMinutes ?? 0
+    // Whole activities must fit on actual available calendar days, not merely
+    // inside an aggregate week. The buckets are ephemeral: only the rolling
+    // Day forecast uses their date; no learner commitment is created.
+    const reportedDays = availableMinutes === null ? null : dailyCapacity?.(week) ?? null
+    const dailySlots = reportedDays === null ? null : reportedDays
+      .filter((item) => item.date >= week.visibleFrom && item.date <= week.visibleUntil
+        && Number.isFinite(item.availableMinutes) && item.availableMinutes >= 0)
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map((item) => ({ ...item }))
+    // If daily capacity was requested but cannot be established, do not
+    // manufacture a supposedly feasible weekly objective.
+    let remaining = dailyCapacity && dailySlots === null ? 0 : availableMinutes ?? 0
     // Select obligations before their paper, favouring earlier dates and
     // comparatively under-served course demand instead of a global activity
     // score, arbitrary subject rotation or fixed quotas.
@@ -243,11 +257,21 @@ export function buildPreparationProgramme(
         // claim that exposure produced scored evidence or proven retention.
         if (item.candidate.preparationPrerequisiteId
           && outstanding.has(item.candidate.preparationPrerequisiteId)) return []
-        const target = item.targets.find((entry) => entry.date > week.visibleFrom)
-        if (!target || item.candidate.estimatedMinutes > remaining) return []
-        const usableBefore = capacityBefore?.(week, target.date) ?? availableMinutes
+        if (item.candidate.estimatedMinutes > remaining) return []
+        const eligible = item.targets.flatMap((entry) => {
+          if (entry.date <= week.visibleFrom) return []
+          const free = dailySlots?.filter((day) => day.date < entry.date) ?? null
+          const fit = free?.find((day) => day.availableMinutes >= item.candidate.estimatedMinutes)
+          if (dailySlots && !fit) return []
+          return [{ target: entry, fitDate: fit?.date, usableBefore: free?.reduce(
+            (sum, day) => sum + day.availableMinutes, 0) ?? capacityBefore?.(week, entry.date) ?? availableMinutes }]
+        })
+        const possible = eligible[0]
+        if (!possible) return []
+        const { target, fitDate, usableBefore } = possible
         const alreadyUsed = objectives.reduce((total, objective) => total + objective.estimatedMinutes, 0)
-        if (usableBefore !== null && alreadyUsed + item.candidate.estimatedMinutes > usableBefore) return []
+        if (!dailySlots && usableBefore !== null
+          && alreadyUsed + item.candidate.estimatedMinutes > usableBefore) return []
         const pacing = pacingByPaper.get(item.target.assessmentId)
         const paperDemand = totalDemandByPaper.get(item.target.assessmentId) ?? 0
         // A feasible known horizon permits distributed preparation rather
@@ -267,8 +291,9 @@ export function buildPreparationProgramme(
         }
         const laterMinutes = knownCapacityAfterThisWeek(target)
         const remainingDemand = remainingByCoursePaper.get(`${item.candidate.courseId}:${target.assessmentId}`) ?? 0
-        const usableNow = Math.min(remaining, usableBefore === null ? remaining
-          : Math.max(0, usableBefore - alreadyUsed))
+        const usableNow = Math.min(remaining, dailySlots
+          ? usableBefore ?? 0
+          : usableBefore === null ? remaining : Math.max(0, usableBefore - alreadyUsed))
         // Protect the last feasible chance to start *supported* work for a
         // later paper. An already-impossible course does not automatically
         // consume every week merely because its earlier exam is closer.
@@ -278,7 +303,7 @@ export function buildPreparationProgramme(
           && remainingDemand <= laterMinutes + usableNow
           && usableNow >= item.candidate.estimatedMinutes
         return [{ ...item, target, objective: describe(item.candidate, target),
-          preserveFeasibleOpportunity }]
+          fitDate, preserveFeasibleOpportunity }]
       })
       if (!options.length) break
       const demandsByCourse = new Map<string, number>()
@@ -317,10 +342,15 @@ export function buildPreparationProgramme(
           || b.urgency - a.urgency || a.candidate.id.localeCompare(b.candidate.id)
       })
       const choice = options[0]
+      const placed = { ...choice.objective, ...(choice.fitDate ? { forecastDate: choice.fitDate } : {}) }
       objectives.push(choice.preserveFeasibleOpportunity
-        ? { ...choice.objective, reason: choice.objective.reason
+        ? { ...placed, reason: placed.reason
           + ' Delaying this supported work could leave too little available time for the remaining opportunities before this paper.' }
-        : choice.objective)
+        : placed)
+      if (choice.fitDate) {
+        const fit = dailySlots?.find((day) => day.date === choice.fitDate)
+        if (fit) fit.availableMinutes -= choice.candidate.estimatedMinutes
+      }
       if (choice.candidate.activityType === 'exam-question' && choice.candidate.paperResponseSectionId) {
         allocatedPaperResponseSections.add(choice.candidate.paperResponseSectionId)
       }
