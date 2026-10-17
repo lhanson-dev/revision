@@ -147,3 +147,28 @@ New SV-05 real-course boundary tests probe 10+10 minute non-fit, adding feasible
 Previous educational checkpoint correctly recorded that same-input frozen baseline vs new implementation execution was missing. The existing draft PR #637 now includes a dedicated comparator for every SV-01 to SV-13 scenario and its defined change, running exactly the same probe under frozen previous main fd8565838db8fc27cbf359fc86d846e9ab11fda5 and the exact candidate head. It records full inputs, bounded candidate outputs, programme objectives and omissions, and verifies cross-revision equality of scenario input hashes. Exact-head CI, comparator execution and artifacts are not yet verified at the time of this record.
 
 This is a deterministic desk-evidence comparison, not a measured outcome, expert educational sign-off or human usability study. Previous main did not model preparation objectives; missing baseline fields cannot alone establish superiority. Synthetic scores and real published content-adapter IDs do not prove real learner persistence or AO completeness. **All thirteen student-value scenario verdicts remain PARTIAL/HOLD** until objective-by-objective educational review, five-view journeys, evidence quality and accessible student comprehension are accepted. No merge authority.
+
+
+### First executed same-input evidence review — 17 October 2026
+
+[Counterfactual run #39027380930](https://github.com/lhanson-dev/revision/actions/runs/39027380930) completed successfully on frozen previous main and exact candidate PR head. All 13 fixture cases and before/after variants executed, and baseline/candidate input hashes matched. Raw artifact contained both full decision outputs and comparator JSON/Markdown. This is a **deterministic internal desk review**, not external expert opinion or a real student study. The first run supports the following provisional observations; counts represent *supported forecast opportunities* only, not complete syllabus/AO demand.
+
+| Case | Candidate before → after: allocated objectives / unallocated opportunities | Observed educational direction and remaining judgement |
+|---|---|---|
+| SV-01 | 43/0 → 42/0 | New scored strong area changes first learning focus to Finance; full programme exists, but its pedagogical timing and skills/AO completeness need review. |
+| SV-02 | 35/7 → 34/7 | Previously weak Business area becomes supported; remedial load reduces, first task changes; omitted need remains. |
+| SV-03 | 38/3 → 2/10 | Nearer Business examination passes; remaining Psychology preparation is prioritised before its paper. Need course-share opportunity-cost adjudication. |
+| SV-04 | 43/0 → 33/0 | Archiving first shared-syllabus paper reduces practice demand without removing later papers. |
+| SV-05 | 38/4 → 42/0 | Added weekly availability creates four additional supported objectives; original run did not cover defined day-off exception, now rectified in fixture pending re-run. |
+| SV-06 | 7/33 → 5/35 | Capacity cut reduces proposed work and increases exclusions; check if scarce time favours the right paper-answer skill versus introductory learning. |
+| SV-07 | 37/2 → 36/6 | Missed week changes priorities and increases unserved work without changed knowledge evidence. Preserve accepted commitments and clear restart explanation still need actual journey checks. |
+| SV-08 | 43/0 → 42/0 | Corroborated new scores shift first priority; test also includes completed activity, so isolation of completion-only semantics relies on separate coverage. |
+| SV-09 | 41/0 → 42/0 | New independently scored weakness changes first task to appropriate explanation/repair; later reassessment/REV explanation not fully reviewed. |
+| SV-10 | 43/0 → 42/0 | Reliable improvement removes weak-topic foundation repetition; lack of exam-answer evidence remains a concern. |
+| SV-11 | 40/0 → 40/0 | Changed paper dates alter future objectives while preserving accepted input; unchanged count is not proof of unchanged decisions. |
+| SV-12 | 0/42 → 6/36 | No available time produces no assignment, while adding Wednesday 30 minutes permits supported actions. Verify the actual highest-value educational omissions. |
+| SV-13 | 0/0, date-only 0/30, time-only 0/0, both 30/0 | Missing inputs do not manufacture dates or scheduled capacity. Separate honest Home/REV fallback and student comprehension still required. |
+
+**Potential normative discrepancy requiring governed resolution:** Founder-approved learner progress rules in 40-evidence-and-trust/Claims and Progress Governance.md say a learner-facing Quick check is unscored and must not alter status. Yet src/app/HomeFocusedActivity.tsx writes scored multiple-choice evidence when a learner completes a task labelled Quick check. FI-001's Learn→check and repair paths can recommend that same activity. This discrepancy must be reconciled against the approved educational treatment scope; it must **not** be silently fixed by changing evidence rules or loosening assertions. Status remains **HOLD** for the affected evidence-to-replanning acceptance.
+
+**Priority educational reviews still missing:** verified AO/response section coverage, what the student can usefully complete before an imminent paper, conditional learning progression after an actual scored result (as opposed to forecast intentions), all five rendered views and accessible real-student comprehension. The next fixture version retains actual response-section/AO provenance and the specified SV-01/SV-05 constraints. The first successful comparison is a historical snapshot, not final acceptance.
