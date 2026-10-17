@@ -160,19 +160,34 @@ describe('FI-001 R1a approved registry fixtures', () => {
     expect(businessQuestion).toBeDefined()
     expect(psychologyQuestions.length).toBeGreaterThan(0)
 
-    const businessWeak = createMultipleChoiceEvidence({
-      id: 'r1-14-business-incorrect', moduleId: business.modules[0].manifest.id, topicId: topic,
-      contentId: businessQuestion.id,
+    // Topic Knowledge requires six distinct items across two evidence families.
+    // Use corroborated weak/strong responses rather than treating a single
+    // incorrect answer or three correct questions as an attainment score.
+    const businessWeak = Array.from({ length: 3 }, (_, index) => createMultipleChoiceEvidence({
+      id: `r1-14-business-incorrect-${index}`, moduleId: business.modules[0].manifest.id,
+      topicId: topic, contentId: `r1-14-business-application-${index}`,
       selectedOption: (businessQuestion.correctOption + 1) % businessQuestion.options.length,
       correctOption: businessQuestion.correctOption, occurredAt: '2026-10-12T12:00:00Z',
-    })
+    }))
+    const businessRecall: LearningEvidence[] = Array.from({ length: 3 }, (_, index) => ({
+      id: `r1-14-business-recall-${index}`, moduleId: business.modules[0].manifest.id,
+      topicId: topic, contentId: `r1-14-business-card-${index}`,
+      source: 'flashcard', schemaVersion: 1, rating: 0 as const,
+      occurredAt: '2026-10-12T12:00:00Z',
+    }))
     const psychologyStrong = psychologyQuestions.map((question, index) => createMultipleChoiceEvidence({
       id: `r1-14-psychology-correct-${index}`, moduleId: psychology.modules[0].manifest.id,
       topicId: psychologyTopic, contentId: question.id, selectedOption: question.correctOption,
       correctOption: question.correctOption, occurredAt: '2026-10-12T12:00:00Z',
     }))
-    const businessScoredState = createCourseLearningState(business, [businessWeak])
-    const psychologyScoredState = createCourseLearningState(psychology, psychologyStrong)
+    const psychologyRecall: LearningEvidence[] = Array.from({ length: 3 }, (_, index) => ({
+      id: `r1-14-psychology-recall-${index}`, moduleId: psychology.modules[0].manifest.id,
+      topicId: psychologyTopic, contentId: `r1-14-psychology-card-${index}`,
+      source: 'flashcard', schemaVersion: 1, rating: 2 as const,
+      occurredAt: '2026-10-12T12:00:00Z',
+    }))
+    const businessScoredState = createCourseLearningState(business, [...businessWeak, ...businessRecall])
+    const psychologyScoredState = createCourseLearningState(psychology, [...psychologyStrong, ...psychologyRecall])
     const states = [businessScoredState, psychologyScoredState]
     const before = structuredClone(states.map((state) => ({
       course: state.adapter.manifest.id, evidence: state.evidence, readiness: state.readiness,
@@ -200,7 +215,7 @@ describe('FI-001 R1a approved registry fixtures', () => {
     // Genuine contrasting marked responses from different, published course question registries.
     expect(bNear.understanding).toBe(0)
     expect(pNear.understanding).toBe(1)
-    expect(pNear.evidenceStrength).toBeGreaterThan(bNear.evidenceStrength)
+    expect(pNear.evidenceStrength).toBe(bNear.evidenceStrength) // Equal breadth; genuinely stronger performance.
     expect(pNear.understanding).toBeGreaterThan(bNear.understanding!)
     expect(pNear.assessmentTargets).toEqual(pFar.assessmentTargets)
     expect(pNear.understanding).toBe(pFar.understanding)

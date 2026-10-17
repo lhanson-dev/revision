@@ -131,7 +131,10 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
   await expect(plan).toBeVisible()
   const heading = page.getByRole('heading', { name: 'Your week' })
   await expect(heading).toBeVisible()
-  await expect(page.getByText('Your plan is waiting on you', { exact: true })).toBeVisible()
+  const setup = page.getByLabel('Finish setting up your plan')
+  await expect(setup).toContainText('Your plan is waiting on you')
+  await expect(setup.getByRole('button', { name: 'Add your exams' })).toBeVisible()
+  await expect(page.locator('.pln-summary, .pln-empty, .pln-weekview')).toHaveCount(0)
   await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Study time' })).toBeVisible()
   await expect(page.getByPlaceholder('Ask REV anything…')).toHaveCount(0)
@@ -183,10 +186,12 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
   await expectNoPageOverflow(page)
 })
 
-test('Configured Plan opens on Day, with time against plan, exams and study time beside it', async ({ page }) => {
+test('Configured Plan opens on the governed Week view; Day retains its time, exams and study-time contract', async ({ page }) => {
   await seedSession(page, 'light', true)
   await page.goto(`${appPath}#/plan`)
 
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.pln-summary')).toBeVisible()
   await expect(page.locator('.pln-summary')).toHaveCSS('border-radius', '20px')
@@ -202,6 +207,10 @@ test('Configured Plan opens on Day, with time against plan, exams and study time
 
 test('Plan and Progress consume dark-theme semantic surfaces rather than hard-coded light values', async ({ page }) => {
   await seedSession(page, 'dark')
+  // A successful empty accepted-session read permits optional calendar viewing.
+  // Do not rely on an unstubbed backend table when asserting Plan's dark theme.
+  await page.route('**/rest/v1/learner_planned_sessions**', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.goto(`${appPath}#/plan`)
 
   const runtime = page.locator('.planner-runtime')
@@ -213,6 +222,15 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
     return { background: style.backgroundColor }
   })
   expect(studyStyle.background).not.toBe('rgb(255, 255, 255)')
+  // This learner has not entered dates/capacity; the correct default is a guided
+  // setup state, not a fictitious zero-of-zero calendar summary. Check the
+  // semantic surface now, then reveal the real calendar and check its styling.
+  const setup = page.getByLabel('Finish setting up your plan')
+  await expect(setup).toBeVisible()
+  await expect(page.locator('.pln-summary')).toHaveCount(0)
+  await expect(setup).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
+  await setup.getByRole('button', { name: 'View calendar' }).click()
+  await expect(page.locator('.pln-summary')).toBeVisible()
   await expect(page.locator('.pln-summary')).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
   await expectNoPageOverflow(page)
 

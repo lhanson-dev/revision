@@ -1,3 +1,5 @@
+import { MEDIUM_SCORE_MIN } from '../knowledge/topic-knowledge'
+
 export type PlannerReasonCode =
   | 'ASSESSMENT_SOON'
   | 'HIGH_IMPORTANCE_ASSESSMENT'
@@ -44,6 +46,17 @@ export interface PlannerCandidate {
   assessmentTargets?: readonly PlannerAssessmentTarget[]
   moduleId?: string
   examTarget?: { moduleId: string; examId: string; questionId: string }
+  learnTarget?: { learnPageId: string; moduleId?: string }
+  earliestEligibleDate?: string
+  latestEligibleDate?: string
+  preparationStage?: 'acquire' | 'check' | 'exam-practice'
+  preparationPrerequisiteId?: string
+  /** Exact published paper-section mapping, not a guessed response-skill proxy. */
+  paperResponseSectionId?: string
+  paperResponseFormat?: string
+  /** Programme-first learner explanation, not an independent priority score. */
+  preparationPurpose?: string
+  preparationReason?: string
 }
 
 export interface RankedPlannerCandidate extends PlannerCandidate {
@@ -66,9 +79,12 @@ export interface PlannerItem {
   activityType: string
   estimatedMinutes: number
   reasons: PlannerReasonCode[]
+  preparationPurpose?: string
+  preparationReason?: string
   moduleId?: string
   assessmentTargets?: readonly PlannerAssessmentTarget[]
   examTarget?: { moduleId: string; examId: string; questionId: string }
+  learnTarget?: { learnPageId: string; moduleId?: string }
 }
 
 export interface PlannerScheduledDay {
@@ -108,7 +124,7 @@ function candidateReasons(candidate: PlannerCandidate): PlannerReasonCode[] {
   if (candidate.daysUntilAssessment <= 14) reasons.push('ASSESSMENT_SOON')
   if (candidate.assessmentImportance === 'high') reasons.push('HIGH_IMPORTANCE_ASSESSMENT')
   if (candidate.evidenceStrength < 0.35) reasons.push('LOW_EVIDENCE')
-  if (candidate.understanding !== null && candidate.understanding < 0.55) reasons.push('WEAK_EVIDENCE')
+  if (candidate.understanding !== null && candidate.understanding < MEDIUM_SCORE_MIN / 100) reasons.push('WEAK_EVIDENCE')
   if (candidate.coverage < 0.6) reasons.push('UNDER_COVERED')
   if (candidate.daysUntilAssessment <= 21 && candidate.readiness !== null && candidate.readiness < 0.65) reasons.push('EXAM_PRACTICE_DUE')
   if (candidate.examWeight !== null && candidate.examWeight >= 0.2) reasons.push('HIGH_MARK_OPPORTUNITY')
@@ -172,8 +188,11 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     activityType: candidate.activityType,
     estimatedMinutes,
     reasons,
+    preparationPurpose: candidate.preparationPurpose,
+    preparationReason: candidate.preparationReason,
     moduleId: candidate.moduleId,
     examTarget: candidate.examTarget,
+    learnTarget: candidate.learnTarget,
     assessmentTargets: candidate.assessmentTargets,
   }
 }
@@ -184,6 +203,7 @@ function buildSchedule(
   capacityState: PlannerCapacityState,
 ): PlannerScheduledDay[] {
   const allocated = new Set<string>()
+  const scheduledCandidateIds = new Set(useful.map((item) => item.id))
 
   return days.map((day) => {
     let remaining = Math.max(0, day.availableMinutes)
@@ -191,6 +211,8 @@ function buildSchedule(
 
     for (const candidate of useful) {
       if (allocated.has(candidate.id) || remaining <= 0) continue
+      if (candidate.preparationPrerequisiteId && scheduledCandidateIds.has(candidate.preparationPrerequisiteId)
+        && !allocated.has(candidate.preparationPrerequisiteId)) continue
       const eligible = candidateForDay(candidate, day.date)
       if (!eligible || candidate.estimatedMinutes > remaining) continue
 
@@ -212,6 +234,8 @@ function buildSchedule(
 }
 
 function candidateForDay(candidate: PlannerCandidate, date: string): PlannerCandidate | null {
+  if (candidate.earliestEligibleDate && date < candidate.earliestEligibleDate) return null
+  if (candidate.latestEligibleDate && date > candidate.latestEligibleDate) return null
   // Compatibility callers without assessment provenance retain their existing ranking contract.
   if (!candidate.assessmentTargets) return candidate
   const targets = candidate.assessmentTargets.filter((target) => date < target.assessmentDate)
@@ -230,12 +254,23 @@ function candidateForDay(candidate: PlannerCandidate, date: string): PlannerCand
 export function buildAdaptivePlan(
   candidates: readonly PlannerCandidate[],
   days: readonly PlannerDay[],
+  capacityOverride?: PlannerCapacityState,
 ): PlannerResult {
   const eligible = days[0] ? candidates.flatMap((candidate) => {
-    const current = candidateForDay(candidate, days[0].date)
+    // An objective selected for the second near-term week is not eligible
+    // today, but must remain schedulable when its appointed week arrives.
+    const firstEligible = candidate.earliestEligibleDate && candidate.earliestEligibleDate > days[0].date
+      ? candidate.earliestEligibleDate : days[0].date
+    const current = candidateForDay(candidate, firstEligible)
     return current ? [current] : []
   }) : candidates
   const ranked = eligible.map(rankPlannerCandidate).sort((left, right) => {
+    if (left.earliestEligibleDate && right.earliestEligibleDate && left.earliestEligibleDate !== right.earliestEligibleDate)
+      return left.earliestEligibleDate.localeCompare(right.earliestEligibleDate)
+    // When both appear on one day, offer the supported explanation before its
+    // dependent check; do not imply a score from the Learn task itself.
+    if (left.id === right.preparationPrerequisiteId) return -1
+    if (right.id === left.preparationPrerequisiteId) return 1
     if (right.priority !== left.priority) return right.priority - left.priority
     if (left.daysUntilAssessment !== right.daysUntilAssessment) return left.daysUntilAssessment - right.daysUntilAssessment
     return left.id.localeCompare(right.id)
@@ -244,7 +279,8 @@ export function buildAdaptivePlan(
   const useful = ranked.filter(usefulCandidate)
   const requiredUsefulMinutes = useful.reduce((sum, item) => sum + item.estimatedMinutes, 0)
   const remainingCapacityMinutes = days.reduce((sum, day) => sum + Math.max(0, day.availableMinutes), 0)
-  const capacityState: PlannerCapacityState = requiredUsefulMinutes > remainingCapacityMinutes ? 'prioritising' : 'normal'
+  const capacityState: PlannerCapacityState = capacityOverride ??
+    (requiredUsefulMinutes > remainingCapacityMinutes ? 'prioritising' : 'normal')
   const schedule = buildSchedule(useful, days, capacityState)
   const today = schedule[0]?.items ?? []
   const unallocatedTodayMinutes = schedule[0]?.unallocatedMinutes ?? 0

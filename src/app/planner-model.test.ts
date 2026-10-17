@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { ModuleLearningState } from './catalogue-model'
-import { buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability } from './planner-model'
+import { buildLearnerPreparationProgramme, buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability } from './planner-model'
 import type { RevisionAssessment, RevisionAvailabilityProfile, RevisionPlanningPreference } from '../services/planning/planner-service'
 
 const activeCourseId = 'aqa:aqa-as:7131'
@@ -162,6 +162,15 @@ describe('planner model bridge', () => {
     expect(days.find((day) => day.date === '2026-08-22')?.availableMinutes).toBe(0)
     expect(days.find((day) => day.date === '2026-08-23')?.availableMinutes).toBe(75)
     expect(days.find((day) => day.date === '2026-08-24')?.availableMinutes).toBe(35)
+  })
+
+  it('labels incomplete legacy evidence as unknown instead of crashing the full-exam requirement inventory', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const { programme } = buildLearnerPreparationProgramme([state], [assessment], availability, [], [], now)
+    expect(programme.requirements.map((entry) => entry.topicId).sort())
+      .toEqual(['finance', 'marketing', 'operations'])
+    expect(programme.requirements.every((entry) => entry.evidenceStatus === 'unknown')).toBe(true)
+    expect(programme.requirements.every((entry) => entry.supportedCandidateIds.length > 0)).toBe(true)
   })
 
   it('produces no plan until both useful planning candidates and realistic availability exist', () => {

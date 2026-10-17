@@ -1,6 +1,6 @@
 # FI-001 — Programme-First Intelligent Planner Reset: Definition of Ready
 
-**Lifecycle:** Analyse — **proposed Ready recommendation only; Founder has NOT approved the new scope**. Prepared 15 October 2026 from approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`. This is an amendment to FI-001, not a new competing feature or engine. Historical R1/R2 scopes and their prior Founder approvals remain intact; this record proposes a *new* material scope whose readiness is independent. **Owner:** Product / Education / Engineering; Founder decides `Analyse → Ready` after the governing PR merges.
+**Lifecycle:** Founder-approved **Ready** for the scope below on 15 October 2026; implementation **In Progress** in draft PR #637 (unmerged, not Live). Prepared 15 October 2026 from approved main `fd8565838db8fc27cbf359fc86d846e9ab11fda5`. This is an amendment to FI-001, not a new competing feature or engine. Historical R1/R2 scopes and their prior Founder approvals remain intact; this record proposes a *new* material scope whose readiness is independent. **Owner:** Product / Education / Engineering; Founder decides `Analyse → Ready` after the governing PR merges.
 
 **Source hierarchy:** `00-company-foundation/Product Strategy.md` → `10-product-governance/Adaptive Revision Planning.md` + Product System Model/Course Learning Blueprint/Claims → proposed technical architecture and scenario contract. This backlog analysis is deliberately non-authoritative.
 
@@ -60,7 +60,7 @@ Amend only existing Product Strategy, Adaptive Revision Planning, Product System
 
 Recommend one coherent course/paper-aware vertical slice rather than historical R2/R3 split. Do not gate first value on generating a new content bank or unapproved FI-009–012. Assess and disclose unsupported coverage rather than overstating a subject as completely supported. Heuristic parameters, work-duration bounds and specific educational policy choices must be versioned and calibrated against scenarios, not asserted as scientific optima. If published content cannot support a meaningful programme, declare the student-value gate blocked and escalate a concrete asset/metadata dependency, not lower acceptance criteria.
 
-## 17. Human Definition-of-Ready decision — **PENDING / NOT READY**
+## 17. Human Definition-of-Ready decision — **FOUNDER APPROVED READY, 15 October 2026**
 
 Only the Founder may move this **new FI-001 programme-first scope** from Analyse to Ready after governance text has entered approved `main`, and may authorise implementation through the precise scope in this document. Prior R2 Ready does **not** suffice; R3–R5/FI-009–012 remain without Ready for independently excluded specialist features. If this DoR changes materially following review, request the specific renewed Ready decision. A PR merge approval and a feature-Ready approval are **separate human decisions**; neither is implied from this drafting task.
 
@@ -73,3 +73,7 @@ Only the Founder may move this **new FI-001 programme-first scope** from Analyse
 **Workstream C (later separate DoRs):** extended retrieval/check/misconception/exam-soon intelligence from FI-009–012; approved new content assets and paper skills as quality-assured; no alternative planner owner. Track outcomes with product-specific evidence before marketing learning gains.
 
 **Founder decisions after review:** (1) merge this governance/readiness proposal PR, which changes normative direction and records a new proposed FI-001 scope but makes no runtime change; (2) explicitly approve or reject the *FI-001 programme-first reset Ready* decision against merged, final DoR. Each subsequent implementation PR requires its own approval to merge.
+
+## Founder approval receipt and implementation continuation (15 October 2026)
+
+The Founder explicitly said **“Approve FI-001 Programme-First Intelligent Planner Ready. Proceed with the governed implementation programme, starting with the meaningful learner-facing vertical slice. Do not merge implementation PRs without my approval.”** after governance PR #633 merged at `931bee72de204e1910c2ad4d6b5fa1c0d0c39873`. Durable human Ready record: [PR #633 comment #6188330812](https://github.com/lhanson-dev/revision/pull/633#issuecomment-6188330812). This transitions the **new reset scope only** `Analyse → Ready`; actual implementation began on `feature/fi-001-programme-first-vertical-slice-20261015` / draft PR #637 and is **In Progress, not Live or merge-approved**. The historical `PENDING` wording above is superseded by this dated decision. R3–R5 separate exclusions and FI-009–012 readiness remain unchanged.

@@ -36,9 +36,9 @@ test('R2-07 Home, Plan and REV keep the same accepted next work with a 120+ day 
   await expect(page.locator('.pln-row').filter({ has: page.getByRole('button', { name: /^Up next/ }) })).toContainText('Finance')
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Business future paper')
-  await outlook.locator('summary').click()
-  await expect(outlook).toContainText('Topics to focus on')
-  await expect(outlook).toContainText('not a fixed weekly allocation')
+  await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
+  await expect(outlook).toContainText('Preparation objectives')
+  await expect(outlook).toContainText('not a measurement of all syllabus work')
   expect((await new AxeBuilder({ page }).include('.pln-programme').withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
 
   await page.goto(`${appPath}#/rev`)
