@@ -306,7 +306,7 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     expect(placed.length).toBeGreaterThan(0)
     expect(placed.every((objective) => objective.forecastDate
       && objective.forecastDate < objective.assessmentDate)).toBe(true)
-    expect(placed.every((objective) => objective.forecastDate?.endsWith('20') === false)).toBe(true)
+    expect(placed.every((objective) => objective.forecastDate === '2026-10-20')).toBe(true)
     safety(second.programme)
   })
 

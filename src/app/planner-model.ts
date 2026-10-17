@@ -412,27 +412,19 @@ export function buildLearnerPreparationProgramme(
       // programme's weekly capacity; distant commitments stay provisional.
       if (acceptedSessions === null && week.visibleUntil <= nearThrough) return null
       const includeSaved = week.visibleUntil <= nearThrough
-      return weekKeys(week.weekStart)
+      const days = weekKeys(week.weekStart)
         .filter((date) => date >= week.visibleFrom && date <= week.visibleUntil)
         .map((date) => {
           const configured = capacityOn(date, availability.weeklyMinutes, exceptions)
           if (configured === null || !Number.isFinite(configured) || configured < 0) return null
           const booked = includeSaved ? (acceptedSessions ?? [])
             .filter((session) => session.plannedDate === date && session.status !== 'skipped')
-            .reduce((sum, session) => sum + Math.max(0, session.minutes), 0) : 0
+            .reduce((sum, session) =>
+              sum + (Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0), 0) : 0
           return { date, availableMinutes: Math.max(0, configured - booked) }
         })
-        .some((item) => item === null)
-        ? null
-        : weekKeys(week.weekStart)
-          .filter((date) => date >= week.visibleFrom && date <= week.visibleUntil)
-          .map((date) => {
-            const configured = capacityOn(date, availability.weeklyMinutes, exceptions)!
-            const booked = includeSaved ? (acceptedSessions ?? [])
-              .filter((session) => session.plannedDate === date && session.status !== 'skipped')
-              .reduce((sum, session) => sum + Math.max(0, session.minutes), 0) : 0
-            return { date, availableMinutes: Math.max(0, configured - booked) }
-          })
+      return days.every((day): day is { date: string; availableMinutes: number } => day !== null)
+        ? days : null
     })
   // Course Truth and verified paper scope define WHAT is required. Supported
   // activities and allocated goals are joined afterwards as separate claims.
