@@ -64,8 +64,11 @@ async function observeFiveViews(page: Page, paperNames: string[], month = '2027-
   expect(nextTopic.length).toBeGreaterThan(2)
   // The programme's exact educational purpose and named paper reach Home,
   // rather than being replaced by a generic independent ranking message.
-  await expect(hero.locator('.home-v3-hero-reason')).toContainText('preparation remains relevant to')
-  await expect(hero.locator('.home-v3-hero-reason')).toContainText(paperNames[0].split(' ')[0])
+  const homeReason = await hero.locator('.home-v3-hero-reason').innerText()
+  expect(homeReason).toContain('preparation remains relevant to')
+  // The chosen paper need not be the first item in the input list when
+  // evidence and competing subjects justify a different next action.
+  expect(paperNames.some((name) => homeReason.includes(name))).toBe(true)
 
   await page.goto(appPath + '#/plan')
   await expect(page.locator('.pln-weekview')).toBeVisible()
@@ -105,7 +108,7 @@ async function observeFiveViews(page: Page, paperNames: string[], month = '2027-
   await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
   const revReply = page.getByRole('log').locator('.rev-chat__message--rev').last()
   await expect(revReply).toContainText(nextTopic)
-  await expect(revReply).toContainText('preparation remains relevant to')
+  await expect(revReply).toContainText(homeReason)
   return nextTopic
 }
 
