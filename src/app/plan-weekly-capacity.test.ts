@@ -42,7 +42,9 @@ describe('FI-001 R2 weekly focus availability after saved choices', () => {
       { plannedDate: '2026-10-15', minutes: 40, status: 'done' },
       { plannedDate: '2026-10-16', minutes: 90, status: 'skipped' },
     ]
-    expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-12-12')).toBe(80)
+    // Thursday's 40-minute booking cannot consume Friday's time.
+    // Wednesday/Thursday 0 + Friday/Saturday/Sunday 30 each = 90.
+    expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-12-12')).toBe(90)
   })
   it('never claims spare near time when the accepted-session read failed', () => {
     expect(focusMinutesAfterKnownCommitments(week, weekly, [], null, '2026-12-12')).toBeNull()
