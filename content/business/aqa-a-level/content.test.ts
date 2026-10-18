@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
+import { aqaBusiness7132ExamPapers } from './shared/exam-papers'
 
 const packs = [paper1, paper2, paper3]
 
@@ -70,6 +71,43 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
         for (const question of exam.questions) expect(topics.has(question.topic)).toBe(true)
       }
     }
+  })
+
+
+  it('matches all authored questions to approved response-section identities and exact section marks', () => {
+    const guide = aqaBusiness7132ExamPapers
+    for (const [index, pack] of packs.entries()) {
+      const paper = guide.papers.find((entry) => entry.number === index + 1)!
+      const sections = new Map(paper.sections.map((section) => [section.name, section]))
+      const markTotals = new Map<string, number>()
+      for (const exam of pack.exams) {
+        for (const question of exam.questions) {
+          const section = question.sectionLabel && sections.get(question.sectionLabel)
+          expect(section, `Missing approved section for ${question.id}`).toBeDefined()
+          expect(question.sectionTitle).toBe(section?.type)
+          expect(question.sectionMarks).toBe(section?.marks)
+          markTotals.set(question.sectionLabel!, (markTotals.get(question.sectionLabel!) ?? 0) + question.marks)
+        }
+      }
+      expect(markTotals.size).toBe(paper.sections.length)
+      for (const section of paper.sections) {
+        expect(markTotals.get(section.name), `Paper ${index + 1} ${section.name}`).toBe(section.marks)
+      }
+      expect([...markTotals.values()].reduce((total, marks) => total + marks, 0)).toBe(100)
+    }
+  })
+
+  it('keeps source-backed response labels explicit instead of inferring from topic or question marks', () => {
+    const [p1, p2, p3] = packs.map((pack) => pack.exams[0]!)
+    expect(p1.questions.slice(0, 15).every((q) => q.sectionLabel === 'Section A')).toBe(true)
+    expect(p1.questions.slice(15, 22).every((q) => q.sectionLabel === 'Section B')).toBe(true)
+    expect(p1.questions.at(-2)?.sectionLabel).toBe('Section C')
+    expect(p1.questions.at(-1)?.sectionLabel).toBe('Section D')
+    for (let g = 1; g <= 3; g++) {
+      expect(p2.questions.slice((g - 1) * 4, g * 4)
+        .every((q) => q.sectionLabel === `Question ${g}`)).toBe(true)
+    }
+    expect(p3.questions.every((q) => q.sectionLabel === 'Case study questions')).toBe(true)
   })
 
   it('preserves the intended Paper 1 15 + 35 + 25 + 25 structure and AO profile', () => {

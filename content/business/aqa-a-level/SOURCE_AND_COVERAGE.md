@@ -122,3 +122,9 @@ No shared schema or React change is required to add the course under this model.
 Initial content will be built as `preview`. It may move to `available` only after source-led educational review, deterministic calculation checks, adversarial review, CI/build validation, no unresolved blocking/material findings, and explicit Founder approval of the relevant PR merge.
 
 Human subject review and the portable reviewer PDF remain the final commercial-benchmark gate.
+
+## FI-001 Business exam-simulation section metadata (draft PR #637, 18 October 2026)
+
+**Source-bound candidate correction; not commercial educational acceptance.** The original Revision-authored practice paper already identifies Paper 1 Sections A–D and Paper 2 Data Response 1–3 within the questions, while Paper 3 is a single authored case-study set. The retained AQA 7132 Exam Truth-derived `shared/exam-papers.ts` establishes the actual paper-section labels/types and marks: 15/35/25/25, 33/33/34 and 100. These authored question groups total exactly those marks. The missing `sectionLabel/sectionTitle/sectionMarks` tuples are now explicitly recorded on the existing 42 simulation questions, with no changed prompts, answers, rubrics, AO marks, topics or source rights. Deterministic content tests verify the matched published groups and totals.
+
+This metadata means **a Revision-authored, exam-style question relates to an approved paper response group**, not that it is an official AQA exam paper or that a student has demonstrated the skill. The existing planner's ability to *select* supported practice in all eight groups is a distinct requirement from the source's 8/8 mapping, and remains subject to assessment. The Content Accuracy Assurance Gate's independent source/assessment review is not replaced by the deterministic arithmetic checks; no new learner-content publication status is conferred by this draft change.
