@@ -315,6 +315,38 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(programme)
   })
 
+  it('SV-03: after Business Paper 1, later Business obligations remain alongside imminent Psychology', () => {
+    const papers = [
+      exam(business, 1, '2027-05-18'),
+      exam(business, 2, '2027-06-02'),
+      exam(business, 3, '2027-06-11'),
+      exam(psychology, 1, '2027-05-25'),
+    ]
+    const after = new Date(2027, 4, 19, 12)
+    const mondayOnly: RevisionAvailabilityProfile = {
+      ...fullCapacity,
+      weeklyMinutes: { monday: 30, tuesday: 0, wednesday: 0, thursday: 0,
+        friday: 0, saturday: 0, sunday: 0 },
+    }
+    const { programme } = buildLearnerPreparationProgramme(
+      [sourceState(), sourceState(psychology)], papers, mondayOnly, [], [], after)
+    expect(programme.finalKnownAssessment).toBe('2027-06-11')
+    const paperTargets = new Set(programme.paperResponseRequirements.map((section) => section.assessmentId))
+    expect(paperTargets.has(business.id + ':paper-1')).toBe(false)
+    expect(paperTargets.has(business.id + ':paper-2')).toBe(true)
+    expect(paperTargets.has(business.id + ':paper-3')).toBe(true)
+    expect(paperTargets.has(psychology.id + ':paper-1')).toBe(true)
+    const businessNeed = programme.requirements.filter((item) => item.courseId === business.id)
+    expect(businessNeed.length).toBeGreaterThan(0)
+    expect(businessNeed.some((item) => item.papers.some((paper) =>
+      paper.assessmentId === business.id + ':paper-2'))).toBe(true)
+    const psychologyNeed = programme.requirements.filter((item) => item.courseId === psychology.id)
+    expect(psychologyNeed.length).toBeGreaterThan(0)
+    // A scenario that simply removes Business after its first paper is not
+    // an adequate cross-course balance or shared-syllabus acceptance test.
+    safety(programme)
+  })
+
   it('SV-04: three Business paper scopes reuse actual topics without duplicating knowledge demand', () => {
     const state = sourceState()
     const papers = businessPapers()

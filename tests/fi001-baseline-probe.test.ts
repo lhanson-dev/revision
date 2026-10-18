@@ -30,6 +30,10 @@ function exam(k:Key,n:number,day:string,active=true):RevisionAssessment {
 }
 const papers=()=>[exam('business',1,'2027-05-18'),exam('business',2,'2027-06-02'),exam('business',3,'2027-06-11')]
 const shared=[exam('business',1,'2027-05-18'),exam('psychology',1,'2027-05-25')]
+/** SV-03 continues beyond Business Paper 1: Business Papers 2/3 remain
+ * eligible while Psychology Paper 1 becomes the nearest assessment.
+ * This is distinct from the other two-course cases that use shared. */
+const competing=[...papers(),exam('psychology',1,'2027-05-25')]
 const near=[exam('business',1,'2026-11-03'),exam('psychology',1,'2026-11-17')]
 const both:Key[]=['business','psychology']
 const [b1,b2]=business.learningAdapter.listTopics().slice(0,2).map(x=>x.id)
@@ -65,8 +69,8 @@ const cases:Record<string,Record<string,Input>>={
  'SV-01':{before:basic(),after:basic({evidence:improved})},
  'SV-02':{before:basic({weekly:scarce,evidence:[...strong2,...weak]}),
  after:basic({weekly:scarce,evidence:[...strong2,...weak,...improved]})},
- 'SV-03':{before:basic({selected:both,papers:shared,weekly:scarce,evidence:[...strong,...psychWeak]}),
- after:basic({selected:both,papers:shared,weekly:scarce,evidence:[...strong,...psychWeak],today:'2027-05-19'})},
+ 'SV-03':{before:basic({selected:both,papers:competing,weekly:scarce,evidence:[...strong,...psychWeak]}),
+ after:basic({selected:both,papers:competing,weekly:scarce,evidence:[...strong,...psychWeak],today:'2027-05-19'})},
  'SV-04':{before:basic(),after:basic({papers:[exam('business',1,'2027-04-21',false),...papers().slice(1)]})},
  'SV-05':{before:basic({selected:both,papers:shared,weekly:scarce,exceptions:[dayOff]}),
  after:basic({selected:both,papers:shared,weekly:{...scarce,wednesday:30},exceptions:[dayOff]})},
@@ -135,6 +139,15 @@ describe('FI-001 fixed-baseline controlled outcomes, not educational acceptance'
  it.skipIf(!process.env.FI001_PROBE_OUTPUT)('emits identical inputs for the 13 approved scenarios',()=>{
   const ids=Object.keys(cases)
   expect(ids).toEqual(Array.from({length:13},(_,i)=>'SV-'+String(i+1).padStart(2,'0')))
+  // The SV-03 change must preserve all published Business paper milestones;
+  // otherwise its after-state cannot test shared-course carryover and
+  // time-allocation competition with Psychology.
+  const postFirst=cases['SV-03']!.after
+  expect(postFirst.papers).toHaveLength(4)
+  expect(postFirst.papers.filter(p=>p.courseId===business.id&&p.assessmentDate>postFirst.today)
+    .map(p=>p.assessmentDate)).toEqual(['2027-06-02','2027-06-11'])
+  expect(postFirst.papers.some(p=>p.courseId===psychology.id&&p.assessmentDate==='2027-05-25')).toBe(true)
+
   const entries=ids.map(id=>({id,variants:Object.fromEntries(
    Object.entries(cases[id]!).map(([k,v])=>[k,output(v)]))}))
   writeFileSync(process.env.FI001_PROBE_OUTPUT!,JSON.stringify({version:1,timezone:'Europe/London',entries},null,2))
