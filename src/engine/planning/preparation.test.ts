@@ -152,6 +152,50 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
         : week.weekStart === '2026-10-19' ? 20 : 0)).toEqual(plan)
   })
 
+  it('SV-05: never schedules a short dependent check before the day its teaching first fits', () => {
+    const p = exam(business, '2026-10-20', 'business-paper')
+    const learn = candidate('a-learn', business, p.assessmentDate, p.assessmentId, {
+      topicId: 'shared', activityType: 'learn', estimatedMinutes: 20,
+    })
+    const check = candidate('z-check', business, p.assessmentDate, p.assessmentId, {
+      topicId: 'shared', activityType: 'quick-check', estimatedMinutes: 10,
+      preparationPrerequisiteId: learn.id,
+    })
+    const work = [check, learn] // Deliberately reverse input order.
+    const horizon = buildPlannerProgramme(today, [p], new Set([business]), work)
+    const firstWeek = horizon.weeks[0]!.weekStart
+    const days = [
+      { date: '2026-10-16', availableMinutes: 10 },
+      { date: '2026-10-17', availableMinutes: 20 },
+      { date: '2026-10-18', availableMinutes: 10 },
+    ]
+    const plan = (available: typeof days) => buildPreparationProgramme(
+      horizon, work,
+      (week) => week.weekStart === firstWeek
+        ? available.reduce((sum, day) => sum + day.availableMinutes, 0) : 0,
+      undefined,
+      (week) => week.weekStart === firstWeek ? available : [],
+    )
+    const feasible = plan(days)
+    expect(feasible.weeks[0]?.objectives.map((item) =>
+      [item.candidateId, item.forecastDate])).toEqual([
+      ['a-learn', '2026-10-17'],
+      ['z-check', '2026-10-18'],
+    ])
+    expect(feasible.unserved).toEqual([])
+
+    // Friday's free 10 minutes cannot be used for checking before a
+    // Saturday Learn, and it cannot be added to Saturday's 20-minute slot.
+    const noAfter = plan(days.slice(0, 2))
+    expect(noAfter.weeks[0]?.objectives.map((item) =>
+      [item.candidateId, item.forecastDate])).toEqual([
+      ['a-learn', '2026-10-17'],
+    ])
+    expect(noAfter.unserved.map((item) => item.candidateId)).toEqual(['z-check'])
+    expect(noAfter.allocatedMinutes).toBe(20)
+    expect(plan([...days].reverse())).toEqual(feasible)
+  })
+
   it('prefers the unrepresented verified response format within the same equally pressured paper', () => {
     const p = exam(business, '2026-10-20', 'business-paper')
     const makeQuestion = (id: string, section: string): PlannerCandidate => candidate(

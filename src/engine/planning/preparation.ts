@@ -258,9 +258,18 @@ export function buildPreparationProgramme(
         if (item.candidate.preparationPrerequisiteId
           && outstanding.has(item.candidate.preparationPrerequisiteId)) return []
         if (item.candidate.estimatedMinutes > remaining) return []
+        // A prerequisite already placed in this week must precede its child
+        // on the real calendar, not just in the week-level objective array.
+        // Otherwise a short check can be forecast for Friday even when its
+        // required Learn activity first fits on Saturday.
+        const priorThisWeek = item.candidate.preparationPrerequisiteId
+          ? objectives.find((objective) =>
+            objective.candidateId === item.candidate.preparationPrerequisiteId)
+          : undefined
         const eligible = item.targets.flatMap((entry) => {
           if (entry.date <= week.visibleFrom) return []
-          const free = dailySlots?.filter((day) => day.date < entry.date) ?? null
+          const free = dailySlots?.filter((day) => day.date < entry.date
+            && (!priorThisWeek?.forecastDate || day.date >= priorThisWeek.forecastDate)) ?? null
           const fit = free?.find((day) => day.availableMinutes >= item.candidate.estimatedMinutes)
           if (dailySlots && !fit) return []
           return [{ target: entry, fitDate: fit?.date, usableBefore: free?.reduce(
