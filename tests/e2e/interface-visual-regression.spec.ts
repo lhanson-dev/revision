@@ -118,11 +118,22 @@ const cases: ReadonlyArray<VisualCase> = [
  * the reviewed head. Initial/retry hashes agree. All other baselines untouched.
  * Provenance: audits/2026-10-13-home-622-visual-approval.md.
  */
+/** PR #637: Founder explicitly approved ONLY four Home visual baselines
+ * (desktop/phone × light/dark) at head 2f9c286b52a2b54e1ae5948d1206547317a615cb
+ * on 18 October 2026. Canonical Home's scored multiple-choice recommendation
+ * now says "Practice question" rather than "Quick check", to distinguish
+ * the unscored Learn interaction; the route and scoring remain unchanged.
+ * New PNG-byte SHA-256 digests were read from exact-head CI #39116844038,
+ * initial and retry concordant and reproducible in CI #39116363394.
+ * No other visual hash, test mask, algorithm, tolerance or fixture was changed.
+ * This does NOT approve merging PR #637 or certify educational acceptance.
+ * Provenance: audits/2026-10-18-fi001-home-practice-visual-approval.md.
+ */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '47d5f153515b778dd79dab6bd35fd73918d1b5a1b4d8c8918e49b499f2856eb4',
-  'phone:dark': '5b6c3f993641752c0c1889a552272d40d18f0749d802e6455670d2c8eb84896b',
-  'desktop:light': '0018cdcc656f188de5b9b2ac0b442d7d92c73ed36354146ec35f376f6ef48661',
-  'desktop:dark': '8f6d19aec968e8a153b152c7d13a14176d002ddc3a20cbf2acf5ff2c14664a45',
+  'phone:light': '3ed761458c8e16aeafffa90080b5544c58d51a4bb9c676fce97a6158908887d7',
+  'phone:dark': '0c56bdbef0a552b518c13d0c79ab653f82f3a8bd997ac3793a605af3471a5b98',
+  'desktop:light': '2846970e1d9484a8463deb12c56ebb150d5d5a92ba573e86f394a0940fb9ad50',
+  'desktop:dark': '18da37793c2776624c8451aaf827b137632bb1a5dbdb2e314952a32821940841',
 }
 
 /**
