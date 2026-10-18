@@ -114,6 +114,33 @@ test('timed mock enters a focused full-viewport exam, then stop confirmation ret
   await expect(button).toBeFocused()
 })
 
+test('Business Paper 1 essay questions are choices, not syllabus exclusions or duplicated attempted marks', async ({ page }) => {
+  await open(page)
+  const mock = page.locator('.exam-mock').first()
+  await mock.getByRole('button', { name: 'Start timed' }).click()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await expect(nav.getByRole('button')).toHaveCount(26)
+  await expect(page.getByRole('button', { name: 'Finish and self-mark' })).toBeDisabled()
+
+  await nav.getByRole('button').nth(22).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay A for Section C')
+  await expect(page.locator('.exam-question-sheet')).toContainText('diversification is always a better strategy')
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(23).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay B for Section C')
+  await expect(page.locator('.exam-question-sheet')).toContainText('A low-cost position')
+  await page.locator('.exam-choice-select input').check()
+
+  await nav.getByRole('button').nth(24).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay A for Section D')
+  await page.locator('.exam-choice-select input').check()
+  await expect(page.getByRole('button', { name: 'Finish and self-mark' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  // One option from C and one from D: 22 compulsory + 2 selected.
+  await expect(page.locator('.self-marking nav.question-nav button')).toHaveCount(24)
+  await expect(page.locator('.exam-submit-summary')).toContainText('100')
+})
+
 test('untimed mock uses the in-page workspace rather than a dialog', async ({ page }) => {
   await open(page)
   // Restricted-pilot papers deliberately disable untimed practice. Select

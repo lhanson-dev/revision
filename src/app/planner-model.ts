@@ -132,7 +132,7 @@ export function exactExamTarget(state: ModuleLearningState, topicId: string, mod
     if (moduleId && adapter.manifest.id !== moduleId || adapter.manifest.status !== 'available') continue
     for (const exam of adapter.listExams()) {
       if (exam.restrictedPilot) continue
-      const matches = exam.questions.filter((q) => q.topic === topicId && (allowOption || !q.choiceGroup))
+      const matches = exam.questions.filter((q) => q.topic === topicId && (allowOption || !q.choiceGroup || q.choiceKind === 'paper-alternative'))
       const question = matches.find((q) => q.marks >= 4) ?? matches[0]
       if (question) return { moduleId: adapter.manifest.id, examId: exam.id, questionId: question.id }
     }
@@ -165,7 +165,7 @@ export function scopeTopicIds(assessment: Pick<RevisionAssessment, 'scope' | 'mo
   const optionGroups = new Map<string, Set<string>>()
   for (const adapter of modules) for (const exam of adapter.listExams?.() ?? []) {
     for (const question of exam.questions) {
-      if (!question.choiceGroup || !question.choiceOption) continue
+      if (!question.choiceGroup || !question.choiceOption || question.choiceKind === 'paper-alternative') continue
       const key = `${adapter.manifest.id}:${question.choiceGroup}`
       const group = optionGroups.get(key) ?? new Set<string>()
       group.add(question.topic)
@@ -263,7 +263,8 @@ export function plannerCandidatesFromLearningState(
  */
 function supportsPaperResponseFormat(
   question: { responseType?: 'multiple-choice' | 'written'; options?: readonly { label: string; text: string }[];
-    choiceGroup?: string | null; choiceOption?: string | null },
+    choiceGroup?: string | null; choiceOption?: string | null;
+    choiceKind?: 'paper-alternative' | 'syllabus-option' }, 
   section: { type: string },
 ) {
   const type = section.type.toLowerCase()
@@ -271,7 +272,8 @@ function supportsPaperResponseFormat(
     return question.responseType === 'multiple-choice' && (question.options?.length ?? 0) >= 2
   }
   if (type.includes('one essay from two')) {
-    return question.responseType !== 'multiple-choice' && !!question.choiceGroup && !!question.choiceOption
+    return question.responseType !== 'multiple-choice' && question.choiceKind === 'paper-alternative'
+      && !!question.choiceGroup && !!question.choiceOption
   }
   return question.responseType !== 'multiple-choice'
 }
@@ -538,7 +540,7 @@ export function buildLearnerPreparationProgramme(
     const questions = module.listExams().filter((exam) => !exam.restrictedPilot)
       .flatMap((exam) => exam.questions.map((question) => ({ examId: exam.id, question })))
       .filter(({ question }) => scoped.has(question.topic)
-        && (!question.choiceGroup || Array.isArray(assessment.scope.topicIds)
+        && (!question.choiceGroup || question.choiceKind === 'paper-alternative' || Array.isArray(assessment.scope.topicIds)
           && (assessment.scope.topicIds as string[]).includes(question.topic)))
     const distinct = [...new Map(questions.map(({ examId, question }) =>
       [`${examId}:${question.id}`, question])).values()]
@@ -578,7 +580,7 @@ export function buildLearnerPreparationProgramme(
           && target.assessmentDate === assessment.assessmentDate)) return []
       const question = adapter.getExam(exact.examId)?.questions.find((entry) =>
         entry.id === exact.questionId && entry.topic === candidate.topicId)
-      if (!question || question.choiceGroup &&
+      if (!question || question.choiceGroup && question.choiceKind !== 'paper-alternative' &&
         (!Array.isArray(assessment.scope.topicIds)
           || !assessment.scope.topicIds.includes(question.topic))) return []
       return [{ candidateId: candidate.id, question }]

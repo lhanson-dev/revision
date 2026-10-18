@@ -40,6 +40,23 @@ describe('FI-001 Business Paper 1 original multiple-choice practice formats', ()
     expect(html).not.toContain('Write your answer')
   })
 
+  it('focused essay alternatives have distinct identifiers and one applicable question, not a combined A-or-B prompt', () => {
+    const a = render('untimed', 'p1-q23-essay-a')
+    const b = render('untimed', 'p1-q23-essay-b')
+    expect(a).toContain('For a business seeking long-term growth')
+    expect(a).not.toContain('A low-cost position is more sustainable')
+    expect(b).toContain('A low-cost position is more sustainable')
+    expect(b).not.toContain('For a business seeking long-term growth')
+    expect(a).toContain('Write your answer')
+    expect(b).toContain('Write your answer')
+    const dA = render('untimed', 'p1-q24-essay-a')
+    const dB = render('untimed', 'p1-q24-essay-b')
+    expect(dA).toContain('Organisational culture is the most important')
+    expect(dA).not.toContain('plan strategy in detail')
+    expect(dB).toContain('plan strategy in detail')
+    expect(dB).not.toContain('Organisational culture is the most important')
+  })
+
   it('the existing Section B exact Start still offers a written response and self-assessment', () => {
     const html = render('untimed', 'p1-q16')
     expect(html).toContain('Calculate the break-even output')

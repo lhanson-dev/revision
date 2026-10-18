@@ -111,6 +111,9 @@ export const examQuestionSchema = z.object({
   /** Optional-choice metadata. One choice option may contain several questions (for example a Psychology Paper 3 topic section). */
   choiceGroup: slugSchema.nullable().optional(),
   choiceOption: slugSchema.nullable().optional(),
+  /** Paper question choice is not a syllabus-topic option. Missing means the
+   * legacy syllabus-option contract (e.g. Psychology 7182 Paper 3). */
+  choiceKind: z.enum(['paper-alternative', 'syllabus-option']).optional(),
   responseType: z.enum(['multiple-choice', 'written']).optional(),
   options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(2).optional(),
   stimulus: z.object({
@@ -134,6 +137,9 @@ export const examQuestionSchema = z.object({
   }
   if (question.choiceOption && !question.choiceGroup) {
     context.addIssue({ code: 'custom', path: ['choiceOption'], message: 'choiceOption requires choiceGroup' })
+  }
+  if (question.choiceKind && (!question.choiceGroup || !question.choiceOption)) {
+    context.addIssue({ code: 'custom', path: ['choiceKind'], message: 'choiceKind needs choiceGroup and choiceOption' })
   }
   if (question.responseType === 'multiple-choice' && (!question.options || question.options.length < 2)) {
     context.addIssue({ code: 'custom', path: ['options'], message: 'multiple-choice questions require at least two options' })

@@ -17,6 +17,7 @@ type SessionOverlay = 'paused' | 'stop-confirm' | null
 type ExamQuestionRuntime = Exam['questions'][number] & {
   choiceGroup?: string | null
   choiceOption?: string | null
+  choiceKind?: 'paper-alternative' | 'syllabus-option'
   responseType?: 'multiple-choice' | 'written'
   options?: Array<{ label: string; text: string }>
   stimulus?: {
@@ -84,6 +85,9 @@ function choiceGroupLabel(value: string) {
 }
 
 function choiceOptionLabel(item: ExamQuestionRuntime) {
+  if (item.choiceKind === 'paper-alternative' && item.choiceOption?.startsWith('essay-')) {
+    return `Essay ${item.choiceOption.slice(6).toUpperCase()}`
+  }
   return titleCaseSlug(item.topic)
 }
 

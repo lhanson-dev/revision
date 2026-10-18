@@ -6,8 +6,15 @@ import { aqaBusiness7132ExamPapers } from './shared/exam-papers'
 
 const packs = [paper1, paper2, paper3]
 
+/** Attempted marks count only one question per alternative group. */
 function aoTotals(exam: (typeof paper1.exams)[number]) {
-  return exam.questions.reduce(
+  const seen = new Set<string>()
+  return exam.questions.filter((question) => {
+    if (!question.choiceGroup) return true
+    if (seen.has(question.choiceGroup)) return false
+    seen.add(question.choiceGroup)
+    return true
+  }).reduce(
     (totals, question) => ({
       ao1: totals.ao1 + question.assessmentObjectives.ao1,
       ao2: totals.ao2 + question.assessmentObjectives.ao2,
@@ -80,12 +87,18 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
       const paper = guide.papers.find((entry) => entry.number === index + 1)!
       const sections = new Map(paper.sections.map((section) => [section.name, section]))
       const markTotals = new Map<string, number>()
+      const seenChoiceGroup = new Set<string>()
       for (const exam of pack.exams) {
         for (const question of exam.questions) {
           const section = question.sectionLabel ? sections.get(question.sectionLabel) : undefined
           expect(section, `Missing approved section for ${question.id}`).toBeDefined()
           expect(question.sectionTitle).toBe(section?.type)
           expect(question.sectionMarks).toBe(section?.marks)
+          // Alternatives are printed twice but students attempt only one.
+          if (question.choiceGroup) {
+            if (seenChoiceGroup.has(question.choiceGroup)) continue
+            seenChoiceGroup.add(question.choiceGroup)
+          }
           markTotals.set(question.sectionLabel!, (markTotals.get(question.sectionLabel!) ?? 0) + question.marks)
         }
       }
@@ -101,8 +114,8 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
     const [p1, p2, p3] = packs.map((pack) => pack.exams[0]!)
     expect(p1.questions.slice(0, 15).every((q) => q.sectionLabel === 'Section A')).toBe(true)
     expect(p1.questions.slice(15, 22).every((q) => q.sectionLabel === 'Section B')).toBe(true)
-    expect(p1.questions.at(-2)?.sectionLabel).toBe('Section C')
-    expect(p1.questions.at(-1)?.sectionLabel).toBe('Section D')
+    expect(p1.questions.slice(22, 24).every((q) => q.sectionLabel === 'Section C')).toBe(true)
+    expect(p1.questions.slice(24, 26).every((q) => q.sectionLabel === 'Section D')).toBe(true)
     for (let g = 1; g <= 3; g++) {
       expect(p2.questions.slice((g - 1) * 4, g * 4)
         .every((q) => q.sectionLabel === `Question ${g}`)).toBe(true)
@@ -130,13 +143,38 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
     expect(paper1.exams[0]?.questions.slice(15).every((item) => item.responseType !== 'multiple-choice')).toBe(true)
   })
 
+  it('keeps Paper 1 Sections C/D as two 25-mark essay choices, without recycling combined legacy question IDs', () => {
+    const exam = paper1.exams[0]!
+    const alternatives = exam.questions.filter((question) => question.choiceKind === 'paper-alternative')
+    expect(alternatives).toHaveLength(4)
+    expect(alternatives.map((question) => question.id)).toEqual([
+      'p1-q23-essay-a', 'p1-q23-essay-b', 'p1-q24-essay-a', 'p1-q24-essay-b',
+    ])
+    expect(alternatives.every((question) => question.marks === 25
+      && question.responseType === 'written' && question.assessmentObjectives.ao4 === 8)).toBe(true)
+    expect(exam.questions.some((question) => ['p1-q23','p1-q24'].includes(question.id))).toBe(false)
+    for (const [section,topic] of [['C','strategic-direction'],['D','strategic-change']]) {
+      const matching = alternatives.filter((item) => item.sectionLabel === `Section ${section}`)
+      expect(matching).toHaveLength(2)
+      expect(matching.map((item) => item.choiceOption)).toEqual(['essay-a','essay-b'])
+      expect(matching.every((item) => item.choiceGroup === `section-${section.toLowerCase()}`
+        && item.topic === topic && item.sectionMarks === 25)).toBe(true)
+      expect(matching[0].prompt).not.toBe(matching[1].prompt)
+      expect(matching.every((item) => !item.prompt.includes(' OR B: '))).toBe(true)
+    }
+  })
+
   it('preserves the intended Paper 1 15 + 35 + 25 + 25 structure and AO profile', () => {
     const exam = paper1.exams[0]
-    expect(exam.questions).toHaveLength(24)
+    expect(exam.questions).toHaveLength(26)
     expect(exam.questions.slice(0, 15).every((question) => question.marks === 1)).toBe(true)
     expect(exam.questions.slice(15, 22).map((question) => question.marks)).toEqual([4,4,4,5,6,6,6])
-    expect(exam.questions.slice(22).map((question) => question.marks)).toEqual([25,25])
-    expect(exam.questions.reduce((sum, question) => sum + question.marks, 0)).toBe(100)
+    expect(exam.questions.slice(22).map((question) => question.marks)).toEqual([25,25,25,25])
+    expect(exam.questions.reduce((sum, question) => sum + question.marks, 0)).toBe(150)
+    expect(exam.printedMarks).toBe(150)
+    // The two mandatory essay sections count one selected alternative each.
+    const selected = exam.questions.filter((question) => !question.choiceGroup || question.choiceOption === 'essay-a')
+    expect(selected.reduce((sum, question) => sum + question.marks, 0)).toBe(100)
     expect(aoTotals(exam)).toEqual({ ao1: 30, ao2: 30, ao3: 21, ao4: 19 })
   })
 

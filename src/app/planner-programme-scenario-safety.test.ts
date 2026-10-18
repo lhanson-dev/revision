@@ -115,25 +115,45 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
   })
 
 
-  it('SV-04: source-mapped Business questions are not called verified format practice until rendered correctly', () => {
+  it('SV-04: Business paper alternatives offer actual essay selection without excluding compulsory syllabus topics', () => {
+    const state = sourceState()
+    const selected = scopeTopicIds(exam(business, 1, '2027-05-18'), state)
+    expect(selected).toHaveLength(10)
+    expect(selected).toContain('strategic-direction')
+    expect(selected).toContain('strategic-change')
+    // Paper 1 Section C/D choice means essay A or B on exam day,
+    // not a qualification option that drops one of these required topics.
     const { programme } = buildLearnerPreparationProgramme(
-      [sourceState()], businessPapers(), fullCapacity, [], [], now)
+      [state], businessPapers(), fullCapacity, [], [], now)
     expect(programme.paperResponseRequirements).toHaveLength(8)
     const paper1 = programme.paperResponseRequirements
       .filter((section) => section.assessmentId.endsWith('paper-1'))
-    const noMcq = paper1.find((section) => section.sectionName === 'Section A')!
-    const noStructuredEssayC = paper1.find((section) => section.sectionName === 'Section C')!
-    const noStructuredEssayD = paper1.find((section) => section.sectionName === 'Section D')!
-    // Authored Section A radio options now exist and can be started exactly.
-    // Essays C/D still combine A/B alternatives in one prompt and are not
-    // verified as the paper's mandatory choose-one-of-two interactions.
-    expect(noMcq.verifiedPracticeCandidateIds.length).toBeGreaterThan(0)
-    expect(noMcq.verifiedAssessmentObjectives).toContain('AO1')
-    expect(noStructuredEssayC.verifiedPracticeCandidateIds).toEqual([])
-    expect(noStructuredEssayD.verifiedPracticeCandidateIds).toEqual([])
-    const shortAnswers = paper1.find((section) => section.sectionName === 'Section B')!
-    expect(shortAnswers.verifiedPracticeCandidateIds.length).toBeGreaterThan(0)
+    expect(paper1.map((item) => item.sectionName)).toEqual([
+      'Section A', 'Section B', 'Section C', 'Section D',
+    ])
+    for (const section of paper1) {
+      expect(section.verifiedPracticeCandidateIds.length, section.sectionName).toBeGreaterThan(0)
+    }
+    expect(paper1.find((item) => item.sectionName === 'Section A')?.verifiedAssessmentObjectives)
+      .toContain('AO1')
+    expect(paper1.find((item) => item.sectionName === 'Section C')?.verifiedAssessmentObjectives)
+      .toContain('AO4')
     safety(programme)
+  })
+
+  it('SV-04: Psychology syllabus options remain excluded without exact approved topic scope', () => {
+    const state = sourceState(psychology)
+    const paper = exam(psychology, 3, '2027-06-09')
+    const sectionTopics = psychology.modules
+      .find((part) => part.manifest.paper.number === 3)!
+      .listExams().flatMap((actual) => actual.questions)
+      .filter((question) => question.choiceGroup && question.choiceOption)
+      .map((question) => question.topic)
+    expect(sectionTopics.length).toBeGreaterThan(0)
+    const scoped = scopeTopicIds(paper, state)
+    for (const topic of new Set(sectionTopics)) expect(scoped).not.toContain(topic)
+    // A genuine published syllabus-option selection is different from
+    // Business selecting an essay *question* on the examination paper.
   })
 
   it('SV-02: Business paper topics distinguish strong and weak scored evidence', () => {
