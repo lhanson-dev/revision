@@ -164,6 +164,39 @@ describe('planner model bridge', () => {
     expect(days.find((day) => day.date === '2026-08-24')?.availableMinutes).toBe(35)
   })
 
+  it('SV-07: a partial accepted-session read never double-allocates a known booked day', () => {
+    const now = new Date(2026, 9, 15, 12) // Thursday before loaded Friday
+    const exam = { ...assessment, assessmentDate: '2026-10-30', isActive: true }
+    const sparse = { ...availability, weeklyMinutes: {
+      monday: 0, tuesday: 0, wednesday: 0, thursday: 0,
+      friday: 30, saturday: 0, sunday: 0,
+    } }
+    const sessions = [{
+      sessionId: 'known-booking', userId: 'user-1', courseId: activeCourseId,
+      topicId: 'operations', plannedDate: '2026-10-16',
+      status: 'planned' as const, activityType: 'learn' as const,
+      minutes: 25, addedBy: 'student' as const, recommendationId: null,
+      createdAt: '2026-10-15T08:00:00Z',
+      updatedAt: '2026-10-15T08:00:00Z',
+    }]
+    const result = buildLearnerPreparationProgramme(
+      [state], [exam], sparse, [], [], now, sessions, '2026-10-16')
+    const boundary = result.programme.weeks[0]!
+    expect(boundary.visibleFrom).toBe('2026-10-15')
+    expect(boundary.visibleUntil).toBe('2026-10-18')
+    expect(boundary.availableMinutes).toBe(5)
+    expect(boundary.objectives).toHaveLength(0)
+    expect(result.programme.weeks[1]?.availableMinutes).toBe(30)
+    expect(result.programme.weeks.flatMap(w => w.objectives).some(o =>
+      o.forecastDate === '2026-10-16')).toBe(false)
+    // A failed read covering the first two days cannot assert this week's
+    // entire 30 minutes are spare even though the week crosses the boundary.
+    const failed = buildLearnerPreparationProgramme(
+      [state], [exam], sparse, [], [], now, null, '2026-10-16')
+    expect(failed.programme.weeks[0]?.availableMinutes).toBeNull()
+    expect(failed.programme.weeks[0]?.objectives).toHaveLength(0)
+  })
+
   it('labels incomplete legacy evidence as unknown instead of crashing the full-exam requirement inventory', () => {
     const now = new Date('2026-08-19T09:00:00')
     const { programme } = buildLearnerPreparationProgramme([state], [assessment], availability, [], [], now)

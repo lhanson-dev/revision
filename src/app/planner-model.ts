@@ -448,24 +448,29 @@ export function buildLearnerPreparationProgramme(
       if (values.some((value) => value === null || !Number.isFinite(value) || value < 0)) return null
       if (acceptedSessions === null && eligibleKeys.some((key) => key <= nearThrough)) return null
       const raw = values.reduce<number>((total, value) => total + (value ?? 0), 0)
-      if (week.visibleUntil > nearThrough) return raw // distant bookings not fetched
-      const booked = (acceptedSessions ?? []).filter((item) => item.status !== 'skipped'
-        && eligibleKeys.includes(item.plannedDate))
-        .reduce((total, item) => total + Math.max(0, item.minutes), 0)
-      return Math.max(0, raw - booked)
+      // Deduct the loaded part of a boundary week even if its final days are
+      // outside the bounded session query. The latter remain provisional.
+      const remaining = eligibleKeys.reduce((total, date, i) => {
+        const booked = date > nearThrough ? 0 : (acceptedSessions ?? [])
+          .filter((item) => item.status !== 'skipped' && item.plannedDate === date)
+          .reduce((sum, item) =>
+            sum + (Number.isFinite(item.minutes) ? Math.max(0, item.minutes) : 0), 0)
+        return total + Math.max(0, values[i]! - booked)
+      }, 0)
+      return Math.min(raw, remaining)
     },
     (week) => {
       if (!availability) return null
       // Match the same bounded accepted-session confidence used by the
       // programme's weekly capacity; distant commitments stay provisional.
-      if (acceptedSessions === null && week.visibleUntil <= nearThrough) return null
-      const includeSaved = week.visibleUntil <= nearThrough
+      if (acceptedSessions === null
+        && week.visibleFrom <= nearThrough) return null
       const days = weekKeys(week.weekStart)
         .filter((date) => date >= week.visibleFrom && date <= week.visibleUntil)
         .map((date) => {
           const configured = capacityOn(date, availability.weeklyMinutes, exceptions)
           if (configured === null || !Number.isFinite(configured) || configured < 0) return null
-          const booked = includeSaved ? (acceptedSessions ?? [])
+          const booked = date <= nearThrough ? (acceptedSessions ?? [])
             .filter((session) => session.plannedDate === date && session.status !== 'skipped')
             .reduce((sum, session) =>
               sum + (Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0), 0) : 0

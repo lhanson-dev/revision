@@ -34,14 +34,22 @@ export function focusMinutesAfterKnownCommitments(
 ): number | null {
   const configured = knownProgrammeWeekMinutes(week, weekly, exceptions)
   if (configured === null) return null
-  // Outside the bounded accepted-query range we must not imply every future
-  // commitment is known. This remains labelled as provisional availability.
-  if (week.visibleUntil > nearLoadedThrough) return configured
-  // Unknown near commitments cannot safely be read as spare study time.
+  const visible = weekKeys(week.weekStart).filter((day) =>
+    day >= week.visibleFrom && day <= week.visibleUntil)
+  const queried = visible.filter((day) => day <= nearLoadedThrough)
+  // A week can straddle the last queried date. Its known early bookings must
+  // still be deducted; only the later dates are provisional.
+  if (!queried.length) return configured
+  // A failed near read cannot be treated as free time even when this week
+  // also contains distant, unqueried dates.
   if (nearAccepted === null) return null
-  const taken = nearAccepted
-    .filter((session) => session.status !== 'skipped'
-      && session.plannedDate >= week.visibleFrom && session.plannedDate <= week.visibleUntil)
-    .reduce((sum, session) => sum + (Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0), 0)
-  return Math.max(0, configured - taken)
+  return visible.reduce((total, date) => {
+    const budget = capacityOn(date, weekly!, exceptions)!
+    const taken = date > nearLoadedThrough ? 0 : nearAccepted
+      .filter((session) => session.status !== 'skipped' && session.plannedDate === date)
+      .reduce((sum, session) =>
+        sum + (Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0), 0)
+    // Overbooking one accepted day must not consume unrelated future days.
+    return total + Math.max(0, budget - taken)
+  }, 0)
 }
