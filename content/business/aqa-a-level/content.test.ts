@@ -82,7 +82,7 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
       const markTotals = new Map<string, number>()
       for (const exam of pack.exams) {
         for (const question of exam.questions) {
-          const section = question.sectionLabel && sections.get(question.sectionLabel)
+          const section = question.sectionLabel ? sections.get(question.sectionLabel) : undefined
           expect(section, `Missing approved section for ${question.id}`).toBeDefined()
           expect(question.sectionTitle).toBe(section?.type)
           expect(question.sectionMarks).toBe(section?.marks)
