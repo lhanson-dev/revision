@@ -323,6 +323,7 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
               workUnitId: input.plan.id,
               workUnitFingerprint: input.workUnitFingerprint,
             }),
+            strictOutput: true,
             instructions: [
               'Act as an adversarial independent educational reviewer for exactly one Foundation-derived AQA A-level Business Learn/Practice work unit.',
               'Review only the supplied Revision-owned learner content against supplied structured Foundation Course Truth and coverage facts.',

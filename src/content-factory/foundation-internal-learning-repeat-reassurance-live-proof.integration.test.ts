@@ -282,6 +282,7 @@ describe('Foundation-native cumulative-context Learn/Practice re-assurance proof
               workUnitId: input.plan.id,
               workUnitFingerprint: input.workUnitFingerprint,
             }),
+            strictOutput: true,
             instructions: [
               'Act as a genuinely fresh adversarial educational reviewer for exactly one corrected Foundation-derived AQA A-level Business Learn/Practice work unit.',
               'Review the supplied latest corrected Revision-owned learner content against the structured Foundation Course Truth and coverage facts; do not rely on any earlier reviewer conclusion or remediation claim.',
