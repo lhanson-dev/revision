@@ -358,26 +358,50 @@ export function preparationCandidatesFromLearningState(
     return [practice, ...paperPractice(practice)]
 
     function paperPractice(known: PlannerCandidate): PlannerCandidate[] {
-      // The published Question Bank's exact module/paper question is the only
-      // permission to forecast exam-response practice. Shared knowledge
-      // remains one obligation; genuine paper demands are separate intents.
-      if (!state || candidate.activityType === 'exam-question') return []
+      // Each exact verified paper-response section is an independent practice
+      // opportunity; picking just one question per topic hides later formats.
+      if (!state) return []
       return (candidate.assessmentTargets ?? []).flatMap((target): PlannerCandidate[] => {
         if (!target.moduleId || !target.paperId || !target.topicIds.includes(candidate.topicId)) return []
-        const exact = exactExamTarget(state, candidate.topicId, target.moduleId, true)
-        if (!exact) return []
-        const section = verifiedPaperResponseSection(state, exact, target.assessmentId, candidate.topicId)
-        return [{
-          ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
-          activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
-          assessmentId: target.assessmentId, daysUntilAssessment: target.daysUntilAssessment,
-          assessmentImportance: target.assessmentImportance,
-          assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
-          learnTarget: undefined, preparationStage: 'exam-practice',
-          paperResponseSectionId: section?.id,
-          paperResponseFormat: section?.format,
-          preparationPrerequisiteId: known.id,
-        }]
+        const module = (state.course?.modules ?? [state.adapter]).find((part) =>
+          part.manifest.id === target.moduleId && part.manifest.status === 'available')
+        if (!module) return []
+        const bySection = new Map<string, {
+          exact: NonNullable<PlannerCandidate['examTarget']>;
+          section: { id: string; format: string } | null
+        }>()
+        for (const exam of module.listExams()) {
+          if (exam.restrictedPilot) continue
+          for (const question of exam.questions) {
+            if (question.topic !== candidate.topicId) continue
+            const exact = { moduleId: target.moduleId, examId: exam.id, questionId: question.id }
+            const section = verifiedPaperResponseSection(state, exact, target.assessmentId, candidate.topicId)
+            if (section && !bySection.has(section.id)) bySection.set(section.id, { exact, section })
+          }
+        }
+        // A valid unspecific question remains possible when the published
+        // assets do not verify any named response section.
+        const fallback = exactExamTarget(state, candidate.topicId, target.moduleId, true)
+        const supported = bySection.size ? [...bySection.values()]
+          : fallback ? [{ exact: fallback, section: null }] : []
+        return supported.flatMap(({ exact, section }): PlannerCandidate[] => {
+          const alreadySelected = known.activityType === 'exam-question'
+            && known.assessmentId === target.assessmentId
+            && known.examTarget?.moduleId === exact.moduleId
+            && known.examTarget.examId === exact.examId
+            && known.examTarget.questionId === exact.questionId
+          if (alreadySelected) return []
+          return [{
+            ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
+            activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
+            assessmentId: target.assessmentId, daysUntilAssessment: target.daysUntilAssessment,
+            assessmentImportance: target.assessmentImportance,
+            assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
+            learnTarget: undefined, preparationStage: 'exam-practice',
+            paperResponseSectionId: section?.id, paperResponseFormat: section?.format,
+            preparationPrerequisiteId: known.activityType === 'exam-question' ? undefined : known.id,
+          }]
+        })
       })
     }
   })

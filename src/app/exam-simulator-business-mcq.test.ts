@@ -3,6 +3,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { paper1Exam } from '../../content/business/aqa-a-level/paper-1/exam'
 import { ExamSimulator } from './ExamSimulator'
+import { answeredQuestionCount } from './exam-prep'
 
 function render(autostart: 'timed' | 'untimed', questionId = 'p1-q01') {
   return renderToStaticMarkup(createElement(ExamSimulator, {
@@ -37,6 +38,8 @@ describe('FI-001 Business Paper 1 original multiple-choice practice formats', ()
     expect(html).toContain('name="answer-p1-q01"')
     expect((html.match(/name="answer-p1-q01"/g) ?? []).length).toBe(4)
     expect(html).toContain('Section A')
+    expect(html).toContain('0/24 answered')
+    expect(answeredQuestionCount(paper1Exam)).toBe(24)
     expect(html).not.toContain('Write your answer')
   })
 

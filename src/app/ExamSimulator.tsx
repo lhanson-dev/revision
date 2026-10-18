@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { answeredQuestionCount } from './exam-prep'
 import { Button, Icon, ModalShell } from './ui'
 
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
@@ -152,6 +153,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const activeQuestions = exam.questions.filter(isAttemptedQuestion)
   const missingChoiceGroups = choiceGroups.filter((group) => !selectedChoices[group])
   const answeredCount = activeQuestions.filter((item) => answers[item.id]?.trim()).length
+  // Printed alternatives do not increase the number of attempted questions.
+  const questionCount = answeredQuestionCount(exam)
   const unansweredNumbers = exam.questions.flatMap((item, index) => (!isAttemptedQuestion(item) || answers[item.id]?.trim() ? [] : [index + 1]))
   const flaggedNumbers = exam.questions.flatMap((item, index) => (flagged[item.id] ? [index + 1] : []))
   const currentMarks = question ? marks[question.id] ?? emptyMarks() : emptyMarks()
@@ -355,7 +358,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       <section className="exam-simulator" aria-labelledby={`question-practice-${exam.id}`}>
         <p className="eyebrow">Targeted {pLabel} practice</p>
         <h2 id={`question-practice-${exam.id}`}>Practise one exam question</h2>
-        <div className="practice-meta">Question {practiceIndex + 1} of {exam.questions.length} · {practiceQuestion.marks} marks</div>
+        <div className="practice-meta">{practiceQuestion.choiceGroup
+          ? `${practiceQuestion.sectionLabel ?? pLabel} · ${choiceOptionLabel(practiceQuestion)}`
+          : `Question ${practiceIndex + 1} of ${questionCount}`} · {practiceQuestion.marks} marks</div>
         {exam.caseHtml && <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />}
         <h3>{practiceQuestion.prompt}</h3>
         {practiceQuestion.responseType === 'multiple-choice' ? (
@@ -434,7 +439,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     <div ref={focusRegion} tabIndex={-1} className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
-          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{exam.questions.length} answered</span></div>
+          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span></div>
           <div className="exam-session-controls">
             {!finishedWriting && <Button variant="secondary" type="button" onClick={() => beginInterruption('paused')}>Pause</Button>}
             {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}

@@ -116,10 +116,14 @@ test('timed mock enters a focused full-viewport exam, then stop confirmation ret
 
 test('Business Paper 1 essay questions are choices, not syllabus exclusions or duplicated attempted marks', async ({ page }) => {
   await open(page)
-  const mock = page.locator('.exam-mock').first()
+  // The retained AI-assured mock is listed first and has its own question
+  // structure. This test targets the separate original Revision simulation.
+  const mock = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(mock).toHaveCount(1)
   await mock.getByRole('button', { name: 'Start timed' }).click()
   const nav = page.getByRole('navigation', { name: 'Exam questions' })
   await expect(nav.getByRole('button')).toHaveCount(26)
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/24 answered')
   await expect(page.getByRole('button', { name: 'Finish and self-mark' })).toBeDisabled()
 
   await nav.getByRole('button').nth(22).click()
