@@ -59,12 +59,16 @@ for(let n=1;n<=13;n++){
   const signals=[]
   if(programme&&programme.unserved.length>0)
     signals.push(String(programme.unserved.length)+' unallocated supported objectives; check which educational obligations are displaced')
-  if(verified>0&&withAllocation===0)
-    signals.push('No verified paper-response section receives allocated practice; check whether this is justified by actual capacity and learning prerequisites')
+  const hasAvailableTime=(programme?.weeks??[]).some(week=>week.available!==null&&week.available>0)
+  if(verified>0&&withAllocation===0&&hasAvailableTime)
+    signals.push('No verified paper-response section receives allocated practice despite some known time; check whether learning prerequisites justify it')
   if(sections.some(section=>section.verified===0))
     signals.push('Some named paper-response sections have no verified source-backed practice')
-  if(input.selected.length>1&&Object.keys(courses).length<input.selected.length&&objectives.length>0)
-    signals.push('At least one active course has no allocated objectives; review course-share opportunity cost')
+  // A completed paper cannot justify scheduling new work in its course.
+  // Check balance only between courses still having a *future* active paper.
+  const futureCourseIds=[...new Set(input.papers.filter(p=>p.isActive&&p.assessmentDate>input.today).map(p=>p.courseId))]
+  if(futureCourseIds.length>1&&objectives.length>0&&futureCourseIds.some(course=>!(course in courses)))
+    signals.push('At least one course with an upcoming exam has no allocated objectives; review course-share opportunity cost')
   if(input.papers.length>0&&input.weekly===null&&objectives.length>0)
     throw Error('HARD FAIL: allocated an invented timed programme without availability: '+id+'/'+name)
   if(!input.papers.length&&sections.length>0)
