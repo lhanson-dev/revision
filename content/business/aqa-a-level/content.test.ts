@@ -110,6 +110,26 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
     expect(p3.questions.every((q) => q.sectionLabel === 'Case study questions')).toBe(true)
   })
 
+  it('renders each of the 15 original Section A options without changing the authored correct-answer key', () => {
+    const items = paper1.exams[0]!.questions.slice(0, 15)
+    expect(items).toHaveLength(15)
+    for (const item of items) {
+      expect(item.responseType).toBe('multiple-choice')
+      expect(item.prompt).toMatch(/^Section A — /)
+      expect(item.options?.map((option) => option.label)).toEqual(['A', 'B', 'C', 'D'])
+      expect(item.options?.every((option) => option.text.trim().length > 0)).toBe(true)
+      const guidance = item.markingGuidance.join(' ')
+      const key = guidance.match(/Correct answer: ([A-D])/)
+      expect(key, `Missing authored answer key in ${item.id}`).not.toBeNull()
+      expect(item.options?.some((option) => option.label === key?.[1])).toBe(true)
+      // The multiple-choice answer remains self-assessed in the existing
+      // ExamSimulator; this test does not assert an independent outcome.
+      expect(item.marks).toBe(1)
+      expect(item.assessmentObjectives).toEqual({ ao1: 1, ao2: 0, ao3: 0, ao4: 0 })
+    }
+    expect(paper1.exams[0]?.questions.slice(15).every((item) => item.responseType !== 'multiple-choice')).toBe(true)
+  })
+
   it('preserves the intended Paper 1 15 + 35 + 25 + 25 structure and AO profile', () => {
     const exam = paper1.exams[0]
     expect(exam.questions).toHaveLength(24)

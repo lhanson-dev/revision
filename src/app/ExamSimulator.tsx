@@ -354,9 +354,23 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <div className="practice-meta">Question {practiceIndex + 1} of {exam.questions.length} · {practiceQuestion.marks} marks</div>
         {exam.caseHtml && <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />}
         <h3>{practiceQuestion.prompt}</h3>
-        <label className="answer-label">Write your answer
-          <textarea rows={12} disabled={practiceSaved} value={practiceDraft} onChange={(event) => setPracticeDraft(event.target.value)} placeholder="Answer as you would in the exam." />
-        </label>
+        {practiceQuestion.responseType === 'multiple-choice' ? (
+          <fieldset className="exam-mcq">
+            <legend>Choose one answer</legend>
+            {practiceQuestion.options?.map((option) => (
+              <label key={option.label}>
+                <input type="radio" name={`practice-answer-${practiceQuestion.id}`}
+                  value={option.label} disabled={practiceSaved} checked={practiceDraft === option.label}
+                  onChange={() => setPracticeDraft(option.label)} />
+                <span><strong>{option.label}</strong> {option.text}</span>
+              </label>
+            ))}
+          </fieldset>
+        ) : (
+          <label className="answer-label">Write your answer
+            <textarea rows={12} disabled={practiceSaved} value={practiceDraft} onChange={(event) => setPracticeDraft(event.target.value)} placeholder="Answer as you would in the exam." />
+          </label>
+        )}
         {!practiceGuidance ? (
           <Button disabled={!practiceDraft.trim()} onClick={() => setPracticeGuidance(true)}>Show marking guidance</Button>
         ) : (

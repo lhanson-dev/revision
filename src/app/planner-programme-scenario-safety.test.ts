@@ -124,9 +124,11 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     const noMcq = paper1.find((section) => section.sectionName === 'Section A')!
     const noStructuredEssayC = paper1.find((section) => section.sectionName === 'Section C')!
     const noStructuredEssayD = paper1.find((section) => section.sectionName === 'Section D')!
-    // The existing authored simulation presents these as text fields/combined
-    // prompts, not the AQA multiple-choice and choose-one essay interactions.
-    expect(noMcq.verifiedPracticeCandidateIds).toEqual([])
+    // Authored Section A radio options now exist and can be started exactly.
+    // Essays C/D still combine A/B alternatives in one prompt and are not
+    // verified as the paper's mandatory choose-one-of-two interactions.
+    expect(noMcq.verifiedPracticeCandidateIds.length).toBeGreaterThan(0)
+    expect(noMcq.verifiedAssessmentObjectives).toContain('AO1')
     expect(noStructuredEssayC.verifiedPracticeCandidateIds).toEqual([])
     expect(noStructuredEssayD.verifiedPracticeCandidateIds).toEqual([])
     const shortAnswers = paper1.find((section) => section.sectionName === 'Section B')!
