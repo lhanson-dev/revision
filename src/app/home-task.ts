@@ -34,7 +34,7 @@ export type HomeTask = {
 export function homeActivityLabel(activity: HomeActivityType) {
   if (activity === 'learn') return 'Learn'
   if (activity === 'flashcards') return 'Flashcards'
-  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'quick-check') return 'Practice question'
   return 'Exam practice'
 }
 

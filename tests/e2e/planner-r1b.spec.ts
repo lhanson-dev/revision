@@ -14,12 +14,12 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
   await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
   await expect(page.locator('.pln-row').filter({ has: page.getByRole('button', { name: /^Up next/ }) })).toContainText('Finance')
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).toContainText('Finance — Practice question')
   await page.goto(appPath)
   await hero.getByRole('button', { name: 'Suggest something else', exact: true }).click()
   await expect(hero.getByRole('heading', { level: 2 })).not.toHaveText('Finance')
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).not.toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).not.toContainText('Finance — Practice question')
 })
 
 test('R1-07 exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {

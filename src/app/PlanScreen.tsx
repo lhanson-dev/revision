@@ -33,7 +33,7 @@ import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessio
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
-import type { HomeTask } from './home-task'
+import { homeActivityLabel, type HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLearningState } from './planner-model'
@@ -75,7 +75,7 @@ function assessmentTypeLabel(type: AssessmentType) {
 
 function activityLabel(activity: string) {
   if (activity === 'exam-question') return 'Exam practice'
-  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'quick-check') return homeActivityLabel('quick-check')
   if (activity === 'flashcards') return 'Flashcards'
   if (activity === 'learn') return 'Learn'
   return 'Revision activity'

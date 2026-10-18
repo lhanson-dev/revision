@@ -134,7 +134,8 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
         {task.activityType === 'quick-check' && question && !completed && (
           <div className="home-focused-practice">
-            <p className="eyebrow">Quick check</p>
+            <p className="eyebrow">Practice question</p>
+            <p>Your answer is saved as scored Practice evidence. A single answer does not establish topic understanding or exam readiness.</p>
             <h2>{question.prompt}</h2>
             <div className="home-focused-options">
               {question.options.map((option, index) => (
@@ -153,6 +154,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
             <p className="eyebrow">Result saved</p>
             <h2>{selectedOption === question.correctOption ? 'Correct.' : 'Not quite.'}</h2>
             <p>{question.explanation}</p>
+            <p>This result contributes to your Practice evidence. Revision uses sufficient varied evidence to assess understanding; this answer alone is not a readiness judgement.</p>
             <Button onClick={onFinish}>Back to today’s plan</Button>
           </div>
         )}
@@ -167,7 +169,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         )}
 
         {task.activityType === 'flashcards' && !card && <Status tone="warning">This flashcard activity is no longer available for the recommended topic.</Status>}
-        {task.activityType === 'quick-check' && !question && <Status tone="warning">This quick check is no longer available for the recommended topic.</Status>}
+        {task.activityType === 'quick-check' && !question && <Status tone="warning">This practice question is no longer available for the recommended topic.</Status>}
       </section>
     </main>
   )

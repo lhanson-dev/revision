@@ -5,6 +5,7 @@ import { allCatalogueCourses } from './learner-programme'
 import { buildPlannerSnapshot } from './planner-model'
 import { homeToday, homeTaskOnToday } from './home-v3-model'
 import { todayRecommendations, recommendationExplanation, taskForTodayRow, learnRouteForTask } from './today-recommendations'
+import { homeActivityLabel } from './home-task'
 import { resolveHomeExamQuestion } from './home-exam-question'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import type { PlannedSession } from '../services/planning/planned-session-service'
@@ -27,6 +28,15 @@ const choices = (day: ReturnType<typeof context> | null, current = state, missin
   todayRecommendations(day, [current], programme, missing, trusted, now, { day: '2026-10-13', keys: hidden })
 
 describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
+  it('names a scored Home/Plan/REV question Practice, not the unscored Learn Quick check', () => {
+    expect(homeActivityLabel('quick-check')).toBe('Practice question')
+    const accepted = choices(context([session('scored', 'finance')]))[0]
+    expect(accepted.activityType).toBe('quick-check')
+    expect(recommendationExplanation(accepted)).toContain('Practice question')
+    // Existing scored question identity stays unchanged. The separate Learn
+    // QuickCheck remains unscored and cannot update topic readiness.
+  })
+
   it('R1-07 accepted before derived, exact row identity and shared REV rationale', () => {
     const sessions = [session('z', 'finance'), session('a', 'marketing'), session('done', 'operations', 'done'), session('skip', 'hr', 'skipped')]
     const day = context(sessions)
