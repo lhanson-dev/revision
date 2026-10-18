@@ -256,6 +256,26 @@ export function plannerCandidatesFromLearningState(
 }
 
 
+/** A published response section is only claimable when the learner-facing
+ * question has the matching supported interaction, not just its label.
+ * A written input is NOT a multiple-choice question, and an unstructured
+ * combined essay prompt is not a verified choose-one-of-two interaction.
+ */
+function supportsPaperResponseFormat(
+  question: { responseType?: 'multiple-choice' | 'written'; options?: readonly { label: string; text: string }[];
+    choiceGroup?: string | null; choiceOption?: string | null },
+  section: { type: string },
+) {
+  const type = section.type.toLowerCase()
+  if (type.includes('multiple choice')) {
+    return question.responseType === 'multiple-choice' && (question.options?.length ?? 0) >= 2
+  }
+  if (type.includes('one essay from two')) {
+    return question.responseType !== 'multiple-choice' && !!question.choiceGroup && !!question.choiceOption
+  }
+  return question.responseType !== 'multiple-choice'
+}
+
 /** Only the published paper's exact question section can attach a response
  * requirement to a supported question. Never infer a section from a topic,
  * paper proximity, question marks or an unapproved coaching note. */
@@ -275,6 +295,8 @@ function verifiedPaperResponseSection(
   const index = paper?.sections.findIndex((section) =>
     section.name.trim().toLowerCase() === question.sectionLabel?.trim().toLowerCase())
   if (index === undefined || index < 0) return null
+  const section = paper!.sections[index]
+  if (question.sectionMarks !== section.marks || !supportsPaperResponseFormat(question, section)) return null
   return { id: `${assessmentId}:section:${index + 1}`, format: paper!.sections[index].type }
 }
 
@@ -563,7 +585,9 @@ export function buildLearnerPreparationProgramme(
     })
     paper.sections.forEach((section, sectionIndex) => {
       const matched = eligiblePractice.filter(({ question }) =>
-        question.sectionLabel?.trim().toLowerCase() === section.name.trim().toLowerCase())
+        question.sectionLabel?.trim().toLowerCase() === section.name.trim().toLowerCase()
+        && question.sectionMarks === section.marks
+        && supportsPaperResponseFormat(question, section))
       const ids = [...new Set(matched.map((item) => item.candidateId))].sort()
       const aos = ['ao1', 'ao2', 'ao3', 'ao4'] as const
       paperResponseRequirements.push({

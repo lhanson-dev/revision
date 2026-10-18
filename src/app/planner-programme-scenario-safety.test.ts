@@ -114,6 +114,26 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(result.programme)
   })
 
+
+  it('SV-04: source-mapped Business questions are not called verified format practice until rendered correctly', () => {
+    const { programme } = buildLearnerPreparationProgramme(
+      [sourceState()], businessPapers(), fullCapacity, [], [], now)
+    expect(programme.paperResponseRequirements).toHaveLength(8)
+    const paper1 = programme.paperResponseRequirements
+      .filter((section) => section.assessmentId.endsWith('paper-1'))
+    const noMcq = paper1.find((section) => section.sectionName === 'Section A')!
+    const noStructuredEssayC = paper1.find((section) => section.sectionName === 'Section C')!
+    const noStructuredEssayD = paper1.find((section) => section.sectionName === 'Section D')!
+    // The existing authored simulation presents these as text fields/combined
+    // prompts, not the AQA multiple-choice and choose-one essay interactions.
+    expect(noMcq.verifiedPracticeCandidateIds).toEqual([])
+    expect(noStructuredEssayC.verifiedPracticeCandidateIds).toEqual([])
+    expect(noStructuredEssayD.verifiedPracticeCandidateIds).toEqual([])
+    const shortAnswers = paper1.find((section) => section.sectionName === 'Section B')!
+    expect(shortAnswers.verifiedPracticeCandidateIds.length).toBeGreaterThan(0)
+    safety(programme)
+  })
+
   it('SV-02: Business paper topics distinguish strong and weak scored evidence', () => {
     const topics = business.learningAdapter.listTopics().slice(0, 2).map((item) => item.id)
     expect(topics).toHaveLength(2)
