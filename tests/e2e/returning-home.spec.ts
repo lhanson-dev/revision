@@ -117,12 +117,12 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i })
+  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/i })
   await expect(start).toBeVisible()
   await start.click()
 
   await expect(page.locator('.home-focused-activity')).toBeVisible()
-  await expect(page.getByText('Quick check', { exact: true })).toBeVisible()
+  await expect(page.getByText('Practice question', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Back to Home' })).toBeVisible()
   await expectNoHorizontalOverflow(page)

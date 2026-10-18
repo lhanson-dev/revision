@@ -42,7 +42,7 @@ test('R2-07 Home, Plan and REV keep the same accepted next work with a 120+ day 
   expect((await new AxeBuilder({ page }).include('.pln-programme').withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
 
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).toContainText('Finance — Practice question')
   await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
   await expect(page.getByRole('log').locator('.rev-chat__message--rev').last()).toContainText('Finance')
   expect(acceptedWindows.length).toBeGreaterThanOrEqual(3)
@@ -63,7 +63,7 @@ test('R2-06/R2-07 Not now on Home changes REV advice, never the saved accepted b
   await hero.getByRole('button', { name: 'Suggest something else', exact: true }).click()
   await expect(hero.getByRole('heading', { level: 2 })).not.toHaveText('Finance')
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).not.toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).not.toContainText('Finance — Practice question')
   await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
   await expect(page.locator('.pln-row[data-kind="session"]')).toContainText('Finance')
   expect(mutations).toBe(0)
