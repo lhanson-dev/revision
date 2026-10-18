@@ -78,9 +78,9 @@ for(let n=1;n<=13;n++){
    signals,educationalVerdict:'NOT ASSESSED',
   }
  }
- report.scenarios[report.scenarios.length-1].review=review
+
  lines.push('| '+id+' | '+v.oldTasks+' | '+v.newTasks+' | '+v.newObjectives+' | '+v.newUnserved+' | Expert judgement pending |')
- report.scenarios.push({id,variants,educationalVerdict:'NOT ASSESSED'})
+ report.scenarios.push({id,variants,review,educationalVerdict:'NOT ASSESSED'})
 }
 writeFileSync(dir+'/comparison.json',JSON.stringify(report,null,2))
 const reviewLines=['# FI-001 — Educational decision review queue (NOT acceptance)','',
