@@ -71,9 +71,9 @@ describe('FI-001 R2 weekly focus availability after saved choices', () => {
     expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-10-18')).toBe(120)
   })
 
-  it('never yields negative remaining time after an overbooked chosen week', () => {
+  it('never yields negative daily time while preserving unaffected days in an overbooked week', () => {
     expect(focusMinutesAfterKnownCommitments(week, weekly, [], [
       { plannedDate: '2026-10-14', minutes: 250, status: 'planned' },
-    ], '2026-12-12')).toBe(0)
+    ], '2026-12-12')).toBe(120)
   })
 })
