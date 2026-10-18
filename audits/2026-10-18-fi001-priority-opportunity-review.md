@@ -38,3 +38,7 @@ The existing dedicated comparator now emits a bounded programme-decision review 
 ## Open gates and next action
 
 **Educational verdict: HOLD.** Independent assessment-content review under the Content Accuracy Assurance Gate; qualified subject-specific priority and AO/response-skill judgement; authentic persisted completion/evidence/replanning journeys; and accessible actual-student comprehension remain unverified. Next: review the exact-head `educational-review.json/md` evidence with the qualified educational acceptance rubric before any merge recommendation. No historical audit records have been rewritten and no Founder merge approval has been inferred.
+
+## Exact-head comparator reporter correction — 18 October 2026
+
+[Workflow #39166483803](https://github.com/lhanson-dev/revision/actions/runs/39166483803) successfully ran the same frozen baseline and candidate probes but failed in the newly added reporting step with `ReferenceError: result is not defined`. The reporter uses `report` as the actual comparison accumulator. The single incorrect variable reference has been corrected; no scenario inputs, observed programme decisions, educational constraints, tests or reported findings have changed. New exact-head execution is necessary before its expanded safety assertions and reviewer outputs may be called validated.

@@ -78,7 +78,7 @@ for(let n=1;n<=13;n++){
    signals,educationalVerdict:'NOT ASSESSED',
   }
  }
- result.scenarios[result.scenarios.length-1].review=review
+ report.scenarios[report.scenarios.length-1].review=review
  lines.push('| '+id+' | '+v.oldTasks+' | '+v.newTasks+' | '+v.newObjectives+' | '+v.newUnserved+' | Expert judgement pending |')
  report.scenarios.push({id,variants,educationalVerdict:'NOT ASSESSED'})
 }
