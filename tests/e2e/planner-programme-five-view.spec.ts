@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { appPath, planUserId, plannedRow, seedPlanStudent } from './plan-seed'
+import { answerWith } from './practice-seed'
 
 /** Node-only browser fixture: verify authoritative paper-manifest identities by
  * reading text, not executing the Vite/JSON content-loader module graph. */
@@ -343,6 +344,84 @@ test('SV-07: returning after a missed accepted session replans on Home, Plan and
   await expect(finance).not.toContainText('You have saved a session for this topic')
   expect(sessions).toHaveLength(1)
   expect(sessions[0]?.status).toBe('skipped')
+})
+
+/** A real scored answer through the shipped Practice question component must
+ * survive the application's evidence insert/load boundary. The mock database
+ * stores exactly the row the UI sent, instead of inventing GET-only evidence. */
+test('SV-08: a real saved scored Practice answer refreshes Progress and the common Plan/Home/REV decision without inventing readiness', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'One real scored browser journey; existing five-view tests exercise responsive routes.')
+  const examRow = paper(business, 1, '2026-11-03', 'Business assessed paper')
+  await seededCourses(page, [business.id], () => [examRow])
+  const evidenceRows: Array<Record<string, unknown>> = []
+  let loaded = 0
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    const request = route.request()
+    if (request.method() === 'POST') {
+      const body = request.postDataJSON() as Record<string, unknown> | Array<Record<string, unknown>>
+      const incoming = Array.isArray(body) ? body : [body]
+      evidenceRows.push(...incoming)
+      await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+      return
+    }
+    if (request.method() !== 'GET') throw new Error('Unexpected evidence mutation ' + request.method())
+    loaded += 1
+    const filter = new URL(request.url()).searchParams.get('module_id')
+    const moduleId = filter?.startsWith('eq.') ? filter.slice(3) : null
+    const rows = evidenceRows.filter((row) => !moduleId || row.module_id === moduleId)
+      .map((row) => ({ payload: row.payload }))
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(rows) })
+  })
+
+  await page.goto(appPath + '#/progress')
+  const covered = page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).first()
+  await expect(covered.locator('.ui-progress-measure__number')).toHaveText('0')
+  await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
+
+  // This is an actual rendered scored question and confidence selection.
+  // No synthetic evidence payload or score is inserted by the test.
+  await page.goto(appPath + '#/courses/' + encodeURIComponent(business.id) + '/practice')
+  await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+  await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
+  await answerWith(page, 0, 'Certain')
+  await expect.poll(() => evidenceRows.length).toBe(1)
+  const persisted = evidenceRows[0]!
+  expect(persisted.user_id).toBe(planUserId)
+  expect(typeof persisted.content_id).toBe('string')
+  expect(business.modules.some((part) => part.id === persisted.module_id)).toBe(true)
+  expect(persisted.payload).toMatchObject({
+    source: 'multiple_choice', schemaVersion: 2, confidence: 'certain',
+  })
+  const previousLoads = loaded
+
+  // A real screen navigation reloads precisely the answer that the Practice
+  // component saved. It is a meaningful encounter, not a full readiness claim.
+  await page.goto(appPath + '#/progress')
+  await expect(covered.locator('.ui-progress-measure__number')).toHaveText('1')
+  await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
+  expect(loaded).toBeGreaterThan(previousLoads)
+
+  await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  const programme = page.getByRole('region', { name: 'Your full exam programme' })
+  await expect(programme).toContainText('Business assessed paper')
+  await expect(programme).toContainText('not a measurement of all syllabus work')
+  await expect(programme.locator('[aria-label="Verified course knowledge requirements"] li')).toHaveCount(10)
+  await expect(programme).not.toContainText('All preparation is complete')
+
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero.getByRole('button', { name: /^Start/ })).toBeVisible()
+  const nextTopic = (await hero.getByRole('heading', { level: 2 }).innerText()).trim()
+  expect(nextTopic.length).toBeGreaterThan(2)
+  await page.goto(appPath + '#/plan?view=day&date=2026-10-05')
+  await expect(page.locator('.pln-row').filter({
+    has: page.getByRole('button', { name: /^Up next/ }),
+  })).toContainText(nextTopic)
+  await page.goto(appPath + '#/rev')
+  await expect(page.getByRole('log')).toContainText(nextTopic)
+  await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
+  await expect(page.getByRole('log').locator('.rev-chat__message--rev').last()).toContainText(nextTopic)
+  expect(evidenceRows).toHaveLength(1) // No duplicate write across routes.
 })
 
 test('SV-12: impossible saved capacity shows the exact supported course-topic preparation left out, without promising syllabus completion', async ({ page }) => {
