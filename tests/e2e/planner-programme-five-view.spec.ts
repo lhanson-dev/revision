@@ -121,6 +121,15 @@ test('SV-01/SV-04: real shared Business three-paper programme connects Month, We
   ]
   await seededCourses(page, [business.id], () => exams)
   await observeFiveViews(page, exams.map((item) => item.title))
+  await page.goto(appPath + '#/plan?view=month&date=2027-05-01')
+  const programme = page.getByRole('region', { name: 'Your full exam programme' })
+  const paperSections = programme.locator('[aria-label="Paper response requirements"]')
+  await expect(paperSections).toContainText('Revision-authored questions, not official exam-board questions or mark schemes.')
+  await expect(paperSections).toContainText('Revision practice question matched to this paper section.')
+  const paperOptions = programme.locator('[aria-label="Paper-style question opportunities"]')
+  await expect(paperOptions).toContainText('available Revision-authored question options mapped to this paper')
+  await expect(paperOptions).toContainText('not the number of questions you must answer in the exam')
+  await expect(programme).not.toContainText('Verified practice covers')
 })
 
 test('SV-03: two published subjects share the same next action without dropping later paper requirements', async ({ page }) => {

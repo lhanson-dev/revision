@@ -256,6 +256,8 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
     ])
     expect(proposed[1].paperResponseSectionId).toBe('business-paper:section:2')
     expect(proposed[1].purpose).toContain('Extended response')
+    expect(proposed[1].purpose).toContain('Revision practice question matched to this paper section')
+    expect(proposed[1].purpose).not.toContain('verified paper question')
     expect(result.unserved.map((objective) => objective.candidateId)).toEqual(['b-section-1'])
     expect(buildPreparationProgramme(horizon, [...candidates].reverse(), capacity)).toEqual(result)
   })
@@ -268,7 +270,7 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
     })
     const objective = make([c], [p], 60).weeks[0].objectives[0]
     expect(objective.treatment).toBe('exam-practice')
-    expect(objective.purpose).toContain('paper')
+    expect(objective.purpose).toContain('supported Revision exam-style question')
     expect(objective.activityType).toBe('exam-question')
   })
 })

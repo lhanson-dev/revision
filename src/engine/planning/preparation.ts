@@ -115,8 +115,8 @@ function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): Prep
       ? 'Revisit a demonstrated gap using published explanation before checking it again'
       : 'Build the foundations before independent practice'
     : treatment === 'exam-practice' ? candidate.paperResponseFormat
-      ? `Practise ${candidate.paperResponseFormat} using a verified paper question`
-      : 'Practise the demands of this paper with an assured question'
+      ? `Practise ${candidate.paperResponseFormat} using a Revision practice question matched to this paper section`
+      : 'Practise using a supported Revision exam-style question'
       : treatment === 'repair' ? 'Work on a gap indicated by the available scored evidence'
         : treatment === 'retrieve' ? 'Retrieve course knowledge independently'
           : evidenceStatus === 'unknown' ? 'Check what you know before choosing further study'

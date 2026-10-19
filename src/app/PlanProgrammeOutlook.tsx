@@ -133,9 +133,9 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
               </div>
             )}
             {programme.paperResponseRequirements.length > 0 && (
-              <div aria-label="Verified paper response requirements">
+              <div aria-label="Paper response requirements">
                 <h3>Paper response formats</h3>
-                <p>Learning the topics is only part of exam preparation. Your known papers also require different answer formats. Revision identifies these from approved paper structures and only counts practice when an exact published question is mapped to the section.</p>
+                <p>Learning the topics is only part of exam preparation. Your known papers also require different answer formats. Revision maps its own exam-style practice questions to the published paper structure. These are Revision-authored questions, not official exam-board questions or mark schemes.</p>
                 <details>
                   <summary>Explore paper response requirements and practice gaps</summary>
                   <ul>
@@ -144,12 +144,12 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                         <strong>{courseLabel(requirement.courseId)} — {requirement.sectionName}</strong>
                         <span> · {dated(requirement.assessmentDate)} · {requirement.responseFormat} · {requirement.marks} marks</span>
                         <p>{requirement.allocatedPracticeCandidateIds.length
-                          ? 'Revision has proposed a verified, section-matched exam practice opportunity. This does not prove proficiency.'
+                          ? 'Revision has proposed a Revision practice question matched to this paper section. This does not prove proficiency.'
                           : requirement.verifiedPracticeCandidateIds.length
-                            ? 'A verified question exists for this format, but it is not allocated in the current forecast.'
-                            : 'No exact section-matched practice opportunity is verified yet. This requirement is not treated as covered.'}</p>
+                            ? 'A Revision practice question is mapped to this section, but none is allocated in the current forecast.'
+                            : 'Revision cannot yet identify an available practice question matched to this section. This requirement is not treated as covered.'}</p>
                         {requirement.verifiedAssessmentObjectives.length > 0 &&
-                          <p>Verified practice question assessment objectives: {requirement.verifiedAssessmentObjectives.join(', ')}. These do not demonstrate mastery of the full paper.</p>}
+                          <p>Assessment objectives associated with the mapped Revision question: {requirement.verifiedAssessmentObjectives.join(', ')}. These do not demonstrate mastery of the full paper.</p>}
                       </li>
                     ))}
                   </ul>
@@ -157,13 +157,13 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
               </div>
             )}
             {programme.verifiedPaperDemands.length > 0 && (
-              <div aria-label="Verified paper response demands">
+              <div aria-label="Paper-style question opportunities">
                 <h3>Exam-response skills to prepare for</h3>
                 <ul>{programme.verifiedPaperDemands.map((paper) =>
                   <li key={paper.assessmentId}>
                     <strong>{courseLabel(paper.courseId)} — {paper.title}</strong>
-                    <span> · {dated(paper.date)} · Verified practice covers {paper.assessmentObjectives.join(', ') || 'documented paper demands'} using {paper.questionCount} supported question opportunities.</span>
-                    <p>These are future exam-skill goals, not claims that the knowledge is already secure or that all paper demands are covered. Revision will adapt the next supported task using your evidence.</p>
+                    <span> · {dated(paper.date)} · {paper.questionCount} available Revision-authored question options mapped to this paper, involving {paper.assessmentObjectives.join(', ') || 'documented assessment objectives'}.</span>
+                    <p>These are question options for practice, not the number of questions you must answer in the exam, proof of proficiency or a claim that all paper demands are covered. Revision adapts the next supported task using your evidence.</p>
                   </li>)}</ul>
               </div>
             )}
