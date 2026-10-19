@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-10-06  
+**Last triaged:** 2026-10-19  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules
@@ -80,3 +80,8 @@ ADR-0030 deliberately uses a prospective recovery trust root rather than creatin
 Mixed ordinary-action radii and redundant feature button families are tracked in Issue #616 / draft PR #618 as learner presentation/consistency defects. Further audit found Home target shrink, profile control overrides and remaining ordinary REV/Learn/Practice/exam owner forks. The candidate corrections and rendered/exception inventory are recorded in `audits/2026-10-13-learner-design-consistency-616.md`. **Status: Fix in review; open.** Founder visual acceptance, final exact-head CI, explicit merge approval and production verification remain outstanding. This note does not inflate P0/P1/P2 counts for cosmetic findings or rewrite any historical closure evidence.
 
 Issue #616 update (13 October 2026): Founder visual approval is now recorded and the 20 changed baselines are updated from matching initial/retry CI digests. See `audits/2026-10-13-learner-616-visual-approval.md`. Fix remains in review/open pending fresh baseline-update-head CI, main integration, separate PR #618 merge approval and production verification.
+
+
+## Triage reconciliation — 19 October 2026, candidate PR #637
+
+The draft FI-001 evidence-integrity defect `DEF-2026-009` was added as **P1 / Fix in review** alongside `DEF-2026-008` (P1 / Open). There are now **two known open P1 defects on this candidate branch**, not one. The register's Last triaged date was updated to reflect the new observation. This is a candidate-only register count, not a statement that the defect is deployed to `main`. Founder Assurance unit and responsive Admin tests must assert both actual defects; neither may be hidden or classified Closed to make CI pass.
