@@ -353,11 +353,14 @@ export function preparationCandidatesFromLearningState(
       }
       const checked: PlannerCandidate = { ...practice,
         preparationStage: 'check', preparationPrerequisiteId: learn.id }
-      return [learn, checked, ...paperPractice(checked)]
+      // A verified exam question already provides an independent application
+      // opportunity. A generic knowledge check is not a compulsory gateway
+      // before exam-response practice; supported initial Learn still is.
+      return [learn, checked, ...paperPractice(practice, learn.id)]
     }
     return [practice, ...paperPractice(practice)]
 
-    function paperPractice(known: PlannerCandidate): PlannerCandidate[] {
+    function paperPractice(known: PlannerCandidate, learningPrerequisiteId?: string): PlannerCandidate[] {
       // Each exact verified paper-response section is an independent practice
       // opportunity; picking just one question per topic hides later formats.
       if (!state) return []
@@ -399,7 +402,9 @@ export function preparationCandidatesFromLearningState(
             assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
             learnTarget: undefined, preparationStage: 'exam-practice',
             paperResponseSectionId: section?.id, paperResponseFormat: section?.format,
-            preparationPrerequisiteId: known.activityType === 'exam-question' ? undefined : known.id,
+            // The question itself can check knowledge. Require an actual
+            // missing foundation only when source-backed Learn was offered.
+            preparationPrerequisiteId: learningPrerequisiteId,
           }]
         })
       })

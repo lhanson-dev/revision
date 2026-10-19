@@ -115,6 +115,52 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
   })
 
 
+  it('SV-06/SV-10: authentic paper practice never waits for an arbitrary unscored check', () => {
+    // A published extended-response topic provides real Learn, Quick check
+    // and paper-section practice. A knowledge check is an alternative valid
+    // retrieval opportunity, not a compulsory hurdle to all exam techniques.
+    const topicId = 'strategic-direction'
+    const published = business.modules.find((part) => part.manifest.paper.number === 1)!
+      .listExams().flatMap((paper) => paper.questions)
+    expect(published.some((question) => question.topic === topicId
+      && question.sectionLabel === 'Section C')).toBe(true)
+    const unknown = buildLearnerPreparationProgramme(
+      [sourceState()], businessPapers(), fullCapacity, [], [], now)
+    const foundations = unknown.candidates.filter((item) =>
+      item.topicId === topicId && item.preparationStage === 'acquire')
+    const checks = unknown.candidates.filter((item) =>
+      item.topicId === topicId && item.preparationStage === 'check')
+    const essays = unknown.candidates.filter((item) =>
+      item.topicId === topicId && item.activityType === 'exam-question'
+      && item.paperResponseFormat?.toLowerCase().includes('essay'))
+    expect(foundations).toHaveLength(1)
+    expect(checks).toHaveLength(1)
+    expect(essays.length).toBeGreaterThan(0)
+    expect(checks[0]?.preparationPrerequisiteId).toBe(foundations[0]?.id)
+    expect(essays.every((item) => item.preparationPrerequisiteId === foundations[0]?.id)).toBe(true)
+    expect(essays.every((item) => item.preparationPrerequisiteId !== checks[0]?.id)).toBe(true)
+
+    // Valid corroborated scores mean the student may go directly to an
+    // appropriately mapped exam question: requiring another generic quiz
+    // first would squander scarce pre-paper capacity without valid evidence.
+    const proven = createCourseLearningState(business,
+      scoredTopic(topicId, true, '2026-10-15T08:00:00.000Z'))
+    const revised = buildLearnerPreparationProgramme(
+      [proven], businessPapers(), fullCapacity, [], [], now)
+    const knownEssays = revised.candidates.filter((item) =>
+      item.topicId === topicId && item.activityType === 'exam-question'
+      && item.paperResponseFormat?.toLowerCase().includes('essay'))
+    expect(knownEssays.length).toBeGreaterThan(0)
+    expect(knownEssays.every((item) => item.preparationPrerequisiteId == null)).toBe(true)
+    expect(revised.candidates.some((item) =>
+      item.topicId === topicId && item.preparationStage === 'acquire')).toBe(false)
+    expect(revised.programme.paperResponseRequirements.some((section) =>
+      section.sectionName === 'Section C'
+      && section.verifiedPracticeCandidateIds.length > 0)).toBe(true)
+    safety(unknown.programme)
+    safety(revised.programme)
+  })
+
   it('SV-04: Business paper alternatives offer actual essay selection without excluding compulsory syllabus topics', () => {
     const state = sourceState()
     const selected = scopeTopicIds(exam(business, 1, '2027-05-18'), state)

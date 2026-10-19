@@ -196,6 +196,43 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
     expect(plan([...days].reverse())).toEqual(feasible)
   })
 
+  it('SV-06: scarce capacity allows a verified exam response after Learn without mandatory generic check', () => {
+    const paper = exam(business, '2026-10-20', 'business-essay')
+    const learning = candidate('a-learning', business, paper.assessmentDate, paper.assessmentId, {
+      topicId: 'strategic-direction', activityType: 'learn', estimatedMinutes: 15,
+    })
+    const checking = candidate('b-checking', business, paper.assessmentDate, paper.assessmentId, {
+      topicId: 'strategic-direction', activityType: 'quick-check', estimatedMinutes: 20,
+      preparationPrerequisiteId: learning.id,
+    })
+    const paperAnswer = candidate('c-paper-answer', business, paper.assessmentDate, paper.assessmentId, {
+      topicId: 'strategic-direction', activityType: 'exam-question', estimatedMinutes: 30,
+      examTarget: { moduleId: 'business-paper-one', examId: 'authored-paper', questionId: 'authored-essay' },
+      paperResponseSectionId: 'business-essay:section:3',
+      paperResponseFormat: 'One essay from two',
+      preparationPrerequisiteId: learning.id,
+    })
+    const work = [checking, paperAnswer, learning]
+    const horizon = buildPlannerProgramme(today, [paper], new Set([business]), work)
+    const firstWeek = horizon.weeks[0]!.weekStart
+    const available = [
+      { date: '2026-10-16', availableMinutes: 15 },
+      { date: '2026-10-17', availableMinutes: 30 },
+    ]
+    const plan = buildPreparationProgramme(horizon, work,
+      (week) => week.weekStart === firstWeek ? 45 : 0, undefined,
+      (week) => week.weekStart === firstWeek ? available : [])
+    expect(plan.weeks[0]?.objectives.map((item) =>
+      [item.candidateId, item.forecastDate])).toEqual([
+      [learning.id, '2026-10-16'],
+      [paperAnswer.id, '2026-10-17'],
+    ])
+    expect(plan.unserved.map((item) => item.candidateId)).toEqual([checking.id])
+    expect(plan.allocatedMinutes).toBe(45)
+    expect(plan.weeks[0]?.objectives.every((item) =>
+      item.assessmentDate > (item.forecastDate ?? '9999-12-31'))).toBe(true)
+  })
+
   it('prefers the unrepresented verified response format within the same equally pressured paper', () => {
     const p = exam(business, '2026-10-20', 'business-paper')
     const makeQuestion = (id: string, section: string): PlannerCandidate => candidate(
