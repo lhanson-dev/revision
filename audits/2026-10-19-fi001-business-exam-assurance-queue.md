@@ -54,3 +54,11 @@
 | Founder merge approval for PR #637 | **NOT GIVEN** | Exact PR-specific explicit Founder approval after a plain-English summary and completed gates |
 
 **No independent review was performed in this execution.** This is an actionable handoff register and deterministic-test scope, not an `expert_review_ready` claim, a final content judgement, a publication approval or a claim that the full Course Learning Blueprint is pedagogically assured.
+
+## E-16 — Blank-answer scoring and learning-evidence correction (19 October 2026; PR #637 candidate)
+
+At `20484719`, blank or whitespace-only responses could receive positive self-awarded AO marks and persist spurious question-level learning evidence. After guidance was shown, an untimed response could also be erased and saved. This is a P1 educational evidence-integrity defect in `DEF-2026-009`.
+
+Draft-only correction: AO controls cannot be used for blank responses, no manually awarded blank marks contribute to timed totals, individual omitted questions produce no topic-level evidence rows, and an entirely blank timed paper produces no scored evidence. Unanswered questions still count zero toward a **partially attempted** full-paper result; actually answered questions remain self-assessed and confidence limited. Targeted practice cannot save a response cleared after guidance.
+
+Assertions added for whitespace, retained genuine responses and actual authored Paper 1 UI/network evidence writes. Exact-head CI **not yet verified**. A3 question accuracy, A4 calibrated marking, 13 student-value cases and student comprehension remain **HOLD**.

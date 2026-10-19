@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { paper1Exam } from '../../content/business/aqa-a-level/paper-1/exam'
-import { ExamSimulator } from './ExamSimulator'
+import { ExamSimulator, marksForSubmittedAnswer } from './ExamSimulator'
 import { answeredQuestionCount } from './exam-prep'
 
 function render(autostart: 'timed' | 'untimed', questionId = 'p1-q01') {
@@ -66,5 +66,21 @@ describe('FI-001 Business Paper 1 original multiple-choice practice formats', ()
     expect(html).toContain('Write your answer')
     expect(html).toContain('Show marking guidance')
     expect(html).not.toContain('Choose one answer')
+  })
+})
+
+describe('FI-001 blank-answer integrity', () => {
+  const marks = { ao1: 2, ao2: 3, ao3: 4, ao4: 5 }
+
+  it('sets all AO marks to zero without a submitted answer, including whitespace', () => {
+    const zero = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
+    expect(marksForSubmittedAnswer(undefined, marks)).toEqual(zero)
+    expect(marksForSubmittedAnswer('', marks)).toEqual(zero)
+    expect(marksForSubmittedAnswer(' \n\t ', marks)).toEqual(zero)
+  })
+
+  it('retains student marks for both a chosen MCQ option and a written response', () => {
+    expect(marksForSubmittedAnswer('B', marks)).toEqual(marks)
+    expect(marksForSubmittedAnswer('One justified recommendation.', marks)).toEqual(marks)
   })
 })
