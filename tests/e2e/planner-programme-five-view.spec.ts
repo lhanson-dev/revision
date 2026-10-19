@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { appPath, planUserId, seedPlanStudent } from './plan-seed'
+import { appPath, planUserId, plannedRow, seedPlanStudent } from './plan-seed'
 
 /** Node-only browser fixture: verify authoritative paper-manifest identities by
  * reading text, not executing the Vite/JSON content-loader module graph. */
@@ -289,6 +289,60 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
   })).toContainText(topic)
   await page.goto(appPath + '#/rev')
   await expect(page.getByRole('log')).toContainText(topic)
+})
+
+/** Real application + mutable persisted-shaped session read, not synthetic
+ * score mutation: a missed commitment is an event, never an assessment. */
+test('SV-07: returning after a missed accepted session replans on Home, Plan and REV without inventing learning evidence', async ({ page }) => {
+  const sessions = [plannedRow('sv07-missed-finance', '2026-10-05', 'finance', {
+    status: 'planned', activity_type: 'practice', minutes: 30,
+  })]
+  await seedPlanStudent(page, { sessions })
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero.getByRole('heading', { level: 2 })).toHaveText('Finance')
+  await expect(hero).toContainText('You chose this session for today.')
+
+  await page.goto(appPath + '#/plan?view=day&date=2026-10-05')
+  await expect(page.locator('.pln-row[data-kind="session"]')).toContainText('Finance')
+  await page.goto(appPath + '#/rev')
+  await expect(page.getByRole('log')).toContainText('Finance — Practice question')
+
+  // The learner did not complete a scored activity. The persisted row is
+  // now skipped, and the real simulated clock has moved three days forward.
+  sessions[0]!.status = 'skipped'
+  sessions[0]!.updated_at = '2026-10-08T11:00:00.000Z'
+  await page.clock.setFixedTime(new Date(2026, 9, 8, 12))
+  await page.goto(appPath)
+  await expect(hero).toBeVisible()
+  await expect(hero).not.toContainText('You chose this session for today.')
+  await expect(hero.getByRole('button', { name: /^Start/ })).toBeVisible()
+  const nextTopic = (await hero.getByRole('heading', { level: 2 }).innerText()).trim()
+  expect(nextTopic.length).toBeGreaterThan(2)
+
+  await page.goto(appPath + '#/plan?view=day&date=2026-10-08')
+  const next = page.locator('.pln-row').filter({ has: page.getByRole('button', { name: /^Up next/ }) })
+  await expect(next).toContainText(nextTopic)
+  await page.goto(appPath + '#/rev')
+  await expect(page.getByRole('log')).toContainText(nextTopic)
+  await page.getByRole('button', { name: 'What should I do today?', exact: true }).click()
+  await expect(page.getByRole('log').locator('.rev-chat__message--rev').last()).toContainText(nextTopic)
+
+  await page.goto(appPath + '#/progress')
+  const covered = page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).first()
+  await expect(covered.locator('.ui-progress-measure__number')).toHaveText('0')
+  await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
+
+  await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  const programme = page.getByRole('region', { name: 'Your full exam programme' })
+  await expect(programme).toBeVisible()
+  const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
+  await knowledge.locator('summary').click()
+  const finance = knowledge.locator('li').filter({ hasText: 'Finance' })
+  await expect(finance).toContainText('Current understanding is unknown.')
+  await expect(finance).not.toContainText('You have saved a session for this topic')
+  expect(sessions).toHaveLength(1)
+  expect(sessions[0]?.status).toBe('skipped')
 })
 
 test('SV-12: impossible saved capacity shows the exact supported course-topic preparation left out, without promising syllabus completion', async ({ page }) => {
