@@ -165,12 +165,41 @@ export const examSchema = z.object({
     .reduce((sum, question) => sum + question.marks, 0)
 
   const choiceGroups = new Map<string, Map<string, number>>()
+  const paperAlternatives = new Map<string, { options: Set<string>; sections: Set<string>; total: number }>()
   for (const question of exam.questions) {
     if (!question.choiceGroup) continue
     const options = choiceGroups.get(question.choiceGroup) ?? new Map<string, number>()
     const optionKey = question.choiceOption ?? question.id
     options.set(optionKey, (options.get(optionKey) ?? 0) + question.marks)
     choiceGroups.set(question.choiceGroup, options)
+    if (question.choiceKind === 'paper-alternative') {
+      const group = paperAlternatives.get(question.choiceGroup) ?? {
+        options: new Set<string>(), sections: new Set<string>(), total: 0,
+      }
+      group.options.add(optionKey)
+      group.sections.add(question.sectionLabel ?? '')
+      group.total += 1
+      paperAlternatives.set(question.choiceGroup, group)
+    }
+  }
+
+  // A choice between questions is different from a selected syllabus option.
+  // Enforce exact two-option paper alternatives without narrowing legacy
+  // multi-part syllabus option groups (e.g. Psychology 7182 Paper 3).
+  for (const [groupKey, group] of paperAlternatives) {
+    const options = choiceGroups.get(groupKey)!
+    const allQuestions = exam.questions.filter((question) => question.choiceGroup === groupKey)
+    if (group.options.size !== 2 || options.size !== 2
+      || group.total !== allQuestions.length
+      || group.sections.size !== 1 || group.sections.has('')
+      || allQuestions.some((question) => question.choiceKind !== 'paper-alternative')) {
+      context.addIssue({ code: 'custom', path: ['questions'],
+        message: `Paper alternative group ${groupKey} must have exactly two declared choices in one identified section` })
+    }
+  }
+  if (paperAlternatives.size && exam.printedMarks === undefined) {
+    context.addIssue({ code: 'custom', path: ['printedMarks'],
+      message: 'Paper question alternatives require explicit printedMarks distinct from attempted marks' })
   }
 
   let attemptedMarks = compulsoryMarks

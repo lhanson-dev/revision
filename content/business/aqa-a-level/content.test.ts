@@ -3,6 +3,7 @@ import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
 import { aqaBusiness7132ExamPapers } from './shared/exam-papers'
+import { examSchema } from '../../schema'
 
 const packs = [paper1, paper2, paper3]
 
@@ -162,6 +163,95 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
       expect(matching[0].prompt).not.toBe(matching[1].prompt)
       expect(matching.every((item) => !item.prompt.includes(' OR B: '))).toBe(true)
     }
+  })
+
+  it('rejects incomplete or mixed original-paper essay choices before the simulator can publish them', () => {
+    const paper = paper1.exams[0]!
+    const incomplete = {
+      ...paper,
+      questions: paper.questions.filter((question) => question.id !== 'p1-q23-essay-b'),
+      printedMarks: 125,
+    }
+    expect(examSchema.safeParse(incomplete).success).toBe(false)
+
+    const duplicateChoice = {
+      ...paper, questions: paper.questions.map((question) =>
+        question.id === 'p1-q23-essay-b' ? { ...question, choiceOption: 'essay-a' } : question),
+    }
+    expect(examSchema.safeParse(duplicateChoice).success).toBe(false)
+
+    const incorrectlyTyped = {
+      ...paper, questions: paper.questions.map((question) =>
+        question.id === 'p1-q23-essay-b' ? { ...question, choiceKind: undefined } : question),
+    }
+    expect(examSchema.safeParse(incorrectlyTyped).success).toBe(false)
+
+    const crossSection = {
+      ...paper, questions: paper.questions.map((question) =>
+        question.id === 'p1-q23-essay-b' ? { ...question, sectionLabel: 'Section D' } : question),
+    }
+    expect(examSchema.safeParse(crossSection).success).toBe(false)
+    expect(examSchema.safeParse({ ...paper, printedMarks: undefined }).success).toBe(false)
+    expect(examSchema.safeParse(paper).success).toBe(true)
+    expect(examSchema.safeParse(paper2.exams[0]).success).toBe(true)
+    expect(examSchema.safeParse(paper3.exams[0]).success).toBe(true)
+  })
+
+  it('recalculates numerical answers in all three original paper simulations from their authored inputs', () => {
+    function numbers(text: string, pattern: RegExp, name: string): number[] {
+      const matched = text.match(pattern)
+      expect(matched, `Missing source numbers for ${name}`).not.toBeNull()
+      return matched!.slice(1).map((number) => Number(number.replaceAll(',', '')))
+    }
+    function answer(exam: (typeof paper1.exams)[number], id: string) {
+      const question = exam.questions.find((item) => item.id === id)
+      expect(question, `Missing original item ${id}`).toBeDefined()
+      return question!
+    }
+    const p1 = paper1.exams[0]!, p2 = paper2.exams[0]!, p3 = paper3.exams[0]!
+    const q16 = answer(p1, 'p1-q16')
+    const [sell,variable,fixed] = numbers(q16.prompt,
+      /sells for £(\d+) and has variable cost of £(\d+) per unit\. Fixed costs are £([\d,]+)/,q16.id)
+    const contribution=sell!-variable!
+    expect(contribution).toBeGreaterThan(0)
+    expect(q16.markingGuidance.join(' ')).toContain(`£${contribution}`)
+    expect(q16.markingGuidance.join(' ')).toContain(`${(fixed!/contribution).toLocaleString('en-GB')} units`)
+
+    const q17=answer(p1,'p1-q17')
+    const [profit1,employed1]=numbers(q17.prompt,/operating profit of £([\d.]+)m and capital employed of £([\d.]+)m/,q17.id)
+    expect(q17.markingGuidance.join(' ')).toContain(`${profit1!/employed1!*100}%`)
+
+    const q18=answer(p1,'p1-q18')
+    const [probA,payA,probB,payB,cost]=numbers(q18.prompt,
+      /(\d+)% chance of a £([\d,]+) outcome and a (\d+)% chance of a £([\d,]+) outcome\. The decision costs £([\d,]+)/,q18.id)
+    expect(probA!+probB!).toBe(100)
+    const ev=probA!*payA!/100+probB!*payB!/100
+    expect(q18.markingGuidance.join(' ')).toContain(`£${ev.toLocaleString('en-GB')}`)
+    expect(q18.markingGuidance.join(' ')).toContain(`£${(ev-cost!).toLocaleString('en-GB')}`)
+
+    const [revenue2,profit2]=numbers(p2.caseHtml,
+      /Revenue in 2026 was £([\d.]+)m and operating profit was £([\d,]+)\./,'Solace operating margin')
+    expect(answer(p2,'p2-q01').markingGuidance.join(' ')).toContain(
+      `${profit2!/(revenue2!*1_000_000)*100}%`)
+    const [cap2,debt2]=numbers(p2.caseHtml,
+      /capital employed of £([\d.]+)m and non-current liabilities of £([\d.]+)m/,'MetroRide gearing')
+    expect(answer(p2,'p2-q05').markingGuidance.join(' ')).toContain(`${debt2!/cap2!*100}%`)
+    const [pa,va,pb,vb,spend]=numbers(p2.caseHtml,
+      /(\d+)% chance of generating £([\d.]+)m contribution and a (\d+)% chance of £([\d.]+)m contribution\. The development programme would cost £([\d.]+)m/,'Aster expected value')
+    expect(pa!+pb!).toBe(100)
+    const ev2=pa!*va!/100+pb!*vb!/100
+    expect(Number(ev2.toFixed(2))).toBe(1.68)
+    expect(answer(p2,'p2-q09').markingGuidance.join(' ')).toContain(`£${ev2.toFixed(2)}m`)
+    expect(answer(p2,'p2-q09').markingGuidance.join(' ')).toContain(
+      `£${(ev2-spend!).toFixed(2)}m`)
+
+    const [revenue3,profit3,employed3,assets3,liabilities3,debt3]=numbers(p3.caseHtml,
+      /revenue £([\d.]+)m; operating profit £([\d.]+)m; capital employed £([\d.]+)m; current assets £([\d.]+)m; current liabilities £([\d.]+)m; non-current liabilities £([\d.]+)m/,'Cedar financial ratios')
+    const guidance3=answer(p3,'p3-q03').markingGuidance.join(' ')
+    expect(guidance3).toContain(`${profit3!/revenue3!*100}%`)
+    expect(guidance3).toContain(`${profit3!/employed3!*100}%`)
+    expect(guidance3).toContain(`${assets3!/liabilities3!}:1`)
+    expect(guidance3).toContain(`${debt3!/employed3!*100}%`)
   })
 
   it('preserves the intended Paper 1 15 + 35 + 25 + 25 structure and AO profile', () => {
