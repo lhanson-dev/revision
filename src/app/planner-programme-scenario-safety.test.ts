@@ -161,6 +161,28 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     safety(revised.programme)
   })
 
+  it('SV-06: focuses real short and long paper questions at their actual published share of exam time', () => {
+    const { candidates, programme } = buildLearnerPreparationProgramme(
+      [sourceState()], businessPapers(), fullCapacity, [], [], now)
+    // AQA Business Paper 1 simulation: 120 minutes / 100 attempted marks.
+    // Paper-1 Section A asks one mark; Section C one 25-mark essay.
+    const single = candidates.find((item) =>
+      item.examTarget?.questionId === 'p1-q01' && item.activityType === 'exam-question')
+    const essay = candidates.find((item) =>
+      item.examTarget?.questionId === 'p1-q23-essay-a' && item.activityType === 'exam-question')
+    expect(single).toBeDefined()
+    expect(essay).toBeDefined()
+    expect(single?.estimatedMinutes).toBe(5)
+    expect(essay?.estimatedMinutes).toBe(30)
+    expect(single?.paperResponseSectionId).toContain('section:1')
+    expect(essay?.paperResponseSectionId).toContain('section:3')
+    // Fit estimates still do not mean that merely answering one item covers
+    // a section, establishes readiness or satisfies all knowledge demands.
+    expect(programme.requirements).toHaveLength(10)
+    expect(programme.paperResponseRequirements).toHaveLength(8)
+    safety(programme)
+  })
+
   it('SV-04: Business paper alternatives offer actual essay selection without excluding compulsory syllabus topics', () => {
     const state = sourceState()
     const selected = scopeTopicIds(exam(business, 1, '2027-05-18'), state)

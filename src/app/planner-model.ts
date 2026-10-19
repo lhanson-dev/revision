@@ -31,6 +31,27 @@ function estimatedMinutes(activity: string) {
   return 15
 }
 
+/** An exact focused question is not a 30-minute generic activity. Allocate
+ * its share of the published paper's exam duration and attempted marks,
+ * rounded up to whole five-minute calendar slots for answering/self-marking.
+ * This is an operational estimate, not measured learner speed or an optimal
+ * pedagogic interval. Missing/mismatched sources retain the safe fallback.
+ */
+function focusedQuestionMinutes(
+  state: ModuleLearningState | undefined,
+  target: NonNullable<PlannerCandidate['examTarget']> | undefined,
+) {
+  if (!state || !target) return estimatedMinutes('exam-question')
+  const module = (state.course?.modules ?? [state.adapter]).find((part) =>
+    part.manifest.id === target.moduleId && part.manifest.status === 'available')
+  const exam = module?.getExam(target.examId)
+  const question = exam?.questions.find((entry) => entry.id === target.questionId)
+  if (!exam || !question || !(question.marks > 0) || !(exam.totalMarks > 0)
+    || !(exam.durationMinutes > 0)) return estimatedMinutes('exam-question')
+  const share = exam.durationMinutes * question.marks / exam.totalMarks
+  return Math.min(exam.durationMinutes, Math.max(5, Math.ceil(share / 5) * 5))
+}
+
 function localDate(date: Date) {
   const year = date.getFullYear()
   const month = `${date.getMonth() + 1}`.padStart(2, '0')
@@ -219,7 +240,8 @@ export function plannerCandidatesFromLearningState(
         assessmentId: assessment.assessmentId,
         topicId,
         activityType,
-        estimatedMinutes: estimatedMinutes(activityType),
+        estimatedMinutes: activityType === 'exam-question'
+          ? focusedQuestionMinutes(state, examTarget) : estimatedMinutes(activityType),
         daysUntilAssessment,
         assessmentImportance: assessment.relativeImportance,
         coverage: Math.min(topicCoverage, courseCoverage + 0.4),
@@ -396,7 +418,7 @@ export function preparationCandidatesFromLearningState(
           if (alreadySelected) return []
           return [{
             ...known, id: `${candidate.id}:exam:${target.assessmentId}:${exact.moduleId}:${exact.questionId}`,
-            activityType: 'exam-question', estimatedMinutes: estimatedMinutes('exam-question'),
+            activityType: 'exam-question', estimatedMinutes: focusedQuestionMinutes(state, exact),
             assessmentId: target.assessmentId, daysUntilAssessment: target.daysUntilAssessment,
             assessmentImportance: target.assessmentImportance,
             assessmentTargets: [target], moduleId: exact.moduleId, examTarget: exact,
