@@ -96,6 +96,16 @@ describe('planner model bridge', () => {
     })
   })
 
+  it('budgets the actual supported number of questions and flashcards', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const manyQuestions = { ...state, adapter: { ...state.adapter, listQuestions: () => Array.from({ length: 30 }, (_, id) => ({ id: String(id) })) } } as unknown as ModuleLearningState
+    expect(plannerCandidatesFromLearningState([manyQuestions], [assessment], [], now).every((item) => item.estimatedMinutes === 19)).toBe(true)
+    const onlyCards = { ...state, adapter: { ...state.adapter, listQuestions: () => [], listFlashcards: () => [{ id: 'card-1' }] } } as unknown as ModuleLearningState
+    const candidates = plannerCandidatesFromLearningState([onlyCards], [assessment], [], now)
+    expect(candidates).toHaveLength(3)
+    expect(candidates.every((item) => item.activityType === 'flashcards' && item.estimatedMinutes === 2)).toBe(true)
+  })
+
   it('does not create candidates for an assessment outside the active course state', () => {
     const now = new Date('2026-08-19T09:00:00')
     const outsideCourse = { ...assessment, courseId: 'aqa:aqa-a-level:7132' }

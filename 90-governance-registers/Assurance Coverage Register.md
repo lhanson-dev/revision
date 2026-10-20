@@ -338,3 +338,7 @@ Added browser tests on the real published Psychology 7182 course inventory (more
 ### FI-001 integration-specific #647 assurance (candidate)
 
 Authentic Psychology paper-one objective Practice and Business interruption/re-entry were added to `tests/e2e/planner-r1b.spec.ts` alongside the three Home/Plan/REV accepted-booking completion checks. These are source-scoped candidate tests, not authentic student observation. First-question restart after interruption is recorded explicitly as a limitation; no resumption claim is permitted. Full combined CI and programme-first educational assurance remain pending.
+
+### New approved main integration — #648 into FI-001 PR #637 (20 October 2026)
+
+PR #648's approved, green production release is now canonical main. The FI-001 candidate explicitly incorporates that commit and retains the candidate-only programme-first changes; current-main focused Home regression journeys and content-dose unit coverage were restored. The green #648 release run is **not proof** of the integrated programme candidate: exact-head combined CI and frozen same-input comparison must be repeated. The separate original Business assessment/question/marking assurance and all 13 real-student-value educational sign-offs remain unresolved. `PLN-VALUE-01` is **PARTIAL/HOLD**, not Covered; no Founder merge approval for PR #637 is recorded.
