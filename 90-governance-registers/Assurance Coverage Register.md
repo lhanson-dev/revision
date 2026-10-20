@@ -200,3 +200,7 @@ R2a PR #629 has Founder-approved merge `c227f91934cf7e078335adc19a5ae34b16897535
 ## Outstanding REV focused-session assurance — P1 #647
 
 The previous Home/REV exact Start assertion verified that one question launched, not that an advertised timed session contained appropriate work. Candidate scope on `fix/rev-focused-session-truthfulness-647` includes asset-bounded duration and question count, explicit completion semantics and partial/five-question browser checks. This is **not Covered** pending exact-head CI, actual reviewed course content, REV drawer and Plan/accepted-session verification, save-failure/reload review, educational acceptance and Founder merge approval. Retain the original historical assurance records.
+
+### Accepted-session correction candidate (P1 #647, 20 October 2026)
+
+For the canonical Home, Plan and REV direct-start surfaces, finishing scored question/flashcard items is now kept distinct from asserting that a learner's longer booked session was done. Only a separate, explicit learner confirmation saves the booked `done` state. The same focused start marker and reconciler fail-closed behaviour applies to derived recommendations regardless of surface. Browser regression candidates cover all three entry points and failed-update retry. **Unverified until exact-head CI; educational acceptance and #637 integration remain HOLD.**

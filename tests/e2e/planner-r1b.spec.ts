@@ -50,6 +50,74 @@ test('R1-07 exact first Today exam question starts identically from Home, Plan a
   }
 })
 
+
+// A booked 30-minute commitment cannot be closed by an approximately 8-minute
+// question sequence. This distinction must hold across all three entry points.
+for (const [surface, hash] of [
+  ['Home', ''],
+  ['Plan', '#/plan?view=day&date=2026-10-05'],
+  ['REV', '#/rev'],
+] as const) {
+  test(`#647 ${surface} retains booked time until the learner explicitly confirms completion`, async ({ page }) => {
+    const booking = plannedRow('booked', '2026-10-05', 'finance', { minutes: 30 })
+    const sessions = [booking]
+    await seedPlanStudent(page, { sessions })
+    const writes: string[] = []
+    page.on('request', request => {
+      if (request.url().includes('/learner_planned_sessions') && request.method() === 'PATCH') writes.push(request.postData() ?? '')
+    })
+    await page.goto(appPath + hash)
+    if (surface === 'Home') await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
+    else if (surface === 'Plan') await page.getByRole('button', { name: /^Up next/ }).click()
+    else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
+
+    const activity = page.locator('.home-focused-activity')
+    await expect(activity).toContainText('5 questions')
+    await expect(activity).toContainText('about 8 min')
+    await expect(activity).toContainText('original 30-minute plan allocation is unchanged')
+    for (let index = 1; index <= 5; index++) {
+      await expect(activity).toContainText(`Question ${index} of 5`)
+      await activity.locator('.home-focused-options label').first().click()
+      await activity.getByRole('button', { name: 'Check answer' }).click()
+      if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
+    }
+    await expect(activity).toContainText('30-minute booked session is still on your Plan')
+    await expect(activity.getByRole('button', { name: "I've finished my planned session" })).toBeVisible()
+    expect(sessions[0].status).toBe('planned')
+    expect(writes).toHaveLength(0)
+    await activity.getByRole('button', { name: "I've finished my planned session" }).click()
+    await expect(activity.getByText('Planned session marked done.', { exact: false })).toBeVisible()
+    expect(writes).toHaveLength(1)
+    expect(sessions[0].status).toBe('done')
+  })
+}
+
+test('#647 cannot silently close a booked session when its completion save fails', async ({ page }) => {
+  const sessions = [plannedRow('booked', '2026-10-05', 'finance', { minutes: 25 })]
+  await seedPlanStudent(page, { sessions })
+  let failNextSave = true
+  await page.route('**/rest/v1/learner_planned_sessions**', async route => {
+    if (route.request().method() === 'PATCH' && failNextSave) {
+      failNextSave = false
+      await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ message: 'Service unavailable' }) })
+    } else await route.fallback()
+  })
+  await page.goto(appPath)
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
+  const activity = page.locator('.home-focused-activity')
+  for (let index = 1; index <= 5; index++) {
+    await activity.locator('.home-focused-options label').first().click()
+    await activity.getByRole('button', { name: 'Check answer' }).click()
+    if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
+  }
+  await activity.getByRole('button', { name: "I've finished my planned session" }).click()
+  await expect(activity).toContainText('Could not update that session')
+  expect(sessions[0].status).toBe('planned')
+  await activity.getByRole('button', { name: "I've finished my planned session" }).click()
+  await expect(activity).toContainText('Planned session marked done')
+  expect(sessions[0].status).toBe('done')
+})
+
 test('R1-06/13 missing setup is unscheduled; partial accepted load withholds recommendation', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
   await page.goto(appPath)
