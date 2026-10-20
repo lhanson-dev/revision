@@ -31,6 +31,7 @@ for (const lastDate of futureDates) {
     const outlook = page.getByRole('region', { name: 'Your full exam programme' })
     await expect(outlook).toContainText('Business Final Paper')
     await expect(outlook).toContainText('not booked sessions')
+    await outlook.locator('.pln-programme__disclosure > summary').click()
     await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
     await expect(outlook.getByText('Business Final Paper', { exact: false }).first()).toBeVisible()
     await expect(outlook.getByRole('button', { name: /View week/i }).last()).toBeVisible()
