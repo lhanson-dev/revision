@@ -17,6 +17,7 @@ import { capacityOn } from './plan-model'
 import { weekKeys } from './plan-dates'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
+import { focusedActivityMinutes } from './focused-activity-dose'
 
 function confidenceStrength(confidence: ModuleLearningState['readiness']['confidence']) {
   if (confidence === 'high') return 1
@@ -25,10 +26,12 @@ function confidenceStrength(confidence: ModuleLearningState['readiness']['confid
   return 0.2
 }
 
-function estimatedMinutes(activity: string) {
+function estimatedMinutes(activity: string, state?: ModuleLearningState, topicId?: string) {
   if (activity === 'exam-question') return 30
-  if (activity === 'quick-check') return 20
-  return 15
+  if (activity === 'learn') return 15
+  if (activity === 'quick-check' && state && topicId) return focusedActivityMinutes('quick-check', state.adapter.listQuestions(topicId).length)
+  if (activity === 'flashcards' && state && topicId) return focusedActivityMinutes('flashcards', state.adapter.listFlashcards(topicId).length)
+  return 0
 }
 
 /** An exact focused question is not a 30-minute generic activity. Allocate
@@ -241,7 +244,7 @@ export function plannerCandidatesFromLearningState(
         topicId,
         activityType,
         estimatedMinutes: activityType === 'exam-question'
-          ? focusedQuestionMinutes(state, examTarget) : estimatedMinutes(activityType),
+          ? focusedQuestionMinutes(state, examTarget) : estimatedMinutes(activityType, state, topicId),
         daysUntilAssessment,
         assessmentImportance: assessment.relativeImportance,
         coverage: Math.min(topicCoverage, courseCoverage + 0.4),
