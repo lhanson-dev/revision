@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
@@ -7,6 +7,8 @@ import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { resolveHomeExamQuestion } from './home-exam-question'
+import { focusedActivityCount, focusedActivityMinutes } from './focused-activity-dose'
+import { recordPlannerActivityEvent } from '../services/planning/planner-service'
 import type { LearnerProgrammeCourse } from './learner-programme'
 
 interface HomeFocusedActivityProps {
@@ -30,6 +32,35 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [completed, setCompleted] = useState(false)
+  const [activityIndex, setActivityIndex] = useState(0)
+  // Reuse the same ID when an uncertain network write is retried.
+  const evidenceIds = useRef(new Map<string, string>())
+  function stableEvidenceId(prefix: string, contentId: string) {
+    const key = prefix + ':' + contentId
+    const existing = evidenceIds.current.get(key)
+    if (existing) return existing
+    const id = evidenceId(prefix)
+    evidenceIds.current.set(key, id)
+    return id
+  }
+
+  async function markSessionFinished(totalItems: number) {
+    if (!task.plannerItem) return
+    try {
+      await recordPlannerActivityEvent(client, userId, {
+        recommendationId: task.id,
+        eventType: 'completed',
+        subjectId: task.subjectId,
+        courseId: task.courseId,
+        moduleId: task.adapter.manifest.id,
+        topicId: task.topicId,
+        activityType: task.activityType,
+        metadata: { source: 'focused_session_completed', evidenceItems: totalItems },
+      })
+    } catch {
+      setError('Your answers were saved, but Plan could not confirm this session as completed. You can still return to your plan.')
+    }
+  }
   const examTarget = useMemo(() => task.activityType === 'exam-question' ? resolveHomeExamQuestion(task, programme) : null, [task, programme])
   async function saveExamEvidence(evidence: LearningEvidence) {
     setSaving(true)
@@ -48,8 +79,17 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   const cards = useMemo(() => task.adapter.listFlashcards(task.topicId), [task])
   const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
-  const card = cards[0]
-  const question = questions[0]
+  const cardCount = focusedActivityCount('flashcards', cards.length)
+  const questionCount = focusedActivityCount('quick-check', questions.length)
+  const card = activityIndex < cardCount ? cards[activityIndex] : undefined
+  const question = activityIndex < questionCount ? questions[activityIndex] : undefined
+  const focused = task.activityType === 'flashcards' || task.activityType === 'quick-check'
+  const totalItems = task.activityType === 'flashcards' ? cardCount : questionCount
+  const actualMinutes = task.activityType === 'flashcards'
+    ? focusedActivityMinutes('flashcards', cards.length)
+    : task.activityType === 'quick-check'
+      ? focusedActivityMinutes('quick-check', questions.length)
+      : task.estimatedMinutes
 
   async function saveFlashcard(rating: 0 | 1 | 2) {
     if (!card || saving) return
@@ -57,13 +97,19 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     setError('')
     try {
       await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createFlashcardEvidence({
-        id: evidenceId('home-flashcard'),
+        id: stableEvidenceId('home-flashcard', card.id),
         moduleId: task.adapter.manifest.id,
         topicId: card.topic,
         contentId: card.id,
         rating,
       }))
-      setCompleted(true)
+      if (activityIndex + 1 >= cardCount) {
+        await markSessionFinished(cardCount)
+        setCompleted(true)
+      } else {
+        setActivityIndex(activityIndex + 1)
+        setShowAnswer(false)
+      }
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your work is still on screen.')
     } finally {
@@ -77,7 +123,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     setError('')
     try {
       await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createMultipleChoiceEvidence({
-        id: evidenceId('home-quick-check'),
+        id: stableEvidenceId('home-quick-check', question.id),
         moduleId: task.adapter.manifest.id,
         topicId: question.topic,
         contentId: question.id,
@@ -85,7 +131,10 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         correctOption: question.correctOption,
       }))
       setChecked(true)
-      setCompleted(true)
+      if (activityIndex + 1 >= questionCount) {
+        await markSessionFinished(questionCount)
+        setCompleted(true)
+      }
     } catch (reason: unknown) {
       setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your answer is still on screen.')
     } finally {
@@ -100,10 +149,13 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         <header className="home-focused-heading">
           <div className="home-focused-labels">
             <span className="home-subject-chip">{task.subjectName}</span>
-            <span className="home-neutral-chip">Recommended session · {task.estimatedMinutes} min</span>
+            <span className="home-neutral-chip">{focused ? 'Focused practice' : 'Recommended session'} · about {actualMinutes} min{focused ? ' · ' + totalItems + ' ' + (task.activityType === 'flashcards' ? (totalItems === 1 ? 'card' : 'cards') : (totalItems === 1 ? 'question' : 'questions')) : ''}</span>
           </div>
           <h1 id="home-focused-activity-title">{task.topicLabel}</h1>
           <p>{task.courseLabel}</p>
+          {focused && task.source === 'planner' && actualMinutes !== task.estimatedMinutes && (
+            <p role="status">This topic has about {actualMinutes} minutes of supported practice. Your original {task.estimatedMinutes}-minute plan allocation is unchanged.</p>
+          )}
         </header>
 
         {error && <Status tone="error">{error}</Status>}
@@ -114,7 +166,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         {task.activityType === 'exam-question' && !examTarget && <Status tone="warning">An assured exam question for this course and topic is not available yet. No activity or result has been recorded. Return to Home to choose another activity.</Status>}
         {task.activityType === 'flashcards' && card && !completed && (
           <div className="home-focused-practice">
-            <p className="eyebrow">Flashcard</p>
+            <p className="eyebrow">Flashcard {activityIndex + 1} of {cardCount}</p>
             <h2>{card.prompt}</h2>
             {!showAnswer ? (
               <Button onClick={() => setShowAnswer(true)}>Show answer</Button>
@@ -132,9 +184,10 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
           </div>
         )}
 
-        {task.activityType === 'quick-check' && question && !completed && (
+        {task.activityType === 'quick-check' && question && !checked && (
           <div className="home-focused-practice">
-            <p className="eyebrow">Quick check</p>
+            <p className="eyebrow">Quick check · Question {activityIndex + 1} of {questionCount}</p>
+            <p>Each answer is saved as evidence. One answer alone does not establish understanding or exam readiness.</p>
             <h2>{question.prompt}</h2>
             <div className="home-focused-options">
               {question.options.map((option, index) => (
@@ -148,12 +201,14 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
           </div>
         )}
 
-        {task.activityType === 'quick-check' && question && completed && checked && (
+        {task.activityType === 'quick-check' && question && checked && (
           <div className="home-focused-result" aria-live="polite">
             <p className="eyebrow">Result saved</p>
             <h2>{selectedOption === question.correctOption ? 'Correct.' : 'Not quite.'}</h2>
             <p>{question.explanation}</p>
-            <Button onClick={onFinish}>Back to today’s plan</Button>
+            {completed
+              ? <Button onClick={onFinish}>Back to today’s plan</Button>
+              : <Button onClick={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setChecked(false) }}>Next question</Button>}
           </div>
         )}
 

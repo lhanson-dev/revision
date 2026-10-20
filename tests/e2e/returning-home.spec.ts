@@ -124,6 +124,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await expect(page.locator('.home-focused-activity')).toBeVisible()
   await expect(page.getByText('Quick check', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
+  await expect(page.locator('.home-focused-activity')).toContainText(/Question 1 of [0-9]+/)
   await expect(page.getByRole('button', { name: 'Back to Home' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 })

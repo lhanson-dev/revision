@@ -8,6 +8,7 @@ import {
 import { courseIdForLearningState } from './planner-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { subjectAccentKey, type SubjectAccentKey } from './subject-accents'
+import { focusedActivityMinutes } from './focused-activity-dose'
 
 export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question' | 'learn'
 
@@ -103,10 +104,10 @@ export function tasksFromPlanner(
   })
 }
 
-export function fallbackMinutes(activity: HomeActivityType) {
+export function fallbackMinutes(activity: HomeActivityType, available = 0) {
   if (activity === 'exam-question') return 30
-  if (activity === 'quick-check') return 20
-  return 15
+  if (activity === 'quick-check' || activity === 'flashcards') return focusedActivityMinutes(activity, available)
+  return 0
 }
 
 export function fallbackHomeTasks(
@@ -141,7 +142,9 @@ export function fallbackHomeTasks(
       topicId: recommendation.topicId,
       topicLabel: topic.shortTitle,
       activityType: recommendation.activity,
-      estimatedMinutes: fallbackMinutes(recommendation.activity),
+      estimatedMinutes: fallbackMinutes(recommendation.activity, recommendation.activity === 'quick-check'
+        ? state.adapter.listQuestions(recommendation.topicId).length
+        : recommendation.activity === 'flashcards' ? state.adapter.listFlashcards(recommendation.topicId).length : 0),
       reason: recommendation.reason || globalRecommendationReason(state, states),
       adapter: state.adapter,
     })

@@ -32,7 +32,9 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
         && event.recommendationId
         && event.topicId
         && new Date(event.occurredAt).getTime() >= cutoff
-        && !completedRecommendationIds.has(event.recommendationId),
+        && !completedRecommendationIds.has(event.recommendationId)
+        // Partial answers do not complete a multi-item focused session.
+        && event.metadata.completionMode !== 'explicit_focused_session',
       )
       if (unmatchedStarts.length === 0) return
 

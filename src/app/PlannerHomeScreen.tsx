@@ -200,7 +200,7 @@ export function PlannerHomeScreen({
         subjectId: task.plannerItem.subjectId,
         topicId: task.plannerItem.topicId,
         activityType: task.plannerItem.activityType,
-        metadata: { plannerVersion: 1, source: 'home', courseId: task.courseId, capacityState: snapshot?.capacityState ?? 'unknown' },
+        metadata: { plannerVersion: 1, source: 'home', courseId: task.courseId, capacityState: snapshot?.capacityState ?? 'unknown', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) },
       })
     } catch { /* The student must still be able to start useful work. */ }
   }
