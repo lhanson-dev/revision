@@ -350,6 +350,7 @@ test('SV-07: returning after a missed accepted session replans on Home, Plan and
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toBeVisible()
   const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
+  await programme.locator('.pln-programme__disclosure > summary').click()
   await knowledge.locator('summary').click()
   const finance = knowledge.locator('li').filter({ hasText: 'Finance' })
   await expect(finance).toContainText('Current understanding is unknown.')
