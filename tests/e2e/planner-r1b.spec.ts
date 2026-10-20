@@ -161,7 +161,7 @@ test('#647 published Psychology objective Practice offers several distinct quest
   await hero.getByRole('button', { name: /^Start .*practice question/ }).click()
   const activity = page.locator('.home-focused-activity')
   const descriptor = await activity.locator('.home-neutral-chip').innerText()
-  const questionCount = Number(descriptor.match(/(\\d+) questions/)?.[1])
+  const questionCount = Number(descriptor.match(/(\d+) questions/)?.[1])
   expect(questionCount).toBeGreaterThan(2)
   for (let number = 1; number <= 2; number++) {
     await expect(activity).toContainText(`Question ${number} of ${questionCount}`)
