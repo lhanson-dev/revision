@@ -12,6 +12,7 @@ import { todayRecommendations, learnRouteForTask, recommendationExplanation, rea
 import { useLocalDay } from './use-local-day'
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { buildPlannerSnapshot } from './planner-model'
+import { buildPlannerSnapshot as buildBaselinePlannerSnapshot } from './planner-model-baseline'
 import { ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
 import { RevPresence, type RevPresenceState } from './RevPresence'
 import type { CourseSection } from './navigation'
@@ -19,6 +20,7 @@ import { answerExams, answerProgress, CANNOT_ANSWER_YET, classifyQuestion, promp
 import { Button } from './ui'
 
 interface PlannerRevScreenProps {
+  pilotEnabled?: boolean
   client: SupabaseClient
   userId: string
   programme: readonly LearnerProgrammeCourse[]
@@ -85,7 +87,8 @@ function mentionedProgrammeItems(programme: readonly LearnerProgrammeCourse[], t
   return programme.filter((item) => normalized.includes(item.subject.name.toLocaleLowerCase()))
 }
 
-export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection }: PlannerRevScreenProps) {
+export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection, pilotEnabled = true }: PlannerRevScreenProps) {
+  const pilotRestricted = import.meta.env.PROD && pilotEnabled
   const now = useLocalDay()
   const [sessions, setSessions] = useState<PlannedSession[] | null>(null)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
@@ -162,14 +165,17 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   }) ?? [], [activeCourseIds, programme, setup])
 
   const snapshot = useMemo(() => setup
-    ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
+    ? pilotEnabled
+      ? buildPlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [], DETAILED_PLANNER_HORIZON_DAYS, pilotRestricted)
+      : buildBaselinePlannerSnapshot(learningStates, activeAssessments, setup.availability, setup.exceptions, preferences, now, sessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
     : null,
-  [activeAssessments, learningStates, setup, preferences, now, sessions])
+  [activeAssessments, learningStates, setup, preferences, now, sessions, pilotEnabled, pilotRestricted])
 
   const todayPlan = setup && sessions !== null ? homeToday(localDate(now), sessions, snapshot?.schedule ?? [], activeAssessments,
     setup.availability?.weeklyMinutes ?? null, setup.exceptions, programme, learningStates) : null
   const nextTask = todayRecommendations(todayPlan, learningStates, programme, !setup?.availability || activeAssessments.length === 0,
-    !loading && !error && sessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)[0] ?? null
+    !loading && !error && sessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)
+    .find((task) => !pilotRestricted || task.activityType !== 'exam-question') ?? null
   const opening = error ? 'I cannot read your full planner context right now. Open Plan or Courses to choose your work.' : recommendationExplanation(nextTask)
 
   const revVisualState: RevPresenceState = loading
@@ -182,7 +188,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   function startTask(task: HomeTask) {
     // Revalidate after date rollover, dismissal or a confirmed preference change.
-    if (task.id !== nextTask?.id) return
+    if (task.id !== nextTask?.id || pilotRestricted && task.activityType === 'exam-question') return
     if (task.activityType === 'learn') {
       const route = learnRouteForTask(task)
       if (route) window.location.assign(route)
@@ -332,6 +338,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   return (
     <main className="rev-chat" aria-labelledby="planner-rev-title">
+      {pilotRestricted && <p role="status" className="rev-chat__note">Planner pilot: guidance is being evaluated and excludes original exam simulations.</p>}
       <header className="rev-chat__head">
         <RevPresence state={revVisualState} size="compact" />
         <div>

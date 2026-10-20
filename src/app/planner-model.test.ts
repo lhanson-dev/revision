@@ -106,6 +106,17 @@ describe('planner model bridge', () => {
     expect(candidates.every((item) => item.activityType === 'flashcards' && item.estimatedMinutes === 2)).toBe(true)
   })
 
+  it('restricted pilot does not schedule or endorse unreviewed original exam questions', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const { programme, candidates } = buildLearnerPreparationProgramme(
+      [state], [assessment], availability, [], [], now, [], undefined, true)
+    expect(candidates.every((candidate) => candidate.activityType !== 'exam-question')).toBe(true)
+    expect(programme.weeks.flatMap((week) => week.objectives)
+      .every((objective) => objective.activityType !== 'exam-question')).toBe(true)
+    expect(programme.verifiedPaperDemands).toEqual([])
+    expect(programme.constraints.join(' ')).toContain('Restricted pilot')
+  })
+
   it('does not create candidates for an assessment outside the active course state', () => {
     const now = new Date('2026-08-19T09:00:00')
     const outsideCourse = { ...assessment, courseId: 'aqa:aqa-a-level:7132' }

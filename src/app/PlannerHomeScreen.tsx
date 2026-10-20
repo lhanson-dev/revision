@@ -9,6 +9,7 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { type CourseSection } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
+import { buildPlannerSnapshot as buildBaselinePlannerSnapshot } from './planner-model-baseline'
 import { ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
 import { addDays } from './accepted-sessions'
 import { buildCourseTiles } from './home-view'
@@ -26,6 +27,7 @@ import type { PlanItem } from './plan-model'
 interface PlannerHomeScreenProps {
   client: SupabaseClient
   userId: string
+  pilotEnabled?: boolean
   learnerName: string
   programme: readonly LearnerProgrammeCourse[]
   onOpenPlan: () => void
@@ -67,7 +69,7 @@ function examDateLabel(key: string, short = false) {
 
 /** One real Home runtime: the global shell, planner, evidence and REV conversation remain the owners. */
 export function PlannerHomeScreen({
-  client, userId, learnerName, programme,
+  client, userId, learnerName, programme, pilotEnabled = true,
   onOpenPlan, onOpenExamDates, onOpenProgress, onOpenRev, onOpenCourses,
   onOpenCourse,
 }: PlannerHomeScreenProps) {
@@ -151,10 +153,13 @@ export function PlannerHomeScreen({
     return programme.filter((item) => item.subject.id === assessment.subjectId).length === 1
   }) ?? [], [setup, programme])
 
+  const pilotRestricted = import.meta.env.PROD && pilotEnabled
   const snapshot = useMemo(() => setup && !evidenceLoading && !evidenceError
-    ? buildPlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
+    ? pilotEnabled
+      ? buildPlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [], DETAILED_PLANNER_HORIZON_DAYS, pilotRestricted)
+      : buildBaselinePlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [], DETAILED_PLANNER_HORIZON_DAYS)
     : null,
-  [setup, evidenceLoading, evidenceError, learningStates, assessments, plannedSessions, today])
+  [setup, evidenceLoading, evidenceError, learningStates, assessments, plannedSessions, today, pilotEnabled, pilotRestricted])
 
   const todayPlan = useMemo(() => {
     if (!setup || setupLoading || sessionsLoading || plannedSessions === null) return null
@@ -164,7 +169,7 @@ export function PlannerHomeScreen({
 
   const hiddenToday = activeNotNow(notNow, today)
   const choices = todayRecommendations(todayPlan, learningStates, programme, !setup?.availability || assessments.length === 0,
-    !evidenceLoading && !setupLoading && !sessionsLoading && !evidenceError && !setupError && !sessionsError && plannedSessions !== null, today, notNow, assessments, setup?.preferences ?? [])
+    !evidenceLoading && !setupLoading && !sessionsLoading && !evidenceError && !setupError && !sessionsError && plannedSessions !== null, today, notNow, assessments, setup?.preferences ?? []).filter((task) => !pilotRestricted || task.activityType !== 'exam-question')
   const firstTask = choices[0] ?? null
   const suggestion = firstTask ? { key: firstTask.id } : null
   const recommendedReason = firstTask?.reason
@@ -206,6 +211,7 @@ export function PlannerHomeScreen({
   }
 
   async function startTask(task: HomeTask) {
+    if (pilotRestricted && task.activityType === 'exam-question') { setPlanNote('Original exam simulations are not part of this restricted pilot. Choose Practice or Learn.'); return }
     if (task.activityType === 'learn') { window.location.assign(learnRouteForTask(task)!); return }
     await recordTaskStart(task)
     setActiveTask(task)
@@ -237,7 +243,10 @@ export function PlannerHomeScreen({
   const loadingHero = evidenceLoading || setupLoading || sessionsLoading
   const loadingPlan = setupLoading || sessionsLoading || evidenceLoading
   const allStudyRows = todayPlan?.items.filter((item) => item.kind !== 'exam') ?? []
-  const outstandingRows = allStudyRows.filter((row) => taskForTodayRow(row, learningStates, programme, assessments, todayKey) !== null)
+  const outstandingRows = allStudyRows.filter((row) => {
+    const task = taskForTodayRow(row, learningStates, programme, assessments, todayKey)
+    return task !== null && (!pilotRestricted || task.activityType !== 'exam-question')
+  })
   const selectedPlanRows = outstandingRows.slice(0, 3)
   const bookedFocused = Boolean(firstTask?.sessionId && (firstTask.activityType === 'quick-check' || firstTask.activityType === 'flashcards'))
   const immediateMinutes = firstTask ? supportedActivityMinutes(firstTask) : 0
@@ -253,6 +262,7 @@ export function PlannerHomeScreen({
 
   return (
     <main className="dashboard screen-dashboard home-v3" aria-label="Home">
+      {pilotRestricted && <p role="status" className="home-v3-notice">Planner pilot: recommendations are being evaluated. Original exam simulations are not included.</p>}
       <section className="home-v3-hero" aria-labelledby="home-v3-heading">
         <div className="home-v3-hero-layout">
           <div className="home-v3-hero-presence">

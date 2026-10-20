@@ -447,6 +447,7 @@ export function buildLearnerPreparationProgramme(
   now = new Date(),
   acceptedSessions: readonly PlannedSession[] | null = [],
   acceptedLoadedThrough?: string,
+  pilotRestricted = false,
 ) {
   const today = localDate(now)
   const verified = assessments.flatMap((assessment) => {
@@ -463,6 +464,7 @@ export function buildLearnerPreparationProgramme(
   // sessions. Accepted work consumes planning capacity; it does not remove
   // its course topic from the real examination's scope or certify learning.
   const supported = preparationCandidatesFromLearningState(states, assessments, preferences, now)
+    .filter((candidate) => !pilotRestricted || candidate.activityType !== 'exam-question')
   const candidates = withoutPlannedTopics(supported, acceptedSessions ?? [])
   const horizon = buildPlannerProgramme(today, verified, active, candidates)
   const nearThrough = acceptedLoadedThrough ??
@@ -587,7 +589,7 @@ export function buildLearnerPreparationProgramme(
     a.courseId.localeCompare(b.courseId) || a.topicId.localeCompare(b.topicId))
   // Paper-response intelligence is a factual capability summary, not a
   // learner-readiness score or permission to schedule an unapproved mock.
-  const verifiedPaperDemands = assessments.flatMap((assessment) => {
+  const verifiedPaperDemands = pilotRestricted ? [] : assessments.flatMap((assessment) => {
     if (!assessment.isActive || assessment.assessmentDate <= today || !assessment.moduleId) return []
     const state = stateForAssessment(states, assessment)
     const module = (state?.course?.modules ?? (state ? [state.adapter] : []))
@@ -680,6 +682,7 @@ export function buildLearnerPreparationProgramme(
         ? [`${unsupportedRequirements.length} applicable topic or paper requirements lack verified activity or option scope; the schedule cannot claim complete syllabus preparation.`]
         : []),
       ...(responseConstraint ? [responseConstraint] : []),
+      ...(pilotRestricted ? ['Restricted pilot: original exam-style simulations and written self-marking are withheld pending independent educational review; no paper-response coverage is claimed.'] : []),
     ] }
   return { programme, candidates }
 }
@@ -719,10 +722,11 @@ export function buildPlannerSnapshot(
   now = new Date(),
   acceptedSessions: readonly PlannedSession[] = [],
   detailedHorizonDays = 60,
+  pilotRestricted = false,
 ): PlannerResult | null {
   // Sessions the student accepted are already placed: the derived plan works around them.
   const { programme, candidates } = buildLearnerPreparationProgramme(
-    states, assessments, availability, exceptions, preferences, now, acceptedSessions)
+    states, assessments, availability, exceptions, preferences, now, acceptedSessions, undefined, pilotRestricted)
   const boundedDays = plannerDaysFromAvailability(availability, exceptions, assessments, now)
     .slice(0, Math.max(1, Math.min(60, detailedHorizonDays)))
   const days = applyAcceptedSessionsToDays(boundedDays, acceptedSessions)
