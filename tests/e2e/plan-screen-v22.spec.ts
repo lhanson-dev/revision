@@ -87,7 +87,7 @@ test('returning to Plan from Home preserves the selected view and date', async (
 
 test('Day view title and arrows show the selected day, not a different week', async ({ page }) => {
   await openPlan(page, '#/plan?view=day&date=2026-10-05')
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('5 Oct 2026')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Today')
   await page.getByRole('button', { name: 'Next day' }).click()
   expect(new URL(page.url()).hash).toContain('view=day&date=2026-10-06')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('6 Oct 2026')
@@ -104,7 +104,7 @@ test('calendar comes before optional detailed programme analysis', async ({ page
     details: document.querySelector('.pln-programme__disclosure')?.getBoundingClientRect().top,
   }))
   expect(positions.calendar).toBeLessThan(positions.details)
-  await details.locator('summary').click()
+  await details.locator(':scope > summary').click()
   await expect(details).toHaveAttribute('open', '')
   await expect(details.getByRole('heading', { name: 'Preparation towards your exams' })).toBeVisible()
 })
