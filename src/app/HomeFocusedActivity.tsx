@@ -11,6 +11,7 @@ import { focusedActivityCount } from './focused-activity-dose'
 import { recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { setPlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { LearnerProgrammeCourse } from './learner-programme'
+import { HomeQuickCheck } from './HomeQuickCheck'
 
 interface HomeFocusedActivityProps {
   client: SupabaseClient
@@ -35,6 +36,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [completed, setCompleted] = useState(false)
   const [bookedSessionDone, setBookedSessionDone] = useState(false)
   const [activityIndex, setActivityIndex] = useState(0)
+  const [results, setResults] = useState<boolean[]>([])
   // Reuse the same ID when an uncertain network write is retried.
   const evidenceIds = useRef(new Map<string, string>())
   function stableEvidenceId(prefix: string, contentId: string) {
@@ -160,6 +162,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         correctOption: question.correctOption,
       }))
       setChecked(true)
+      setResults(previous => [...previous, selectedOption === question.correctOption])
       if (activityIndex + 1 >= questionCount) {
         await markSessionFinished(questionCount)
         setCompleted(true)
@@ -170,6 +173,15 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
       setSaving(false)
     }
   }
+
+  if (task.activityType === 'quick-check') return (
+    <HomeQuickCheck task={task} questions={questions.slice(0, questionCount)} index={activityIndex}
+      actualMinutes={actualMinutes} selected={selectedOption} checked={checked} saving={saving}
+      error={error} results={results} backLabel={backLabel} finishedBooking={finishedBooking}
+      onSelect={setSelectedOption} onCheck={() => void checkQuestion()}
+      onNext={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setChecked(false) }}
+      onBack={onBack} onFinish={onFinish} />
+  )
 
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
@@ -213,37 +225,6 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
           </div>
         )}
 
-        {task.activityType === 'quick-check' && question && !checked && (
-          <div className="home-focused-practice">
-            <p className="eyebrow">Quick check · Question {activityIndex + 1} of {questionCount}</p>
-            <p>Each answer is saved as evidence. One answer alone does not establish understanding or exam readiness.</p>
-            <h2>{question.prompt}</h2>
-            <div className="home-focused-options">
-              {question.options.map((option, index) => (
-                <label key={option}>
-                  <input type="radio" name="home-focused-answer" checked={selectedOption === index} disabled={saving} onChange={() => setSelectedOption(index)} />
-                  <span>{option}</span>
-                </label>
-              ))}
-            </div>
-            <Button disabled={selectedOption === null || saving} onClick={() => void checkQuestion()}>Check answer</Button>
-          </div>
-        )}
-
-        {task.activityType === 'quick-check' && question && checked && (
-          <div className="home-focused-result" aria-live="polite">
-            <p className="eyebrow">Result saved</p>
-            <h2>{selectedOption === question.correctOption ? 'Correct.' : 'Not quite.'}</h2>
-            <p>{question.explanation}</p>
-            {completed ? (
-              <>
-                {finishedBooking}
-                <Button onClick={onFinish}>Back to today’s plan</Button>
-              </>
-            ) : <Button onClick={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setChecked(false) }}>Next question</Button>}
-          </div>
-        )}
-
         {task.activityType === 'flashcards' && card && completed && (
           <div className="home-focused-result" aria-live="polite">
             <p className="eyebrow">Evidence saved</p>
@@ -255,7 +236,6 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         )}
 
         {task.activityType === 'flashcards' && !card && <Status tone="warning">This flashcard activity is no longer available for the recommended topic.</Status>}
-        {task.activityType === 'quick-check' && !question && <Status tone="warning">This quick check is no longer available for the recommended topic.</Status>}
       </section>
     </main>
   )

@@ -76,15 +76,16 @@ for (const [surface, hash] of [
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
 
     const activity = page.locator('.home-focused-activity')
-    await expect(activity).toContainText('5 questions')
+    await expect(activity).toContainText('1 of 5')
     await expect(activity).toContainText('about 8 min')
     await expect(activity).toContainText('original 30-minute plan allocation is unchanged')
     for (let index = 1; index <= 5; index++) {
-      await expect(activity).toContainText(`Question ${index} of 5`)
-      await activity.locator('.home-focused-options label').first().click()
-      await activity.getByRole('button', { name: 'Check answer' }).click()
+      await expect(activity).toContainText(`${index} of 5`)
+      await activity.locator('.home-focused-options button').first().click()
+      await activity.getByRole('button', { name: /^Check “/ }).click()
       if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
     }
+    await activity.getByRole('button', { name: 'See how it went' }).click()
     await expect(activity).toContainText('30-minute booked session is still on your Plan')
     await expect(activity.getByRole('button', { name: "I've finished my planned session" })).toBeVisible()
     expect(sessions[0].status).toBe('planned')
@@ -110,10 +111,11 @@ test('#647 cannot silently close a booked session when its completion save fails
   await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
   const activity = page.locator('.home-focused-activity')
   for (let index = 1; index <= 5; index++) {
-    await activity.locator('.home-focused-options label').first().click()
-    await activity.getByRole('button', { name: 'Check answer' }).click()
+    await activity.locator('.home-focused-options button').first().click()
+    await activity.getByRole('button', { name: /^Check “/ }).click()
     if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
   }
+  await activity.getByRole('button', { name: 'See how it went' }).click()
   await activity.getByRole('button', { name: "I've finished my planned session" }).click()
   await expect(activity).toContainText('Could not update that session')
   expect(sessions[0].status).toBe('planned')
