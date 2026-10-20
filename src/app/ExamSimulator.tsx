@@ -41,6 +41,12 @@ const emptyMarks = (): Marks => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 export function marksForSubmittedAnswer(answer: string | undefined, awarded: Marks): Marks {
   return answer?.trim() ? awarded : emptyMarks()
 }
+
+/** Keyed questions cannot be given marks for an incorrect selected answer; written self-marking remains unchanged. */
+export function marksForExamAnswer(answer: string | undefined, awarded: Marks, correctOptionLabel?: string, available?: Marks): Marks {
+  if (correctOptionLabel && available) return answer === correctOptionLabel ? { ...available } : emptyMarks()
+  return marksForSubmittedAnswer(answer, awarded)
+}
 const aoKeys: AoKey[] = ['ao1', 'ao2', 'ao3', 'ao4']
 
 /**
@@ -164,7 +170,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const unansweredNumbers = exam.questions.flatMap((item, index) => (!isAttemptedQuestion(item) || answers[item.id]?.trim() ? [] : [index + 1]))
   const flaggedNumbers = exam.questions.flatMap((item, index) => (flagged[item.id] ? [index + 1] : []))
   const currentMarks = question ? marks[question.id] ?? emptyMarks() : emptyMarks()
-  const creditedPracticeMarks = marksForSubmittedAnswer(practiceDraft, practiceMarks)
+  const creditedPracticeMarks = marksForExamAnswer(practiceDraft, practiceMarks, practiceQuestion?.correctOptionLabel, practiceQuestion?.assessmentObjectives)
   const practiceTotal = aoKeys.reduce((sum, key) => sum + creditedPracticeMarks[key], 0)
   const pLabel = paperLabel(exam)
 
@@ -187,7 +193,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     const ao = Object.fromEntries(aoKeys.map((key) => [key, { awarded: 0, available: 0 }])) as ExamResult['ao']
     let totalAwarded = 0
     for (const item of activeQuestions) {
-      const awarded = marksForSubmittedAnswer(answers[item.id], marks[item.id] ?? emptyMarks())
+      const awarded = marksForExamAnswer(answers[item.id], marks[item.id] ?? emptyMarks(), item.correctOptionLabel, item.assessmentObjectives)
       for (const key of aoKeys) {
         ao[key].awarded += awarded[key]
         ao[key].available += item.assessmentObjectives[key]
@@ -250,7 +256,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function updateMark(key: AoKey, value: number) {
-    if (!question || !answers[question.id]?.trim()) return
+    if (!question || question.correctOptionLabel || !answers[question.id]?.trim()) return
     const available = question.assessmentObjectives[key]
     const safe = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
     setMarks((current) => ({
@@ -260,7 +266,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function updatePracticeMark(key: AoKey, value: number) {
-    if (!practiceQuestion || !practiceDraft.trim()) return
+    if (!practiceQuestion || practiceQuestion.correctOptionLabel || !practiceDraft.trim()) return
     const available = practiceQuestion.assessmentObjectives[key]
     const safe = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
     setPracticeMarks((current) => ({ ...current, [key]: safe }))
@@ -330,7 +336,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       for (const item of activeQuestions) {
         // Omitted questions score zero on the paper, not a fabricated topic attempt.
         if (!answers[item.id]?.trim()) continue
-        const awarded = marksForSubmittedAnswer(answers[item.id], marks[item.id] ?? emptyMarks())
+        const awarded = marksForExamAnswer(answers[item.id], marks[item.id] ?? emptyMarks(), item.correctOptionLabel, item.assessmentObjectives)
         await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
           id: ids[item.id],
           moduleId,
@@ -385,7 +391,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             {practiceQuestion.options?.map((option) => (
               <label key={option.label}>
                 <input type="radio" name={`practice-answer-${practiceQuestion.id}`}
-                  value={option.label} disabled={practiceSaved} checked={practiceDraft === option.label}
+                  value={option.label} disabled={practiceSaved || practiceGuidance} checked={practiceDraft === option.label}
                   onChange={() => setPracticeDraft(option.label)} />
                 <span><strong>{option.label}</strong> {option.text}</span>
               </label>
@@ -401,10 +407,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         ) : (
           <>
             <div className="mark-guidance"><strong>Marking guidance</strong><ul>{practiceQuestion.markingGuidance.map((line) => <li key={line}>{line}</li>)}</ul></div>
+            {practiceQuestion.correctOptionLabel && <p role="status" className="result-explanation">Revision checked your answer against the authored key: {practiceDraft === practiceQuestion.correctOptionLabel ? 'correct' : 'incorrect'} ({practiceTotal}/{practiceQuestion.marks}). This is a Revision-authored question, not an official AQA question.</p>}
             <div className="ao-marker-grid">
-              {aoKeys.filter((key) => practiceQuestion.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{practiceQuestion.assessmentObjectives[key]}</span><input type="number" min={0} max={practiceQuestion.assessmentObjectives[key]} disabled={practiceSaved} value={practiceMarks[key]} onChange={(event) => updatePracticeMark(key, Number(event.target.value))} /></label>)}
+              {aoKeys.filter((key) => practiceQuestion.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{practiceQuestion.assessmentObjectives[key]}</span><input type="number" min={0} max={practiceQuestion.assessmentObjectives[key]} disabled={practiceSaved || Boolean(practiceQuestion.correctOptionLabel)} value={practiceQuestion.correctOptionLabel ? creditedPracticeMarks[key] : practiceMarks[key]} onChange={(event) => updatePracticeMark(key, Number(event.target.value))} /></label>)}
             </div>
-            {!practiceSaved ? <Button disabled={saving || practiceSaving || !practiceDraft.trim()} onClick={savePracticeQuestion}>Record this result</Button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
+            {!practiceSaved ? <Button disabled={saving || practiceSaving || !practiceDraft.trim()} onClick={savePracticeQuestion}>Record this result</Button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>Revision checks keyed multiple-choice answers, while written answers remain self-assessed. Neither is independently examiner-marked.</span></div>}
           </>
         )}
         <div className="exam-nav-actions">
@@ -424,7 +431,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <h2 id={`full-exam-${exam.id}`}>Full {exam.durationMinutes}-minute {pLabel}</h2>
         <p className="intro">{exam.title}. {exam.printedMarks && exam.printedMarks !== exam.totalMarks ? `${exam.printedMarks} marks are printed; you attempt ${exam.totalMarks} marks by choosing one question from each choice section.` : `${exam.totalMarks} marks.`} Work under the full {exam.durationMinutes}-minute timer.</p>
         {exam.learnerClaim && <p className="exam-learner-claim">{exam.learnerClaim}</p>}
-        <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
+        <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Authored multiple-choice answers are checked against their key; written answers are self-assessed. This is not independently examiner-marked.</span></div>
         <div className="inline-actions">{!exam.restrictedPilot && <Button variant="secondary" onClick={startQuestionPractice}>Practise one question</Button>}<Button aria-label="Start timed exam" onClick={startExam}>Open timed exam</Button></div>
       </section>
     )
@@ -438,7 +445,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <h2 id="exam-results-heading">Exam result</h2>
         <div className="exam-score">{result.totalAwarded}/{result.totalAvailable} <span>{percentage}%</span></div>
         {result.recorded
-          ? <p>Your result is based on the AO marks you awarded yourself after comparing each answer with the marking guidance. Unanswered questions count as zero on this paper but do not create topic-level question evidence. This is not independently marked.</p>
+          ? <p>Written answers use AO marks you awarded yourself; keyed multiple-choice answers are checked against Revision's authored key. Unanswered questions count as zero on this paper but do not create topic-level question evidence. This is not independently examiner-marked.</p>
           : <p>No answers were submitted, so this empty paper was not recorded as learning evidence. You can start another attempt.</p>}
         <div className="ao-results">
           {aoKeys.map((key) => {
@@ -567,8 +574,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 <div className="submitted-answer"><strong>Your answer</strong><p>{answers[question.id]?.trim() || 'No answer recorded.'}</p></div>
                 <div className="mark-guidance"><strong>Marking guidance</strong><ul>{question.markingGuidance.map((line) => <li key={line}>{line}</li>)}</ul></div>
                 {!answers[question.id]?.trim() && <p className="muted">No answer submitted. This question receives zero marks and will not create topic-level learning evidence.</p>}
+                {question.correctOptionLabel && answers[question.id]?.trim() && <p role="status" className="result-explanation">Revision key check: {answers[question.id] === question.correctOptionLabel ? 'correct' : 'incorrect'}. This is not an official AQA mark.</p>}
                 <div className="ao-marker-grid">
-                  {aoKeys.filter((key) => question.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{question.assessmentObjectives[key]}</span><input type="number" min={0} max={question.assessmentObjectives[key]} disabled={!answers[question.id]?.trim()} value={answers[question.id]?.trim() ? currentMarks[key] : 0} onChange={(event) => updateMark(key, Number(event.target.value))} /></label>)}
+                  {aoKeys.filter((key) => question.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{question.assessmentObjectives[key]}</span><input type="number" min={0} max={question.assessmentObjectives[key]} disabled={!answers[question.id]?.trim() || Boolean(question.correctOptionLabel)} value={marksForExamAnswer(answers[question.id], currentMarks, question.correctOptionLabel, question.assessmentObjectives)[key]} onChange={(event) => updateMark(key, Number(event.target.value))} /></label>)}
                 </div>
                 <div className="exam-nav-actions">
                   <Button variant="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</Button>
@@ -576,7 +584,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 </div>
               </article>
             )}
-            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>All marks are self-assessed.</span><Button disabled={saving} onClick={saveResult}>Save exam result</Button></div>
+            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>Written marks are self-assessed; keyed multiple-choice answers are checked by Revision.</span><Button disabled={saving} onClick={saveResult}>Save exam result</Button></div>
             {saveError && <p className="error" role="alert">{saveError}</p>}
             {saving && <p className="muted" aria-live="polite">Saving your exam evidence…</p>}
           </div>
