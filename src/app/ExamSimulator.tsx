@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
-import { createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 import { answeredQuestionCount } from './exam-prep'
 import { Button, Icon, ModalShell } from './ui'
 
@@ -40,6 +40,30 @@ const emptyMarks = (): Marks => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 /** A response must exist before its self-awarded AO marks can count. */
 export function marksForSubmittedAnswer(answer: string | undefined, awarded: Marks): Marks {
   return answer?.trim() ? awarded : emptyMarks()
+}
+
+/**
+ * Preserve objective answer provenance. A keyed MCQ is application evidence,
+ * never a student-issued written mark; unkeyed written answers remain self-assessed.
+ */
+export function createExamResponseEvidence(input: {
+  question: ExamQuestionRuntime
+  answer: string
+  awarded: Marks
+  id: string
+  moduleId: string
+}): LearningEvidence {
+  const { question, answer, awarded, id, moduleId } = input
+  if (question.correctOptionLabel) {
+    const selectedOption = question.options?.findIndex((option) => option.label === answer) ?? -1
+    const correctOption = question.options?.findIndex((option) => option.label === question.correctOptionLabel) ?? -1
+    if (selectedOption < 0 || correctOption < 0) throw new Error('Invalid authored multiple-choice option or submitted response')
+    return createMultipleChoiceEvidence({ id, moduleId, topicId: question.topic, contentId: question.id, selectedOption, correctOption })
+  }
+  return createSelfAssessedExamQuestionEvidence({
+    id, moduleId, topicId: question.topic, contentId: question.id,
+    available: question.assessmentObjectives, awarded,
+  })
 }
 
 /** Keyed questions cannot be given marks for an incorrect selected answer; written self-marking remains unchanged. */
@@ -286,13 +310,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setPracticeSaving(true)
     if (!practiceEvidenceId.current) practiceEvidenceId.current = attemptId('exam-question')
     try {
-      await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
+      await onRecordEvidence(createExamResponseEvidence({
+        question: practiceQuestion,
+        answer: practiceDraft,
+        awarded: creditedPracticeMarks,
         id: practiceEvidenceId.current,
         moduleId,
-        topicId: practiceQuestion.topic,
-        contentId: practiceQuestion.id,
-        available: practiceQuestion.assessmentObjectives,
-        awarded: creditedPracticeMarks,
       }))
       setPracticeSaved(true)
     } catch {
@@ -337,13 +360,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         // Omitted questions score zero on the paper, not a fabricated topic attempt.
         if (!answers[item.id]?.trim()) continue
         const awarded = marksForExamAnswer(answers[item.id], marks[item.id] ?? emptyMarks(), item.correctOptionLabel, item.assessmentObjectives)
-        await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
+        await onRecordEvidence(createExamResponseEvidence({
+          question: item,
+          answer: answers[item.id],
+          awarded,
           id: ids[item.id],
           moduleId,
-          topicId: item.topic,
-          contentId: item.id,
-          available: item.assessmentObjectives,
-          awarded,
         }))
       }
 
