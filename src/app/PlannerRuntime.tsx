@@ -193,7 +193,6 @@ export function PlannerRuntime() {
   // Development fixtures still exercise the complete FI-001 candidate.
   useEffect(() => {
     let active = true
-    setVerifiedPilotUserId(null)
     if (fi001AssuranceBuild() || !user) return () => { active = false }
     void supabase.auth.getUser().then(({ data, error }) => {
       if (active) setVerifiedPilotUserId(error ? null : verifiedFi001PilotUserId(data.user, user.id))
