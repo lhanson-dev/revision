@@ -69,9 +69,9 @@ test('summary is time against plan, with a status in words and an icon', async (
   await openPlan(page, '#/plan')
   const summary = page.locator('.pln-summary')
   await expect(summary).toContainText('This week')
-  // R1a: 8 shared topic activities at 20m, plus 75m of accepted sessions.
-  // Multiple paper dates no longer multiply the generic course workload.
-  await expect(summary).toContainText('of 3h 55m planned')
+  // The current content-backed topic work estimates total 64m alongside 75m
+  // of accepted commitments; shared paper dates do not duplicate obligations.
+  await expect(summary).toContainText('of 2h 19m planned')
   await expect(summary.locator('.pln-summary__label svg')).toBeVisible()
   await expect(summary.locator('.pln-summary__label')).toHaveText(/On track|Catching up|Finished|Coming up/)
 })
