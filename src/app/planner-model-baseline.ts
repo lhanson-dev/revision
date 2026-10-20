@@ -9,7 +9,7 @@ import type {
   RevisionDayOfWeek,
   RevisionPlanningPreference,
 } from '../services/planning/planner-service'
-import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
+import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning-baseline'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
 import { focusedActivityMinutes } from './focused-activity-dose'
