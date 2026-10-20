@@ -83,6 +83,7 @@ describe('planner model bridge', () => {
     expect(candidates).toHaveLength(3)
     expect(candidates.map((candidate) => candidate.topicId)).toEqual(['operations', 'finance', 'marketing'])
     expect(candidates[0]).toMatchObject({
+      estimatedMinutes: 2, // single published question is not a 20-minute session
       subjectId: 'business',
       courseId: activeCourseId,
       assessmentId: 'assessment-1',

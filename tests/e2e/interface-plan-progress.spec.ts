@@ -79,6 +79,14 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light', config
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
 
+  // An unset accepted-session read is unknown, not zero capacity or no booking.
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    if (route.request().method() !== 'GET') {
+      await route.fulfill({ status: 405, contentType: 'application/json', body: '{"message":"Read-only Plan interface fixture"}' })
+      return
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
