@@ -78,6 +78,9 @@ Use this file to find the governing source before substantive work.
 - Student-value acceptance oracle (13 scenarios, not verified production passes) → `10-product-governance/backlog/FI-001 Programme Value Scenarios.md`
 - FI-001 exact-head prioritisation and omissions educational review queue (internal deterministic evidence; educational HOLD) → `audits/2026-10-18-fi001-priority-opportunity-review.md`
 - FI-001 Business 7132 original assessment A3/A4 review queue (mechanical checks only; independent human review HOLD) → `audits/2026-10-19-fi001-business-exam-assurance-queue.md`
+- FI-001 Product Owner thirteen-scenario educational acceptance checkpoint (dated HOLD; no human validation) → `audits/2026-10-20-fi001-product-owner-educational-acceptance.md`
+- FI-001 Business 7132 44-item, Psychology scope and written marking expert review handoff (not signed off) → `audits/2026-10-20-fi001-business-7132-educational-review-handoff.md`
+- FI-001 supervised real-student comprehension study protocol (observation not yet performed) → `audits/2026-10-20-fi001-student-comprehension-study-protocol.md`
 - Proposed architecture decision (not yet accepted/implemented) → `decisions/ADR-0032-proposed-single-exam-backwards-programme.md`
 
 ## Company and product
