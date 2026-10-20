@@ -354,3 +354,7 @@ PR #648's approved, green production release is now canonical main. The FI-001 c
 ### Approved main #650 visual integration into restricted FI-001 pilot
 
 The current main Home Quick Check v2 presentation and keyboard tests were integrated into draft #637 without replacing the programme-first treatment/evidence model. Mainline per-question evidence and booked-session controls are retained. New exact-head browser, visual, CI and cohort checks required; no educational acceptance or blanket A3/A4 waiver inferred.
+
+### Founder live Plan usability regression — 20 October 2026 (candidate, no merge)
+
+Founder observed a visually empty Week/Month plan, one recommendation, verbose "per week" explanations, and inconsistent Day/Week/Month on return. Canonical main evidence links this to the far-horizon proportional pacing limiter, `PlanProgrammeOutlook` above the calendar, and shell Plan navigation replacing the selected route. Proposed corrective PR `fix/fi001-plan-calendar-first-20261020` restores an executable first-fortnight window only from already-eligible supported candidates, promotes Day/Week/Month calendar into primary view, hides long educational analysis behind optional accessible disclosure, adds concise Month week focus, and preserves view/date on learner tab returns. Exact-head CI, three-device regression, stored-source evidence and Founder visual acceptance remain pending. No curriculum coverage, grade, or unreviewed marking claim is made; #649 remains open.
