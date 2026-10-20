@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { loadPlannerSetup, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
+import { loadPlannerSetup, recordPlannerActivityEvent, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
@@ -186,7 +186,21 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
     if (task.activityType === 'learn') {
       const route = learnRouteForTask(task)
       if (route) window.location.assign(route)
-    } else setActiveTask(task)
+    } else {
+      if (task.plannerItem) {
+        void recordPlannerActivityEvent(client, userId, {
+          recommendationId: task.plannerItem.recommendationId,
+          eventType: 'started',
+          subjectId: task.subjectId,
+          courseId: task.courseId,
+          moduleId: task.adapter.manifest.id,
+          topicId: task.topicId,
+          activityType: task.activityType,
+          metadata: { plannerVersion: 1, source: 'rev', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) },
+        }).catch(() => { /* Evidence logging cannot block the supported activity. */ })
+      }
+      setActiveTask(task)
+    }
   }
 
   function appendMessage(message: ConversationMessage) {

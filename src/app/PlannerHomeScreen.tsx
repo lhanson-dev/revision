@@ -4,7 +4,7 @@ import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planni
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
-import { homeActivityLabel, type HomeTask } from './home-task'
+import { homeActivityLabel, supportedActivityMinutes, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { type CourseSection } from './navigation'
@@ -200,7 +200,7 @@ export function PlannerHomeScreen({
         subjectId: task.plannerItem.subjectId,
         topicId: task.plannerItem.topicId,
         activityType: task.plannerItem.activityType,
-        metadata: { plannerVersion: 1, source: 'home', courseId: task.courseId, capacityState: snapshot?.capacityState ?? 'unknown' },
+        metadata: { plannerVersion: 1, source: 'home', courseId: task.courseId, capacityState: snapshot?.capacityState ?? 'unknown', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) },
       })
     } catch { /* The student must still be able to start useful work. */ }
   }
@@ -239,6 +239,8 @@ export function PlannerHomeScreen({
   const allStudyRows = todayPlan?.items.filter((item) => item.kind !== 'exam') ?? []
   const outstandingRows = allStudyRows.filter((row) => taskForTodayRow(row, learningStates, programme, assessments, todayKey) !== null)
   const selectedPlanRows = outstandingRows.slice(0, 3)
+  const bookedFocused = Boolean(firstTask?.sessionId && (firstTask.activityType === 'quick-check' || firstTask.activityType === 'flashcards'))
+  const immediateMinutes = firstTask ? supportedActivityMinutes(firstTask) : 0
   if (activeTask) return <HomeFocusedActivity client={client} userId={userId} task={activeTask} programme={programme}
     onBack={() => setActiveTask(null)} onFinish={() => { setActiveTask(null); retryHome() }} />
 
@@ -263,12 +265,14 @@ export function PlannerHomeScreen({
               evidenceError ? <div className="home-v3-hero-status" role="alert">I couldn’t read your progress just now. <Button variant="secondary" onInverse onClick={retryHome}>Try again</Button></div> :
               firstTask ? <div className="home-v3-next">
                 <p className="ui-eyebrow">{todayPlan?.allDone ? 'If you want to do more' : 'Your next useful step'}</p>
-                <p className="home-v3-topic-meta"><SubjectBadge {...resolveSubjectIdentity(firstTask.subjectId, firstTask.subjectName)} size="plan" />{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : firstTask.estimatedMinutes + ' min'}</p>
+                <p className="home-v3-topic-meta"><SubjectBadge {...resolveSubjectIdentity(firstTask.subjectId, firstTask.subjectName)} size="plan" />{firstTask.courseLabel} · {homeActivityLabel(firstTask.activityType)} · {firstTask.source === 'fallback' ? 'Not scheduled' : bookedFocused
+                  ? firstTask.estimatedMinutes + ' min booked · about ' + immediateMinutes + ' min practice'
+                  : firstTask.estimatedMinutes + ' min'}</p>
                 <h2>{firstTask.topicLabel}</h2>
                 <p className="home-v3-hero-reason">{recommendedReason}{todayPlan?.allDone ? ' You can also stop for today.' : ''}</p>
                 <span className="home-v3-plan-tag"><Icon name="clock" size="inline" />{planTag}</span>
                 <div className="home-v3-hero-actions">
-                  <Button size="large" onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
+                  <Button size="large" onClick={() => void startTask(firstTask)}>Start {firstTask.source === 'fallback' ? '' : bookedFocused ? 'about ' + immediateMinutes + ' min ' : firstTask.estimatedMinutes + ' min '} {homeActivityLabel(firstTask.activityType).toLowerCase()} <Icon name="arrow-right" size="inline" /></Button>
                   <Button variant="tertiary" onInverse onClick={suggestSomethingElse}>Suggest something else</Button>
                 </div>
               </div> : <div className="home-v3-no-task">

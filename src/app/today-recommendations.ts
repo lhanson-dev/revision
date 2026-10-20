@@ -8,6 +8,7 @@ import { learnerCourseRoute, learnerModuleRoute, routeHash } from './navigation'
 import { stateForAssessment } from './planner-model'
 import { subjectAccentKey } from './subject-accents'
 import { homeActivityLabel, tasksFromPlanner, type HomeTask } from './home-task'
+import { focusedActivityMinutes } from './focused-activity-dose'
 import type { NotNowRecord } from './rev-suggestions'
 import { activeNotNow, dayKey } from './rev-suggestions'
 
@@ -60,7 +61,9 @@ function immediateTasks(states: readonly ModuleLearningState[], programme: reado
     if (!activityType) return []
     const courseId = courseIdForLearningState(state)
     return [{ id: `${courseId}:${topic.id}:${activityType}`, subjectId: state.adapter.manifest.subject.id, courseId,
-      assessmentId: '', topicId: topic.id, activityType, estimatedMinutes: activityType === 'exam-question' ? 30 : activityType === 'quick-check' ? 20 : 15,
+      assessmentId: '', topicId: topic.id, activityType, estimatedMinutes: activityType === 'exam-question' ? 30 : activityType === 'quick-check'
+        ? focusedActivityMinutes('quick-check', state.adapter.listQuestions(topic.id).length)
+        : focusedActivityMinutes('flashcards', state.adapter.listFlashcards(topic.id).length),
       daysUntilAssessment: Infinity, assessmentImportance: 'normal' as const,
       coverage: state.evidence.some((e) => e.topicId === topic.id) ? 1 : 0,
       evidenceStrength: Math.min(1, state.evidence.filter((e) => e.topicId === topic.id).length / 4),

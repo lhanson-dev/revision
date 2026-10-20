@@ -489,7 +489,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     try {
       await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
         subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
-        activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan' } })
+        activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) } })
     } catch { /* Recording failure must not block supported work. */ }
     setActiveTask(task)
   }

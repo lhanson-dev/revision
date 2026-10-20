@@ -12,6 +12,7 @@ import type {
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
+import { focusedActivityMinutes } from './focused-activity-dose'
 
 function confidenceStrength(confidence: ModuleLearningState['readiness']['confidence']) {
   if (confidence === 'high') return 1
@@ -20,10 +21,11 @@ function confidenceStrength(confidence: ModuleLearningState['readiness']['confid
   return 0.2
 }
 
-function estimatedMinutes(activity: string) {
+function estimatedMinutes(activity: string, state: ModuleLearningState, topicId: string) {
   if (activity === 'exam-question') return 30
-  if (activity === 'quick-check') return 20
-  return 15
+  if (activity === 'quick-check') return focusedActivityMinutes('quick-check', state.adapter.listQuestions(topicId).length)
+  if (activity === 'flashcards') return focusedActivityMinutes('flashcards', state.adapter.listFlashcards(topicId).length)
+  return 0
 }
 
 function localDate(date: Date) {
@@ -213,7 +215,7 @@ export function plannerCandidatesFromLearningState(
         assessmentId: assessment.assessmentId,
         topicId,
         activityType,
-        estimatedMinutes: estimatedMinutes(activityType),
+        estimatedMinutes: estimatedMinutes(activityType, state, topicId),
         daysUntilAssessment,
         assessmentImportance: assessment.relativeImportance,
         coverage: Math.min(topicCoverage, courseCoverage + 0.4),

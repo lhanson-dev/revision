@@ -59,6 +59,7 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(tasks.length).toBeGreaterThan(1)
     expect(tasks.every((t) => t.source === 'fallback' && !t.plannerItem)).toBe(true)
     expect(tasks[0].reason).toContain('not scheduled')
+    expect(tasks[0].estimatedMinutes).toBe(8) // actual Business topic has five published MCQs
   })
   it('R1-08 dismissal advances only today, exhausts honestly and expires at midnight/DST', () => {
     const day = context([session('first', 'finance')])

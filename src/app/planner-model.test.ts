@@ -83,6 +83,7 @@ describe('planner model bridge', () => {
     expect(candidates).toHaveLength(3)
     expect(candidates.map((candidate) => candidate.topicId)).toEqual(['operations', 'finance', 'marketing'])
     expect(candidates[0]).toMatchObject({
+      estimatedMinutes: 2, // one real MCQ, not 20 fictional minutes
       subjectId: 'business',
       courseId: activeCourseId,
       assessmentId: 'assessment-1',
@@ -93,6 +94,16 @@ describe('planner model bridge', () => {
       understanding: null,
       readiness: null,
     })
+  })
+
+  it('budgets the actual supported number of questions and flashcards', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const manyQuestions = { ...state, adapter: { ...state.adapter, listQuestions: () => Array.from({ length: 30 }, (_, id) => ({ id: String(id) })) } } as unknown as ModuleLearningState
+    expect(plannerCandidatesFromLearningState([manyQuestions], [assessment], [], now).every((item) => item.estimatedMinutes === 19)).toBe(true)
+    const onlyCards = { ...state, adapter: { ...state.adapter, listQuestions: () => [], listFlashcards: () => [{ id: 'card-1' }] } } as unknown as ModuleLearningState
+    const candidates = plannerCandidatesFromLearningState([onlyCards], [assessment], [], now)
+    expect(candidates).toHaveLength(3)
+    expect(candidates.every((item) => item.activityType === 'flashcards' && item.estimatedMinutes === 2)).toBe(true)
   })
 
   it('does not create candidates for an assessment outside the active course state', () => {
@@ -191,12 +202,12 @@ describe('planner model bridge', () => {
       ...availability,
       weeklyMinutes: {
         monday: 1,
-        tuesday: 1,
-        wednesday: 1,
-        thursday: 1,
-        friday: 1,
-        saturday: 1,
-        sunday: 1,
+        tuesday: 0,
+        wednesday: 0,
+        thursday: 0,
+        friday: 0,
+        saturday: 0,
+        sunday: 0,
       },
       weekdayMinutes: 1,
       weekendMinutes: 1,

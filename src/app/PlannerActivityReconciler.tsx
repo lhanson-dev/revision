@@ -32,7 +32,13 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
         && event.recommendationId
         && event.topicId
         && new Date(event.occurredAt).getTime() >= cutoff
-        && !completedRecommendationIds.has(event.recommendationId),
+        && !completedRecommendationIds.has(event.recommendationId)
+        // Partial answers do not complete a multi-item focused session.
+        && event.metadata.completionMode !== 'explicit_focused_session'
+        // Legacy start records without a marker cannot prove the new multi-item
+        // session ended merely because one scored answer was saved.
+        && event.activityType !== 'quick-check'
+        && event.activityType !== 'flashcards',
       )
       if (unmatchedStarts.length === 0) return
 
