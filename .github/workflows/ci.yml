@@ -143,6 +143,12 @@ jobs:
           REVISION_BROWSER_PROJECT: ${{ matrix.project }}
           REVISION_BROWSER_SHARD: ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         run: node scripts/assurance/run-browser-tests.mjs "${REVISION_BROWSER_PROJECT}"
+      - name: Verify restricted production pilot boundary
+        if: ${{ matrix.project == 'desktop' && matrix.shardIndex == 1 }}
+        timeout-minutes: 8
+        env:
+          REVISION_PILOT_GATE_CHECK: '1'
+        run: npx playwright test tests/e2e/fi001-pilot-boundary.spec.ts --project=desktop
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
