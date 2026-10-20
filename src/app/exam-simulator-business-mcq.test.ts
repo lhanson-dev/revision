@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { paper1Exam } from '../../content/business/aqa-a-level/paper-1/exam'
-import { ExamSimulator, marksForSubmittedAnswer } from './ExamSimulator'
+import { ExamSimulator, marksForExamAnswer, marksForSubmittedAnswer } from './ExamSimulator'
 import { answeredQuestionCount } from './exam-prep'
 
 function render(autostart: 'timed' | 'untimed', questionId = 'p1-q01') {
@@ -82,5 +82,29 @@ describe('FI-001 blank-answer integrity', () => {
   it('retains student marks for both a chosen MCQ option and a written response', () => {
     expect(marksForSubmittedAnswer('B', marks)).toEqual(marks)
     expect(marksForSubmittedAnswer('One justified recommendation.', marks)).toEqual(marks)
+  })
+})
+
+describe('FI-001 original Business MCQ objective marking', () => {
+  it('stores a valid, guidance-consistent exact answer key for all 15 published Paper 1 MCQs', () => {
+    const questions = paper1Exam.questions.filter((item) => item.responseType === 'multiple-choice')
+    expect(questions).toHaveLength(15)
+    for (const question of questions) {
+      expect(question.correctOptionLabel, question.id).toBeTruthy()
+      expect(question.options?.some((option) => option.label === question.correctOptionLabel), question.id).toBe(true)
+      expect(question.markingGuidance.join(' '), question.id).toMatch(
+        new RegExp(`Correct answer: ${question.correctOptionLabel}(?:[ .—])`),
+      )
+    }
+  })
+
+  it('awards zero for wrong/blank answers regardless of entered self-marks and credits only the exact correct choice', () => {
+    const q = paper1Exam.questions.find((item) => item.id === 'p1-q01')!
+    const full = { ao1: 1, ao2: 0, ao3: 0, ao4: 0 }
+    const zero = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
+    expect(marksForExamAnswer('A', full, q.correctOptionLabel, q.assessmentObjectives)).toEqual(zero)
+    expect(marksForExamAnswer(' ', full, q.correctOptionLabel, q.assessmentObjectives)).toEqual(zero)
+    expect(marksForExamAnswer('B', zero, q.correctOptionLabel, q.assessmentObjectives)).toEqual(full)
+    expect(marksForExamAnswer('Substantiated written response', full)).toEqual(full)
   })
 })
