@@ -53,3 +53,10 @@ The original simulations are still labelled Revision-authored, not official AQA.
 - [ ] Named independent educational specialist, expertise, date, exact SHA and approval (or HOLD) recorded
 
 **Current qualified examiner review:** NOT DONE. **A3 independent fresh-context adversarial review:** NOT DONE. **A4 marking/anchor calibration:** NOT DONE. Until all required gates pass or the affected assessment use is safely excluded, do not claim full educational acceptance or an unsupervised real-use pilot.
+
+## Psychology 7182 option-combination source comparison — 20 October
+The live authored `content/psychology/aqa-a-level/shared/course.ts` builds Psychology Paper 3 from the approved Exam Truth with 24 compulsory Issues and Debates marks, plus one 24-mark topic in each of three option groups:
+- **B:** Relationships, Gender, Cognition and Development (`topic-9/10/11`);
+- **C:** Schizophrenia, Eating Behaviour, Stress (`topic-12/13/14`);
+- **D:** Aggression, Forensic Psychology, Addiction (`topic-15/16/17`).
+This matches the current [AQA Psychology 7182 Issues and Options specification](https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology) and 96 attempted-mark paper contract. `content/psychology/aqa-a-level/content.test.ts` has an additional candidate structural regression enumerating **all 27 (3×3×3) valid selections** and verifying 24+24+24+24 marks without mixing option groups. This establishes authored option assembly, **not** that all routes deliver authentic examiner-calibrated performance or that planner has a student's true selected options where these were never entered. Qualified independent educational review and student-scope/identity checks remain outstanding.
