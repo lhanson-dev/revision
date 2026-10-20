@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import {
@@ -101,6 +101,7 @@ function canonicalRoute(route: AppRoute) {
 export function PlannerRuntime() {
   const [user, setUser] = useState<User | null>(null)
   const [route, setRoute] = useState<AppRoute>(() => canonicalRoute(parseRoute(window.location.hash)))
+  const previousPlanPlace = useRef<AppRoute | null>(null)
   const [memberships, setMemberships] = useState<LearnerCourseMembership[]>([])
   const [programmeResolved, setProgrammeResolved] = useState(false)
   const [programmeError, setProgrammeError] = useState('')
@@ -128,6 +129,7 @@ export function PlannerRuntime() {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (active) {
         setUser(session?.user ?? null)
+        previousPlanPlace.current = null
         setIsAdmin(false)
         setAdminAccessResolved(false)
         setVerifiedPilotUserId(null)
@@ -144,6 +146,7 @@ export function PlannerRuntime() {
     const syncRoute = () => {
       const parsed = parseRoute(window.location.hash)
       const canonical = canonicalRoute(parsed)
+      if (canonical.kind === 'plan' && (canonical.view || canonical.date)) previousPlanPlace.current = canonical
       const canonicalHash = routeHash(canonical)
       if (window.location.hash !== canonicalHash) {
         window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${canonicalHash}`)
@@ -251,7 +254,15 @@ export function PlannerRuntime() {
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     setRevPanelOpen(false)
-    const canonical = canonicalRoute(nextRoute)
+    // Plan's date/view changes are written using replaceState by PlanScreen,
+    // which does not dispatch hashchange. Capture the ACTUAL address before
+    // leaving, then restore it when the learner opens Plan from a shell tab.
+    const current = parseRoute(window.location.hash)
+    if (current.kind === 'plan' && (current.view || current.date)) previousPlanPlace.current = current
+    const incoming = canonicalRoute(nextRoute)
+    const canonical = incoming.kind === 'plan' && !incoming.view && !incoming.date && !incoming.intent
+      ? previousPlanPlace.current ?? incoming
+      : incoming
     const hash = routeHash(canonical)
     if (window.location.hash === hash) setRoute(canonical)
     else window.location.hash = hash

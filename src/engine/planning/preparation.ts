@@ -294,8 +294,14 @@ export function buildPreparationProgramme(
           // allocatedByPaper is updated as each objective is chosen, including
           // the current week; never count current selections a second time.
           const alreadyForPaper = allocatedByPaper.get(item.target.assessmentId) ?? 0
-          const firstUsefulAction = weeks.length === 0 && objectives.length === 0
-          if (!firstUsefulAction
+          // With distant papers, a small inventory can otherwise pace the
+          // first visible week down to a single supported task, despite
+          // genuine unused study time and other real eligible activities.
+          // Protect a small two-week starting runway; still honour exact
+          // published content, prerequisite order, paper deadline, daily
+          // slots, learner commitments and whole-activity fit above.
+          const initialSupportedRunway = weeks.length < 2 && objectives.length < 2
+          if (!initialSupportedRunway
             && alreadyForPaper + item.candidate.estimatedMinutes / 2 >= intendedCumulative) return []
         }
         const laterMinutes = knownCapacityAfterThisWeek(target)

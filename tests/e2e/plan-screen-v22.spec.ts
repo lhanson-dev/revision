@@ -28,7 +28,8 @@ async function openPlan(page: Page, hash: string, width = 1440, height = 900) {
   await page.setViewportSize({ width, height })
   await seedPlanStudent(page)
   await page.goto(`${appPath}${hash}`)
-  await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toBeVisible()
+  await expect(page.locator('.pln-weekview, .pln-dayview, .pln-month').first()).toBeVisible()
 }
 
 for (const route of routes) {
@@ -63,6 +64,49 @@ test('titles follow the period and the address keeps view and date', async ({ pa
   await page.reload()
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your month')
   await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
+})
+
+test('returning to Plan from Home preserves the selected view and date', async ({ page }) => {
+  await openPlan(page, '#/plan')
+  await page.getByRole('button', { name: 'Month', exact: true }).click()
+  await page.getByRole('button', { name: 'Next month' }).click()
+  const monthRoute = new URL(page.url()).hash
+  expect(monthRoute).toContain('view=month')
+  await page.getByRole('button', { name: 'Home', exact: true }).first().click()
+  await expect(page).toHaveURL(/#\/home/)
+  await page.getByRole('button', { name: 'Plan', exact: true }).first().click()
+  expect(new URL(page.url()).hash).toBe(monthRoute)
+  await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
+  const dayRoute = new URL(page.url()).hash
+  await page.getByRole('button', { name: 'Home', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Plan', exact: true }).first().click()
+  expect(new URL(page.url()).hash).toBe(dayRoute)
+  await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
+})
+
+test('Day view title and arrows show the selected day, not a different week', async ({ page }) => {
+  await openPlan(page, '#/plan?view=day&date=2026-10-05')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Today')
+  await page.getByRole('button', { name: 'Next day' }).click()
+  expect(new URL(page.url()).hash).toContain('view=day&date=2026-10-06')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('6 Oct 2026')
+})
+
+test('calendar comes before optional detailed programme analysis', async ({ page }) => {
+  await openPlan(page, '#/plan')
+  const calendar = page.locator('.pln-weekview')
+  const details = page.locator('.pln-programme__disclosure')
+  await expect(calendar).toBeVisible()
+  await expect(details).not.toHaveAttribute('open', '')
+  const positions = await page.evaluate(() => ({
+    calendar: document.querySelector('.pln-weekview')?.getBoundingClientRect().top,
+    details: document.querySelector('.pln-programme__disclosure')?.getBoundingClientRect().top,
+  }))
+  expect(positions.calendar).toBeLessThan(positions.details)
+  await details.locator(':scope > summary').click()
+  await expect(details).toHaveAttribute('open', '')
+  await expect(details.getByRole('heading', { name: 'Preparation towards your exams' })).toBeVisible()
 })
 
 test('summary is time against plan, with a status in words and an icon', async ({ page }) => {

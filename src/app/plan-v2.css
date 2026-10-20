@@ -251,3 +251,32 @@
 @media (max-width: 620px) {
   .pln-programme__week { flex-direction: column; }
 }
+
+/* Calendar-first Plan: keep the explanation behind an optional disclosure. */
+.pln-programme__disclosure { min-width: 0; }
+.pln-programme__disclosure > summary {
+  display: list-item;
+  width: fit-content;
+  padding: 10px 0;
+  color: var(--color-accent-text);
+  font: 750 14px/1.5 var(--font-family-product);
+  cursor: pointer;
+}
+.pln-programme__disclosure > summary:focus-visible { outline: 3px solid var(--color-action); outline-offset: 3px; }
+.pln-programme__disclosure[open] > summary { margin-bottom: 12px; }
+.pln-month-focus { display: grid; gap: 10px; min-width: 0; }
+.pln-month-focus h2 { margin: 0; color: var(--color-text); font: 800 17px/1.4 var(--font-family-product); }
+.pln-month-focus__list { list-style: none; display: grid; gap: 8px; margin: 0; padding: 0; }
+.pln-month-focus__list li { min-width: 0; }
+.pln-month-focus__list button {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
+  width: 100%; min-height: 52px; padding: 12px 16px;
+  border: 1px solid var(--color-border); border-radius: var(--radius-surface);
+  background: var(--color-surface); color: var(--color-text); text-align: left;
+  font: 600 14px/1.45 var(--font-family-product); cursor: pointer;
+}
+.pln-month-focus__list strong { flex: 0 0 135px; font-weight: 800; }
+.pln-month-focus__list span:not(.sr-only) { flex: 1 1 200px; min-width: 0; overflow-wrap: anywhere; }
+.pln-month-focus__list button:hover { border-color: var(--color-action); }
+.pln-month-focus__list button:focus-visible { outline: 3px solid var(--color-action); outline-offset: 2px; }
+.pln-month-focus > p { margin: 0; color: var(--color-text-secondary); font: 600 13px/1.45 var(--font-family-product); }

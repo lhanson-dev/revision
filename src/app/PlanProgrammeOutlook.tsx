@@ -54,6 +54,42 @@ function StudyWeek({ week, courseLabel, topicLabel, onOpenWeek }: Pick<Props, 'c
     </li>
   )
 }
+/**
+ * Month is a week-level outlook. Display supported named objectives, never
+ * false fixed day-by-day tasks, ahead of optional technical programme detail.
+ */
+export function PlanMonthFocus({ programme, anchor, courseLabel, topicLabel, onOpenWeek }: Omit<Props, 'view'>) {
+  const month = anchor.slice(0, 7)
+  const weeks = programme.weeks.filter((week) => week.visibleFrom.slice(0, 7) <= month
+    && week.visibleUntil.slice(0, 7) >= month)
+  return (
+    <section className="pln-month-focus" aria-label="Your monthly revision focus">
+      <h2>Revision focus by week</h2>
+      <ul className="pln-month-focus__list">
+        {weeks.map((week) => {
+          const names = [...new Map(week.objectives.map((objective) =>
+            [objective.courseId + ':' + objective.topicId,
+              courseLabel(objective.courseId) + ' — ' + topicLabel(objective.courseId, objective.topicId)])).values()]
+          const summary = names.length
+            ? names.slice(0, 2).join(' · ') + (names.length > 2 ? ' · +' + (names.length - 2) + ' more' : '')
+            : week.availableMinutes === 0 ? 'Rest time' : week.availableMinutes === null
+              ? 'Add study time to plan this week' : 'No supported activities allocated yet'
+          return (
+            <li key={week.weekStart}>
+              <button type="button" onClick={() => onOpenWeek(week.weekStart)}>
+                <strong>{weekRangeLabel(week.weekStart)}</strong>
+                <span>{summary}</span>
+                <span className="sr-only">. Open Week view</span>
+              </button>
+            </li>
+          )
+        })}
+      </ul>
+      <p>Future work may change as you revise and complete questions.</p>
+    </section>
+  )
+}
+
 export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpenWeek, anchor, view }: Props) {
   const final = programme.finalKnownAssessment
   const selected = programme.weeks.filter((week) =>
@@ -93,7 +129,9 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
   )
   return (
     <section className="pln-programme" aria-label="Your full exam programme">
-      <Surface variant="quiet" className="pln-programme__surface">
+      <details className="pln-programme__disclosure">
+        <summary>How was my revision plan worked out?</summary>
+        <Surface variant="quiet" className="pln-programme__surface">
         <h2>Preparation towards your exams</h2>
         {!final ? (
           <p>Add known exam dates to see a paper-linked programme. Revision will not invent your final exam date. Supported study remains available through Courses.</p>
@@ -211,7 +249,8 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
             <p className="pln-card__note">Exact tasks appear in your near-term Day and Week plan. A preliminary objective is not accepted work; Revision will recalculate after meaningful evidence or availability changes.</p>
           </>
         )}
-      </Surface>
+        </Surface>
+      </details>
     </section>
   )
 }
