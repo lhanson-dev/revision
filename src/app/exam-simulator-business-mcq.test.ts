@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { paper1Exam } from '../../content/business/aqa-a-level/paper-1/exam'
-import { ExamSimulator, marksForExamAnswer, marksForSubmittedAnswer } from './ExamSimulator'
+import { ExamSimulator, createExamResponseEvidence, marksForExamAnswer, marksForSubmittedAnswer } from './ExamSimulator'
+import { evidencePercentage, learningEvidenceSchema } from '../engine/evidence/evidence'
 import { answeredQuestionCount } from './exam-prep'
 
 function render(autostart: 'timed' | 'untimed', questionId = 'p1-q01') {
@@ -106,5 +107,22 @@ describe('FI-001 original Business MCQ objective marking', () => {
     expect(marksForExamAnswer(' ', full, q.correctOptionLabel, q.assessmentObjectives)).toEqual(zero)
     expect(marksForExamAnswer('B', zero, q.correctOptionLabel, q.assessmentObjectives)).toEqual(full)
     expect(marksForExamAnswer('Substantiated written response', full)).toEqual(full)
+  })
+
+  it('stores truthful objective evidence for correct/wrong MCQs, not self-awarded examiner marks', () => {
+    const question = paper1Exam.questions.find((item) => item.id === 'p1-q01')!
+    const full = { ao1: 1, ao2: 0, ao3: 0, ao4: 0 }
+    const base = { question, awarded: full, moduleId: 'business-aqa-a-level-7132-paper-1' }
+    const wrong = createExamResponseEvidence({ ...base, id: 'wrong', answer: 'A' })
+    const correct = createExamResponseEvidence({ ...base, id: 'correct', answer: 'B' })
+    expect(wrong).toMatchObject({ source: 'multiple_choice', correct: false, selectedOption: 0, correctOption: 1 })
+    expect(correct).toMatchObject({ source: 'multiple_choice', correct: true, selectedOption: 1, correctOption: 1 })
+    expect(evidencePercentage(wrong)).toBe(0)
+    expect(evidencePercentage(correct)).toBe(100)
+    expect(learningEvidenceSchema.safeParse(wrong).success).toBe(true)
+    expect(learningEvidenceSchema.safeParse(correct).success).toBe(true)
+    const essay = paper1Exam.questions.find((item) => item.id === 'p1-q16')!
+    expect(createExamResponseEvidence({ question: essay, answer: 'worked response', awarded: full, moduleId: base.moduleId, id: 'written' }))
+      .toMatchObject({ source: 'exam_question', markingMethod: 'self_assessed' })
   })
 })
