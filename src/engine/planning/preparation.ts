@@ -347,8 +347,13 @@ export function buildPreparationProgramme(
             && !allocatedPaperResponseSections.has(b.candidate.paperResponseSectionId))
           if (freshA !== freshB) return freshA ? -1 : 1
         }
+        // A deliberate, bounded learner priority breaks educationally equivalent
+        // choices only after paper timing, unmet need, response-format diversity
+        // and evidence urgency. It cannot overrule deadline or scope safety.
         return a.target.date.localeCompare(b.target.date)
-          || b.urgency - a.urgency || a.candidate.id.localeCompare(b.candidate.id)
+          || b.urgency - a.urgency
+          || b.candidate.learnerPreference - a.candidate.learnerPreference
+          || a.candidate.id.localeCompare(b.candidate.id)
       })
       const choice = options[0]
       const placed = { ...choice.objective, ...(choice.fitDate ? { forecastDate: choice.fitDate } : {}) }
