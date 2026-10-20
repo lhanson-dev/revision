@@ -65,6 +65,26 @@ test('titles follow the period and the address keeps view and date', async ({ pa
   await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
 })
 
+test('returning to Plan from Home preserves the selected view and date on the learner shell', async ({ page }) => {
+  await openPlan(page, '#/plan')
+  await page.getByRole('button', { name: 'Month', exact: true }).click()
+  await page.getByRole('button', { name: 'Next month' }).click()
+  const stored = new URL(page.url()).hash
+  expect(stored).toContain('view=month')
+  await page.getByRole('button', { name: 'Home', exact: true }).first().click()
+  await expect(page).toHaveURL(/#\/home/)
+  await page.getByRole('button', { name: 'Plan', exact: true }).first().click()
+  await expect(page).toHaveURL(new RegExp(stored.replace(/[.*+?^${}()|[\]\\]/g, '\\test('summary is time against plan, with a status in words and an icon', async ({ page }) => {')))
+  await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  // The same history restoration applies when Day is selected.
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
+  const day = new URL(page.url()).hash
+  await page.getByRole('button', { name: 'Home', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Plan', exact: true }).first().click()
+  expect(new URL(page.url()).hash).toBe(day)
+  await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
+})
+
 test('summary is time against plan, with a status in words and an icon', async ({ page }) => {
   await openPlan(page, '#/plan')
   const summary = page.locator('.pln-summary')
