@@ -77,6 +77,33 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect([...groups.values()].map((options) => options.size)).toEqual([3, 3, 3])
   })
 
+  it('preserves all 27 valid Psychology Paper 3 combinations at exactly 96 attempted marks', () => {
+    const exam = paper3.exams[0]!
+    const expected: Record<string, string[]> = {
+      'section-b': ['topic-9', 'topic-10', 'topic-11'], // Relationships / Gender / Cognition and Development
+      'section-c': ['topic-12', 'topic-13', 'topic-14'], // Schizophrenia / Eating Behaviour / Stress
+      'section-d': ['topic-15', 'topic-16', 'topic-17'], // Aggression / Forensic Psychology / Addiction
+    }
+    for (const [group, values] of Object.entries(expected)) {
+      expect([...new Set(exam.questions.filter((q) => q.choiceGroup === group).map((q) => q.choiceOption))].sort(), group)
+        .toEqual([...values].sort())
+    }
+    let combinations = 0
+    for (const b of expected['section-b']) for (const c of expected['section-c']) for (const d of expected['section-d']) {
+      const selections: Record<string, string> = { 'section-b': b, 'section-c': c, 'section-d': d }
+      const attempted = exam.questions.filter((q) => !q.choiceGroup || q.choiceOption === selections[q.choiceGroup])
+      expect(attempted.reduce((total, q) => total + q.marks, 0), [b, c, d].join('/')).toBe(96)
+      const required = attempted.filter((q) => !q.choiceGroup)
+      expect(required.reduce((total, q) => total + q.marks, 0)).toBe(24)
+      for (const [group, option] of Object.entries(selections)) {
+        expect(attempted.filter((q) => q.choiceGroup === group).every((q) => q.choiceOption === option)).toBe(true)
+        expect(attempted.filter((q) => q.choiceGroup === group).reduce((total, q) => total + q.marks, 0)).toBe(24)
+      }
+      combinations += 1
+    }
+    expect(combinations).toBe(27)
+  })
+
   it('publishes the exact three-paper guide with Psychology AO1 to AO3', () => {
     expect(aqaPsychology7182ExamPapers.papers).toHaveLength(3)
     expect(aqaPsychology7182ExamPapers.papers.map((paper) => [paper.durationMinutes, paper.totalMarks])).toEqual([
