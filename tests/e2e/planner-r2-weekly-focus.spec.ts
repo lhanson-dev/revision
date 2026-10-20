@@ -25,6 +25,7 @@ test('PLN-VALUE-01 long-range programme shows grounded learning objectives and c
   await page.goto(`${appPath}#/plan`)
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Business final paper', { timeout: 15000 })
+  await outlook.locator('.pln-programme__disclosure > summary').click()
   await expect(outlook).toContainText('Preparation objectives')
   await expect(outlook).toContainText('Build the foundations')
   await expect(outlook).toContainText('Understanding has not been established')
