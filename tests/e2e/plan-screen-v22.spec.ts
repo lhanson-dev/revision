@@ -84,15 +84,28 @@ test('returning to Plan from Home preserves the selected view and date', async (
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
 })
 
-test('summary is time against plan, with a status in words and an icon', async ({ page }) => {')))
-  await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
-  // The same history restoration applies when Day is selected.
-  await page.getByRole('button', { name: 'Day', exact: true }).click()
-  const day = new URL(page.url()).hash
-  await page.getByRole('button', { name: 'Home', exact: true }).first().click()
-  await page.getByRole('button', { name: 'Plan', exact: true }).first().click()
-  expect(new URL(page.url()).hash).toBe(day)
-  await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
+test('Day view title and arrows show the selected day, not a different week', async ({ page }) => {
+  await openPlan(page, '#/plan?view=day&date=2026-10-05')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('5 Oct 2026')
+  await page.getByRole('button', { name: 'Next day' }).click()
+  expect(new URL(page.url()).hash).toContain('view=day&date=2026-10-06')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('6 Oct 2026')
+})
+
+test('calendar comes before optional detailed programme analysis', async ({ page }) => {
+  await openPlan(page, '#/plan')
+  const calendar = page.locator('.pln-weekview')
+  const details = page.locator('.pln-programme__disclosure')
+  await expect(calendar).toBeVisible()
+  await expect(details).not.toHaveAttribute('open', '')
+  const positions = await page.evaluate(() => ({
+    calendar: document.querySelector('.pln-weekview')?.getBoundingClientRect().top,
+    details: document.querySelector('.pln-programme__disclosure')?.getBoundingClientRect().top,
+  }))
+  expect(positions.calendar).toBeLessThan(positions.details)
+  await details.locator('summary').click()
+  await expect(details).toHaveAttribute('open', '')
+  await expect(details.getByRole('heading', { name: 'Preparation towards your exams' })).toBeVisible()
 })
 
 test('summary is time against plan, with a status in words and an icon', async ({ page }) => {

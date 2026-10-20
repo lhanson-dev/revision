@@ -350,7 +350,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
   )
 
   const week = weekTitle(anchor, todayKey)
-  const pageTitle = isMonth ? (sameMonth(anchor, todayKey) ? 'Your month' : monthLabel(anchor, todayKey)) : week.title
+  const pageTitle = view === 'day' ? (anchor === todayKey ? 'Today' : formatDate(anchor))
+    : isMonth ? (sameMonth(anchor, todayKey) ? 'Your month' : monthLabel(anchor, todayKey)) : week.title
   const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
   const atNow = isMonth ? sameMonth(anchor, todayKey) : view === 'day' ? anchor === todayKey : weekStart(anchor) === weekStart(todayKey)
 
@@ -732,7 +733,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
                       onOpenWeek={(key) => goTo('week', key)}
                     />
                   )}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view !== 'day' && <PlanSummaryCard label={summaryLabel} summary={summary} />}
                   {fullProgramme?.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
                     courseLabel={(id) => courseLabel(programme, id)}
                     topicLabel={topicLabel}
