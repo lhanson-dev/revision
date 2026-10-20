@@ -164,8 +164,8 @@ test('timed Business simulation records only answered question evidence and prev
   await page.locator('.exam-choice-select input').check()
   await page.getByRole('button', { name: 'Finish and self-mark' }).click()
 
-  await expect(page.locator('.ao-marker-grid input').first()).toBeEnabled()
-  await page.locator('.ao-marker-grid input').first().fill('1')
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.ao-marker-grid input').first()).toHaveValue('1')
   await page.locator('.self-marking nav.question-nav button').nth(1).click()
   await expect(page.getByText('No answer submitted. This question receives zero marks', { exact: false })).toBeVisible()
   await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
@@ -178,7 +178,37 @@ test('timed Business simulation records only answered question evidence and prev
   expect(captured.map((row) => ((row.payload as Record<string, unknown> | undefined)?.contentId ?? row.contentId))).toEqual([
     'p1-q01', 'aqa-a-level-7132-paper-1-sim-1',
   ])
-  expect(captured.every((row) => ((row.payload as Record<string, unknown> | undefined)?.markingMethod ?? row.markingMethod) === 'self_assessed')).toBe(true)
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.source ?? captured[0].source).toBe('multiple_choice')
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.correct ?? captured[0].correct).toBe(true)
+  expect((captured[1].payload as Record<string, unknown> | undefined)?.markingMethod ?? captured[1].markingMethod).toBe('self_assessed')
+})
+
+
+test('a wrong authored Business MCQ cannot create positive scored evidence', async ({ page }) => {
+  await open(page)
+  const captured: Array<Record<string, unknown>> = []
+  page.on('request', (request) => {
+    if (request.method() !== 'POST' || !request.url().includes('/learning_evidence')) return
+    const body: unknown = request.postDataJSON()
+    if (Array.isArray(body)) captured.push(...body as Array<Record<string, unknown>>)
+    else if (body && typeof body === 'object') captured.push(body as Record<string, unknown>)
+  })
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: 'Start timed' }).click()
+  await page.locator('input[name="answer-p1-q01"][value="A"]').check()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await nav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await expect(page.locator('.ao-marker-grid input').first()).toHaveValue('0')
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.exam-submit-summary')).toContainText('0/100')
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.locator('.exam-score')).toContainText('0/100')
+  await expect.poll(() => captured.length).toBe(2)
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.source ?? captured[0].source).toBe('multiple_choice')
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.correct ?? captured[0].correct).toBe(false)
 })
 
 test('a completely blank timed paper is not recorded as scored learning evidence', async ({ page }) => {
