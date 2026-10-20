@@ -67,7 +67,11 @@ for (const [surface, hash] of [
       if (request.url().includes('/learner_planned_sessions') && request.method() === 'PATCH') writes.push(request.postData() ?? '')
     })
     await page.goto(appPath + hash)
-    if (surface === 'Home') await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
+    if (surface === 'Home') {
+      const hero = page.locator('.home-v3-hero')
+      await expect(hero).toContainText('30 min booked · about 8 min practice')
+      await hero.getByRole('button', { name: /^Start about 8 min quick check/ }).click()
+    }
     else if (surface === 'Plan') await page.getByRole('button', { name: /^Up next/ }).click()
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
 

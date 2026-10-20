@@ -2,12 +2,12 @@ import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
-import type { HomeTask } from './home-task'
+import { supportedActivityMinutes, type HomeTask } from './home-task'
 import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { resolveHomeExamQuestion } from './home-exam-question'
-import { focusedActivityCount, focusedActivityMinutes } from './focused-activity-dose'
+import { focusedActivityCount } from './focused-activity-dose'
 import { recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { setPlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { LearnerProgrammeCourse } from './learner-programme'
@@ -104,11 +104,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const question = activityIndex < questionCount ? questions[activityIndex] : undefined
   const focused = task.activityType === 'flashcards' || task.activityType === 'quick-check'
   const totalItems = task.activityType === 'flashcards' ? cardCount : questionCount
-  const actualMinutes = task.activityType === 'flashcards'
-    ? focusedActivityMinutes('flashcards', cards.length)
-    : task.activityType === 'quick-check'
-      ? focusedActivityMinutes('quick-check', questions.length)
-      : task.estimatedMinutes
+  const actualMinutes = supportedActivityMinutes(task)
 
   const finishedBooking = task.sessionId && completed && focused ? (
     <div className="home-focused-booked-session" role="group" aria-label="Your planned session">

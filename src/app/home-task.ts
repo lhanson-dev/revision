@@ -32,6 +32,13 @@ export type HomeTask = {
   plannerItem?: PlannerItem
 }
 
+/** A supported activity's size is not the duration of an accepted booking. */
+export function supportedActivityMinutes(task: HomeTask): number {
+  if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', task.adapter.listQuestions(task.topicId).length)
+  if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.adapter.listFlashcards(task.topicId).length)
+  return task.estimatedMinutes
+}
+
 export function homeActivityLabel(activity: HomeActivityType) {
   if (activity === 'learn') return 'Learn'
   if (activity === 'flashcards') return 'Flashcards'
