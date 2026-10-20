@@ -22,7 +22,7 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
   await expect(page.getByRole('log')).not.toContainText('Finance — Practice question')
 })
 
-test('R1-07 exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
+test('R1-07 baseline exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   const moduleId = 'business-aqa-a-level-7132-paper-1'
   const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
@@ -46,7 +46,7 @@ test('R1-07 exact first Today exam question starts identically from Home, Plan a
     }
     await expect(page.getByRole('heading', { name: 'Practise one exam question' })).toBeVisible()
     await expect(page.getByText('Targeted Paper 1 practice', { exact: true })).toBeVisible()
-    await expect(page.locator('.exam-simulator')).toContainText('16')
+    await expect(page.locator('.exam-simulator')).toContainText('Question 5 of 24')
   }
 })
 
@@ -70,7 +70,7 @@ for (const [surface, hash] of [
     if (surface === 'Home') {
       const hero = page.locator('.home-v3-hero')
       await expect(hero).toContainText('30 min booked · about 8 min practice')
-      await hero.getByRole('button', { name: /^Start about 8 min quick check/ }).click()
+      await hero.getByRole('button', { name: /^Start about 8 min practice question/ }).click()
     }
     else if (surface === 'Plan') await page.getByRole('button', { name: /^Up next/ }).click()
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
