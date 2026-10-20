@@ -334,3 +334,7 @@ Added browser tests on the real published Psychology 7182 course inventory (more
 
 
 **Integrated PR #637 candidate:** This records code and test coverage brought across from isolated #648. Main remains unchanged. The green run #39413602028 for #648 cannot be counted as acceptance of this combined programme-first implementation; new exact-head assurance remains required. Authentic student comprehension, re-entry without repeats and educational adequacy remain open.
+
+### FI-001 integration-specific #647 assurance (candidate)
+
+Authentic Psychology paper-one objective Practice and Business interruption/re-entry were added to `tests/e2e/planner-r1b.spec.ts` alongside the three Home/Plan/REV accepted-booking completion checks. These are source-scoped candidate tests, not authentic student observation. First-question restart after interruption is recorded explicitly as a limitation; no resumption claim is permitted. Full combined CI and programme-first educational assurance remain pending.
