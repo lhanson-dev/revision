@@ -28,7 +28,8 @@ async function openPlan(page: Page, hash: string, width = 1440, height = 900) {
   await page.setViewportSize({ width, height })
   await seedPlanStudent(page)
   await page.goto(`${appPath}${hash}`)
-  await expect(page.locator('.pln-summary')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toBeVisible()
+  await expect(page.locator('.pln-weekview, .pln-dayview, .pln-month').first()).toBeVisible()
 }
 
 for (const route of routes) {
