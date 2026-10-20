@@ -139,3 +139,7 @@ The browser suite now opens canonical Home with the published AQA 7182 Psycholog
 ### Integration into FI-001 PR #637 — candidate 20 October 2026
 
 This prior technical account tracks the separate #648 correction and its adaptation into draft PR #637. The shared focused launcher now offers bounded published Practice/flashcard sequences while retaining programme-first Learn and paper-specific decisions. A student's reserved time and supported practice estimate are separately explained and evidence/session completion remain distinct. The isolated #648 green run is **not proof** of the integrated PR #637 head. True resume-from-interruption remains unimplemented; reassess its acceptability for a controlled pilot rather than claiming restart is resumption. Document change is implementation alignment only; no new product authority is approved.
+
+## Integrated approved Home Quick Check v2 visual refresh (#650)
+
+The current main's focused question renderer, keyboard/focus interactions, retained answer feedback and summary have been incorporated with their own unit/browser tests. `HomeFocusedActivity` continues to own scored evidence, bounded session completion, retries and independent booked-session confirmation. Programme-first scored Practice wording remains distinct from any externally assured marks. No assessment content or educational authority is promoted by this visual merge. Fresh exact-head CI and controlled-pilot gate verification are mandatory.

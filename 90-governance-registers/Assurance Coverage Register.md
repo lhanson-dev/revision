@@ -350,3 +350,7 @@ PR #648's approved, green production release is now canonical main. The FI-001 c
 **Production-mode gate regression added:** CI desktop shard one now builds a second, release-equivalent restricted Vite bundle and verifies an ordinary account remains on the baseline while a confirmed Auth pilot account sees the programme and cannot deep-link into original exam simulations. The existing full-fixture test build still runs with its explicitly QA-only flag. Actual external Auth enrolment and logged-in live smoke are not inferred from browser mocks.
 
 **Initial internal cohort:** The existing single production Admin account is allowed to validate the pilot after network verification of the same Supabase Auth identity plus protected `profiles.is_admin`; other learners require the explicit Auth app-metadata marker. Production RLS inspection confirmed owner SELECT and no learner UPDATE policy on profiles. This does not make Admin a commercial tier or bypass learning evidence controls. Do not mistake one operator account for an actual student comprehension sample.
+
+### Approved main #650 visual integration into restricted FI-001 pilot
+
+The current main Home Quick Check v2 presentation and keyboard tests were integrated into draft #637 without replacing the programme-first treatment/evidence model. Mainline per-question evidence and booked-session controls are retained. New exact-head browser, visual, CI and cohort checks required; no educational acceptance or blanket A3/A4 waiver inferred.

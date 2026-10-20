@@ -25,14 +25,8 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
 test('R1-07 exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   const moduleId = 'business-aqa-a-level-7132-paper-1'
-  // Corroborated knowledge: three distinct application questions and three
-  // distinct recall cards. The exact-question Start assertion stays unchanged.
-  const evidence = [
-    ...Array.from({ length: 3 }, (_, i) => ({ payload: { id: `q${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
-      occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice', correct: true, selectedOption: 0, correctOption: 0 } })),
-    ...Array.from({ length: 3 }, (_, i) => ({ payload: { id: `f${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `f${i}`,
-      occurredAt: '2026-10-02T12:00:00Z', source: 'flashcard', rating: 2 } })),
-  ]
+  const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
+    occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice', correct: true, selectedOption: 0, correctOption: 0 } }))
   await page.route('**/rest/v1/learning_evidence**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(new URL(route.request().url()).searchParams.get('module_id') === `eq.${moduleId}` ? evidence : []) }))
   await page.route('**/rest/v1/revision_assessments**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
     { assessment_id: 'paper1', user_id: planUserId, course_id: businessCourseId, subject_id: 'business', module_id: moduleId,
@@ -56,6 +50,7 @@ test('R1-07 exact first Today exam question starts identically from Home, Plan a
   }
 })
 
+
 // A booked 30-minute commitment cannot be closed by an approximately 8-minute
 // question sequence. This distinction must hold across all three entry points.
 for (const [surface, hash] of [
@@ -75,21 +70,22 @@ for (const [surface, hash] of [
     if (surface === 'Home') {
       const hero = page.locator('.home-v3-hero')
       await expect(hero).toContainText('30 min booked · about 8 min practice')
-      await hero.getByRole('button', { name: /^Start about 8 min practice question/ }).click()
+      await hero.getByRole('button', { name: /^Start about 8 min quick check/ }).click()
     }
     else if (surface === 'Plan') await page.getByRole('button', { name: /^Up next/ }).click()
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
 
     const activity = page.locator('.home-focused-activity')
-    await expect(activity).toContainText('5 questions')
+    await expect(activity).toContainText('1 of 5')
     await expect(activity).toContainText('about 8 min')
     await expect(activity).toContainText('original 30-minute plan allocation is unchanged')
     for (let index = 1; index <= 5; index++) {
-      await expect(activity).toContainText(`Question ${index} of 5`)
-      await activity.locator('.home-focused-options label').first().click()
-      await activity.getByRole('button', { name: 'Check answer' }).click()
+      await expect(activity).toContainText(`${index} of 5`)
+      await activity.locator('.home-focused-options button').first().click()
+      await activity.getByRole('button', { name: /^Check “/ }).click()
       if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
     }
+    await activity.getByRole('button', { name: 'See how it went' }).click()
     await expect(activity).toContainText('30-minute booked session is still on your Plan')
     await expect(activity.getByRole('button', { name: "I've finished my planned session" })).toBeVisible()
     expect(sessions[0].status).toBe('planned')
@@ -115,10 +111,11 @@ test('#647 cannot silently close a booked session when its completion save fails
   await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
   const activity = page.locator('.home-focused-activity')
   for (let index = 1; index <= 5; index++) {
-    await activity.locator('.home-focused-options label').first().click()
-    await activity.getByRole('button', { name: 'Check answer' }).click()
+    await activity.locator('.home-focused-options button').first().click()
+    await activity.getByRole('button', { name: /^Check “/ }).click()
     if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
   }
+  await activity.getByRole('button', { name: 'See how it went' }).click()
   await activity.getByRole('button', { name: "I've finished my planned session" }).click()
   await expect(activity).toContainText('Could not update that session')
   expect(sessions[0].status).toBe('planned')
@@ -160,13 +157,13 @@ test('#647 published Psychology objective Practice offers several distinct quest
   await expect(hero).toContainText('Social influence')
   await hero.getByRole('button', { name: /^Start .*practice question/ }).click()
   const activity = page.locator('.home-focused-activity')
-  const descriptor = await activity.locator('.home-neutral-chip').innerText()
-  const questionCount = Number(descriptor.match(/(\d+) questions/)?.[1])
+  const descriptor = await activity.locator('.home-quick-check__progress').innerText()
+  const questionCount = Number(descriptor.match(/1 of (\d+)/)?.[1])
   expect(questionCount).toBeGreaterThan(2)
   for (let number = 1; number <= 2; number++) {
-    await expect(activity).toContainText(`Question ${number} of ${questionCount}`)
-    await activity.locator('.home-focused-options label').first().click()
-    await activity.getByRole('button', { name: 'Check answer' }).click()
+    await expect(activity).toContainText(`${number} of ${questionCount}`)
+    await activity.locator('.home-focused-options button').first().click()
+    await activity.getByRole('button', { name: /^Check “/ }).click()
     if (number === 1) await activity.getByRole('button', { name: 'Next question' }).click()
   }
   await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
@@ -192,15 +189,15 @@ test('#647 leaving an unfinished accepted session retains the booked task withou
   await page.goto(appPath)
   await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/ }).click()
   const activity = page.locator('.home-focused-activity')
-  await activity.locator('.home-focused-options label').first().click()
-  await activity.getByRole('button', { name: 'Check answer' }).click()
+  await activity.locator('.home-focused-options button').first().click()
+  await activity.getByRole('button', { name: /^Check “/ }).click()
   await expect(activity.getByRole('button', { name: 'Next question' })).toBeVisible()
   await activity.getByRole('button', { name: 'Back to Home' }).click()
   await page.reload()
   await expect(page.locator('.home-v3-hero')).toContainText('30 min booked')
   expect(sessions[0].status).toBe('planned')
   await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/ }).click()
-  await expect(activity).toContainText('Question 1 of 5') // true resume is not implemented
+  await expect(activity).toContainText('1 of 5') // true resume is not implemented
   await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
   expect(writes).toHaveLength(1)
 })
