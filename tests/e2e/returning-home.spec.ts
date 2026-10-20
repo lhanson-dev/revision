@@ -122,11 +122,57 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await start.click()
 
   await expect(page.locator('.home-focused-activity')).toBeVisible()
-  await expect(page.getByText('Quick check', { exact: true })).toBeVisible()
+  await expect(page.getByText(/Quick check · Question 1 of/)).toBeVisible()
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
   await expect(page.locator('.home-focused-activity')).toContainText(/Question 1 of [0-9]+/)
   await expect(page.getByRole('button', { name: 'Back to Home' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
+})
+
+test('REV focused question sessions save partial work without completion', async ({ page }) => {
+  await seedReturningStudent(page)
+  const posted: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/learning_evidence**', async route => {
+    if (route.request().method() === 'POST') posted.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.goto(appPath)
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i }).click()
+  const activity = page.locator('.home-focused-activity')
+  await expect(activity).toContainText('5 questions')
+  await expect(activity).toContainText('about 8 min')
+  await activity.locator('.home-focused-options label').first().click()
+  await activity.getByRole('button', { name: 'Check answer' }).click()
+  await expect(activity.getByRole('button', { name: 'Next question' })).toBeVisible()
+  expect(posted).toHaveLength(1)
+  await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
+  await activity.getByRole('button', { name: 'Back to Home' }).click()
+  await expect(page.locator('.home-v3-hero')).toBeVisible()
+  expect(posted).toHaveLength(1)
+})
+
+test('REV focused session does not complete before its final real question', async ({ page }) => {
+  await seedReturningStudent(page)
+  const posted: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/learning_evidence**', async route => {
+    if (route.request().method() === 'POST') posted.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.goto(appPath)
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i }).click()
+  const activity = page.locator('.home-focused-activity')
+  await expect(activity).toContainText('5 questions')
+  for (let index = 1; index <= 5; index += 1) {
+    await expect(activity).toContainText(`Question ${index} of 5`)
+    await activity.locator('.home-focused-options label').first().click()
+    await activity.getByRole('button', { name: 'Check answer' }).click()
+    if (index < 5) await activity.getByRole('button', { name: 'Next question' }).click()
+  }
+  await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toBeVisible()
+  expect(posted).toHaveLength(5)
+  expect(new Set(posted.map(row => row.content_id)).size).toBe(5)
+  await activity.getByRole('button', { name: 'Back to today’s plan' }).click()
+  await expect(page.locator('.home-v3-hero')).toBeVisible()
 })
 
 test('Home v3 exposes one alternative and retains exhausted choices after reload', async ({ page }) => {

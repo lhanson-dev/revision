@@ -407,3 +407,12 @@ Canonical routes: authenticated `/revision/app/#/home`, `#/plan` and the persist
 
 
 **R2 learner-value candidate refinements:** The topic list also identifies the supported source activity type (for example, Quick check, Flashcards or Exam question practice) so a weekly row contains more than a syllabus heading. In the already loaded near accepted-commitment window, `focusMinutesAfterKnownCommitments()` subtracts planned/done saved sessions, excludes skipped sessions and fails closed when the accepted read is unavailable; outside that bounded window, study time remains labelled provisional and no year-long session read is added. The presentation is explicitly non-booked and does not promise that a later-week activity type will remain the exact recommended Start after new evidence arrives.
+
+
+## P1 #647 — REV focused-study duration and completion correction (candidate)
+
+The canonical Home/Ask REV direct Start now offers a bounded sequence of actual published topic questions or flashcards rather than ending after the first. `focused-activity-dose.ts` uses a content-bounded estimate shared with planner and fallback recommendations; a topic with one MCQ is approximately two minutes rather than a fictional twenty. Current Business 7132 topics have five published MCQs and are offered as approximately eight-minute sequences. These minutes describe estimated workload, not observed study time or an optimal dose.
+
+Each saved response creates distinct scoped evidence with stable retry identity. Unfinished sessions retain partial evidence but do not claim the full activity is complete. Home's focused start carries an explicit-completion marker to prevent the evidence reconciler from equating the first answer with session completion. The focused launcher attempts a `completed` planner event after the last item; on failure it displays an explicit Plan synchronisation warning. Existing accepted time commitments remain unchanged, and the focused screen discloses any difference from the supported activity estimate.
+
+Candidate tests: `focused-activity-dose.test.ts`, `planner-model.test.ts` and `returning-home.spec.ts` partial/full five-question journeys. Status: **not yet CI-verified, not Live and not accepted for real-student testing**. Normal scored Practice, unscored Learn checks and paper-based exam marking are kept separate. Full treatment of interrupted/reopened focused sessions, accepted-time reconciliation and real Psychology content remains an educational acceptance gap.
