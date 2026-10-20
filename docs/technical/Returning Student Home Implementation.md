@@ -1,5 +1,13 @@
 # Returning Student Home Implementation
 
+## Home / Plan quick check visual refresh — candidate, 20 October 2026
+
+Canonical routes remain `/revision/app/#/home` and `/revision/app/#/plan` through `src/main.tsx`, `PlannerRuntime`, and the existing focused-activity launcher. `HomeFocusedActivity` retains the content-bounded dose, evidence persistence, stable retry IDs, planner completion timing and separate booked-session declaration. The legacy `App.tsx` and in-reading unscored Learn quick check are outside this change.
+
+`HomeQuickCheck.tsx` owns the shared focused presentation, using the attached Quick Check v2 design as reference: live definition blanks, retained questions and labelled correct/wrong options, inline explanation, per-answer progress, an estimated remaining-work label, A–D / Enter shortcuts and an end-of-set review. Ordinary prompts without underscores remain intact. Subject identity comes from `subject-palette.ts`; colours and typography use existing semantic tokens. Reduced motion disables transitions. The result count describes this set only, with no readiness claim or extra evidence write. The existing booking confirmation appears on the summary; finishing the set alone does not close a booking.
+
+`home-quick-check.test.tsx` covers prompt fallback and rendered answer states. Updated Home and planner browser tests preserve partial completion, distinct evidence and booked-session controls; the keyboard journey also checks failed-save retry identity, focus movement and review of missed terms. This is a review candidate, not a production-release or visual-baseline approval record. No baseline digest is repinned. No schema, educational content, planner ranking, entitlement or normative product change is required.
+
 **Current live state:** Issue #622 Home refinement shipped through specifically approved PR #623 (`ba33ef56bbdf5be35c25a7e9a010eb28b752c756`; merged as `b5dfdd9d0611ec46818f804b4ed33f9c455d8def`) on 13 October 2026. [Exact-head CI #38468098665](https://github.com/lhanson-dev/revision/actions/runs/38468098665) and [production deployment #38471897996](https://github.com/lhanson-dev/revision/actions/runs/38471897996), including backend readiness, smoke and path-to-live verification, passed. The earlier implementation and candidate assurance accounts below remain historical.
 
 ## Issue #622 implementation contract

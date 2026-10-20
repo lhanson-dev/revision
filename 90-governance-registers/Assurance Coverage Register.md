@@ -1,5 +1,9 @@
 # Assurance Coverage Register
 
+### Home / Plan quick check visual refresh — candidate (20 October 2026)
+
+Presentation-only change to the canonical focused launcher, preserving the #647 evidence, dose and booked-session controls. `src/app/home-quick-check.test.tsx` covers empty, selected, wrong, right and saving presentation plus ordinary-prompt fallback. Updated `returning-home.spec.ts` and `planner-r1b.spec.ts` retain partial-work, multi-question evidence and independent booking completion oracles with the new option/action anatomy and summary step. The new keyboard journey covers A / Enter, one write per successful answer, stable retry identity after a failed save, retained question/feedback, focus and missed-term review. Exact-head CI, visual comparison and Founder merge approval remain required; this entry does not upgrade existing product/educational assurance or claim production deployment.
+
 **Status:** Active current-state register  
 **Purpose:** Record which critical Revision journeys and controls currently have repeatable assurance evidence, which layer provides it, and where gaps remain. This register implements the Testing & Assurance Standard; it does not replace product, security, privacy, content or release authority.
 
