@@ -27,3 +27,7 @@ Rather than overwrite newer `main` or roll back FI-001's programme-first content
 ## Release boundary
 
 PR #637 remains draft and unmerged. The separate #648 release authorisation does not approve #637. Before the Founder receives a final merge recommendation, update technical docs and assurance register to state the actual final-head evidence and clearly separate any accepted known limitation from a hard blocker. Historical evidence must not be rewritten. No grades/efficacy claims are authorised.
+
+## Founder-approved *approach* for a restricted on-site study (20 October 2026; append only)
+
+The Founder requested a restricted programme-first pilot on the live site and explained that remaining qualified educational reviews would be conducted in the course of site testing. The existing authority cannot be interpreted as permission to present independently unreviewed Business full-paper marking as examiner-assured, nor to treat CI as student acceptance. The proposed governed reconciliation is a fail-closed Auth-managed testing cohort, the pre-existing planner for other students, and exclusion of original written exam simulations until A3/A4. This is deliberately an implementation-and-normative change **proposed by PR #637**, effective only after exact-head tests and specific Founder merge approval. A held student-comprehension study may collect previously missing evidence, but unrecorded observations and expert sign-off remain NOT DONE. Historical dated educational acceptance records are preserved unchanged.
