@@ -40,6 +40,17 @@ test('server-confirmed pilot account sees the programme but cannot enter unrevie
   await expect(page.getByRole('button', { name: 'Start timed exam' })).toHaveCount(0)
 })
 
+test('a server-confirmed user with protected Admin profile can validate the pilot', async ({ page }) => {
+  await seedPlanStudent(page, { sessions: [] })
+  await page.route('**/rest/v1/profiles**', (route) => route.fulfill({
+    status: 200, contentType: 'application/vnd.pgrst.object+json',
+    body: JSON.stringify({ is_admin: true }),
+  }))
+  await page.goto(appPath + '#/plan')
+  await expect(page.getByText('Planner pilot:', { exact: false })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toBeVisible()
+})
+
 test('a purported pilot marker in the saved local user cannot bypass the server refusal', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   // The saved session's metadata is mutable browser state; the authenticated

@@ -113,6 +113,7 @@ export function PlannerRuntime() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [adminAccessResolved, setAdminAccessResolved] = useState(false)
   const [verifiedPilotUserId, setVerifiedPilotUserId] = useState<string | null>(null)
+  const [verifiedAuthUserId, setVerifiedAuthUserId] = useState<string | null>(null)
   const [themePreference, setThemePreference] = useState<ThemePreference>(() => initialThemePreference())
   const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark())
   const theme: 'light' | 'dark' = themePreference === 'system' ? (systemDark ? 'dark' : 'light') : themePreference
@@ -130,6 +131,7 @@ export function PlannerRuntime() {
         setIsAdmin(false)
         setAdminAccessResolved(false)
         setVerifiedPilotUserId(null)
+        setVerifiedAuthUserId(null)
         setMemberships([])
         setProgrammeResolved(false)
         setProgrammeError('')
@@ -195,8 +197,11 @@ export function PlannerRuntime() {
     let active = true
     if (fi001AssuranceBuild() || !user) return () => { active = false }
     void supabase.auth.getUser().then(({ data, error }) => {
-      if (active) setVerifiedPilotUserId(error ? null : verifiedFi001PilotUserId(data.user, user.id))
-    }).catch(() => { if (active) setVerifiedPilotUserId(null) })
+      if (!active) return
+      const verified = !error && data.user?.id === user.id ? user.id : null
+      setVerifiedAuthUserId(verified)
+      setVerifiedPilotUserId(verified ? verifiedFi001PilotUserId(data.user, user.id) : null)
+    }).catch(() => { if (active) { setVerifiedAuthUserId(null); setVerifiedPilotUserId(null) } })
     return () => { active = false }
   }, [user?.id])
 
@@ -229,7 +234,11 @@ export function PlannerRuntime() {
   }, [accountMenuOpen])
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
+  // Privileged operators can test immediately; additional students require
+  // an explicit Auth app_metadata pilot marker. profiles.is_admin is read-only
+  // to learners under the production RLS policy.
   const pilotEnabled = fi001AssuranceBuild() || verifiedPilotUserId === user?.id
+    || (verifiedAuthUserId === user?.id && isAdmin)
   const coursesActive = routeBelongsToCourses(route)
   const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
   const showRail = breakpoint === 'tablet'
