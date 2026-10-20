@@ -69,6 +69,8 @@ When an item is assessed, consider:
 ---
 
 ## FI-001 — Intelligent Exam Calendar / Adaptive Revision Planner
+**20 October 2026 programme-first status:** Founder-authorised programme-first FI-001 is **In Progress** in [draft PR #637](https://github.com/lhanson-dev/revision/pull/637), not Live or approved to merge. The original Business Paper 1 authored 15 MCQs now have explicit keys and cannot credit incorrect self-awarded answers. Code-head exact CI #39391861951 and frozen 13-case comparison #39391862053 passed at `d73ea0bedad18cc6cac94ec2c0b0e0124a2084af`; documentation commits require new final-head CI. All thirteen frozen cases are educationally PARTIAL (automated evidence is not expert signoff), with qualified A3/A4 review, full R1-11 published Learn observation, and actual student-comprehension evidence still outstanding. 20 October Product Owner decision, 44-item expert handoff and supervised student study protocol are indexed in `INDEX.md`. FI-009–012 remain excluded; no normative scope change or Founder-specific merge approval is inferred.
+
 
 **Status:** Live  
 **Captured:** 2026-08-19  
