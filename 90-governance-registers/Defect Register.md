@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-10-19  
+**Last triaged:** 2026-10-20  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules
@@ -30,6 +30,7 @@
 | DEF-2026-008 | P1 | PTL-02 / PTL-03; governed path from approved `main` changes to production | During GitHub's 2026-10-05 Actions/Pages incident, PR #534 merge `c2d82ecf76c8c5cb89c30e9c8e0a39a7d15c03c5` had its CI and Pages entry jobs cancelled before execution, leaving no `revision/path-to-live` status. PR #535 merge `5e17e2d6da96efe93ed26f60ad2eaeeb511f2a54` later passed exact-main Revision CI #2710 / run `37379487098`, but Pages #433 / run `37379487100` failed closed on rerun because the PR #534 parent has no historical path-to-live status. | Open | Engineering / release governance — complete the separately governed Recovery 5 prospective trust-root reset without backfilling historical status evidence | #538 | Close only after the Recovery 5 merge passes governed lineage, backend readiness, build, Pages deploy, production smoke and publishes durable `revision/path-to-live = success`. |
 
 | DEF-2026-009 | P1 | Exam Simulator evidence integrity for blank, cleared and objectively incorrect answers | 19 Oct: blanks could receive positive self-awarded AO marks and cleared focused attempts could save. 20 Oct extension of the same evidence-control defect: a wrong Business Paper 1 MCQ could be given positive student-awarded marks. | Fix in review | Engineering — draft prevents scored blank writes and now uses authored option key for objective MCQ evidence; require independent content review and release evidence before closure | #637 | Exact code-fix CI #39391861951 and frozen comparator #39391862053 passed at d73ea0bedad18cc6cac94ec2c0b0e0124a2084af. Browser saved right/wrong/blank question checks; qualified A3/A4, production release and educational signoff still pending. |
+| DEF-2026-010 | P1 | REV timed focused Practice/Flashcards exact Start | Founder observed a 20-minute Check ending after one answer (20 October 2026). Current main uses fixed 20/15-minute estimates; focused Start selects first question/card and the reconciler can equate one evidence row to completed work. | Fix in review | Engineering — align session, evidence, time estimate and completion; educational acceptance remains HOLD | [#647](https://github.com/lhanson-dev/revision/issues/647); `fix/rev-focused-session-truthfulness-647` | Candidate code, unit/browser tests and documentation; exact-head CI, independent educational/browser checks, specific Founder approval and production release remain outstanding |
 
 ## Triage note — 2026-08-19
 
@@ -89,3 +90,8 @@ The draft FI-001 evidence-integrity defect `DEF-2026-009` was added as **P1 / Fi
 ### 20 October 2026 — extension of existing DEF-2026-009
 
 Same underlying P1 scored-answer integrity control also allowed wrong multiple-choice selections to be manually credited. The original Business 7132 Paper 1 authored answer letters are now stored as validated structured keys; correct/incorrect responses persist as objective evidence, not self-awarded written marks. The candidate green CI and browser flows above demonstrate the code correction, but the 44-item source authenticity and A4 marking checks are outstanding and this has not reached production. Preserve Fix in review. The existing count remains two open P1 defects (including separate release defect DEF-2026-008), not a disguised closure.
+
+
+### 20 October 2026 — Focused REV study (#647), candidate integration into PR #637
+
+DEF-2026-010 is registered as P1 / Fix in review alongside open DEF-2026-008 and candidate DEF-2026-009. These are now **three open P1 defects on this candidate branch**, not a claim about approved production main. PR #648's exact-head green CI proved the standalone correction, not its combined FI-001 application. Integrated PR #637 preserves programme-first priorities, authored scored Practice evidence rules and paper-specific response requirements. Require exact combined-head CI, pilot educational assurance, current-main integration and explicit Founder approval before any merge or defect closure.

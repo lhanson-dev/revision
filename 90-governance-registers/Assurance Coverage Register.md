@@ -315,3 +315,22 @@ At code-fix SHA `d73ea0bedad18cc6cac94ec2c0b0e0124a2084af`, [Revision CI #393918
 
 ### FI-001 Psychology 7182 option combinations candidate — 20 October
 Current [AQA 7182 Issues and Options](https://www.aqa.org.uk/subjects/psychology/a-level/psychology-7182/specification/subject-content/issues-and-options-in-psychology) and source-backed Revision Paper 3 both require compulsory Issues and Debates plus exactly one topic from each distinct three-topic group. A new `content/psychology/aqa-a-level/content.test.ts` structural regression iterates 27 combinations and checks compulsory/group marks independently, guarding against option-group cross-contamination. The test requires exact-head CI after this change; successful execution cannot justify examiner-authenticity/A4 sign-off or assume unrecorded option choice. SV-04 and PLN-VALUE-01 remain educationally PARTIAL.
+
+## Outstanding REV focused-session assurance — P1 #647
+
+The previous Home/REV exact Start assertion verified that one question launched, not that an advertised timed session contained appropriate work. Candidate scope on `fix/rev-focused-session-truthfulness-647` includes asset-bounded duration and question count, explicit completion semantics and partial/five-question browser checks. This is **not Covered** pending exact-head CI, actual reviewed course content, REV drawer and Plan/accepted-session verification, save-failure/reload review, educational acceptance and Founder merge approval. Retain the original historical assurance records.
+
+### Accepted-session correction candidate (P1 #647, 20 October 2026)
+
+For the canonical Home, Plan and REV direct-start surfaces, finishing scored question/flashcard items is now kept distinct from asserting that a learner's longer booked session was done. Only a separate, explicit learner confirmation saves the booked `done` state. The same focused start marker and reconciler fail-closed behaviour applies to derived recommendations regardless of surface. Browser regression candidates cover all three entry points and failed-update retry. **Unverified until exact-head CI; educational acceptance and #637 integration remain HOLD.**
+
+### Desktop interface test fixture disposition for #647
+
+The configured Plan case in `interface-plan-progress.spec.ts` previously omitted its `learner_planned_sessions` response despite checking a plan that requires trusted accepted-session data. The fixture is updated to return `[]` explicitly, preserving the production fail-closed loading rule and keeping unexpected writes blocked. The corrected test must pass exact-head desktop CI before the fail is considered resolved. This does not replace Psychology, resumed-work or educational acceptance checks.
+
+### P1 #647 scoped Psychology and interruption coverage (candidate)
+
+Added browser tests on the real published Psychology 7182 course inventory (more than one scoped answer, distinct evidence IDs) and on one-answer Business interruption/re-entry (no fabricated session completion; restart from question one). Full resume-without-repeat remains a separate educational acceptance gap rather than being misrepresented as implemented. CI at this candidate head required.
+
+
+**Integrated PR #637 candidate:** This records code and test coverage brought across from isolated #648. Main remains unchanged. The green run #39413602028 for #648 cannot be counted as acceptance of this combined programme-first implementation; new exact-head assurance remains required. Authentic student comprehension, re-entry without repeats and educational adequacy remain open.
