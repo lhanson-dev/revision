@@ -31,6 +31,7 @@ import {
 } from './navigation'
 import { PlannerActivityReconciler } from './PlannerActivityReconciler'
 import { verifiedFi001PilotUserId } from './fi001-pilot-access'
+import { fi001AssuranceBuild } from './fi001-pilot-mode'
 import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
@@ -193,7 +194,7 @@ export function PlannerRuntime() {
   useEffect(() => {
     let active = true
     setVerifiedPilotUserId(null)
-    if (!import.meta.env.PROD || !user) return () => { active = false }
+    if (fi001AssuranceBuild() || !user) return () => { active = false }
     void supabase.auth.getUser().then(({ data, error }) => {
       if (active) setVerifiedPilotUserId(error ? null : verifiedFi001PilotUserId(data.user, user.id))
     }).catch(() => { if (active) setVerifiedPilotUserId(null) })
@@ -229,7 +230,7 @@ export function PlannerRuntime() {
   }, [accountMenuOpen])
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
-  const pilotEnabled = !import.meta.env.PROD || verifiedPilotUserId === user?.id
+  const pilotEnabled = fi001AssuranceBuild() || verifiedPilotUserId === user?.id
   const coursesActive = routeBelongsToCourses(route)
   const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
   const showRail = breakpoint === 'tablet'

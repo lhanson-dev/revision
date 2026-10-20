@@ -20,7 +20,7 @@ export default defineConfig({
   // The fixture page is kept out of the production build so it cannot change how the real app is bundled.
   webServer: [
     {
-      command: 'npm run build && npx vite preview --host 127.0.0.1 --port 4173',
+      command: 'VITE_FI001_ASSURANCE_MODE=1 npm run build && npx vite preview --host 127.0.0.1 --port 4173',
       url: 'http://127.0.0.1:4173/revision/app/',
       reuseExistingServer: !process.env.CI,
     },

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
@@ -88,7 +89,7 @@ function mentionedProgrammeItems(programme: readonly LearnerProgrammeCourse[], t
 }
 
 export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection, pilotEnabled = true }: PlannerRevScreenProps) {
-  const pilotRestricted = import.meta.env.PROD && pilotEnabled
+  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   const now = useLocalDay()
   const [sessions, setSessions] = useState<PlannedSession[] | null>(null)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)

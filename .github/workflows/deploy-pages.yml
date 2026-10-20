@@ -130,7 +130,11 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Build Vite learner app
-        run: npm run build
+        env:
+          VITE_FI001_ASSURANCE_MODE: '0'
+        run: |
+          test "${VITE_FI001_ASSURANCE_MODE}" = '0'
+          npm run build
 
       - name: Publish root redirect
         run: |

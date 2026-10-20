@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
@@ -153,7 +154,7 @@ export function PlannerHomeScreen({
     return programme.filter((item) => item.subject.id === assessment.subjectId).length === 1
   }) ?? [], [setup, programme])
 
-  const pilotRestricted = import.meta.env.PROD && pilotEnabled
+  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   const snapshot = useMemo(() => setup && !evidenceLoading && !evidenceError
     ? pilotEnabled
       ? buildPlannerSnapshot(learningStates, assessments, setup.availability, setup.exceptions, setup.preferences, today, plannedSessions ?? [], DETAILED_PLANNER_HORIZON_DAYS, pilotRestricted)

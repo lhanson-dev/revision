@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -275,7 +276,7 @@ export function CourseExperienceScreen({
   if (loading) return <LoadingState className="page-screen">Loading {resolved.label}…</LoadingState>
 
   const { course, subject, label } = resolved
-  const pilotRestricted = import.meta.env.PROD && pilotEnabled
+  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   if (pilotRestricted && requestedSection === 'exam-prep') return (
     <main className="dashboard page-screen" aria-label="Exam preparation pilot restriction">
       <Status tone="info">Original exam simulations and self-marked written assessments are excluded from this restricted planner pilot while their accuracy and marking are reviewed.</Status>

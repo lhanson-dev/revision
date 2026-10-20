@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
+import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
@@ -122,7 +123,7 @@ function monthLabel(anchor: string, todayKey: string) {
 }
 
 export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnabled = true }: PlanScreenProps) {
-  const pilotRestricted = import.meta.env.PROD && pilotEnabled
+  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   const now = useLocalDay()
   const todayKey = toKey(now)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
