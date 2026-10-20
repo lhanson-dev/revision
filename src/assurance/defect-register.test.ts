@@ -5,7 +5,7 @@ describe('defect register projection', () => {
   it('projects both open P1 defects with accurate Founder Assurance counts', () => {
     expect(defectRegister.available).toBe(true)
     expect(defectRegister.version).toBe(1)
-    expect(defectRegister.lastTriaged).toBe('2026-10-19')
+    expect(defectRegister.lastTriaged).toBe('2026-10-20')
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-003' && record.severity === 'P1' && record.status === 'Closed')).toBe(true)

@@ -176,7 +176,7 @@ describe('planner model bridge', () => {
       sessionId: 'known-booking', userId: 'user-1', courseId: activeCourseId,
       topicId: 'operations', plannedDate: '2026-10-16',
       status: 'planned' as const, activityType: 'learn' as const,
-      minutes: 25, addedBy: 'student' as const, recommendationId: null,
+      minutes: 30, addedBy: 'student' as const, recommendationId: null,
       createdAt: '2026-10-15T08:00:00Z',
       updatedAt: '2026-10-15T08:00:00Z',
     }]
@@ -185,7 +185,7 @@ describe('planner model bridge', () => {
     const boundary = result.programme.weeks[0]!
     expect(boundary.visibleFrom).toBe('2026-10-15')
     expect(boundary.visibleUntil).toBe('2026-10-18')
-    expect(boundary.availableMinutes).toBe(5)
+    expect(boundary.availableMinutes).toBe(0)
     expect(boundary.objectives).toHaveLength(0)
     expect(result.programme.weeks[1]?.availableMinutes).toBe(30)
     expect(result.programme.weeks.flatMap(w => w.objectives).some(o =>
@@ -234,15 +234,15 @@ describe('planner model bridge', () => {
       ...availability,
       weeklyMinutes: {
         monday: 1,
-        tuesday: 1,
-        wednesday: 1,
-        thursday: 1,
-        friday: 1,
-        saturday: 1,
-        sunday: 1,
+        tuesday: 0,
+        wednesday: 0,
+        thursday: 0,
+        friday: 0,
+        saturday: 0,
+        sunday: 0,
       },
       weekdayMinutes: 1,
-      weekendMinutes: 1,
+      weekendMinutes: 0,
     }
     const snapshot = buildPlannerSnapshot([state], [assessment], tinyCapacity, [], [], now)
     expect(snapshot?.capacityState).toBe('prioritising')

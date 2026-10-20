@@ -428,10 +428,10 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
   })
 
 
-  it('SV-05: 20 weekly minutes split into 10+10 cannot fit a whole 15-minute activity', () => {
+  it('SV-05: two 5-minute slots cannot fit a whole content-backed activity', () => {
     const profile: RevisionAvailabilityProfile = {
       ...fullCapacity,
-      weeklyMinutes: { monday: 10, tuesday: 10, wednesday: 0, thursday: 0,
+      weeklyMinutes: { monday: 5, tuesday: 5, wednesday: 0, thursday: 0,
         friday: 0, saturday: 0, sunday: 0 },
     }
     const paper = exam(business, 1, '2026-10-27')
@@ -440,7 +440,7 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     expect(first.programme.weeks.every((week) => week.allocatedMinutes === 0)).toBe(true)
     expect(first.programme.unserved.length).toBeGreaterThan(0)
     // Adding one feasible whole-activity slot should create a real supported
-    // objective, while the 10-minute slots remain insufficient individually.
+    // objective, while the 5-minute slots remain insufficient individually.
     const feasible = { ...profile, weeklyMinutes: { ...profile.weeklyMinutes, tuesday: 20 } }
     const second = buildLearnerPreparationProgramme(
       [sourceState()], [paper], feasible, [], [], now)

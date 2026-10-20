@@ -760,3 +760,7 @@ An accepted 30-minute Plan commitment continues to display its **30 minutes book
 
 
 **PR #637 integration (candidate):** The focused-session correction now coexists with the programme-first FI-001 choice of Learn, scored Practice and paper-specific exam responses. Preserve the assessed evidence thresholds from PR #637 rather than substituting a one-question practice result for readiness. New exact-head CI, cross-surface educational acceptance, and Founder PR merge approval remain outstanding.
+
+### Integrated candidate CI adjustment — content-sized educational safety oracles (20 October 2026)
+
+The first combined PR #637 run exposed five unit assertions still built around fixed 15/20-minute activities or the old defect-register date. The code's learning commitments are now sized from published question/card inventories, so the capacity scenarios have been changed to **retain** their negative guarantees: an accepted booking leaves zero residual minutes on the constrained day; insufficient five-minute windows cannot fit the whole supported content activity; the low-capacity case stays genuinely below remaining useful work. The accepted-session de-duplication test uses the actual planned item day rather than assuming all work spills to the second day. No false positive was removed by disabling a test. Current exact-head CI must validate these changes before interpreting them as evidence.
