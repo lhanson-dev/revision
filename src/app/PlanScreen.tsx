@@ -40,7 +40,7 @@ import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLearningState } from './planner-model'
 import { buildPlannerSnapshot as buildBaselinePlannerSnapshot } from './planner-model-baseline'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
-import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
+import { PlanMonthFocus, PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
   addDaysToKey,
   daysBetween,
@@ -352,7 +352,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
   const week = weekTitle(anchor, todayKey)
   const pageTitle = isMonth ? (sameMonth(anchor, todayKey) ? 'Your month' : monthLabel(anchor, todayKey)) : week.title
   const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
-  const atNow = isMonth ? sameMonth(anchor, todayKey) : weekStart(anchor) === weekStart(todayKey)
+  const atNow = isMonth ? sameMonth(anchor, todayKey) : view === 'day' ? anchor === todayKey : weekStart(anchor) === weekStart(todayKey)
 
   const examHues = useMemo(() => {
     const hues = new Map<string, SubjectHue>()
@@ -683,7 +683,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
                 todayKey={todayKey}
                 atNow={atNow}
                 examHues={examHues}
-                onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
+                onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * (view === 'day' ? 1 : 7)))}
                 onGo={(key) => goTo(view, key)}
                 onToday={() => goTo(view, todayKey)}
                 onView={(next) => goTo(next, anchor)}
@@ -711,14 +711,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
                       </div>
                     </Surface>
                   )}
-                  {fullProgramme?.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
-                    courseLabel={(id) => courseLabel(programme, id)}
-                    topicLabel={topicLabel}
-                    view={view}
-                    anchor={anchor}
-                    onOpenWeek={(key) => goTo('week', key)} />}
                   {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+
 
                   {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' && (
                     <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
@@ -730,6 +724,21 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
                   {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
                   {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
                   {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+                  {view === 'month' && fullProgramme?.finalKnownAssessment && (
+                    <PlanMonthFocus
+                      programme={fullProgramme} anchor={anchor}
+                      courseLabel={(id) => courseLabel(programme, id)}
+                      topicLabel={topicLabel}
+                      onOpenWeek={(key) => goTo('week', key)}
+                    />
+                  )}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+                  {fullProgramme?.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
+                    courseLabel={(id) => courseLabel(programme, id)}
+                    topicLabel={topicLabel}
+                    view={view}
+                    anchor={anchor}
+                    onOpenWeek={(key) => goTo('week', key)} />}
                 </div>
 
                 <div className="pln-side">
