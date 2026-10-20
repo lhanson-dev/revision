@@ -201,8 +201,8 @@ describe('planner model bridge', () => {
     const tinyCapacity: RevisionAvailabilityProfile = {
       ...availability,
       weeklyMinutes: {
-        monday: 1,
-        tuesday: 1,
+        monday: 0,
+        tuesday: 0,
         wednesday: 1,
         thursday: 1,
         friday: 1,
