@@ -204,3 +204,7 @@ The previous Home/REV exact Start assertion verified that one question launched,
 ### Accepted-session correction candidate (P1 #647, 20 October 2026)
 
 For the canonical Home, Plan and REV direct-start surfaces, finishing scored question/flashcard items is now kept distinct from asserting that a learner's longer booked session was done. Only a separate, explicit learner confirmation saves the booked `done` state. The same focused start marker and reconciler fail-closed behaviour applies to derived recommendations regardless of surface. Browser regression candidates cover all three entry points and failed-update retry. **Unverified until exact-head CI; educational acceptance and #637 integration remain HOLD.**
+
+### Desktop interface test fixture disposition for #647
+
+The configured Plan case in `interface-plan-progress.spec.ts` previously omitted its `learner_planned_sessions` response despite checking a plan that requires trusted accepted-session data. The fixture is updated to return `[]` explicitly, preserving the production fail-closed loading rule and keeping unexpected writes blocked. The corrected test must pass exact-head desktop CI before the fail is considered resolved. This does not replace Psychology, resumed-work or educational acceptance checks.

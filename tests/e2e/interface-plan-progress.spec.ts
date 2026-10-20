@@ -78,6 +78,16 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light', config
   await page.route('**/rest/v1/learner_course_events**', async (route) => {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
+  // Plan cannot treat unverified accepted commitments as free capacity.
+  // This interface fixture explicitly has no accepted sessions: resolve the
+  // table rather than letting an unstubbed request hit the test environment.
+  await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
+    if (route.request().method() !== 'GET') {
+      await route.fulfill({ status: 405, contentType: 'application/json', body: '{"message":"Read-only Plan interface fixture"}' })
+      return
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
 
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
