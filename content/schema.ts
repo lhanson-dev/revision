@@ -115,6 +115,8 @@ export const examQuestionSchema = z.object({
    * legacy syllabus-option contract (e.g. Psychology 7182 Paper 3). */
   choiceKind: z.enum(['paper-alternative', 'syllabus-option']).optional(),
   responseType: z.enum(['multiple-choice', 'written']).optional(),
+  /** Author-edited objective key, never inferred dynamically from marking guidance. */
+  correctOptionLabel: z.string().min(1).optional(),
   options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(2).optional(),
   stimulus: z.object({
     title: z.string().min(1).nullable(),
@@ -143,6 +145,10 @@ export const examQuestionSchema = z.object({
   }
   if (question.responseType === 'multiple-choice' && (!question.options || question.options.length < 2)) {
     context.addIssue({ code: 'custom', path: ['options'], message: 'multiple-choice questions require at least two options' })
+  }
+  if (question.correctOptionLabel && (question.responseType !== 'multiple-choice'
+    || !question.options?.some((option) => option.label === question.correctOptionLabel))) {
+    context.addIssue({ code: 'custom', path: ['correctOptionLabel'], message: 'MCQ correct option must match an authored option label' })
   }
 })
 
