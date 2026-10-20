@@ -54,6 +54,27 @@ describe('FI-001 programme-first preparation: education and calendar contract', 
       .toBeLessThan(candidates.length / 2)
     expect(result.allocatedMinutes).toBe(result.requiredMinutes)
   })
+  it('does not hide real near-term activities behind a distant-exam pacing fraction', () => {
+    const p = exam(business, firstExam, 'paper-long-horizon')
+    const supported = Array.from({ length: 16 }, (_, index) =>
+      candidate('source-backed-' + index, business, firstExam, p.assessmentId))
+    const prepared = make(supported, [p], 80)
+    expect(prepared.weeks[0].objectives.length).toBeGreaterThanOrEqual(2)
+    expect(prepared.weeks[1].objectives.length).toBeGreaterThanOrEqual(2)
+    expect(prepared.weeks[0].allocatedMinutes).toBeLessThanOrEqual(80)
+    expect(prepared.weeks[1].allocatedMinutes).toBeLessThanOrEqual(80)
+    expect(prepared.weeks.flatMap((week) => week.objectives).map((item) => item.candidateId))
+      .toEqual(expect.arrayContaining(supported.map((item) => item.id)))
+    expect(prepared.weeks.flatMap((week) => week.objectives).every((item) =>
+      item.assessmentDate > (item.forecastDate ?? prepared.today))).toBe(true)
+  })
+  it('does not invent extra activities when only one real candidate exists', () => {
+    const p = exam(business, firstExam, 'paper-one-source')
+    const prepared = make([candidate('one-real-item', business, firstExam, p.assessmentId)], [p], 80)
+    expect(prepared.weeks.flatMap((week) => week.objectives)).toHaveLength(1)
+    expect(prepared.allocatedMinutes).toBe(20)
+    expect(prepared.requiredMinutes).toBe(20)
+  })
   it('keeps unknown evidence unknown and does not invent a readiness percentage', () => {
     const paper = exam(business, firstExam, 'paper')
     const result = make([candidate('finance', business, firstExam, paper.assessmentId)], [paper])
