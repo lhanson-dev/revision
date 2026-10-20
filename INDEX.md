@@ -25,6 +25,7 @@ Use this file to find the governing source before substantive work.
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - PR #623 Home visual approval / baseline provenance (not merge authority) → `audits/2026-10-13-home-622-visual-approval.md`
+- PR #637 FI-001 Home Practice-question visual approval (four baselines only; not merge authority) → `audits/2026-10-18-fi001-home-practice-visual-approval.md`
 - Issue #622 Home refinement review evidence (not authority) → `audits/2026-10-13-home-refinement-622.md`
 - Returning Student Home / direct useful-activity implementation → `docs/technical/Returning Student Home Implementation.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
@@ -73,8 +74,13 @@ Use this file to find the governing source before substantive work.
 
 - Proposed intelligent exam-backwards programme target (not current implementation) → `docs/technical/Intelligent Exam-Backwards Planner Target Architecture.md`
 - Programme-first FI-001 implementation/value gap audit (dated evidence) → `audits/2026-10-15-fi-001-vision-governance-implementation-gap.md`
-- New FI-001 programme-first Definition of Ready (Analyse; Founder Ready not yet approved) → `10-product-governance/backlog/FI-001 Intelligent Programme Reset Readiness Analysis.md`
+- New FI-001 programme-first Definition of Ready (Founder-approved Ready 15 October; draft PR #637 In Progress, not Live) → `10-product-governance/backlog/FI-001 Intelligent Programme Reset Readiness Analysis.md`
 - Student-value acceptance oracle (13 scenarios, not verified production passes) → `10-product-governance/backlog/FI-001 Programme Value Scenarios.md`
+- FI-001 exact-head prioritisation and omissions educational review queue (internal deterministic evidence; educational HOLD) → `audits/2026-10-18-fi001-priority-opportunity-review.md`
+- FI-001 Business 7132 original assessment A3/A4 review queue (mechanical checks only; independent human review HOLD) → `audits/2026-10-19-fi001-business-exam-assurance-queue.md`
+- FI-001 Product Owner thirteen-scenario educational acceptance checkpoint (dated HOLD; no human validation) → `audits/2026-10-20-fi001-product-owner-educational-acceptance.md`
+- FI-001 Business 7132 44-item, Psychology scope and written marking expert review handoff (not signed off) → `audits/2026-10-20-fi001-business-7132-educational-review-handoff.md`
+- FI-001 supervised real-student comprehension study protocol (observation not yet performed) → `audits/2026-10-20-fi001-student-comprehension-study-protocol.md`
 - Proposed architecture decision (not yet accepted/implemented) → `decisions/ADR-0032-proposed-single-exam-backwards-programme.md`
 
 ## Company and product

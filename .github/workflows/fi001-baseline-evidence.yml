@@ -1,0 +1,75 @@
+name: FI-001 frozen-baseline evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/fi001-baseline-evidence.yml'
+      - 'tests/fi001-baseline-probe.test.ts'
+      - 'scripts/assurance/fi001-baseline-report.mjs'
+      - 'src/app/planner-model.ts'
+      - 'src/engine/planning/preparation.ts'
+      - 'src/engine/planning/planning.ts'
+      - 'src/engine/knowledge/topic-knowledge.ts'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fi001-counterfactual-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  compare-frozen-baseline:
+    name: Same-input Business/Psychology counterfactual
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout candidate exact PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+      - name: Checkout previous approved planner
+        uses: actions/checkout@v6
+        with:
+          ref: fd8565838db8fc27cbf359fc86d846e9ab11fda5
+          path: baseline
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Install pinned dependencies in each source tree
+        run: |
+          npm ci --prefix candidate --ignore-scripts --no-audit --no-fund
+          npm ci --prefix baseline --ignore-scripts --no-audit --no-fund
+      - name: Copy one immutable scenario probe into both revisions
+        run: |
+          cp candidate/tests/fi001-baseline-probe.test.ts baseline/tests/fi001-baseline-probe.test.ts
+          mkdir -p evidence
+          sha256sum candidate/tests/fi001-baseline-probe.test.ts baseline/tests/fi001-baseline-probe.test.ts > evidence/fixture-hashes.txt
+          cmp candidate/tests/fi001-baseline-probe.test.ts baseline/tests/fi001-baseline-probe.test.ts
+      - name: Execute frozen previous planner with common inputs
+        working-directory: baseline
+        env:
+          TZ: Europe/London
+          FI001_PROBE_OUTPUT: ../evidence/baseline.json
+        run: npx vitest run tests/fi001-baseline-probe.test.ts --reporter=dot
+      - name: Execute programme-first planner with identical inputs
+        working-directory: candidate
+        env:
+          TZ: Europe/London
+          FI001_PROBE_OUTPUT: ../evidence/candidate.json
+        run: npx vitest run tests/fi001-baseline-probe.test.ts --reporter=dot
+      - name: Check input hashes and summarise decision differences
+        env:
+          REVISION_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node candidate/scripts/assurance/fi001-baseline-report.mjs evidence/baseline.json evidence/candidate.json evidence
+      - name: Preserve full comparison and partial evidence on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fi001-counterfactual-${{ github.run_id }}
+          path: evidence
+          if-no-files-found: warn
+          retention-days: 30

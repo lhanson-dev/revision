@@ -118,11 +118,22 @@ const cases: ReadonlyArray<VisualCase> = [
  * the reviewed head. Initial/retry hashes agree. All other baselines untouched.
  * Provenance: audits/2026-10-13-home-622-visual-approval.md.
  */
+/** PR #637: Founder explicitly approved ONLY four Home visual baselines
+ * (desktop/phone × light/dark) at head 2f9c286b52a2b54e1ae5948d1206547317a615cb
+ * on 18 October 2026. Canonical Home's scored multiple-choice recommendation
+ * now says "Practice question" rather than "Quick check", to distinguish
+ * the unscored Learn interaction; the route and scoring remain unchanged.
+ * New PNG-byte SHA-256 digests were read from exact-head CI #39116844038,
+ * initial and retry concordant and reproducible in CI #39116363394.
+ * No other visual hash, test mask, algorithm, tolerance or fixture was changed.
+ * This does NOT approve merging PR #637 or certify educational acceptance.
+ * Provenance: audits/2026-10-18-fi001-home-practice-visual-approval.md.
+ */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '47d5f153515b778dd79dab6bd35fd73918d1b5a1b4d8c8918e49b499f2856eb4',
-  'phone:dark': '5b6c3f993641752c0c1889a552272d40d18f0749d802e6455670d2c8eb84896b',
-  'desktop:light': '0018cdcc656f188de5b9b2ac0b442d7d92c73ed36354146ec35f376f6ef48661',
-  'desktop:dark': '8f6d19aec968e8a153b152c7d13a14176d002ddc3a20cbf2acf5ff2c14664a45',
+  'phone:light': '3ed761458c8e16aeafffa90080b5544c58d51a4bb9c676fce97a6158908887d7',
+  'phone:dark': '0c56bdbef0a552b518c13d0c79ab653f82f3a8bd997ac3793a605af3471a5b98',
+  'desktop:light': '2846970e1d9484a8463deb12c56ebb150d5d5a92ba573e86f394a0940fb9ad50',
+  'desktop:dark': '18da37793c2776624c8451aaf827b137632bb1a5dbdb2e314952a32821940841',
 }
 
 /**
@@ -243,9 +254,50 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Playwright checks passed. The remaining 14 B7 visual contracts are intact.
  * This approves the four screenshot baselines only, NOT the PR merge.
  */
+/** FI-001 PR #637 Plan guided setup, desktop Light/Dark only.
+ * Founder explicitly approved "Approve PR #637 Plan visual baselines"
+ * after viewing side-by-side approved-versus-changed captures.
+ * Capture source: exact-head CI 38812328043 on a80d709915db67e4ee2fe18a33720f7fda8efab4,
+ * retained visual artifact 12009562571; hashes taken from failed
+ * screenshot assertions (initial and retry match), not local rendering.
+ * The approved change replaces seven misleading empty setup days with the
+ * governed guided setup state. No other visual digest is altered.
+ * This is visual approval ONLY, not educational acceptance or merge authority.
+ */
+/** CI 38866205296 retried desktop Plan Dark: run PNG 2e47b5d2…,
+ * retry PNG 43e9bbf0…. Both native 1440×900 images were extracted and
+ * independently pixel-compared: exactly 14 of 1,296,000 pixels differ,
+ * confined to x293–296/y45–129 (text-edge rasterisation); no layout, words,
+ * contrast roles or actionable state differs. Keep exact hashing and admit
+ * ONLY these two inspected representations of the same Founder-approved
+ * 16 October Plan Dark baseline. No blanket tolerance or new visual state.
+ */
+/** PR #637 Plan LIGHT repeatable Chromium raster variant, run 38871171517.
+ * Exact 1440x900 screenshots independently inspected against original founder-
+ * approved capture: 1,580 of 1,296,000 pixels differ in fine antialias/tone,
+ * but no content, controls or geometry changes. Only two known exact hashes
+ * are admitted for Plan Light; this is NOT a global screenshot tolerance.
+ */
+/** CI 38893190109 Plan Light first capture 61e78740... matched the first
+ * Founder-reviewed CI #38812328043 *retry* image byte-for-byte. Both are
+ * 1440x900; compared with the explicitly approved first image 0ce6b4...,
+ * exactly 14 pixels vary (x293-296, y45-129; maximum RGB channel delta 14).
+ * The newer 7d7c... capture had a separate 1,580 tiny glyph-edge variation,
+ * previously visually inspected. All three exact hashes are from retained CI
+ * images of the same approved guided-setup screen; unknown images still FAIL.
+ * Wait two settled animation frames, and assert expected DOM setup state,
+ * before capturing. This neither masks any region nor widens other baselines.
+ */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '59774a90e0507c436c0f3d6e71470db99c06a3149a6c33b021deb285baf3aa6a',
-  'desktop:plan:dark': '96d8b30f8b1578646837daf095dfae0fff29f9bdb3ab69395005da88b7842577',
+  'desktop:plan:light': [
+    '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
+    '7d7c69d1b5241127511c4594bcdc64f2dbdfd6906586a4ff1cb78923f2258161',
+    '61e78740437207ebceb1c6c8485b5882b35030d819b24397832143848c7c8a94',
+  ],
+  'desktop:plan:dark': [
+    '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
+    '2e47b5d25aa2082b7706f618ddfc5d11682d2c6f6404f4267aa4695b10f41671',
+  ],
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
   'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
@@ -423,18 +475,6 @@ async function openState(page: Page, state: VisualState) {
     await expect(page.locator('.home-v3-plan .home-v3-error')).toHaveCount(0)
   }
 
-  if (state === 'plan') {
-    // The global shell disappears before Plan finishes its own independent
-    // assessment/evidence load and saved-session window load. In that gap the
-    // screenshot can capture either a loading panel or the settled programme.
-    // Require the actual Plan controls and calculated summary, not just the shell.
-    await expect(page.locator('#plan-page-title')).toBeVisible()
-    await expect(page.locator('.pln-nav')).toBeVisible()
-    await expect(page.locator('.pln-summary')).toBeVisible()
-    await expect(page.getByText('Loading your plan…')).toHaveCount(0)
-    await expect(page.getByText('Checking your saved sessions…')).toHaveCount(0)
-  }
-
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
@@ -450,6 +490,27 @@ async function openState(page: Page, state: VisualState) {
     await document.fonts.ready
     window.scrollTo(0, 0)
   })
+  if (state === 'plan') {
+    // The guided setup is the approved screen. Never hash an empty calendar.
+    await expect(page.getByLabel('Finish setting up your plan')).toBeVisible()
+    await expect(page.locator('#plan-page-title')).toBeVisible()
+    // Unlike configured Plan, the published guided-setup view has no .pln-nav.
+    // Assert that truth instead of requiring an element the product omits.
+    await expect(page.locator('.pln-nav')).toHaveCount(0)
+    // main #644 correctly waits for the settled Plan route. This governed
+    // FI-001 fixture has NO saved exams/availability, so its approved output
+    // is guided setup, not the legacy .pln-summary calendar from main.
+    await expect(page.getByText('Loading your plan…')).toHaveCount(0)
+    await expect(page.getByText('Checking your saved sessions…')).toHaveCount(0)
+    await expect(page.locator('.pln-summary, .pln-weekview')).toHaveCount(0)
+  }
+  if (state === 'plan' || state === 'learn' || state === 'course-overview') {
+    // Fonts being available is not the same as their final raster having
+    // painted. Use the same settled frame boundary for protected learner
+    // reading/setup surfaces, without changing their accepted image digests.
+    await page.evaluate(() => new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
+  }
 }
 
 for (const visualCase of cases) {

@@ -30,6 +30,8 @@ import {
   type PaperSection,
 } from './navigation'
 import { PlannerActivityReconciler } from './PlannerActivityReconciler'
+import { verifiedFi001PilotUserId } from './fi001-pilot-access'
+import { fi001AssuranceBuild } from './fi001-pilot-mode'
 import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
@@ -110,6 +112,8 @@ export function PlannerRuntime() {
   const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [adminAccessResolved, setAdminAccessResolved] = useState(false)
+  const [verifiedPilotUserId, setVerifiedPilotUserId] = useState<string | null>(null)
+  const [verifiedAuthUserId, setVerifiedAuthUserId] = useState<string | null>(null)
   const [themePreference, setThemePreference] = useState<ThemePreference>(() => initialThemePreference())
   const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark())
   const theme: 'light' | 'dark' = themePreference === 'system' ? (systemDark ? 'dark' : 'light') : themePreference
@@ -126,6 +130,8 @@ export function PlannerRuntime() {
         setUser(session?.user ?? null)
         setIsAdmin(false)
         setAdminAccessResolved(false)
+        setVerifiedPilotUserId(null)
+        setVerifiedAuthUserId(null)
         setMemberships([])
         setProgrammeResolved(false)
         setProgrammeError('')
@@ -184,6 +190,21 @@ export function PlannerRuntime() {
     return () => { active = false }
   }, [user])
 
+  // Production programme-first decisions require a server-verified Auth
+  // app_metadata claim. Unknown/error defaults to the existing planner.
+  // Development fixtures still exercise the complete FI-001 candidate.
+  useEffect(() => {
+    let active = true
+    if (fi001AssuranceBuild() || !user) return () => { active = false }
+    void supabase.auth.getUser().then(({ data, error }) => {
+      if (!active) return
+      const verified = !error && data.user?.id === user.id ? user.id : null
+      setVerifiedAuthUserId(verified)
+      setVerifiedPilotUserId(verified ? verifiedFi001PilotUserId(data.user, user.id) : null)
+    }).catch(() => { if (active) { setVerifiedAuthUserId(null); setVerifiedPilotUserId(null) } })
+    return () => { active = false }
+  }, [user?.id])
+
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-color-scheme: dark)')
     if (!query) return undefined
@@ -213,6 +234,11 @@ export function PlannerRuntime() {
   }, [accountMenuOpen])
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
+  // Privileged operators can test immediately; additional students require
+  // an explicit Auth app_metadata pilot marker. profiles.is_admin is read-only
+  // to learners under the production RLS policy.
+  const pilotEnabled = fi001AssuranceBuild() || verifiedPilotUserId === user?.id
+    || (verifiedAuthUserId === user?.id && isAdmin)
   const coursesActive = routeBelongsToCourses(route)
   const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
   const showRail = breakpoint === 'tablet'
@@ -306,17 +332,17 @@ export function PlannerRuntime() {
   } else if (route.kind !== 'admin' && programmeError) {
     screen = <main className="dashboard screen-dashboard page-screen"><Status tone="error">{programmeError} Revision will not substitute the published catalogue for your programme.</Status></main>
   } else if (route.kind === 'home' || route.kind === 'rev') {
-    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={(draft, submit) => openRev(draft, submit)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenProgress={() => navigate(progressRoute())} onOpenExamDates={() => navigate(planRoute({ intent: 'manage-exams' }))} onOpenCourseSection={(courseId, section) => navigate(learnerCourseRoute(courseId, section))} />
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} pilotEnabled={pilotEnabled} onOpenPlan={() => navigate(planRoute())} onOpenRev={(draft, submit) => openRev(draft, submit)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenProgress={() => navigate(progressRoute())} onOpenExamDates={() => navigate(planRoute({ intent: 'manage-exams' }))} onOpenCourseSection={(courseId, section) => navigate(learnerCourseRoute(courseId, section))} />
   } else if (route.kind === 'plan') {
-    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
+    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} pilotEnabled={pilotEnabled} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject') {
     screen = <CoursesScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onMembershipsChange={setMemberships} onOpenCourse={(courseId) => openCourse(courseId, 'courses_index')} />
   } else if (route.kind === 'progress') {
     screen = <ProgrammeProgressScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseProgress={(courseId) => navigate(learnerCourseRoute(courseId, 'progress'))} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} />
   } else if (route.kind === 'course') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'module') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'admin') {
     if (!adminAccessResolved) screen = <main className="loading-shell">Checking Admin access…</main>
     else if (!isAdmin) screen = <main className="dashboard screen-dashboard page-screen" aria-labelledby="admin-access-title"><header className="page-heading"><p className="eyebrow">Account</p><h1 id="admin-access-title">Admin access unavailable</h1><p>This account does not have permission to open Revision Admin.</p></header><Button onClick={() => navigate(homeRoute())}>Back to Home</Button></main>
@@ -368,7 +394,7 @@ export function PlannerRuntime() {
           returnFocusSelector=".runtime-ask-rev, .ui-rail__ask-rev, .ui-tabbar__ask-rev"
         >
           <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={closeRev}><Icon name="close" size="compact" /></IconButton></div></header>
-          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} /></div>
+          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} pilotEnabled={pilotEnabled} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} /></div>
         </DrawerShell>
       </>}
 

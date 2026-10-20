@@ -42,7 +42,9 @@ describe('FI-001 R2 weekly focus availability after saved choices', () => {
       { plannedDate: '2026-10-15', minutes: 40, status: 'done' },
       { plannedDate: '2026-10-16', minutes: 90, status: 'skipped' },
     ]
-    expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-12-12')).toBe(80)
+    // Thursday's 40-minute booking cannot consume Friday's time.
+    // Wednesday/Thursday 0 + Friday/Saturday/Sunday 30 each = 90.
+    expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-12-12')).toBe(90)
   })
   it('never claims spare near time when the accepted-session read failed', () => {
     expect(focusMinutesAfterKnownCommitments(week, weekly, [], null, '2026-12-12')).toBeNull()
@@ -51,9 +53,29 @@ describe('FI-001 R2 weekly focus availability after saved choices', () => {
     const future = { ...week, weekStart: '2027-05-10', visibleFrom: '2027-05-10', visibleUntil: '2027-05-16' }
     expect(focusMinutesAfterKnownCommitments(future, weekly, [], null, '2026-12-12')).toBe(210)
   })
-  it('never yields negative remaining time after an overbooked chosen week', () => {
+  it('subtracts known commitments in a boundary week without pretending distant bookings are loaded', () => {
+    const boundary = { ...week, visibleFrom: '2026-10-14', visibleUntil: '2026-10-18' }
+    const accepted = [
+      { plannedDate: '2026-10-16', minutes: 25, status: 'planned' },
+      { plannedDate: '2026-10-18', minutes: 30, status: 'planned' }, // outside the read window
+    ]
+    // Four unbooked 30-minute days and 5 minutes on the one loaded booked
+    // Friday. Do NOT subtract Sunday's record, which is out of scope.
+    expect(focusMinutesAfterKnownCommitments(boundary, weekly, [], accepted, '2026-10-16')).toBe(125)
+    expect(focusMinutesAfterKnownCommitments(boundary, weekly, [], null, '2026-10-16')).toBeNull()
+    const distant = { ...week, visibleFrom: '2026-10-17', visibleUntil: '2026-10-18' }
+    expect(focusMinutesAfterKnownCommitments(distant, weekly, [], null, '2026-10-16')).toBe(60)
+  })
+  it('does not erase a free day when another chosen day is overbooked', () => {
+    const accepted = [{ plannedDate: '2026-10-14', minutes: 90, status: 'planned' }]
+    // The 90-minute commitment exceeds Wednesday's 30-minute budget.
+    // Thursday through Sunday retain their own 120 available minutes.
+    expect(focusMinutesAfterKnownCommitments(week, weekly, [], accepted, '2026-10-18')).toBe(120)
+  })
+
+  it('never yields negative daily time while preserving unaffected days in an overbooked week', () => {
     expect(focusMinutesAfterKnownCommitments(week, weekly, [], [
       { plannedDate: '2026-10-14', minutes: 250, status: 'planned' },
-    ], '2026-12-12')).toBe(0)
+    ], '2026-12-12')).toBe(120)
   })
 })

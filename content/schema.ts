@@ -111,7 +111,12 @@ export const examQuestionSchema = z.object({
   /** Optional-choice metadata. One choice option may contain several questions (for example a Psychology Paper 3 topic section). */
   choiceGroup: slugSchema.nullable().optional(),
   choiceOption: slugSchema.nullable().optional(),
+  /** Paper question choice is not a syllabus-topic option. Missing means the
+   * legacy syllabus-option contract (e.g. Psychology 7182 Paper 3). */
+  choiceKind: z.enum(['paper-alternative', 'syllabus-option']).optional(),
   responseType: z.enum(['multiple-choice', 'written']).optional(),
+  /** Author-edited objective key, never inferred dynamically from marking guidance. */
+  correctOptionLabel: z.string().min(1).optional(),
   options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(2).optional(),
   stimulus: z.object({
     title: z.string().min(1).nullable(),
@@ -135,8 +140,15 @@ export const examQuestionSchema = z.object({
   if (question.choiceOption && !question.choiceGroup) {
     context.addIssue({ code: 'custom', path: ['choiceOption'], message: 'choiceOption requires choiceGroup' })
   }
+  if (question.choiceKind && (!question.choiceGroup || !question.choiceOption)) {
+    context.addIssue({ code: 'custom', path: ['choiceKind'], message: 'choiceKind needs choiceGroup and choiceOption' })
+  }
   if (question.responseType === 'multiple-choice' && (!question.options || question.options.length < 2)) {
     context.addIssue({ code: 'custom', path: ['options'], message: 'multiple-choice questions require at least two options' })
+  }
+  if (question.correctOptionLabel && (question.responseType !== 'multiple-choice'
+    || !question.options?.some((option) => option.label === question.correctOptionLabel))) {
+    context.addIssue({ code: 'custom', path: ['correctOptionLabel'], message: 'MCQ correct option must match an authored option label' })
   }
 })
 
@@ -159,12 +171,41 @@ export const examSchema = z.object({
     .reduce((sum, question) => sum + question.marks, 0)
 
   const choiceGroups = new Map<string, Map<string, number>>()
+  const paperAlternatives = new Map<string, { options: Set<string>; sections: Set<string>; total: number }>()
   for (const question of exam.questions) {
     if (!question.choiceGroup) continue
     const options = choiceGroups.get(question.choiceGroup) ?? new Map<string, number>()
     const optionKey = question.choiceOption ?? question.id
     options.set(optionKey, (options.get(optionKey) ?? 0) + question.marks)
     choiceGroups.set(question.choiceGroup, options)
+    if (question.choiceKind === 'paper-alternative') {
+      const group = paperAlternatives.get(question.choiceGroup) ?? {
+        options: new Set<string>(), sections: new Set<string>(), total: 0,
+      }
+      group.options.add(optionKey)
+      group.sections.add(question.sectionLabel ?? '')
+      group.total += 1
+      paperAlternatives.set(question.choiceGroup, group)
+    }
+  }
+
+  // A choice between questions is different from a selected syllabus option.
+  // Enforce exact two-option paper alternatives without narrowing legacy
+  // multi-part syllabus option groups (e.g. Psychology 7182 Paper 3).
+  for (const [groupKey, group] of paperAlternatives) {
+    const options = choiceGroups.get(groupKey)!
+    const allQuestions = exam.questions.filter((question) => question.choiceGroup === groupKey)
+    if (group.options.size !== 2 || options.size !== 2
+      || group.total !== allQuestions.length
+      || group.sections.size !== 1 || group.sections.has('')
+      || allQuestions.some((question) => question.choiceKind !== 'paper-alternative')) {
+      context.addIssue({ code: 'custom', path: ['questions'],
+        message: `Paper alternative group ${groupKey} must have exactly two declared choices in one identified section` })
+    }
+  }
+  if (paperAlternatives.size && exam.printedMarks === undefined) {
+    context.addIssue({ code: 'custom', path: ['printedMarks'],
+      message: 'Paper question alternatives require explicit printedMarks distinct from attempted marks' })
   }
 
   let attemptedMarks = compulsoryMarks

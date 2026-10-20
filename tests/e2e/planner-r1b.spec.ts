@@ -14,15 +14,15 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
   await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
   await expect(page.locator('.pln-row').filter({ has: page.getByRole('button', { name: /^Up next/ }) })).toContainText('Finance')
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).toContainText('Finance — Practice question')
   await page.goto(appPath)
   await hero.getByRole('button', { name: 'Suggest something else', exact: true }).click()
   await expect(hero.getByRole('heading', { level: 2 })).not.toHaveText('Finance')
   await page.goto(`${appPath}#/rev`)
-  await expect(page.getByRole('log')).not.toContainText('Finance — Quick check')
+  await expect(page.getByRole('log')).not.toContainText('Finance — Practice question')
 })
 
-test('R1-07 exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
+test('R1-07 baseline exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   const moduleId = 'business-aqa-a-level-7132-paper-1'
   const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
@@ -46,7 +46,7 @@ test('R1-07 exact first Today exam question starts identically from Home, Plan a
     }
     await expect(page.getByRole('heading', { name: 'Practise one exam question' })).toBeVisible()
     await expect(page.getByText('Targeted Paper 1 practice', { exact: true })).toBeVisible()
-    await expect(page.locator('.exam-simulator')).toContainText('16')
+    await expect(page.locator('.exam-simulator')).toContainText('Question 5 of 24')
   }
 })
 
@@ -70,7 +70,7 @@ for (const [surface, hash] of [
     if (surface === 'Home') {
       const hero = page.locator('.home-v3-hero')
       await expect(hero).toContainText('30 min booked · about 8 min practice')
-      await hero.getByRole('button', { name: /^Start about 8 min quick check/ }).click()
+      await hero.getByRole('button', { name: /^Start about 8 min practice question/ }).click()
     }
     else if (surface === 'Plan') await page.getByRole('button', { name: /^Up next/ }).click()
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
@@ -122,6 +122,84 @@ test('#647 cannot silently close a booked session when its completion save fails
   await activity.getByRole('button', { name: "I've finished my planned session" }).click()
   await expect(activity).toContainText('Planned session marked done')
   expect(sessions[0].status).toBe('done')
+})
+
+test('#647 published Psychology objective Practice offers several distinct questions', async ({ page }) => {
+  const psychologyCourseId = 'aqa:aqa-a-level:7182'
+  const psychologyModule = 'psychology-aqa-a-level-7182-paper-1'
+  const sessions = [plannedRow('psy-booked', '2026-10-05', 'social-influence', {
+    course_id: psychologyCourseId, minutes: 25,
+  })]
+  await seedPlanStudent(page, { sessions })
+  // Reuse the real three-paper production course; this is not synthetic
+  // Psychology question content or an invented exam-board option.
+  await page.route('**/rest/v1/learner_courses**', route => route.fulfill({
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify([{ user_id: planUserId, course_id: psychologyCourseId, created_at: '2026-08-22T18:00:00Z' }]),
+  }))
+  await page.route('**/rest/v1/revision_assessments**', route => route.fulfill({
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify([{ assessment_id: 'psychology-paper-1', user_id: planUserId,
+      course_id: psychologyCourseId, subject_id: 'psychology', module_id: psychologyModule,
+      assessment_type: 'public_exam', title: 'Psychology Paper 1',
+      assessment_date: '2026-10-22', relative_importance: 'high',
+      scope: { topicIds: ['social-influence'] }, is_active: true }]),
+  }))
+  const posted: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/learning_evidence**', async route => {
+    if (route.request().method() === 'POST') posted.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200,
+      contentType: 'application/json', body: '[]' })
+  })
+  await page.goto(appPath)
+  const hero = page.locator('.home-v3-hero')
+  await expect(hero).toContainText('Psychology')
+  await expect(hero).toContainText('Social influence')
+  await hero.getByRole('button', { name: /^Start .*practice question/ }).click()
+  const activity = page.locator('.home-focused-activity')
+  const descriptor = await activity.locator('.home-quick-check__progress').innerText()
+  const questionCount = Number(descriptor.match(/1 of (\d+)/)?.[1])
+  expect(questionCount).toBeGreaterThan(2)
+  for (let number = 1; number <= 2; number++) {
+    await expect(activity).toContainText(`${number} of ${questionCount}`)
+    await activity.locator('.home-focused-options button').first().click()
+    await activity.getByRole('button', { name: /^Check “/ }).click()
+    if (number === 1) await activity.getByRole('button', { name: 'Next question' }).click()
+  }
+  await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
+  expect(posted).toHaveLength(2)
+  expect(new Set(posted.map(item => item.content_id)).size).toBe(2)
+  for (const item of posted) {
+    expect(item.module_id).toMatch(/^psychology-aqa-a-level-7182-paper-/)
+    expect(item.topic_id).toBe('social-influence')
+    expect(item.source).toBe('multiple_choice')
+  }
+  expect(sessions[0].status).toBe('planned')
+})
+
+test('#647 leaving an unfinished accepted session retains the booked task without claiming resume', async ({ page }) => {
+  const sessions = [plannedRow('one-answer', '2026-10-05', 'finance', { minutes: 30 })]
+  await seedPlanStudent(page, { sessions })
+  const writes: Array<Record<string, unknown>> = []
+  await page.route('**/rest/v1/learning_evidence**', async route => {
+    if (route.request().method() === 'POST') writes.push(route.request().postDataJSON() as Record<string, unknown>)
+    await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200,
+      contentType: 'application/json', body: '[]' })
+  })
+  await page.goto(appPath)
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/ }).click()
+  const activity = page.locator('.home-focused-activity')
+  await activity.locator('.home-focused-options button').first().click()
+  await activity.getByRole('button', { name: /^Check “/ }).click()
+  await expect(activity.getByRole('button', { name: 'Next question' })).toBeVisible()
+  await activity.getByRole('button', { name: 'Back to Home' }).click()
+  await page.reload()
+  await expect(page.locator('.home-v3-hero')).toContainText('30 min booked')
+  expect(sessions[0].status).toBe('planned')
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/ }).click()
+  await expect(activity).toContainText('1 of 5') // true resume is not implemented
+  await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
+  expect(writes).toHaveLength(1)
 })
 
 test('R1-06/13 missing setup is unscheduled; partial accepted load withholds recommendation', async ({ page }) => {

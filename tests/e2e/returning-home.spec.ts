@@ -118,7 +118,7 @@ test('Home v3 starts the exact governed focused activity with one Start action',
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i })
+  const start = page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/i })
   await expect(start).toBeVisible()
   await start.click()
 
@@ -138,7 +138,7 @@ test('REV focused question sessions save partial work without completion', async
     await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
   })
   await page.goto(appPath)
-  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i }).click()
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/i }).click()
   const activity = page.locator('.home-focused-activity')
   await expect(activity).toContainText('1 of 5')
   await expect(activity).toContainText('about 8 min')
@@ -160,7 +160,7 @@ test('REV focused session does not complete before its final real question', asy
     await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
   })
   await page.goto(appPath)
-  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i }).click()
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/i }).click()
   const activity = page.locator('.home-focused-activity')
   await expect(activity).toContainText('1 of 5')
   for (let index = 1; index <= 5; index += 1) {
@@ -187,7 +187,7 @@ test('#647 Psychology real published topic delivers a multi-question session wit
   await page.goto(appPath)
   const hero = page.locator('.home-v3-hero')
   await expect(hero).toContainText('Psychology')
-  await hero.getByRole('button', { name: /^Start .*quick check/i }).click()
+  await hero.getByRole('button', { name: /^Start .*practice question/i }).click()
   const activity = page.locator('.home-focused-activity')
   const description = await activity.locator('.home-quick-check__progress').innerText()
   const count = Number(description.match(/1 of (\d+)/)?.[1])
@@ -219,7 +219,7 @@ test('#647 incomplete focused work does not masquerade as completed after leavin
   })
   await page.goto(appPath)
   const hero = page.locator('.home-v3-hero')
-  await hero.getByRole('button', { name: /^Start .*quick check/i }).click()
+  await hero.getByRole('button', { name: /^Start .*practice question/i }).click()
   const focused = page.locator('.home-focused-activity')
   await focused.locator('.home-focused-options button').first().click()
   await focused.getByRole('button', { name: /^Check “/ }).click()
@@ -227,13 +227,13 @@ test('#647 incomplete focused work does not masquerade as completed after leavin
   await focused.getByRole('button', { name: 'Back to Home' }).click()
   await page.reload()
   await expect(hero.getByRole('button', { name: /^Start/ })).toBeVisible()
-  await hero.getByRole('button', { name: /^Start .*quick check/i }).click()
+  await hero.getByRole('button', { name: /^Start .*practice question/i }).click()
   await expect(focused).toContainText('1 of 5')
   await expect(focused.getByRole('button', { name: 'Back to today’s plan' })).toHaveCount(0)
   expect(posted).toHaveLength(1)
 })
 
-test('quick check keyboard saves once, retains feedback and summarises missed terms', async ({ page }, testInfo) => {
+test('practice question keyboard saves once, retains feedback and summarises missed terms', async ({ page }, testInfo) => {
   await seedReturningStudent(page, psychologyCourseId)
   const posted: Array<Record<string, unknown>> = []
   let failFirst = true
@@ -249,7 +249,7 @@ test('quick check keyboard saves once, retains feedback and summarises missed te
     await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
   })
   await page.goto(appPath)
-  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*quick check/i }).click()
+  await page.locator('.home-v3-hero').getByRole('button', { name: /^Start .*practice question/i }).click()
   const activity = page.locator('.home-quick-check')
   const count = Number((await activity.locator('.home-quick-check__progress').innerText()).match(/1 of (\d+)/)?.[1])
   const missed: string[] = []

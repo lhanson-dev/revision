@@ -13,7 +13,7 @@ function futurePaper() {
   }
 }
 
-test('R2-08 actual long-range weeks immediately identify changing authored study topics', async ({ page }) => {
+test('PLN-VALUE-01 long-range programme shows grounded learning objectives and constraints, never fixed sessions', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   await page.route('**/rest/v1/revision_assessments**', (route) => route.fulfill({
     status: 200, contentType: 'application/json', body: JSON.stringify([futurePaper()]),
@@ -25,14 +25,13 @@ test('R2-08 actual long-range weeks immediately identify changing authored study
   await page.goto(`${appPath}#/plan`)
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Business final paper', { timeout: 15000 })
-  const preview = outlook.locator('ol.pln-programme__weeks').first()
-  await expect(preview.locator(':scope > li')).toHaveCount(3)
-  const focusLists = preview.getByRole('list', { name: /Study topics for week of/i })
-  await expect(focusLists).toHaveCount(3)
-  const topics = await focusLists.allTextContents()
-  expect(topics.every((topic) => topic.includes('Business') && topic.trim().length > 20)).toBe(true)
-  expect(new Set(topics).size).toBe(3)
-  await outlook.locator('summary').click()
+  await expect(outlook).toContainText('Preparation objectives')
+  await expect(outlook).toContainText('Build the foundations')
+  await expect(outlook).toContainText('Understanding has not been established')
+  await expect(outlook).toContainText('not a measurement of all syllabus work')
+  await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
+  const objectives = outlook.getByRole('list', { name: /Study objectives for week of/i })
+  expect(await objectives.count()).toBeGreaterThan(0)
   await expect(outlook.getByText('Business final paper', { exact: false }).last()).toBeVisible()
   await expect(outlook.getByRole('button', { name: /View week/i }).last()).toBeVisible()
   expect(savedWrites).toBe(0)
@@ -52,8 +51,9 @@ test('R2-04 a week with zero declared study time does not invent a study agenda'
     }),
   }))
   await page.goto(`${appPath}#/plan`)
-  const preview = page.getByRole('region', { name: 'Your full exam programme' })
-    .locator('ol.pln-programme__weeks').first()
-  await expect(preview.getByRole('list', { name: /Study topics for week of/i })).toHaveCount(0)
-  await expect(preview).toContainText('No study topics proposed while this week has no saved availability.')
+  const outlook = page.getByRole('region', { name: 'Your full exam programme' })
+  await expect(outlook).toContainText('No saved study time for this week')
+  await expect(outlook).toContainText('No objectives allocated while availability is zero.')
+  await expect(outlook.getByRole('list', { name: /Study objectives for week of/i })).toHaveCount(0)
+  await expect(outlook).toContainText('not allocated before their relevant examinations')
 })

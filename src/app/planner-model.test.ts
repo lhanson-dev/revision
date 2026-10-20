@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { ModuleLearningState } from './catalogue-model'
-import { buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability } from './planner-model'
+import { buildLearnerPreparationProgramme, buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability } from './planner-model'
 import type { RevisionAssessment, RevisionAvailabilityProfile, RevisionPlanningPreference } from '../services/planning/planner-service'
 
 const activeCourseId = 'aqa:aqa-as:7131'
@@ -83,7 +83,7 @@ describe('planner model bridge', () => {
     expect(candidates).toHaveLength(3)
     expect(candidates.map((candidate) => candidate.topicId)).toEqual(['operations', 'finance', 'marketing'])
     expect(candidates[0]).toMatchObject({
-      estimatedMinutes: 2, // one real MCQ, not 20 fictional minutes
+      estimatedMinutes: 2, // single published question is not a 20-minute session
       subjectId: 'business',
       courseId: activeCourseId,
       assessmentId: 'assessment-1',
@@ -104,6 +104,17 @@ describe('planner model bridge', () => {
     const candidates = plannerCandidatesFromLearningState([onlyCards], [assessment], [], now)
     expect(candidates).toHaveLength(3)
     expect(candidates.every((item) => item.activityType === 'flashcards' && item.estimatedMinutes === 2)).toBe(true)
+  })
+
+  it('restricted pilot does not schedule or endorse unreviewed original exam questions', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const { programme, candidates } = buildLearnerPreparationProgramme(
+      [state], [assessment], availability, [], [], now, [], undefined, true)
+    expect(candidates.every((candidate) => candidate.activityType !== 'exam-question')).toBe(true)
+    expect(programme.weeks.flatMap((week) => week.objectives)
+      .every((objective) => objective.activityType !== 'exam-question')).toBe(true)
+    expect(programme.verifiedPaperDemands).toEqual([])
+    expect(programme.constraints.join(' ')).toContain('Restricted pilot')
   })
 
   it('does not create candidates for an assessment outside the active course state', () => {
@@ -175,6 +186,48 @@ describe('planner model bridge', () => {
     expect(days.find((day) => day.date === '2026-08-24')?.availableMinutes).toBe(35)
   })
 
+  it('SV-07: a partial accepted-session read never double-allocates a known booked day', () => {
+    const now = new Date(2026, 9, 15, 12) // Thursday before loaded Friday
+    const exam = { ...assessment, assessmentDate: '2026-10-30', isActive: true }
+    const sparse = { ...availability, weeklyMinutes: {
+      monday: 0, tuesday: 0, wednesday: 0, thursday: 0,
+      friday: 30, saturday: 0, sunday: 0,
+    } }
+    const sessions = [{
+      sessionId: 'known-booking', userId: 'user-1', courseId: activeCourseId,
+      topicId: 'operations', plannedDate: '2026-10-16',
+      status: 'planned' as const, activityType: 'learn' as const,
+      minutes: 30, addedBy: 'student' as const, recommendationId: null,
+      createdAt: '2026-10-15T08:00:00Z',
+      updatedAt: '2026-10-15T08:00:00Z',
+    }]
+    const result = buildLearnerPreparationProgramme(
+      [state], [exam], sparse, [], [], now, sessions, '2026-10-16')
+    const boundary = result.programme.weeks[0]!
+    expect(boundary.visibleFrom).toBe('2026-10-15')
+    expect(boundary.visibleUntil).toBe('2026-10-18')
+    expect(boundary.availableMinutes).toBe(0)
+    expect(boundary.objectives).toHaveLength(0)
+    expect(result.programme.weeks[1]?.availableMinutes).toBe(30)
+    expect(result.programme.weeks.flatMap(w => w.objectives).some(o =>
+      o.forecastDate === '2026-10-16')).toBe(false)
+    // A failed read covering the first two days cannot assert this week's
+    // entire 30 minutes are spare even though the week crosses the boundary.
+    const failed = buildLearnerPreparationProgramme(
+      [state], [exam], sparse, [], [], now, null, '2026-10-16')
+    expect(failed.programme.weeks[0]?.availableMinutes).toBeNull()
+    expect(failed.programme.weeks[0]?.objectives).toHaveLength(0)
+  })
+
+  it('labels incomplete legacy evidence as unknown instead of crashing the full-exam requirement inventory', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const { programme } = buildLearnerPreparationProgramme([state], [assessment], availability, [], [], now)
+    expect(programme.requirements.map((entry) => entry.topicId).sort())
+      .toEqual(['finance', 'marketing', 'operations'])
+    expect(programme.requirements.every((entry) => entry.evidenceStatus === 'unknown')).toBe(true)
+    expect(programme.requirements.every((entry) => entry.supportedCandidateIds.length > 0)).toBe(true)
+  })
+
   it('produces no plan until both useful planning candidates and realistic availability exist', () => {
     const now = new Date('2026-08-19T09:00:00')
     expect(buildPlannerSnapshot([state], [assessment], null, [], [], now)).toBeNull()
@@ -210,7 +263,7 @@ describe('planner model bridge', () => {
         sunday: 0,
       },
       weekdayMinutes: 1,
-      weekendMinutes: 1,
+      weekendMinutes: 0,
     }
     const snapshot = buildPlannerSnapshot([state], [assessment], tinyCapacity, [], [], now)
     expect(snapshot?.capacityState).toBe('prioritising')

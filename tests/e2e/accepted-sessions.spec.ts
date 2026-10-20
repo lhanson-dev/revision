@@ -229,6 +229,9 @@ test('Plan and Home with accepted sessions meet the automated WCAG A/AA baseline
   await page.goto(appPath)
   await expect(page.locator('.home-v3-plan-row[data-kind="session"]')).toHaveCount(1)
   await expect(page.locator('.home-v3-plan-summary')).toContainText('1 of')
+  // Home can show the accepted session alongside other recommended work.
+  // Check that no displayed row reintroduces the completed Marketing activity,
+  // not that the whole plan collapses into exactly one row.
   await expect(page.locator('.home-v3-plan-row').filter({ hasText: 'Marketing' })).toHaveCount(0)
   const home = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
   expect(home.violations.map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))).toEqual([])

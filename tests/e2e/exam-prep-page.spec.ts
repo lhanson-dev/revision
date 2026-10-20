@@ -114,6 +114,123 @@ test('timed mock enters a focused full-viewport exam, then stop confirmation ret
   await expect(button).toBeFocused()
 })
 
+test('Business Paper 1 essay questions are choices, not syllabus exclusions or duplicated attempted marks', async ({ page }) => {
+  await open(page)
+  // The retained AI-assured mock is listed first and has its own question
+  // structure. This test targets the separate original Revision simulation.
+  const mock = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(mock).toHaveCount(1)
+  await mock.getByRole('button', { name: 'Start timed' }).click()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await expect(nav.getByRole('button')).toHaveCount(26)
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/24 answered')
+  await expect(page.getByRole('button', { name: 'Finish and self-mark' })).toBeDisabled()
+
+  await nav.getByRole('button').nth(22).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay A for Section C')
+  await expect(page.locator('.exam-question-sheet')).toContainText('diversification is always a better strategy')
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(23).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay B for Section C')
+  await expect(page.locator('.exam-question-sheet')).toContainText('A low-cost position')
+  await page.locator('.exam-choice-select input').check()
+
+  await nav.getByRole('button').nth(24).click()
+  await expect(page.locator('.exam-choice-select')).toContainText('Essay A for Section D')
+  await page.locator('.exam-choice-select input').check()
+  await expect(page.getByRole('button', { name: 'Finish and self-mark' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  // One option from C and one from D: 22 compulsory + 2 selected.
+  await expect(page.locator('.self-marking nav.question-nav button')).toHaveCount(24)
+  await expect(page.locator('.exam-submit-summary')).toContainText('100')
+})
+
+
+test('timed Business simulation records only answered question evidence and prevents blank AO marks', async ({ page }) => {
+  await open(page)
+  const captured: Array<Record<string, unknown>> = []
+  page.on('request', (request) => {
+    if (request.method() !== 'POST' || !request.url().includes('/learning_evidence')) return
+    const body: unknown = request.postDataJSON()
+    if (Array.isArray(body)) captured.push(...body as Array<Record<string, unknown>>)
+    else if (body && typeof body === 'object') captured.push(body as Record<string, unknown>)
+  })
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: 'Start timed' }).click()
+  await page.locator('input[name="answer-p1-q01"][value="B"]').check()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await nav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.ao-marker-grid input').first()).toHaveValue('1')
+  await page.locator('.self-marking nav.question-nav button').nth(1).click()
+  await expect(page.getByText('No answer submitted. This question receives zero marks', { exact: false })).toBeVisible()
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.ao-marker-grid input').first()).toHaveValue('0')
+  await expect(page.locator('.exam-submit-summary')).toContainText('1/100')
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toBeVisible()
+  await expect(page.locator('.exam-score')).toContainText('1/100')
+  await expect.poll(() => captured.length).toBe(2)
+  expect(captured.map((row) => ((row.payload as Record<string, unknown> | undefined)?.contentId ?? row.contentId))).toEqual([
+    'p1-q01', 'aqa-a-level-7132-paper-1-sim-1',
+  ])
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.source ?? captured[0].source).toBe('multiple_choice')
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.correct ?? captured[0].correct).toBe(true)
+  expect((captured[1].payload as Record<string, unknown> | undefined)?.markingMethod ?? captured[1].markingMethod).toBe('self_assessed')
+})
+
+
+test('a wrong authored Business MCQ cannot create positive scored evidence', async ({ page }) => {
+  await open(page)
+  const captured: Array<Record<string, unknown>> = []
+  page.on('request', (request) => {
+    if (request.method() !== 'POST' || !request.url().includes('/learning_evidence')) return
+    const body: unknown = request.postDataJSON()
+    if (Array.isArray(body)) captured.push(...body as Array<Record<string, unknown>>)
+    else if (body && typeof body === 'object') captured.push(body as Record<string, unknown>)
+  })
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: 'Start timed' }).click()
+  await page.locator('input[name="answer-p1-q01"][value="A"]').check()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await nav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await expect(page.locator('.ao-marker-grid input').first()).toHaveValue('0')
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.exam-submit-summary')).toContainText('0/100')
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.locator('.exam-score')).toContainText('0/100')
+  await expect.poll(() => captured.length).toBe(2)
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.source ?? captured[0].source).toBe('multiple_choice')
+  expect((captured[0].payload as Record<string, unknown> | undefined)?.correct ?? captured[0].correct).toBe(false)
+})
+
+test('a completely blank timed paper is not recorded as scored learning evidence', async ({ page }) => {
+  await open(page)
+  let evidenceWrites = 0
+  page.on('request', (request) => {
+    if (request.method() === 'POST' && request.url().includes('/learning_evidence')) evidenceWrites += 1
+  })
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: 'Start timed' }).click()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await nav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect(page.locator('.exam-submit-summary')).toContainText('0/100')
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.getByText('this empty paper was not recorded as learning evidence', { exact: false })).toBeVisible()
+  expect(evidenceWrites).toBe(0)
+})
+
 test('untimed mock uses the in-page workspace rather than a dialog', async ({ page }) => {
   await open(page)
   // Restricted-pilot papers deliberately disable untimed practice. Select

@@ -32,7 +32,7 @@ export type HomeTask = {
   plannerItem?: PlannerItem
 }
 
-/** A supported activity's size is not the duration of an accepted booking. */
+/** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
   if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', task.adapter.listQuestions(task.topicId).length)
   if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.adapter.listFlashcards(task.topicId).length)
@@ -42,7 +42,7 @@ export function supportedActivityMinutes(task: HomeTask): number {
 export function homeActivityLabel(activity: HomeActivityType) {
   if (activity === 'learn') return 'Learn'
   if (activity === 'flashcards') return 'Flashcards'
-  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'quick-check') return 'Practice question'
   return 'Exam practice'
 }
 
@@ -63,7 +63,7 @@ export function plannerReasonLabel(reason: PlannerReasonCode) {
 }
 
 function supportedActivity(activity: string): activity is HomeActivityType {
-  return activity === 'flashcards' || activity === 'quick-check' || activity === 'exam-question'
+  return activity === 'flashcards' || activity === 'quick-check' || activity === 'exam-question' || activity === 'learn'
 }
 
 function programmeCourse(programme: readonly LearnerProgrammeCourse[], courseId: string) {
@@ -103,16 +103,21 @@ export function tasksFromPlanner(
       topicLabel: topic.shortTitle,
       activityType: item.activityType,
       estimatedMinutes: item.estimatedMinutes,
-      reason: reason ? `This comes first because ${plannerReasonLabel(reason)}.` : 'This is the strongest next step from your current plan and evidence.',
+      reason: item.preparationPurpose && item.preparationReason
+        ? `${item.preparationPurpose}. ${item.preparationReason}`
+        : reason ? `This comes first because ${plannerReasonLabel(reason)}.`
+          : 'This is the strongest next step from your current plan and evidence.',
       adapter: state.adapter,
       plannerItem: item,
       examTarget: item.examTarget,
+      learnTarget: item.learnTarget,
     }]
   })
 }
 
 export function fallbackMinutes(activity: HomeActivityType, available = 0) {
   if (activity === 'exam-question') return 30
+  if (activity === 'learn') return 15
   if (activity === 'quick-check' || activity === 'flashcards') return focusedActivityMinutes(activity, available)
   return 0
 }

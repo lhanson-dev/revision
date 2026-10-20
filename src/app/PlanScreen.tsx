@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
+import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
@@ -33,13 +34,11 @@ import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessio
 import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
-import type { HomeTask } from './home-task'
+import { homeActivityLabel, type HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
-import { buildPlannerSnapshot, courseIdForLearningState, plannerCandidatesFromLearningState } from './planner-model'
-import { buildPlannerProgramme } from '../engine/planning/programme'
-import { withProgrammeWeeklyFocus } from '../engine/planning/weekly-focus'
-import { focusMinutesAfterKnownCommitments } from './plan-weekly-capacity'
+import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLearningState } from './planner-model'
+import { buildPlannerSnapshot as buildBaselinePlannerSnapshot } from './planner-model-baseline'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
@@ -60,6 +59,7 @@ import { resolveSubjectIdentity, type SubjectHue } from './subject-palette'
 import { Button, EmptyState, Icon, LoadingState, ModalShell, OverlayBackdrop, SelectField, Status, Surface, TextField } from './ui'
 
 interface PlanScreenProps {
+  pilotEnabled?: boolean
   client: SupabaseClient
   userId: string
   programme: readonly LearnerProgrammeCourse[]
@@ -78,8 +78,9 @@ function assessmentTypeLabel(type: AssessmentType) {
 
 function activityLabel(activity: string) {
   if (activity === 'exam-question') return 'Exam practice'
-  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'quick-check') return homeActivityLabel('quick-check')
   if (activity === 'flashcards') return 'Flashcards'
+  if (activity === 'learn') return 'Learn'
   return 'Revision activity'
 }
 
@@ -102,8 +103,8 @@ function subjectFor(programme: readonly LearnerProgrammeCourse[], subjectId: str
 
 function readPlace(todayKey: string): { view: PlanViewKey; anchor: string } {
   const route = parseRoute(window.location.hash)
-  if (route.kind === 'plan') return { view: route.view ?? 'day', anchor: route.date ?? todayKey }
-  return { view: 'day', anchor: todayKey }
+  if (route.kind === 'plan') return { view: route.view ?? 'week', anchor: route.date ?? todayKey }
+  return { view: 'week', anchor: todayKey }
 }
 
 function weekTitle(anchor: string, todayKey: string) {
@@ -121,10 +122,17 @@ function monthLabel(anchor: string, todayKey: string) {
   return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScreenProps) {
+export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnabled = true }: PlanScreenProps) {
+  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   const now = useLocalDay()
   const todayKey = toKey(now)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
+  // An unconfigured learner sees a guided setup journey, not seven empty suggested days.
+  // They can still elect to inspect their calendar or access an existing saved session.
+  const [showUnconfiguredCalendar, setShowUnconfiguredCalendar] = useState(() => {
+    const route = parseRoute(window.location.hash)
+    return route.kind === 'plan' && (route.view !== undefined || route.date !== undefined)
+  })
 
   const examTemplates = useMemo(() => programme.flatMap((item) => item.course.modules.map((module) => ({
     key: `${item.course.id}::${module.manifest.id}`,
@@ -169,6 +177,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
 
   /** Moves the screen and writes the view and date into the address, so a reload or a shared link lands in the same place. */
   const goTo = useCallback((nextView: PlanViewKey, nextAnchor: string) => {
+    setShowUnconfiguredCalendar(true)
     setPlace({ view: nextView, anchor: nextAnchor })
     window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${routeHash(planRoute({ view: nextView, date: nextAnchor }))}`)
   }, [])
@@ -178,6 +187,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
     const follow = () => {
       const route = parseRoute(window.location.hash)
       if (route.kind === 'plan') {
+        if (route.view !== undefined || route.date !== undefined) setShowUnconfiguredCalendar(true)
         setPlace(readPlace(todayKey))
         if (route.intent === 'manage-exams') setExamsOpen(true)
       }
@@ -284,35 +294,24 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   [plannedSessions, sessionWindows])
 
   const snapshot = useMemo(
-    () => sessionsUnavailable || nearTermSessions === null ? null : buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, DETAILED_PLANNER_HORIZON_DAYS),
-    [learningStates, activeAssessments, availability, exceptions, preferences, nearTermSessions, sessionsUnavailable, now],
+    () => sessionsUnavailable || nearTermSessions === null ? null
+      : pilotEnabled
+        ? buildPlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, DETAILED_PLANNER_HORIZON_DAYS, pilotRestricted)
+        : buildBaselinePlannerSnapshot(learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, DETAILED_PLANNER_HORIZON_DAYS),
+    [learningStates, activeAssessments, availability, exceptions, preferences, nearTermSessions, sessionsUnavailable, now, pilotEnabled, pilotRestricted],
   )
 
-  const fullProgramme = useMemo(() => {
-    const verified = activeAssessments.flatMap((assessment) => {
-      const exactCourse = assessment.courseId
-        ? programme.find((entry) => entry.course.id === assessment.courseId)
-        : programme.find((entry) => entry.subject.id === assessment.subjectId)
-      if (!exactCourse || exactCourse.subject.id !== assessment.subjectId) return []
-      return [{
-        assessmentId: assessment.assessmentId,
-        courseId: exactCourse.course.id,
-        subjectId: assessment.subjectId,
-        title: assessment.title,
-        assessmentDate: assessment.assessmentDate,
-        isActive: assessment.isActive,
-      }]
-    })
-    const candidates = plannerCandidatesFromLearningState(learningStates, activeAssessments, preferences, now)
-    const milestones = buildPlannerProgramme(todayKey, verified, activeCourseIds, candidates)
-    return withProgrammeWeeklyFocus(milestones, candidates,
-      (week) => focusMinutesAfterKnownCommitments(week, availability?.weeklyMinutes ?? null,
-        exceptions, nearTermSessions, sessionWindows.near.to))
-  }, [todayKey, activeAssessments, activeCourseIds, learningStates, preferences, now, programme, availability, exceptions, nearTermSessions, sessionWindows])
+  const fullProgramme = useMemo(() => pilotEnabled
+    ? buildLearnerPreparationProgramme(learningStates, activeAssessments, availability,
+      exceptions, preferences, now, nearTermSessions, sessionWindows.near.to, pilotRestricted).programme
+    : null,
+  [learningStates, activeAssessments, availability, exceptions, preferences, now, nearTermSessions, sessionWindows, pilotEnabled, pilotRestricted])
 
   const setupMissingExams = activeAssessments.length === 0
   const setupMissingAvailability = availability === null
   const setupComplete = !setupMissingExams && !setupMissingAvailability
+  const hasVisibleSavedSessions = Boolean(plannedSessions?.some((session) => visibleKeys.includes(session.plannedDate)))
+  const showCalendar = setupComplete || showUnconfiguredCalendar || hasVisibleSavedSessions
 
   const topicLabel = useCallback((forCourseId: string | undefined, topicId: string) => {
     const state = learningStates.find((candidate) => (!forCourseId || courseIdForLearningState(candidate) === forCourseId) && candidate.adapter.getTopic(topicId))
@@ -486,17 +485,27 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   async function handleStartSuggested(entry: PlanSuggestedItem) {
     const task = taskForTodayRow(entry, learningStates, programme, activeAssessments, todayKey)
     if (!task) { setMessage('This exact activity is unavailable. Choose another item or open Courses.'); return }
+    if (pilotRestricted && task.activityType === 'exam-question') { setMessage('Unreviewed original exam questions are not part of this pilot. Choose Practice or Learn.'); return }
+    // Learning is a real content page, not a focused Practice activity. Match
+    // Home's exact Learn Start route rather than opening the practice overlay.
+    const learnRoute = task.activityType === 'learn' ? learnRouteForTask(task) : null
+    if (task.activityType === 'learn' && !learnRoute) {
+      setMessage('This exact learning page is unavailable. Choose another item or open Courses.')
+      return
+    }
     try {
       await recordPlannerActivityEvent(client, userId, { recommendationId: entry.item.recommendationId, eventType: 'started',
         subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
         activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) } })
     } catch { /* Recording failure must not block supported work. */ }
+    if (learnRoute) { window.location.assign(learnRoute); return }
     setActiveTask(task)
   }
 
   function startSession(session: PlannedSession) {
     const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme, activeAssessments, todayKey)
     if (!task) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
+    if (pilotRestricted && task.activityType === 'exam-question') { setMessage('Original exam simulations are not part of this pilot. Your booking remains unchanged.'); return }
     if (task.activityType === 'learn') window.location.assign(learnRouteForTask(task)!)
     else setActiveTask(task)
   }
@@ -559,7 +568,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
   }
 
   const nextTask = todayRecommendations(buildDay(todayKey), learningStates, programme, !setupComplete,
-    !loading && !sessionsUnavailable && plannedSessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)[0] ?? null
+    !loading && !sessionsUnavailable && plannedSessions !== null, now, readTodayChoice(userId), activeAssessments, preferences)
+    .find((task) => !pilotRestricted || task.activityType !== 'exam-question') ?? null
   const actions: PlanRowActions = {
     nextTaskId: nextTask?.id,
     onStartSession: startSession,
@@ -656,6 +666,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
         {canAddSession && <Button onClick={() => { setAddSessionError(''); setAddSessionOpen(true) }}><Icon name="plus" size="compact" />Add session</Button>}
       </header>
 
+      {pilotRestricted && <Status className="planner-message" tone="info">Planner pilot: your priorities are being evaluated. Original exam simulations and self-marked written assessments are excluded.</Status>}
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
       {sessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Your saved sessions could not be loaded. Revision suggestions are unavailable until your commitments can be checked. Reload to try again.</Status>}
       {visibleSessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Saved sessions for these dates could not be loaded. Near-term guidance remains available, but this distant view may be incomplete.</Status>}
@@ -666,7 +677,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
           ? <EmptyState className="planner-panel" title="Add a course before building your plan" description="REV will not create a plan from courses you have not selected." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} />
           : (
             <>
-              <PlanNav
+              {showCalendar && <PlanNav
                 view={view}
                 anchorKey={anchor}
                 todayKey={todayKey}
@@ -676,26 +687,38 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                 onGo={(key) => goTo(view, key)}
                 onToday={() => goTo(view, todayKey)}
                 onView={(next) => goTo(next, anchor)}
-              />
+              />}
 
               <div className="pln-layout">
                 <div className="pln-main">
-                  {fullProgramme.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
-                    courseLabel={(id) => courseLabel(programme, id)}
-                    topicLabel={topicLabel}
-                    onOpenWeek={(key) => goTo('week', key)} />}
-                  {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
-                  {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
-
                   {!setupComplete && (
                     <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
                       <Icon name="plan" />
                       <div>
                         <strong>Your plan is waiting on you</strong>
-                        <p>{missingText} You can do it in the cards beside this. Sessions you add yourself show here either way.</p>
+                        <p>{missingText} You can use the setup cards beside this. You can start a supported activity from Courses without waiting for a complete plan.</p>
+                        <p>Exam dates do not require an initial knowledge check. You can change your study time later.</p>
+                        <div className="pln-card__actions">
+                          {setupMissingExams
+                            ? <Button onClick={() => setExamsOpen(true)}>Add your exams</Button>
+                            : <Button onClick={startEditingStudyTime}>Set your weekly study time</Button>}
+                          {!showCalendar && sessionsReady && !sessionsUnavailable && (
+                            <Button variant="secondary" onClick={() => setShowUnconfiguredCalendar(true)}>
+                              {plannedSessions?.length ? 'View saved sessions' : 'View calendar'}
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </Surface>
                   )}
+                  {fullProgramme?.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
+                    courseLabel={(id) => courseLabel(programme, id)}
+                    topicLabel={topicLabel}
+                    view={view}
+                    anchor={anchor}
+                    onOpenWeek={(key) => goTo('week', key)} />}
+                  {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
 
                   {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' && (
                     <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
@@ -704,9 +727,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses }: PlanScr
                   {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) && (
                     <p className="pln-note">These are longer-term weeks. REV will choose concrete activities closer to the time; only sessions you accepted are fixed.</p>
                   )}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
-                  {sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
+                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
                 </div>
 
                 <div className="pln-side">

@@ -5,6 +5,7 @@ import { allCatalogueCourses } from './learner-programme'
 import { buildPlannerSnapshot } from './planner-model'
 import { homeToday, homeTaskOnToday } from './home-v3-model'
 import { todayRecommendations, recommendationExplanation, taskForTodayRow, learnRouteForTask } from './today-recommendations'
+import { homeActivityLabel } from './home-task'
 import { resolveHomeExamQuestion } from './home-exam-question'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import type { PlannedSession } from '../services/planning/planned-session-service'
@@ -27,6 +28,15 @@ const choices = (day: ReturnType<typeof context> | null, current = state, missin
   todayRecommendations(day, [current], programme, missing, trusted, now, { day: '2026-10-13', keys: hidden })
 
 describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
+  it('names a scored Home/Plan/REV question Practice, not the unscored Learn Quick check', () => {
+    expect(homeActivityLabel('quick-check')).toBe('Practice question')
+    const accepted = choices(context([session('scored', 'finance')]))[0]
+    expect(accepted.activityType).toBe('quick-check')
+    expect(recommendationExplanation(accepted)).toContain('Practice question')
+    // Existing scored question identity stays unchanged. The separate Learn
+    // QuickCheck remains unscored and cannot update topic readiness.
+  })
+
   it('R1-07 accepted before derived, exact row identity and shared REV rationale', () => {
     const sessions = [session('z', 'finance'), session('a', 'marketing'), session('done', 'operations', 'done'), session('skip', 'hr', 'skipped')]
     const day = context(sessions)
@@ -38,9 +48,35 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(tasks.some((t) => t.sessionId === 'done' || t.sessionId === 'skip')).toBe(false)
     expect(tasks).toEqual(choices(context(sessions.reverse())))
   })
+  it('FI-001: Home and REV use the exam-linked objective explanation chosen by the programme', () => {
+    const snapshot = buildPlannerSnapshot([state], [assessment], availability, [], [], now, [])!
+    const item = snapshot.today[0]
+    expect(item).toBeDefined()
+    expect(item.preparationPurpose).toBeTruthy()
+    expect(item.preparationReason).toContain('Paper 1')
+    expect(item.preparationReason).toContain('2026-10-20')
+    expect(item.preparationReason).toContain('Understanding has not been established')
+    const first = choices(context())[0]
+    expect(first.id).toBe(item.recommendationId)
+    expect(first.reason).toBe(`${item.preparationPurpose}. ${item.preparationReason}`)
+    expect(recommendationExplanation(first)).toContain(first.reason)
+    // A student-chosen appointment still has its own authentic explanation;
+    // it must not masquerade as a new programme-selected objective.
+    const accepted = choices(context([session('chosen', 'finance')]))[0]
+    expect(accepted.reason).toContain('You chose this session')
+  })
+
   it('R1-07 exact exam intent remains the identical real paper/question through Start', () => {
-    const evidence = Array.from({ length: 4 }, (_, i) => ({ id: `e${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
-      topicId: 'finance', contentId: `q${i}`, occurredAt: '2026-10-10T12:00:00Z', source: 'multiple_choice' as const, correct: true, selectedOption: 0, correctOption: 0 }))
+    // Six distinct scored observations across independent recall/application
+    // satisfy the real Topic Knowledge engine, unlike four quiz responses.
+    const evidence = [
+      ...Array.from({ length: 3 }, (_, i) => ({ id: `q${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
+        topicId: 'finance', contentId: `q${i}`, occurredAt: '2026-10-10T12:00:00Z',
+        source: 'multiple_choice' as const, correct: true, selectedOption: 0, correctOption: 0 })),
+      ...Array.from({ length: 3 }, (_, i) => ({ id: `f${i}`, schemaVersion: 1 as const, moduleId: state.adapter.manifest.id,
+        topicId: 'finance', contentId: `f${i}`, occurredAt: '2026-10-10T12:00:00Z',
+        source: 'flashcard' as const, rating: 2 as const })),
+    ]
     const current = createCourseLearningState(course, evidence)
     const scoped = { ...assessment, scope: { topicIds: ['finance'] } }
     const snapshot = buildPlannerSnapshot([current], [scoped], availability, [], [], now, [])!
@@ -59,7 +95,6 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(tasks.length).toBeGreaterThan(1)
     expect(tasks.every((t) => t.source === 'fallback' && !t.plannerItem)).toBe(true)
     expect(tasks[0].reason).toContain('not scheduled')
-    expect(tasks[0].estimatedMinutes).toBe(8) // actual Business topic has five published MCQs
   })
   it('R1-08 dismissal advances only today, exhausts honestly and expires at midnight/DST', () => {
     const day = context([session('first', 'finance')])

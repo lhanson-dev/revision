@@ -69,11 +69,14 @@ describe('the planner works around accepted sessions', () => {
   it('takes the accepted session\'s time off its day and does not re-suggest its topic', () => {
     const plain = buildPlannerSnapshot([state], assessment, availability, [], [], now)
     expect(plain).not.toBeNull()
-    const planned = plain?.schedule[1]?.items[0]
+    // With realistic topic dose the first supported item may fit today,
+    // rather than only on the old fixed-duration schedule's second day.
+    const plannedDay = plain?.schedule.find((day) => day.items.length > 0)
+    const planned = plannedDay?.items[0]
     expect(planned).toBeDefined()
-    const accepted = session({ plannedDate: plain?.schedule[1]?.date, courseId: business.course.id, topicId: planned?.topicId ?? topicIds[0], minutes: 30 })
+    const accepted = session({ plannedDate: plannedDay?.date, courseId: business.course.id, topicId: planned?.topicId ?? topicIds[0], minutes: 30 })
     const after = buildPlannerSnapshot([state], assessment, availability, [], [], now, [accepted])
-    expect(after?.schedule[1].availableMinutes).toBe((plain?.schedule[1].availableMinutes ?? 0) - 30)
+    expect(after?.schedule.find((day) => day.date === plannedDay?.date)?.availableMinutes).toBe((plannedDay?.availableMinutes ?? 0) - 30)
     expect(after?.schedule.flatMap((day) => day.items).some((item) => item.topicId === accepted.topicId)).toBe(false)
   })
 
