@@ -208,3 +208,7 @@ For the canonical Home, Plan and REV direct-start surfaces, finishing scored que
 ### Desktop interface test fixture disposition for #647
 
 The configured Plan case in `interface-plan-progress.spec.ts` previously omitted its `learner_planned_sessions` response despite checking a plan that requires trusted accepted-session data. The fixture is updated to return `[]` explicitly, preserving the production fail-closed loading rule and keeping unexpected writes blocked. The corrected test must pass exact-head desktop CI before the fail is considered resolved. This does not replace Psychology, resumed-work or educational acceptance checks.
+
+### P1 #647 scoped Psychology and interruption coverage (candidate)
+
+Added browser tests on the real published Psychology 7182 course inventory (more than one scoped answer, distinct evidence IDs) and on one-answer Business interruption/re-entry (no fabricated session completion; restart from question one). Full resume-without-repeat remains a separate educational acceptance gap rather than being misrepresented as implemented. CI at this candidate head required.
