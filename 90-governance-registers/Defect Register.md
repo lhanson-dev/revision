@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-10-20  
+**Last triaged:** 2026-10-21  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules
@@ -31,6 +31,8 @@
 
 | DEF-2026-009 | P1 | Exam Simulator evidence integrity for blank, cleared and objectively incorrect answers | 19 Oct: blanks could receive positive self-awarded AO marks and cleared focused attempts could save. 20 Oct extension of the same evidence-control defect: a wrong Business Paper 1 MCQ could be given positive student-awarded marks. | Fix in review | Engineering — draft prevents scored blank writes and now uses authored option key for objective MCQ evidence; require independent content review and release evidence before closure | #637 | Exact code-fix CI #39391861951 and frozen comparator #39391862053 passed at d73ea0bedad18cc6cac94ec2c0b0e0124a2084af. Browser saved right/wrong/blank question checks; qualified A3/A4, production release and educational signoff still pending. |
 | DEF-2026-010 | P1 | REV timed focused Practice/Flashcards exact Start | Founder observed a 20-minute Check ending after one answer (20 October 2026). Current main uses fixed 20/15-minute estimates; focused Start selects first question/card and the reconciler can equate one evidence row to completed work. | Fix in review | Engineering — align session, evidence, time estimate and completion; educational acceptance remains HOLD | [#647](https://github.com/lhanson-dev/revision/issues/647); `fix/rev-focused-session-truthfulness-647` | Candidate code, unit/browser tests and documentation; exact-head CI, independent educational/browser checks, specific Founder approval and production release remain outstanding |
+
+| DEF-2026-011 | P1 | Exam Prep whole-paper attempts falsely counted as one arbitrary topic's scored evidence in topic knowledge, readiness, coverage and last-practised state | Approved-main `ExamSimulator.tsx` persists `exam_attempt.topicId` as the first question's topic; `assessTopicKnowledge`, `assessTopicReadiness`, `recommendNextActivity`, course `evidencedTopics` and `topic-status` previously consumed it as topic evidence. A whole-paper result cannot validly establish a single topic's competence. | Fix in review | Engineering — preserve legacy append-only paper attempts but exclude from all topic projections; separately design paper-scoped persistent attempts and truthful exam-readiness aggregation | Recovery evidence-scope PR (in review) | Scoped real Business 7132 multi-paper regression test and exact-head CI are required; no qualified educational acceptance or production release claim until verified. This fix does not change the legacy event schema or restore interrupted mock attempts. |
 
 ## Triage note — 2026-08-19
 
