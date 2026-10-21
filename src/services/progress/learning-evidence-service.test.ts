@@ -53,6 +53,15 @@ describe('learning evidence service', () => {
     expect(result.id).toBe('ev-1')
   })
 
+  it('accepts the same persisted fact even when JSONB reorders object keys', async () => {
+    const reordered = Object.fromEntries(Object.entries(evidence).reverse())
+    const result = await recordLearningEvidence(store({
+      insert: async () => ({ error: { code: '23505', message: 'duplicate key' } }),
+      find: async () => ({ data: { payload: reordered }, error: null }),
+    }), 'user-1', evidence)
+    expect(result).toEqual(evidence)
+  })
+
   it('rejects conflicting data behind a duplicate ID rather than inventing successful work', async () => {
     await expect(recordLearningEvidence(store({
       insert: async () => ({ error: { code: '23505', message: 'duplicate key' } }),
