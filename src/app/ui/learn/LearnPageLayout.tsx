@@ -31,6 +31,10 @@ export type LearnPageLayoutProps = {
   onNext?: () => void
   onOpenPractice?: () => void
   onOpenRev?: (draft: string) => void
+  reviewed?: boolean
+  reviewing?: boolean
+  reviewError?: string | null
+  onMarkReviewed?: () => void
 }
 
 /** CSS variables for the subject hue. Every block reads these and nothing subject-specific. */
@@ -42,6 +46,7 @@ export function accentStyle(hue: SubjectHue): CSSProperties {
 export function LearnPageLayout({
   page, chapterTitle, groupTitle, position, hue, practiceQuestionCount, topicName,
   previous, next, onPrevious, onNext, onOpenPractice, onOpenRev,
+  reviewed = false, reviewing = false, reviewError, onMarkReviewed,
 }: LearnPageLayoutProps) {
   const titleId = `learn-page-${page.id}`
   const topic = topicName ?? page.title
@@ -76,6 +81,15 @@ export function LearnPageLayout({
 
         <footer className="learn-end">
           <hr className="learn-end__divider" />
+          {onMarkReviewed && (
+            <section aria-label="Learn page review" className="learn-end__review">
+              <p>{reviewed
+                ? 'Page reviewed. This records reading, not understanding or exam readiness.'
+                : 'Finished reading this page? Record it as reviewed. A topic is covered when its Learn pages have been reviewed or you have answered a scored question in it.'}</p>
+              {!reviewed && <Button disabled={reviewing} onClick={onMarkReviewed}>{reviewing ? 'Saving page review…' : 'I have read this page'}</Button>}
+              {reviewError && <p role="alert">{reviewError}</p>}
+            </section>
+          )}
           <div className="learn-end__cards">
             <section className="learn-cta learn-cta--practice" aria-labelledby={`${titleId}-practice`}>
               <p className="learn-cta__eyebrow">Test yourself</p>
