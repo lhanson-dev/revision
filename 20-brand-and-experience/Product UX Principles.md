@@ -129,6 +129,22 @@ Complex setup, explanation or decision journeys should be divided into clear sta
 
 Collect information progressively where possible. Do not ask the student to configure more than is needed to reach the next useful outcome.
 
+## Make revision easier to start, continue and resume
+
+The process of deciding, organising and beginning revision is itself a learner problem. Every major Student journey should reduce this burden, not make the student administrate a complex plan to access value.
+
+- Show **one credible, evidence-grounded next action** with a brief reason, relevant course/topic and what the learner will do; include a truthful duration only when supported.
+- Make **Start** lead directly to the named supported activity. Do not substitute a broad mode or course landing page that requires another discovery decision.
+- Where the learner indicates that starting feels difficult or their available time is lower, offer a **genuinely supported, smaller first step**, a suitable alternative or a break. Never label an unsuitable full activity as a five-minute task.
+- Keep the broad exam programme and meaningful weekly priorities visible when needed, but do not put the entire workload in front of the learner as a demand before starting.
+- After an interruption, use the current priorities and saved evidence to propose a useful restart, preserving genuine work and without overdue-task debt or questions demanding justification.
+- Show meaningful progress as evidence of learning, application or coverage with the appropriate distinction; do not use unchecked boxes, streaks or passive activity as proof of knowledge.
+- Maintain clear focus, predictable controls, accessible reading and interaction, non-essential motion reduction, and simple optional paths back to guidance. Avoid forced emotional check-ins, condition disclosure or overstimulating incentives.
+
+Apply these as **inclusive defaults for all students**, not as a separately labelled ADHD mode. Accessibility and neurodiversity research and representative student testing should shape future refinements; do not infer medical or cognitive traits from clicks or missed work.
+
+**Journey acceptance:** a student who has no plan, feels overwhelmed, misses a week, has ten minutes rather than the usual session or has limited evidence can still find and begin an honest, useful action without completing unnecessary setup. Where no appropriate activity is supported, explain the limitation and offer a truthful path forward.
+
 ## Completion rule
 A learner-facing capability is not complete merely because it functions technically. It is complete only when its purpose, expected outcome, result and next action can be understood without technical knowledge.
 
