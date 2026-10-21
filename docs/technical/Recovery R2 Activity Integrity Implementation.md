@@ -67,3 +67,7 @@ CI #39619279115 and #39619945324 demonstrated that shared fixture repair reduced
 ## Learn visual baseline acceptance — Founder-approved 21 October 2026
 
 The Founder explicitly approved only the PR #655 desktop Learn light/dark screenshot baselines after inspecting the added “I have read this page” control. Both CI #39619945324 and #39621582738 logged identical light/dark SHA-256 digests on initial and retry attempts. The two pinned digests are updated; full provenance and the previous values are preserved at `audits/2026-10-21-pr655-learn-visual-approval.md`. This is visual approval only, not approval to merge. The phone WCAG target-size failure and all other release gates still apply.
+
+## Phone breadcrumb accessibility correction — candidate verification
+
+The full PR browser run 39621582738 passed Foundation static, unit/build, database/RLS, tablet and desktop shard 2. Phone WCAG A/AA failed the `target-size` rule for the **Courses breadcrumb button** during Practice flashcards; desktop shard 1 failed only the two subsequently Founder-approved Learn visuals. A narrow, phone-only (`max-width: 620px`) correction in `interface-subjects-course.css` enforces a 44px minimum touch target for the canonical course-header breadcrumb without changing desktop Learn baselines. This requires new exact-head phone accessibility and visual-regression verification. Historical failures remain recorded and cannot be described as passing until the new CI evidence is green.
