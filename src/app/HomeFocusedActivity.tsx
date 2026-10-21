@@ -42,6 +42,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [results, setResults] = useState<boolean[]>([])
   // Reuse the same ID when an uncertain network write is retried.
   const evidenceIds = useRef(new Map<string, string>())
+  const completionEventId = useRef<string | null>(null)
   const pendingEvidence = useRef(new Map<string, LearningEvidence>())
   function stableAnswer(key: string, create: () => LearningEvidence): LearningEvidence {
     const existing = pendingEvidence.current.get(key)
@@ -61,7 +62,9 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   async function markSessionFinished(totalItems: number) {
     if (!task.plannerItem) return
+    if (!completionEventId.current) completionEventId.current = crypto.randomUUID()
     await recordPlannerActivityEvent(client, userId, {
+      eventId: completionEventId.current,
       recommendationId: task.id,
       eventType: 'completed',
       subjectId: task.subjectId,
