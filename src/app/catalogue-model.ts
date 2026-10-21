@@ -1,4 +1,5 @@
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
+import type { LearnPageExposure } from '../services/progress/learn-exposure-service'
 import { isTopicScopedEvidence, withoutSuperseded, type LearningEvidence } from '../engine/evidence/evidence'
 import { summariseTopicKnowledge, type TopicKnowledgeSummary } from '../engine/knowledge/topic-knowledge'
 import { assessPaperReadiness, recommendNextActivity, type ReadinessResult, type RevisionRecommendation } from '../engine/readiness/readiness'
@@ -100,7 +101,36 @@ export function buildCatalogue(adapters: readonly LearningContentAdapter[]): Cat
     .sort((left, right) => left.name.localeCompare(right.name))
 }
 
-export function createModuleLearningState(adapter: LearningContentAdapter, allEvidence: readonly LearningEvidence[]): ModuleLearningState {
+/** A page visit alone cannot cover a topic. Only explicit review of every current
+ * Learn page for that exact course/module/topic may contribute to Topics covered.
+ * This projection does not alter scored evidence, topic knowledge or readiness. */
+export function coveredTopicsFromLearn(
+  adapter: LearningContentAdapter, courseId: string, exposures: readonly LearnPageExposure[],
+): Set<string> {
+  const pagesByTopic = new Map<string, Set<string>>()
+  const completedByTopic = new Map<string, Set<string>>()
+  for (const chapter of adapter.listLearnChapters()) for (const group of chapter.groups) for (const page of group.pages) {
+    const pages = pagesByTopic.get(page.topicId) ?? new Set<string>()
+    pages.add(page.id)
+    pagesByTopic.set(page.topicId, pages)
+  }
+  for (const item of exposures) {
+    if (item.courseId !== courseId || item.moduleId !== adapter.manifest.id) continue
+    const required = pagesByTopic.get(item.topicId)
+    if (!required?.has(item.pageId)) continue
+    const reviewed = completedByTopic.get(item.topicId) ?? new Set<string>()
+    reviewed.add(item.pageId)
+    completedByTopic.set(item.topicId, reviewed)
+  }
+  return new Set([...pagesByTopic.entries()]
+    .filter(([topicId, pages]) => pages.size > 0 && [...pages].every(pageId => completedByTopic.get(topicId)?.has(pageId)))
+    .map(([topicId]) => topicId))
+}
+
+export function createModuleLearningState(
+  adapter: LearningContentAdapter, allEvidence: readonly LearningEvidence[],
+  exposures: readonly LearnPageExposure[] = [], courseId = courseKey(adapter),
+): ModuleLearningState {
   const moduleId = adapter.manifest.id
   const topics = adapter.listTopics()
   const topicIds = topics.map((topic) => topic.id)
@@ -114,12 +144,12 @@ export function createModuleLearningState(adapter: LearningContentAdapter, allEv
     topicKnowledge: summariseTopicKnowledge(moduleId, topicIds, evidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
-    evidencedTopics: new Set(evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId)).size,
+    evidencedTopics: new Set([...evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId), ...coveredTopicsFromLearn(adapter, courseId, exposures)]).size,
     topicCount: topicIds.length,
   }
 }
 
-export function createCourseLearningState(course: CatalogueCourse, allEvidence: readonly LearningEvidence[]): ModuleLearningState {
+export function createCourseLearningState(course: CatalogueCourse, allEvidence: readonly LearningEvidence[], exposures: readonly LearnPageExposure[] = []): ModuleLearningState {
   const adapter = course.learningAdapter
   const canonicalModuleId = adapter.manifest.id
   const moduleIds = new Set(course.modules.map((module) => module.manifest.id))
