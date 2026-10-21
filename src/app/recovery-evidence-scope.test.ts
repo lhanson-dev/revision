@@ -1,146 +1,98 @@
-import { describe, expect, it } from 'vitest'
-import { businessAqaALevel7132Paper1 } from '../../content/business/aqa-a-level/paper-1'
-import { businessAqaALevel7132Paper2 } from '../../content/business/aqa-a-level/paper-2'
-import { businessAqaALevel7132Paper3 } from '../../content/business/aqa-a-level/paper-3'
-import { createLearningContentAdapter } from '../engine/content/content-adapter'
+import { isTopicScopedEvidence } from '../engine/evidence/evidence'
+import { useEffect } from 'react'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { listAvailableContentAdapters } from '../engine/content/content-registry'
+import { loadPlannerSetup, recordPlannerActivityEvent, type RevisionActivityEvent } from '../services/planning/planner-service'
 import type { LearningEvidence } from '../engine/evidence/evidence'
-import { assessTopicKnowledge } from '../engine/knowledge/topic-knowledge'
-import { assessTopicReadiness, recommendNextActivity } from '../engine/readiness/readiness'
-import { buildCatalogue, createCourseLearningState, createModuleLearningState } from './catalogue-model'
-import { progressMeasuresFor } from './progress-summary'
-import { plannerCandidatesFromLearningState } from './planner-model'
-import { evidenceCompletesPlannerStart } from './PlannerActivityReconciler'
-import type { RevisionAssessment } from '../services/planning/planner-service'
-import { topicProgressFor } from './topic-status'
+import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 
-const course = buildCatalogue([
-  createLearningContentAdapter(businessAqaALevel7132Paper1),
-  createLearningContentAdapter(businessAqaALevel7132Paper2),
-  createLearningContentAdapter(businessAqaALevel7132Paper3),
-])[0]!.courses[0]!
-const moduleId = businessAqaALevel7132Paper1.manifest.id
-const topicIds = course.learningAdapter.listTopics().map((topic) => topic.id)
-const firstTopic = topicIds[0]!
-const now = new Date('2026-10-21T12:00:00.000Z')
-const time = '2026-10-21T10:00:00.000Z'
+const availableAdapters = listAvailableContentAdapters()
+const subjectByModuleId = new Map(availableAdapters.map((adapter) => [adapter.manifest.id, adapter.manifest.subject.id]))
 
-function wholePaper(marksAwarded: number, topicId = firstTopic): LearningEvidence {
-  return {
-    id: 'legacy-whole-paper', moduleId, topicId,
-    contentId: 'aqa-business-paper-1-mock',
-    occurredAt: time, schemaVersion: 1, source: 'exam_attempt',
-    marksAwarded, marksAvailable: 100, durationMinutes: 80,
-    timed: true, markingMethod: 'self_assessed',
-  }
-}
-function topicCard(index: number): LearningEvidence {
-  return {
-    id: 'card-' + index, moduleId, topicId: firstTopic, contentId: 'card-' + index,
-    occurredAt: time, schemaVersion: 1, source: 'flashcard', rating: 2,
-  }
-}
-function topicQuestion(index: number): LearningEvidence {
-  return {
-    id: 'question-' + index, moduleId, topicId: firstTopic,
-    contentId: 'question-' + index, occurredAt: time, schemaVersion: 1,
-    source: 'multiple_choice', correct: true, selectedOption: 1, correctOption: 1,
-  }
+/** Whole-paper results are not proof that a particular started topic activity finished. */
+export function evidenceCompletesPlannerStart(
+  item: LearningEvidence,
+  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'> & Partial<Pick<RevisionActivityEvent, 'moduleId' | 'activityType'>>,
+): boolean {
+  // An answered question never proves a longer session, passive Learn exposure,
+  // or an unrelated activity was completed after its Start.
+  // Only an explicitly identified single exam question may be reconciled
+  // from one saved response. Unknown legacy activity types are not proof of
+  // work completion; multi-question sessions have an explicit completion event.
+  if (start.activityType !== 'exam-question' || item.source !== 'exam_question') return false
+  return isTopicScopedEvidence(item)
+    && (!start.moduleId || item.moduleId === start.moduleId)
+    && subjectByModuleId.get(item.moduleId) === start.subjectId
+    && item.topicId === start.topicId
+    && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()
 }
 
-describe('Recovery evidence-scope integrity — legacy full-paper attempts', () => {
-  it('retains a saved full-paper result without claiming a randomly assigned topic was attempted', () => {
-    const attempt = wholePaper(100)
-    const state = createCourseLearningState(course, [attempt])
-    const empty = createCourseLearningState(course, [])
-    // Raw, append-only attempt history remains available for Exam Prep; no data migration or deletion.
-    expect(state.evidence).toEqual([attempt])
-    expect(state.evidencedTopics).toBe(0)
-    expect(progressMeasuresFor([state])).toEqual(progressMeasuresFor([empty]))
-    expect(state.topicKnowledge).toEqual(empty.topicKnowledge)
-    expect(state.readiness).toEqual(empty.readiness)
-    expect(state.recommendation?.topicId).toBe(empty.recommendation?.topicId)
-    expect(state.recommendation?.evidenceCount).toBe(empty.recommendation?.evidenceCount)
-    expect(topicProgressFor(state)[firstTopic]).toEqual({ status: 'notstarted', lastPractisedAt: null })
+interface PlannerActivityReconcilerProps {
+  client: SupabaseClient
+  userId: string
+  routeKey: string
+}
 
-    const module = createModuleLearningState(course.learningAdapter, [attempt])
-    expect(module.evidence).toContainEqual(attempt)
-    expect(module.evidencedTopics).toBe(0)
-  })
+export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerActivityReconcilerProps) {
+  useEffect(() => {
+    let active = true
 
-  it('does not allow a high or low whole-paper mark to change legitimate individual-topic evidence', () => {
-    const scored = [
-      ...Array.from({ length: 3 }, (_, i) => topicCard(i)),
-      ...Array.from({ length: 3 }, (_, i) => topicQuestion(i)),
-    ]
-    const topicBaseline = assessTopicKnowledge(moduleId, firstTopic, scored)
-    const readinessBaseline = assessTopicReadiness(moduleId, firstTopic, scored, now)
-    const recommendationBaseline = recommendNextActivity(moduleId, topicIds, scored, now)
-    expect(topicBaseline.band).toBe('good')
-    expect(readinessBaseline.score).not.toBeNull()
+    async function reconcile() {
+      const setup = await loadPlannerSetup(client, userId)
+      if (!active) return
 
-    for (const marks of [0, 100]) {
-      const withPaper = [...scored, wholePaper(marks)]
-      expect(assessTopicKnowledge(moduleId, firstTopic, withPaper)).toEqual(topicBaseline)
-      expect(assessTopicReadiness(moduleId, firstTopic, withPaper, now)).toEqual(readinessBaseline)
-      expect(recommendNextActivity(moduleId, topicIds, withPaper, now)).toEqual(recommendationBaseline)
-      const state = createCourseLearningState(course, withPaper)
-      expect(state.evidencedTopics).toBe(1)
-      expect(state.evidence).toHaveLength(scored.length + 1)
+      const completedRecommendationIds = new Set(
+        setup.activityEvents
+          .filter((event) => event.eventType === 'completed' && event.recommendationId)
+          .map((event) => event.recommendationId as string),
+      )
+      const cutoff = Date.now() - (7 * 86_400_000)
+      const unmatchedStarts = setup.activityEvents.filter((event) =>
+        event.eventType === 'started'
+        && event.recommendationId
+        && event.topicId
+        && new Date(event.occurredAt).getTime() >= cutoff
+        && !completedRecommendationIds.has(event.recommendationId)
+        // Partial answers do not complete a multi-item focused session.
+        && event.metadata.completionMode !== 'explicit_focused_session'
+        // Legacy start records without a marker cannot prove the new multi-item
+        // session ended merely because one scored answer was saved.
+        && event.activityType === 'exam-question',
+      )
+      if (unmatchedStarts.length === 0) return
+
+      const evidenceStore = createSupabaseEvidenceStore(client)
+      const evidence = (await Promise.all(
+        availableAdapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id)),
+      )).flat()
+      if (!active) return
+
+      for (const start of unmatchedStarts) {
+        const matchingEvidence = evidence.find((item) => evidenceCompletesPlannerStart(item, start))
+        if (!matchingEvidence || !start.recommendationId) continue
+
+        await recordPlannerActivityEvent(client, userId, {
+          recommendationId: start.recommendationId,
+          eventType: 'completed',
+          subjectId: start.subjectId,
+          moduleId: matchingEvidence.moduleId,
+          topicId: start.topicId ?? undefined,
+          activityType: start.activityType ?? undefined,
+          metadata: {
+            plannerVersion: 1,
+            source: 'validated_evidence_reconciliation',
+            evidenceId: matchingEvidence.id,
+          },
+        })
+      }
     }
-  })
 
-  it('does not let an orphaned topic key inflate the covered count or alter another course', () => {
-    const orphan: LearningEvidence = { ...topicCard(0), id: 'orphan', topicId: 'not-in-this-course' }
-    const state = createCourseLearningState(course, [orphan, wholePaper(80)])
-    expect(state.evidencedTopics).toBe(0)
-    expect(progressMeasuresFor([state]).covered).toBe(0)
-    const module = createModuleLearningState(course.learningAdapter, [orphan, wholePaper(80)])
-    expect(module.evidencedTopics).toBe(0)
-  })
+    void reconcile().catch(() => {
+      // Reconciliation is best-effort and must never block learner navigation.
+    })
 
-  it('cannot use a whole-paper event to postpone a topic or complete its Start', () => {
-    const exam: RevisionAssessment = {
-      assessmentId: 'paper-1-assessment', userId: 'fixture', courseId: course.id,
-      subjectId: course.subjectId, moduleId,
-      assessmentType: 'public_exam', title: 'Business Paper 1',
-      assessmentDate: '2026-11-19', relativeImportance: 'high',
-      scope: { topicIds: [firstTopic] }, isActive: true,
-    }
-    const baseline = plannerCandidatesFromLearningState(
-      [createCourseLearningState(course, [])], [exam], [], now)
-    const afterWholePaper = plannerCandidatesFromLearningState(
-      [createCourseLearningState(course, [wholePaper(100)])], [exam], [], now)
-    expect(baseline.length).toBeGreaterThan(0)
-    expect(afterWholePaper).toEqual(baseline)
+    return () => { active = false }
+  }, [client, userId, routeKey])
 
-    const start = {
-      subjectId: 'business', topicId: firstTopic,
-      occurredAt: '2026-10-21T09:00:00.000Z',
-    }
-    expect(evidenceCompletesPlannerStart(wholePaper(100), start)).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), start)).toBe(true)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0),
-      { ...start, topicId: 'another-topic' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0),
-      { ...start, occurredAt: '2026-10-22T09:00:00.000Z' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'quick-check' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicCard(0), { ...start, activityType: 'flashcards' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'learn' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'exam-question' })).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, moduleId: 'psychology-other' })).toBe(false)
-  })
-
-  it('continues to recognise a genuinely topic-attributed exam question', () => {
-    const question: LearningEvidence = {
-      id: 'scoped-written-answer', moduleId, topicId: firstTopic,
-      contentId: 'scoped-question', occurredAt: time, schemaVersion: 1,
-      source: 'exam_question', marksAwarded: 6, marksAvailable: 10,
-      assessmentObjectives: {},
-    }
-    const state = createCourseLearningState(course, [wholePaper(100), question])
-    expect(state.evidencedTopics).toBe(1)
-    expect(state.topicKnowledge.topics.find((topic) => topic.topicId === firstTopic)?.distinctContentItems).toBe(1)
-    expect(topicProgressFor(state)[firstTopic]?.status).toBe('started')
-    expect(state.evidence).toHaveLength(2)
-  })
-})
+  return null
+}
