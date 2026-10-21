@@ -49,6 +49,17 @@
   cursor: pointer;
 }
 
+/* R2 mobile touch-target assurance: the Courses breadcrumb stays usable even
+   when the Practice activity has taken focus. Do not alter approved desktop
+   Learn visual baselines or shared desktop header geometry. */
+@media (max-width: 620px) {
+  .planner-runtime .course-header .breadcrumbs > button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+  }
+}
+
 .planner-runtime .breadcrumbs button:hover,
 .planner-runtime .breadcrumbs button:focus-visible {
   background: var(--color-surface-soft);
