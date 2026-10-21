@@ -42,6 +42,14 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [results, setResults] = useState<boolean[]>([])
   // Reuse the same ID when an uncertain network write is retried.
   const evidenceIds = useRef(new Map<string, string>())
+  const pendingEvidence = useRef(new Map<string, LearningEvidence>())
+  function stableAnswer(key: string, create: () => LearningEvidence): LearningEvidence {
+    const existing = pendingEvidence.current.get(key)
+    if (existing) return existing
+    const evidence = create()
+    pendingEvidence.current.set(key, evidence)
+    return evidence
+  }
   function stableEvidenceId(prefix: string, contentId: string) {
     const key = prefix + ':' + contentId
     const existing = evidenceIds.current.get(key)
@@ -143,13 +151,13 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     setError('')
     let answerSaved = false
     try {
-      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createFlashcardEvidence({
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, stableAnswer('flashcard:' + card.id, () => createFlashcardEvidence({
         id: stableEvidenceId('home-flashcard', card.id),
         moduleId: task.adapter.manifest.id,
         topicId: card.topic,
         contentId: card.id,
         rating,
-      }))
+      })))
       answerSaved = true
       if (activityIndex + 1 >= cardCount) {
         await markSessionFinished(cardCount)
@@ -176,14 +184,14 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     setError('')
     let answerSaved = false
     try {
-      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createMultipleChoiceEvidence({
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, stableAnswer('quick-check:' + question.id, () => createMultipleChoiceEvidence({
         id: stableEvidenceId('home-quick-check', question.id),
         moduleId: task.adapter.manifest.id,
         topicId: question.topic,
         contentId: question.id,
         selectedOption,
         correctOption: question.correctOption,
-      }))
+      })))
       answerSaved = true
       setChecked(true)
       setResults(previous => [...previous, selectedOption === question.correctOption])
