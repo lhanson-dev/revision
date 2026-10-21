@@ -1,5 +1,5 @@
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
-import { withoutSuperseded, type LearningEvidence } from '../engine/evidence/evidence'
+import { isTopicScopedEvidence, withoutSuperseded, type LearningEvidence } from '../engine/evidence/evidence'
 import { summariseTopicKnowledge, type TopicKnowledgeSummary } from '../engine/knowledge/topic-knowledge'
 import { assessPaperReadiness, recommendNextActivity, type ReadinessResult, type RevisionRecommendation } from '../engine/readiness/readiness'
 export type { CourseSection } from './navigation'
@@ -114,7 +114,7 @@ export function createModuleLearningState(adapter: LearningContentAdapter, allEv
     topicKnowledge: summariseTopicKnowledge(moduleId, topicIds, evidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
-    evidencedTopics: new Set(evidence.map((item) => item.topicId)).size,
+    evidencedTopics: new Set(evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId)).size,
     topicCount: topicIds.length,
   }
 }
@@ -135,7 +135,7 @@ export function createCourseLearningState(course: CatalogueCourse, allEvidence: 
     topicKnowledge: summariseTopicKnowledge(canonicalModuleId, topicIds, normalizedEvidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
-    evidencedTopics: new Set(evidence.map((item) => item.topicId)).size,
+    evidencedTopics: new Set(evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId)).size,
     topicCount: topicIds.length,
     course,
   }
