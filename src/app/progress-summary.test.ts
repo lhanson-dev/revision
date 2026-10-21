@@ -31,8 +31,8 @@ describe('Progress summary', () => {
 
   it('opens with a plain sentence that suits a brand-new student', () => {
     const empty = progressMeasuresFor([createCourseLearningState(business.course, [])])
-    expect(progressSummarySentence(empty, 'Finance')).toBe('You haven’t answered anything yet. Start with Finance and your progress will build here.')
-    expect(progressSummarySentence(empty, null)).toContain('You haven’t answered anything yet.')
+    expect(progressSummarySentence(empty, 'Finance')).toBe('You haven’t marked any Learn pages as read or answered any scored questions yet. Start with Finance and your progress will build here.')
+    expect(progressSummarySentence(empty, null)).toContain('You haven’t recorded any reviewed Learn material or scored answers yet.')
   })
 
   it('says what has been covered and how it is going, using the five fixed words', () => {
