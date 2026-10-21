@@ -312,8 +312,8 @@ test('explicit Learn page review survives refresh, while a failed save never awa
 test('failed Learn exposure reads do not invent zero course progress, but teaching remains available', async ({ page }) => {
   await seedSession(page)
   await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
-    status: 503, contentType: 'application/json',
-    body: '{"code":"PGRST000","message":"temporarily unavailable"}',
+    status: 400, contentType: 'application/json',
+    body: '{"code":"PGRST001","message":"unavailable learn exposure history"}',
   }))
   await page.goto(`${appPath}#/courses/${encodeURIComponent(aLevelCourseId)}/progress`)
   const unavailable = page.getByRole('main', { name: 'Course progress temporarily unavailable' })
@@ -327,8 +327,8 @@ test('failed Learn exposure reads do not invent zero course progress, but teachi
 test('failed Learn exposure reads do not show false zero on global Progress', async ({ page }) => {
   await seedSession(page)
   await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
-    status: 503, contentType: 'application/json',
-    body: '{"code":"PGRST000","message":"temporarily unavailable"}',
+    status: 400, contentType: 'application/json',
+    body: '{"code":"PGRST001","message":"unavailable learn exposure history"}',
   }))
   await page.goto(`${appPath}#/progress`)
   const unavailable = page.getByRole('main', { name: 'Progress temporarily unavailable' })

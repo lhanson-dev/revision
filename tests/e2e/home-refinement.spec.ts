@@ -144,10 +144,14 @@ test('Home evidence error and no-dates state retain independent navigation and t
   await expect(page.locator('.home-v3-exams')).toContainText('No upcoming mock or official exam dates added yet.')
   await page.locator('.home-v3-course-card').first().click()
   await expect(page).toHaveURL(/#\/courses\/aqa%3Aaqa-a-level%3A7132\/overview/)
-  const nav = page.getByRole('navigation', { name: /AQA A-level Business navigation/ })
-  for (const label of ['Learn', 'Practice', 'Exam Prep']) await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible()
-  await nav.getByRole('button', { name: 'Exam Prep', exact: true }).click()
-  await expect(page).toHaveURL(/\/exam-prep$/)
+  // A scored-evidence read failure must block misleading course progress and
+  // scored activity recommendations. Unscored Learn reading remains accessible.
+  const unavailable = page.getByRole('main', { name: 'Course progress temporarily unavailable' })
+  await expect(unavailable).toContainText('cannot safely show your progress')
+  await expect(unavailable.getByRole('button', { name: 'Open Learn instead' })).toBeVisible()
+  await unavailable.getByRole('button', { name: 'Open Learn instead' }).click()
+  await expect(page).toHaveURL(/\/learn$/)
+  await expect(page.locator('article.learn-reading-page')).toBeVisible()
 })
 
 test('Home responsive boundaries preserve canonical presence and control geometry', async ({ page }) => {
