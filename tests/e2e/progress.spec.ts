@@ -103,7 +103,7 @@ test('a brand-new student sees an honest Progress screen: a plain sentence, one 
 
   const summary = page.getByRole('region', { name: 'Progress summary' })
   await expect(summary).toBeVisible()
-  await expect(summary).toContainText('You haven’t answered anything yet')
+  await expect(summary).toContainText('You haven’t marked any Learn pages as read or answered any scored questions yet')
   await expect(summary.locator('.progress-intro__why')).toContainText('Why:')
   await expect(summary.getByRole('button').first()).toHaveCSS('min-height', '48px')
 

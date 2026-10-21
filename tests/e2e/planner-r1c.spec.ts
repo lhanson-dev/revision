@@ -56,7 +56,7 @@ test('R1-11: starting-check-only learner receives guidance but no scored Progres
   const covered = page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).first()
   await expect(covered.locator('.ui-progress-measure__number')).toHaveText('0')
   await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Progress summary' })).toContainText('You haven’t answered anything yet')
+  await expect(page.getByRole('region', { name: 'Progress summary' })).toContainText('You haven’t marked any Learn pages as read or answered any scored questions yet')
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
 
   await page.reload()
