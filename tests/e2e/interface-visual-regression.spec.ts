@@ -308,7 +308,10 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   ],
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
-  'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
+  // Founder approval, 21 October 2026: only phone Practice light
+  // breadcrumb hit-area correction; CI #39626816583 (initial/retry).
+  // Provenance: audits/2026-10-21-pr655-practice-phone-light-visual-approval.md.
+  'phone:practice:light': '87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425',
   'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
   'tablet:exam-prep:light': '9c4fedac7ff928735906fe02953370ac1a8c230640b8462d78a33cb134853997',
   'tablet:exam-prep:dark': '5cf54eb772be1a0c5b259adcce0e21db47dff516e218d10602afa137f30f0912',
