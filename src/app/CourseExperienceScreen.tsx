@@ -296,6 +296,15 @@ export function CourseExperienceScreen({
   if (loading) return <LoadingState className="page-screen">Loading {resolved.label}…</LoadingState>
 
   const { course, subject, label } = resolved
+  // Never render zero coverage, understanding or readiness from an incomplete
+  // evidence/exposure load. Learn reading itself remains usable.
+  if (evidenceError && requestedSection !== 'learn') return (
+    <main className="dashboard page-screen" aria-label="Course progress temporarily unavailable">
+      <Status tone="warning">Your saved course progress could not be loaded. Revision cannot safely show your progress or recommend a scored activity until it can check your records.</Status>
+      <Button onClick={() => window.location.reload()}>Retry loading progress</Button>
+      <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'learn')}>Open Learn instead</Button>
+    </main>
+  )
   const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   if (pilotRestricted && requestedSection === 'exam-prep') return (
     <main className="dashboard page-screen" aria-label="Exam preparation pilot restriction">

@@ -84,6 +84,13 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const nextTopicName = nextAction?.topicName ?? null
 
   if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
+  if (error) return (
+    <main className="dashboard page-screen" aria-label="Progress temporarily unavailable">
+      <Status tone="warning">Your saved progress could not be loaded. Revision will not show zero coverage or readiness while your existing records are unavailable.</Status>
+      <Button onClick={() => window.location.reload()}>Retry loading progress</Button>
+      <Button variant="secondary" onClick={onOpenCourses}>Open Courses</Button>
+    </main>
+  )
 
   return (
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
