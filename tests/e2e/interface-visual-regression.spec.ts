@@ -311,7 +311,10 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   // Founder approval, 21 October 2026: only phone Practice light
   // breadcrumb hit-area correction; CI #39626816583 (initial/retry).
   // Provenance: audits/2026-10-21-pr655-practice-phone-light-visual-approval.md.
-  'phone:practice:light': '87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425',
+  'phone:practice:light': [
+    '87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425', // PR #655 Founder approval — CI #39626816583
+    '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3', // Previously approved digest reappeared in CI #39651739221
+  ],
   'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
   'tablet:exam-prep:light': '9c4fedac7ff928735906fe02953370ac1a8c230640b8462d78a33cb134853997',
   'tablet:exam-prep:dark': '5cf54eb772be1a0c5b259adcce0e21db47dff516e218d10602afa137f30f0912',

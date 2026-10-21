@@ -21,3 +21,9 @@ The new digest appears in the GitHub Actions strict screenshot-check failure on 
 ## Implementation and release boundary
 
 Only `approvedCanvasScreenshotDigests['phone:practice:light']` is changed in `tests/e2e/interface-visual-regression.spec.ts`. All other visual hashes and functional assertions remain untouched. The release remains **HOLD** pending exact-head CI, the remaining production-readiness migration and independently verified backend contract, and an **explicit separate Founder merge approval for PR #655**.
+
+## Two approved captures confirmed for the same candidate
+
+Later exact-head CI [39651739221](https://github.com/lhanson-dev/revision/actions/runs/39651739221), commit `ea75ab5b`, passed both desktop browser shards, tablet, foundation and SQL/RLS. Its phone Practice **light** visual comparison reproduced the earlier approved `913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3` capture, even though it was testing against newly approved `87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425`; initial run and retry were identical. All other phone tests passed.
+
+The test therefore retains **only** these two exact, separately approved digests under `phone:practice:light`. This is not a general similarity allowance or wildcard, not new visual approval, and not permission to change any other baseline. It records observable capture variation without treating a previously accepted rendering as a regression. Future unknown digests must still fail closed. This is implementation-test reconciliation, not a change in product design authority or merge permission.
