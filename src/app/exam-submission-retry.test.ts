@@ -5,7 +5,6 @@ import { listRetainedAqa7132MockExams } from './retained-aqa-business-mock'
 import { freezeExamSubmission } from './ExamSimulator'
 
 const moduleId = 'business-aqa-a-level-paper-1'
-const zero = () => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 
 function submittedPaper() {
   const exam = listRetainedAqa7132MockExams()[0]
@@ -86,6 +85,5 @@ describe('R2 whole-paper partial-save retry', () => {
       totalAwarded: 0, ao: { ao1: { awarded: 0, available: 0 }, ao2: { awarded: 0, available: 0 }, ao3: { awarded: 0, available: 0 }, ao4: { awarded: 0, available: 0 } },
       durationMinutes: 10, occurredAt: '2026-10-21T20:00:00.000Z',
     })).toThrow('empty paper')
-    expect(zero()).toEqual({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
   })
 })
