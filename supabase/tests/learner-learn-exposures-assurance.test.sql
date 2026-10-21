@@ -35,8 +35,8 @@ select is((select count(*) from public.learner_learn_exposures),1::bigint, 'Owne
 
 set local request.jwt.claim.sub = '00000000-0000-4000-8000-0000000000b2';
 select is((select count(*) from public.learner_learn_exposures),0::bigint, 'Other learner cannot view another learner review');
-select lives_ok(
- $$delete from public.learner_learn_exposures where page_id='learn-page-1'$$,
- 'Without DELETE privilege, attempted mutation is blocked or changes no rows');
+select throws_ok(
+ $delete from public.learner_learn_exposures where page_id='learn-page-1'$,
+ '42501',null,'Other user cannot delete another user review');
 select * from finish();
 rollback;

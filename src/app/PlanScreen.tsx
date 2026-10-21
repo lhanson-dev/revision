@@ -27,7 +27,7 @@ import {
   type RevisionWeeklyAvailability,
 } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
-import { loadLearnExposures, type LearnPageExposure } from '../services/progress/learn-exposure-service'
+import { loadLearnExposures } from '../services/progress/learn-exposure-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'

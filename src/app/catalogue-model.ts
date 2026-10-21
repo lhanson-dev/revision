@@ -166,7 +166,7 @@ export function createCourseLearningState(course: CatalogueCourse, allEvidence: 
     topicKnowledge: summariseTopicKnowledge(canonicalModuleId, topicIds, normalizedEvidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
-    evidencedTopics: new Set(evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId)).size,
+    evidencedTopics: new Set([...evidence.filter((item) => isTopicScopedEvidence(item) && topicIds.includes(item.topicId)).map((item) => item.topicId), ...coveredTopicsFromLearn(adapter, course.id, exposures)]).size,
     topicCount: topicIds.length,
     course,
   }
