@@ -3,6 +3,19 @@ import { learningEvidenceSchema, type LearningEvidence } from '../../engine/evid
 import { toLearningEvidenceRecord, type LearningEvidenceRecord } from './evidence-record'
 
 type EvidenceRow = { payload: unknown }
+
+/** JSONB does not retain object-key insertion order; compare validated facts structurally. */
+function sameEvidenceFact(a: unknown, b: unknown): boolean {
+  const canonical = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(canonical)
+    if (value !== null && typeof value === 'object') {
+      return Object.fromEntries(Object.entries(value).sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, item]) => [key, canonical(item)]))
+    }
+    return value
+  }
+  return JSON.stringify(canonical(a)) === JSON.stringify(canonical(b))
+}
 type DatabaseError = { code?: string; message: string }
 
 export type EvidenceStore = {
@@ -57,7 +70,7 @@ export async function recordLearningEvidence(
     const existing = await store.find(userId, evidence.id)
     if (existing.error) throw new Error(`Could not verify saved learning evidence: ${existing.error.message}`)
     const parsed = existing.data ? learningEvidenceSchema.safeParse(existing.data.payload) : null
-    if (!parsed?.success || JSON.stringify(parsed.data) !== JSON.stringify(evidence)) {
+    if (!parsed?.success || !sameEvidenceFact(parsed.data, evidence)) {
       throw new Error('Could not verify saved learning evidence: this ID belongs to a different or unavailable answer.')
     }
   } else if (error) {
