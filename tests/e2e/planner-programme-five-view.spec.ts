@@ -232,6 +232,9 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
     }
   }
   let scoredEvidenceReads = 0
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', (route) => {
     const request = route.request()
     if (request.method() !== 'GET') {

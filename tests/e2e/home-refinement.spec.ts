@@ -134,6 +134,9 @@ test('Home rotation expires on local-day change and never changes accepted work'
 
 test('Home evidence error and no-dates state retain independent navigation and truthful copy', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [], withExams: false, withAvailability: false })
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', route => route.fulfill({ status: 400, contentType: 'application/json', body: '{"message":"unavailable"}' }))
   await page.goto(appPath)
   await expect(page.locator('.home-v3-hero')).toContainText('I couldn’t read your progress just now.')

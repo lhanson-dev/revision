@@ -27,6 +27,9 @@ test('R1-07 baseline exact first Today exam question starts identically from Hom
   const moduleId = 'business-aqa-a-level-7132-paper-1'
   const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
     occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice', correct: true, selectedOption: 0, correctOption: 0 } }))
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(new URL(route.request().url()).searchParams.get('module_id') === `eq.${moduleId}` ? evidence : []) }))
   await page.route('**/rest/v1/revision_assessments**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
     { assessment_id: 'paper1', user_id: planUserId, course_id: businessCourseId, subject_id: 'business', module_id: moduleId,

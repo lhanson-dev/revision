@@ -75,6 +75,9 @@ async function seedRestrictedPsychologyLearner(page: Page) {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
 
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
   })
