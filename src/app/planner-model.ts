@@ -1,3 +1,4 @@
+import { isTopicScopedEvidence } from '../engine/evidence/evidence'
 import type { PlannedSession } from '../services/planning/planned-session-service'
 import { applyAcceptedSessionsToDays, withoutPlannedTopics } from './accepted-sessions'
 import { GOOD_SCORE_MIN, MEDIUM_SCORE_MIN } from '../engine/knowledge/topic-knowledge'
@@ -97,7 +98,7 @@ export function stateForAssessment(states: readonly ModuleLearningState[], asses
 
 function recentlyCompletedTopic(state: ModuleLearningState, topicId: string, now: Date) {
   const cutoff = now.getTime() - (2 * 86_400_000)
-  return state.evidence.some((item) => item.topicId === topicId && new Date(item.occurredAt).getTime() >= cutoff)
+  return state.evidence.some((item) => isTopicScopedEvidence(item) && item.topicId === topicId && new Date(item.occurredAt).getTime() >= cutoff)
 }
 
 function learnerPreferenceForCandidate(
@@ -128,7 +129,7 @@ function learnerPreferenceForCandidate(
 }
 
 function topicEvidenceSummary(state: ModuleLearningState, topicId: string) {
-  const evidence = state.evidence.filter((item) => item.topicId === topicId)
+  const evidence = state.evidence.filter((item) => isTopicScopedEvidence(item) && item.topicId === topicId)
   // Planning must not infer a supported understanding score from a few answers:
   // the existing Topic Knowledge engine owns sufficiency, distinct-item
   // de-duplication and evidence-family weighting.
