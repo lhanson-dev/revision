@@ -82,6 +82,7 @@ async function seedSession(page: Page) {
 
   for (const endpoint of [
     'learning_evidence',
+    'learner_learn_exposures',
     'revision_assessments',
     'revision_availability_exceptions',
     'revision_planning_preferences',
@@ -274,4 +275,36 @@ test('Learn uses the shared course-section and body canvas while constraining on
   expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
   expect(Math.abs(practiceSurfaceBox!.x - practiceContextBox!.x)).toBeLessThanOrEqual(1)
   expect(Math.abs(practiceSurfaceBox!.width - practiceContextBox!.width)).toBeLessThanOrEqual(1)
+})
+
+test('explicit Learn page review survives refresh, while a failed save never awards coverage', async ({ page }) => {
+  await seedSession(page)
+  let saved: Record<string, unknown> | null = null
+  let failNext = true
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    if (route.request().method() === 'POST') {
+      if (failNext) {
+        failNext = false
+        await route.fulfill({ status: 503, contentType: 'application/json', body: '{"code":"PGRST000","message":"temporarily unavailable"}' })
+        return
+      }
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      saved = { ...body, reviewed_at: '2026-10-21T11:00:00.000Z' }
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(saved) })
+      return
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(saved ? [saved] : []) })
+  })
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/learn`)
+  const review = page.getByRole('button', { name: 'I have read this page' })
+  await expect(review).toBeVisible()
+  await review.click()
+  await expect(page.getByRole('alert').filter({ hasText: 'Could not save reviewed page' })).toBeVisible()
+  await expect(review).toBeVisible()
+  expect(saved).toBeNull()
+  await review.click()
+  await expect(page.getByText('Page reviewed. This records reading, not understanding or exam readiness.')).toBeVisible()
+  expect(saved).toMatchObject({ course_id: asCourseId })
+  await page.reload()
+  await expect(page.getByText('Page reviewed. This records reading, not understanding or exam readiness.')).toBeVisible()
 })
