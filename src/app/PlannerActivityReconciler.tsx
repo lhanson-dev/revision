@@ -1,3 +1,4 @@
+import { isTopicScopedEvidence } from '../engine/evidence/evidence'
 import { useEffect } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
@@ -51,7 +52,8 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
       for (const start of unmatchedStarts) {
         const matchingEvidence = evidence.find((item) => {
           const subjectId = subjectByModuleId.get(item.moduleId)
-          return subjectId === start.subjectId
+          return isTopicScopedEvidence(item)
+            && subjectId === start.subjectId
             && item.topicId === start.topicId
             && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()
         })
