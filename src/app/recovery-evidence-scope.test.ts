@@ -8,6 +8,9 @@ import { assessTopicKnowledge } from '../engine/knowledge/topic-knowledge'
 import { assessTopicReadiness, recommendNextActivity } from '../engine/readiness/readiness'
 import { buildCatalogue, createCourseLearningState, createModuleLearningState } from './catalogue-model'
 import { progressMeasuresFor } from './progress-summary'
+import { plannerCandidatesFromLearningState } from './planner-model'
+import { evidenceCompletesPlannerStart } from './PlannerActivityReconciler'
+import type { RevisionAssessment } from '../services/planning/planner-service'
 import { topicProgressFor } from './topic-status'
 
 const course = buildCatalogue([
@@ -93,6 +96,33 @@ describe('Recovery evidence-scope integrity — legacy full-paper attempts', () 
     expect(progressMeasuresFor([state]).covered).toBe(0)
     const module = createModuleLearningState(course.learningAdapter, [orphan, wholePaper(80)])
     expect(module.evidencedTopics).toBe(0)
+  })
+
+  it('cannot use a whole-paper event to postpone a topic or complete its Start', () => {
+    const exam: RevisionAssessment = {
+      assessmentId: 'paper-1-assessment', userId: 'fixture', courseId: course.id,
+      subjectId: course.subjectId, moduleId,
+      assessmentType: 'public_exam', title: 'Business Paper 1',
+      assessmentDate: '2026-11-19', relativeImportance: 'high',
+      scope: { topicIds: [firstTopic] }, isActive: true,
+    }
+    const baseline = plannerCandidatesFromLearningState(
+      [createCourseLearningState(course, [])], [exam], [], now)
+    const afterWholePaper = plannerCandidatesFromLearningState(
+      [createCourseLearningState(course, [wholePaper(100)])], [exam], [], now)
+    expect(baseline.length).toBeGreaterThan(0)
+    expect(afterWholePaper).toEqual(baseline)
+
+    const start = {
+      subjectId: 'business', topicId: firstTopic,
+      occurredAt: '2026-10-21T09:00:00.000Z',
+    }
+    expect(evidenceCompletesPlannerStart(wholePaper(100), start)).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), start)).toBe(true)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0),
+      { ...start, topicId: 'another-topic' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0),
+      { ...start, occurredAt: '2026-10-22T09:00:00.000Z' })).toBe(false)
   })
 
   it('continues to recognise a genuinely topic-attributed exam question', () => {
