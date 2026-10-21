@@ -163,6 +163,17 @@ export type ExamQuestionEvidence = z.infer<typeof examQuestionEvidenceSchema>
 export type ExamAttemptEvidence = z.infer<typeof examAttemptEvidenceSchema>
 export type LearningEvidence = z.infer<typeof learningEvidenceSchema>
 
+/**
+ * Whole-paper exam_attempt rows belong to a paper attempt, not to the
+ * arbitrary legacy topicId required by evidence schema v1.
+ * Keep the original event for exam-history/provenance but do not treat it
+ * as valid evidence about a single topic. An exam_question event is
+ * independently topic-attributed and remains eligible.
+ */
+export function isTopicScopedEvidence(evidence: LearningEvidence): boolean {
+  return evidence.source !== 'exam_attempt'
+}
+
 export function evidencePercentage(evidence: LearningEvidence): number | null {
   switch (evidence.source) {
     case 'flashcard':

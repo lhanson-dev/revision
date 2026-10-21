@@ -1,4 +1,4 @@
-import { evidencePercentage, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
+import { evidencePercentage, isTopicScopedEvidence, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
 
 export type EvidenceFamily = 'recall' | 'application' | 'exam' | 'simulation'
 export type ConfidenceLevel = 'insufficient' | 'low' | 'medium' | 'high'
@@ -178,7 +178,7 @@ export function assessReadiness(allEvidence: readonly LearningEvidence[], now = 
 }
 
 export function assessTopicReadiness(moduleId: string, topicId: string, evidence: readonly LearningEvidence[], now = new Date()) {
-  return assessReadiness(evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId), now)
+  return assessReadiness(evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && isTopicScopedEvidence(item)), now)
 }
 
 /**
@@ -217,7 +217,7 @@ export function recommendNextActivity(
   const evidence = withoutSuperseded(allEvidence)
 
   const candidates = topicIds.map((topicId, order) => {
-    const items = evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && evidencePercentage(item) !== null)
+    const items = evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && isTopicScopedEvidence(item) && evidencePercentage(item) !== null)
     const readiness = assessReadiness(items, now)
     return { topicId, order, items, readiness, confidentMisses: unresolvedConfidentMisses(items).length }
   })

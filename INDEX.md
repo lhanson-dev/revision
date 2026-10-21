@@ -83,7 +83,7 @@ Use this file to find the governing source before substantive work.
 - FI-001 supervised real-student comprehension study protocol (observation not yet performed) → `audits/2026-10-20-fi001-student-comprehension-study-protocol.md`
 - Proposed architecture decision (not yet accepted/implemented) → `decisions/ADR-0032-proposed-single-exam-backwards-programme.md`
 
-- Current product recovery control programme (Phase 1 Founder-authorised, proposal pending specific merge approval) → `docs/technical/Revision Product Recovery Control Plan.md`
+- Current product recovery control programme (Phase 1 approved PR #653; implementation corrections tracked separately) → `docs/technical/Revision Product Recovery Control Plan.md`
 - 21 October recovery approved-main source audit, technical risks and open-PR coordination inventory (dated evidence) → `audits/2026-10-21-revision-recovery-phase1-baseline.md`
 
 ## Company and product

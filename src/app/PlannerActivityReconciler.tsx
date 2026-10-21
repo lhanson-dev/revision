@@ -1,11 +1,24 @@
+import { isTopicScopedEvidence } from '../engine/evidence/evidence'
 import { useEffect } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
-import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
+import { loadPlannerSetup, recordPlannerActivityEvent, type RevisionActivityEvent } from '../services/planning/planner-service'
+import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 
 const availableAdapters = listAvailableContentAdapters()
 const subjectByModuleId = new Map(availableAdapters.map((adapter) => [adapter.manifest.id, adapter.manifest.subject.id]))
+
+/** Whole-paper results are not proof that a particular started topic activity finished. */
+export function evidenceCompletesPlannerStart(
+  item: LearningEvidence,
+  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'>,
+): boolean {
+  return isTopicScopedEvidence(item)
+    && subjectByModuleId.get(item.moduleId) === start.subjectId
+    && item.topicId === start.topicId
+    && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()
+}
 
 interface PlannerActivityReconcilerProps {
   client: SupabaseClient
@@ -49,12 +62,7 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
       if (!active) return
 
       for (const start of unmatchedStarts) {
-        const matchingEvidence = evidence.find((item) => {
-          const subjectId = subjectByModuleId.get(item.moduleId)
-          return subjectId === start.subjectId
-            && item.topicId === start.topicId
-            && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()
-        })
+        const matchingEvidence = evidence.find((item) => evidenceCompletesPlannerStart(item, start))
         if (!matchingEvidence || !start.recommendationId) continue
 
         await recordPlannerActivityEvent(client, userId, {
