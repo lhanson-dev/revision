@@ -308,3 +308,31 @@ test('explicit Learn page review survives refresh, while a failed save never awa
   await page.reload()
   await expect(page.getByText('Page reviewed. This records reading, not understanding or exam readiness.')).toBeVisible()
 })
+
+test('failed Learn exposure reads do not invent zero course progress, but teaching remains available', async ({ page }) => {
+  await seedSession(page)
+  await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
+    status: 503, contentType: 'application/json',
+    body: '{"code":"PGRST000","message":"temporarily unavailable"}',
+  }))
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(aLevelCourseId)}/progress`)
+  const unavailable = page.getByRole('main', { name: 'Course progress temporarily unavailable' })
+  await expect(unavailable).toBeVisible()
+  await expect(unavailable).toContainText('cannot safely show your progress')
+  await expect(unavailable.getByText(/0 of .* topics covered/i)).toHaveCount(0)
+  await unavailable.getByRole('button', { name: 'Open Learn instead' }).click()
+  await expect(page.locator('article.learn-reading-page')).toBeVisible()
+})
+
+test('failed Learn exposure reads do not show false zero on global Progress', async ({ page }) => {
+  await seedSession(page)
+  await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
+    status: 503, contentType: 'application/json',
+    body: '{"code":"PGRST000","message":"temporarily unavailable"}',
+  }))
+  await page.goto(`${appPath}#/progress`)
+  const unavailable = page.getByRole('main', { name: 'Progress temporarily unavailable' })
+  await expect(unavailable).toBeVisible()
+  await expect(unavailable).toContainText('will not show zero coverage or readiness')
+  await expect(unavailable.getByText(/0 of .* topics covered/i)).toHaveCount(0)
+})
