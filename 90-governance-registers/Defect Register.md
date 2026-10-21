@@ -18,6 +18,8 @@
 
 ## Current defects
 
+| DEF-2026-012 | P1 | REC-10; partial whole-paper exam evidence save and retry | Source inspection 21 Oct on main `3e0ad6c4`: `ExamSimulator.saveResult` reused evidence IDs but generated a fresh whole-paper `occurredAt` and elapsed duration on each retry. If an earlier attempt row had committed before a later write failed, a retry could mismatch the stored payload, causing the owner-verified duplicate guard correctly to reject full-result confirmation. This is a source-derived failure mode, not a confirmed production incident. | Fix in review | Engineering — freeze one exact evidence batch and replay after ambiguous/partial save; independently prove the fault and the fix in browser and authenticated backend before closure | Candidate R2 exam retry PR (unmerged) | Source regression authored; exact-head CI, browser/database failure recovery and production validation outstanding |
+
 | Defect ID | Severity | Affected journey / control | Observed evidence | Status | Owner / next action | Fix PR | Verification / closure evidence |
 |---|---|---|---|---|---|---|---|
 | DEF-2026-001 | P2 | A11Y-01; signed-in global and learner-runtime account/menu drawers | Axe WCAG A/AA CI run #339 found serious `aria-hidden-focus` on the closed `.menu-drawer`; expanded run #359 confirmed the same issue on `.menu-drawer` and `.runtime-menu-drawer` across phone, tablet and desktop | Closed | Engineering — both drawers now render only while open, so closed focusable controls are absent from the DOM | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d597331510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |
