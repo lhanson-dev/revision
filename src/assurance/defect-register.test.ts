@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { defectRegister, openDefectCounts, parseDefectRegister } from './defect-register'
 
 describe('defect register projection', () => {
-  it('projects both open P1 defects with accurate Founder Assurance counts', () => {
+  it('projects every current open P1 defect with accurate Founder Assurance counts', () => {
     expect(defectRegister.available).toBe(true)
     expect(defectRegister.version).toBe(1)
-    expect(defectRegister.lastTriaged).toBe('2026-10-20')
+    expect(defectRegister.lastTriaged).toBe('2026-10-21')
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-003' && record.severity === 'P1' && record.status === 'Closed')).toBe(true)
@@ -16,7 +16,8 @@ describe('defect register projection', () => {
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-008' && record.severity === 'P1' && record.status === 'Open')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-009' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-010' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
-    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 3, P2: 0, total: 3 })
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-011' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
+    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 4, P2: 0, total: 4 })
   })
 
   it('treats a deliberately triaged valid empty register as available with zero known open defects', () => {
