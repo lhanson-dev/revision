@@ -49,14 +49,15 @@
   cursor: pointer;
 }
 
-/* R2 mobile touch-target assurance: the Courses breadcrumb stays usable even
-   when the Practice activity has taken focus. Do not alter approved desktop
-   Learn visual baselines or shared desktop header geometry. */
+/* R2 mobile touch target: grow the transparent breadcrumb hit area to 44px
+   without changing the original 36px flex-row geometry, visual text position
+   or the Founder-approved phone Practice / Course Overview screenshots. */
 @media (max-width: 620px) {
   .planner-runtime .course-header .breadcrumbs > button {
     min-width: 44px;
     min-height: 44px;
-    padding: 0 var(--space-3);
+    padding: 0 var(--space-2);
+    margin-block: -4px;
   }
 }
 
