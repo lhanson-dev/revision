@@ -157,8 +157,8 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'planner-week-v1',
-  'release readiness retains FI-022 capability while advertising the current planner-week-v1 contract'
+  'r2-learn-exposure-v1',
+  'release readiness retains FI-022 capability while advertising the current R2 Learn exposure contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,
