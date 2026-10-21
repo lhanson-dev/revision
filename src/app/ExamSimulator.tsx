@@ -7,7 +7,7 @@ import { Button, Icon, ModalShell } from './ui'
 
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 type Marks = Record<AoKey, number>
-type ExamResult = {
+export type ExamResult = {
   recorded: boolean
   totalAwarded: number
   totalAvailable: number
@@ -16,7 +16,7 @@ type ExamResult = {
   ao: Record<AoKey, { awarded: number; available: number }>
 }
 type SessionOverlay = 'paused' | 'stop-confirm' | null
-type ExamQuestionRuntime = Exam['questions'][number] & {
+export type ExamQuestionRuntime = Exam['questions'][number] & {
   choiceGroup?: string | null
   choiceOption?: string | null
   choiceKind?: 'paper-alternative' | 'syllabus-option'
@@ -28,7 +28,7 @@ type ExamQuestionRuntime = Exam['questions'][number] & {
     table: { title: string; columns: string[]; rows: Array<{ cells: string[] }> } | null
   } | null
 }
-type ExamRuntime = Omit<Exam, 'questions'> & {
+export type ExamRuntime = Omit<Exam, 'questions'> & {
   questions: ExamQuestionRuntime[]
   learnerClaim?: string
   printedMarks?: number
@@ -97,6 +97,47 @@ function attemptId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
 
+/** Store a single exact evidence batch: a retry must not generate new facts. */
+export type FrozenExamSubmission = { evidence: LearningEvidence[]; result: ExamResult }
+
+export function freezeExamSubmission(input: {
+  exam: ExamRuntime
+  moduleId: string
+  questions: readonly ExamQuestionRuntime[]
+  answers: Record<string, string>
+  marks: Record<string, Marks>
+  totalAwarded: number
+  ao: ExamResult['ao']
+  durationMinutes: number
+  occurredAt: string
+  makeId?: (prefix: string) => string
+}): FrozenExamSubmission {
+  const { exam, moduleId, questions, answers, marks, totalAwarded, ao, durationMinutes, occurredAt } = input
+  if (!questions.some((item) => answers[item.id]?.trim())) throw new Error('An empty paper is not scored evidence.')
+  const makeId = input.makeId ?? attemptId
+  const evidence = questions.flatMap((item) => {
+    if (!answers[item.id]?.trim()) return []
+    const awarded = marksForExamAnswer(answers[item.id], marks[item.id] ?? emptyMarks(), item.correctOptionLabel, item.assessmentObjectives)
+    return [createExamResponseEvidence({ question: item, answer: answers[item.id], awarded, id: makeId('exam-question'), moduleId })]
+  })
+  evidence.push({
+    id: makeId('exam-attempt'),
+    moduleId,
+    // Legacy field only; a whole-paper source is excluded from topic readiness.
+    topicId: exam.questions[0]?.topic ?? 'business',
+    occurredAt,
+    contentId: exam.id,
+    schemaVersion: 1,
+    source: 'exam_attempt',
+    marksAwarded: totalAwarded,
+    marksAvailable: exam.totalMarks,
+    durationMinutes,
+    timed: true,
+    markingMethod: 'self_assessed',
+  })
+  return { evidence, result: { totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao, recorded: true } }
+}
+
 function formatTime(seconds: number) {
   const safe = Math.max(0, seconds)
   const minutes = Math.floor(safe / 60)
@@ -151,7 +192,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [marks, setMarks] = useState<Record<string, Marks>>({})
   const [secondsRemaining, setSecondsRemaining] = useState(exam.durationMinutes * 60)
   const [result, setResult] = useState<ExamResult | null>(null)
-  const [submissionIds, setSubmissionIds] = useState<Record<string, string>>({})
+  const submissionSnapshot = useRef<FrozenExamSubmission | null>(null)
+  const saveAttemptInFlight = useRef(false)
+  const [submissionLocked, setSubmissionLocked] = useState(false)
+  const [attemptSaving, setAttemptSaving] = useState(false)
+  const [submissionError, setSubmissionError] = useState<string | null>(null)
   const [questionPractice, setQuestionPractice] = useState(autoStart === 'untimed')
   const [practiceIndex, setPracticeIndex] = useState(() => preferredQuestionId ? Math.max(0, exam.questions.findIndex((item) => item.id === preferredQuestionId)) : 0)
   const [practiceDraft, setPracticeDraft] = useState('')
@@ -271,7 +316,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setSelectedChoices({})
     setSecondsRemaining(exam.durationMinutes * 60)
     setResult(null)
-    setSubmissionIds({})
+    submissionSnapshot.current = null
+    saveAttemptInFlight.current = false
+    setSubmissionLocked(false)
+    setAttemptSaving(false)
+    setSubmissionError(null)
     setSessionOverlay(null)
     startedAt.current = null
     pauseStartedAt.current = null
@@ -280,7 +329,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }
 
   function updateMark(key: AoKey, value: number) {
-    if (!question || question.correctOptionLabel || !answers[question.id]?.trim()) return
+    if (submissionLocked || !question || question.correctOptionLabel || !answers[question.id]?.trim()) return
     const available = question.assessmentObjectives[key]
     const safe = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
     setMarks((current) => ({
@@ -332,62 +381,41 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setFinishedWriting(true)
   }
 
-  function buildSubmissionIds() {
-    if (Object.keys(submissionIds).length) return submissionIds
-    const ids: Record<string, string> = { attempt: attemptId('exam-attempt') }
-    activeQuestions.forEach((item) => { ids[item.id] = attemptId('exam-question') })
-    setSubmissionIds(ids)
-    return ids
-  }
-
   async function saveResult() {
-    if (!finishedWriting || submitted) return
-    const ids = buildSubmissionIds()
+    if (!finishedWriting || submitted || saveAttemptInFlight.current) return
     const activeDurationMs = startedAt.current
       ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
       : exam.durationMinutes * 60_000
     const durationMinutes = Math.min(exam.durationMinutes, activeDurationMs / 60_000)
 
-    // A completely blank paper cannot establish any scored learning evidence.
     if (!activeQuestions.some((item) => answers[item.id]?.trim())) {
       setResult({ totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao: totals.ao, recorded: false })
       setSubmitted(true)
       return
     }
 
+    saveAttemptInFlight.current = true
+    setAttemptSaving(true)
+    setSubmissionError(null)
     try {
-      for (const item of activeQuestions) {
-        // Omitted questions score zero on the paper, not a fabricated topic attempt.
-        if (!answers[item.id]?.trim()) continue
-        const awarded = marksForExamAnswer(answers[item.id], marks[item.id] ?? emptyMarks(), item.correctOptionLabel, item.assessmentObjectives)
-        await onRecordEvidence(createExamResponseEvidence({
-          question: item,
-          answer: answers[item.id],
-          awarded,
-          id: ids[item.id],
-          moduleId,
-        }))
+      // The identical payload must be used after partial success, including its timestamps.
+      if (!submissionSnapshot.current) {
+        submissionSnapshot.current = freezeExamSubmission({
+          exam, moduleId, questions: activeQuestions, answers, marks,
+          totalAwarded: totals.totalAwarded, ao: totals.ao,
+          durationMinutes, occurredAt: new Date().toISOString(),
+        })
+        setSubmissionLocked(true)
       }
-
-      const attempt: LearningEvidence = {
-        id: ids.attempt,
-        moduleId,
-        topicId: exam.questions[0]?.topic ?? 'business',
-        occurredAt: new Date().toISOString(),
-        contentId: exam.id,
-        schemaVersion: 1,
-        source: 'exam_attempt',
-        marksAwarded: totals.totalAwarded,
-        marksAvailable: exam.totalMarks,
-        durationMinutes,
-        timed: true,
-        markingMethod: 'self_assessed',
-      }
-      await onRecordEvidence(attempt)
-      setResult({ totalAwarded: totals.totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao: totals.ao, recorded: true })
+      const snapshot = submissionSnapshot.current
+      for (const fact of snapshot.evidence) await onRecordEvidence(fact)
+      setResult(snapshot.result)
       setSubmitted(true)
     } catch {
-      return
+      setSubmissionError('We could not confirm your whole exam was saved. Your answers and marks are still here. Retry saving without changing them.')
+    } finally {
+      saveAttemptInFlight.current = false
+      setAttemptSaving(false)
     }
   }
 
@@ -598,7 +626,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 {!answers[question.id]?.trim() && <p className="muted">No answer submitted. This question receives zero marks and will not create topic-level learning evidence.</p>}
                 {question.correctOptionLabel && answers[question.id]?.trim() && <p role="status" className="result-explanation">Revision key check: {answers[question.id] === question.correctOptionLabel ? 'correct' : 'incorrect'}. This is not an official AQA mark.</p>}
                 <div className="ao-marker-grid">
-                  {aoKeys.filter((key) => question.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{question.assessmentObjectives[key]}</span><input type="number" min={0} max={question.assessmentObjectives[key]} disabled={!answers[question.id]?.trim() || Boolean(question.correctOptionLabel)} value={marksForExamAnswer(answers[question.id], currentMarks, question.correctOptionLabel, question.assessmentObjectives)[key]} onChange={(event) => updateMark(key, Number(event.target.value))} /></label>)}
+                  {aoKeys.filter((key) => question.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{question.assessmentObjectives[key]}</span><input type="number" min={0} max={question.assessmentObjectives[key]} disabled={submissionLocked || !answers[question.id]?.trim() || Boolean(question.correctOptionLabel)} value={marksForExamAnswer(answers[question.id], currentMarks, question.correctOptionLabel, question.assessmentObjectives)[key]} onChange={(event) => updateMark(key, Number(event.target.value))} /></label>)}
                 </div>
                 <div className="exam-nav-actions">
                   <Button variant="secondary" disabled={questionIndex === 0} onClick={() => setQuestionIndex((index) => index - 1)}>Previous</Button>
@@ -606,9 +634,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                 </div>
               </article>
             )}
-            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>Written marks are self-assessed; keyed multiple-choice answers are checked by Revision.</span><Button disabled={saving} onClick={saveResult}>Save exam result</Button></div>
+            <div className="exam-submit-summary"><strong>Current total: {totals.totalAwarded}/{exam.totalMarks}</strong><span>Written marks are self-assessed; keyed multiple-choice answers are checked by Revision.</span><Button disabled={saving || attemptSaving} onClick={saveResult}>{submissionLocked ? 'Retry saving exam result' : 'Save exam result'}</Button></div>
             {saveError && <p className="error" role="alert">{saveError}</p>}
-            {saving && <p className="muted" aria-live="polite">Saving your exam evidence…</p>}
+            {submissionError && <p className="error" role="alert">{submissionError}</p>}
+            {submissionLocked && <p className="muted small-note">Your original submission is locked while saving is retried, to prevent conflicting marks.</p>}
+            {(saving || attemptSaving) && <p className="muted" aria-live="polite">Saving your exam evidence…</p>}
           </div>
         )}
       </section>

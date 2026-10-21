@@ -184,6 +184,79 @@ test('timed Business simulation records only answered question evidence and prev
 })
 
 
+
+test('partial whole-paper save can be retried without double counting or changed evidence', async ({ page }) => {
+  await open(page)
+  // Model the real evidence contract: the first question saves, the first paper result fails,
+  // and a retry sees the committed question as an owner-verified duplicate.
+  const committed = new Map<string, Record<string, unknown>>()
+  const attempts: Array<Record<string, unknown>> = []
+  let failPaperOnce = true
+  let confirmedDuplicates = 0
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    const request = route.request()
+    if (request.method() === 'POST') {
+      const body = request.postDataJSON() as Record<string, unknown>
+      attempts.push(body)
+      const id = String(body.evidence_id)
+      if (body.source === 'exam_attempt' && failPaperOnce) {
+        failPaperOnce = false
+        await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ code: 'PGRST000', message: 'Transient write failure' }) })
+        return
+      }
+      if (committed.has(id)) {
+        await route.fulfill({ status: 409, contentType: 'application/json', body: JSON.stringify({ code: '23505', message: 'duplicate key' }) })
+        return
+      }
+      committed.set(id, body)
+      await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+      return
+    }
+
+    const url = new URL(request.url())
+    if (url.searchParams.has('evidence_id')) {
+      const encoded = url.searchParams.get('evidence_id') ?? ''
+      const found = committed.get(encoded.startsWith('eq.') ? encoded.slice(3) : encoded)
+      if (found) confirmedDuplicates++
+      await route.fulfill({
+        status: found ? 200 : 406,
+        contentType: 'application/vnd.pgrst.object+json',
+        body: JSON.stringify(found ? { payload: found.payload } : { code: 'PGRST116', message: 'not found' }),
+      })
+      return
+    }
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify([...committed.values()].map((record) => ({ payload: record.payload }))),
+    })
+  })
+
+  await page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: 'Start timed' }).click()
+  await page.locator('input[name="answer-p1-q01"][value="B"]').check()
+  const nav = page.getByRole('navigation', { name: 'Exam questions' })
+  await nav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await nav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await page.getByRole('button', { name: 'Save exam result', exact: true }).click()
+
+  await expect(page.getByRole('alert').filter({ hasText: 'could not confirm your whole exam was saved' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Retry saving exam result' })).toBeEnabled()
+  await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()
+  await expect.poll(() => attempts.length).toBe(2)
+
+  await page.getByRole('button', { name: 'Retry saving exam result' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toBeVisible()
+  expect(committed.size).toBe(2)
+  expect(attempts).toHaveLength(4)
+  expect(attempts[2]).toEqual(attempts[0])
+  expect(attempts[3]).toEqual(attempts[1])
+  expect(confirmedDuplicates).toBe(1)
+  expect([...committed.values()].map((row) => (row.payload as Record<string, unknown>).source)).toEqual(['multiple_choice', 'exam_attempt'])
+})
+
 test('a wrong authored Business MCQ cannot create positive scored evidence', async ({ page }) => {
   await open(page)
   const captured: Array<Record<string, unknown>> = []
