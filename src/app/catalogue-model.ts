@@ -107,6 +107,7 @@ export function buildCatalogue(adapters: readonly LearningContentAdapter[]): Cat
 export function coveredTopicsFromLearn(
   adapter: LearningContentAdapter, courseId: string, exposures: readonly LearnPageExposure[],
 ): Set<string> {
+  if (exposures.length === 0) return new Set<string>()
   const pagesByTopic = new Map<string, Set<string>>()
   const completedByTopic = new Map<string, Set<string>>()
   for (const chapter of adapter.listLearnChapters()) for (const group of chapter.groups) for (const page of group.pages) {

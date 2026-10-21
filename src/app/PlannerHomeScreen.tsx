@@ -4,6 +4,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import { loadLearnExposures, type LearnPageExposure } from '../services/progress/learn-exposure-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { homeActivityLabel, supportedActivityMinutes, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
@@ -97,14 +98,17 @@ export function PlannerHomeScreen({
     let active = true
     const evidenceStore = createSupabaseEvidenceStore(client)
     const adapters = adaptersForProgramme(programme)
-    Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id)))
-      .then((evidenceByModule) => {
+    Promise.all([
+      Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
+      loadLearnExposures(client, userId),
+    ])
+      .then(([evidenceByModule, exposures]) => {
         if (!active) return
         const evidence = evidenceByModule.flat()
         const states: ModuleLearningState[] = []
         programme.forEach(({ course }) => {
-          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence))
-          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence)))
+          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence, exposures))
+          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence, exposures, course.id)))
         })
         setLearningStates(states)
         setEvidenceError('')

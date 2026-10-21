@@ -57,8 +57,8 @@ export function progressSummarySentence(measures: ProgressMeasuresData, nextTopi
   if (measures.total === 0) return 'There are no topics to show yet.'
   if (measures.covered === 0) {
     return nextTopicName
-      ? `You haven’t answered anything yet. Start with ${nextTopicName} and your progress will build here.`
-      : 'You haven’t answered anything yet. Your progress will build here as you work.'
+      ? `You haven’t marked any Learn pages as read or answered any scored questions yet. Start with ${nextTopicName} and your progress will build here.`
+      : 'You haven’t recorded any reviewed Learn material or scored answers yet. Your progress will build here as you work.'
   }
   const rated = (['gotit', 'nearly', 'needswork'] as const)
     .filter((status) => (measures.understanding[status] ?? 0) > 0)
@@ -90,7 +90,7 @@ export function nextProgressAction(
 
 /** The optional "How this is worked out" note: three plain sentences at most. */
 export const HOW_THIS_IS_WORKED_OUT: readonly string[] = [
-  'Topics covered counts the topics where you’ve answered at least one question.',
+  'Topics covered counts topics with scored answers or all current Learn pages explicitly reviewed.',
   'Understanding sorts each topic by how your answers have gone, once there are enough varied answers to tell.',
   'Exam readiness only appears when there’s enough varied work, and it’s never a predicted grade.',
 ]
