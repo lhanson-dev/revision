@@ -123,6 +123,11 @@ describe('Recovery evidence-scope integrity — legacy full-paper attempts', () 
       { ...start, topicId: 'another-topic' })).toBe(false)
     expect(evidenceCompletesPlannerStart(topicQuestion(0),
       { ...start, occurredAt: '2026-10-22T09:00:00.000Z' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'quick-check' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicCard(0), { ...start, activityType: 'flashcards' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'learn' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'exam-question' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, moduleId: 'psychology-other' })).toBe(false)
   })
 
   it('continues to recognise a genuinely topic-attributed exam question', () => {

@@ -12,9 +12,14 @@ const subjectByModuleId = new Map(availableAdapters.map((adapter) => [adapter.ma
 /** Whole-paper results are not proof that a particular started topic activity finished. */
 export function evidenceCompletesPlannerStart(
   item: LearningEvidence,
-  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'>,
+  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'> & Partial<Pick<RevisionActivityEvent, 'moduleId' | 'activityType'>>,
 ): boolean {
+  // An answered question never proves a longer session, passive Learn exposure,
+  // or an unrelated activity was completed after its Start.
+  if (start.activityType === 'quick-check' || start.activityType === 'flashcards' || start.activityType === 'learn') return false
+  if (start.activityType === 'exam-question' && item.source !== 'exam_question') return false
   return isTopicScopedEvidence(item)
+    && (!start.moduleId || item.moduleId === start.moduleId)
     && subjectByModuleId.get(item.moduleId) === start.subjectId
     && item.topicId === start.topicId
     && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()

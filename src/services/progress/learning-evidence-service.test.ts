@@ -23,6 +23,7 @@ function store(overrides: Partial<EvidenceStore> = {}): EvidenceStore {
   return {
     insert: async () => ({ error: null }),
     list: async () => ({ data: [{ payload: evidence }], error: null }),
+    find: async () => ({ data: { payload: evidence }, error: null }),
     ...overrides,
   }
 }
@@ -50,6 +51,25 @@ describe('learning evidence service', () => {
     }), 'user-1', evidence)
 
     expect(result.id).toBe('ev-1')
+  })
+
+  it('rejects conflicting data behind a duplicate ID rather than inventing successful work', async () => {
+    await expect(recordLearningEvidence(store({
+      insert: async () => ({ error: { code: '23505', message: 'duplicate key' } }),
+      find: async () => ({ data: { payload: { ...evidence, correct: false } }, error: null }),
+    }), 'user-1', evidence)).rejects.toThrow('different or unavailable answer')
+  })
+
+  it('does not accept an unreadable or absent duplicate as a saved answer', async () => {
+    for (const find of [
+      async () => ({ data: null, error: null }),
+      async () => ({ data: null, error: { code: '42501', message: 'permission denied' } }),
+    ]) {
+      await expect(recordLearningEvidence(store({
+        insert: async () => ({ error: { code: '23505', message: 'duplicate key' } }),
+        find,
+      }), 'user-1', evidence)).rejects.toThrow('Could not verify saved learning evidence')
+    }
   })
 
   it('does not hide genuine save failures', async () => {
