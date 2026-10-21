@@ -4,6 +4,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
+import { loadLearnExposures, markLearnPageReviewed, type LearnPageExposure } from '../services/progress/learn-exposure-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
 import {
   loadUpcomingPublicExamAssessments,
@@ -196,6 +197,7 @@ export function CourseExperienceScreen({
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
   const active = memberships.some((membership) => membership.courseId === courseId)
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
+  const [reviewedPages, setReviewedPages] = useState<LearnPageExposure[]>([])
   const [loading, setLoading] = useState(true)
   const [evidenceError, setEvidenceError] = useState('')
   const [savingEvidence, setSavingEvidence] = useState(false)
@@ -207,10 +209,14 @@ export function CourseExperienceScreen({
     let current = true
     if (!resolved || !active) return () => { current = false }
     const store = createSupabaseEvidenceStore(client)
-    Promise.all(resolved.course.modules.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
-      .then((items) => {
+    Promise.all([
+      Promise.all(resolved.course.modules.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id))),
+      loadLearnExposures(client, userId),
+    ])
+      .then(([items, exposures]) => {
         if (!current) return
         setEvidence(items.flat())
+        setReviewedPages(exposures)
         setEvidenceError('')
       })
       .catch((error: unknown) => {
@@ -238,6 +244,20 @@ export function CourseExperienceScreen({
       })
     return () => { current = false }
   }, [active, client, resolved, userId])
+
+  async function saveReviewedPage(adapter: LearningContentAdapter, pageId: string, topicId: string) {
+    if (!resolved || !active) throw new Error('This course is not in your active programme.')
+    const exactPage = adapter.listLearnChapters().flatMap(chapter => chapter.groups.flatMap(group => group.pages))
+      .find(page => page.id === pageId && page.topicId === topicId)
+    if (!exactPage || !resolved.course.modules.some(module => module.manifest.id === adapter.manifest.id)) {
+      throw new Error('This Learn page is not available for your saved course.')
+    }
+    const saved = await markLearnPageReviewed(client, {
+      userId, courseId: resolved.course.id, moduleId: adapter.manifest.id, topicId, pageId,
+    })
+    setReviewedPages(current => [...current.filter(item => !(item.courseId === saved.courseId
+      && item.moduleId === saved.moduleId && item.pageId === saved.pageId)), saved])
+  }
 
   async function saveLearningEvidence(item: LearningEvidence) {
     setSavingEvidence(true)
@@ -276,6 +296,15 @@ export function CourseExperienceScreen({
   if (loading) return <LoadingState className="page-screen">Loading {resolved.label}…</LoadingState>
 
   const { course, subject, label } = resolved
+  // Never render zero coverage, understanding or readiness from an incomplete
+  // evidence/exposure load. Learn reading itself remains usable.
+  if (evidenceError && requestedSection !== 'learn') return (
+    <main className="dashboard page-screen" aria-label="Course progress temporarily unavailable">
+      <Status tone="warning">Your saved course progress could not be loaded. Revision cannot safely show your progress or recommend a scored activity until it can check your records.</Status>
+      <Button onClick={() => window.location.reload()}>Retry loading progress</Button>
+      <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'learn')}>Open Learn instead</Button>
+    </main>
+  )
   const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   if (pilotRestricted && requestedSection === 'exam-prep') return (
     <main className="dashboard page-screen" aria-label="Exam preparation pilot restriction">
@@ -285,7 +314,7 @@ export function CourseExperienceScreen({
   )
 
   if (course.sharedLearning) {
-    const state = createCourseLearningState(course, evidence)
+    const state = createCourseLearningState(course, evidence, reviewedPages)
     const sections = availableCourseSections(course).filter((entry) => !pilotRestricted || entry !== 'exam-prep')
     const section = sections.includes(requestedSection as CourseSection) ? requestedSection as CourseSection : 'overview'
     const adapter = course.learningAdapter
@@ -337,7 +366,7 @@ export function CourseExperienceScreen({
           </div>
         </div>}
 
-        {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
+        {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
 
         {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{!pilotRestricted && sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
@@ -367,7 +396,7 @@ export function CourseExperienceScreen({
     return <main className="dashboard page-screen"><Status tone="warning">This component is not available within {label}.</Status><Button onClick={() => onOpenCourseSection(course.id, 'overview')}>Back to course</Button></main>
   }
   const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
-  const state = createModuleLearningState(adapter, evidence)
+  const state = createModuleLearningState(adapter, evidence, reviewedPages, course.id)
   const sections = availablePaperSections(adapter).filter((entry) => !pilotRestricted || entry !== 'exam-prep')
   const section = sections.includes(requestedSection as PaperSection) ? requestedSection as PaperSection : 'overview'
   const topics = adapter.listTopics()
@@ -381,7 +410,7 @@ export function CourseExperienceScreen({
       <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
       {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
-      {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
+      {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={!pilotRestricted} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>)}</div>}
       {section === 'progress' && <div className="paper-section-content"><ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenModuleSection(course.id, adapter.manifest.id, action.section)} /></div>}

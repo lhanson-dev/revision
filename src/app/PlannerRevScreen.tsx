@@ -3,6 +3,7 @@ import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent, savePlanningPreference, type PlanningPreferenceType, type RevisionPlanningPreference } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import { loadLearnExposures } from '../services/progress/learn-exposure-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
@@ -134,14 +135,15 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
       loadPlannerSetup(client, userId),
       loadPlannedSessions(client, userId, localDate(now), plusDays(now, ACCEPTED_COMMITMENT_HORIZON_DAYS - 1)),
       Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
+      loadLearnExposures(client, userId),
     ])
-      .then(([plannerSetup, accepted, evidenceByModule]) => {
+      .then(([plannerSetup, accepted, evidenceByModule, exposures]) => {
         if (!active) return
         const evidence = evidenceByModule.flat()
         const states: ModuleLearningState[] = []
         programme.forEach(({ course }) => {
-          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence))
-          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence)))
+          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence, exposures))
+          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence, exposures, course.id)))
         })
         setLearningStates(states)
         setSessions(accepted)

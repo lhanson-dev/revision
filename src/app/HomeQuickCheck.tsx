@@ -34,6 +34,8 @@ interface Props {
   results: readonly boolean[]
   backLabel: string
   finishedBooking: ReactNode
+  completionPending: boolean
+  onRetryCompletion: () => void
   onSelect: (index: number) => void
   onCheck: () => void
   onNext: () => void
@@ -42,7 +44,7 @@ interface Props {
 }
 
 /** Presentation only: the parent retains evidence, dose and planner ownership. */
-export function HomeQuickCheck({ task, questions, index, actualMinutes, selected, checked, saving, error, results, backLabel, finishedBooking, onSelect, onCheck, onNext, onBack, onFinish }: Props) {
+export function HomeQuickCheck({ task, questions, index, actualMinutes, selected, checked, saving, error, results, backLabel, finishedBooking, completionPending, onRetryCompletion, onSelect, onCheck, onNext, onBack, onFinish }: Props) {
   const [summary, setSummary] = useState(false)
   const question = questions[index]
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -65,7 +67,7 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
 
   function advance() {
     if (!checked || saving) return
-    if (last) setSummary(true)
+    if (last && !completionPending) setSummary(true)
     else onNext()
   }
 
@@ -117,7 +119,9 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
                 return <button key={position} type="button" className="ui-answer-option" data-quick-action="option" data-state={state} aria-pressed={selected === position} disabled={checked || saving} onClick={() => onSelect(position)}><span className="ui-answer-option__letter home-quick-check__letter" aria-hidden="true">{state === 'right' || state === 'wrong' ? <Icon name={state === 'right' ? 'check' : 'close'} size="inline" /> : String.fromCharCode(65 + position)}</span><span className="ui-answer-option__text">{displayQuickCheckTerm(option)}</span>{state === 'right' && <small className="ui-answer-option__note">Correct</small>}{state === 'wrong' && <small className="ui-answer-option__note">Your answer</small>}</button>
               })}
             </div>
-            {checked ? <div ref={nextRef} className="home-quick-check__feedback" data-state={right ? 'right' : 'wrong'} aria-live="polite"><span className="home-quick-check__feedback-icon"><Icon name={right ? 'check' : 'close'} /></span><div><h3>{right ? 'Correct.' : `Not quite. It's ${question.options[question.correctOption].toLocaleLowerCase()}.`}</h3><p>{question.explanation}</p></div><Button size="large" data-quick-action="next" disabled={saving} onClick={advance}>{last ? 'See how it went' : 'Next question'}<kbd>Enter</kbd></Button></div> : <div className="home-quick-check__actions"><Button size="large" data-quick-action="check" className={selected === null ? 'home-quick-check__check-empty' : undefined} aria-disabled={selected === null || saving} disabled={saving} onClick={() => { if (selected !== null && !saving) onCheck() }}>{saving ? 'Saving answer…' : selected === null ? 'Pick an answer to check' : <>Check “{displayQuickCheckTerm(picked)}”<kbd>Enter</kbd></>}</Button><p><Icon name="info" size="inline" /> Each answer is saved as evidence. One answer alone doesn’t decide your understanding or exam readiness.</p></div>}
+            {checked ? <div ref={nextRef} className="home-quick-check__feedback" data-state={right ? 'right' : 'wrong'} aria-live="polite"><span className="home-quick-check__feedback-icon"><Icon name={right ? 'check' : 'close'} /></span><div><h3>{right ? 'Correct.' : `Not quite. It's ${question.options[question.correctOption].toLocaleLowerCase()}.`}</h3><p>{question.explanation}</p></div>{last && completionPending
+              ? <Button size="large" disabled={saving} onClick={onRetryCompletion}>Retry confirming session</Button>
+              : <Button size="large" data-quick-action="next" disabled={saving} onClick={advance}>{last ? 'See how it went' : 'Next question'}<kbd>Enter</kbd></Button>}</div> : <div className="home-quick-check__actions"><Button size="large" data-quick-action="check" className={selected === null ? 'home-quick-check__check-empty' : undefined} aria-disabled={selected === null || saving} disabled={saving} onClick={() => { if (selected !== null && !saving) onCheck() }}>{saving ? 'Saving answer…' : selected === null ? 'Pick an answer to check' : <>Check “{displayQuickCheckTerm(picked)}”<kbd>Enter</kbd></>}</Button><p><Icon name="info" size="inline" /> Each answer is saved as evidence. One answer alone doesn’t decide your understanding or exam readiness.</p></div>}
           </div>
         )}
       </section>

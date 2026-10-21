@@ -12,9 +12,16 @@ const subjectByModuleId = new Map(availableAdapters.map((adapter) => [adapter.ma
 /** Whole-paper results are not proof that a particular started topic activity finished. */
 export function evidenceCompletesPlannerStart(
   item: LearningEvidence,
-  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'>,
+  start: Pick<RevisionActivityEvent, 'subjectId' | 'topicId' | 'occurredAt'> & Partial<Pick<RevisionActivityEvent, 'moduleId' | 'activityType'>>,
 ): boolean {
+  // An answered question never proves a longer session, passive Learn exposure,
+  // or an unrelated activity was completed after its Start.
+  // Only an explicitly identified single exam question may be reconciled
+  // from one saved response. Unknown legacy activity types are not proof of
+  // work completion; multi-question sessions have an explicit completion event.
+  if (start.activityType !== 'exam-question' || item.source !== 'exam_question') return false
   return isTopicScopedEvidence(item)
+    && (!start.moduleId || item.moduleId === start.moduleId)
     && subjectByModuleId.get(item.moduleId) === start.subjectId
     && item.topicId === start.topicId
     && new Date(item.occurredAt).getTime() >= new Date(start.occurredAt).getTime()
@@ -50,8 +57,7 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
         && event.metadata.completionMode !== 'explicit_focused_session'
         // Legacy start records without a marker cannot prove the new multi-item
         // session ended merely because one scored answer was saved.
-        && event.activityType !== 'quick-check'
-        && event.activityType !== 'flashcards',
+        && event.activityType === 'exam-question',
       )
       if (unmatchedStarts.length === 0) return
 

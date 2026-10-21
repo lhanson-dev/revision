@@ -80,7 +80,8 @@ async function seedSyntheticSession(page: Page) {
   await page.route('**/rest/v1/learner_course_events**', async (route) => {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
-  for (const table of ['learning_evidence', 'revision_assessments', 'revision_availability_exceptions', 'revision_planning_preferences', 'revision_activity_events']) {
+  for (const table of ['learning_evidence',
+    'learner_learn_exposures', 'revision_assessments', 'revision_availability_exceptions', 'revision_planning_preferences', 'revision_activity_events']) {
     await page.route(`**/rest/v1/${table}**`, async (route) => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     })

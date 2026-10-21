@@ -34,11 +34,23 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [completed, setCompleted] = useState(false)
+  // A scored answer can be safely saved while the separate Plan completion write fails.
+  // Keep the session unfinished and let the student retry only that completion write.
+  const [completionPending, setCompletionPending] = useState(false)
   const [bookedSessionDone, setBookedSessionDone] = useState(false)
   const [activityIndex, setActivityIndex] = useState(0)
   const [results, setResults] = useState<boolean[]>([])
   // Reuse the same ID when an uncertain network write is retried.
   const evidenceIds = useRef(new Map<string, string>())
+  const completionEventId = useRef<string | null>(null)
+  const pendingEvidence = useRef(new Map<string, LearningEvidence>())
+  function stableAnswer(key: string, create: () => LearningEvidence): LearningEvidence {
+    const existing = pendingEvidence.current.get(key)
+    if (existing) return existing
+    const evidence = create()
+    pendingEvidence.current.set(key, evidence)
+    return evidence
+  }
   function stableEvidenceId(prefix: string, contentId: string) {
     const key = prefix + ':' + contentId
     const existing = evidenceIds.current.get(key)
@@ -50,19 +62,32 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   async function markSessionFinished(totalItems: number) {
     if (!task.plannerItem) return
+    if (!completionEventId.current) completionEventId.current = crypto.randomUUID()
+    await recordPlannerActivityEvent(client, userId, {
+      eventId: completionEventId.current,
+      recommendationId: task.id,
+      eventType: 'completed',
+      subjectId: task.subjectId,
+      courseId: task.courseId,
+      moduleId: task.adapter.manifest.id,
+      topicId: task.topicId,
+      activityType: task.activityType,
+      metadata: { source: 'focused_session_completed', evidenceItems: totalItems },
+    })
+  }
+
+  async function retryCompletion() {
+    if (!completionPending || saving) return
+    setSaving(true)
+    setError('')
     try {
-      await recordPlannerActivityEvent(client, userId, {
-        recommendationId: task.id,
-        eventType: 'completed',
-        subjectId: task.subjectId,
-        courseId: task.courseId,
-        moduleId: task.adapter.manifest.id,
-        topicId: task.topicId,
-        activityType: task.activityType,
-        metadata: { source: 'focused_session_completed', evidenceItems: totalItems },
-      })
+      await markSessionFinished(totalItems)
+      setCompletionPending(false)
+      setCompleted(true)
     } catch {
-      setError('Your answers were saved, but Plan could not confirm this session as completed. You can still return to your plan.')
+      setError('Your answers are saved, but Plan could not confirm completion. Retry without answering again.')
+    } finally {
+      setSaving(false)
     }
   }
   // The content activity finishing is not proof that a longer student-booked
@@ -88,9 +113,10 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     setError('')
     try {
       await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, evidence)
+      await markSessionFinished(1)
       setCompleted(true)
     } catch (reason: unknown) {
-      const message = reason instanceof Error ? reason.message : 'Could not save this exam answer.'
+      const message = reason instanceof Error ? reason.message : 'Could not confirm this exam answer. Your answer may already be saved; retry using the same attempt.'
       setError(message)
       throw reason
     } finally {
@@ -123,17 +149,19 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   ) : null
 
   async function saveFlashcard(rating: 0 | 1 | 2) {
-    if (!card || saving) return
+    if (!card || saving || completionPending) return
     setSaving(true)
     setError('')
+    let answerSaved = false
     try {
-      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createFlashcardEvidence({
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, stableAnswer('flashcard:' + card.id, () => createFlashcardEvidence({
         id: stableEvidenceId('home-flashcard', card.id),
         moduleId: task.adapter.manifest.id,
         topicId: card.topic,
         contentId: card.id,
         rating,
-      }))
+      })))
+      answerSaved = true
       if (activityIndex + 1 >= cardCount) {
         await markSessionFinished(cardCount)
         setCompleted(true)
@@ -142,7 +170,12 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         setShowAnswer(false)
       }
     } catch (reason: unknown) {
-      setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your work is still on screen.')
+      if (answerSaved) {
+        setCompletionPending(true)
+        setError('Your card answer was saved, but Plan could not confirm completion. Retry without answering again.')
+      } else {
+        setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your work is still on screen.')
+      }
     } finally {
       setSaving(false)
     }
@@ -152,15 +185,17 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     if (!question || selectedOption === null || checked || saving) return
     setSaving(true)
     setError('')
+    let answerSaved = false
     try {
-      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, createMultipleChoiceEvidence({
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId, stableAnswer('quick-check:' + question.id, () => createMultipleChoiceEvidence({
         id: stableEvidenceId('home-quick-check', question.id),
         moduleId: task.adapter.manifest.id,
         topicId: question.topic,
         contentId: question.id,
         selectedOption,
         correctOption: question.correctOption,
-      }))
+      })))
+      answerSaved = true
       setChecked(true)
       setResults(previous => [...previous, selectedOption === question.correctOption])
       if (activityIndex + 1 >= questionCount) {
@@ -168,7 +203,12 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         setCompleted(true)
       }
     } catch (reason: unknown) {
-      setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your answer is still on screen.')
+      if (answerSaved) {
+        setCompletionPending(true)
+        setError('Your question answer was saved, but Plan could not confirm completion. Retry without answering again.')
+      } else {
+        setError(reason instanceof Error ? reason.message : 'Could not save this activity. Your answer is still on screen.')
+      }
     } finally {
       setSaving(false)
     }
@@ -178,6 +218,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     <HomeQuickCheck task={task} questions={questions.slice(0, questionCount)} index={activityIndex}
       actualMinutes={actualMinutes} selected={selectedOption} checked={checked} saving={saving}
       error={error} results={results} backLabel={backLabel} finishedBooking={finishedBooking}
+      completionPending={completionPending} onRetryCompletion={() => void retryCompletion()}
       onSelect={setSelectedOption} onCheck={() => void checkQuestion()}
       onNext={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setChecked(false) }}
       onBack={onBack} onFinish={onFinish} />
@@ -207,6 +248,9 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         {task.activityType === 'exam-question' && !examTarget && <Status tone="warning">An assured exam question for this course and topic is not available yet. No activity or result has been recorded. Return to Home to choose another activity.</Status>}
         {task.activityType === 'flashcards' && card && !completed && (
           <div className="home-focused-practice">
+            {completionPending ? (
+              <Button disabled={saving} onClick={() => void retryCompletion()}>Retry confirming session</Button>
+            ) : (<>
             <p className="eyebrow">Flashcard {activityIndex + 1} of {cardCount}</p>
             <h2>{card.prompt}</h2>
             {!showAnswer ? (
@@ -222,6 +266,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
                 </div>
               </>
             )}
+            </>)}
           </div>
         )}
 

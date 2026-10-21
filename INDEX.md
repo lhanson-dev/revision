@@ -26,6 +26,8 @@ Use this file to find the governing source before substantive work.
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - PR #623 Home visual approval / baseline provenance (not merge authority) → `audits/2026-10-13-home-622-visual-approval.md`
 - PR #637 FI-001 Home Practice-question visual approval (four baselines only; not merge authority) → `audits/2026-10-18-fi001-home-practice-visual-approval.md`
+- PR #655 R2 Learn desktop light/dark visual approval (two baselines only; not merge authority) → `audits/2026-10-21-pr655-learn-visual-approval.md`
+- PR #655 Practice phone light visual approval (one baseline only; not merge authority) → `audits/2026-10-21-pr655-practice-phone-light-visual-approval.md`
 - Issue #622 Home refinement review evidence (not authority) → `audits/2026-10-13-home-refinement-622.md`
 - Returning Student Home / direct useful-activity implementation → `docs/technical/Returning Student Home Implementation.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
@@ -83,6 +85,7 @@ Use this file to find the governing source before substantive work.
 - FI-001 supervised real-student comprehension study protocol (observation not yet performed) → `audits/2026-10-20-fi001-student-comprehension-study-protocol.md`
 - Proposed architecture decision (not yet accepted/implemented) → `decisions/ADR-0032-proposed-single-exam-backwards-programme.md`
 
+- Recovery R2 focused learning evidence and activity integrity (candidate technical implementation) → `docs/technical/Recovery R2 Activity Integrity Implementation.md`
 - Current product recovery control programme (Phase 1 approved PR #653; implementation corrections tracked separately) → `docs/technical/Revision Product Recovery Control Plan.md`
 - 21 October recovery approved-main source audit, technical risks and open-PR coordination inventory (dated evidence) → `audits/2026-10-21-revision-recovery-phase1-baseline.md`
 

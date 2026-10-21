@@ -478,6 +478,8 @@ export async function recordPlannerActivityEvent(
   client: SupabaseClient,
   userId: string,
   value: {
+    /** Stable UUID supplied for a retried completion event. */
+    eventId?: string
     recommendationId?: string
     eventType: PlannerActivityEventType
     subjectId: string
@@ -489,9 +491,11 @@ export async function recordPlannerActivityEvent(
   },
 ): Promise<RevisionActivityEvent> {
   if (!value.subjectId.trim()) throw new Error('Planner activity subject is required.')
-  const { data, error } = await client
-    .from('revision_activity_events')
-    .insert({
+  if (value.eventId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value.eventId)) {
+    throw new Error('Planner activity retry ID is invalid.')
+  }
+  const fact = {
+      ...(value.eventId ? { event_id: value.eventId } : {}),
       user_id: userId,
       recommendation_id: value.recommendationId?.trim() || null,
       event_type: value.eventType,
@@ -501,10 +505,37 @@ export async function recordPlannerActivityEvent(
       topic_id: value.topicId?.trim() || null,
       activity_type: value.activityType?.trim() || null,
       metadata: value.metadata ?? {},
-    })
-    .select('event_id,user_id,recommendation_id,event_type,subject_id,course_id,module_id,topic_id,activity_type,occurred_at,metadata')
-    .single()
+    }
+  const columns = 'event_id,user_id,recommendation_id,event_type,subject_id,course_id,module_id,topic_id,activity_type,occurred_at,metadata'
+  const { data, error } = await client.from('revision_activity_events')
+    .insert(fact).select(columns).single()
 
+  if (error?.code === '23505' && value.eventId) {
+    const { data: existing, error: lookupError } = await client.from('revision_activity_events')
+      .select(columns).eq('user_id', userId).eq('event_id', value.eventId).maybeSingle()
+    if (lookupError || !existing) throw new Error('Could not verify the saved planner completion. Please retry.')
+    const saved = existing as ActivityEventRow
+    const canonical = (input: unknown): unknown => {
+      if (Array.isArray(input)) return input.map(canonical)
+      if (input !== null && typeof input === 'object') {
+        return Object.fromEntries(Object.entries(input).sort(([a], [b]) => a.localeCompare(b))
+          .map(([key, item]) => [key, canonical(item)]))
+      }
+      return input
+    }
+    // The ID alone is never sufficient. Confirm the same owner, activity and
+    // metadata were accepted before treating a duplicate as an idempotent retry.
+    const savedFact = {
+      event_id: saved.event_id, user_id: saved.user_id, recommendation_id: saved.recommendation_id,
+      event_type: saved.event_type, subject_id: saved.subject_id, course_id: saved.course_id,
+      module_id: saved.module_id, topic_id: saved.topic_id, activity_type: saved.activity_type,
+      metadata: saved.metadata ?? {},
+    }
+    if (JSON.stringify(canonical(savedFact)) !== JSON.stringify(canonical(fact))) {
+      throw new Error('Could not verify the saved planner completion: conflicting activity details.')
+    }
+    return activityEventFromRow(saved)
+  }
   if (error) throw new Error(`Could not record planner activity: ${error.message}`)
   return activityEventFromRow(data as ActivityEventRow)
 }

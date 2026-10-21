@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import { loadLearnExposures, type LearnPageExposure } from '../services/progress/learn-exposure-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
 import {
   createCourseLearningState,
@@ -27,17 +28,17 @@ type ProgrammeProgressScreenProps = {
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
-function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['courses'], evidence: readonly LearningEvidence[]) {
+function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['courses'], evidence: readonly LearningEvidence[], exposures: readonly LearnPageExposure[]) {
   const states: Array<{ courseId: string; label: string; states: ModuleLearningState[] }> = []
   programme.forEach(({ course, label }) => {
     if (course.sharedLearning) {
-      states.push({ courseId: course.id, label, states: [createCourseLearningState(course, evidence)] })
+      states.push({ courseId: course.id, label, states: [createCourseLearningState(course, evidence, exposures)] })
       return
     }
     states.push({
       courseId: course.id,
       label,
-      states: course.modules.map((adapter) => createModuleLearningState(adapter, evidence)),
+      states: course.modules.map((adapter) => createModuleLearningState(adapter, evidence, exposures, course.id)),
     })
   })
   return states
@@ -47,6 +48,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const programme = useMemo(() => projectLearnerProgramme(catalogue, memberships), [catalogue, memberships])
   const adapters = useMemo(() => adaptersForProgramme(programme.courses), [programme.courses])
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
+  const [exposures, setExposures] = useState<LearnPageExposure[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -54,10 +56,14 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
     let active = true
     if (adapters.length === 0) return () => { active = false }
     const store = createSupabaseEvidenceStore(client)
-    Promise.all(adapters.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
-      .then((items) => {
+    Promise.all([
+      Promise.all(adapters.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id))),
+      loadLearnExposures(client, userId),
+    ])
+      .then(([items, reviewed]) => {
         if (!active) return
         setEvidence(items.flat())
+        setExposures(reviewed)
         setError('')
       })
       .catch((caught: unknown) => {
@@ -69,7 +75,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
     return () => { active = false }
   }, [adapters, client, userId])
 
-  const grouped = useMemo(() => courseStates(programme.courses, evidence), [evidence, programme.courses])
+  const grouped = useMemo(() => courseStates(programme.courses, evidence, exposures), [evidence, exposures, programme.courses])
   const allStates = useMemo(() => grouped.flatMap((item) => item.states), [grouped])
   const [now] = useState(() => new Date())
   const measures = useMemo(() => progressMeasuresFor(allStates), [allStates])
@@ -78,6 +84,13 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const nextTopicName = nextAction?.topicName ?? null
 
   if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
+  if (error) return (
+    <main className="dashboard page-screen" aria-label="Progress temporarily unavailable">
+      <Status tone="warning">Your saved progress could not be loaded. Revision will not show zero coverage or readiness while your existing records are unavailable.</Status>
+      <Button onClick={() => window.location.reload()}>Retry loading progress</Button>
+      <Button variant="secondary" onClick={onOpenCourses}>Open Courses</Button>
+    </main>
+  )
 
   return (
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
@@ -94,7 +107,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
 
           <ProgressMeasures covered={measures.covered} total={measures.total} understanding={measures.understanding} readiness={readiness.value} readinessNote={readiness.note} />
 
-          {evidence.length === 0 && (
+          {evidence.length === 0 && exposures.length === 0 && (
             <section className="progress-empty-card" aria-labelledby="progress-empty-title">
               <RevPresence size="compact" decorative />
               <div>

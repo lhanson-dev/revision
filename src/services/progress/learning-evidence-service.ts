@@ -3,11 +3,25 @@ import { learningEvidenceSchema, type LearningEvidence } from '../../engine/evid
 import { toLearningEvidenceRecord, type LearningEvidenceRecord } from './evidence-record'
 
 type EvidenceRow = { payload: unknown }
+
+/** JSONB does not retain object-key insertion order; compare validated facts structurally. */
+function sameEvidenceFact(a: unknown, b: unknown): boolean {
+  const canonical = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(canonical)
+    if (value !== null && typeof value === 'object') {
+      return Object.fromEntries(Object.entries(value).sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, item]) => [key, canonical(item)]))
+    }
+    return value
+  }
+  return JSON.stringify(canonical(a)) === JSON.stringify(canonical(b))
+}
 type DatabaseError = { code?: string; message: string }
 
 export type EvidenceStore = {
   insert(record: LearningEvidenceRecord): Promise<{ error: DatabaseError | null }>
   list(userId: string, moduleId: string, topicId?: string): Promise<{ data: EvidenceRow[] | null; error: DatabaseError | null }>
+  find(userId: string, evidenceId: string): Promise<{ data: EvidenceRow | null; error: DatabaseError | null }>
 }
 
 export function createSupabaseEvidenceStore(client: SupabaseClient): EvidenceStore {
@@ -28,6 +42,15 @@ export function createSupabaseEvidenceStore(client: SupabaseClient): EvidenceSto
       const { data, error } = await query
       return { data: data as EvidenceRow[] | null, error }
     },
+    async find(userId, evidenceId) {
+      const { data, error } = await client
+        .from('learning_evidence')
+        .select('payload')
+        .eq('user_id', userId)
+        .eq('evidence_id', evidenceId)
+        .maybeSingle()
+      return { data: data as EvidenceRow | null, error }
+    },
   }
 }
 
@@ -40,9 +63,17 @@ export async function recordLearningEvidence(
   const record = toLearningEvidenceRecord(userId, evidence)
   const { error } = await store.insert(record)
 
-  // Evidence IDs are stable. Treat a primary-key collision as an idempotent retry,
-  // never as permission to mutate an existing evidence fact.
-  if (error && error.code !== '23505') {
+  // A duplicate (user_id, evidence_id) is an accepted retry ONLY when the
+  // previously saved fact is readable and exactly the same. A collision is not
+  // permission to invent progress, change an answer or mask a failed write.
+  if (error?.code === '23505') {
+    const existing = await store.find(userId, evidence.id)
+    if (existing.error) throw new Error(`Could not verify saved learning evidence: ${existing.error.message}`)
+    const parsed = existing.data ? learningEvidenceSchema.safeParse(existing.data.payload) : null
+    if (!parsed?.success || !sameEvidenceFact(parsed.data, evidence)) {
+      throw new Error('Could not verify saved learning evidence: this ID belongs to a different or unavailable answer.')
+    }
+  } else if (error) {
     throw new Error(`Could not save learning evidence: ${error.message}`)
   }
 

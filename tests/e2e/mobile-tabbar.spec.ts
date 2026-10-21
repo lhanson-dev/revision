@@ -74,6 +74,7 @@ async function seedSession(page: Page) {
 
   for (const endpoint of [
     'learning_evidence',
+    'learner_learn_exposures',
     'revision_assessments',
     'revision_availability_exceptions',
     'revision_planning_preferences',

@@ -82,6 +82,7 @@ async function seedSession(page: Page) {
 
   for (const endpoint of [
     'learning_evidence',
+    'learner_learn_exposures',
     'revision_assessments',
     'revision_availability_exceptions',
     'revision_planning_preferences',
@@ -274,4 +275,64 @@ test('Learn uses the shared course-section and body canvas while constraining on
   expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
   expect(Math.abs(practiceSurfaceBox!.x - practiceContextBox!.x)).toBeLessThanOrEqual(1)
   expect(Math.abs(practiceSurfaceBox!.width - practiceContextBox!.width)).toBeLessThanOrEqual(1)
+})
+
+test('explicit Learn page review survives refresh, while a failed save never awards coverage', async ({ page }) => {
+  await seedSession(page)
+  let saved: Record<string, unknown> | null = null
+  let failNext = true
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    if (route.request().method() === 'POST') {
+      if (failNext) {
+        failNext = false
+        await route.fulfill({ status: 503, contentType: 'application/json', body: '{"code":"PGRST000","message":"temporarily unavailable"}' })
+        return
+      }
+      const body = route.request().postDataJSON() as Record<string, unknown>
+      saved = { ...body, reviewed_at: '2026-10-21T11:00:00.000Z' }
+      await route.fulfill({ status: 201, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify(saved) })
+      return
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(saved ? [saved] : []) })
+  })
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/learn`)
+  const review = page.getByRole('button', { name: 'I have read this page' })
+  await expect(review).toBeVisible()
+  await review.click()
+  await expect(page.getByRole('alert').filter({ hasText: 'Could not save reviewed page' })).toBeVisible()
+  await expect(review).toBeVisible()
+  expect(saved).toBeNull()
+  await review.click()
+  await expect(page.getByText('Page reviewed. This records reading, not understanding or exam readiness.')).toBeVisible()
+  expect(saved).toMatchObject({ course_id: asCourseId })
+  await page.reload()
+  await expect(page.getByText('Page reviewed. This records reading, not understanding or exam readiness.')).toBeVisible()
+})
+
+test('failed Learn exposure reads do not invent zero course progress, but teaching remains available', async ({ page }) => {
+  await seedSession(page)
+  await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
+    status: 400, contentType: 'application/json',
+    body: '{"code":"PGRST001","message":"unavailable learn exposure history"}',
+  }))
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(aLevelCourseId)}/progress`)
+  const unavailable = page.getByRole('main', { name: 'Course progress temporarily unavailable' })
+  await expect(unavailable).toBeVisible()
+  await expect(unavailable).toContainText('cannot safely show your progress')
+  await expect(unavailable.getByText(/0 of .* topics covered/i)).toHaveCount(0)
+  await unavailable.getByRole('button', { name: 'Open Learn instead' }).click()
+  await expect(page.locator('article.learn-reading-page')).toBeVisible()
+})
+
+test('failed Learn exposure reads do not show false zero on global Progress', async ({ page }) => {
+  await seedSession(page)
+  await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({
+    status: 400, contentType: 'application/json',
+    body: '{"code":"PGRST001","message":"unavailable learn exposure history"}',
+  }))
+  await page.goto(`${appPath}#/progress`)
+  const unavailable = page.getByRole('main', { name: 'Progress temporarily unavailable' })
+  await expect(unavailable).toBeVisible()
+  await expect(unavailable).toContainText('will not show zero coverage or readiness')
+  await expect(unavailable.getByText(/0 of .* topics covered/i)).toHaveCount(0)
 })

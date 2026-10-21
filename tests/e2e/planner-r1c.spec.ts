@@ -56,7 +56,7 @@ test('R1-11: starting-check-only learner receives guidance but no scored Progres
   const covered = page.locator('.ui-progress-measure').filter({ hasText: 'Topics covered' }).first()
   await expect(covered.locator('.ui-progress-measure__number')).toHaveText('0')
   await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Progress summary' })).toContainText('You haven’t answered anything yet')
+  await expect(page.getByRole('region', { name: 'Progress summary' })).toContainText('You haven’t marked any Learn pages as read or answered any scored questions yet')
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
 
   await page.reload()
@@ -73,6 +73,9 @@ test('R1-11: existing accepted Today remains one commitment after directional-on
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(observations) })
   })
   let scoredWrites = 0
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     if (route.request().method() !== 'GET') scoredWrites += 1
     await route.fulfill({ status: route.request().method() === 'GET' ? 200 : 201, contentType: 'application/json', body: '[]' })

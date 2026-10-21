@@ -58,6 +58,9 @@ async function seedReturningStudent(page: Page) {
   await page.route('**/rest/v1/learner_course_events**', async (route) => {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: route.request().method() === 'POST' ? 201 : 200, contentType: 'application/json', body: '[]' })
   })
@@ -100,7 +103,7 @@ test('a brand-new student sees an honest Progress screen: a plain sentence, one 
 
   const summary = page.getByRole('region', { name: 'Progress summary' })
   await expect(summary).toBeVisible()
-  await expect(summary).toContainText('You haven’t answered anything yet')
+  await expect(summary).toContainText('You haven’t marked any Learn pages as read or answered any scored questions yet')
   await expect(summary.locator('.progress-intro__why')).toContainText('Why:')
   await expect(summary.getByRole('button').first()).toHaveCSS('min-height', '48px')
 

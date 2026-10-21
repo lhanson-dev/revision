@@ -27,6 +27,7 @@ import {
   type RevisionWeeklyAvailability,
 } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import { loadLearnExposures } from '../services/progress/learn-exposure-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
@@ -203,14 +204,15 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
     Promise.all([
       loadPlannerSetup(client, userId),
       Promise.all(adapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
+      loadLearnExposures(client, userId),
     ])
-      .then(([setup, evidenceByModule]) => {
+      .then(([setup, evidenceByModule, exposures]) => {
         if (!active) return
         const evidence = evidenceByModule.flat()
         const states: ModuleLearningState[] = []
         programme.forEach(({ course }) => {
-          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence))
-          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence)))
+          if (course.sharedLearning) states.push(createCourseLearningState(course, evidence, exposures))
+          else course.modules.forEach((adapter) => states.push(createModuleLearningState(adapter, evidence, exposures, course.id)))
         })
         setLearningStates(states)
         setAssessments(setup.assessments)

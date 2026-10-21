@@ -50,6 +50,7 @@ async function seedSyntheticSession(page: Page) {
   })
   for (const path of [
     'learning_evidence',
+    'learner_learn_exposures',
     'revision_assessments',
     'revision_availability_exceptions',
     'revision_planning_preferences',

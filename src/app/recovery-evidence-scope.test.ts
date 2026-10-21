@@ -118,11 +118,18 @@ describe('Recovery evidence-scope integrity — legacy full-paper attempts', () 
       occurredAt: '2026-10-21T09:00:00.000Z',
     }
     expect(evidenceCompletesPlannerStart(wholePaper(100), start)).toBe(false)
-    expect(evidenceCompletesPlannerStart(topicQuestion(0), start)).toBe(true)
+    // Unknown legacy Start types must not be completed from a single answer.
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), start)).toBe(false)
     expect(evidenceCompletesPlannerStart(topicQuestion(0),
       { ...start, topicId: 'another-topic' })).toBe(false)
     expect(evidenceCompletesPlannerStart(topicQuestion(0),
       { ...start, occurredAt: '2026-10-22T09:00:00.000Z' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'quick-check' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicCard(0), { ...start, activityType: 'flashcards' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'learn' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'practice' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, activityType: 'exam-question' })).toBe(false)
+    expect(evidenceCompletesPlannerStart(topicQuestion(0), { ...start, moduleId: 'psychology-other' })).toBe(false)
   })
 
   it('continues to recognise a genuinely topic-attributed exam question', () => {
@@ -137,5 +144,10 @@ describe('Recovery evidence-scope integrity — legacy full-paper attempts', () 
     expect(state.topicKnowledge.topics.find((topic) => topic.topicId === firstTopic)?.distinctContentItems).toBe(1)
     expect(topicProgressFor(state)[firstTopic]?.status).toBe('started')
     expect(state.evidence).toHaveLength(2)
+    expect(evidenceCompletesPlannerStart(question, {
+      subjectId: 'business', topicId: firstTopic,
+      occurredAt: '2026-10-21T09:00:00.000Z',
+      activityType: 'exam-question', moduleId,
+    })).toBe(true)
   })
 })

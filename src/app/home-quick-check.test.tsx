@@ -16,10 +16,11 @@ const task = {
   source: 'rules', estimatedMinutes: 2,
 } as HomeTask
 
-function render(selected: number | null, checked = false, saving = false) {
+function render(selected: number | null, checked = false, saving = false, completionPending = false) {
   return renderToStaticMarkup(createElement(HomeQuickCheck, {
     task, questions: [question], index: 0, actualMinutes: 2, selected, checked, saving,
     error: '', results: checked ? [selected === 1] : [], backLabel: 'Plan', finishedBooking: null,
+    completionPending, onRetryCompletion() {},
     onSelect() {}, onCheck() {}, onNext() {}, onBack() {}, onFinish() {},
   }))
 }
@@ -52,6 +53,12 @@ describe('Home/Plan quick check presentation', () => {
     expect(html).toContain('A true experiment controls other variables.')
     expect(html).toContain('See how it went')
     expect(html.match(/disabled=""/g)).toHaveLength(2)
+  })
+
+  it('does not claim finished work if Plan completion confirmation failed', () => {
+    const html = render(1, true, false, true)
+    expect(html).toContain('Retry confirming session')
+    expect(html).not.toContain('See how it went')
   })
 
   it('labels a correct answer without a wrong-answer state', () => {

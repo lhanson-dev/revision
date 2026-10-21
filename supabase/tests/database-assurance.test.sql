@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(57);
+select plan(58);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -272,12 +272,16 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'planner-week-v1',
-  'release readiness advertises the current planner-week-v1 contract'
+  'r2-learn-exposure-v1',
+  'release readiness advertises the current R2 Learn-exposure contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,
   'release readiness reports all current database capabilities present after migration replay'
+);
+select ok(
+  (public.revision_release_readiness()->'checks'->>'learnExposures')::boolean,
+  'release contract requires learner-owned Learn exposure table, RLS and least-privilege client grants'
 );
 
 select ok(has_function_privilege('anon', 'public.revision_release_readiness()', 'execute'), 'publishable/anonymous role can read the non-sensitive release readiness contract');

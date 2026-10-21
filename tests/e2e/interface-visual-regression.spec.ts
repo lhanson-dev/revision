@@ -165,10 +165,18 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * on 862e0940f9bda8fa7e3a426dff86fb7c7af01b83 reproduced identical run/retry digests:
  * light d23f3be12cec9c1459bf98d8bc051a5b9d623fd89bafe5a0291cba96895b6e1e;
  * dark f860f2a930f5c182076b26f60fe8de2914cda55cec39a64042de5a73cfc92e47.
+ * PR #655 R2 explicit reviewed-Learn-page action: Founder approved the two
+ * desktop Learn light/dark screenshots on 21 October 2026 with the exact
+ * instruction "Approve PR #655 Learn visual baselines". The CI browser
+ * captures on 39619945324 (head 80d1ae26) and 39621582738 (head d330225b)
+ * reproduced both exact digests on initial run/retry. Only these two Learn
+ * baselines are updated; no other screenshot contract or product authority is
+ * changed. Provenance: audits/2026-10-21-pr655-learn-visual-approval.md.
+ * This approval is visual only, never PR merge or deployment approval.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'f3304b023cbaddabdacf20194e4125e5aea77e29106b51d684b9555fc9d27062',
-  'desktop:dark': '24a3903d8aabc8900141d9e64568ee27e539d0e3ddd875a55b658b143a18c8f0',
+  'desktop:light': 'fb2fbc220495c1515f704547d8bda2fe43a05589decf92443e9b949da24930dc',
+  'desktop:dark': '6259208657efa6d296b071f69de83466bd4e14c3a09fb411263df6ab3606ff3b',
 }
 
 /**
@@ -300,7 +308,13 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   ],
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
-  'phone:practice:light': '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3',
+  // Founder approval, 21 October 2026: only phone Practice light
+  // breadcrumb hit-area correction; CI #39626816583 (initial/retry).
+  // Provenance: audits/2026-10-21-pr655-practice-phone-light-visual-approval.md.
+  'phone:practice:light': [
+    '87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425', // PR #655 Founder approval — CI #39626816583
+    '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3', // Previously approved digest reappeared in CI #39651739221
+  ],
   'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
   'tablet:exam-prep:light': '9c4fedac7ff928735906fe02953370ac1a8c230640b8462d78a33cb134853997',
   'tablet:exam-prep:dark': '5cf54eb772be1a0c5b259adcce0e21db47dff516e218d10602afa137f30f0912',
@@ -400,6 +414,9 @@ async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
   })
   await page.route('**/rest/v1/learner_course_events**', async (route) => {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
+  await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })

@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Active production control. Production Supabase exposes `planner-week-v1` as of 27 September 2026 for PR #403 backend-ahead enablement; the Plan refresh must still pass exact-head assurance, explicit Founder merge approval, governed merge, deployment and production smoke before it is Live.  
+**Status:** Active production control. On 21 October 2026, production Supabase exposed **`r2-learn-exposure-v1`** with `ready: true` in a governed backend-ahead window for draft PR #655. Frontend merge, deployment and post-deployment smoke have **not** occurred; they require exact-head assurance and explicit Founder approval for PR #655.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -83,6 +83,8 @@ It does not expose learner data, credentials, migration history or privileged op
 
 `planner-week-v1` adds explicit recurring Monday-Sunday planner availability on the existing learner-owned availability profile while retaining every earlier requirement.
 
+`r2-learn-exposure-v1` extends the same fail-closed readiness contract with the learner-owned reviewed-page table, RLS and least-privilege client grant checks, retaining all earlier prerequisites.
+
 Historical applied migrations remain forward-only and are not rewritten when the contract advances.
 
 ## Historical `plan-state-v1` contract
@@ -97,7 +99,7 @@ Production applied `20260824165737_add_learner_plan_state` on 24 August 2026.
 
 Production verification after that enablement confirmed `ready: true`, learner-plan RLS/privilege boundaries, service-role-only assignment and a `SECURITY INVOKER` readiness RPC. Detailed evidence remains in `docs/technical/Learner Plan State Implementation.md`.
 
-## Current production `planner-week-v1` contract
+## Historical production `planner-week-v1` contract (27 September 2026)
 
 The Plan experience refresh uses the production-ledger migration identity:
 
@@ -159,7 +161,7 @@ A protected function may use privileged service-role capability only after its o
 
 Revision intentionally enables additive backend capability before merging the frontend/repository release that requires it. This allows the candidate deployment to fail closed if production has not been prepared.
 
-Production is currently in the bounded `planner-week-v1` backend-ahead window for PR #403. Current approved `main` still expects the earlier `plan-state-v1` contract, so unrelated production merges should not be introduced until PR #403 either completes its governed path or the backend contract is deliberately remediated through a governed change.
+As of 21 October 2026, production is in the bounded **`r2-learn-exposure-v1`** backend-ahead window for draft PR #655. Approved `main` still expects the older deployment contract, so no unrelated production merge or Pages deploy should be introduced until PR #655 completes its governed release path or the backend contract is deliberately reconciled. This is a deliberate short compatibility window, not a claim that the new frontend is live.
 
 This temporary mismatch is a release-control state by design. The schema change itself is additive and backward-compatible; the strict contract mismatch exists to stop an older release workflow silently accepting an unexpected backend state.
 
@@ -210,3 +212,12 @@ Those remain separate responsibilities under the Testing & Assurance Standard, S
 ## Documentation maintenance
 
 When the required production contract changes, update this document, the workflow, the relevant feature technical implementation record and the Assurance Coverage Register in the same governed PR. Preserve historical applied migration evidence and decision records; do not rewrite them to match the new state.
+
+## Current production `r2-learn-exposure-v1` contract — 21 October 2026
+
+Under draft PR #655 (not merged), the following additive versioned SQL migrations have been applied to canonical Revision production Supabase **before** frontend release:
+
+- `20261021153236_add_learner_learn_exposures.sql` — learner-owned explicit page-review storage, per-user SELECT/INSERT RLS, no authenticated UPDATE/DELETE, no anonymous access.
+- `20261021191814_add_r2_learn_exposure_release_readiness.sql` — extends the **SECURITY INVOKER**, non-sensitive `revision_release_readiness()` capability contract to include checked RLS/table/grants, while retaining `planner-week-v1` capabilities.
+
+Production migration ledger and live RPC were independently read back. RPC reports `{contract: "r2-learn-exposure-v1", ready: true}`; `checks.learnExposures` and all earlier checks are true. Authenticated role can SELECT/INSERT but not UPDATE exposure; anonymous role cannot SELECT the table and can execute only the non-sensitive readiness RPC. Security and performance advisor findings remain pre-existing. Exact-head PR CI, Founder merge approval, mainline Pages deployment and real production smoke remain mandatory; **this is not evidence the new learner frontend is live.**

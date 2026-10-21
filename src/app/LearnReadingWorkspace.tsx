@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { LearnChapter, LearnGroup, LearnPage } from '../../content/learn-schema'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { resolveSubjectIdentity } from './subject-palette'
@@ -9,6 +10,8 @@ type LearnReadingWorkspaceProps = {
   onOpenPage: (pageId: string) => void
   onOpenPractice?: (topicId: string) => void
   onOpenRev?: (draft?: string) => void
+  reviewedPages?: readonly string[]
+  onMarkReviewed?: (pageId: string, topicId: string) => Promise<void>
 }
 
 type LocatedPage = {
@@ -38,7 +41,21 @@ function neighbour(target: LocatedPage | null, current: LocatedPage, direction: 
   return { title: target.page.title, caption: `${lead} · page ${index + 1} of ${current.group.pages.length}` }
 }
 
-export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPractice, onOpenRev }: LearnReadingWorkspaceProps) {
+export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPractice, onOpenRev, reviewedPages = [], onMarkReviewed }: LearnReadingWorkspaceProps) {
+  const [savingPage, setSavingPage] = useState<string | null>(null)
+  const [reviewError, setReviewError] = useState<{ page: string; message: string } | null>(null)
+  async function markReviewed(page: LearnPage) {
+    if (!onMarkReviewed || savingPage) return
+    setSavingPage(page.id)
+    setReviewError(null)
+    try {
+      await onMarkReviewed(page.id, page.topicId)
+    } catch (error: unknown) {
+      setReviewError({ page: page.id, message: error instanceof Error ? error.message : 'Could not save page review. Retry.' })
+    } finally {
+      setSavingPage(null)
+    }
+  }
   const pages = locatePages(adapter)
   if (pages.length === 0) return null
 
@@ -72,6 +89,10 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
       onNext={next ? () => openSequentialPage(next.page.id) : undefined}
       onOpenPractice={onOpenPractice ? () => onOpenPractice(current.page.topicId) : undefined}
       onOpenRev={onOpenRev}
+      reviewed={reviewedPages.includes(current.page.id)}
+      reviewing={savingPage === current.page.id}
+      reviewError={reviewError?.page === current.page.id ? reviewError.message : null}
+      onMarkReviewed={onMarkReviewed ? () => void markReviewed(current.page) : undefined}
     />
   )
 }

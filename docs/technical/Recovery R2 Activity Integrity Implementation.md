@@ -1,0 +1,93 @@
+# Recovery R2 — focused evidence and activity confirmation integrity
+
+**21 October 2026 · Candidate on governed branch, not released or educationally accepted.**
+**Canonical runtime:** `/revision/app/` → `src/main.tsx` → `PlannerRuntime` → Home/Plan/REV → `HomeFocusedActivity`; Courses → `CourseExperienceScreen` → `FocusedLearningWorkspace`. The legacy `src/app/App.tsx` is not the target.
+
+## Scoped correction
+
+- A focused Quick Check or Flashcards session writes each answered item before moving on. After the final answer, the Plan completion event is a **separate** save. If it fails, the learner sees a recoverable pending-confirmation state and retries the completion event without answering or scoring the final item again. Never show an unconfirmed Plan completion as confirmed.
+- Existing evidence IDs are stable on uncertain retries. A database primary-key collision is accepted only after reading the *same learner's* saved fact and comparing the full validated payload. A different or unreadable record is a failure, not proof of a successful save.
+- Planner reconciliation excludes partial Quick Check, Flashcards and Learn starts, refuses exam-question completion from unrelated question formats, and checks module identity when it is present. Whole-paper attempts remain excluded from topic-scoped reconciliation.
+- No new inferred teaching exposure or marks are created; a performed action and a confirmed Plan session remain distinguishable from longer manually accepted bookings. Source-backed availability and restricted pilot policy are unchanged.
+
+## Limitations and gates
+
+This is an **initial bounded engineering correction** within R2, not R2 closure. The independent Practice in-progress state is not durable on refresh; a full exam attempt is still not durably resumable. Focused completion event retries are now idempotent during the active component lifetime using a stable UUID plus owner-scoped event verification; recovery after refresh still requires durable session state. Home/Plan/REV still recalculate separate snapshots; their decisions have not been proven identical. Learn exposure introduces a new separate table but does not migrate or rewrite scored student evidence.
+
+Targeted unit contracts are in `learning-evidence-service.test.ts` and `recovery-evidence-scope.test.ts`. **Status: source tests authored, not executed locally; require exact-head CI and fresh browser, RLS/data, network-failure and recovery assurance** on Business 7132 and Psychology 7182 before asking for merge approval. A source inspection and a GitHub green check are not an independent student educational verdict. Maintain `REC-03/04/05/07/08/10` and `JRN-03` as Partial until proven by the required layers. Do not close `DEF-2026-010` or `DEF-2026-011` merely on this candidate.
+
+## Documentation impact
+
+No normative rule changed: the corrections implement existing Learning Blueprint, Evidence Trust, Claims and Progress, and Recovery Control Plan constraints. Code/tests and this current implementation note are updated together; historical dated audits are not rewritten. No new specialist FI-009–012 feature is self-authorised.
+
+## Candidate R2 Learn exposure and coverage extension — 21 October 2026
+
+**Governed scope:** The approved Claims and Progress authority permits meaningful Learn exposure to contribute only to coverage, never understanding or readiness. The approved Learn reading experience remains page-first. No normative authority change is proposed.
+
+- Added `learner_learn_exposures` as a separate, append-only learner-owned table with a composite identity keyed by exact user, course, module and Learn page. Only SELECT/INSERT owner-scoped RLS is available to authenticated clients; anonymous and service roles have no standing grant. Historical scored evidence remains untouched.
+- An explicit `I have read this page` action at the end of the canonical Learn page records a factual learner declaration after content reading. Opening a page, looking at a quick check or selecting a different screen **does not** create exposure. The UI shows an error and permits retry if persistence fails; the reader can still navigate and no scored progress is invented.
+- Projection tests for the actual published AQA Business 7132 and Psychology 7182 assets require **all applicable current Learn pages** for a topic before reviewed-only activity counts the whole topic as covered. Exact course/module/topic/page identity is checked against published content; unrelated or obsolete exposure cannot count. Legitimate scored evidence still counts a topic as encountered. Neither Understanding nor Exam Readiness receives exposure as scored input.
+- Home, Plan, REV, Course Overview and global Progress now read and project the same Learn exposure facts alongside the existing immutable scored evidence. A read error is not silently translated into an empty reviewed history; exact backend availability must be proven before deployment.
+
+**Migration/deployment prerequisite:** `supabase/migrations/20261021153236_add_learner_learn_exposures.sql` must pass isolated database/RLS and real backend readiness assurance **before** the learner application begins reading it. A green frontend CI without production migration readiness is not permission to merge/release. Browser stubs and real-user journey recovery remain to be validated on exact head. Any production backend change must obey the separately governed path-to-live and must preserve all learner data.
+
+**Outstanding R2 gaps remain:** durable interrupted Practice, resumable whole-paper attempts, idempotent planner completion acknowledgements after ambiguous network timeouts, independent student comprehension/content review and one immutable programme decision across Home/Plan/REV. This candidate is **not** R2 acceptance. Regression tests and the date-specific assurance register are updated in the same branch; historical audits remain historical truth.
+
+## Focused completion retry and unavailable-evidence corrections — 21 October 2026
+
+- A focused session uses one client-generated UUID for its completed planner event across in-component retries. A duplicate key can be treated as success only after owner-scoped lookup proves **all** identifying event fields and metadata match, regardless of JSONB key order. Permission failure, missing row, mismatched scope and conflicting metadata stay errors. Legacy event callers may continue to let the database generate IDs. This is **not** persistent session restoration after refresh.
+- Course Overview/Practice/Exam Prep and global Progress now suppress zero-coverage/readiness projections if combined scored-evidence plus Learn-exposure loading fails. The student sees a retry option instead; canonical Learn reading is still accessible.
+- `src/services/planning/planner-activity-retry.test.ts` covers owner/module/topic/metadata agreement, failed writes and unreadable collisions. The Learn browser journey tests verify unavailable backend loads cannot be reported as zero progress. The existing separate Learning Evidence integrity tests continue to apply.
+- **Gate:** Only same-commit exact-head CI plus real browser/database acceptance can support PR closure. R2 durable in-progress Practice state, assessed question work on refresh, independently reviewed content and a shared planner transaction remain outstanding. No additional normative decision or historical audit alteration is made.
+
+## Production path-to-live contract — required R2 release dependency
+
+The previous `planner-week-v1` contract does **not** establish that the new Learn exposure table is available. Candidate migration `supabase/migrations/20261021191814_add_r2_learn_exposure_release_readiness.sql` advances `revision_release_readiness()` to `r2-learn-exposure-v1`. The public, SECURITY INVOKER, non-sensitive RPC checks the existing planner requirements plus Learn exposure table presence, RLS and least-privilege SELECT/INSERT grants. `.github/workflows/deploy-pages.yml` requires that exact new contract before serving the new frontend. The refreshed database assurance covers it.
+
+**Release ordering requirement:** do not merge PR #655 and trigger Pages deployment until the two R2 migrations have been successfully applied to the canonical production Supabase project **and independently verified**, under the governed migration procedure. Otherwise the intentionally stricter Pages readiness gate will fail closed. Isolated CI schema replay alone does not deploy production migrations. Historical production rows must not be rewritten. Existing app remains compatible with this additive schema until the PR is explicitly merged. Both non-destructive R2 backend migrations were subsequently applied to production and independently verified; the mainline frontend remains unchanged pending explicit Founder merge approval.
+
+## Final browser-fixture convergence — candidate checkpoint
+
+The PR's canonical Learn exposure read created a new data dependency in browser journeys previously seeded with only scored learning evidence. The shared synthetic returning-student and planner fixtures now intercept `learner_learn_exposures` as an empty, owner-scoped synthetic response; standalone accessibility, navigation and first-use fixtures were aligned as appropriate. Dedicated error/retry tests override that fixture with explicit failure and persisted-fact scenarios. This fixes test setup without relaxing real application failure handling or RLS. Avoid treating old branch CI failures as evidence about the final candidate: exact-head browser and isolated SQL verification are still mandatory.
+
+**At the earlier fixture-convergence checkpoint**, the two additive migrations were absent. They were later applied and verified, as recorded below. The exact-head merge approval gate still applies.
+
+## Browser reconciliation and visual hold
+
+Synthetic learner fixtures now explicitly answer the new Learn-exposure read. The former cross-screen cascades were fixture failures. The Home outage journey correctly displays an unavailable-progress state while allowing Learn access; its old expectation that scored activity navigation stayed available was invalidated by the approved fail-closed integrity rule. The isolated fault tests now simulate a non-retryable PostgREST read error, rather than relying on response timing for a retryable 503. A separate failed *write* and retry/reload test remains.
+
+Desktop Learn light/dark screenshot digests changed because of the explicit page-review button. **At this earlier checkpoint** Founder approval had not yet been received; both digests were subsequently approved and pinned with evidence below. Source screenshots are attached to Revision CI browser failure artifacts. No broad design changes are authorised as part of stabilisation.
+
+## Browser triage evidence — 21 October 2026
+
+CI #39619279115 and #39619945324 demonstrated that shared fixture repair reduced the 48 desktop failures to five in its first shard, while exposing two additional **outdated Progress copy expectations** in a different shard. The newly committed test corrections align Home outage navigation with the approved fail-closed behaviour, make simulated unavailable Learn histories return a deterministic non-retryable 400 error, and update the two Progress tests to reflect the new separate Learn/answer declaration. No product authority, historical test results or student data have been revised.
+
+**Not a green release claim:** the desktop Learn light/dark visual digests intentionally differ because the learner must explicitly confirm reviewed reading. Founder visual acceptance and refreshed exact-head CI remain required, as does deployment of the two additive migrations to the production database before a frontend merge. The original browser logs remain retained in GitHub Actions.
+
+## Learn visual baseline acceptance — Founder-approved 21 October 2026
+
+The Founder explicitly approved only the PR #655 desktop Learn light/dark screenshot baselines after inspecting the added “I have read this page” control. Both CI #39619945324 and #39621582738 logged identical light/dark SHA-256 digests on initial and retry attempts. The two pinned digests are updated; full provenance and the previous values are preserved at `audits/2026-10-21-pr655-learn-visual-approval.md`. This is visual approval only, not approval to merge. The phone WCAG target-size failure and all other release gates still apply.
+
+## Phone breadcrumb accessibility correction — candidate verification
+
+The full PR browser run 39621582738 passed Foundation static, unit/build, database/RLS, tablet and desktop shard 2. Phone WCAG A/AA failed the `target-size` rule for the **Courses breadcrumb button** during Practice flashcards; desktop shard 1 failed only the two subsequently Founder-approved Learn visuals. A narrow, phone-only (`max-width: 620px`) correction in `interface-subjects-course.css` enforces a 44px minimum touch target for the canonical course-header breadcrumb without changing desktop Learn baselines. This requires new exact-head phone accessibility and visual-regression verification. Historical failures remain recorded and cannot be described as passing until the new CI evidence is green.
+
+## Production backend-ahead migration #1 — independently verified
+
+On 21 October 2026, the additive learner-reviewed-page migration was applied to canonical production Supabase using the governed migration API. The production migration ledger allocated **20261021153236_add_learner_learn_exposures**; the repository filename is reconciled to that exact applied version in this PR. Independent read-only verification confirms that the table exists, RLS is enabled, authenticated users have SELECT and INSERT but not UPDATE, anonymous SELECT is denied, and the live release RPC still reports **planner-week-v1**. This is backend-ahead only, not learner frontend deployment or PR merge. At that first-migration checkpoint, the second R2 contract migration remained unapplied. It was subsequently applied and verified below.
+
+## Practice phone light visual approval — Founder-approved 21 October 2026
+
+The Founder explicitly approved the phone Practice **light** visual baseline after reviewing the final phone CI capture (run 39626816583, commit `26ea749c`). The previous hash `913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3` is replaced by the reproduced new capture digest `87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425` only for `phone:practice:light`; original and retry agree. The separate approval record is `audits/2026-10-21-pr655-practice-phone-light-visual-approval.md`, indexed from `INDEX.md`. This is **not PR merge approval** and does not waive exact-head CI, backend readiness migration or production smoke. The phone accessibility case and all other phone cases passed in that preceding run.
+
+## Phone Practice light digest reconciliation — two exact approved captures
+
+The immediately following exact-head CI #39651739221 failed only because the phone Practice light screenshot reproduced its **previously approved** `913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3` digest while the expected value was the newer Founder-approved `87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425`. Initial and retry were stable. Both approved SHA-256 values are now retained as an explicit finite list for that single visual case; unknown screenshots still fail. No production learner code or unrelated visual baselines are changed. Provenance is appended to `audits/2026-10-21-pr655-practice-phone-light-visual-approval.md`; next exact-head CI remains mandatory.
+
+## Production backend-ahead migration #2 and full technical acceptance — 21 October 2026
+
+The validated, additive production migration `supabase/migrations/20261021191814_add_r2_learn_exposure_release_readiness.sql` (SQL identical to the previously tested filename) was successfully applied through the connected Supabase migration API. The canonical production ledger assigned version **20261021191814** with name `add_r2_learn_exposure_release_readiness`; this PR reconciles the repository filename to match that exact version without rerunning it. Existing learner evidence was not modified.
+
+Independent production read-only SQL verified `public.revision_release_readiness()` reports **`contract: r2-learn-exposure-v1`** and **`ready: true`**, with all prior readiness checks and `learnExposures: true`. The exposure table remains RLS-enabled; authenticated SELECT and INSERT are permitted, UPDATE is denied, anonymous SELECT is denied; the readiness RPC remains **SECURITY INVOKER**, executable anonymously with non-sensitive result. The security and performance advisors show only the same pre-existing categories (informational RLS no-policy for deny-browser assignment events, Auth leaked-password-protection warning, informational unindexed keys/unused indexes); no newly observed R2-specific finding.
+
+Exact-head CI **39654281433** on **`7dd0ec9b`** passed foundation/static/unit/build, secret scan, database/RLS/protected services, desktop x2, tablet, phone browser/accessibility and aggregate Foundation quality. Later documentation/migration filename reconciliation requires new exact-head CI before the merge request. This backend-ahead state is intentional: approved `main` and live frontend are unchanged, and no PR merge, Pages deployment or post-deploy student smoke has occurred. A separate explicit Founder **merge** approval is still mandatory. Durable Practice resume and educational review remain outside this bounded package.
