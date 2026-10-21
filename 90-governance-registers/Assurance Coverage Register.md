@@ -354,3 +354,10 @@ PR #648's approved, green production release is now canonical main. The FI-001 c
 ### Approved main #650 visual integration into restricted FI-001 pilot
 
 The current main Home Quick Check v2 presentation and keyboard tests were integrated into draft #637 without replacing the programme-first treatment/evidence model. Mainline per-question evidence and booked-session controls are retained. New exact-head browser, visual, CI and cohort checks required; no educational acceptance or blanket A3/A4 waiver inferred.
+
+
+## FI-001 functional and educational completeness inspection — 21 October 2026
+
+This is a **new source-level assessment**, not a historical CI result or an upgrade to accepted curriculum/assessment evidence. Approved-main `b83db167` integrates #637; the calendar-first #651 is still independent. See `audits/2026-10-20-fi001-functional-educational-completeness.md` for EC-01..EC-08 and SV-14..16. `PLN-VALUE-01` remains **PARTIAL/HOLD**: the current planner can build paper-scoped programme objectives and exact near-term Starts, but a complete atomic knowledge/skill demand model, evidence-aware recurring reassessment pathways, expert programme-choice verdicts and observed learner comprehension are not yet demonstrated. `CNT-01` remains Partial for the original exam-question/marking content as recorded under #649.
+
+**Targeted candidate assurance:** `src/engine/planning/preparation-preferences.test.ts` exercises a formerly omitted saved-choice tie-break while keeping earlier-paper priority and deterministic ordering. The associated code change remains **in review**, without exact-head CI or release evidence, and cannot close the wider completeness gap. #651 independently owns calendar-first and near-term runway assurance. These concurrent branches require combined-main verification and full applicable educational/safety regressions before any Founder merge request.
