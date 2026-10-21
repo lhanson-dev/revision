@@ -1,6 +1,6 @@
 # Revision — Product Recovery Control Plan
 
-**Status:** Phase 1 consolidation candidate for Founder review; not yet merged or normative authority
+**Status:** Active technical recovery control plan; Founder-approved PR #653 merged 21 October 2026 (merge `512d4022e9774355a19d2a87b703dcde3ed3f50f`). Subsequent fixes require separate governed PRs and approvals.
 **Prepared:** 21 October 2026
 **Source baseline:** approved `main` `b83db167d38ba02ff997c428f31b7f725e8b10d6`
 **Founder direction:** 21 October 2026 — authorisation to initiate a controlled recovery, pause non-critical learner feature expansion, reconcile existing proposals/PRs, assess engineering and define one release-oriented recovery plan. This does **not** approve any specific PR merge, wholesale rewrite, new feature Ready state or relaxation of an educational trust gate.
