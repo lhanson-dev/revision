@@ -1,4 +1,4 @@
-import { evidencePercentage, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
+import { evidencePercentage, isTopicScopedEvidence, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
 
 export type TopicKnowledgeBand = 'not-enough-evidence' | 'low' | 'medium' | 'good'
 export type TopicKnowledgeEvidenceFamily = 'recall' | 'application' | 'exam' | 'simulation'
@@ -57,7 +57,7 @@ function latestDistinctEvidence(
   const latestByContent = new Map<string, { item: LearningEvidence; percentage: number }>()
 
   evidence.forEach((item) => {
-    if (item.moduleId !== moduleId || item.topicId !== topicId) return
+    if (item.moduleId !== moduleId || item.topicId !== topicId || !isTopicScopedEvidence(item)) return
     const percentage = evidencePercentage(item)
     if (percentage === null) return
 
