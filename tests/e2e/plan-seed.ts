@@ -91,6 +91,7 @@ export async function seedPlanStudent(page: Page, options: SeedOptions = {}) {
   await page.route('**/auth/v1/user**', (route) => route.fulfill(json({ id: planUserId, aud: 'authenticated', role: 'authenticated', email: 'plan-test@revision.invalid', email_confirmed_at: '2026-08-17T12:00:00.000Z', app_metadata: {}, user_metadata: { first_name: 'Synthetic' }, identities: [], created_at: '2026-08-17T12:00:00.000Z', updated_at: '2026-08-17T12:00:00.000Z' })))
   await page.route('**/rest/v1/learner_courses**', (route) => route.fulfill(json([{ user_id: planUserId, course_id: businessCourseId, created_at: '2026-08-22T18:00:00.000Z' }])))
   await page.route('**/rest/v1/learner_course_events**', (route) => route.fulfill(json([], 201)))
+  await page.route('**/rest/v1/learner_learn_exposures**', (route) => route.fulfill(json([])))
   await page.route('**/rest/v1/learning_evidence**', (route) => route.fulfill(json([], route.request().method() === 'POST' ? 201 : 200)))
   await page.route('**/rest/v1/revision_availability_exceptions**', (route) => route.fulfill(json([])))
   await page.route('**/rest/v1/revision_planning_preferences**', (route) => route.fulfill(json([])))
