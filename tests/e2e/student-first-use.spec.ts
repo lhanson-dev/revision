@@ -523,6 +523,7 @@ test('failed first learning-evidence save leaves the activity retryable and cann
   let remainingFailures = 1
   let attemptedWrites = 0
   // Intercept only the first write. On retry, fall through to the existing persisted mock store.
+  await page.route('**/rest/v1/learner_learn_exposures**', route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     if (route.request().method() === 'POST') {
       attemptedWrites += 1
