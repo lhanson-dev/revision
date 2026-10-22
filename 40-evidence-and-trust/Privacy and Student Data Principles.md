@@ -114,6 +114,12 @@ When there is no longer a valid reason to retain identifiable data, it should be
 
 Commercial records that a payer must retain or access for legitimate billing/legal purposes must remain separated from ongoing permission to access learner educational data.
 
+### REC-10 mock draft data class — Founder decision 22 October 2026 (pending governed merge)
+
+For unfinished full mock examinations, raw answers, selections and marking inputs are temporarily stored solely to restore the learner's own work. The maximum raw-draft lifetime is **14 days after the original attempt was created**; updating or reopening an attempt does not extend it. The backend must automatically delete expired drafts. On confirmed completion, the checkpoint must promptly remove raw responses while preserving the separate minimum scored evidence necessary for legitimate learning progress. A draft is private to the authenticated learner and cannot be used for marketing, unrelated model training or parent/supporter access.
+
+The product must explain saving and expiry in plain English at the point of use and offer deliberate unfinished-draft discard; deletion must never remove already accepted scored progress. Any legally required export/deletion pathway, privacy notice wording, backup retention and processing basis must be independently verified under section 12 before production use. These REC-10 decisions become active normative policy through PR #658 approval and merge, not merely because this proposal appears in a branch.
+
 ## 8. Parent, payer and teacher access must remain bounded
 
 Parent and teacher functionality must not create an automatic entitlement to detailed student data.

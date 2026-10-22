@@ -88,7 +88,7 @@ Use this file to find the governing source before substantive work.
 - Recovery R2 focused learning evidence and activity integrity (candidate technical implementation) → `docs/technical/Recovery R2 Activity Integrity Implementation.md`
 - Recovery R2 remaining session work, first bounded exam submission retry fix and durable Practice/exam follow-ups → `docs/technical/Recovery R2 Remaining Session Implementation.md`
 - Recovery R2 durable Practice question-session candidate, versioned owner-only checkpoints and fail-closed release dependency → `docs/technical/Recovery R2 Durable Practice Checkpoints.md`
-- REC-10 durable whole-exam attempt candidate, raw-answer privacy/timing policy HOLD and evidence retry contract → `docs/technical/Recovery R2 Durable Exam Attempts.md`
+- REC-10 approved exam recovery behaviour and bounded exam-answer retention → `10-product-governance/Exam Session Recovery.md`; candidate implementation and assurance → `docs/technical/Recovery R2 Durable Exam Attempts.md`
 - Current product recovery control programme (Phase 1 approved PR #653; implementation corrections tracked separately) → `docs/technical/Revision Product Recovery Control Plan.md`
 - 21 October recovery approved-main source audit, technical risks and open-PR coordination inventory (dated evidence) → `audits/2026-10-21-revision-recovery-phase1-baseline.md`
 

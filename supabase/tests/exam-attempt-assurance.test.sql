@@ -1,7 +1,11 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(23);
+select plan(24);
+
+select ok(exists(select 1 from cron.job
+  where jobname='revision-expired-exam-attempts-v1' and schedule='0 * * * *'),
+  'automatic hourly expiry deletion job is scheduled');
 
 select ok((select relrowsecurity from pg_class where oid='public.learner_exam_attempts'::regclass),
   'exam attempts have row-level security');
