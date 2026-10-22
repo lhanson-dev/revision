@@ -83,7 +83,7 @@ test.beforeEach(({}, testInfo) => {
 test('unfinished full mock restores confirmed answer, flag and position after refresh', async ({ page }) => {
   await seedDatabase(page)
   await page.goto(path)
-  await expect(page.getByText('Work saved')).toBeVisible()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
   const inputs = page.locator('.exam-question-sheet .exam-mcq input[type="radio"]')
   if (await inputs.count()) await inputs.first().check()
   else await page.locator('.exam-question-sheet textarea').fill('A complete original written response from a learner')
@@ -113,6 +113,9 @@ test('unfinished full mock restores confirmed answer, flag and position after re
 test('leaving through Save and return only navigates once the draft is confirmed', async ({ page }) => {
   await seedDatabase(page)
   await page.goto(path + '?theme=dark')
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  // Saving and returning is offered after a real change, not an empty attempt.
+  await page.getByRole('button', { name: 'Flag for review' }).click()
   await expect(page.getByText('Work saved')).toBeVisible()
   await page.getByRole('button', { name: 'Save and return to Exam Prep' }).click()
   await expect(page.getByRole('button', { name: 'Reopen saved exam' })).toBeVisible()
@@ -128,7 +131,7 @@ test('leaving through Save and return only navigates once the draft is confirmed
 test('ambiguous checkpoint acknowledgement does not produce a second attempt or scored evidence', async ({ page }) => {
   await seedDatabase(page)
   await page.goto(path)
-  await expect(page.getByText('Work saved')).toBeVisible()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
   loseUpdateAck = true
   await page.getByRole('button', { name: 'Flag for review' }).click()
   await expect.poll(() => {
@@ -144,7 +147,7 @@ test('ambiguous checkpoint acknowledgement does not produce a second attempt or 
 test('refresh during partially committed exam submission replays frozen identical evidence and records the result once', async ({ page }) => {
   await seedDatabase(page)
   await page.goto(path)
-  await expect(page.getByText('Work saved')).toBeVisible()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
   const choices = page.locator('.exam-question-sheet .exam-mcq input[type="radio"]')
   if (await choices.count()) await choices.first().check()
   else await page.locator('.exam-question-sheet textarea').fill('A reasoned original Business answer')
