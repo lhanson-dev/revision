@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { expect, test, type Page } from '@playwright/test'
+import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -362,6 +363,7 @@ const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = 
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
+  await seedPracticeCheckpoints(page)
   await page.clock.setFixedTime(new Date('2026-08-23T12:00:00.000Z'))
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.addInitScript(({ key, id, selectedTheme }) => {
@@ -493,7 +495,14 @@ async function openState(page: Page, state: VisualState) {
   }
 
   if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
-  if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
+  if (state === 'practice') {
+    await expect(page.locator('.focused-practice')).toBeVisible()
+    // Snapshot only the settled saved-session check, not a transient
+    // loading indicator. Existing protected visual digests remain unchanged.
+    await expect(page.getByText('Checking for saved Practice work…')).toHaveCount(0)
+    await expect(page.locator('.practice-recovery-state')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeEnabled()
+  }
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()

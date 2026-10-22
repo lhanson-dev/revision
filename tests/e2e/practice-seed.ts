@@ -1,5 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
+import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 export const appPath = '/revision/app/'
@@ -7,6 +8,7 @@ const userId = '00000000-0000-4000-8000-000000000041'
 export const businessCourseId = 'aqa:aqa-a-level:7132'
 
 export async function seedReturningStudent(page: Page) {
+  await seedPracticeCheckpoints(page)
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -174,6 +176,9 @@ export async function finishQuestionSession(page: Page, plan: QuestionSessionPla
       await answerWith(page, step.right ? known : (known + 1) % count, step.sure)
     }
     await page.getByRole('button', { name: /^(Next question|See how you did)/ }).click()
+    // The new versioned checkpoint must be acknowledged before the question
+    // changes or the summary appears. Do not race the old question after click.
+    await expect(page.getByRole('button', { name: /^(Next question|See how you did)/ })).toHaveCount(0)
   }
   await expect(done).toBeVisible()
 }
