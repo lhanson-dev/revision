@@ -190,6 +190,22 @@ export async function checkFoundationLearnerProjection(input: {
     hold('qualification_identity', 'Board identity/cohort differs from assured Foundation')
   }
 
+  // Fail closed rather than accepting unverified identity aliases supplied by a
+  // candidate pack. This bounded adapter handles only a single assessment-year
+  // cohort; broader validity windows require an independent cohort crosswalk.
+  const slug = (value: string) => value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  if (mapping.subjectId !== slug(candidate.courseIdentity.subject)
+    || mapping.qualificationId !== slug(candidate.courseIdentity.qualification)
+    || mapping.examBoardId !== slug(candidate.courseIdentity.awardingBody)
+    || mapping.specificationCode !== candidate.courseIdentity.specificationId) {
+    hold('unverified_manifest_identity', 'Learner identity crosswalk does not match assured course identity')
+  }
+  const cohort = candidate.cohortValidity
+  if (!cohort.firstAssessment || !cohort.lastAssessment
+    || cohort.firstAssessment !== cohort.lastAssessment || mapping.cohortId !== cohort.firstAssessment) {
+    hold('unverified_cohort', 'Exact learner cohort is not proven by the independently retained Foundation')
+  }
+
   const sourceById = new Map(register.sources.map((source) => [source.id, source]))
   const sourceRefs = [
     ...alignment.sourceRefs,
@@ -226,6 +242,10 @@ export async function checkFoundationLearnerProjection(input: {
   const candidatesByPack = new Map(candidates.map((entry) => [entry.pack.manifest.id, entry.pack]))
   const componentPapers: QualificationProjectionProfile['components'][number][] = []
   for (const component of mapping.components) {
+    const componentIndex = alignment.components.findIndex((entry) => entry.id === component.componentId)
+    if (component.paperId !== component.componentId || component.paperNumber !== componentIndex + 1) {
+      hold('unverified_component_crosswalk', 'Paper identity/number lacks independent Board Alignment support')
+    }
     const governed = componentById.get(component.componentId)
     const blueprint = examById.get(component.componentId)
     if (!governed || !blueprint) continue
