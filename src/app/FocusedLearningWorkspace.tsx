@@ -193,7 +193,8 @@ export function FocusedLearningWorkspace({
   // The scored session in progress. Leaving the activity keeps it (every answer is already saved as evidence),
   // and the start screen then offers "Carry on".
   const [session, setSession] = useState<QuestionSession | null>(null)
-  const checkpointStore = useMemo(() => checkpointContext ? supabasePracticeCheckpointStore(checkpointContext.client) : null, [checkpointContext?.client])
+  const checkpointClient = checkpointContext?.client
+  const checkpointStore = useMemo(() => checkpointClient ? supabasePracticeCheckpointStore(checkpointClient) : null, [checkpointClient])
   const [checkpoint, setCheckpoint] = useState<PracticeCheckpoint | null>(null)
   const [checkpointPhase, setCheckpointPhase] = useState<'loading' | 'ready' | 'blocked'>(checkpointContext && isPractice ? 'loading' : 'ready')
   const [checkpointBusy, setCheckpointBusy] = useState(false)
@@ -263,10 +264,6 @@ export function FocusedLearningWorkspace({
     if (!isPractice || !checkpointContext || !checkpointStore) return
     let mounted = true
     const key = { userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId: adapter.manifest.id, topicId }
-    setSession(null)
-    setCheckpoint(null)
-    setCheckpointPhase('loading')
-    setCheckpointIssue('')
     void (async () => {
       try {
         const hash = await fingerprintPracticeContent(fullPool)
@@ -341,6 +338,9 @@ export function FocusedLearningWorkspace({
 
   function changeTopic(nextTopic: string) {
     if (checkpointLock.current) return
+    setCheckpoint(null)
+    setCheckpointPhase(checkpointContext && isPractice ? 'loading' : 'ready')
+    setCheckpointIssue('')
     setTopicId(nextTopic)
     setDeck(null)
     setFlipped(false)
