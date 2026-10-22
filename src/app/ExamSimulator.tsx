@@ -1,4 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import {
+  commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs, examPauseTiming,
+  examResumeTiming, fingerprintExamContent, initialExamSnapshot, loadExamAttempt,
+  supabaseExamAttemptStore, updateExamAttempt, type ExamAttempt, type ExamAttemptSnapshot,
+} from '../services/progress/exam-attempt-service'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
@@ -181,9 +187,14 @@ export type ExamSimulatorProps = {
   onExit?: () => void
   /** Focused Home practice: an already-verified question in this exam. */
   preferredQuestionId?: string
+  /** Disabled until the Founder approves raw-answer retention and interruption-timer policy. */
+  checkpointContext?: {
+    client: SupabaseClient; userId: string; courseId: string
+    retentionDays: number; timerPolicy: 'wall-clock'
+  }
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId, checkpointContext }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -213,6 +224,132 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const pauseStartedAt = useRef<number | null>(null)
   const focusRegion = useRef<HTMLDivElement>(null)
   const totalPausedMs = useRef(0)
+  const attemptStore = useMemo(() => checkpointContext
+    ? supabaseExamAttemptStore(checkpointContext.client) : null, [checkpointContext?.client])
+  const checkpointRef = useRef<ExamAttempt | null>(null)
+  const checkpointWriteChain = useRef<Promise<void>>(Promise.resolve())
+  const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
+    checkpointContext && autoStart === 'timed' ? 'loading' : 'ready',
+  )
+  const [recoveryIssue, setRecoveryIssue] = useState('')
+  const [checkpointSaveStatus, setCheckpointSaveStatus] = useState<'saved' | 'saving' | 'error'>('saving')
+  const [recoveryReload, setRecoveryReload] = useState(0)
+
+  // Only an explicitly configured and authorised recovery context can persist written answers.
+  // The current learner runtime does not supply this context until privacy/timer governance is approved.
+  useEffect(() => {
+    if (!checkpointContext || !attemptStore || autoStart !== 'timed') return
+    let cancelled = false
+    const init = async () => {
+      setRecoveryPhase('loading')
+      try {
+        if (!Number.isInteger(checkpointContext.retentionDays) ||
+          checkpointContext.retentionDays < 1 || checkpointContext.retentionDays > 90 ||
+          checkpointContext.timerPolicy !== 'wall-clock') throw new Error('Exam recovery policy is not configured.')
+        const key = {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+          moduleId, examId: exam.id,
+        }
+        const fingerprint = await fingerprintExamContent(exam)
+        const saved = await loadExamAttempt(attemptStore, key, fingerprint) ??
+          await createExamAttempt(attemptStore, key, fingerprint, crypto.randomUUID(),
+            initialExamSnapshot(), new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
+        if (cancelled) return
+        const snapshot = saved.snapshot
+        checkpointRef.current = saved
+        setAnswers(snapshot.answers)
+        setMarks(snapshot.marks)
+        setSelectedChoices(snapshot.selectedChoices)
+        setFlagged(snapshot.flagged)
+        setQuestionIndex(snapshot.questionIndex)
+        setFinishedWriting(snapshot.phase !== 'writing')
+        setSubmitted(snapshot.phase === 'submitted')
+        submissionSnapshot.current = snapshot.frozenSubmission
+        setSubmissionLocked(Boolean(snapshot.frozenSubmission))
+        setResult(snapshot.phase === 'submitted' ? snapshot.frozenSubmission?.result ?? null : null)
+        setSessionOverlay(snapshot.phase === 'writing' && !snapshot.timing.runningSince ? 'paused' : null)
+        setSecondsRemaining(Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(snapshot.timing)) / 1000)))
+        setRecoveryIssue('')
+        setCheckpointSaveStatus('saved')
+        setStarted(true)
+        setRecoveryPhase('ready')
+      } catch (error) {
+        if (cancelled) return
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not verify your saved exam.')
+        setRecoveryPhase('blocked')
+      }
+    }
+    void init()
+    return () => { cancelled = true }
+  }, [attemptStore, autoStart, checkpointContext?.userId, checkpointContext?.courseId,
+    checkpointContext?.retentionDays, checkpointContext?.timerPolicy, moduleId, exam, recoveryReload])
+
+  const enqueueExamCheckpoint = (makeNext: (current: ExamAttemptSnapshot) => ExamAttemptSnapshot) => {
+    if (!attemptStore) return Promise.reject(new Error('Exam recovery storage is unavailable.'))
+    setCheckpointSaveStatus('saving')
+    const write = checkpointWriteChain.current.then(async () => {
+      const current = checkpointRef.current
+      if (!current) throw new Error('No saved exam attempt could be verified.')
+      if (current.snapshot.phase === 'submitted') throw new Error('This exam has already been submitted.')
+      const next = makeNext(current.snapshot)
+      const saved = await updateExamAttempt(attemptStore, current, next)
+      checkpointRef.current = saved
+      setCheckpointSaveStatus('saved')
+      return saved
+    })
+    checkpointWriteChain.current = write.then(() => undefined, () => undefined)
+    return write.catch((error: unknown) => {
+      setCheckpointSaveStatus('error')
+      setRecoveryIssue(error instanceof Error ? error.message : 'Could not confirm your exam was saved.')
+      throw error
+    })
+  }
+
+  // Debounced edits are revision-serialised; a newer tab may never be overwritten.
+  // Unacknowledged edits are visibly unconfirmed and protected with the unload warning below.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !checkpointRef.current ||
+      !started || submitted || submissionLocked) return
+    const cp = checkpointRef.current.snapshot
+    const desired = { answers, marks, selectedChoices, flagged, questionIndex,
+      phase: finishedWriting ? 'marking' : 'writing' }
+    if (Object.entries(desired).every(([field, value]) =>
+      JSON.stringify(value) === JSON.stringify(cp[field as keyof ExamAttemptSnapshot]))) return
+    setCheckpointSaveStatus('saving')
+    const id = window.setTimeout(() => {
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...desired,
+        timing: finishedWriting && current.timing.runningSince
+          ? examPauseTiming(current.timing) : current.timing,
+      })).catch(() => undefined)
+    }, 450)
+    return () => window.clearTimeout(id)
+  }, [checkpointContext, recoveryPhase, started, submitted, submissionLocked,
+    answers, marks, selectedChoices, flagged, questionIndex, finishedWriting])
+
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started || finishedWriting || sessionOverlay) return
+    const refresh = () => {
+      const timing = checkpointRef.current?.snapshot.timing
+      if (!timing) return
+      const seconds = Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(timing)) / 1000))
+      setSecondsRemaining(seconds)
+      if (seconds === 0) setFinishedWriting(true)
+    }
+    refresh()
+    const interval = window.setInterval(refresh, 1000)
+    return () => window.clearInterval(interval)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, sessionOverlay, exam.durationMinutes])
+
+  useEffect(() => {
+    if (!checkpointContext || checkpointSaveStatus === 'saved') return
+    const onLeaving = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', onLeaving)
+    return () => window.removeEventListener('beforeunload', onLeaving)
+  }, [checkpointContext, checkpointSaveStatus])
   useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
 
   // A timed attempt owns the full working environment, without global
@@ -244,7 +381,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const pLabel = paperLabel(exam)
 
   useEffect(() => {
-    if (!started || finishedWriting || sessionOverlay) return
+    if (!started || finishedWriting || sessionOverlay || checkpointContext) return
     const interval = window.setInterval(() => {
       setSecondsRemaining((current) => {
         if (current <= 1) {
@@ -256,7 +393,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       })
     }, 1000)
     return () => window.clearInterval(interval)
-  }, [started, finishedWriting, sessionOverlay])
+  }, [started, finishedWriting, sessionOverlay, checkpointContext])
 
   const totals = useMemo(() => {
     const ao = Object.fromEntries(aoKeys.map((key) => [key, { awarded: 0, available: 0 }])) as ExamResult['ao']
