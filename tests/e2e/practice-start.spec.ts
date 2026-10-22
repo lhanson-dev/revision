@@ -59,7 +59,9 @@ test('Practice activity is page-level and returns keyboard focus to its launch c
   await expect(workspace.getByRole('button', { name: 'Back to practice' })).toBeFocused()
   await workspace.getByRole('button', { name: 'Back to practice' }).click()
   await expect(workspace).toHaveCount(0)
-  await expect(start).toBeFocused()
+  // A checkpointed session makes Start unavailable. Focus returns to the
+  // enabled Carry on action, not a disabled replacement for the launch button.
+  await expect(page.getByRole('button', { name: 'Carry on' })).toBeFocused()
 
   const flashcards = page.getByRole('button', { name: /^Flashcards/ })
   await flashcards.click()
