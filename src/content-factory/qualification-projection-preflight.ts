@@ -72,6 +72,8 @@ export function checkQualificationProjection(input: {
   }
 
   const seenExpected = new Set<string>()
+  const seenPaperIds = new Set<string>()
+  const seenPaperNumbers = new Set<number>()
   const seenCandidates = new Set<string>()
   const byPackId = new Map<string, QualificationProjectionCandidate>()
   const expectedIds = new Set(expected.components.map((component) => component.packId))
@@ -92,6 +94,11 @@ export function checkQualificationProjection(input: {
       continue
     }
     seenExpected.add(id)
+    if (seenPaperIds.has(component.paperId) || seenPaperNumbers.has(component.paperNumber)) {
+      issue('duplicate_expected_paper', id, 'Distinct packs cannot represent the same paper ID or paper number')
+    }
+    seenPaperIds.add(component.paperId)
+    seenPaperNumbers.add(component.paperNumber)
     if (!nonEmpty(id) || !nonEmpty(component.paperId)
       || !Number.isInteger(component.paperNumber) || component.paperNumber <= 0
       || !Number.isInteger(component.totalMarks) || component.totalMarks <= 0
@@ -148,53 +155,70 @@ export function checkQualificationProjection(input: {
         'No matching exact-cohort pre-release-context evidence reference')
     }
 
-    const exam = pack.exams[0]
-    if (!exam) {
-      issue('missing_mock', id, 'Projected pack contains no primary representative exam')
+    if (pack.exams.length === 0) {
+      issue('missing_mock', id, 'Projected pack contains no representative exam')
       continue
     }
-    if (exam.totalMarks !== component.totalMarks
-      || exam.durationMinutes !== component.durationMinutes) {
-      issue('exam_metadata_mismatch', id, 'Projected exam differs from approved component metadata')
-    }
-    const eligible = new Set(component.eligibleExamTopicIds)
-    for (const question of exam.questions) {
-      if (!eligible.has(question.topic)) {
-        issue('paper_topic_mismatch', id,
-          `Question ${question.id} belongs to course topic ${question.topic}, outside this paper's scope`)
+    // The learner schema only checks the first mock against manifest timing
+    // and marks. Inspect every mock here so later mocks cannot silently drift.
+    for (const exam of pack.exams) {
+      if (exam.totalMarks !== component.totalMarks
+        || exam.durationMinutes !== component.durationMinutes) {
+        issue('exam_metadata_mismatch', id,
+          `Mock ${exam.id} differs from approved component marks or duration`)
+      }
+      const eligible = new Set(component.eligibleExamTopicIds)
+      const questionIds = new Set<string>()
+      for (const question of exam.questions) {
+        if (questionIds.has(question.id)) {
+          issue('duplicate_mock_question', id,
+            `Question ${question.id} is repeated within mock ${exam.id}`)
+        }
+        questionIds.add(question.id)
+        if (!eligible.has(question.topic)) {
+          issue('paper_topic_mismatch', id,
+            `Mock ${exam.id} question ${question.id} belongs to topic ${question.topic}, outside this paper's scope`)
+        }
       }
     }
 
     if (component.minimumPracticalMarks !== undefined) {
-      // A mock with choices cannot be counted simply by summing printed
-      // questions; require a stronger attempted-marks proof first.
-      if (exam.questions.some((question) => question.choiceGroup)) {
-        issue('practical_choice_arithmetic_unproven', id,
-          'Practical marks across optional exam routes need explicit attempted-choice assurance')
+      // Practical IDs currently carry no mock identity. Never infer which
+      // exam they refer to when multiple mocks exist in one pack.
+      if (pack.exams.length !== 1) {
+        issue('practical_multiple_mocks_unsupported', id,
+          'Practical attribution requires explicit mock identity when a pack has multiple mocks')
       } else {
-        const ids = candidate.practicalQuestionIds
-        if (!ids) {
-          issue('missing_practical_attribution', id, 'No practical-question attribution was supplied')
+        const exam = pack.exams[0]!
+        // Choice routes cannot be counted by summing printed alternatives.
+        if (exam.questions.some((question) => question.choiceGroup)) {
+          issue('practical_choice_arithmetic_unproven', id,
+            'Practical marks across optional exam routes need explicit attempted-choice assurance')
         } else {
-          const known = new Map(exam.questions.map((question) => [question.id, question.marks]))
-          const selected = new Set<string>()
-          let practicalMarks = 0
-          for (const questionId of ids) {
-            if (selected.has(questionId)) {
-              issue('duplicate_practical_question', id, `Question ${questionId} counted more than once`)
-              continue
+          const ids = candidate.practicalQuestionIds
+          if (!ids) {
+            issue('missing_practical_attribution', id, 'No practical-question attribution was supplied')
+          } else {
+            const known = new Map(exam.questions.map((question) => [question.id, question.marks]))
+            const selected = new Set<string>()
+            let practicalMarks = 0
+            for (const questionId of ids) {
+              if (selected.has(questionId)) {
+                issue('duplicate_practical_question', id, `Question ${questionId} counted more than once`)
+                continue
+              }
+              selected.add(questionId)
+              const marks = known.get(questionId)
+              if (marks === undefined) {
+                issue('unknown_practical_question', id, `Question ${questionId} not in the primary mock`)
+              } else {
+                practicalMarks += marks
+              }
             }
-            selected.add(questionId)
-            const marks = known.get(questionId)
-            if (marks === undefined) {
-              issue('unknown_practical_question', id, `Question ${questionId} not in the primary mock`)
-            } else {
-              practicalMarks += marks
+            if (practicalMarks < component.minimumPracticalMarks) {
+              issue('practical_marks_shortfall', id,
+                `Attributed practical marks ${practicalMarks} below minimum ${component.minimumPracticalMarks}`)
             }
-          }
-          if (practicalMarks < component.minimumPracticalMarks) {
-            issue('practical_marks_shortfall', id,
-              `Attributed practical marks ${practicalMarks} < declared minimum ${component.minimumPracticalMarks}`)
           }
         }
       }
