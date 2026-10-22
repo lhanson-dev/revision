@@ -49,6 +49,10 @@ Use this file to find the governing source before substantive work.
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
+- Content Factory qualification-shape provider-free proof protocol (non-publishing research) → `research/content-production-repeatability/QUALIFICATION-SHAPE-PROOF.md`
+- Content Factory qualification-projection structural checker (internal candidate, not release gate) → `docs/technical/Content Factory Qualification Projection Preflight.md`
+- Second-board Business and GCSE science qualification-shape trial (research, not publication authority) → `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`
 - Content Factory whole-paper mock production implementation / AQA 7132 Mock Profile and provider-free validation → `docs/technical/Content Factory Mock Exam Production.md`
 - Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -56,7 +60,6 @@ Use this file to find the governing source before substantive work.
 - Content Factory Foundation-native internal Learn/Practice production, assurance and retained live proofs → `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`
 - Content Factory Foundation-native atomic Course Truth learning obligations / exact Learn-Practice evidence placement → `docs/technical/Content Factory Foundation-Native Atomic Learning Obligations.md`
 - Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
-- Content Factory qualification-projection structural checker (internal candidate, not release gate) → `docs/technical/Content Factory Qualification Projection Preflight.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Factory reliability qualification harness / paid-pilot pause → `docs/technical/Content Factory Reliability Qualification Harness.md`
