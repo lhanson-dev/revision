@@ -60,3 +60,33 @@ test('forged local REC-10 metadata cannot bypass Auth verification', async ({ pa
   await launchTimed(page)
   expect(calls).toEqual([])
 })
+
+test('a delayed cohort verification cannot silently convert a running transient exam', async ({ page }) => {
+  await seedExamPrepStudent(page)
+  let releaseAuth: (() => void) | null = null
+  const gate = new Promise<void>((resolve) => { releaseAuth = resolve })
+  await page.route('**/auth/v1/user**', async route => {
+    await gate
+    await route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({
+        id: userId, aud: 'authenticated', role: 'authenticated',
+        email: 'returning-home-test@revision.invalid',
+        app_metadata: { provider: 'email', revision_rec10_pilot: true },
+        user_metadata: { first_name: 'Synthetic' },
+      }),
+    })
+  })
+  const draftCalls: string[] = []
+  page.on('request', req => { if (isDraftRequest(req.url())) draftCalls.push(req.method()) })
+  await page.goto(examPrepPath)
+  await launchTimed(page)
+  const authResponse = page.waitForResponse(res => res.url().includes('/auth/v1/user'))
+  if (!releaseAuth) throw new Error('The test Auth response gate was not initialised.')
+  releaseAuth()
+  await authResponse
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  // The current exam started without a durable context. Verification only
+  // applies when a new exam session is launched after the trusted response.
+  expect(draftCalls).toEqual([])
+})
