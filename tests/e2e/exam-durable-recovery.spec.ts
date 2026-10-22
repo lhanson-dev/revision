@@ -99,8 +99,11 @@ test('unfinished full mock restores confirmed answer, flag and position after re
   expect(Object.values(firstSnapshot.flagged)).toContain(true)
   expect(Object.values(firstSnapshot.answers).some(answer => answer.length > 0)).toBe(true)
   await page.reload()
-  await expect(page.getByText('Work saved')).toBeVisible()
-  await expect(page.getByRole('button', { name: /Flagged for review/ })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Exam paused' })).toBeVisible()
+  const interrupted = ([...checkpointRows.values()][0].snapshot as { timing: { interrupted: boolean } }).timing.interrupted
+  expect(interrupted).toBe(true)
+  await page.getByRole('dialog', { name: 'Exam paused' }).getByRole('button', { name: /Continue exam/ }).click()
+  await expect(page.getByRole('button', { name: /flagged for review/i })).toBeVisible()
   const snapshot = [...checkpointRows.values()][0].snapshot as typeof firstSnapshot
   expect(snapshot.answers).toEqual(firstSnapshot.answers)
   expect(snapshot.flagged).toEqual(firstSnapshot.flagged)

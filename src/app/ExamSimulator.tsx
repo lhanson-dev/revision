@@ -234,6 +234,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     ? supabaseExamAttemptStore(checkpointContext.client) : null, [checkpointContext?.client])
   const checkpointRef = useRef<ExamAttempt | null>(null)
   const checkpointWriteChain = useRef<Promise<void>>(Promise.resolve())
+  const checkpointFailed = useRef(false)
   const latestExamDraft = useRef({ answers, marks, selectedChoices, flagged, questionIndex })
   latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
   const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
@@ -286,6 +287,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           throw new Error('This saved exam contains unavailable questions. It cannot be safely resumed.')
         }
         checkpointRef.current = saved
+        checkpointFailed.current = false
         setAnswers(snapshot.answers)
         setMarks(snapshot.marks)
         setSelectedChoices(snapshot.selectedChoices)
@@ -313,8 +315,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }, [attemptStore, autoStart, checkpointContext?.userId, checkpointContext?.courseId,
     checkpointContext?.retentionDays, checkpointContext?.timerPolicy, moduleId, exam, recoveryReload])
 
-  const enqueueExamCheckpoint = (makeNext: (current: ExamAttemptSnapshot) => ExamAttemptSnapshot) => {
+  const enqueueExamCheckpoint = (
+    makeNext: (current: ExamAttemptSnapshot) => ExamAttemptSnapshot,
+    retry = false,
+  ) => {
     if (!attemptStore) return Promise.reject(new Error('Exam recovery storage is unavailable.'))
+    if (checkpointFailed.current && !retry) return Promise.reject(
+      new Error('Your latest exam save was not confirmed. Retry saving before continuing.'))
     setCheckpointSaveStatus('saving')
     const write = checkpointWriteChain.current.then(async () => {
       const current = checkpointRef.current
@@ -323,11 +330,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       const next = makeNext(current.snapshot)
       const saved = await updateExamAttempt(attemptStore, current, next)
       checkpointRef.current = saved
+      checkpointFailed.current = false
       setCheckpointSaveStatus('saved')
       return saved
     })
     checkpointWriteChain.current = write.then(() => undefined, () => undefined)
     return write.catch((error: unknown) => {
+      checkpointFailed.current = true
       setCheckpointSaveStatus('error')
       setRecoveryIssue(error instanceof Error ? error.message : 'Could not confirm your exam was saved.')
       throw error
@@ -880,7 +889,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
               ...current, answers, marks, selectedChoices, flagged, questionIndex,
               phase: finishedWriting ? 'marking' : 'writing',
               timing: finishedWriting ? examPauseTiming(current.timing) : current.timing,
-            })).catch(() => undefined)
+            }), true).then((saved) => {
+              if (saved.snapshot.phase === 'writing' && !saved.snapshot.timing.runningSince) {
+                setSessionOverlay('paused')
+              }
+            }).catch(() => undefined)
           }}>Retry saving work</Button>
         </div>}
         {!finishedWriting ? (
@@ -1005,6 +1018,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
+            {checkpointContext && checkpointRef.current?.snapshot.timing.interrupted && <p role="status">
+              This paper was interrupted. Only time spent working that was safely confirmed has been counted.
+              Your final result will show that this was an interrupted mock.
+            </p>}
+            {checkpointContext && checkpointSaveStatus === 'error' && <p role="alert">
+              Your latest work could not be confirmed saved. Return to the paper and retry after your connection recovers.
+            </p>}
             <Button size="large" type="button" onClick={resumeExam}><Icon name="play" size="compact" /><span>Continue exam</span></Button>
           </ModalShell>
         </div>
