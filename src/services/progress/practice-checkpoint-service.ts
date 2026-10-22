@@ -39,7 +39,7 @@ const checkpointSchema = z.object({
   schemaVersion: z.literal(1),
   session: sessionSchema,
   pending: z.object({
-    evidence: learningEvidenceSchema,
+    evidence: z.union([learningEvidenceSchema]).refine(fact => fact.source === 'multiple_choice' || fact.source === 'calculation', 'Only scored objective questions may be checkpointed.'),
     nextSession: sessionSchema,
   }).nullable(),
 })
@@ -135,16 +135,33 @@ export async function fingerprintPracticeContent(questions: readonly { id: strin
 
 function decode(row: PracticeCheckpointRow): PracticeCheckpoint {
   const parsed = checkpointSchema.parse(row.snapshot) as PracticeCheckpointSnapshot
+  validateSnapshotForKey(parsed, { userId: row.user_id, courseId: row.course_id, moduleId: row.module_id, topicId: row.topic_id })
   return {
     userId: row.user_id, courseId: row.course_id, moduleId: row.module_id,
     topicId: row.topic_id, sessionId: row.session_id, revision: Number(row.revision),
     contentFingerprint: row.content_fingerprint, snapshot: parsed, expiresAt: row.expires_at,
   }
 }
+function validateSnapshotForKey(snapshot: PracticeCheckpointSnapshot, key: PracticeCheckpointKey) {
+  const pending = snapshot.pending
+  if (!pending) return
+  const { evidence, nextSession } = pending
+  const previous = snapshot.session
+  if (evidence.moduleId !== key.moduleId || evidence.topicId !== key.topicId ||
+      evidence.contentId !== previous.currentId ||
+      nextSession.currentId !== previous.currentId ||
+      nextSession.poolIds.join('|') !== previous.poolIds.join('|') ||
+      nextSession.answers.length !== previous.answers.length + 1 ||
+      nextSession.answers.at(-1)?.questionId !== evidence.contentId) {
+    throw new Error('Pending Practice answer does not match the owner, question, or source session.')
+  }
+}
+
 function asRow(key: PracticeCheckpointKey, sessionId: string, revision: number, fingerprint: string, snapshot: PracticeCheckpointSnapshot, expiresAt: string): PracticeCheckpointRow {
   validateKey(key)
   fingerprintValid(fingerprint)
   checkpointSchema.parse(snapshot)
+  validateSnapshotForKey(snapshot, key)
   if (new TextEncoder().encode(JSON.stringify(snapshot)).byteLength > 65536) throw new Error('Practice checkpoint exceeds the safe size limit.')
   return {
     user_id: key.userId, course_id: key.courseId, module_id: key.moduleId, topic_id: key.topicId,
@@ -159,6 +176,14 @@ async function verifiedRead(store: PracticeCheckpointStore, key: PracticeCheckpo
 function equals(a: PracticeCheckpoint, b: PracticeCheckpointRow): boolean {
   return a.sessionId === b.session_id && a.revision === b.revision &&
     a.contentFingerprint === b.content_fingerprint && stable(a.snapshot) === stable(b.snapshot)
+}
+
+/** Explicit discard is allowed for expired/changed content; no attempt is resumed. */
+export async function discardPracticeCheckpoint(store: PracticeCheckpointStore, key: PracticeCheckpointKey): Promise<void> {
+  validateKey(key)
+  const existing = await verifiedRead(store, key)
+  if (!existing) return
+  await removePracticeCheckpoint(store, existing)
 }
 
 export async function loadPracticeCheckpoint(store: PracticeCheckpointStore, key: PracticeCheckpointKey, expectedFingerprint: string): Promise<PracticeCheckpoint | null> {
