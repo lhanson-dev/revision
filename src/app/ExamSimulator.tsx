@@ -236,7 +236,10 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const checkpointWriteChain = useRef<Promise<void>>(Promise.resolve())
   const checkpointFailed = useRef(false)
   const latestExamDraft = useRef({ answers, marks, selectedChoices, flagged, questionIndex })
-  latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
+  useEffect(() => {
+    latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
+  }, [answers, marks, selectedChoices, flagged, questionIndex])
+  const [sessionInterrupted, setSessionInterrupted] = useState(false)
   const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
     checkpointContext && autoStart !== 'untimed' ? 'loading' : 'ready',
   )
@@ -299,6 +302,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         setSubmissionLocked(Boolean(snapshot.frozenSubmission))
         setResult(snapshot.phase === 'submitted' ? snapshot.frozenSubmission?.result ?? null : null)
         setSessionOverlay(snapshot.phase === 'writing' && !snapshot.timing.runningSince ? 'paused' : null)
+        setSessionInterrupted(snapshot.timing.interrupted)
         setSecondsRemaining(Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(snapshot.timing)) / 1000)))
         setRecoveryIssue(snapshot.timing.interrupted ? 'Your exam was paused after an interruption. Only confirmed working time counts.' : '')
         setCheckpointSaveStatus('saved')
@@ -397,6 +401,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       })).then((saved) => {
         if (!saved.snapshot.timing.runningSince) {
           setSessionOverlay('paused')
+          setSessionInterrupted(true)
           setRecoveryIssue('Your exam paused because work was interrupted. The confirmed time is preserved.')
         }
       }).catch(() => undefined)
@@ -417,6 +422,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         timing: { ...examPauseTiming(current.timing), interrupted: true },
       })).then(() => {
         setSessionOverlay('paused')
+        setSessionInterrupted(true)
         setRecoveryIssue('Your exam paused when you left the page. You can continue from the last confirmed time.')
       }).catch(() => undefined)
     }
@@ -1021,7 +1027,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
-            {checkpointContext && checkpointRef.current?.snapshot.timing.interrupted && <p role="status">
+            {checkpointContext && sessionInterrupted && <p role="status">
               This paper was interrupted. Only time spent working that was safely confirmed has been counted.
               Your final result will show that this was an interrupted mock.
             </p>}
