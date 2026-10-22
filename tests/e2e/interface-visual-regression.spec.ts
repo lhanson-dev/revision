@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { expect, test, type Page } from '@playwright/test'
+import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -362,6 +363,7 @@ const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = 
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
+  await seedPracticeCheckpoints(page)
   await page.clock.setFixedTime(new Date('2026-08-23T12:00:00.000Z'))
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.addInitScript(({ key, id, selectedTheme }) => {
