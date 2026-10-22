@@ -46,6 +46,7 @@ export interface PracticeStartProps {
   selectedTypes: readonly PracticeQuestionType[]
   onToggleType: (type: PracticeQuestionType) => void
   onStart: () => void
+  startDisabled?: boolean
   carryOn?: PracticeCarryOn | null
   /** Extra scored activities from older course packs (a self-marked exam question). */
   extraScored?: readonly PracticeWarmupRow[]
@@ -65,7 +66,7 @@ export interface PracticeStartProps {
 export function PracticeStart(props: PracticeStartProps) {
   const {
     topicTitle, status, lastPractised, topics, topicId, onChangeTopic,
-    length, onChangeLength, availableQuestions, sessionCount, questionTypes, selectedTypes, onToggleType, onStart,
+    length, onChangeLength, availableQuestions, sessionCount, questionTypes, selectedTypes, onToggleType, onStart, startDisabled = false,
     carryOn, extraScored = [], onOpenExtraScored, warmups, onOpenWarmup, revReason,
   } = props
   const [choosingTopic, setChoosingTopic] = useState(false)
@@ -153,7 +154,7 @@ export function PracticeStart(props: PracticeStartProps) {
               )}
 
               <div className="practice-start__action">
-                <Button size="large" className="practice-start__button" onClick={onStart}>
+                <Button size="large" className="practice-start__button" disabled={startDisabled} onClick={onStart}>
                   Start {sessionCount} {sessionCount === 1 ? 'question' : 'questions'}
                   <Icon name="arrow-right" size="compact" />
                 </Button>
