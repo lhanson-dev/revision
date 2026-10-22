@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -11,6 +12,7 @@ function isResponsiveLayout(page: Page) {
 }
 
 async function seedSession(page: Page) {
+  await seedExamAttemptBackend(page)
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')

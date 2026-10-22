@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -7,6 +8,7 @@ const asCourseId = 'aqa:aqa-as:7131'
 const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 async function seedSyntheticSession(page: Page) {
+  await seedExamAttemptBackend(page)
   const userId = '00000000-0000-4000-8000-000000000001'
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
