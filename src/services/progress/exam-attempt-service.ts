@@ -12,7 +12,7 @@ const marks = z.object({
 const result = z.object({
   recorded: z.boolean(), totalAwarded: z.number().min(0),
   totalAvailable: z.number().min(0), durationMinutes: z.number().min(0),
-  timed: z.boolean(),
+  timed: z.boolean(), interrupted: z.boolean().optional(),
   ao: z.object({
     ao1: z.object({ awarded: z.number().min(0), available: z.number().min(0) }),
     ao2: z.object({ awarded: z.number().min(0), available: z.number().min(0) }),
@@ -29,11 +29,12 @@ const snapshotSchema = z.object({
   flagged: z.record(z.string().min(1).max(200), z.boolean()),
   questionIndex: z.number().int().min(0).max(500),
   timing: z.object({
-    // Explicit model; no elapsed-time reset when returning after sleep/refresh.
+    // elapsedMs is the last server-confirmed active time. runningSince is
+    // an anchor for a currently connected, writing session only.
     elapsedMs: z.number().int().min(0).max(86400000),
     runningSince: z.string().datetime().nullable(),
-    // This is a candidate, NOT a Founder-approved interruption timer policy.
-    policy: z.literal('wall-clock'),
+    interrupted: z.boolean(),
+    policy: z.literal('pause-on-interruption'),
   }),
   frozenSubmission: z.object({ evidence: z.array(learningEvidenceSchema).max(501), result }).nullable(),
 }).superRefine((snapshot, ctx) => {
@@ -45,6 +46,11 @@ const snapshotSchema = z.object({
   }
   if (snapshot.phase !== 'writing' && snapshot.timing.runningSince !== null) {
     ctx.addIssue({ code: 'custom', message: 'Writing time must stop before marking or submission.' })
+  }
+  if (snapshot.phase === 'submitted' && (Object.keys(snapshot.answers).length > 0 ||
+      Object.keys(snapshot.marks).length > 0 || Object.keys(snapshot.selectedChoices).length > 0 ||
+      Object.keys(snapshot.flagged).length > 0)) {
+    ctx.addIssue({ code: 'custom', message: 'Completed checkpoints must not retain raw exam responses.' })
   }
   if (Object.keys(snapshot.answers).length > 500 || Object.keys(snapshot.marks).length > 500 ||
       Object.keys(snapshot.flagged).length > 500 || Object.keys(snapshot.selectedChoices).length > 100) {
@@ -128,7 +134,10 @@ function asRow(key: ExamAttemptKey, attemptId: string, revision: number,
   if (!Number.isInteger(revision) || revision < 1) throw new Error('Invalid attempt revision.')
   const parsed = snapshotSchema.parse(snapshot)
   const expiry = Date.parse(expiresAt)
-  if (!Number.isFinite(expiry)) throw new Error('Exam draft needs a valid retention expiry.')
+  if (!Number.isFinite(expiry) || expiry <= Date.now() ||
+      expiry > Date.now() + EXAM_DRAFT_RETENTION_DAYS * 86400000 + 120000) {
+    throw new Error('Exam draft retention must be limited to 14 days.')
+  }
   if (new TextEncoder().encode(JSON.stringify(parsed)).byteLength > 262144) {
     throw new Error('This exam draft is too large to save safely.')
   }
@@ -183,12 +192,19 @@ export async function updateExamAttempt(store: ExamAttemptStore, current: ExamAt
     userId: current.userId, courseId: current.courseId, moduleId: current.moduleId, examId: current.examId,
   }
   if (current.snapshot.phase === 'submitted') throw new Error('This exam has already been submitted and cannot be changed.')
-  if (['submitting', 'submitted'].includes(current.snapshot.phase) &&
-      (next.phase === 'writing' || next.phase === 'marking' ||
-       stable(current.snapshot.frozenSubmission) !== stable(next.frozenSubmission) ||
-       (current.snapshot.phase === 'submitting' &&
-         stable(current.snapshot) !== stable({ ...next, phase: 'submitting' })))) {
-    throw new Error('The submitted answers and marks cannot be changed.')
+  if (['submitting', 'submitted'].includes(current.snapshot.phase)) {
+    const sameFrozen = stable(current.snapshot.frozenSubmission) === stable(next.frozenSubmission)
+    const sameRest = stable({
+      ...current.snapshot, phase: next.phase, answers: {}, marks: {}, selectedChoices: {}, flagged: {},
+    }) === stable({
+      ...next, answers: {}, marks: {}, selectedChoices: {}, flagged: {},
+    })
+    const valid = sameFrozen && sameRest && (
+      next.phase === 'submitting' && stable(next) === stable(current.snapshot) ||
+      next.phase === 'submitted' && !Object.keys(next.answers).length &&
+      !Object.keys(next.marks).length && !Object.keys(next.selectedChoices).length &&
+      !Object.keys(next.flagged).length)
+    if (!valid) throw new Error('The submitted answers and marks cannot be changed.')
   }
   const expected = asRow(key, current.attemptId, current.revision + 1, current.contentFingerprint, next, current.expiresAt)
   const { data, error } = await store.compareAndSwap(key, current.attemptId, current.revision, expected)
@@ -226,25 +242,59 @@ export async function removeCompletedExamAttempt(store: ExamAttemptStore, curren
   throw new Error('Could not confirm the previous exam result is closed. Reload before starting a new attempt.')
 }
 
-/** Timers use persisted UTC anchors: sleep, refresh and lost network time do not invent additional minutes. */
+/** A 5-second confirmed heartbeat bounds the last unconfirmed active interval.
+ * Any gap above 15s is interruption, never unbounded chargeable exam time.
+ * On browser reload, ALL ongoing sessions are paused at the last confirmed
+ * checkpoint; they do not gain time while the browser is absent.
+ */
+export const EXAM_HEARTBEAT_INTERVAL_MS = 5_000
+export const EXAM_HEARTBEAT_MAX_GAP_MS = 15_000
+export const EXAM_DRAFT_RETENTION_DAYS = 14
+
 export function examElapsedMs(timing: ExamAttemptSnapshot['timing'], now = Date.now()): number {
-  const active = timing.runningSince ? Math.max(0, now - Date.parse(timing.runningSince)) : 0
-  if (!Number.isFinite(active)) throw new Error('Invalid saved exam timer.')
-  return timing.elapsedMs + active
+  if (!timing.runningSince) return timing.elapsedMs
+  const since = Date.parse(timing.runningSince)
+  if (!Number.isFinite(since)) throw new Error('Invalid confirmed exam timer anchor.')
+  return timing.elapsedMs + Math.min(EXAM_HEARTBEAT_MAX_GAP_MS, Math.max(0, now - since))
+}
+export function examHeartbeatTiming(timing: ExamAttemptSnapshot['timing'], now = Date.now()): ExamAttemptSnapshot['timing'] {
+  if (!timing.runningSince) throw new Error('Paused exams cannot receive active timer credit.')
+  const gap = now - Date.parse(timing.runningSince)
+  if (!Number.isFinite(gap) || gap > EXAM_HEARTBEAT_MAX_GAP_MS) {
+    return examInterruptTiming(timing)
+  }
+  return { ...timing, elapsedMs: examElapsedMs(timing, now), runningSince: new Date(now).toISOString() }
+}
+export function examInterruptTiming(timing: ExamAttemptSnapshot['timing']): ExamAttemptSnapshot['timing'] {
+  // The last persisted elapsedMs is authoritative; no unsaved seconds are charged.
+  return { ...timing, runningSince: null, interrupted: true }
 }
 export function examPauseTiming(timing: ExamAttemptSnapshot['timing'], now = Date.now()): ExamAttemptSnapshot['timing'] {
+  if (!timing.runningSince) return timing
+  const gap = now - Date.parse(timing.runningSince)
+  if (!Number.isFinite(gap) || gap > EXAM_HEARTBEAT_MAX_GAP_MS) return examInterruptTiming(timing)
   return { ...timing, elapsedMs: examElapsedMs(timing, now), runningSince: null }
 }
 export function examResumeTiming(timing: ExamAttemptSnapshot['timing'], now = Date.now()): ExamAttemptSnapshot['timing'] {
+  if (timing.runningSince !== null) throw new Error('Examination timer is already running.')
   return { ...timing, runningSince: new Date(now).toISOString() }
 }
 export function initialExamSnapshot(now = Date.now()): ExamAttemptSnapshot {
   return {
     schemaVersion: 1, phase: 'writing', answers: {}, marks: {}, selectedChoices: {}, flagged: {},
-    questionIndex: 0, timing: { elapsedMs: 0, runningSince: new Date(now).toISOString(), policy: 'wall-clock' },
-    frozenSubmission: null,
+    questionIndex: 0, timing: { elapsedMs: 0, runningSince: new Date(now).toISOString(),
+      interrupted: false, policy: 'pause-on-interruption' }, frozenSubmission: null,
   }
 }
+export function finaliseExamSnapshot(snapshot: ExamAttemptSnapshot): ExamAttemptSnapshot {
+  if (snapshot.phase !== 'submitting' || !snapshot.frozenSubmission) {
+    throw new Error('Only a fully frozen exam can be finalised.')
+  }
+  return {
+    ...snapshot, phase: 'submitted', answers: {}, marks: {}, selectedChoices: {}, flagged: {},
+  }
+}
+
 /** A frozen submission is idempotent across process and browser restarts, never re-generated. */
 export async function commitFrozenExamSubmission(
   store: ExamAttemptStore, current: ExamAttempt, frozen: FrozenExamSubmission,
