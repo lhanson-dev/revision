@@ -18,7 +18,8 @@ async function installRecoveryDatabase(page: Page) {
     const request = route.request()
     const method = request.method()
     const url = new URL(request.url())
-    const key = 'student-topic'
+    const key = ['user_id', 'course_id', 'module_id', 'topic_id']
+      .map(field => (url.searchParams.get(field) ?? '').replace(/^eq\./, '')).join('|')
     const current = checkpointRows.get(key)
     if (method === 'GET') {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(current ? [current] : []) })
@@ -30,7 +31,8 @@ async function installRecoveryDatabase(page: Page) {
         await route.fulfill({ status: 409, contentType: 'application/json', body: JSON.stringify({ code: '23505', message: 'duplicate' }) })
         return
       }
-      checkpointRows.set(key, row)
+      const ownerKey = ['user_id', 'course_id', 'module_id', 'topic_id'].map(field => String(row[field])).join('|')
+      checkpointRows.set(ownerKey, row)
       await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify(row) })
       return
     }
@@ -38,7 +40,8 @@ async function installRecoveryDatabase(page: Page) {
       const patch = request.postDataJSON() as DbRow
       const revisionParam = url.searchParams.get('revision')
       const revision = revisionParam?.startsWith('eq.') ? Number(revisionParam.slice(3)) : -1
-      if (!current || current.revision !== revision) {
+      const sessionId = (url.searchParams.get('session_id') ?? '').replace(/^eq\./, '')
+      if (!current || current.revision !== revision || current.session_id !== sessionId) {
         await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
         return
       }
@@ -56,7 +59,8 @@ async function installRecoveryDatabase(page: Page) {
     if (method === 'DELETE') {
       const revisionParam = url.searchParams.get('revision')
       const revision = revisionParam?.startsWith('eq.') ? Number(revisionParam.slice(3)) : -1
-      const removed = current && current.revision === revision ? [{ session_id: current.session_id }] : []
+      const sessionId = (url.searchParams.get('session_id') ?? '').replace(/^eq\./, '')
+      const removed = current && current.revision === revision && current.session_id === sessionId ? [{ session_id: current.session_id }] : []
       if (removed.length) checkpointRows.delete(key)
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(removed) })
     }
@@ -102,6 +106,7 @@ test('scored Practice restores the exact next question after a refresh without a
   await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
   await page.reload()
   await expect(page.getByText('You have a session open.')).toBeVisible()
+  expect([...checkpointRows.values()].map(row => row.topic_id)).toEqual(['business'])
   await page.getByRole('button', { name: 'Carry on' }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
