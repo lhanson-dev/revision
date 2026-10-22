@@ -38,3 +38,11 @@ Do not apply the draft migration or change the production readiness contract unt
 
 ## Documentation impact
 New implementation truth belongs here and in SQL/services/tests, linked from INDEX. Change approved normative privacy/timer authority only following a Founder decision; do not misrepresent this technical contract as approved policy. Update assurance/defect registers as acceptance evidence matures. Historical audits and previously issued releases remain unchanged.
+
+## REC-10 timing and visual-assurance correction — 22 October 2026
+
+The browser's prior 81-minute `page.clock.runFor` jump represented an unconfirmed sleeping tab under the Founder-approved rule; treating it as continuous work contradicted `Exam Session Recovery.md`. The focused timer visual test now supplies a **synthetic server-confirmed 81-minute active-time checkpoint**. An independent unit case verifies 972 successive five-second heartbeats accumulate 81 minutes, and a long gap causes pause with no extra time. This is not a bypass in production timing.
+
+The visual snapshot fixture now mocks the actual owner-scoped exam-attempt API and must settle its recovery query before capturing. For a learner with **no saved answers**, Exam Prep keeps its existing visual layout; the saved-work recovery notice and resume action appear only if applicable. The initial timed-exam viewport likewise omits extra saved-work controls until the learner has work or a non-confirmed save state. Recovery controls remain available once there is work to preserve. Approved historical image digests and human approvals are unchanged. CI must confirm that snapshots match rather than repinning hashes automatically.
+
+These corrections are **not release acceptance**. Investigate any unresolved exact-head CI discrepancies and preserve the Founder-specific merge boundary.

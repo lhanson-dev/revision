@@ -134,7 +134,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
 
   return (
     <>
-      {checkpointContext && <section className="exam-prep-recovery" aria-label="Saved mock examinations">
+      {checkpointContext && (savedExams.length > 0 || savedExamCheck === 'unavailable') && <section className="exam-prep-recovery" aria-label="Saved mock examinations">
         <p>Unfinished full mocks are saved privately for up to 14 days. You can continue from your last confirmed answers after leaving or refreshing. Draft answers are removed after your result is safely recorded.</p>
         {savedExamCheck === 'checking' && <p role="status">Checking unfinished exams…</p>}
         {savedExamCheck === 'unavailable' && <p role="alert">We cannot confirm your saved exams right now. Starting an exam will check again before changing work.</p>}

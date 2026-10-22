@@ -873,12 +873,19 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
           <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span>
-            {checkpointContext && <span role="status" aria-live="polite">
+            {checkpointContext && (checkpointSaveStatus !== 'saved' ||
+              Object.values(answers).some((answer) => Boolean(answer.trim())) ||
+              Object.values(flagged).some(Boolean) ||
+              Object.keys(selectedChoices).length > 0) && <span role="status" aria-live="polite">
               {checkpointSaveStatus === 'saved' ? 'Work saved' : checkpointSaveStatus === 'saving' ? 'Saving work…' : 'Work not saved — retry'}
             </span>}
           </div>
           <div className="exam-session-controls">
-            {checkpointContext && onExit && !submissionLocked && <Button variant="secondary" type="button"
+            {checkpointContext && onExit && !submissionLocked &&
+              (Object.values(answers).some((answer) => Boolean(answer.trim())) ||
+                Object.values(flagged).some(Boolean) ||
+                Object.keys(selectedChoices).length > 0 ||
+                checkpointSaveStatus !== 'saved') && <Button variant="secondary" type="button"
               disabled={checkpointSaveStatus === 'error' || attemptSaving} onClick={() => { void saveAndLeave() }}>Save and return to Exam Prep</Button>}
             {!finishedWriting && <Button variant="secondary" type="button" onClick={() => { void beginInterruption('paused') }}>Pause</Button>}
             {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}
