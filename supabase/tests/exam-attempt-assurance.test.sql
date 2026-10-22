@@ -69,7 +69,7 @@ select throws_ok($sql$update public.learner_exam_attempts
   '23514','Examination revision must increase by one',
   'stale revision cannot overwrite newer answer');
 select throws_ok($sql$update public.learner_exam_attempts
-  set revision=3, snapshot='{"phase":"submitted"}'::jsonb
+  set revision=3, snapshot=jsonb_set(snapshot,'{phase}','"submitted"'::jsonb)
   where exam_id='mock-1'$sql$,
   '23514','Invalid examination state transition',
   'cannot skip marking and frozen submission');
