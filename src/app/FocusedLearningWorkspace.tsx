@@ -371,7 +371,7 @@ export function FocusedLearningWorkspace({
 
   /** Start the focused in-page activity, remembering the trigger for keyboard focus return. */
   function beginActivity(activity: WorkspaceMode) {
-    if (!openActivity && document.activeElement instanceof HTMLElement) activityLaunchLabel.current = document.activeElement.textContent?.trim() ?? null
+    if (!openActivity && !activityLaunchLabel.current && document.activeElement instanceof HTMLElement) activityLaunchLabel.current = document.activeElement.textContent?.trim() ?? null
     setOpenActivity(activity)
   }
 
@@ -496,6 +496,9 @@ export function FocusedLearningWorkspace({
   /** Starts a fresh scored session: the chosen length (capped at what the topic has) and a clean retry queue. */
   async function startQuestions() {
     if (startCount === 0 || checkpointPhase !== 'ready' || checkpointLock.current) return
+    // Capture the launch control before the awaited database write disables it
+    // and moves browser focus to the body.
+    activityLaunchLabel.current = `Start ${startCount} ${startCount === 1 ? 'question' : 'questions'}`
     if (checkpointContext && checkpoint) {
       setCheckpointIssue('You have an unfinished Practice session. Carry on or discard it before starting another.')
       return
@@ -524,6 +527,7 @@ export function FocusedLearningWorkspace({
       } catch (error) {
         setCheckpointIssue(error instanceof Error ? error.message : 'Could not save your Practice session.')
         setCheckpointPhase('blocked')
+        activityLaunchLabel.current = null
         return
       } finally {
         checkpointLock.current = false
