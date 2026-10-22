@@ -3,7 +3,6 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { appPath, planUserId, plannedRow, seedPlanStudent } from './plan-seed'
 import { answerWith } from './practice-seed'
-import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 /** Node-only browser fixture: verify authoritative paper-manifest identities by
  * reading text, not executing the Vite/JSON content-loader module graph. */
@@ -47,7 +46,6 @@ function paper(course: FixtureCourse, number: number, date: string, name: string
 type ExamRow = ReturnType<typeof paper>
 
 async function seededCourses(page: Page, courseIds: string[], getExams: () => ExamRow[]) {
-  await seedPracticeCheckpoints(page)
   await seedPlanStudent(page, { sessions: [] })
   await page.route('**/rest/v1/learner_courses**', (route) => route.fulfill({
     status: 200, contentType: 'application/json',
