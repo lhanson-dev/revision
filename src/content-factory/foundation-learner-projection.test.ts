@@ -42,7 +42,26 @@ function pack(packId: string, number: number): ContentPack {
       id: topic, order: i + 1, title: topic, shortTitle: topic,
       sections: [{ id: 'section', title: 'Synthetic chapter', points: ['Fictional teaching example.'] }],
     })),
-    formulas: [], topicLinks: [], flashcards: [], questions: [], caseStudies: [], dataDrills: [],
+    learn: {
+      chapters: ['topic-one', 'topic-two'].map((topic, i) => ({
+        id: i === 0 ? 'chapter-one' : 'chapter-two', topicId: topic, title: 'Fictional chapter',
+        groups: [{
+          id: i === 0 ? 'group-one' : 'group-two', title: 'Fictional learning',
+          pages: [{
+            id: i === 0 ? 'learn-one' : 'learn-two', topicId: topic,
+            title: 'Fictional explanation', orientation: 'Non-publishing teaching fixture',
+            blocks: [{ type: 'explanation', paragraphs: ['Fictional original teaching material.'] }],
+          }],
+        }],
+      })),
+    },
+    formulas: [], topicLinks: [], flashcards: [],
+    questions: ['topic-one', 'topic-two'].map((topic, i) => ({
+      id: i === 0 ? 'practice-one' : 'practice-two', topic,
+      prompt: 'Which fictional concept applies?', options: ['Original option A', 'Original option B'],
+      correctOption: 0, explanation: 'Fictional correct-answer explanation.',
+    })),
+    caseStudies: [], dataDrills: [],
     exams: [{
       id: 'synthetic-exam', title: 'Synthetic test', subtitle: 'Not an examination',
       totalMarks: 100, durationMinutes: 120, caseHtml: '<p>Fictional context</p>',
@@ -172,10 +191,18 @@ async function makeFixture() {
       { requirementId: 'req-two', topicId: 'topic-two' },
     ],
     evidence: ids.flatMap((packId) => ([
-      { requirementId: 'req-one', packId, topicId: 'topic-one', kind: 'exam_question' as const,
-        assetId: 'question-one', examId: 'synthetic-exam' },
-      { requirementId: 'req-two', packId, topicId: 'topic-two', kind: 'exam_question' as const,
-        assetId: 'question-two', examId: 'synthetic-exam' },
+      ...(['one', 'two'] as const).flatMap((suffix) => {
+        const requirementId = 'req-' + suffix
+        const topicId = 'topic-' + suffix
+        return [
+          { requirementId, packId, topicId, kind: 'learn_page' as const,
+            assetId: 'learn-' + suffix },
+          { requirementId, packId, topicId, kind: 'practice_question' as const,
+            assetId: 'practice-' + suffix },
+          { requirementId, packId, topicId, kind: 'exam_question' as const,
+            assetId: 'question-' + suffix, examId: 'synthetic-exam' },
+        ]
+      }),
     ])),
   }
   const candidates: QualificationProjectionCandidate[] = ids.map((packId, i) => ({
@@ -203,18 +230,20 @@ function held(result: Awaited<ReturnType<typeof run>>, code: string) {
 describe('Stage 4 independent Foundation to planned learner-pack proof (fictional, provider-free)', () => {
   beforeAll(async () => { base = await makeFixture() })
 
-  it('retains two independent Board Alignment papers, unequal 40/60 weights, both atomic requirements and exact question identities', async () => {
+  it('retains both independent papers, unequal 40/60 weights, atomic requirements, Learn pages, Practice and Exam IDs', async () => {
     expect(await run()).toEqual({ status: 'pass', problems: [], publicationEligible: false })
   })
   it('holds when a required paper or requirement mapping disappears', async () => {
     held(await run((f) => { f.candidates.pop() }), 'projection_missing_component')
     held(await run((f) => { f.mapping.requirementTopics.pop() }), 'requirement_mapping_incomplete')
   })
-  it('holds when evidence is omitted, duplicated, falsified or points at a missing learner question', async () => {
+  it('holds when Learn, Practice or Exam evidence is omitted, duplicated, falsified or unresolvable', async () => {
     held(await run((f) => { f.mapping.evidence.pop() }), 'evidence_mapping_missing')
     held(await run((f) => { f.mapping.evidence.push({ ...f.mapping.evidence[0]! }) }), 'evidence_mapping_invalid')
     held(await run((f) => { f.mapping.evidence[0]!.assetId = 'not-a-question' }), 'evidence_asset_missing')
     held(await run((f) => { f.mapping.evidence[0]!.topicId = 'topic-two' }), 'evidence_mapping_invalid')
+    held(await run((f) => { f.candidates[0]!.pack.learn!.chapters.splice(0, 1) }), 'evidence_asset_missing')
+    held(await run((f) => { f.candidates[0]!.pack.questions.splice(0, 1) }), 'evidence_asset_missing')
   })
   it('holds false profile course/cohort/paper and wrong qualification weighting', async () => {
     held(await run((f) => { f.mapping.subjectId = 'invented' }), 'unverified_manifest_identity')
