@@ -200,6 +200,17 @@ Specific legal requirements, consent models, age-related obligations, relationsh
 
 The FI-002 18+ billing-customer rule is a product-policy choice for the initial UK MVP. It must not be represented as a legal conclusion about the validity of every contract entered into by a younger person in every UK jurisdiction or circumstance.
 
+## 12A. Staged release review for exam drafts (REC-10; proposed Founder direction 22 October 2026)
+
+The Founder has delegated the **product risk-triage decision** for durable examination drafts and requested that a **final independently qualified privacy review become a mandatory public learner-launch gate**. The instruction does **not** remove section 12's pre-processing compliance requirement or constitute qualified legal, DPO or controller sign-off. This amendment is a PR #658 proposal until Founder-approved merge.
+
+- **Engineering and internal synthetic QA:** may proceed using synthetic, non-identifiable data on the approved isolated test environments. CI/QA acceptance does not imply privacy acceptance.
+- **Restricted real-student pilot:** release only after a **documented, reviewed and accountable pre-pilot DPIA/children's-data risk assessment** is completed; Article 6 lawful basis and necessity/proportionality are identified; an age-appropriate notice is available to students before capture; a practical authenticated data-access/export/erasure request channel and response ownership exist; security, supplier and backup treatment are understood; REC-10 14-day controls and actual deletion are validated; and restricted pilot permissions and safeguarding constraints are enforced. The accountable controller must record an explicit pre-pilot privacy go/no-go, residual risks and safeguards. An AI product risk decision cannot substitute for these obligations. Material unidentified risk means **HOLD** for real learner data.
+- **Unrestricted/public learner launch:** **hard gate** requiring a fresh, independent, appropriately qualified privacy/data-protection review of the **entire live learner service**, not just REC-10. It must review the current law, applicable Children's Code/DPIA, processing bases, privacy notices, data subject rights, third-party AI/services and suppliers, backup/retention/erasure, parent/supporter boundaries, incident procedures and actual production controls. The review must record reviewer identity and date, findings and remediation, residual risks, and a documented final approval before public availability. Passing engineering CI or a successful pilot cannot close this gate.
+- **Governance record:** `90-governance-registers/Public Learner Launch Gate Register.md` records `PUBLIC-PRIV-01` as an outstanding blocking condition; `docs/technical/REC-10 Privacy and Data Rights Release Review.md` tracks REC-10 pilot prerequisites. Only independently evidenced review and governed Founder public-launch decision can mark the public gate satisfied.
+
+No statement here asserts that an independent privacy review, pilot DPIA, qualified legal advice or real-student acceptance has occurred.
+
 ## Decision test
 
 When deciding whether to collect, use, retain or share student data, ask:

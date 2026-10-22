@@ -20,5 +20,11 @@ After final evidence writes are confirmed, the checkpoint removes raw answers, s
 
 Access is enforced by authenticated learner-owned database policies, immutable course/paper scope, controlled conflict handling, and server-side expiry. These product decisions do not constitute an independent legal opinion on the full privacy notice, legal basis, rights/export handling, backups or safeguarding; those obligations must be verified before production activation under the Privacy and Student Data Principles.
 
+## Staged privacy acceptance (Founder product direction 22 October 2026)
+
+The product owner is authorised to make an interim **product-risk recommendation**, not to certify legal compliance or approve repository merges. Synthetic internal engineering tests are permitted. Before **any real-student pilot** creates persistent draft records, the accountable controller must document a child-centred DPIA/risk review, lawful processing basis, age-appropriate notice, access/export/erasure channel, supplier and backup risk, and deployment/readiness evidence, and explicitly authorise restricted cohort processing. Missing evidence means the raw-answer feature stays off.
+
+A **fresh, independent, qualified privacy/data-protection review of Revision's complete learner service** is mandatory before unrestricted public learner availability. It must be signed off in `PUBLIC-PRIV-01` and must not be inferred from REC-10 pilot clearance. This phased approach refines review timing but does not waive the general independent/legal verification requirement in `40-evidence-and-trust/Privacy and Student Data Principles.md`. It is a proposed change on draft PR #658, not approved `main` until governed merge.
+
 ## Release and acceptance
 Work only in the canonical learner route /revision/app/ (ExamPrepSection/ExamSimulator). Preserve supported pilot restrictions and existing AQA Business 7132 / Psychology 7182 paper and syllabus-option boundaries. Use branch PR governance and exact-head automated tests plus controlled browser/database evidence. Update the technical implementation record and registers in the same PR. Founder approval of these rules is **not approval to merge PR #658**.

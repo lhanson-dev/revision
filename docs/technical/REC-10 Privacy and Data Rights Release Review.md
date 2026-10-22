@@ -22,9 +22,27 @@
 | Security and incident handling | Strict course/paper scope, CAS against tab collisions, no standing anonymous draft access | Verify service account, privileged support paths, security incident escalation and logging minimisation |
 | Privacy information | Short save/expiry notices are present in candidate Exam Prep/ExamSimulator | Review layered age-appropriate complete notice, controller contact, rights, recipients, retention and complaint channels |
 
+## Founder-delegated product privacy triage — 22 October 2026
+
+**Decision: CONDITIONAL PILOT / PUBLIC HARD STOP.** The Founder delegated the product-level privacy risk assessment for REC-10 and explicitly required a final review before unrestricted public availability. The engineering/product reviewer has chosen the following release stages; this is *not* an independent qualified legal opinion, a completed DPIA, an approval of student-data processing, a production migration authorisation or PR #658 merge approval.
+
+| Phase | Product privacy position | Mandatory conditions |
+|---|---|---|
+| Synthetic/internal QA | Permitted | No real learner data; isolated synthetic environments, existing code/security gates, no real scored evidence |
+| Restricted pilot with real learners | CONDITIONAL HOLD | Complete children's-data DPIA and risk mitigations; document the chosen Article 6 legal basis (not invented in this review), age-appropriate point-of-collection and full notice, data subject access/export/erasure procedure with accountable contact, backup/supplier processing scope, 14-day deletion and RLS production verification; record accountable controller's signed pre-pilot go/no-go and exact cohort boundaries |
+| Public/unrestricted learner service | HARD STOP until independently signed | Obtain **fresh, independent, appropriately qualified privacy/data-protection review** of the whole learner app (not only exam drafts), clear material findings and record reviewer/date/evidence, then obtain governed Founder public-launch authorisation; track as `PUBLIC-PRIV-01` |
+
+**Risk classification:** Inherent privacy risk is **material/high** because Revision is aimed at school-age learners, temporarily saves identifiable free-text examination work and derives educational evidence. The RLS, bounded retention, data minimisation and pause logic are good risk reductions, but residual risk **cannot yet be rated acceptable for live children**: Article 6 basis, DPIA, full notice, rights-handling, backup retention and a controller's accountable sign-off have not been evidenced. In particular, confirmation of a 14-day application-table deadline does not prove erasure from backups, audit/telemetry or frozen evidence.
+
+**Authority consistency:** `Privacy and Student Data Principles.md` section 12 requires independent verification before production reliance. The new delegation is taken as permission to make the *product recommendation and phased process*, not permission to waive that existing higher-order requirement. A proposed section 12A amendment and `ACR-006` explicitly record this reconciliation for Founder approval when PR #658 is considered. A requested final review at public launch is **additional**; it does not legalise an unreviewed real-child pilot.
+
+**Review references checked 22 October 2026:** ICO Children's Code DPIA and Code Standards; ICO data protection by design and by default (updated February 2026); ICO storage limitation, including backup consideration. These are regulatory guidance sources, not project compliance certification.
+
+**Current decision record:** `REC-10-PROD-PRIV-01`: synthetic internal work may proceed. Production deployment, storage of real child written answers and pilot access **remain HELD until specific pre-pilot conditions are evidenced**. Final independent whole-product review is explicitly scheduled as a condition of public launch (`PUBLIC-PRIV-01`), rather than prematurely described as completed.
+
 ## External review and release evidence required
 
-1. A named accountable privacy owner or qualified UK data-protection reviewer signs a dated assessment of the purpose, lawful basis, transparency, child audience, risk mitigation and DPIA decision. This record is **missing**, not presumed unnecessary.
+1. Before real-student pilot, the accountable controller signs a dated children's-data DPIA / pre-pilot assessment of purpose, Article 6 lawful basis, transparency, child risks and mitigation, with any qualified external advice required by the risk. **Missing; production student-data HOLD.** A fresh independently qualified complete-product review remains a **separate public launch hard gate**.
 2. Publish or approve an age-appropriate privacy notice and learner rights pathway covering draft answers, deletion/export/access and caregiver requests where appropriate. Do not claim the app offers a tested in-product export/delete-all pathway if it does not.
 3. Confirm Supabase contract/processing terms, backup/PITR retention, actual deletion-from-backup or documented beyond-use arrangements, logging/data residency, access by privileged operators, and whether an expired response could surface in other copies.
 4. Verify nonproduction unit/pgTAP/browser security assurance on the exact PR head. After approved migration, verify the scheduler via `cron.job` and `cron.job_run_details`, actual response deletion and unchanged scored evidence, with a release-gate record. Never plant artificial child answers in production.
