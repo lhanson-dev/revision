@@ -1,6 +1,6 @@
 # Recovery R2 — durable scored Practice checkpoint and safe answer replay
 
-**Status:** Engineering candidate, not live or approved for merge. Prepared against approved `main` `5bc0d03bbf10ef65c38c50f73c4417d2fba6deb6` (PR #656 verified production).  
+**Status:** Engineering candidate, production backend enabled ahead on 22 October 2026; frontend not merged or deployed and not approved for merge. Prepared against approved `main` `5bc0d03bbf10ef65c38c50f73c4417d2fba6deb6` (PR #656 verified production).  
 **Canonical runtime:** `/revision/app/` → `src/main.tsx` → `PlannerRuntime` → `CourseExperienceScreen` → `FocusedLearningWorkspace`. The legacy `src/app/App.tsx` is not edited.
 
 ## Learner problem
@@ -20,9 +20,9 @@ Before this package, an in-page Practice session survived closing its activity b
 
 ## Security and release dependencies
 
-The migrations are `20261021221200_add_learner_practice_checkpoints.sql` and `20261021221400_add_r2_practice_checkpoint_readiness.sql`. The read-only `revision_release_readiness()` becomes `r2-practice-checkpoint-v1`, including the new table, RLS and grant checks while preserving existing capabilities. Both candidate CI and deployment expect the new version. **This is not yet present on the production backend.**
+The migrations are `20261022131141_add_learner_practice_checkpoints.sql` and `20261022131156_add_r2_practice_checkpoint_readiness.sql`. The read-only `revision_release_readiness()` becomes `r2-practice-checkpoint-v1`, including the new table, RLS and grant checks while preserving existing capabilities. Both candidate CI and deployment expect the new version. **Both migrations were applied in the controlled production backend-ahead window on 22 October 2026. No frontend change is live.**
 
-Before this PR is merge-eligible, isolate and verify both migrations on a test database with pgTAP, check Auth owner vs other learner and non-sensitive anonymous readiness RPC, independently apply and verify the additive migrations in the canonical production project under the controlled backend-ahead procedure, then rerun exact-head CI while live backend contract is aligned. Until then the normal public-backend CI step will intentionally fail. Do not merge an application depending on this missing table.
+Both migrations were first validated in an isolated Supabase database and checked with pgTAP, authenticated owner-vs-other-learner tests, and the anonymous non-sensitive release-readiness RPC. On 22 October 2026, the controlled backend-ahead production migration was applied and read back independently on canonical Revision Supabase project `xwwhshpmeogswxfjtpvq`, with ledger IDs `20261022131141` and `20261022131156`. The resulting RPC reports `{ contract: 'r2-practice-checkpoint-v1', ready: true }` with `checks.practiceCheckpoints: true` and all prior checks true. Catalog verification shows table RLS enabled, four owner policies, authenticated SELECT/INSERT/UPDATE/DELETE granted, anonymous and service-role SELECT denied, and zero checkpoint rows immediately after application. Post-change Security Advisor reported only two pre-existing findings; Performance Advisor reported only prior warnings and an expected unused-index informational notice for the just-created table. Exact-head candidate CI must be repeated after ledger reconciliation and the application must still obtain specific Founder PR merge approval before frontend deployment.
 
 Release validation must include refresh/re-entry, stable evidence IDs, retry after successful evidence but failed checkpoint update, multi-tab conflict, changed content, expired checkpoint, course ownership, failed backend reads, and current mobile/desktop UX. An unsubmitted checkpoint must never advance learner progress, exam readiness or a planned activity.
 
