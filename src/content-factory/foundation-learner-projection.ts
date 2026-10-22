@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { contentPackSchema } from '../../content/schema'
 import { foundationAssessmentBlueprintSchema, foundationCoverageModelSchema, fingerprintFoundationArtifact } from './foundation-compilation'
 import { assertApprovedFoundationIntegrity, computeFoundationFingerprint } from './foundation-lifecycle'
+import { validateFoundationExternalSourceChallenge } from './foundation-external-source-challenge'
 import { foundationJobSchema } from './foundation-schema'
 import { boardAlignmentSchema, courseKnowledgeModelSchema, sourceLicenceRegisterSchema } from './schema'
 import {
@@ -209,11 +210,39 @@ export async function checkFoundationLearnerProjection(input: {
   }
 
   const sourceById = new Map(register.sources.map((source) => [source.id, source]))
+  for (const source of register.sources) {
+    if (['UNKNOWN', 'PROHIBITED'].includes(source.useClass)) {
+      hold('source_rights_hold', 'Foundation source has unresolved or prohibited rights: ' + source.id)
+    }
+  }
   const sourceRefs = [
     ...alignment.sourceRefs,
     ...alignment.assessmentObjectives.flatMap((objective) => objective.sourceRefs),
     ...alignment.assessmentRequirements.flatMap((requirement) => requirement.sourceRefs),
   ]
+  if (!candidate.provenance.implementationHeadSha
+    || !candidate.provenance.generationContextIds.length
+    || !candidate.provenance.assuranceContextIds.length
+    || candidate.provenance.generationContextIds.some((contextId) =>
+      candidate.provenance.assuranceContextIds.includes(contextId))) {
+    hold('foundation_review_provenance', 'Foundation review context or implementation commit lacks provenance')
+  }
+  if (challenge && candidate.provenance.implementationHeadSha) {
+    try {
+      validateFoundationExternalSourceChallenge({
+        report: challenge, jobId: job.jobId, candidateId: candidate.candidateId,
+        reviewedCommit: candidate.provenance.implementationHeadSha,
+        foundationFingerprint,
+        forbiddenContextIds: [
+          ...candidate.provenance.generationContextIds,
+          ...candidate.provenance.assuranceContextIds,
+        ],
+        requiredSourceIds: [...new Set(sourceRefs)],
+      })
+    } catch (error) {
+      hold('foundation_challenge_provenance', error instanceof Error ? error.message : String(error))
+    }
+  }
   for (const sourceId of sourceRefs) {
     const source = sourceById.get(sourceId)
     if (!source || ['UNKNOWN', 'PROHIBITED'].includes(source.useClass)) {
