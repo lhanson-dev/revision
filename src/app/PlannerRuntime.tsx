@@ -31,6 +31,7 @@ import {
 } from './navigation'
 import { PlannerActivityReconciler } from './PlannerActivityReconciler'
 import { verifiedFi001PilotUserId } from './fi001-pilot-access'
+import { verifiedRec10PilotUserId } from './rec10-pilot-access'
 import { fi001AssuranceBuild } from './fi001-pilot-mode'
 import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
@@ -113,6 +114,7 @@ export function PlannerRuntime() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [adminAccessResolved, setAdminAccessResolved] = useState(false)
   const [verifiedPilotUserId, setVerifiedPilotUserId] = useState<string | null>(null)
+  const [verifiedRec10PilotId, setVerifiedRec10PilotId] = useState<string | null>(null)
   const [verifiedAuthUserId, setVerifiedAuthUserId] = useState<string | null>(null)
   const [themePreference, setThemePreference] = useState<ThemePreference>(() => initialThemePreference())
   const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark())
@@ -131,6 +133,7 @@ export function PlannerRuntime() {
         setIsAdmin(false)
         setAdminAccessResolved(false)
         setVerifiedPilotUserId(null)
+        setVerifiedRec10PilotId(null)
         setVerifiedAuthUserId(null)
         setMemberships([])
         setProgrammeResolved(false)
@@ -201,7 +204,8 @@ export function PlannerRuntime() {
       const verified = !error && data.user?.id === user.id ? user.id : null
       setVerifiedAuthUserId(verified)
       setVerifiedPilotUserId(verified ? verifiedFi001PilotUserId(data.user, user.id) : null)
-    }).catch(() => { if (active) { setVerifiedAuthUserId(null); setVerifiedPilotUserId(null) } })
+      setVerifiedRec10PilotId(verified ? verifiedRec10PilotUserId(data.user, user.id) : null)
+    }).catch(() => { if (active) { setVerifiedAuthUserId(null); setVerifiedPilotUserId(null); setVerifiedRec10PilotId(null) } })
     return () => { active = false }
   }, [user?.id])
 
@@ -237,6 +241,10 @@ export function PlannerRuntime() {
   // Privileged operators can test immediately; additional students require
   // an explicit Auth app_metadata pilot marker. profiles.is_admin is read-only
   // to learners under the production RLS policy.
+  // Signed Auth metadata grants REC-10 only to authorised pilot accounts.
+  // Synthetic candidate QA is separate from the production-equivalent build.
+  const examRecoveryEnabled = import.meta.env.VITE_REC10_ASSURANCE_MODE === '1' ||
+    (Boolean(user) && verifiedRec10PilotId === user?.id)
   const pilotEnabled = fi001AssuranceBuild() || verifiedPilotUserId === user?.id
     || (verifiedAuthUserId === user?.id && isAdmin)
   const coursesActive = routeBelongsToCourses(route)
@@ -340,9 +348,9 @@ export function PlannerRuntime() {
   } else if (route.kind === 'progress') {
     screen = <ProgrammeProgressScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseProgress={(courseId) => navigate(learnerCourseRoute(courseId, 'progress'))} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} />
   } else if (route.kind === 'course') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'module') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} pilotEnabled={pilotEnabled} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'admin') {
     if (!adminAccessResolved) screen = <main className="loading-shell">Checking Admin access…</main>
     else if (!isAdmin) screen = <main className="dashboard screen-dashboard page-screen" aria-labelledby="admin-access-title"><header className="page-heading"><p className="eyebrow">Account</p><h1 id="admin-access-title">Admin access unavailable</h1><p>This account does not have permission to open Revision Admin.</p></header><Button onClick={() => navigate(homeRoute())}>Back to Home</Button></main>

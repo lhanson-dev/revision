@@ -23,16 +23,23 @@ create table public.learner_exam_attempts (
 create index learner_exam_attempts_expiry_idx on public.learner_exam_attempts (expires_at);
 
 alter table public.learner_exam_attempts enable row level security;
+-- REC-10 is default-deny unless signed Auth app_metadata allows a restricted pilot.
+
 create policy "learner_select_own_exam_attempts" on public.learner_exam_attempts
-  for select to authenticated using ((select auth.uid()) = user_id and expires_at > now());
+  for select to authenticated using ((select auth.uid()) = user_id and expires_at > now()
+  and (select auth.jwt() -> 'app_metadata' ->> 'revision_rec10_pilot') = 'true');
 create policy "learner_insert_own_exam_attempts" on public.learner_exam_attempts
-  for insert to authenticated with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check ((select auth.uid()) = user_id
+  and (select auth.jwt() -> 'app_metadata' ->> 'revision_rec10_pilot') = 'true');
 create policy "learner_update_own_exam_attempts" on public.learner_exam_attempts
   for update to authenticated
-  using ((select auth.uid()) = user_id and expires_at > now())
-  with check ((select auth.uid()) = user_id and expires_at > now());
+  using ((select auth.uid()) = user_id and expires_at > now()
+    and (select auth.jwt() -> 'app_metadata' ->> 'revision_rec10_pilot') = 'true')
+  with check ((select auth.uid()) = user_id and expires_at > now()
+    and (select auth.jwt() -> 'app_metadata' ->> 'revision_rec10_pilot') = 'true');
 create policy "learner_delete_own_exam_attempts" on public.learner_exam_attempts
-  for delete to authenticated using ((select auth.uid()) = user_id);
+  for delete to authenticated using ((select auth.uid()) = user_id
+  and (select auth.jwt() -> 'app_metadata' ->> 'revision_rec10_pilot') = 'true');
 
 -- Enforce lifecycle and immutable owner/content fields at the database boundary,
 -- including direct PostgREST mutations that bypass the React service.

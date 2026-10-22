@@ -20,3 +20,7 @@ The Founder delegated the **product** privacy risk recommendation and asked to r
 Before approving public learner launch, release management must explicitly query this register; if `PUBLIC-PRIV-01` is OPEN, mark the decision **NO-GO**. Evidence must be retained in a governed PR and register updated with reviewer identity, review date, report location, material findings, remediation verification and explicit Founder public-release authorisation. A PR that alters this gate must itself comply with the Founder merge rule.
 
 Other launch conditions (educational acceptance, accessibility, pilot findings, reliability, content and commercial readiness) remain separately governed and are not overridden by this privacy register.
+
+### REC-10 cohort gate and public release separation — candidate follow-up
+
+The proposed PR #658 restricts durable exam drafts by server-signed Auth `app_metadata.revision_rec10_pilot` *plus* owner RLS. This technical measure permits staged testing **only when** the separate documented pre-pilot privacy review has actually approved a bounded real-student cohort. It neither closes `PUBLIC-PRIV-01` nor grants broad public feature eligibility; public cohort unrestriction needs a new governed decision after independent qualified final review.

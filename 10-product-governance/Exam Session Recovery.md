@@ -28,3 +28,7 @@ A **fresh, independent, qualified privacy/data-protection review of Revision's c
 
 ## Release and acceptance
 Work only in the canonical learner route /revision/app/ (ExamPrepSection/ExamSimulator). Preserve supported pilot restrictions and existing AQA Business 7132 / Psychology 7182 paper and syllabus-option boundaries. Use branch PR governance and exact-head automated tests plus controlled browser/database evidence. Update the technical implementation record and registers in the same PR. Founder approval of these rules is **not approval to merge PR #658**.
+
+## REC-10 controlled cohort boundary — proposed for PR #658
+
+Durable recovery of written mock answers must be enabled only for a specifically authorised restricted test learner. Eligibility must be signalled by trusted Supabase Auth `app_metadata.revision_rec10_pilot === true`, independent of the FI-001 planner pilot, the administrator flag and subscription status. The authenticated database owner-RLS boundary must reject every unmarked account for reading, creating, changing or deleting raw drafts; the canonical runtime omits durable recovery for nonmembers, leaving the earlier ephemeral timed mock behaviour intact. Pilot enrolment needs an accountable operator, recorded pre-pilot children's-data assessment and privacy go/no-go. No cohort has been enrolled through this PR. Public launch remains separately blocked by `PUBLIC-PRIV-01`.
