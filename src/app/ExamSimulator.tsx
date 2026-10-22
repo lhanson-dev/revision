@@ -356,6 +356,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     }
     if (Object.entries(desired).every(([field, value]) =>
       JSON.stringify(value) === JSON.stringify(cp[field as keyof ExamAttemptSnapshot]))) return
+    // An unresolved save cannot be overwritten by an automatic or later edit.
+    if (checkpointFailed.current) return
     setCheckpointSaveStatus('saving')
     const id = window.setTimeout(() => {
       void enqueueExamCheckpoint((current) => ({
@@ -500,6 +502,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         }, fingerprint, crypto.randomUUID(), initialExamSnapshot(),
         new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
         checkpointRef.current = saved
+        checkpointFailed.current = false
         setCheckpointSaveStatus('saved')
         setRecoveryIssue('')
         setRecoveryPhase('ready')
@@ -545,8 +548,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     if (checkpointContext && checkpointRef.current) {
       try {
         await enqueueExamCheckpoint((current) => ({
-          ...current, timing: examResumeTiming(current.timing),
-        }))
+          ...current, ...latestExamDraft.current, timing: examResumeTiming(current.timing),
+        }), checkpointFailed.current)
       } catch { return }
     }
     if (pauseStartedAt.current !== null) {
