@@ -51,6 +51,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
 - Content Factory qualification-shape provider-free proof protocol (non-publishing research) → `research/content-production-repeatability/QUALIFICATION-SHAPE-PROOF.md`
+- Content Factory qualification-projection structural checker (internal candidate, not release gate) → `docs/technical/Content Factory Qualification Projection Preflight.md`
 - Second-board Business and GCSE science qualification-shape trial (research, not publication authority) → `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`
 - Content Factory whole-paper mock production implementation / AQA 7132 Mock Profile and provider-free validation → `docs/technical/Content Factory Mock Exam Production.md`
 - Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
@@ -90,8 +91,9 @@ Use this file to find the governing source before substantive work.
 
 - Recovery R2 focused learning evidence and activity integrity (candidate technical implementation) → `docs/technical/Recovery R2 Activity Integrity Implementation.md`
 - Recovery R2 remaining session work, first bounded exam submission retry fix and durable Practice/exam follow-ups → `docs/technical/Recovery R2 Remaining Session Implementation.md`
-- Recovery R2 durable Practice question-session candidate, versioned owner-only checkpoints and fail-closed release dependency → `docs/technical/Recovery R2 Durable Practice Checkpoints.md`
 - REC-10 approved exam recovery behaviour and bounded exam-answer retention → `10-product-governance/Exam Session Recovery.md`; candidate implementation and assurance → `docs/technical/Recovery R2 Durable Exam Attempts.md`
+- REC-10 privacy/data-rights release review (technical evidence and external sign-off holds) → `docs/technical/REC-10 Privacy and Data Rights Release Review.md`
+- Recovery R2 durable Practice question-session candidate, versioned owner-only checkpoints and fail-closed release dependency → `docs/technical/Recovery R2 Durable Practice Checkpoints.md`
 - Current product recovery control programme (Phase 1 approved PR #653; implementation corrections tracked separately) → `docs/technical/Revision Product Recovery Control Plan.md`
 - 21 October recovery approved-main source audit, technical risks and open-PR coordination inventory (dated evidence) → `audits/2026-10-21-revision-recovery-phase1-baseline.md`
 
