@@ -255,6 +255,12 @@ export async function checkFoundationLearnerProjection(input: {
       hold('assessment_contract_incomplete', 'Missing/contradictory Exam Truth on ' + component.componentId)
       continue
     }
+    // The present Foundation Exam Truth schema has no verified machine-readable
+    // field for exact pre-release references or mock practical-mark minima.
+    // A self-authored mapping must never be able to certify either.
+    if (component.preReleaseContextRef || component.minimumPracticalMarks !== undefined) {
+      hold('special_rule_requires_authority', 'Special assessment rule lacks independently structured Exam Truth')
+    }
     const scoped = coverage.requirements.filter((req) => req.componentScope.includes(component.componentId))
     if (!scoped.length || coverage.requirements.some((req) => !req.componentScope.length
       || req.componentScope.some((scope) => !componentById.has(scope)))) {
