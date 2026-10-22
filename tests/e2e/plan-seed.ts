@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 /**
  * Synthetic student for the Plan screen tests. Everything is intercepted at the network edge; nothing here
@@ -59,6 +60,7 @@ type SeedOptions = {
 
 /** Seeds a signed-in Business student. `sessions: null` makes the planned-sessions table behave as if it does not exist. */
 export async function seedPlanStudent(page: Page, options: SeedOptions = {}) {
+  await seedPracticeCheckpoints(page)
   const { sessions = defaultSessions(), withExams = true, withAvailability = true } = options
   const store = sessions
   await page.clock.install({ time: fixedNow })
