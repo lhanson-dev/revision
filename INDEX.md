@@ -49,6 +49,9 @@ Use this file to find the governing source before substantive work.
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
+- Content Factory qualification-shape provider-free proof protocol (non-publishing research) → `research/content-production-repeatability/QUALIFICATION-SHAPE-PROOF.md`
+- Second-board Business and GCSE science qualification-shape trial (research, not publication authority) → `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`
 - Content Factory whole-paper mock production implementation / AQA 7132 Mock Profile and provider-free validation → `docs/technical/Content Factory Mock Exam Production.md`
 - Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
