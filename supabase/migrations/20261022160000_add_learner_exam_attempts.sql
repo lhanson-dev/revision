@@ -43,8 +43,8 @@ declare
 begin
   prior_phase := old.snapshot ->> 'phase';
   if tg_op = 'DELETE' then
-    if prior_phase in ('submitting', 'submitted') then
-      raise exception 'Committed examination cannot be discarded' using errcode = '23514';
+    if prior_phase = 'submitting' then
+      raise exception 'An examination still being submitted cannot be discarded' using errcode = '23514';
     end if;
     return old;
   end if;
