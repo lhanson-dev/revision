@@ -1,4 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { createPracticeCheckpoint, discardPracticeCheckpoint, fingerprintPracticeContent,
+  loadPracticeCheckpoint, removePracticeCheckpoint, supabasePracticeCheckpointStore, updatePracticeCheckpoint,
+  type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointSnapshot,
+} from '../services/progress/practice-checkpoint-service'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
@@ -79,6 +84,7 @@ export type FocusedLearningWorkspaceProps = {
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
+  checkpointContext?: { client: SupabaseClient; userId: string; courseId: string }
   contextLabel?: string
   includeExamQuestions?: boolean
   /** Practice only: open this topic first (for example when arriving from a Learn page). */
@@ -153,6 +159,7 @@ export function FocusedLearningWorkspace({
   saving,
   saveError,
   onRecordEvidence,
+  checkpointContext,
   contextLabel,
   includeExamQuestions = true,
   preferredTopicId,
@@ -186,6 +193,12 @@ export function FocusedLearningWorkspace({
   // The scored session in progress. Leaving the activity keeps it (every answer is already saved as evidence),
   // and the start screen then offers "Carry on".
   const [session, setSession] = useState<QuestionSession | null>(null)
+  const checkpointStore = useMemo(() => checkpointContext ? supabasePracticeCheckpointStore(checkpointContext.client) : null, [checkpointContext?.client])
+  const [checkpoint, setCheckpoint] = useState<PracticeCheckpoint | null>(null)
+  const [checkpointPhase, setCheckpointPhase] = useState<'loading' | 'ready' | 'blocked'>(checkpointContext && isPractice ? 'loading' : 'ready')
+  const [checkpointBusy, setCheckpointBusy] = useState(false)
+  const [checkpointIssue, setCheckpointIssue] = useState('')
+  const checkpointLock = useRef(false)
   const [statusSeen, setStatusSeen] = useState<{ topicId: string; status: LearningStatus | undefined } | null>(null)
   const [statusMove, setStatusMove] = useState<'up' | 'down' | null>(null)
   // The topic's status when the session started, and the finished session the summary is built from.
@@ -246,6 +259,33 @@ export function FocusedLearningWorkspace({
     () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank, includeWritten: marker !== null }), lastAnsweredAt),
     [adapter, topicId, questions, aqaBank, lastAnsweredAt, marker],
   )
+  useEffect(() => {
+    if (!isPractice || !checkpointContext || !checkpointStore) return
+    let mounted = true
+    const key = { userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId: adapter.manifest.id, topicId }
+    setSession(null)
+    setCheckpoint(null)
+    setCheckpointPhase('loading')
+    setCheckpointIssue('')
+    void (async () => {
+      try {
+        const hash = await fingerprintPracticeContent(fullPool)
+        const saved = await loadPracticeCheckpoint(checkpointStore, key, hash)
+        if (!mounted) return
+        setCheckpoint(saved)
+        setSession(saved?.snapshot.session ?? null)
+        if (saved && !saved.snapshot.pending) restoreFeedback(saved.snapshot.session)
+        setCheckpointPhase('ready')
+      } catch (error) {
+        if (!mounted) return
+        setCheckpointIssue(error instanceof Error ? error.message : 'Could not verify saved Practice work.')
+        setCheckpointPhase('blocked')
+      }
+    })()
+    return () => { mounted = false }
+    // Evidence updates re-order questions but do not change the authored question fingerprint.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPractice, checkpointContext?.client, checkpointContext?.userId, checkpointContext?.courseId, checkpointStore, adapter.manifest.id, topicId])
   const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
   const isRetry = session?.currentIsRetry ?? false
   const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
@@ -300,6 +340,7 @@ export function FocusedLearningWorkspace({
   }
 
   function changeTopic(nextTopic: string) {
+    if (checkpointLock.current) return
     setTopicId(nextTopic)
     setDeck(null)
     setFlipped(false)
@@ -316,6 +357,120 @@ export function FocusedLearningWorkspace({
   function beginActivity(activity: WorkspaceMode) {
     if (!openActivity && document.activeElement instanceof HTMLElement) activityLaunchLabel.current = document.activeElement.textContent?.trim() ?? null
     setOpenActivity(activity)
+  }
+
+  function checkpointKey(): PracticeCheckpointKey | null {
+    return checkpointContext ? { userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId: adapter.manifest.id, topicId } : null
+  }
+  function restoreFeedback(value: QuestionSession) {
+    const last = value.answers.at(-1)
+    setSelectedOption(null)
+    setChecked(null)
+    setCalcDraft('')
+    setCalcChecked(null)
+    if (!last || last.questionId !== value.currentId) return
+    if (last.selectedOption !== null && last.confidence) {
+      setSelectedOption(last.selectedOption)
+      setChecked({ selected: last.selectedOption, confidence: last.confidence })
+    } else if (last.typedAnswer !== null && last.confidence) {
+      setCalcDraft(last.typedAnswer)
+      setCalcChecked({ typed: last.typedAnswer, right: last.correct, confidence: last.confidence })
+    }
+  }
+  async function reloadCheckpoint() {
+    const key = checkpointKey()
+    if (!key || !checkpointStore || checkpointLock.current) return
+    checkpointLock.current = true
+    setCheckpointBusy(true)
+    try {
+      const hash = await fingerprintPracticeContent(fullPool)
+      const saved = await loadPracticeCheckpoint(checkpointStore, key, hash)
+      setCheckpoint(saved)
+      setSession(saved?.snapshot.session ?? null)
+      if (saved && !saved.snapshot.pending) restoreFeedback(saved.snapshot.session)
+      setCheckpointPhase('ready')
+      setCheckpointIssue('')
+    } catch (error) {
+      setCheckpointIssue(error instanceof Error ? error.message : 'Could not verify your Practice session.')
+      setCheckpointPhase('blocked')
+    } finally {
+      checkpointLock.current = false
+      setCheckpointBusy(false)
+    }
+  }
+  async function discardCheckpoint() {
+    const key = checkpointKey()
+    if (!key || !checkpointStore || checkpointLock.current) return
+    checkpointLock.current = true
+    setCheckpointBusy(true)
+    try {
+      await discardPracticeCheckpoint(checkpointStore, key)
+      setCheckpoint(null)
+      setSession(null)
+      restoreFeedback(startQuestionSession([], 0))
+      setCheckpointIssue('')
+      setCheckpointPhase('ready')
+      setOpenActivity(null)
+    } catch (error) {
+      setCheckpointIssue(error instanceof Error ? error.message : 'Could not discard this session.')
+    } finally {
+      checkpointLock.current = false
+      setCheckpointBusy(false)
+    }
+  }
+  async function resumeQuestions() {
+    if (checkpointLock.current || checkpointPhase === 'loading') return
+    if (!checkpointContext || !checkpointStore) { beginActivity('quick-check'); return }
+    if (checkpointPhase === 'blocked') { await reloadCheckpoint(); return }
+    if (!checkpoint?.snapshot.pending) { beginActivity('quick-check'); return }
+    const pending = checkpoint.snapshot.pending
+    checkpointLock.current = true
+    setCheckpointBusy(true)
+    try {
+      await onRecordEvidence(pending.evidence)
+      const confirmed = await updatePracticeCheckpoint(checkpointStore, checkpoint, {
+        schemaVersion: 1, session: pending.nextSession, pending: null,
+      })
+      setCheckpoint(confirmed)
+      setSession(pending.nextSession)
+      restoreFeedback(pending.nextSession)
+      setCheckpointIssue('')
+      setCheckpointPhase('ready')
+      beginActivity('quick-check')
+    } catch (error) {
+      setCheckpointIssue(error instanceof Error ? error.message : 'Could not confirm your previous answer.')
+      setCheckpointPhase('blocked')
+    } finally {
+      checkpointLock.current = false
+      setCheckpointBusy(false)
+    }
+  }
+  /** The pending exact evidence ID is committed before attempting the scored write. */
+  async function saveObjectiveAnswer(evidence: LearningEvidence, next: QuestionSession): Promise<boolean> {
+    if (!checkpointContext || !checkpointStore) { await onRecordEvidence(evidence); setSession(next); return true }
+    if (!checkpoint || checkpoint.snapshot.pending || checkpointLock.current) return false
+    checkpointLock.current = true
+    setCheckpointBusy(true)
+    setCheckpointIssue('')
+    try {
+      const pending: PracticeCheckpointSnapshot = {
+        schemaVersion: 1, session: checkpoint.snapshot.session, pending: { evidence, nextSession: next },
+      }
+      const staged = await updatePracticeCheckpoint(checkpointStore, checkpoint, pending)
+      setCheckpoint(staged)
+      await onRecordEvidence(evidence)
+      const confirmed = await updatePracticeCheckpoint(checkpointStore, staged, { schemaVersion: 1, session: next, pending: null })
+      setCheckpoint(confirmed)
+      setSession(next)
+      return true
+    } catch (error) {
+      setCheckpointIssue(error instanceof Error ? error.message : 'Could not confirm your answer. Retry saving before continuing.')
+      setCheckpointPhase('blocked')
+      return false
+    } finally {
+      checkpointLock.current = false
+      setCheckpointBusy(false)
+    }
   }
 
   /** Starts a fresh scored session: the chosen length (capped at what the topic has) and a clean retry queue. */
