@@ -32,6 +32,8 @@ export type QualificationProjectionProfile = {
 export type QualificationProjectionCandidate = {
   pack: ContentPack
   cohortId: string
+  /** Release-sidecar projection data, not a learner-runtime guarantee. */
+  qualificationWeightPercent?: number
   preReleaseContextRef?: string
   /** Explicit proposed attribution; semantic validity needs independent review. */
   practicalQuestionIds?: readonly string[]
@@ -127,6 +129,10 @@ export function checkQualificationProjection(input: {
       || m.paper.totalMarks !== component.totalMarks
       || m.paper.durationMinutes !== component.durationMinutes) {
       issue('component_mismatch', id, 'Paper identity, marks or duration differ from exact Exam Truth')
+    }
+    if (candidate.qualificationWeightPercent !== component.qualificationWeightPercent) {
+      issue('qualification_weight_projection_mismatch', id,
+        'Projected component weight is missing or differs from exact-course profile')
     }
 
     // No tier/variant identity exists in the current public manifest. A
