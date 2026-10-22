@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(59);
+select plan(60);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -272,8 +272,8 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'r2-practice-checkpoint-v1',
-  'release readiness advertises the current R2 Learn-exposure contract'
+  'r2-exam-attempt-v1',
+  'release readiness advertises the REC-10 owner-only exam attempt candidate contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,
@@ -285,6 +285,7 @@ select ok(
 );
 
 select ok((public.revision_release_readiness()->'checks'->>'practiceCheckpoints')::boolean, 'release contract requires authenticated owner-only R2 Practice checkpoints');
+select ok((public.revision_release_readiness()->'checks'->>'examAttempts')::boolean, 'REC-10 release contract requires owner-only RLS exam attempt drafts');
 select ok(has_function_privilege('anon', 'public.revision_release_readiness()', 'execute'), 'publishable/anonymous role can read the non-sensitive release readiness contract');
 select ok(
   not (select prosecdef from pg_proc where oid = 'public.revision_release_readiness()'::regprocedure),
