@@ -132,8 +132,10 @@ jobs:
       - name: Build Vite learner app
         env:
           VITE_FI001_ASSURANCE_MODE: '0'
+          VITE_REC10_ASSURANCE_MODE: '0'
         run: |
           test "${VITE_FI001_ASSURANCE_MODE}" = '0'
+          test "${VITE_REC10_ASSURANCE_MODE}" = '0'
           npm run build
 
       - name: Publish root redirect
