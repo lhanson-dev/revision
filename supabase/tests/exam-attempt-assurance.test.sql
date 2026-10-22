@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(19);
+select plan(23);
 
 select ok((select relrowsecurity from pg_class where oid='public.learner_exam_attempts'::regclass),
   'exam attempts have row-level security');
@@ -29,15 +29,15 @@ select lives_ok($$
   values (
     '00000000-0000-4000-8000-0000000000c1','aqa:aqa-a-level:7132',
     'business-7132-paper-1','mock-1','11111111-1111-4111-8111-111111111111',
-    repeat('a',64), '{"schemaVersion":1,"phase":"writing","answers":{"q1":"Private essay draft"}}'::jsonb,
-    '2026-12-01T00:00:00Z')
+    repeat('a',64), '{"schemaVersion":1,"phase":"writing","answers":{"q1":"Private essay draft"},"frozenSubmission":null,"timing":{"policy":"pause-on-interruption","elapsedMs":0,"interrupted":false,"runningSince":null}}'::jsonb,
+    now() + interval '14 days')
 $$,'learner can create private draft');
 select throws_ok($$
   insert into public.learner_exam_attempts
     (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
   values ('00000000-0000-4000-8000-0000000000c2','other','other','mock-1',
     '22222222-2222-4222-8222-222222222222',repeat('a',64),
-    '{"schemaVersion":1,"phase":"writing"}'::jsonb,'2026-12-01T00:00:00Z')
+    '{"schemaVersion":1,"phase":"writing","frozenSubmission":null,"timing":{"policy":"pause-on-interruption"}}'::jsonb, now() + interval '14 days')
 $$, '42501', 'new row violates row-level security policy for table "learner_exam_attempts"',
   'learner cannot insert another learner exam');
 select is((select count(*) from public.learner_exam_attempts),1::bigint,'learner reads own draft');
@@ -47,6 +47,23 @@ select throws_ok($update public.learner_exam_attempts set revision=2 where exam_
 select throws_ok($update public.learner_exam_attempts set snapshot='{"schemaVersion":1,"phase":"submitted"}'::jsonb,
   revision=3 where exam_id='mock-1'$,
   '23514','Invalid examination state transition','cannot skip marking and frozen submission');
+
+select throws_ok($update public.learner_exam_attempts set expires_at=now()+interval '15 days',
+  revision=3 where exam_id='mock-1'$,'23514','Examination identity and retention cannot change',
+  'owner cannot extend retention beyond original 14 days');
+select throws_ok($update public.learner_exam_attempts set revision=3,
+  snapshot=jsonb_set(snapshot,'{timing,policy}','"wall-clock"'::jsonb)
+  where exam_id='mock-1'$,'23514','Exam timer must pause on interruption',
+  'owner cannot bypass the approved timer policy');
+select ok((select expires_at <= created_at + interval '14 days 2 minutes'
+  from public.learner_exam_attempts where exam_id='mock-1'), 'draft remains capped from creation');
+select throws_ok($insert into public.learner_exam_attempts
+  (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
+  values ('00000000-0000-4000-8000-0000000000c1','aqa:aqa-a-level:7132',
+  'business-7132-paper-1','mock-too-long','33333333-3333-4333-8333-333333333333',
+  repeat('a',64),'{"schemaVersion":1,"phase":"writing","frozenSubmission":null,"timing":{"policy":"pause-on-interruption"}}'::jsonb,
+  now()+interval '16 days')$,'23514','Exam draft retention exceeds 14 days',
+  'raw draft lifetime cannot exceed the approved 14-day window');
 
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c2';
 select is((select count(*) from public.learner_exam_attempts),0::bigint,'different learner cannot see raw written responses');
