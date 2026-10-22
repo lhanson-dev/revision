@@ -78,7 +78,6 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
   useEffect(() => {
     if (!checkpointContext) return
     let cancelled = false
-    setSavedExamCheck('checking')
     const load = async () => {
       const { data, error } = await checkpointContext.client.from('learner_exam_attempts')
         .select('exam_id,snapshot,expires_at')
