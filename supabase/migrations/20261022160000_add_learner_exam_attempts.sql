@@ -36,11 +36,18 @@ create policy "learner_delete_own_exam_attempts" on public.learner_exam_attempts
 create function public.guard_learner_exam_attempt_transition()
 returns trigger language plpgsql security invoker
 set search_path = pg_catalog, public
-as $
+as $exam_guard$
 declare
   prior_phase text;
   next_phase text;
 begin
+  if tg_op = 'INSERT' then
+    if new.revision <> 1 or new.snapshot ->> 'phase' <> 'writing'
+       or (new.snapshot -> 'frozenSubmission') is not null then
+      raise exception 'New examination must start unsubmitted' using errcode = '23514';
+    end if;
+    return new;
+  end if;
   prior_phase := old.snapshot ->> 'phase';
   if tg_op = 'DELETE' then
     if prior_phase = 'submitting' then
@@ -74,9 +81,9 @@ begin
   end if;
   return new;
 end;
-$;
+$exam_guard$;
 create trigger learner_exam_attempt_guard
-before update or delete on public.learner_exam_attempts
+before insert or update or delete on public.learner_exam_attempts
 for each row execute function public.guard_learner_exam_attempt_transition();
 revoke all on function public.guard_learner_exam_attempt_transition() from public, anon, authenticated, service_role;
 

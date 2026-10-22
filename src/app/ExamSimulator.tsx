@@ -217,7 +217,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [practiceSaving, setPracticeSaving] = useState(false)
   const practiceEvidenceId = useRef<string | null>(null)
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
-  // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
+  // Flags are persisted only when an approved exam checkpoint context is supplied.
   const [flagged, setFlagged] = useState<Record<string, boolean>>({})
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
   const startedAt = useRef<number | null>(null)
@@ -256,6 +256,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             initialExamSnapshot(), new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
         if (cancelled) return
         const snapshot = saved.snapshot
+        const validQuestionIds = new Set(exam.questions.map((question) => question.id))
+        if (snapshot.questionIndex >= exam.questions.length ||
+          Object.keys(snapshot.answers).some((id) => !validQuestionIds.has(id)) ||
+          Object.keys(snapshot.marks).some((id) => !validQuestionIds.has(id)) ||
+          Object.keys(snapshot.flagged).some((id) => !validQuestionIds.has(id))) {
+          throw new Error('This saved exam contains unavailable questions. It cannot be safely resumed.')
+        }
         checkpointRef.current = saved
         setAnswers(snapshot.answers)
         setMarks(snapshot.marks)
@@ -311,8 +318,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     if (!checkpointContext || recoveryPhase !== 'ready' || !checkpointRef.current ||
       !started || submitted || submissionLocked) return
     const cp = checkpointRef.current.snapshot
-    const desired = { answers, marks, selectedChoices, flagged, questionIndex,
-      phase: finishedWriting ? 'marking' : 'writing' }
+    const desired: Pick<ExamAttemptSnapshot,
+      'answers' | 'marks' | 'selectedChoices' | 'flagged' | 'questionIndex' | 'phase'> = {
+      answers, marks, selectedChoices, flagged, questionIndex,
+      phase: finishedWriting ? 'marking' : 'writing',
+    }
     if (Object.entries(desired).every(([field, value]) =>
       JSON.stringify(value) === JSON.stringify(cp[field as keyof ExamAttemptSnapshot]))) return
     setCheckpointSaveStatus('saving')
@@ -473,6 +483,22 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       pauseStartedAt.current = null
     }
     setSessionOverlay(null)
+  }
+
+  async function saveAndLeave() {
+    if (!checkpointContext || !checkpointRef.current || !onExit || attemptSaving ||
+      submissionLocked) return
+    try {
+      await checkpointWriteChain.current
+      await enqueueExamCheckpoint((current) => ({
+        ...current, answers, marks, selectedChoices, flagged, questionIndex,
+        phase: finishedWriting ? 'marking' : 'writing',
+        timing: examPauseTiming(current.timing),
+      }))
+      onExit()
+    } catch {
+      // Keep the exam visible with the failed-save notice and retry option.
+    }
   }
 
   async function stopExam(returnToPrep = true) {
@@ -767,7 +793,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             </span>}
           </div>
           <div className="exam-session-controls">
-            {!finishedWriting && <Button variant="secondary" type="button" onClick={() => beginInterruption('paused')}>Pause</Button>}
+            {checkpointContext && onExit && !submissionLocked && <Button variant="secondary" type="button"
+              disabled={checkpointSaveStatus === 'error' || attemptSaving} onClick={() => { void saveAndLeave() }}>Save and return to Exam Prep</Button>}
+            {!finishedWriting && <Button variant="secondary" type="button" onClick={() => { void beginInterruption('paused') }}>Pause</Button>}
             {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}
             <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
               {secondsRemaining <= 600 && <Icon name="clock" size="inline" />}

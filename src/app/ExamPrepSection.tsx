@@ -20,6 +20,8 @@ type ExamPrepSectionProps = {
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
+  /** Only supplied after the governed raw-answer retention and timing decision. */
+  checkpointContext?: ExamSimulatorProps['checkpointContext']
 }
 
 /** Every full-paper mock this course has: each paper's own simulation, and the retained AQA 7132 mock where there is one. */
@@ -39,7 +41,7 @@ function mockExamsFor(course: CatalogueCourse): Array<{ exam: MockExam; moduleId
  * in-page, while a timed full paper uses ExamSimulator's dedicated viewport.
  * The presentation shell never owns exam timer, marks or saved evidence.
  */
-export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence }: ExamPrepSectionProps) {
+export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
   const [active, setActive] = useState<{ id: string; mode: ExamMockMode } | null>(null)
   const launchControl = useRef<{ id: string; mode: ExamMockMode; label: string } | null>(null)
@@ -83,9 +85,9 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     return (
       <section className="exam-prep-activity" aria-label={`Mock exam: ${activeMock.exam.title}`} style={accentStyle(identity.hue)}>
         <header className="exam-prep-activity__header">
-          <Button variant="secondary" className="exam-prep-activity__back" onClick={() => setActive(null)}>
+          {(!checkpointContext || active.mode !== 'timed') && <Button variant="secondary" className="exam-prep-activity__back" onClick={() => setActive(null)}>
             Back to Exam Prep
-          </Button>
+          </Button>}
           <div>
             <p className="ui-eyebrow">{active.mode === 'timed' ? 'Timed mock' : 'Untimed paper practice'}</p>
             <h2>{rows.find((row) => row.id === active.id)?.name ?? activeMock.exam.title}</h2>
@@ -98,6 +100,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
           saving={saving}
           saveError={saveError}
           onRecordEvidence={onRecordEvidence}
+          checkpointContext={checkpointContext}
           autoStart={active.mode}
           onExit={() => setActive(null)}
         />
