@@ -1044,6 +1044,7 @@ export function FocusedLearningWorkspace({
             selectedTypes={chosenTypes}
             onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
             onStart={() => { void startQuestions() }}
+            startDisabled={Boolean(checkpointContext && (checkpointPhase !== 'ready' || checkpointBusy || checkpoint))}
             carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => { void resumeQuestions() } } : null}
             extraScored={extraScored}
             onOpenExtraScored={(id) => beginActivity(id as WorkspaceMode)}
