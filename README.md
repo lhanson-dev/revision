@@ -23,6 +23,10 @@ Global learner navigation is:
 
 The Courses branch projects only the authenticated learner's saved active courses. Selecting a saved course expands its applicable Overview / Learn / Practice / Exam Prep / Progress sections without forcing a Subject navigation hop.
 
+### Interrupted Practice recovery (candidate, not yet live)
+
+Draft Recovery R2 engineering adds learner-owned, versioned scored-question checkpoints for reload and safe retries. It does not yet alter Production. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` for the implementation scope, backend readiness dependency and excluded written/exam attempts.
+
 ### Adaptive Plan
 
 `#/plan` is the learner's wider adaptive programme. The 27 September 2026 Plan refresh keeps the governed learner shell and stable content canvas while making the plan itself, rather than setup forms or a second REV hero, the dominant job.
