@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(18);
+select plan(19);
 
 select ok((select relrowsecurity from pg_class where oid='public.learner_exam_attempts'::regclass),
   'exam attempts have row-level security');
@@ -41,7 +41,12 @@ select throws_ok($$
 $$, '42501', 'new row violates row-level security policy for table "learner_exam_attempts"',
   'learner cannot insert another learner exam');
 select is((select count(*) from public.learner_exam_attempts),1::bigint,'learner reads own draft');
-select lives_ok($$update public.learner_exam_attempts set revision=2 where exam_id='mock-1'$$,'owner can update own draft');
+select lives_ok($update public.learner_exam_attempts set revision=2 where exam_id='mock-1'$,'owner can update own draft');
+select throws_ok($update public.learner_exam_attempts set revision=2 where exam_id='mock-1'$,
+  '23514','Examination revision must increase by one','cannot overwrite an older revision');
+select throws_ok($update public.learner_exam_attempts set snapshot='{"schemaVersion":1,"phase":"submitted"}'::jsonb,
+  revision=3 where exam_id='mock-1'$,
+  '23514','Invalid examination state transition','cannot skip marking and frozen submission');
 
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c2';
 select is((select count(*) from public.learner_exam_attempts),0::bigint,'different learner cannot see raw written responses');
