@@ -1,0 +1,10 @@
+asset_id,topic,asset_type,source_derived_claims,all_instructional_claims,source_derived_share_percent,verbatim_or_adapted_words,all_words,expression_reuse_percent,new_expression_percent,model_cost_gbp,operator_edit_minutes,teacher_review_minutes,teacher_findings,quality_gate,status
+PSY-MEM-LESSON,Psychology Memory,lesson,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+PSY-MEM-FLASH,Psychology Memory,15 flashcards,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+PSY-MEM-QUIZ,Psychology Memory,10-question quiz,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+PSY-MEM-EXAM,Psychology Memory,16-mark exam-style question and marking guidance,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+BUS-310-LESSON,Business 3.10,lesson,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+BUS-310-FLASH,Business 3.10,15 flashcards,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+BUS-310-QUIZ,Business 3.10,10-question quiz,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+BUS-310-EXAM,Business 3.10,15-mark evaluation case and guidance,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
+BUS-35-CONTROL,Business 3.5,control baseline not yet generated,NA,NA,NA,0,NA,0,100,NA,NA,NA,NA,NOT_REVIEWED,EXPERIMENTAL
