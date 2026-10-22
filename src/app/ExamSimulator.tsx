@@ -2,7 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs, examPauseTiming,
-  examResumeTiming, fingerprintExamContent, initialExamSnapshot, loadExamAttempt,
+  examResumeTiming, examHeartbeatTiming, examInterruptTiming, finaliseExamSnapshot,
+  EXAM_DRAFT_RETENTION_DAYS, EXAM_HEARTBEAT_INTERVAL_MS,
+  fingerprintExamContent, initialExamSnapshot, loadExamAttempt,
   removeCompletedExamAttempt, supabaseExamAttemptStore, updateExamAttempt, type ExamAttempt, type ExamAttemptSnapshot,
 } from '../services/progress/exam-attempt-service'
 import type { Exam } from '../../content/schema'
@@ -19,6 +21,7 @@ export type ExamResult = {
   totalAvailable: number
   durationMinutes: number
   timed: boolean
+  interrupted?: boolean
   ao: Record<AoKey, { awarded: number; available: number }>
 }
 type SessionOverlay = 'paused' | 'stop-confirm' | null
@@ -116,6 +119,7 @@ export function freezeExamSubmission(input: {
   ao: ExamResult['ao']
   durationMinutes: number
   occurredAt: string
+  interrupted?: boolean
   makeId?: (prefix: string) => string
 }): FrozenExamSubmission {
   const { exam, moduleId, questions, answers, marks, totalAwarded, ao, durationMinutes, occurredAt } = input
@@ -139,9 +143,11 @@ export function freezeExamSubmission(input: {
     marksAvailable: exam.totalMarks,
     durationMinutes,
     timed: true,
+    ...(input.interrupted ? { interrupted: true } : {}),
     markingMethod: 'self_assessed',
   })
-  return { evidence, result: { totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao, recorded: true } }
+  return { evidence, result: { totalAwarded, totalAvailable: exam.totalMarks, durationMinutes,
+    timed: true, ...(input.interrupted ? { interrupted: true } : {}), ao, recorded: true } }
 }
 
 function formatTime(seconds: number) {
@@ -190,7 +196,7 @@ export type ExamSimulatorProps = {
   /** Disabled until the Founder approves raw-answer retention and interruption-timer policy. */
   checkpointContext?: {
     client: SupabaseClient; userId: string; courseId: string
-    retentionDays: number; timerPolicy: 'wall-clock'
+    retentionDays: 14; timerPolicy: 'pause-on-interruption'
   }
 }
 
@@ -228,6 +234,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     ? supabaseExamAttemptStore(checkpointContext.client) : null, [checkpointContext?.client])
   const checkpointRef = useRef<ExamAttempt | null>(null)
   const checkpointWriteChain = useRef<Promise<void>>(Promise.resolve())
+  const latestExamDraft = useRef({ answers, marks, selectedChoices, flagged, questionIndex })
+  latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
   const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
     checkpointContext && autoStart === 'timed' ? 'loading' : 'ready',
   )
@@ -244,16 +252,23 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       setRecoveryPhase('loading')
       try {
         if (!Number.isInteger(checkpointContext.retentionDays) ||
-          checkpointContext.retentionDays < 1 || checkpointContext.retentionDays > 90 ||
-          checkpointContext.timerPolicy !== 'wall-clock') throw new Error('Exam recovery policy is not configured.')
+          checkpointContext.retentionDays !== EXAM_DRAFT_RETENTION_DAYS ||
+          checkpointContext.timerPolicy !== 'pause-on-interruption') throw new Error('Exam recovery policy is not configured.')
         const key = {
           userId: checkpointContext.userId, courseId: checkpointContext.courseId,
           moduleId, examId: exam.id,
         }
         const fingerprint = await fingerprintExamContent(exam)
-        const saved = await loadExamAttempt(attemptStore, key, fingerprint) ??
-          await createExamAttempt(attemptStore, key, fingerprint, crypto.randomUUID(),
-            initialExamSnapshot(), new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
+        const previous = await loadExamAttempt(attemptStore, key, fingerprint)
+        let saved = previous ?? await createExamAttempt(attemptStore, key, fingerprint, crypto.randomUUID(),
+          initialExamSnapshot(), new Date(Date.now() + EXAM_DRAFT_RETENTION_DAYS * 86400000).toISOString())
+        // A new browser session never assumes the old clock kept running.
+        // Confirm the interruption atomically before the student can edit.
+        if (previous?.snapshot.phase === 'writing' && previous.snapshot.timing.runningSince) {
+          saved = await updateExamAttempt(attemptStore, previous, {
+            ...previous.snapshot, timing: examInterruptTiming(previous.snapshot.timing),
+          })
+        }
         if (cancelled) return
         const snapshot = saved.snapshot
         const validQuestionIds = new Set(exam.questions.map((question) => question.id))
@@ -276,7 +291,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         setResult(snapshot.phase === 'submitted' ? snapshot.frozenSubmission?.result ?? null : null)
         setSessionOverlay(snapshot.phase === 'writing' && !snapshot.timing.runningSince ? 'paused' : null)
         setSecondsRemaining(Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(snapshot.timing)) / 1000)))
-        setRecoveryIssue('')
+        setRecoveryIssue(snapshot.timing.interrupted ? 'Your exam was paused after an interruption. Only confirmed working time counts.' : '')
         setCheckpointSaveStatus('saved')
         setStarted(true)
         setRecoveryPhase('ready')
@@ -350,6 +365,46 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     const interval = window.setInterval(refresh, 1000)
     return () => window.clearInterval(interval)
   }, [checkpointContext, recoveryPhase, started, finishedWriting, sessionOverlay, exam.durationMinutes])
+
+  // Heartbeat commits the latest draft and active-time increment together.
+  // A browser sleep, missed heartbeat or offline failure cannot grant extra exam time.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started ||
+        finishedWriting || submitted || sessionOverlay || submissionLocked) return
+    const heartbeat = () => {
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...latestExamDraft.current,
+        timing: current.timing.runningSince
+          ? examHeartbeatTiming(current.timing) : current.timing,
+      })).then((saved) => {
+        if (!saved.snapshot.timing.runningSince) {
+          setSessionOverlay('paused')
+          setRecoveryIssue('Your exam paused because work was interrupted. The confirmed time is preserved.')
+        }
+      }).catch(() => undefined)
+    }
+    const id = window.setInterval(heartbeat, EXAM_HEARTBEAT_INTERVAL_MS)
+    return () => window.clearInterval(id)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, submitted, sessionOverlay, submissionLocked])
+
+  // Backgrounding a tab is treated as an interruption. We only consider
+  // a save successful once the server confirms it; pagehide cannot promise delivery.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started ||
+      finishedWriting || submitted || sessionOverlay) return
+    const onVisibility = () => {
+      if (document.visibilityState !== 'hidden') return
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...latestExamDraft.current,
+        timing: { ...examPauseTiming(current.timing), interrupted: true },
+      })).then(() => {
+        setSessionOverlay('paused')
+        setRecoveryIssue('Your exam paused when you left the page. You can continue from the last confirmed time.')
+      }).catch(() => undefined)
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, submitted, sessionOverlay])
 
   useEffect(() => {
     if (!checkpointContext || checkpointSaveStatus === 'saved') return
@@ -626,10 +681,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             exam, moduleId, questions: activeQuestions, answers, marks,
             totalAwarded: totals.totalAwarded, ao: totals.ao,
             durationMinutes, occurredAt: new Date().toISOString(),
+          interrupted: checkpointContext ? checkpointRef.current?.snapshot.timing.interrupted : undefined,
           })
           : { evidence: [], result: {
             totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes,
             timed: true, ao: totals.ao, recorded: false,
+            interrupted: checkpointContext ? checkpointRef.current?.snapshot.timing.interrupted : undefined,
           } }
       }
       if (checkpointContext && attemptStore && checkpointRef.current &&
@@ -642,7 +699,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       for (const fact of snapshot.evidence) await onRecordEvidence(fact)
       if (checkpointContext && attemptStore && checkpointRef.current) {
         checkpointRef.current = await updateExamAttempt(attemptStore, checkpointRef.current, {
-          ...checkpointRef.current.snapshot, phase: 'submitted',
+          ...finaliseExamSnapshot(checkpointRef.current.snapshot),
         })
       }
       setResult(snapshot.result)
@@ -772,6 +829,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         {result.recorded
           ? <p>Written answers use AO marks you awarded yourself; keyed multiple-choice answers are checked against Revision's authored key. Unanswered questions count as zero on this paper but do not create topic-level question evidence. This is not independently examiner-marked.</p>
           : <p>No answers were submitted, so this empty paper was not recorded as learning evidence. You can start another attempt.</p>}
+        {result.interrupted && <p role="status">This mock was interrupted and resumed. Your working time was preserved, but this result is not comparable with an uninterrupted timed paper.</p>}
         <div className="ao-results">
           {aoKeys.map((key) => {
             const value = result.ao[key]
