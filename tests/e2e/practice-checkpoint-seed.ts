@@ -28,7 +28,7 @@ export async function seedPracticeCheckpoints(page: Page) {
         return
       }
       rows.set(key, row)
-      await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify([row]) })
+      await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify(row) })
       return
     }
     if (request.method() === 'PATCH') {
@@ -38,7 +38,7 @@ export async function seedPracticeCheckpoints(page: Page) {
       const record = current && current.revision === expectedRevision && current.session_id === expectedSession
         ? { ...current, ...patch } : null
       if (record) rows.set(id, record)
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(record ? [record] : []) })
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(record) })
       return
     }
     if (request.method() === 'DELETE') {
