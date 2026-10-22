@@ -404,7 +404,8 @@ export function FocusedLearningWorkspace({
     checkpointLock.current = true
     setCheckpointBusy(true)
     try {
-      await discardPracticeCheckpoint(checkpointStore, key)
+      if (checkpoint) await removePracticeCheckpoint(checkpointStore, checkpoint)
+      else await discardPracticeCheckpoint(checkpointStore, key)
       setCheckpoint(null)
       setSession(null)
       restoreFeedback(startQuestionSession([], 0))
