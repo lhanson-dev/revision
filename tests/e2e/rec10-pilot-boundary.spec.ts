@@ -63,7 +63,7 @@ test('forged local REC-10 metadata cannot bypass Auth verification', async ({ pa
 
 test('a delayed cohort verification cannot silently convert a running transient exam', async ({ page }) => {
   await seedExamPrepStudent(page)
-  let releaseAuth: (() => void) | null = null
+  let releaseAuth: () => void = () => { throw new Error('Auth response gate not ready.') }
   const gate = new Promise<void>((resolve) => { releaseAuth = resolve })
   await page.route('**/auth/v1/user**', async route => {
     await gate
@@ -82,7 +82,6 @@ test('a delayed cohort verification cannot silently convert a running transient 
   await page.goto(examPrepPath)
   await launchTimed(page)
   const authResponse = page.waitForResponse(res => res.url().includes('/auth/v1/user'))
-  if (!releaseAuth) throw new Error('The test Auth response gate was not initialised.')
   releaseAuth()
   await authResponse
   await expect(page.locator('.exam-session-page')).toBeVisible()
