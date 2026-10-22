@@ -22,7 +22,7 @@ This small checker is a **pre-production structural validator**, not a new canon
 1. Exact cohort/subject/qualification/board/specification match across candidate packs.
 2. Expected distinct components present once, no extra papers or duplicate projected candidates.
 3. Declared paper ID, number, raw mark total and duration match the expected profile and actual candidate.
-4. Sum of qualification component weights equals 100%; weights may be unequal even if all raw papers are 100 marks.
+4. Sum of qualification component weights equals 100%, and each pre-production candidate **sidecar** explicitly carries the correct per-paper weight (rather than silently dropping it); weights may be unequal even if all raw papers are 100 marks.
 5. Each mock exam question topic belongs to the explicit eligible topic set for **that paper**, not merely to the shared subject/course topics.
 6. Missing component topic-scope information fails closed instead of being silently accepted.
 7. The existing ordinary learner manifest cannot prove GCSE tier/variant publication identity: any profile requiring one receives `variant_projection_unsupported`. It must not claim GCSE release readiness.
@@ -36,7 +36,7 @@ This small checker is a **pre-production structural validator**, not a new canon
 - That question wording and practical-attribution tags are educationally correct; tags are merely structured evidence locators and require independent A3 review.
 - That **a whole qualification's practical-mark assessment percentage** is met by its actual external awarding-body papers. A minimum in the profile is an explicit representative-paper quality threshold, not automatically the board's whole-qualification rule.
 - That a mock's extended-response marking guidance is a valid rubric; A3/A4 independent and qualified review remain separate.
-- That `qualificationWeightPercent` is consumed by the learner planner or progress presentation. This checker checks source-derived projected assessment contract only and cannot replace downstream behaviour tests.
+- That `qualificationWeightPercent` is consumed by the learner planner or progress presentation. It is retained in a **pre-production sidecar**, not the ordinary learner content manifest. This checker checks the structural sidecar/expected-assessment contract only and cannot replace downstream publication or behaviour tests.
 - That a GCSE tier is navigable or eligible in the student app. A required variant intentionally holds, pending a separate generic publication/evidence design.
 - That a successful structural `pass` authorises `available` or waives `ai_assured`/`foundation_approved`, explicit Founder PR approval, exact-head release, qualified educational review, or the conditional restricted-pilot exception.
 - That the profile itself was independently sourced, licensed and approved. This helper assumes that external upstream validation is separately proven and must not be used as self-certified source truth.
@@ -45,7 +45,7 @@ This small checker is a **pre-production structural validator**, not a new canon
 
 `src/content-factory/qualification-projection-preflight.test.ts` uses synthetic, planned-only examples:
 
-- positive example: three original fictional 100-mark papers with 35/35/30 percentage weightings;
+- positive example: three original fictional 100-mark papers with 35/35/30 percentage weightings; missing and wrong projected per-paper weights;
 - missing/duplicate/extra papers, incorrect cohort, marks/duration, bad component weighting;
 - out-of-paper topic even when it belongs to the overall course;
 - omitted paper-topic scope;
