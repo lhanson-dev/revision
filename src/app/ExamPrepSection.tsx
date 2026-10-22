@@ -43,7 +43,7 @@ function mockExamsFor(course: CatalogueCourse): Array<{ exam: MockExam; moduleId
  */
 export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
-  const [active, setActive] = useState<{ id: string; mode: ExamMockMode } | null>(null)
+  const [active, setActive] = useState<{ id: string; mode: ExamMockMode; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
   const [savedExams, setSavedExams] = useState<Array<{ id: string; phase: string }>>([])
   const [savedExamCheck, setSavedExamCheck] = useState<'checking' | 'ready' | 'unavailable'>(
     checkpointContext ? 'checking' : 'ready',
@@ -67,7 +67,10 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
   function startMock(id: string, mode: ExamMockMode) {
     const label = document.activeElement instanceof HTMLElement ? document.activeElement.textContent?.trim() ?? '' : ''
     launchControl.current = { id, mode, label }
-    setActive({ id, mode })
+    // Freeze eligibility when a mock begins. A delayed Auth verification must
+    // never silently upgrade an already-running transient mock to persisted
+    // work (or switch a durable attempt off during the same session).
+    setActive({ id, mode, durableContext: mode === 'timed' ? checkpointContext : undefined })
   }
   const identity = resolveSubjectIdentity(subjectId, subjectName)
   const guide = examPapersFor(course.examBoardName, course.specificationCode)
@@ -109,7 +112,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     return (
       <section className="exam-prep-activity" aria-label={`Mock exam: ${activeMock.exam.title}`} style={accentStyle(identity.hue)}>
         <header className="exam-prep-activity__header">
-          {(!checkpointContext || active.mode !== 'timed') && <Button variant="secondary" className="exam-prep-activity__back" onClick={() => setActive(null)}>
+          {(!active.durableContext || active.mode !== 'timed') && <Button variant="secondary" className="exam-prep-activity__back" onClick={() => setActive(null)}>
             Back to Exam Prep
           </Button>}
           <div>
@@ -124,7 +127,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
           saving={saving}
           saveError={saveError}
           onRecordEvidence={onRecordEvidence}
-          checkpointContext={active.mode === 'timed' ? checkpointContext : undefined}
+          checkpointContext={active.durableContext}
           autoStart={active.mode}
           onExit={() => setActive(null)}
         />
