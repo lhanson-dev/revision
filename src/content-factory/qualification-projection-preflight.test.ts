@@ -225,6 +225,65 @@ describe('provider-free, non-publishing qualification projection preflight', () 
     expect(has(check(expected, all), 'practical_choice_arithmetic_unproven')).toBe(true)
   })
 
+  it('rejects different packs that claim the same paper ID or paper number', () => {
+    const sameId = { ...profile, components: [
+      profile.components[0]!,
+      { ...profile.components[1]!, paperId: 'paper-one' },
+      profile.components[2]!,
+    ] }
+    const sameNumber = { ...profile, components: [
+      profile.components[0]!,
+      { ...profile.components[1]!, paperNumber: 1 },
+      profile.components[2]!,
+    ] }
+    expect(has(check(sameId), 'duplicate_expected_paper')).toBe(true)
+    expect(has(check(sameNumber), 'duplicate_expected_paper')).toBe(true)
+  })
+
+  it('checks every mock rather than treating the first as assurance for the rest', () => {
+    const all = candidates()
+    const pack = all[0]!.pack
+    const primary = pack.exams[0]!
+    const extra = { ...primary, id: 'second-mock', questions: [
+      { ...primary.questions[0]!, topic: 'topic-two' },
+    ] }
+    all[0] = { ...all[0]!, pack: contentPackSchema.parse({
+      ...pack, exams: [primary, extra],
+    }) }
+    const restricted = { ...profile, components: [
+      { ...profile.components[0]!, eligibleExamTopicIds: ['topic-one'] },
+      ...profile.components.slice(1),
+    ] }
+    expect(has(check(restricted, all), 'paper_topic_mismatch')).toBe(true)
+    // The later mock's question is rejected even though the first is valid.
+  })
+
+  it('rejects repeated question IDs that would obscure practical attribution', () => {
+    const all = candidates()
+    const pack = all[0]!.pack
+    const primary = pack.exams[0]!
+    const half = { ...primary.questions[0]!, marks: 50,
+      assessmentObjectives: { ao1: 50, ao2: 0, ao3: 0, ao4: 0 } }
+    all[0] = { ...all[0]!, pack: contentPackSchema.parse({
+      ...pack, exams: [{ ...primary, questions: [half, { ...half }] }],
+    }) }
+    expect(has(check(profile, all), 'duplicate_mock_question')).toBe(true)
+  })
+
+  it('holds practical mark attribution spanning multiple mocks without a mock identifier', () => {
+    const all = candidates()
+    const pack = all[0]!.pack
+    const primary = pack.exams[0]!
+    all[0] = { ...all[0]!, pack: contentPackSchema.parse({
+      ...pack, exams: [primary, { ...primary, id: 'second-mock' }],
+    }), practicalQuestionIds: ['fictional-question'] }
+    const required = { ...profile, components: [
+      { ...profile.components[0]!, minimumPracticalMarks: 10 },
+      ...profile.components.slice(1),
+    ] }
+    expect(has(check(required, all), 'practical_multiple_mocks_unsupported')).toBe(true)
+  })
+
   it('rejects missing qualification cohort, expected components and invalid facts', () => {
     const invalid = { ...profile, cohortId: '', components: [
       { ...profile.components[0]!, qualificationWeightPercent: -2 },
