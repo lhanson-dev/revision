@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs, examPauseTiming,
   examResumeTiming, fingerprintExamContent, initialExamSnapshot, loadExamAttempt,
-  supabaseExamAttemptStore, updateExamAttempt, type ExamAttempt, type ExamAttemptSnapshot,
+  removeCompletedExamAttempt, supabaseExamAttemptStore, updateExamAttempt, type ExamAttempt, type ExamAttemptSnapshot,
 } from '../services/progress/exam-attempt-service'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -409,7 +409,25 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     return { ao, totalAwarded }
   }, [activeQuestions, marks, answers])
 
-  function startExam() {
+  async function startExam() {
+    if (checkpointContext && attemptStore) {
+      setRecoveryPhase('loading')
+      try {
+        const fingerprint = await fingerprintExamContent(exam)
+        const saved = await createExamAttempt(attemptStore, {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId, examId: exam.id,
+        }, fingerprint, crypto.randomUUID(), initialExamSnapshot(),
+        new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
+        checkpointRef.current = saved
+        setCheckpointSaveStatus('saved')
+        setRecoveryIssue('')
+        setRecoveryPhase('ready')
+      } catch (error) {
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not safely start this examination.')
+        setRecoveryPhase('blocked')
+        return
+      }
+    }
     setQuestionPractice(false)
     setStarted(true)
     setSessionOverlay(null)
@@ -428,13 +446,28 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setPracticeSaved(false)
   }
 
-  function beginInterruption(nextOverlay: Exclude<SessionOverlay, null>) {
+  async function beginInterruption(nextOverlay: Exclude<SessionOverlay, null>) {
     if (finishedWriting || sessionOverlay) return
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      } catch { return }
+    }
     pauseStartedAt.current = Date.now()
     setSessionOverlay(nextOverlay)
   }
 
-  function resumeExam() {
+  async function resumeExam() {
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, timing: examResumeTiming(current.timing),
+        }))
+      } catch { return }
+    }
     if (pauseStartedAt.current !== null) {
       totalPausedMs.current += Date.now() - pauseStartedAt.current
       pauseStartedAt.current = null
@@ -442,7 +475,21 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setSessionOverlay(null)
   }
 
-  function stopExam(returnToPrep = true) {
+  async function stopExam(returnToPrep = true) {
+    if (checkpointContext && attemptStore && checkpointRef.current) {
+      await checkpointWriteChain.current
+      try {
+        await discardExamAttempt(attemptStore, {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+          moduleId, examId: exam.id,
+        })
+        checkpointRef.current = null
+      } catch (error) {
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not confirm your exam was discarded.')
+        setCheckpointSaveStatus('error')
+        return
+      }
+    }
     setStarted(false)
     setFinishedWriting(false)
     setSubmitted(false)
@@ -511,8 +558,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     }
   }
 
-  function finishWriting() {
+  async function finishWriting() {
     if (missingChoiceGroups.length > 0) return
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, phase: 'marking', answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      } catch { return }
+    }
     const firstActive = exam.questions.findIndex(isAttemptedQuestion)
     if (firstActive >= 0) setQuestionIndex(firstActive)
     setFinishedWriting(true)
@@ -520,46 +575,101 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
 
   async function saveResult() {
     if (!finishedWriting || submitted || saveAttemptInFlight.current) return
-    const activeDurationMs = startedAt.current
-      ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
-      : exam.durationMinutes * 60_000
+    const activeDurationMs = checkpointContext && checkpointRef.current
+      ? examElapsedMs(checkpointRef.current.snapshot.timing)
+      : startedAt.current
+        ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
+        : exam.durationMinutes * 60_000
     const durationMinutes = Math.min(exam.durationMinutes, activeDurationMs / 60_000)
-
-    if (!activeQuestions.some((item) => answers[item.id]?.trim())) {
-      setResult({ totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao: totals.ao, recorded: false })
-      setSubmitted(true)
-      return
-    }
 
     saveAttemptInFlight.current = true
     setAttemptSaving(true)
     setSubmissionError(null)
     try {
+      if (checkpointContext && checkpointRef.current && checkpointRef.current.snapshot.phase !== 'submitting') {
+        if (recoveryPhase !== 'ready') throw new Error('Saved exam state could not be verified.')
+        await enqueueExamCheckpoint((current) => ({
+          ...current, phase: 'marking', answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      }
       // The identical payload must be used after partial success, including its timestamps.
       if (!submissionSnapshot.current) {
-        submissionSnapshot.current = freezeExamSubmission({
-          exam, moduleId, questions: activeQuestions, answers, marks,
-          totalAwarded: totals.totalAwarded, ao: totals.ao,
-          durationMinutes, occurredAt: new Date().toISOString(),
-        })
-        setSubmissionLocked(true)
+        submissionSnapshot.current = activeQuestions.some((item) => answers[item.id]?.trim())
+          ? freezeExamSubmission({
+            exam, moduleId, questions: activeQuestions, answers, marks,
+            totalAwarded: totals.totalAwarded, ao: totals.ao,
+            durationMinutes, occurredAt: new Date().toISOString(),
+          })
+          : { evidence: [], result: {
+            totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes,
+            timed: true, ao: totals.ao, recorded: false,
+          } }
       }
-      const snapshot = submissionSnapshot.current
+      if (checkpointContext && attemptStore && checkpointRef.current &&
+          checkpointRef.current.snapshot.phase !== 'submitting') {
+        checkpointRef.current = await commitFrozenExamSubmission(
+          attemptStore, checkpointRef.current, submissionSnapshot.current)
+      }
+      setSubmissionLocked(true)
+      const snapshot = checkpointRef.current?.snapshot.frozenSubmission ?? submissionSnapshot.current
       for (const fact of snapshot.evidence) await onRecordEvidence(fact)
+      if (checkpointContext && attemptStore && checkpointRef.current) {
+        checkpointRef.current = await updateExamAttempt(attemptStore, checkpointRef.current, {
+          ...checkpointRef.current.snapshot, phase: 'submitted',
+        })
+      }
       setResult(snapshot.result)
       setSubmitted(true)
+      setCheckpointSaveStatus('saved')
     } catch {
-      setSubmissionError('We could not confirm your whole exam was saved. Your answers and marks are still here. Retry saving without changing them.')
+      setSubmissionError('We could not confirm your exam result was saved. Your last confirmed work is protected. Retry saving without changing answers or marks.')
     } finally {
       saveAttemptInFlight.current = false
       setAttemptSaving(false)
     }
   }
 
-  function resetExam() {
-    // Restarting from a saved result preserves the simulator's prior launch flow.
-    // Only explicit confirmed Stop returns to the owning Exam Prep page.
-    stopExam(false)
+  async function resetExam() {
+    // Existing scored evidence is deliberately retained; only the finished checkpoint is cleared.
+    if (checkpointContext && attemptStore && checkpointRef.current) {
+      try {
+        const saved = checkpointRef.current
+        if (saved.snapshot.phase !== 'submitted') throw new Error('Previous result is not confirmed.')
+        await removeCompletedExamAttempt(attemptStore, saved)
+        checkpointRef.current = null
+      } catch (error) {
+        setSubmissionError(error instanceof Error ? error.message : 'Could not start a fresh attempt yet.')
+        return
+      }
+    }
+    await stopExam(false)
+  }
+
+  if (checkpointContext && autoStart === 'timed' && recoveryPhase !== 'ready') {
+    return (
+      <section className="exam-simulator exam-recovery" aria-label="Saved exam recovery" role="status">
+        <h2>{recoveryPhase === 'loading' ? 'Checking your saved exam' : 'Your saved exam needs attention'}</h2>
+        <p>{recoveryPhase === 'loading'
+          ? 'We are checking your last confirmed answers before the exam opens.'
+          : recoveryIssue}</p>
+        {recoveryPhase === 'blocked' && <div className="inline-actions">
+          <Button onClick={() => setRecoveryReload((current) => current + 1)}>Check saved exam again</Button>
+          <Button variant="destructive" onClick={async () => {
+            if (!attemptStore) return
+            try {
+              await discardExamAttempt(attemptStore, {
+                userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+                moduleId, examId: exam.id,
+              })
+              setRecoveryReload((current) => current + 1)
+            } catch (error) {
+              setRecoveryIssue(error instanceof Error ? error.message : 'Could not discard this exam safely.')
+            }
+          }}>Discard this unfinished exam</Button>
+        </div>}
+      </section>
+    )
   }
 
   if (!started && questionPractice && practiceQuestion) {
@@ -651,7 +761,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     <div ref={focusRegion} tabIndex={-1} className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
-          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span></div>
+          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span>
+            {checkpointContext && <span role="status" aria-live="polite">
+              {checkpointSaveStatus === 'saved' ? 'Work saved' : checkpointSaveStatus === 'saving' ? 'Saving work…' : 'Work not saved — retry'}
+            </span>}
+          </div>
           <div className="exam-session-controls">
             {!finishedWriting && <Button variant="secondary" type="button" onClick={() => beginInterruption('paused')}>Pause</Button>}
             {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}
@@ -664,6 +778,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           </div>
         </div>
 
+        {checkpointContext && checkpointSaveStatus === 'error' && <div role="alert" className="error">
+          {recoveryIssue} Do not close this page until your work is confirmed.
+          <Button onClick={() => {
+            void enqueueExamCheckpoint((current) => ({
+              ...current, answers, marks, selectedChoices, flagged, questionIndex,
+              phase: finishedWriting ? 'marking' : 'writing',
+              timing: finishedWriting ? examPauseTiming(current.timing) : current.timing,
+            })).catch(() => undefined)
+          }}>Retry saving work</Button>
+        </div>}
         {!finishedWriting ? (
           <>
             {exam.caseHtml && <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>}
@@ -796,7 +920,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .ui-button--primary">
             <p className="eyebrow">Stop exam?</p>
             <h2 id="stop-exam-title">Are you sure?</h2>
-            <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
+            <p>Stopping will discard this unfinished attempt. Previously recorded examination results are not deleted.</p>
             <div className="exam-confirm-actions">
               <Button variant="destructive" type="button" onClick={() => stopExam()}>Yes, stop exam</Button>
               <Button type="button" onClick={resumeExam}>Continue exam</Button>
