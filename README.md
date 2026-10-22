@@ -25,7 +25,7 @@ The Courses branch projects only the authenticated learner's saved active course
 
 ### Interrupted Practice recovery (candidate, not yet live)
 
-Draft Recovery R2 engineering adds learner-owned, versioned scored-question checkpoints for reload and safe retries. It does not yet alter Production. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` for the implementation scope, backend readiness dependency and excluded written/exam attempts.
+Draft Recovery R2 engineering adds learner-owned, versioned scored-question checkpoints for reload and safe retries. The schema-only production backend-ahead prerequisite is now installed and verified; no learner frontend has been merged or deployed. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` for the implementation scope, backend readiness dependency and excluded written/exam attempts.
 
 ### Adaptive Plan
 
