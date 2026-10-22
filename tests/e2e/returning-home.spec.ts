@@ -203,6 +203,8 @@ test('#647 Psychology real published topic delivers a multi-question session wit
   await expect(activity).toContainText(`2 of ${count}`)
   await activity.locator('.home-focused-options button').first().click()
   await activity.getByRole('button', { name: /^Check “/ }).click()
+  await expect(activity.getByRole('button', { name: 'Saving answer…' })).toHaveCount(0)
+  await expect.poll(() => posted.length).toBe(2)
   expect(posted).toHaveLength(2)
   expect(new Set(posted.map(row => row.content_id)).size).toBe(2)
   for (const row of posted) {
