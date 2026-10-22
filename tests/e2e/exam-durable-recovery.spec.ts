@@ -103,7 +103,7 @@ test('unfinished full mock restores confirmed answer, flag and position after re
   const interrupted = ([...checkpointRows.values()][0].snapshot as { timing: { interrupted: boolean } }).timing.interrupted
   expect(interrupted).toBe(true)
   await page.getByRole('dialog', { name: 'Exam paused' }).getByRole('button', { name: /Continue exam/ }).click()
-  await expect(page.getByRole('button', { name: /flagged for review/i })).toBeVisible()
+  await expect(page.locator('.exam-flag-toggle[aria-pressed="true"]')).toBeVisible()
   const snapshot = [...checkpointRows.values()][0].snapshot as typeof firstSnapshot
   expect(snapshot.answers).toEqual(firstSnapshot.answers)
   expect(snapshot.flagged).toEqual(firstSnapshot.flagged)
