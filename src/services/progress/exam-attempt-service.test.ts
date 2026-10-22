@@ -157,6 +157,21 @@ describe('REC-10 draft persistence contract', () => {
     expect(examElapsedMs(paused, start + 48 * 3600_000)).toBe(10_000)
   })
 
+  it('accumulates 81 minutes of confirmed work and stops counting after an interruption', () => {
+    const initial = Date.parse('2026-10-22T10:00:00Z')
+    let timing = initialExamSnapshot(initial).timing
+    for (let tick = 1; tick <= 81 * 12; tick++) {
+      timing = examHeartbeatTiming(timing, initial + tick * 5000)
+    }
+    expect(timing.elapsedMs).toBe(81 * 60 * 1000)
+    expect(timing.runningSince).not.toBeNull()
+    expect(timing.interrupted).toBe(false)
+    const interrupted = examHeartbeatTiming(timing, initial + 83 * 60 * 1000)
+    expect(interrupted.runningSince).toBeNull()
+    expect(interrupted.elapsedMs).toBe(81 * 60 * 1000)
+    expect(interrupted.interrupted).toBe(true)
+  })
+
   it('detects re-authored assessment content without relying on question IDs alone', async () => {
     const exam = listRetainedAqa7132MockExams()[0]
     const fp = await fingerprintExamContent(exam)

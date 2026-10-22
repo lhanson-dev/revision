@@ -25,7 +25,7 @@ function json(route: Route, status: number, data: unknown) {
  * identity failures behave like the real table. Explicit RLS is separately
  * exercised in isolated Supabase pgTAP tests.
  */
-export async function seedExamAttemptBackend(page: Page) {
+export async function seedExamAttemptBackend(page: Page, options: { startingElapsedMs?: number } = {}) {
   const records = new Map<string, CheckpointRow>()
   await page.route('**/rest/v1/learner_exam_attempts**', async (route) => {
     const request = route.request()
@@ -42,6 +42,17 @@ export async function seedExamAttemptBackend(page: Page) {
       const key = identity(body)
       if (records.has(key)) return json(route, 409, { code: '23505', message: 'Attempt already exists' })
       const saved = structuredClone(body)
+      // Synthetic only: start with a previously confirmed elapsed duration.
+      // Real examination timing is never modified by this fixture.
+      if (options.startingElapsedMs !== undefined) {
+        if (!Number.isInteger(options.startingElapsedMs) || options.startingElapsedMs < 0) {
+          throw new Error('Invalid synthetic elapsed exam time.')
+        }
+        const snapshot = saved.snapshot as Record<string, unknown>
+        saved.snapshot = { ...snapshot, timing: { ...(snapshot.timing as Record<string, unknown>),
+          elapsedMs: options.startingElapsedMs,
+        } }
+      }
       records.set(key, saved)
       return json(route, 201, saved)
     }
