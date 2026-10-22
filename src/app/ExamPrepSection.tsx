@@ -100,7 +100,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
           saving={saving}
           saveError={saveError}
           onRecordEvidence={onRecordEvidence}
-          checkpointContext={checkpointContext}
+          checkpointContext={active.mode === 'timed' ? checkpointContext : undefined}
           autoStart={active.mode}
           onExit={() => setActive(null)}
         />

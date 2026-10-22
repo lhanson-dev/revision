@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-10-21  
+**Last triaged:** 2026-10-22  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules

@@ -185,7 +185,9 @@ export async function updateExamAttempt(store: ExamAttemptStore, current: ExamAt
   if (current.snapshot.phase === 'submitted') throw new Error('This exam has already been submitted and cannot be changed.')
   if (['submitting', 'submitted'].includes(current.snapshot.phase) &&
       (next.phase === 'writing' || next.phase === 'marking' ||
-       stable(current.snapshot.frozenSubmission) !== stable(next.frozenSubmission))) {
+       stable(current.snapshot.frozenSubmission) !== stable(next.frozenSubmission) ||
+       (current.snapshot.phase === 'submitting' &&
+         stable(current.snapshot) !== stable({ ...next, phase: 'submitting' })))) {
     throw new Error('The submitted answers and marks cannot be changed.')
   }
   const expected = asRow(key, current.attemptId, current.revision + 1, current.contentFingerprint, next, current.expiresAt)
