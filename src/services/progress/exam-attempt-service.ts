@@ -209,6 +209,21 @@ export async function discardExamAttempt(store: ExamAttemptStore, key: ExamAttem
   throw new Error('Could not confirm this unfinished attempt was discarded. Reload before trying again.')
 }
 
+/** A finished checkpoint may be cleared ONLY after its evidence is fully confirmed;
+ * this releases the one-active-attempt slot for another mock, without deleting scored evidence.
+ */
+export async function removeCompletedExamAttempt(store: ExamAttemptStore, current: ExamAttempt): Promise<void> {
+  if (current.snapshot.phase !== 'submitted') throw new Error('Cannot clear an unfinished exam result.')
+  const key: ExamAttemptKey = {
+    userId: current.userId, courseId: current.courseId, moduleId: current.moduleId, examId: current.examId,
+  }
+  const { data, error } = await store.remove(key, current.attemptId, current.revision)
+  if (!error && data?.length === 1) return
+  const after = await verifiedRead(store, key)
+  if (!after) return
+  throw new Error('Could not confirm the previous exam result is closed. Reload before starting a new attempt.')
+}
+
 /** Timers use persisted UTC anchors: sleep, refresh and lost network time do not invent additional minutes. */
 export function examElapsedMs(timing: ExamAttemptSnapshot['timing'], now = Date.now()): number {
   const active = timing.runningSince ? Math.max(0, now - Date.parse(timing.runningSince)) : 0
