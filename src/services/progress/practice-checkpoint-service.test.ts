@@ -97,7 +97,13 @@ describe('R2 owner-scoped Practice checkpoint', () => {
     const memory = memoryStore()
     const original = await createPracticeCheckpoint(memory.store, key, fingerprint, crypto.randomUUID(), snapshot)
     await updatePracticeCheckpoint(memory.store, original, pending)
-    await expect(updatePracticeCheckpoint(memory.store, original, pending)).rejects.toThrow('another tab')
+    // Replaying the same facts is an allowed ambiguous acknowledgement. A stale
+    // tab submitting different evidence for the same revision must be refused.
+    const conflicting = {
+      ...pending,
+      pending: { ...pending.pending!, evidence: { ...pendingEvidence, id: 'a-different-attempt-id' } },
+    }
+    await expect(updatePracticeCheckpoint(memory.store, original, conflicting)).rejects.toThrow('another tab')
     await expect(removePracticeCheckpoint(memory.store, original)).rejects.toThrow('changed')
   })
 
