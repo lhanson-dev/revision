@@ -82,9 +82,12 @@ function mockPack(id: string, paperId: string, paperNumber: number,
 
 function candidates(): QualificationProjectionCandidate[] {
   return [
-    { pack: mockPack('synthetic-one', 'paper-one', 1), cohortId: identity.cohortId },
-    { pack: mockPack('synthetic-two', 'paper-two', 2), cohortId: identity.cohortId },
-    { pack: mockPack('synthetic-three', 'paper-three', 3), cohortId: identity.cohortId },
+    { pack: mockPack('synthetic-one', 'paper-one', 1),
+      cohortId: identity.cohortId, qualificationWeightPercent: 35 },
+    { pack: mockPack('synthetic-two', 'paper-two', 2),
+      cohortId: identity.cohortId, qualificationWeightPercent: 35 },
+    { pack: mockPack('synthetic-three', 'paper-three', 3),
+      cohortId: identity.cohortId, qualificationWeightPercent: 30 },
   ]
 }
 
@@ -118,6 +121,14 @@ describe('provider-free, non-publishing qualification projection preflight', () 
       ...profile.components.slice(1),
     ] }
     expect(has(check(mismatch), 'component_mismatch')).toBe(true)
+  })
+
+  it('holds missing or incorrectly projected per-paper weighting despite valid qualification totals', () => {
+    const all = candidates()
+    all[2] = { ...all[2]!, qualificationWeightPercent: undefined }
+    expect(has(check(profile, all), 'qualification_weight_projection_mismatch')).toBe(true)
+    all[2] = { ...all[2]!, qualificationWeightPercent: 35 }
+    expect(has(check(profile, all), 'qualification_weight_projection_mismatch')).toBe(true)
   })
 
   it('rejects weights that do not total 100 even when all raw marks match', () => {
