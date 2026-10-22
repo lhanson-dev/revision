@@ -270,7 +270,33 @@ describe('Stage 4 independent Foundation to planned learner-pack proof (fictiona
   it('does not let a released or preview learner pack masquerade as a Stage 4 planned candidate', async () => {
     held(await run((f) => { f.candidates[0]!.pack.manifest.status = 'available' }), 'not_candidate')
   })
+  it('holds stale source challenge or review context, not just a passing label', async () => {
+    held(await run((f) => { f.job.candidate!.externalSourceChallenge!.reviewedCommit = 'b'.repeat(40) }),
+      'foundation_challenge_provenance')
+    held(await run((f) => { f.job.candidate!.externalSourceChallenge!.challengedSourceIds = ['wrong-source'] }),
+      'foundation_challenge_provenance')
+    held(await run((f) => { f.job.candidate!.provenance.assuranceContextIds = ['fictional-generation'] }),
+      'foundation_review_provenance')
+  })
+  it('holds orphaned knowledge nodes, unknown rights and invalid alignment lineage', async () => {
+    held(await run((f) => { f.courseKnowledgeModel.nodes[0]!.sourceRefs = ['missing-source'] }),
+      'source_rights_hold')
+    held(await run((f) => { f.courseKnowledgeModel.nodes[0]!.boardAlignmentRefs = ['unknown-paper'] }),
+      'course_truth_provenance')
+    held(await run((f) => { f.coverageModel.requirements[0]!.sourceRefs = ['missing-source'] }),
+      'source_rights_hold')
+  })
   it('holds independent assessment obligations that existing learner packs cannot prove', async () => {
+    held(await run((f) => {
+      f.boardAlignment.assessmentRequirements.push({
+        id: 'special-requirement', summary: 'Fictional assessment skill',
+        sourceRefs: ['fictional-source'], componentScope: ['paper-one'],
+      })
+    }), 'unprojected_exam_obligations')
+    held(await run((f) => {
+      f.assessmentBlueprint.components[0]!.constraints.push('Required casework shape')
+    }), 'unprojected_exam_obligations')
+
     held(await run((f) => {
       f.assessmentBlueprint.assessmentRequirements.push({
         id: 'special-assessment', summary: 'Independently required synthetic skill',
