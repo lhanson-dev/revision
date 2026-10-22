@@ -609,20 +609,17 @@ export function FocusedLearningWorkspace({
       confidence,
     })
     setStatusMove(null)
+    const next = recordSessionAnswer(session, {
+      questionId: question.id, correct: selectedOption === question.correctOption,
+      confidence, selectedOption, level: question.level,
+    })
     try {
-      await onRecordEvidence(evidence)
+      if (!await saveObjectiveAnswer(evidence, next)) return
     } catch {
       return
     } finally {
       answering.current = false
     }
-    setSession(recordSessionAnswer(session, {
-      questionId: question.id,
-      correct: selectedOption === question.correctOption,
-      confidence,
-      selectedOption,
-      level: question.level,
-    }))
     setChecked({ selected: selectedOption, confidence })
   }
 
@@ -649,14 +646,14 @@ export function FocusedLearningWorkspace({
       confidence,
     })
     setStatusMove(null)
+    const next = recordSessionAnswer(session, { questionId: question.id, correct: right, confidence, typedAnswer: calcDraft.trim(), level: question.level })
     try {
-      await onRecordEvidence(evidence)
+      if (!await saveObjectiveAnswer(evidence, next)) return
     } catch {
       return
     } finally {
       answering.current = false
     }
-    setSession(recordSessionAnswer(session, { questionId: question.id, correct: right, confidence, typedAnswer: calcDraft.trim(), level: question.level }))
     setCalcChecked({ typed: calcDraft.trim(), right, confidence })
   }
 
@@ -933,7 +930,7 @@ export function FocusedLearningWorkspace({
         showConfidence={parseAnswer(calcDraft) !== null && !calcChecked}
         onConfidence={checkCalculationAnswer}
         error={calcError}
-        busy={saving}
+        busy={saving || checkpointBusy || checkpointPhase !== 'ready'}
       />
     ) : question?.type === 'multiple-choice' && session ? (
       <PracticeQuestionView
@@ -950,7 +947,7 @@ export function FocusedLearningWorkspace({
         onPick={setSelectedOption}
         showConfidence={selectedOption !== null && !checked}
         onConfidence={checkAnswer}
-        busy={saving}
+        busy={saving || checkpointBusy || checkpointPhase !== 'ready'}
       />
     ) : null
 
@@ -1045,8 +1042,8 @@ export function FocusedLearningWorkspace({
             questionTypes={availableTypes}
             selectedTypes={chosenTypes}
             onToggleType={(type) => setSelectedTypes((current) => toggleQuestionType(usableQuestionTypes(current, availableTypes), type))}
-            onStart={startQuestions}
-            carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => beginActivity('quick-check') } : null}
+            onStart={() => { void startQuestions() }}
+            carryOn={session ? { progress: sessionAnswersLabel, onCarryOn: () => { void resumeQuestions() } } : null}
             extraScored={extraScored}
             onOpenExtraScored={(id) => beginActivity(id as WorkspaceMode)}
             warmups={warmups}
@@ -1058,6 +1055,20 @@ export function FocusedLearningWorkspace({
         ))}
 
         {saveError && <p className="error" role="alert">{saveError}</p>}
+        {checkpointContext && checkpointPhase === 'loading' && <p role="status">Checking for saved Practice work…</p>}
+        {checkpointIssue && (
+          <div className="practice-recovery-state" role="alert">
+            <p>{checkpointIssue}</p>
+            <Button variant="secondary" disabled={checkpointBusy} onClick={() => { void reloadCheckpoint() }}>Retry loading saved work</Button>
+            {checkpointPhase === 'blocked' && <Button variant="destructive" disabled={checkpointBusy} onClick={() => { void discardCheckpoint() }}>Discard unfinished session</Button>}
+          </div>
+        )}
+        {checkpoint?.snapshot.pending && checkpointPhase === 'ready' && (
+          <div className="practice-recovery-state">
+            <p>A previous answer is being confirmed. Revision will not count it twice.</p>
+            <Button disabled={checkpointBusy} onClick={() => { void resumeQuestions() }}>Retry saving answer</Button>
+          </div>
+        )}
 
         {openActivity && (
           <PracticeActivityWorkspace
@@ -1084,7 +1095,7 @@ export function FocusedLearningWorkspace({
                   onRate={rateFlashcard}
                   isLast={deck.index === deck.ids.length - 1}
                   focusOnMount={deck.index > 0}
-                  busy={saving}
+                  busy={saving || checkpointBusy || checkpointPhase !== 'ready'}
                 />
               )
               : (
