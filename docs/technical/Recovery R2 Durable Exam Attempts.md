@@ -46,3 +46,7 @@ The browser's prior 81-minute `page.clock.runFor` jump represented an unconfirme
 The visual snapshot fixture now mocks the actual owner-scoped exam-attempt API and must settle its recovery query before capturing. For a learner with **no saved answers**, Exam Prep keeps its existing visual layout; the saved-work recovery notice and resume action appear only if applicable. The initial timed-exam viewport likewise omits extra saved-work controls until the learner has work or a non-confirmed save state. Recovery controls remain available once there is work to preserve. Approved historical image digests and human approvals are unchanged. CI must confirm that snapshots match rather than repinning hashes automatically.
 
 These corrections are **not release acceptance**. Investigate any unresolved exact-head CI discrepancies and preserve the Founder-specific merge boundary.
+
+### Learner-owned save notice
+
+When a timed paper has working answers, a flag, an option selection or an unconfirmed save, the examination header communicates save status. Once safely saved, it also explains that the private raw draft expires within 14 days. On narrow screens, this essential recovery status is not hidden with the decorative answered count. The fresh, empty examination view stays visually unchanged; recovered/edited work surfaces the new status as an intentional functional state. A safe Save and return action is available after there is work to preserve.

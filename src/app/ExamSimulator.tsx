@@ -876,8 +876,10 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             {checkpointContext && (checkpointSaveStatus !== 'saved' ||
               Object.values(answers).some((answer) => Boolean(answer.trim())) ||
               Object.values(flagged).some(Boolean) ||
-              Object.keys(selectedChoices).length > 0) && <span role="status" aria-live="polite">
-              {checkpointSaveStatus === 'saved' ? 'Work saved' : checkpointSaveStatus === 'saving' ? 'Saving work…' : 'Work not saved — retry'}
+              Object.keys(selectedChoices).length > 0) && <span className="exam-checkpoint-status" role="status" aria-live="polite">
+              {checkpointSaveStatus === 'saved'
+                ? <><strong>Work saved</strong><small>Private draft expires within 14 days.</small></>
+                : checkpointSaveStatus === 'saving' ? 'Saving work…' : 'Work not saved — retry'}
             </span>}
           </div>
           <div className="exam-session-controls">
