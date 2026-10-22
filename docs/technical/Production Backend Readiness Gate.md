@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Active production control. On 21 October 2026, production Supabase exposed **`r2-learn-exposure-v1`** with `ready: true` in a governed backend-ahead window for draft PR #655. Frontend merge, deployment and post-deployment smoke have **not** occurred; they require exact-head assurance and explicit Founder approval for PR #655.  
+**Status:** Active production control. As of 22 October 2026, PR #656 is merged and production-verified. Production Supabase is in the next governed backend-ahead window for **draft, unmerged PR #657** and reports **`r2-practice-checkpoint-v1`**, `ready: true`. The frontend still requires final exact-head assurance, specific Founder approval, merge and Pages smoke.
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -157,13 +157,13 @@ For FI-022, production `learner-plan-operations` version 1 was deployed ACTIVE o
 
 A protected function may use privileged service-role capability only after its own server-side authorization boundary has re-established the caller's permission. UI hiding is never authorization.
 
-**Recovery R2 durable Practice candidate (not applied; 22 October 2026):** A new additive learner-owned checkpoint table and updated readiness function are proposed in `supabase/migrations/20261021221200_add_learner_practice_checkpoints.sql` and `20261021221400_add_r2_practice_checkpoint_readiness.sql`. Once independently validated and applied, readiness advances from `r2-learn-exposure-v1` to `r2-practice-checkpoint-v1` and checks RLS plus authenticated owner grants, absent anon and standing service-role SELECT. The candidate application cannot be merged until backend-ahead deployment, readback and full exact-head CI prove the new contract. This is a forward-looking gate, not a claim of production migration. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md`.
+**Recovery R2 durable Practice candidate (production backend ahead; 22 October 2026):** A new additive learner-owned checkpoint table and updated readiness function were independently validated and applied to canonical production Supabase using exact schema ledger identities recorded in `supabase/migrations/20261022131141_add_learner_practice_checkpoints.sql` and `20261022131156_add_r2_practice_checkpoint_readiness.sql`. Readback now confirms readiness advanced from `r2-learn-exposure-v1` to `r2-practice-checkpoint-v1` with `ready: true` and verified RLS plus authenticated owner grants, absent anon and standing service-role SELECT. Production migration ledger versions are `20261022131141` and `20261022131156`; 22 October pre/post Security Advisor findings remained unchanged (one intentional deny-browser no-policy item and a leaked-password-protection warning), and the new expiry index is unsurprisingly unused with zero session rows. This is a backend-ahead readiness step only. The frontend has **not** been merged or deployed, and the specific-PR Founder approval gate remains mandatory. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md`.
 
 ## Backend-ahead release windows
 
 Revision intentionally enables additive backend capability before merging the frontend/repository release that requires it. This allows the candidate deployment to fail closed if production has not been prepared.
 
-As of 21 October 2026, production is in the bounded **`r2-learn-exposure-v1`** backend-ahead window for draft PR #655. Approved `main` still expects the older deployment contract, so no unrelated production merge or Pages deploy should be introduced until PR #655 completes its governed release path or the backend contract is deliberately reconciled. This is a deliberate short compatibility window, not a claim that the new frontend is live.
+As of 22 October 2026, production is in the bounded **`r2-practice-checkpoint-v1`** backend-ahead window for draft PR #657. Approved `main` at #656 merge `5bc0d03b` still expects the preceding deployment contract, so **unrelated production merges or Pages deployments must be held** until PR #657 completes its governed release path or the backend contract is deliberately reconciled. The schema addition is additive and backward-compatible, but the strict old contract will intentionally reject deployments against the new backend version.
 
 This temporary mismatch is a release-control state by design. The schema change itself is additive and backward-compatible; the strict contract mismatch exists to stop an older release workflow silently accepting an unexpected backend state.
 
