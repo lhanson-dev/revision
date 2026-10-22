@@ -3,7 +3,7 @@
 **Implementation status:** Candidate only in the content-production repeatability PR, not yet merged into approved `main`  
 **Canonical product runtime:** existing signed-in `/app/` and `src/engine/content/content-adapter.ts` fed by `content/**/index.ts`; this candidate adds **no** learner route, entry point, content pack, or runtime publication integration.  
 **Governing sources:** `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`, `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`, `80-company-workflows/Content Accuracy Assurance Gate.md`, `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`.  
-**Preceding experimental evidence:** draft PR #659, `audits/2026-10-22-content-production-repeatability-baseline.md`, and `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`. Those files are not in `main` at this candidate's starting point.
+**Preceding merged evidence:** PR #659, `audits/2026-10-22-content-production-repeatability-baseline.md`, and `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`. These files are on approved `main` following PR #659's merge.
 
 ## Problem and restricted scope
 
@@ -20,14 +20,14 @@ This small checker is a **pre-production structural validator**, not a new canon
 ## What it checks
 
 1. Exact cohort/subject/qualification/board/specification match across candidate packs.
-2. Expected distinct components present once, no extra papers or duplicate projected candidates.
+2. Expected distinct components present once, with unique paper IDs and paper numbers; no extra papers or duplicate projected candidates.
 3. Declared paper ID, number, raw mark total and duration match the expected profile and actual candidate.
 4. Sum of qualification component weights equals 100%, and each pre-production candidate **sidecar** explicitly carries the correct per-paper weight (rather than silently dropping it); weights may be unequal even if all raw papers are 100 marks.
-5. Each mock exam question topic belongs to the explicit eligible topic set for **that paper**, not merely to the shared subject/course topics.
+5. Every representative mock is checked for component marks, timing, duplicate question IDs and topic eligibility. Each mock exam question topic belongs to the explicit eligible topic set for **that paper**, not merely to the shared subject/course topics.
 6. Missing component topic-scope information fails closed instead of being silently accepted.
 7. The existing ordinary learner manifest cannot prove GCSE tier/variant publication identity: any profile requiring one receives `variant_projection_unsupported`. It must not claim GCSE release readiness.
 8. A pre-released component can require a matching exact-cohort external evidence-reference identifier; source authenticity and currency must be checked independently.
-9. If a governed exact-paper rule specifies a minimum number of practical-assessment marks, candidates must explicitly attribute existing mock question IDs with sufficient nonduplicated marks. Optional-choice exams receive `practical_choice_arithmetic_unproven`, not a sum of all printed alternative marks.
+9. Multiple mocks with unscoped practical question identifiers HOLD, rather than attributing evidence to an arbitrary mock. If a governed exact-paper rule specifies a minimum number of practical-assessment marks, candidates must explicitly attribute existing mock question IDs with sufficient nonduplicated marks. Optional-choice exams receive `practical_choice_arithmetic_unproven`, not a sum of all printed alternative marks.
 10. Structural input errors (invalid weights, wrong durations, empty identity) produce HOLD.
 
 ## What it deliberately cannot prove
@@ -46,7 +46,8 @@ This small checker is a **pre-production structural validator**, not a new canon
 `src/content-factory/qualification-projection-preflight.test.ts` uses synthetic, planned-only examples:
 
 - positive example: three original fictional 100-mark papers with 35/35/30 percentage weightings; missing and wrong projected per-paper weights;
-- missing/duplicate/extra papers, incorrect cohort, marks/duration, bad component weighting;
+- missing/duplicate/extra papers, duplicated paper IDs/numbers, incorrect cohort, marks/duration, bad component weighting;
+- a later representative mock with out-of-paper questions; duplicate question IDs and ambiguous practical evidence across multiple mocks;
 - out-of-paper topic even when it belongs to the overall course;
 - omitted paper-topic scope;
 - GCSE variant identity deliberately held as unsupported;
@@ -59,7 +60,7 @@ CI has no paid source or provider workflow. The production-level risk is **low w
 
 ## Follow-up after passing this proof
 
-1. Complete PR #659 (audit and negative qualification-shape proof), including its exact-head CI, and reconcile its acceptance findings with this independent PR before promotion.
+1. Maintain compatibility with the merged PR #659 qualification-shape proof and use fresh integration assurance against current `main` before PR #660 approval.
 2. Identify canonical structured Exam Truth evidence for one current approved course; prove an exact input/profile adapter can be derived without using learners' generated questions to establish the expected requirements.
 3. Define genuine generic variant publication identity with correct course/topic/evidence handling for tiered GCSE courses; don't insert course-specific UI conditions.
 4. Wire the checker to a pre-publication step only once source-universe and human/external assurance boundaries are understood, and confirm failure cannot be bypassed by a syntactically valid self-authored profile.
