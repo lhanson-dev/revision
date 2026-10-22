@@ -1,5 +1,4 @@
 import type { Page } from '@playwright/test'
-import { seedExamAttemptBackend } from './exam-attempt-backend'
 import { businessCourseId, seedReturningStudent } from './practice-seed'
 
 const userId = '00000000-0000-4000-8000-000000000041'
@@ -9,7 +8,6 @@ export async function seedExamPrepStudent(page: Page, options: { theme?: 'light'
   const { theme = 'light', started = ['business', 'leadership', 'marketing', 'operations', 'finance', 'hr'], examDate = '2027-05-11', attempts = false } = options
   await page.addInitScript((value) => localStorage.setItem('revision:theme', value), theme)
   await seedReturningStudent(page)
-  await seedExamAttemptBackend(page)
   const rows = started.map((topic, index) => ({
     payload: { id: `seed-${topic}`, moduleId: 'business-aqa-a-level-7132-paper-1', topicId: topic, occurredAt: `2026-10-0${(index % 5) + 1}T10:00:00.000Z`, contentId: `seed-${topic}`, schemaVersion: 1, source: 'multiple_choice', correct: index % 3 !== 0, selectedOption: 0, correctOption: 0 },
   }))

@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
@@ -9,6 +10,7 @@ const aLevelCourseId = 'aqa:aqa-a-level:7132'
 const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
 async function seedSyntheticSession(page: Page) {
+  await seedExamAttemptBackend(page)
   await seedPracticeCheckpoints(page)
   const userId = '00000000-0000-4000-8000-000000000001'
   await page.addInitScript(({ key, id }) => {

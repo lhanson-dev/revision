@@ -118,7 +118,7 @@ test('stop exam requires confirmation and lets the learner either continue or di
   await page.getByRole('button', { name: 'Stop exam' }).click()
   let stopDialog = page.getByRole('dialog', { name: 'Are you sure?' })
   await expect(stopDialog).toBeVisible()
-  await expect(stopDialog.getByText(/discard the answers/)).toBeVisible()
+  await expect(stopDialog.getByText(/discard this unfinished attempt/)).toBeVisible()
   await stopDialog.getByRole('button', { name: 'Continue exam' }).click()
   await expect(stopDialog).toHaveCount(0)
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()

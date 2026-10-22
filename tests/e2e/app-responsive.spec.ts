@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -19,6 +20,7 @@ function isMobileLayout(page: Page) {
 }
 
 async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean; courseIds?: string[] } = {}) {
+  await seedExamAttemptBackend(page)
   const userId = syntheticUserId
   const courseIds = options.courseIds ?? [aLevelCourseId, asCourseId]
   await page.addInitScript(({ key, id }) => {
