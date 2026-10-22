@@ -12,7 +12,7 @@ const marks = z.object({
 const result = z.object({
   recorded: z.boolean(), totalAwarded: z.number().min(0),
   totalAvailable: z.number().min(0), durationMinutes: z.number().min(0),
-  timed: z.literal(true),
+  timed: z.boolean(),
   ao: z.object({
     ao1: z.object({ awarded: z.number().min(0), available: z.number().min(0) }),
     ao2: z.object({ awarded: z.number().min(0), available: z.number().min(0) }),
