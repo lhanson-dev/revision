@@ -291,17 +291,25 @@ export async function checkFoundationLearnerProjection(input: {
     })
   }
 
+  // Every governed in-scope requirement must retain a concrete Learn,
+  // Practice and representative Exam Prep locator. A Learn page is coverage
+  // only, never proof of mastery; scored evidence is handled by learner runtime.
+  // This is intentionally conservative until a separately governed per-mode
+  // Learning Blueprint requirement contract is available.
+  const kinds = ['learn_page', 'practice_question', 'exam_question'] as const
   const expectedEvidence = new Set<string>()
   for (const req of coverage.requirements) {
     for (const component of mapping.components) {
       if (req.componentScope.includes(component.componentId)) {
-        expectedEvidence.add(req.requirementId + ':' + component.packId)
+        for (const kind of kinds) {
+          expectedEvidence.add(req.requirementId + ':' + component.packId + ':' + kind)
+        }
       }
     }
   }
   const seenEvidence = new Set<string>()
   for (const binding of mapping.evidence) {
-    const key = binding.requirementId + ':' + binding.packId
+    const key = binding.requirementId + ':' + binding.packId + ':' + binding.kind
     if (seenEvidence.has(key) || !expectedEvidence.has(key)
       || requirementTopics.get(binding.requirementId) !== binding.topicId) {
       hold('evidence_mapping_invalid', 'Unexpected, repeated or wrongly scoped evidence binding ' + key)
@@ -322,7 +330,7 @@ export async function checkFoundationLearnerProjection(input: {
     if (!exists) hold('evidence_asset_missing', 'Exact learner evidence locator cannot be resolved: ' + key)
   }
   for (const key of expectedEvidence) {
-    if (!seenEvidence.has(key)) hold('evidence_mapping_missing', 'No learner evidence identity for ' + key)
+    if (!seenEvidence.has(key)) hold('evidence_mapping_missing', 'No learner asset identity for ' + key)
   }
   const expected: QualificationProjectionProfile = {
     cohortId: mapping.cohortId,
