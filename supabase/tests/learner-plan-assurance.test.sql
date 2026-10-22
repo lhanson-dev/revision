@@ -157,8 +157,8 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'r2-practice-checkpoint-v1',
-  'release readiness retains FI-022 capability while advertising the current R2 Learn exposure contract'
+  'r2-exam-attempt-v1',
+  'release readiness retains FI-022 and Practice capabilities while advertising REC-10 candidate contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,

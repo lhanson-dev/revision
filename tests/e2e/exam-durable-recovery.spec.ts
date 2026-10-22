@@ -88,6 +88,11 @@ test('unfinished full mock restores confirmed answer, flag and position after re
   if (await inputs.count()) await inputs.first().check()
   else await page.locator('.exam-question-sheet textarea').fill('A complete original written response from a learner')
   await page.getByRole('button', { name: 'Flag for review' }).click()
+  await expect.poll(() => {
+    const checkpoint = [...checkpointRows.values()][0]
+    const flags = (checkpoint?.snapshot as { flagged: Record<string, boolean> } | undefined)?.flagged ?? {}
+    return Object.values(flags).some(Boolean)
+  }).toBe(true)
   await expect(page.getByText('Work saved')).toBeVisible()
   const saved = [...checkpointRows.values()][0]
   const firstSnapshot = saved.snapshot as { answers: Record<string, string>; flagged: Record<string, boolean> }
@@ -110,10 +115,11 @@ test('leaving through Save and return only navigates once the draft is confirmed
   await expect(page.getByRole('button', { name: 'Reopen saved exam' })).toBeVisible()
   await expect(page.locator('.exam-session-page')).toHaveCount(0)
   await page.getByRole('button', { name: 'Reopen saved exam' }).click()
-  await expect(page.getByText('Work saved')).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Exam paused' })).toBeVisible()
   const snapshot = [...checkpointRows.values()][0].snapshot as { timing: { runningSince: string | null } }
   expect(snapshot.timing.runningSince).toBeNull()
-  await expect(page.getByRole('dialog', { name: 'Exam paused' })).toBeVisible()
+  await page.getByRole('dialog', { name: 'Exam paused' }).getByRole('button', { name: /Continue exam/ }).click()
+  await expect(page.getByText('Work saved')).toBeVisible()
 })
 
 test('ambiguous checkpoint acknowledgement does not produce a second attempt or scored evidence', async ({ page }) => {
@@ -122,6 +128,11 @@ test('ambiguous checkpoint acknowledgement does not produce a second attempt or 
   await expect(page.getByText('Work saved')).toBeVisible()
   loseUpdateAck = true
   await page.getByRole('button', { name: 'Flag for review' }).click()
+  await expect.poll(() => {
+    const checkpoint = [...checkpointRows.values()][0]
+    const flags = (checkpoint?.snapshot as { flagged: Record<string, boolean> } | undefined)?.flagged ?? {}
+    return Object.values(flags).some(Boolean)
+  }).toBe(true)
   await expect(page.getByText('Work saved')).toBeVisible()
   expect(checkpointRows.size).toBe(1)
   expect(evidenceInsertCount).toBe(0)
