@@ -171,8 +171,19 @@ export function FocusedLearningWorkspace({
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const isPractice = section === 'practice'
+  // This browser-only hint contains a topic ID, not learner answers or progress.
+  // Always verify the actual checkpoint against the authenticated backend on resume.
+  const checkpointTopicHintKey = checkpointContext && isPractice
+    ? ['revision:practice-resume-topic:v1', checkpointContext.userId, checkpointContext.courseId, adapter.manifest.id].join(':')
+    : null
   const [topicId, setTopicId] = useState(() => {
     if (isPractice && preferredTopicId && adapter.getTopic(preferredTopicId)) return preferredTopicId
+    if (checkpointTopicHintKey) {
+      try {
+        const previousTopic = window.localStorage.getItem(checkpointTopicHintKey)
+        if (previousTopic && adapter.getTopic(previousTopic)) return previousTopic
+      } catch { /* Storage restrictions must not prevent a normal Practice launch. */ }
+    }
     if (isPractice && recommendation && adapter.getTopic(recommendation.topicId)) return recommendation.topicId
     return topics[0]?.id ?? ''
   })
@@ -188,9 +199,8 @@ export function FocusedLearningWorkspace({
     // Start becomes unavailable while its checkpoint is open. Restore focus to
     // Carry on (the accessible continuation), never a disabled button.
     const preferred = buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)
-    const target = preferred?.disabled
-      ? buttons.find((button) => button.textContent?.trim() === 'Carry on')
-      : preferred
+    const target = preferred && !preferred.disabled ? preferred
+      : buttons.find((button) => button.textContent?.trim() === 'Carry on')
     target?.focus()
     activityLaunchLabel.current = null
   }, [openActivity])
@@ -414,6 +424,9 @@ export function FocusedLearningWorkspace({
       else await discardPracticeCheckpoint(checkpointStore, key)
       setCheckpoint(null)
       setSession(null)
+      if (checkpointTopicHintKey) {
+        try { window.localStorage.removeItem(checkpointTopicHintKey) } catch { /* discard remains verified */ }
+      }
       restoreFeedback(startQuestionSession([], 0))
       setCheckpointIssue('')
       setCheckpointPhase('ready')
@@ -503,6 +516,11 @@ export function FocusedLearningWorkspace({
           schemaVersion: 1, session: next, pending: null,
         })
         setCheckpoint(saved)
+        // The recommendation engine may change topics as soon as evidence is
+        // recorded. Return to this exact unfinished session after page reload.
+        if (checkpointTopicHintKey) {
+          try { window.localStorage.setItem(checkpointTopicHintKey, topicId) } catch { /* checkpoint remains in Supabase */ }
+        }
       } catch (error) {
         setCheckpointIssue(error instanceof Error ? error.message : 'Could not save your Practice session.')
         setCheckpointPhase('blocked')
@@ -538,6 +556,9 @@ export function FocusedLearningWorkspace({
       try {
         await removePracticeCheckpoint(checkpointStore, checkpoint)
         setCheckpoint(null)
+        if (checkpointTopicHintKey) {
+          try { window.localStorage.removeItem(checkpointTopicHintKey) } catch { /* backend deletion is authoritative */ }
+        }
       } catch (error) {
         setCheckpointIssue(error instanceof Error ? error.message : 'Could not confirm that this session finished.')
         return
