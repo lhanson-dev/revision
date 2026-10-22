@@ -5,6 +5,7 @@ const checkpointRows = new Map<string, Row>()
 const evidenceRows = new Map<string, Row>()
 let loseUpdateAck = false
 let evidenceInsertCount = 0
+let failSecondEvidenceWrite = false
 const path = 'http://127.0.0.1:4174/revision/exam-recovery-fixtures.html'
 const fields = ['user_id', 'course_id', 'module_id', 'exam_id']
 const filter = (url: URL, field: string) => (url.searchParams.get(field) ?? '').replace(/^eq\./, '')
@@ -19,6 +20,7 @@ async function seedDatabase(page: Page) {
   evidenceRows.clear()
   loseUpdateAck = false
   evidenceInsertCount = 0
+  failSecondEvidenceWrite = false
   await page.route('**/rest/v1/learner_exam_attempts**', async (route: Route) => {
     const req = route.request()
     const url = new URL(req.url())
@@ -61,6 +63,10 @@ async function seedDatabase(page: Page) {
       evidenceInsertCount++
       const row = req.postDataJSON() as Row
       const id = String(row.evidence_id)
+      if (failSecondEvidenceWrite && evidenceRows.size === 1 && !evidenceRows.has(id)) {
+        failSecondEvidenceWrite = false
+        return respond(route, 503, { code: 'PGRST000', message: 'Interrupted evidence save' })
+      }
       if (evidenceRows.has(id)) return respond(route, 409, { code: '23505', message: 'Duplicate' })
       evidenceRows.set(id, row)
       return respond(route, 201, [])
@@ -119,4 +125,32 @@ test('ambiguous checkpoint acknowledgement does not produce a second attempt or 
   await expect(page.getByText('Work saved')).toBeVisible()
   expect(checkpointRows.size).toBe(1)
   expect(evidenceInsertCount).toBe(0)
+})
+
+test('refresh during partially committed exam submission replays frozen identical evidence and records the result once', async ({ page }) => {
+  await seedDatabase(page)
+  await page.goto(path)
+  await expect(page.getByText('Work saved')).toBeVisible()
+  const choices = page.locator('.exam-question-sheet .exam-mcq input[type="radio"]')
+  if (await choices.count()) await choices.first().check()
+  else await page.locator('.exam-question-sheet textarea').fill('A reasoned original Business answer')
+  await expect(page.getByText('Work saved')).toBeVisible()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await expect(page.getByText('Self-mark your paper')).toBeVisible()
+  failSecondEvidenceWrite = true
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.getByText(/could not confirm your exam result was saved/i)).toBeVisible()
+  expect(evidenceRows.size).toBe(1)
+  const savedBatch = (([...checkpointRows.values()][0].snapshot as { frozenSubmission: { evidence: Array<{ id: string }> } }).frozenSubmission)
+  expect(savedBatch.evidence).toHaveLength(2)
+  const exactIds = savedBatch.evidence.map(item => item.id)
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Retry saving exam result' })).toBeVisible()
+  await page.getByRole('button', { name: 'Retry saving exam result' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toBeVisible()
+  expect(evidenceRows.size).toBe(2)
+  expect([...evidenceRows.keys()].sort()).toEqual(exactIds.sort())
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toBeVisible()
+  expect(evidenceRows.size).toBe(2)
 })

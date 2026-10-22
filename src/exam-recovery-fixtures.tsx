@@ -12,7 +12,7 @@ import './app/interface-exam-experience.css'
 import './app/exam.css'
 import './app/exam-v2.css'
 import './app/interactive-component-quality.css'
-import { ExamSimulator } from './app/ExamSimulator'
+import { ExamSimulator, type ExamRuntime } from './app/ExamSimulator'
 import { listRetainedAqa7132MockExams } from './app/retained-aqa-business-mock'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from './services/progress/learning-evidence-service'
 
@@ -25,7 +25,20 @@ const client = createClient('https://revision-recovery-fixture.invalid', 'synthe
   auth: { persistSession: false, autoRefreshToken: false },
 })
 const evidenceStore = createSupabaseEvidenceStore(client)
-const exam = listRetainedAqa7132MockExams()[0]
+// A representative two-question slice of retained AQA 7132 authored content.
+ // The actual production catalogue/paper option checks remain covered separately.
+const original = listRetainedAqa7132MockExams()[0]
+const objective = original.questions.find(question => Boolean(question.correctOptionLabel))
+const written = original.questions.find(question => !question.correctOptionLabel && question.id !== objective?.id)
+const sample = [objective ?? original.questions[0], written ?? original.questions[1]]
+const questions = sample.map(question => ({
+  ...question, choiceGroup: undefined, choiceOption: undefined, choiceKind: undefined,
+}))
+const exam: ExamRuntime = {
+  ...original, id: original.id + '-rec10-fixture', questions,
+  totalMarks: questions.reduce((total, question) => total + question.marks, 0),
+  printedMarks: undefined,
+}
 const checkpointContext = { client, userId, courseId, retentionDays: 14, timerPolicy: 'wall-clock' as const }
 const moduleId = 'business-aqa-a-level-paper-1'
 
