@@ -75,7 +75,10 @@ test('two right answers in a row step the level up and say so; the answer is che
   expect(saved).toHaveLength(0)
 
   await page.reload()
-  await startQuestions(page)
+  // A reload restores the in-progress session; starting afresh would discard
+  // the original question and erase the adaptive retry-queue continuity.
+  await expect(page.getByText('You have a session open.')).toBeVisible()
+  await page.getByRole('button', { name: 'Carry on' }).click()
   await answerKnown(page, true)
   await expect(page.locator('.ui-feedback-bar--correct').getByText('Nice, that’s the one.')).toBeVisible()
   await page.getByRole('button', { name: 'Next question' }).click()
