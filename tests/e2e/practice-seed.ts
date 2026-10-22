@@ -176,6 +176,9 @@ export async function finishQuestionSession(page: Page, plan: QuestionSessionPla
       await answerWith(page, step.right ? known : (known + 1) % count, step.sure)
     }
     await page.getByRole('button', { name: /^(Next question|See how you did)/ }).click()
+    // The new versioned checkpoint must be acknowledged before the question
+    // changes or the summary appears. Do not race the old question after click.
+    await expect(page.getByRole('button', { name: /^(Next question|See how you did)/ })).toHaveCount(0)
   }
   await expect(done).toBeVisible()
 }
