@@ -474,9 +474,39 @@ export function FocusedLearningWorkspace({
   }
 
   /** Starts a fresh scored session: the chosen length (capped at what the topic has) and a clean retry queue. */
-  function startQuestions() {
-    if (startCount === 0) return
-    setSession(startQuestionSession(typedPool, startCount))
+  async function startQuestions() {
+    if (startCount === 0 || checkpointPhase !== 'ready' || checkpointLock.current) return
+    if (checkpointContext && checkpoint) {
+      setCheckpointIssue('You have an unfinished Practice session. Carry on or discard it before starting another.')
+      return
+    }
+    if (checkpointContext && typedPool.some(item => item.type === 'written')) {
+      setCheckpointIssue('Written-answer recovery is not supported yet. Choose objective questions instead.')
+      return
+    }
+    const next = startQuestionSession(typedPool, startCount)
+    if (checkpointContext && checkpointStore) {
+      const key = checkpointKey()
+      if (!key) return
+      checkpointLock.current = true
+      setCheckpointBusy(true)
+      try {
+        const hash = await fingerprintPracticeContent(fullPool)
+        const saved = await createPracticeCheckpoint(checkpointStore, key, hash, crypto.randomUUID(), {
+          schemaVersion: 1, session: next, pending: null,
+        })
+        setCheckpoint(saved)
+      } catch (error) {
+        setCheckpointIssue(error instanceof Error ? error.message : 'Could not save your Practice session.')
+        setCheckpointPhase('blocked')
+        return
+      } finally {
+        checkpointLock.current = false
+        setCheckpointBusy(false)
+      }
+    }
+    setSession(next)
+    setCheckpointIssue('')
     setSummary(null)
     setNextDismissed(false)
     setSessionStartStatus(progress?.status)
@@ -489,12 +519,26 @@ export function FocusedLearningWorkspace({
 
   /** Returning to setup never discards saved evidence or the resumable session. */
   function closeActivity() {
-    setOpenActivity(null)
+    if (!checkpointLock.current) setOpenActivity(null)
   }
 
   /** "See how you did": the focused activity ends on an in-page summary. */
-  function showSummary() {
-    if (!session) return
+  async function showSummary() {
+    if (!session || checkpointLock.current) return
+    if (checkpoint && checkpointStore) {
+      checkpointLock.current = true
+      setCheckpointBusy(true)
+      try {
+        await removePracticeCheckpoint(checkpointStore, checkpoint)
+        setCheckpoint(null)
+      } catch (error) {
+        setCheckpointIssue(error instanceof Error ? error.message : 'Could not confirm that this session finished.')
+        return
+      } finally {
+        checkpointLock.current = false
+        setCheckpointBusy(false)
+      }
+    }
     setSummary({ session, startStatus: sessionStartStatus })
     setNextDismissed(false)
     activityLaunchLabel.current = null
@@ -506,9 +550,11 @@ export function FocusedLearningWorkspace({
   }
 
   /** The action after an answer: the next question, or the summary after the last. */
-  function goNext() {
-    if (upcoming && isSessionFinished(upcoming)) showSummary()
-    else nextQuestion()
+  async function goNext() {
+    if (!session || checkpointLock.current) return
+    const next = advanceQuestionSession(session, fullPool)
+    if (isSessionFinished(next)) await showSummary()
+    else await nextQuestion(next)
   }
 
   function practiseAgain() {
@@ -715,9 +761,23 @@ export function FocusedLearningWorkspace({
     setExamRecorded(true)
   }
 
-  function nextQuestion() {
-    if (!session) return
-    setSession(advanceQuestionSession(session, fullPool))
+  async function nextQuestion(next: QuestionSession) {
+    if (!session || checkpointLock.current) return
+    if (checkpoint && checkpointStore) {
+      checkpointLock.current = true
+      setCheckpointBusy(true)
+      try {
+        const updated = await updatePracticeCheckpoint(checkpointStore, checkpoint, { schemaVersion: 1, session: next, pending: null })
+        setCheckpoint(updated)
+      } catch (error) {
+        setCheckpointIssue(error instanceof Error ? error.message : 'Could not save the next question. Retry.')
+        return
+      } finally {
+        checkpointLock.current = false
+        setCheckpointBusy(false)
+      }
+    }
+    setSession(next)
     setSelectedOption(null)
     setChecked(null)
     resetWritten()
