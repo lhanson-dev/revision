@@ -157,6 +157,8 @@ For FI-022, production `learner-plan-operations` version 1 was deployed ACTIVE o
 
 A protected function may use privileged service-role capability only after its own server-side authorization boundary has re-established the caller's permission. UI hiding is never authorization.
 
+**Recovery R2 durable Practice candidate (not applied; 22 October 2026):** A new additive learner-owned checkpoint table and updated readiness function are proposed in `supabase/migrations/20261021221200_add_learner_practice_checkpoints.sql` and `20261021221400_add_r2_practice_checkpoint_readiness.sql`. Once independently validated and applied, readiness advances from `r2-learn-exposure-v1` to `r2-practice-checkpoint-v1` and checks RLS plus authenticated owner grants, absent anon and standing service-role SELECT. The candidate application cannot be merged until backend-ahead deployment, readback and full exact-head CI prove the new contract. This is a forward-looking gate, not a claim of production migration. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md`.
+
 ## Backend-ahead release windows
 
 Revision intentionally enables additive backend capability before merging the frontend/repository release that requires it. This allows the candidate deployment to fail closed if production has not been prepared.
