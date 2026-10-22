@@ -167,13 +167,13 @@ export async function checkFoundationLearnerProjection(input: {
     || await fingerprintFoundationArtifact(register.sources.map(sourceRightsMaterial)) !== register.fingerprint) {
     hold('source_rights_fingerprint', 'Source rights artifact differs from assured Foundation')
   }
-  const { fingerprint: _alignmentFingerprint, ...alignmentBody } = alignment
+  const alignmentBody = Object.fromEntries(Object.entries(alignment).filter(([key]) => key !== 'fingerprint'))
   if (alignment.fingerprint !== candidate.boardAlignment.fingerprint
     || await fingerprintFoundationArtifact(alignmentBody) !== alignment.fingerprint
     || !sameSet(alignment.components.map((component) => component.id), exam.components.map((component) => component.componentId))) {
     hold('board_alignment_mismatch', 'Board Alignment differs from approved components/Exam Truth')
   }
-  const { fingerprint: _knowledgeFingerprint, ...knowledgeBody } = knowledge
+  const knowledgeBody = Object.fromEntries(Object.entries(knowledge).filter(([key]) => key !== 'fingerprint'))
   if (knowledge.fingerprint !== candidate.courseKnowledgeModel.fingerprint
     || await fingerprintFoundationArtifact(knowledgeBody) !== knowledge.fingerprint
     || !sameSet(knowledge.nodes.map((node) => node.id), coverage.requirements.flatMap((req) => req.knowledgeNodeIds).filter((id, i, all) => all.indexOf(id) === i))) {
