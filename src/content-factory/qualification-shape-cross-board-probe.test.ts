@@ -62,12 +62,12 @@ function originalQuestion(id: string, topicId: string, marks: number, ao2 = 0) {
   }
 }
 
-function syntheticExam(marks: number, topicId: string, options: { ao2?: number } = {}) {
+function syntheticExam(marks: number, topicId: string, options: { ao2?: number } = {}, durationMinutes = 120) {
   return {
     id: 'fictional-paper',
     title: 'Non-publishing scenario',
     subtitle: 'Synthetic structural test',
-    durationMinutes: 120,
+    durationMinutes,
     totalMarks: marks,
     caseHtml: '<p>Original unrelated fictional introduction.</p>',
     questions: [originalQuestion('fictional-question', topicId, marks, options.ao2 ?? 0)],
@@ -84,7 +84,7 @@ function syntheticPack(courseManifest: ReturnType<typeof manifest>, paperTopicId
     questions: [],
     caseStudies: [],
     dataDrills: [],
-    exams: [syntheticExam(courseManifest.paper.totalMarks, paperTopicId)],
+    exams: [syntheticExam(courseManifest.paper.totalMarks, paperTopicId, {}, courseManifest.paper.durationMinutes)],
   }
 }
 
