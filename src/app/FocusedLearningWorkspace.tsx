@@ -1060,7 +1060,12 @@ export function FocusedLearningWorkspace({
           <div className="practice-recovery-state" role="alert">
             <p>{checkpointIssue}</p>
             <Button variant="secondary" disabled={checkpointBusy} onClick={() => { void reloadCheckpoint() }}>Retry loading saved work</Button>
-            {checkpointPhase === 'blocked' && <Button variant="destructive" disabled={checkpointBusy} onClick={() => { void discardCheckpoint() }}>Discard unfinished session</Button>}
+            {checkpointPhase === 'blocked' && /content changed|checkpoint expired/.test(checkpointIssue) && <Button variant="destructive" disabled={checkpointBusy} onClick={() => { void discardCheckpoint() }}>Discard expired session</Button>}
+          </div>
+        )}
+        {checkpoint && !checkpoint.snapshot.pending && checkpointPhase === 'ready' && !openActivity && (
+          <div className="practice-recovery-state">
+            <Button variant="secondary" disabled={checkpointBusy} onClick={() => { void discardCheckpoint() }}>Discard saved session and start again</Button>
           </div>
         )}
         {checkpoint?.snapshot.pending && checkpointPhase === 'ready' && (
