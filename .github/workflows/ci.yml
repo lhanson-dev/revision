@@ -243,11 +243,12 @@ jobs:
             --header 'Content-Type: application/json' \
             --data '{}' \
             "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
-          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-practice-checkpoint-v1'
+          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-exam-attempt-v1'
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.practiceCheckpoints // false' <<<"$response")" = 'true'
+          test "$(jq -r '.checks.examAttempts // false' <<<"$response")" = 'true'
       - name: Run pgTAP database and RLS assurance
         run: |
           supabase test db supabase/tests/database-assurance.test.sql
