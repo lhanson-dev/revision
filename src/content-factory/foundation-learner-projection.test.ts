@@ -271,8 +271,9 @@ describe('Stage 4 independent Foundation to planned learner-pack proof (fictiona
     held(await run((f) => { f.candidates[0]!.pack.manifest.status = 'available' }), 'not_candidate')
   })
   it('holds stale source challenge or review context, not just a passing label', async () => {
+    // Existing candidate schema rejects mismatched reviewed commit first.
     held(await run((f) => { f.job.candidate!.externalSourceChallenge!.reviewedCommit = 'b'.repeat(40) }),
-      'foundation_challenge_provenance')
+      'invalid_input')
     held(await run((f) => { f.job.candidate!.externalSourceChallenge!.challengedSourceIds = ['wrong-source'] }),
       'foundation_challenge_provenance')
     held(await run((f) => { f.job.candidate!.provenance.assuranceContextIds = ['fictional-generation'] }),
