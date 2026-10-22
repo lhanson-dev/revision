@@ -31,7 +31,7 @@ async function installRecoveryDatabase(page: Page) {
         return
       }
       checkpointRows.set(key, row)
-      await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify([row]) })
+      await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify(row) })
       return
     }
     if (method === 'PATCH') {
@@ -50,7 +50,7 @@ async function installRecoveryDatabase(page: Page) {
       }
       const updated = { ...current, ...patch }
       checkpointRows.set(key, updated)
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([updated]) })
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(updated) })
       return
     }
     if (method === 'DELETE') {
