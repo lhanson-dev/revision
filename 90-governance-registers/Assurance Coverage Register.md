@@ -61,6 +61,15 @@ This update changes the candidate-level assurance mapping; historical matrix ent
 - **PTL-03 Practice backend-ahead release — Prepared, not released.** Production migration ledger versions `20261022131141` and `20261022131156` match the reconciled repository paths. Production `r2-practice-checkpoint-v1` reports `ready: true`, with owner RLS active, four policies and no anonymous/service-role SELECT. Existing production CI/runtime still corresponds to the approved prior PR #656. Final exact-head CI, Founder approval, merge, GitHub Pages deployment, live smoke and path-to-live result are not implied by backend readback.
 - **Deliberately uncovered follow-ups:** restart/re-entry of timed exam attempts, preserving raw written drafts and REV challenges, Flashcard/warm-up state, multi-device session takeover, real-student educational acceptance of the adaptive planner. None may be represented as automatically covered by R2 Practice tests.
 
+## REC-10 full-exam interruption recovery — 22 October 2026 (draft PR #658)
+
+**Status: Partial / candidate engineering only; NOT production-covered and NOT approved for learner use.** The current ExamSimulator still cannot durably resume a full exam in production. PR #658 adds a draft-only, versioned and bounded attempt table, owner-only RLS, complete authored-content fingerprint, optimistic revision updates, raw-answer snapshot schema, frozen evidence submission and recovery UI when explicitly configured. The current course runtime deliberately does not enable that configuration pending raw-answer retention/deletion and timer policy decisions.
+
+- **Required assurance:** isolated SQL migration/pgTAP for learner/other-learner/anonymous/privileged access, CAS and illegal lifecycle edits; TypeScript/unit tests for content change, schema limits, stale tab, ambiguous reply, written answer, frozen evidence and timer; Playwright full mock refresh/re-entry, finalisation interruption and responsive accessibility; exact-head full applicable CI.
+- **Evidence so far:** source files and candidate tests authored; an earlier candidate failed CI TypeScript and migration syntax, now corrected for rerun. No successful exact-head CI, isolated migration completion, production schema migration, authenticated real-browser acceptance or student educational validation is asserted.
+- **Policy gates:** no approved raw written response retention period, deletion schedule or interruption timer rule. Do not activate live course runtime, deploy schema or request merge approval before resolution.
+- **Coordination:** #651/#652 address planner accuracy and UI, so are not incorporated into this REC-10 release.
+
 ## FI-021 assurance interpretation
 
 PR #163 added Level-3 assurance for the full GJ-01 first-use boundary: Student selection, Parent/Teacher unavailable semantics, canonical first-course persistence, starting-check completion and skip fallback, exact recommendation-to-work routing, ordinary learning-evidence creation, feedback/Home transition, bounded telemetry, responsive Light/Dark behaviour, post-migration account distinction and owner-scoped RLS for first-use state/events.
