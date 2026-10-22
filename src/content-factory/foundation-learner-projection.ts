@@ -249,7 +249,25 @@ export async function checkFoundationLearnerProjection(input: {
       hold('source_rights_hold', 'Uncleared Board/Exam source ' + sourceId)
     }
   }
+  const knowledgeById = new Map(knowledge.nodes.map((node) => [node.id, node]))
+  const alignmentIds = new Set([
+    ...alignment.components.map((component) => component.id),
+    ...alignment.assessmentObjectives.map((objective) => objective.id),
+    ...alignment.assessmentRequirements.map((requirement) => requirement.id),
+  ])
   for (const requirement of coverage.requirements) {
+    for (const nodeId of requirement.knowledgeNodeIds) {
+      const node = knowledgeById.get(nodeId)
+      if (!node) {
+        hold('course_truth_node_missing', 'Unresolved governed Course Truth node: ' + nodeId)
+        continue
+      }
+      if (!node.sourceRefs.some((sourceId) => requirement.sourceRefs.includes(sourceId))
+        || !node.boardAlignmentRefs.length
+        || node.boardAlignmentRefs.some((ref) => !alignmentIds.has(ref))) {
+        hold('course_truth_provenance', 'Knowledge node lost governed source/alignment lineage: ' + nodeId)
+      }
+    }
     for (const sourceId of requirement.sourceRefs) {
       const source = sourceById.get(sourceId)
       if (!source || !['OPEN', 'LICENSED', 'REVISION_OWNED'].includes(source.useClass)
@@ -259,9 +277,22 @@ export async function checkFoundationLearnerProjection(input: {
     }
   }
 
+  for (const node of knowledge.nodes) {
+    for (const sourceId of node.sourceRefs) {
+      const source = sourceById.get(sourceId)
+      if (!source || !['OPEN', 'LICENSED', 'REVISION_OWNED'].includes(source.useClass)
+        || !source.derivedCommercialUsePermitted) {
+        hold('source_rights_hold', 'Uncleared Course Knowledge source: ' + sourceId)
+      }
+    }
+  }
+
   // Unprojectable Exam Truth obligations cannot disappear behind otherwise
   // correct component marks, timings, topic IDs and qualification weights.
-  if (exam.assessmentRequirements.length || exam.assessmentObjectives.length
+  if (alignment.assessmentObjectives.length || alignment.assessmentRequirements.length
+    || exam.components.some((component) => component.constraints.length
+      || component.questionFamilyIds.length)
+    || exam.assessmentRequirements.length || exam.assessmentObjectives.length
     || exam.commandDemands.length || exam.evidenceExpectations.length
     || exam.quantitativeRequirements.length || exam.synopticRequirements.length
     || exam.quantitativeCoveragePlan || exam.assessmentObjectiveCoveragePlan) {
