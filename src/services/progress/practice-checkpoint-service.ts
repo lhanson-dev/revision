@@ -39,7 +39,7 @@ const checkpointSchema = z.object({
   schemaVersion: z.literal(1),
   session: sessionSchema,
   pending: z.object({
-    evidence: z.union([learningEvidenceSchema]).refine(fact => fact.source === 'multiple_choice' || fact.source === 'calculation', 'Only scored objective questions may be checkpointed.'),
+    evidence: learningEvidenceSchema.refine(fact => fact.source === 'multiple_choice' || fact.source === 'calculation', 'Only scored objective questions may be checkpointed.'),
     nextSession: sessionSchema,
   }).nullable(),
 })
