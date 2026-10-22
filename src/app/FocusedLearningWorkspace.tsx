@@ -185,7 +185,13 @@ export function FocusedLearningWorkspace({
     // Setup is remounted when leaving the focused activity. The old DOM button
     // is detached, so restore focus to the corresponding new launch control.
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.practice-start button'))
-    buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)?.focus()
+    // Start becomes unavailable while its checkpoint is open. Restore focus to
+    // Carry on (the accessible continuation), never a disabled button.
+    const preferred = buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)
+    const target = preferred?.disabled
+      ? buttons.find((button) => button.textContent?.trim() === 'Carry on')
+      : preferred
+    target?.focus()
     activityLaunchLabel.current = null
   }, [openActivity])
   const [length, setLength] = useState<PracticeLength>(PRACTICE_LENGTHS[0])
