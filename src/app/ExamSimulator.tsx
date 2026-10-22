@@ -649,7 +649,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       setSubmitted(true)
       setCheckpointSaveStatus('saved')
     } catch {
-      setSubmissionError('We could not confirm your exam result was saved. Your last confirmed work is protected. Retry saving without changing answers or marks.')
+      setSubmissionError(checkpointContext
+        ? 'We could not confirm your exam result was saved. Your last confirmed work is protected. Retry saving without changing answers or marks.'
+        : 'We could not confirm your whole exam was saved. Your answers and marks are still here. Retry saving without changing them.')
     } finally {
       saveAttemptInFlight.current = false
       setAttemptSaving(false)
@@ -948,7 +950,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .ui-button--primary">
             <p className="eyebrow">Stop exam?</p>
             <h2 id="stop-exam-title">Are you sure?</h2>
-            <p>Stopping will discard this unfinished attempt. Previously recorded examination results are not deleted.</p>
+            <p>{checkpointContext
+              ? 'Stopping will discard this unfinished attempt. Previously recorded examination results are not deleted.'
+              : 'Stopping will end this attempt and discard the answers from this unsaved exam.'}</p>
             <div className="exam-confirm-actions">
               <Button variant="destructive" type="button" onClick={() => stopExam()}>Yes, stop exam</Button>
               <Button type="button" onClick={resumeExam}>Continue exam</Button>

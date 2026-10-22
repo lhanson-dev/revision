@@ -31,8 +31,9 @@ const original = listRetainedAqa7132MockExams()[0]
 const objective = original.questions.find(question => Boolean(question.correctOptionLabel))
 const written = original.questions.find(question => !question.correctOptionLabel && question.id !== objective?.id)
 const sample = [objective ?? original.questions[0], written ?? original.questions[1]]
-const questions = sample.map(question => ({
-  ...question, choiceGroup: undefined, choiceOption: undefined, choiceKind: undefined,
+const questions = sample.map((question, index) => ({
+  ...question, id: `${question.id}-rec10-fixture-${index + 1}`,
+  choiceGroup: undefined, choiceOption: undefined, choiceKind: undefined,
 }))
 const exam: ExamRuntime = {
   ...original, id: original.id + '-rec10-fixture', questions,
