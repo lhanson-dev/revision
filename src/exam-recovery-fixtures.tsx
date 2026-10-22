@@ -40,7 +40,7 @@ const exam: ExamRuntime = {
   totalMarks: questions.reduce((total, question) => total + question.marks, 0),
   printedMarks: undefined,
 }
-const checkpointContext = { client, userId, courseId, retentionDays: 14, timerPolicy: 'wall-clock' as const }
+const checkpointContext = { client, userId, courseId, retentionDays: 14, timerPolicy: 'pause-on-interruption' as const }
 const moduleId = 'business-aqa-a-level-paper-1'
 
 function Fixture() {

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
   commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs,
-  examPauseTiming, examResumeTiming, initialExamSnapshot, loadExamAttempt, updateExamAttempt,
+  examPauseTiming, examResumeTiming, examHeartbeatTiming, examInterruptTiming,
+  finaliseExamSnapshot, initialExamSnapshot, loadExamAttempt, updateExamAttempt,
   fingerprintExamContent, type ExamAttemptKey, type ExamAttemptRow, type ExamAttemptStore,
 } from './exam-attempt-service'
 import { listRetainedAqa7132MockExams } from '../../app/retained-aqa-business-mock'
@@ -123,7 +124,8 @@ describe('REC-10 draft persistence contract', () => {
     await expect(updateExamAttempt(memory.store, submitting, {
       ...submitting.snapshot, frozenSubmission: { ...batch, evidence: [] },
     })).rejects.toThrow('cannot be changed')
-    const completed = await updateExamAttempt(memory.store, submitting, { ...submitting.snapshot, phase: 'submitted' })
+    const completed = await updateExamAttempt(memory.store, submitting, finaliseExamSnapshot(submitting.snapshot))
+    expect(completed.snapshot.answers).toEqual({})
     expect(completed.snapshot.frozenSubmission).toEqual(batch)
     await expect(updateExamAttempt(memory.store, completed, completed.snapshot)).rejects.toThrow('already been submitted')
     await expect(discardExamAttempt(memory.store, key)).rejects.toThrow('cannot be discarded')
@@ -136,13 +138,23 @@ describe('REC-10 draft persistence contract', () => {
     expect(await loadExamAttempt(memory.store, key, hash)).toBeNull()
   })
 
-  it('measures persisted wall time accurately across sleep, refresh and explicit pause', () => {
+  it('credits only confirmed activity and stops after a browser sleep or refresh', () => {
     const start = Date.parse('2026-10-22T10:00:00Z')
     const timing = initialExamSnapshot(start).timing
-    expect(examElapsedMs(timing, start + 30_000)).toBe(30_000)
-    const paused = examPauseTiming(timing, start + 90_000)
-    expect(examElapsedMs(paused, start + 48 * 3600_000)).toBe(90_000)
-    expect(examElapsedMs(examResumeTiming(paused, start + 48 * 3600_000), start + 48 * 3600_000 + 15_000)).toBe(105_000)
+    expect(examElapsedMs(timing, start + 90_000)).toBe(15_000)
+    const confirmed = examHeartbeatTiming(timing, start + 5_000)
+    expect(confirmed.elapsedMs).toBe(5_000)
+    const slept = examHeartbeatTiming(confirmed, start + 120_000)
+    expect(slept.runningSince).toBeNull()
+    expect(slept.interrupted).toBe(true)
+    expect(slept.elapsedMs).toBe(5_000)
+    const reopened = examInterruptTiming(confirmed)
+    expect(reopened.elapsedMs).toBe(5_000)
+    expect(reopened.interrupted).toBe(true)
+    const resumed = examResumeTiming(reopened, start + 200_000)
+    const paused = examPauseTiming(resumed, start + 205_000)
+    expect(paused.elapsedMs).toBe(10_000)
+    expect(examElapsedMs(paused, start + 48 * 3600_000)).toBe(10_000)
   })
 
   it('detects re-authored assessment content without relying on question IDs alone', async () => {

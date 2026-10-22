@@ -237,7 +237,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const latestExamDraft = useRef({ answers, marks, selectedChoices, flagged, questionIndex })
   latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
   const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
-    checkpointContext && autoStart === 'timed' ? 'loading' : 'ready',
+    checkpointContext && autoStart !== 'untimed' ? 'loading' : 'ready',
   )
   const [recoveryIssue, setRecoveryIssue] = useState('')
   const [checkpointSaveStatus, setCheckpointSaveStatus] = useState<'saved' | 'saving' | 'error'>('saving')
@@ -246,7 +246,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   // Only an explicitly configured and authorised recovery context can persist written answers.
   // The current learner runtime does not supply this context until privacy/timer governance is approved.
   useEffect(() => {
-    if (!checkpointContext || !attemptStore || autoStart !== 'timed') return
+    if (!checkpointContext || !attemptStore || autoStart === 'untimed') return
     let cancelled = false
     const init = async () => {
       setRecoveryPhase('loading')
@@ -260,6 +260,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         }
         const fingerprint = await fingerprintExamContent(exam)
         const previous = await loadExamAttempt(attemptStore, key, fingerprint)
+        if (!previous && autoStart !== 'timed') {
+          if (!cancelled) {
+            setRecoveryPhase('ready')
+            setCheckpointSaveStatus('saved')
+          }
+          return
+        }
         let saved = previous ?? await createExamAttempt(attemptStore, key, fingerprint, crypto.randomUUID(),
           initialExamSnapshot(), new Date(Date.now() + EXAM_DRAFT_RETENTION_DAYS * 86400000).toISOString())
         // A new browser session never assumes the old clock kept running.
@@ -731,7 +738,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     await stopExam(false)
   }
 
-  if (checkpointContext && autoStart === 'timed' && recoveryPhase !== 'ready') {
+  if (checkpointContext && autoStart !== 'untimed' && recoveryPhase !== 'ready') {
     return (
       <section className="exam-simulator exam-recovery" aria-label="Saved exam recovery" role="status">
         <h2>{recoveryPhase === 'loading' ? 'Checking your saved exam' : 'Your saved exam needs attention'}</h2>
