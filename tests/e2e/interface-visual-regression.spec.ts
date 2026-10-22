@@ -501,7 +501,7 @@ async function openState(page: Page, state: VisualState) {
     // loading indicator. Existing protected visual digests remain unchanged.
     await expect(page.getByText('Checking for saved Practice work…')).toHaveCount(0)
     await expect(page.locator('.practice-recovery-state')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: /^Start \\d+ questions?$/ })).toBeEnabled()
+    await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeEnabled()
   }
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.exam-prep')).toBeVisible()
