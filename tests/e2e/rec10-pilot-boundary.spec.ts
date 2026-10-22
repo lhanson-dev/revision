@@ -87,5 +87,6 @@ test('a delayed cohort verification cannot silently convert a running transient 
   await expect(page.locator('.exam-session-page')).toBeVisible()
   // The current exam started without a durable context. Verification only
   // applies when a new exam session is launched after the trusted response.
-  expect(draftCalls).toEqual([])
+  expect(draftCalls.filter((method) => method !== 'GET')).toEqual([])
+  await expect(page.getByRole('button', { name: /Save and return to Exam Prep/ })).toHaveCount(0)
 })
