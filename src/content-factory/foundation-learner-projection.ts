@@ -35,10 +35,12 @@ export const foundationLearnerProjectionMappingSchema = z.object({
   })).min(1),
   requirementTopics: z.array(z.object({
     requirementId: id,
+    skillIndex: z.number().int().nonnegative(),
     topicId: id,
   })).min(1),
   evidence: z.array(z.object({
     requirementId: id,
+    skillIndex: z.number().int().nonnegative(),
     packId: id,
     topicId: id,
     kind: z.enum(['exam_question', 'practice_question', 'learn_page']),
@@ -228,17 +230,29 @@ export async function checkFoundationLearnerProjection(input: {
     }
   }
 
+  // Unprojectable Exam Truth obligations cannot disappear behind otherwise
+  // correct component marks, timings, topic IDs and qualification weights.
+  if (exam.assessmentRequirements.length || exam.assessmentObjectives.length
+    || exam.commandDemands.length || exam.evidenceExpectations.length
+    || exam.quantitativeRequirements.length || exam.synopticRequirements.length
+    || exam.quantitativeCoveragePlan || exam.assessmentObjectiveCoveragePlan) {
+    hold('unprojected_exam_obligations', 'Exam Truth requirements beyond component facts need independently validated learner mapping')
+  }
+
   const componentById = new Map(alignment.components.map((component) => [component.id, component]))
   const examById = new Map(exam.components.map((component) => [component.componentId, component]))
   if (!sameSet(alignment.components.map((component) => component.id),
     mapping.components.map((component) => component.componentId))) {
     hold('component_mapping_incomplete', 'Expected components not mapped one-to-one to learner packs')
   }
-  if (!sameSet(coverage.requirements.map((requirement) => requirement.requirementId),
-    mapping.requirementTopics.map((requirement) => requirement.requirementId))) {
-    hold('requirement_mapping_incomplete', 'Every independent Course Truth requirement must be mapped once')
+  const expectedSkillKeys = coverage.requirements.flatMap((requirement) =>
+    requirement.skillsOrKnowledge.map((_, skillIndex) => requirement.requirementId + ':' + skillIndex))
+  if (!sameSet(expectedSkillKeys,
+    mapping.requirementTopics.map((record) => record.requirementId + ':' + record.skillIndex))) {
+    hold('requirement_mapping_incomplete', 'Every independently established curriculum skill must be mapped exactly once')
   }
-  const requirementTopics = new Map(mapping.requirementTopics.map((record) => [record.requirementId, record.topicId]))
+  const requirementTopics = new Map(mapping.requirementTopics.map((record) =>
+    [record.requirementId + ':' + record.skillIndex, record.topicId]))
   const candidatesByPack = new Map(candidates.map((entry) => [entry.pack.manifest.id, entry.pack]))
   const componentPapers: QualificationProjectionProfile['components'][number][] = []
   for (const component of mapping.components) {
@@ -266,7 +280,8 @@ export async function checkFoundationLearnerProjection(input: {
       || req.componentScope.some((scope) => !componentById.has(scope)))) {
       hold('unresolved_paper_scope', 'Curriculum-to-component eligibility cannot be safely inferred')
     }
-    const eligibleTopics = [...new Set(scoped.map((req) => requirementTopics.get(req.requirementId)).filter(
+    const eligibleTopics = [...new Set(scoped.flatMap((req) =>
+      req.skillsOrKnowledge.map((_, index) => requirementTopics.get(req.requirementId + ':' + index))).filter(
       (topic): topic is string => Boolean(topic),
     ))]
     const pack = candidatesByPack.get(component.packId)
@@ -301,17 +316,20 @@ export async function checkFoundationLearnerProjection(input: {
   for (const req of coverage.requirements) {
     for (const component of mapping.components) {
       if (req.componentScope.includes(component.componentId)) {
-        for (const kind of kinds) {
-          expectedEvidence.add(req.requirementId + ':' + component.packId + ':' + kind)
+        for (const [skillIndex] of req.skillsOrKnowledge.entries()) {
+          for (const kind of kinds) {
+            expectedEvidence.add(req.requirementId + ':' + skillIndex + ':' + component.packId + ':' + kind)
+          }
         }
       }
     }
   }
   const seenEvidence = new Set<string>()
   for (const binding of mapping.evidence) {
-    const key = binding.requirementId + ':' + binding.packId + ':' + binding.kind
+    const skillKey = binding.requirementId + ':' + binding.skillIndex
+    const key = skillKey + ':' + binding.packId + ':' + binding.kind
     if (seenEvidence.has(key) || !expectedEvidence.has(key)
-      || requirementTopics.get(binding.requirementId) !== binding.topicId) {
+      || requirementTopics.get(skillKey) !== binding.topicId) {
       hold('evidence_mapping_invalid', 'Unexpected, repeated or wrongly scoped evidence binding ' + key)
     }
     seenEvidence.add(key)

@@ -110,7 +110,9 @@ async function makeFixture() {
     requirements: ['one', 'two'].map((label) => ({
       requirementId: 'req-' + label, officialReference: 'SYN.' + label,
       requirementSummary: 'Fictional curriculum requirement ' + label,
-      skillsOrKnowledge: ['Fictional skill ' + label], componentScope: [...ids],
+      skillsOrKnowledge: label === 'one'
+        ? ['Fictional skill one', 'Distinct fictional skill one-b']
+        : ['Fictional skill two'], componentScope: [...ids],
       revisionArea: 'Fictional subject', sourceRefs: ['fictional-source'],
       knowledgeNodeIds: ['node-' + label], coverageStatus: 'complete',
     })),
@@ -187,21 +189,22 @@ async function makeFixture() {
       componentId, paperId: componentId, packId: componentId, paperNumber: i + 1,
     })),
     requirementTopics: [
-      { requirementId: 'req-one', topicId: 'topic-one' },
-      { requirementId: 'req-two', topicId: 'topic-two' },
+      { requirementId: 'req-one', skillIndex: 0, topicId: 'topic-one' },
+      { requirementId: 'req-one', skillIndex: 1, topicId: 'topic-one' },
+      { requirementId: 'req-two', skillIndex: 0, topicId: 'topic-two' },
     ],
     evidence: ids.flatMap((packId) => ([
       ...(['one', 'two'] as const).flatMap((suffix) => {
         const requirementId = 'req-' + suffix
         const topicId = 'topic-' + suffix
-        return [
-          { requirementId, packId, topicId, kind: 'learn_page' as const,
+        return Array.from({ length: suffix === 'one' ? 2 : 1 }, (_, skillIndex) => ([
+          { requirementId, skillIndex, packId, topicId, kind: 'learn_page' as const,
             assetId: 'learn-' + suffix },
-          { requirementId, packId, topicId, kind: 'practice_question' as const,
+          { requirementId, skillIndex, packId, topicId, kind: 'practice_question' as const,
             assetId: 'practice-' + suffix },
-          { requirementId, packId, topicId, kind: 'exam_question' as const,
+          { requirementId, skillIndex, packId, topicId, kind: 'exam_question' as const,
             assetId: 'question-' + suffix, examId: 'synthetic-exam' },
-        ]
+        ])).flat()
       }),
     ])),
   }
@@ -242,6 +245,8 @@ describe('Stage 4 independent Foundation to planned learner-pack proof (fictiona
     held(await run((f) => { f.mapping.evidence.push({ ...f.mapping.evidence[0]! }) }), 'evidence_mapping_invalid')
     held(await run((f) => { f.mapping.evidence[0]!.assetId = 'not-a-question' }), 'evidence_asset_missing')
     held(await run((f) => { f.mapping.evidence[0]!.topicId = 'topic-two' }), 'evidence_mapping_invalid')
+    held(await run((f) => { f.mapping.evidence[0]!.skillIndex = 999 }), 'evidence_mapping_invalid')
+    held(await run((f) => { f.mapping.requirementTopics.splice(1, 1) }), 'requirement_mapping_incomplete')
     held(await run((f) => { f.candidates[0]!.pack.learn!.chapters.splice(0, 1) }), 'evidence_asset_missing')
     held(await run((f) => { f.candidates[0]!.pack.questions.splice(0, 1) }), 'evidence_asset_missing')
   })
@@ -264,6 +269,16 @@ describe('Stage 4 independent Foundation to planned learner-pack proof (fictiona
   })
   it('does not let a released or preview learner pack masquerade as a Stage 4 planned candidate', async () => {
     held(await run((f) => { f.candidates[0]!.pack.manifest.status = 'available' }), 'not_candidate')
+  })
+  it('holds independent assessment obligations that existing learner packs cannot prove', async () => {
+    held(await run((f) => {
+      f.assessmentBlueprint.assessmentRequirements.push({
+        id: 'special-assessment', summary: 'Independently required synthetic skill',
+        componentScope: ['paper-one'],
+      })
+    }), 'unprojected_exam_obligations')
+    held(await run((f) => { f.assessmentBlueprint.quantitativeRequirements.push('Fictional arithmetic minimum') }),
+      'unprojected_exam_obligations')
   })
   it('holds incorrect independently retained Board Alignment even when candidate projection is internally consistent', async () => {
     held(await run((f) => { f.boardAlignment.components[0]!.weightingPercent = 50 }), 'board_alignment_mismatch')
