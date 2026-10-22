@@ -84,6 +84,7 @@ select jsonb_build_object(
     and (select present from learn_exposure)
     and (select present from practice_checkpoint)
     and (select present from exam_attempt)
+    and exists (select 1 from pg_catalog.pg_extension where extname = 'pg_cron')
     and to_regprocedure('public.admin_operations_metrics()') is not null
     and to_regprocedure('public.admin_planner_metrics()') is not null
     and to_regprocedure('public.assign_learner_plan(uuid,text,uuid)') is not null
@@ -105,6 +106,7 @@ select jsonb_build_object(
     'learnExposures', (select present from learn_exposure),
     'practiceCheckpoints', (select present from practice_checkpoint),
     'examAttempts', (select present from exam_attempt),
+    'examCleanupScheduler', exists (select 1 from pg_catalog.pg_extension where extname = 'pg_cron'),
     'adminOperationsMetrics', to_regprocedure('public.admin_operations_metrics()') is not null,
     'plannerAdminMetrics', to_regprocedure('public.admin_planner_metrics()') is not null,
     'assignLearnerPlan', to_regprocedure('public.assign_learner_plan(uuid,text,uuid)') is not null
@@ -113,7 +115,7 @@ select jsonb_build_object(
 $$;
 
 comment on function public.revision_release_readiness() is
-  'Public, non-sensitive r2-exam-attempt-v1 release-readiness contract; requires owner-only full exam attempt drafts, Practice checkpoints and all preceding capabilities. Only boolean capabilities are returned.';
+  'Public, non-sensitive r2-exam-attempt-v1 release-readiness contract; requires owner-only full exam attempt drafts, the installed pg_cron scheduler extension, Practice checkpoints and all preceding capabilities. The actual job execution is verified operationally. Only boolean capabilities are returned.';
 
 revoke all on function public.revision_release_readiness() from public;
 grant execute on function public.revision_release_readiness() to anon, authenticated;

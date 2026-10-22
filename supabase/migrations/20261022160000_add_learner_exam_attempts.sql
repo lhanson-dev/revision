@@ -24,13 +24,13 @@ create index learner_exam_attempts_expiry_idx on public.learner_exam_attempts (e
 
 alter table public.learner_exam_attempts enable row level security;
 create policy "learner_select_own_exam_attempts" on public.learner_exam_attempts
-  for select to authenticated using ((select auth.uid()) = user_id);
+  for select to authenticated using ((select auth.uid()) = user_id and expires_at > now());
 create policy "learner_insert_own_exam_attempts" on public.learner_exam_attempts
   for insert to authenticated with check ((select auth.uid()) = user_id);
 create policy "learner_update_own_exam_attempts" on public.learner_exam_attempts
   for update to authenticated
-  using ((select auth.uid()) = user_id)
-  with check ((select auth.uid()) = user_id);
+  using ((select auth.uid()) = user_id and expires_at > now())
+  with check ((select auth.uid()) = user_id and expires_at > now());
 create policy "learner_delete_own_exam_attempts" on public.learner_exam_attempts
   for delete to authenticated using ((select auth.uid()) = user_id);
 
@@ -45,11 +45,13 @@ declare
   next_phase text;
 begin
   if tg_op = 'INSERT' then
+    -- Never trust a browser-provided creation timestamp.
+    new.created_at := now();
     if new.revision <> 1 or new.snapshot ->> 'phase' <> 'writing'
        or new.snapshot -> 'frozenSubmission' is distinct from 'null'::jsonb then
       raise exception 'New examination must start unsubmitted' using errcode = '23514';
     end if;
-    if new.expires_at <= now() or new.expires_at > now() + interval '14 days 2 minutes' then
+    if new.expires_at <= now() or new.expires_at > new.created_at + interval '14 days' then
       raise exception 'Exam draft retention exceeds 14 days' using errcode = '23514';
     end if;
     if new.snapshot -> 'timing' ->> 'policy' is distinct from 'pause-on-interruption' then
@@ -59,7 +61,9 @@ begin
   end if;
   prior_phase := old.snapshot ->> 'phase';
   if tg_op = 'DELETE' then
-    if prior_phase = 'submitting' then
+    -- A student cannot discard an in-flight submission, but scheduled
+    -- retention deletion MUST clear every expired state, including submitting.
+    if prior_phase = 'submitting' and old.expires_at > now() then
       raise exception 'An examination still being submitted cannot be discarded' using errcode = '23514';
     end if;
     return old;
