@@ -29,7 +29,7 @@ The existing v0.7/v0.8 AQA remediation is also research/delta evidence, not auto
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.
 - `scripts/assurance/qualification-intake-preflight.mjs`: provider-free fail-closed structural checker; never changes `available` status and *always* returns HOLD.
 - `scripts/assurance/qualification-intake-preflight.test.mjs`: negative checks for incorrect weightings, missing Paper 3 context/synoptic obligation, rights widening, fabricated reuse/approval and lost topics or quantitative demands.
-- Run: `node --test scripts/assurance/qualification-intake-preflight.test.mjs`, `node scripts/assurance/qualification-intake-preflight.mjs`. A structural PASS means this **limited preflight is internally consistent**, not that the course is complete.
+- Run: `npx vitest run scripts/assurance/qualification-intake-preflight.test.mjs`, `node scripts/assurance/qualification-intake-preflight.mjs`. A structural PASS means this **limited preflight is internally consistent**, not that the course is complete.
 
 ## Stage 5 next gates, in order
 
