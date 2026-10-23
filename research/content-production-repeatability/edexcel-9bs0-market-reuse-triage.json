@@ -1,0 +1,795 @@
+{
+  "schema_version": "edexcel-9bs0-market-review-triage-v1",
+  "recorded_at": "2026-10-23",
+  "status": "PROPOSED_DECISIONS_UNREVIEWED_NOT_GENERATION_INPUT",
+  "official_source_id": "PEARSON-SPEC-9BS0-2014-I1",
+  "source_rights": "REFERENCE_ONLY",
+  "source_pdf_page_zero_based": 18,
+  "qualification_code": "9BS0",
+  "scope": "The 26 unapproved section 1.2 provisional skill units only; no all-course reuse claims.",
+  "business_subject_candidate_version": "v0.8-t8-exact-course-remediation",
+  "business_subject_candidate_fingerprint": "0f9a9423102cfa26b11dad1ed4d99eb5594c7b8a26d4d84fd8a42d2994dd0241",
+  "candidate_fingerprint_derived_from": "exact-head CI 40007492977 effective v0.8 loader log",
+  "promotion_state": "NOT_YET_MADE",
+  "existing_registered_external_subject_truth_source": {
+    "source_id": "SRC-OER-LOUIS-MICRO-2024",
+    "url": "https://louis.pressbooks.pub/microeconomics/",
+    "recorded_licence_profile": "CC_BY_4_0",
+    "source_role": "TARGETED_RIGHTS_SAFE_SUBJECT_TRUTH_CHALLENGE_NOT_PROTECTED_PEARSON_COPY",
+    "source_use_review": "APPROVED_FOR_EXISTING_PROMOTION_CONTEXT_NOT_YET_APPROVED_FOR_NEW_NODE_OUTPUT",
+    "commercial_redistribution_and_ai_rights_review": "REQUIRES_OPERATION_SPECIFIC_RECORD_FOR_NEW_CONTENT"
+  },
+  "proposed_shared_subject_node": {
+    "draft_title": "Market demand, supply, equilibrium and graphical shifts",
+    "new_node_id_allocated": false,
+    "normative_change_approved": false,
+    "version_created": false,
+    "dependency_candidates": [
+      "BUS-MKT-001",
+      "BUS-MKT-008",
+      "BUS-EXT-001"
+    ],
+    "teaching_facet_design": [
+      "demand_schedule_and_curve",
+      "supply_schedule_and_curve",
+      "market_equilibrium",
+      "movement_along_vs_shift",
+      "graph_axes_and_curve_labels",
+      "drivers_of_demand_and_supply",
+      "before_and_after_equilibrium",
+      "contextual_market_evaluation"
+    ],
+    "distinct_from": "business_operations_capacity_supply",
+    "source_text_reproduction_allowed": false,
+    "generation_allowed": false,
+    "review_status": "UNREVIEWED"
+  },
+  "provisional_classifications": [
+    {
+      "requirement_id": "EDX-9BS0-MKT-01A",
+      "source_reference_id": "1.2.1:a/1",
+      "skill_tag": "substitute-price-shift",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-001",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001",
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-01B",
+      "source_reference_id": "1.2.1:a/1",
+      "skill_tag": "complement-price-shift",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-001",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-02",
+      "source_reference_id": "1.2.1:a/2",
+      "skill_tag": "income-driven-demand",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-03",
+      "source_reference_id": "1.2.1:a/3",
+      "skill_tag": "preference-driven-demand",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-001",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-04",
+      "source_reference_id": "1.2.1:a/4",
+      "skill_tag": "marketing-demand-impact",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-001",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-05",
+      "source_reference_id": "1.2.1:a/5",
+      "skill_tag": "population-driven-demand",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-EXT-001",
+      "existing_candidate_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-06",
+      "source_reference_id": "1.2.1:a/6",
+      "skill_tag": "disruption-driven-demand",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-EXT-001",
+      "existing_candidate_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-07",
+      "source_reference_id": "1.2.1:a/7",
+      "skill_tag": "seasonal-demand",
+      "proposed_resolution": "EXPAND_SUBJECT_NODE",
+      "decision_basis": "DEMAND_CHANGE_DEPTH_REVIEW",
+      "priority": "P1",
+      "existing_primary_node": "BUS-MKT-001",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "factor_direction_and_demand_shift",
+        "shift_versus_movement",
+        "application_to_original_business_case"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-08",
+      "source_reference_id": "1.2.2:a/1",
+      "skill_tag": "production-cost-supply",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-OPS-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-09",
+      "source_reference_id": "1.2.2:a/2",
+      "skill_tag": "technology-supply",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-OPS-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-10",
+      "source_reference_id": "1.2.2:a/3",
+      "skill_tag": "indirect-tax-supply",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-11",
+      "source_reference_id": "1.2.2:a/4",
+      "skill_tag": "subsidy-supply",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-12",
+      "source_reference_id": "1.2.2:a/5",
+      "skill_tag": "supply-disruption",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-OPS-001",
+        "BUS-EXT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-13",
+      "source_reference_id": "1.2.3:a",
+      "skill_tag": "price-equilibrium",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-14A",
+      "source_reference_id": "1.2.3:b",
+      "skill_tag": "supply-demand-diagram-construct",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-14B",
+      "source_reference_id": "1.2.3:b",
+      "skill_tag": "supply-demand-diagram-explain",
+      "proposed_resolution": "ADD_SUBJECT_NODE",
+      "decision_basis": "SHARED_MARKET_SUPPLY_DEMAND_MODEL_CANDIDATE",
+      "priority": "P0",
+      "existing_primary_node": null,
+      "existing_candidate_node_ids": [],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "supply_demand_model_concept_accuracy",
+        "axis_curve_and_equilibrium_correctness",
+        "shift_vs_movement_and_direction",
+        "original_graph_and_practice"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-15",
+      "source_reference_id": "1.2.4:a",
+      "skill_tag": "ped-compute",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-16",
+      "source_reference_id": "1.2.4:b",
+      "skill_tag": "ped-interpret",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-17",
+      "source_reference_id": "1.2.4:c",
+      "skill_tag": "ped-determinants",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-18",
+      "source_reference_id": "1.2.4:d",
+      "skill_tag": "ped-pricing-application",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-19A",
+      "source_reference_id": "1.2.4:e",
+      "skill_tag": "ped-revenue-arithmetic",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-19B",
+      "source_reference_id": "1.2.4:e",
+      "skill_tag": "ped-revenue-judgement",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-20",
+      "source_reference_id": "1.2.5:a",
+      "skill_tag": "yed-compute",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-21",
+      "source_reference_id": "1.2.5:b",
+      "skill_tag": "yed-interpret",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-22",
+      "source_reference_id": "1.2.5:c",
+      "skill_tag": "yed-determinants",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    },
+    {
+      "requirement_id": "EDX-9BS0-MKT-23",
+      "source_reference_id": "1.2.5:d",
+      "skill_tag": "yed-business-application",
+      "proposed_resolution": "REUSE_SUFFICIENT",
+      "decision_basis": "EXISTING_ELASTICITY_TEACHING_CANDIDATE",
+      "priority": "P2",
+      "existing_primary_node": "BUS-MKT-008",
+      "existing_candidate_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "independent_educational_decision": "PENDING",
+      "proposed_not_approved": true,
+      "source_accuracy_review": "NOT_DONE",
+      "depth_review": "NOT_DONE",
+      "working_and_evaluation_review": "NOT_DONE",
+      "learner_evidence_validity_review": "NOT_DONE",
+      "rights_review_for_candidate_expansion": "NOT_DONE",
+      "required_reviews": [
+        "PED_YED_FORMULA_AND_SIGN",
+        "numerical_or_narrative_correctness",
+        "revenue_not_equal_profit",
+        "applied_business_judgment"
+      ],
+      "review_outcome": "HOLD"
+    }
+  ],
+  "classification_counts": {
+    "EXPAND_SUBJECT_NODE": 8,
+    "ADD_SUBJECT_NODE": 8,
+    "REUSE_SUFFICIENT": 10
+  },
+  "independent_reuse_accepted_count": null,
+  "independent_reuse_accepted_percentage": null,
+  "approved_foundation_candidate": false,
+  "qualified_subject_reviewer_signed_off": false,
+  "original_learner_assets_produced": 0,
+  "provider_calls": 0,
+  "provider_spend_usd": 0,
+  "diagnostic": {
+    "id": "REVISION_ORIGINAL_SYNTHETIC_MARKET-01",
+    "status": "ASSURANCE_DIAGNOSTIC_NOT_STUDENT_QUESTION",
+    "function_contract": "quantity = intercept + price_coefficient * price",
+    "price_axis": "vertical",
+    "quantity_axis": "horizontal",
+    "baseline": {
+      "demand": {
+        "intercept": 120,
+        "price_coefficient": -4
+      },
+      "supply": {
+        "intercept": 20,
+        "price_coefficient": 1
+      },
+      "expected_equilibrium": {
+        "price": 20,
+        "quantity": 40
+      }
+    },
+    "scenarios": [
+      {
+        "cause": "rising_input_cost",
+        "curve_changed": "supply",
+        "supply": {
+          "intercept": 10,
+          "price_coefficient": 1
+        },
+        "demand": {
+          "intercept": 120,
+          "price_coefficient": -4
+        },
+        "expected_equilibrium": {
+          "price": 22,
+          "quantity": 32
+        },
+        "expected_effect": {
+          "price": "UP",
+          "quantity": "DOWN",
+          "shift": "SUPPLY_LEFT"
+        }
+      },
+      {
+        "cause": "growing_customer_preference",
+        "curve_changed": "demand",
+        "demand": {
+          "intercept": 130,
+          "price_coefficient": -4
+        },
+        "supply": {
+          "intercept": 20,
+          "price_coefficient": 1
+        },
+        "expected_equilibrium": {
+          "price": 22,
+          "quantity": 42
+        },
+        "expected_effect": {
+          "price": "UP",
+          "quantity": "UP",
+          "shift": "DEMAND_RIGHT"
+        }
+      }
+    ],
+    "limitation": "Synthetic linear schedules are arithmetic diagnostics; no reviewer has approved graphical assessment realism, student wording, mark scheme or A-level depth."
+  },
+  "decision_state": "HOLD",
+  "next_evidence_gate": "Independent accuracy and depth decision per skill; proposed ADD/EXPAND deltas need exact fingerprint assurance, source rights review, dependent course impact and T8 then learner assets."
+}
