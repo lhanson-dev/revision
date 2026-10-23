@@ -1,0 +1,46 @@
+# Content Factory Stage 5 — Pearson Edexcel 9BS0 intake and early HOLD
+
+**Recorded:** 23 October 2026  
+**Boundary:** Internal Stage 5 source and section-level preflight. Not Approved Foundation, Course Truth, Exam Truth, generator input, learner pack, independent review or publication evidence.  
+**Approved baseline:** `9b859a186bf355b9ae18722d058127995f8ff13b` after Stage 4 / PR #662.  
+**Normative authority:** Content Factory Foundation and Asset Production Model; Subject Knowledge Foundation and Course Projection Amendment; Fast-Path Process; Educational Content Source Licensing and Provenance Standard; Content Accuracy Assurance Gate; AI Agent Constitution.
+
+## Current official source verification
+
+1. Pearson's [current 9BS0 landing](https://qualifications.pearson.com/en/qualifications/edexcel-a-levels/business-2015.html) links to its [A level Business specification, Issue 1 September 2014](https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf). Its present listing continues to say first teaching 2015 and first assessment 2017. **The intended 2027 assessment-year applicability is still awaiting a separately retained cohort/version and source-universe reconciliation.** The PDF is copyright Pearson; public access is not an AI/commercial licence.
+2. At *section-heading* level the published specification has **four themes and 20 topics (5/5/6/4)**. This is not the denominator of atomic requirements. Detailed subsections, formula/convention distinctions, named frameworks, compulsory command demands and answer-marking rubrics have **not** been extracted, reconciled or accepted.
+3. **Three compulsory written papers:** 9BS0/01 Themes 1+4 (35%); 9BS0/02 Themes 2+3 (35%); 9BS0/03 all four themes (30%). Each is 120 minutes and 100 raw marks, with two required data-response sections including extended writing. Treat **raw marks and qualification weights as separate quantities.**
+4. Paper 3 is synoptic, with an annually pre-released context and unseen quantitative/qualitative stimulus. The 2014 PDF says the context is issued in November of the previous year; Pearson's 2026 assessment-support FAQ says early December. **Publication timing is unresolved for the planned 2027 cohort** and must not be silently hardcoded. The 2027 actual resource has not been verified.
+5. Published AO ranges across the qualification: AO1 20–22%; AO2 22–24%; AO3 28–30%; AO4 26–28%. Appendix 3 names nine quantitative-skill groups, with at least 10% of overall marks assessing minimum Level 2 mathematical skills. Appendix 4 contains accounting-ratio conventions needing atomic intake.
+6. Pearson's [7 October 2026 update](https://qualifications.pearson.com/en/news-policy/subject-updates/business/october-2026-business-update.html) describes summer-2027 onwards pseudonymisation of certain smaller businesses and possible supporting data adaptation, **not** a change to knowledge/skills or assessed content. Original Revision cases must remain independently authored.
+
+## Source permissions
+
+The source register currently classifies **all four Pearson pages/documents as REFERENCE_ONLY** for factual alignment. That is a conservative provisional operation-specific decision, **not** proof of permission to copy text, ingest entire specifications/sample assessments into AI, reproduce cases, adapt mark schemes or publish Pearson-owned material. No Pearson source content was sent into the Content Factory's model/provider jobs by this intake. All such operations HOLD until an appropriate recorded legal/licence basis exists. The separate Business candidate research corpus must also carry its own reviewed source/provenance chain.
+
+## Existing Foundation reuse opportunity — not measured reuse
+
+The available candidate is the 81-node `research/business-subject-foundation/v0.2-post-board-candidate/NODE_INDEX.json` corpus. It is **historical research evidence**, not itself the currently approved Foundation version. Twenty section-level Edexcel topic entries identify *candidate links* to stable BUS-* IDs for subsequent semantic, depth, source-rights, node-version and expert reconciliation. Topic coverage by names proves none of those requirements are fully mapped. **Accepted reuse count and percentage: not measured.** Do not divide 20 high-level topics by 81 nodes or call candidate overlap an actual reuse rate.
+
+The existing v0.7/v0.8 AQA remediation is also research/delta evidence, not automatic Edexcel authority. Before reusing any node, establish the correct current approved/assured node version and fingerprint, facet/depth needs, provenance, and dependent AQA courses' invalidation behaviour.
+
+## Implemented preflight
+
+- `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.
+- `scripts/assurance/qualification-intake-preflight.mjs`: provider-free fail-closed structural checker; never changes `available` status and *always* returns HOLD.
+- `scripts/assurance/qualification-intake-preflight.test.mjs`: negative checks for incorrect weightings, missing Paper 3 context/synoptic obligation, rights widening, fabricated reuse/approval and lost topics or quantitative demands.
+- Run: `node --test scripts/assurance/qualification-intake-preflight.test.mjs`, `node scripts/assurance/qualification-intake-preflight.mjs`. A structural PASS means this **limited preflight is internally consistent**, not that the course is complete.
+
+## Stage 5 next gates, in order
+
+1. Complete the exact 2027 Source Universe and source-operation licence decisions, including each Pearson specification/support/SAM/past-paper asset as needed. Resolve the November/December conflict from current cohort-specific official evidence. Register the full current-spec fingerprint and update status.
+2. Independently enumerate *every* 9BS0 sub-requirement, nine quantitative skill groups, all accounting ratios, compulsory framework and command/AO/paper demands. Establish an exhaustive immutable denominator; reconcile each against approved rights-safe Board Alignment and candidate Foundation node/facets.
+3. Classify genuine node reuse, required depth extension, new subject truth, and board-only mapping; report counts and actual review effort. Do not transplant AQA's specification mapping.
+4. Only after verified rights-safe source and Foundation gates, produce exact Course and Exam Truth; run existing projection check and educational assurance, then bounded Learn/Practice/Exam Prep work, original exam-style questions and qualified reviews.
+5. Measure actual provider cost, review time, failure/recovery and rework from live retained receipts. Before any release, apply existing Founder publication, restricted internal-trial, privacy and educational acceptance rules; keep commercial/legal checks on their required register.
+
+**Current decision:** Stage 5 NOT complete; no approved Edexcel Foundation, no learner assets, no course publication, no 2027 pre-release resource, no new provider spend, no permitted rights expansion. This packet is a guarded prerequisite rather than an invented production success.
+
+## Documentation impact
+
+Adds only a Stage 5 technical intake proof and INDEX discoverability, backed by research candidate data and provider-free code/tests. No normative authority amendment or parallel publication route. After approved exact-course intake, update the existing implementation docs and any actual normative changes in the same governed PR. Historical research/source evidence is not rewritten.

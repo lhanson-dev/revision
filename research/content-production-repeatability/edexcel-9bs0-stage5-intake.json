@@ -1,0 +1,499 @@
+{
+  "schema_version": "stage5-qualification-intake-v1",
+  "recorded_at": "2026-10-23",
+  "classification": "research_only_unapproved",
+  "qualification": {
+    "board": "Pearson Edexcel",
+    "level": "GCE A level",
+    "subject": "Business",
+    "code": "9BS0",
+    "planned_assessment_year": 2027,
+    "cohort_applicability": "PENDING_EXACT_CONFIRMATION",
+    "published_specification_issue": "Issue 1, September 2014",
+    "specification_currentness": "PENDING_INDEPENDENT_SOURCE_UNIVERSE_RECONCILIATION",
+    "mandatory_tiers": "NOT_APPLICABLE_TO_THIS_A_LEVEL_PROFILE",
+    "optional_exam_components": "NONE_IDENTIFIED_PENDING_CONFIRMATION"
+  },
+  "sources": [
+    {
+      "id": "PEARSON-SPEC-9BS0-2014-I1",
+      "url": "https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf",
+      "type": "official_specification",
+      "usage": "factual_reference_and_structured_alignment_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "checked_official_current_landing_2026-10-23"
+    },
+    {
+      "id": "PEARSON-9BS0-LANDING-2026",
+      "url": "https://qualifications.pearson.com/en/qualifications/edexcel-a-levels/business-2015.html",
+      "type": "qualification_landing",
+      "usage": "current_spec_link_and_identity_check_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "checked_2026-10-23"
+    },
+    {
+      "id": "PEARSON-BUSINESS-UPDATE-2026-10",
+      "url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/october-2026-business-update.html",
+      "type": "qualification_change_notice",
+      "usage": "summer_2027_case_anonymisation_alignment_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "checked_2026-10-23"
+    },
+    {
+      "id": "PEARSON-GCE-BUSINESS-ASSESSMENT-SUPPORT",
+      "url": "https://qualifications.pearson.com/en/about-us/qualification-brands/edexcel.updates.html?article=%2Fcontent%2Fdemo%2Fen%2Fnews-policy%2Fsubject-updates%2Fbusiness%2Fgce-business-assessment-support",
+      "type": "assessment_support",
+      "usage": "paper_3_context_publication_process_reference_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "checked_2026-10-23"
+    }
+  ],
+  "components": [
+    {
+      "id": "9BS0/01",
+      "title": "Marketing, people and global businesses",
+      "themes": [
+        1,
+        4
+      ],
+      "marks": 100,
+      "duration_minutes": 120,
+      "qualification_weight_percent": 35,
+      "compulsory": true,
+      "sections": [
+        "A",
+        "B"
+      ],
+      "format": "data_response_with_extended_writing"
+    },
+    {
+      "id": "9BS0/02",
+      "title": "Business activities, decisions and strategy",
+      "themes": [
+        2,
+        3
+      ],
+      "marks": 100,
+      "duration_minutes": 120,
+      "qualification_weight_percent": 35,
+      "compulsory": true,
+      "sections": [
+        "A",
+        "B"
+      ],
+      "format": "data_response_with_extended_writing"
+    },
+    {
+      "id": "9BS0/03",
+      "title": "Investigating business in a competitive environment",
+      "themes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "marks": 100,
+      "duration_minutes": 120,
+      "qualification_weight_percent": 30,
+      "compulsory": true,
+      "sections": [
+        "A",
+        "B"
+      ],
+      "format": "data_response_with_extended_writing",
+      "prerelease_context": true,
+      "prerelease_publication_month": "UNRESOLVED_OFFICIAL_SOURCE_DISCREPANCY",
+      "exam_condition": "no_candidate_research_notes_taken_into_paper",
+      "unseen_qualitative_and_quantitative_stimulus": true
+    }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "name": "Marketing and people"
+    },
+    {
+      "id": 2,
+      "name": "Managing business activities"
+    },
+    {
+      "id": 3,
+      "name": "Business decisions and strategy"
+    },
+    {
+      "id": 4,
+      "name": "Global business"
+    }
+  ],
+  "topic_level": "section_headings_only_not_atomic_requirement_denominator",
+  "topics": [
+    {
+      "id": "1.1",
+      "name": "Meeting customer needs",
+      "theme": 1,
+      "candidate_node_ids": [
+        "BUS-MKT-001",
+        "BUS-MKT-003",
+        "BUS-MKT-004",
+        "BUS-MKT-005"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "1.2",
+      "name": "The market",
+      "theme": 1,
+      "candidate_node_ids": [
+        "BUS-MKT-002",
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "1.3",
+      "name": "Marketing mix and strategy",
+      "theme": 1,
+      "candidate_node_ids": [
+        "BUS-MKT-006",
+        "BUS-MKT-007",
+        "BUS-MKT-009"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "1.4",
+      "name": "Managing people",
+      "theme": 1,
+      "candidate_node_ids": [
+        "BUS-PEO-001",
+        "BUS-PEO-002",
+        "BUS-PEO-005",
+        "BUS-PEO-006",
+        "BUS-PEO-007",
+        "BUS-PEO-008",
+        "BUS-PEO-009",
+        "BUS-PEO-011"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "1.5",
+      "name": "Entrepreneurs and leaders",
+      "theme": 1,
+      "candidate_node_ids": [
+        "BUS-FND-002",
+        "BUS-PEO-010"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "2.1",
+      "name": "Raising finance",
+      "theme": 2,
+      "candidate_node_ids": [
+        "BUS-FIN-008"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "2.2",
+      "name": "Financial planning",
+      "theme": 2,
+      "candidate_node_ids": [
+        "BUS-FIN-005",
+        "BUS-FIN-007"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "2.3",
+      "name": "Managing finance",
+      "theme": 2,
+      "candidate_node_ids": [
+        "BUS-FIN-001",
+        "BUS-FIN-010",
+        "BUS-FIN-012",
+        "BUS-FIN-013",
+        "BUS-FIN-014"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "2.4",
+      "name": "Resource management",
+      "theme": 2,
+      "candidate_node_ids": [
+        "BUS-OPS-001",
+        "BUS-OPS-003",
+        "BUS-OPS-004",
+        "BUS-OPS-005",
+        "BUS-OPS-006",
+        "BUS-OPS-008"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "2.5",
+      "name": "External influences",
+      "theme": 2,
+      "candidate_node_ids": [
+        "BUS-FND-009",
+        "BUS-EXT-001",
+        "BUS-EXT-002"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.1",
+      "name": "Business objectives and strategy",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-STR-001"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.2",
+      "name": "Business growth",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-FND-007",
+        "BUS-STR-007"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.3",
+      "name": "Decision-making techniques",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-EVI-004",
+        "BUS-EVI-008",
+        "BUS-FIN-009"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.4",
+      "name": "Influences on business decisions",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-FND-006",
+        "BUS-STR-003"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.5",
+      "name": "Assessing competitiveness",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-STR-002",
+        "BUS-STR-005",
+        "BUS-EXT-002"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "3.6",
+      "name": "Managing change",
+      "theme": 3,
+      "candidate_node_ids": [
+        "BUS-STR-009",
+        "BUS-MOD-005"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "4.1",
+      "name": "Globalisation",
+      "theme": 4,
+      "candidate_node_ids": [
+        "BUS-EXT-003"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "4.2",
+      "name": "Global markets and business expansion",
+      "theme": 4,
+      "candidate_node_ids": [
+        "BUS-EXT-003",
+        "BUS-EXT-004"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "4.3",
+      "name": "Global marketing",
+      "theme": 4,
+      "candidate_node_ids": [
+        "BUS-MKT-005",
+        "BUS-MKT-007",
+        "BUS-MKT-009"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    },
+    {
+      "id": "4.4",
+      "name": "Global industries and companies",
+      "theme": 4,
+      "candidate_node_ids": [
+        "BUS-EXT-003",
+        "BUS-STR-007"
+      ],
+      "candidate_link_status": "TOPIC_LEVEL_OPPORTUNITY_UNVERIFIED",
+      "atomic_requirement_count": "NOT_YET_EXTRACTED",
+      "reuse_classification": "UNMEASURED"
+    }
+  ],
+  "assessment_objectives": [
+    {
+      "id": "AO1",
+      "minimum_percent": 20,
+      "maximum_percent": 22
+    },
+    {
+      "id": "AO2",
+      "minimum_percent": 22,
+      "maximum_percent": 24
+    },
+    {
+      "id": "AO3",
+      "minimum_percent": 28,
+      "maximum_percent": 30
+    },
+    {
+      "id": "AO4",
+      "minimum_percent": 26,
+      "maximum_percent": 28
+    }
+  ],
+  "quantitative": {
+    "qualification_marks_minimum_percent": 10,
+    "required_skill_ids": [
+      "QS1",
+      "QS2",
+      "QS3",
+      "QS4",
+      "QS5",
+      "QS6",
+      "QS7",
+      "QS8",
+      "QS9"
+    ],
+    "accounting_ratios_appendix": "EXACT_RATIO_REGISTER_PENDING"
+  },
+  "obligations": [
+    {
+      "id": "SYNOPTIC_PAPER_3",
+      "verification": "OFFICIAL_SPEC_VERIFIED",
+      "representation": "PENDING_EXAM_TRUTH"
+    },
+    {
+      "id": "PRE_RELEASE_2027_CONTEXT",
+      "verification": "PUBLICATION_MONTH_CONFLICT_NOVEMBER_SPEC_V_DECEMBER_SUPPORT",
+      "representation": "PENDING_COHORT_SPECIFIC_RESOURCE"
+    },
+    {
+      "id": "SUMMER_2027_CASE_PRESENTATION",
+      "verification": "OCTOBER_2026_OFFICIAL_NOTICE",
+      "representation": "PENDING_CONTEXT_PROTOCOL"
+    },
+    {
+      "id": "QUANTITATIVE_SKILLS_10_PERCENT",
+      "verification": "OFFICIAL_SPEC_VERIFIED",
+      "representation": "PENDING_EXAM_TRUTH"
+    },
+    {
+      "id": "NINE_QUANTITATIVE_SKILLS",
+      "verification": "OFFICIAL_SPEC_VERIFIED",
+      "representation": "PENDING_ATOMIC_MAPPING"
+    },
+    {
+      "id": "ACCOUNTING_RATIO_CONVENTIONS",
+      "verification": "OFFICIAL_SPEC_VERIFIED",
+      "representation": "PENDING_ATOMIC_MAPPING"
+    },
+    {
+      "id": "COMPONENT_AO_RANGES_AND_COMMAND_DEMAND",
+      "verification": "OFFICIAL_SPEC_VERIFIED",
+      "representation": "PENDING_EXAM_TRUTH"
+    }
+  ],
+  "foundation_candidate": {
+    "path": "research/business-subject-foundation/v0.2-post-board-candidate/NODE_INDEX.json",
+    "authority": "research_evidence_only",
+    "indexed_nodes": 81,
+    "links_are_educational_opportunities_not_verified_reuse": true,
+    "reviewed_reused_nodes": 0,
+    "reviewed_new_nodes": 0,
+    "reuse_percent": "NOT_MEASURED"
+  },
+  "source_rights_decision": "PUBLISHER_REFERENCE_ONLY_NO_INGESTION_REPRODUCTION_OR_GENERATIVE_DERIVATION",
+  "assurance": {
+    "exact_source_universe_complete": false,
+    "atomic_curriculum_requirements_complete": false,
+    "rights_cleared_for_each_operation": false,
+    "source_and_qualification_cohort_fully_verified": false,
+    "subject_foundation_reuse_expert_verified": false,
+    "foundation_approved": false,
+    "learner_assets_produced": false,
+    "independent_educational_review_complete": false,
+    "founder_publication_approved": false
+  },
+  "actual_spend": {
+    "provider_calls": 0,
+    "provider_cost_usd": 0,
+    "human_review_minutes": "UNMEASURED",
+    "elapsed_production_minutes": "UNMEASURED",
+    "rework_cycles": 0,
+    "notes": "Provider calls for this bounded provider-free intake only; not a course-production cost."
+  }
+}
