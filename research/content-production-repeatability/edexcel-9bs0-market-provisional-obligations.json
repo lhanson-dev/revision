@@ -1,0 +1,531 @@
+{
+  "schema_version": "edexcel-9bs0-market-atomicity-pilot-v1",
+  "recorded_at": "2026-10-23",
+  "qualification_id": "Pearson-Edexcel-9BS0-2027",
+  "current_research_boundary": "UNAPPROVED_SPECIFICATION_ALIGNMENT_ONLY",
+  "source_specification_id": "PEARSON-SPEC-9BS0-2014-I1",
+  "source_pages_pdf_zero_based": [
+    18
+  ],
+  "source_use": "REFERENCE_ONLY",
+  "rights_basis": "FACTUAL_ALIGNMENT_ONLY",
+  "source_prose_stored_or_sent_to_generation": false,
+  "educational_denominator_status": "PROVISIONAL_SKILL_DECOMPOSITION_NOT_INDEPENDENTLY_CERTIFIED_ATOMIC",
+  "parent_scope": "1.2",
+  "source_terminal_reference_count": 23,
+  "provisional_learning_obligation_count": 26,
+  "obligations": [
+    {
+      "id": "EDX-9BS0-MKT-01A",
+      "source_reference_id": "1.2.1:a/1",
+      "original_skill_tag": "substitute-price-shift",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001",
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-01B",
+      "source_reference_id": "1.2.1:a/1",
+      "original_skill_tag": "complement-price-shift",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-02",
+      "source_reference_id": "1.2.1:a/2",
+      "original_skill_tag": "income-driven-demand",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-03",
+      "source_reference_id": "1.2.1:a/3",
+      "original_skill_tag": "preference-driven-demand",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-04",
+      "source_reference_id": "1.2.1:a/4",
+      "original_skill_tag": "marketing-demand-impact",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-05",
+      "source_reference_id": "1.2.1:a/5",
+      "original_skill_tag": "population-driven-demand",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-06",
+      "source_reference_id": "1.2.1:a/6",
+      "original_skill_tag": "disruption-driven-demand",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-07",
+      "source_reference_id": "1.2.1:a/7",
+      "original_skill_tag": "seasonal-demand",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-08",
+      "source_reference_id": "1.2.2:a/1",
+      "original_skill_tag": "production-cost-supply",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-OPS-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-09",
+      "source_reference_id": "1.2.2:a/2",
+      "original_skill_tag": "technology-supply",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-OPS-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-10",
+      "source_reference_id": "1.2.2:a/3",
+      "original_skill_tag": "indirect-tax-supply",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-11",
+      "source_reference_id": "1.2.2:a/4",
+      "original_skill_tag": "subsidy-supply",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-EXT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-12",
+      "source_reference_id": "1.2.2:a/5",
+      "original_skill_tag": "supply-disruption",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-OPS-001",
+        "BUS-EXT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-13",
+      "source_reference_id": "1.2.3:a",
+      "original_skill_tag": "price-equilibrium",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-001"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-14A",
+      "source_reference_id": "1.2.3:b",
+      "original_skill_tag": "supply-demand-diagram-construct",
+      "competency_type": "graph_construction",
+      "candidate_subject_node_ids": [],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "draw_and_read_correctness",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-14B",
+      "source_reference_id": "1.2.3:b",
+      "original_skill_tag": "supply-demand-diagram-explain",
+      "competency_type": "graph_interpretation",
+      "candidate_subject_node_ids": [],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "draw_and_read_correctness",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-15",
+      "source_reference_id": "1.2.4:a",
+      "original_skill_tag": "ped-compute",
+      "competency_type": "quantitative_calculation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-16",
+      "source_reference_id": "1.2.4:b",
+      "original_skill_tag": "ped-interpret",
+      "competency_type": "quantitative_interpretation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-17",
+      "source_reference_id": "1.2.4:c",
+      "original_skill_tag": "ped-determinants",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-18",
+      "source_reference_id": "1.2.4:d",
+      "original_skill_tag": "ped-pricing-application",
+      "competency_type": "decision_application",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-19A",
+      "source_reference_id": "1.2.4:e",
+      "original_skill_tag": "ped-revenue-arithmetic",
+      "competency_type": "quantitative_calculation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-19B",
+      "source_reference_id": "1.2.4:e",
+      "original_skill_tag": "ped-revenue-judgement",
+      "competency_type": "quantitative_interpretation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-20",
+      "source_reference_id": "1.2.5:a",
+      "original_skill_tag": "yed-compute",
+      "competency_type": "quantitative_calculation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-21",
+      "source_reference_id": "1.2.5:b",
+      "original_skill_tag": "yed-interpret",
+      "competency_type": "quantitative_interpretation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "calculation_and_worked_example",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-22",
+      "source_reference_id": "1.2.5:c",
+      "original_skill_tag": "yed-determinants",
+      "competency_type": "causal_explanation",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    },
+    {
+      "id": "EDX-9BS0-MKT-23",
+      "source_reference_id": "1.2.5:d",
+      "original_skill_tag": "yed-business-application",
+      "competency_type": "decision_application",
+      "candidate_subject_node_ids": [
+        "BUS-MKT-008"
+      ],
+      "candidate_link_status": "HYPOTHESIS_NOT_EVIDENCE_OF_SUFFICIENCY",
+      "required_evidence": [
+        "source_factual_accuracy",
+        "knowledge_depth",
+        "learner_practice_validity",
+        "independent_review"
+      ],
+      "atomicity_status": "PROVISIONAL_PENDING_EDUCATIONAL_DECOMPOSITION_REVIEW",
+      "qualified_human_reuse_decision": "UNREVIEWED",
+      "asset_generation_status": "NOT_STARTED"
+    }
+  ],
+  "candidate_foundation_version": "v0.8-t8-exact-course-remediation",
+  "candidate_foundation_fingerprint": "RESOLVED_AT_RUNTIME_NOT_APPROVAL",
+  "reuse_count_confirmed": null,
+  "reuse_percentage_confirmed": null,
+  "qualified_subject_review": "PENDING",
+  "approved_course_truth": false,
+  "approved_exam_truth": false,
+  "production_permission": false,
+  "publication_permission": false,
+  "asset_production_count": 0,
+  "provider_calls": 0,
+  "provider_cost_usd": 0
+}
