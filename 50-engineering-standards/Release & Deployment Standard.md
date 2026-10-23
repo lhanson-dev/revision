@@ -31,12 +31,26 @@ supersedes: null
 - **Once the trusted `revision/founder-approval` gate is available on `main`, a release-governed PR must not be merged unless that status is `success` for the current exact PR head. The status reports valid CI/approval evidence; it does not create or substitute for Founder approval.**
 - **The `revision/founder-approval` requirement must also be enforced at the repository merge boundary where GitHub exposes the relevant control. If repository-native enforcement is unavailable, an equivalent independently enforced fail-closed merge control is required; operating-agent convention alone is not sufficient.**
 - **A purely mechanical refresh from newer `main` may retain the existing Founder approval only when the PR delta is demonstrably unchanged, no substantive conflict resolution occurred and fresh required assurance passes. A material change to the PR delta requires renewed Founder approval.**
-- A merge to `main` triggers automated production build/deployment.
+- A merge to `main` triggers automated production build/deployment. Distinguish merge eligibility from the independently checked backend/readiness and actual learner-feature activation stage; a green merge is not proof that a blocked deployment or gated feature is live.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
 - Application rollback defaults to revert/redeploy.
 - Database migrations should be forward-safe and backward-compatible where practical.
 - **Revision has one Production application environment and one production Supabase project. Prototype and Staging are approved non-production application review environments with distinct purposes; they do not create additional production sources of truth or production backends.**
+
+## Delivery stages: engineer, test privately, launch publicly (Founder direction 23 October 2026; proposed)
+
+**Default rule for all product and operational work:** do not allow uncompleted external legal/privacy/commercial reviews *intended for public launch* to become blanket blockers to development, an otherwise assured PR merge, or synthetic testing. Record each outstanding public-launch requirement in `90-governance-registers/Public Learner Launch Gate Register.md` with owner, evidence and status. These reviews become mandatory public-release gates, not retrospective claims that the product was compliant during testing.
+
+| Stage | Can proceed once | Legal/external review position |
+|---|---|---|
+| **1. Development and code merge** | Governed feature readiness where applicable; tested implementation, current-main exact-head CI, privacy-by-design/security controls, documentation, release-backend compatibility, explicit approval for the **specific PR** and exact-head GitHub approval evidence | Final external legal/DPO, marketing, commercial and public-launch reviews are **tracked, not universal PR blockers**. Changes can be merged dormant or strictly cohort-gated. An unavailable backend may block deployment/activation even after merge. Do not merge a change that would expose or process live child data unsafely on deployment. |
+| **2. Private internal/family test** | Stage 1 code + production-equivalent feature gate default denied to all but enumerated tester(s), proven RLS/retention/recovery and backend readiness, defined test scope, age-appropriate explanation, recorded proportionate child-data DPIA/risk review, documented lawful basis and rights contact, data minimisation and Founder/controller go/no-go | Independent outside legal sign-off is **not routinely required as a development-process gate**. Applicable legal duties still apply before real personal data is processed; assess unresolved risk and obtain expert advice if necessary. Do not assume parent/guardian participation alone supplies an Article 6 basis or an exemption. |
+| **3. Wider/public learner launch** | Successful restricted testing, educational/safeguarding/product acceptance and all applicable Go-to-Market register gates closed with evidence, including a fresh qualified independent whole-product privacy review and explicit Founder public-launch decision | **Hard stop** on unresolved public privacy/legal and other material launch requirements. |
+
+**Non-negotiable boundaries:** no ordinary learner access is unlocked merely by merge, no fake evidence or unsupported safety claims, no self-service pilot permissions, no production data stored before an appropriate internal lawful-processing and child-risk decision. This rule separates *timing of outside review* from *whether baseline law applies*. The specific Founder merge gate, code/security checks and automated backend contract cannot be waived by this development policy.
+
+**Release mechanics:** Because `main` currently starts the Pages workflow, a feature whose expected backend contract is not installed still cannot be reported deployed. Arrange safe backend-ahead readiness and a dark/cohort-gated frontend before representing private testing as possible. Never merge a strict backend-contract change if doing so would strand Production without an explicitly reviewed controlled release sequence.
 
 ## Environment model
 

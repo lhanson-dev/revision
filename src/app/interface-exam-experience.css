@@ -449,6 +449,14 @@
     display: none;
   }
 
+  /* REC-10: preserve the save confirmation on a phone. Only the ordinary
+     answered-count metadata is hidden when horizontal space is tight. */
+  .planner-runtime .exam-sticky-bar > div:first-child .exam-checkpoint-status {
+    display: block;
+    max-width: 13rem;
+    overflow-wrap: anywhere;
+  }
+
   .planner-runtime .exam-session-controls {
     gap: var(--space-1);
     flex-wrap: wrap;
@@ -509,3 +517,8 @@
     transition: none !important;
   }
 }
+
+/* Keep the purpose-limited draft retention notice legible without changing
+   the idle timed-exam viewport or the approved baseline imagery. */
+.planner-runtime .exam-checkpoint-status { min-width: 0; overflow-wrap: anywhere; }
+.planner-runtime .exam-checkpoint-status small { display: block; font-size: 11px; line-height: 1.3; opacity: .9; }

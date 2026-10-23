@@ -31,3 +31,7 @@ Avoid adding storage of raw answers outside an expressly approved, purpose-limit
 ## Documentation and release gate
 
 This change implements existing Learning Blueprint, Claims and Progress, Recovery Control Plan, Evidence Trust and release-authority rules; no normative authority change is proposed. This document and the defect register describe the candidate. Historical audits stay unchanged. Exact-head CI and the relevant integration/browser checks must pass before presenting an approval request. **No Founder merge approval has been requested or granted for this candidate.**
+
+## Verified current-main release status — 22 October 2026
+
+The bounded submission-retry correction originally described here as a candidate was subsequently released in PR #656 (merge `5bc0d03b`). The approved PR #657 baseline `df1adc5b` retains that code. Only the per-component submission retry was solved; reload/re-entry of unfinished exam work remains REC-10 and is separately proposed in draft PR #658. This addendum reconciles current implementation, without revising dated candidate evidence.

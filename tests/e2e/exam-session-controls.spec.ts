@@ -1,12 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const asCourseId = 'aqa:aqa-as:7131'
 const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
-async function seedSyntheticSession(page: Page) {
+async function seedSyntheticSession(page: Page, startingElapsedMs?: number) {
+  await seedExamAttemptBackend(page, { startingElapsedMs })
   const userId = '00000000-0000-4000-8000-000000000001'
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -116,7 +118,7 @@ test('stop exam requires confirmation and lets the learner either continue or di
   await page.getByRole('button', { name: 'Stop exam' }).click()
   let stopDialog = page.getByRole('dialog', { name: 'Are you sure?' })
   await expect(stopDialog).toBeVisible()
-  await expect(stopDialog.getByText(/discard the answers/)).toBeVisible()
+  await expect(stopDialog.getByText(/discard this unfinished attempt/)).toBeVisible()
   await stopDialog.getByRole('button', { name: 'Continue exam' }).click()
   await expect(stopDialog).toHaveCount(0)
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
@@ -176,12 +178,12 @@ test('the timed exam page meets the automated WCAG A/AA baseline with a flagged 
 })
 
 test('low time shows a clock icon and words in coral and never makes the exam page scroll sideways', async ({ page }) => {
-  test.setTimeout(90_000) // running the fake clock through 81 minutes takes a while
-  await page.clock.install()
-  await seedSyntheticSession(page)
+  // The previous 81-minute clock jump simulated browser sleep, which
+  // correctly pauses under REC-10. Test the warning using confirmed elapsed
+  // working time supplied by the synthetic checkpoint server instead.
+  await seedSyntheticSession(page, 81 * 60 * 1000)
   await page.setViewportSize({ width: 320, height: 700 })
   await openAsPaper2Exam(page)
-  await page.clock.runFor(81 * 60 * 1000)
 
   const timer = page.locator('.timer')
   await expect(timer).toHaveClass(/warning/)
