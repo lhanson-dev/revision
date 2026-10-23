@@ -82,3 +82,9 @@ test('reject timetable provenance that is not rights-safe reference-only',()=>{
  assert.ok(mutate(i=>i.assessment_year_timetable_evidence.source_id='UNVERIFIED').failures.includes('official_2027_timetable_provenance_or_rights_missing'));
  assert.ok(mutate(i=>i.sources.find(s=>s.id==='PEARSON-GCE-2027-FINAL-TIMETABLE').generative_input_allowed=true).failures.includes('official_2027_timetable_provenance_or_rights_missing'));
 });
+
+test('official September 2026 continuity is scoped narrowly and does not approve 2027 source operations',()=>{
+ assert.equal(source.specification_continuity_evidence.first_teaching_cohort,'2026-09');
+ assert.ok(mutate(i=>i.specification_continuity_evidence.exact_2027_source_universe_complete=true).failures.includes('unearned_2027_specification_or_rights_approval'));
+ assert.ok(mutate(i=>i.specification_continuity_evidence.verified_claim='UNSUPPORTED').failures.includes('pearson_2026_cohort_continuity_not_sourced'));
+});

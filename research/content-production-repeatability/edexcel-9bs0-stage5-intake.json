@@ -64,6 +64,16 @@
       "generative_input_allowed": false,
       "publication_reproduction_allowed": false,
       "verification": "published_Pearson_2027_FINAL_timetable_checked_2026-10-23"
+    },
+    {
+      "id": "PEARSON-BUSINESS-UPDATE-2026-09",
+      "url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/september-2026-business-update1.html",
+      "type": "official_2026_cohort_continuity_notice",
+      "usage": "evidence_existing_specification_continues_for_september_2026_starters_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "official_Pearson_September_2026_update_checked_2026-10-23"
     }
   ],
   "components": [
@@ -1470,5 +1480,15 @@
     "exact_specification_currentness_confirmed": false,
     "pre_release_context_2027_verified": false,
     "source_operation_rights_expanded": false
+  },
+  "specification_continuity_evidence": {
+    "source_id": "PEARSON-BUSINESS-UPDATE-2026-09",
+    "verified_claim": "LEARNERS_BEGINNING_SEPTEMBER_2026_CONTINUE_CURRENT_ESTABLISHED_SPECIFICATION",
+    "first_teaching_cohort": "2026-09",
+    "scheduled_summer_2027_papers_verified_separately": true,
+    "exact_2027_source_universe_complete": false,
+    "paper_3_2027_context_verified": false,
+    "license_expansion_authorised": false,
+    "source_verification": "official_qualification_change_update_reference_only"
   }
 }

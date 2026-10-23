@@ -124,6 +124,18 @@ export function checkQualificationIntake(intake, index) {
     && timetable?.pre_release_context_2027_verified===false
     && timetable?.source_operation_rights_expanded===false,
     'unsupported_2027_timetable_approval_claim');
+  const continuity = intake?.specification_continuity_evidence;
+  check(continuity?.source_id === 'PEARSON-BUSINESS-UPDATE-2026-09'
+    && sources.some(s=>s.id===continuity.source_id && s.rights==='REFERENCE_ONLY'
+      && s.generative_input_allowed===false && s.publication_reproduction_allowed===false)
+    && continuity?.verified_claim==='LEARNERS_BEGINNING_SEPTEMBER_2026_CONTINUE_CURRENT_ESTABLISHED_SPECIFICATION'
+    && continuity?.first_teaching_cohort==='2026-09'
+    && continuity?.scheduled_summer_2027_papers_verified_separately===true,
+    'pearson_2026_cohort_continuity_not_sourced');
+  check(continuity?.exact_2027_source_universe_complete===false
+    && continuity?.paper_3_2027_context_verified===false
+    && continuity?.license_expansion_authorised===false,
+    'unearned_2027_specification_or_rights_approval');
   const pending = Object.entries(intake?.assurance ?? {}).filter(([k,v])=>
     k!=='numbered_subtopic_identifiers_structurally_indexed' && v!==true).map(([k])=>k);
   check(intake?.assurance?.numbered_subtopic_identifiers_structurally_indexed===true
