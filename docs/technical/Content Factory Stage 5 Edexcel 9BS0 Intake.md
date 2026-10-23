@@ -24,6 +24,20 @@ The available candidate is the 81-node `research/business-subject-foundation/v0.
 
 The existing v0.7/v0.8 AQA remediation is also research/delta evidence, not automatic Edexcel authority. Before reusing any node, establish the correct current approved/assured node version and fingerprint, facet/depth needs, provenance, and dependent AQA courses' invalidation behaviour.
 
+## Second verified source pass — subtopic and exam fact inventory (23 October 2026)
+
+The official [9BS0 Issue 1 PDF](https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf) was checked across curriculum PDF pages 17–42, the AO matrix on PDF page 47, quantitative Appendix 3 on PDF page 62, and ratios Appendix 4 on PDF page 64 (zero-based PDF page indices). Source usage remains **REFERENCE_ONLY** and no protected prose or source assessment items are placed in generation inputs.
+
+A **source-identifier index of 80 numbered subtopics** is now recorded: Theme 1 = 24, Theme 2 = 18, Theme 3 = 22, Theme 4 = 16. This is meaningfully more precise than the former 20-group crosswalk, **but is not the full atomic examinable requirement denominator**, because lettered/nested obligations under each subtopic remain to be decomposed and reviewed.
+
+The indexed **seven accounting-ratio mathematical contracts** are gross, operating and net profit margins, current and acid-test ratios, gearing and return on capital employed; their source-specific gearing/capital-employed conventions matter. The official component-by-AO matrix is stored as *contribution ranges expressed in percentage points of the whole qualification*, not per-paper marks: Paper 1 and Paper 2 each have AO1 6–8, AO2 7–9, AO3 9–11, AO4 8–10; Paper 3 has AO1 5–7, AO2 5–7, AO3 9–11, AO4 9–11. Appendix 3's nine quantitative skills are registered separately with a 10% minimum Level 2-mathematics marks rule. None of this proves an original candidate question covers any AO or skill.
+
+The new review queue specifically highlights potentially underrepresented demand/supply diagrams, the Mayo human-relations model, distinct Porter frameworks, critical-path float calculations, Edexcel ratio formulas and global-market conventions. **These are candidate investigation targets, not independently confirmed Foundation defects or approved reusable content.** All 80 subtopic reuse decisions remain UNASSESSED. Existing 20 topic-level links are proposals only.
+
+Fail-closed tests now reject dropped, reordered, self-approved or misattributed subtopics, false source permissions, AO denominator confusion, altered accounting formulas and prematurely cleared reuse risks. The checker remains non-publishing and never promotes the input beyond the limited structural-check boundary.
+
+**Still HOLD:** exact 2027 source-universe currency and Paper 3 release context/timing; rights decisions for every intended downstream operation; individual subtopic lettered/nested requirements and degree-of-depth review; approved Subject Knowledge Foundation version; actual accepted reuse percentages and qualified review; Course/Exam Truth, original Learn/Practice/Exam assets and measured live-generation costs.
+
 ## Implemented preflight
 
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.

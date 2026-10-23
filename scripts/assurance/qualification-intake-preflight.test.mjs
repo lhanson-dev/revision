@@ -35,3 +35,34 @@ test('reject hidden quantitative or content sections',()=>{
 test('reject self-approved source or human-review claims',()=>{
  assert.ok(mutate(i=>i.assurance.foundation_approved=true).failures.includes('unearned_assurance_approval'));
 });
+
+test('all 80 official numbered subtopics remain unreviewed without pretending atomic completeness',()=>{
+ const result=checkQualificationIntake(source,index);
+ assert.equal(result.structural_preflight,'PASS');
+ assert.equal(result.numbered_subtopics_structurally_indexed,80);
+ assert.ok(result.open_gates.includes('atomic_curriculum_requirements_complete'));
+ assert.equal(source.numbered_subtopic_index.subtopics.filter(x=>x.reusable_foundation_decision==='UNASSESSED').length,80);
+});
+test('lost subtopic, substitution and parent reassignment fail closed',()=>{
+ assert.ok(mutate(i=>i.numbered_subtopic_index.subtopics.splice(10,1)).failures.includes('numbered_subtopic_index_incomplete_or_reordered'));
+ assert.ok(mutate(i=>i.numbered_subtopic_index.subtopics[0].id='1.1.99').failures.includes('numbered_subtopic_index_incomplete_or_reordered'));
+ assert.ok(mutate(i=>i.numbered_subtopic_index.subtopics[0].topic_id='4.4').failures.includes('subtopic_unsupported_promotion_or_invalid_locator'));
+});
+test('source page/provenance and premature reuse acceptance fail closed',()=>{
+ assert.ok(mutate(i=>i.numbered_subtopic_index.subtopics[0].source_pdf_page_zero_based=-1).failures.includes('subtopic_unsupported_promotion_or_invalid_locator'));
+ assert.ok(mutate(i=>i.numbered_subtopic_index.subtopics[0].reusable_foundation_decision='REUSED').failures.includes('subtopic_unsupported_promotion_or_invalid_locator'));
+ assert.ok(mutate(i=>i.numbered_subtopic_index.licence_classification='OPEN').failures.includes('subtopic_source_provenance_or_authority_invalid'));
+});
+test('per-paper AO ranges must not be inferred from raw-paper marks',()=>{
+ assert.ok(mutate(i=>i.assessment_objective_component_contributions.component_ranges[2].AO4=[8,10]).failures.includes('ao_component_ranges_inconsistent'));
+ assert.ok(mutate(i=>i.assessment_objective_component_contributions.unit='percent_of_paper_raw_marks').failures.includes('ao_component_provenance_or_unit_invalid'));
+});
+test('seven official accounting ratio conventions cannot silently change',()=>{
+ assert.equal(source.accounting_ratio_reference.ratios.length,7);
+ assert.ok(mutate(i=>i.accounting_ratio_reference.ratios[5].numerator='total_liabilities').failures.includes('accounting_ratio_formula_contract_mismatch'));
+ assert.ok(mutate(i=>i.accounting_ratio_reference.ratios.pop()).failures.includes('accounting_ratio_formula_contract_mismatch'));
+});
+test('hard educational reuse risks and atomic completion cannot be silently waived',()=>{
+ assert.ok(mutate(i=>i.reuse_review_queue[0].verification_status='CLEARED').failures.includes('reuse_risks_silently_cleared_or_out_of_scope'));
+ assert.ok(mutate(i=>i.assurance.atomic_curriculum_requirements_complete=true).failures.includes('unearned_assurance_approval'));
+});

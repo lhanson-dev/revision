@@ -35,9 +35,81 @@ export function checkQualificationIntake(intake, index) {
   for (const required of ['PRE_RELEASE_2027_CONTEXT','SYNOPTIC_PAPER_3','SUMMER_2027_CASE_PRESENTATION','ACCOUNTING_RATIO_CONVENTIONS','QUANTITATIVE_SKILLS_10_PERCENT','COMPONENT_AO_RANGES_AND_COMMAND_DEMAND']) {
     check(obligations.has(required), 'missing_obligation_'+required);
   }
-  const pending = Object.entries(intake?.assurance ?? {}).filter(([,v])=>v!==true).map(([k])=>k);
-  check(pending.length === Object.keys(intake?.assurance ?? {}).length, 'unearned_assurance_approval');
-  return { structural_preflight:failures.length===0?'PASS':'FAIL', publication_decision:'HOLD', preproduction_decision:'HOLD', failures, open_gates:pending, candidate_nodes:index?.candidate_node_count ?? 0, verified_reuse_percent:null, produced_learner_assets:0 };
+  const expectedSubtopicCounts = {
+    '1.1':3,'1.2':5,'1.3':5,'1.4':5,'1.5':6,
+    '2.1':4,'2.2':4,'2.3':3,'2.4':4,'2.5':3,
+    '3.1':4,'3.2':4,'3.3':4,'3.4':4,'3.5':3,'3.6':3,
+    '4.1':5,'4.2':5,'4.3':3,'4.4':3
+  };
+  const idx = intake?.numbered_subtopic_index;
+  const entries = idx?.subtopics ?? [];
+  const expectedIds = Object.entries(expectedSubtopicCounts).flatMap(([id,count]) =>
+    Array.from({length:count}, (_,i)=>`${id}.${i+1}`));
+  const actualIds = entries.map(item=>item.id);
+  check(idx?.source_id === 'PEARSON-SPEC-9BS0-2014-I1'
+    && idx?.licence_classification === 'REFERENCE_ONLY'
+    && idx?.record_status === 'NUMBERED_SUBTOPIC_IDENTIFIERS_ONLY_NOT_ATOMIC_REQUIREMENTS',
+    'subtopic_source_provenance_or_authority_invalid');
+  check(expectedIds.length === 80
+    && entries.length === expectedIds.length
+    && actualIds.every((id,i)=>id === expectedIds[i]), 'numbered_subtopic_index_incomplete_or_reordered');
+  check(entries.every(e=>e.topic_id===e.id.split('.').slice(0,2).join('.')
+    && e.theme===Number(e.id[0])
+    && Number.isInteger(e.source_pdf_page_zero_based)
+    && e.source_pdf_page_zero_based>=17 && e.source_pdf_page_zero_based<=42
+    && e.review_status==='NOT_YET_ATOMICALLY_MAPPED'
+    && e.reusable_foundation_decision==='UNASSESSED'
+    && e.asset_coverage_status==='NOT_PRODUCED'), 'subtopic_unsupported_promotion_or_invalid_locator');
+  check(Object.keys(expectedSubtopicCounts).every(id=>topics.some(t=>t.id===id)), 'subtopic_parent_topic_missing');
+  check(idx?.remaining_denominator === 'LETTERED_AND_NESTED_EXAMINABLE_REQUIREMENTS_NOT_YET_ENUMERATED',
+    'atomic_completeness_false_claim');
+  const ao = intake?.assessment_objective_component_contributions;
+  const actualRanges = ao?.component_ranges ?? [];
+  const expectedRanges = [
+    ['9BS0/01',[6,8],[7,9],[9,11],[8,10]],
+    ['9BS0/02',[6,8],[7,9],[9,11],[8,10]],
+    ['9BS0/03',[5,7],[5,7],[9,11],[9,11]]
+  ];
+  check(ao?.source_id==='PEARSON-SPEC-9BS0-2014-I1'
+    && ao?.source_pdf_page_zero_based===47
+    && ao?.unit==='percentage_points_of_total_qualification_not_component_raw_marks',
+    'ao_component_provenance_or_unit_invalid');
+  check(actualRanges.length===3 && expectedRanges.every(([component,...aos],i)=>{
+    const candidate=actualRanges[i];
+    return candidate?.component===component
+      && ['AO1','AO2','AO3','AO4'].every((name,j)=>JSON.stringify(candidate[name])===JSON.stringify(aos[j]));
+  }), 'ao_component_ranges_inconsistent');
+  const ratioCatalog = [
+    ['GROSS_PROFIT_MARGIN','gross_profit','revenue',100],
+    ['OPERATING_PROFIT_MARGIN','operating_profit','revenue',100],
+    ['NET_PROFIT_MARGIN','profit_for_year','revenue',100],
+    ['CURRENT_RATIO','current_assets','current_liabilities',1],
+    ['ACID_TEST_RATIO','current_assets_minus_inventory','current_liabilities',1],
+    ['GEARING_RATIO','non_current_liabilities','capital_employed',100],
+    ['ROCE','operating_profit','capital_employed',100]
+  ];
+  const ratio = intake?.accounting_ratio_reference;
+  check(ratio?.source_id==='PEARSON-SPEC-9BS0-2014-I1'
+    && ratio?.source_pdf_page_zero_based===64
+    && ratio?.capital_employed_definition==='non_current_liabilities_plus_total_equity',
+    'accounting_ratio_reference_invalid');
+  check(ratio?.ratios?.length === ratioCatalog.length && ratioCatalog.every(([id,numerator,denominator,multiply_by],i)=>{
+    const actual=ratio.ratios[i];
+    return actual?.id===id && actual?.numerator===numerator
+      && actual?.denominator===denominator && actual?.multiply_by===multiply_by;
+  }), 'accounting_ratio_formula_contract_mismatch');
+  check(intake?.quantitative?.skill_source_reference?.skill_count===9
+    && intake.quantitative.skill_source_reference.source_pdf_page_zero_based===62,
+    'quantitative_skill_source_reference_missing');
+  const riskQueue = intake?.reuse_review_queue ?? [];
+  check(riskQueue.length>=8 && riskQueue.every(x=>expectedIds.includes(x.subtopic_id)
+    && x.verification_status==='UNRESOLVED'
+    && x.not_an_asserted_defect===true), 'reuse_risks_silently_cleared_or_out_of_scope');
+  const pending = Object.entries(intake?.assurance ?? {}).filter(([k,v])=>
+    k!=='numbered_subtopic_identifiers_structurally_indexed' && v!==true).map(([k])=>k);
+  check(intake?.assurance?.numbered_subtopic_identifiers_structurally_indexed===true
+    && pending.length===Object.keys(intake?.assurance ?? {}).length-1, 'unearned_assurance_approval');
+  return { structural_preflight:failures.length===0?'PASS':'FAIL', publication_decision:'HOLD', preproduction_decision:'HOLD', failures, open_gates:pending, candidate_nodes:index?.candidate_node_count ?? 0, verified_reuse_percent:null, produced_learner_assets:0, numbered_subtopics_structurally_indexed:entries.length, accounting_ratio_reference_count:ratio?.ratios?.length ?? 0, unresolved_reuse_risks:riskQueue.length };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const intake=JSON.parse(readFileSync(process.argv[2] ?? DEFAULT_INTAKE,'utf8'));

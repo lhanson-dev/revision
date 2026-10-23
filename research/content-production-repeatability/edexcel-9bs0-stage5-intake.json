@@ -428,7 +428,13 @@
       "QS8",
       "QS9"
     ],
-    "accounting_ratios_appendix": "EXACT_RATIO_REGISTER_PENDING"
+    "accounting_ratios_appendix": "EXACT_RATIO_REGISTER_PENDING",
+    "skill_source_reference": {
+      "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+      "source_pdf_page_zero_based": 62,
+      "skill_count": 9,
+      "scope": "QUANTITATIVE_SKILL_CATEGORIES_NOT_QUESTION_LEVEL_COVERAGE"
+    }
   },
   "obligations": [
     {
@@ -486,7 +492,8 @@
     "foundation_approved": false,
     "learner_assets_produced": false,
     "independent_educational_review_complete": false,
-    "founder_publication_approved": false
+    "founder_publication_approved": false,
+    "numbered_subtopic_identifiers_structurally_indexed": true
   },
   "actual_spend": {
     "provider_calls": 0,
@@ -494,6 +501,929 @@
     "human_review_minutes": "UNMEASURED",
     "elapsed_production_minutes": "UNMEASURED",
     "rework_cycles": 0,
-    "notes": "Provider calls for this bounded provider-free intake only; not a course-production cost."
-  }
+    "notes": "No model/provider calls for reference-only research and provider-free deterministic checks; paid course production, human time and rework remain unmeasured."
+  },
+  "numbered_subtopic_index": {
+    "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "source_specification_issue": "Issue 1, September 2014",
+    "record_status": "NUMBERED_SUBTOPIC_IDENTIFIERS_ONLY_NOT_ATOMIC_REQUIREMENTS",
+    "source_pdf_page_index_basis": "pdf_first_page_is_zero",
+    "licence_classification": "REFERENCE_ONLY",
+    "source_page_range_pdf_zero_based": [
+      17,
+      42
+    ],
+    "subtopics": [
+      {
+        "id": "1.1.1",
+        "topic_id": "1.1",
+        "theme": 1,
+        "source_pdf_page_zero_based": 17,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.1.2",
+        "topic_id": "1.1",
+        "theme": 1,
+        "source_pdf_page_zero_based": 17,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.1.3",
+        "topic_id": "1.1",
+        "theme": 1,
+        "source_pdf_page_zero_based": 17,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.2.1",
+        "topic_id": "1.2",
+        "theme": 1,
+        "source_pdf_page_zero_based": 18,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.2.2",
+        "topic_id": "1.2",
+        "theme": 1,
+        "source_pdf_page_zero_based": 18,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.2.3",
+        "topic_id": "1.2",
+        "theme": 1,
+        "source_pdf_page_zero_based": 18,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.2.4",
+        "topic_id": "1.2",
+        "theme": 1,
+        "source_pdf_page_zero_based": 18,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.2.5",
+        "topic_id": "1.2",
+        "theme": 1,
+        "source_pdf_page_zero_based": 18,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.3.1",
+        "topic_id": "1.3",
+        "theme": 1,
+        "source_pdf_page_zero_based": 19,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.3.2",
+        "topic_id": "1.3",
+        "theme": 1,
+        "source_pdf_page_zero_based": 19,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.3.3",
+        "topic_id": "1.3",
+        "theme": 1,
+        "source_pdf_page_zero_based": 20,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.3.4",
+        "topic_id": "1.3",
+        "theme": 1,
+        "source_pdf_page_zero_based": 20,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.3.5",
+        "topic_id": "1.3",
+        "theme": 1,
+        "source_pdf_page_zero_based": 20,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.4.1",
+        "topic_id": "1.4",
+        "theme": 1,
+        "source_pdf_page_zero_based": 21,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.4.2",
+        "topic_id": "1.4",
+        "theme": 1,
+        "source_pdf_page_zero_based": 21,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.4.3",
+        "topic_id": "1.4",
+        "theme": 1,
+        "source_pdf_page_zero_based": 21,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.4.4",
+        "topic_id": "1.4",
+        "theme": 1,
+        "source_pdf_page_zero_based": 22,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.4.5",
+        "topic_id": "1.4",
+        "theme": 1,
+        "source_pdf_page_zero_based": 22,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.1",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.2",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.3",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.4",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.5",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "1.5.6",
+        "topic_id": "1.5",
+        "theme": 1,
+        "source_pdf_page_zero_based": 23,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.1.1",
+        "topic_id": "2.1",
+        "theme": 2,
+        "source_pdf_page_zero_based": 25,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.1.2",
+        "topic_id": "2.1",
+        "theme": 2,
+        "source_pdf_page_zero_based": 25,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.1.3",
+        "topic_id": "2.1",
+        "theme": 2,
+        "source_pdf_page_zero_based": 25,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.1.4",
+        "topic_id": "2.1",
+        "theme": 2,
+        "source_pdf_page_zero_based": 25,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.2.1",
+        "topic_id": "2.2",
+        "theme": 2,
+        "source_pdf_page_zero_based": 26,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.2.2",
+        "topic_id": "2.2",
+        "theme": 2,
+        "source_pdf_page_zero_based": 26,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.2.3",
+        "topic_id": "2.2",
+        "theme": 2,
+        "source_pdf_page_zero_based": 26,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.2.4",
+        "topic_id": "2.2",
+        "theme": 2,
+        "source_pdf_page_zero_based": 26,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.3.1",
+        "topic_id": "2.3",
+        "theme": 2,
+        "source_pdf_page_zero_based": 27,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.3.2",
+        "topic_id": "2.3",
+        "theme": 2,
+        "source_pdf_page_zero_based": 27,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.3.3",
+        "topic_id": "2.3",
+        "theme": 2,
+        "source_pdf_page_zero_based": 27,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.4.1",
+        "topic_id": "2.4",
+        "theme": 2,
+        "source_pdf_page_zero_based": 28,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.4.2",
+        "topic_id": "2.4",
+        "theme": 2,
+        "source_pdf_page_zero_based": 28,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.4.3",
+        "topic_id": "2.4",
+        "theme": 2,
+        "source_pdf_page_zero_based": 28,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.4.4",
+        "topic_id": "2.4",
+        "theme": 2,
+        "source_pdf_page_zero_based": 28,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.5.1",
+        "topic_id": "2.5",
+        "theme": 2,
+        "source_pdf_page_zero_based": 29,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.5.2",
+        "topic_id": "2.5",
+        "theme": 2,
+        "source_pdf_page_zero_based": 29,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "2.5.3",
+        "topic_id": "2.5",
+        "theme": 2,
+        "source_pdf_page_zero_based": 29,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.1.1",
+        "topic_id": "3.1",
+        "theme": 3,
+        "source_pdf_page_zero_based": 31,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.1.2",
+        "topic_id": "3.1",
+        "theme": 3,
+        "source_pdf_page_zero_based": 31,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.1.3",
+        "topic_id": "3.1",
+        "theme": 3,
+        "source_pdf_page_zero_based": 31,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.1.4",
+        "topic_id": "3.1",
+        "theme": 3,
+        "source_pdf_page_zero_based": 31,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.2.1",
+        "topic_id": "3.2",
+        "theme": 3,
+        "source_pdf_page_zero_based": 32,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.2.2",
+        "topic_id": "3.2",
+        "theme": 3,
+        "source_pdf_page_zero_based": 32,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.2.3",
+        "topic_id": "3.2",
+        "theme": 3,
+        "source_pdf_page_zero_based": 32,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.2.4",
+        "topic_id": "3.2",
+        "theme": 3,
+        "source_pdf_page_zero_based": 32,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.3.1",
+        "topic_id": "3.3",
+        "theme": 3,
+        "source_pdf_page_zero_based": 33,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.3.2",
+        "topic_id": "3.3",
+        "theme": 3,
+        "source_pdf_page_zero_based": 33,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.3.3",
+        "topic_id": "3.3",
+        "theme": 3,
+        "source_pdf_page_zero_based": 33,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.3.4",
+        "topic_id": "3.3",
+        "theme": 3,
+        "source_pdf_page_zero_based": 33,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.4.1",
+        "topic_id": "3.4",
+        "theme": 3,
+        "source_pdf_page_zero_based": 34,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.4.2",
+        "topic_id": "3.4",
+        "theme": 3,
+        "source_pdf_page_zero_based": 34,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.4.3",
+        "topic_id": "3.4",
+        "theme": 3,
+        "source_pdf_page_zero_based": 34,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.4.4",
+        "topic_id": "3.4",
+        "theme": 3,
+        "source_pdf_page_zero_based": 34,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.5.1",
+        "topic_id": "3.5",
+        "theme": 3,
+        "source_pdf_page_zero_based": 35,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.5.2",
+        "topic_id": "3.5",
+        "theme": 3,
+        "source_pdf_page_zero_based": 35,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.5.3",
+        "topic_id": "3.5",
+        "theme": 3,
+        "source_pdf_page_zero_based": 35,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.6.1",
+        "topic_id": "3.6",
+        "theme": 3,
+        "source_pdf_page_zero_based": 36,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.6.2",
+        "topic_id": "3.6",
+        "theme": 3,
+        "source_pdf_page_zero_based": 36,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "3.6.3",
+        "topic_id": "3.6",
+        "theme": 3,
+        "source_pdf_page_zero_based": 36,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.1.1",
+        "topic_id": "4.1",
+        "theme": 4,
+        "source_pdf_page_zero_based": 39,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.1.2",
+        "topic_id": "4.1",
+        "theme": 4,
+        "source_pdf_page_zero_based": 39,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.1.3",
+        "topic_id": "4.1",
+        "theme": 4,
+        "source_pdf_page_zero_based": 39,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.1.4",
+        "topic_id": "4.1",
+        "theme": 4,
+        "source_pdf_page_zero_based": 39,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.1.5",
+        "topic_id": "4.1",
+        "theme": 4,
+        "source_pdf_page_zero_based": 39,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.2.1",
+        "topic_id": "4.2",
+        "theme": 4,
+        "source_pdf_page_zero_based": 40,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.2.2",
+        "topic_id": "4.2",
+        "theme": 4,
+        "source_pdf_page_zero_based": 40,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.2.3",
+        "topic_id": "4.2",
+        "theme": 4,
+        "source_pdf_page_zero_based": 40,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.2.4",
+        "topic_id": "4.2",
+        "theme": 4,
+        "source_pdf_page_zero_based": 40,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.2.5",
+        "topic_id": "4.2",
+        "theme": 4,
+        "source_pdf_page_zero_based": 40,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.3.1",
+        "topic_id": "4.3",
+        "theme": 4,
+        "source_pdf_page_zero_based": 41,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.3.2",
+        "topic_id": "4.3",
+        "theme": 4,
+        "source_pdf_page_zero_based": 41,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.3.3",
+        "topic_id": "4.3",
+        "theme": 4,
+        "source_pdf_page_zero_based": 41,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.4.1",
+        "topic_id": "4.4",
+        "theme": 4,
+        "source_pdf_page_zero_based": 42,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.4.2",
+        "topic_id": "4.4",
+        "theme": 4,
+        "source_pdf_page_zero_based": 42,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      },
+      {
+        "id": "4.4.3",
+        "topic_id": "4.4",
+        "theme": 4,
+        "source_pdf_page_zero_based": 42,
+        "review_status": "NOT_YET_ATOMICALLY_MAPPED",
+        "reusable_foundation_decision": "UNASSESSED",
+        "asset_coverage_status": "NOT_PRODUCED"
+      }
+    ],
+    "structural_verification": "NUMBERED_SUBTOPIC_IDS_CROSSCHECKED_AGAINST_OFFICIAL_PDF_VIEW_2026-10-23",
+    "remaining_denominator": "LETTERED_AND_NESTED_EXAMINABLE_REQUIREMENTS_NOT_YET_ENUMERATED"
+  },
+  "assessment_objective_component_contributions": {
+    "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "source_pdf_page_zero_based": 47,
+    "unit": "percentage_points_of_total_qualification_not_component_raw_marks",
+    "component_ranges": [
+      {
+        "component": "9BS0/01",
+        "AO1": [
+          6,
+          8
+        ],
+        "AO2": [
+          7,
+          9
+        ],
+        "AO3": [
+          9,
+          11
+        ],
+        "AO4": [
+          8,
+          10
+        ]
+      },
+      {
+        "component": "9BS0/02",
+        "AO1": [
+          6,
+          8
+        ],
+        "AO2": [
+          7,
+          9
+        ],
+        "AO3": [
+          9,
+          11
+        ],
+        "AO4": [
+          8,
+          10
+        ]
+      },
+      {
+        "component": "9BS0/03",
+        "AO1": [
+          5,
+          7
+        ],
+        "AO2": [
+          5,
+          7
+        ],
+        "AO3": [
+          9,
+          11
+        ],
+        "AO4": [
+          9,
+          11
+        ]
+      }
+    ],
+    "assurance_status": "SOURCED_FACTS_NOT_CANDIDATE_QUESTION_DISTRIBUTION"
+  },
+  "accounting_ratio_reference": {
+    "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "source_pdf_page_zero_based": 64,
+    "reproduction_boundary": "RIGHTS_SAFE_RATIO_NAMES_AND_MATHEMATICAL_CONVENTIONS_ONLY_NO_SOURCE_TABLE_OR_PROSE",
+    "ratios": [
+      {
+        "id": "GROSS_PROFIT_MARGIN",
+        "numerator": "gross_profit",
+        "denominator": "revenue",
+        "multiply_by": 100
+      },
+      {
+        "id": "OPERATING_PROFIT_MARGIN",
+        "numerator": "operating_profit",
+        "denominator": "revenue",
+        "multiply_by": 100
+      },
+      {
+        "id": "NET_PROFIT_MARGIN",
+        "numerator": "profit_for_year",
+        "denominator": "revenue",
+        "multiply_by": 100
+      },
+      {
+        "id": "CURRENT_RATIO",
+        "numerator": "current_assets",
+        "denominator": "current_liabilities",
+        "multiply_by": 1
+      },
+      {
+        "id": "ACID_TEST_RATIO",
+        "numerator": "current_assets_minus_inventory",
+        "denominator": "current_liabilities",
+        "multiply_by": 1
+      },
+      {
+        "id": "GEARING_RATIO",
+        "numerator": "non_current_liabilities",
+        "denominator": "capital_employed",
+        "multiply_by": 100
+      },
+      {
+        "id": "ROCE",
+        "numerator": "operating_profit",
+        "denominator": "capital_employed",
+        "multiply_by": 100
+      }
+    ],
+    "capital_employed_definition": "non_current_liabilities_plus_total_equity",
+    "assurance_status": "VERIFIED_SOURCE_CONVENTIONS_NO_LEARNER_ASSET_CALCULATION_REVIEW"
+  },
+  "reuse_review_queue": [
+    {
+      "subtopic_id": "1.2.1",
+      "review_type": "requirement_depth_review",
+      "reason": "Market demand changes and price determinants require more than a generic market overview",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "1.2.2",
+      "review_type": "potential_node_or_facet_gap",
+      "reason": "Market supply and determinants may be absent from reusable Business foundation",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "1.2.3",
+      "review_type": "potential_faceted_depth_gap",
+      "reason": "Supply-demand equilibrium and diagram interpretation require exact quantitative/graph capability",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "1.4.4",
+      "review_type": "named_model_source_and_reuse_review",
+      "reason": "Mayo human-relations theory is assessed but absent from the five indexed named-model IDs",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "3.1.2",
+      "review_type": "named_model_fidelity_review",
+      "reason": "Porter strategic positioning matrix differs from Five Forces; must not conflate models",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "3.3.4",
+      "review_type": "calculation_depth_review",
+      "reason": "Critical Path Analysis requires earliest-start/latest-finish/float calculations, not only general concepts",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "3.5.2",
+      "review_type": "formula_convention_review",
+      "reason": "Edexcel gearing/ROCE formulas must match Appendix 4, not AQA conventions by default",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "4.1.5",
+      "review_type": "source_currency_review",
+      "reason": "Trading-bloc historical examples in 2014 specification need careful current-context treatment",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "4.3.1",
+      "review_type": "course_specific_facet_review",
+      "reason": "Global localisation and country-centred marketing orientations may need explicit depth",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    },
+    {
+      "subtopic_id": "4.4.1",
+      "review_type": "depth_and_assessment_review",
+      "reason": "Multinational impacts, tax and transfer-pricing reasoning require level-specific detail",
+      "verification_status": "UNRESOLVED",
+      "not_an_asserted_defect": true
+    }
+  ]
 }
