@@ -26,6 +26,12 @@ The product owner is authorised to make an interim **product-risk recommendation
 
 A **fresh, independent, qualified privacy/data-protection review of Revision's complete learner service** is mandatory before unrestricted public learner availability. It must be signed off in `PUBLIC-PRIV-01` and must not be inferred from REC-10 pilot clearance. This phased approach refines review timing but does not waive the general independent/legal verification requirement in `40-evidence-and-trust/Privacy and Student Data Principles.md`. It is a proposed change on draft PR #658, not approved `main` until governed merge.
 
+## Development integration versus private test activation — Founder direction 23 October 2026
+
+REC-10 may be **merged** after its normal exact-head code/security/educational assurance and **specific Founder PR approval** without first commissioning the public-launch independent privacy report. The missing external report is an OPEN public Go-to-Market item, not a blanket PR-merge hold.
+
+**Family-only use of real written responses is a separate activation decision:** one or other specifically listed account(s) may receive the signed REC-10 pilot Auth claim only after the Founder/accountable controller signs the proportionate internal children's-data/privacy preflight (lawful basis, age-appropriate explanation, rights contact, backup/supplier risk), backend migration and confirmed 14-day deletion/RLS operation. Nothing about merge itself authorises that processing or enables a public cohort. `PUBLIC-PRIV-01` remains mandatory before opening the learner feature or product to the wider public.
+
 ## Release and acceptance
 Work only in the canonical learner route /revision/app/ (ExamPrepSection/ExamSimulator). Preserve supported pilot restrictions and existing AQA Business 7132 / Psychology 7182 paper and syllabus-option boundaries. Use branch PR governance and exact-head automated tests plus controlled browser/database evidence. Update the technical implementation record and registers in the same PR. Founder approval of these rules is **not approval to merge PR #658**.
 
