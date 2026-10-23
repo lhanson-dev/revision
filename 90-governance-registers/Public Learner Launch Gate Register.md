@@ -19,6 +19,8 @@ The Founder delegated the **product** privacy risk recommendation and asked to r
 
 **Mandatory process:** record public/legal/marketing/commercial/operational launch obligations here and update them as evidence accrues. `OPEN` items **do not automatically block an otherwise assured individual PR merge or isolated family-only testing**. They block the **public availability** decision at Stage 3. A separate proportionate internal pre-test record and genuine safe technical controls are still required *before* a company service processes any real child's information. Keep the Founder PR merge approval and Founder public-launch approval distinct. Code merged into the auto-deploying `main` may remain dormant behind cohort flags; backend readiness and a healthy production path-to-live are separate release requirements.
 
+**Permanent operational tracker:** [GitHub Issue #663](https://github.com/lhanson-dev/revision/issues/663). The register is the governed source of truth for launch gates; issue #663 tracks their completion. Neither is a reason to block a technically assured PR merge solely for outstanding external public-market review.
+
 ## Additional Go-to-Market readiness log (not PR-merge blockers)
 
 | ID | Review before wider/public availability | Status | Required closure evidence | Owner |
