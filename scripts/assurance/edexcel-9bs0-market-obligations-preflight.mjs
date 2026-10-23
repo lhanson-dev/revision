@@ -42,7 +42,7 @@ export function checkEdexcelMarketObligations(document,index,firstSlice,foundati
  const sourceRows=(index?.terminal_reference_ids??[]).filter(r=>r.id.startsWith('1.2.'));
  const firstSliceById=new Map((firstSlice?.lettered_obligations??[]).map(r=>[r.id,r]));
  const sourceIds=counts.map(x=>x[0]);
- const expectedRowIds=counts.flatMap(([ref,n],i)=>
+ const expectedRowIds=counts.flatMap(([,n],i)=>
   Array.from({length:n},(_,j)=>'EDX-9BS0-MKT-'+String(i+1).padStart(2,'0')+(n>1?String.fromCharCode(65+j):'')));
  const rows=document?.obligations??[];
  check(document?.schema_version==='edexcel-9bs0-market-atomicity-pilot-v1'
