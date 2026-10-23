@@ -105,6 +105,25 @@ export function checkQualificationIntake(intake, index) {
   check(riskQueue.length>=8 && riskQueue.every(x=>expectedIds.includes(x.subtopic_id)
     && x.verification_status==='UNRESOLVED'
     && x.not_an_asserted_defect===true), 'reuse_risks_silently_cleared_or_out_of_scope');
+  const timetable = intake?.assessment_year_timetable_evidence;
+  const expectedTimetable = [
+    {id:'9BS0/01',date:'2027-05-13',session:'afternoon',duration_minutes:120},
+    {id:'9BS0/02',date:'2027-05-19',session:'morning',duration_minutes:120},
+    {id:'9BS0/03',date:'2027-06-08',session:'afternoon',duration_minutes:120}
+  ];
+  check(timetable?.status==='OFFICIAL_FINAL_PAPER_SCHEDULE_CONFIRMED_NOT_FULL_COHORT_SPEC_APPROVAL'
+    && timetable?.assessment_year===2027
+    && timetable?.source_id==='PEARSON-GCE-2027-FINAL-TIMETABLE'
+    && sources.some(s=>s.id===timetable.source_id && s.rights==='REFERENCE_ONLY'
+      && s.generative_input_allowed===false && s.publication_reproduction_allowed===false),
+    'official_2027_timetable_provenance_or_rights_missing');
+  check(JSON.stringify(timetable?.papers)===JSON.stringify(expectedTimetable),
+    'official_2027_paper_dates_or_sessions_incorrect');
+  check(timetable?.specific_start_clock_time_confirmed===false
+    && timetable?.exact_specification_currentness_confirmed===false
+    && timetable?.pre_release_context_2027_verified===false
+    && timetable?.source_operation_rights_expanded===false,
+    'unsupported_2027_timetable_approval_claim');
   const pending = Object.entries(intake?.assurance ?? {}).filter(([k,v])=>
     k!=='numbered_subtopic_identifiers_structurally_indexed' && v!==true).map(([k])=>k);
   check(intake?.assurance?.numbered_subtopic_identifiers_structurally_indexed===true

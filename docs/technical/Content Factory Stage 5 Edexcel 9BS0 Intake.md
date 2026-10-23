@@ -5,6 +5,14 @@
 **Approved baseline:** `9b859a186bf355b9ae18722d058127995f8ff13b` after Stage 4 / PR #662.  
 **Normative authority:** Content Factory Foundation and Asset Production Model; Subject Knowledge Foundation and Course Projection Amendment; Fast-Path Process; Educational Content Source Licensing and Provenance Standard; Content Accuracy Assurance Gate; AI Agent Constitution.
 
+## New official 2027 assessment-cohort evidence — final timetable
+
+Pearson’s [final GCE summer 2027 timetable](https://qualifications.pearson.com/content/dam/pdf/Support/Examination-timetables/gce-summer-2027-final.pdf), PDF pages 3, 5 and 9 (zero-based), independently confirms the three examination codes and planned sessions: **9BS0/01 Thursday 13 May 2027 afternoon**, **9BS0/02 Wednesday 19 May 2027 morning**, **9BS0/03 Tuesday 8 June 2027 afternoon**. Each examination is scheduled for two hours. This establishes the qualification is offered in the 2027 assessment series; dates/sessions are an official timetable fact, not inferred from generic A-level plans.
+
+The additional timetable source is classified `REFERENCE_ONLY`; it is recorded as structured source provenance, not transferred to a model worker or used as permission to reproduce a source document. `assessment_year_timetable_evidence` is deliberately separate from approved specification identity, human review and learner publication states. The exact current specification/version/cohort Source Universe, operation-specific rights and 2027 Paper 3 pre-release context remain **HOLD**. Official morning/afternoon sessions must not be converted into an invented candidate-specific clock time; centres have permitted starts within regulated windows.
+
+The Stage 5 intake preflight now rejects missing official timetable provenance, altered exam dates/paper-code matches and any claim that schedule verification automatically approves the full current specification, licences or the pre-release context. No student route or production data has changed.
+
 ## Current official source verification
 
 1. Pearson's [current 9BS0 landing](https://qualifications.pearson.com/en/qualifications/edexcel-a-levels/business-2015.html) links to its [A level Business specification, Issue 1 September 2014](https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf). Its present listing continues to say first teaching 2015 and first assessment 2017. **The intended 2027 assessment-year applicability is still awaiting a separately retained cohort/version and source-universe reconciliation.** The PDF is copyright Pearson; public access is not an AI/commercial licence.

@@ -66,3 +66,19 @@ test('hard educational reuse risks and atomic completion cannot be silently waiv
  assert.ok(mutate(i=>i.reuse_review_queue[0].verification_status='CLEARED').failures.includes('reuse_risks_silently_cleared_or_out_of_scope'));
  assert.ok(mutate(i=>i.assurance.atomic_curriculum_requirements_complete=true).failures.includes('unearned_assurance_approval'));
 });
+
+test('official 2027 final timetable confirms only paper dates, duration and sessions',()=>{
+ const out=checkQualificationIntake(source,index);
+ assert.equal(out.structural_preflight,'PASS');
+ assert.equal(source.assessment_year_timetable_evidence.papers.length,3);
+ assert.equal(source.assessment_year_timetable_evidence.pre_release_context_2027_verified,false);
+});
+test('reject 2027 schedule changes or unsupported specification approval',()=>{
+ assert.ok(mutate(i=>i.assessment_year_timetable_evidence.papers[1].date='2027-05-20').failures.includes('official_2027_paper_dates_or_sessions_incorrect'));
+ assert.ok(mutate(i=>i.assessment_year_timetable_evidence.exact_specification_currentness_confirmed=true).failures.includes('unsupported_2027_timetable_approval_claim'));
+ assert.ok(mutate(i=>i.assessment_year_timetable_evidence.pre_release_context_2027_verified=true).failures.includes('unsupported_2027_timetable_approval_claim'));
+});
+test('reject timetable provenance that is not rights-safe reference-only',()=>{
+ assert.ok(mutate(i=>i.assessment_year_timetable_evidence.source_id='UNVERIFIED').failures.includes('official_2027_timetable_provenance_or_rights_missing'));
+ assert.ok(mutate(i=>i.sources.find(s=>s.id==='PEARSON-GCE-2027-FINAL-TIMETABLE').generative_input_allowed=true).failures.includes('official_2027_timetable_provenance_or_rights_missing'));
+});

@@ -54,6 +54,16 @@
       "generative_input_allowed": false,
       "publication_reproduction_allowed": false,
       "verification": "checked_2026-10-23"
+    },
+    {
+      "id": "PEARSON-GCE-2027-FINAL-TIMETABLE",
+      "url": "https://qualifications.pearson.com/content/dam/pdf/Support/Examination-timetables/gce-summer-2027-final.pdf",
+      "type": "official_2027_exam_timetable",
+      "usage": "verify_2027_paper_codes_exam_dates_and_sessions_only",
+      "rights": "REFERENCE_ONLY",
+      "generative_input_allowed": false,
+      "publication_reproduction_allowed": false,
+      "verification": "published_Pearson_2027_FINAL_timetable_checked_2026-10-23"
     }
   ],
   "components": [
@@ -1425,5 +1435,40 @@
       "verification_status": "UNRESOLVED",
       "not_an_asserted_defect": true
     }
-  ]
+  ],
+  "assessment_year_timetable_evidence": {
+    "status": "OFFICIAL_FINAL_PAPER_SCHEDULE_CONFIRMED_NOT_FULL_COHORT_SPEC_APPROVAL",
+    "assessment_year": 2027,
+    "source_id": "PEARSON-GCE-2027-FINAL-TIMETABLE",
+    "source_pdf_page_zero_based": [
+      3,
+      5,
+      9,
+      13
+    ],
+    "papers": [
+      {
+        "id": "9BS0/01",
+        "date": "2027-05-13",
+        "session": "afternoon",
+        "duration_minutes": 120
+      },
+      {
+        "id": "9BS0/02",
+        "date": "2027-05-19",
+        "session": "morning",
+        "duration_minutes": 120
+      },
+      {
+        "id": "9BS0/03",
+        "date": "2027-06-08",
+        "session": "afternoon",
+        "duration_minutes": 120
+      }
+    ],
+    "specific_start_clock_time_confirmed": false,
+    "exact_specification_currentness_confirmed": false,
+    "pre_release_context_2027_verified": false,
+    "source_operation_rights_expanded": false
+  }
 }
