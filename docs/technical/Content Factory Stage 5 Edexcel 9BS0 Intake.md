@@ -38,6 +38,18 @@ Fail-closed tests now reject dropped, reordered, self-approved or misattributed 
 
 **Still HOLD:** exact 2027 source-universe currency and Paper 3 release context/timing; rights decisions for every intended downstream operation; individual subtopic lettered/nested requirements and degree-of-depth review; approved Subject Knowledge Foundation version; actual accepted reuse percentages and qualified review; Course/Exam Truth, original Learn/Practice/Exam assets and measured live-generation costs.
 
+## Controlled 1.1–1.2 lettered requirement-to-candidate-node trial (23 October 2026)
+
+The independently inspected official Pearson 9BS0 specification pages 17–18 (zero-based PDF pages) identify **26 lettered obligations in eight numbered subtopics**. This is a deliberately bounded Stage 5 subsection of the 80-numbered-subtopic index; some lettered obligations contain additional nested examinable facts and skills. The full atomic denominator is **still incomplete**.
+
+`research/content-production-repeatability/edexcel-9bs0-first-slice-review.json` records only rights-safe references (subtopic:letter IDs), original candidate links to the stable 81-node Business research corpus, the source page, unresolved depth classification and review state. Pearson remains `REFERENCE_ONLY`: source prose is not learner content or model-worker input. Every reuse classification stays unapproved and **no reuse rate is inferred** from these candidate links.
+
+Evidence inspected in the candidate node files: `BUS-MKT-008` has price/income elasticity numerical methods and worked examples; `BUS-MKT-005` contains positioning/map concepts; `BUS-MKT-004` deals with sampling and bias. A candidate match **does not** establish adequate Edexcel depth, source-rights/independent review, same-version assurance or correct learner evidence placement. Four requirement IDs require especially careful subject-depth investigation: `1.2.1:a` (market demand influences), `1.2.2:a` (market supply influences), `1.2.3:a` (price equilibrium interaction), `1.2.3:b` (graph drawing/interpreting price changes). Operational supply/capacity teaching is not a verified substitute for market supply-and-demand analysis.
+
+`scripts/assurance/edexcel-9bs0-first-slice-preflight.mjs` checks each of 26 identifiers, parent source index, candidate-node IDs, source-page provenance, source-rights classification and fail-closed non-approval states. `scripts/assurance/edexcel-9bs0-first-slice-preflight.test.mjs` rejects missing IDs, fabricated nodes/pages, copying permission and manufactured review approval. Run `npx vitest run scripts/assurance/edexcel-9bs0-first-slice-preflight.test.mjs` and `node scripts/assurance/edexcel-9bs0-first-slice-preflight.mjs`.
+
+**Acceptance boundary:** A structural PASS for 26 reference identifiers is *not* a complete course or assurance PASS. All lettered/nested curriculum obligations, exact 2027 cohort/source rights, currently approved Foundation fingerprint, actual reuse/depth gap decisions, educational assessment and qualified-human approval, complete original learner content and full learner journeys remain HOLD. No new runtime route, publication policy or source licence is authorised by this trial.
+
 ## Implemented preflight
 
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.
