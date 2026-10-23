@@ -70,6 +70,24 @@ A second independent **visual inspection** of the official Pearson Edexcel 9BS0 
 
 **Integration note:** Approved `main` subsequently advanced through recovery PR #658 to `df1fc616b0f836f90ff2ede5c0a0d5e4e662e5f6`, while PR #664 remains an open draft. Before merging Stage 5, reconcile the candidate branch with then-current `main` under the existing integration and Founder-approval controls. The separate recovery programme and its learner code are not modified here.
 
+## Themes 2–4 structural source-reference inventory
+
+**Scope:** Complete source-shape preflight for **all 80 numbered Edexcel 9BS0 subtopics**. This is a reference-only ID inventory, **not** educational completeness, approved Course/Exam Truth, reusable subject content or publication. The additional independent source check was against Pearson's Issue 1 PDF, specifically pages 25–29 (Theme 2), 31–36 (Theme 3), 39–42 (Theme 4), zero-based. Theme 1 remains the earlier page 17–23 corpus.
+
+| Structural level | Theme 1 | Theme 2 | Theme 3 | Theme 4 | Total |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Numbered subtopics | 24 | 18 | 22 | 16 | **80** |
+| Lettered identifiers | 75 | 50 | 64 | 49 | **238** |
+| Terminal source positions | 153 | 83 | 98 | 91 | **425** |
+
+The source reference index `research/content-production-repeatability/edexcel-9bs0-theme234-identifier-index.json` records the remaining 56 subtopics as exact numbered/lettered/bullet-position IDs with PDF page locators and explicit unreviewed states. It contains **no Pearson explanatory prose** and is classified `REFERENCE_ONLY`; it cannot be fed directly into a generative worker for source copying. Subtopics with indented bullets each have stable terminal IDs. A letter with no indented bullet counts as a terminal source position. Further nested facts, models, formula conventions, diagram capabilities, mathematical steps, and AO/command/assessment requirements still need independent atomic decomposition: **425 is not the number of complete educational atoms or generated learning objects.**
+
+The provider-free `scripts/assurance/edexcel-9bs0-theme234-index-preflight.mjs` contains a separately encoded expected source shape, verifies all 56 new numbered IDs, 163 additional lettered positions and 272 additional terminal positions, and reconciles the **entire 80-subtopic ordered universe** against the original 2027 intake and Theme 1 index. The associated `.test.mjs` negative suite checks for lost/reordered subtopics, omitted bullets, incorrect source pages, rights widening, approved-reuse fabrication or claims of complete Course Truth. Run `npx vitest run scripts/assurance/edexcel-9bs0-theme234-index-preflight.test.mjs` and `node scripts/assurance/edexcel-9bs0-theme234-index-preflight.mjs`.
+
+**Educational/production position unchanged:** Every source ID is unreviewed. An apparently complete source-row index does not prove correct source semantics, permitted AI usage, a valid 2027 qualification specification version, assessment context or qualified review. No Edexcel Foundation nodes have been independently classified as reusable/deepened/new; approved reuse denominator and percentage remain unknown. No learner packs, marking guidance, original exam sets, API model calls or review-time receipts exist for this bounded index. All downstream generation and publication gates HOLD.
+
+**Next action:** Decompose compound terminal positions into independently named conceptual, graphical, numerical, synoptic and command/AO obligations; map each to the **actual accepted Foundation fingerprint** using the existing fast-path source-rights and two-round review process. Classify specific reuse/depth/new-node decisions and measure effort. Do not use the AQA mapping as a surrogate. Before requesting merge approval, refresh this Stage 5 PR against then-current approved `main` (which also contains independent REC-10 work), run required exact-head integration checks and supply a plain-language merge summary.
+
 ## Implemented preflight
 
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.
