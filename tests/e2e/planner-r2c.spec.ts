@@ -86,6 +86,7 @@ test('R2-05 archived exam disappears from Home, Plan milestone list and REV answ
   await page.goto(appPath)
   await expect(page.locator('.home-v3-exams')).not.toContainText('Archived Business exam')
   await page.goto(`${appPath}#/plan`)
+  await page.locator('.pln-programme-disclosure > summary').click()
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).toContainText('Active Business exam')
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).not.toContainText('Archived Business exam')
   await expect(page.getByText('Archived Business exam', { exact: true })).toHaveCount(0)
