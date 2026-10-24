@@ -354,7 +354,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
   )
 
   const week = weekTitle(anchor, todayKey)
-  const pageTitle = 'Plan'
   const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
   const atNow = isMonth ? sameMonth(anchor, todayKey) : weekStart(anchor) === weekStart(todayKey)
 
