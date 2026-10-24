@@ -23,14 +23,15 @@ import { Button, Icon, SegmentedControl, SubjectBadge, TextField } from './ui'
 /* ------------------------------------------------------------------ Summary */
 
 export function PlanSummaryCard({ label, summary }: { label: string; summary: PlanSummary }) {
+  const completedShare = summary.studyCount > 0 ? Math.round((summary.doneCount / summary.studyCount) * 100) : 0
   return (
-    <div className="pln-summary" aria-label={`${label}: ${summary.doneCount} of ${summary.studyCount} activities completed`}>
+    <div className="pln-summary" aria-label={`${label}: ${summary.studyCount === 0 ? 'No activities planned' : `${summary.doneCount} of ${summary.studyCount} activities completed`}`}>
       <span className="pln-summary__time">
-        <strong>{summary.doneCount} of {summary.studyCount}</strong> activities completed
+        {summary.studyCount === 0 ? 'No activities planned' : <><strong>{summary.doneCount} of {summary.studyCount}</strong> activities completed</>}
       </span>
-      <span className="pln-summary__track" aria-hidden="true">
-        <span style={{ width: `${summary.percent}%` }} />
-      </span>
+      {summary.studyCount > 0 && <span className="pln-summary__track" aria-hidden="true">
+        <span style={{ width: `${completedShare}%` }} />
+      </span>}
     </div>
   )
 }
