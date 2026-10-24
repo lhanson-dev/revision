@@ -243,7 +243,7 @@ test('future weeks show only what the planner returns, never invented sessions',
   await openPlan(page, '#/plan?view=week&date=2027-03-01')
   await expect(page.locator('.pln-list')).toHaveCount(0)
   await expect(page.locator('.pln-empty')).toHaveCount(7)
-  await expect(page.locator('.pln-summary')).toContainText('0 of 0')
+  await expect(page.locator('.pln-summary')).toContainText('No activities planned')
 })
 
 test.describe('data sanity', () => {
