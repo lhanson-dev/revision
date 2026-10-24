@@ -33,6 +33,8 @@ describe('Stage 5 original supply-demand graph and evidence boundary',()=>{
    .toContain('curve_coordinates_or_label_incorrect:S1');
   expect(checkMarketGraph(cost.replace('data-axis="price" x1="100" y1="380" x2="100"','data-axis="price" x1="100" y1="380" x2="550"'),'cost',model))
    .toContain('axis_geometry_incorrect:price');
+  expect(checkMarketGraph(cost.replace('font-weight="600" fill="#0F172A"','font-weight="600" fill="none"'),'cost',model))
+   .toContain('curve_coordinates_or_label_incorrect:D0');
  });
  it('rejects false equilibrium position, no text alternatives and imported graphics',()=>{
   const demand=svg(demandFile);

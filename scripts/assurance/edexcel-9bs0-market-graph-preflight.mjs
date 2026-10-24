@@ -48,7 +48,7 @@ export function checkMarketGraph(svg,kind,caseData){
  require((svg.match(/data-curve="/g)||[]).length===shape.curveIds.length,'curve_count_incorrect');
  for(const id of shape.curveIds){
   const curve=curves[id],l=tag(svg,'line','curve',id);
-  require(Boolean(l)&&contains(svg,'curve-label',id)&&curve
+  require(Boolean(l)&&contains(svg,'curve-label',id)&&tag(svg,'text','curve-label',id)?.includes('fill="#0F172A"')&&curve
    &&near(attr(l,'x1'),x(qAtPrice(curve,0)))&&near(attr(l,'y1'),y(0))
    &&near(attr(l,'x2'),x(qAtPrice(curve,30)))&&near(attr(l,'y2'),y(30)),
    'curve_coordinates_or_label_incorrect:'+id);

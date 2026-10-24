@@ -10,11 +10,11 @@
   <text data-axis-label="quantity" x="460" y="416" font-size="16">Quantity (packs/week)</text>
   <g stroke-linecap="round" fill="none">
     <line data-curve="D0" x1="520" y1="380" x2="100" y2="80" stroke="#2563EB" stroke-width="2.5" stroke-dasharray="6 5" />
-    <text data-curve-label="D0" x="109" y="96" font-size="16" font-weight="600">D0</text>
+    <text data-curve-label="D0" x="109" y="96" font-size="16" font-weight="600" fill="#0F172A">D0</text>
     <line data-curve="D1" x1="555" y1="380" x2="135" y2="80" stroke="#2563EB" stroke-width="4"  />
-    <text data-curve-label="D1" x="144" y="96" font-size="16" font-weight="600">D1</text>
+    <text data-curve-label="D1" x="144" y="96" font-size="16" font-weight="600" fill="#0F172A">D1</text>
     <line data-curve="S0" x1="170" y1="380" x2="275" y2="80" stroke="#EA580C" stroke-width="4"  />
-    <text data-curve-label="S0" x="284" y="96" font-size="16" font-weight="600">S0</text>
+    <text data-curve-label="S0" x="284" y="96" font-size="16" font-weight="600" fill="#0F172A">S0</text>
   </g>
   <g><line data-guide="E0-p" x1="100" y1="180" x2="240" y2="180" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3 5"/><line data-guide="E0-q" x1="240" y1="180" x2="240" y2="380" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3 5"/>
     <circle data-equilibrium="E0" cx="240" cy="180" r="6" fill="#64748B" stroke="white" stroke-width="2"/>
