@@ -77,12 +77,14 @@ async function observeFiveViews(page: Page, paperNames: string[], month = '2027-
     has: page.getByRole('button', { name: /^Up next/ }),
   })
   await expect(nextWeek).toContainText(nextTopic)
+  await page.locator('.pln-programme-disclosure > summary').click()
   const weekProgramme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(weekProgramme).toContainText('Preparation objectives')
   for (const name of paperNames) await expect(weekProgramme).toContainText(name)
 
   await page.goto(appPath + '#/plan?view=month&date=' + month)
   await expect(page.locator('.pln-month')).toBeVisible()
+  await page.locator('.pln-programme-disclosure > summary').click()
   const monthProgramme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(monthProgramme).toContainText('Preparation towards your exams')
   await expect(monthProgramme).toContainText('Objectives for this month')
@@ -122,6 +124,7 @@ test('SV-01/SV-04: real shared Business three-paper programme connects Month, We
   await seededCourses(page, [business.id], () => exams)
   await observeFiveViews(page, exams.map((item) => item.title))
   await page.goto(appPath + '#/plan?view=month&date=2027-05-01')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   const paperSections = programme.locator('[aria-label="Paper response requirements"]')
   await expect(paperSections).toContainText('Revision-authored questions, not official exam-board questions or mark schemes.')
@@ -161,6 +164,7 @@ test('SV-11: changed actual paper dates rebuild milestones and retain common fiv
   ]
   await observeFiveViews(page, exams.map((item) => item.title))
   await page.goto(appPath + '#/plan?view=month&date=2027-06-01')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toContainText('23 June 2027')
   await expect(programme).not.toContainText('2 June 2027')
@@ -258,6 +262,7 @@ test('SV-02/SV-09/SV-10: changing scored evidence reclassifies Plan topic needs 
     } else {
       await page.goto(route)
     }
+    await page.locator('.pln-programme-disclosure > summary').click()
     const programme = page.getByRole('region', { name: 'Your full exam programme' })
     await expect(programme).toContainText('Business scored-evidence paper')
     const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
@@ -347,6 +352,7 @@ test('SV-07: returning after a missed accepted session replans on Home, Plan and
   await expect(page.getByText('Not enough evidence yet').first()).toBeVisible()
 
   await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toBeVisible()
   const knowledge = programme.locator('[aria-label="Verified course knowledge requirements"] details')
@@ -414,6 +420,7 @@ test('SV-08: a real saved scored Practice answer refreshes Progress and the comm
   expect(loaded).toBeGreaterThan(previousLoads)
 
   await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toContainText('Business assessed paper')
   await expect(programme).toContainText('not a measurement of all syllabus work')
@@ -452,6 +459,7 @@ test('SV-12: impossible saved capacity shows the exact supported course-topic pr
       }) }))
 
   await page.goto(appPath + '#/plan?view=month&date=2026-10-01')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toContainText('Business early paper')
   await expect(programme).toContainText('Psychology later paper')
