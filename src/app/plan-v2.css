@@ -316,7 +316,10 @@
   .pln-weekgroup .pln-row__option-buttons { flex-direction:row; }
 }
 @media(max-width:700px) {
-  .pln-head__actions { width:100%; }
+  .pln-head__actions { width:100%; display:flex; flex-wrap:wrap; gap:8px; }
+  .pln-head__actions .ui-button { width:auto; min-width:0; flex:1 1 104px; padding-inline:8px; white-space:nowrap; }
+  .pln-weekgroup .pln-list--week { width:100%; min-width:0; align-items:stretch; }
+  .pln-weekgroup .pln-row { width:100%; box-sizing:border-box; }
   .pln-exams-strip__list { display:flex; flex-direction:column; }
   .pln-exam-chip { min-height:62px; }
   .pln-toolbar .pln-controls { flex-basis:100%; }
