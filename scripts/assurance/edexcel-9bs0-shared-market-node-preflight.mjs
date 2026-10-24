@@ -103,11 +103,13 @@ export function checkSharedMarketDraft(draft,triage,foundation){
    && direction(actual.quantity-base.quantity)===s.expected_direction?.quantity,
    'shock_equilibrium_or_direction_incorrect:'+i);
   if(i===0)check(s.shift==='SUPPLY_LEFT'&&s.changed_curve==='S1'
-   && JSON.stringify(s.demand)===JSON.stringify(caseData.demand)
+   && s.demand.quantity_intercept===caseData.demand.quantity_intercept
+   && s.demand.price_coefficient===caseData.demand.price_coefficient
    && quantity(s.supply,20)<quantity(caseData.supply,20),
    'cost_shock_must_shift_supply_not_demand');
   if(i===1)check(s.shift==='DEMAND_RIGHT'&&s.changed_curve==='D1'
-   && JSON.stringify(s.supply)===JSON.stringify(caseData.supply)
+   && s.supply.quantity_intercept===caseData.supply.quantity_intercept
+   && s.supply.price_coefficient===caseData.supply.price_coefficient
    && quantity(s.demand,20)>quantity(caseData.demand,20),
    'preference_shock_must_shift_demand_not_supply');
  }
