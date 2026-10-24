@@ -300,11 +300,15 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': [
+    // Calendar-first Plan: reviewed desktop light screenshot, PR #677.
+    '9d0e7c91f144e5e31ffd11695f423baab57a30641dfe9646bda0a74f13fe9cbe',
     '0ce6b48485da0384b247be52f532a135a53cf738b4594e0c9b54deef8ce1b53a',
     '7d7c69d1b5241127511c4594bcdc64f2dbdfd6906586a4ff1cb78923f2258161',
     '61e78740437207ebceb1c6c8485b5882b35030d819b24397832143848c7c8a94',
   ],
   'desktop:plan:dark': [
+    // Calendar-first Plan: reviewed desktop dark screenshot, PR #677.
+    'a601874b5fbf80b0a1c6be852a25131cd395a7c6581e5c67e03dd9734df3043c',
     '43e9bbf0b04ddf1ff68a92e8516c4031a76a4b924e6ca412e06e35504c0353b7',
     '2e47b5d25aa2082b7706f618ddfc5d11682d2c6f6404f4267aa4695b10f41671',
   ],
