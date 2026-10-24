@@ -11,6 +11,7 @@ const mutate=fn=>{
 describe('Stage 5 draft reusable market supply-demand subject node (not activated)',()=>{
  it('accepts the original maths and full review scaffold but keeps learner output blocked',()=>{
   const out=checkSharedMarketDraft(candidate,triage,foundation);
+  expect(out.errors).toEqual([]);
   expect(out).toMatchObject({structure:'PASS',proposed_subject_node:'BUS-MKT-010',
    proposed_node_created:false,checked_original_scenarios:2,
    reviewed_by_independent_subject_expert:false,learner_assets_generated:0,
