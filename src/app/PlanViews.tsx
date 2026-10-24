@@ -18,30 +18,20 @@ import { daysFromToday } from './plan-model'
 import type { PlannedSession, PlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { PlanViewKey } from './navigation'
 import type { SubjectHue } from './subject-palette'
-import { Button, HueProgressBar, Icon, SegmentedControl, SubjectBadge, Tag, TextField } from './ui'
+import { Button, HueProgressBar, Icon, SegmentedControl, SubjectBadge, TextField } from './ui'
 
 /* ------------------------------------------------------------------ Summary */
 
 export function PlanSummaryCard({ label, summary }: { label: string; summary: PlanSummary }) {
-  const { status } = summary
   return (
-    <section className="pln-summary" aria-label={`${label}: time against plan`}>
-      <div className="pln-summary__main">
-        <div className="pln-summary__top">
-          <span className="pln-eyebrow">{label}</span>
-          <span className="pln-summary__percent">{summary.percent}%</span>
-        </div>
-        <p className="pln-summary__time">
-          <strong>{formatMinutes(summary.doneMinutes)}</strong>
-          <span>of {formatMinutes(summary.plannedMinutes)} planned</span>
-        </p>
-        <HueProgressBar value={summary.percent} size="lg" label="Time done against time planned" />
-      </div>
-      <div className="pln-summary__status">
-        <span className="pln-summary__label"><Icon name={status.icon} size="compact" />{status.label}</span>
-        <span className="pln-summary__text">{status.text}</span>
-      </div>
-    </section>
+    <div className="pln-summary" aria-label={`${label}: ${summary.doneCount} of ${summary.studyCount} activities completed`}>
+      <span className="pln-summary__time">
+        <strong>{summary.doneCount} of {summary.studyCount}</strong> activities completed
+      </span>
+      <span className="pln-summary__track" aria-hidden="true">
+        <span style={{ width: `${summary.percent}%` }} />
+      </span>
+    </div>
   )
 }
 
@@ -266,7 +256,6 @@ export function PlanRow({ item, day, todayKey, actions, compact = false }: PlanR
       <div className="pln-row__text">
         <span className="pln-row__heading">
           <span className="pln-row__title" data-done={done || undefined}>{name} · {item.topic}</span>
-          {revPick && <Tag>REV pick</Tag>}
         </span>
         <span className="pln-row__meta">{meta}</span>
       </div>
@@ -320,17 +309,33 @@ export interface PlanWeekViewProps {
 export function PlanWeekView({ days, todayKey, actions, onOpenDay }: PlanWeekViewProps) {
   return (
     <div className="pln-weekview">
-      {days.map((day) => (
-        <section key={day.key} className="pln-weekgroup" aria-label={longDate(day.key)}>
-          <button type="button" className="pln-weekgroup__day" data-today={day.today || undefined} data-past={day.past || undefined} aria-label={`Open ${longDate(day.key)}`} onClick={() => onOpenDay(day.key)}>
-            <span className="pln-weekgroup__name">{day.today ? 'Today' : weekdayName(day.key)}</span>
-            <span className="pln-weekgroup__number">{fromKey(day.key).getDate()}</span>
-          </button>
-          {day.items.length > 0
-            ? <ul className="pln-list pln-list--week" data-today={day.today || undefined}>{day.items.map((item) => <PlanRow key={item.key} item={item} day={day} todayKey={todayKey} actions={actions} compact />)}</ul>
-            : <EmptyDay day={day} todayKey={todayKey} compact />}
-        </section>
-      ))}
+      {days.map((day) => {
+        const capacityLabel = day.availableMinutes === null
+          ? `${formatMinutes(day.plannedMinutes)} planned`
+          : day.availableMinutes === 0
+            ? 'Rest day'
+            : `${formatMinutes(day.plannedMinutes)} of ${formatMinutes(day.availableMinutes)} available`
+        const percent = day.availableMinutes && day.availableMinutes > 0
+          ? Math.min(100, Math.round((day.plannedMinutes / day.availableMinutes) * 100))
+          : 0
+        return (
+          <section key={day.key} className="pln-weekgroup" data-today={day.today || undefined} aria-label={longDate(day.key)}>
+            <button type="button" className="pln-weekgroup__day" data-today={day.today || undefined} data-past={day.past || undefined} aria-label={`Open ${longDate(day.key)}`} onClick={() => onOpenDay(day.key)}>
+              <span className="pln-weekgroup__name">{day.today ? 'Today' : weekdayName(day.key)}</span>
+              <span className="pln-weekgroup__number">{shortDate(day.key)}</span>
+            </button>
+            <div className="pln-weekgroup__capacity">
+              <span>{capacityLabel}</span>
+              {day.availableMinutes !== null && day.availableMinutes > 0 && (
+                <span className="pln-weekgroup__track" aria-hidden="true"><span style={{ width: `${percent}%` }} /></span>
+              )}
+            </div>
+            {day.items.length > 0
+              ? <ul className="pln-list pln-list--week" data-today={day.today || undefined}>{day.items.map((item) => <PlanRow key={item.key} item={item} day={day} todayKey={todayKey} actions={actions} compact />)}</ul>
+              : <EmptyDay day={day} todayKey={todayKey} compact />}
+          </section>
+        )
+      })}
     </div>
   )
 }
