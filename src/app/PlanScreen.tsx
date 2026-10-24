@@ -32,7 +32,7 @@ import { createCourseLearningState, createModuleLearningState, paperLabel, type 
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { parseRoute, planRoute, routeHash, type PlanViewKey } from './navigation'
 import { PlanAddSessionDialog, type PlanAddSessionCourse } from './PlanAddSessionDialog'
-import { PlanExamsCard, PlanStudyTimeCard } from './PlanSideColumn'
+import { PlanExamStrip, PlanStudyTimeCard } from './PlanSideColumn'
 import { PlanDayView, PlanMonthView, PlanNav, PlanSummaryCard, PlanWeekView, type PlanRowActions } from './PlanViews'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { homeActivityLabel, type HomeTask } from './home-task'
@@ -65,6 +65,7 @@ interface PlanScreenProps {
   userId: string
   programme: readonly LearnerProgrammeCourse[]
   onOpenCourses: () => void
+  onOpenRev: (draft?: string) => void
   onOpenCourse: (courseId: string) => void
 }
 
@@ -123,7 +124,7 @@ function monthLabel(anchor: string, todayKey: string) {
   return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnabled = true }: PlanScreenProps) {
+export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev, pilotEnabled = true }: PlanScreenProps) {
   const pilotRestricted = fi001RestrictedContent(pilotEnabled)
   const now = useLocalDay()
   const todayKey = toKey(now)
@@ -160,6 +161,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
   const [message, setMessage] = useState('')
   const [place, setPlace] = useState(() => readPlace(todayKey))
   const [studyDraft, setStudyDraft] = useState<RevisionWeeklyAvailability | null>(null)
+  const [studyTimeOpen, setStudyTimeOpen] = useState(false)
   const [addSessionOpen, setAddSessionOpen] = useState(false)
   const [addSessionError, setAddSessionError] = useState('')
   const [examsOpen, setExamsOpen] = useState(() => { const route = parseRoute(window.location.hash); return route.kind === 'plan' && route.intent === 'manage-exams' })
@@ -352,7 +354,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
   )
 
   const week = weekTitle(anchor, todayKey)
-  const pageTitle = isMonth ? (sameMonth(anchor, todayKey) ? 'Your month' : monthLabel(anchor, todayKey)) : week.title
+  const pageTitle = 'Plan'
   const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
   const atNow = isMonth ? sameMonth(anchor, todayKey) : weekStart(anchor) === weekStart(todayKey)
 
@@ -664,8 +666,12 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
   return (
     <main className="dashboard page-screen planner-screen interface-plan-screen pln" aria-labelledby="plan-page-title">
       <header className="pln-head">
-        <h1 id="plan-page-title">{programme.length === 0 ? 'Plan' : pageTitle}</h1>
-        {canAddSession && <Button onClick={() => { setAddSessionError(''); setAddSessionOpen(true) }}><Icon name="plus" size="compact" />Add session</Button>}
+        <div><h1 id="plan-page-title">Plan</h1><p className="pln-subtitle">Your revision timetable</p></div>
+        {programme.length > 0 && <div className="pln-head__actions">
+          <Button variant="secondary" onClick={() => { setStudyTimeOpen(true); startEditingStudyTime() }}><Icon name="clock" size="compact" />Study time</Button>
+          <Button variant="secondary" onClick={() => setExamsOpen(true)}><Icon name="plan" size="compact" />Exam dates</Button>
+          {canAddSession && <Button variant="secondary" onClick={() => { setAddSessionError(''); setAddSessionOpen(true) }}><Icon name="plus" size="compact" />Add session</Button>}
+        </div>}
       </header>
 
       {pilotRestricted && <Status className="planner-message" tone="info">Planner pilot: your priorities are being evaluated. Original exam simulations and self-marked written assessments are excluded.</Status>}
@@ -677,78 +683,71 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, pilotEnab
         ? <LoadingState className="planner-panel">Loading your plan…</LoadingState>
         : programme.length === 0
           ? <EmptyState className="planner-panel" title="Add a course before building your plan" description="REV will not create a plan from courses you have not selected." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} />
-          : (
-            <>
-              {showCalendar && <PlanNav
-                view={view}
-                anchorKey={anchor}
-                todayKey={todayKey}
-                atNow={atNow}
-                examHues={examHues}
-                onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
-                onGo={(key) => goTo(view, key)}
-                onToday={() => goTo(view, todayKey)}
-                onView={(next) => goTo(next, anchor)}
-              />}
+          : <>
+              <PlanExamStrip exams={examEntries} todayKey={todayKey} onJump={(key) => goTo('day', key)} onAdd={() => setExamsOpen(true)} />
 
-              <div className="pln-layout">
-                <div className="pln-main">
-                  {!setupComplete && (
-                    <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
-                      <Icon name="plan" />
-                      <div>
-                        <strong>Your plan is waiting on you</strong>
-                        <p>{missingText} You can use the setup cards beside this. You can start a supported activity from Courses without waiting for a complete plan.</p>
-                        <p>Exam dates do not require an initial knowledge check. You can change your study time later.</p>
-                        <div className="pln-card__actions">
-                          {setupMissingExams
-                            ? <Button onClick={() => setExamsOpen(true)}>Add your exams</Button>
-                            : <Button onClick={startEditingStudyTime}>Set your weekly study time</Button>}
-                          {!showCalendar && sessionsReady && !sessionsUnavailable && (
-                            <Button variant="secondary" onClick={() => setShowUnconfiguredCalendar(true)}>
-                              {plannedSessions?.length ? 'View saved sessions' : 'View calendar'}
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </Surface>
-                  )}
-                  {fullProgramme?.finalKnownAssessment && <PlanProgrammeOutlook programme={fullProgramme}
-                    courseLabel={(id) => courseLabel(programme, id)}
-                    topicLabel={topicLabel}
-                    view={view}
-                    anchor={anchor}
-                    onOpenWeek={(key) => goTo('week', key)} />}
-                  {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+              {!setupComplete && (
+                <Surface variant="quiet" className="pln-setup-note" aria-label="Finish setting up your plan">
+                  <Icon name="plan" />
+                  <div>
+                    <strong>Your plan is waiting on you</strong>
+                    <p>{missingText} You can still start an activity from Courses.</p>
+                    <div className="pln-card__actions">
+                      {setupMissingExams
+                        ? <Button onClick={() => setExamsOpen(true)}>Add your exams</Button>
+                        : <Button onClick={() => { startEditingStudyTime(); setStudyTimeOpen(true) }}>Set study time</Button>}
+                      {!showCalendar && sessionsReady && !sessionsUnavailable && <Button variant="secondary" onClick={() => setShowUnconfiguredCalendar(true)}>View calendar</Button>}
+                    </div>
+                  </div>
+                </Surface>
+              )}
 
-                  {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' && (
-                    <p className="pln-note">There is not enough study time to cover everything before your exams, so REV is focusing on the work that will help most.</p>
-                  )}
+              {showCalendar && <div className="pln-toolbar">
+                <PlanNav
+                  view={view} anchorKey={anchor} todayKey={todayKey} atNow={atNow} examHues={examHues}
+                  onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
+                  onGo={(key) => goTo(view, key)} onToday={() => goTo(view, todayKey)} onView={(next) => goTo(next, anchor)}
+                />
+                {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
+              </div>}
 
-                  {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) && (
-                    <p className="pln-note">These are longer-term weeks. REV will choose concrete activities closer to the time; only sessions you accepted are fixed.</p>
-                  )}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'day' && <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week' && <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
-                  {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' && <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+              {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' &&
+                <Status tone="info">There isn't enough saved study time for all currently supported work before your exams. REV is prioritising the most useful activities.</Status>}
+              {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) &&
+                <p className="pln-note">Further ahead, Revision shows a broad forecast. Specific suggestions will appear closer to the time.</p>}
+              {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'day' &&
+                <PlanDayView days={visibleDays} selectedKey={anchor} todayKey={todayKey} actions={actions} onSelect={(key) => goTo('day', key)} />}
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week' &&
+                <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' &&
+                <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+
+              <aside className="pln-guidance" aria-label="Help with your plan">
+                <Icon name="info" />
+                <div><strong>Things change — and that's okay.</strong>
+                  <p>If you miss a suggested activity, your plan adapts. Want to revise something else? You can choose another activity or add a session.</p>
                 </div>
+                <Button variant="secondary" size="compact" onClick={() => onOpenRev('I want to change what I study. What are my options?')}>Ask REV</Button>
+              </aside>
 
-                <div className="pln-side">
-                  <PlanExamsCard exams={examEntries} todayKey={todayKey} onJump={(key) => goTo(view, key)} onAdd={() => setExamsOpen(true)} />
-                  <PlanStudyTimeCard
-                    saved={availability?.weeklyMinutes ?? null}
-                    draft={studyDraft}
-                    saving={saving}
-                    onEdit={startEditingStudyTime}
-                    onChange={updateStudyDay}
-                    onSave={() => void handleSaveAvailability()}
-                    onCancel={() => setStudyDraft(null)}
-                  />
-                </div>
-              </div>
-            </>
-          )}
+              {fullProgramme?.finalKnownAssessment && <details className="pln-programme-disclosure">
+                <summary>Explore your longer-term preparation and any gaps</summary>
+                <PlanProgrammeOutlook programme={fullProgramme}
+                  courseLabel={(id) => courseLabel(programme, id)} topicLabel={topicLabel}
+                  view={view} anchor={anchor} onOpenWeek={(key) => goTo('week', key)} />
+              </details>}
+            </>}
+
+      {studyTimeOpen && <div className="pln-overlay">
+        <OverlayBackdrop label="Close study time" onClick={() => { setStudyTimeOpen(false); setStudyDraft(null) }} />
+        <ModalShell className="pln-dialog" labelledBy="study-time-title" onDismiss={() => { setStudyTimeOpen(false); setStudyDraft(null) }}>
+          <h2 id="study-time-title">Study time</h2>
+          <PlanStudyTimeCard saved={availability?.weeklyMinutes ?? null} draft={studyDraft} saving={saving}
+            onEdit={startEditingStudyTime} onChange={updateStudyDay}
+            onSave={() => void handleSaveAvailability()} onCancel={() => { setStudyDraft(null); setStudyTimeOpen(false) }} />
+        </ModalShell>
+      </div>}
 
       {addSessionOpen && (
         <PlanAddSessionDialog
