@@ -117,13 +117,13 @@ test('Home plan card says what is missing, with a way to fix it, instead of prom
   await expectNoAxeViolations(page)
 })
 
-test('a new student on Plan is told what is missing, and the exam and study-time cards are where to add it', async ({ page }) => {
+test('a new student on Plan sees the missing-input setup and existing management actions', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(`${appPath}#/plan`)
   const note = page.getByLabel('Finish setting up your plan')
   await expect(note).toContainText('Add your exam dates and your study time, and REV will plan what to work on.')
   await expect(page.getByRole('button', { name: 'Add exam date' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Set study time' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Study time', exact: true })).toBeVisible()
   // Do not lead an unconfigured learner with seven empty days or false 0m/0m progress.
   await expect(note.getByRole('button', { name: 'Add your exams' })).toBeVisible()
   await expect(page.locator('.pln-summary, .pln-empty, .pln-weekview')).toHaveCount(0)

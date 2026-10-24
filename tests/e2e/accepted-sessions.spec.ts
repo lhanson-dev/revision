@@ -170,7 +170,7 @@ test('Home withholds Start and alternatives and explains unavailable accepted se
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
 })
 
-test('Plan shows accepted sessions with REV pick, lets the student mark one done and remove it', async ({ page }) => {
+test('Plan shows accepted sessions without extra labels, lets the student mark one done and remove it', async ({ page }) => {
   const rows: Row[] = [{
     session_id: 'p1', user_id: userId, planned_date: todayKey(), course_id: businessCourseId, topic_id: 'finance', activity_type: 'practice',
     minutes: 25, added_by: 'rev', recommendation_id: 'rec-1', status: 'planned', created_at: '2026-10-02T06:00:00.000Z', updated_at: '2026-10-02T06:00:00.000Z',
@@ -182,7 +182,7 @@ test('Plan shows accepted sessions with REV pick, lets the student mark one done
 
   const session = page.locator('.pln-row[data-kind="session"]').first()
   await expect(session).toBeVisible()
-  await expect(session.getByText('REV pick')).toBeVisible()
+  await expect(session.getByText('REV pick')).toHaveCount(0)
   await expect(session.getByText(/Practice · 25m/)).toBeVisible()
 
   await session.getByText('Options').click()
@@ -206,7 +206,7 @@ test('Plan works as before when the sessions table is not available yet', async 
   await fakePlannedSessions(page, null)
   await page.goto(`${appPath}#/plan`)
 
-  await expect(page.getByRole('heading', { name: 'Your week', exact: true }).first()).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Plan', exact: true }).first()).toBeVisible()
   await expect(page.locator('.pln-summary')).toBeVisible()
   await expect(page.locator('.pln-row[data-kind="session"]')).toHaveCount(0)
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
