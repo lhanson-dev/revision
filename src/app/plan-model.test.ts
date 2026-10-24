@@ -45,6 +45,7 @@ describe('plan day model', () => {
       assessments: [assessment('a1', today)],
     }))
     expect(build(today).items.map((item) => item.kind)).toEqual(['exam', 'session', 'suggested'])
+    expect(build(today).availableMinutes).toBe(60)
   })
 
   it('never invents sessions: a future day the planner did not fill is empty', () => {
@@ -68,6 +69,7 @@ describe('plan day model', () => {
   it('marks a rest day only when study time is set and the day has none', () => {
     expect(createPlanDayBuilder(context())('2026-10-07').rest).toBe(true)
     expect(createPlanDayBuilder(context({ weeklyMinutes: null }))('2026-10-07').rest).toBe(false)
+    expect(createPlanDayBuilder(context({ weeklyMinutes: null }))('2026-10-07').availableMinutes).toBeNull()
     expect(capacityOn('2026-10-07', context().weeklyMinutes, [{ localDate: '2026-10-07', availableMinutes: 45 } as never])).toBe(45)
   })
 
