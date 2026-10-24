@@ -134,20 +134,20 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light', config
   })
 }
 
-test('Plan missing-input state asks only for exams and realistic weekly time, in the side cards', async ({ page }) => {
+test('Plan missing-input state prioritises setup without rendering an empty timetable', async ({ page }) => {
   await seedSession(page)
   await page.goto(`${appPath}#/plan`)
 
   const plan = page.locator('.interface-plan-screen')
   await expect(plan).toBeVisible()
-  const heading = page.getByRole('heading', { name: 'Your week' })
+  const heading = page.getByRole('heading', { name: 'Plan', exact: true })
   await expect(heading).toBeVisible()
   const setup = page.getByLabel('Finish setting up your plan')
   await expect(setup).toContainText('Your plan is waiting on you')
   await expect(setup.getByRole('button', { name: 'Add your exams' })).toBeVisible()
   await expect(page.locator('.pln-summary, .pln-empty, .pln-weekview')).toHaveCount(0)
-  await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Study time' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Upcoming exams' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Study time', exact: true })).toBeVisible()
   await expect(page.getByPlaceholder('Ask REV anything…')).toHaveCount(0)
 
   const headingStyle = await heading.evaluate((element) => {
@@ -159,7 +159,7 @@ test('Plan missing-input state asks only for exams and realistic weekly time, in
   expect(headingStyle.fontSize).toBeCloseTo(expectedHeadingSize, 2)
   expect(headingStyle.lineHeight).toBeCloseTo(expectedHeadingSize * 1.02, 2)
 
-  await page.getByRole('button', { name: 'Set study time' }).click()
+  await page.getByRole('button', { name: 'Study time', exact: true }).click()
   await expect(page.getByRole('button', { name: 'More study time on Monday' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'More study time on Sunday' })).toHaveCSS('height', '48px')
 
@@ -205,8 +205,8 @@ test('Configured Plan opens on the governed Week view; Day retains its time, exa
   await page.getByRole('button', { name: 'Day', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.pln-summary')).toBeVisible()
-  await expect(page.locator('.pln-summary')).toHaveCSS('border-radius', '20px')
-  await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
+  await expect(page.locator('.pln-summary')).toContainText('activities completed')
+  await expect(page.getByRole('region', { name: 'Upcoming exams' })).toBeVisible()
   await expect(page.getByRole('tablist', { name: 'Days of the week' })).toBeVisible()
   await expectNoPageOverflow(page)
 
@@ -227,7 +227,7 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
   const runtime = page.locator('.planner-runtime')
   await expect(runtime).toHaveAttribute('data-theme', 'dark')
 
-  const studyCard = page.getByRole('region', { name: 'Study time' })
+  const studyCard = page.locator('.pln-setup-note')
   const studyStyle = await studyCard.evaluate((element) => {
     const style = getComputedStyle(element)
     return { background: style.backgroundColor }
