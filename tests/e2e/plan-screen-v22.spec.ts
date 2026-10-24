@@ -132,6 +132,24 @@ test('week view stacks seven days; tapping a day opens it in Day view', async ({
   expect(page.url()).toContain('view=day&date=2026-10-07')
 })
 
+test('phone Week agenda rows use available width and management stays compact', async ({ page }) => {
+  await openPlan(page, '#/plan?view=week&date=2026-10-05', 390, 844)
+  const today = page.locator('.pln-weekgroup[data-today]')
+  const activity = today.locator('.pln-row').first()
+  await expect(activity).toBeVisible()
+  const todayBox = await today.boundingBox()
+  const activityBox = await activity.boundingBox()
+  expect(todayBox).not.toBeNull()
+  expect(activityBox).not.toBeNull()
+  expect(activityBox!.width).toBeGreaterThan(todayBox!.width * 0.78)
+  const study = await page.getByRole('button', { name: 'Study time', exact: true }).boundingBox()
+  const exams = await page.getByRole('button', { name: 'Exam dates', exact: true }).boundingBox()
+  expect(study).not.toBeNull()
+  expect(exams).not.toBeNull()
+  expect(Math.abs(study!.y - exams!.y)).toBeLessThan(3)
+  await noSidewaysScroll(page)
+})
+
 test('month view: Monday-first grid, exam day in solid subject colour with its letter mark, tap opens Day', async ({ page }) => {
   await openPlan(page, '#/plan?view=month&date=2026-10-05')
   const cells = page.locator('.pln-cell')
