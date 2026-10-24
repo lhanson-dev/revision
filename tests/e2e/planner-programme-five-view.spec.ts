@@ -60,7 +60,7 @@ async function seededCourses(page: Page, courseIds: string[], getExams: () => Ex
 async function openProgrammeDisclosure(page: Page) {
   const disclosure = page.locator('.pln-programme-disclosure')
   await expect(disclosure).toBeVisible()
-  if (await disclosure.getAttribute('open') === null) await disclosure.locator('summary').click()
+  if (await disclosure.getAttribute('open') === null) await disclosure.locator(':scope > summary').click()
   await expect(disclosure).toHaveAttribute('open', '')
 }
 
