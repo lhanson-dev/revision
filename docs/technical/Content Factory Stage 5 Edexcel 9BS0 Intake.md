@@ -157,6 +157,14 @@ The narrow market-model draft has a dated, *same-execution-context source-factua
 
 The draft/review trial can merge as **non-publishing research evidence**, provided its exact-head CI and release governance are satisfied; Stage 5 and the qualified-educational-content programme remain ongoing. The next production branch should address original visual and learner-skill evidence plus truly independent fixed-checklist subject/rights review before it tries to materialise a shared node into the effective Foundation. No change to normative authority or learner runtime is proposed.
 
+## Issue #675 — original visual market-graph evidence prototype (24 October 2026)
+
+Issue #675's first research-only implementation is documented at `research/content-production-repeatability/edexcel-9bs0-market-graph-evidence-review.md`. It adds three **Revision-authored SVG diagrams** under `research/content-production-repeatability/market-graph-exemplars/` (baseline supply/demand intersection; costs shifting supply left; preference shifting demand right). Price is vertical and quantity horizontal, curve labels and both equilibrium points are explicit, and every diagram has text alternatives. The geometry is linked to the previously retained original synthetic case, not a copied exam-board or textbook image. No third-party material is embedded.
+
+`scripts/assurance/edexcel-9bs0-market-graph-preflight.mjs` and its Vitest suite verify actual SVG coordinates, intersections, axes, non-imported graphics, text alternatives and mutations; they also prototype **separate** structured-coordinate graph construction and graph interpretation checks. These checks are deliberately incapable of generating learner progress, approved course coverage or published content. The canonical runtime is `/revision/app/` and the current `src/engine/evidence/evidence.ts` does **not** contain a native diagram-construction evidence schema or a learner drawing interface. A genuine drawing/capture feature would require the normal governed Definition of Ready and evidence-integrity/experience review, not promotion of this prototype code. This package makes no student runtime changes.
+
+The independent educational and professional rights review, original graph-learning assessment design, exactly permitted source operations and qualification-specific Course/Exam Truth remain **HOLD**. This is a documented research-only technical increment under the existing architecture, not a normative authority change, new student asset or approved `BUS-MKT-010` Foundation node. Original synthetic SVG/structural evidence does not itself create educational authority.
+
 ## Implemented preflight
 
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.
