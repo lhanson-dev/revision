@@ -21,7 +21,7 @@ concurrency:
 env:
   SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
-  EXPECTED_BACKEND_CONTRACT: r2-practice-checkpoint-v1
+  EXPECTED_BACKEND_CONTRACT: r2-exam-attempt-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
   # Fifth explicit 2026-10-06 recovery checkpoint. During GitHub's
   # 2026-10-05 Actions/Pages incident, PR #534 merged as c2d82ecf... but its
@@ -132,8 +132,10 @@ jobs:
       - name: Build Vite learner app
         env:
           VITE_FI001_ASSURANCE_MODE: '0'
+          VITE_REC10_ASSURANCE_MODE: '0'
         run: |
           test "${VITE_FI001_ASSURANCE_MODE}" = '0'
+          test "${VITE_REC10_ASSURANCE_MODE}" = '0'
           npm run build
 
       - name: Publish root redirect

@@ -114,6 +114,12 @@ When there is no longer a valid reason to retain identifiable data, it should be
 
 Commercial records that a payer must retain or access for legitimate billing/legal purposes must remain separated from ongoing permission to access learner educational data.
 
+### REC-10 mock draft data class — Founder decision 22 October 2026 (pending governed merge)
+
+For unfinished full mock examinations, raw answers, selections and marking inputs are temporarily stored solely to restore the learner's own work. The maximum raw-draft lifetime is **14 days after the original attempt was created**; updating or reopening an attempt does not extend it. The backend must automatically delete expired drafts. On confirmed completion, the checkpoint must promptly remove raw responses while preserving the separate minimum scored evidence necessary for legitimate learning progress. A draft is private to the authenticated learner and cannot be used for marketing, unrelated model training or parent/supporter access.
+
+The product must explain saving and expiry in plain English at the point of use and offer deliberate unfinished-draft discard; deletion must never remove already accepted scored progress. Any legally required export/deletion pathway, privacy notice wording, backup retention and processing basis must be independently verified under section 12 before production use. These REC-10 decisions become active normative policy through PR #658 approval and merge, not merely because this proposal appears in a branch.
+
 ## 8. Parent, payer and teacher access must remain bounded
 
 Parent and teacher functionality must not create an automatic entitlement to detailed student data.
@@ -193,6 +199,16 @@ These principles define Revision's intended product stance. They do not by thems
 Specific legal requirements, consent models, age-related obligations, relationship-verification requirements, retention rules and data-subject rights must be checked against current authoritative sources and professional advice where appropriate before production reliance.
 
 The FI-002 18+ billing-customer rule is a product-policy choice for the initial UK MVP. It must not be represented as a legal conclusion about the validity of every contract entered into by a younger person in every UK jurisdiction or circumstance.
+
+## 12A. Development merges, family testing and public privacy launch (Founder direction 23 October 2026; PR #658 proposal)
+
+The Founder has directed early delivery for private family testing with a **single mandatory independent final review before wider/public availability**, while tracking official legal reviews instead of routinely holding PR merges for them. This changes the previous REC-10 tendency to treat all outstanding public approvals as PR-merge blockers. It **does not change** section 12's requirement to consider applicable legal duties before real processing, and is proposed authority until specifically Founder-approved merge.
+
+1. **Engineering/test-only integration:** validated, individually Founder-approved code may merge with public legal/privacy reviews still OPEN, provided it does not expose unreviewed real-student processing or bypass backend/security gates. Do not cite a merge, deployment or synthetic test as child-data or legal approval.
+2. **One-family/limited real-student testing:** keep enrolment named, limited and revocable; no public self-service access. The Founder/accountable controller may conduct and sign a **brief, proportionate internal children's-data DPIA and lawful-basis/necessity record** using authoritative ICO guidance, record suitable age-appropriate explanation and a working contact for data access/erasure, minimise processing, confirm restricted owner RLS, expiry and supplier/backup limitations, and make a clear pre-test GO/NO-GO. Mandatory *external* legal approval is not automatically an engineering gate, but high unresolved child-data risk may still require qualified advice or regulatory consultation before use. A parent testing with their child is not automatically outside data-protection law.
+3. **Public/wider launch:** complete an independent qualified whole-product privacy review, resolve material legal/data-rights/children's risks, retain dated evidence in `PUBLIC-PRIV-01`, clear other Go-to-Market gates and obtain Founder public-launch authorisation. The review is **not postponed indefinitely** and a family pilot never counts as public acceptance.
+
+The stage and release process are governed in `50-engineering-standards/Release & Deployment Standard.md`. The public obligations log and status live in `90-governance-registers/Public Learner Launch Gate Register.md`. A short REC-10 pre-test protocol is in `docs/technical/REC-10 Family Test Preflight.md`. No statement here claims that the pre-test DPIA, legal basis, actual deletion or final independent review is already complete.
 
 ## Decision test
 

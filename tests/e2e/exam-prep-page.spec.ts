@@ -241,7 +241,7 @@ test('partial whole-paper save can be retried without double counting or changed
   await page.getByRole('button', { name: 'Finish and self-mark' }).click()
   await page.getByRole('button', { name: 'Save exam result', exact: true }).click()
 
-  await expect(page.getByRole('alert').filter({ hasText: 'could not confirm your whole exam was saved' })).toBeVisible()
+  await expect(page.getByRole('alert').filter({ hasText: 'could not confirm your exam result was saved' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Exam result' })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Retry saving exam result' })).toBeEnabled()
   await expect(page.locator('.ao-marker-grid input').first()).toBeDisabled()

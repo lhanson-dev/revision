@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-10-21  
+**Last triaged:** 2026-10-22  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules
@@ -20,6 +20,7 @@
 
 | Defect ID | Severity | Affected journey / control | Observed evidence | Status | Owner / next action | Fix PR | Verification / closure evidence |
 |---|---|---|---|---|---|---|---|
+| DEF-2026-013 | P1 | REC-10; interrupted full examination loses unsaved work | On verified main `df1adc5b` (22 October), canonical `ExamSimulator` holds unfinished written answers, section options, flags, position, timer and frozen in-flight submission only in component memory. Refresh or leaving loses the attempt. Source-confirmed risk, not proof of an individual observed incident. | Fix in review | Engineering — owner-only durable full mocks, governed privacy/retention and timer rules, fault/re-entry browser and database tests | [#658](https://github.com/lhanson-dev/revision/pull/658) (draft) | No full-exam production recovery acceptance yet; candidate schema/service/unit tests alone are insufficient |
 | DEF-2026-012 | P1 | REC-10; partial whole-paper exam evidence save and retry | Source inspection 21 Oct on main `3e0ad6c4`: `ExamSimulator.saveResult` reused evidence IDs but generated a fresh whole-paper `occurredAt` and elapsed duration on each retry. If an earlier attempt row had committed before a later write failed, a retry could mismatch the stored payload, causing the owner-verified duplicate guard correctly to reject full-result confirmation. This is a source-derived failure mode, not a confirmed production incident. | Fix in review | Engineering — freeze one exact evidence batch and replay after ambiguous/partial save; independently prove the fault and the fix in browser and authenticated backend before closure | Candidate R2 exam retry PR (unmerged) | Source regression authored; exact-head CI, browser/database failure recovery and production validation outstanding |
 | DEF-2026-001 | P2 | A11Y-01; signed-in global and learner-runtime account/menu drawers | Axe WCAG A/AA CI run #339 found serious `aria-hidden-focus` on the closed `.menu-drawer`; expanded run #359 confirmed the same issue on `.menu-drawer` and `.runtime-menu-drawer` across phone, tablet and desktop | Closed | Engineering — both drawers now render only while open, so closed focusable controls are absent from the DOM | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d597331510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |
 | DEF-2026-002 | P2 | A11Y-01; learner-runtime desktop primary navigation | Expanded axe CI run #367 found serious `color-contrast` failures for inactive Home, Plan and Progress controls on the white runtime desktop header during Practice | Closed | Engineering — runtime desktop navigation now uses the approved high-contrast deep-ink/indigo treatment | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d597331510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |

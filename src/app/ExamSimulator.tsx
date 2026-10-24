@@ -1,4 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import {
+  commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs, examPauseTiming,
+  examResumeTiming, examHeartbeatTiming, examInterruptTiming, finaliseExamSnapshot,
+  EXAM_DRAFT_RETENTION_DAYS, EXAM_HEARTBEAT_INTERVAL_MS,
+  fingerprintExamContent, initialExamSnapshot, loadExamAttempt,
+  removeCompletedExamAttempt, supabaseExamAttemptStore, updateExamAttempt, type ExamAttempt, type ExamAttemptSnapshot,
+} from '../services/progress/exam-attempt-service'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
@@ -13,6 +21,7 @@ export type ExamResult = {
   totalAvailable: number
   durationMinutes: number
   timed: boolean
+  interrupted?: boolean
   ao: Record<AoKey, { awarded: number; available: number }>
 }
 type SessionOverlay = 'paused' | 'stop-confirm' | null
@@ -110,6 +119,7 @@ export function freezeExamSubmission(input: {
   ao: ExamResult['ao']
   durationMinutes: number
   occurredAt: string
+  interrupted?: boolean
   makeId?: (prefix: string) => string
 }): FrozenExamSubmission {
   const { exam, moduleId, questions, answers, marks, totalAwarded, ao, durationMinutes, occurredAt } = input
@@ -133,9 +143,11 @@ export function freezeExamSubmission(input: {
     marksAvailable: exam.totalMarks,
     durationMinutes,
     timed: true,
+    ...(input.interrupted ? { interrupted: true } : {}),
     markingMethod: 'self_assessed',
   })
-  return { evidence, result: { totalAwarded, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao, recorded: true } }
+  return { evidence, result: { totalAwarded, totalAvailable: exam.totalMarks, durationMinutes,
+    timed: true, ...(input.interrupted ? { interrupted: true } : {}), ao, recorded: true } }
 }
 
 function formatTime(seconds: number) {
@@ -181,9 +193,14 @@ export type ExamSimulatorProps = {
   onExit?: () => void
   /** Focused Home practice: an already-verified question in this exam. */
   preferredQuestionId?: string
+  /** Disabled until the Founder approves raw-answer retention and interruption-timer policy. */
+  checkpointContext?: {
+    client: SupabaseClient; userId: string; courseId: string
+    retentionDays: 14; timerPolicy: 'pause-on-interruption'
+  }
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId, checkpointContext }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -206,13 +223,222 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [practiceSaving, setPracticeSaving] = useState(false)
   const practiceEvidenceId = useRef<string | null>(null)
   const [sessionOverlay, setSessionOverlay] = useState<SessionOverlay>(null)
-  // Questions the student flagged to come back to. Kept in the page only: saving a paper in progress needs the exam-attempts tables.
+  // Flags are persisted only when an approved exam checkpoint context is supplied.
   const [flagged, setFlagged] = useState<Record<string, boolean>>({})
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({})
   const startedAt = useRef<number | null>(null)
   const pauseStartedAt = useRef<number | null>(null)
   const focusRegion = useRef<HTMLDivElement>(null)
   const totalPausedMs = useRef(0)
+  const attemptStore = useMemo(() => checkpointContext
+    ? supabaseExamAttemptStore(checkpointContext.client) : null, [checkpointContext?.client])
+  const checkpointRef = useRef<ExamAttempt | null>(null)
+  const checkpointWriteChain = useRef<Promise<void>>(Promise.resolve())
+  const checkpointFailed = useRef(false)
+  const latestExamDraft = useRef({ answers, marks, selectedChoices, flagged, questionIndex })
+  useEffect(() => {
+    latestExamDraft.current = { answers, marks, selectedChoices, flagged, questionIndex }
+  }, [answers, marks, selectedChoices, flagged, questionIndex])
+  const [sessionInterrupted, setSessionInterrupted] = useState(false)
+  const [recoveryPhase, setRecoveryPhase] = useState<'loading' | 'ready' | 'blocked'>(
+    checkpointContext && autoStart !== 'untimed' ? 'loading' : 'ready',
+  )
+  const [recoveryIssue, setRecoveryIssue] = useState('')
+  const [checkpointSaveStatus, setCheckpointSaveStatus] = useState<'saved' | 'saving' | 'error'>('saving')
+  const [recoveryReload, setRecoveryReload] = useState(0)
+
+  // Only an explicitly configured and authorised recovery context can persist written answers.
+  // The current learner runtime does not supply this context until privacy/timer governance is approved.
+  useEffect(() => {
+    if (!checkpointContext || !attemptStore || autoStart === 'untimed') return
+    let cancelled = false
+    const init = async () => {
+      setRecoveryPhase('loading')
+      try {
+        if (!Number.isInteger(checkpointContext.retentionDays) ||
+          checkpointContext.retentionDays !== EXAM_DRAFT_RETENTION_DAYS ||
+          checkpointContext.timerPolicy !== 'pause-on-interruption') throw new Error('Exam recovery policy is not configured.')
+        const key = {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+          moduleId, examId: exam.id,
+        }
+        const fingerprint = await fingerprintExamContent(exam)
+        const previous = await loadExamAttempt(attemptStore, key, fingerprint)
+        if (!previous && autoStart !== 'timed') {
+          if (!cancelled) {
+            setRecoveryPhase('ready')
+            setCheckpointSaveStatus('saved')
+          }
+          return
+        }
+        let saved = previous ?? await createExamAttempt(attemptStore, key, fingerprint, crypto.randomUUID(),
+          initialExamSnapshot(), new Date(Date.now() + EXAM_DRAFT_RETENTION_DAYS * 86400000).toISOString())
+        // A new browser session never assumes the old clock kept running.
+        // Confirm the interruption atomically before the student can edit.
+        if (previous?.snapshot.phase === 'writing' && previous.snapshot.timing.runningSince) {
+          saved = await updateExamAttempt(attemptStore, previous, {
+            ...previous.snapshot, timing: examInterruptTiming(previous.snapshot.timing),
+          })
+        }
+        if (cancelled) return
+        const snapshot = saved.snapshot
+        const validQuestionIds = new Set(exam.questions.map((question) => question.id))
+        if (snapshot.questionIndex >= exam.questions.length ||
+          Object.keys(snapshot.answers).some((id) => !validQuestionIds.has(id)) ||
+          Object.keys(snapshot.marks).some((id) => !validQuestionIds.has(id)) ||
+          Object.keys(snapshot.flagged).some((id) => !validQuestionIds.has(id))) {
+          throw new Error('This saved exam contains unavailable questions. It cannot be safely resumed.')
+        }
+        checkpointRef.current = saved
+        checkpointFailed.current = false
+        setAnswers(snapshot.answers)
+        setMarks(snapshot.marks)
+        setSelectedChoices(snapshot.selectedChoices)
+        setFlagged(snapshot.flagged)
+        setQuestionIndex(snapshot.questionIndex)
+        setFinishedWriting(snapshot.phase !== 'writing')
+        setSubmitted(snapshot.phase === 'submitted')
+        submissionSnapshot.current = snapshot.frozenSubmission
+        setSubmissionLocked(Boolean(snapshot.frozenSubmission))
+        setResult(snapshot.phase === 'submitted' ? snapshot.frozenSubmission?.result ?? null : null)
+        setSessionOverlay(snapshot.phase === 'writing' && !snapshot.timing.runningSince ? 'paused' : null)
+        setSessionInterrupted(snapshot.timing.interrupted)
+        setSecondsRemaining(Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(snapshot.timing)) / 1000)))
+        setRecoveryIssue(snapshot.timing.interrupted ? 'Your exam was paused after an interruption. Only confirmed working time counts.' : '')
+        setCheckpointSaveStatus('saved')
+        setStarted(true)
+        setRecoveryPhase('ready')
+      } catch (error) {
+        if (cancelled) return
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not verify your saved exam.')
+        setRecoveryPhase('blocked')
+      }
+    }
+    void init()
+    return () => { cancelled = true }
+  }, [attemptStore, autoStart, checkpointContext?.userId, checkpointContext?.courseId,
+    checkpointContext?.retentionDays, checkpointContext?.timerPolicy, moduleId, exam, recoveryReload])
+
+  const enqueueExamCheckpoint = (
+    makeNext: (current: ExamAttemptSnapshot) => ExamAttemptSnapshot,
+    retry = false,
+  ) => {
+    if (!attemptStore) return Promise.reject(new Error('Exam recovery storage is unavailable.'))
+    if (checkpointFailed.current && !retry) return Promise.reject(
+      new Error('Your latest exam save was not confirmed. Retry saving before continuing.'))
+    setCheckpointSaveStatus('saving')
+    const write = checkpointWriteChain.current.then(async () => {
+      const current = checkpointRef.current
+      if (!current) throw new Error('No saved exam attempt could be verified.')
+      if (current.snapshot.phase === 'submitted') throw new Error('This exam has already been submitted.')
+      const next = makeNext(current.snapshot)
+      const saved = await updateExamAttempt(attemptStore, current, next)
+      checkpointRef.current = saved
+      checkpointFailed.current = false
+      setCheckpointSaveStatus('saved')
+      return saved
+    })
+    checkpointWriteChain.current = write.then(() => undefined, () => undefined)
+    return write.catch((error: unknown) => {
+      checkpointFailed.current = true
+      setCheckpointSaveStatus('error')
+      setRecoveryIssue(error instanceof Error ? error.message : 'Could not confirm your exam was saved.')
+      throw error
+    })
+  }
+
+  // Debounced edits are revision-serialised; a newer tab may never be overwritten.
+  // Unacknowledged edits are visibly unconfirmed and protected with the unload warning below.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !checkpointRef.current ||
+      !started || submitted || submissionLocked) return
+    const cp = checkpointRef.current.snapshot
+    const desired: Pick<ExamAttemptSnapshot,
+      'answers' | 'marks' | 'selectedChoices' | 'flagged' | 'questionIndex' | 'phase'> = {
+      answers, marks, selectedChoices, flagged, questionIndex,
+      phase: finishedWriting ? 'marking' : 'writing',
+    }
+    if (Object.entries(desired).every(([field, value]) =>
+      JSON.stringify(value) === JSON.stringify(cp[field as keyof ExamAttemptSnapshot]))) return
+    // An unresolved save cannot be overwritten by an automatic or later edit.
+    if (checkpointFailed.current) return
+    setCheckpointSaveStatus('saving')
+    const id = window.setTimeout(() => {
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...desired,
+        timing: finishedWriting && current.timing.runningSince
+          ? examPauseTiming(current.timing) : current.timing,
+      })).catch(() => undefined)
+    }, 450)
+    return () => window.clearTimeout(id)
+  }, [checkpointContext, recoveryPhase, started, submitted, submissionLocked,
+    answers, marks, selectedChoices, flagged, questionIndex, finishedWriting])
+
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started || finishedWriting || sessionOverlay) return
+    const refresh = () => {
+      const timing = checkpointRef.current?.snapshot.timing
+      if (!timing) return
+      const seconds = Math.max(0, Math.ceil((exam.durationMinutes * 60000 - examElapsedMs(timing)) / 1000))
+      setSecondsRemaining(seconds)
+      if (seconds === 0) setFinishedWriting(true)
+    }
+    refresh()
+    const interval = window.setInterval(refresh, 1000)
+    return () => window.clearInterval(interval)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, sessionOverlay, exam.durationMinutes])
+
+  // Heartbeat commits the latest draft and active-time increment together.
+  // A browser sleep, missed heartbeat or offline failure cannot grant extra exam time.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started ||
+        finishedWriting || submitted || sessionOverlay || submissionLocked) return
+    const heartbeat = () => {
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...latestExamDraft.current,
+        timing: current.timing.runningSince
+          ? examHeartbeatTiming(current.timing) : current.timing,
+      })).then((saved) => {
+        if (!saved.snapshot.timing.runningSince) {
+          setSessionOverlay('paused')
+          setSessionInterrupted(true)
+          setRecoveryIssue('Your exam paused because work was interrupted. The confirmed time is preserved.')
+        }
+      }).catch(() => undefined)
+    }
+    const id = window.setInterval(heartbeat, EXAM_HEARTBEAT_INTERVAL_MS)
+    return () => window.clearInterval(id)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, submitted, sessionOverlay, submissionLocked])
+
+  // Backgrounding a tab is treated as an interruption. We only consider
+  // a save successful once the server confirms it; pagehide cannot promise delivery.
+  useEffect(() => {
+    if (!checkpointContext || recoveryPhase !== 'ready' || !started ||
+      finishedWriting || submitted || sessionOverlay) return
+    const onVisibility = () => {
+      if (document.visibilityState !== 'hidden') return
+      void enqueueExamCheckpoint((current) => ({
+        ...current, ...latestExamDraft.current,
+        timing: { ...examPauseTiming(current.timing), interrupted: true },
+      })).then(() => {
+        setSessionOverlay('paused')
+        setSessionInterrupted(true)
+        setRecoveryIssue('Your exam paused when you left the page. You can continue from the last confirmed time.')
+      }).catch(() => undefined)
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [checkpointContext, recoveryPhase, started, finishedWriting, submitted, sessionOverlay])
+
+  useEffect(() => {
+    if (!checkpointContext || checkpointSaveStatus === 'saved') return
+    const onLeaving = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', onLeaving)
+    return () => window.removeEventListener('beforeunload', onLeaving)
+  }, [checkpointContext, checkpointSaveStatus])
   useEffect(() => { if (autoStart === 'timed') startedAt.current = Date.now() }, [autoStart])
 
   // A timed attempt owns the full working environment, without global
@@ -244,7 +470,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const pLabel = paperLabel(exam)
 
   useEffect(() => {
-    if (!started || finishedWriting || sessionOverlay) return
+    if (!started || finishedWriting || sessionOverlay || checkpointContext) return
     const interval = window.setInterval(() => {
       setSecondsRemaining((current) => {
         if (current <= 1) {
@@ -256,7 +482,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       })
     }, 1000)
     return () => window.clearInterval(interval)
-  }, [started, finishedWriting, sessionOverlay])
+  }, [started, finishedWriting, sessionOverlay, checkpointContext])
 
   const totals = useMemo(() => {
     const ao = Object.fromEntries(aoKeys.map((key) => [key, { awarded: 0, available: 0 }])) as ExamResult['ao']
@@ -272,7 +498,26 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     return { ao, totalAwarded }
   }, [activeQuestions, marks, answers])
 
-  function startExam() {
+  async function startExam() {
+    if (checkpointContext && attemptStore) {
+      setRecoveryPhase('loading')
+      try {
+        const fingerprint = await fingerprintExamContent(exam)
+        const saved = await createExamAttempt(attemptStore, {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId, examId: exam.id,
+        }, fingerprint, crypto.randomUUID(), initialExamSnapshot(),
+        new Date(Date.now() + checkpointContext.retentionDays * 86400000).toISOString())
+        checkpointRef.current = saved
+        checkpointFailed.current = false
+        setCheckpointSaveStatus('saved')
+        setRecoveryIssue('')
+        setRecoveryPhase('ready')
+      } catch (error) {
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not safely start this examination.')
+        setRecoveryPhase('blocked')
+        return
+      }
+    }
     setQuestionPractice(false)
     setStarted(true)
     setSessionOverlay(null)
@@ -291,13 +536,28 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setPracticeSaved(false)
   }
 
-  function beginInterruption(nextOverlay: Exclude<SessionOverlay, null>) {
+  async function beginInterruption(nextOverlay: Exclude<SessionOverlay, null>) {
     if (finishedWriting || sessionOverlay) return
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      } catch { return }
+    }
     pauseStartedAt.current = Date.now()
     setSessionOverlay(nextOverlay)
   }
 
-  function resumeExam() {
+  async function resumeExam() {
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, ...latestExamDraft.current, timing: examResumeTiming(current.timing),
+        }), checkpointFailed.current)
+      } catch { return }
+    }
     if (pauseStartedAt.current !== null) {
       totalPausedMs.current += Date.now() - pauseStartedAt.current
       pauseStartedAt.current = null
@@ -305,7 +565,37 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     setSessionOverlay(null)
   }
 
-  function stopExam(returnToPrep = true) {
+  async function saveAndLeave() {
+    if (!checkpointContext || !checkpointRef.current || !onExit || attemptSaving ||
+      submissionLocked) return
+    try {
+      await checkpointWriteChain.current
+      await enqueueExamCheckpoint((current) => ({
+        ...current, answers, marks, selectedChoices, flagged, questionIndex,
+        phase: finishedWriting ? 'marking' : 'writing',
+        timing: examPauseTiming(current.timing),
+      }))
+      onExit()
+    } catch {
+      // Keep the exam visible with the failed-save notice and retry option.
+    }
+  }
+
+  async function stopExam(returnToPrep = true) {
+    if (checkpointContext && attemptStore && checkpointRef.current) {
+      await checkpointWriteChain.current
+      try {
+        await discardExamAttempt(attemptStore, {
+          userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+          moduleId, examId: exam.id,
+        })
+        checkpointRef.current = null
+      } catch (error) {
+        setRecoveryIssue(error instanceof Error ? error.message : 'Could not confirm your exam was discarded.')
+        setCheckpointSaveStatus('error')
+        return
+      }
+    }
     setStarted(false)
     setFinishedWriting(false)
     setSubmitted(false)
@@ -374,8 +664,16 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     }
   }
 
-  function finishWriting() {
+  async function finishWriting() {
     if (missingChoiceGroups.length > 0) return
+    if (checkpointContext && checkpointRef.current) {
+      try {
+        await enqueueExamCheckpoint((current) => ({
+          ...current, phase: 'marking', answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      } catch { return }
+    }
     const firstActive = exam.questions.findIndex(isAttemptedQuestion)
     if (firstActive >= 0) setQuestionIndex(firstActive)
     setFinishedWriting(true)
@@ -383,46 +681,105 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
 
   async function saveResult() {
     if (!finishedWriting || submitted || saveAttemptInFlight.current) return
-    const activeDurationMs = startedAt.current
-      ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
-      : exam.durationMinutes * 60_000
+    const activeDurationMs = checkpointContext && checkpointRef.current
+      ? examElapsedMs(checkpointRef.current.snapshot.timing)
+      : startedAt.current
+        ? Math.max(0, Date.now() - startedAt.current - totalPausedMs.current)
+        : exam.durationMinutes * 60_000
     const durationMinutes = Math.min(exam.durationMinutes, activeDurationMs / 60_000)
-
-    if (!activeQuestions.some((item) => answers[item.id]?.trim())) {
-      setResult({ totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes, timed: true, ao: totals.ao, recorded: false })
-      setSubmitted(true)
-      return
-    }
 
     saveAttemptInFlight.current = true
     setAttemptSaving(true)
     setSubmissionError(null)
     try {
+      if (checkpointContext && checkpointRef.current && checkpointRef.current.snapshot.phase !== 'submitting') {
+        if (recoveryPhase !== 'ready') throw new Error('Saved exam state could not be verified.')
+        await enqueueExamCheckpoint((current) => ({
+          ...current, phase: 'marking', answers, marks, selectedChoices, flagged, questionIndex,
+          timing: examPauseTiming(current.timing),
+        }))
+      }
       // The identical payload must be used after partial success, including its timestamps.
       if (!submissionSnapshot.current) {
-        submissionSnapshot.current = freezeExamSubmission({
-          exam, moduleId, questions: activeQuestions, answers, marks,
-          totalAwarded: totals.totalAwarded, ao: totals.ao,
-          durationMinutes, occurredAt: new Date().toISOString(),
-        })
-        setSubmissionLocked(true)
+        submissionSnapshot.current = activeQuestions.some((item) => answers[item.id]?.trim())
+          ? freezeExamSubmission({
+            exam, moduleId, questions: activeQuestions, answers, marks,
+            totalAwarded: totals.totalAwarded, ao: totals.ao,
+            durationMinutes, occurredAt: new Date().toISOString(),
+          interrupted: checkpointContext ? checkpointRef.current?.snapshot.timing.interrupted : undefined,
+          })
+          : { evidence: [], result: {
+            totalAwarded: 0, totalAvailable: exam.totalMarks, durationMinutes,
+            timed: true, ao: totals.ao, recorded: false,
+            interrupted: checkpointContext ? checkpointRef.current?.snapshot.timing.interrupted : undefined,
+          } }
       }
-      const snapshot = submissionSnapshot.current
+      if (checkpointContext && attemptStore && checkpointRef.current &&
+          checkpointRef.current.snapshot.phase !== 'submitting') {
+        checkpointRef.current = await commitFrozenExamSubmission(
+          attemptStore, checkpointRef.current, submissionSnapshot.current)
+      }
+      setSubmissionLocked(true)
+      const snapshot = checkpointRef.current?.snapshot.frozenSubmission ?? submissionSnapshot.current
       for (const fact of snapshot.evidence) await onRecordEvidence(fact)
+      if (checkpointContext && attemptStore && checkpointRef.current) {
+        checkpointRef.current = await updateExamAttempt(attemptStore, checkpointRef.current, {
+          ...finaliseExamSnapshot(checkpointRef.current.snapshot),
+        })
+      }
       setResult(snapshot.result)
       setSubmitted(true)
+      setCheckpointSaveStatus('saved')
     } catch {
-      setSubmissionError('We could not confirm your whole exam was saved. Your answers and marks are still here. Retry saving without changing them.')
+      setSubmissionError(checkpointContext
+        ? 'We could not confirm your exam result was saved. Your last confirmed work is protected. Retry saving without changing answers or marks.'
+        : 'We could not confirm your whole exam was saved. Your answers and marks are still here. Retry saving without changing them.')
     } finally {
       saveAttemptInFlight.current = false
       setAttemptSaving(false)
     }
   }
 
-  function resetExam() {
-    // Restarting from a saved result preserves the simulator's prior launch flow.
-    // Only explicit confirmed Stop returns to the owning Exam Prep page.
-    stopExam(false)
+  async function resetExam() {
+    // Existing scored evidence is deliberately retained; only the finished checkpoint is cleared.
+    if (checkpointContext && attemptStore && checkpointRef.current) {
+      try {
+        const saved = checkpointRef.current
+        if (saved.snapshot.phase !== 'submitted') throw new Error('Previous result is not confirmed.')
+        await removeCompletedExamAttempt(attemptStore, saved)
+        checkpointRef.current = null
+      } catch (error) {
+        setSubmissionError(error instanceof Error ? error.message : 'Could not start a fresh attempt yet.')
+        return
+      }
+    }
+    await stopExam(false)
+  }
+
+  if (checkpointContext && autoStart !== 'untimed' && recoveryPhase !== 'ready') {
+    return (
+      <section className="exam-simulator exam-recovery" aria-label="Saved exam recovery" role="status">
+        <h2>{recoveryPhase === 'loading' ? 'Checking your saved exam' : 'Your saved exam needs attention'}</h2>
+        <p>{recoveryPhase === 'loading'
+          ? 'We are checking your last confirmed answers before the exam opens.'
+          : recoveryIssue}</p>
+        {recoveryPhase === 'blocked' && <div className="inline-actions">
+          <Button onClick={() => setRecoveryReload((current) => current + 1)}>Check saved exam again</Button>
+          <Button variant="destructive" onClick={async () => {
+            if (!attemptStore) return
+            try {
+              await discardExamAttempt(attemptStore, {
+                userId: checkpointContext.userId, courseId: checkpointContext.courseId,
+                moduleId, examId: exam.id,
+              })
+              setRecoveryReload((current) => current + 1)
+            } catch (error) {
+              setRecoveryIssue(error instanceof Error ? error.message : 'Could not discard this exam safely.')
+            }
+          }}>Discard this unfinished exam</Button>
+        </div>}
+      </section>
+    )
   }
 
   if (!started && questionPractice && practiceQuestion) {
@@ -497,6 +854,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         {result.recorded
           ? <p>Written answers use AO marks you awarded yourself; keyed multiple-choice answers are checked against Revision's authored key. Unanswered questions count as zero on this paper but do not create topic-level question evidence. This is not independently examiner-marked.</p>
           : <p>No answers were submitted, so this empty paper was not recorded as learning evidence. You can start another attempt.</p>}
+        {result.interrupted && <p role="status">This mock was interrupted and resumed. Your working time was preserved, but this result is not comparable with an uninterrupted timed paper.</p>}
         <div className="ao-results">
           {aoKeys.map((key) => {
             const value = result.ao[key]
@@ -514,9 +872,24 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     <div ref={focusRegion} tabIndex={-1} className="exam-session-page" role="region" aria-label={`${exam.title} timed exam`}>
       <section className={`exam-simulator exam-session ${sessionOverlay ? 'exam-session-obscured' : ''}`} aria-labelledby="exam-simulator-heading" aria-hidden={sessionOverlay ? true : undefined}>
         <div className="exam-sticky-bar">
-          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span></div>
+          <div><strong id="exam-simulator-heading">{exam.title}</strong><span>{answeredCount}/{questionCount} answered</span>
+            {checkpointContext && (checkpointSaveStatus !== 'saved' ||
+              Object.values(answers).some((answer) => Boolean(answer.trim())) ||
+              Object.values(flagged).some(Boolean) ||
+              Object.keys(selectedChoices).length > 0) && <span className="exam-checkpoint-status" role="status" aria-live="polite">
+              {checkpointSaveStatus === 'saved'
+                ? <><strong>Work saved</strong><small>Private draft expires within 14 days.</small></>
+                : checkpointSaveStatus === 'saving' ? 'Saving work…' : 'Work not saved — retry'}
+            </span>}
+          </div>
           <div className="exam-session-controls">
-            {!finishedWriting && <Button variant="secondary" type="button" onClick={() => beginInterruption('paused')}>Pause</Button>}
+            {checkpointContext && onExit && !submissionLocked &&
+              (Object.values(answers).some((answer) => Boolean(answer.trim())) ||
+                Object.values(flagged).some(Boolean) ||
+                Object.keys(selectedChoices).length > 0 ||
+                checkpointSaveStatus !== 'saved') && <Button variant="secondary" type="button"
+              disabled={checkpointSaveStatus === 'error' || attemptSaving} onClick={() => { void saveAndLeave() }}>Save and return to Exam Prep</Button>}
+            {!finishedWriting && <Button variant="secondary" type="button" onClick={() => { void beginInterruption('paused') }}>Pause</Button>}
             {!finishedWriting && <Button variant="destructive" type="button" onClick={() => beginInterruption('stop-confirm')}>Stop exam</Button>}
             <div className={secondsRemaining <= 600 ? 'timer warning' : 'timer'}>
               {secondsRemaining <= 600 && <Icon name="clock" size="inline" />}
@@ -527,6 +900,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           </div>
         </div>
 
+        {checkpointContext && checkpointSaveStatus === 'error' && <div role="alert" className="error">
+          {recoveryIssue} Do not close this page until your work is confirmed.
+          <Button onClick={() => {
+            void enqueueExamCheckpoint((current) => ({
+              ...current, answers, marks, selectedChoices, flagged, questionIndex,
+              phase: finishedWriting ? 'marking' : 'writing',
+              timing: finishedWriting ? examPauseTiming(current.timing) : current.timing,
+            }), true).then((saved) => {
+              if (saved.snapshot.phase === 'writing' && !saved.snapshot.timing.runningSince) {
+                setSessionOverlay('paused')
+              }
+            }).catch(() => undefined)
+          }}>Retry saving work</Button>
+        </div>}
         {!finishedWriting ? (
           <>
             {exam.caseHtml && <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>}
@@ -649,6 +1036,13 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
+            {checkpointContext && sessionInterrupted && <p role="status">
+              This paper was interrupted. Only time spent working that was safely confirmed has been counted.
+              Your final result will show that this was an interrupted mock.
+            </p>}
+            {checkpointContext && checkpointSaveStatus === 'error' && <p role="alert">
+              Your latest work could not be confirmed saved. Return to the paper and retry after your connection recovers.
+            </p>}
             <Button size="large" type="button" onClick={resumeExam}><Icon name="play" size="compact" /><span>Continue exam</span></Button>
           </ModalShell>
         </div>
@@ -659,7 +1053,9 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .ui-button--primary">
             <p className="eyebrow">Stop exam?</p>
             <h2 id="stop-exam-title">Are you sure?</h2>
-            <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
+            <p>{checkpointContext
+              ? 'Stopping will discard this unfinished attempt. Previously recorded examination results are not deleted.'
+              : 'Stopping will end this attempt and discard the answers from this unsaved exam.'}</p>
             <div className="exam-confirm-actions">
               <Button variant="destructive" type="button" onClick={() => stopExam()}>Yes, stop exam</Button>
               <Button type="button" onClick={resumeExam}>Continue exam</Button>

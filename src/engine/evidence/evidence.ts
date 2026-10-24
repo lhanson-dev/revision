@@ -141,6 +141,7 @@ export const examAttemptEvidenceSchema = z.object({
   ...marksShape,
   durationMinutes: z.number().nonnegative(),
   timed: z.boolean(),
+  interrupted: z.boolean().optional(),
   markingMethod: markingMethodSchema.optional(),
 }).superRefine((evidence, context) => {
   if (evidence.marksAwarded > evidence.marksAvailable) {

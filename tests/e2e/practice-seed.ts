@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 export const appPath = '/revision/app/'
@@ -9,6 +10,7 @@ export const businessCourseId = 'aqa:aqa-a-level:7132'
 
 export async function seedReturningStudent(page: Page) {
   await seedPracticeCheckpoints(page)
+  await seedExamAttemptBackend(page)
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')

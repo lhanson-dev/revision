@@ -37,3 +37,7 @@ Release validation must include refresh/re-entry, stable evidence IDs, retry aft
 ## Documentation-impact check
 
 This implements the previously governed Recovery Control Plan and existing Claims/Evidence/Privacy obligations; no new product authority is claimed. Code, schema, tests, release contract, technical documentation and INDEX are updated together. Dated historical audits remain unchanged. No release claim or Founder approval is asserted.
+
+## Verified current-main release status — 22 October 2026
+
+PR #657 merged at `df1adc5b7fd49d52a78f8c5651977a1077ebf118` and production [Pages deployment #39790131231](https://github.com/lhanson-dev/revision/actions/runs/39790131231) completed successfully. Durable scored objective Practice session recovery is therefore live at this verified main baseline. Raw written mock answers and full timed exam recovery remain outside that release, tracked as REC-10 draft PR #658. Prior descriptions of candidate status above are historical snapshots, not a claim about current production.

@@ -148,7 +148,7 @@ jobs:
         timeout-minutes: 8
         env:
           REVISION_PILOT_GATE_CHECK: '1'
-        run: npx playwright test tests/e2e/fi001-pilot-boundary.spec.ts --project=desktop
+        run: npx playwright test tests/e2e/fi001-pilot-boundary.spec.ts tests/e2e/rec10-pilot-boundary.spec.ts --project=desktop
       - name: Upload interface visual regression evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -243,11 +243,12 @@ jobs:
             --header 'Content-Type: application/json' \
             --data '{}' \
             "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
-          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-practice-checkpoint-v1'
+          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-exam-attempt-v1'
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.practiceCheckpoints // false' <<<"$response")" = 'true'
+          test "$(jq -r '.checks.examAttempts // false' <<<"$response")" = 'true'
       - name: Run pgTAP database and RLS assurance
         run: |
           supabase test db supabase/tests/database-assurance.test.sql
@@ -256,6 +257,7 @@ jobs:
           supabase test db supabase/tests/student-first-use-assurance.test.sql
           supabase test db supabase/tests/learner-planned-sessions-assurance.test.sql
           supabase test db supabase/tests/practice-checkpoint-assurance.test.sql
+          supabase test db supabase/tests/exam-attempt-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
       # The Supabase CLI pulls the Edge runtime from public ECR, whose anonymous
