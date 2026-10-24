@@ -27,7 +27,9 @@ for (const lastDate of futureDates) {
     })
     await page.goto(`${appPath}#/plan?view=month&date=${lastDate}`)
     const expectedMonth = lastDate === '2027-02-02' ? 'February 2027' : lastDate === '2027-10-05' ? 'October 2027' : 'October 2028'
-    await expect(page.getByRole('heading', { level: 1, name: expectedMonth })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'Plan' })).toBeVisible()
+    await expect(page.locator('.pln-nav__label')).toContainText(expectedMonth)
+    await page.locator('.pln-programme-disclosure > summary').click()
     const outlook = page.getByRole('region', { name: 'Your full exam programme' })
     await expect(outlook).toContainText('Business Final Paper')
     await expect(outlook).toContainText('not booked sessions')
@@ -77,6 +79,7 @@ test('R2-06 failed distant read does not disable near-term Plan guidance', async
   })
   await page.goto(`${appPath}#/plan`)
   await expect(page.getByRole('button', { name: 'Add session', exact: true })).toBeVisible()
+  await page.locator('.pln-programme-disclosure > summary').click()
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Future Business paper')
   await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
