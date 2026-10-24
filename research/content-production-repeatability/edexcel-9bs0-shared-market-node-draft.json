@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "artifact_type": "subject_knowledge_foundation_node_candidate",
+  "lifecycle": "RESEARCH_DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "proposed_stable_node_id": "BUS-MKT-010",
+  "proposed_node_id_assigned": false,
+  "subject_family": "UK_LEVEL_3_BUSINESS",
+  "reusable_across_boards": true,
+  "target_scope": {
+    "edexcel": "9BS0 Theme 1, section 1.2",
+    "aqa": "No mapping change proposed; existing AQA 7132 projections and nodes unaffected"
+  },
+  "foundation_dependency": {
+    "version": "v0.8-t8-exact-course-remediation",
+    "fingerprint": "0f9a9423102cfa26b11dad1ed4d99eb5594c7b8a26d4d84fd8a42d2994dd0241",
+    "node_count": 81,
+    "promotion_decision": "NOT_YET_MADE",
+    "loader": "scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs",
+    "effective_nodes_modified": false
+  },
+  "source_provenance": {
+    "reviewed_identity": "LOUIS Microeconomics, 2024, chapter 3 Demand and Supply",
+    "source_id": "SRC-OER-LOUIS-MICRO-2024",
+    "source_url": "https://louis.pressbooks.pub/microeconomics/chapter/demand-and-supply-3/",
+    "source_licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "licence_visible_on_book_and_chapter": "CC BY 4.0 except where otherwise noted",
+    "source_authors": [
+      "Braden Watson",
+      "Brian Sherman",
+      "Nicole Ortloff",
+      "Philippe Lannelongue",
+      "Victoria Palmisano"
+    ],
+    "licence_check_date": "2026-10-24",
+    "excluded_material": [
+      "third_party_images",
+      "third_party_graphics",
+      "embedded_media",
+      "independently_credited_content"
+    ],
+    "teaching_wording": "REVISION_ORIGINAL",
+    "teaching_diagrams": "REVISION_ORIGINAL_DATA_ONLY",
+    "citation_required_on_eventual_reuse": true,
+    "new_generation_operation_rights_signoff": "PENDING",
+    "board_alignment_source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "board_alignment_rights": "REFERENCE_ONLY",
+    "pearson_prose_sent_to_generation": false,
+    "provider_model_calls": 0
+  },
+  "learning_outcomes": [
+    "Distinguish market demand from quantity demanded, and market supply from quantity supplied",
+    "Label and draw a demand curve and a supply curve with price on the vertical axis and quantity on the horizontal axis",
+    "Find and interpret equilibrium price and quantity from schedules, a diagram or simple linear relationships",
+    "Identify whether a scenario changes a curve position or causes movement along an unchanged curve",
+    "Show supply and demand shifts separately, then compare the original and new equilibria",
+    "Explain the business consequences of market shifts while stating the assumptions and limits of the model"
+  ],
+  "teaching_content": {
+    "core_explanation": "A market price is influenced by both what buyers are prepared to purchase and what sellers are prepared to provide. A demand schedule shows quantities buyers would purchase at a range of prices, assuming other relevant circumstances do not change. A supply schedule shows quantities sellers would offer at those prices under the same assumption. A graph can plot both relationships with price on the vertical axis and quantity on the horizontal axis. Their intersection is the modelled equilibrium: the price at which quantity demanded equals quantity supplied. If the price is above it, planned supply can exceed demand; below it, planned demand can exceed supply. These pressures indicate a possible adjustment, not a guarantee that real markets immediately clear.",
+    "definitions": [
+      "Market demand: quantities all buyers plan to purchase at different possible prices, under stated conditions",
+      "Quantity demanded: units purchasers plan to buy at one particular price",
+      "Market supply: quantities sellers plan to offer at different possible prices, under stated conditions",
+      "Quantity supplied: units offered at one particular price",
+      "Equilibrium: a modelled price and quantity at which planned purchases and sales match",
+      "Curve shift: a change in planned demand or supply at each given price due to a determinant other than the product's own price",
+      "Movement along a curve: a change in quantity demanded or supplied when the product's own price changes and other determinants are held fixed"
+    ],
+    "mechanisms": [
+      "A rise in suppliers' input costs can make fewer units economical to supply at any particular selling price, shifting market supply left",
+      "A subsidy that lowers producers' costs can shift market supply right; an indirect tax borne by suppliers can shift supply left, depending on pass-through and other conditions",
+      "An increase in preference for a product can shift demand right; an increase in the price of a substitute may also increase this product's demand",
+      "A supply-left shift, with demand unchanged, tends to raise the modelled equilibrium price and lower traded quantity",
+      "A demand-right shift, with supply unchanged, tends to raise both modelled price and traded quantity",
+      "A price change caused by the shift of one curve leads to movement along the other curve, not an automatic shift of it"
+    ],
+    "graph_contract": {
+      "horizontal_axis": "Quantity (units per period)",
+      "vertical_axis": "Price (currency per unit)",
+      "baseline_curves": [
+        "D0",
+        "S0"
+      ],
+      "equilibrium_symbol": "E0",
+      "label_required": [
+        "D0",
+        "S0",
+        "E0",
+        "P0",
+        "Q0"
+      ],
+      "shift_curves": [
+        "D1",
+        "S1"
+      ],
+      "new_equilibrium_symbol": "E1",
+      "mark_both_price_and_quantity_at_equilibria": true,
+      "explain_curve_movement_vs_shift": true
+    },
+    "misconceptions": [
+      {
+        "incorrect": "A higher selling price shifts the market demand curve left.",
+        "correction": "Changing a product's own price moves the quantity demanded along its existing demand curve; an independent demand determinant shifts the curve."
+      },
+      {
+        "incorrect": "A rise in the cost of production shifts the supply curve right.",
+        "correction": "Holding other circumstances fixed, increased unit costs tend to lower quantity supplied at each given price, shifting supply left."
+      },
+      {
+        "incorrect": "When supply falls, the higher resulting price shifts demand to the left too.",
+        "correction": "With demand determinants unchanged, the price response is movement along the same demand curve."
+      },
+      {
+        "incorrect": "Any price above equilibrium instantly causes the market to return to equilibrium.",
+        "correction": "The diagram predicts incentives for adjustment; contractual, capacity, regulatory and information frictions can delay or prevent it."
+      },
+      {
+        "incorrect": "The same shock affects every market by the same amount.",
+        "correction": "The magnitude depends on curve shapes, sensitivity, timing, market boundaries and simultaneous influences."
+      }
+    ],
+    "boundaries": [
+      "The downward demand/upward supply model is a simplified ceteris paribus depiction, not a universal curve shape",
+      "A firm’s operational capacity is related to but not equivalent to an entire market supply schedule",
+      "Supply and demand changes occurring together can leave the direction of price or quantity indeterminate without further information",
+      "An equilibrium point is a model of planned quantities rather than a promise about real-time transactions",
+      "Elasticity measures responsiveness; it is related to but not interchangeable with drawing a shift or computing equilibrium"
+    ],
+    "prerequisites": [
+      "BUS-MKT-001",
+      "BUS-MKT-008"
+    ],
+    "related_nodes": [
+      "BUS-OPS-001",
+      "BUS-EXT-001"
+    ]
+  },
+  "original_numeric_case": {
+    "id": "REV-SD-CASE-01",
+    "rights": "REVISION_ORIGINAL_SYNTHETIC",
+    "context": "A hypothetical local market for refill packs. Each quantity represents packs offered or requested per week. Coefficients are teaching simplifications, not real consumer estimates.",
+    "units": {
+      "price": "GBP per pack",
+      "quantity": "packs per week"
+    },
+    "demand": {
+      "name": "D0",
+      "quantity_intercept": 120,
+      "price_coefficient": -4
+    },
+    "supply": {
+      "name": "S0",
+      "quantity_intercept": 20,
+      "price_coefficient": 1
+    },
+    "baseline": {
+      "price": 20,
+      "quantity": 40
+    },
+    "original_scenarios": [
+      {
+        "scenario_id": "COST-RISE",
+        "cause": "Production materials cost more",
+        "shift": "SUPPLY_LEFT",
+        "changed_curve": "S1",
+        "demand": {
+          "quantity_intercept": 120,
+          "price_coefficient": -4
+        },
+        "supply": {
+          "quantity_intercept": 10,
+          "price_coefficient": 1
+        },
+        "result": {
+          "price": 22,
+          "quantity": 32
+        },
+        "expected_direction": {
+          "price": "UP",
+          "quantity": "DOWN"
+        }
+      },
+      {
+        "scenario_id": "PREFERENCE-RISE",
+        "cause": "More shoppers choose refill packs",
+        "shift": "DEMAND_RIGHT",
+        "changed_curve": "D1",
+        "demand": {
+          "quantity_intercept": 130,
+          "price_coefficient": -4
+        },
+        "supply": {
+          "quantity_intercept": 20,
+          "price_coefficient": 1
+        },
+        "result": {
+          "price": 22,
+          "quantity": 42
+        },
+        "expected_direction": {
+          "price": "UP",
+          "quantity": "UP"
+        }
+      }
+    ],
+    "off_equilibrium": [
+      {
+        "price": 16,
+        "quantity_demanded": 56,
+        "quantity_supplied": 36,
+        "imbalance_type": "SHORTAGE",
+        "magnitude": 20
+      },
+      {
+        "price": 24,
+        "quantity_demanded": 24,
+        "quantity_supplied": 44,
+        "imbalance_type": "SURPLUS",
+        "magnitude": 20
+      }
+    ],
+    "demonstration_steps": [
+      "Identify quantities as functions of price, and label P and Q on the correct axes.",
+      "Set the baseline demand and supply quantities equal: 120 - 4P = 20 + P. Solve to get P=20 and Q=40.",
+      "For higher production costs replace S0 with S1: 120 - 4P = 10 + P. P=22; then Q=32. Keep D0 in the diagram.",
+      "For stronger customer preference instead replace D0 with D1: 130 - 4P = 20 + P. P=22; then Q=42. Keep S0 in the diagram.",
+      "Compare P and Q against the baseline and explain the different market mechanism for each scenario.",
+      "Distinguish the curve that shifts from movement along the unchanged curve; discuss real-world limitations before applying to a business decision."
+    ]
+  },
+  "expected_educational_evidence": {
+    "modes": [
+      "explain",
+      "calculate",
+      "construct_graph",
+      "interpret_graph",
+      "apply_to_context",
+      "evaluate_limitation"
+    ],
+    "acceptance_tests": [
+      "accurate_original_diagram_with_correct_axes_and_labels",
+      "two_shift_scenarios_with_correct_equilibria",
+      "explicit_shift_versus_movement_explanation",
+      "numerical_shortage_and_surplus_explanation",
+      "subject_specialist_accuracy_check",
+      "fresh_context_depth_review",
+      "no_unlicensed_source_material",
+      "independent_practice_evidence_validity_check"
+    ],
+    "human_review_status": "NOT_REVIEWED",
+    "fresh_independent_ai_review_status": "NOT_RUN",
+    "original_mark_scheme_created": false,
+    "student_asset_produced": false
+  },
+  "exact_course_impact": {
+    "edexcel_requirement_ids": [
+      "EDX-9BS0-MKT-08",
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-10",
+      "EDX-9BS0-MKT-11",
+      "EDX-9BS0-MKT-12",
+      "EDX-9BS0-MKT-13",
+      "EDX-9BS0-MKT-14A",
+      "EDX-9BS0-MKT-14B"
+    ],
+    "aqa_mapping_changes": 0,
+    "selected_prerequisites": [
+      "BUS-MKT-001",
+      "BUS-MKT-008"
+    ],
+    "existing_assured_node_content_modified": false
+  },
+  "assurance": {
+    "structure": "TO_BE_CHECKED",
+    "source_factual_check": "PARTIAL_WEB_CHECK_ONLY",
+    "independent_accuracy": "PENDING",
+    "subject_expert_review": "PENDING",
+    "rights_for_new_operation": "PENDING",
+    "exact_course_foundation_approved": false,
+    "learner_content_approved": false
+  },
+  "model_calls": 0,
+  "model_cost_usd": 0,
+  "publication_decision": "HOLD"
+}

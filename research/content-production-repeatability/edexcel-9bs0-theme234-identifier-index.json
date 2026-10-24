@@ -1,0 +1,3002 @@
+{
+  "schema_version": "edexcel-9bs0-theme234-structural-identifier-v1",
+  "recorded_at": "2026-10-23",
+  "status": "SOURCE_REFERENCE_INDEX_UNAPPROVED",
+  "qualification_code": "9BS0",
+  "specification_issue": "Issue 1, September 2014",
+  "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+  "source_url": "https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf",
+  "rights": "REFERENCE_ONLY",
+  "source_prose_ingestion_allowed": false,
+  "extraction_scope": "visible numbered, lettered and indented bullet identifiers only; no copied syllabus prose",
+  "reference_only": true,
+  "theme_ids": [
+    2,
+    3,
+    4
+  ],
+  "subtopic_source_index": [
+    {
+      "id": "2.1.1",
+      "letter_ids": [
+        "2.1.1:a",
+        "2.1.1:b",
+        "2.1.1:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 25
+    },
+    {
+      "id": "2.1.2",
+      "letter_ids": [
+        "2.1.2:a",
+        "2.1.2:b"
+      ],
+      "nested_bullet_counts": [
+        6,
+        7
+      ],
+      "source_pdf_page_zero_based": 25
+    },
+    {
+      "id": "2.1.3",
+      "letter_ids": [
+        "2.1.3:a",
+        "2.1.3:b"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 25
+    },
+    {
+      "id": "2.1.4",
+      "letter_ids": [
+        "2.1.4:a",
+        "2.1.4:b",
+        "2.1.4:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 25
+    },
+    {
+      "id": "2.2.1",
+      "letter_ids": [
+        "2.2.1:a",
+        "2.2.1:b",
+        "2.2.1:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        3,
+        0
+      ],
+      "source_pdf_page_zero_based": 26
+    },
+    {
+      "id": "2.2.2",
+      "letter_ids": [
+        "2.2.2:a",
+        "2.2.2:b"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 26
+    },
+    {
+      "id": "2.2.3",
+      "letter_ids": [
+        "2.2.3:a",
+        "2.2.3:b",
+        "2.2.3:c",
+        "2.2.3:d",
+        "2.2.3:e",
+        "2.2.3:f"
+      ],
+      "nested_bullet_counts": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 26
+    },
+    {
+      "id": "2.2.4",
+      "letter_ids": [
+        "2.2.4:a",
+        "2.2.4:b",
+        "2.2.4:c",
+        "2.2.4:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        2,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 26
+    },
+    {
+      "id": "2.3.1",
+      "letter_ids": [
+        "2.3.1:a",
+        "2.3.1:b",
+        "2.3.1:c"
+      ],
+      "nested_bullet_counts": [
+        3,
+        2,
+        0
+      ],
+      "source_pdf_page_zero_based": 27
+    },
+    {
+      "id": "2.3.2",
+      "letter_ids": [
+        "2.3.2:a",
+        "2.3.2:b"
+      ],
+      "nested_bullet_counts": [
+        2,
+        0
+      ],
+      "source_pdf_page_zero_based": 27
+    },
+    {
+      "id": "2.3.3",
+      "letter_ids": [
+        "2.3.3:a"
+      ],
+      "nested_bullet_counts": [
+        2
+      ],
+      "source_pdf_page_zero_based": 27
+    },
+    {
+      "id": "2.4.1",
+      "letter_ids": [
+        "2.4.1:a",
+        "2.4.1:b",
+        "2.4.1:c"
+      ],
+      "nested_bullet_counts": [
+        4,
+        1,
+        1
+      ],
+      "source_pdf_page_zero_based": 28
+    },
+    {
+      "id": "2.4.2",
+      "letter_ids": [
+        "2.4.2:a",
+        "2.4.2:b",
+        "2.4.2:c"
+      ],
+      "nested_bullet_counts": [
+        1,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 28
+    },
+    {
+      "id": "2.4.3",
+      "letter_ids": [
+        "2.4.3:a",
+        "2.4.3:b",
+        "2.4.3:c",
+        "2.4.3:d",
+        "2.4.3:e",
+        "2.4.3:f"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 28
+    },
+    {
+      "id": "2.4.4",
+      "letter_ids": [
+        "2.4.4:a",
+        "2.4.4:b",
+        "2.4.4:c"
+      ],
+      "nested_bullet_counts": [
+        4,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 28
+    },
+    {
+      "id": "2.5.1",
+      "letter_ids": [
+        "2.5.1:a",
+        "2.5.1:b"
+      ],
+      "nested_bullet_counts": [
+        5,
+        0
+      ],
+      "source_pdf_page_zero_based": 29
+    },
+    {
+      "id": "2.5.2",
+      "letter_ids": [
+        "2.5.2:a"
+      ],
+      "nested_bullet_counts": [
+        5
+      ],
+      "source_pdf_page_zero_based": 29
+    },
+    {
+      "id": "2.5.3",
+      "letter_ids": [
+        "2.5.3:a"
+      ],
+      "nested_bullet_counts": [
+        0
+      ],
+      "source_pdf_page_zero_based": 29
+    },
+    {
+      "id": "3.1.1",
+      "letter_ids": [
+        "3.1.1:a",
+        "3.1.1:b"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 31
+    },
+    {
+      "id": "3.1.2",
+      "letter_ids": [
+        "3.1.2:a",
+        "3.1.2:b",
+        "3.1.2:c",
+        "3.1.2:d"
+      ],
+      "nested_bullet_counts": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 31
+    },
+    {
+      "id": "3.1.3",
+      "letter_ids": [
+        "3.1.3:a"
+      ],
+      "nested_bullet_counts": [
+        2
+      ],
+      "source_pdf_page_zero_based": 31
+    },
+    {
+      "id": "3.1.4",
+      "letter_ids": [
+        "3.1.4:a",
+        "3.1.4:b",
+        "3.1.4:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 31
+    },
+    {
+      "id": "3.2.1",
+      "letter_ids": [
+        "3.2.1:a",
+        "3.2.1:b"
+      ],
+      "nested_bullet_counts": [
+        4,
+        3
+      ],
+      "source_pdf_page_zero_based": 32
+    },
+    {
+      "id": "3.2.2",
+      "letter_ids": [
+        "3.2.2:a",
+        "3.2.2:b",
+        "3.2.2:c",
+        "3.2.2:d",
+        "3.2.2:e"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 32
+    },
+    {
+      "id": "3.2.3",
+      "letter_ids": [
+        "3.2.3:a",
+        "3.2.3:b",
+        "3.2.3:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 32
+    },
+    {
+      "id": "3.2.4",
+      "letter_ids": [
+        "3.2.4:a"
+      ],
+      "nested_bullet_counts": [
+        4
+      ],
+      "source_pdf_page_zero_based": 32
+    },
+    {
+      "id": "3.3.1",
+      "letter_ids": [
+        "3.3.1:a",
+        "3.3.1:b",
+        "3.3.1:c"
+      ],
+      "nested_bullet_counts": [
+        1,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 33
+    },
+    {
+      "id": "3.3.2",
+      "letter_ids": [
+        "3.3.2:a",
+        "3.3.2:b",
+        "3.3.2:c",
+        "3.3.2:d",
+        "3.3.2:e"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 33
+    },
+    {
+      "id": "3.3.3",
+      "letter_ids": [
+        "3.3.3:a",
+        "3.3.3:b",
+        "3.3.3:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 33
+    },
+    {
+      "id": "3.3.4",
+      "letter_ids": [
+        "3.3.4:a",
+        "3.3.4:b",
+        "3.3.4:c",
+        "3.3.4:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "source_pdf_page_zero_based": 33
+    },
+    {
+      "id": "3.4.1",
+      "letter_ids": [
+        "3.4.1:a",
+        "3.4.1:b"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 34
+    },
+    {
+      "id": "3.4.2",
+      "letter_ids": [
+        "3.4.2:a",
+        "3.4.2:b",
+        "3.4.2:c",
+        "3.4.2:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        4,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 34
+    },
+    {
+      "id": "3.4.3",
+      "letter_ids": [
+        "3.4.3:a",
+        "3.4.3:b",
+        "3.4.3:c",
+        "3.4.3:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "source_pdf_page_zero_based": 34
+    },
+    {
+      "id": "3.4.4",
+      "letter_ids": [
+        "3.4.4:a",
+        "3.4.4:b",
+        "3.4.4:c"
+      ],
+      "nested_bullet_counts": [
+        1,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 34
+    },
+    {
+      "id": "3.5.1",
+      "letter_ids": [
+        "3.5.1:a",
+        "3.5.1:b"
+      ],
+      "nested_bullet_counts": [
+        2,
+        2
+      ],
+      "source_pdf_page_zero_based": 35
+    },
+    {
+      "id": "3.5.2",
+      "letter_ids": [
+        "3.5.2:a",
+        "3.5.2:b",
+        "3.5.2:c"
+      ],
+      "nested_bullet_counts": [
+        2,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 35
+    },
+    {
+      "id": "3.5.3",
+      "letter_ids": [
+        "3.5.3:a",
+        "3.5.3:b"
+      ],
+      "nested_bullet_counts": [
+        3,
+        4
+      ],
+      "source_pdf_page_zero_based": 35
+    },
+    {
+      "id": "3.6.1",
+      "letter_ids": [
+        "3.6.1:a",
+        "3.6.1:b"
+      ],
+      "nested_bullet_counts": [
+        5,
+        4
+      ],
+      "source_pdf_page_zero_based": 36
+    },
+    {
+      "id": "3.6.2",
+      "letter_ids": [
+        "3.6.2:a",
+        "3.6.2:b",
+        "3.6.2:c",
+        "3.6.2:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 36
+    },
+    {
+      "id": "3.6.3",
+      "letter_ids": [
+        "3.6.3:a",
+        "3.6.3:b"
+      ],
+      "nested_bullet_counts": [
+        3,
+        2
+      ],
+      "source_pdf_page_zero_based": 36
+    },
+    {
+      "id": "4.1.1",
+      "letter_ids": [
+        "4.1.1:a",
+        "4.1.1:b",
+        "4.1.1:c",
+        "4.1.1:d"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        2,
+        4
+      ],
+      "source_pdf_page_zero_based": 39
+    },
+    {
+      "id": "4.1.2",
+      "letter_ids": [
+        "4.1.2:a",
+        "4.1.2:b",
+        "4.1.2:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 39
+    },
+    {
+      "id": "4.1.3",
+      "letter_ids": [
+        "4.1.3:a",
+        "4.1.3:b",
+        "4.1.3:c",
+        "4.1.3:d",
+        "4.1.3:e",
+        "4.1.3:f",
+        "4.1.3:g",
+        "4.1.3:h"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 39
+    },
+    {
+      "id": "4.1.4",
+      "letter_ids": [
+        "4.1.4:a",
+        "4.1.4:b",
+        "4.1.4:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        2
+      ],
+      "source_pdf_page_zero_based": 39
+    },
+    {
+      "id": "4.1.5",
+      "letter_ids": [
+        "4.1.5:a",
+        "4.1.5:b"
+      ],
+      "nested_bullet_counts": [
+        3,
+        0
+      ],
+      "source_pdf_page_zero_based": 39
+    },
+    {
+      "id": "4.2.1",
+      "letter_ids": [
+        "4.2.1:a",
+        "4.2.1:b",
+        "4.2.1:c",
+        "4.2.1:d"
+      ],
+      "nested_bullet_counts": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 40
+    },
+    {
+      "id": "4.2.2",
+      "letter_ids": [
+        "4.2.2:a"
+      ],
+      "nested_bullet_counts": [
+        5
+      ],
+      "source_pdf_page_zero_based": 40
+    },
+    {
+      "id": "4.2.3",
+      "letter_ids": [
+        "4.2.3:a"
+      ],
+      "nested_bullet_counts": [
+        9
+      ],
+      "source_pdf_page_zero_based": 40
+    },
+    {
+      "id": "4.2.4",
+      "letter_ids": [
+        "4.2.4:a",
+        "4.2.4:b",
+        "4.2.4:c",
+        "4.2.4:d",
+        "4.2.4:e"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 40
+    },
+    {
+      "id": "4.2.5",
+      "letter_ids": [
+        "4.2.5:a",
+        "4.2.5:b",
+        "4.2.5:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        2,
+        0
+      ],
+      "source_pdf_page_zero_based": 40
+    },
+    {
+      "id": "4.3.1",
+      "letter_ids": [
+        "4.3.1:a",
+        "4.3.1:b",
+        "4.3.1:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        3,
+        0
+      ],
+      "source_pdf_page_zero_based": 41
+    },
+    {
+      "id": "4.3.2",
+      "letter_ids": [
+        "4.3.2:a",
+        "4.3.2:b",
+        "4.3.2:c"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        0
+      ],
+      "source_pdf_page_zero_based": 41
+    },
+    {
+      "id": "4.3.3",
+      "letter_ids": [
+        "4.3.3:a"
+      ],
+      "nested_bullet_counts": [
+        6
+      ],
+      "source_pdf_page_zero_based": 41
+    },
+    {
+      "id": "4.4.1",
+      "letter_ids": [
+        "4.4.1:a",
+        "4.4.1:b"
+      ],
+      "nested_bullet_counts": [
+        3,
+        6
+      ],
+      "source_pdf_page_zero_based": 42
+    },
+    {
+      "id": "4.4.2",
+      "letter_ids": [
+        "4.4.2:a",
+        "4.4.2:b",
+        "4.4.2:c",
+        "4.4.2:d",
+        "4.4.2:e"
+      ],
+      "nested_bullet_counts": [
+        0,
+        0,
+        2,
+        2,
+        2
+      ],
+      "source_pdf_page_zero_based": 42
+    },
+    {
+      "id": "4.4.3",
+      "letter_ids": [
+        "4.4.3:a"
+      ],
+      "nested_bullet_counts": [
+        4
+      ],
+      "source_pdf_page_zero_based": 42
+    }
+  ],
+  "terminal_reference_ids": [
+    {
+      "id": "2.1.1:a",
+      "parent_letter_id": "2.1.1:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.1:b",
+      "parent_letter_id": "2.1.1:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.1:c",
+      "parent_letter_id": "2.1.1:c",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/1",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/2",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/3",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/4",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/5",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:a/6",
+      "parent_letter_id": "2.1.2:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/1",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/2",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/3",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/4",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/5",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/6",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.2:b/7",
+      "parent_letter_id": "2.1.2:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.3:a",
+      "parent_letter_id": "2.1.3:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.3:b",
+      "parent_letter_id": "2.1.3:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.4:a",
+      "parent_letter_id": "2.1.4:a",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.4:b",
+      "parent_letter_id": "2.1.4:b",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.1.4:c",
+      "parent_letter_id": "2.1.4:c",
+      "source_pdf_page_zero_based": 25,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.1:a",
+      "parent_letter_id": "2.2.1:a",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.1:b/1",
+      "parent_letter_id": "2.2.1:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.1:b/2",
+      "parent_letter_id": "2.2.1:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.1:b/3",
+      "parent_letter_id": "2.2.1:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.1:c",
+      "parent_letter_id": "2.2.1:c",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.2:a",
+      "parent_letter_id": "2.2.2:a",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.2:b",
+      "parent_letter_id": "2.2.2:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:a",
+      "parent_letter_id": "2.2.3:a",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:b/1",
+      "parent_letter_id": "2.2.3:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:c",
+      "parent_letter_id": "2.2.3:c",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:d",
+      "parent_letter_id": "2.2.3:d",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:e",
+      "parent_letter_id": "2.2.3:e",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.3:f",
+      "parent_letter_id": "2.2.3:f",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.4:a",
+      "parent_letter_id": "2.2.4:a",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.4:b/1",
+      "parent_letter_id": "2.2.4:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.4:b/2",
+      "parent_letter_id": "2.2.4:b",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.4:c",
+      "parent_letter_id": "2.2.4:c",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.2.4:d",
+      "parent_letter_id": "2.2.4:d",
+      "source_pdf_page_zero_based": 26,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:a/1",
+      "parent_letter_id": "2.3.1:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:a/2",
+      "parent_letter_id": "2.3.1:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:a/3",
+      "parent_letter_id": "2.3.1:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:b/1",
+      "parent_letter_id": "2.3.1:b",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:b/2",
+      "parent_letter_id": "2.3.1:b",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.1:c",
+      "parent_letter_id": "2.3.1:c",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.2:a/1",
+      "parent_letter_id": "2.3.2:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.2:a/2",
+      "parent_letter_id": "2.3.2:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.2:b",
+      "parent_letter_id": "2.3.2:b",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.3:a/1",
+      "parent_letter_id": "2.3.3:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.3.3:a/2",
+      "parent_letter_id": "2.3.3:a",
+      "source_pdf_page_zero_based": 27,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:a/1",
+      "parent_letter_id": "2.4.1:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:a/2",
+      "parent_letter_id": "2.4.1:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:a/3",
+      "parent_letter_id": "2.4.1:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:a/4",
+      "parent_letter_id": "2.4.1:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:b/1",
+      "parent_letter_id": "2.4.1:b",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.1:c/1",
+      "parent_letter_id": "2.4.1:c",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.2:a/1",
+      "parent_letter_id": "2.4.2:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.2:b",
+      "parent_letter_id": "2.4.2:b",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.2:c",
+      "parent_letter_id": "2.4.2:c",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:a",
+      "parent_letter_id": "2.4.3:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:b",
+      "parent_letter_id": "2.4.3:b",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:c",
+      "parent_letter_id": "2.4.3:c",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:d",
+      "parent_letter_id": "2.4.3:d",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:e",
+      "parent_letter_id": "2.4.3:e",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.3:f",
+      "parent_letter_id": "2.4.3:f",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:a/1",
+      "parent_letter_id": "2.4.4:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:a/2",
+      "parent_letter_id": "2.4.4:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:a/3",
+      "parent_letter_id": "2.4.4:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:a/4",
+      "parent_letter_id": "2.4.4:a",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:b",
+      "parent_letter_id": "2.4.4:b",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.4.4:c",
+      "parent_letter_id": "2.4.4:c",
+      "source_pdf_page_zero_based": 28,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:a/1",
+      "parent_letter_id": "2.5.1:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:a/2",
+      "parent_letter_id": "2.5.1:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:a/3",
+      "parent_letter_id": "2.5.1:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:a/4",
+      "parent_letter_id": "2.5.1:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:a/5",
+      "parent_letter_id": "2.5.1:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.1:b",
+      "parent_letter_id": "2.5.1:b",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.2:a/1",
+      "parent_letter_id": "2.5.2:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.2:a/2",
+      "parent_letter_id": "2.5.2:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.2:a/3",
+      "parent_letter_id": "2.5.2:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.2:a/4",
+      "parent_letter_id": "2.5.2:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.2:a/5",
+      "parent_letter_id": "2.5.2:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "2.5.3:a",
+      "parent_letter_id": "2.5.3:a",
+      "source_pdf_page_zero_based": 29,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.1:a",
+      "parent_letter_id": "3.1.1:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.1:b",
+      "parent_letter_id": "3.1.1:b",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.2:a/1",
+      "parent_letter_id": "3.1.2:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.2:a/2",
+      "parent_letter_id": "3.1.2:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.2:b",
+      "parent_letter_id": "3.1.2:b",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.2:c",
+      "parent_letter_id": "3.1.2:c",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.2:d",
+      "parent_letter_id": "3.1.2:d",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.3:a/1",
+      "parent_letter_id": "3.1.3:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.3:a/2",
+      "parent_letter_id": "3.1.3:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.4:a",
+      "parent_letter_id": "3.1.4:a",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.4:b",
+      "parent_letter_id": "3.1.4:b",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.1.4:c",
+      "parent_letter_id": "3.1.4:c",
+      "source_pdf_page_zero_based": 31,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:a/1",
+      "parent_letter_id": "3.2.1:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:a/2",
+      "parent_letter_id": "3.2.1:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:a/3",
+      "parent_letter_id": "3.2.1:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:a/4",
+      "parent_letter_id": "3.2.1:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:b/1",
+      "parent_letter_id": "3.2.1:b",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:b/2",
+      "parent_letter_id": "3.2.1:b",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.1:b/3",
+      "parent_letter_id": "3.2.1:b",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.2:a",
+      "parent_letter_id": "3.2.2:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.2:b",
+      "parent_letter_id": "3.2.2:b",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.2:c",
+      "parent_letter_id": "3.2.2:c",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.2:d",
+      "parent_letter_id": "3.2.2:d",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.2:e",
+      "parent_letter_id": "3.2.2:e",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.3:a",
+      "parent_letter_id": "3.2.3:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.3:b",
+      "parent_letter_id": "3.2.3:b",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.3:c",
+      "parent_letter_id": "3.2.3:c",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.4:a/1",
+      "parent_letter_id": "3.2.4:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.4:a/2",
+      "parent_letter_id": "3.2.4:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.4:a/3",
+      "parent_letter_id": "3.2.4:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.2.4:a/4",
+      "parent_letter_id": "3.2.4:a",
+      "source_pdf_page_zero_based": 32,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.1:a/1",
+      "parent_letter_id": "3.3.1:a",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.1:b",
+      "parent_letter_id": "3.3.1:b",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.1:c",
+      "parent_letter_id": "3.3.1:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.2:a",
+      "parent_letter_id": "3.3.2:a",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.2:b",
+      "parent_letter_id": "3.3.2:b",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.2:c",
+      "parent_letter_id": "3.3.2:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.2:d",
+      "parent_letter_id": "3.3.2:d",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.2:e",
+      "parent_letter_id": "3.3.2:e",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.3:a",
+      "parent_letter_id": "3.3.3:a",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.3:b",
+      "parent_letter_id": "3.3.3:b",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.3:c",
+      "parent_letter_id": "3.3.3:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:a",
+      "parent_letter_id": "3.3.4:a",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:b",
+      "parent_letter_id": "3.3.4:b",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:c/1",
+      "parent_letter_id": "3.3.4:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:c/2",
+      "parent_letter_id": "3.3.4:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:c/3",
+      "parent_letter_id": "3.3.4:c",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.3.4:d",
+      "parent_letter_id": "3.3.4:d",
+      "source_pdf_page_zero_based": 33,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.1:a",
+      "parent_letter_id": "3.4.1:a",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.1:b",
+      "parent_letter_id": "3.4.1:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:a",
+      "parent_letter_id": "3.4.2:a",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:b/1",
+      "parent_letter_id": "3.4.2:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:b/2",
+      "parent_letter_id": "3.4.2:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:b/3",
+      "parent_letter_id": "3.4.2:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:b/4",
+      "parent_letter_id": "3.4.2:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:c",
+      "parent_letter_id": "3.4.2:c",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.2:d",
+      "parent_letter_id": "3.4.2:d",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.3:a",
+      "parent_letter_id": "3.4.3:a",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.3:b",
+      "parent_letter_id": "3.4.3:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.3:c/1",
+      "parent_letter_id": "3.4.3:c",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.3:c/2",
+      "parent_letter_id": "3.4.3:c",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.3:d",
+      "parent_letter_id": "3.4.3:d",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.4:a/1",
+      "parent_letter_id": "3.4.4:a",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.4:b",
+      "parent_letter_id": "3.4.4:b",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.4.4:c",
+      "parent_letter_id": "3.4.4:c",
+      "source_pdf_page_zero_based": 34,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.1:a/1",
+      "parent_letter_id": "3.5.1:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.1:a/2",
+      "parent_letter_id": "3.5.1:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.1:b/1",
+      "parent_letter_id": "3.5.1:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.1:b/2",
+      "parent_letter_id": "3.5.1:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.2:a/1",
+      "parent_letter_id": "3.5.2:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.2:a/2",
+      "parent_letter_id": "3.5.2:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.2:b",
+      "parent_letter_id": "3.5.2:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.2:c",
+      "parent_letter_id": "3.5.2:c",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:a/1",
+      "parent_letter_id": "3.5.3:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:a/2",
+      "parent_letter_id": "3.5.3:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:a/3",
+      "parent_letter_id": "3.5.3:a",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:b/1",
+      "parent_letter_id": "3.5.3:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:b/2",
+      "parent_letter_id": "3.5.3:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:b/3",
+      "parent_letter_id": "3.5.3:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.5.3:b/4",
+      "parent_letter_id": "3.5.3:b",
+      "source_pdf_page_zero_based": 35,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:a/1",
+      "parent_letter_id": "3.6.1:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:a/2",
+      "parent_letter_id": "3.6.1:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:a/3",
+      "parent_letter_id": "3.6.1:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:a/4",
+      "parent_letter_id": "3.6.1:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:a/5",
+      "parent_letter_id": "3.6.1:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:b/1",
+      "parent_letter_id": "3.6.1:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:b/2",
+      "parent_letter_id": "3.6.1:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:b/3",
+      "parent_letter_id": "3.6.1:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.1:b/4",
+      "parent_letter_id": "3.6.1:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.2:a",
+      "parent_letter_id": "3.6.2:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.2:b",
+      "parent_letter_id": "3.6.2:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.2:c",
+      "parent_letter_id": "3.6.2:c",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.2:d",
+      "parent_letter_id": "3.6.2:d",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.3:a/1",
+      "parent_letter_id": "3.6.3:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.3:a/2",
+      "parent_letter_id": "3.6.3:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.3:a/3",
+      "parent_letter_id": "3.6.3:a",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.3:b/1",
+      "parent_letter_id": "3.6.3:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "3.6.3:b/2",
+      "parent_letter_id": "3.6.3:b",
+      "source_pdf_page_zero_based": 36,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:a",
+      "parent_letter_id": "4.1.1:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:b",
+      "parent_letter_id": "4.1.1:b",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:c/1",
+      "parent_letter_id": "4.1.1:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:c/2",
+      "parent_letter_id": "4.1.1:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:d/1",
+      "parent_letter_id": "4.1.1:d",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:d/2",
+      "parent_letter_id": "4.1.1:d",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:d/3",
+      "parent_letter_id": "4.1.1:d",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.1:d/4",
+      "parent_letter_id": "4.1.1:d",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.2:a",
+      "parent_letter_id": "4.1.2:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.2:b",
+      "parent_letter_id": "4.1.2:b",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.2:c",
+      "parent_letter_id": "4.1.2:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:a",
+      "parent_letter_id": "4.1.3:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:b",
+      "parent_letter_id": "4.1.3:b",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:c",
+      "parent_letter_id": "4.1.3:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:d",
+      "parent_letter_id": "4.1.3:d",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:e",
+      "parent_letter_id": "4.1.3:e",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:f",
+      "parent_letter_id": "4.1.3:f",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:g",
+      "parent_letter_id": "4.1.3:g",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.3:h",
+      "parent_letter_id": "4.1.3:h",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.4:a",
+      "parent_letter_id": "4.1.4:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.4:b",
+      "parent_letter_id": "4.1.4:b",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.4:c/1",
+      "parent_letter_id": "4.1.4:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.4:c/2",
+      "parent_letter_id": "4.1.4:c",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.5:a/1",
+      "parent_letter_id": "4.1.5:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.5:a/2",
+      "parent_letter_id": "4.1.5:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.5:a/3",
+      "parent_letter_id": "4.1.5:a",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.1.5:b",
+      "parent_letter_id": "4.1.5:b",
+      "source_pdf_page_zero_based": 39,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:a/1",
+      "parent_letter_id": "4.2.1:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:a/2",
+      "parent_letter_id": "4.2.1:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:b/1",
+      "parent_letter_id": "4.2.1:b",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:b/2",
+      "parent_letter_id": "4.2.1:b",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:c",
+      "parent_letter_id": "4.2.1:c",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.1:d",
+      "parent_letter_id": "4.2.1:d",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.2:a/1",
+      "parent_letter_id": "4.2.2:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.2:a/2",
+      "parent_letter_id": "4.2.2:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.2:a/3",
+      "parent_letter_id": "4.2.2:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.2:a/4",
+      "parent_letter_id": "4.2.2:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.2:a/5",
+      "parent_letter_id": "4.2.2:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/1",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/2",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/3",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/4",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/5",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/6",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/7",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/8",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.3:a/9",
+      "parent_letter_id": "4.2.3:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.4:a",
+      "parent_letter_id": "4.2.4:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.4:b",
+      "parent_letter_id": "4.2.4:b",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.4:c",
+      "parent_letter_id": "4.2.4:c",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.4:d",
+      "parent_letter_id": "4.2.4:d",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.4:e",
+      "parent_letter_id": "4.2.4:e",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.5:a",
+      "parent_letter_id": "4.2.5:a",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.5:b/1",
+      "parent_letter_id": "4.2.5:b",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.5:b/2",
+      "parent_letter_id": "4.2.5:b",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.2.5:c",
+      "parent_letter_id": "4.2.5:c",
+      "source_pdf_page_zero_based": 40,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.1:a",
+      "parent_letter_id": "4.3.1:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.1:b/1",
+      "parent_letter_id": "4.3.1:b",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.1:b/2",
+      "parent_letter_id": "4.3.1:b",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.1:b/3",
+      "parent_letter_id": "4.3.1:b",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.1:c",
+      "parent_letter_id": "4.3.1:c",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.2:a",
+      "parent_letter_id": "4.3.2:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.2:b",
+      "parent_letter_id": "4.3.2:b",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.2:c",
+      "parent_letter_id": "4.3.2:c",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/1",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/2",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/3",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/4",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/5",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.3.3:a/6",
+      "parent_letter_id": "4.3.3:a",
+      "source_pdf_page_zero_based": 41,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:a/1",
+      "parent_letter_id": "4.4.1:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:a/2",
+      "parent_letter_id": "4.4.1:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:a/3",
+      "parent_letter_id": "4.4.1:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/1",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/2",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/3",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/4",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/5",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.1:b/6",
+      "parent_letter_id": "4.4.1:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:a",
+      "parent_letter_id": "4.4.2:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:b",
+      "parent_letter_id": "4.4.2:b",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:c/1",
+      "parent_letter_id": "4.4.2:c",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:c/2",
+      "parent_letter_id": "4.4.2:c",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:d/1",
+      "parent_letter_id": "4.4.2:d",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:d/2",
+      "parent_letter_id": "4.4.2:d",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:e/1",
+      "parent_letter_id": "4.4.2:e",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.2:e/2",
+      "parent_letter_id": "4.4.2:e",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.3:a/1",
+      "parent_letter_id": "4.4.3:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.3:a/2",
+      "parent_letter_id": "4.4.3:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.3:a/3",
+      "parent_letter_id": "4.4.3:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    },
+    {
+      "id": "4.4.3:a/4",
+      "parent_letter_id": "4.4.3:a",
+      "source_pdf_page_zero_based": 42,
+      "review_state": "SOURCE_ID_ONLY_UNASSESSED",
+      "candidate_reuse_state": "UNMEASURED",
+      "learner_asset_state": "NONE"
+    }
+  ],
+  "reference_counts": {
+    "2": {
+      "numbered": 18,
+      "lettered": 50,
+      "terminal": 83
+    },
+    "3": {
+      "numbered": 22,
+      "lettered": 64,
+      "terminal": 98
+    },
+    "4": {
+      "numbered": 16,
+      "lettered": 49,
+      "terminal": 91
+    }
+  },
+  "source_shape_evidence": "Official Pearson Issue 1 PDF pages 25-29, 31-36, 39-42; page-by-page official PDF text and selected visual checks",
+  "assurance": {
+    "structural_data_recorded": true,
+    "atomic_educational_completeness": false,
+    "nested_requirement_semantics_reviewed": false,
+    "exact_2027_specification_verified": false,
+    "source_operation_permissions_confirmed_for_generation": false,
+    "foundation_reuse_measured": false,
+    "student_assets_produced": false,
+    "founder_publication_approved": false
+  },
+  "provider_calls": 0,
+  "provider_cost_usd": 0
+}
