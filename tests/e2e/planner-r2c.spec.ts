@@ -34,6 +34,7 @@ test('R2-07 Home, Plan and REV keep the same accepted next work with a 120+ day 
   await expect(page.locator('.home-v3-plan-row--next')).toContainText('Finance')
   await page.goto(`${appPath}#/plan?view=day&date=2026-10-05`)
   await expect(page.locator('.pln-row').filter({ has: page.getByRole('button', { name: /^Up next/ }) })).toContainText('Finance')
+  await page.locator('.pln-programme-disclosure > summary').click()
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Business future paper')
   await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
