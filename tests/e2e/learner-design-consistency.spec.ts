@@ -263,7 +263,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.goto('/revision/app/#/plan')
     await expect(page.locator('.pln-row').first()).toBeVisible()
     await inspect(page, info, `plan-populated-${theme}`)
-    await page.getByRole('button', { name: 'Add exam date', exact: true }).click()
+    await page.getByRole('button', { name: 'Exam dates', exact: true }).click()
     await expect(page.getByRole('dialog')).toBeVisible()
     await inspect(page, info, `plan-exam-dates-${theme}`)
     await page.keyboard.press('Escape')
