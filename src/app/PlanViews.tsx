@@ -18,7 +18,7 @@ import { daysFromToday } from './plan-model'
 import type { PlannedSession, PlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { PlanViewKey } from './navigation'
 import type { SubjectHue } from './subject-palette'
-import { Button, HueProgressBar, Icon, SegmentedControl, SubjectBadge, TextField } from './ui'
+import { Button, Icon, SegmentedControl, SubjectBadge, TextField } from './ui'
 
 /* ------------------------------------------------------------------ Summary */
 
