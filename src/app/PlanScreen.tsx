@@ -711,7 +711,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
               </div>}
 
               {snapshot?.capacityState === 'prioritising' && summary.phase !== 'past' &&
-                <Status tone="info">There isn't enough saved study time for all currently supported work before your exams. REV is prioritising the most useful activities.</Status>}
+                <p className="pln-note pln-capacity-note">There isn't enough saved study time for all currently supported work before your exams. REV is prioritising the most useful activities.</p>}
               {anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1) &&
                 <p className="pln-note">Further ahead, Revision shows a broad forecast. Specific suggestions will appear closer to the time.</p>}
               {!sessionsReady && <LoadingState className="planner-panel">Checking your saved sessions…</LoadingState>}
