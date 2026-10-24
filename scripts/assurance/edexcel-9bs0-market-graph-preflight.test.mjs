@@ -40,6 +40,8 @@ describe('Stage 5 original supply-demand graph and evidence boundary',()=>{
   const demand=svg(demandFile);
   expect(checkMarketGraph(demand.replace('data-equilibrium="E1" cx="247"','data-equilibrium="E1" cx="240"'),'preference',model))
    .toContain('equilibrium_coordinates_or_reading_incorrect:E1');
+  expect(checkMarketGraph(demand.replace('E1 (P22, Q42)','E1 (P22, Q43)'),'preference',model))
+   .toContain('equilibrium_coordinates_or_reading_incorrect:E1');
   expect(checkMarketGraph(demand.replace('<desc id="graph-desc">','<desc>'),'preference',model))
    .toContain('accessible_graph_title_and_description_missing');
   expect(checkMarketGraph(demand.replace('</svg>','<image href="https://example.com/diagram.png"/></svg>'),'preference',model))

@@ -62,7 +62,10 @@ export function checkMarketGraph(svg,kind,caseData){
  for(const id of shape.pointIds){
   const p=id==='E0'?baseline:shifted;
   const point=tag(svg,'circle','equilibrium',id);
-  const label=tag(svg,'text','point-label',id);
+  const labelTag=tag(svg,'text','point-label',id);
+  const labelStart=labelTag?svg.indexOf(labelTag)+labelTag.length:-1;
+  const labelEnd=labelStart>=0?svg.indexOf('</text>',labelStart):-1;
+  const label=labelEnd>labelStart?svg.slice(labelStart,labelEnd):null;
   require(Boolean(point)&&Boolean(label)
    &&near(attr(point,'cx'),x(p.quantity))&&near(attr(point,'cy'),y(p.price))
    &&label.includes('P'+p.price+', Q'+p.quantity+')')
