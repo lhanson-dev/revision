@@ -194,19 +194,22 @@ Home should include:
 
 Plan is a primary learner destination and shows the wider adaptive programme across the learner's active courses. Plan does not need a large proactive REV hero; the plan itself is the dominant job. The normal contextual Ask REV route remains available through the governed learner shell and may also use the compact shared learner-header conversation treatment.
 
-### Default information hierarchy
+### Default information hierarchy — calendar-first Plan experience (24 October 2026, proposed)
 
-Once the minimum planning inputs exist, Plan should normally present:
+Once planning inputs exist, Plan should prioritise the learner's actual timetable rather than a report of planner mechanics:
 
-1. the normal Plan page orientation/header;
-2. a compact plain-English **Your plan adapts as you go** explanation;
-3. concise programme context such as the next exam, current-week realistic capacity and normal/prioritising state;
-4. secondary **Manage exams** and **Plan settings** controls;
-5. a **Day / Week / Month** view switch with **Week as the default**;
-6. the selected adaptive plan view; and
-7. upcoming examinations/milestones in a calm supporting treatment.
+1. a compact Plan title with secondary **Study time**, **Exam dates**, and **Add session** actions that reuse current management flows;
+2. a short row of the learner's real upcoming exams, nearest first, identifying assessment type, known date and countdown;
+3. date navigation, a concise completion summary and a **Day / Week / Month** switch, with Week the default;
+4. the selected calendar / agenda as the dominant visible content;
+5. short supportive guidance for missed suggested work and independent study choices, with the existing Ask REV conversation route; and
+6. deeper programme requirements, feasibility and preparation limitations only through progressive disclosure, except material safety/feasibility warnings that must remain visible.
 
-The main Plan surface should not be dominated by permanent setup forms after the relevant data exists.
+The ordinary Plan must not display permanent study-time editing forms, a separate column of setup cards, a large preparation report, labels such as "Saved by you" / "Flexible from REV" or routine narration of exactly why items moved. Existing stored learner commitments and adaptive suggestions retain their different semantics and permitted actions; the interface need not present that distinction as an additional card taxonomy. Do not introduce a new session lifecycle or a competing planner.
+
+A study-time completion summary reports recorded activity completion, **not** verified time-on-task or mastery. Day capacity comparisons use genuine saved availability, including date-specific exceptions; unknown availability is marked unknown rather than zero.
+
+The student may ignore a suggested activity without punishment or automatic task debt. Saved personal sessions remain manageable through existing controls. REV can help someone choose different supported work without inventing unapproved scheduling functionality. The plan itself stays the main feature; explanations and longer-term details must not obscure it.
 
 ### Day view
 
