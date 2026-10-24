@@ -150,6 +150,7 @@ test('SV-03: two published subjects share the same next action without dropping 
   await seededCourses(page, [business.id, psychology.id], () => exams)
   await observeFiveViews(page, exams.map((item) => item.title))
   await page.goto(appPath + '#/plan')
+  await openProgrammeDisclosure(page)
   const details = page.getByRole('region', { name: 'Your full exam programme' })
     .locator('.pln-programme__details')
   await expect(details.locator('ul[aria-label^="Study objectives for week"] li')
