@@ -314,10 +314,10 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
 
   await clickGlobalDestination(page, 'Plan')
-  await expect(page.getByRole('heading', { name: 'Your week' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
   await expect(page.getByText('Your plan is waiting on you', { exact: true })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Your exams' })).toBeVisible()
-  await expect(page.getByRole('region', { name: 'Study time' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Upcoming exams' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Study time' })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await openAskRev(page)
