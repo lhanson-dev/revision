@@ -84,7 +84,7 @@ test('R2-06 failed distant read does not disable near-term Plan guidance', async
   await expect(outlook).toContainText('Future Business paper')
   await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
   await outlook.getByRole('button', { name: /View week of Monday 1 February 2027/ }).click()
-  await expect(page.locator('.pln-nav__label')).toContainText('1–7 Feb 2027')
+  await expect(page.locator('.pln-nav__label')).toContainText('1 Feb – 7 Feb')
   await expect.poll(() => distantReads).toBeGreaterThan(0)
   await expect(page.getByText('Saved sessions for these dates could not be loaded', { exact: false })).toBeVisible()
   await expect(page.getByText('Your saved sessions could not be loaded', { exact: false })).toHaveCount(0)
