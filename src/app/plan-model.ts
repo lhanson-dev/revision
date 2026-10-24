@@ -64,6 +64,8 @@ export interface PlanDay {
   past: boolean
   /** Minutes of sessions and planner suggestions on this day (exams take no study time). */
   plannedMinutes: number
+  /** Known day capacity; null means the learner has not set availability. */
+  availableMinutes: number | null
   doneMinutes: number
   /** Study items on the day, not counting exams. */
   studyCount: number
@@ -165,6 +167,7 @@ export function createPlanDayBuilder(context: PlanContext) {
       today,
       past,
       plannedMinutes: study.reduce((sum, item) => sum + item.minutes, 0),
+      availableMinutes: capacity,
       doneMinutes: doneItems.reduce((sum, item) => sum + item.minutes, 0),
       studyCount: study.length,
       doneCount: doneItems.length,

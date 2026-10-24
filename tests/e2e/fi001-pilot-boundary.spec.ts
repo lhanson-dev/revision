@@ -9,7 +9,7 @@ test.skip(process.env.REVISION_PILOT_GATE_CHECK !== '1', 'Production-mode cohort
 test('ordinary signed-in account keeps baseline planning without the pilot feature', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   await page.goto(appPath + '#/plan')
-  await expect(page.getByRole('heading', { name: /Your week/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).toHaveCount(0)
   await expect(page.getByText('Planner pilot:', { exact: false })).toHaveCount(0)
 })
@@ -31,6 +31,7 @@ test('server-confirmed pilot account sees the programme but cannot enter unrevie
   }))
   await page.goto(appPath + '#/plan')
   await expect(page.getByText('Planner pilot:', { exact: false })).toBeVisible()
+  await page.locator('.pln-programme-disclosure > summary').click()
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Your full exam programme' }))
     .toContainText('Restricted pilot: original exam-style simulations')
@@ -48,6 +49,7 @@ test('a server-confirmed user with protected Admin profile can validate the pilo
   }))
   await page.goto(appPath + '#/plan')
   await expect(page.getByText('Planner pilot:', { exact: false })).toBeVisible()
+  await page.locator('.pln-programme-disclosure > summary').click()
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).toBeVisible()
 })
 
@@ -64,6 +66,6 @@ test('a purported pilot marker in the saved local user cannot bypass the server 
     }
   }, { key: 'sb-xwwhshpmeogswxfjtpvq-auth-token' })
   await page.goto(appPath + '#/plan')
-  await expect(page.getByRole('heading', { name: /Your week/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
   await expect(page.getByRole('region', { name: 'Your full exam programme' })).toHaveCount(0)
 })

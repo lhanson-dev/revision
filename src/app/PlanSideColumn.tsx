@@ -1,4 +1,4 @@
-import { formatMinutes, fromKey, shortDateWithYear, weekdayName, weekdayShort } from './plan-dates'
+import { daysBetween, formatMinutes, fromKey, shortDateWithYear, weekdayName, weekdayShort } from './plan-dates'
 import type { PlanSubject } from './plan-model'
 import { Button, Icon, SubjectBadge } from './ui'
 import type { RevisionAssessment, RevisionDayOfWeek, RevisionWeeklyAvailability } from '../services/planning/planner-service'
@@ -68,6 +68,46 @@ export function PlanExamsCard({ exams, todayKey, onJump, onAdd }: PlanExamsCardP
       <Button variant="secondary" onClick={onAdd}><Icon name="plus" size="compact" />Add exam date</Button>
     </section>
   )
+}
+
+/** Compact exam orientation for the timetable. Uses existing learner-owned assessments. */
+export function PlanExamStrip({ exams, todayKey, onJump, onAdd }: PlanExamsCardProps) {
+  const visible = exams.slice(0, 3)
+  return (
+    <section className="pln-exams-strip" aria-label="Upcoming exams">
+      <div className="pln-exams-strip__heading">
+        <h2>Upcoming exams</h2>
+        {exams.length > 3 && <Button variant="tertiary" size="compact" onClick={onAdd}>See all exams</Button>}
+      </div>
+      {visible.length > 0 ? (
+        <div className="pln-exams-strip__list">
+          {visible.map(({ assessment, subject }, index) => {
+            const days = Math.max(0, daysBetween(todayKey, assessment.assessmentDate))
+            return (
+              <button key={assessment.assessmentId} type="button" className="pln-exam-chip"
+                data-next={index === 0 || undefined}
+                style={index === 0 ? { background: `var(--subject-${subject.hue})`, color: `var(--subject-${subject.hue}-on)` } : undefined}
+                onClick={() => onJump(assessment.assessmentDate)}>
+                <SubjectBadge hue={subject.hue} mark={subject.mark} onSolid={index === 0} />
+                <span className="pln-exam-chip__body">
+                  <strong>{assessment.title}</strong>
+                  <span>{assessmentTypeWord(assessment.assessmentType)} · {shortDateWithYear(assessment.assessmentDate, todayKey)}</span>
+                </span>
+                <strong className="pln-exam-chip__count">{days === 0 ? 'Today' : `${days} ${days === 1 ? 'day' : 'days'}`}</strong>
+              </button>
+            )
+          })}
+        </div>
+      ) : <p className="pln-exams-strip__empty">No exam dates added yet. <Button variant="tertiary" size="compact" onClick={onAdd}>Add exam dates</Button></p>}
+    </section>
+  )
+}
+
+function assessmentTypeWord(type: RevisionAssessment['assessmentType']) {
+  if (type === 'mock') return 'Mock'
+  if (type === 'public_exam') return 'Public exam'
+  if (type === 'topic_test') return 'Topic test'
+  return 'Assessment'
 }
 
 /* -------------------------------------------------------------- Study time */
