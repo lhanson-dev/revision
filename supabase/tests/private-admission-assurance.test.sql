@@ -28,7 +28,8 @@ select ok((public.revision_before_user_created((select event from private_test_i
   'private admission disabled by default blocks even a correctly signed proof');
 update revision_private.family_signup_control set enabled=true;
 
-set local role supabase_auth_admin;
+-- pgTAP runs under the isolated test database role (which cannot SET ROLE
+-- supabase_auth_admin). Explicit grant assertions above verify hook eligibility.
 select is(public.revision_before_user_created((select event from private_test_input)),
   '{}'::jsonb,'enabled hook admits correct signed proof for ordinary email signup');
 select ok((public.revision_before_user_created(
@@ -50,6 +51,5 @@ select ok((public.revision_before_user_created(
 select ok((public.revision_before_user_created(
   (select jsonb_set(event,'{user,is_anonymous}','true'::jsonb)
    from private_test_input))->'error') is not null,'anonymous Auth signups cannot use private admission');
-reset role;
 select * from finish();
 rollback;
