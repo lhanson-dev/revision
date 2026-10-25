@@ -10,7 +10,7 @@
 - **Intended people:** The Founder and one family learner (only). No school, outside student, test cohort, paid customer or invitation to the public is authorised. Do not put the minor's name, age, email or answers in this repository.
 - **Canonical environment:** `https://lhanson-dev.github.io/revision/app/` and hosted Revision Supabase project `xwwhshpmeogswxfjtpvq` (EU West / Ireland). Public URL reachability is **not** evidence of admission; the hosted Supabase Before User Created hook must reject uninvited new accounts.
 - **Start date:** UNSET pending controller GO. **End or review date:** UNSET pending controller decision. Terminate admission by disabling or rotating the private registration gate. Disabling signup does not automatically revoke existing sessions or erase existing records.
-- **Accountable data controller/legal entity:** UNCONFIRMED (Founder must record controller identity privately, including whether personal or company operation is appropriate). **Lawful basis:** UNASSESSED / UNSELECTED — must document a defensible Article 6 basis, necessity, interests/rights balancing if applicable, and any additional condition for sensitive data if relevant; family relationship alone is not a legal exemption. Do not assume parental permission equals a lawful basis.
+- **Accountable controller:** Founder acting in a personal capacity as an individual (confirmed 25 October 2026); not a registered company for this family test. Legal and private contact details are not published in GitHub. Lawful basis, specific use, household-exemption applicability, and remaining children's privacy controls have not been signed off. ICO guidance permits an individual to be a controller but reserves the household exclusion for purely private/household processing without professional or commercial connection. Do not assume it applies to a product-development trial.
 - **Authorised invitation list:** Kept privately by controller, never in GitHub. Shared code is not identity verification and may be forwarded; keep distribution minimal and rotate on loss.
 
 ## 2. Processing and data map — verify against the deployed runtime
@@ -54,7 +54,8 @@ Production PostgreSQL metadata check, without reading any learner records: **all
 
 The accountable Founder/controller must record a **dated GO / NO-GO** *outside public GitHub where child-identifying details would appear*, and a non-sensitive completion reference in Issue #665 when permitted. The following are outstanding unless supported by separately cited evidence.
 
-- [ ] Controller/legal entity, responsible contact and exact test scope documented privately; no outside invitations; fixed review/end date and code rotation/revocation route.
+- [x] Controller capacity: individual Founder, personally responsible (25 October 2026).
+- [ ] Private contact, exact test scope, invitation log, fixed review/end date and code rotation/revocation route remain to be recorded.
 - [ ] Article 6 lawful basis and necessity/proportionality considered and recorded; particular child risks identified and residual risks explicitly accepted or mitigated (professional advice if high unresolved risk).
 - [ ] Parent- and age-appropriate learner privacy information shown before first real test; export/access/erasure and complaints contact works in practice.
 - [ ] Supabase processor/DPA, region versus actual subprocessors/transfers, backups/PITR/logs retention and AI/data-transfer paths reviewed; no unsupported retention assurances.
@@ -72,6 +73,8 @@ If the admission code leaks, disable or rotate the database registration gate, c
 
 ## 7. Sources and boundaries
 
+- ICO individual controllers: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/controllers-and-processors/controllers-and-processors/what-are-controllers-and-processors/
+- ICO household limitation: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/exemptions/a-guide-to-the-data-protection-exemptions/
 - ICO Children's Code, DPIA: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/2-data-protection-impact-assessments/
 - ICO children's rights/transparency: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/children-and-the-uk-gdpr/what-data-protection-rights-do-children-have/
 - ICO DPIA template: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/annex-d-dpia-template/
