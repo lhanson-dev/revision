@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480" role="img" aria-labelledby="graph-title graph-desc">
+  <title id="graph-title">Revision market supply-left comparison</title>
+  <desc id="graph-desc">Baseline D0 and S0 intersect at E0, price 20 and quantity 40. Higher input cost shifts supply to S1 and E1 has price 22 and quantity 32. Original Revision synthetic example; not a published student asset.</desc>
+  <rect width="720" height="480" fill="#fff"/>
+  <g stroke="#334155" stroke-width="2">
+    <line data-axis="quantity" x1="100" y1="380" x2="610" y2="380"/>
+    <line data-axis="price" x1="100" y1="380" x2="100" y2="65"/>
+  </g>
+  <text data-axis-label="price" x="26" y="57" font-size="16">Price (GBP/pack)</text>
+  <text data-axis-label="quantity" x="460" y="416" font-size="16">Quantity (packs/week)</text>
+  <g stroke-linecap="round" fill="none">
+    <line data-curve="D0" x1="520" y1="380" x2="100" y2="80" stroke="#2563EB" stroke-width="4"  />
+    <text data-curve-label="D0" x="109" y="96" font-size="16" font-weight="600" fill="#0F172A">D0</text>
+    <line data-curve="S0" x1="170" y1="380" x2="275" y2="80" stroke="#EA580C" stroke-width="2.5" stroke-dasharray="6 5" />
+    <text data-curve-label="S0" x="284" y="96" font-size="16" font-weight="600" fill="#0F172A">S0</text>
+    <line data-curve="S1" x1="135" y1="380" x2="240" y2="80" stroke="#EA580C" stroke-width="4"  />
+    <text data-curve-label="S1" x="249" y="96" font-size="16" font-weight="600" fill="#0F172A">S1</text>
+  </g>
+  <g><line data-guide="E0-p" x1="100" y1="180" x2="240" y2="180" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3 5"/><line data-guide="E0-q" x1="240" y1="180" x2="240" y2="380" stroke="#64748B" stroke-width="1.5" stroke-dasharray="3 5"/>
+    <circle data-equilibrium="E0" cx="240" cy="180" r="6" fill="#64748B" stroke="white" stroke-width="2"/>
+    <text data-point-label="E0" x="250" y="170" font-size="14" fill="#64748B" font-weight="700">E0 (P20, Q40)</text>
+    <line data-guide="E1-p" x1="100" y1="160" x2="212" y2="160" stroke="#0F766E" stroke-width="1.5" stroke-dasharray="3 5"/><line data-guide="E1-q" x1="212" y1="160" x2="212" y2="380" stroke="#0F766E" stroke-width="1.5" stroke-dasharray="3 5"/>
+    <circle data-equilibrium="E1" cx="212" cy="160" r="6" fill="#0F766E" stroke="white" stroke-width="2"/>
+    <text data-point-label="E1" x="222" y="150" font-size="14" fill="#0F766E" font-weight="700">E1 (P22, Q32)</text></g>
+  <text x="100" y="455" font-size="13" fill="#334155">Synthetic model: price vertical; quantity horizontal; compare shifts at each given price.</text>
+</svg>
