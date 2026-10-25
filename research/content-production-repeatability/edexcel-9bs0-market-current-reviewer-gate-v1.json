@@ -1,0 +1,77 @@
+{
+  "schema_version": "edexcel-9bs0-market-current-reviewer-gate-v1",
+  "record_kind": "PREPARED_UNREVIEWED_DECISION_GATE_NOT_FOUNDATION_OR_PUBLICATION",
+  "recorded_at": "2026-10-25",
+  "course": {
+    "qualification": "Pearson Edexcel 9BS0",
+    "assessment_year": 2027,
+    "scope": "Theme 1 / Market section 1.2",
+    "source_universe_complete": false,
+    "atomic_requirements_approved": false
+  },
+  "exact_inputs": {
+    "original_26_skill_handoff": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-gated-review-handoff.json",
+      "git_blob": "21c58e9ceca1d2eef3608a68809ddfd41a258e15"
+    },
+    "historical_7_skill_specimen": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-learning-assessment-specimen.json",
+      "git_blob": "1b7adb93cc1ffca06b9a66a3bfa69033ef2bae9b"
+    },
+    "corrected_original_written_question": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-assessment-remediation-v2.json",
+      "git_blob": "04868a3cb253212981b7ae240ce4eb87e08ee497"
+    },
+    "unscored_blind_marking_answers": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-blind-marking-trial-v1.json",
+      "git_blob": "bfa7534bd4d3af87a82a8c5d4a11d5fa255bad61"
+    },
+    "additional_18_skill_drafts": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-demand-elasticity-authoring-v1.json",
+      "git_blob": "e40c8e2757c2b27939d11e2c789abd25b204ffd6"
+    }
+  },
+  "current_disposition": {
+    "provisional_market_skill_count": 26,
+    "original_joined_research_skills": 7,
+    "new_original_teaching_practice_research_skills": 18,
+    "unassessed_graph_construction_skills": 1,
+    "independently_accepted_skill_count": 0,
+    "withdrawn_exam_question_id": "EXAM-ORIGINAL-01",
+    "superseded_exam_question_id": "EXAM-ORIGINAL-02",
+    "only_current_written_assessment_review_candidate_id": "EXAM-ORIGINAL-02-V2",
+    "blind_synthetic_response_count": 4,
+    "independently_scored_response_count": 0,
+    "learner_release_items": 0
+  },
+  "source_permissions": {
+    "pearson_source_class": "REFERENCE_ONLY",
+    "pearson_source_url": "https://qualifications.pearson.com/en/qualifications/edexcel-a-levels/business-2015.html",
+    "pearson_assessment_support_url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/gce-business-assessment-support.html",
+    "pearson_source_text_in_worker": false,
+    "official_mark_scheme_prose_embedded": false,
+    "louis_chapter_url": "https://louis.pressbooks.pub/microeconomics/chapter/demand-and-supply-3/",
+    "louis_displayed_licence": "CC BY 4.0 except where otherwise noted",
+    "louis_embedded_media_reuse_allowed": false,
+    "louis_new_operation_signed_off": false,
+    "board_material_copy_permission": false
+  },
+  "review_boundaries": {
+    "A1_curriculum_atomic_depth": "PENDING_FRESH_INDEPENDENT_SOURCE_VALIDATION",
+    "A2_subject_model_and_practice": "PENDING_QUALIFIED_SUBJECT_REVIEW",
+    "A3_question_authenticity": "PENDING_QUALIFIED_ASSESSMENT_REVIEW",
+    "A4_blind_marking_and_level_discrimination": "PENDING_QUALIFIED_BLIND_MARKING",
+    "RIGHTS_operation_specific": "PENDING_AUTHORISED_RIGHTS_DECISION",
+    "QUALIFIED_EXPERT": "PENDING",
+    "full_2027_course_exam_truth": "INCOMPLETE",
+    "ai_assured": false,
+    "foundation_approved": false,
+    "student_publication_eligible": false,
+    "reviewer_identity": null,
+    "reviewer_context_id": null,
+    "human_review_minutes": null,
+    "external_provider_calls_for_this_package": 0,
+    "external_provider_spend_usd": 0,
+    "publication": "HOLD"
+  }
+}
