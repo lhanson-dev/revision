@@ -250,6 +250,29 @@ jobs:
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.practiceCheckpoints // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.examAttempts // false' <<<"$response")" = 'true'
+      - name: Inspect live Auth admission configuration (read-only, non-gating)
+        # A visible Create Account button cannot prove the live server accepts signup.
+        # Only public Auth settings are read; no real account or learner data is created.
+        continue-on-error: true
+        env:
+          REVISION_LIVE_SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
+          REVISION_LIVE_SUPABASE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
+        run: |
+          set -euo pipefail
+          settings="$(curl --fail --silent --show-error --max-time 15 \
+            --header "apikey: ${REVISION_LIVE_SUPABASE_KEY}" \
+            "${REVISION_LIVE_SUPABASE_URL}/auth/v1/settings")"
+          disabled="$(jq -r 'if (.disable_signup | type) == "boolean" then (.disable_signup | tostring) else "unknown" end' <<<"$settings")"
+          email="$(jq -r 'if (.external.email | type) == "boolean" then (.external.email | tostring) else "unknown" end' <<<"$settings")"
+          printf '%s\n' "### Live Auth admission (read-only)" "" \
+            "Server reports \`disable_signup\`: ${disabled}" \
+            "Server reports email provider enabled: ${email}" \
+            "Neither flag proves a private admission boundary; do not treat this as legal or real-signup acceptance." \
+            >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::Live Auth disable_signup=${disabled}; email_provider_enabled=${email}"
+          if [ "$disabled" = "unknown" ]; then
+            echo "::warning::Live settings do not explicitly report signup disablement; admission remains unverified."
+          fi
       - name: Run pgTAP database and RLS assurance
         run: |
           supabase test db supabase/tests/database-assurance.test.sql
