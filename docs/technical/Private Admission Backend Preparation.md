@@ -37,3 +37,7 @@ Use the canonical Supabase project `xwwhshpmeogswxfjtpvq`, and do **not** record
 5. Only after both hosted Auth admission evidence and the pre-use GO decision are recorded may an operator set the **release-only** GitHub repository variable `REVISION_PRIVATE_ADMISSION_VERIFIED=true`. That variable is not an authentication control and must not substitute for hosted proof. Proceed separately with the owner-RLS v2 migration and the Founder-approved #679 deployment; keep #663 public-launch gates open.
 
 The connected Supabase management actions cannot change hosted Auth hook settings. If the control is missing or tests fail, do **not** broaden learner access and do not set the release-ready variable.
+
+### Hosted activation evidence observed 25 October 2026
+
+The Founder enabled the hosted **Before User Created** hook in Supabase Dashboard and attempted an uninvited synthetic signup. The live Auth error returned `Private testing requires a valid registration code` at 16:33 UTC; independent read-only Supabase Auth logs reported two matching denial entries, and the private gate remained `enabled=false`. This **closes the hosted negative-signup invocation subcheck only**. The controller's pilot pre-use GO/NO-GO, privacy rights/retention/processor verification, valid synthetic signup, forged proof and OAuth bypass checks, and actual learner access remain OPEN; the code is not enabled and must not be shared. Reference the proposed `docs/technical/Private Family Test Pre-use Assessment.md` for the bounded controller record.
