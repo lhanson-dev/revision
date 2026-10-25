@@ -46,6 +46,10 @@ Ratings are a **provisional product/security judgement**, not approved legal con
 
 **This does not substitute for a complete privacy notice.** Before real use, include verified controller identity/contact, purposes, lawful basis, recipient categories, retention by data class, any overseas transfers, rights and complaint route in an age-appropriate location accessible to the learner and parent. Do not promise instant deletion from backups or complete automatic erase without proof.
 
+## 4A. Read-only deletion-coverage investigation (25 October 2026)
+
+Production PostgreSQL metadata check, without reading any learner records: **all 19 public tables with a `user_id` column have a direct `FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE` relationship** (19/19; none missing). This is strong structural evidence that deleting an Auth user will cascade to these identified learner-owned tables. It is **not** a verified end-to-end erasure workflow: the provider admin delete may fail, there may be other linked datasets, logs, backups, AI supplier copies, retained records or authentication constraints. Before the family trial, a supervised synthetic-account deletion should prove the real operational procedure and explicitly record residual copies, recovery window and response owner. No deletion or user modification occurred during this metadata check.
+
 ## 5. Minimum controller decision and acceptance evidence
 
 The accountable Founder/controller must record a **dated GO / NO-GO** *outside public GitHub where child-identifying details would appear*, and a non-sensitive completion reference in Issue #665 when permitted. The following are outstanding unless supported by separately cited evidence.
