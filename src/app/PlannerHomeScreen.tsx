@@ -267,7 +267,6 @@ export function PlannerHomeScreen({
 
   return (
     <main className="dashboard screen-dashboard home-v3" aria-label="Home">
-      {pilotRestricted && <p role="status" className="home-v3-notice">Planner pilot: recommendations are being evaluated. Original exam simulations are not included.</p>}
       <section className="home-v3-hero" aria-labelledby="home-v3-heading">
         <div className="home-v3-hero-layout">
           <div className="home-v3-hero-presence">
