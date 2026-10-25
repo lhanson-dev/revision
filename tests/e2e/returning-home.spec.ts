@@ -114,6 +114,7 @@ test('Returning Home keeps the approved REV → Plan/Exams → Progress → Cour
   await expect(page.locator('.home-v3-course-card').first()).toContainText(/0 of \d+ topics covered/)
   await expect(page.getByText(/% mastered/)).toHaveCount(0)
   await expect(page.locator('.planner-home-primary-grid')).toHaveCount(0)
+  await expect(page.getByText(/Planner pilot: recommendations are being evaluated/i)).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 })
 
