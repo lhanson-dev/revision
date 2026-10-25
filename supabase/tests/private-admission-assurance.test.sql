@@ -1,10 +1,12 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(12);
+select plan(13);
 
 select ok(has_function_privilege('supabase_auth_admin', 'public.revision_before_user_created(jsonb)','execute'),
   'Auth server can invoke private admission hook');
+select ok(has_schema_privilege('supabase_auth_admin', 'extensions', 'usage'),
+  'Auth server can execute pgcrypto HMAC without a 500 hook error');
 select ok(not has_function_privilege('anon','public.revision_before_user_created(jsonb)','execute'),
   'anonymous Data API cannot invoke the hook directly');
 select ok(not has_table_privilege('authenticated','revision_private.family_signup_control','SELECT'),

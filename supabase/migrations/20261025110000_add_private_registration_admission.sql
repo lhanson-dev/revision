@@ -7,6 +7,9 @@ create extension if not exists pgcrypto with schema extensions;
 create schema if not exists revision_private;
 revoke all on schema revision_private from public, anon, authenticated;
 grant usage on schema revision_private to supabase_auth_admin;
+-- The hook executes extensions.hmac() as supabase_auth_admin (SECURITY INVOKER).
+-- Without USAGE on extensions, GoTrue returns HTTP 500 for every signed proof.
+grant usage on schema extensions to supabase_auth_admin;
 
 create table revision_private.family_signup_control (
   singleton boolean primary key default true check(singleton),
