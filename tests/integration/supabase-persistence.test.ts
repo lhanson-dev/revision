@@ -78,6 +78,74 @@ suite('isolated Supabase persistence assurance', () => {
     if (learnerB?.user.id) await admin?.auth.admin.deleteUser(learnerB.user.id)
   })
 
+  it('gives a newly registered ordinary Auth learner owner-only draft recovery without pilot claims', async () => {
+    const email = `integration-signup-${crypto.randomUUID()}@revision.invalid`
+    const password = `Revision-${crypto.randomUUID()}-A1!`
+    const newcomer = authenticatedClient()
+    let newUserId: string | undefined
+    try {
+      const { data: signUp, error: registrationError } = await newcomer.auth.signUp({ email, password })
+      expect(registrationError).toBeNull()
+      expect(signUp.user?.id).toEqual(expect.any(String))
+      newUserId = signUp.user?.id
+      if (!newUserId) throw new Error('Synthetic signup returned no learner identity')
+      if (!signUp.session) {
+        const { error: confirmError } = await admin.auth.admin.updateUserById(newUserId, { email_confirm: true })
+        expect(confirmError).toBeNull()
+        const { error: signInError } = await newcomer.auth.signInWithPassword({ email, password })
+        expect(signInError).toBeNull()
+      }
+
+      const { data: identity, error: identityError } = await newcomer.auth.getUser()
+      expect(identityError).toBeNull()
+      expect(identity.user?.id).toBe(newUserId)
+      expect(identity.user?.app_metadata?.revision_rec10_pilot).not.toBe(true)
+      expect(identity.user?.app_metadata?.revision_fi001_pilot).not.toBe(true)
+
+      const checkpoint = {
+        user_id: newUserId, course_id: 'aqa:aqa-a-level:7132',
+        module_id: 'business-aqa-a-level-7132-paper-1', exam_id: 'integration-mock-1',
+        attempt_id: crypto.randomUUID(), revision: 1, content_fingerprint: 'a'.repeat(64),
+        snapshot: {
+          schemaVersion: 1, phase: 'writing', answers: { q1: 'Synthetic sample answer' },
+          frozenSubmission: null,
+          timing: { policy: 'pause-on-interruption', elapsedMs: 0, interrupted: false, runningSince: null },
+        },
+        expires_at: new Date(Date.now() + 13 * 86400000).toISOString(),
+      }
+      const { data: created, error: createError } = await newcomer
+        .from('learner_exam_attempts').insert(checkpoint).select('attempt_id').single()
+      expect(createError).toBeNull()
+      expect(created?.attempt_id).toBe(checkpoint.attempt_id)
+
+      const { data: ownerDrafts, error: ownerError } = await newcomer
+        .from('learner_exam_attempts').select('attempt_id').eq('user_id', newUserId)
+      expect(ownerError).toBeNull()
+      expect(ownerDrafts).toContainEqual({ attempt_id: checkpoint.attempt_id })
+
+      const { data: otherVisible, error: otherReadError } = await learnerB.client
+        .from('learner_exam_attempts').select('attempt_id').eq('user_id', newUserId)
+      expect(otherReadError).toBeNull()
+      expect(otherVisible).toEqual([])
+
+      const { data: otherUpdates, error: otherUpdateError } = await learnerB.client
+        .from('learner_exam_attempts').update({ revision: 2 }).eq('user_id', newUserId).select('attempt_id')
+      expect(otherUpdateError).toBeNull()
+      expect(otherUpdates).toEqual([])
+
+      const { error: ownUpdateError } = await newcomer
+        .from('learner_exam_attempts').update({ revision: 2 }).eq('user_id', newUserId)
+      expect(ownUpdateError).toBeNull()
+
+      const { error: ownDiscardError } = await newcomer
+        .from('learner_exam_attempts').delete().eq('user_id', newUserId)
+      expect(ownDiscardError).toBeNull()
+    } finally {
+      await newcomer.auth.signOut()
+      if (newUserId) await admin.auth.admin.deleteUser(newUserId)
+    }
+  })
+
   it('persists and reloads learner course membership through the authenticated service boundary', async () => {
     // Synthetic users are created after migration replay and therefore must not receive
     // the bounded compatibility seed reserved for users who existed at migration time.

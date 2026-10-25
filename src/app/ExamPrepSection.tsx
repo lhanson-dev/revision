@@ -105,8 +105,9 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     [guide, progress, topicIds],
   )
   const activeMock = active ? mocks.find(({ exam }) => exam.id === active.id) ?? null : null
-  // Single-question practice is not offered for the retained pilot papers.
-  const untimedUnavailable = mocks.filter(({ exam }) => exam.restrictedPilot).map(({ exam }) => exam.id)
+  // Untimed question practice is supported for all published mock assets.
+  // This is question-by-question study, not a separately implemented untimed full-paper run.
+  const untimedUnavailable: string[] = []
 
   if (active && activeMock) {
     return (
