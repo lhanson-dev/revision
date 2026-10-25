@@ -1,6 +1,7 @@
 -- #665: standard authenticated learner feature access.
 -- Backend-ahead, backward-compatible: previous clients continue to work.
 -- No per-account REC-10 claim; preserve owner isolation and all lifecycle guards.
+-- Anonymous Auth sessions have the authenticated database role but are not ordinary learners.
 begin;
 
 drop policy if exists "learner_select_own_exam_attempts" on public.learner_exam_attempts;
@@ -9,15 +10,20 @@ drop policy if exists "learner_update_own_exam_attempts" on public.learner_exam_
 drop policy if exists "learner_delete_own_exam_attempts" on public.learner_exam_attempts;
 
 create policy "learner_select_own_exam_attempts" on public.learner_exam_attempts
-  for select to authenticated using ((select auth.uid()) = user_id and expires_at > now());
+  for select to authenticated using ((select auth.uid()) = user_id and expires_at > now()
+    and coalesce((select auth.jwt() ->> 'is_anonymous'), 'false') <> 'true');
 create policy "learner_insert_own_exam_attempts" on public.learner_exam_attempts
-  for insert to authenticated with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check ((select auth.uid()) = user_id
+    and coalesce((select auth.jwt() ->> 'is_anonymous'), 'false') <> 'true');
 create policy "learner_update_own_exam_attempts" on public.learner_exam_attempts
   for update to authenticated
-  using ((select auth.uid()) = user_id and expires_at > now())
-  with check ((select auth.uid()) = user_id and expires_at > now());
+  using ((select auth.uid()) = user_id and expires_at > now()
+    and coalesce((select auth.jwt() ->> 'is_anonymous'), 'false') <> 'true')
+  with check ((select auth.uid()) = user_id and expires_at > now()
+    and coalesce((select auth.jwt() ->> 'is_anonymous'), 'false') <> 'true');
 create policy "learner_delete_own_exam_attempts" on public.learner_exam_attempts
-  for delete to authenticated using ((select auth.uid()) = user_id);
+  for delete to authenticated using ((select auth.uid()) = user_id
+    and coalesce((select auth.jwt() ->> 'is_anonymous'), 'false') <> 'true');
 
 -- Do not change the existing v1 production contract: legacy Pages releases
 -- must remain deployable after this backend-ahead migration.
@@ -32,14 +38,14 @@ with policies as (
     and bool_and(coalesce(qual, '') not ilike '%revision_rec10_pilot%'
       and coalesce(with_check, '') not ilike '%revision_rec10_pilot%')
     and count(*) filter (where policyname = 'learner_select_own_exam_attempts'
-       and cmd = 'SELECT' and qual ilike '%auth.uid%') = 1
+       and cmd = 'SELECT' and qual ilike '%auth.uid%' and qual ilike '%is_anonymous%') = 1
     and count(*) filter (where policyname = 'learner_insert_own_exam_attempts'
-       and cmd = 'INSERT' and with_check ilike '%auth.uid%') = 1
+       and cmd = 'INSERT' and with_check ilike '%auth.uid%' and with_check ilike '%is_anonymous%') = 1
     and count(*) filter (where policyname = 'learner_update_own_exam_attempts'
-       and cmd = 'UPDATE' and qual ilike '%auth.uid%'
-       and with_check ilike '%auth.uid%') = 1
+       and cmd = 'UPDATE' and qual ilike '%auth.uid%' and qual ilike '%is_anonymous%'
+       and with_check ilike '%auth.uid%' and with_check ilike '%is_anonymous%') = 1
     and count(*) filter (where policyname = 'learner_delete_own_exam_attempts'
-       and cmd = 'DELETE' and qual ilike '%auth.uid%') = 1
+       and cmd = 'DELETE' and qual ilike '%auth.uid%' and qual ilike '%is_anonymous%') = 1
     as access_ready
   from pg_catalog.pg_policies
   where schemaname = 'public' and tablename = 'learner_exam_attempts'

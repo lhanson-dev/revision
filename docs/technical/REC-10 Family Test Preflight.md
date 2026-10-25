@@ -3,7 +3,7 @@
 **Status: OPEN, 25 October 2026.** This replaces the historical REC-10 pilot-claim onboarding checklist when the unified-feature PR is approved. It is not evidence of live activation or privacy sign-off.
 
 ## Feature model
-Every ordinary authenticated learner uses the programme-first planner, published Business 7132 / Psychology 7182 Exam Prep and supported mock recovery by default. No FI-001 or REC-10 per-user feature claims or administrator privileges. `learner_exam_attempts` retains owner-only RLS, creation-anchored 14-day expiry, hourly cleanup, pause-on-interruption, immutable course/paper/attempt identity and post-submission raw-answer scrubbing. The backend must advertise `r2-exam-attempt-open-v2` before the frontend is deployed.
+Every ordinary non-anonymous authenticated learner uses the programme-first planner, published Business 7132 / Psychology 7182 Exam Prep and supported mock recovery by default. No FI-001 or REC-10 per-user feature claims or administrator privileges. `learner_exam_attempts` retains owner-only RLS, creation-anchored 14-day expiry, hourly cleanup, pause-on-interruption, immutable course/paper/attempt identity and post-submission raw-answer scrubbing. The backend must advertise `r2-exam-attempt-open-v2` before the frontend is deployed. Anonymous Supabase Auth sessions are not eligible; owner RLS explicitly checks `is_anonymous` as well as `auth.uid()`.
 
 ## Admission and pre-use activation — all OPEN until separately evidenced
 
