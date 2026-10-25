@@ -88,3 +88,46 @@ test('official September 2026 continuity is scoped narrowly and does not approve
  assert.ok(mutate(i=>i.specification_continuity_evidence.exact_2027_source_universe_complete=true).failures.includes('unearned_2027_specification_or_rights_approval'));
  assert.ok(mutate(i=>i.specification_continuity_evidence.verified_claim='UNSUPPORTED').failures.includes('pearson_2026_cohort_continuity_not_sourced'));
 });
+
+
+test('Paper 3 2027 source month conflict is preserved without pretending a specific context exists',()=>{
+ const out=checkQualificationIntake(source,index);
+ assert.equal(out.structural_preflight,'PASS');
+ assert.equal(out.publication_decision,'HOLD');
+ assert.equal(source.paper_3_2027_context_reconciliation.observed_release_month_conflict,true);
+ assert.equal(source.paper_3_2027_context_reconciliation.published_specific_context_found,false);
+ assert.deepEqual(source.paper_3_2027_context_reconciliation.release_timing_claims.map(x=>x.publication_window),
+  ['NOVEMBER_2026','BEGINNING_OF_DECEMBER_2026']);
+});
+test('cannot silently choose an unsupported November or December publication date',()=>{
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.observed_release_month_conflict=false)
+  .failures.includes('paper3_month_conflict_falsely_resolved'));
+ assert.ok(mutate(i=>i.obligations.find(o=>o.id==='PRE_RELEASE_2027_CONTEXT').verification='PUBLISHED')
+  .failures.includes('paper3_month_conflict_falsely_resolved'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.release_timing_claims[0].publication_window='DECEMBER_2026')
+  .failures.includes('paper3_conflicting_official_sources_missing_or_rewritten'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.release_timing_claims[1].publication_window='NOVEMBER_2026')
+  .failures.includes('paper3_conflicting_official_sources_missing_or_rewritten'));
+});
+test('cannot claim a source-free 2027 Paper 3 context or generate context-specific learner content',()=>{
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.published_specific_context_found=true)
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.context_identity='Invented industry')
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.published_specific_release_date='2026-12-01')
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.context_specific_exam_prep_allowed=true)
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.examiner_calibration_approved=true)
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.board_material_generation_rights='OPEN')
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+});
+test('September 2026 starting cohort cannot be treated as evidence for summer 2027 exam eligibility',()=>{
+ assert.ok(mutate(i=>i.specification_continuity_evidence.first_teaching_cohort='2025-09')
+  .failures.includes('cohort_start_confused_with_2027_exam_certification'));
+ assert.ok(mutate(i=>i.qualification.cohort_applicability='APPROVED')
+  .failures.includes('cohort_start_confused_with_2027_exam_certification'));
+ assert.ok(mutate(i=>i.paper_3_2027_context_reconciliation.exact_2027_source_universe_complete=true)
+  .failures.includes('paper3_context_released_or_rights_fabricated'));
+});
