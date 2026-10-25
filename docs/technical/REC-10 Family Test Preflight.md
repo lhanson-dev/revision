@@ -31,3 +31,5 @@ Founder selected the private admission approach on 25 October 2026. This approve
 ### Release fail-closed marker
 
 The Pages `backend-readiness` job now requires repository variable `REVISION_PRIVATE_ADMISSION_VERIFIED=true`, set **only after** hosted Auth hook attachment, secret gate activation, unauthorised/authorised live synthetic signup checks and private processing controller GO/NO-GO. This is an operational release record and not a per-learner entitlement; it does not grant access, and setting it without the actual provider control proves nothing. Until verified, the automatic frontend deployment fails closed. Clearing the variable immediately blocks new releases, although it is not a revocation mechanism for an already deployed site; revoke/rotate admission using the provider control.
+
+**Assurance expectation:** the dedicated CI job `Real Auth private signup admission assurance` must pass. It enables the hook on a disposable local Supabase instance, checks missing/forged/valid code behaviour and ordinary learner sign-in. Live hosted Auth negative/positive admission verification remains a separate release prerequisite.

@@ -200,6 +200,57 @@ jobs:
             echo "All Foundation quality prerequisites passed across phone, tablet and desktop (mode=$SELECTION_MODE)."
           fi
 
+  private-auth-hook-assurance:
+    name: Real Auth private signup admission assurance
+    needs: assurance-plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.111.0
+      - name: Enable local-only Auth hook and start isolated database
+        run: |
+          set -euo pipefail
+          # Hosted Auth is unaffected: this changes only the ephemeral CI checkout.
+          sed -i '/\[auth.hook.before_user_created\]/{n;s/enabled = false/enabled = true/;}' supabase/config.toml
+          grep -A2 '^\[auth.hook.before_user_created\]' supabase/config.toml
+          supabase start
+      - name: Activate ephemeral test admission and inject masked local code
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          # Supabase CLI's isolated test DB only; the production code is never queried.
+          code="$(docker exec supabase_db_revision psql -U postgres -d postgres -Atc             "update revision_private.family_signup_control set enabled = true where singleton = true returning signup_code")"
+          if [[ ! "$code" =~ ^[0-9a-f]{32}$ ]]; then
+            echo "::error::Isolated admission secret was not initialised."
+            exit 1
+          fi
+          echo "::add-mask::$code"
+          {
+            echo "REVISION_PRIVATE_SIGNUP_TEST_CODE=$code"
+            echo "SUPABASE_URL=http://127.0.0.1:54321"
+            echo "SUPABASE_ANON_KEY=$ANON_KEY"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "REVISION_REAL_AUTH_HOOK_INTEGRATION=1"
+          } >> "$GITHUB_ENV"
+      - name: Prove real Auth rejects missing or invalid codes and admits valid code
+        run: npx vitest run tests/integration/private-admission-auth.test.ts
+      - name: Stop isolated stack
+        if: always()
+        run: supabase stop --no-backup
+
   database-assurance:
     name: Database, RLS and protected service assurance
     needs: assurance-plan
