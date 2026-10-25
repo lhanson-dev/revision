@@ -1,0 +1,657 @@
+{
+  "schema_version": "edexcel-market-acceptance-handoff-v1",
+  "record_kind": "REVIEWER_HANDOFF_NOT_REVIEW_OUTCOME",
+  "checked_on": "2026-10-25",
+  "status": "HOLD_INDEPENDENT_EDUCATIONAL_AND_RIGHTS_DECISIONS_PENDING",
+  "qualification": {
+    "board": "Pearson Edexcel",
+    "code": "9BS0",
+    "assessment_year": 2027,
+    "scope": "Theme 1 / section 1.2",
+    "cohort_source_universe_approved": false
+  },
+  "verified_input_git_blobs": {
+    "source_reference_inventory": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-provisional-obligations.json",
+      "blob": "40557d3cc8690e84d45acf28fe53f605403fe59c"
+    },
+    "provisional_subject_reuse": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-reuse-triage.json",
+      "blob": "66ba58484ec260b87e752c7af85ce41dc51810a5"
+    },
+    "original_integrated_specimen": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-market-learning-assessment-specimen.json",
+      "blob": "1b7adb93cc1ffca06b9a66a3bfa69033ef2bae9b"
+    },
+    "original_subject_node_candidate": {
+      "path": "research/content-production-repeatability/edexcel-9bs0-shared-market-node-draft.json",
+      "blob": "2fe25c0da25cecbeca386371e50df472f481a319"
+    }
+  },
+  "foundation_exact_dependency": {
+    "candidate_version": "v0.8-t8-exact-course-remediation",
+    "material_fingerprint": "0f9a9423102cfa26b11dad1ed4d99eb5594c7b8a26d4d84fd8a42d2994dd0241",
+    "effective_subject_nodes": 81,
+    "approved_for_exact_edexcel_course": false
+  },
+  "official_source_factual_crosscheck": {
+    "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "pdf": "https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf",
+    "pdf_page_zero_based": 18,
+    "source_use": "REFERENCE_ONLY",
+    "source_page_review_method": "same_execution_context_visual_official_pdf_page_not_fresh_independent_ai",
+    "matching_structural_groups": [
+      {
+        "reference_prefix": "1.2.1",
+        "verified_position_type": "DEMAND"
+      },
+      {
+        "reference_prefix": "1.2.2",
+        "verified_position_type": "SUPPLY"
+      },
+      {
+        "reference_prefix": "1.2.3",
+        "verified_position_type": "MARKET_INTERACTION_AND_DIAGRAMS"
+      },
+      {
+        "reference_prefix": "1.2.4",
+        "verified_position_type": "PRICE_ELASTICITY"
+      },
+      {
+        "reference_prefix": "1.2.5",
+        "verified_position_type": "INCOME_ELASTICITY"
+      }
+    ],
+    "independent_full_curriculum_coverage_accepted": false,
+    "substantial_pearson_source_text_allowed_in_worker_context": false
+  },
+  "licence_operation_decisions": [
+    {
+      "operation_id": "PEARSON_REFERENCE_ALIGNMENT",
+      "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+      "source_class": "REFERENCE_ONLY",
+      "permitted_current_action": "source_identifier_and_bounded_structured_alignment_verification_only",
+      "source_prose_into_worker": false,
+      "original_questions_from_protected_papers": false,
+      "clearance_for_unrestricted_generation": false,
+      "decision": "RESTRICTED_REFERENCE_ONLY"
+    },
+    {
+      "operation_id": "LOUIS_NEW_SUBJECT_NODE_OR_ASSET_INPUT",
+      "source_id": "SRC-OER-LOUIS-MICRO-2024",
+      "source_url": "https://louis.pressbooks.pub/microeconomics/chapter/demand-and-supply-3/",
+      "licence_observation": "CC BY 4.0 except separately credited material",
+      "checked_on": "2026-10-25",
+      "excluded": [
+        "credited_figures",
+        "other_third_party_media",
+        "external_third_party_text_with_distinct_rights"
+      ],
+      "commercial_use_and_ai_context_scope": "OPERATION_SPECIFIC_REVIEW_PENDING",
+      "attribution_record": "REQUIRES_VERIFICATION_AND_RETAINED_CREDIT_BEFORE_REUSE",
+      "worker_text_ingestion_now": false,
+      "decision": "HUMAN_OR_GOVERNED_POLICY_SIGNOFF_PENDING"
+    },
+    {
+      "operation_id": "REVISION_OWNED_SPECIMEN_IN_REVIEW",
+      "source_id": "REVISION_OWNED_RESEARCH",
+      "source_class": "REVISION_OWNED_ORIGINAL_SYNTHETIC",
+      "files": [
+        "edexcel-9bs0-market-learning-assessment-specimen.json",
+        "edexcel-9bs0-shared-market-node-draft.json"
+      ],
+      "independent_review_permission": "REVIEW_OWNED_EXCERPTS_ONLY_SUBJECT_TO_SOURCE_CONTEXT_EXCLUSIONS",
+      "approved_exact_course_foundation": false,
+      "learner_publication_eligible": false,
+      "decision": "REVIEW_ONLY_NOT_LEARNER_PRODUCTION"
+    }
+  ],
+  "reviewer_packet": {
+    "independent_context_id": null,
+    "conflicts_excluded_context_ids": [],
+    "source_rights_operation_approver": null,
+    "educational_reviewer": null,
+    "qualified_business_assessment_reviewer": null,
+    "review_attempts": 0,
+    "fixed_questions": [
+      {
+        "id": "A1",
+        "question": "For all 26 IDs, identify any missing/misclassified curriculum capability using official reference identifiers only; check qualification/cohort/exam component scope without copying protected prose",
+        "result": "NOT_PERFORMED"
+      },
+      {
+        "id": "A2",
+        "question": "Test the exact original node and 5-section specimen for incorrect supply/demand teaching, omitted caveats, misconceptions, worked method depth, clarity and accessibility",
+        "result": "NOT_PERFORMED"
+      },
+      {
+        "id": "A3",
+        "question": "Independently solve every research question and evaluate whether the proposed 8- and 10-mark questions have appropriate qualification demand and clear AO allocation",
+        "result": "NOT_PERFORMED"
+      },
+      {
+        "id": "A4",
+        "question": "Review both provisional written marking-point sets for double counting, valid alternative routes, performance discrimination, blind answers and calibration",
+        "result": "NOT_PERFORMED"
+      },
+      {
+        "id": "RIGHTS",
+        "question": "Verify permitted source operations, attribution, separately credited exclusions, and exact worker-input scope before using textbook inputs",
+        "result": "NOT_PERFORMED"
+      },
+      {
+        "id": "EXPERT",
+        "question": "Qualified Business subject/assessment reviewer checks actual depth, diagrams, authenticity and eligibility under active lifecycle gates",
+        "result": "NOT_PERFORMED"
+      }
+    ],
+    "issue_register": [],
+    "independent_review_pass": false,
+    "qualified_expert_signed_off": false
+  },
+  "skill_decisions": [
+    {
+      "sequence": 1,
+      "skill_id": "EDX-9BS0-MKT-01A",
+      "official_reference_identifier": "1.2.1:a/1",
+      "original_semantic_tag": "substitute-price-shift",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001",
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 2,
+      "skill_id": "EDX-9BS0-MKT-01B",
+      "official_reference_identifier": "1.2.1:a/1",
+      "original_semantic_tag": "complement-price-shift",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 3,
+      "skill_id": "EDX-9BS0-MKT-02",
+      "official_reference_identifier": "1.2.1:a/2",
+      "original_semantic_tag": "income-driven-demand",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 4,
+      "skill_id": "EDX-9BS0-MKT-03",
+      "official_reference_identifier": "1.2.1:a/3",
+      "original_semantic_tag": "preference-driven-demand",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 5,
+      "skill_id": "EDX-9BS0-MKT-04",
+      "official_reference_identifier": "1.2.1:a/4",
+      "original_semantic_tag": "marketing-demand-impact",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 6,
+      "skill_id": "EDX-9BS0-MKT-05",
+      "official_reference_identifier": "1.2.1:a/5",
+      "original_semantic_tag": "population-driven-demand",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-EXT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 7,
+      "skill_id": "EDX-9BS0-MKT-06",
+      "official_reference_identifier": "1.2.1:a/6",
+      "original_semantic_tag": "disruption-driven-demand",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-EXT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 8,
+      "skill_id": "EDX-9BS0-MKT-07",
+      "official_reference_identifier": "1.2.1:a/7",
+      "original_semantic_tag": "seasonal-demand",
+      "curriculum_group": "DEMAND",
+      "proposed_foundation_resolution": "EXPAND_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Identify exact-demand determinant teaching requirement, depth, viable diagram interpretation and valid recall/application evidence"
+    },
+    {
+      "sequence": 9,
+      "skill_id": "EDX-9BS0-MKT-08",
+      "official_reference_identifier": "1.2.2:a/1",
+      "original_semantic_tag": "production-cost-supply",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-OPS-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 10,
+      "skill_id": "EDX-9BS0-MKT-09",
+      "official_reference_identifier": "1.2.2:a/2",
+      "original_semantic_tag": "technology-supply",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-OPS-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 11,
+      "skill_id": "EDX-9BS0-MKT-10",
+      "official_reference_identifier": "1.2.2:a/3",
+      "original_semantic_tag": "indirect-tax-supply",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-EXT-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 12,
+      "skill_id": "EDX-9BS0-MKT-11",
+      "official_reference_identifier": "1.2.2:a/4",
+      "original_semantic_tag": "subsidy-supply",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-EXT-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 13,
+      "skill_id": "EDX-9BS0-MKT-12",
+      "official_reference_identifier": "1.2.2:a/5",
+      "original_semantic_tag": "supply-disruption",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-OPS-001",
+        "BUS-EXT-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 14,
+      "skill_id": "EDX-9BS0-MKT-13",
+      "official_reference_identifier": "1.2.3:a",
+      "original_semantic_tag": "price-equilibrium",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-001"
+      ],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 15,
+      "skill_id": "EDX-9BS0-MKT-14A",
+      "official_reference_identifier": "1.2.3:b",
+      "original_semantic_tag": "supply-demand-diagram-construct",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [],
+      "authored_specimen_evidence": "DIAGRAM_EXPLANATION_ONLY_DRAWING_UNASSESSED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Require observable original learner drawing of axes, two curves, equilibrium and relevant shift; diagram reading cannot substitute"
+    },
+    {
+      "sequence": 16,
+      "skill_id": "EDX-9BS0-MKT-14B",
+      "official_reference_identifier": "1.2.3:b",
+      "original_semantic_tag": "supply-demand-diagram-explain",
+      "curriculum_group": "SUPPLY_MARKET",
+      "proposed_foundation_resolution": "ADD_SUBJECT_NODE",
+      "proposed_candidate_nodes": [],
+      "authored_specimen_evidence": "LEARN_PRACTICE_AND_EXAM_SPECIMEN_NOT_REVIEWED",
+      "explicit_provisional_scope": true,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify supply/market causal mechanism, conditionality, graph direction and A-level analysis/evaluation with independently solved answers"
+    },
+    {
+      "sequence": 17,
+      "skill_id": "EDX-9BS0-MKT-15",
+      "official_reference_identifier": "1.2.4:a",
+      "original_semantic_tag": "ped-compute",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 18,
+      "skill_id": "EDX-9BS0-MKT-16",
+      "official_reference_identifier": "1.2.4:b",
+      "original_semantic_tag": "ped-interpret",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 19,
+      "skill_id": "EDX-9BS0-MKT-17",
+      "official_reference_identifier": "1.2.4:c",
+      "original_semantic_tag": "ped-determinants",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 20,
+      "skill_id": "EDX-9BS0-MKT-18",
+      "official_reference_identifier": "1.2.4:d",
+      "original_semantic_tag": "ped-pricing-application",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 21,
+      "skill_id": "EDX-9BS0-MKT-19A",
+      "official_reference_identifier": "1.2.4:e",
+      "original_semantic_tag": "ped-revenue-arithmetic",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 22,
+      "skill_id": "EDX-9BS0-MKT-19B",
+      "official_reference_identifier": "1.2.4:e",
+      "original_semantic_tag": "ped-revenue-judgement",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 23,
+      "skill_id": "EDX-9BS0-MKT-20",
+      "official_reference_identifier": "1.2.5:a",
+      "original_semantic_tag": "yed-compute",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 24,
+      "skill_id": "EDX-9BS0-MKT-21",
+      "official_reference_identifier": "1.2.5:b",
+      "original_semantic_tag": "yed-interpret",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 25,
+      "skill_id": "EDX-9BS0-MKT-22",
+      "official_reference_identifier": "1.2.5:c",
+      "original_semantic_tag": "yed-determinants",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    },
+    {
+      "sequence": 26,
+      "skill_id": "EDX-9BS0-MKT-23",
+      "official_reference_identifier": "1.2.5:d",
+      "original_semantic_tag": "yed-business-application",
+      "curriculum_group": "ELASTICITY",
+      "proposed_foundation_resolution": "REUSE_SUFFICIENT",
+      "proposed_candidate_nodes": [
+        "BUS-MKT-008"
+      ],
+      "authored_specimen_evidence": "NO_ORIGINAL_LEARN_PRACTICE_ASSESSMENT_SPECIMEN",
+      "explicit_provisional_scope": false,
+      "independently_accepted": false,
+      "rights_for_new_generation": "NOT_APPROVED",
+      "reviewer_decision": "PENDING",
+      "requested_reviewer_evidence": "Verify PED/YED formula and signs, interpretations, business application, credible worked arithmetic and authentic assessment"
+    }
+  ],
+  "coverage_summary": {
+    "provisional_skills_total": 26,
+    "source_terminal_identifiers_used_for_provisional_partition": 23,
+    "assessed_in_original_research_specimen_unreviewed": 7,
+    "visual_only_not_student_drawing_assessed": 1,
+    "without_original_complete_specimen": 18,
+    "independently_accepted": 0,
+    "independent_reuse_percent": null,
+    "all_four_course_themes_assured": false
+  },
+  "blocking_decisions": [
+    {
+      "id": "G1",
+      "scope": "RIGHTS",
+      "reason": "Operation-specific source-use and third-party/attribution determination has no qualified authorisation",
+      "owner": "AUTHORISED_SOURCE_RIGHTS_REVIEWER",
+      "status": "OPEN"
+    },
+    {
+      "id": "G2",
+      "scope": "EDUCATIONAL",
+      "reason": "Fresh-context A1-A4 independent issue register not produced on exact input fingerprints",
+      "owner": "INDEPENDENT_CONTENT_REVIEWER",
+      "status": "OPEN"
+    },
+    {
+      "id": "G3",
+      "scope": "CURRICULUM",
+      "reason": "18 provisional Market skills have no original full Learn/Practice/assessment specimen; graph construction lacks observed drawing",
+      "owner": "CONTENT_PRODUCTION_AFTER_FOUNDATION_GATE",
+      "status": "OPEN"
+    },
+    {
+      "id": "G4",
+      "scope": "ASSESSMENT",
+      "reason": "8/10 proposed marks and AO mapping are fictional and unvalidated; no blind marking calibration",
+      "owner": "QUALIFIED_ASSESSMENT_REVIEWER",
+      "status": "OPEN"
+    },
+    {
+      "id": "G5",
+      "scope": "COURSE_AND_EXAM_TRUTH",
+      "reason": "Exact Edexcel 2027 source universe and complete Course/Exam Truth not approved",
+      "owner": "SOURCE_FIRST_COURSE_OWNER",
+      "status": "OPEN"
+    },
+    {
+      "id": "G6",
+      "scope": "FOUNDATION",
+      "reason": "Business v0.8 subject draft not approved for exact course and proposed BUS-MKT-010 node not allocated",
+      "owner": "GOVERNED_FOUNDATION_ASSURANCE",
+      "status": "OPEN"
+    }
+  ],
+  "outcome": {
+    "review_packet_prepared": true,
+    "source_rights_cleared": false,
+    "independent_quality_accepted": false,
+    "exact_course_ai_assured": false,
+    "derived_student_assets_eligible": false,
+    "publication": "HOLD",
+    "founder_merge_approval": false
+  }
+}
