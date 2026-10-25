@@ -49,7 +49,7 @@ select lives_ok($sql$
     now() + interval '14 days'
   )
 $sql$, 'owner can create private draft');
-select lives_ok($sql$
+select throws_ok($sql$
   insert into public.learner_exam_attempts
     (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
   values ('00000000-0000-4000-8000-0000000000c2','other','other','mock-1',
@@ -133,7 +133,7 @@ set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c1';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c1","app_metadata":{}}';
 select is((select count(*) from public.learner_exam_attempts),2::bigint,
   'ordinary owner can read their drafts without pilot metadata');
-select throws_ok($sql$
+select lives_ok($sql$
   insert into public.learner_exam_attempts
     (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
   values ('00000000-0000-4000-8000-0000000000c1','aqa:aqa-a-level:7132',
