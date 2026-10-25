@@ -23,6 +23,7 @@ test('PLN-VALUE-01 long-range programme shows grounded learning objectives and c
     if (request.url().includes('/learner_planned_sessions') && request.method() !== 'GET') savedWrites += 1
   })
   await page.goto(`${appPath}#/plan`)
+  await page.locator('.pln-programme-disclosure > summary').click()
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Business final paper', { timeout: 15000 })
   await expect(outlook).toContainText('Preparation objectives')
@@ -51,6 +52,7 @@ test('R2-04 a week with zero declared study time does not invent a study agenda'
     }),
   }))
   await page.goto(`${appPath}#/plan`)
+  await page.locator('.pln-programme-disclosure > summary').click()
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('No saved study time for this week')
   await expect(outlook).toContainText('No objectives allocated while availability is zero.')

@@ -423,9 +423,9 @@ test('weekly study availability is added from Plan only after first useful revis
   expect(profiles).toHaveLength(0)
 
   await page.goto(`${appPath}#/plan`)
-  await expect(page.getByRole('heading', { name: 'Study time' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Set study time' })).toBeVisible()
-  await page.getByRole('button', { name: 'Set study time' }).click()
+  await expect(page.getByRole('button', { name: 'Study time', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Study time', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Study time' }).first()).toBeVisible()
   await page.getByRole('button', { name: 'More study time on Monday' }).click()
   await page.getByRole('button', { name: 'Save study time' }).click()
   await expect(page.getByRole('button', { name: 'Change study time' })).toBeVisible()

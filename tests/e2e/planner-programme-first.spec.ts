@@ -15,6 +15,7 @@ test('PLN-VALUE-01 unknown-evidence supported course has a programme objective a
     has: page.getByRole('button', { name: /^Up next/ }),
   })
   await expect(next).toContainText(topic)
+  await page.locator('.pln-programme-disclosure > summary').click()
   const programme = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(programme).toContainText('Preparation objectives')
   await expect(programme).toContainText(topic)
@@ -42,6 +43,7 @@ test('PLN-VALUE-01 Month is an accessible strategic outlook before a genuine lat
     }]),
   }))
   await page.goto(`${appPath}#/plan?view=month&date=2027-03-01`)
+  await page.locator('.pln-programme-disclosure > summary').click()
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Preparation towards your exams')
   await expect(outlook).toContainText('Objectives for this month')

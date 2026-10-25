@@ -47,34 +47,33 @@ for (const route of routes) {
   }
 }
 
-test('titles follow the period and the address keeps view and date', async ({ page }) => {
+test('Plan title stays clear while date navigation retains the selected period and route', async ({ page }) => {
   await openPlan(page, '#/plan')
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your week')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   await page.getByRole('button', { name: 'Next week' }).click()
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Next week')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   expect(page.url()).toContain('#/plan?view=week&date=2026-10-12')
   await page.getByRole('button', { name: 'Previous week' }).click()
   await page.getByRole('button', { name: 'Previous week' }).click()
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Last week')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   await page.getByRole('button', { name: 'This week' }).click()
   await page.getByRole('button', { name: 'Month', exact: true }).click()
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your month')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   expect(page.url()).toContain('view=month')
   await page.reload()
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your month')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   await expect(page.getByRole('button', { name: 'Month', exact: true })).toHaveAttribute('aria-pressed', 'true')
 })
 
-test('summary is time against plan, with a status in words and an icon', async ({ page }) => {
+test('summary describes recorded completion without implying mastery or measured study time', async ({ page }) => {
   await openPlan(page, '#/plan')
   const summary = page.locator('.pln-summary')
-  await expect(summary).toContainText('This week')
+  await expect(summary).toContainText('activities completed')
   // Programme-derived work changes as evidenced treatment needs change.
   // Unit/domain tests own minute arithmetic; the UI must show a truthful
   // dynamic total instead of an obsolete fixed 8-topic allocation.
-  await expect(summary).toContainText(/of (?:\d+h(?: \d+m)?|\d+m) planned/)
-  await expect(summary.locator('.pln-summary__label svg')).toBeVisible()
-  await expect(summary.locator('.pln-summary__label')).toHaveText(/On track|Catching up|Finished|Coming up/)
+  await expect(summary.locator('.pln-summary__time')).toContainText(/\d+ of \d+/)
+  await expect(summary.locator('.pln-summary__track')).toBeVisible()
 })
 
 test('day strip is a keyboard tablist: arrows move and select, Home and End jump', async ({ page }) => {
@@ -114,7 +113,7 @@ test('date picker opens from the label, moves with arrows, picks with Enter, clo
   await page.keyboard.press('Enter')
   await expect(dialog).toHaveCount(0)
   await expect(label).toBeFocused()
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Week of 9 Nov')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   expect(page.url()).toContain('date=2026-11-13')
 
   await page.keyboard.press('Enter')
@@ -131,6 +130,24 @@ test('week view stacks seven days; tapping a day opens it in Day view', async ({
   await expect(page.getByRole('button', { name: 'Day', exact: true })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('tabpanel').getByRole('heading', { level: 2 })).toHaveText('Wed 7 Oct')
   expect(page.url()).toContain('view=day&date=2026-10-07')
+})
+
+test('phone Week agenda rows use available width and management stays compact', async ({ page }) => {
+  await openPlan(page, '#/plan?view=week&date=2026-10-05', 390, 844)
+  const today = page.locator('.pln-weekgroup[data-today]')
+  const activity = today.locator('.pln-row').first()
+  await expect(activity).toBeVisible()
+  const todayBox = await today.boundingBox()
+  const activityBox = await activity.boundingBox()
+  expect(todayBox).not.toBeNull()
+  expect(activityBox).not.toBeNull()
+  expect(activityBox!.width).toBeGreaterThan(todayBox!.width * 0.78)
+  const study = await page.getByRole('button', { name: 'Study time', exact: true }).boundingBox()
+  const exams = await page.getByRole('button', { name: 'Exam dates', exact: true }).boundingBox()
+  expect(study).not.toBeNull()
+  expect(exams).not.toBeNull()
+  expect(Math.abs(study!.y - exams!.y)).toBeLessThan(3)
+  await noSidewaysScroll(page)
 })
 
 test('month view: Monday-first grid, exam day in solid subject colour with its letter mark, tap opens Day', async ({ page }) => {
@@ -156,13 +173,13 @@ test('rows: Up next for the first actionable commitment today, Start for the res
   const done = page.locator('.pln-row[data-done]')
   await expect(done).toContainText('Done')
   await expect(done.locator('.pln-row__mark')).toHaveCSS('opacity', '0.45')
-  await expect(page.getByText('REV pick')).toBeVisible()
+  await expect(page.getByText('REV pick')).toHaveCount(0)
   await expect(page.getByText(/REV suggests|Weekly goal/i)).toHaveCount(0)
 })
 
 test('study time: steppers change in 15 minutes, 0 is Rest, save calls the planner and keeps done sessions', async ({ page }) => {
   await openPlan(page, '#/plan')
-  await page.getByRole('button', { name: 'Change study time' }).click()
+  await page.getByRole('button', { name: 'Study time', exact: true }).click()
   const less = page.getByRole('button', { name: 'Less study time on Sunday' })
   await expect(less).toBeDisabled()
   await page.getByRole('button', { name: 'More study time on Sunday' }).click()
@@ -192,14 +209,14 @@ test('with no sessions table and no exams the screen stays quiet and honest', as
   await page.setViewportSize({ width: 1440, height: 900 })
   await seedPlanStudent(page, { sessions: null, withExams: false, withAvailability: false })
   await page.goto(`${appPath}#/plan`)
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your week')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan')
   await expect(page.getByText('Your plan is waiting on you')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Add session' })).toHaveCount(0)
   await expect(page.getByText(/learner_planned_sessions|does not exist/i)).toHaveCount(0)
   await expect(page.locator('.pln-empty, .pln-summary')).toHaveCount(0)
-  await expect(page.getByText('No exam dates yet.')).toBeVisible()
+  await expect(page.getByText(/No exam dates added yet/)).toBeVisible()
   await expect(page.getByRole('button', { name: 'Add your exams' })).toBeVisible()
-  await page.getByRole('button', { name: 'Set study time', exact: true }).click()
+  await page.getByRole('button', { name: 'Study time', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Save study time' })).toBeVisible()
   await noSidewaysScroll(page)
 })
@@ -209,11 +226,11 @@ test('missing study time leads with the one required step and does not invent we
   await page.goto(`${appPath}#/plan`)
   const setup = page.getByLabel('Finish setting up your plan')
   await expect(setup).toContainText('Add your study time and REV will plan what fits your week.')
-  await expect(setup.getByRole('button', { name: 'Set your weekly study time' })).toBeVisible()
+  await expect(setup.getByRole('button', { name: 'Set study time' })).toBeVisible()
   await expect(setup.getByRole('button', { name: 'Add your exams' })).toHaveCount(0)
   await expect(page.locator('.pln-summary, .pln-empty')).toHaveCount(0)
-  await expect(page.getByRole('region', { name: 'Your full exam programme' })).toBeVisible()
-  await setup.getByRole('button', { name: 'Set your weekly study time' }).click()
+  await expect(page.locator('.pln-programme-disclosure > summary')).toBeVisible()
+  await setup.getByRole('button', { name: 'Set study time' }).click()
   await expect(page.getByRole('button', { name: 'Save study time' })).toBeVisible()
   await noSidewaysScroll(page)
 })
@@ -244,7 +261,7 @@ test('future weeks show only what the planner returns, never invented sessions',
   await openPlan(page, '#/plan?view=week&date=2027-03-01')
   await expect(page.locator('.pln-list')).toHaveCount(0)
   await expect(page.locator('.pln-empty')).toHaveCount(7)
-  await expect(page.locator('.pln-summary')).toContainText('Nothing planned yet.')
+  await expect(page.locator('.pln-summary')).toContainText('No activities planned')
 })
 
 test.describe('data sanity', () => {
