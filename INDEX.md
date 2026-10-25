@@ -54,6 +54,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory qualification-projection structural checker (internal candidate, not release gate) → `docs/technical/Content Factory Qualification Projection Preflight.md`
 - Content Factory Stage 4 independent Foundation/Exam Truth to candidate learner-pack projection, verified ID crosswalk and provider-free HOLD tests (pre-publication only) → `docs/technical/Content Factory Independent Foundation Learner Projection.md`
 - Content Factory Stage 5 Edexcel 9BS0 official-facts section-level intake, candidate Business node opportunities, source-rights HOLD and non-publishing tests → `docs/technical/Content Factory Stage 5 Edexcel 9BS0 Intake.md`
+- Stage 5 Edexcel 9BS0 original unscored ten-mark response discrimination trial and reviewer-only export (not independent approval) → `research/content-production-repeatability/edexcel-9bs0-market-assessment-remediation-review.md`
 - Second-board Business and GCSE science qualification-shape trial (research, not publication authority) → `research/content-production-repeatability/BOARD-SHAPE-TRIAL-2026-10-22.md`
 - Content Factory whole-paper mock production implementation / AQA 7132 Mock Profile and provider-free validation → `docs/technical/Content Factory Mock Exam Production.md`
 - Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
