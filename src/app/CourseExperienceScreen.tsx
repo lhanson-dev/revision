@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { fi001RestrictedContent } from './fi001-pilot-mode'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -37,7 +36,6 @@ import { topicLearningStatus, topicProgressFor, understandingCounts } from './to
 import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge } from './ui'
 
 type CourseExperienceScreenProps = {
-  pilotEnabled?: boolean
   /** Authenticated learner exam-draft persistence; Supabase enforces owner RLS. */
   examRecoveryEnabled?: boolean
   client: SupabaseClient
@@ -181,7 +179,6 @@ function ProgressPanel({ states, programmeCourse, topics, onAction }: {
 export function CourseExperienceScreen({
   client,
   userId,
-  pilotEnabled = true,
   examRecoveryEnabled = true,
   catalogue,
   memberships,
@@ -308,11 +305,10 @@ export function CourseExperienceScreen({
       <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'learn')}>Open Learn instead</Button>
     </main>
   )
-  const pilotRestricted = fi001RestrictedContent(pilotEnabled)
 
   if (course.sharedLearning) {
     const state = createCourseLearningState(course, evidence, reviewedPages)
-    const sections = availableCourseSections(course).filter((entry) => !pilotRestricted || entry !== 'exam-prep')
+    const sections = availableCourseSections(course)
     const section = sections.includes(requestedSection as CourseSection) ? requestedSection as CourseSection : 'overview'
     const adapter = course.learningAdapter
     const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
@@ -365,7 +361,7 @@ export function CourseExperienceScreen({
 
         {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
 
-        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={label} includeExamQuestions={false} />{!pilotRestricted && sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
+        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
         {section === 'exam-prep' && <div className="paper-section-content"><ExamPrepSection course={course} state={state} subjectId={subject.id} subjectName={subject.name} nextExam={examDateStatus === 'ready' ? nextExam : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={examRecoveryEnabled ? {
           client, userId, courseId: course.id, retentionDays: 14, timerPolicy: 'pause-on-interruption',
@@ -396,7 +392,7 @@ export function CourseExperienceScreen({
   }
   const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
   const state = createModuleLearningState(adapter, evidence, reviewedPages, course.id)
-  const sections = availablePaperSections(adapter).filter((entry) => !pilotRestricted || entry !== 'exam-prep')
+  const sections = availablePaperSections(adapter)
   const section = sections.includes(requestedSection as PaperSection) ? requestedSection as PaperSection : 'overview'
   const topics = adapter.listTopics()
   const recommendation = state.recommendation
@@ -410,7 +406,7 @@ export function CourseExperienceScreen({
 
       {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
-      {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={!pilotRestricted} /></div>}
+      {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={true} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={examRecoveryEnabled ? {
           client, userId, courseId: course.id, retentionDays: 14, timerPolicy: 'pause-on-interruption',
         } : undefined} /></section>)}</div>}
