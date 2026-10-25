@@ -165,6 +165,14 @@ Issue #675's first research-only implementation is documented at `research/conte
 
 The independent educational and professional rights review, original graph-learning assessment design, exactly permitted source operations and qualification-specific Course/Exam Truth remain **HOLD**. This is a documented research-only technical increment under the existing architecture, not a normative authority change, new student asset or approved `BUS-MKT-010` Foundation node. Original synthetic SVG/structural evidence does not itself create educational authority.
 
+## Stage 5 first connected original teaching and assessment research specimen (25 October 2026)
+
+New research-only artifact `research/content-production-repeatability/edexcel-9bs0-market-learning-assessment-specimen.json` and its review/handoff `edexcel-9bs0-market-vertical-slice-review.md` join a complete *candidate* learning narrative (four sections, one worked example), **eight new original Practice items**, and one eight-mark **original fictional** exam-style question with proposed marking points to the existing three checked SVGs. Their original synthetic market's equilibrium and two shocks are recomputed by a provider-free `scripts/assurance/edexcel-9bs0-market-vertical-specimen-preflight.mjs` and negative tests; skill-to-content-to-question refs and exact unchanged source-state fences are checked mechanically.
+
+**Educational scope is deliberately narrower than the eight market candidates:** 3 provisionally exercised (cost-driven supply, equilibrium, interpretation), 1 diagram-construction skill demonstrable but **not assessed**, and 4 distinct supply drivers unaddressed. Even the 3 are not independently accepted, nor are the 26 provisional Market skills a certified complete atomic denominator. A connected authored question with a marking proposal is **not an independently marked answer**. All A1/A2/A3/A4 and independent/fresh-context assessment, source-operation rights and exact Edexcel Course/Exam Truth remain pending. The effective 81-node Business Foundation is unchanged, and **no learner `ContentPack`, runtime import, event writes, provider calls or publication** are created by this package.
+
+The next genuine step is to independently review this first joined set and source facts against exact 9BS0 Market 1.2 and eligible rights, then apply only necessary shared Foundation fixes under the normal `ai_assured` → controlled internal derivation → publication gates. The package is research evidence only and requires no normative-authority change. See tracker #675 and programme #661.
+
 ## Implemented preflight
 
 - `research/content-production-repeatability/edexcel-9bs0-stage5-intake.json`: current independently recorded source entry points, section-level facts, paper/AO/quantitative obligations, candidate nodes, unresolved assurance gates and **zero provider calls for this specific intake**.

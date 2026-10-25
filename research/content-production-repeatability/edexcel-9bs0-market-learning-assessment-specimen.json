@@ -1,0 +1,445 @@
+{
+  "schema_version": "edexcel-9bs0-market-research-vertical-specimen-v1",
+  "classification": "ORIGINAL_AUTHORING_RESEARCH_ONLY_NOT_COURSE_ASSET",
+  "created_on": "2026-10-25",
+  "qualification": {
+    "code": "9BS0",
+    "board": "Pearson Edexcel",
+    "assessment_year": 2027,
+    "source_scope": "Theme 1 section 1.2",
+    "approved_course_truth": false,
+    "approved_exam_truth": false,
+    "paper_alignment": "NOT_APPROVED",
+    "cohort_source_universe": "INCOMPLETE"
+  },
+  "canonical_learner_runtime": "/revision/app/",
+  "canonical_content_adapter": "src/engine/content/content-adapter.ts",
+  "runtime_integration": "NONE",
+  "exact_dependency": {
+    "subject_foundation_candidate_version": "v0.8-t8-exact-course-remediation",
+    "effective_fingerprint": "0f9a9423102cfa26b11dad1ed4d99eb5594c7b8a26d4d84fd8a42d2994dd0241",
+    "original_node_draft": "research/content-production-repeatability/edexcel-9bs0-shared-market-node-draft.json",
+    "node_activated": false,
+    "market_graph_evidence": "research/content-production-repeatability/edexcel-9bs0-market-graph-evidence-review.md"
+  },
+  "rights": {
+    "board_source_id": "PEARSON-SPEC-9BS0-2014-I1",
+    "board_source_use": "REFERENCE_ONLY",
+    "subject_reference_id": "SRC-OER-LOUIS-MICRO-2024",
+    "new_content_operation_rights_review": "PENDING",
+    "no_board_or_third_party_source_prose_or_image_embedded": true,
+    "original_text_and_calculations": "REVISION_ORIGINAL_SYNTHETIC",
+    "source_url": "https://louis.pressbooks.pub/microeconomics/chapter/demand-and-supply-3/",
+    "source_credit_due_before_eligible_reuse": true
+  },
+  "materialization": {
+    "ai_assured_exact_course": false,
+    "foundation_approved": false,
+    "learner_pack_created": false,
+    "content_adapter_import": false,
+    "learner_evidence_writes": false,
+    "learner_release": false,
+    "independent_review": "NOT_PERFORMED",
+    "qualified_human_review": "NOT_PERFORMED",
+    "publication_decision": "HOLD"
+  },
+  "scope": {
+    "provisional_requirement_ids": [
+      "EDX-9BS0-MKT-08",
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-10",
+      "EDX-9BS0-MKT-11",
+      "EDX-9BS0-MKT-12",
+      "EDX-9BS0-MKT-13",
+      "EDX-9BS0-MKT-14A",
+      "EDX-9BS0-MKT-14B"
+    ],
+    "fully_exercised_in_candidate": [
+      "EDX-9BS0-MKT-08",
+      "EDX-9BS0-MKT-13",
+      "EDX-9BS0-MKT-14B"
+    ],
+    "visual_demonstration_but_no_assessed_construction": [
+      "EDX-9BS0-MKT-14A"
+    ],
+    "not_exercised": [
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-10",
+      "EDX-9BS0-MKT-11",
+      "EDX-9BS0-MKT-12"
+    ],
+    "coverage_approved_count": null,
+    "partial_skill_denominator_8_not_whole_course": true
+  },
+  "case_id": "REV-SD-CASE-01",
+  "learner_content_specimen": {
+    "id": "EDX-9BS0-MARKET-REVIEW-LEARN-01",
+    "title": "How supply and demand change a market price",
+    "orientation": "Follow a fictional market for refill packs. Use the diagrams to explain why price and quantity can move in different directions.",
+    "sections": [
+      {
+        "id": "L1",
+        "heading": "From schedules to equilibrium",
+        "skill_ids": [
+          "EDX-9BS0-MKT-13"
+        ],
+        "paragraphs": [
+          "A demand schedule shows how many refill packs customers in the whole market would plan to buy at different prices, assuming their other circumstances do not change. A supply schedule shows how many packs all sellers would offer at those prices. Price belongs on the vertical axis; packs per week on the horizontal axis.",
+          "In this simplified market, quantity demanded is 120 minus four times price and quantity supplied is 20 plus price. At £20, both are 40 packs per week. This is the modelled market equilibrium, not a prediction that every individual business sells exactly 40 packs."
+        ],
+        "diagram": "edexcel-9bs0-market-baseline.svg"
+      },
+      {
+        "id": "L2",
+        "heading": "A cost increase changes the whole supply curve",
+        "skill_ids": [
+          "EDX-9BS0-MKT-08",
+          "EDX-9BS0-MKT-14B"
+        ],
+        "paragraphs": [
+          "If producing each pack becomes more expensive, sellers may offer fewer packs at any given price. In the example, the market supply relationship changes from 20 + P to 10 + P. On the diagram the entire supply curve shifts left from S0 to S1. The demand curve D0 stays where it was.",
+          "The new intersection is at price £22 and 32 packs each week. Price is £2 higher while the modelled market quantity traded is eight packs lower. Do not say the price rise itself shifts demand left: it causes movement along an unchanged demand curve."
+        ],
+        "diagram": "edexcel-9bs0-market-supply-left.svg"
+      },
+      {
+        "id": "L3",
+        "heading": "A demand shift behaves differently",
+        "skill_ids": [
+          "EDX-9BS0-MKT-14B"
+        ],
+        "paragraphs": [
+          "If more buyers come to prefer refill packs, their planned purchases at each price can increase. Demand moves right from D0 to D1 while S0 remains unchanged. In this second, separate scenario, the intersection becomes £22 and 42 packs each week.",
+          "The same £2 price increase can therefore arise with opposite effects on market volume. You must identify which curve moved and check both price and quantity before giving a business recommendation. Market models simplify reality: customer preferences, supply, costs and competitors can change together."
+        ],
+        "diagram": "edexcel-9bs0-market-demand-right.svg"
+      },
+      {
+        "id": "L4",
+        "heading": "Use the model without overclaiming",
+        "skill_ids": [
+          "EDX-9BS0-MKT-08",
+          "EDX-9BS0-MKT-13",
+          "EDX-9BS0-MKT-14B"
+        ],
+        "paragraphs": [
+          "At a price below the modelled equilibrium, quantity demanded can exceed quantity supplied (a shortage). Above it, sellers may plan to supply more than buyers purchase (a surplus). For example, at £16 customers plan to buy 56 packs but sellers offer 36: a shortage of 20. At £24, planned supply is 44 and planned demand 24: a surplus of 20.",
+          "Equilibrium numbers describe the whole hypothetical market, not an individual firm’s sales, costs or profit. A business might raise its listed price after costs increase, but whether that is advisable depends on its own demand, capacity, competitors and ability to pass costs on. The simple graph cannot determine the firm’s optimum strategy on its own."
+        ],
+        "diagram": "edexcel-9bs0-market-baseline.svg"
+      }
+    ],
+    "worked_example": {
+      "id": "EX-01",
+      "skill_ids": [
+        "EDX-9BS0-MKT-08",
+        "EDX-9BS0-MKT-13"
+      ],
+      "title": "Recalculate equilibrium when supply falls",
+      "setup": "Initially demand is Qd = 120 − 4P and supply Qs = 20 + P. A production cost rise changes supply to Qs = 10 + P.",
+      "steps": [
+        "Set original demand equal to original supply: 120 − 4P = 20 + P.",
+        "Collect terms: 100 = 5P, so original price is £20. Substitute to obtain 40 packs per week.",
+        "Set demand equal to changed supply: 120 − 4P = 10 + P.",
+        "Rearrange: 110 = 5P, so price is £22. Substitute to obtain 32 packs per week.",
+        "The cost-driven supply reduction raises the equilibrium price by £2 and reduces weekly market volume by eight packs; demand itself has not shifted."
+      ],
+      "answers": {
+        "original_price": 20,
+        "original_quantity": 40,
+        "new_price": 22,
+        "new_quantity": 32,
+        "price_change": 2,
+        "quantity_change": -8
+      },
+      "interpretation": "This is a stylised whole-market example, not a firm revenue projection."
+    }
+  },
+  "practice_specimens": [
+    {
+      "id": "P01",
+      "mode": "calculation",
+      "skill_ids": [
+        "EDX-9BS0-MKT-13"
+      ],
+      "prompt": "When Qd = 120 − 4P and Qs = 20 + P, what is the equilibrium price in pounds per pack?",
+      "expected_number": 20,
+      "unit": "GBP_per_pack",
+      "explanation": "Equate demand and supply: 120 − 4P = 20 + P; hence P = 20."
+    },
+    {
+      "id": "P02",
+      "mode": "calculation",
+      "skill_ids": [
+        "EDX-9BS0-MKT-13"
+      ],
+      "prompt": "At equilibrium price £20, what is the weekly market quantity of refill packs?",
+      "expected_number": 40,
+      "unit": "packs_per_week",
+      "explanation": "Demand and supply each equal 40 packs at £20."
+    },
+    {
+      "id": "P03",
+      "mode": "calculation",
+      "skill_ids": [
+        "EDX-9BS0-MKT-08"
+      ],
+      "prompt": "If production costs increase and Qs = 10 + P while demand stays unchanged, what is the new weekly equilibrium quantity?",
+      "expected_number": 32,
+      "unit": "packs_per_week",
+      "explanation": "The new price is £22 and 10 + 22 = 32 packs."
+    },
+    {
+      "id": "P04",
+      "mode": "multiple_choice",
+      "skill_ids": [
+        "EDX-9BS0-MKT-08",
+        "EDX-9BS0-MKT-14B"
+      ],
+      "prompt": "On the supply-left diagram, why does quantity demanded change?",
+      "options": [
+        "The increase in market price shifts D0 to the left.",
+        "The increase in market price causes movement along unchanged D0.",
+        "The cost increase shifts market demand right.",
+        "The cost increase increases market quantity supplied at every price."
+      ],
+      "correct_option_index": 1,
+      "explanation": "Costs shift supply. The new price changes quantity demanded along the same D0 curve.",
+      "diagram": "edexcel-9bs0-market-supply-left.svg"
+    },
+    {
+      "id": "P05",
+      "mode": "multiple_choice",
+      "skill_ids": [
+        "EDX-9BS0-MKT-14B"
+      ],
+      "prompt": "Which statement correctly interprets the cost-shock diagram?",
+      "options": [
+        "Demand shifted left; price fell to £18.",
+        "Supply shifted right; price rose to £22 and quantity rose to 42.",
+        "Supply shifted left; price rose to £22 and quantity fell to 32.",
+        "Supply shifted left; price fell to £18 and quantity rose to 42."
+      ],
+      "correct_option_index": 2,
+      "explanation": "The new S1 intersects unchanged D0 at P22, Q32.",
+      "diagram": "edexcel-9bs0-market-supply-left.svg"
+    },
+    {
+      "id": "P06",
+      "mode": "multiple_choice",
+      "skill_ids": [
+        "EDX-9BS0-MKT-14B"
+      ],
+      "prompt": "Compared with the original equilibrium, what happens when customers prefer refill packs more strongly, holding supply unchanged?",
+      "options": [
+        "Market equilibrium price rises to £22 and quantity rises to 42.",
+        "Market equilibrium price rises to £22 and quantity falls to 32.",
+        "Market supply shifts left and market price falls.",
+        "Quantity changes solely because sellers move along their supply curve; market demand is unchanged."
+      ],
+      "correct_option_index": 0,
+      "explanation": "The rightward demand shift raises both equilibrium price and quantity.",
+      "diagram": "edexcel-9bs0-market-demand-right.svg"
+    },
+    {
+      "id": "P07",
+      "mode": "calculation",
+      "skill_ids": [
+        "EDX-9BS0-MKT-13"
+      ],
+      "prompt": "At the hypothetical price £16, how many more packs are demanded than supplied each week?",
+      "expected_number": 20,
+      "unit": "packs_per_week",
+      "explanation": "At £16, Qd = 56 and Qs = 36, so the shortage is 20."
+    },
+    {
+      "id": "P08",
+      "mode": "written_manual_review",
+      "skill_ids": [
+        "EDX-9BS0-MKT-08",
+        "EDX-9BS0-MKT-14B"
+      ],
+      "prompt": "Explain why the input-cost shock might make a refill-pack business reconsider its prices, and give one reason the market graph cannot establish the best price for that specific firm.",
+      "assessment": "QUALIFIED_REVIEW_ONLY",
+      "model_points": [
+        "Input costs lower market supply at each price, shifting S0 left to S1.",
+        "The model predicts a higher market-clearing price and lower traded quantity in the given example.",
+        "The firm’s own sales and profit depend on its costs, customer demand, competitors and capacity; whole-market equilibrium does not determine its optimal price."
+      ],
+      "auto_marking_allowed": false,
+      "evidence_status": "NOT_COLLECTED"
+    }
+  ],
+  "exam_assessment_specimen": {
+    "id": "EXAM-ORIGINAL-01",
+    "type": "ORIGINAL_FICTIONAL_EXAM_STYLE_NOT_OFFICIAL",
+    "skill_ids": [
+      "EDX-9BS0-MKT-08",
+      "EDX-9BS0-MKT-13",
+      "EDX-9BS0-MKT-14B"
+    ],
+    "prompt": "A fictional market for refill packs initially has Qd = 120 − 4P and Qs = 20 + P, where P is the price in pounds and Q is weekly packs across the market. Following higher input costs, market supply changes to Qs = 10 + P, with demand unchanged. Analyse how this market change might affect sellers and evaluate one limitation of using this model when an individual producer sets its own price. Use calculations to support your response. (8 marks)",
+    "marks_available": 8,
+    "answer_mode": "written_extended",
+    "review_status": "NOT_INDEPENDENTLY_ASSESSED",
+    "provisional_marking_points": [
+      {
+        "id": "M1",
+        "marks": 1,
+        "criterion": "Correct original price of £20 with supporting equilibrium calculation"
+      },
+      {
+        "id": "M2",
+        "marks": 1,
+        "criterion": "Correct original traded quantity of 40 packs per week"
+      },
+      {
+        "id": "M3",
+        "marks": 1,
+        "criterion": "Correct new price of £22 with supporting equilibrium calculation"
+      },
+      {
+        "id": "M4",
+        "marks": 1,
+        "criterion": "Correct new traded quantity of 32 packs per week"
+      },
+      {
+        "id": "M5",
+        "marks": 1,
+        "criterion": "Identifies reduced supply / S0 left to S1 as a cost-driven curve shift, with unchanged demand"
+      },
+      {
+        "id": "M6",
+        "marks": 1,
+        "criterion": "Explicit comparison: market price rises by £2 and traded market quantity falls by eight packs"
+      },
+      {
+        "id": "M7",
+        "marks": 1,
+        "criterion": "Meaningful application to seller decisions without treating market output as one firm's output"
+      },
+      {
+        "id": "M8",
+        "marks": 1,
+        "criterion": "Reasoned limitation of using a stylised whole-market model to set a single firm's optimal price"
+      }
+    ],
+    "assessment_objectives": "UNASSIGNED_PENDING_EXAM_TRUTH",
+    "marking_policy": "HUMAN_REVIEW_PENDING_NO_AUTO_MARK",
+    "original_example_answer": "Originally, equality of Qd and Qs gives 120 − 4P = 20 + P, so P = £20 and the whole market trades 40 packs per week. Increased input costs make suppliers offer fewer packs at each price, moving supply left to 10 + P. The new equality is 120 − 4P = 10 + P: P = £22 and market quantity 32 packs. The model therefore shows a £2 price rise and eight fewer packs traded. A seller might consider charging more to recover increased costs, but it cannot assume it sells 32 packs itself: those are market totals, and competitors, its own costs and customer willingness to pay will influence any profitable price.",
+    "reviewer_response_sample": {
+      "kind": "AUTHOR_PROVIDED_NOT_BLIND_NOT_SCORED",
+      "mark_outcome": null
+    },
+    "real_student_response_samples": 0
+  },
+  "skill_traceability": [
+    {
+      "skill_id": "EDX-9BS0-MKT-08",
+      "learn": [
+        "L2",
+        "L4",
+        "EX-01"
+      ],
+      "practice": [
+        "P03",
+        "P04",
+        "P08"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-01"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-09",
+      "learn": [],
+      "practice": [],
+      "exam": [],
+      "status": "UNADDRESSED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-10",
+      "learn": [],
+      "practice": [],
+      "exam": [],
+      "status": "UNADDRESSED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-11",
+      "learn": [],
+      "practice": [],
+      "exam": [],
+      "status": "UNADDRESSED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-12",
+      "learn": [],
+      "practice": [],
+      "exam": [],
+      "status": "UNADDRESSED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-13",
+      "learn": [
+        "L1",
+        "L4",
+        "EX-01"
+      ],
+      "practice": [
+        "P01",
+        "P02",
+        "P07"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-01"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-14A",
+      "learn": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "practice": [],
+      "exam": [],
+      "status": "NOT_ASSESSED_DRAWING_UNSUPPORTED"
+    },
+    {
+      "skill_id": "EDX-9BS0-MKT-14B",
+      "learn": [
+        "L2",
+        "L3",
+        "L4"
+      ],
+      "practice": [
+        "P04",
+        "P05",
+        "P06",
+        "P08"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-01"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
+    }
+  ],
+  "measurement_baseline": {
+    "factory_provider_calls": 0,
+    "factory_provider_spend_usd": 0,
+    "independent_ai_review_attempts": 0,
+    "qualified_human_review_count": 0,
+    "independently_approved_reuse_count": null,
+    "elapsed_full_course_production_hours": null,
+    "human_review_minutes": null,
+    "generated_live_learn_pages": 0,
+    "generated_live_practice_questions": 0,
+    "generated_live_exam_questions": 0,
+    "authored_research_lessons": 1,
+    "authored_research_practice_items": 8,
+    "authored_research_exam_items": 1,
+    "coverage_measured_only_for_8_candidate_skills": true
+  }
+}
