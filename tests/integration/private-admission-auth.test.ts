@@ -24,14 +24,16 @@ suite('private registration is enforced by the real local GoTrue Auth hook', () 
     const email = `private-admission-${crypto.randomUUID()}@revision.invalid`
 
     const absent = await client.auth.signUp({ email, password })
-    expect(absent.error, 'No admission metadata must be rejected by real Auth').not.toBeNull()
+    expect(absent.error?.status, `Missing code should produce a controlled 403, got ${absent.error?.message}`).toBe(403)
+    expect(absent.error?.message).toContain('Private testing requires a valid registration code')
     expect(absent.data.user).toBeNull()
 
     const forged = await client.auth.signUp({
       email, password,
       options: { data: { revision_signup_minute: Math.floor(Date.now() / 60_000), revision_signup_proof: '0'.repeat(64) } },
     })
-    expect(forged.error, 'A syntactically correct but forged proof must be rejected').not.toBeNull()
+    expect(forged.error?.status, `Forged code should produce a controlled 403, got ${forged.error?.message}`).toBe(403)
+    expect(forged.error?.message).toContain('Private testing requires a valid registration code')
     expect(forged.data.user).toBeNull()
 
     const validProof = await privateSignupProof(code, email)
@@ -39,7 +41,9 @@ suite('private registration is enforced by the real local GoTrue Auth hook', () 
       email, password,
       options: { data: { first_name: 'Synthetic', revision_signup_minute: validProof.minute, revision_signup_proof: validProof.signature } },
     })
-    expect(allowed.error).toBeNull()
+    if (allowed.error) {
+      throw new Error(`Valid synthetic signup failed: ${allowed.error.name}, HTTP ${allowed.error.status}, ${allowed.error.message}`)
+    }
     expect(allowed.data.user?.id).toBeTruthy()
     const userId = allowed.data.user?.id
     if (!userId) throw new Error('Auth hook failed to create permitted synthetic learner.')

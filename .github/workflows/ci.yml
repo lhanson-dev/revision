@@ -252,6 +252,11 @@ jobs:
           } >> "$GITHUB_ENV"
       - name: Prove real Auth rejects missing or invalid codes and admits valid code
         run: npx vitest run tests/integration/private-admission-auth.test.ts
+      - name: Diagnose local Auth hook failure (no real learner accounts)
+        if: failure()
+        run: |
+          # CI uses a disposable database and synthetic identities only.
+          docker logs supabase_auth_revision --tail 100 2>&1 | grep -E 'error|ERROR|hook|Hook|permission|postgres|SQLSTATE' | tail -40 || true
       - name: Stop isolated stack
         if: always()
         run: supabase stop --no-backup
