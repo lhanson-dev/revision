@@ -1,0 +1,63 @@
+{
+  "schema_version": "edexcel-9bs0-market-blind-marking-trial-v1",
+  "record_type": "ORIGINAL_UNSCORED_AUTHOR_SIMULATED_RESPONSES_NOT_INDEPENDENT_ASSESSMENT",
+  "date": "2026-10-25",
+  "source": {
+    "correction_path": "research/content-production-repeatability/edexcel-9bs0-market-assessment-remediation-v2.json",
+    "correction_git_blob": "04868a3cb253212981b7ae240ce4eb87e08ee497",
+    "question_id": "EXAM-ORIGINAL-02-V2",
+    "exact_original_prompt": "A fictional market contains 20 refill-pack producers. Five producers plan to install more efficient equipment that could reduce their cost by £0.30 per pack. A proposed £0.50 per-pack subsidy would be offered to all 20 producers. Assess whether the subsidy is more likely than the equipment investment to increase market supply. (10 marks)",
+    "pearson_reference_url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/gce-business-assessment-support.html",
+    "pearson_use": "REFERENCE_ONLY",
+    "protected_source_text_included": false
+  },
+  "submission": {
+    "response_origin": "REVISION_AUTHORED_SYNTHETIC_FOR_REVIEW_ONLY",
+    "reviewer_receives_only_prompt_and_anonymised_responses": true,
+    "quality_or_mark_labels_disclosed_to_reviewer": false,
+    "reviewer_identity": null,
+    "independent_context_id": null,
+    "review_outcome": "NOT_PERFORMED",
+    "human_assessment_approval": "PENDING",
+    "estimated_mark_values": null,
+    "official_level_descriptors_embedded": false,
+    "approved_exam_truth": false,
+    "source_operation_rights_approved": false,
+    "ai_assured": false,
+    "learner_publication_eligible": false
+  },
+  "blind_responses": [
+    {
+      "id": "R-A",
+      "text": "The government could give a subsidy and that would probably make firms supply more. A subsidy is money that helps a business pay for production, while new equipment can make production more efficient. The subsidy is larger than the equipment saving so it seems the better option. I think businesses would prefer the money because it helps them make more products and earn more profit."
+    },
+    {
+      "id": "R-B",
+      "text": "The proposed subsidy is £0.50 per pack and could encourage all 20 producers to offer more at a given price because their effective per-unit incentive rises. Equipment reduces costs by £0.30 only for the five businesses intending to install it, so the subsidy could shift the industry's supply further in the near term. However, eligibility does not mean every firm will change output, and equipment may improve productivity after installation. Whether either option raises output also depends on unused capacity. The subsidy appears more widespread initially, but the two money figures alone cannot tell us the exact change in market quantity."
+    },
+    {
+      "id": "R-C",
+      "text": "The subsidy offered to 20 producers could shift market supply right because the benefit applies to every eligible pack, whereas only five firms currently plan the equipment saving. Yet the five firms might account for most market output; the case gives their number, not market shares. If they are the largest producers and can expand production quickly, their £0.30 cost reduction may have a stronger effect on the market than a £0.50 subsidy that smaller firms cannot use to overcome capacity constraints. Equally, the subsidy could be more effective if many producers have spare capacity and claim it. On the information given, I would favour technology only if those adopters supply a sufficiently large share and can expand quickly. Without market-share and capacity data, the opposite judgement remains reasonable."
+    },
+    {
+      "id": "R-D",
+      "text": "A subsidy reduces costs so supply increases and the supply curve goes right. The case says 20 producers could receive £0.50 per pack, but only five use new machinery. Therefore the subsidy must cause a five-times-bigger market supply increase and a £0.20 larger equilibrium fall in price than technology. The government should fund the subsidy permanently because technology has no effect on supply for firms that do not purchase it."
+    }
+  ],
+  "required_independent_decision": {
+    "A3": "PENDING_FRESH_CONTEXT_REVIEW",
+    "A4": "PENDING_BLIND_MARKING_AND_CALIBRATION",
+    "rights": "PENDING_OPERATION_SPECIFIC_REVIEW",
+    "qualified_expert": "PENDING",
+    "response_grades_recorded": 0,
+    "reviewer_must_use_separate_approved_marking_reference": true,
+    "alternative_valid_reasoning_must_not_be_penalised": true,
+    "calibration_output_path": "NOT_CREATED"
+  },
+  "telemetry": {
+    "recorded_external_provider_calls": 0,
+    "recorded_provider_spend_usd": 0,
+    "reviewer_time_minutes": null,
+    "number_of_actual_independent_reviewers": 0
+  }
+}
