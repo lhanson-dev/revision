@@ -1,0 +1,167 @@
+{
+  "schema_version": "edexcel-9bs0-market-written-assessment-remediation-v2",
+  "record_type": "ORIGINAL_RESEARCH_CORRECTION_NOT_COURSE_OR_EXAM_TRUTH",
+  "dated": "2026-10-25",
+  "basis": {
+    "original_specimen_path": "research/content-production-repeatability/edexcel-9bs0-market-learning-assessment-specimen.json",
+    "original_specimen_git_blob": "1b7adb93cc1ffca06b9a66a3bfa69033ef2bae9b",
+    "exact_foundation_fingerprint": "0f9a9423102cfa26b11dad1ed4d99eb5594c7b8a26d4d84fd8a42d2994dd0241",
+    "official_pearson_assessment_support_url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/gce-business-assessment-support.html",
+    "official_page_dated": "2026-10-07",
+    "official_source_classification": "REFERENCE_ONLY",
+    "factual_shape_observations": [
+      "Pearson describes extended 8-, 10- and 12-mark GCE Business assess responses through levels, application, reasoning and evaluation rather than a mechanical one-mark-per-bullet checklist.",
+      "Pearson indicates eight-mark assess items are associated with Paper 3, whose 2027 prerelease context is not yet verified for this candidate.",
+      "Pearson describes 10-mark assess responses as requiring context and reasoned, balanced judgements, often better served by sustained discussion of one or two factors.",
+      "Pearson identifies a separate four-mark construct-a-diagram assessment requiring genuine graphical work, not diagram recognition alone."
+    ],
+    "no_protected_pearson_prose_embedded": true,
+    "pearson_material_for_model_worker": false
+  },
+  "defect_register": [
+    {
+      "id": "A3-001",
+      "source_question": "EXAM-ORIGINAL-01",
+      "issue": "Unverified paper-3 context for an 8-mark item, two independent command demands and one-mark-per-fact proposed marking",
+      "severity": "MATERIAL_EDUCATIONAL_REVIEW_BLOCKER",
+      "disposition": "WITHDRAW_FROM_EXAM_STYLE_ELIGIBILITY",
+      "external_educational_review": "PENDING"
+    },
+    {
+      "id": "A4-001",
+      "source_question": "EXAM-ORIGINAL-02",
+      "issue": "Ten-mark item asks to cover four different supply factors in breadth and awards one mark per factual bullet without level-based evaluative judgement",
+      "severity": "MATERIAL_EDUCATIONAL_REVIEW_BLOCKER",
+      "disposition": "REPLACE_WITH_FOCUSED_ORIGINAL_ASSESS_CANDIDATE",
+      "external_educational_review": "PENDING"
+    },
+    {
+      "id": "DRAW-001",
+      "source_question": null,
+      "issue": "Pearson four-mark diagram construction performance remains uncaptured in the learner runtime",
+      "severity": "UNVERIFIED_SKILL",
+      "disposition": "RETAIN_SEPARATE_4_MARK_DRAWING_BLUEPRINT_NO_MASTERY_WRITE",
+      "external_educational_review": "PENDING"
+    }
+  ],
+  "original_question_disposition": {
+    "EXAM-ORIGINAL-01": {
+      "status": "RESEARCH_HISTORY_WITHDRAWN",
+      "proposed_exact_mark_scheme_valid": false,
+      "approved_paper": null,
+      "automated_marking": false,
+      "why": "No approved 2027 Paper 3 context or verified eight-mark holistic assessment/marking fit; retain older authored text only as research"
+    },
+    "EXAM-ORIGINAL-02": {
+      "status": "RESEARCH_HISTORY_SUPERSEDED",
+      "proposed_exact_mark_scheme_valid": false,
+      "approved_paper": null,
+      "automated_marking": false,
+      "why": "Ten separate one-mark bullet points and four-factor breadth do not establish a defensible Pearson ten-mark assess level judgement"
+    }
+  },
+  "new_assessment_candidate": {
+    "id": "EXAM-ORIGINAL-02-V2",
+    "type": "REVISION_ORIGINAL_FICTIONAL_GCE_ASSESS_CANDIDATE_NOT_APPROVED",
+    "command_word": "Assess",
+    "marks_available": 10,
+    "paper_alignment": "NOT_YET_APPROVED",
+    "curriculum_skill_ids": [
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-11"
+    ],
+    "fictional_context": {
+      "sector": "refill-pack production",
+      "producers": 20,
+      "technology_option": {
+        "investing_producers": 5,
+        "per_pack_unit_cost_reduction_gbp": 0.3
+      },
+      "subsidy_option": {
+        "eligible_producers": 20,
+        "per_pack_subsidy_gbp": 0.5
+      },
+      "assumptions": "All values are hypothetical and are not a forecast of market output; other demand determinants are not assumed constant in reality."
+    },
+    "prompt": "A fictional market contains 20 refill-pack producers. Five producers plan to install more efficient equipment that could reduce their cost by £0.30 per pack. A proposed £0.50 per-pack subsidy would be offered to all 20 producers. Assess whether the subsidy is more likely than the equipment investment to increase market supply. (10 marks)",
+    "assessment_character": "LEVEL_BASED_HOLISTIC_PROVISIONAL_NO_AWARD",
+    "diagnostic_content_anchors": [
+      "Potential rightward supply shift from lower effective marginal or unit costs, subject to producers being able and willing to supply at each market price",
+      "Technology benefits only five of twenty producers in the stated case, not necessarily the whole industry",
+      "Proposed subsidy reaches all twenty producers if fully taken up, but its actual effect depends on eligibility, pass-through and capacity",
+      "Balances magnitude and breadth of the incentives against constraints and potential longer-run productivity",
+      "Reaches a conditional judgement about which option is likely to raise industry supply more under the given fictional assumptions"
+    ],
+    "provisional_response_quality_dimensions": [
+      {
+        "axis": "accurate_subject_knowledge",
+        "expected": "Distinguishes the market supply schedule from one producer's own output and correctly identifies supply-shift mechanisms"
+      },
+      {
+        "axis": "specific_contextual_application",
+        "expected": "Uses 5 of 20 adopters, 20 eligible firms, and £0.30 vs £0.50 inputs accurately without pretending the amounts directly determine equilibrium output"
+      },
+      {
+        "axis": "causal_analysis",
+        "expected": "Explains how costs or incentives can change quantity offered at each price and why adoption breadth matters"
+      },
+      {
+        "axis": "balanced_evaluation",
+        "expected": "Identifies credible limits to either mechanism including capacity, uptake and time horizon, not merely enumerating facts"
+      },
+      {
+        "axis": "supported_judgement",
+        "expected": "Decides conditionally which mechanism is more likely to increase industry supply and ties the conclusion to the fictional evidence"
+      }
+    ],
+    "original_author_example_answer": "A subsidy of £0.50 per pack could encourage all twenty producers to offer more packs at a given selling price by lowering the effective cost of production, so market supply may shift right. The alternative equipment would cut costs by £0.30 per pack but is currently planned by only five producers, so any industry-wide effect may be smaller in the short run. The technology might bring lasting efficiency improvements if more firms adopt it, while a subsidy depends on continued funding and may achieve little when production capacity is fixed. On the stated assumptions, the subsidy may increase market supply more immediately because more firms are eligible and the per-unit incentive is larger, although it cannot be concluded from these two cost figures alone how far either supply curve will shift.",
+    "independent_blind_answer_check": "NOT_PERFORMED",
+    "assessment_objective_mapping": "PENDING_EXACT_EXAM_TRUTH",
+    "level_descriptors_approved": false,
+    "numeric_mark_allocation": null,
+    "human_mark_result": null,
+    "mark_band_feedback": "PENDING_INDEPENDENT_REVIEW",
+    "auto_marking_allowed": false,
+    "learner_question_published": false
+  },
+  "graph_construction_boundary": {
+    "original_skill_id": "EDX-9BS0-MKT-14A",
+    "provisional_assessment_format": "CONSTRUCT_PRICE_QUANTITY_DEMAND_AND_SUPPLY_DIAGRAM",
+    "potential_mark_tariff_from_official_support": 4,
+    "target_performance": [
+      "Correct price/quantity axis placement and labels",
+      "Distinct correctly oriented and labelled curves",
+      "Appropriate shift for a stated change",
+      "Correct resulting equilibrium price/quantity indications"
+    ],
+    "exercise_in_live_app": false,
+    "actual_student_drawing_capture": false,
+    "student_mastery_evidence_allowed": false,
+    "assessment_scoring_ready": false,
+    "requires_separate_governed_feature_decision": true
+  },
+  "scope_implications": {
+    "eight_mark_question_eligible": false,
+    "ten_mark_original_question_eligible": false,
+    "ten_mark_revised_question_is_review_candidate_only": true,
+    "research_skill_candidates_with_learn_and_practice": 7,
+    "skills_with_revised_extended_response_candidate": 2,
+    "written_assessment_status": "INDEPENDENT_QUALIFIED_ASSESSMENT_REVIEW_REQUIRED",
+    "exact_course_ai_assured": false,
+    "foundation_approved": false,
+    "source_new_use_clearance": false,
+    "learner_content_eligible": false,
+    "reviewer_time_minutes": null,
+    "external_model_calls_for_this_correction": 0,
+    "provider_spend_usd": 0
+  },
+  "review_decision": {
+    "A3": "UNRESOLVED",
+    "A4": "UNRESOLVED",
+    "RIGHTS": "UNRESOLVED",
+    "QUALIFIED_EXPERT": "UNRESOLVED",
+    "publication": "HOLD",
+    "independent_context_id": null,
+    "blind_marked_samples": 0
+  }
+}
