@@ -341,7 +341,6 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
 
   return (
     <main className="rev-chat" aria-labelledby="planner-rev-title">
-      {pilotRestricted && <p role="status" className="rev-chat__note">Planner pilot: guidance is being evaluated and excludes original exam simulations.</p>}
       <header className="rev-chat__head">
         <RevPresence state={revVisualState} size="compact" />
         <div>

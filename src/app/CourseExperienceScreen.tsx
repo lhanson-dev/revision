@@ -38,7 +38,7 @@ import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, Stat
 
 type CourseExperienceScreenProps = {
   pilotEnabled?: boolean
-  /** Explicitly approved REC-10 durable exam pilot membership. */
+  /** Authenticated learner exam-draft persistence; Supabase enforces owner RLS. */
   examRecoveryEnabled?: boolean
   client: SupabaseClient
   userId: string
@@ -309,12 +309,6 @@ export function CourseExperienceScreen({
     </main>
   )
   const pilotRestricted = fi001RestrictedContent(pilotEnabled)
-  if (pilotRestricted && requestedSection === 'exam-prep') return (
-    <main className="dashboard page-screen" aria-label="Exam preparation pilot restriction">
-      <Status tone="info">Original exam simulations and self-marked written assessments are excluded from this restricted planner pilot while their accuracy and marking are reviewed.</Status>
-      <Button onClick={() => onOpenCourseSection(course.id, 'practice')}>Open Practice instead</Button>
-    </main>
-  )
 
   if (course.sharedLearning) {
     const state = createCourseLearningState(course, evidence, reviewedPages)

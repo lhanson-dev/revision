@@ -223,3 +223,10 @@ When deciding whether to collect, use, retain or share student data, ask:
 7. Is there a defined reason and period for retaining it?
 8. Would we be comfortable explaining the practice plainly to the student and their parent or guardian?
 9. Are we accidentally treating payment as permission to see learner data?
+
+
+## 12B. Unified ordinary-learner feature access — proposed change, Issue #665 (25 October 2026)
+
+On Founder approval of the implementing PR, the older REC-10 account-claim pilot condition in §12A is superseded **for feature authorisation**: a verified ordinary signed-in learner is entitled to supported planner, exam preparation and mock recovery without separate FI-001/REC-10 cohort flags. This does not relax owner-only database access, private raw-answer deletion, processor/security obligations, safeguarding, rights or appropriate authentication.
+
+**Private admission is separate from feature entitlement.** Publicly visible Create Account plus open Supabase signup permits an internet visitor to become an authenticated learner, so cannot be labelled a two-person family-only test. Before allowing real child-data processing the controller must complete the proportionate pre-use child-risk/DPIA, lawful-basis, notice, rights, retention/backup and GO/NO-GO record, and must either prove a genuinely private admission boundary or complete all applicable wider/public launch gates (including `PUBLIC-PRIV-01`). A frontend-hidden registration button is not a server-enforced boundary. This provision does not itself assert either condition is met. Engineering and synthetic test development may advance while the activation decision remains open.

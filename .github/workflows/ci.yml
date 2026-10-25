@@ -143,7 +143,7 @@ jobs:
           REVISION_BROWSER_PROJECT: ${{ matrix.project }}
           REVISION_BROWSER_SHARD: ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         run: node scripts/assurance/run-browser-tests.mjs "${REVISION_BROWSER_PROJECT}"
-      - name: Verify restricted production pilot boundary
+      - name: Verify standard learner feature access in production-mode build
         if: ${{ matrix.project == 'desktop' && matrix.shardIndex == 1 }}
         timeout-minutes: 8
         env:
@@ -243,7 +243,10 @@ jobs:
             --header 'Content-Type: application/json' \
             --data '{}' \
             "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
-          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-exam-attempt-v1'
+          # CI runs against the production DB, which may be on the old schema until
+          # the governed backend-ahead migration is applied before merge.
+          contract="$(jq -r '.contract // empty' <<<"$response")"
+          test "$contract" = 'r2-exam-attempt-v1' || test "$contract" = 'r2-exam-attempt-open-v2'
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'

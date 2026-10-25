@@ -231,3 +231,10 @@ For the canonical Revision release path:
 - a missing readiness function, contract mismatch, missing required capability, missing Edge Function, or unexpected authentication response blocks the frontend deployment;
 - adding a new production database/backend dependency requires updating the release-readiness contract and deployment expectation in the same governed PR; and
 - the readiness contract proves capability presence, not learner-data correctness or full security assurance; those remain governed by the Testing & Assurance Standard and Assurance Coverage Register.
+
+
+## Uniform learner features versus admission — proposed amendment for #665 (25 October 2026)
+
+Once approved and merged, the existing stage-two "per-account feature gate" requirement is superseded as a **feature authorisation mechanism**. Any ordinary authenticated learner admitted to the permitted test population receives the same released planner, exam preparation and REC-10 draft-recovery features without pilot flags, whitelist metadata or Admin access. Owner RLS and all established safeguards remain mandatory.
+
+Admission remains a distinct release-control decision. While Supabase allows unrestricted self-registration from a public application, the test population is not limited to a private family group. Do not represent that configuration as stage-two private-only activation; either demonstrate an effective server-enforced private admission arrangement or satisfy the relevant stage-three public/child-data obligations tracked under #663. The new code may be merged only if the resulting automatic deployment is safe; exact backend contract `r2-exam-attempt-open-v2`, functional/security assurance, explicit Founder approval and independently verified path-to-live are non-negotiable. This amendment does not approve any uncompleted pre-use or public-launch gate.

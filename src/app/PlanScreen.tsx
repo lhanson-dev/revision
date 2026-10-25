@@ -673,7 +673,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
         </div>}
       </header>
 
-      {pilotRestricted && <Status className="planner-message" tone="info">Planner pilot: your priorities are being evaluated. Original exam simulations and self-marked written assessments are excluded.</Status>}
       {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
       {sessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Your saved sessions could not be loaded. Revision suggestions are unavailable until your commitments can be checked. Reload to try again.</Status>}
       {visibleSessionsUnavailable && <Status className="planner-message" tone="info" aria-live="polite">Saved sessions for these dates could not be loaded. Near-term guidance remains available, but this distant view may be incomplete.</Status>}

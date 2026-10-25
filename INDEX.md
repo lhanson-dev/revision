@@ -257,3 +257,5 @@ Use this file to find the governing source before substantive work.
 
 ## Migration note
 The existing README/code remain important implementation evidence. The technical refactor is governed by the approved ADRs and standards rather than by copying current prototype structure forward.
+
+- Issue #665 standard learner feature access and backend-ahead deployment/activation contract → `docs/technical/Learner Feature Access Implementation.md`; private admission and real-child-data preflight → `docs/technical/REC-10 Family Test Preflight.md`

@@ -30,9 +30,6 @@ import {
   type PaperSection,
 } from './navigation'
 import { PlannerActivityReconciler } from './PlannerActivityReconciler'
-import { verifiedFi001PilotUserId } from './fi001-pilot-access'
-import { verifiedRec10PilotUserId } from './rec10-pilot-access'
-import { fi001AssuranceBuild } from './fi001-pilot-mode'
 import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
@@ -113,9 +110,6 @@ export function PlannerRuntime() {
   const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [adminAccessResolved, setAdminAccessResolved] = useState(false)
-  const [verifiedPilotUserId, setVerifiedPilotUserId] = useState<string | null>(null)
-  const [verifiedRec10PilotId, setVerifiedRec10PilotId] = useState<string | null>(null)
-  const [verifiedAuthUserId, setVerifiedAuthUserId] = useState<string | null>(null)
   const [themePreference, setThemePreference] = useState<ThemePreference>(() => initialThemePreference())
   const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark())
   const theme: 'light' | 'dark' = themePreference === 'system' ? (systemDark ? 'dark' : 'light') : themePreference
@@ -132,9 +126,6 @@ export function PlannerRuntime() {
         setUser(session?.user ?? null)
         setIsAdmin(false)
         setAdminAccessResolved(false)
-        setVerifiedPilotUserId(null)
-        setVerifiedRec10PilotId(null)
-        setVerifiedAuthUserId(null)
         setMemberships([])
         setProgrammeResolved(false)
         setProgrammeError('')
@@ -193,21 +184,6 @@ export function PlannerRuntime() {
     return () => { active = false }
   }, [user])
 
-  // Production programme-first decisions require a server-verified Auth
-  // app_metadata claim. Unknown/error defaults to the existing planner.
-  // Development fixtures still exercise the complete FI-001 candidate.
-  useEffect(() => {
-    let active = true
-    if (fi001AssuranceBuild() || !user) return () => { active = false }
-    void supabase.auth.getUser().then(({ data, error }) => {
-      if (!active) return
-      const verified = !error && data.user?.id === user.id ? user.id : null
-      setVerifiedAuthUserId(verified)
-      setVerifiedPilotUserId(verified ? verifiedFi001PilotUserId(data.user, user.id) : null)
-      setVerifiedRec10PilotId(verified ? verifiedRec10PilotUserId(data.user, user.id) : null)
-    }).catch(() => { if (active) { setVerifiedAuthUserId(null); setVerifiedPilotUserId(null); setVerifiedRec10PilotId(null) } })
-    return () => { active = false }
-  }, [user?.id])
 
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-color-scheme: dark)')
@@ -238,15 +214,10 @@ export function PlannerRuntime() {
   }, [accountMenuOpen])
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
-  // Privileged operators can test immediately; additional students require
-  // an explicit Auth app_metadata pilot marker. profiles.is_admin is read-only
-  // to learners under the production RLS policy.
-  // Signed Auth metadata grants REC-10 only to authorised pilot accounts.
-  // Synthetic candidate QA is separate from the production-equivalent build.
-  const examRecoveryEnabled = import.meta.env.VITE_REC10_ASSURANCE_MODE === '1' ||
-    (Boolean(user) && verifiedRec10PilotId === user?.id)
-  const pilotEnabled = fi001AssuranceBuild() || verifiedPilotUserId === user?.id
-    || (verifiedAuthUserId === user?.id && isAdmin)
+  // Feature access follows the authenticated learner session, not per-account pilot claims.
+  // Exam draft CRUD remains protected by database owner RLS and retention/transition guards.
+  const examRecoveryEnabled = Boolean(user)
+  const pilotEnabled = Boolean(user)
   const coursesActive = routeBelongsToCourses(route)
   const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
   const showRail = breakpoint === 'tablet'

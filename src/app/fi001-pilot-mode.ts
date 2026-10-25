@@ -1,9 +1,7 @@
-/** Synthetic fixture QA can exercise candidate branches; deployment must pin zero. */
-export function fi001AssuranceBuild(): boolean {
-  return import.meta.env.VITE_FI001_ASSURANCE_MODE === '1'
-}
-
-/** True only for Auth-approved production testers, never synthetic CI. */
-export function fi001RestrictedContent(pilotEnabled: boolean): boolean {
-  return import.meta.env.PROD && !fi001AssuranceBuild() && pilotEnabled
+/** Retained for compatibility while the former planner-pilot prop is removed.
+ * All signed-in learners use the programme-first planner and supported Exam Prep.
+ * Access to private data is enforced by Supabase owner RLS, not this UI helper.
+ */
+export function fi001RestrictedContent(_pilotEnabled: boolean): boolean {
+  return false
 }
