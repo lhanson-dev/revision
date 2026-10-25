@@ -243,10 +243,8 @@ jobs:
             --header 'Content-Type: application/json' \
             --data '{}' \
             "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
-          # CI runs against the production DB, which may be on the old schema until
-          # the governed backend-ahead migration is applied before merge.
-          contract="$(jq -r '.contract // empty' <<<"$response")"
-          test "$contract" = 'r2-exam-attempt-v1' || test "$contract" = 'r2-exam-attempt-open-v2'
+          # v1 remains the installed production contract during backend-ahead rollout.
+          test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-exam-attempt-v1'
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'
