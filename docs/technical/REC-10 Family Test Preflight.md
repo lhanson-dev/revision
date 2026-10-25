@@ -9,8 +9,8 @@ Every ordinary non-anonymous authenticated learner uses the programme-first plan
 
 | ID | Required evidence | Status |
 |---|---|---|
-| ADMIT-01 | Confirm Supabase Auth signup settings from the live project and whether outside internet visitors can register; a cosmetic UI change is not admission control | OPEN |
-| ADMIT-02 | For genuine private family testing, demonstrate a **server-enforced** admission boundary without per-feature learner claims. If signup remains public, treat as wider/public and apply #663 launch gates | OPEN |
+| ADMIT-01 | Live Auth settings read 25 October 2026: `disable_signup=false`, `external.email=true`. The *public* service currently accepts email signup configuration; actual private admission remains OPEN until Auth hook is attached and verified | CONFIRMED PUBLIC CONFIG / OPEN PRIVATE BOUNDARY |
+| ADMIT-02 | Selected private-test code and Supabase Before User Created hook prepared in PR #679. SQL hook and signed proof alone are insufficient: operator must enable the hosted Auth hook, open the secret-backed access gate, and prove missing/incorrect code and new Google OAuth signup are rejected by *live Auth* | IMPLEMENTED CANDIDATE / NOT ACTIVE |
 | FAMILY-01 | Accountable controller, genuinely limited scope if private, and purpose/end date recorded without a child's identifiers in public GitHub | OPEN |
 | FAMILY-02 | Proportionate child-centred risk/DPIA review, lawful basis and necessity assessment, residual risk disposition and dated controller authorisation | OPEN |
 | FAMILY-03 | Age-appropriate clear notice; rights, access/export/erasure contact and operating process, including raw draft storage/deletion disclosure | OPEN |
@@ -21,3 +21,9 @@ Every ordinary non-anonymous authenticated learner uses the programme-first plan
 **Scope separation:** engineering and isolated synthetic tests may proceed before an independent external public-launch privacy report. Actual real-child-data use requires applicable pre-use safeguards. Open-signup/wider learner access requires the public-launch reviews in Issue #663, including `PUBLIC-PRIV-01`; this file does not waive those duties.
 
 **Release order:** approve this exact PR; install/verify backend migration ahead of frontend as required; verify accepted admission/privacy boundary and all test journeys; only then allow the automatic Pages deployment and production use. Do not merge and call the product live while the v2 backend or activation boundary is unverified.
+
+## Founder selection — option 1, private shared-code admission
+
+Founder selected the private admission approach on 25 October 2026. This approves the **approach**, not PR #679 merge or real-child-data processing. The test code is a single strong randomly generated server secret, not per-account eligibility. New students enter it once during email registration. All admitted ordinary signed-in students receive the same learner features; no student is given special metadata. Existing users retain their sign-in. New OAuth identities cannot bypass the admission hook.
+
+**Fail-closed rollout:** Do not enable the new learner-access backend policy until the hosted before-user-created hook demonstrably rejects unauthorised real Auth signups, without breaking existing logins. Until the hook is configured, keeping production signup enabled is **not** private testing. Document the short pre-use controller/legal-basis record and safeguards, then verify the hook with synthetic identities, before inviting the first real learner. A shared code can be passed to more people, so keep it private, rotate immediately if disclosed and record limited scope and revocation. A code alone does not automatically demonstrate named family-only use or meet the children's privacy duties.
