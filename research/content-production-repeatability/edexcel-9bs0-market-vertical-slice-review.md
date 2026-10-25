@@ -23,7 +23,10 @@ The current exact subject dependency is the **unpromoted** v0.8 Business Foundat
 | EDX-9BS0-MKT-13 — market equilibrium | Learn, equilibrium arithmetic, shortage calculation, written item | Source facts/assessment depth not independently accepted |
 | EDX-9BS0-MKT-14B — graph interpretation | Learn with original figures, two scenario MCQs, writing | No observed student responses, no learner release |
 | EDX-9BS0-MKT-14A — graph construction | Original figure shows *how* but no true drawing assessment | Live Practice does not capture user-drawn curves or valid mastery evidence |
-| EDX-9BS0-MKT-09 — productive technology | Learn mechanism, MCQ, second exam-style question | Provisional; needs depth review |\n| EDX-9BS0-MKT-10 — indirect tax | Learn mechanism, MCQ, second exam-style question | Provisional; needs correct tax incidence and context review |\n| EDX-9BS0-MKT-11 — producer subsidy | Learn mechanism, MCQ, second exam-style question | Provisional; depends on subsidy operation |\n| EDX-9BS0-MKT-12 — supply disruption | Learn mechanism, MCQ, second exam-style question | Provisional; depends on breadth of shock |
+| EDX-9BS0-MKT-09 — productive technology | Learn mechanism, MCQ, second exam-style question | Provisional; needs depth review |
+| EDX-9BS0-MKT-10 — indirect tax | Learn mechanism, MCQ, second exam-style question | Provisional; needs correct tax incidence and context review |
+| EDX-9BS0-MKT-11 — producer subsidy | Learn mechanism, MCQ, second exam-style question | Provisional; depends on subsidy operation |
+| EDX-9BS0-MKT-12 — supply disruption | Learn mechanism, MCQ, second exam-style question | Provisional; depends on breadth of shock |
 
 **Numerator is seven provisionally taught-and-practised skill candidates against eight *selected provisional candidates*; the eighth (graph construction) remains unassessed. This is not independently approved reuse or a whole-course atomic denominator.** The baseline pilot's overall 26 skill hypotheses are also not an independently reviewed complete requirement count; 425 source identifiers across the course are structural positions only.
 
