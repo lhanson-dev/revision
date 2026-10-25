@@ -11,12 +11,12 @@ const svg=file=>readFileSync(path.join(figuresPath,file),'utf8');
 const check=fn=>{const data=structuredClone(specimen);fn(data);return checkMarketVerticalSpecimen(data,draft,skills,svg);};
 
 describe('Stage 5 original Market 1.2 research vertical slice without approval laundering',()=>{
- it('connects original Learn, eight Practice specimens and original exam marking to exactly three preliminary skill candidates',()=>{
+ it('connects original Learn, twelve Practice specimens and two exam marking candidates to seven preliminary skill candidates',()=>{
   expect(runMarketVerticalSpecimen()).toMatchObject({
-   status:'PASS',errors:[],synthetic_skills_in_scope:8,provisional_practised_skills:3,
-   visual_only_skills:1,unaddressed_skills:4,
-   original_research_lessons:1,original_research_practice_items:8,
-   original_research_exam_items:1,independent_educational_review:'NOT_PERFORMED',
+   status:'PASS',errors:[],synthetic_skills_in_scope:8,provisional_practised_skills:7,
+   visual_only_skills:1,unaddressed_skills:0,
+   original_research_lessons:1,original_research_practice_items:12,
+   original_research_exam_items:2,independent_educational_review:'NOT_PERFORMED',
    real_student_evidence:false,exact_course_ai_assured:false,published:false,decision:'HOLD'
   });
  });
@@ -36,7 +36,7 @@ describe('Stage 5 original Market 1.2 research vertical slice without approval l
    .toContain('false_skill_coverage:EDX-9BS0-MKT-14A');
   expect(check(x=>x.practice_specimens[4].skill_ids.push('EDX-9BS0-MKT-14A')).errors)
    .toContain('missing_or_wrong_scope_practice');
-  expect(check(x=>x.skill_traceability[1].status='PROVISIONAL_UNREVIEWED').errors)
+  expect(check(x=>x.skill_traceability[1].practice=[]).errors)
    .toContain('false_skill_coverage:EDX-9BS0-MKT-09');
  });
  it('rejects erroneous numerical worked examples and Practice answer keys',()=>{
@@ -48,6 +48,10 @@ describe('Stage 5 original Market 1.2 research vertical slice without approval l
    .toContain('practice_math_or_type_wrong:P07');
   expect(check(x=>x.practice_specimens[4].correct_option_index=1).errors)
    .toContain('mcq_answer_contract_invalid:P05');
+  expect(check(x=>x.practice_specimens[9].correct_option_index=1).errors)
+   .toContain('mcq_answer_contract_invalid:P10');
+  expect(check(x=>x.practice_specimens.pop()).errors)
+   .toContain('missing_or_wrong_scope_practice');
  });
  it('rejects invalid exam point totals or an invented reviewed marking outcome',()=>{
   expect(check(x=>x.exam_assessment_specimen.provisional_marking_points[0].marks=2).errors)
@@ -58,6 +62,10 @@ describe('Stage 5 original Market 1.2 research vertical slice without approval l
    .toContain('exam_question_markup_or_earned_marks_invalid');
   expect(check(x=>x.practice_specimens[7].auto_marking_allowed=true).errors)
    .toContain('written_practice_cannot_be_autoscored');
+  expect(check(x=>x.supplementary_exam_assessment_specimen.provisional_marking_points[0].marks=2).errors)
+   .toContain('supplementary_exam_marking_or_review_claim_invalid');
+  expect(check(x=>x.supplementary_exam_assessment_specimen.review_status='PASS').errors)
+   .toContain('supplementary_exam_marking_or_review_claim_invalid');
  });
  it('refuses missing original diagrams or made-up learner content references',()=>{
   expect(check(x=>x.learner_content_specimen.sections[0].diagram='missing.svg').errors)

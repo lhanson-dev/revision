@@ -56,18 +56,17 @@
     ],
     "fully_exercised_in_candidate": [
       "EDX-9BS0-MKT-08",
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-10",
+      "EDX-9BS0-MKT-11",
+      "EDX-9BS0-MKT-12",
       "EDX-9BS0-MKT-13",
       "EDX-9BS0-MKT-14B"
     ],
     "visual_demonstration_but_no_assessed_construction": [
       "EDX-9BS0-MKT-14A"
     ],
-    "not_exercised": [
-      "EDX-9BS0-MKT-09",
-      "EDX-9BS0-MKT-10",
-      "EDX-9BS0-MKT-11",
-      "EDX-9BS0-MKT-12"
-    ],
+    "not_exercised": [],
     "coverage_approved_count": null,
     "partial_skill_denominator_8_not_whole_course": true
   },
@@ -125,6 +124,23 @@
         "paragraphs": [
           "At a price below the modelled equilibrium, quantity demanded can exceed quantity supplied (a shortage). Above it, sellers may plan to supply more than buyers purchase (a surplus). For example, at £16 customers plan to buy 56 packs but sellers offer 36: a shortage of 20. At £24, planned supply is 44 and planned demand 24: a surplus of 20.",
           "Equilibrium numbers describe the whole hypothetical market, not an individual firm’s sales, costs or profit. A business might raise its listed price after costs increase, but whether that is advisable depends on its own demand, capacity, competitors and ability to pass costs on. The simple graph cannot determine the firm’s optimum strategy on its own."
+        ],
+        "diagram": "edexcel-9bs0-market-baseline.svg"
+      },
+      {
+        "id": "L5",
+        "heading": "Four other reasons market supply may shift",
+        "skill_ids": [
+          "EDX-9BS0-MKT-09",
+          "EDX-9BS0-MKT-10",
+          "EDX-9BS0-MKT-11",
+          "EDX-9BS0-MKT-12"
+        ],
+        "paragraphs": [
+          "Investment in more productive technology may let sellers supply more at each given price. Holding other conditions constant, this can shift a market supply curve to the right. It is not the same as movement along the curve caused by a higher selling price.",
+          "An indirect tax charged on each pack can raise the cost of bringing a pack to market and reduce quantity supplied at a given price, tending to shift supply left. A per-pack production subsidy can have the opposite effect, making supply at a given selling price more attractive and tending to shift it right. Actual results depend on the design of the tax or subsidy and producer responses.",
+          "A transport or packaging disruption may stop sellers obtaining the inputs they need. Even when customers still want the same amount, the whole market may have fewer units available at each possible price, shifting supply left while demand is unchanged.",
+          "The diagrams use a whole-market supply schedule, not the output of one small seller. One firm adopting a cheaper machine may increase its own output without noticeably changing market-wide supply. Students should state which sellers are affected and what else is being held constant before claiming a market shift."
         ],
         "diagram": "edexcel-9bs0-market-baseline.svg"
       }
@@ -268,6 +284,70 @@
       ],
       "auto_marking_allowed": false,
       "evidence_status": "NOT_COLLECTED"
+    },
+    {
+      "id": "P09",
+      "skill_ids": [
+        "EDX-9BS0-MKT-09"
+      ],
+      "prompt": "Several producers in a fictional market adopt technology that reduces the input cost per pack. With demand unchanged, which outcome is most consistent with the basic market model?",
+      "correct_option_index": 0,
+      "options": [
+        "Supply shifts right because firms can offer more packs at each possible price.",
+        "Demand shifts right because a product's own price has risen.",
+        "Supply shifts left because production becomes cheaper.",
+        "The market demand curve shifts left even though only supply conditions changed."
+      ],
+      "explanation": "Lower production cost generally makes more units viable to supply at each price, shifting market supply right.",
+      "mode": "multiple_choice"
+    },
+    {
+      "id": "P10",
+      "skill_ids": [
+        "EDX-9BS0-MKT-10"
+      ],
+      "prompt": "An indirect tax increases the cost of selling each pack for producers in this simplified market. Which curve change is most plausible, holding other conditions constant?",
+      "correct_option_index": 2,
+      "options": [
+        "Market demand shifts right because the tax changes consumer tastes.",
+        "Market supply shifts right because producing becomes less expensive.",
+        "Market supply shifts left as units become less attractive to offer at each price.",
+        "The product's own price rising automatically shifts its demand curve."
+      ],
+      "explanation": "A tax that raises suppliers' effective per-unit cost can shift the market supply curve left.",
+      "mode": "multiple_choice"
+    },
+    {
+      "id": "P11",
+      "skill_ids": [
+        "EDX-9BS0-MKT-11"
+      ],
+      "prompt": "A per-pack production subsidy reduces suppliers' effective cost, with demand unchanged. Which description matches the market supply model?",
+      "correct_option_index": 1,
+      "options": [
+        "Supply shifts left because the subsidy makes production more costly.",
+        "Supply shifts right because suppliers can offer more at each price.",
+        "Demand shifts left because customer preferences have changed.",
+        "Market supply stays fixed regardless of production incentives."
+      ],
+      "explanation": "A cost-reducing subsidy can encourage producers to offer greater quantities at each market price.",
+      "mode": "multiple_choice"
+    },
+    {
+      "id": "P12",
+      "skill_ids": [
+        "EDX-9BS0-MKT-12"
+      ],
+      "prompt": "A packaging supply interruption affects most refill-pack producers. At the same selling price, sellers can offer fewer packs. What is the likely diagram change?",
+      "correct_option_index": 3,
+      "options": [
+        "Demand shifts right because the packaging disruption changes buyer tastes.",
+        "Supply shifts right because fewer input deliveries increase capacity.",
+        "The own-price movement along supply is the only possible change.",
+        "Market supply shifts left because production is restricted at each given price."
+      ],
+      "explanation": "Reduced availability of a necessary input can shift the supply curve left independently of a change in the product's selling price.",
+      "mode": "multiple_choice"
     }
   ],
   "exam_assessment_specimen": {
@@ -353,31 +433,55 @@
     },
     {
       "skill_id": "EDX-9BS0-MKT-09",
-      "learn": [],
-      "practice": [],
-      "exam": [],
-      "status": "UNADDRESSED"
+      "learn": [
+        "L5"
+      ],
+      "practice": [
+        "P09"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-02"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
     },
     {
       "skill_id": "EDX-9BS0-MKT-10",
-      "learn": [],
-      "practice": [],
-      "exam": [],
-      "status": "UNADDRESSED"
+      "learn": [
+        "L5"
+      ],
+      "practice": [
+        "P10"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-02"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
     },
     {
       "skill_id": "EDX-9BS0-MKT-11",
-      "learn": [],
-      "practice": [],
-      "exam": [],
-      "status": "UNADDRESSED"
+      "learn": [
+        "L5"
+      ],
+      "practice": [
+        "P11"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-02"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
     },
     {
       "skill_id": "EDX-9BS0-MKT-12",
-      "learn": [],
-      "practice": [],
-      "exam": [],
-      "status": "UNADDRESSED"
+      "learn": [
+        "L5"
+      ],
+      "practice": [
+        "P12"
+      ],
+      "exam": [
+        "EXAM-ORIGINAL-02"
+      ],
+      "status": "PROVISIONAL_UNREVIEWED"
     },
     {
       "skill_id": "EDX-9BS0-MKT-13",
@@ -438,8 +542,82 @@
     "generated_live_practice_questions": 0,
     "generated_live_exam_questions": 0,
     "authored_research_lessons": 1,
-    "authored_research_practice_items": 8,
-    "authored_research_exam_items": 1,
+    "authored_research_practice_items": 12,
+    "authored_research_exam_items": 2,
     "coverage_measured_only_for_8_candidate_skills": true
+  },
+  "supplementary_exam_assessment_specimen": {
+    "id": "EXAM-ORIGINAL-02",
+    "type": "ORIGINAL_FICTIONAL_EXAM_STYLE_NOT_OFFICIAL",
+    "skill_ids": [
+      "EDX-9BS0-MKT-09",
+      "EDX-9BS0-MKT-10",
+      "EDX-9BS0-MKT-11",
+      "EDX-9BS0-MKT-12"
+    ],
+    "prompt": "A fictional refill-pack industry experiences four possible changes: more efficient packing technology, a per-pack indirect tax, a per-pack producer subsidy and widespread disruption to packaging deliveries. For each change, analyse the likely direction of the market supply curve and the mechanism causing it, assuming other market factors are unchanged. Evaluate why one producer's circumstances may not determine the market-wide supply response. (10 marks)",
+    "marks_available": 10,
+    "answer_mode": "written_extended",
+    "review_status": "NOT_INDEPENDENTLY_ASSESSED",
+    "provisional_marking_points": [
+      {
+        "id": "S1",
+        "marks": 1,
+        "criterion": "New more efficient technology is linked to a market supply shift right"
+      },
+      {
+        "id": "S2",
+        "marks": 1,
+        "criterion": "Explains the technology mechanism: lower effective per-unit costs or greater supply at any given price"
+      },
+      {
+        "id": "S3",
+        "marks": 1,
+        "criterion": "A per-pack indirect tax is linked to a market supply shift left, all else equal"
+      },
+      {
+        "id": "S4",
+        "marks": 1,
+        "criterion": "Explains a tax mechanism that raises suppliers' effective cost per unit"
+      },
+      {
+        "id": "S5",
+        "marks": 1,
+        "criterion": "A per-pack producer subsidy is linked to a market supply shift right, all else equal"
+      },
+      {
+        "id": "S6",
+        "marks": 1,
+        "criterion": "Explains why subsidy encourages output at each given price through lower effective costs"
+      },
+      {
+        "id": "S7",
+        "marks": 1,
+        "criterion": "A broad input-delivery disruption is linked to a market supply shift left"
+      },
+      {
+        "id": "S8",
+        "marks": 1,
+        "criterion": "Explains why fewer inputs constrain output at each price"
+      },
+      {
+        "id": "S9",
+        "marks": 1,
+        "criterion": "Explicitly identifies ceteris paribus / possible offsetting simultaneous changes"
+      },
+      {
+        "id": "S10",
+        "marks": 1,
+        "criterion": "Reasoned evaluation: a change at one producer does not necessarily shift market-wide supply"
+      }
+    ],
+    "assessment_objectives": "UNASSIGNED_PENDING_EXAM_TRUTH",
+    "marking_policy": "HUMAN_REVIEW_PENDING_NO_AUTO_MARK",
+    "original_example_answer": "More productive packing equipment can lower production costs at any given selling price, allowing producers to supply more and shifting market supply right. A per-pack indirect tax raises the effective cost of production and sale, which may shift supply left. A per-pack subsidy can lower effective costs and encourage greater quantities offered, shifting supply right. A disruption to the delivery of packaging limits usable inputs and tends to shift supply left. These are conditional predictions that assume other determinants are unchanged. A single business adopting technology may change its own output without significantly affecting market supply; the result depends on how widely the factor affects sellers, on other simultaneous changes and on how firms respond.",
+    "reviewer_response_sample": {
+      "kind": "AUTHOR_PROVIDED_NOT_BLIND_NOT_SCORED",
+      "mark_outcome": null
+    },
+    "real_student_response_samples": 0
   }
 }

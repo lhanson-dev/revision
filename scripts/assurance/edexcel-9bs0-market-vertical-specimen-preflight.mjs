@@ -10,8 +10,8 @@ export const skillsPath=path.join(root,'research/content-production-repeatabilit
 export const figuresPath=path.join(root,'research/content-production-repeatability/market-graph-exemplars');
 const suffix=['08','09','10','11','12','13','14A','14B'];
 const ids=suffix.map(s=>'EDX-9BS0-MKT-'+s);
-const taught=['EDX-9BS0-MKT-08','EDX-9BS0-MKT-13','EDX-9BS0-MKT-14B'];
-const missing=ids.slice(1,5);
+const taught=ids.filter(id=>id!=='EDX-9BS0-MKT-14A');
+const missing=[];
 const availableFigures=new Map([
  ['edexcel-9bs0-market-baseline.svg','baseline'],
  ['edexcel-9bs0-market-supply-left.svg','cost'],
@@ -84,7 +84,7 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
  const sectionIds=allSections.map(x=>x.id);
  require(lesson.id==='EDX-9BS0-MARKET-REVIEW-LEARN-01'
   && isText(lesson.title)&&isText(lesson.orientation)
-  && allSections.length===4 && distinct(sectionIds)
+  && allSections.length===5 && distinct(sectionIds)
   && allSections.every(x=>isText(x.heading)
     && Array.isArray(x.paragraphs)&&x.paragraphs.length>=2
     && x.paragraphs.every(p=>isText(p)&&p.length>=90)
@@ -118,7 +118,7 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
   require(findings.length===0,'invalid_original_figure:'+file+':'+findings.join(','));
  }
  const practiceIds=practices.map(x=>x.id);
- require(practices.length===8&&equal(practiceIds,['P01','P02','P03','P04','P05','P06','P07','P08'])
+ require(practices.length===12&&equal(practiceIds,['P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12'])
   && distinct(practiceIds)
   && practices.every(x=>isText(x.prompt)&&x.skill_ids?.every(id=>taught.includes(id))),
   'missing_or_wrong_scope_practice');
@@ -129,13 +129,14 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
    && ['GBP_per_pack','packs_per_week'].includes(item?.unit),
    'practice_math_or_type_wrong:'+id);
  }
- const expectedMcq={P04:1,P05:2,P06:0};
+ const expectedMcq={P04:1,P05:2,P06:0,P09:0,P10:2,P11:1,P12:3};
  for(const [id,index] of Object.entries(expectedMcq)){
   const item=practices.find(x=>x.id===id);
   require(item?.mode==='multiple_choice'
    && item?.correct_option_index===index
    &&item?.options?.length===4&&distinct(item.options)
-   &&item.options.every(isText)&&isText(item.explanation)&&availableFigures.has(item.diagram),
+   &&item.options.every(isText)&&isText(item.explanation)
+   &&(id==='P04'||id==='P05'||id==='P06'?availableFigures.has(item.diagram):item.diagram===undefined),
    'mcq_answer_contract_invalid:'+id);
  }
  const written=practices.find(x=>x.id==='P08');
@@ -153,7 +154,7 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
   &&exam.answer_mode==='written_extended'
   &&exam.marks_available===8
   &&isText(exam.prompt)&&exam.prompt.includes('(8 marks)')
-  &&equal(exam.skill_ids,taught)
+  &&equal(exam.skill_ids,[ids[0],ids[5],ids[7]])
   &&markpoints.length===8
   &&markpoints.every((x,i)=>x.id==='M'+(i+1)&&x.marks===1&&isText(x.criterion))
   &&markpoints.reduce((sum,p)=>sum+p.marks,0)===exam.marks_available
@@ -166,8 +167,28 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
   &&exam.real_student_response_samples===0,
   'exam_question_markup_or_earned_marks_invalid');
 
+ const extraExam=d.supplementary_exam_assessment_specimen??{};
+ const extraMarks=extraExam.provisional_marking_points??[];
+ require(extraExam.id==='EXAM-ORIGINAL-02'
+  &&extraExam.type==='ORIGINAL_FICTIONAL_EXAM_STYLE_NOT_OFFICIAL'
+  &&extraExam.answer_mode==='written_extended'
+  &&extraExam.marks_available===10
+  &&isText(extraExam.prompt)&&extraExam.prompt.includes('(10 marks)')
+  &&equal(extraExam.skill_ids,ids.slice(1,5))
+  &&extraMarks.length===10
+  &&extraMarks.every((x,i)=>x.id==='S'+(i+1)&&x.marks===1&&isText(x.criterion))
+  &&extraMarks.reduce((sum,p)=>sum+p.marks,0)===extraExam.marks_available
+  &&extraExam.assessment_objectives==='UNASSIGNED_PENDING_EXAM_TRUTH'
+  &&extraExam.marking_policy==='HUMAN_REVIEW_PENDING_NO_AUTO_MARK'
+  &&extraExam.review_status==='NOT_INDEPENDENTLY_ASSESSED'
+  &&isText(extraExam.original_example_answer)
+  &&extraExam.reviewer_response_sample?.kind==='AUTHOR_PROVIDED_NOT_BLIND_NOT_SCORED'
+  &&extraExam.reviewer_response_sample?.mark_outcome===null
+  &&extraExam.real_student_response_samples===0,
+  'supplementary_exam_marking_or_review_claim_invalid');
+
  const lessonRef=new Set([...sectionIds,example.id]);
- const practiceRef=new Set(practiceIds),examRef=new Set([exam.id]);
+ const practiceRef=new Set(practiceIds),examRef=new Set([exam.id,extraExam.id]);
  require(trace.length===8&&equal(trace.map(t=>t.skill_id),ids)
   &&trace.every(t=>t.learn?.every(l=>lessonRef.has(l))
    && t.practice?.every(p=>practiceRef.has(p))&&t.exam?.every(e=>examRef.has(e))),
@@ -180,6 +201,7 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
     ? row.status==='PROVISIONAL_UNREVIEWED'&&row.learn.length>0&&row.practice.length>0&&row.exam.length===1
       &&row.learn.some(l=>l==='EX-01'||allSections.some(s=>s.id===l&&s.skill_ids.includes(row.skill_id)))
       &&row.practice.every(p=>practices.some(q=>q.id===p&&q.skill_ids.includes(row.skill_id)))
+      &&row.exam.every(e=>(e===exam.id?exam:extraExam).skill_ids.includes(row.skill_id))
     :isDrawing
       ?row.status==='NOT_ASSESSED_DRAWING_UNSUPPORTED'&&row.learn.length>0&&row.practice.length===0&&row.exam.length===0
       :shouldBeMissing&&row.status==='UNADDRESSED'&&row.learn.length===0&&row.practice.length===0&&row.exam.length===0,
@@ -197,14 +219,14 @@ export function checkMarketVerticalSpecimen(data,foundationDraft,obligationIndex
   &&m.generated_live_practice_questions===0
   &&m.generated_live_exam_questions===0
   &&m.authored_research_lessons===1
-  &&m.authored_research_practice_items===8
-  &&m.authored_research_exam_items===1
+  &&m.authored_research_practice_items===12
+  &&m.authored_research_exam_items===2
   &&m.coverage_measured_only_for_8_candidate_skills===true,
   'invented_cost_reuse_or_live_asset_measurement');
  return {status:errors.length?'FAIL':'PASS',errors,
   synthetic_skills_in_scope:ids.length,provisional_practised_skills:taught.length,
   visual_only_skills:1,unaddressed_skills:missing.length,
-  original_research_lessons:1,original_research_practice_items:8,original_research_exam_items:1,
+  original_research_lessons:1,original_research_practice_items:12,original_research_exam_items:2,
   automated_mathematical_verification:errors.length===0,
   independent_educational_review:'NOT_PERFORMED',real_student_evidence:false,
   exact_course_ai_assured:false,published:false,
