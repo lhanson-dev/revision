@@ -101,17 +101,22 @@ export function AuthGate({ children }: AuthGateProps) {
 
     setBusy(true)
     setMessage('Creating account…')
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        data: { first_name: cleanFirstName },
-        emailRedirectTo: currentAppUrl(),
-      },
-    })
-    if (error) setMessage(error.message)
-    else setMessage(data.session ? 'Account created.' : 'Account created. Check your email to confirm your address, then return here to sign in.')
-    setBusy(false)
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          data: { first_name: cleanFirstName },
+          emailRedirectTo: currentAppUrl(),
+        },
+      })
+      if (error) setMessage(error.message)
+      else setMessage(data.session ? 'Account created.' : 'Account created. Check your email to confirm your address, then return here to sign in.')
+    } catch {
+      setMessage('Could not create account. Check your connection and try again.')
+    } finally {
+      setBusy(false)
+    }
   }
 
   async function continueWithGoogle() {
