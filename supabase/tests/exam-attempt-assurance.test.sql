@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(34);
+select plan(36);
 
 -- Installation and capability boundaries; this file must execute in CI.
 select ok(exists(select 1 from cron.job
@@ -37,7 +37,7 @@ insert into auth.users(id,email) values
 
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c1';
-set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c1","app_metadata":{"revision_rec10_pilot":true}}';
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c1","app_metadata":{}}';
 select lives_ok($sql$
   insert into public.learner_exam_attempts
     (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
@@ -121,19 +121,19 @@ select throws_ok($sql$delete from public.learner_exam_attempts
   'active pending submission cannot be discarded');
 
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c2';
-set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c2","app_metadata":{"revision_rec10_pilot":true}}';
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c2","app_metadata":{}}';
 select is((select count(*) from public.learner_exam_attempts),0::bigint,
   'another learner cannot see raw written work');
 select lives_ok($sql$update public.learner_exam_attempts
   set revision=99$sql$, 'different learner update affects no rows');
 select lives_ok($sql$delete from public.learner_exam_attempts$sql$,
   'different learner deletion affects no rows');
--- Test same-owner access denial after removing the trusted signed pilot grant.
+-- Ordinary signed-in owner retains access with no pilot Auth claim.
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000c1';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c1","app_metadata":{}}';
-select is((select count(*) from public.learner_exam_attempts),0::bigint,
-  'nonpilot owner cannot read private drafts');
-select throws_ok($sql$
+select is((select count(*) from public.learner_exam_attempts),2::bigint,
+  'ordinary owner can read their drafts without pilot metadata');
+select lives_ok($sql$
   insert into public.learner_exam_attempts
     (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
   values ('00000000-0000-4000-8000-0000000000c1','aqa:aqa-a-level:7132',
@@ -141,10 +141,24 @@ select throws_ok($sql$
     repeat('a',64),
     '{"phase":"writing","frozenSubmission":null,"timing":{"policy":"pause-on-interruption"}}'::jsonb,
     now()+interval '14 days')
+$sql$, 'ordinary owner can create a raw draft with no pilot metadata');
+select lives_ok($sql$delete from public.learner_exam_attempts where exam_id='mock-no-pilot'$sql$,
+  'ordinary owner can discard their unfinished draft');
+-- Supabase anonymous Auth users can carry an authenticated DB role. They must not
+-- qualify as ordinary signed-in learner accounts, even with their own user_id.
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000c1","is_anonymous":true,"app_metadata":{}}';
+select is((select count(*) from public.learner_exam_attempts),0::bigint,
+  'anonymous Auth session cannot read drafts despite matching owner ID');
+select throws_ok($sql$
+  insert into public.learner_exam_attempts
+    (user_id,course_id,module_id,exam_id,attempt_id,content_fingerprint,snapshot,expires_at)
+  values ('00000000-0000-4000-8000-0000000000c1','aqa:aqa-a-level:7132',
+    'business-7132-paper-1','anon-mock','77777777-7777-4777-8777-777777777777',
+    repeat('a',64),
+    '{"phase":"writing","frozenSubmission":null,"timing":{"policy":"pause-on-interruption"}}'::jsonb,
+    now()+interval '13 days')
 $sql$, '42501','new row violates row-level security policy for table "learner_exam_attempts"',
-  'nonpilot owner cannot create a raw draft');
-select lives_ok($sql$delete from public.learner_exam_attempts$sql$,
-  'nonpilot owner cannot delete another session');
+  'anonymous Auth session cannot create an exam draft');
 reset role;
 select is((select revision from public.learner_exam_attempts
   where exam_id='mock-1'),2::bigint,
