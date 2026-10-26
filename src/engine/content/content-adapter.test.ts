@@ -36,6 +36,8 @@ describe('shared content adapter', () => {
         .toEqual(aqaBusinessQuestionBank.map((record) => [record.batch, record.id]))
       expect(adapter.listFlashcards().filter((card) => card.id.startsWith('fast-'))).toHaveLength(fastPathFlashcards.length)
       expect(adapter.listLearnChapters().length).toBe(10)
+      expect(adapter.listExams()).toHaveLength(1)
+      expect(adapter.listExams()[0]?.totalMarks).toBe(100)
       // Same session builder, but only canonical pack data; no AQA-specific UI import.
       const pool = buildQuestionPool({
         topicId: 'marketing',
