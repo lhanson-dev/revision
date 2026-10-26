@@ -39,10 +39,8 @@ test('new account uses real local auth and persists first learning value through
     await page.getByLabel('First name').fill('New')
     await page.getByLabel('Email').fill(email)
     await page.getByLabel('Password').fill(password)
-    // This local GoTrue fixture has the Auth hook disabled; a syntactically
-    // valid synthetic code exercises the real canonical signup UI. The
-    // hook's server-side allow/deny contract is separately checked in pgTAP.
-    await page.getByLabel('Private testing code').fill('d1c4ac07b76a4b819d4fa342a717fec0')
+    // Normal first-time registration must not need a private admission code.
+    await expect(page.getByLabel('Private testing code')).toHaveCount(0)
     await page.getByRole('button', { name: 'Create account', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'How will you use Revision?' })).toBeVisible()
 

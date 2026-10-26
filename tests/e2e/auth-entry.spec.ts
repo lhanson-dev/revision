@@ -85,7 +85,7 @@ test('sign in keeps the primary path clear and uses the canonical Revision ident
   await expectNoPageOverflow(page)
 })
 
-test('private email signup requires a testing code while Google remains existing-account sign-in only', async ({ page }) => {
+test('ordinary email signup does not require a code and sends no private proof', async ({ page }) => {
   await stubAuthSettings(page, true)
   await page.goto(appPath)
 
@@ -96,14 +96,20 @@ test('private email signup requires a testing code while Google remains existing
   await expect(page.getByLabel('First name')).toBeVisible()
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
-  await expect(page.getByLabel('Private testing code')).toBeVisible()
+  await expect(page.getByLabel('Private testing code')).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Create account', exact: true })).toBeVisible()
   await page.getByLabel('First name').fill('Synthetic')
   await page.getByLabel('Email').fill('synthetic@example.invalid')
   await page.getByLabel('Password').fill('SyntheticPassword123!')
+  let submitted: Record<string, unknown> | undefined
+  await page.route('**/auth/v1/signup**', async (route) => {
+    submitted = route.request().postDataJSON() as Record<string, unknown>
+    await route.fulfill({ status: 400, contentType: 'application/json', body: JSON.stringify({ message: 'Synthetic registration response.' }) })
+  })
   await page.getByRole('button', { name: 'Create account', exact: true }).click()
-  await expect(page.getByText('Enter the private testing code you were given.')).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeVisible()
+  await expect(page.getByText('Synthetic registration response.')).toBeVisible()
+  expect(submitted?.data).toEqual({ first_name: 'Synthetic' })
+  expect(JSON.stringify(submitted)).not.toContain('revision_signup_proof')
   await expectNoPageOverflow(page)
 })
 
