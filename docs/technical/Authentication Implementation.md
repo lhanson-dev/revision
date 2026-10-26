@@ -130,7 +130,7 @@ Canonical `AuthGate` email registration accepts one private testing code, shared
 
 Local `config.toml` hook remains disabled for unrelated legacy synthetic fixtures; isolated pgTAP tests directly exercise both allow/deny branches under `supabase_auth_admin`, and client unit tests verify HMAC proof generation. Actual Auth-hook integration and live admission remain **OPEN** until a dedicated configured test environment and production-equivalent negative-signup check pass. This is not a completed private-admission release.
 
-**Automated deployment fail-closed:** PR #679 adds release-only GitHub Actions variable `REVISION_PRIVATE_ADMISSION_VERIFIED=true` as a prerequisite in `deploy-pages.yml` after independently checking the hosted hook and private admission. A missing variable blocks publishing. This does not configure the Auth hook by itself, nor does it become a feature flag. Clear this variable if live admission proof is revoked; provider-side code rotation/disabling remains necessary for the existing live service.
+**Automated deployment fail-closed:** PR #679 checks the ordinary production backend and the separate v2 owner-only exam access readiness contract and protected Edge services before publishing. There is no separately maintained GitHub registration/privacy-signoff variable. Hosted Supabase Auth's Before User Created hook is the actual server-side registration boundary: with its code gate disabled, new registrations remain denied even after a frontend release. Authenticate valid synthetic new users and confirm bypass protection before any real family invitation; record the simple pre-use controller decision separately.
 
 ### Actual local GoTrue hook invocation assurance
 
@@ -140,4 +140,4 @@ A separate CI job named **Real Auth private signup admission assurance** now tem
 
 ### Provider activation status (25 October 2026)
 
-The private schema and Auth hook SQL from PR #684 are installed, but the private admission control is `enabled=false` and no live hosted Before User Created hook invocation has been verified. The provider activation runbook and synthetic positive/negative proof are in `docs/technical/Private Admission Backend Preparation.md`. No new account can be described as privately admitted until the hosted configuration and control are independently checked.
+The private schema and Auth hook SQL from PR #684 are installed, the Founder has enabled the hosted Auth hook and a live unauthorised registration was denied and corroborated in Auth logs. The private admission control remains `enabled=false`. The provider activation runbook and synthetic positive/negative proof are in `docs/technical/Private Admission Backend Preparation.md`. No new account can be described as privately admitted until the hosted configuration and control are independently checked.

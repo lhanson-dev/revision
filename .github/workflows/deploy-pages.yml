@@ -63,17 +63,6 @@ jobs:
     needs: governed-lineage
     runs-on: ubuntu-latest
     steps:
-      - name: Verify private admission has been activated and signed off
-        # Set only after independent negative+positive live Auth signup testing,
-        # controller pre-use GO/NO-GO, and provider-side hook verification.
-        # This release-only GitHub variable is NOT a learner entitlement.
-        env:
-          REVISION_PRIVATE_ADMISSION_VERIFIED: ${{ vars.REVISION_PRIVATE_ADMISSION_VERIFIED }}
-        run: |
-          if [ "${REVISION_PRIVATE_ADMISSION_VERIFIED}" != "true" ]; then
-            echo "Private admission not yet verified for production; release blocked." >&2
-            exit 1
-          fi
       - name: Verify database release contract
         run: |
           set -euo pipefail
