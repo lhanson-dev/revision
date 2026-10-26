@@ -892,7 +892,7 @@ export function FocusedLearningWorkspace({
         session: summary.session,
         questions: fullPool,
         topicTitle: topic?.title ?? topicShort,
-        topicOrder: aqaBank ? topic?.order ?? null : null,
+        topicOrder: practiceBank.some((record) => !record.topic_id) ? topic?.order ?? null : null,
         startStatus: summary.startStatus,
         endStatus: progress?.status,
         skillLabel: specItemLabel,
