@@ -92,7 +92,8 @@ test('one ordinary real-auth learner can practise, see evidence, plan and prepar
     await expect(page.getByRole('button', { name: 'Exam dates', exact: true })).toBeVisible()
     await page.getByRole('button', { name: 'Study time', exact: true }).click()
     await page.getByRole('button', { name: 'More study time on Monday' }).click()
-    await page.getByRole('button', { name: 'Save and re-plan' }).click()
+    // A new learner has no saved availability yet, so the first-save CTA is 'Save study time'.
+    await page.getByRole('button', { name: 'Save study time', exact: true }).click()
     await expect(page.getByText('Study time saved. REV has re-planned around it. Sessions you have done stay put.')).toBeVisible()
     const { data: availability, error: availabilityError } = await learner
       .from('revision_availability_profiles').select('monday_minutes').eq('user_id', userId).single()
