@@ -3,6 +3,7 @@ import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
 import { aqaBusiness7132ExamPapers } from './shared/exam-papers'
+import { fastPathFlashcards } from './shared/fast-path-flashcards'
 import { examSchema } from '../../schema'
 
 const packs = [paper1, paper2, paper3]
@@ -51,12 +52,22 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
       expect(pack.topics).toHaveLength(10)
       expect(pack.formulas).toHaveLength(31)
       expect(pack.topicLinks).toHaveLength(22)
-      expect(pack.flashcards).toHaveLength(100)
+      expect(pack.flashcards).toHaveLength(100 + fastPathFlashcards.length)
       expect(pack.questions).toHaveLength(50)
       expect(pack.caseStudies).toHaveLength(6)
       expect(pack.dataDrills).toHaveLength(25)
       expect(pack.examTechnique).toHaveLength(9)
       expect(pack.exams).toHaveLength(1)
+    }
+  })
+
+  it('makes generated Practice flashcards available through all three ordinary course packs', () => {
+    expect(fastPathFlashcards.length).toBeGreaterThan(0)
+    for (const pack of packs) {
+      const produced = pack.flashcards.filter((card) => card.id.startsWith('fast-'))
+      expect(produced).toHaveLength(fastPathFlashcards.length)
+      expect(produced.map((card) => card.id)).toEqual(fastPathFlashcards.map((card) => card.id))
+      expect(produced.every((card) => pack.manifest.topicIds.includes(card.topic))).toBe(true)
     }
   })
 
