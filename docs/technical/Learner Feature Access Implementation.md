@@ -1,6 +1,6 @@
 # Issue #665 — standard signed-in learner feature access
 
-**25 October 2026 · Candidate branch only until PR merge and live verification**
+**26 October 2026 · Released in merged PR #679 to production /revision/app/ at ee9a485a513b8f7fc8ce0aad5ba47bb0aa15ab02; complete family learner acceptance still open.**
 
 Canonical runtime: `/revision/app/`, `src/main.tsx` → `AuthGate` → `PlannerRuntime` → Home/Plan/REV/Courses → Learn/Practice/Exam Prep/Progress. Previous `#/subjects` and other compatibility routes are not independently governed learner apps.
 
@@ -36,3 +36,14 @@ The separate private admission surface adds one backend-validated shared registr
 ## Verified backend-ahead status after governed PR #684 (25 October 2026)
 
 The separate dormant private-admission migration `20261025110000_add_private_registration_admission.sql` was merged into approved `main` as PR #684, independently production-verified and present in the Supabase migration ledger. Its private gate is **disabled**; the hosted Auth hook is not yet verified active and open email signup is not a private registration boundary. PR #679 does **not** propose reinstalling that schema. Its remaining exam-owner RLS migration is ordered **after** the already applied admission migration under `20261025120000_standard_learner_exam_attempt_access.sql`, avoiding an out-of-order production schema version. Applying exam RLS remains separately held until private admission is confirmed and safe backend sequencing is authorised. Real child-data controller pre-use safeguards and the Founder-specific #679 merge approval remain open.
+
+
+## Post-release integrated acceptance — Issue #665 (26 October 2026)
+
+The approved ordinary learner unlock is live: PR #679 and production Pages #40298081170 passed, and the production v1/v2 backend readiness RPCs both report ready. The four exam draft owner-only policies and hourly original-creation-based cleanup were independently inspected in production. This verifies delivery and backend configuration; it does **not** prove a student has completed an end-to-end live journey.
+
+The prior isolated real-GoTrue browser test `tests/e2e/first-use-real-service.spec.ts` ends at first-use completion. Most other user-journey browser tests use intercepted network fixtures. This left a material integrated learner acceptance gap despite green CI.
+
+The controlled extension `tests/e2e/learner-value-journey.spec.ts` is included in the existing isolated database-backed Playwright CI job and tests a single genuine local Auth identity through: adding AQA A-level Business 7132 and Psychology 7182 via the real UI; recording a scored Business Practice answer and independently reading its owner-scoped evidence; opening Progress; persisting weekly Plan availability; and reaching both courses' published Exam Prep mock lists without pilot metadata. Synthetic users are deleted in `finally`; the test explicitly rejects any non-local Supabase host. This is a **production-equivalent integration proof, not a hosted production learner test**. It does not independently certify educational correctness, recommenders adapting appropriately, complete timed mock recovery, or Psychology option-specific assessment validity.
+
+The release gate stays open until the new exact-head CI succeeds, a real ordinary existing signed-in account completes the production path (including full mock interrupt/recovery and substantive adaptive-plan changes), and the private registration-code gate passes separately controlled live synthetic positive/negative/OAuth/admission checks. The code gate was read directly from production as `enabled=false` on 26 October 2026; it must not be described as open to new family registration. Public-launch requirements remain in Issue #663 and do not block this engineering CI.
