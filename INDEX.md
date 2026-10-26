@@ -262,6 +262,7 @@ Use this file to find the governing source before substantive work.
 The existing README/code remain important implementation evidence. The technical refactor is governed by the approved ADRs and standards rather than by copying current prototype structure forward.
 
 - Issue #665 safe backend-ahead private admission preparation (dormant SQL hook, no live Auth activation) → `docs/technical/Private Admission Backend Preparation.md`
+- Issue #665 ordinary non-pilot exam draft backend-ahead prerequisite and safe release sequencing → `docs/technical/Ordinary Learner Exam Backend Preparation.md`
 - Issue #665 standard learner feature access and backend-ahead deployment/activation contract → `docs/technical/Learner Feature Access Implementation.md`; private admission and real-child-data preflight → `docs/technical/REC-10 Family Test Preflight.md`
 - Private testing registration admission (shared-code, Supabase Before User Created hook and activation sequence) → `docs/technical/Authentication Implementation.md` and `docs/technical/REC-10 Family Test Preflight.md` (Issue #665)
 - Private limited-family tester child-centred pre-use controller assessment and GO/NO-GO record (candidate; not legally approved) → `docs/technical/Private Family Test Pre-use Assessment.md`

@@ -1490,5 +1490,36 @@
     "paper_3_2027_context_verified": false,
     "license_expansion_authorised": false,
     "source_verification": "official_qualification_change_update_reference_only"
+  },
+  "paper_3_2027_context_reconciliation": {
+    "classification": "RESEARCH_SOURCE_CONFLICT_UNRESOLVED",
+    "paper_id": "9BS0/03",
+    "exam_year": 2027,
+    "published_specific_context_found": false,
+    "context_identity": null,
+    "context_document_fingerprint": null,
+    "published_specific_release_date": null,
+    "release_timing_claims": [
+      {
+        "source_id": "PEARSON-SPEC-9BS0-2014-I1",
+        "source_pdf_page_zero_based": 14,
+        "publication_window": "NOVEMBER_2026",
+        "claim_type": "SPECIFICATION_GENERAL_RULE"
+      },
+      {
+        "source_id": "PEARSON-GCE-BUSINESS-ASSESSMENT-SUPPORT",
+        "source_url": "https://qualifications.pearson.com/en/news-policy/subject-updates/business/gce-business-assessment-support.html",
+        "publication_window": "BEGINNING_OF_DECEMBER_2026",
+        "claim_type": "CURRENT_2026_ASSESSMENT_SUPPORT_GENERAL_RULE"
+      }
+    ],
+    "observed_release_month_conflict": true,
+    "exact_2027_publication_timing_resolved": false,
+    "exact_2027_source_universe_complete": false,
+    "context_specific_exam_prep_allowed": false,
+    "examiner_calibration_approved": false,
+    "board_material_generation_rights": "REFERENCE_ONLY",
+    "recheck_period": "NOVEMBER_THROUGH_EARLY_DECEMBER_2026",
+    "recheck_action": "Check Pearson official exam materials or obtain Pearson-written clarification. Capture exact 2027 context identity/date/version/access permissions. Do not infer publication, expose protected context to AI, or generate 2027-context-specific learner content until authorised."
   }
 }

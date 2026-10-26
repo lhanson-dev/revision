@@ -136,6 +136,44 @@ export function checkQualificationIntake(intake, index) {
     && continuity?.paper_3_2027_context_verified===false
     && continuity?.license_expansion_authorised===false,
     'unearned_2027_specification_or_rights_approval');
+  const prerelease = intake?.paper_3_2027_context_reconciliation;
+  const claims = prerelease?.release_timing_claims ?? [];
+  check(prerelease?.classification==='RESEARCH_SOURCE_CONFLICT_UNRESOLVED'
+    &&prerelease?.paper_id==='9BS0/03'&&prerelease?.exam_year===2027
+    &&claims.length===2
+    &&claims[0]?.source_id==='PEARSON-SPEC-9BS0-2014-I1'
+    &&claims[0]?.source_pdf_page_zero_based===14
+    &&claims[0]?.claim_type==='SPECIFICATION_GENERAL_RULE'
+    &&claims[0]?.publication_window==='NOVEMBER_2026'
+    &&claims[1]?.source_id==='PEARSON-GCE-BUSINESS-ASSESSMENT-SUPPORT'
+    &&claims[1]?.source_url==='https://qualifications.pearson.com/en/news-policy/subject-updates/business/gce-business-assessment-support.html'
+    &&claims[1]?.claim_type==='CURRENT_2026_ASSESSMENT_SUPPORT_GENERAL_RULE'
+    &&claims[1]?.publication_window==='BEGINNING_OF_DECEMBER_2026'
+    &&claims.every(claim=>sources.some(s=>s.id===claim.source_id && s.rights==='REFERENCE_ONLY'
+       &&s.generative_input_allowed===false &&s.publication_reproduction_allowed===false)),
+    'paper3_conflicting_official_sources_missing_or_rewritten');
+  check(obligations.has('PRE_RELEASE_2027_CONTEXT')
+    &&intake?.obligations?.find(x=>x.id==='PRE_RELEASE_2027_CONTEXT')?.verification
+      ==='PUBLICATION_MONTH_CONFLICT_NOVEMBER_SPEC_V_DECEMBER_SUPPORT'
+    &&prerelease?.observed_release_month_conflict===true
+    &&prerelease?.recheck_period==='NOVEMBER_THROUGH_EARLY_DECEMBER_2026',
+    'paper3_month_conflict_falsely_resolved');
+  check(prerelease?.published_specific_context_found===false
+    &&prerelease?.context_identity===null
+    &&prerelease?.context_document_fingerprint===null
+    &&prerelease?.published_specific_release_date===null
+    &&prerelease?.exact_2027_publication_timing_resolved===false
+    &&prerelease?.exact_2027_source_universe_complete===false
+    &&prerelease?.context_specific_exam_prep_allowed===false
+    &&prerelease?.examiner_calibration_approved===false
+    &&prerelease?.board_material_generation_rights==='REFERENCE_ONLY'
+    &&timetable?.pre_release_context_2027_verified===false,
+    'paper3_context_released_or_rights_fabricated');
+  check(continuity?.first_teaching_cohort==='2026-09'
+    &&continuity?.exact_2027_source_universe_complete===false
+    &&intake?.qualification?.cohort_applicability==='PENDING_EXACT_CONFIRMATION'
+    &&prerelease?.exam_year===2027,
+    'cohort_start_confused_with_2027_exam_certification');
   const pending = Object.entries(intake?.assurance ?? {}).filter(([k,v])=>
     k!=='numbered_subtopic_identifiers_structurally_indexed' && v!==true).map(([k])=>k);
   check(intake?.assurance?.numbered_subtopic_identifiers_structurally_indexed===true
