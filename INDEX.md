@@ -262,3 +262,4 @@ Use this file to find the governing source before substantive work.
 The existing README/code remain important implementation evidence. The technical refactor is governed by the approved ADRs and standards rather than by copying current prototype structure forward.
 
 - Issue #665 safe backend-ahead private admission preparation (dormant SQL hook, no live Auth activation) → `docs/technical/Private Admission Backend Preparation.md`
+- Issue #665 ordinary non-pilot exam draft backend-ahead prerequisite and safe release sequencing → `docs/technical/Ordinary Learner Exam Backend Preparation.md`

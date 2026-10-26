@@ -38,3 +38,12 @@ Work only in the canonical learner route /revision/app/ (ExamPrepSection/ExamSim
 ## REC-10 controlled cohort boundary — proposed for PR #658
 
 Durable recovery of written mock answers must be enabled only for a specifically authorised restricted test learner. Eligibility must be signalled by trusted Supabase Auth `app_metadata.revision_rec10_pilot === true`, independent of the FI-001 planner pilot, the administrator flag and subscription status. The authenticated database owner-RLS boundary must reject every unmarked account for reading, creating, changing or deleting raw drafts; the canonical runtime omits durable recovery for nonmembers, leaving the earlier ephemeral timed mock behaviour intact. Pilot enrolment needs an accountable operator, recorded pre-pilot children's-data assessment and privacy go/no-go. No cohort has been enrolled through this PR. Public launch remains separately blocked by `PUBLIC-PRIV-01`.
+
+
+## Standard signed-in access — proposed governed change for Issue #665 (25 October 2026)
+
+This section supersedes the **REC-10 controlled cohort boundary** and its claim-enrolment requirements on approval and merge of the implementing PR. REC-10 is an ordinary supported mock-exam capability for every authenticated learner, including newly registered users, without per-account FI-001/REC-10 Auth claims or administrator privilege. The programme-first planner and supported exam activities likewise require no feature-specific eligibility.
+
+Private draft records remain restricted at the database by exact `auth.uid() = user_id` owner RLS, expiry, immutable exam scope, revision/state guards, paused timer and original-creation 14-day raw-answer cap, scheduled deletion and separate evidence writes. Removing the cohort flag does **not** grant student access to Admin or relax processing/marking integrity.
+
+**Activation distinction:** this is code/product access design, not automatic permission to process children's data through open self-registration. The accountable controller must satisfy the pre-use requirements in Privacy and Student Data Principles. Open internet signup without a verified private admission boundary is wider/public availability under Release & Deployment Standard; the #663 wider-public gates remain applicable. The code/PR may be engineered and reviewed independently of those approvals but must not be represented as unrestricted-live or full learner-journey accepted before real RLS, browser and admission evidence passes.
