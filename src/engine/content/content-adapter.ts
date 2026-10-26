@@ -105,6 +105,7 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
   const topics = [...pack.topics].sort((left, right) => left.order - right.order)
   const learnCourse = buildLearnCourse(topics, pack.learn)
   const learnPages = learnCourse.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+  const practiceBank = pack.practiceBank ?? []
 
   return {
     manifest: pack.manifest,
@@ -134,7 +135,7 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     listTopicLinks: (topicId) => topicId ? pack.topicLinks.filter((item) => item.topic === topicId) : pack.topicLinks,
     listFlashcards: (topicId) => topicId ? pack.flashcards.filter((item) => item.topic === topicId) : pack.flashcards,
     listQuestions: (topicId) => topicId ? pack.questions.filter((item) => item.topic === topicId) : pack.questions,
-    listPracticeBank: () => pack.practiceBank ?? [],
+    listPracticeBank: () => practiceBank,
     listCaseStudies: () => pack.caseStudies,
     listDataDrills: () => pack.dataDrills,
     listExamTechnique: () => pack.examTechnique,
