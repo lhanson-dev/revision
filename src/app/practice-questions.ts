@@ -212,9 +212,10 @@ export type PoolInput = {
 /** Every question for the topic in a stable order: the course pack's own first, then the bank in bank order. */
 export function buildQuestionPool(input: PoolInput): PracticeQuestion[] {
   const own = input.coursePack.filter((question) => question.topic === input.topicId).map(coursePackQuestionToPractice)
-  const fromBank = input.topicOrder === null ? [] : (input.bank ?? [])
+  const fromBank = (input.bank ?? [])
     .filter((record) => {
       if (record.topic_id) return record.topic_id === input.topicId
+      if (input.topicOrder === null) return false
       const first = record.target_item_ids.map(topicOrderForSpecItem).find((order) => order !== null)
       return first === input.topicOrder
     })
