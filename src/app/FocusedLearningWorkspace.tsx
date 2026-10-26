@@ -12,7 +12,6 @@ import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type 
 import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
-import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import {
   advanceQuestionSession,
   isSessionFinished,
@@ -266,10 +265,10 @@ export function FocusedLearningWorkspace({
   const exam = adapter.listExams()[0]
   const knownRatings = { ...flashcardRatings, ...flashRatings }
   const deckCard = deck && !isDeckDone(deck) ? cards.find((item) => item.id === deck.ids[deck.index]) : undefined
-  const aqaBank = adapter.manifest.examBoard.id === 'aqa' && adapter.manifest.specificationCode === '7132' ? aqaBusinessQuestionBank : null
+  const practiceBank = adapter.listPracticeBank()
   const fullPool = useMemo(
-    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank, includeWritten: marker !== null }), lastAnsweredAt),
-    [adapter, topicId, questions, aqaBank, lastAnsweredAt, marker],
+    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: practiceBank, includeWritten: marker !== null }), lastAnsweredAt),
+    [adapter, topicId, questions, practiceBank, lastAnsweredAt, marker],
   )
   useEffect(() => {
     if (!isPractice || !checkpointContext || !checkpointStore) return
