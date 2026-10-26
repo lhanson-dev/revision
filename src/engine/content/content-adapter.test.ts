@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { businessAqaALevel7132Paper1 } from '../../../content/business/aqa-a-level/paper-1'
+import { businessAqaALevel7132Paper2 } from '../../../content/business/aqa-a-level/paper-2'
+import { businessAqaALevel7132Paper3 } from '../../../content/business/aqa-a-level/paper-3'
+import { aqaBusinessQuestionBank } from '../../../content/business/aqa-a-level/shared/fast-path-questions'
+import { fastPathFlashcards } from '../../../content/business/aqa-a-level/shared/fast-path-flashcards'
+import { buildQuestionPool } from '../../app/practice-questions'
 import { businessAqaAsPaper2 } from '../../../content/business/aqa-as/paper-2'
 import { contentPackSchema } from '../../../content/schema'
 import { createLearningContentAdapter } from './content-adapter'
@@ -18,6 +23,55 @@ describe('shared content adapter', () => {
     expect(adapter.listExamTechnique()).toHaveLength(6)
     expect(adapter.listExamTechnique()[0]?.id).toBe('blt-analysis')
     expect(adapter.listExams()[0]?.totalMarks).toBe(80)
+  })
+
+  it('makes the existing real AQA generated Learn and Practice reachable through every course adapter', () => {
+    const actualPacks = [businessAqaALevel7132Paper1, businessAqaALevel7132Paper2, businessAqaALevel7132Paper3]
+    expect(aqaBusinessQuestionBank.length).toBeGreaterThan(200)
+    expect(fastPathFlashcards.length).toBeGreaterThan(0)
+    for (const pack of actualPacks) {
+      const adapter = createLearningContentAdapter(pack)
+      expect(adapter.listPracticeBank()).toHaveLength(aqaBusinessQuestionBank.length)
+      expect(adapter.listPracticeBank().map((record) => [record.batch, record.id]))
+        .toEqual(aqaBusinessQuestionBank.map((record) => [record.batch, record.id]))
+      expect(adapter.listFlashcards().filter((card) => card.id.startsWith('fast-'))).toHaveLength(fastPathFlashcards.length)
+      expect(adapter.listLearnChapters().length).toBe(10)
+      // Same session builder, but only canonical pack data; no AQA-specific UI import.
+      const pool = buildQuestionPool({
+        topicId: 'marketing',
+        topicOrder: 3,
+        coursePack: adapter.listQuestions('marketing'),
+        bank: adapter.listPracticeBank(),
+        includeWritten: true,
+      })
+      expect(pool.some((question) => question.source === 'aqa-bank')).toBe(true)
+      expect(pool.some((question) => question.source === 'course-pack')).toBe(true)
+      expect(pool.every((question) => question.topicId === 'marketing')).toBe(true)
+    }
+    expect(createLearningContentAdapter(businessAqaAsPaper2).listPracticeBank()).toEqual([])
+  })
+
+  it('refuses a new course with an unscoped generated question, yet permits explicit course-owned topic and namespace', () => {
+    const oldRecord = aqaBusinessQuestionBank[0]
+    expect(() => contentPackSchema.parse({
+      ...businessAqaAsPaper2,
+      practiceBank: [oldRecord],
+    })).toThrow(z.ZodError)
+
+    const scoped = { ...oldRecord, topic_id: 'finance', namespace: 'revision-as-test' }
+    const candidate = contentPackSchema.parse({
+      ...businessAqaAsPaper2,
+      practiceBank: [scoped],
+    })
+    const adapter = createLearningContentAdapter(candidate)
+    expect(adapter.listPracticeBank()[0]?.topic_id).toBe('finance')
+    expect(buildQuestionPool({
+      topicId: 'finance',
+      topicOrder: 5,
+      coursePack: [],
+      bank: adapter.listPracticeBank(),
+      includeWritten: true,
+    })).toHaveLength(1)
   })
 
   it('builds a complete Learn hierarchy while preserving richer authored pages', () => {
