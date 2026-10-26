@@ -192,3 +192,7 @@ Recovery must not silently change primary experience type, Student/payer/support
 ## Future simplification
 
 Passwordless email, passkeys and additional identity providers may be considered later. They are not part of the initial approved authentication set and should be introduced only when they clearly reduce Student or adult-account friction without creating disproportionate support, privacy or security complexity.
+
+## Proposed standard signup amendment — Issue #665, Founder direction 26 October 2026
+
+**Pending explicit Founder approval and governed PR merge:** For the current normal student account experience, email/password **Create account** needs first name, email, password and any configured provider email confirmation — **no** special registration code, per-user pilot claim, invitation, student identity pre-enrolment or admin handoff. Existing Google sign-in remains an enabled-provider capability; the hosted Before User Created hook must not deny an otherwise valid provider signup. A learner's personal records remain owner-only. This proposal changes the former private-code admission approach; it does **not** attest that the accessible public URL admits only two family users or that public launch was authorised.

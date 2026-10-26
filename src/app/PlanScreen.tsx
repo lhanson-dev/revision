@@ -712,6 +712,27 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
               {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' &&
                 <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
 
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week'
+                && anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1)
+                && fullProgramme && (() => {
+                  const focus = fullProgramme.weeks.find((week) => week.weekStart <= anchor && week.visibleUntil >= anchor)
+                  if (!focus) return null
+                  return <Surface variant="quiet" className="pln-weekly-outlook" aria-label="Preparation focus for this week">
+                    <h2>Preparation focus for this week</h2>
+                    <p>These are provisional learning objectives, not scheduled sessions. Specific activities appear in the rolling two-week plan.</p>
+                    {focus.objectives.length > 0 ? <ul>
+                      {focus.objectives.map((objective) => <li key={objective.candidateId}>
+                        <strong>{courseLabel(programme, objective.courseId)} — {topicLabel(objective.courseId, objective.topicId)}</strong>
+                        <span> · {objective.purpose}</span>
+                      </li>)}
+                    </ul> : <p>{focus.availableMinutes === 0
+                      ? 'No study time is available this week.'
+                      : focus.availableMinutes === null
+                        ? 'Study time is not configured for this week.'
+                        : 'No supported objectives are currently allocated this week. This does not mean your revision is complete.'}</p>}
+                  </Surface>
+                })()}
+
               <aside className="pln-guidance" aria-label="Help with your plan">
                 <Icon name="info" />
                 <div><strong>Things change — and that's okay.</strong>
