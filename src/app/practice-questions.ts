@@ -5,7 +5,9 @@
  * wait for their evidence migration. Levels-based written questions stay in Exam Prep.
  */
 import type { MultipleChoiceQuestion } from '../../content/schema'
-import type { AqaBusinessQuestionRecord } from '../../content/business/aqa-a-level/shared/fast-path-questions'
+import type { StructuredPracticeBankRecord } from '../../content/structured-practice-bank'
+
+type AqaBusinessQuestionRecord = StructuredPracticeBankRecord
 import { levelFromAoTags, type SessionQuestion } from './practice-session'
 import { acceptedValuesFor, formatAnswer } from './practice-calculation'
 import type { MarkPoint } from './rev-marking'
@@ -98,7 +100,7 @@ export function topicOrderForSpecItem(itemId: string): number | null {
 }
 
 export function bankQuestionId(record: Pick<AqaBusinessQuestionRecord, 'batch' | 'id'>): string {
-  return `aqa7132-${record.batch}-${record.id}`
+  return `${record.namespace ?? 'aqa7132'}-${record.batch}-${record.id}`
 }
 
 /**
@@ -198,7 +200,7 @@ export type PoolInput = {
   /** The topic's order number in its pack (the 7th topic is spec section 3.7). Only used for the AQA bank. */
   topicOrder: number | null
   coursePack: readonly MultipleChoiceQuestion[]
-  /** Pass the AQA 7132 bank for that course only. */
+  /** Structured and assured question bank supplied by the selected course pack, if any. */
   bank?: readonly AqaBusinessQuestionRecord[] | null
   /**
    * Written questions are only offered when a marker is connected. Without one there is nothing to mark them, and
@@ -212,6 +214,7 @@ export function buildQuestionPool(input: PoolInput): PracticeQuestion[] {
   const own = input.coursePack.filter((question) => question.topic === input.topicId).map(coursePackQuestionToPractice)
   const fromBank = input.topicOrder === null ? [] : (input.bank ?? [])
     .filter((record) => {
+      if (record.topic_id) return record.topic_id === input.topicId
       const first = record.target_item_ids.map(topicOrderForSpecItem).find((order) => order !== null)
       return first === input.topicOrder
     })
