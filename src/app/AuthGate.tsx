@@ -1,6 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { loadAuthCapabilities } from '../services/auth/auth-capabilities'
-import { privateSignupProof } from '../services/auth/private-signup-proof'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
 import { RevPresence } from './RevPresence'
 import { BrandAsset, Button } from './ui'
@@ -27,7 +26,6 @@ export function AuthGate({ children }: AuthGateProps) {
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [testingCode, setTestingCode] = useState('')
   const [message, setMessage] = useState('')
   const [busy, setBusy] = useState(false)
   const [googleEnabled, setGoogleEnabled] = useState(false)
@@ -68,7 +66,6 @@ export function AuthGate({ children }: AuthGateProps) {
     setMode(nextMode)
     setMessage('')
     setPassword('')
-    setTestingCode('')
   }
 
   async function signIn() {
@@ -101,35 +98,20 @@ export function AuthGate({ children }: AuthGateProps) {
       setMessage('Use a password of at least 8 characters.')
       return
     }
-    if (!/^[a-f0-9]{32}$/i.test(testingCode.trim())) {
-      setMessage('Enter the private testing code you were given.')
-      return
-    }
 
     setBusy(true)
     setMessage('Creating account…')
-    try {
-      // The actual code never leaves this device. Supabase Auth's server hook
-      // verifies an email-bound, short-lived proof before creating a learner.
-      const proof = await privateSignupProof(testingCode.trim(), email)
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: {
-          data: { first_name: cleanFirstName, revision_signup_minute: proof.minute, revision_signup_proof: proof.signature },
-          emailRedirectTo: currentAppUrl(),
-        },
-      })
-      if (error) setMessage(error.message)
-      else {
-        setTestingCode('')
-        setMessage(data.session ? 'Account created.' : 'Account created. Check your email to confirm your address, then return here to sign in.')
-      }
-    } catch {
-      setMessage('Unable to verify the private testing code on this device. Try again.')
-    } finally {
-      setBusy(false)
-    }
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        data: { first_name: cleanFirstName },
+        emailRedirectTo: currentAppUrl(),
+      },
+    })
+    if (error) setMessage(error.message)
+    else setMessage(data.session ? 'Account created.' : 'Account created. Check your email to confirm your address, then return here to sign in.')
+    setBusy(false)
   }
 
   async function continueWithGoogle() {
@@ -253,7 +235,6 @@ export function AuthGate({ children }: AuthGateProps) {
           {creatingAccount && <label>First name<input type="text" autoComplete="given-name" maxLength={40} value={firstName} onChange={(event) => setFirstName(event.target.value)} /></label>}
           <label>Email<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
           <label>Password<input type="password" autoComplete={creatingAccount ? 'new-password' : 'current-password'} minLength={creatingAccount ? 8 : undefined} value={password} onChange={(event) => setPassword(event.target.value)} /></label>
-          {creatingAccount && <label>Private testing code<input type="password" autoComplete="off" spellCheck={false} maxLength={32} value={testingCode} onChange={(event) => setTestingCode(event.target.value)} /></label>}
 
           {creatingAccount ? (
             <Button size="large" className="auth-wide-action" aria-busy={busy || undefined} disabled={busy} onClick={createAccount}>Create account</Button>
