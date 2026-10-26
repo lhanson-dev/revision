@@ -9,6 +9,7 @@ export const structuredPracticeBankRecordSchema = z.object({
   confidence_label: z.string().min(1),
   target_item_ids: z.array(z.string().min(1)).min(1),
   target_node_ids: z.array(z.string().min(1)),
+  namespace: z.string().regex(/^[a-z0-9][a-z0-9-]*$/).optional(),
   // A future qualification supplies its canonical learner topic; the original
   // AQA 7132 records retain the existing section-ID fallback for identity stability.
   topic_id: z.string().min(1).optional(),
