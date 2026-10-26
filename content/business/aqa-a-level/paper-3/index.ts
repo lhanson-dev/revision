@@ -3,7 +3,7 @@ import { manifest } from './manifest'
 import { topics } from '../shared/topics'
 import { learn } from '../shared/learn'
 import { formulas, topicLinks } from '../shared/learning'
-import { flashcards } from '../shared/flashcards'
+import { publishedFlashcards } from '../shared/published-flashcards'
 import { questions } from '../shared/questions'
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
@@ -17,7 +17,7 @@ export const businessAqaALevel7132Paper3 = contentPackSchema.parse({
   learn,
   formulas,
   topicLinks,
-  flashcards,
+  flashcards: publishedFlashcards,
   questions,
   caseStudies,
   dataDrills: [...dataDrills, ...networkPractice],
