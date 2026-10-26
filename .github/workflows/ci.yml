@@ -143,7 +143,7 @@ jobs:
           REVISION_BROWSER_PROJECT: ${{ matrix.project }}
           REVISION_BROWSER_SHARD: ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         run: node scripts/assurance/run-browser-tests.mjs "${REVISION_BROWSER_PROJECT}"
-      - name: Verify restricted production pilot boundary
+      - name: Verify standard learner feature access in production-mode build
         if: ${{ matrix.project == 'desktop' && matrix.shardIndex == 1 }}
         timeout-minutes: 8
         env:
@@ -200,6 +200,67 @@ jobs:
             echo "All Foundation quality prerequisites passed across phone, tablet and desktop (mode=$SELECTION_MODE)."
           fi
 
+  private-auth-hook-assurance:
+    name: Real Auth private signup admission assurance
+    needs: assurance-plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.111.0
+      - name: Enable local-only Auth hook and start isolated database
+        run: |
+          set -euo pipefail
+          # Hosted Auth is unaffected: this changes only the ephemeral CI checkout.
+          sed -i '/\[auth.hook.before_user_created\]/{n;s/enabled = false/enabled = true/;}' supabase/config.toml
+          grep -A2 '^\[auth.hook.before_user_created\]' supabase/config.toml
+          supabase start
+      - name: Activate ephemeral test admission and inject masked local code
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          # Supabase CLI's isolated test DB only; the production code is never queried.
+          # Run UPDATE separately; PostgreSQL's command tag would otherwise be
+          # captured alongside RETURNING and fail the strict 32-hex validation.
+          docker exec supabase_db_revision psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+            -c "update revision_private.family_signup_control set enabled = true where singleton = true" > /dev/null
+          code="$(docker exec supabase_db_revision psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At \
+            -c "select signup_code from revision_private.family_signup_control where singleton = true")"
+          if [[ ! "$code" =~ ^[0-9a-f]{32}$ ]]; then
+            echo "::error::Isolated admission secret was not initialised."
+            exit 1
+          fi
+          echo "::add-mask::$code"
+          {
+            echo "REVISION_PRIVATE_SIGNUP_TEST_CODE=$code"
+            echo "SUPABASE_URL=http://127.0.0.1:54321"
+            echo "SUPABASE_ANON_KEY=$ANON_KEY"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "REVISION_REAL_AUTH_HOOK_INTEGRATION=1"
+          } >> "$GITHUB_ENV"
+      - name: Prove real Auth rejects missing or invalid codes and admits valid code
+        run: npx vitest run tests/integration/private-admission-auth.test.ts
+      - name: Diagnose local Auth hook failure (no real learner accounts)
+        if: failure()
+        run: |
+          # CI uses a disposable database and synthetic identities only.
+          docker logs supabase_auth_revision --tail 100 2>&1 | grep -E 'error|ERROR|hook|Hook|permission|postgres|SQLSTATE' | tail -40 || true
+      - name: Stop isolated stack
+        if: always()
+        run: supabase stop --no-backup
+
   database-assurance:
     name: Database, RLS and protected service assurance
     needs: assurance-plan
@@ -243,12 +304,36 @@ jobs:
             --header 'Content-Type: application/json' \
             --data '{}' \
             "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
+          # v1 remains the installed production contract during backend-ahead rollout.
           test "$(jq -r '.contract // empty' <<<"$response")" = 'r2-exam-attempt-v1'
           test "$(jq -r '.ready // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.weeklyAvailability // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.learnExposures // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.practiceCheckpoints // false' <<<"$response")" = 'true'
           test "$(jq -r '.checks.examAttempts // false' <<<"$response")" = 'true'
+      - name: Inspect live Auth admission configuration (read-only, non-gating)
+        # A visible Create Account button cannot prove the live server accepts signup.
+        # Only public Auth settings are read; no real account or learner data is created.
+        continue-on-error: true
+        env:
+          REVISION_LIVE_SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
+          REVISION_LIVE_SUPABASE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
+        run: |
+          set -euo pipefail
+          settings="$(curl --fail --silent --show-error --max-time 15 \
+            --header "apikey: ${REVISION_LIVE_SUPABASE_KEY}" \
+            "${REVISION_LIVE_SUPABASE_URL}/auth/v1/settings")"
+          disabled="$(jq -r 'if (.disable_signup | type) == "boolean" then (.disable_signup | tostring) else "unknown" end' <<<"$settings")"
+          email="$(jq -r 'if (.external.email | type) == "boolean" then (.external.email | tostring) else "unknown" end' <<<"$settings")"
+          printf '%s\n' "### Live Auth admission (read-only)" "" \
+            "Server reports \`disable_signup\`: ${disabled}" \
+            "Server reports email provider enabled: ${email}" \
+            "Neither flag proves a private admission boundary; do not treat this as legal or real-signup acceptance." \
+            >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::Live Auth disable_signup=${disabled}; email_provider_enabled=${email}"
+          if [ "$disabled" = "unknown" ]; then
+            echo "::warning::Live settings do not explicitly report signup disablement; admission remains unverified."
+          fi
       - name: Run pgTAP database and RLS assurance
         run: |
           supabase test db supabase/tests/database-assurance.test.sql

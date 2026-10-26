@@ -22,6 +22,7 @@ env:
   SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: r2-exam-attempt-v1
+  EXPECTED_LEARNER_FEATURE_CONTRACT: r2-exam-attempt-open-v2
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
   # Fifth explicit 2026-10-06 recovery checkpoint. During GitHub's
   # 2026-10-05 Actions/Pages incident, PR #534 merged as c2d82ecf... but its
@@ -89,6 +90,19 @@ jobs:
           fi
 
           echo "Production database contract ${contract} is ready."
+           feature_response="$(curl --fail --silent --show-error \
+             --request POST \
+             --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+             --header "Content-Type: application/json" \
+             --data '{}' \
+             "${SUPABASE_URL}/rest/v1/rpc/revision_learner_feature_readiness")"
+           if [ "$(jq -r '.contract // empty' <<<"$feature_response")" != "$EXPECTED_LEARNER_FEATURE_CONTRACT" ] || \
+              [ "$(jq -r '.ready // false' <<<"$feature_response")" != "true" ]; then
+             echo "Ordinary-learner backend feature contract unavailable." >&2
+             echo "$feature_response" >&2
+             exit 1
+           fi
+           echo "Ordinary-learner backend contract ready."
 
       - name: Verify required protected Edge Functions are deployed
         run: |

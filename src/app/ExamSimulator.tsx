@@ -839,7 +839,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <p className="intro">{exam.title}. {exam.printedMarks && exam.printedMarks !== exam.totalMarks ? `${exam.printedMarks} marks are printed; you attempt ${exam.totalMarks} marks by choosing one question from each choice section.` : `${exam.totalMarks} marks.`} Work under the full {exam.durationMinutes}-minute timer.</p>
         {exam.learnerClaim && <p className="exam-learner-claim">{exam.learnerClaim}</p>}
         <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Authored multiple-choice answers are checked against their key; written answers are self-assessed. This is not independently examiner-marked.</span></div>
-        <div className="inline-actions">{!exam.restrictedPilot && <Button variant="secondary" onClick={startQuestionPractice}>Practise one question</Button>}<Button aria-label="Start timed exam" onClick={startExam}>Open timed exam</Button></div>
+        <div className="inline-actions"><Button variant="secondary" onClick={startQuestionPractice}>Practise one question</Button><Button aria-label="Start timed exam" onClick={startExam}>Open timed exam</Button></div>
       </section>
     )
   }

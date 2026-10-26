@@ -85,18 +85,24 @@ test('sign in keeps the primary path clear and uses the canonical Revision ident
   await expectNoPageOverflow(page)
 })
 
-test('email account creation asks for first name and keeps Google as the low-friction alternative', async ({ page }) => {
+test('private email signup requires a testing code while Google remains existing-account sign-in only', async ({ page }) => {
   await stubAuthSettings(page, true)
   await page.goto(appPath)
 
   await page.getByRole('button', { name: 'Create account' }).click()
 
   await expect(page.getByRole('heading', { name: 'Create your account' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0)
   await expect(page.getByLabel('First name')).toBeVisible()
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
+  await expect(page.getByLabel('Private testing code')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Create account', exact: true })).toBeVisible()
+  await page.getByLabel('First name').fill('Synthetic')
+  await page.getByLabel('Email').fill('synthetic@example.invalid')
+  await page.getByLabel('Password').fill('SyntheticPassword123!')
+  await page.getByRole('button', { name: 'Create account', exact: true }).click()
+  await expect(page.getByText('Enter the private testing code you were given.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeVisible()
   await expectNoPageOverflow(page)
 })

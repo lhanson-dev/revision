@@ -306,9 +306,9 @@ test('a completely blank timed paper is not recorded as scored learning evidence
 
 test('untimed mock uses the in-page workspace rather than a dialog', async ({ page }) => {
   await open(page)
-  // Restricted-pilot papers deliberately disable untimed practice. Select
-  // a published non-pilot paper instead of bypassing its entitlement boundary.
-  const button = page.locator('.exam-mock').getByRole('button', { name: 'Practise untimed', exact: true }).and(page.locator(':enabled')).first()
+  // Retained Business mock assets use the same ordinary untimed question practice.
+  const button = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+    .getByRole('button', { name: 'Practise untimed', exact: true })
   await expect(button).toBeEnabled()
   await button.click()
   await expect(page.locator('.exam-prep-activity')).toBeVisible()

@@ -31,3 +31,10 @@ enabled = false
 
 [functions.learner-plan-operations]
 verify_jwt = true
+
+# Enable in a dedicated local admission integration run only when all synthetic
+# account fixtures supply valid signed proofs. The SQL pgTAP contract tests run
+# independently. Hosted Auth hook setup must be separately verified in dashboard.
+[auth.hook.before_user_created]
+enabled = false
+uri = "pg-functions://postgres/public/revision_before_user_created"
