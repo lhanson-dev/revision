@@ -99,7 +99,7 @@ export function topicOrderForSpecItem(itemId: string): number | null {
   return match ? Number(match[1]) : null
 }
 
-export function bankQuestionId(record: Pick<AqaBusinessQuestionRecord, 'batch' | 'id'>): string {
+export function bankQuestionId(record: Pick<AqaBusinessQuestionRecord, 'batch' | 'id' | 'namespace'>): string {
   return `${record.namespace ?? 'aqa7132'}-${record.batch}-${record.id}`
 }
 
