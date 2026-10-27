@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { learnCourseSchema } from './learn-schema'
+import { structuredPracticeBankRecordSchema } from './structured-practice-bank'
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
 
@@ -263,6 +264,7 @@ export const contentPackSchema = z.object({
   topicLinks: z.array(topicLinkSchema),
   flashcards: z.array(flashcardSchema),
   questions: z.array(multipleChoiceQuestionSchema),
+  practiceBank: z.array(structuredPracticeBankRecordSchema).optional(),
   caseStudies: z.array(caseStudySchema),
   dataDrills: z.array(dataDrillSchema),
   examTechnique: z.array(examTechniqueGuideSchema).default([]),
@@ -298,6 +300,18 @@ export const contentPackSchema = z.object({
     if (!manifestTopics.has(item.topic)) context.addIssue({ code: 'custom', message: `${item.collection} item ${item.id} references unknown topic ${item.topic}` })
   })
 
+  // Bank record ids are scoped by batch; preserve AQA's existing stable question identities.
+  const bankIdentities = (pack.practiceBank ?? []).map((record) => ({ id: `${record.batch}:${record.id}` }))
+  assertUniqueIds(bankIdentities, 'practiceBank', context)
+  ;(pack.practiceBank ?? []).forEach((record, index) => {
+    const legacyAqa7132 = pack.manifest.examBoard.id === 'aqa' && pack.manifest.specificationCode === '7132'
+    if (!legacyAqa7132 && (!record.topic_id || !record.namespace)) {
+      context.addIssue({ code: 'custom', path: ['practiceBank', index], message: 'New course Practice bank items require a learner topic and namespaced identity' })
+    }
+    if (record.topic_id && !manifestTopics.has(record.topic_id)) {
+      context.addIssue({ code: 'custom', path: ['practiceBank', index, 'topic_id'], message: `Practice item ${record.id} references unknown topic ${record.topic_id}` })
+    }
+  })
   assertUniqueIds(pack.topics, 'topics', context)
   assertUniqueIds(pack.formulas, 'formulas', context)
   assertUniqueIds(pack.topicLinks, 'topicLinks', context)

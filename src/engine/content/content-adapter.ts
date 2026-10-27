@@ -1,4 +1,5 @@
 import type { LearnChapter, LearnCourse, LearnPage } from '../../../content/learn-schema'
+import type { StructuredPracticeBankRecord } from '../../../content/structured-practice-bank'
 import type {
   CaseStudy,
   ContentManifest,
@@ -44,6 +45,7 @@ export type LearningContentAdapter = {
   listTopicLinks: (topicId?: TopicId) => readonly TopicLink[]
   listFlashcards: (topicId?: TopicId) => readonly Flashcard[]
   listQuestions: (topicId?: TopicId) => readonly MultipleChoiceQuestion[]
+  listPracticeBank: () => readonly StructuredPracticeBankRecord[]
   listCaseStudies: () => readonly CaseStudy[]
   listDataDrills: () => readonly DataDrill[]
   listExamTechnique: () => readonly ExamTechniqueGuide[]
@@ -103,6 +105,7 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
   const topics = [...pack.topics].sort((left, right) => left.order - right.order)
   const learnCourse = buildLearnCourse(topics, pack.learn)
   const learnPages = learnCourse.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+  const practiceBank = pack.practiceBank ?? []
 
   return {
     manifest: pack.manifest,
@@ -132,6 +135,7 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     listTopicLinks: (topicId) => topicId ? pack.topicLinks.filter((item) => item.topic === topicId) : pack.topicLinks,
     listFlashcards: (topicId) => topicId ? pack.flashcards.filter((item) => item.topic === topicId) : pack.flashcards,
     listQuestions: (topicId) => topicId ? pack.questions.filter((item) => item.topic === topicId) : pack.questions,
+    listPracticeBank: () => practiceBank,
     listCaseStudies: () => pack.caseStudies,
     listDataDrills: () => pack.dataDrills,
     listExamTechnique: () => pack.examTechnique,

@@ -5,7 +5,6 @@ import { createPracticeCheckpoint, discardPracticeCheckpoint, fingerprintPractic
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointSnapshot,
 } from '../services/progress/practice-checkpoint-service'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
-import { fastPathFlashcards } from '../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import type { AnswerConfidence, LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createCalculationEvidence, createFlashcardEvidence, createMultipleChoiceEvidence, createRevMarkedExamQuestionEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
@@ -13,7 +12,6 @@ import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type 
 import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
-import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import {
   advanceQuestionSession,
   isSessionFinished,
@@ -257,11 +255,7 @@ export function FocusedLearningWorkspace({
   const availableModes = sectionModes[section]
   const copy = sectionHeading(section, adapter.manifest.paper.number, contextLabel)
   const topic = adapter.getTopic(topicId)
-  const cards = useMemo(() => {
-    const curated = adapter.listFlashcards(topicId)
-    if (adapter.manifest.examBoard.id !== 'aqa' || adapter.manifest.specificationCode !== '7132') return curated
-    return [...curated, ...fastPathFlashcards.filter((card) => card.topic === topicId)]
-  }, [adapter, topicId])
+  const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
   const questions = useMemo(() => adapter.listQuestions(topicId), [adapter, topicId])
   const links = useMemo(() => adapter.listTopicLinks(topicId), [adapter, topicId])
   const formulas = adapter.listFormulas()
@@ -271,10 +265,10 @@ export function FocusedLearningWorkspace({
   const exam = adapter.listExams()[0]
   const knownRatings = { ...flashcardRatings, ...flashRatings }
   const deckCard = deck && !isDeckDone(deck) ? cards.find((item) => item.id === deck.ids[deck.index]) : undefined
-  const aqaBank = adapter.manifest.examBoard.id === 'aqa' && adapter.manifest.specificationCode === '7132' ? aqaBusinessQuestionBank : null
+  const practiceBank = adapter.listPracticeBank()
   const fullPool = useMemo(
-    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: aqaBank, includeWritten: marker !== null }), lastAnsweredAt),
-    [adapter, topicId, questions, aqaBank, lastAnsweredAt, marker],
+    () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: practiceBank, includeWritten: marker !== null }), lastAnsweredAt),
+    [adapter, topicId, questions, practiceBank, lastAnsweredAt, marker],
   )
   useEffect(() => {
     if (!isPractice || !checkpointContext || !checkpointStore) return
@@ -898,7 +892,7 @@ export function FocusedLearningWorkspace({
         session: summary.session,
         questions: fullPool,
         topicTitle: topic?.title ?? topicShort,
-        topicOrder: aqaBank ? topic?.order ?? null : null,
+        topicOrder: practiceBank.some((record) => !record.topic_id) ? topic?.order ?? null : null,
         startStatus: summary.startStatus,
         endStatus: progress?.status,
         skillLabel: specItemLabel,
