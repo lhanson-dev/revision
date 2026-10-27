@@ -49,6 +49,8 @@ Use this file to find the governing source before substantive work.
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Edexcel 9BS0 non-public Market section adapter compatibility trial, limits, actual output/cost and HOLD → `docs/technical/Content Factory Edexcel Isolated Production Trial.md` (proposal)
+- Bounded Edexcel 9BS0 original-content feasibility decision (proposed, not live) → `decisions/ADR-0033-edexcel-isolated-production-feasibility-exception.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
 - Content Factory qualification-shape provider-free proof protocol (non-publishing research) → `research/content-production-repeatability/QUALIFICATION-SHAPE-PROOF.md`
