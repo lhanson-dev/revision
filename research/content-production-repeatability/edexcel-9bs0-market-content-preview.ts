@@ -5,7 +5,7 @@
  * learner-facing schema WITHOUT pretending that it was factory-generated,
  * AI-assured, educationally accepted, or eligible for publication.
  *
- * Deliberately outside content/**/index.ts discovery. This is not a live
+ * Deliberately outside the Vite content pack entry-point discovery. This is not a live
  * Content Factory run and must not record learner mastery or create Exam Prep
  * simulations from unapproved question/marking candidates.
  */
