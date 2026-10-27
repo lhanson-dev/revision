@@ -23,6 +23,7 @@ const supplemental = additions.skill_specimens
 const originalPages = originalSections.map((section) => ({
   id: 'edexcel-market-' + slug(section.id),
   topicId: topic,
+  sourceSectionIds: ['supply-equilibrium'],
   title: section.heading,
   orientation: 'Understand the model, then test its limits with original practice.',
   blocks: [
@@ -33,6 +34,7 @@ const originalPages = originalSections.map((section) => ({
 const extraPages = supplemental.map((item) => ({
   id: 'edexcel-market-' + slug(item.skill_id),
   topicId: topic,
+  sourceSectionIds: [item.family === 'DEMAND' ? 'demand' : 'elasticity'],
   title: item.original_semantic_tag.replace(/-/g, ' '),
   orientation: 'Apply this idea to the original fictional situation.',
   blocks: [
