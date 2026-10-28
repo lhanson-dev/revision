@@ -21,6 +21,7 @@ describe('Issue #698: Business AQA 7132 3.10 independent network analysis Practi
         expect(source?.label).toMatch(/^Revision-authored/)
         expect(source?.confidence_label).toBe('Limited')
         expect(source?.question.marks).toBe(1)
+        expect(source?.question.table).toBeNull()
         expect(questions.some((question) => question.id === `aqa7132-3.10-${id}`)).toBe(true)
       }
       const critical = questions.find((q)=>q.id==='aqa7132-3.10-q14')
