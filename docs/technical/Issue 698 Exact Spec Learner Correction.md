@@ -45,3 +45,16 @@ The Revision-original new Learn example models three months with opening £8,000
 `npx vitest run scripts/assurance/issue-698-business-cashflow.test.ts` independently calculates the rolling balances and checks the new Learn page and Practice cards are exposed through all three regular Business packs. These remain model-reveal / self-check tasks; they are not graded proof of construction ability.
 
 The financial correction adds no new product capability or publication policy. The canonical path remains `/revision/app/`, with Vite content discovery through `content/**/index.ts`, the ordinary adapter and published course packs. Full PDF requirement enumeration, the independent adversarial A1–A4 assurance, preservation/feedback in a real signed-in student session, all remaining content and Psychology are **outstanding**. This file must not be used as full-course acceptance evidence.
+
+## Actual independently scoreable Practice supplement (Business 3.5)
+
+The existing original Financial question bank is imported through `content/business/aqa-a-level/shared/fast-path-questions.ts` (glob `aqa-7132-3.5/questions/q*.json`), exposed in each canonical AQA 7132 pack and interpreted by `src/app/practice-questions.ts`. Its calculated and multiple-choice items can be scored with the existing Practice controls. This is separate from self-check flashcards.
+
+Three new original, additive, **Limited-confidence pending independent assessment review** records:
+- `aqa7132-3.5-q15`: one-mark contextual MCQ on revenue-line slope after a price rise; keyed B;
+- `aqa7132-3.5-q16`: one-mark numerical break-even calculation after a variable-cost rise; independently checked 625 whole sandwiches, accepted by existing calculation response logic;
+- `aqa7132-3.5-q17`: one-mark contextual cash-flow MCQ on delayed receivables; independently checked February closing cash −£6,000, keyed A.
+
+These are ordinary Practice questions with actual response capture and software marking, not paper-only reveal cards. Their target-item bindings do not by themselves prove full 3.5 or whole-course coverage. `scripts/assurance/issue-698-business-diagram-learning.test.ts` now asserts the question records are accessible as scored Practice through **all three actual published AQA Business packs** and that keys/numerical answers are correct. No original historical question or run record was overwritten.
+
+**Assurance hold:** Fresh-context independent A3 review and broader A-level exam authenticity verification are still necessary before publication, especially for scoring/rubric edge cases. This PR remains draft and does not grant itself a release PASS.
