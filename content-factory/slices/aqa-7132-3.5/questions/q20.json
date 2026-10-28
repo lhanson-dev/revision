@@ -12,7 +12,7 @@
   "question": {
     "id": "q20",
     "family": "MCQ",
-    "command_word": "Analyse",
+    "command_word": "Identify",
     "marks": 1,
     "ao_tags": [
       "AO2"
