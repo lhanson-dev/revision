@@ -79,7 +79,7 @@ describe('Issue #698 AQA 7132 original graph construction and amendment', () => 
     expect(teach?.item_ids).toContain('aqa-7132-3.10.3:amending-network-diagrams')
     const construct = findPractice(network, 'p-construction-activity-on-arrow')
     expect(construct.capability).toBe('construction')
-    expect(construct.prompt).toMatch(/construct an activity-on-arrow diagram/i)
+    expect(construct.prompt).toMatch(/construct (?:and label )?an activity-on-arrow diagram/i)
     expect(construct.prompt).toMatch(/earliest and latest/i)
     expect(construct.answer).toContain('1→2 A(2)')
     const amend = findPractice(network, 'p-amend-activity-on-arrow')
