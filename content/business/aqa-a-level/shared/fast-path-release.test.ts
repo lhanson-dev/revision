@@ -19,9 +19,9 @@ describe('AQA Business 7132 Fast-Path learner release', () => {
     expect(new Set(fastPathFlashcards.map((card) => card.id)).size).toBe(fastPathFlashcards.length)
   })
 
-  it('publishes the 245 retained records plus eleven new #698 assessed questions without duplicate ids', () => {
-    expect(aqaBusinessQuestionBank).toHaveLength(256)
-    expect(new Set(aqaBusinessQuestionBank.map((item) => `${item.batch}:${item.id}`)).size).toBe(256)
+  it('publishes the 245 retained records plus fourteen new #698 assessed questions without duplicate ids', () => {
+    expect(aqaBusinessQuestionBank).toHaveLength(259)
+    expect(new Set(aqaBusinessQuestionBank.map((item) => `${item.batch}:${item.id}`)).size).toBe(259)
     expect(aqaBusinessQuestionBank.every((item) => item.label.includes('Revision-authored'))).toBe(true)
     expect(aqaBusinessQuestionBank.every((item) => item.question.marks > 0)).toBe(true)
   })
