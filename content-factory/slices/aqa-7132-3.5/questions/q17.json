@@ -42,7 +42,7 @@
       "type": "single_option",
       "correct_option": "A",
       "option_rationale": [
-        "A is correct. Revised February receipts are £7,000; net flow is £7,000 − £19,000 = −£12,000, so closing cash is £6,000 − £12,000 = −£6,000.",
+        "A is correct because revised February receipts are £7,000; net flow is £7,000 − £19,000 = −£12,000, so closing cash is £6,000 − £12,000 = −£6,000.",
         "B is incorrect. −£1,000 was the original closing balance before the receipt was delayed.",
         "C is incorrect. £7,000 is the unchanged forecast March closing balance if the delayed receipt is collected then.",
         "D is incorrect. £6,000 is February’s opening balance, not its revised closing balance."
