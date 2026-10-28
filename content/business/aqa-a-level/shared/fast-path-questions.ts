@@ -43,7 +43,7 @@ const originalSliceQuestionModules = import.meta.glob('../../../../content-facto
 
 const retained = releaseBank.questions as AqaBusinessQuestionRecord[]
 const originalSlices = Object.entries(originalSliceQuestionModules).map(([path, record]): AqaBusinessQuestionRecord => {
-  const section = path.match(/aqa-7132-(3\\.(?:10|[1-9]))\\/questions\\//)?.[1]
+  const section = path.match(/aqa-7132-(3\.(?:10|[1-9]))\/questions\//)?.[1]
   if (!record.batch && !section) throw new Error(`Cannot identify exact Business question slice from ${path}`)
   if (record.batch && section && record.batch !== section) {
     throw new Error(`Business question slice mismatch for ${path}: declared ${record.batch}, directory ${section}`)
