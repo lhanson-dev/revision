@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import paper1 from '../../content/business/aqa-a-level/paper-1'
+import { buildQuestionPool } from '../../src/app/practice-questions'
 import paper2 from '../../content/business/aqa-a-level/paper-2'
 import paper3 from '../../content/business/aqa-a-level/paper-3'
 
@@ -127,5 +128,25 @@ describe('Issue #698 AQA 7132 original graph construction and amendment', () => 
     assertLivePackWiring(network, 'p-amend-activity-on-arrow', 'Complete activity-on-arrow construction and timing example')
     assertLivePackWiring(breakeven, 'construct-break-even-chart-from-data', 'Construct and amend a break-even chart from figures')
     assertLivePackWiring(breakeven, 'amend-break-even-chart-price-cost-and-output', 'Construct and amend a break-even chart from figures')
+  })
+
+  it('adds independently scored finance Practice through the ordinary question-bank adapter', () => {
+    for (const pack of packs) {
+      const bank = pack.practiceBank ?? []
+      const ids = ['aqa7132-3.5-q15', 'aqa7132-3.5-q16', 'aqa7132-3.5-q17']
+      const pool = buildQuestionPool({ topicId: 'finance', topicOrder: 5, coursePack: [], bank })
+      for (const id of ids) {
+        expect(pool.some((question) => question.id === id), `Missing active ${id} in ${pack.manifest.id}`).toBe(true)
+      }
+      const priceChange = pool.find((question) => question.id === ids[0])
+      expect(priceChange?.type).toBe('multiple-choice')
+      if (priceChange?.type === 'multiple-choice') expect(priceChange.correctOption).toBe(1)
+      const revisedBreakEven = pool.find((question) => question.id === ids[1])
+      expect(revisedBreakEven?.type).toBe('calculation')
+      if (revisedBreakEven?.type === 'calculation') expect(revisedBreakEven.expected).toBe(625)
+      const delayedReceivable = pool.find((question) => question.id === ids[2])
+      expect(delayedReceivable?.type).toBe('multiple-choice')
+      if (delayedReceivable?.type === 'multiple-choice') expect(delayedReceivable.correctOption).toBe(0)
+    }
   })
 })
