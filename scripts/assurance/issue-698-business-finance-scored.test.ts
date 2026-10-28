@@ -28,6 +28,7 @@ describe('Issue #698: original AQA Business 3.5 scored-practice extension', () =
         expect(record?.label).toMatch(/^Revision-authored/)
         expect(record?.confidence_label).toBe('Limited')
         expect(record?.question.family).toBe('MCQ')
+        expect(['Identify', 'Calculate']).toContain(record?.question.command_word)
         expect(record?.question.marks).toBe(1)
         expect(record?.question.mark_scheme.correct_option).toBe(item.answer)
         const actual=pool.find((x)=>x.id===`aqa7132-3.5-${item.id}`)
