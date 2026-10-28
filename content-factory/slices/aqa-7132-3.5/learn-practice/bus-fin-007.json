@@ -40,6 +40,17 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Construct a complete budget and investigate actual variances",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "body": "A bicycle repair firm sets a March profit budget. Its planned income is £80,000 and its planned expenditure lines are materials £28,000, wages £24,000 and overheads £12,000. Build the table with the same rows and columns for Budget, Actual and Variance, so the result can be checked line by line.\n\nRow                     Budget       Actual       Actual − Budget\nIncome                  £80,000      £75,000      −£5,000 (adverse income)\nMaterials               £28,000      £30,000      +£2,000 (adverse cost)\nWages                   £24,000      £25,000      +£1,000 (adverse cost)\nOverheads               £12,000      £11,000      −£1,000 (favourable cost)\nTotal expenditure       £64,000      £66,000      +£2,000 (adverse cost)\nProfit                  £16,000       £9,000      −£7,000 (adverse profit)\n\nConstruction method: (1) copy each planned income/cost line and period into the budget column; (2) sum budgeted expenditure £28,000+£24,000+£12,000=£64,000 and subtract from £80,000 budgeted income to obtain £16,000 budgeted profit; (3) enter actual income and costs against the SAME categories; (4) sum actual expenditure £30,000+£25,000+£11,000=£66,000 and deduct from £75,000 to find £9,000 actual profit; (5) calculate actual minus budget for each row, then label the consequence using its line type. For revenue/income, a negative variance is adverse; for expenditure, a positive variance is adverse. Profit variance is −£7,000, matching the fall in income of £5,000 plus the £2,000 net cost overrun. This reconciles the budget rather than treating each variance independently.\n\nEvaluate before blaming a manager: lower sales may reflect weaker demand, price changes or delayed orders; the materials overspend may reflect higher input prices OR a change in volume/mix. The £1,000 favourable overhead cost variance may result from prudent saving, but could hide maintenance deferral. Check operational evidence and compare like-for-like activity volumes before deciding whether performance was poor. An income/profit budget is not automatically a cash-flow forecast: credit sales and payments may occur in other months. All numbers are original Revision teaching examples, not AQA material."
+      },
+      {
         "treatment": "example_non_example",
         "heading": "A variance is evidence for investigation, not a verdict",
         "body": "Example: maintenance spending £20,000 below budget is financially favourable in the short term because costs are lower than planned. However, it may be harmful if delayed maintenance leads to equipment failures and lost production later. Non-example: claiming that an adverse labour-cost variance proves employees were inefficient. Higher wage rates, overtime, quality requirements or a change in output could instead explain the variance.",
@@ -247,6 +258,20 @@
         "prompt": "A student says, 'An adverse labour-cost variance proves workers were inefficient.' Is this correct? Correct the statement.",
         "answer": "No. An adverse labour-cost variance means labour cost was worse than budget for profit; it does not prove the cause. Wage rates, overtime, output or quality requirements may need investigation.",
         "explanation": "A variance measures a difference from a benchmark, not the reason for that difference.",
+        "calc": null
+      },
+      {
+        "id": "p-construct-and-reconcile-march-budget",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "prompt": "Construct on paper a March Budget, Actual and Variance table for this bicycle repair firm. Budget income £80,000; budget costs: materials £28,000, wages £24,000, overheads £12,000. Actual income £75,000; actual costs: materials £30,000, wages £25,000, overheads £11,000. Include total expenditure, profit, the variance for EACH row using actual minus budget, and correct favourable/adverse labels. Identify one sensible management investigation arising from the result.",
+        "answer": "Budget/Actual/Variance: Income £80,000/£75,000/−£5,000 adverse; Materials £28,000/£30,000/+£2,000 adverse; Wages £24,000/£25,000/+£1,000 adverse; Overheads £12,000/£11,000/−£1,000 favourable; Total expenditure £64,000/£66,000/+£2,000 adverse; Profit £16,000/£9,000/−£7,000 adverse. Investigate the £5,000 revenue shortfall alongside materials price/volume and changed sales mix before attributing cause to staff; a favourable overhead variance can also require investigation of deferred maintenance.",
+        "explanation": "Income, cost and profit variance signs cannot all be labelled by the same rule: a lower income or profit is adverse; a lower cost is favourable. Cross-check profit variance = income variance minus total cost variance = −£5,000 − £2,000 = −£7,000. This is an on-paper construction and answer-reveal exercise: showing the model answer does not automatically assess the learner's constructed table.",
         "calc": null
       }
     ]
