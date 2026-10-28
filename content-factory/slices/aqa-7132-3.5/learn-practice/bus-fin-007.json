@@ -152,7 +152,7 @@
       {
         "id": "we-construct-complete-profit-budget",
         "item_id": "aqa-7132-3.5.2:budgets-income-expenditure-profit",
-        "scenario": "Bicycle repair firm, March: planned/actual income £80,000/£75,000; materials £28,000/£30,000; wages £24,000/£25,000; overheads £12,000/£11,000. Complete a Budget, Actual and Variance table and reconcile the result.",
+        "scenario": "Bicycle repair firm, March: planned/actual income £80,000/£75,000; materials £28,000/£30,000; wages £24,000/£25,000; overheads £12,000/£11,000. Construct a Budget/Actual/Variance table, then work out the profit variance between the budgeted and actual profit.",
         "steps": [
           "Build the income row: budget £80,000; actual £75,000; actual minus budget = −£5,000 adverse for income.",
           "Build the materials row: budget £28,000; actual £30,000; +£2,000 adverse cost variance.",
@@ -162,7 +162,22 @@
           "Find budgeted profit: £80,000−£64,000=£16,000; actual profit: £75,000−£66,000=£9,000.",
           "Calculate and reconcile the profit variance: £9,000−£16,000=−£7,000 adverse. Check: −£5,000 income minus +£2,000 cost = −£7,000 profit.",
           "Investigate why: weak demand or changed prices can lower income; input inflation or changed volume can raise costs; a favourable overhead figure may reflect deferred maintenance."
-        ]
+        ],
+        "calc": {
+          "formula_id": "variance",
+          "inputs": [
+            {
+              "name": "actual",
+              "value": 9000
+            },
+            {
+              "name": "budgeted",
+              "value": 16000
+            }
+          ],
+          "stated_answer": -7000,
+          "unit": "currency"
+        }
       }
     ]
   },
