@@ -40,10 +40,10 @@ export async function evidenceCrosswalk() {
   for (const dir of sliceDirs) {
     try { lessonPaths.push(...await collect(dir + '/learn-practice')) }
     catch (error) { if (error.code !== 'ENOENT') throw error }
-    if (dir.endsWith('/aqa-7132-3.5')) {
-      try { originalQuestionPaths.push(...await collect(dir + '/questions')) }
-      catch (error) { if (error.code !== 'ENOENT') throw error }
-    }
+    // Include every approved AQA 7132 section: 3.5 pilot and future additions
+    // such as 3.10 use the same standard bank ingestion contract.
+    try { originalQuestionPaths.push(...await collect(dir + '/questions')) }
+    catch (error) { if (error.code !== 'ENOENT') throw error }
   }
   lessonPaths.sort()
   originalQuestionPaths.sort()
