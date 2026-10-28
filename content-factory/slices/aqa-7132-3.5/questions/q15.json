@@ -1,0 +1,57 @@
+{
+  "label": "Revision-original AQA-aligned practice question (not an AQA question)",
+  "confidence_label": "Limited",
+  "id": "q15",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:break-even-chart",
+    "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even"
+  ],
+  "target_node_ids": [
+    "bus-fin-004"
+  ],
+  "question": {
+    "id": "q15",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "A café has unchanged fixed and variable costs and raises the price of each sandwich from £16 to £18. This is original Revision practice on interpreting a break-even chart.",
+    "stem": "Which change to the café’s break-even chart is correct, assuming the sale price increases but the costs per sandwich and fixed costs stay unchanged?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "The total-cost line becomes steeper, and break-even output rises."
+      },
+      {
+        "label": "B",
+        "text": "The total-revenue line becomes steeper from the origin, and break-even output falls."
+      },
+      {
+        "label": "C",
+        "text": "The fixed-cost line shifts up, and break-even output rises."
+      },
+      {
+        "label": "D",
+        "text": "The three lines remain unchanged, and only the forecast output point moves right."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect. Variable and fixed costs are unchanged, so neither cost line changes.",
+        "B is correct. Price per unit raises the revenue slope and increases contribution per unit, moving break-even output left if demand effects are held out of the chart.",
+        "C is incorrect. A price change does not move the fixed-cost line.",
+        "D is incorrect. Changing price rotates the revenue line, unlike changing only planned output."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B. Higher selling price steepens the total-revenue line through zero. The intersection with the unchanged total-cost line moves to a lower output; the firm should separately consider whether the higher price reduces demand."
+    },
+    "calcs": []
+  }
+}
