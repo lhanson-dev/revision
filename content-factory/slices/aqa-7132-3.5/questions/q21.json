@@ -1,0 +1,58 @@
+{
+  "id": "q21",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.3:venture-capital",
+    "aqa-7132-3.5.3:crowdfunding",
+    "aqa-7132-3.5.3:share-capital"
+  ],
+  "target_node_ids": [
+    "bus-fin-008"
+  ],
+  "question": {
+    "id": "q21",
+    "family": "MCQ",
+    "command_word": "Evaluate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. A growing private biotechnology business needs £450,000. Its founders value experienced investors who can provide specialist advice but wish to understand the effect on control.",
+    "stem": "Which comparison of venture capital and equity crowdfunding is most defensible?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "Venture capital always leaves founders with complete control; equity crowdfunding always requires fixed interest repayments."
+      },
+      {
+        "label": "B",
+        "text": "Both always involve loans rather than ownership, and neither can dilute the founders."
+      },
+      {
+        "label": "C",
+        "text": "Venture capital may offer expertise and a concentrated investor relationship, while either equity route can dilute ownership and investor expectations must be considered."
+      },
+      {
+        "label": "D",
+        "text": "Crowdfunding is automatically free capital and never carries marketing, reporting or compliance costs."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "C",
+      "option_rationale": [
+        "A is incorrect because equity investment can dilute founder ownership; equity crowdfunding is not necessarily debt.",
+        "B is incorrect because both venture capital and equity crowdfunding may involve selling equity.",
+        "C is correct because venture capital can bring experience alongside finance, but equity funding may dilute control; the terms matter.",
+        "D is incorrect because crowdfunding can involve platform fees, investor reporting and equity dilution."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "C. Choose finance by the business's goals, ownership/control implications, cost and non-financial support; neither route is universally better."
+    },
+    "calcs": []
+  }
+}
