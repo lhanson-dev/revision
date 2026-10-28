@@ -18,7 +18,7 @@ The existing Fast-Path node `bus-evi-008` is delivered through `content/business
 ## Assurance and acceptance boundary
 The original AQA PDF section 3.10.3 (physical PDF page 31) calls for understanding/interpreting network diagrams, amendment, critical path and total float. This slice directly addresses those four demands. The numerical routes and backward/forward formulae were independently recalculated during preparation; full repository CI and real-user browser acceptance have **not** been executed or verified in this connector session. Educational independence and appropriate qualified reviewer approval are not established by this document.
 
-**Current outcome:** two targeted Business Learn/Practice corrections proposed for review, not live. No Psychology content or planner code changed. Remaining Issue #698 requirements, full atomic mapping, gap remediation, educational review, learner-site tests and release verification remain open. No provider spend incurred for this slice. Documentation impact: this current implementation evidence note; no changes to the governing Content Factory workflow or learning authority.
+**Current outcome:** three targeted Business Learn/Practice corrections proposed for review, not live. No Psychology content or planner code changed. Remaining Issue #698 requirements, full atomic mapping, gap remediation, educational review, learner-site tests and release verification remain open. No provider spend incurred for this slice. Documentation impact: this current implementation evidence note; no changes to the governing Content Factory workflow or learning authority.
 
 ## Second targeted correction — AQA 7132 section 3.5.2, break-even charts
 
@@ -35,3 +35,13 @@ Independent arithmetic fixtures checked for the original card: fixed costs £5,0
 ## Documentation impact
 
 This correction changes *current implementation* of two existing Learning Blueprint obligations. It does not alter the governed syllabus scope, Content Factory architecture, learner routes or policy; no new normative source is created. The ordinary technical implementation note is updated in the same branch. Keep historical artifacts unchanged.
+
+## Third targeted correction — AQA 7132 section 3.5.2, rolling cash-flow forecasts
+
+The exact Business PDF (physical page 20) requires constructing and analysing cash-flow forecasts, including the timing of cash inflows and outflows. The existing `bus-fin-005` already taught single-period closing cash and payables/receivables timing. It did not require the learner to construct and update a multi-month forecast with the prior period's closing cash carried into the next period, including a negative intermediate balance.
+
+The Revision-original new Learn example models three months with opening £8,000, cash receipts £18,000/£12,000/£22,000, payments £20,000/£19,000/£14,000, net flows −£2,000/−£7,000/+£8,000, closing £6,000/−£1,000/£7,000. An independently recomputed £5,000 February receivable delay to March changes February closing to −£6,000 and March closing remains £7,000. Two new cards require the full forecast and amendment on paper; previous IDs are preserved. The cash timing examples do not assert that profit changes when a receipt date changes.
+
+`npx vitest run scripts/assurance/issue-698-business-cashflow.test.ts` independently calculates the rolling balances and checks the new Learn page and Practice cards are exposed through all three regular Business packs. These remain model-reveal / self-check tasks; they are not graded proof of construction ability.
+
+The financial correction adds no new product capability or publication policy. The canonical path remains `/revision/app/`, with Vite content discovery through `content/**/index.ts`, the ordinary adapter and published course packs. Full PDF requirement enumeration, the independent adversarial A1–A4 assurance, preservation/feedback in a real signed-in student session, all remaining content and Psychology are **outstanding**. This file must not be used as full-course acceptance evidence.
