@@ -48,7 +48,7 @@
           "aqa-7132-3.5.2:adverse-and-favourable-variances",
           "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
         ],
-        "body": "A bicycle repair firm sets a March profit budget. Its planned income is £80,000 and its planned expenditure lines are materials £28,000, wages £24,000 and overheads £12,000. Build the table with the same rows and columns for Budget, Actual and Variance, so the result can be checked line by line.\n\nRow                     Budget       Actual       Actual − Budget\nIncome                  £80,000      £75,000      −£5,000 (adverse income)\nMaterials               £28,000      £30,000      +£2,000 (adverse cost)\nWages                   £24,000      £25,000      +£1,000 (adverse cost)\nOverheads               £12,000      £11,000      −£1,000 (favourable cost)\nTotal expenditure       £64,000      £66,000      +£2,000 (adverse cost)\nProfit                  £16,000       £9,000      −£7,000 (adverse profit)\n\nConstruction method: (1) copy each planned income/cost line and period into the budget column; (2) sum budgeted expenditure £28,000+£24,000+£12,000=£64,000 and subtract from £80,000 budgeted income to obtain £16,000 budgeted profit; (3) enter actual income and costs against the SAME categories; (4) sum actual expenditure £30,000+£25,000+£11,000=£66,000 and deduct from £75,000 to find £9,000 actual profit; (5) calculate actual minus budget for each row, then label the consequence using its line type. For revenue/income, a negative variance is adverse; for expenditure, a positive variance is adverse. Profit variance is −£7,000, matching the fall in income of £5,000 plus the £2,000 net cost overrun. This reconciles the budget rather than treating each variance independently.\n\nEvaluate before blaming a manager: lower sales may reflect weaker demand, price changes or delayed orders; the materials overspend may reflect higher input prices OR a change in volume/mix. The £1,000 favourable overhead cost variance may result from prudent saving, but could hide maintenance deferral. Check operational evidence and compare like-for-like activity volumes before deciding whether performance was poor. An income/profit budget is not automatically a cash-flow forecast: credit sales and payments may occur in other months. All numbers are original Revision teaching examples, not AQA material."
+        "body": "A bicycle repair firm has a March profit budget. Its planned income is £80,000; planned costs are materials £28,000, wages £24,000 and overheads £12,000. Actual income is £75,000; actual costs are materials £30,000, wages £25,000 and overheads £11,000. Construct a budget-versus-actual table on paper with income, each cost, total expenditure and profit as separate rows. Use Budget, Actual and Actual minus Budget as the three numerical columns. Follow the step-by-step worked example below to reconcile the figures, with labels that depend on whether the row describes revenue, costs or profit. The profit variance should agree with the income shortfall less the net expenditure overrun. Investigate changed demand, input prices, volumes and timing before blaming a manager: a favourable overhead variance might reflect deferred maintenance. This income-and-profit budget does not automatically tell you when cash enters or leaves the business."
       },
       {
         "treatment": "example_non_example",
@@ -148,6 +148,21 @@
           "stated_answer": 5500,
           "unit": "currency"
         }
+      },
+      {
+        "id": "we-construct-complete-profit-budget",
+        "item_id": "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+        "scenario": "Bicycle repair firm, March: planned/actual income £80,000/£75,000; materials £28,000/£30,000; wages £24,000/£25,000; overheads £12,000/£11,000. Complete a Budget, Actual and Variance table and reconcile the result.",
+        "steps": [
+          "Build the income row: budget £80,000; actual £75,000; actual minus budget = −£5,000 adverse for income.",
+          "Build the materials row: budget £28,000; actual £30,000; +£2,000 adverse cost variance.",
+          "Build the wages row: budget £24,000; actual £25,000; +£1,000 adverse cost variance.",
+          "Build the overheads row: budget £12,000; actual £11,000; −£1,000 favourable cost variance.",
+          "Sum the total expenditure row: budget £28,000+£24,000+£12,000=£64,000; actual £30,000+£25,000+£11,000=£66,000; +£2,000 adverse overall.",
+          "Find budgeted profit: £80,000−£64,000=£16,000; actual profit: £75,000−£66,000=£9,000.",
+          "Calculate and reconcile the profit variance: £9,000−£16,000=−£7,000 adverse. Check: −£5,000 income minus +£2,000 cost = −£7,000 profit.",
+          "Investigate why: weak demand or changed prices can lower income; input inflation or changed volume can raise costs; a favourable overhead figure may reflect deferred maintenance."
+        ]
       }
     ]
   },
