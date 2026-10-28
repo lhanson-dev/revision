@@ -1,0 +1,63 @@
+{
+  "label": "Revision-original AQA-aligned practice question (not an AQA question)",
+  "confidence_label": "Limited",
+  "id": "q16",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:break-even-output",
+    "aqa-7132-3.5.2:contribution-per-unit",
+    "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even"
+  ],
+  "target_node_ids": [
+    "bus-fin-004"
+  ],
+  "question": {
+    "id": "q16",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Original Revision numerical practice: a café has fixed monthly costs of £5,000, price of £16 per sandwich and variable costs which have just risen from £6 to £8 per sandwich.",
+    "stem": "After the variable-cost increase, calculate the new break-even output in whole sandwiches.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Calculates the revised break-even output of 625 sandwiches, using £16 − £8 = £8 contribution per unit and £5,000 ÷ £8.",
+          "accept": [
+            "625",
+            "625 sandwiches",
+            "625 units"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Contribution per unit = £16 − £8 = £8. Break-even output = £5,000 ÷ £8 = 625 sandwiches per month."
+    },
+    "calcs": [
+      {
+        "label": "Revised break-even output",
+        "formula_id": "break_even_output",
+        "inputs": [
+          {
+            "name": "fixed_costs",
+            "value": 5000
+          },
+          {
+            "name": "contribution_per_unit",
+            "value": 8
+          }
+        ],
+        "stated_answer": 625,
+        "unit": "units"
+      }
+    ]
+  }
+}
