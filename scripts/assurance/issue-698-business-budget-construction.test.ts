@@ -9,7 +9,7 @@ import { buildQuestionPool } from '../../src/app/practice-questions'
 const slice = JSON.parse(readFileSync(join(process.cwd(),
   'content-factory/slices/aqa-7132-3.5/learn-practice/bus-fin-007.json'), 'utf8')) as {
   node_id: string
-  learn: { sections: Array<{ heading: string; body: string; item_ids: string[] }>; worked_examples: Array<{ id: string; steps: string[] }> }
+  learn: { sections: Array<{ heading: string; body: string; item_ids: string[] }>; worked_examples: Array<{ id: string; scenario: string; steps: string[]; calc: { formula_id: string; inputs: Array<{ name: string; value: number }>; stated_answer: number; unit: string } }> }
   practice: { items: Array<{ id: string; prompt: string; answer: string; capability: string }> }
 }
 const heading='Construct a complete budget and investigate actual variances'
@@ -31,6 +31,8 @@ describe('Issue #698 — constructing and analysing an AQA Business 7132 budget'
     expect(worked?.body).toMatch(/budget-versus-actual table/i)
     const example=slice.learn.worked_examples.find((x)=>x.id==='we-construct-complete-profit-budget')
     expect(example?.steps).toHaveLength(8)
+    expect(example?.scenario).toMatch(/work out the profit variance/i)
+    expect(example?.calc).toEqual({ formula_id: 'variance', inputs: [{ name: 'actual', value: 9000 }, { name: 'budgeted', value: 16000 }], stated_answer: -7000, unit: 'currency' })
     expect(example?.steps.some((s)=>s.includes('−£7,000'))).toBe(true)
     expect(example?.steps.some((s)=>s.includes('£9,000'))).toBe(true)
     expect(worked?.item_ids).toContain('aqa-7132-3.5.2:variance-analysis')
@@ -46,6 +48,7 @@ describe('Issue #698 — constructing and analysing an AQA Business 7132 budget'
       expect(page,pack.manifest.id).toBeDefined()
       expect(page?.blocks.some((b)=>b.type==='explanation' && b.heading===heading)).toBe(true)
       expect(page?.blocks.some((b)=>b.type==='worked-example' && b.setup.includes('Bicycle repair firm, March'))).toBe(true)
+      expect(page?.blocks.some((b)=>b.type==='worked-example' && b.task==='Work out the variance.')).toBe(true)
       const construction=pack.flashcards.find((c)=>c.id==='fast-bus-fin-007-p-construct-and-reconcile-march-budget')
       expect(construction,pack.manifest.id).toBeDefined()
       const pool=buildQuestionPool({topicId:'finance',topicOrder:5,coursePack:[],bank:pack.practiceBank??[]})
