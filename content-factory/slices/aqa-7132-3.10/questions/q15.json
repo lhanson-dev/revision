@@ -1,0 +1,64 @@
+{
+  "id": "q15",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.10.3:total-float"
+  ],
+  "target_node_ids": [
+    "bus-evi-008"
+  ],
+  "question": {
+    "id": "q15",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Original Revision practice. Activity R has a latest finish at day 18, earliest start at day 11 and duration of 5 days.",
+    "stem": "Calculate the total float for activity R, in days.",
+    "options": [],
+    "calcs": [
+      {
+        "label": "Total float",
+        "formula_id": "total_float",
+        "inputs": [
+          {
+            "name": "latest_finish",
+            "value": 18
+          },
+          {
+            "name": "earliest_start",
+            "value": 11
+          },
+          {
+            "name": "duration",
+            "value": 5
+          }
+        ],
+        "stated_answer": 2,
+        "unit": "days"
+      }
+    ],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Computes total float as 2 days.",
+          "accept": [
+            "2",
+            "2 days",
+            "two days"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Total float = latest finish − earliest start − duration = 18 − 11 − 5 = 2 days."
+    }
+  }
+}
