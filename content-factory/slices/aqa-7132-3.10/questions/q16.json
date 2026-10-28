@@ -52,6 +52,7 @@
       "levels": [],
       "indicative_content": [],
       "model_answer": "A. A–C–dummy–D now takes 9 days and becomes critical. A–B–D takes 8, so B has 1 day of total float."
-    }
+    },
+    "table": null
   }
 }
