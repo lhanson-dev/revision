@@ -9,7 +9,7 @@ import { buildQuestionPool } from '../../src/app/practice-questions'
 const slice = JSON.parse(readFileSync(join(process.cwd(),
   'content-factory/slices/aqa-7132-3.5/learn-practice/bus-fin-007.json'), 'utf8')) as {
   node_id: string
-  learn: { sections: Array<{ heading: string; body: string; item_ids: string[] }> }
+  learn: { sections: Array<{ heading: string; body: string; item_ids: string[] }>; worked_examples: Array<{ id: string; steps: string[] }> }
   practice: { items: Array<{ id: string; prompt: string; answer: string; capability: string }> }
 }
 const heading='Construct a complete budget and investigate actual variances'
@@ -28,8 +28,11 @@ describe('Issue #698 — constructing and analysing an AQA Business 7132 budget'
     expect(profitActual-profitBudget).toBe(-7000)
     expect((incomeActual-incomeBudget)-(costActual-costBudget)).toBe(-7000)
     const worked=slice.learn.sections.find((x)=>x.heading===heading)
-    expect(worked?.body).toContain('−£7,000')
-    expect(worked?.body).toContain('£9,000')
+    expect(worked?.body).toMatch(/budget-versus-actual table/i)
+    const example=slice.learn.worked_examples.find((x)=>x.id==='we-construct-complete-profit-budget')
+    expect(example?.steps).toHaveLength(8)
+    expect(example?.steps.some((s)=>s.includes('−£7,000'))).toBe(true)
+    expect(example?.steps.some((s)=>s.includes('£9,000'))).toBe(true)
     expect(worked?.item_ids).toContain('aqa-7132-3.5.2:variance-analysis')
     const construct=slice.practice.items.find((x)=>x.id==='p-construct-and-reconcile-march-budget')
     expect(construct?.capability).toBe('construction')
@@ -42,6 +45,7 @@ describe('Issue #698 — constructing and analysing an AQA Business 7132 budget'
       const page=pack.learn.chapters.flatMap((c)=>c.groups.flatMap((g)=>g.pages)).find((p)=>p.id===slice.node_id)
       expect(page,pack.manifest.id).toBeDefined()
       expect(page?.blocks.some((b)=>b.type==='explanation' && b.heading===heading)).toBe(true)
+      expect(page?.blocks.some((b)=>b.type==='worked-example' && b.setup.includes('Bicycle repair firm, March'))).toBe(true)
       const construction=pack.flashcards.find((c)=>c.id==='fast-bus-fin-007-p-construct-and-reconcile-march-budget')
       expect(construction,pack.manifest.id).toBeDefined()
       const pool=buildQuestionPool({topicId:'finance',topicOrder:5,coursePack:[],bank:pack.practiceBank??[]})
