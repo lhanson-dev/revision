@@ -98,7 +98,14 @@ export async function evidenceCrosswalk() {
   }
   const bank = [
     ...retained.questions.map((data) => ({ path:'content/business/aqa-a-level/shared/fast-path-question-bank.json', data })),
-    ...originals.map(({ path, data }) => ({ path, data:{ ...data, batch:data.batch ?? '3.5' } })),
+    ...originals.map(({ path, data }) => {
+      const pathSection = path.match(/aqa-7132-(3\\.(?:10|[1-9]))\\/questions\\//)?.[1]
+      if (!pathSection) throw new Error('Unknown Business specification section for ' + path)
+      if (data.batch && data.batch !== pathSection) {
+        throw new Error('Question section mismatch: ' + path + ' declares ' + data.batch)
+      }
+      return { path, data: { ...data, batch: data.batch ?? pathSection } }
+    }),
   ]
   const questionIds = new Set()
   const types = { scored:0, marker_dependent:0, not_scored:0 }
