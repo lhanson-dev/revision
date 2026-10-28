@@ -11,7 +11,7 @@ const cases = [
   { id: 'q20', answer: 'A', spec: 'aqa-7132-3.5.3:debt-factoring', why: /factor|cash/i },
   { id: 'q21', answer: 'C', spec: 'aqa-7132-3.5.3:venture-capital', why: /equity|control|venture/i },
   { id: 'q22', answer: 'B', spec: 'aqa-7132-3.5.4:ways-to-improve-cash-flow', why: /inventory|liquidity/i },
-  { id: 'q23', answer: 'C', spec: 'aqa-7132-3.5.4:ways-to-improve-profit-and-profitability', why: /profit|price/i },
+  { id: 'q23', answer: 'C', spec: 'aqa-7132-3.5.4:ways-to-improve-profit-and-profitability', why: /demand|contribution/i },
   { id: 'q24', answer: 'A', spec: 'aqa-7132-3.5.3:short-term-versus-long-term-finance', why: /maturity|overdraft|term/i },
   { id: 'q25', answer: 'C', spec: 'aqa-7132-3.5.1:profit-for-the-year', why: /100,000/i },
 ] as const
