@@ -51,6 +51,7 @@
       "levels": [],
       "indicative_content": [],
       "model_answer": "B. A–B–D takes 8 days; the parallel route A–C–dummy–D takes 7 days. The 8-day route determines the earliest project completion."
-    }
+    },
+    "table": null
   }
 }
