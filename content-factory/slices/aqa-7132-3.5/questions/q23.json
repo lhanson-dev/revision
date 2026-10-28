@@ -1,0 +1,58 @@
+{
+  "id": "q23",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.4:ways-to-improve-profit-and-profitability",
+    "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+  ],
+  "target_node_ids": [
+    "bus-fin-003",
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q23",
+    "family": "MCQ",
+    "command_word": "Evaluate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. A café wants to improve operating profit. Management proposes raising menu prices by 15%, while competitors' prices remain unchanged. Customers may be price-sensitive.",
+    "stem": "Which evaluation best reflects the uncertainty in the proposed profitability improvement?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "A 15% price rise guarantees a 15% increase in operating profit even if sales volume falls."
+      },
+      {
+        "label": "B",
+        "text": "Higher prices always improve profit margins and total profit regardless of customers' response."
+      },
+      {
+        "label": "C",
+        "text": "A price rise can increase contribution per item, but a sufficient fall in sales volume could reduce total contribution and profit."
+      },
+      {
+        "label": "D",
+        "text": "Changing selling price has no effect on revenue or contribution, only on fixed costs."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "C",
+      "option_rationale": [
+        "A is incorrect because operating profit depends on price, quantity and costs; volume may fall.",
+        "B is incorrect because a higher per-item margin does not guarantee higher total profit.",
+        "C is correct because the effect depends on demand responsiveness, competitive position and contribution lost from any reduction in sales volume.",
+        "D is incorrect because price directly changes revenue and contribution per unit under a simple variable-cost assumption."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "C. Test demand response and total contribution, not only the higher price per item; pricing is a trade-off rather than an automatic improvement."
+    },
+    "calcs": []
+  }
+}
