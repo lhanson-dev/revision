@@ -76,3 +76,22 @@ The 248 bank items divide into 81 presently software-scored items (MCQ/single-nu
 By ten Business subject areas the linked named requirements / named requirements with supported scored-or-marker-dependent question links were: 3.1 32/28; 3.2 21/14; 3.3 42/35; 3.4 31/22; 3.5 35/18; 3.6 46/36; 3.7 53/38; 3.8 13/9; 3.9 41/37; 3.10 30/18. These are diagnostic **link counts**, not examiner-approved semantic coverage or demonstrated student competencies.
 
 The first exact-head CI for this audit failed an existing source label assertion on three new scored question records. Their label was corrected to the established explicit `Revision-authored` pattern. The count and coverage diagnostic itself passed. Fresh CI is required on the updated exact head. Existing unreconciled visual-baseline failures on the AS-level synthetic fixture must be resolved or separately proven unrelated before any request for merge approval.
+
+## Further targeted Business 3.5 scored Practice expansion — q18–q25
+
+Following the first published-linkage diagnostic, eight additional fully original **one-mark, software-marked MCQs** were added to the existing AQA 7132 financial Practice ingestion path without altering the prior 245 question IDs or the existing q15–q17. Every new item is labelled `Revision-authored` and `Limited` pending independent educational review. The items address the specific source demands rather than being added simply to inflate volume:
+
+| Question | Exact specification obligations | Independently checkable answer |
+| --- | --- | --- |
+| q18 | 3.5.1: cash flow versus profit; cash-flow objectives | B — credit sales can precede cash receipts |
+| q19 | 3.5.2: variance analysis; favourable/adverse variances | B — £27,000 − £24,000 = £3,000 adverse cost variance |
+| q20 | 3.5.3: debt factoring; advantages/disadvantages and choice of funding | A — accelerate receivables at a cost |
+| q21 | 3.5.3: venture capital, crowdfunding, share capital | C — potential specialist advice and ownership dilution |
+| q22 | 3.5.4: ways and difficulties of improving cash flow and profit | B — inventory clearance releases cash but can lower margins |
+| q23 | 3.5.4: profit improvement and limitations | C — higher unit contribution may be offset by lower volume |
+| q24 | 3.5.3: short-/long-term finance, overdrafts and loans | A — funding-maturity mismatch and withdrawal risk |
+| q25 | 3.5.1: gross/operating/profit-for-year | C — £315,000 gross → £135,000 operating → £100,000 profit for year |
+
+`scripts/assurance/issue-698-business-finance-scored.test.ts` asserts each new question is actually offered by the normal scored Practice question pool across all three published Business paper packs, has the expected keyed and explained response, carries its mapped requirement ID, and preserves additive IDs. The prior release-bank total becomes **256** (245 retained + 11 new from Issue #698). The original structural crosswalk is recomputed on every test run; its earlier 248-question CI result is a retained point-in-time finding, not a current total after these additions.
+
+This does **not** validate real student answer persistence, provide a full examination-paper simulator, guarantee substantive coverage of every compound requirement, or replace independent educational review. No provider spend was incurred. The remaining course-quality and Psychology obligations on #698 are still open.
