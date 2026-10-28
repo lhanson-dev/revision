@@ -13,7 +13,7 @@
   "question": {
     "id": "q21",
     "family": "MCQ",
-    "command_word": "Evaluate",
+    "command_word": "Identify",
     "marks": 1,
     "ao_tags": [
       "AO2"
