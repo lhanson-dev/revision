@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { learnCourseSchema } from './learn-schema'
+import { contentPackPracticeExperienceSchema } from './practice-experience-schema'
 import { structuredPracticeBankRecordSchema } from './structured-practice-bank'
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
@@ -269,6 +270,8 @@ export const contentPackSchema = z.object({
   dataDrills: z.array(dataDrillSchema),
   examTechnique: z.array(examTechniqueGuideSchema).default([]),
   exams: z.array(examSchema),
+  /** Optional learner-experience layer: how each topic section should be practised. */
+  practiceExperience: contentPackPracticeExperienceSchema.optional(),
 }).superRefine((pack, context) => {
   const manifestTopics = new Set(pack.manifest.topicIds)
   const actualTopics = new Set(pack.topics.map((topic) => topic.id))
@@ -312,6 +315,26 @@ export const contentPackSchema = z.object({
       context.addIssue({ code: 'custom', path: ['practiceBank', index, 'topic_id'], message: `Practice item ${record.id} references unknown topic ${record.topic_id}` })
     }
   })
+  if (pack.practiceExperience) {
+    const sectionKeys = new Set(pack.topics.flatMap((topic) => topic.sections.map((section) => `${topic.id}:${section.id}`)))
+    const formatIds = new Set(pack.practiceExperience.formats.map((format) => format.id))
+    const seenSections = new Set<string>()
+    pack.practiceExperience.designs.forEach((design, index) => {
+      const key = `${design.topicId}:${design.sectionId}`
+      if (!sectionKeys.has(key)) {
+        context.addIssue({ code: 'custom', path: ['practiceExperience', 'designs', index], message: `Practice design ${design.requirementId} references unknown topic section ${key}` })
+      }
+      if (seenSections.has(key)) {
+        context.addIssue({ code: 'custom', path: ['practiceExperience', 'designs', index], message: `Duplicate practice design for ${key}` })
+      }
+      seenSections.add(key)
+      design.formats.forEach((formatId) => {
+        if (!formatIds.has(formatId)) {
+          context.addIssue({ code: 'custom', path: ['practiceExperience', 'designs', index, 'formats'], message: `Practice design ${design.requirementId} uses unknown format ${formatId}` })
+        }
+      })
+    })
+  }
   assertUniqueIds(pack.topics, 'topics', context)
   assertUniqueIds(pack.formulas, 'formulas', context)
   assertUniqueIds(pack.topicLinks, 'topicLinks', context)
