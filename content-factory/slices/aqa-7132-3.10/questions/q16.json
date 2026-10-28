@@ -1,0 +1,57 @@
+{
+  "id": "q16",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.10.3:amending-network-diagrams",
+    "aqa-7132-3.10.3:critical-path",
+    "aqa-7132-3.10.3:total-float"
+  ],
+  "target_node_ids": [
+    "bus-evi-008"
+  ],
+  "question": {
+    "id": "q16",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Original Revision practice. A (2 days) precedes parallel B (4 days) and C (3 days); D (2 days) waits for BOTH. C now increases from 3 to 5 days, while all other durations and dependencies are unchanged.",
+    "stem": "After amending the network timings, which statement is correct?",
+    "options": [
+      {
+        "label": "A",
+        "text": "A–C–D becomes critical and the project takes 9 days; B has 1 day of float."
+      },
+      {
+        "label": "B",
+        "text": "A–B–D stays critical and the project still takes 8 days."
+      },
+      {
+        "label": "C",
+        "text": "The project takes 11 days because B and C must happen sequentially."
+      },
+      {
+        "label": "D",
+        "text": "A–C–D becomes critical at 9 days, and B still has zero float."
+      }
+    ],
+    "calcs": [],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct because the C route now lasts 2+5+0+2 = 9 days, and the unchanged B route lasts 8 days.",
+        "B is incorrect because increasing C to 5 days makes its branch one day longer than B.",
+        "C is incorrect because B and C remain parallel; their durations are not summed sequentially.",
+        "D is incorrect because the eight-day B route can now slip one day before delaying the nine-day project."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "A. A–C–dummy–D now takes 9 days and becomes critical. A–B–D takes 8, so B has 1 day of total float."
+    }
+  }
+}
