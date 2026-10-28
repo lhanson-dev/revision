@@ -95,3 +95,19 @@ Following the first published-linkage diagnostic, eight additional fully origina
 `scripts/assurance/issue-698-business-finance-scored.test.ts` asserts each new question is actually offered by the normal scored Practice question pool across all three published Business paper packs, has the expected keyed and explained response, carries its mapped requirement ID, and preserves additive IDs. The prior release-bank total becomes **256** (245 retained + 11 new from Issue #698). The original structural crosswalk is recomputed on every test run; its earlier 248-question CI result is a retained point-in-time finding, not a current total after these additions.
 
 This does **not** validate real student answer persistence, provide a full examination-paper simulator, guarantee substantive coverage of every compound requirement, or replace independent educational review. No provider spend was incurred. The remaining course-quality and Psychology obligations on #698 are still open.
+
+## 3.10.3 network analysis — scored Practice route, no new learner feature
+
+Rechecking the exact user-provided AQA 7132 v2.0 PDF (physical page 31) confirms requirements for understanding/interpreting network diagrams, amendment, critical path and total float. In addition to the original network Learn example and self-check graph/diagram tasks, PR #699 now adds **three original standard scored Practice items** under `content-factory/slices/aqa-7132-3.10/questions/`:
+
+- `aqa7132-3.10-q14` (software-scored one-mark MCQ): identify the critical path A–B–D and project duration 8 days from an explicit parallel AND dependency.
+- `aqa7132-3.10-q15` (software-scored one-number calculation): total float = latest finish 18 − earliest start 11 − duration 5 = 2 days.
+- `aqa7132-3.10-q16` (software-scored one-mark MCQ): after C increases from 3 to 5 days, identify revised critical path A–C–dummy–D, duration 9 days and B's total float of 1 day.
+
+These do **not** automatically mark a student's diagram drawn on paper. The existing self-check construction task remains and is not falsely labelled as objectively graded construction. All questions remain `Limited` confidence until independent educational A3 review.
+
+The existing standard `content/business/aqa-a-level/shared/fast-path-questions.ts` import has been generalized from **3.5 only** to the existing `aqa-7132-*/questions/q*.json` slices, with a fail-closed section/path consistency check. This is a content-ingestion amendment within the canonical `content/**/index.ts` pack and `/revision/app/` runtime; **not** a new student feature or second ingestion system. Original 245 accepted bank records retain their identity. The resulting total is **259 structured bank records**: 245 retained + eleven 3.5 additions + three 3.10 additions. `scripts/assurance/aqa-7132-learner-crosswalk.mjs` now enumerates every existing slice `questions/` directory, and the crosswalk and exact pack ingestion tests assert that the three new network items are discoverable, scored and correctly linked. Existing material and history are not replaced.
+
+**Documentation impact:** Only current site-ingestion technical evidence changes; no normative policy, syllabus or Learning Blueprint behaviour is changed by adding suitably tagged original questions and generalizing file discovery. This document and deterministic assurance tests are committed in the same branch; historical evidence is preserved.
+
+**Acceptance boundary:** Neither the modified content nor the 259-item bank has passed whole-course independent educational review, production deployment or signed-in learner-path verification. Remaining #698 work includes full Business semantic audit and remediation, true option-aware Psychology 7182 content and exam experience, and any unrelated visual baseline mismatch. Do not approve or merge PR #699 solely because the bank count increased.
