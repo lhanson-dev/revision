@@ -176,9 +176,19 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * changed. Provenance: audits/2026-10-21-pr655-learn-visual-approval.md.
  * This approval is visual only, never PR merge or deployment approval.
  */
+/**
+ * Proposed correction under Issue #698: four AS Business (7131) visuals
+ * captured identically across separate CI runs on the current approved UI.
+ * These digests are submitted FOR Founder visual review, NOT already approved.
+ * Evidence: runs 40769573409 and 40781113495, screenshots/artifacts; see
+ * audits/2026-10-28-as-business-visual-baseline-reconciliation.md.
+ * This branch does not alter learner UI, content, route or behaviour.
+ * Do not merge until the Founder explicitly approves the exact four captures
+ * and the PR merge independently, with CI results and provenance verified.
+ */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'fb2fbc220495c1515f704547d8bda2fe43a05589decf92443e9b949da24930dc',
-  'desktop:dark': '6259208657efa6d296b071f69de83466bd4e14c3a09fb411263df6ab3606ff3b',
+  'desktop:light': 'b7c261ab8a09ffe6d2d9759b4ede288b377ea6b5face95c553e516990e07d87a',
+  'desktop:dark': '3adf5a6742bbcee4102a8d49ee67e5ed9488ade1355b0a88ba17882dc564fd99',
 }
 
 /**
@@ -326,8 +336,8 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
     '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3', // Previously approved digest reappeared in CI #39651739221
   ],
   'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
-  'tablet:exam-prep:light': '9c4fedac7ff928735906fe02953370ac1a8c230640b8462d78a33cb134853997',
-  'tablet:exam-prep:dark': '5cf54eb772be1a0c5b259adcce0e21db47dff516e218d10602afa137f30f0912',
+  'tablet:exam-prep:light': '056536438efc8557851de6ab6c32992856e177beb03e0e44f83b90e55a924bb3',
+  'tablet:exam-prep:dark': 'b3ce313e32d4bf87dcd129d045f0c56b34e6d53ec2f6ed216a7035551a556a41',
   'tablet:timed-exam:light': 'd2c94a6d3fce080858c19a111a41c4fc75c09e2141bb923e9c210747918f61f6',
   'tablet:timed-exam:dark': '45445c124c8b237077769c6ec8c4a8c3550e33519b107108780f6930f1374aa7',
 }
