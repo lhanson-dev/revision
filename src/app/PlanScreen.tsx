@@ -620,6 +620,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
                       <strong>{assessment.title}</strong>
                       <span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span>
                       {assessment.moduleId?.startsWith('psychology-aqa-a-level-7182-paper-3')
+                        && (!Array.isArray(assessment.scope.topicIds) || assessment.scope.topicIds.length !== 4) && (
+                          <span>Paper 3 topic choices missing. Remove this exam date and add it again to select your topics.</span>
+                        )}
+                      {assessment.moduleId?.startsWith('psychology-aqa-a-level-7182-paper-3')
                         && Array.isArray(assessment.scope.topicIds) && (
                         <span>Paper 3 options: {(assessment.scope.topicIds as string[])
                           .filter((id) => id !== 'issues-and-debates-in-psychology')
