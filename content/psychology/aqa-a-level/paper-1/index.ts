@@ -10,6 +10,7 @@ import {
   psychologyTopicLinks,
   psychologyTopics,
 } from '../shared/course'
+import { psychologyPackPracticeExperience } from '../shared/practice-experience'
 
 export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   manifest,
@@ -22,6 +23,7 @@ export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   caseStudies: [],
   dataDrills: psychologyDataDrills,
   examTechnique: psychologyExamTechnique,
+  practiceExperience: psychologyPackPracticeExperience,
   exams: psychologyPaper1Exams,
 })
 

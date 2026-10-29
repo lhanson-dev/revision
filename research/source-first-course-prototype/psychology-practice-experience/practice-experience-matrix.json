@@ -1,0 +1,2857 @@
+{
+  "schemaVersion": 1,
+  "status": "experimental_practice_experience_candidate",
+  "checkedDate": "2026-10-28",
+  "course": {
+    "awardingBody": "AQA",
+    "qualification": "A-level",
+    "subject": "Psychology",
+    "specificationCode": "7182",
+    "specificationVersion": "1.4 (1 September 2025)",
+    "firstAlevelExams": "Summer 2027"
+  },
+  "purpose": "Learner-experience layer over Course Truth, Exam Truth and the Course Learning Blueprint. It chooses the engaging practice formats for each requirement, records specification-precision boundaries and synoptic links, and maps every format to the Practice activity modes the learner-asset builder already produces.",
+  "rights": {
+    "aqaUseClass": "REFERENCE_ONLY",
+    "content": "Structured facts and Revision-authored descriptions only. No AQA specification, question or mark-scheme prose is reproduced as teaching copy. Named researchers and terms are listed because the specification requires them."
+  },
+  "courseMixTargets": {
+    "source": "AQA 7182 v1.4 scheme of assessment (structured facts)",
+    "ao3ShareOfAssessmentPercent": [
+      36,
+      38
+    ],
+    "researchMethodsShareOfAssessmentPercent": [
+      25,
+      30
+    ],
+    "mathematicalSkillsShareOfAssessmentMinimumPercent": 10,
+    "rule": "Over a typical fortnight, a learner's practice should give at least these shares to evaluation (AO3), research methods and maths. Recall-only practice alone cannot meet the mix."
+  },
+  "formats": [
+    {
+      "id": "study_autopsy",
+      "name": "Study Autopsy",
+      "learnerDescription": "Pull apart a short made-up study: what was measured, how, what went wrong and what would fix it.",
+      "typicalMinutes": 4,
+      "assessmentObjectives": [
+        "AO2",
+        "AO3"
+      ],
+      "practiceModes": [
+        "contextual_application_scenario",
+        "classification_matching_ordering",
+        "interpretation_data_graph_source"
+      ]
+    },
+    {
+      "id": "scenario_stem",
+      "name": "Apply It",
+      "learnerDescription": "A short real-life situation. Use the psychology to explain what is happening, using the cues given.",
+      "typicalMinutes": 3,
+      "assessmentObjectives": [
+        "AO2"
+      ],
+      "practiceModes": [
+        "contextual_application_scenario",
+        "short_constructed_response"
+      ]
+    },
+    {
+      "id": "evaluation_duel",
+      "name": "Evaluation Duel",
+      "learnerDescription": "Make a point, face the counterpoint, then land a judgement. Builds the evaluation that carries the most marks.",
+      "typicalMinutes": 4,
+      "assessmentObjectives": [
+        "AO3"
+      ],
+      "practiceModes": [
+        "compare_justify_task",
+        "reasoning_chain_construction"
+      ]
+    },
+    {
+      "id": "debate_link",
+      "name": "Debate Link-up",
+      "learnerDescription": "Take one big debate and connect it to topics from across the course, with a reason for each link.",
+      "typicalMinutes": 5,
+      "assessmentObjectives": [
+        "AO1",
+        "AO3"
+      ],
+      "practiceModes": [
+        "mixed_topic_retrieval",
+        "compare_justify_task"
+      ]
+    },
+    {
+      "id": "number_sprint",
+      "name": "Number Sprint",
+      "learnerDescription": "Quick timed calculations, each followed by a one-line 'so what does that show?'.",
+      "typicalMinutes": 3,
+      "assessmentObjectives": [
+        "AO2"
+      ],
+      "practiceModes": [
+        "calculation_quantitative_drill"
+      ]
+    },
+    {
+      "id": "data_read",
+      "name": "Read the Data",
+      "learnerDescription": "A table, graph or result to interpret: spot the pattern, the limit and the conclusion you can and cannot draw.",
+      "typicalMinutes": 3,
+      "assessmentObjectives": [
+        "AO2",
+        "AO3"
+      ],
+      "practiceModes": [
+        "interpretation_data_graph_source"
+      ]
+    },
+    {
+      "id": "test_picker",
+      "name": "Test Picker",
+      "learnerDescription": "Given a study, choose the right statistical test and justify it from the design and level of data.",
+      "typicalMinutes": 2,
+      "assessmentObjectives": [
+        "AO2"
+      ],
+      "practiceModes": [
+        "recognition_discrimination_check",
+        "classification_matching_ordering"
+      ]
+    },
+    {
+      "id": "study_cards",
+      "name": "Study Cards",
+      "learnerDescription": "Fast recall of the named researchers and studies: what they did, what they found, one strength, one weakness.",
+      "typicalMinutes": 2,
+      "assessmentObjectives": [
+        "AO1"
+      ],
+      "practiceModes": [
+        "retrieval_prompt_flashcard"
+      ]
+    },
+    {
+      "id": "sort_it",
+      "name": "Sort It",
+      "learnerDescription": "Drag items into the right group or order: symptoms by type, stages in sequence, features by store.",
+      "typicalMinutes": 2,
+      "assessmentObjectives": [
+        "AO1",
+        "AO2"
+      ],
+      "practiceModes": [
+        "classification_matching_ordering"
+      ]
+    },
+    {
+      "id": "myth_buster",
+      "name": "Myth Buster",
+      "learnerDescription": "Spot the common wrong idea and say why it is wrong.",
+      "typicalMinutes": 2,
+      "assessmentObjectives": [
+        "AO1"
+      ],
+      "practiceModes": [
+        "misconception_diagnostic",
+        "recognition_discrimination_check"
+      ]
+    },
+    {
+      "id": "explain_chain",
+      "name": "Explain Chain",
+      "learnerDescription": "Build the mechanism step by step: this happens, which causes that, which leads to this.",
+      "typicalMinutes": 3,
+      "assessmentObjectives": [
+        "AO1",
+        "AO2"
+      ],
+      "practiceModes": [
+        "reasoning_chain_construction"
+      ]
+    },
+    {
+      "id": "therapy_clinic",
+      "name": "The Clinic",
+      "learnerDescription": "You are the practitioner. Read the case, choose a treatment or intervention and justify it against the alternative.",
+      "typicalMinutes": 4,
+      "assessmentObjectives": [
+        "AO2",
+        "AO3"
+      ],
+      "practiceModes": [
+        "contextual_application_scenario",
+        "compare_justify_task"
+      ]
+    },
+    {
+      "id": "design_it",
+      "name": "Design It",
+      "learnerDescription": "Plan a small piece of research for a given aim: hypothesis, design, sample, controls, ethics.",
+      "typicalMinutes": 4,
+      "assessmentObjectives": [
+        "AO2",
+        "AO3"
+      ],
+      "practiceModes": [
+        "contextual_application_scenario",
+        "short_constructed_response"
+      ]
+    },
+    {
+      "id": "essay_builder",
+      "name": "Essay Builder",
+      "learnerDescription": "Build a 16-mark answer in pieces: knowledge paragraph, application, then evaluation, with the support fading each time.",
+      "typicalMinutes": 8,
+      "assessmentObjectives": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "practiceModes": [
+        "short_constructed_response"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "requirementId": "PSY-01-01",
+      "formats": [
+        "scenario_stem",
+        "study_cards",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Asch (group size, unanimity, task difficulty)"
+      ],
+      "specificationBoundary": "Types of conformity named in v1.4 are internalisation and compliance only. Explanations: informational and normative social influence.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01",
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-01",
+        "PSY-07-21"
+      ],
+      "scenarioHook": "Everyone in the group chat says the answer to Q3 is B. You are fairly sure it is C.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-01-02",
+      "formats": [
+        "evaluation_duel",
+        "scenario_stem",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Milgram (proximity, location)",
+        "uniform",
+        "Authoritarian Personality"
+      ],
+      "specificationBoundary": "Situational variables named: proximity, location and uniform. The dispositional explanation named is the Authoritarian Personality.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-17",
+        "PSY-07-21"
+      ],
+      "scenarioHook": "A supervisor at your Saturday job tells you to throw away food that is still fine to eat.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-01-03",
+      "formats": [
+        "scenario_stem",
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "social support",
+        "locus of control"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-01-01",
+        "PSY-01-02"
+      ],
+      "scenarioHook": "One friend refuses to join in a prank at a party, and then two others refuse too.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-01-04",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "consistency, commitment, flexibility"
+      ],
+      "specificationBoundary": "v1.4 lists minority influence through consistency, commitment and flexibility. Social change is not listed as a separate point.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-01-01"
+      ],
+      "scenarioHook": "Two students start a campaign to stop homework being set on Fridays.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-02-01",
+      "formats": [
+        "sort_it",
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "sensory register, STM, LTM"
+      ],
+      "specificationBoundary": "Features of each store: coding, capacity and duration.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-03",
+        "PSY-07-11"
+      ],
+      "scenarioHook": "Remembering a new phone number for ten seconds versus your childhood address.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-02-02",
+      "formats": [
+        "explain_chain",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "central executive, phonological loop, visuo-spatial sketchpad, episodic buffer"
+      ],
+      "specificationBoundary": "Features of the model named in v1.4 are coding and capacity. Duration is not listed for this model.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-03",
+        "PSY-06-05"
+      ],
+      "scenarioHook": "Revising with lyrics playing versus instrumental music.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-02-03",
+      "formats": [
+        "scenario_stem",
+        "sort_it",
+        "study_autopsy"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "proactive interference",
+        "retroactive interference",
+        "retrieval failure"
+      ],
+      "specificationBoundary": "Only interference and retrieval failure due to absence of cues are named.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-01"
+      ],
+      "scenarioHook": "A new locker code keeps getting muddled with last year's code.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-02-04",
+      "formats": [
+        "study_autopsy",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "leading questions",
+        "post-event discussion",
+        "anxiety",
+        "cognitive interview"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-01",
+        "PSY-07-21"
+      ],
+      "scenarioHook": "Witnesses to a minor crash outside college talk about it before giving statements.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-03-01",
+      "formats": [
+        "study_cards",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Lorenz",
+        "Harlow"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-17"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-03-02",
+      "formats": [
+        "evaluation_duel",
+        "explain_chain",
+        "scenario_stem"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "learning theory",
+        "Bowlby's monotropic theory",
+        "critical period",
+        "internal working model"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-01",
+        "PSY-03-05"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-03-03",
+      "formats": [
+        "sort_it",
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Ainsworth's Strange Situation",
+        "van Ijzendoorn"
+      ],
+      "specificationBoundary": "Three attachment types are named: secure, insecure-avoidant and insecure-resistant.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-02",
+        "PSY-07-12",
+        "PSY-07-25"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-03-04",
+      "formats": [
+        "evaluation_duel",
+        "scenario_stem",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Bowlby's theory of maternal deprivation",
+        "English and Romanian Adoptees project"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-03-05",
+      "formats": [
+        "explain_chain",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "internal working model"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-09-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-04-01",
+      "formats": [
+        "scenario_stem",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "deviation from ideal mental health",
+        "deviation from social/cultural norms",
+        "failure to function adequately",
+        "statistical infrequency"
+      ],
+      "specificationBoundary": "v1.4 calls these definitions in the field of mental health, with deviation from ideal mental health listed first.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-04-02",
+      "formats": [
+        "sort_it",
+        "scenario_stem"
+      ],
+      "demands": [
+        "describe",
+        "apply"
+      ],
+      "namedInSpecification": [
+        "phobias",
+        "depression",
+        "OCD"
+      ],
+      "specificationBoundary": "Characteristics are split into behavioural, emotional and cognitive for each of the three disorders.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-04-03",
+      "formats": [
+        "therapy_clinic",
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "two-process model",
+        "systematic desensitisation (relaxation, hierarchy)",
+        "flooding"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-04-04",
+      "formats": [
+        "therapy_clinic",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Beck's negative triad",
+        "Ellis's ABC model",
+        "CBT"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-03",
+        "PSY-07-19"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-04-05",
+      "formats": [
+        "explain_chain",
+        "therapy_clinic",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetic explanations",
+        "neural explanations",
+        "drug therapy"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-04",
+        "PSY-06-02"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-05-01",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Pavlov",
+        "Skinner"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-04-03",
+        "PSY-17-04"
+      ],
+      "scenarioHook": "A phone app that gives you a streak badge for opening it every day.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-02",
+      "formats": [
+        "scenario_stem",
+        "explain_chain",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Bandura",
+        "imitation, identification, vicarious reinforcement, mediational processes"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-10-05",
+        "PSY-15-03",
+        "PSY-16-03",
+        "PSY-17-02"
+      ],
+      "scenarioHook": "A younger sibling copies a footballer's goal celebration after seeing it get cheered.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-03",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "schema",
+        "theoretical and computer models"
+      ],
+      "specificationBoundary": "In v1.4, cognitive neuroscience sits under the biological approach, not the cognitive approach.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-02-01",
+        "PSY-02-02",
+        "PSY-04-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-04",
+      "formats": [
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genotype, phenotype, evolution",
+        "neurochemistry",
+        "cognitive neuroscience"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-02",
+        "PSY-04-05"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-05",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Id, Ego, Superego",
+        "repression, denial, displacement",
+        "psychosexual stages"
+      ],
+      "specificationBoundary": "Defence mechanisms named: repression, denial and displacement.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-22"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-06",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Maslow's hierarchy of needs",
+        "congruence",
+        "conditions of worth",
+        "self-actualisation"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-05"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-05-07",
+      "formats": [
+        "evaluation_duel",
+        "debate_link",
+        "essay_builder"
+      ],
+      "demands": [
+        "compare",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-03",
+        "PSY-08-04",
+        "PSY-08-05"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-01",
+        "PSY-05-02",
+        "PSY-05-03",
+        "PSY-05-04",
+        "PSY-05-05",
+        "PSY-05-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-01",
+      "formats": [
+        "sort_it",
+        "explain_chain"
+      ],
+      "demands": [
+        "describe"
+      ],
+      "namedInSpecification": [
+        "central, peripheral, somatic, autonomic"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-06-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-02",
+      "formats": [
+        "explain_chain",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "explain"
+      ],
+      "namedInSpecification": [
+        "sensory, relay and motor neurons",
+        "synaptic transmission",
+        "excitation and inhibition"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-04-05",
+        "PSY-17-03"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-03",
+      "formats": [
+        "sort_it",
+        "study_cards"
+      ],
+      "demands": [
+        "describe"
+      ],
+      "namedInSpecification": [
+        "glands and hormones"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-10-01",
+        "PSY-14-01"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-04",
+      "formats": [
+        "explain_chain",
+        "scenario_stem"
+      ],
+      "demands": [
+        "describe",
+        "explain",
+        "apply"
+      ],
+      "namedInSpecification": [
+        "adrenaline"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-06-01",
+        "PSY-14-01"
+      ],
+      "scenarioHook": "The thirty seconds before you walk on stage for a performance.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-05",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "compare",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "fMRI",
+        "EEG",
+        "ERPs",
+        "post-mortem examinations"
+      ],
+      "specificationBoundary": "Students should be able to choose a method for a research aim and compare methods.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-21"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-06-06",
+      "formats": [
+        "scenario_stem",
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Broca's area",
+        "Wernicke's area",
+        "split-brain research",
+        "plasticity",
+        "functional recovery"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04",
+        "PSY-08-05"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-01",
+      "formats": [
+        "study_autopsy",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "laboratory, field, natural, quasi"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-21"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-02",
+      "formats": [
+        "study_autopsy",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "naturalistic/controlled",
+        "covert/overt",
+        "participant/non-participant"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-12"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-03",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "questionnaires",
+        "structured/unstructured interviews"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-13"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-04",
+      "formats": [
+        "study_autopsy",
+        "data_read",
+        "myth_buster"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "co-variables"
+      ],
+      "specificationBoundary": "Students must distinguish correlations from experiments, including what each can and cannot show about cause.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-29"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-05",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-31"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-06",
+      "formats": [
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [
+        "PSY-08-05"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-07",
+      "formats": [
+        "design_it",
+        "myth_buster"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-08"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-08",
+      "formats": [
+        "design_it",
+        "sort_it"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [
+        "directional",
+        "non-directional"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-07"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-09",
+      "formats": [
+        "study_autopsy",
+        "sort_it",
+        "design_it"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "random, systematic, stratified, opportunity, volunteer"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-10",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-11",
+      "formats": [
+        "study_autopsy",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "repeated measures",
+        "independent groups",
+        "matched pairs"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-15"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-12",
+      "formats": [
+        "design_it",
+        "study_autopsy"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [
+        "behavioural categories",
+        "event sampling",
+        "time sampling"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-02"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-13",
+      "formats": [
+        "design_it",
+        "study_autopsy"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "open and closed questions"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-03"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-14",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [
+        "independent, dependent, extraneous variables",
+        "operationalisation"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-15",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [
+        "random allocation",
+        "counterbalancing",
+        "randomisation",
+        "standardisation",
+        "control groups"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-11"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-16",
+      "formats": [
+        "study_autopsy",
+        "myth_buster"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "demand characteristics",
+        "investigator effects"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-17",
+      "formats": [
+        "scenario_stem",
+        "study_autopsy"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "BPS code of ethics"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [
+        "PSY-01-02",
+        "PSY-03-01"
+      ],
+      "scenarioHook": "You sit on an ethics committee deciding whether a study can go ahead.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-18",
+      "formats": [
+        "explain_chain",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "explain"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-22"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-19",
+      "formats": [
+        "scenario_stem",
+        "debate_link"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-04-04",
+        "PSY-14-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-20",
+      "formats": [
+        "study_autopsy",
+        "design_it"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "test-retest",
+        "inter-observer"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-21",
+      "formats": [
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "face, concurrent, ecological, temporal validity"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-22",
+      "formats": [
+        "debate_link",
+        "explain_chain"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "objectivity, empirical method",
+        "replicability, falsifiability",
+        "paradigms and paradigm shifts"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-05",
+        "PSY-05-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-23",
+      "formats": [
+        "sort_it"
+      ],
+      "demands": [
+        "describe"
+      ],
+      "namedInSpecification": [
+        "abstract, introduction, method, results, discussion, referencing"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-24",
+      "formats": [
+        "sort_it",
+        "data_read"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-31"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-25",
+      "formats": [
+        "sort_it",
+        "study_autopsy"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "meta-analysis"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-03-03"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-26",
+      "formats": [
+        "number_sprint",
+        "data_read"
+      ],
+      "demands": [
+        "calculate",
+        "interpret_data"
+      ],
+      "namedInSpecification": [
+        "mean, median, mode",
+        "range",
+        "standard deviation"
+      ],
+      "specificationBoundary": "Subject content names calculation of mean, median, mode, range and percentages. The maths annex also lists 'calculate standard deviation'. Practise interpreting standard deviation throughout; treat SD calculation as a point to confirm with AQA before setting it.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-28"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-27",
+      "formats": [
+        "data_read",
+        "design_it"
+      ],
+      "demands": [
+        "interpret_data",
+        "apply"
+      ],
+      "namedInSpecification": [
+        "graphs, tables, scattergrams, bar charts, histograms"
+      ],
+      "specificationBoundary": "Students must be able to choose and sketch an appropriate display for a given data set.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-28",
+      "formats": [
+        "data_read",
+        "sort_it"
+      ],
+      "demands": [
+        "interpret_data"
+      ],
+      "namedInSpecification": [
+        "normal and skewed distributions"
+      ],
+      "specificationBoundary": "Includes locating the mean, median and mode on normal and skewed distributions.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-26"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-29",
+      "formats": [
+        "data_read",
+        "number_sprint"
+      ],
+      "demands": [
+        "interpret_data"
+      ],
+      "namedInSpecification": [
+        "correlation coefficients"
+      ],
+      "specificationBoundary": "Interpret coefficients (direction and strength). Calculating Spearman's or Pearson's coefficient is not required.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-30",
+      "formats": [
+        "sort_it",
+        "test_picker"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [
+        "nominal, ordinal, interval"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-34"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-31",
+      "formats": [
+        "design_it"
+      ],
+      "demands": [
+        "apply"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-05"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-32",
+      "formats": [
+        "number_sprint",
+        "test_picker"
+      ],
+      "demands": [
+        "calculate",
+        "choose_test"
+      ],
+      "namedInSpecification": [
+        "sign test"
+      ],
+      "specificationBoundary": "The sign test is the only inferential test students must calculate in full.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-33"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-33",
+      "formats": [
+        "data_read",
+        "number_sprint",
+        "myth_buster"
+      ],
+      "demands": [
+        "interpret_data",
+        "calculate"
+      ],
+      "namedInSpecification": [
+        "critical values",
+        "0.05 and 0.01 levels",
+        "Type I and Type II errors"
+      ],
+      "specificationBoundary": "Students use statistical tables and critical values to judge significance, including one- and two-tailed tests.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-32"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-07-34",
+      "formats": [
+        "test_picker"
+      ],
+      "demands": [
+        "choose_test"
+      ],
+      "namedInSpecification": [
+        "Spearman's rho",
+        "Pearson's r",
+        "Wilcoxon",
+        "Mann-Whitney",
+        "related t-test",
+        "unrelated t-test",
+        "Chi-Squared"
+      ],
+      "specificationBoundary": "Choose the test from design and level of measurement. Full calculation is not required for these seven tests; the maths annex does expect simple steps such as degrees of freedom for Chi-Squared.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-30",
+        "PSY-07-11"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-01",
+      "formats": [
+        "debate_link",
+        "evaluation_duel",
+        "essay_builder"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "androcentrism",
+        "alpha and beta bias",
+        "ethnocentrism",
+        "cultural relativism"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-01-01",
+        "PSY-03-03",
+        "PSY-04-01",
+        "PSY-10-04",
+        "PSY-12-01",
+        "PSY-14-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-02",
+      "formats": [
+        "debate_link",
+        "evaluation_duel",
+        "essay_builder"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "hard and soft determinism",
+        "biological, environmental and psychic determinism"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-01",
+        "PSY-05-05",
+        "PSY-05-06",
+        "PSY-03-02",
+        "PSY-15-01",
+        "PSY-16-02"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-03",
+      "formats": [
+        "debate_link",
+        "evaluation_duel",
+        "essay_builder"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "interactionist approach"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-03-02",
+        "PSY-05-04",
+        "PSY-12-06",
+        "PSY-15-01",
+        "PSY-10-03",
+        "PSY-13-01"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-04",
+      "formats": [
+        "debate_link",
+        "evaluation_duel",
+        "essay_builder"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "levels of explanation",
+        "biological reductionism",
+        "environmental (stimulus-response) reductionism"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-02-01",
+        "PSY-04-05",
+        "PSY-05-04",
+        "PSY-06-06",
+        "PSY-12-02"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-05",
+      "formats": [
+        "debate_link",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-06",
+        "PSY-07-06",
+        "PSY-06-06"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-08-06",
+      "formats": [
+        "debate_link",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-03-04",
+        "PSY-10-06",
+        "PSY-16-02",
+        "PSY-15-01",
+        "PSY-12-03"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-09-01",
+      "formats": [
+        "scenario_stem",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "self-disclosure",
+        "matching hypothesis",
+        "filter theory (social demography, similarity in attitudes, complementarity)"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-09-03"
+      ],
+      "scenarioHook": "Two people who met through the same climbing club start dating.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-09-02",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "social exchange theory",
+        "equity theory",
+        "Rusbult's investment model",
+        "Duck's phase model"
+      ],
+      "specificationBoundary": "Duck's phases named: intra-psychic, dyadic, social and grave dressing.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-09-03",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "self-disclosure",
+        "use of deception",
+        "absence of gating"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-09-01"
+      ],
+      "scenarioHook": "Two gamers who only know each other through voice chat.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-09-04",
+      "formats": [
+        "scenario_stem",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "levels of parasocial relationships",
+        "absorption addiction model",
+        "attachment theory explanation"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-03-05"
+      ],
+      "scenarioHook": "A fan who follows every post a streamer makes and feels they know them.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-10-01",
+      "formats": [
+        "study_cards",
+        "sort_it",
+        "explain_chain"
+      ],
+      "demands": [
+        "describe",
+        "explain"
+      ],
+      "namedInSpecification": [
+        "testosterone, oestrogen, oxytocin",
+        "androgen insensitivity syndrome",
+        "Klinefelter's syndrome",
+        "Turner syndrome"
+      ],
+      "specificationBoundary": "v1.4 frames these as diversity in sex development. Use the specification's terminology.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-03"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-10-02",
+      "formats": [
+        "study_autopsy",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "binary, non-binary, gender fluid",
+        "Bem Sex Role Inventory"
+      ],
+      "specificationBoundary": "Includes how gender has been measured with the Bem Sex Role Inventory, so link to reliability and validity.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-20",
+        "PSY-07-21"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-10-03",
+      "formats": [
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-10-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-10-04",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Kohlberg (gender identity, stability, constancy)",
+        "Martin and Halverson's gender schema theory"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-01"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-03"
+      ],
+      "scenarioHook": "A four-year-old insists that a boy who grows his hair long becomes a girl.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-10-05",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "culture and media influences"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-02"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-10-06",
+      "formats": [
+        "evaluation_duel",
+        "debate_link"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "biological and social/cultural explanations"
+      ],
+      "specificationBoundary": "Socially sensitive content: use respectful, specification terminology and third-person framing only.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-11-01",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "study_cards"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Piaget",
+        "object permanence, conservation, egocentrism, class inclusion"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [],
+      "scenarioHook": "A child says the tall thin glass has more juice than the short wide one.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-11-02",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Vygotsky",
+        "zone of proximal development",
+        "scaffolding"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "scenarioHook": "Helping a younger cousin with a maths problem without giving the answer.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-11-03",
+      "formats": [
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Baillargeon",
+        "violation of expectation"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-21"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-11-04",
+      "formats": [
+        "sort_it",
+        "study_autopsy",
+        "explain_chain"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Selman's levels of perspective-taking",
+        "theory of mind",
+        "Sally-Anne study",
+        "mirror neuron system"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-12-01",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "hallucinations, delusions",
+        "speech poverty, avolition",
+        "co-morbidity, culture and gender bias, symptom overlap"
+      ],
+      "specificationBoundary": "Named symptoms are hallucinations and delusions (positive) and speech poverty and avolition (negative).",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-12-02",
+      "formats": [
+        "explain_chain",
+        "data_read",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "interpret_data",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetics",
+        "neural correlates",
+        "dopamine hypothesis"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-02"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-12-03",
+      "formats": [
+        "evaluation_duel",
+        "scenario_stem"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "family dysfunction",
+        "dysfunctional thought processing"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-12-04",
+      "formats": [
+        "therapy_clinic",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "typical and atypical antipsychotics"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-12-02"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-12-05",
+      "formats": [
+        "therapy_clinic",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "CBT",
+        "family therapy"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-04-04",
+        "PSY-07-19"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-12-06",
+      "formats": [
+        "explain_chain",
+        "debate_link",
+        "essay_builder"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "diathesis-stress model"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-12-02",
+        "PSY-12-03"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-13-01",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "neophobia",
+        "taste aversion",
+        "social and cultural influences"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-01"
+      ],
+      "scenarioHook": "A toddler refuses every new vegetable but eats what an older sibling eats.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-13-02",
+      "formats": [
+        "explain_chain",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "explain"
+      ],
+      "namedInSpecification": [
+        "hypothalamus",
+        "ghrelin",
+        "leptin"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-03"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-13-03",
+      "formats": [
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetic",
+        "neural"
+      ],
+      "specificationBoundary": "Sensitive topic: academic framing only. No personal diet, weight or body prompts; use third-person cases.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-13-04",
+      "formats": [
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "family systems theory (enmeshment, autonomy, control)",
+        "social learning theory (modelling, reinforcement, media)",
+        "cognitive theory (distortions, irrational beliefs)"
+      ],
+      "specificationBoundary": "Sensitive topic: academic framing only. No personal diet, weight or body prompts; use third-person cases.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-02"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-13-05",
+      "formats": [
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetic",
+        "neural"
+      ],
+      "specificationBoundary": "Sensitive topic: academic framing only. No personal diet, weight or body prompts; use third-person cases.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-13-06",
+      "formats": [
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "restraint theory",
+        "disinhibition",
+        "boundary model"
+      ],
+      "specificationBoundary": "Sensitive topic: academic framing only. No personal diet, weight or body prompts; use third-person cases.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-14-01",
+      "formats": [
+        "explain_chain",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "explain"
+      ],
+      "namedInSpecification": [
+        "general adaptation syndrome",
+        "hypothalamic pituitary-adrenal system",
+        "sympathomedullary pathway",
+        "cortisol"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-06-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-14-02",
+      "formats": [
+        "evaluation_duel",
+        "study_autopsy"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "immunosuppression",
+        "cardiovascular disorders"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-04"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-14-03",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "life changes",
+        "daily hassles",
+        "workload and control"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "scenarioHook": "Mock season: three deadlines, a lost bus pass and a shift change at work in the same week.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-14-04",
+      "formats": [
+        "study_autopsy",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Social Readjustment Rating Scale",
+        "Hassles and Uplifts Scale",
+        "skin conductance response"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-03",
+        "PSY-07-21"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-14-05",
+      "formats": [
+        "scenario_stem",
+        "sort_it"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Type A, B and C",
+        "hardiness (commitment, challenge, control)"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "scenarioHook": "Two students react very differently to the same surprise test.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-14-06",
+      "formats": [
+        "therapy_clinic",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "drug therapy",
+        "stress inoculation therapy",
+        "biofeedback",
+        "instrumental, emotional and esteem support"
+      ],
+      "specificationBoundary": "Includes gender differences in coping and the role of social support.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-01"
+      ],
+      "crossTopicLinks": [
+        "PSY-07-19"
+      ],
+      "scenarioHook": "A friend is struggling before mocks. Which kind of support would actually help?",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-15-01",
+      "formats": [
+        "explain_chain",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "limbic system",
+        "serotonin",
+        "testosterone",
+        "MAOA gene"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-03",
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-02"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-15-02",
+      "formats": [
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "innate releasing mechanisms",
+        "fixed action patterns"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-15-03",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "frustration-aggression hypothesis",
+        "social learning theory",
+        "de-individuation"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-02"
+      ],
+      "scenarioHook": "Comments under a viral video get nastier as the thread grows.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-15-04",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "dispositional explanations",
+        "situational explanations"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-16-04"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-15-05",
+      "formats": [
+        "scenario_stem",
+        "study_autopsy",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "computer games",
+        "desensitisation",
+        "disinhibition",
+        "cognitive priming"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-07-04",
+        "PSY-05-02"
+      ],
+      "scenarioHook": "A newspaper headline blames a new online game for playground fights.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-16-01",
+      "formats": [
+        "scenario_stem",
+        "sort_it",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "typology approach (organised and disorganised)",
+        "data-driven approach and investigative psychology",
+        "geographical profiling"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "scenarioHook": "A fictional case file: crime-scene notes and locations. Which profiling approach fits, and what would it suggest?",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-16-02",
+      "formats": [
+        "evaluation_duel",
+        "explain_chain"
+      ],
+      "demands": [
+        "explain",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetics",
+        "neural explanations"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-02",
+        "PSY-08-03",
+        "PSY-08-06"
+      ],
+      "crossTopicLinks": [
+        "PSY-15-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-16-03",
+      "formats": [
+        "sort_it",
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "Eysenck's criminal personality",
+        "level of moral reasoning",
+        "hostile attribution bias",
+        "minimalisation",
+        "differential association theory"
+      ],
+      "specificationBoundary": "Cognitive distortions named: hostile attribution bias and minimalisation.",
+      "issuesAndDebatesLinks": [
+        "PSY-08-02"
+      ],
+      "crossTopicLinks": [
+        "PSY-05-02"
+      ],
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-16-04",
+      "formats": [
+        "therapy_clinic",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "aims and psychological effects of custodial sentencing",
+        "behaviour modification in custody",
+        "anger management",
+        "restorative justice"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-01",
+        "PSY-15-04",
+        "PSY-07-19"
+      ],
+      "scenarioHook": "You sit on a panel choosing a programme for a young offender. Justify your pick.",
+      "sensitivity": "standard"
+    },
+    {
+      "requirementId": "PSY-17-01",
+      "formats": [
+        "sort_it",
+        "scenario_stem"
+      ],
+      "demands": [
+        "describe",
+        "apply"
+      ],
+      "namedInSpecification": [
+        "physical and psychological dependence",
+        "tolerance",
+        "withdrawal syndrome"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-17-02",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "genetic vulnerability",
+        "personality",
+        "social influences"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-03"
+      ],
+      "crossTopicLinks": [
+        "PSY-01-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-17-03",
+      "formats": [
+        "explain_chain",
+        "scenario_stem"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "dopamine",
+        "cue reactivity"
+      ],
+      "issuesAndDebatesLinks": [
+        "PSY-08-04"
+      ],
+      "crossTopicLinks": [
+        "PSY-06-02",
+        "PSY-05-01"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-17-04",
+      "formats": [
+        "scenario_stem",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "explain",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "partial and variable reinforcement",
+        "cognitive bias"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-05-01"
+      ],
+      "scenarioHook": "Why do loot boxes in games keep people opening 'just one more'?",
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-17-05",
+      "formats": [
+        "therapy_clinic",
+        "evaluation_duel"
+      ],
+      "demands": [
+        "describe",
+        "apply",
+        "evaluate"
+      ],
+      "namedInSpecification": [
+        "drug therapy",
+        "aversion therapy",
+        "covert sensitisation",
+        "cognitive behaviour therapy"
+      ],
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [
+        "PSY-04-04"
+      ],
+      "sensitivity": "care"
+    },
+    {
+      "requirementId": "PSY-17-06",
+      "formats": [
+        "sort_it",
+        "scenario_stem"
+      ],
+      "demands": [
+        "describe",
+        "apply"
+      ],
+      "namedInSpecification": [
+        "Prochaska's six-stage model"
+      ],
+      "specificationBoundary": "Six stages, so the sequence matters.",
+      "issuesAndDebatesLinks": [],
+      "crossTopicLinks": [],
+      "sensitivity": "care"
+    }
+  ]
+}

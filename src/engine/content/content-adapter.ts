@@ -1,4 +1,5 @@
 import type { LearnChapter, LearnCourse, LearnPage } from '../../../content/learn-schema'
+import type { ContentPackPracticeDesign, PracticeFormat } from '../../../content/practice-experience-schema'
 import type { StructuredPracticeBankRecord } from '../../../content/structured-practice-bank'
 import type {
   CaseStudy,
@@ -51,6 +52,12 @@ export type LearningContentAdapter = {
   listExamTechnique: () => readonly ExamTechniqueGuide[]
   listExams: () => readonly Exam[]
   getExam: (examId: string) => Exam | undefined
+  /** Practice formats this course uses (empty when the course has no practice-experience layer). */
+  listPracticeFormats: () => readonly PracticeFormat[]
+  /** Practice designs, optionally for one topic. */
+  listPracticeDesigns: (topicId?: TopicId) => readonly ContentPackPracticeDesign[]
+  /** How a topic section should be practised: lead format, boundaries, hooks and links. */
+  getPracticeDesign: (topicId: TopicId, sectionId: string) => ContentPackPracticeDesign | undefined
 }
 
 function legacyLearnGroup(topic: Topic, section: Topic['sections'][number]) {
@@ -106,6 +113,8 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
   const learnCourse = buildLearnCourse(topics, pack.learn)
   const learnPages = learnCourse.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
   const practiceBank = pack.practiceBank ?? []
+  const practiceFormats = pack.practiceExperience?.formats ?? []
+  const practiceDesigns = pack.practiceExperience?.designs ?? []
 
   return {
     manifest: pack.manifest,
@@ -141,5 +150,8 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     listExamTechnique: () => pack.examTechnique,
     listExams: () => pack.exams,
     getExam: (examId) => pack.exams.find((exam) => exam.id === examId),
+    listPracticeFormats: () => practiceFormats,
+    listPracticeDesigns: (topicId) => topicId ? practiceDesigns.filter((design) => design.topicId === topicId) : practiceDesigns,
+    getPracticeDesign: (topicId, sectionId) => practiceDesigns.find((design) => design.topicId === topicId && design.sectionId === sectionId),
   }
 }
