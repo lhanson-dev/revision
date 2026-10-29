@@ -26,10 +26,10 @@ All course/qualifying source counts in this first report are **provisional and s
 **Readable/portable output:** the test `src/app/published-requirement-assurance.test.ts` prints a compact supply summary in normal CI. Optionally run:
 
 ```sh
-REVISION_COVERAGE_EXPORT_DIR=./tmp/assurance npx vitest run src/app/published-requirement-assurance.test.ts
+node scripts/assurance/export-published-qualification-crosswalk.mjs
 ```
 
-This writes `tmp/assurance/aqa-7132-7182-published-coverage-provisional.json`, containing **every** provisional row, exact asset IDs and evidence-type distinctions, with no learner identity or response data. The file is an ephemeral analysis export, never source authority or a CI-generated statement of compliance. Recalculate after every governed course-content change rather than counting duplicate paper-pack copies as three independent attempts.
+This writes `tmp/assurance/aqa-7132-7182-published-coverage-provisional.json`, containing **every** provisional row, exact asset IDs and evidence-type distinctions, with no learner identity or response data. The wrapper executes the real published-adapter Vitest test, extracts its one machine-readable record, fails closed on missing provisional/unverified labels, and writes the report using Node filesystem APIs **outside the frontend TypeScript project**. The file is an ephemeral analysis export, never source authority or a CI-generated statement of compliance. Recalculate after every governed course-content change rather than counting duplicate paper-pack copies as three independent attempts.
 
 ## Next corrective work, not a new feature programme
 
