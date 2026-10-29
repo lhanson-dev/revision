@@ -367,6 +367,23 @@ export function preparationCandidatesFromLearningState(
       : null
     const practice: PlannerCandidate = { ...candidate, understanding: score, evidenceStrength,
       paperResponseSectionId: directSection?.id, paperResponseFormat: directSection?.format }
+    // A quick check and independent recall test different supported material.
+    // Offer an additional retrieval session only for *published, unattempted*
+    // cards. Scored evidence, rather than an arbitrary timer or a calendar
+    // appearance, determines whether those cards have already been used.
+    const unseenCards = state?.adapter.listFlashcards(candidate.topicId)
+      .filter((card) => !state.evidence.some((evidence) =>
+        evidence.source === 'flashcard' && evidence.contentId === card.id))
+      .slice(0, 8) ?? []
+    const canRetrieve = candidate.activityType === 'quick-check'
+      && unseenCards.length > 0
+      && (score === null || score < MEDIUM_SCORE_MIN / 100 || evidenceStrength < 0.6)
+    const retrieval = (prerequisite?: string): PlannerCandidate[] => canRetrieve ? [{
+      ...practice, id: `${candidate.id}:retrieve:${unseenCards[0]!.id}`,
+      activityType: 'flashcards', estimatedMinutes: focusedActivityMinutes('flashcards', unseenCards.length),
+      preparationStage: 'check', preparationPrerequisiteId: prerequisite,
+      examTarget: undefined, retrievalContentIds: unseenCards.map((card) => card.id),
+    }] : []
     if (page && candidate.activityType !== 'exam-question') {
       // Teaching and checking are two different preparation opportunities.
       // Neither is evidence of mastery until a legitimate scored result exists.
@@ -382,9 +399,9 @@ export function preparationCandidatesFromLearningState(
       // A verified exam question already provides an independent application
       // opportunity. A generic knowledge check is not a compulsory gateway
       // before exam-response practice; supported initial Learn still is.
-      return [learn, checked, ...paperPractice(practice, learn.id)]
+      return [learn, checked, ...retrieval(learn.id), ...paperPractice(practice, learn.id)]
     }
-    return [practice, ...paperPractice(practice)]
+    return [practice, ...retrieval(), ...paperPractice(practice)]
 
     function paperPractice(known: PlannerCandidate, learningPrerequisiteId?: string): PlannerCandidate[] {
       // Each exact verified paper-response section is an independent practice

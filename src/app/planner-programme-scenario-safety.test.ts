@@ -134,11 +134,13 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
       item.topicId === topicId && item.activityType === 'exam-question'
       && item.paperResponseFormat?.toLowerCase().includes('essay'))
     expect(foundations).toHaveLength(1)
-    expect(checks).toHaveLength(1)
+    // Scored quiz and independently authored retrieval are both valid
+    // optional checks. Neither becomes a gateway before exam paper practice.
+    expect(checks.map((item) => item.activityType).sort()).toEqual(['flashcards', 'quick-check'])
     expect(essays.length).toBeGreaterThan(0)
-    expect(checks[0]?.preparationPrerequisiteId).toBe(foundations[0]?.id)
+    expect(checks.every((item) => item.preparationPrerequisiteId === foundations[0]?.id)).toBe(true)
     expect(essays.every((item) => item.preparationPrerequisiteId === foundations[0]?.id)).toBe(true)
-    expect(essays.every((item) => item.preparationPrerequisiteId !== checks[0]?.id)).toBe(true)
+    expect(essays.every((item) => checks.every((check) => item.preparationPrerequisiteId !== check.id))).toBe(true)
 
     // Valid corroborated scores mean the student may go directly to an
     // appropriately mapped exam question: requiring another generic quiz
