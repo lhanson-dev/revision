@@ -79,3 +79,18 @@ export const psychologyResearchMethodsAppliedDrills = [
     answer: 'A width 10, density 12/10 = 1.2. B width 5, density 12/5 = 2.4. Heights must be 1.2 and 2.4, so B is twice as high. Areas are equal at 12 frequency units each. Do not use frequency directly for bar height when class widths differ.',
   }),
 ]
+
+/**
+ * Durable source-to-published-asset crosswalk for this bounded correction.
+ * The underlying Course Truth requirement IDs remain authoritative; this
+ * metadata does not change the learner Practice or data-drill schema.
+ */
+export const psychologyResearchMethodsAppliedRequirementBindings: Readonly<Record<string, readonly string[]>> = {
+  'psy-rm-applied-mean-01': ['PSY-07-26'],
+  'psy-rm-applied-sign-test-01': ['PSY-07-32', 'PSY-07-33'],
+  'psy-rm-applied-spearman-01': ['PSY-07-29', 'PSY-07-33', 'PSY-07-34'],
+  'psy-rm-applied-histogram-01': ['PSY-07-27'],
+  'psy-rm-applied-drill-average': ['PSY-07-26'],
+  'psy-rm-applied-drill-sign-test': ['PSY-07-32', 'PSY-07-33'],
+  'psy-rm-applied-drill-histogram': ['PSY-07-27'],
+}
