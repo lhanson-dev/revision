@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
+import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
@@ -41,6 +42,28 @@ const availability: RevisionAvailabilityProfile = {
 }
 
 describe('Plan: configured production-shaped Business/Psychology learner', () => {
+  it('still produces near-term work when the learner has accumulated scored or recall evidence', () => {
+    // Only synthetic event metadata from the published packs; do not read live
+    // learner answers to reproduce the previously observed evidence volume.
+    const evidence: LearningEvidence[] = courses.flatMap((course, courseIndex) => {
+      const cards = course.learningAdapter.listFlashcards()
+      if (cards.length === 0) throw new Error('Missing published retrieval assets')
+      return Array.from({ length: 42 }, (_, i) => {
+        const card = cards[i % cards.length]!
+        return {
+          id: `synthetic-${courseIndex}-${i}`, schemaVersion: 1 as const,
+          moduleId: course.learningAdapter.manifest.id,
+          topicId: card.topic, contentId: card.id,
+          occurredAt: '2026-10-20T09:00:00.000Z',
+          source: 'flashcard' as const, rating: (i % 3) as 0 | 1 | 2,
+        }
+      })
+    })
+    const evidencedStates = courses.map((course) => createCourseLearningState(course, evidence))
+    const snapshot = buildPlannerSnapshot(evidencedStates, exams, availability, [], [], now, [], 14)
+    expect(snapshot?.schedule.some((day) => day.items.length > 0)).toBe(true)
+  })
+
   it('resolves whole-course assessment scopes and produces supported near-term work', () => {
     expect(states).toHaveLength(2)
     expect(exams.every((exam) => stateForAssessment(states, exam) !== undefined)).toBe(true)
