@@ -61,10 +61,10 @@ describe('Issue #698 Business diagram construction published teaching and rehear
     const ids = (pack: typeof paper1) => pack.dataDrills.map(drill => drill.id)
     expect(ids(paper1)).toEqual(ids(paper2))
     expect(ids(paper2)).toEqual(ids(paper3))
-    expect(new Set(ids(paper1)).size).toBe(27)
+    expect(new Set(ids(paper1)).size).toBe(29)
     expect(ids(paper1).slice(0, 24)).toEqual(Array.from({ length: 24 }, (_, index) =>
       `a-level-data-drill-${String(index + 1).padStart(2, '0')}`))
-    expect(ids(paper1).slice(-2)).toEqual(['a-level-network-amendment-01', 'a-level-network-amendment-02'])
+    expect(ids(paper1).slice(25, 27)).toEqual(['a-level-network-amendment-01', 'a-level-network-amendment-02'])
     // These are reveal-only DataDrills; no PracticeQuestion scored result exists here.
     expect(paper1.dataDrills.find(drill => drill.title === 'Break-even chart construction')).not.toHaveProperty('marks')
   })
