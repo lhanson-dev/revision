@@ -132,6 +132,7 @@ Use this file to find the governing source before substantive work.
 - Learner visual/layout/canvas authority / shared learner design foundations → `20-brand-and-experience/Learner Design System.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
+- Issue #704 bounded per-spec-item objective assessment persistence, versioned mapping in evidence v2, legacy-safe handling (candidate; not live) → `docs/technical/Issue 704 Skill-Level Assessment Evidence Implementation.md`
 - FI-001 Gate B bounded assessed-skill/repair/recheck/whole-exam feasibility proposed Definition of Ready (Founder Ready approved 29 October 2026; no runtime implementation yet) → `10-product-governance/backlog/FI-001 Gate B Evidence-Led Learner Loop Readiness Analysis.md`; P0 acceptance #694 and #703
 - FI-001 R2 full-exam programme Definition-of-Ready analysis (Founder-approved Ready following PR #628; implementation In Progress, not full R2 Live) → `10-product-governance/backlog/FI-001 Evidence-led Planner R2 Readiness Analysis.md` (readiness evidence and decision history, not normative product authority; see `Adaptive Revision Planning.md`)
 - FI-023 Home v3 Definition-of-Ready and implementation boundaries → `10-product-governance/backlog/FI-023 Returning Student Home v3 Analysis.md` (readiness evidence; not normative Home authority)
