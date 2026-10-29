@@ -615,7 +615,19 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
               <ol className="plan-exam-list">
                 {[...activeAssessments].sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate)).map((assessment) => (
                   <li key={assessment.assessmentId}>
-                    <div><span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span><strong>{assessment.title}</strong><span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span></div>
+                    <div>
+                      <span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span>
+                      <strong>{assessment.title}</strong>
+                      <span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span>
+                      {assessment.moduleId?.startsWith('psychology-aqa-a-level-7182-paper-3')
+                        && Array.isArray(assessment.scope.topicIds) && (
+                        <span>Paper 3 options: {(assessment.scope.topicIds as string[])
+                          .filter((id) => id !== 'issues-and-debates-in-psychology')
+                          .map((id) => programme.flatMap((item) => item.course.modules)
+                            .flatMap((module) => module.listTopics()).find((topic) => topic.id === id)?.shortTitle ?? id)
+                          .join(' · ')}</span>
+                      )}
+                    </div>
                     <div className="plan-exam-date"><strong>{formatDate(assessment.assessmentDate)}</strong></div>
                     <Button variant="tertiary" size="compact" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove<span className="sr-only"> {assessment.title}</span></Button>
                   </li>
