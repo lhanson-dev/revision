@@ -41,6 +41,7 @@ import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLear
 import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope } from './psychology-paper3-option-scope'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
+import { PlanMonthPriorities } from './PlanMonthPriorities'
 import {
   addDaysToKey,
   daysBetween,
@@ -753,6 +754,10 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
                 <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
               {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' &&
                 <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month'
+                && fullProgramme?.finalKnownAssessment && <PlanMonthPriorities programme={fullProgramme}
+                  anchor={anchor} courseLabel={(id) => courseLabel(programme, id)} topicLabel={topicLabel}
+                  onOpenWeek={(key) => goTo('week', key)} />}
 
               {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week'
                 && anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1)

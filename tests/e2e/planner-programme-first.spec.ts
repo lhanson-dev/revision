@@ -47,8 +47,12 @@ test('PLN-VALUE-01 Month is an accessible strategic outlook before a genuine lat
   const outlook = page.getByRole('region', { name: 'Your full exam programme' })
   await expect(outlook).toContainText('Preparation towards your exams')
   await expect(outlook).toContainText('Objectives for this month')
-  await expect(outlook).toContainText('Business future paper')
-  await expect(outlook.getByRole('list', { name: /Study objectives for week of/ }).first()).toContainText('Business')
+  // A distant month can have no dated tasks when only a finite inventory
+  // of current verified opportunities exists. This is a candid coverage
+  // gap, not evidence that the student's preparation is complete.
+  await expect(outlook).toContainText('11 June 2027')
+  await expect(outlook).toContainText('No further verified activities are allocated this week')
+  await expect(outlook).toContainText('not proof the course is complete')
   await expect(outlook).toContainText('not a measurement of all syllabus work')
   await expect(page.locator('.pln-month')).toBeVisible()
   expect((await new AxeBuilder({ page }).include('.pln-programme').withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([])
