@@ -374,7 +374,7 @@ export function preparationCandidatesFromLearningState(
     const bankChoices = state ? authoredSkillQuestions(state.adapter, candidate.topicId) : []
     const moduleIds = state?.course?.modules.map((module) => module.manifest.id)
       ?? (state ? [state.adapter.manifest.id] : [])
-    const learnPageIds = state?.adapter.listLearnChapters()
+    const learnPageIds = state?.adapter.listLearnChapters?.()
       .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
       .filter((page) => page.topicId === candidate.topicId).map((page) => page.id) ?? []
     const skillNeeds = state ? findSkillRecheckOpportunities(
