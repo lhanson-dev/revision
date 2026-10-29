@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
-import { supportedActivityMinutes, type HomeTask } from './home-task'
+import { authoredFlashcardsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
 import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -124,15 +124,8 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     }
   }
 
-  // The planner may recommend a concrete set of unattempted authored cards.
-  // Start exactly those cards: falling back to the old first-N list would
-  // silently repeat already answered content instead of testing a new gap.
-  const cards = useMemo(() => {
-    const available = task.adapter.listFlashcards(task.topicId)
-    if (!task.retrievalContentIds) return available
-    const byId = new Map(available.map((card) => [card.id, card]))
-    return task.retrievalContentIds.flatMap((id) => byId.get(id) ?? [])
-  }, [task])
+  // Planner-selected unattempted cards, or ordinary fallback course cards.
+  const cards = useMemo(() => authoredFlashcardsForTask(task), [task])
   const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
   const cardCount = focusedActivityCount('flashcards', cards.length)
   const questionCount = focusedActivityCount('quick-check', questions.length)
