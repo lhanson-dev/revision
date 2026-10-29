@@ -9,6 +9,9 @@ import { courseIdForLearningState } from './planner-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { subjectAccentKey, type SubjectAccentKey } from './subject-accents'
 import { focusedActivityMinutes } from './focused-activity-dose'
+import { authoredSkillQuestions } from './skill-recheck'
+import { objectiveItemMappingForPractice } from './practice-questions'
+import type { ObjectiveItemMapping } from '../engine/evidence/evidence'
 
 export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question' | 'learn'
 
@@ -28,6 +31,8 @@ export type HomeTask = {
   adapter: LearningContentAdapter
   learnTarget?: { learnPageId: string; moduleId?: string }
   retrievalContentIds?: readonly string[]
+  targetedQuestionIds?: readonly string[]
+  skillFocus?: PlannerItem['skillFocus']
   sessionId?: string
   examTarget?: PlannerItem['examTarget']
   plannerItem?: PlannerItem
@@ -44,9 +49,32 @@ export function authoredFlashcardsForTask(task: HomeTask) {
   return task.retrievalContentIds.flatMap((id) => byId.get(id) ?? [])
 }
 
+/** Exact skill-specific checks never silently fall back to unrelated questions.
+ * A plain course-pack question is still valid *topic* practice, not proof of
+ * the specifically tagged specification item.
+ */
+export function authoredQuestionsForTask(task: HomeTask): Array<{
+  id: string; topic: string; prompt: string; options: string[]; correctOption: number;
+  explanation: string; itemMapping?: ObjectiveItemMapping
+}> {
+  if (!task.targetedQuestionIds) return [...task.adapter.listQuestions(task.topicId)]
+  if (!task.skillFocus || task.targetedQuestionIds.length !== 1) return []
+  const questions = new Map(authoredSkillQuestions(task.adapter, task.topicId).map((question) => [question.id, question]))
+  return task.targetedQuestionIds.flatMap((id) => {
+    const question = questions.get(id)
+    const mapping = question && objectiveItemMappingForPractice(question)
+    if (!question || !mapping || mapping.singleTargetSpecItemId !== task.skillFocus?.specItemId) return []
+    return [{
+      id: question.id, topic: question.topicId, prompt: question.prompt,
+      options: question.options.map((option) => option.text), correctOption: question.correctOption,
+      explanation: question.explanation, itemMapping: mapping,
+    }]
+  })
+}
+
 /** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
-  if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', task.adapter.listQuestions(task.topicId).length)
+  if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', authoredQuestionsForTask(task).length)
   if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.retrievalContentIds?.length ?? task.adapter.listFlashcards(task.topicId).length)
   return task.estimatedMinutes
 }
@@ -124,6 +152,8 @@ export function tasksFromPlanner(
       examTarget: item.examTarget,
       learnTarget: item.learnTarget,
       retrievalContentIds: item.retrievalContentIds,
+      targetedQuestionIds: item.targetedQuestionIds,
+      skillFocus: item.skillFocus,
     }]
   })
 }

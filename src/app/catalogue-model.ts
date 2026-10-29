@@ -27,6 +27,8 @@ export type CatalogueSubject = {
 export type ModuleLearningState = {
   adapter: LearningContentAdapter
   evidence: readonly LearningEvidence[]
+  /** Read exposure is never proof of skill; used only to avoid re-offering the same repair page. */
+  learnExposures?: readonly LearnPageExposure[]
   readiness: ReadinessResult
   topicKnowledge: TopicKnowledgeSummary
   recommendation: RevisionRecommendation | null
@@ -141,6 +143,7 @@ export function createModuleLearningState(
   return {
     adapter,
     evidence,
+    learnExposures: exposures,
     readiness: assessPaperReadiness(moduleId, topicIds, evidence),
     topicKnowledge: summariseTopicKnowledge(moduleId, topicIds, evidence),
     recommendation,
@@ -162,6 +165,7 @@ export function createCourseLearningState(course: CatalogueCourse, allEvidence: 
   return {
     adapter,
     evidence,
+    learnExposures: exposures,
     readiness: assessPaperReadiness(canonicalModuleId, topicIds, normalizedEvidence),
     topicKnowledge: summariseTopicKnowledge(canonicalModuleId, topicIds, normalizedEvidence),
     recommendation,
