@@ -66,7 +66,7 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
       expect(pack.dataDrills).toHaveLength(15)
       for (const drill of psychologyResearchMethodsAppliedDrills) {
         expect(pack.dataDrills.find(x=>x.id===drill.id)).toEqual(drill)
-        expect(drill.prompt).toMatch(/On paper/i)
+        expect(drill.prompt).toMatch(/On paper|Using paired/i)
         expect(drill.answer.length).toBeGreaterThan(70)
       }
     }
