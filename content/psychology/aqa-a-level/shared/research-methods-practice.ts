@@ -18,7 +18,7 @@ export const psychologyResearchMethodsAppliedQuestions = [
   multipleChoiceQuestionSchema.parse({
     id: 'psy-rm-applied-mean-01',
     topic,
-    prompt: 'A psychologist records recall scores of 4, 6, 6, 8 and 11 words. What is the mean recall score?',
+    prompt: 'Revision-original practice. A psychologist records recall scores of 4, 6, 6, 8 and 11 words. What is the mean recall score?',
     options: ['6 words', '7 words', '7.5 words', '8 words'],
     correctOption: 1,
     explanation: 'Add all five scores (4 + 6 + 6 + 8 + 11 = 35) and divide by five. Mean = 7 words. The median and mode are both 6; they are not the mean.',
@@ -26,7 +26,7 @@ export const psychologyResearchMethodsAppliedQuestions = [
   multipleChoiceQuestionSchema.parse({
     id: 'psy-rm-applied-sign-test-01',
     topic,
-    prompt: 'Five participants have Before/After scores: A 5/7, B 6/6, C 9/4, D 3/8, E 7/9. For a sign test where + means After is greater than Before, which effective n and smaller sign count (S) are correct?',
+    prompt: 'Revision-original practice. Five participants have Before/After scores: A 5/7, B 6/6, C 9/4, D 3/8, E 7/9. For a sign test where + means After is greater than Before, which effective n and smaller sign count (S) are correct?',
     options: ['n = 5, S = 1', 'n = 4, S = 1', 'n = 4, S = 3', 'n = 5, S = 0'],
     correctOption: 1,
     explanation: 'The signs are A +, B tie, C −, D + and E +. Exclude the tie, leaving n = 4; the smaller of three plus signs and one minus sign is S = 1. A critical value, significance level and one-/two-tailed convention are also needed before deciding significance.',
@@ -34,7 +34,7 @@ export const psychologyResearchMethodsAppliedQuestions = [
   multipleChoiceQuestionSchema.parse({
     id: 'psy-rm-applied-spearman-01',
     topic,
-    prompt: 'Twelve participants have ranked revision time and exam-anxiety scores. Spearman’s rho is −0.62. The question supplies a two-tailed critical magnitude of 0.587 at 5% significance. Which conclusion is justified?',
+    prompt: 'Revision-original practice. Twelve participants have ranked revision time and exam-anxiety scores. Spearman’s rho is −0.62. The question supplies a two-tailed critical magnitude of 0.587 at 5% significance. Which conclusion is justified?',
     options: [
       'There is no significant association because the coefficient is negative.',
       'Revision time causes anxiety to decrease in every participant.',
@@ -47,7 +47,7 @@ export const psychologyResearchMethodsAppliedQuestions = [
   multipleChoiceQuestionSchema.parse({
     id: 'psy-rm-applied-histogram-01',
     topic,
-    prompt: 'A histogram of a continuous variable uses two unequal class widths. Class A spans 0–10 with frequency 12; class B spans 10–15 with frequency 12. Which statement correctly compares their bar heights?',
+    prompt: 'Revision-original practice. A histogram of a continuous variable uses two unequal class widths. Class A spans 0–10 with frequency 12; class B spans 10–15 with frequency 12. Which statement correctly compares their bar heights?',
     options: [
       'Both bars have equal height because the frequencies are equal.',
       'Class A must be twice as tall because its class is wider.',
