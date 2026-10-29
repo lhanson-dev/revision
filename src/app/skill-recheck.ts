@@ -54,6 +54,8 @@ export function findSkillRecheckOpportunities(
     // Trust only the stored single-target fact that still points to an actual,
     // matching published authored item for this exact topic.
     if (!mapping?.singleTargetSpecItemId || mapping.singleTargetSpecItemId !== observation.specItemId
+      || fact.correct !== (fact.selectedOption === authored?.correctOption)
+      || fact.correctOption !== authored?.correctOption
       || fact.itemMapping.singleTargetSpecItemId !== mapping.singleTargetSpecItemId
       || fact.itemMapping.source !== mapping.source
       || fact.itemMapping.targetNodeIds.join('\0') !== mapping.targetNodeIds.join('\0')) continue
@@ -68,9 +70,15 @@ export function findSkillRecheckOpportunities(
     const need: SkillRecheckNeed | null = !observation.correct ? 'missed'
       : observation.confidence === 'guess' ? 'uncertain' : null
     if (!need) return []
+    const source = choices.get(observation.contentId)
     const next = [...choices.values()].find((question) =>
       !answeredContent.has(question.id)
-      && objectiveItemMappingForPractice(question)?.singleTargetSpecItemId === observation.specItemId)
+      && question.id !== observation.contentId
+      && objectiveItemMappingForPractice(question)?.singleTargetSpecItemId === observation.specItemId
+      // Different IDs containing the same authored question are not a fresh check.
+      && (question.prompt !== source?.prompt
+        || question.context !== source.context
+        || JSON.stringify(question.options) !== JSON.stringify(source.options)))
     const repairLearnPageId = mapping.targetNodeIds.find((id) => pages.has(id)) ?? null
     return [{
       specItemId: observation.specItemId, topicId, sourceEvidenceId: observation.evidenceId,
