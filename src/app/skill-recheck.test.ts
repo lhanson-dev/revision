@@ -80,6 +80,15 @@ describe('IA-05: finite, evidence-backed skill repair and independent recheck', 
       topicId, [moduleId])).toEqual([])
   })
 
+  it('does not count copied question wording or inconsistent saved answer keys as independent skill proof', () => {
+    const sameStem = { ...q2, prompt: q1.prompt, context: q1.context, options: q1.options }
+    const duplicate = findSkillRecheckOpportunities(
+      [q1, sameStem], [answer('wrong', q1, false, 'certain')], topicId, [moduleId])
+    expect(duplicate[0]?.freshQuestionId).toBeNull()
+    const tampered = { ...answer('tampered', q1, false, 'certain'), correctOption: 0 }
+    expect(findSkillRecheckOpportunities([q1, q2], [tampered], topicId, [moduleId])).toEqual([])
+  })
+
   it('refuses tampered mapping and never substitutes a broad topic page as precise repair', () => {
     const mismatch = { ...answer('mismatch', q1, false, 'certain'), itemMapping: objectiveItemMappingForPractice(q3) }
     expect(findSkillRecheckOpportunities([q1,q2], [mismatch], topicId, [moduleId])).toEqual([])
