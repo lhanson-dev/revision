@@ -57,8 +57,8 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
     expect(psychologyQuestions).toHaveLength(118)
     expect(psychologyResearchMethodsAppliedQuestions).toHaveLength(4)
     for (const pack of [paper1,paper2,paper3]) {
-      expect(pack.questions).toHaveLength(122)
-      expect(new Set(pack.questions.map(q=>q.id)).size).toBe(122)
+      expect(pack.questions).toHaveLength(131)
+      expect(new Set(pack.questions.map(q=>q.id)).size).toBe(131)
       for (const old of psychologyQuestions) {
         const unchanged=pack.questions.find(x=>x.id===old.id)
         expect(unchanged,old.id).toEqual(old)
@@ -82,7 +82,7 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
     expect(psychologyDataDrills).toHaveLength(12)
     expect(psychologyResearchMethodsAppliedDrills).toHaveLength(3)
     for (const pack of [paper1,paper2,paper3]) {
-      expect(pack.dataDrills).toHaveLength(15)
+      expect(pack.dataDrills).toHaveLength(16)
       for (const drill of psychologyResearchMethodsAppliedDrills) {
         expect(pack.dataDrills.find(x=>x.id===drill.id)).toEqual(drill)
         expect(drill.prompt).toMatch(/On paper|Using paired/i)

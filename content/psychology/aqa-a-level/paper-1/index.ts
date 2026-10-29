@@ -11,6 +11,7 @@ import {
   psychologyTopics,
 } from '../shared/course'
 import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsAppliedDrills } from '../shared/research-methods-practice'
+import { psychologyInferenceChoiceQuestions, psychologyInferenceChoiceDrills } from '../shared/inferential-choice-practice'
 
 export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   manifest,
@@ -19,9 +20,9 @@ export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   formulas: [],
   topicLinks: psychologyTopicLinks,
   flashcards: psychologyFlashcards,
-  questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions],
+  questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions, ...psychologyInferenceChoiceQuestions],
   caseStudies: [],
-  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills],
+  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills],
   examTechnique: psychologyExamTechnique,
   exams: psychologyPaper1Exams,
 })
