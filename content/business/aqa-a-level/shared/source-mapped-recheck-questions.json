@@ -6,7 +6,7 @@
   "questions": [
     {
       "namespace": "rev7132-recheck",
-      "label": "Revision-original assessment practice (not an official AQA question)",
+      "label": "Revision-authored original assessment practice (not an official AQA question)",
       "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
       "batch": "3.3",
       "id": "recheck-market-share-01",
@@ -64,7 +64,7 @@
     },
     {
       "namespace": "rev7132-recheck",
-      "label": "Revision-original assessment practice (not an official AQA question)",
+      "label": "Revision-authored original assessment practice (not an official AQA question)",
       "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
       "batch": "3.4",
       "id": "recheck-capacity-01",
@@ -122,7 +122,7 @@
     },
     {
       "namespace": "rev7132-recheck",
-      "label": "Revision-original assessment practice (not an official AQA question)",
+      "label": "Revision-authored original assessment practice (not an official AQA question)",
       "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
       "batch": "3.7",
       "id": "recheck-payables-01",
@@ -180,7 +180,7 @@
     },
     {
       "namespace": "rev7132-recheck",
-      "label": "Revision-original assessment practice (not an official AQA question)",
+      "label": "Revision-authored original assessment practice (not an official AQA question)",
       "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
       "batch": "3.10",
       "id": "recheck-critical-path-01",
