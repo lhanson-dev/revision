@@ -250,6 +250,20 @@ export const learn = learnCourseSchema.parse({
                   explanation: 'The two lines meet at 4,000 units and £40,000. That intersection is the break-even point in this example.',
                 },
                 {
+                  type: 'worked-example',
+                  title: 'Construct and amend a break-even chart',
+                  setup: 'A second product sells for £12 per unit. Its variable cost is £7 per unit and fixed costs are £15,000. Use an output scale from 0 to 6,000 units and a money scale from £0 to at least £72,000.',
+                  task: 'Before reading the steps, draw your own two-line break-even chart on paper: label both axes, plot total revenue and total cost from calculated points, and mark the break-even intersection. Then show the effect of reducing the selling price to £10.',
+                  steps: [
+                    { label: 'Set up the axes', value: 'The horizontal axis is output in units (0 to 6,000); the vertical axis is money in £ (0 to at least £72,000). Use evenly spaced scales and label both lines.' },
+                    { label: 'Plot total revenue at £12', value: 'Revenue = £12 × output. Plot (0, £0), (3,000, £36,000) and (6,000, £72,000), then draw a straight line through them.' },
+                    { label: 'Plot total cost', value: 'Total cost = £15,000 + £7 × output. Plot (0, £15,000), (3,000, £36,000) and (6,000, £57,000); draw the straight line, starting above zero because fixed costs remain at no output.' },
+                    { label: 'Find and check the intersection', value: 'The lines intersect at 3,000 units and £36,000. Check: contribution per unit = £12 − £7 = £5, so £15,000 ÷ £5 = 3,000 units.' },
+                    { label: 'Amend for a lower selling price', value: 'Keep the cost line unchanged. Draw a new, flatter revenue line through (0, £0) and (6,000, £60,000) at £10 per unit. Its new intersection with total cost is (5,000, £50,000), because £15,000 ÷ (£10 − £7) = 5,000 units.' },
+                  ],
+                  conclusion: 'Check the axes, equal intervals, labelled lines, fixed-cost intercept and both intersections against your own sketch. The lower price moves break-even output from 3,000 to 5,000 units. These steps teach graph construction; viewing or copying them is not evidence that your independently drawn chart has been marked.',
+                },
+                {
                   type: 'misconception',
                   title: 'Break-even is not a guaranteed prediction.',
                   paragraphs: [
