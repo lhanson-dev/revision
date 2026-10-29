@@ -1,0 +1,58 @@
+{
+  "id": "q24",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+    "aqa-7132-3.5.3:overdrafts",
+    "aqa-7132-3.5.3:loans"
+  ],
+  "target_node_ids": [
+    "bus-fin-008"
+  ],
+  "question": {
+    "id": "q24",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Ridgeway Distribution plans to construct a warehouse expected to be productive for 20 years. A bank has offered an overdraft repayable on demand rather than a long-term loan.",
+    "stem": "What is the strongest financing concern?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "A long-life asset funded by a repayable-on-demand overdraft creates a refinancing and liquidity risk if the lender withdraws funds before the warehouse produces sufficient cash."
+      },
+      {
+        "label": "B",
+        "text": "An overdraft can never be used for any business purchase, so the contract is automatically void."
+      },
+      {
+        "label": "C",
+        "text": "Long-term loans always have lower total costs and no repayment risk."
+      },
+      {
+        "label": "D",
+        "text": "The firm cannot own the warehouse until all overdraft interest has been paid."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct because there is a maturity mismatch: short-notice withdrawal could create a financing gap for a long-lived investment.",
+        "B is incorrect because an overdraft can fund various uses, but on-demand terms may be unsuitable for a long-term asset.",
+        "C is incorrect because long-term lending still has interest, covenant and repayment risks.",
+        "D is incorrect because ownership is not automatically conditional on the overdraft's interest repayment."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "A. Match the term of finance to the asset's cash-generation horizon and compare cost, security, flexibility and repayment risk."
+    },
+    "calcs": []
+  }
+}

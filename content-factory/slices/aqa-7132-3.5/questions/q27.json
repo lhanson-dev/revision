@@ -1,0 +1,58 @@
+{
+  "id": "q27",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+    "aqa-7132-3.5.2:variance-analysis",
+    "aqa-7132-3.5.2:adverse-and-favourable-variances"
+  ],
+  "target_node_ids": [
+    "bus-fin-007"
+  ],
+  "question": {
+    "id": "q27",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-original monthly budget exercise. A firm budgeted £80,000 income and £64,000 total expenditure. Actual income was £75,000 and actual expenditure £66,000. Variances are calculated as actual minus budget.",
+    "stem": "Which accurately reconciles the change in budgeted profit to actual profit?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "The £5,000 lower income is favourable, and profit rises by £7,000."
+      },
+      {
+        "label": "B",
+        "text": "Total costs are £2,000 under budget, so the profit variance is £3,000 favourable."
+      },
+      {
+        "label": "C",
+        "text": "Profit is £7,000 below budget (adverse), combining £5,000 lower income and £2,000 higher expenditure."
+      },
+      {
+        "label": "D",
+        "text": "The profit variance is £2,000 adverse because only the change in expenditure affects profit."
+      }
+    ],
+    "calcs": [],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "C",
+      "option_rationale": [
+        "A is incorrect because reduced income is financially adverse when other factors are held unchanged.",
+        "B is incorrect because actual costs exceed budget by £2,000 and are adverse.",
+        "C is correct because budgeted profit is £80,000 − £64,000 = £16,000, actual profit is £75,000 − £66,000 = £9,000, and £9,000 − £16,000 = −£7,000 adverse.",
+        "D is incorrect because the £5,000 shortfall in income also reduces profit."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "C. Budgeted profit £16,000; actual profit £9,000; profit variance −£7,000 adverse. This combines −£5,000 income with +£2,000 cost (actual minus budget)."
+    }
+  }
+}

@@ -42,7 +42,10 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
       },
       {
         batch: '3.10',
-        stale: [],
+        // Issue #698 changes this original network lesson and its Practice.
+        // The historical ledger remains intact; its old exact fingerprint
+        // must no longer count as reusable assurance of the new content.
+        stale: ['bus-evi-008'],
       },
     ] as const
 
