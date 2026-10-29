@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test'
 import { createClient } from '@supabase/supabase-js'
 import { completeStudentFirstUse, establishStudentExperience } from '../../src/services/onboarding/student-first-use-service'
+import { readFileSync } from 'node:fs'
+import type { StructuredPracticeBankRecord } from '../../content/structured-practice-bank'
+import { bankRecordToPractice, objectiveItemMappingForPractice, topicOrderForSpecItem } from '../../src/app/practice-questions'
+import { topics as businessTopics } from '../../content/business/aqa-a-level/shared/topics'
+import { createMultipleChoiceEvidence } from '../../src/app/practice-evidence'
+import { individualSpecItemObservation } from '../../src/engine/evidence/evidence'
+import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 
 const enabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const url = process.env.SUPABASE_URL ?? ''
@@ -70,6 +77,42 @@ test('configured ordinary learner sees actual derived Plan activities with no ac
     await expect(page.locator('.pln-summary')).not.toContainText('No activities planned')
     await page.reload()
     await expect(page.locator('.pln-row[data-kind="suggested"]').first()).toBeVisible()
+
+    // B1a: actual authenticated PostgREST owner save/read of the same mapped
+    // question evidence the normal Course Practice screen now constructs.
+    // This is a persistence contract, NOT a claim that Plan has learned a
+    // separate skill-mastery formula or that every bank question is mapped.
+    // Read the published fixture as plain JSON: Playwright executes this test
+    // in Node, outside Vite, so importing the Vite bank wrapper would require
+    // an unsupported JSON import attribute and crash all browser assurance.
+    const bankJson = JSON.parse(readFileSync(new URL(
+      '../../content/business/aqa-a-level/shared/fast-path-question-bank.json', import.meta.url,
+    ), 'utf8')) as { questions: StructuredPracticeBankRecord[] }
+    const bankRecord = bankJson.questions.find((record) =>
+      record.question.family === 'MCQ' && record.target_item_ids.length === 1)
+    expect(bankRecord).toBeDefined()
+    const order = topicOrderForSpecItem(bankRecord!.target_item_ids[0]!)
+    const topic = businessTopics.find((entry) => entry.order === order)
+    expect(topic).toBeDefined()
+    const authored = bankRecordToPractice(bankRecord!, topic!.id)
+    expect(authored?.type).toBe('multiple-choice')
+    if (!authored || authored.type !== 'multiple-choice') throw new Error('Missing published objective item')
+    const sourceMapping = objectiveItemMappingForPractice(authored)
+    expect(sourceMapping?.singleTargetSpecItemId).toBe(bankRecord!.target_item_ids[0])
+    const fact = createMultipleChoiceEvidence({
+      id: 'real-db-mapped-' + crypto.randomUUID(),
+      moduleId: 'business-aqa-a-level-7132-paper-1', topicId: authored.topicId,
+      contentId: authored.id, selectedOption: authored.correctOption,
+      correctOption: authored.correctOption, confidence: 'certain',
+      itemMapping: sourceMapping,
+    })
+    const store = createSupabaseEvidenceStore(learner)
+    await recordLearningEvidence(store, userId, fact)
+    const saved = await loadLearningEvidence(store, userId, fact.moduleId, fact.topicId)
+    expect(saved.find((entry) => entry.id === fact.id)).toEqual(fact)
+    expect(individualSpecItemObservation(saved.find((entry) => entry.id === fact.id)!))
+      .toMatchObject({ specItemId: bankRecord!.target_item_ids[0],
+        contentId: authored.id, correct: true, scoring: 'software-scored-choice' })
   } finally {
     await learner.auth.signOut()
     if (userId) {
