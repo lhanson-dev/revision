@@ -246,7 +246,12 @@ describe('planner model bridge', () => {
       activityType: 'quick-check',
     })
     expect(snapshot?.schedule.length).toBeGreaterThanOrEqual(7)
-    expect(snapshot?.ranked).toHaveLength(3)
+    // Every topic has a scored quick-check and a separately authored
+    // unattempted retrieval card. Neither mode is an invented calendar fill.
+    expect(snapshot?.ranked.filter((item) => item.activityType === 'quick-check')).toHaveLength(3)
+    expect(snapshot?.ranked.filter((item) => item.activityType === 'flashcards'
+      && item.retrievalContentIds?.length === 1)).toHaveLength(3)
+    expect(new Set(snapshot?.ranked.map((item) => item.id)).size).toBe(snapshot?.ranked.length)
   })
 
   it('enters priority mode when broad remaining useful workload exceeds realistic capacity', () => {
