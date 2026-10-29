@@ -287,7 +287,17 @@ export function buildPreparationProgramme(
         // than front-loading every topic in week one. No fixed intervals;
         // cumulative opportunity follows the real proportion of pre-paper
         // study time elapsed and is recalculated on each material change.
-        if (pacing && pacing.totalCapacity >= paperDemand && paperDemand > 0) {
+        // Near-term actionable, evidence-unknown acquisition/check opportunities
+        // must not be smeared across months merely because total capacity until
+        // an exam dwarfs the tiny *currently recognised* candidate inventory.
+        // Supported tasks may be scheduled in the rolling forecast; they are
+        // re-evaluated after genuine learner evidence rather than declared to
+        // cover the entire course or filled with invented repetitions.
+        const nearTermEvidenceBuilding = !!fitDate
+          && dayDistance(horizon.today, fitDate) >= 0
+          && dayDistance(horizon.today, fitDate) < 14
+          && item.candidate.understanding === null
+        if (!nearTermEvidenceBuilding && pacing && pacing.totalCapacity >= paperDemand && paperDemand > 0) {
           const elapsed = pacing.weekCapacity.slice(0, weeks.length + 1)
             .reduce((sum, minutes) => sum + minutes, 0)
           const intendedCumulative = paperDemand * elapsed / Math.max(1, pacing.totalCapacity)
