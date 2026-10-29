@@ -154,7 +154,12 @@ export function rankPlannerCandidate(candidate: PlannerCandidate): RankedPlanner
   const repetitionPenalty = candidate.recentlyCompleted ? 0.18 : 0
   const strongPenalty = candidate.understanding !== null && candidate.understanding >= 0.8 && candidate.coverage >= 0.8 ? 0.25 : 0
 
+  // A raw, independently scored specific-skill error deserves attention,
+  // without replacing the separate topic/readiness evidence authority.
+  const specificNeed = candidate.skillFocus?.need === 'missed' ? 0.08
+    : candidate.skillFocus?.need === 'uncertain' ? 0.04 : 0
   const score =
+    specificNeed +
     urgency * 0.22 +
     importance * 0.1 +
     coverageNeed * 0.14 +
