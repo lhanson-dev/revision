@@ -67,6 +67,7 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
         const question=pack.questions.find(x=>x.id===id)
         expect(question,pack.manifest.id+': '+id).toBeDefined()
         expect(question?.topic).toBe('research-methods')
+        expect(question?.prompt).toMatch(/^Revision-original practice\./)
         expect(question?.options).toHaveLength(4)
         expect(question?.correctOption).toBe(expectedKeys.get(id))
         const scored=coursePackQuestionToPractice(question!)
