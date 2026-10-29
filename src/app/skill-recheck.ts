@@ -71,6 +71,7 @@ export function findSkillRecheckOpportunities(
       : observation.confidence === 'guess' ? 'uncertain' : null
     if (!need) return []
     const source = choices.get(observation.contentId)
+    if (!source) return []
     const next = [...choices.values()].find((question) =>
       !answeredContent.has(question.id)
       && question.id !== observation.contentId
