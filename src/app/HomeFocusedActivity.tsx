@@ -124,7 +124,15 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     }
   }
 
-  const cards = useMemo(() => task.adapter.listFlashcards(task.topicId), [task])
+  // The planner may recommend a concrete set of unattempted authored cards.
+  // Start exactly those cards: falling back to the old first-N list would
+  // silently repeat already answered content instead of testing a new gap.
+  const cards = useMemo(() => {
+    const available = task.adapter.listFlashcards(task.topicId)
+    if (!task.retrievalContentIds) return available
+    const byId = new Map(available.map((card) => [card.id, card]))
+    return task.retrievalContentIds.flatMap((id) => byId.get(id) ?? [])
+  }, [task])
   const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
   const cardCount = focusedActivityCount('flashcards', cards.length)
   const questionCount = focusedActivityCount('quick-check', questions.length)
