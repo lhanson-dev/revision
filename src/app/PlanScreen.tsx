@@ -38,6 +38,7 @@ import { homeActivityLabel, type HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLearningState } from './planner-model'
+import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope } from './psychology-paper3-option-scope'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import {
@@ -140,6 +141,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
     courseLabel: item.label,
     paperLabel: paperLabel(module),
     title: module.manifest.paper.name,
+    requiresOptionScope: isAqaPsychologyPaper3(module),
+    optionContract: psychologyPaper3OptionContract(module),
   }))), [programme])
 
   const [assessments, setAssessments] = useState<RevisionAssessment[]>([])
@@ -164,6 +167,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
   const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [examTemplateKey, setExamTemplateKey] = useState(() => examTemplates[0]?.key ?? '')
   const [examDate, setExamDate] = useState('')
+  const [psychologyPaper3Options, setPsychologyPaper3Options] = useState<Record<string, string>>({})
   const [courseId, setCourseId] = useState(programme[0]?.course.id ?? '')
   const [title, setTitle] = useState('')
   const [assessmentDate, setAssessmentDate] = useState('')
@@ -410,6 +414,14 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
       return
     }
 
+    const optionScope = selectedExamTemplate.requiresOptionScope
+      ? psychologyPaper3TopicScope(selectedExamTemplate.optionContract, psychologyPaper3Options)
+      : undefined
+    if (selectedExamTemplate.requiresOptionScope && !optionScope) {
+      setMessage('Choose one Psychology Paper 3 topic from each of Sections B, C and D before adding the exam.')
+      return
+    }
+
     setSaving(true)
     setMessage('')
     try {
@@ -417,6 +429,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
         courseId: selectedExamTemplate.courseId,
         subjectId: selectedExamTemplate.subjectId,
         moduleId: selectedExamTemplate.moduleId,
+        scope: optionScope ?? undefined,
         title: selectedExamTemplate.title,
         assessmentDate: examDate,
         assessmentType: 'public_exam',
@@ -424,6 +437,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
       })
       setAssessments((current) => [...current, saved])
       setExamDate('')
+      setPsychologyPaper3Options({})
       setExamsOpen(false)
       setMessage('Exam added. REV has re-planned around the new date.')
     } catch (error: unknown) {
@@ -610,11 +624,23 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
             )}
             {examTemplates.length > 0 && (
               <form className="plan-add-exam" onSubmit={handleAddKnownExam}>
-                <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => setExamTemplateKey(event.target.value)}>
+                <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => { setExamTemplateKey(event.target.value); setPsychologyPaper3Options({}) }}>
                   {examTemplates.map((template) => <option key={template.key} value={template.key}>{template.courseLabel} · {template.paperLabel}</option>)}
                 </SelectField>
+                {selectedExamTemplate?.requiresOptionScope && (
+                  <div className="planner-field-grid" aria-label="Psychology Paper 3 options">
+                    <p>Paper 3 includes Issues and Debates plus one topic from each of these three sections.</p>
+                    {selectedExamTemplate.optionContract ? selectedExamTemplate.optionContract.groups.map((group) => (
+                      <SelectField key={group.id} label={group.label} value={psychologyPaper3Options[group.id] ?? ''}
+                        required onChange={(event) => setPsychologyPaper3Options((current) => ({ ...current, [group.id]: event.target.value }))}>
+                        <option value="">Choose a topic</option>
+                        {group.options.map((option) => <option key={option.topicId} value={option.topicId}>{option.label}</option>)}
+                      </SelectField>
+                    )) : <p role="alert">The published option data is incomplete. This exam cannot be added until it is corrected.</p>}
+                  </div>
+                )}
                 <TextField label="Exam date" type="date" required value={examDate} onChange={(event) => setExamDate(event.target.value)} />
-                <Button type="submit" disabled={saving || !selectedExamTemplate}>Add exam</Button>
+                <Button type="submit" disabled={saving || !selectedExamTemplate || (selectedExamTemplate.requiresOptionScope && !selectedExamTemplate.optionContract)}>Add exam</Button>
               </form>
             )}
             <button className="plan-disclosure-link" type="button" onClick={() => setOtherAssessmentOpen((open) => !open)} aria-expanded={otherAssessmentOpen}>+ Add a mock, topic test or other assessment</button>
