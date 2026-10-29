@@ -12,6 +12,7 @@ import {
 } from '../shared/course'
 import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsAppliedDrills } from '../shared/research-methods-practice'
 import { psychologyInferenceChoiceQuestions, psychologyInferenceChoiceDrills } from '../shared/inferential-choice-practice'
+import { psychologyStandardDeviationPracticeBank } from '../shared/standard-deviation-practice'
 
 export const psychologyAqaALevel7182Paper2 = contentPackSchema.parse({
   manifest,
@@ -21,6 +22,7 @@ export const psychologyAqaALevel7182Paper2 = contentPackSchema.parse({
   topicLinks: psychologyTopicLinks,
   flashcards: psychologyFlashcards,
   questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions, ...psychologyInferenceChoiceQuestions],
+  practiceBank: psychologyStandardDeviationPracticeBank,
   caseStudies: [],
   dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills],
   examTechnique: psychologyExamTechnique,
