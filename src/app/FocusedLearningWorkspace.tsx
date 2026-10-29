@@ -22,7 +22,7 @@ import {
   statusDirection,
   type QuestionSession,
 } from './practice-session'
-import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness, type PracticeQuestion } from './practice-questions'
+import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness, type PracticeQuestion, objectiveItemMappingForPractice } from './practice-questions'
 import {
   PRACTICE_LENGTHS,
   lastPractisedLabel,
@@ -634,6 +634,7 @@ export function FocusedLearningWorkspace({
       selectedOption,
       correctOption: question.correctOption,
       confidence,
+      itemMapping: objectiveItemMappingForPractice(question),
     })
     setStatusMove(null)
     const next = recordSessionAnswer(session, {
