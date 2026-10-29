@@ -23,7 +23,7 @@ export function authoredSkillQuestions(adapter: LearningContentAdapter, topicId:
   const topic = adapter.getTopic(topicId)
   if (!topic || adapter.manifest.status !== 'available') return []
   return buildQuestionPool({
-    topicId, topicOrder: topic.order, coursePack: [], bank: adapter.listPracticeBank(),
+    topicId, topicOrder: topic.order, coursePack: [], bank: adapter.listPracticeBank?.() ?? [],
   }).filter((question): question is MultipleChoicePracticeQuestion =>
     question.type === 'multiple-choice' && Boolean(objectiveItemMappingForPractice(question)?.singleTargetSpecItemId))
 }
