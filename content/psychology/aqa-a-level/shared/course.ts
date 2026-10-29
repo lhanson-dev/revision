@@ -193,6 +193,17 @@ export const psychologyLearn = learnCourseSchema.parse({
               heading: 'Core knowledge',
               paragraphs: definitions.length > 0 ? definitions : [requirement.boardAlignment.summary],
             },
+            ...(requirement.requirementId === 'PSY-07-26' ? [{
+              type: 'explanation' as const,
+              heading: 'Worked method: calculate standard deviation',
+              paragraphs: [
+                'Standard deviation measures spread in the same units as the scores. In this Revision practice, use the population formula (divide by the number of scores, N). If an examination question supplies a different convention, follow the stated formula.',
+                'Worked example: memory scores 2, 4, 6 and 8 have mean (2 + 4 + 6 + 8) / 4 = 5. Subtract the mean from each score to obtain -3, -1, 1 and 3.',
+                'Square those differences: 9, 1, 1 and 9. Add to obtain 20, then divide by N = 4 to obtain variance = 5. Take the square root: population standard deviation = √5 = 2.24 score points (to two decimal places).',
+                'Interpretation: 2.24 describes dispersion, not the average and not statistical significance. A larger standard deviation means more variable scores; comparing spread across different measurement scales requires care.',
+                'Practice independently: select Calculations within Research Methods and enter your own numerical result before viewing the worked feedback. These one-mark checks assess the final numerical answer, not whether you have shown every line of working.',
+              ],
+            }] : []),
             ...(research.length >= 2 ? [{
               type: 'relationship' as const,
               title: 'Research, evidence and relationships',
