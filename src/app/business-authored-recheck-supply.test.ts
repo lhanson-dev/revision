@@ -68,8 +68,8 @@ describe('Issue #698 — actual published Business independent single-item retes
 
   it('checks the original numeric answers independently of stored correct-option text', () => {
     // The tests deliberately calculate, rather than merely read, answer keys.
-    expect(6.3 / 45 * 100).toBe(14)
-    expect(5850 / 9000 * 100).toBe(65)
+    expect(6.3 / 45 * 100).toBeCloseTo(14, 9)
+    expect(5850 / 9000 * 100).toBeCloseTo(65, 9)
     expect(Math.round(54000 / 657000 * 365)).toBe(30)
     expect([3 + 6 + 4, 4 + 4 + 4, 5 + 7]).toEqual([13, 12, 12])
     for (const item of expected) {
