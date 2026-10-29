@@ -71,6 +71,23 @@ describe('Plan: configured production-shaped Business/Psychology learner', () =>
     expect(prepared.candidates.length).toBeGreaterThan(0)
     expect(prepared.programme.weeks.some((week) => week.objectives.length > 0)).toBe(true)
     const snapshot = buildPlannerSnapshot(states, exams, availability, [], [], now, [], 14)
+    const november = prepared.programme.weeks.filter((week) =>
+      week.visibleUntil >= '2026-11-01' && week.visibleFrom <= '2026-11-30')
+    const stats = {
+      supportedCandidates: prepared.candidates.length,
+      requiredMinutes: prepared.programme.requiredMinutes,
+      programmeWeeks: prepared.programme.weeks.length,
+      overallObjectives: prepared.programme.weeks.reduce((n, week) => n + week.objectives.length, 0),
+      octoberCurrentWeek: prepared.programme.weeks.find((week) =>
+        week.visibleFrom <= '2026-10-29' && week.visibleUntil >= '2026-10-29')?.objectives.length ?? 0,
+      novemberWeeks: november.map((week) => ({ start: week.weekStart, objectives: week.objectives.length,
+        minutes: week.allocatedMinutes, capacity: week.availableMinutes })),
+      nearTermTasks: snapshot?.schedule.reduce((n, day) => n + day.items.length, 0) ?? 0,
+      nearTermSubjects: [...new Set(snapshot?.schedule.flatMap((day) =>
+        day.items.map((item) => item.subjectId)) ?? [])],
+    }
+    // Dated synthetic diagnosis (not acceptance of this thin schedule).
+    console.info('PLANNER_SCREENSHOT_DIAGNOSTIC ' + JSON.stringify(stats))
     expect(snapshot).not.toBeNull()
     expect(snapshot!.schedule.some((day) => day.items.length > 0)).toBe(true)
     expect(snapshot!.schedule.flatMap((day) => day.items).every((item) =>
