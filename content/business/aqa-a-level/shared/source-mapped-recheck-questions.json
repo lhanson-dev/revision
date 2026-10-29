@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "course_id": "aqa:aqa-a-level:7132",
+  "review_status": "original_source_checked_arithmetic_verified_educational_review_pending",
+  "sources": "Revision-original scenarios and questions aligned to existing Board Mapping target IDs; external AQA syllabus is REFERENCE_ONLY.",
+  "questions": [
+    {
+      "namespace": "rev7132-recheck",
+      "label": "Revision-original assessment practice (not an official AQA question)",
+      "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
+      "batch": "3.3",
+      "id": "recheck-market-share-01",
+      "target_item_ids": [
+        "aqa-7132-3.3.1:market-share"
+      ],
+      "target_node_ids": [
+        "bus-mkt-002"
+      ],
+      "question": {
+        "id": "recheck-market-share-01",
+        "family": "MCQ",
+        "command_word": "Calculate",
+        "marks": 1,
+        "ao_tags": [
+          "AO2"
+        ],
+        "context": "Westhaven Cycles sells electric bicycles in an invented UK market. All sales figures relate to the same year and are expressed by sales value.",
+        "stem": "Westhaven's annual sales were £6.3 million and total sales in its market were £45 million. Calculate Westhaven's market share by sales value.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "7%"
+          },
+          {
+            "label": "B",
+            "text": "14%"
+          },
+          {
+            "label": "C",
+            "text": "38.7%"
+          },
+          {
+            "label": "D",
+            "text": "71.4%"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect: dividing by a rounded or unrelated market total understates the actual share.",
+            "B is correct: (£6.3 million ÷ £45 million) × 100 = 14%.",
+            "C is incorrect: £38.7 million is the sales value of other firms, not Westhaven's percentage share.",
+            "D is incorrect: this reverses the comparison rather than dividing the firm's sales by the whole market."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Market share by sales value = firm's sales ÷ total market sales × 100 = £6.3m ÷ £45m × 100 = 14%."
+        },
+        "calcs": []
+      }
+    },
+    {
+      "namespace": "rev7132-recheck",
+      "label": "Revision-original assessment practice (not an official AQA question)",
+      "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
+      "batch": "3.4",
+      "id": "recheck-capacity-01",
+      "target_item_ids": [
+        "aqa-7132-3.4.2:capacity-utilisation"
+      ],
+      "target_node_ids": [
+        "bus-ops-003"
+      ],
+      "question": {
+        "id": "recheck-capacity-01",
+        "family": "MCQ",
+        "command_word": "Calculate",
+        "marks": 1,
+        "ao_tags": [
+          "AO2"
+        ],
+        "context": "Revision-original case: Fallow Foods manufactures frozen ready meals. Its production line could make a maximum of 9,000 meals each day at current staffing and equipment levels.",
+        "stem": "Fallow Foods produced 5,850 meals yesterday. Calculate its capacity utilisation for that day.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "35%"
+          },
+          {
+            "label": "B",
+            "text": "65%"
+          },
+          {
+            "label": "C",
+            "text": "153.8%"
+          },
+          {
+            "label": "D",
+            "text": "3,150%"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect: 35% is spare capacity, not the proportion of maximum output actually achieved.",
+            "B is correct: 5,850 ÷ 9,000 × 100 = 65%.",
+            "C is incorrect: dividing maximum capacity by actual output reverses the ratio.",
+            "D is incorrect: 3,150 is the number of spare meals, not the utilisation percentage."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Capacity utilisation = actual output ÷ maximum possible output × 100 = 5,850 ÷ 9,000 × 100 = 65%."
+        },
+        "calcs": []
+      }
+    },
+    {
+      "namespace": "rev7132-recheck",
+      "label": "Revision-original assessment practice (not an official AQA question)",
+      "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
+      "batch": "3.7",
+      "id": "recheck-payables-01",
+      "target_item_ids": [
+        "aqa-7132-3.7.2:payables-days"
+      ],
+      "target_node_ids": [
+        "bus-fin-013"
+      ],
+      "question": {
+        "id": "recheck-payables-01",
+        "family": "MCQ",
+        "command_word": "Calculate",
+        "marks": 1,
+        "ao_tags": [
+          "AO2"
+        ],
+        "context": "Original case: Moorland Lighting Ltd reports annual cost of sales of £657,000 and trade payables of £54,000. Assume a 365-day financial year.",
+        "stem": "Calculate Moorland Lighting's payables days, rounded to the nearest whole day.",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "3 days"
+          },
+          {
+            "label": "B",
+            "text": "30 days"
+          },
+          {
+            "label": "C",
+            "text": "90 days"
+          },
+          {
+            "label": "D",
+            "text": "365 days"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "B",
+          "option_rationale": [
+            "A is incorrect: the share of annual cost of sales cannot be read directly as three days.",
+            "B is correct: (£54,000 ÷ £657,000) × 365 = 30 days.",
+            "C is incorrect: the amounts do not imply three months of supplier credit.",
+            "D is incorrect: payables days is not automatically the length of the financial year."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "Payables days = trade payables ÷ annual cost of sales × 365 = £54,000 ÷ £657,000 × 365 = 30 days."
+        },
+        "calcs": []
+      }
+    },
+    {
+      "namespace": "rev7132-recheck",
+      "label": "Revision-original assessment practice (not an official AQA question)",
+      "confidence_label": "Internal arithmetic and mapping QA; independent subject review pending",
+      "batch": "3.10",
+      "id": "recheck-critical-path-01",
+      "target_item_ids": [
+        "aqa-7132-3.10.3:critical-path"
+      ],
+      "target_node_ids": [
+        "bus-evi-008"
+      ],
+      "question": {
+        "id": "recheck-critical-path-01",
+        "family": "MCQ",
+        "command_word": "Calculate",
+        "marks": 1,
+        "ao_tags": [
+          "AO2"
+        ],
+        "context": "Revision-original network planning scenario: Haven Kitchens has three complete routes through a showroom refurbishment. Activity durations in days are A=3, D=6, F=4; B=4, E=4, F=4; and C=5, G=7. The network permits the alternative routes A–D–F, B–E–F, and C–G.",
+        "stem": "Which complete route is the critical path, and therefore determines the earliest project completion time?",
+        "table": null,
+        "options": [
+          {
+            "label": "A",
+            "text": "A–D–F (13 days)"
+          },
+          {
+            "label": "B",
+            "text": "B–E–F (12 days)"
+          },
+          {
+            "label": "C",
+            "text": "C–G (12 days)"
+          },
+          {
+            "label": "D",
+            "text": "All three routes (12 days)"
+          }
+        ],
+        "mark_scheme": {
+          "type": "single_option",
+          "correct_option": "A",
+          "option_rationale": [
+            "A is correct: 3 + 6 + 4 = 13 days, which is the longest dependent route and therefore critical.",
+            "B is incorrect: this route takes 4 + 4 + 4 = 12 days, one day shorter than the critical route.",
+            "C is incorrect: this route takes 5 + 7 = 12 days, so it does not govern the full project duration.",
+            "D is incorrect: the routes have different total durations; not all are critical."
+          ],
+          "points": [],
+          "levels": [],
+          "indicative_content": [],
+          "model_answer": "The three path durations are A–D–F = 13 days, B–E–F = 12 days and C–G = 12 days. The longest dependent path, A–D–F, determines the earliest possible completion: 13 days."
+        },
+        "calcs": []
+      }
+    }
+  ]
+}
