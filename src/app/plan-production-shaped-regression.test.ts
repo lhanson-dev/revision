@@ -90,6 +90,13 @@ describe('Plan: configured production-shaped Business/Psychology learner', () =>
     console.info('PLANNER_SCREENSHOT_DIAGNOSTIC ' + JSON.stringify(stats))
     expect(snapshot).not.toBeNull()
     expect(snapshot!.schedule.some((day) => day.items.length > 0)).toBe(true)
+    // The prior production view had exactly one 15m item despite available
+    // weekday capacity and published material in *both* active courses.
+    // This is a regression threshold for this fixture, not a universal quota.
+    const nearTerm = snapshot!.schedule.flatMap((day) => day.items)
+    expect(nearTerm.length).toBeGreaterThan(1)
+    expect(nearTerm.reduce((minutes, item) => minutes + item.estimatedMinutes, 0)).toBeGreaterThan(15)
+    expect(new Set(nearTerm.map((item) => item.courseId))).toEqual(new Set(ids))
     expect(snapshot!.schedule.flatMap((day) => day.items).every((item) =>
       item.courseId === ids[0] || item.courseId === ids[1])).toBe(true)
   })
