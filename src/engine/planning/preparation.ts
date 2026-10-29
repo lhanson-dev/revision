@@ -101,6 +101,8 @@ function evidenceState(candidate: PlannerCandidate): PreparationObjective['evide
   return 'supported'
 }
 function treatmentFor(candidate: PlannerCandidate): PreparationTreatment {
+  if (candidate.skillFocus?.treatment === 'repair') return 'repair'
+  if (candidate.skillFocus?.treatment === 'recheck') return 'check'
   if (candidate.activityType === 'learn') return 'learn'
   if (candidate.activityType === 'exam-question') return 'exam-practice'
   if (candidate.understanding !== null && candidate.understanding < MEDIUM_SCORE_MIN / 100) return 'repair'
@@ -110,7 +112,11 @@ function treatmentFor(candidate: PlannerCandidate): PreparationTreatment {
 function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): PreparationObjective {
   const evidenceStatus = evidenceState(candidate)
   const treatment = treatmentFor(candidate)
-  const purpose = treatment === 'learn'
+  const purpose = candidate.skillFocus?.treatment === 'repair'
+    ? 'Review an authored explanation linked to a specifically missed requirement'
+    : candidate.skillFocus?.treatment === 'recheck'
+      ? 'Check a previously missed or uncertain requirement with a different published question'
+      : treatment === 'learn'
     ? evidenceStatus === 'needs-work'
       ? 'Revisit a demonstrated gap using published explanation before checking it again'
       : 'Build the foundations before independent practice'
@@ -121,7 +127,11 @@ function describe(candidate: PlannerCandidate, target: ProgrammeMilestone): Prep
         : treatment === 'retrieve' ? 'Retrieve course knowledge independently'
           : evidenceStatus === 'unknown' ? 'Check what you know before choosing further study'
             : 'Apply and check understanding using an approved activity'
-  const why = evidenceStatus === 'unknown' ? 'Understanding has not been established by sufficient evidence'
+  const why = candidate.skillFocus
+    ? candidate.skillFocus.need === 'missed'
+      ? 'A software-scored, single-target answer was incorrect; this does not establish overall topic weakness'
+      : 'A correct answer was marked as a guess; independent corroboration is still needed'
+    : evidenceStatus === 'unknown' ? 'Understanding has not been established by sufficient evidence'
     : evidenceStatus === 'needs-work' ? 'Existing evidence indicates that this area needs attention'
       : evidenceStatus === 'provisional' ? 'Scored evidence suggests developing understanding; further independent practice remains useful'
         : 'This is a supported opportunity to consolidate demonstrated knowledge'
@@ -269,7 +279,9 @@ export function buildPreparationProgramme(
         const eligible = item.targets.flatMap((entry) => {
           if (entry.date <= week.visibleFrom) return []
           const free = dailySlots?.filter((day) => day.date < entry.date
-            && (!priorThisWeek?.forecastDate || day.date >= priorThisWeek.forecastDate)) ?? null
+            && (!priorThisWeek?.forecastDate || candidate.skillFocus?.treatment === 'recheck'
+              ? !priorThisWeek?.forecastDate || day.date > priorThisWeek.forecastDate
+              : day.date >= priorThisWeek.forecastDate)) ?? null
           const fit = free?.find((day) => day.availableMinutes >= item.candidate.estimatedMinutes)
           if (dailySlots && !fit) return []
           return [{ target: entry, fitDate: fit?.date, usableBefore: free?.reduce(
