@@ -33,6 +33,17 @@ export type HomeTask = {
   plannerItem?: PlannerItem
 }
 
+/** Resolve exactly the authored retrieval selected by the one programme decision.
+ * A missing card is not replaced by an unrelated card: the focused activity
+ * correctly reports unavailable content rather than corrupting the evidence.
+ */
+export function authoredFlashcardsForTask(task: HomeTask) {
+  const available = task.adapter.listFlashcards(task.topicId)
+  if (!task.retrievalContentIds) return available
+  const byId = new Map(available.map((card) => [card.id, card]))
+  return task.retrievalContentIds.flatMap((id) => byId.get(id) ?? [])
+}
+
 /** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
   if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', task.adapter.listQuestions(task.topicId).length)
