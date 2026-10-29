@@ -279,9 +279,10 @@ export function buildPreparationProgramme(
         const eligible = item.targets.flatMap((entry) => {
           if (entry.date <= week.visibleFrom) return []
           const free = dailySlots?.filter((day) => day.date < entry.date
-            && (!priorThisWeek?.forecastDate || candidate.skillFocus?.treatment === 'recheck'
-              ? !priorThisWeek?.forecastDate || day.date > priorThisWeek.forecastDate
-              : day.date >= priorThisWeek.forecastDate)) ?? null
+            && (!priorThisWeek?.forecastDate
+              || (item.candidate.skillFocus?.treatment === 'recheck'
+                ? day.date > priorThisWeek.forecastDate
+                : day.date >= priorThisWeek.forecastDate))) ?? null
           const fit = free?.find((day) => day.availableMinutes >= item.candidate.estimatedMinutes)
           if (dailySlots && !fit) return []
           return [{ target: entry, fitDate: fit?.date, usableBefore: free?.reduce(
