@@ -49,6 +49,9 @@ export interface PlannerCandidate {
   learnTarget?: { learnPageId: string; moduleId?: string }
   /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
   retrievalContentIds?: readonly string[]
+  /** Only one independently authored, never-attempted single-target objective question. */
+  targetedQuestionIds?: readonly string[]
+  skillFocus?: { specItemId: string; need: 'missed' | 'uncertain'; treatment: 'repair' | 'recheck' }
   earliestEligibleDate?: string
   latestEligibleDate?: string
   preparationStage?: 'acquire' | 'check' | 'exam-practice'
@@ -89,6 +92,8 @@ export interface PlannerItem {
   learnTarget?: { learnPageId: string; moduleId?: string }
   /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
   retrievalContentIds?: readonly string[]
+  targetedQuestionIds?: readonly string[]
+  skillFocus?: PlannerCandidate['skillFocus']
 }
 
 export interface PlannerScheduledDay {
@@ -198,6 +203,8 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     examTarget: candidate.examTarget,
     learnTarget: candidate.learnTarget,
     retrievalContentIds: candidate.retrievalContentIds,
+    targetedQuestionIds: candidate.targetedQuestionIds,
+    skillFocus: candidate.skillFocus,
     assessmentTargets: candidate.assessmentTargets,
   }
 }
