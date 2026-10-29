@@ -1,0 +1,57 @@
+{
+  "id": "q20",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.3:debt-factoring",
+    "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source"
+  ],
+  "target_node_ids": [
+    "bus-fin-008"
+  ],
+  "question": {
+    "id": "q20",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Lakeside Components has reliable business customers owing £120,000, payable in 70 days. It needs cash soon to buy materials; its invoices are genuine and collectable.",
+    "stem": "Which is the most accurate assessment of using debt factoring in this situation?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "Factoring could release cash tied up in receivables earlier, usually in return for fees and possible customer-relationship considerations."
+      },
+      {
+        "label": "B",
+        "text": "Factoring guarantees the company an extra £120,000 of sales revenue and profit immediately."
+      },
+      {
+        "label": "C",
+        "text": "Factoring converts the business into a publicly listed company, raising equity capital."
+      },
+      {
+        "label": "D",
+        "text": "Factoring is always cheaper than using retained profit and carries no disadvantages."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct because a factor may provide cash against invoices before their normal due date, but fees and customer interaction should be considered.",
+        "B is incorrect because earlier receipt of existing debt does not create new sales revenue or necessarily increase accounting profit.",
+        "C is incorrect because debt factoring is not an issue of ordinary shares.",
+        "D is incorrect because factoring can be costly and is not universally superior to internal funding."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "A. Factoring can accelerate cash receipts against receivables, at a cost; compare fees, customer relationships and suitability with alternative short-term finance."
+    },
+    "calcs": []
+  }
+}

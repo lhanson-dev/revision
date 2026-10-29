@@ -1,0 +1,59 @@
+{
+  "id": "q25",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:gross-profit",
+    "aqa-7132-3.5.1:operating-profit",
+    "aqa-7132-3.5.1:profit-for-the-year"
+  ],
+  "target_node_ids": [
+    "bus-fin-010",
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q25",
+    "family": "MCQ",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Fallow Foods reports revenue of £750,000, cost of sales of £435,000, other operating expenses of £180,000, net finance costs of £12,000 and taxation of £23,000.",
+    "stem": "Using the supplied information, what is Fallow Foods' profit for the year?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "£315,000"
+      },
+      {
+        "label": "B",
+        "text": "£135,000"
+      },
+      {
+        "label": "C",
+        "text": "£100,000"
+      },
+      {
+        "label": "D",
+        "text": "£112,000"
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "C",
+      "option_rationale": [
+        "A is incorrect because £315,000 is gross profit before operating expenses, finance costs and tax.",
+        "B is incorrect because £135,000 is operating profit before net finance costs and tax.",
+        "C is correct because gross profit £315,000; operating profit £135,000; profit before tax £123,000; profit for the year £100,000.",
+        "D is incorrect because £112,000 is after deducting taxation from operating profit but omitting finance costs."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "C. Gross profit £750,000−£435,000=£315,000; operating profit £315,000−£180,000=£135,000; after £12,000 net finance costs and £23,000 tax, profit for the year is £100,000."
+    },
+    "calcs": []
+  }
+}

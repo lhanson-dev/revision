@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "purpose": "Non-reproductive, version-bound reference metadata for Issue #698; page numbers refer to physical pages in the exact user-supplied PDFs, not a licence to ingest protected text.",
+  "verified_on": "2026-10-28",
+  "source_rights_classification": "REFERENCE_ONLY",
+  "source_rights_authority": "40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md",
+  "courses": [
+    {
+      "course_id": "aqa:aqa-a-level:7132",
+      "qualification": "A-level Business",
+      "specification_code": "7132",
+      "pdf_version": "2.0",
+      "pdf_date": "2023-06-14",
+      "pdf_pages": 42,
+      "pdf_sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+      "official_version_url": "https://www.aqa.org.uk/7132",
+      "sections": {
+        "3.1.1": 11,
+        "3.1.2": 12,
+        "3.1.3": 13,
+        "3.2.1": 13,
+        "3.2.2": 14,
+        "3.2.3": 14,
+        "3.3.1": 15,
+        "3.3.2": 15,
+        "3.3.3": 16,
+        "3.3.4": 16,
+        "3.4.1": 17,
+        "3.4.2": 17,
+        "3.4.3": 18,
+        "3.4.4": 18,
+        "3.4.5": 19,
+        "3.5.1": 19,
+        "3.5.2": 20,
+        "3.5.3": 21,
+        "3.5.4": 21,
+        "3.6.1": 22,
+        "3.6.2": 22,
+        "3.6.3": 22,
+        "3.6.4": 23,
+        "3.6.5": 24,
+        "3.7.1": 24,
+        "3.7.2": 25,
+        "3.7.3": 25,
+        "3.7.4": 25,
+        "3.7.5": 26,
+        "3.7.6": 26,
+        "3.7.7": 27,
+        "3.7.8": 27,
+        "3.8.1": 27,
+        "3.8.2": 28,
+        "3.9.1": 28,
+        "3.9.2": 29,
+        "3.9.3": 29,
+        "3.9.4": 30,
+        "3.10.1": 30,
+        "3.10.2": 31,
+        "3.10.3": 31,
+        "3.10.4": 31
+      },
+      "papers": [
+        {
+          "paper": 1,
+          "minutes": 120,
+          "marks": 100,
+          "format": "15 MCQ marks; 35 short-answer marks; two 25-mark essays chosen from alternatives"
+        },
+        {
+          "paper": 2,
+          "minutes": 120,
+          "marks": 100,
+          "format": "Three compulsory data-response sets, approximately 33 marks each"
+        },
+        {
+          "paper": 3,
+          "minutes": 120,
+          "marks": 100,
+          "format": "One compulsory case study followed by approximately six questions"
+        }
+      ]
+    },
+    {
+      "course_id": "aqa:aqa-a-level:7182",
+      "qualification": "A-level Psychology",
+      "specification_code": "7182",
+      "pdf_version": "1.4",
+      "pdf_date": "2025-09-01",
+      "first_a_level_exams": "2027-05",
+      "pdf_pages": 38,
+      "pdf_sha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+      "official_version_url": "https://www.aqa.org.uk/7182",
+      "sections": {
+        "4.1.1": 17,
+        "4.1.2": 17,
+        "4.1.3": 18,
+        "4.1.4": 18,
+        "4.2.1": 19,
+        "4.2.2": 19,
+        "4.2.3": 19,
+        "4.3.1": 21,
+        "4.3.2": 22,
+        "4.3.3": 22,
+        "4.3.4": 22,
+        "4.3.5": 22,
+        "4.3.6": 23,
+        "4.3.7": 23,
+        "4.3.8": 23,
+        "4.3.9": 23,
+        "4.3.10": 24
+      },
+      "compulsory_topics": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "option_groups": [
+        [
+          9,
+          10,
+          11
+        ],
+        [
+          12,
+          13,
+          14
+        ],
+        [
+          15,
+          16,
+          17
+        ]
+      ],
+      "papers": [
+        {
+          "paper": 1,
+          "minutes": 120,
+          "marks": 96,
+          "sections": [
+            24,
+            24,
+            24,
+            24
+          ]
+        },
+        {
+          "paper": 2,
+          "minutes": 120,
+          "marks": 96,
+          "sections": [
+            24,
+            24,
+            48
+          ]
+        },
+        {
+          "paper": 3,
+          "minutes": 120,
+          "marks": 96,
+          "sections": [
+            24,
+            24,
+            24,
+            24
+          ],
+          "option_rule": "one topic from each of the three option groups"
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    "This source manifest is independently checked PDF metadata and paper structure, not an independently enumerated atomic content requirement register.",
+    "No protected specification passages, questions or mark schemes are stored here.",
+    "Learner Learn and Practice adequacy require separate semantic and live-site checks; section and item IDs alone do not prove coverage."
+  ]
+}

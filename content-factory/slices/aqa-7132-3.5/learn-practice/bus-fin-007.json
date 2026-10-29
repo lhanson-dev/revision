@@ -40,6 +40,17 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Construct a complete budget and investigate actual variances",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "body": "A bicycle repair firm has a March profit budget. Its planned income is £80,000; planned costs are materials £28,000, wages £24,000 and overheads £12,000. Actual income is £75,000; actual costs are materials £30,000, wages £25,000 and overheads £11,000. Construct a budget-versus-actual table on paper with income, each cost, total expenditure and profit as separate rows. Use Budget, Actual and Actual minus Budget as the three numerical columns. Follow the step-by-step worked example below to reconcile the figures, with labels that depend on whether the row describes revenue, costs or profit. The profit variance should agree with the income shortfall less the net expenditure overrun. Investigate changed demand, input prices, volumes and timing before blaming a manager: a favourable overhead variance might reflect deferred maintenance. This income-and-profit budget does not automatically tell you when cash enters or leaves the business."
+      },
+      {
         "treatment": "example_non_example",
         "heading": "A variance is evidence for investigation, not a verdict",
         "body": "Example: maintenance spending £20,000 below budget is financially favourable in the short term because costs are lower than planned. However, it may be harmful if delayed maintenance leads to equipment failures and lost production later. Non-example: claiming that an adverse labour-cost variance proves employees were inefficient. Higher wage rates, overtime, quality requirements or a change in output could instead explain the variance.",
@@ -135,6 +146,36 @@
             }
           ],
           "stated_answer": 5500,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "we-construct-complete-profit-budget",
+        "item_id": "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+        "scenario": "Bicycle repair firm, March: planned/actual income £80,000/£75,000; materials £28,000/£30,000; wages £24,000/£25,000; overheads £12,000/£11,000. Construct a Budget/Actual/Variance table, then work out the profit variance between the budgeted and actual profit.",
+        "steps": [
+          "Build the income row: budget £80,000; actual £75,000; actual minus budget = −£5,000 adverse for income.",
+          "Build the materials row: budget £28,000; actual £30,000; +£2,000 adverse cost variance.",
+          "Build the wages row: budget £24,000; actual £25,000; +£1,000 adverse cost variance.",
+          "Build the overheads row: budget £12,000; actual £11,000; −£1,000 favourable cost variance.",
+          "Sum the total expenditure row: budget £28,000+£24,000+£12,000=£64,000; actual £30,000+£25,000+£11,000=£66,000; +£2,000 adverse overall.",
+          "Find budgeted profit: £80,000−£64,000=£16,000; actual profit: £75,000−£66,000=£9,000.",
+          "Calculate and reconcile the profit variance: £9,000−£16,000=−£7,000 adverse. Check: −£5,000 income minus +£2,000 cost = −£7,000 profit.",
+          "Investigate why: weak demand or changed prices can lower income; input inflation or changed volume can raise costs; a favourable overhead figure may reflect deferred maintenance."
+        ],
+        "calc": {
+          "formula_id": "variance",
+          "inputs": [
+            {
+              "name": "actual",
+              "value": 9000
+            },
+            {
+              "name": "budgeted",
+              "value": 16000
+            }
+          ],
+          "stated_answer": -7000,
           "unit": "currency"
         }
       }
@@ -247,6 +288,20 @@
         "prompt": "A student says, 'An adverse labour-cost variance proves workers were inefficient.' Is this correct? Correct the statement.",
         "answer": "No. An adverse labour-cost variance means labour cost was worse than budget for profit; it does not prove the cause. Wage rates, overtime, output or quality requirements may need investigation.",
         "explanation": "A variance measures a difference from a benchmark, not the reason for that difference.",
+        "calc": null
+      },
+      {
+        "id": "p-construct-and-reconcile-march-budget",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "prompt": "Construct on paper a March Budget, Actual and Variance table for this bicycle repair firm. Budget income £80,000; budget costs: materials £28,000, wages £24,000, overheads £12,000. Actual income £75,000; actual costs: materials £30,000, wages £25,000, overheads £11,000. Include total expenditure, profit, the variance for EACH row using actual minus budget, and correct favourable/adverse labels. Identify one sensible management investigation arising from the result.",
+        "answer": "Budget/Actual/Variance: Income £80,000/£75,000/−£5,000 adverse; Materials £28,000/£30,000/+£2,000 adverse; Wages £24,000/£25,000/+£1,000 adverse; Overheads £12,000/£11,000/−£1,000 favourable; Total expenditure £64,000/£66,000/+£2,000 adverse; Profit £16,000/£9,000/−£7,000 adverse. Investigate the £5,000 revenue shortfall alongside materials price/volume and changed sales mix before attributing cause to staff; a favourable overhead variance can also require investigation of deferred maintenance.",
+        "explanation": "Income, cost and profit variance signs cannot all be labelled by the same rule: a lower income or profit is adverse; a lower cost is favourable. Cross-check profit variance = income variance minus total cost variance = −£5,000 − £2,000 = −£7,000. This is an on-paper construction and answer-reveal exercise: showing the model answer does not automatically assess the learner's constructed table.",
         "calc": null
       }
     ]

@@ -1,0 +1,58 @@
+{
+  "id": "q22",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+    "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+  ],
+  "target_node_ids": [
+    "bus-fin-005",
+    "bus-fin-006"
+  ],
+  "question": {
+    "id": "q22",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Orchard Outdoors has a large stock of last season's jackets. It is profitable on paper but cash is tied up in inventory and supplier invoices fall due next month.",
+    "stem": "Which action and trade-off best address Orchard Outdoors' immediate cash-flow problem?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "Buy more jackets on credit; this must improve liquidity because inventory is an asset."
+      },
+      {
+        "label": "B",
+        "text": "Offer a carefully priced clearance promotion to convert slow-moving stock into cash, recognising that lower margins could reduce profit."
+      },
+      {
+        "label": "C",
+        "text": "Increase depreciation in the accounts; this creates cash in the bank immediately."
+      },
+      {
+        "label": "D",
+        "text": "Increase recorded sales revenue without collecting customer payments; this is equivalent to cash received."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect because extra inventory can increase working-capital pressure even if a purchase is on credit.",
+        "B is correct because selling slow-moving inventory for cash may help liquidity, but discounting can lower margins and profitability.",
+        "C is incorrect because depreciation is normally a non-cash accounting charge, not an inflow.",
+        "D is incorrect because recognised credit sales do not equal bank receipts."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B. Clearance can release cash from inventory, but a reduced selling price may lower contribution; management should balance liquidity and profitability."
+    },
+    "calcs": []
+  }
+}

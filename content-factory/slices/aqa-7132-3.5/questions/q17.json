@@ -1,0 +1,57 @@
+{
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "id": "q17",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:cash-flow-forecast",
+    "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+  ],
+  "target_node_ids": [
+    "bus-fin-005"
+  ],
+  "question": {
+    "id": "q17",
+    "family": "MCQ",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Original Revision cash-flow forecast practice: a bakery opens February with £6,000 cash, plans £12,000 cash receipts and £19,000 cash payments. A £5,000 customer receipt expected in February is delayed until March.",
+    "stem": "What is the revised forecast closing cash balance for February after this delay?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "−£6,000"
+      },
+      {
+        "label": "B",
+        "text": "−£1,000"
+      },
+      {
+        "label": "C",
+        "text": "+£7,000"
+      },
+      {
+        "label": "D",
+        "text": "+£6,000"
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct because revised February receipts are £7,000; net flow is £7,000 − £19,000 = −£12,000, so closing cash is £6,000 − £12,000 = −£6,000.",
+        "B is incorrect. −£1,000 was the original closing balance before the receipt was delayed.",
+        "C is incorrect. £7,000 is the unchanged forecast March closing balance if the delayed receipt is collected then.",
+        "D is incorrect. £6,000 is February’s opening balance, not its revised closing balance."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "A, −£6,000. The delayed receipt increases the February funding gap by £5,000 without necessarily changing total cash over the three-month forecast."
+    },
+    "calcs": []
+  }
+}
