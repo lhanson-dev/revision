@@ -27,6 +27,7 @@ export type HomeTask = {
   reason: string
   adapter: LearningContentAdapter
   learnTarget?: { learnPageId: string; moduleId?: string }
+  retrievalContentIds?: readonly string[]
   sessionId?: string
   examTarget?: PlannerItem['examTarget']
   plannerItem?: PlannerItem
@@ -35,7 +36,7 @@ export type HomeTask = {
 /** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
   if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', task.adapter.listQuestions(task.topicId).length)
-  if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.adapter.listFlashcards(task.topicId).length)
+  if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.retrievalContentIds?.length ?? task.adapter.listFlashcards(task.topicId).length)
   return task.estimatedMinutes
 }
 
@@ -111,6 +112,7 @@ export function tasksFromPlanner(
       plannerItem: item,
       examTarget: item.examTarget,
       learnTarget: item.learnTarget,
+      retrievalContentIds: item.retrievalContentIds,
     }]
   })
 }
