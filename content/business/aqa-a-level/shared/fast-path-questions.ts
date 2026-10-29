@@ -1,6 +1,8 @@
 import releaseBank from './fast-path-question-bank.json'
+import authoredRechecks from './source-mapped-recheck-questions.json'
 
 export type AqaBusinessQuestionRecord = {
+  namespace?: string
   id: string
   batch: string
   label: string
@@ -42,6 +44,10 @@ const originalSliceQuestionModules = import.meta.glob('../../../../content-facto
 }) as Record<string, LegacyQuestionRecord>
 
 const retained = releaseBank.questions as AqaBusinessQuestionRecord[]
+// B2a: small Revision-original *different scenarios* explicitly mapped to
+// existing single-target AQA course truth, not copies or repetitions of the
+// source bank's worked answers. External educational review remains tracked.
+const independentRechecks = authoredRechecks.questions as AqaBusinessQuestionRecord[]
 const originalSlices = Object.entries(originalSliceQuestionModules).map(([path, record]): AqaBusinessQuestionRecord => {
   const section = path.match(/aqa-7132-(3\.(?:10|[1-9]))\/questions\//)?.[1]
   if (!record.batch && !section) throw new Error(`Cannot identify exact Business question slice from ${path}`)
@@ -54,7 +60,15 @@ const originalSlices = Object.entries(originalSliceQuestionModules).map(([path, 
 export const aqaBusinessQuestionBank: readonly AqaBusinessQuestionRecord[] = [
   ...retained,
   ...originalSlices,
+  ...independentRechecks,
 ].sort((left, right) =>
   left.batch.localeCompare(right.batch, undefined, { numeric: true })
   || left.id.localeCompare(right.id, undefined, { numeric: true }),
 )
+
+// Stable global question identity is required for genuine independent attempts.
+const allPublishedIds = aqaBusinessQuestionBank.map((entry) =>
+  `${entry.namespace ?? 'aqa7132'}-${entry.batch}-${entry.id}`)
+if (new Set(allPublishedIds).size !== allPublishedIds.length) {
+  throw new Error('Duplicate published Business AQA practice question identity')
+}
