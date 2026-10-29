@@ -6,8 +6,10 @@ import { formulas, topicLinks } from '../shared/learning'
 import { publishedFlashcards } from '../shared/published-flashcards'
 import { questions } from '../shared/questions'
 import { aqaBusinessQuestionBank } from '../shared/fast-path-questions'
+import { businessFinanceNumericPracticeBank } from '../shared/financial-numeric-practice'
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
+import { businessFinancialConstructionDrills } from '../shared/financial-construction-practice'
 import { caseStudies } from '../shared/cases'
 import { examTechnique } from '../shared/exam-technique'
 import { exams } from './exam'
@@ -20,9 +22,9 @@ export const businessAqaALevel7132Paper3 = contentPackSchema.parse({
   topicLinks,
   flashcards: publishedFlashcards,
   questions,
-  practiceBank: aqaBusinessQuestionBank,
+  practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank],
   caseStudies,
-  dataDrills: [...dataDrills, ...networkPractice],
+  dataDrills: [...dataDrills, ...networkPractice, ...businessFinancialConstructionDrills],
   examTechnique,
   exams,
 })
