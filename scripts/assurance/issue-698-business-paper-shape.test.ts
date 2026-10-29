@@ -99,6 +99,37 @@ describe('Issue #698 AQA 7132 v2.0 whole-paper exam shape', () => {
     expect(exam.caseHtml).toContain('one stimulus field')
   })
 
+
+  it('recomputes the quantitative conclusions already printed in all three original mocks', () => {
+    // These are independent original numerical checks, not AQA paper content.
+    const p1=paper1.exams[0].questions
+    const p2=paper2.exams[0].questions
+    const p3=paper3.exams[0].questions
+    const guidance=(questions: readonly Item[], id: string) => {
+      const row=questions.find((item)=>item.id===id)
+      expect(row, `Missing mock question ${id}`).toBeDefined()
+      return row!.markingGuidance.join(' ')
+    }
+    expect(192000 / (40-24)).toBe(12000)
+    expect(guidance(p1,'p1-q16')).toContain('12,000')
+    expect(3.6 / 24 * 100).toBe(15)
+    expect(guidance(p1,'p1-q17')).toContain('15%')
+    expect(0.6*200000+0.4*50000-90000).toBe(50000)
+    expect(guidance(p1,'p1-q18')).toContain('50,000')
+    expect(480000/6000000*100).toBe(8)
+    expect(guidance(p2,'p2-q01')).toContain('8%')
+    expect(9/30*100).toBe(30)
+    expect(guidance(p2,'p2-q05')).toContain('30%')
+    expect((0.55*2.4+0.45*0.8)-1.1).toBeCloseTo(0.58,10)
+    expect(guidance(p2,'p2-q09')).toContain('0.58m')
+    expect(4.8/48*100).toBe(10)
+    expect(4.8/32*100).toBe(15)
+    expect(9/6).toBe(1.5)
+    expect(12/32*100).toBe(37.5)
+    const caseCalculation=guidance(p3,'p3-q03')
+    for(const answer of ['10%', '15%', '1.5:1', '37.5%'])expect(caseCalculation).toContain(answer)
+  })
+
   it('Paper 3 contains one compulsory integrated case and approximately six questions worth 100 marks', () => {
     const exam=paper3.exams[0]
     expect(exam.printedMarks).toBeUndefined()
