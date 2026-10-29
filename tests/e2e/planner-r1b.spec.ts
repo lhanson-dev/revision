@@ -59,7 +59,10 @@ test('R1-07 baseline exact first Today exam question starts identically from Hom
     }
     await expect(page.getByRole('heading', { name: 'Practise one exam question' })).toBeVisible()
     await expect(page.getByText('Targeted Paper 1 practice', { exact: true })).toBeVisible()
-    await expect(page.locator('.exam-simulator')).toContainText('Question 5 of 24')
+    // The published Business pack now correctly selects the Finance break-even
+    // calculation (Section B) as its first supported targeted question.
+    await expect(page.locator('.exam-simulator')).toContainText('Question 16 of 24')
+    await expect(page.locator('.exam-simulator')).toContainText('break-even output')
   }
 })
 
