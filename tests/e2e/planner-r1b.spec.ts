@@ -25,8 +25,18 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
 test('R1-07 baseline exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   const moduleId = 'business-aqa-a-level-7132-paper-1'
-  const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
-    occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice', correct: true, selectedOption: 0, correctOption: 0 } }))
+  // The Topic Knowledge engine requires six distinct valid items across
+  // two evidence families before it can justify an exam-practice-first route.
+  // Do not make the scheduler treat four insufficient observations as mastery.
+  const evidence = [
+    ...Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId,
+      topicId: 'finance', contentId: `a-level-mcq-${String(21 + i).padStart(3, '0')}`,
+      occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice',
+      correct: true, selectedOption: 0, correctOption: 0 } })),
+    ...Array.from({ length: 2 }, (_, i) => ({ payload: { id: `f${i}`, schemaVersion: 1, moduleId,
+      topicId: 'finance', contentId: `a-level-flashcard-${String(41 + i).padStart(3, '0')}`,
+      occurredAt: '2026-10-02T12:00:00Z', source: 'flashcard', rating: 2 } })),
+  ]
   await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -49,7 +59,10 @@ test('R1-07 baseline exact first Today exam question starts identically from Hom
     }
     await expect(page.getByRole('heading', { name: 'Practise one exam question' })).toBeVisible()
     await expect(page.getByText('Targeted Paper 1 practice', { exact: true })).toBeVisible()
-    await expect(page.locator('.exam-simulator')).toContainText('Question 5 of 24')
+    // The published Business pack now correctly selects the Finance break-even
+    // calculation (Section B) as its first supported targeted question.
+    await expect(page.locator('.exam-simulator')).toContainText('Question 16 of 24')
+    await expect(page.locator('.exam-simulator')).toContainText('break-even output')
   }
 })
 
