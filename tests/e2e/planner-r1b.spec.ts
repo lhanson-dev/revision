@@ -25,7 +25,7 @@ test('R1-07 accepted choice agrees on Home, Plan and REV; alternative choice per
 test('R1-07 baseline exact first Today exam question starts identically from Home, Plan and REV', async ({ page }) => {
   await seedPlanStudent(page, { sessions: [] })
   const moduleId = 'business-aqa-a-level-7132-paper-1'
-  const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `q${i}`,
+  const evidence = Array.from({ length: 4 }, (_, i) => ({ payload: { id: `e${i}`, schemaVersion: 1, moduleId, topicId: 'finance', contentId: `a-level-mcq-${String(21 + i).padStart(3, '0')}`,
     occurredAt: '2026-10-02T12:00:00Z', source: 'multiple_choice', correct: true, selectedOption: 0, correctOption: 0 } }))
   await page.route('**/rest/v1/learner_learn_exposures**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
