@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
-import { authoredFlashcardsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
+import { authoredFlashcardsForTask, authoredQuestionsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
 import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -126,7 +126,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   // Planner-selected unattempted cards, or ordinary fallback course cards.
   const cards = useMemo(() => authoredFlashcardsForTask(task), [task])
-  const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
+  const questions = useMemo(() => authoredQuestionsForTask(task), [task])
   const cardCount = focusedActivityCount('flashcards', cards.length)
   const questionCount = focusedActivityCount('quick-check', questions.length)
   const card = activityIndex < cardCount ? cards[activityIndex] : undefined
@@ -195,6 +195,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         contentId: question.id,
         selectedOption,
         correctOption: question.correctOption,
+        ...(question.itemMapping ? { itemMapping: question.itemMapping } : {}),
       })))
       answerSaved = true
       setChecked(true)

@@ -49,6 +49,9 @@ export interface PlannerCandidate {
   learnTarget?: { learnPageId: string; moduleId?: string }
   /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
   retrievalContentIds?: readonly string[]
+  /** Only one independently authored, never-attempted single-target objective question. */
+  targetedQuestionIds?: readonly string[]
+  skillFocus?: { specItemId: string; need: 'missed' | 'uncertain'; treatment: 'repair' | 'recheck' }
   earliestEligibleDate?: string
   latestEligibleDate?: string
   preparationStage?: 'acquire' | 'check' | 'exam-practice'
@@ -89,6 +92,8 @@ export interface PlannerItem {
   learnTarget?: { learnPageId: string; moduleId?: string }
   /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
   retrievalContentIds?: readonly string[]
+  targetedQuestionIds?: readonly string[]
+  skillFocus?: PlannerCandidate['skillFocus']
 }
 
 export interface PlannerScheduledDay {
@@ -149,7 +154,12 @@ export function rankPlannerCandidate(candidate: PlannerCandidate): RankedPlanner
   const repetitionPenalty = candidate.recentlyCompleted ? 0.18 : 0
   const strongPenalty = candidate.understanding !== null && candidate.understanding >= 0.8 && candidate.coverage >= 0.8 ? 0.25 : 0
 
+  // A raw, independently scored specific-skill error deserves attention,
+  // without replacing the separate topic/readiness evidence authority.
+  const specificNeed = candidate.skillFocus?.need === 'missed' ? 0.08
+    : candidate.skillFocus?.need === 'uncertain' ? 0.04 : 0
   const score =
+    specificNeed +
     urgency * 0.22 +
     importance * 0.1 +
     coverageNeed * 0.14 +
@@ -198,6 +208,8 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     examTarget: candidate.examTarget,
     learnTarget: candidate.learnTarget,
     retrievalContentIds: candidate.retrievalContentIds,
+    targetedQuestionIds: candidate.targetedQuestionIds,
+    skillFocus: candidate.skillFocus,
     assessmentTargets: candidate.assessmentTargets,
   }
 }

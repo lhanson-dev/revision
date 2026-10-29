@@ -205,6 +205,8 @@ Use this file to find the governing source before substantive work.
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
 
+- Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
+
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
 - Prototype / Staging / Production path-to-live target → `docs/technical/Path to Live Environments.md`

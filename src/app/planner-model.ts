@@ -19,6 +19,7 @@ import { weekKeys } from './plan-dates'
 import { examPapersFor } from './exam-prep'
 import { validDateKey } from './navigation'
 import { focusedActivityMinutes } from './focused-activity-dose'
+import { authoredSkillQuestions, findSkillRecheckOpportunities } from './skill-recheck'
 
 function confidenceStrength(confidence: ModuleLearningState['readiness']['confidence']) {
   if (confidence === 'high') return 1
@@ -367,6 +368,44 @@ export function preparationCandidatesFromLearningState(
       : null
     const practice: PlannerCandidate = { ...candidate, understanding: score, evidenceStrength,
       paperResponseSectionId: directSection?.id, paperResponseFormat: directSection?.format }
+    // One source-backed plan decision: only genuinely assessed, one-item bank
+    // results can lead to a specifically mapped repair or DIFFERENT question.
+    // Unknown and exhausted assets never become phantom sessions.
+    const bankChoices = state ? authoredSkillQuestions(state.adapter, candidate.topicId) : []
+    const moduleIds = state?.course?.modules.map((module) => module.manifest.id)
+      ?? (state ? [state.adapter.manifest.id] : [])
+    const learnPageIds = state?.adapter.listLearnChapters?.()
+      .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+      .filter((page) => page.topicId === candidate.topicId).map((page) => page.id) ?? []
+    const skillNeeds = state ? findSkillRecheckOpportunities(
+      bankChoices, state.evidence, candidate.topicId, moduleIds, learnPageIds) : []
+    const skillSteps: PlannerCandidate[] = []
+    const alreadyReviewed = new Set((state?.learnExposures ?? [])
+      .filter((page) => page.topicId === candidate.topicId && page.courseId === candidate.courseId)
+      .map((page) => page.pageId))
+    for (const need of skillNeeds) {
+      // A page already read remains exposed but not proof of knowledge; avoid
+      // repeatedly treating the very same previously-read page as a new repair.
+      const page = need.need === 'missed' && need.repairLearnPageId
+        && !alreadyReviewed.has(need.repairLearnPageId)
+        && state?.adapter.getLearnPage(need.repairLearnPageId) ? need.repairLearnPageId : null
+      const repairId = page ? `${candidate.id}:skill-repair:${need.specItemId}:${page}` : undefined
+      if (page) skillSteps.push({
+        ...practice, id: repairId!, activityType: 'learn', estimatedMinutes: 15,
+        examTarget: undefined, learnTarget: { learnPageId: page, moduleId: candidate.moduleId },
+        preparationStage: 'acquire', skillFocus: {
+          specItemId: need.specItemId, need: need.need, treatment: 'repair',
+        },
+      })
+      if (need.freshQuestionId) skillSteps.push({
+        ...practice, id: `${candidate.id}:skill-recheck:${need.specItemId}:${need.freshQuestionId}`,
+        activityType: 'quick-check', estimatedMinutes: focusedActivityMinutes('quick-check', 1),
+        examTarget: undefined, learnTarget: undefined,
+        targetedQuestionIds: [need.freshQuestionId],
+        preparationStage: 'check', preparationPrerequisiteId: repairId,
+        skillFocus: { specItemId: need.specItemId, need: need.need, treatment: 'recheck' },
+      })
+    }
     // A quick check and independent recall test different supported material.
     // Offer an additional retrieval session only for *published, unattempted*
     // cards. Scored evidence, rather than an arbitrary timer or a calendar
@@ -399,9 +438,9 @@ export function preparationCandidatesFromLearningState(
       // A verified exam question already provides an independent application
       // opportunity. A generic knowledge check is not a compulsory gateway
       // before exam-response practice; supported initial Learn still is.
-      return [learn, checked, ...retrieval(learn.id), ...paperPractice(practice, learn.id)]
+      return [learn, checked, ...skillSteps, ...retrieval(learn.id), ...paperPractice(practice, learn.id)]
     }
-    return [practice, ...retrieval(), ...paperPractice(practice)]
+    return [practice, ...skillSteps, ...retrieval(), ...paperPractice(practice)]
 
     function paperPractice(known: PlannerCandidate, learningPrerequisiteId?: string): PlannerCandidate[] {
       // Each exact verified paper-response section is an independent practice
