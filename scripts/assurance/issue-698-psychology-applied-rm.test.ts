@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import paper1 from '../../content/psychology/aqa-a-level/paper-1'
 import paper2 from '../../content/psychology/aqa-a-level/paper-2'
 import paper3 from '../../content/psychology/aqa-a-level/paper-3'
-import { psychologyQuestions, psychologyDataDrills } from '../../content/psychology/aqa-a-level/shared/course'
-import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsAppliedDrills } from '../../content/psychology/aqa-a-level/shared/research-methods-practice'
+import { psychologyQuestions, psychologyDataDrills, psychologyCourseTruthTopics } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsAppliedDrills, psychologyResearchMethodsAppliedRequirementBindings } from '../../content/psychology/aqa-a-level/shared/research-methods-practice'
 import { coursePackQuestionToPractice } from '../../src/app/practice-questions'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -19,6 +19,24 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
   it('pins this patch to the user-provided exact 7182 v1.4 reference-only PDF fingerprint', () => {
     const source=reference.courses.find((s)=>s.specification_code==='7182')
     expect(source?.pdf_sha256).toBe('db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d')
+  })
+  it('binds every original scored question and self-check drill to exact approved Psychology Research Methods obligations', () => {
+    const requirementIds=new Set(psychologyCourseTruthTopics.flatMap(topic=>topic.requirements.map(req=>req.requirementId)))
+    const assets=[...psychologyResearchMethodsAppliedQuestions,...psychologyResearchMethodsAppliedDrills]
+    expect(Object.keys(psychologyResearchMethodsAppliedRequirementBindings).sort()).toEqual(assets.map(asset=>asset.id).sort())
+    for(const asset of assets) {
+      const targets=psychologyResearchMethodsAppliedRequirementBindings[asset.id]
+      expect(targets?.length,asset.id).toBeGreaterThan(0)
+      expect(new Set(targets).size,asset.id).toBe(targets.length)
+      for(const id of targets) {
+        expect(id.startsWith('PSY-07-'),id).toBe(true)
+        expect(requirementIds.has(id),id).toBe(true)
+      }
+    }
+    expect(psychologyResearchMethodsAppliedRequirementBindings['psy-rm-applied-mean-01']).toContain('PSY-07-26')
+    expect(psychologyResearchMethodsAppliedRequirementBindings['psy-rm-applied-histogram-01']).toContain('PSY-07-27')
+    expect(psychologyResearchMethodsAppliedRequirementBindings['psy-rm-applied-sign-test-01']).toContain('PSY-07-32')
+    expect(psychologyResearchMethodsAppliedRequirementBindings['psy-rm-applied-spearman-01']).toContain('PSY-07-34')
   })
   it('independently calculates mean, sign-test decision inputs, correlation comparison and histogram densities', () => {
     const values=[4,6,6,8,11]
