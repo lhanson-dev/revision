@@ -5,7 +5,7 @@ import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practic
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
 import { buildPlannerSnapshot, preparationCandidatesFromLearningState } from './planner-model'
-import { supportedActivityMinutes, tasksFromPlanner } from './home-task'
+import { authoredFlashcardsForTask, supportedActivityMinutes, tasksFromPlanner } from './home-task'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 
@@ -42,6 +42,7 @@ describe('P0 returning learner: distinct supported retrieval opportunities', () 
     const [task] = tasksFromPlanner(result.today, states, programme)
     expect(task).toBeDefined()
     expect(task.retrievalContentIds).toEqual(retrieval.retrievalContentIds)
+    expect(authoredFlashcardsForTask(task).map((card) => card.id)).toEqual(retrieval.retrievalContentIds)
     expect(supportedActivityMinutes(task)).toBe(retrieval.estimatedMinutes)
   })
 
