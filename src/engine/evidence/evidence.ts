@@ -64,6 +64,30 @@ export const recallEvidenceSchema = z.object({
   rating: z.union([z.literal(0), z.literal(1), z.literal(2)]),
 })
 
+/** Metadata on a software-scored, published structured-bank question.
+ * A single tagged target is an attributable raw observation, not mastery.
+ * Multi-target items retain traceability but cannot be split into marks.
+ * This is deliberately narrower than the course's general topic evidence.
+ */
+export const objectiveItemMappingSchema = z.object({
+  mappingVersion: z.literal(1),
+  source: z.literal('structured-practice-bank'),
+  targetSpecItemIds: z.array(z.string().min(1)).min(1),
+  targetNodeIds: z.array(z.string().min(1)),
+  singleTargetSpecItemId: z.string().min(1).optional(),
+}).superRefine((mapping, context) => {
+  if (new Set(mapping.targetSpecItemIds).size !== mapping.targetSpecItemIds.length
+    || new Set(mapping.targetNodeIds).size !== mapping.targetNodeIds.length) {
+    context.addIssue({ code: 'custom', message: 'mapping targets must be unique' })
+  }
+  if (mapping.singleTargetSpecItemId !== undefined &&
+    (mapping.targetSpecItemIds.length !== 1 || mapping.targetSpecItemIds[0] !== mapping.singleTargetSpecItemId)) {
+    context.addIssue({ code: 'custom', path: ['singleTargetSpecItemId'],
+      message: 'individual skill observation requires one and only one matching target' })
+  }
+})
+export type ObjectiveItemMapping = z.infer<typeof objectiveItemMappingSchema>
+
 export const multipleChoiceEvidenceSchema = z.object({
   ...baseEvidenceShape,
   schemaVersion: z.union([z.literal(1), z.literal(2)]),
@@ -72,9 +96,14 @@ export const multipleChoiceEvidenceSchema = z.object({
   selectedOption: nonNegativeInteger,
   correctOption: nonNegativeInteger,
   confidence: answerConfidenceSchema.optional(),
+  /** An existing-authority, separately assured bank mapping. Never inferred from a broad topic. */
+  itemMapping: objectiveItemMappingSchema.optional(),
 }).superRefine((evidence, context) => {
-  if (evidence.confidence !== undefined && evidence.schemaVersion !== 2) {
-    context.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'evidence that records confidence must be schema version 2' })
+  if (evidence.confidence !== undefined && evidence.schemaVersion === 1) {
+    context.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'confidence needs evidence schema version 2' })
+  }
+  if (evidence.itemMapping !== undefined && evidence.schemaVersion !== 2) {
+    context.addIssue({ code: 'custom', path: ['schemaVersion'], message: 'versioned item mapping requires evidence schema version 2' })
   }
 })
 
@@ -163,6 +192,22 @@ export type CalculationEvidence = z.infer<typeof calculationEvidenceSchema>
 export type ExamQuestionEvidence = z.infer<typeof examQuestionEvidenceSchema>
 export type ExamAttemptEvidence = z.infer<typeof examAttemptEvidenceSchema>
 export type LearningEvidence = z.infer<typeof learningEvidenceSchema>
+
+/** A *raw* specific-item answer, not a skill-status or readiness verdict.
+ * Several questions tagged to one item still require educational corroboration.
+ * Multi-target questions and legacy data cannot silently prove a specific skill.
+ */
+export function individualSpecItemObservation(evidence: LearningEvidence) {
+  if (evidence.source !== 'multiple_choice' || evidence.schemaVersion !== 2) return null
+  const specItemId = evidence.itemMapping?.singleTargetSpecItemId
+  if (!specItemId) return null
+  return {
+    evidenceId: evidence.id, moduleId: evidence.moduleId, topicId: evidence.topicId,
+    contentId: evidence.contentId, specItemId, occurredAt: evidence.occurredAt,
+    correct: evidence.correct, confidence: evidence.confidence ?? null,
+    scoring: 'software-scored-choice' as const,
+  }
+}
 
 /**
  * Whole-paper exam_attempt rows belong to a paper attempt, not to the

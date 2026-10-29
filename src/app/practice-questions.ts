@@ -12,6 +12,7 @@ import { levelFromAoTags, type SessionQuestion } from './practice-session'
 import { acceptedValuesFor, formatAnswer } from './practice-calculation'
 import type { MarkPoint } from './rev-marking'
 import type { PracticeQuestionType } from './practice-start'
+import type { ObjectiveItemMapping } from '../engine/evidence/evidence'
 
 export type PracticeTable = { title?: string; columns: string[]; rows: string[][] }
 
@@ -57,6 +58,22 @@ export type CalculationPracticeQuestion = QuestionBase & {
 }
 
 export type PracticeQuestion = MultipleChoicePracticeQuestion | WrittenPracticeQuestion | CalculationPracticeQuestion
+
+/** Only source-tagged, software-marked single-option bank MCQs can
+ * contribute a per-item raw observation. Multi-target mapping is retained
+ * for inspection but never apportioned as if the mark separated skills.
+ * Course-pack questions without explicit assurance stay topic evidence.
+ */
+export function objectiveItemMappingForPractice(question: MultipleChoicePracticeQuestion): ObjectiveItemMapping | undefined {
+  if (question.source !== 'aqa-bank' || question.specItemIds.length === 0) return undefined
+  const targets = [...new Set(question.specItemIds)]
+  const nodes = [...new Set(question.nodeIds)]
+  return {
+    mappingVersion: 1, source: 'structured-practice-bank',
+    targetSpecItemIds: targets, targetNodeIds: nodes,
+    ...(targets.length === 1 ? { singleTargetSpecItemId: targets[0] } : {}),
+  }
+}
 
 export const WRITTEN_MAX_MARKS = 6
 
