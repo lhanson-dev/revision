@@ -146,6 +146,18 @@ The one programme must explicitly represent, at a level justified by available d
 
 **Lifecycle boundary:** the prior bounded R2 Ready approval explicitly excludes R3 cross-course optimisation and FI-009/010/011/012 enhancements. This amendment clarifies *intended product behaviour*, not permission to implement excluded capabilities. Any material unified-programme implementation beyond the approved R2 scope requires a newly recorded complete Definition of Ready and explicit Founder authorisation. Existing published/planned work remains historical fact until replaced through a governed release.
 
+### FI-001 Gate B — existing-asset skill evidence, repair and paper-feasibility scope (Founder approval pending)
+
+**Founder-approved bounded authority amendment (29 October 2026), effective upon merger of PR #711.** Human Ready/PR approval recorded at [PR #711](https://github.com/lhanson-dev/revision/pull/711#issuecomment-6505412020). See `10-product-governance/backlog/FI-001 Gate B Evidence-Led Learner Loop Readiness Analysis.md`, #694 and #703.
+
+The single FI-001 programme should use valid, versioned course/paper/option-specific assessment evidence at the *independently assessed skill or requirement* level where published content genuinely supports it. A topic result or a tagged multi-skill prompt does not automatically prove every subordinate requirement; incorrect/confident, correct/guessed, self-rated recall, unscored learning and independently scored exam-skill work retain distinct evidence meanings. Missing mapping or unassured assessment leaves the requirement unknown or unsupported, not mastered.
+
+Within the **bounded existing-authored-content-only** portions of FI-009, FI-010 and FI-011, offer purposeful retrieval, targeted weak-area check, relevant repair explanation and a different valid recheck when eligible assets and learner evidence justify them. Never invent a question, repeat a coached response as independent proof, prescribe universal intervals or assume that aged evidence proves forgetting. New content generation, assisted written marking and the FI-012 special exam-soon mode are excluded from this authorisation.
+
+Plan, Home and REV must consume **the same versioned programme decision**. Dated executable activities remain a rolling ~14-day projection of sound supported treatments; the whole programme keeps paper-specific demand coverage, bounded remaining-effort estimates where sources support them, explicit unquantifiable gaps and real remaining capacity through each known paper. Shortage communication must distinguish defensible insufficiency, possible feasibility and cannot assess; never infer completion or make attainment predictions from the finite activity inventory. Unavailable content is a transparent supply gap, not fictitious bookings or compulsory repetition.
+
+Within this Founder-approved Ready boundary, governed implementation may develop these behaviours in B1 evidence → B2 repair/recheck → B3 through-exam feasibility → B4 real learner acceptance slices after PR #711 has merged into approved main. The implementation requires same-PR technical docs, educational/evidence assurance, browser/RLS proof and individual Founder-approved merges; green CI or a fuller calendar alone is not evidence that the product outcome is complete.
+
 ### Learner-facing explanation of the adaptive plan
 
 Home and Plan should make the adaptive nature of the plan understandable in plain English without exposing proprietary weighting, thresholds or implementation detail.
