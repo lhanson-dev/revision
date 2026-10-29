@@ -17,7 +17,7 @@ describe('Issue #698 Business diagram construction published teaching and rehear
       expect(method?.type).toBe('worked-example')
       if (method?.type !== 'worked-example') throw new Error('Missing construction method')
       expect(method.task).toMatch(/draw your own/i)
-      expect(method.steps).toHaveLength(5)
+      expect(method.steps).toHaveLength(7)
       expect(method.conclusion).toMatch(/not evidence.*marked/i)
     }
   })
@@ -43,6 +43,9 @@ describe('Issue #698 Business diagram construction published teaching and rehear
     const adjustedBreakEven = fixedCost / (lowerPrice - unitCost)
     expect([baseBreakEven, baseBreakEven * price]).toEqual([2000, 32000])
     expect([adjustedBreakEven, adjustedBreakEven * lowerPrice]).toEqual([3000, 42000])
+    expect([15000 / (price - unitCost), 15000 / (price - unitCost) * price]).toEqual([2500, 40000])
+    expect([3000 - baseBreakEven, 3500 - baseBreakEven]).toEqual([1000, 1500])
+    expect([3000 * (price - unitCost) - fixedCost, 3500 * (price - unitCost) - fixedCost]).toEqual([6000, 9000])
     for (const quantity of [0, 2000, 4000]) {
       expect(fixedCost + unitCost * quantity).toBe(12000 + 10 * quantity)
       expect(price * quantity).toBe(16 * quantity)
