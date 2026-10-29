@@ -725,7 +725,7 @@ Likely impacts product/content roadmap authority, content operations, source/cov
 
 ## FI-009 — Adaptive Retrieval / Spaced Repetition
 
-**Status:** New  
+**Status:** Ready — **Founder-approved bounded Gate B Ready, 29 October 2026; effective on PR #711 merge**  
 **Captured:** 2026-08-20  
 **Capability fit:** Guide; Practise and Test; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -752,7 +752,7 @@ Review Product System Model, Adaptive Revision Planning, evidence/recency rules,
 
 ## FI-010 — Weakness-Driven Targeted Tests
 
-**Status:** New  
+**Status:** Ready — **Founder-approved bounded Gate B Ready, 29 October 2026; effective on PR #711 merge**  
 **Captured:** 2026-08-20  
 **Capability fit:** Guide; Practise and Test; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -777,7 +777,7 @@ Review assessment authority, content-generation assurance, Product System Model,
 
 ## FI-011 — Misconception Recovery / Wrong-Answer Mode
 
-**Status:** New  
+**Status:** Ready — **Founder-approved bounded Gate B Ready, 29 October 2026; effective on PR #711 merge**  
 **Captured:** 2026-08-20  
 **Capability fit:** Learn; Practise and Test; Guide  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -1125,3 +1125,8 @@ The Founder renewed the core exam-backwards intelligent preparation proposition 
 New **FI-001 programme-first enhancement = Analyse; NOT Ready, In Progress or Live**. Proposed scope and gates: [Readiness analysis](FI-001%20Intelligent%20Programme%20Reset%20Readiness%20Analysis.md), [13 learner-value scenarios](FI-001%20Programme%20Value%20Scenarios.md), [target technical design](../../docs/technical/Intelligent%20Exam-Backwards%20Planner%20Target%20Architecture.md). Its minimum deliverable is real full-horizon requirements/treatments/capacity-aware priorities and linked Day/Week/Month/Home/REV, not topic rotation. Bounded R2 approval and prior released capabilities remain historically real; R3–R5 and FI-009/010/011/012 **retain their existing not-Ready states**, and this proposed reset grants no special modes or automatic production implementation. A separate Founder `Analyse → Ready` decision is required after the governance PR merges. R1-11 remains Partial (#621).
 
 **FI-001 Programme-First reset human Ready and development start (15 October 2026):** Founder approved the new [DoR](FI-001%20Intelligent%20Programme%20Reset%20Readiness%20Analysis.md) after PR #633 merged; [durable decision receipt](https://github.com/lhanson-dev/revision/pull/633#issuecomment-6188330812). Reset scope is **Ready**, with governed implementation now **In Progress** on draft [PR #637](https://github.com/lhanson-dev/revision/pull/637) (not merged/Live). First slice aims to replace independent weekly topic rotation with paper- and evidence-linked whole-programme objectives and the shared Day/Home/REV next action, plus explicit capacity limits and student-value oracles. This does not approve merging #637, override educational-integrity policy or make FI-009–012 Ready. Keep `PLN-VALUE-01` unresolved until complete scenario/usability proof; preserve existing R1-11 Partial #621.
+
+
+### 29 October 2026 — FI-001 Gate B human-approved Ready
+
+The approved R2/programme-first planner is Live only to its previously verified scope. Issue #694 records the remaining failed learner outcome. [FI-001 Gate B Evidence-Led Learner Loop Readiness Analysis](FI-001%20Gate%20B%20Evidence-Led%20Learner%20Loop%20Readiness%20Analysis.md) proposes **one limited existing-authored-content B1–B4 programme**: B1 exact assessed skill evidence (#704), B2 valid repair and independent recheck (#705) using bounded FI-009/010/011, B3 FI-001 R3 remaining workload/capacity through real papers, B4 signed-in student acceptance. The Founder **explicitly approved** PR #711 and the combined bounded Gate B/R3 + FI-009/010/011 Ready decision in the Revision project conversation on 29 October 2026, recorded in [PR #711 comment #6505412020](https://github.com/lhanson-dev/revision/pull/711#issuecomment-6505412020). The lifecycle change takes effect when PR #711 merges into approved main. FI-012 stays New; later implementation PR merges require separate explicit Founder approval.
