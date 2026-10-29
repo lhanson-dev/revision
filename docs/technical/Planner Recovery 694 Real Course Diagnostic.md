@@ -53,3 +53,22 @@ This changes how soon existing supported opportunities are suggested; it creates
 A regression with actual AQA Business/Psychology published packs now rejects a return to one 15-minute recommendation for this fully configured fixture, and checks both saved courses contribute to near-term planning. Existing production-auth synthetic browser acceptance confirms the full 14-day forecast appears at all, but cannot alone prove the quality or sufficiency of the new allocation.
 
 **Safety/assurance boundary:** The corrected scheduling is a claimed R2 defect remedy, not an R3 replacement algorithm. If new checks reveal unsafe subject starvation, missing prerequisite logic, or unsupported activity scheduling, stop and correct before merge. No release or family readiness claim may be made from a branch-only result, and no merge occurs without Founder approval for PR #702.
+
+## 29 October 12:16 — returning-learner gap, authored retrieval opportunity (#709, draft)
+
+**Live acceptance counterexample after #702:** 2–8 November still has nine eligible activities (81 minutes), clustered into Monday/Tuesday, with Wednesday–Friday containing 135 minutes of unused available time. This is a **core product outcome failure**; do not declare the student ready to use the timetable or extrapolate a full 225-minute work requirement from that screenshot.
+
+The first diagnosed inventory loss in main is `plannerCandidatesFromLearningState` producing one selected Practice mode per coarse topic. Even where real course content has both original independently assessable flashcards and scored objective questions, only one mode is represented in the programme. `buildPreparationProgramme` then consumes each candidate once as a forecast, not as achieved knowledge. Greedy earliest-day fit clusters that limited inventory.
+
+The controlled R2 correction in **draft PR #709** makes an *additional, distinctly authored opportunity* available when a scoped topic has scored questions and **previously unattempted flashcards**:
+- uses the approved course adapter's actual card IDs only, capped by existing eight-card focused activity;
+- selects a stable content-specific candidate with the course/assessment provenance and existing Learn prerequisite where required;
+- carries those exact card IDs through PlannerItem → HomeTask → Home/Plan focused Start so the learner answers those cards, not the same first cards from a generic deck;
+- reads previously persisted learning evidence to select remaining unattempted assets on the next calculation; no unscored reading, click or calendar appearance is evidence of competence;
+- preserves daily study time, paper deadlines, owner evidence, exact card completion and existing study modes.
+
+This is **not** an automated repeat/retest scheduler: a previously attempted card is not silently presented as new content, and subjective flashcard confidence does not create a certified exam mastery score. Nor does this calculate full syllabus demand; future work must use requirements/paper skills, purposeful review, evidence-triggered repair, remaining work and capacity, as already governed by `Adaptive Revision Planning.md` and #694. The approved FI-001 programme-first vertical slice is Ready; specialist FI-009–012 algorithms are not authorised by this correction. Formal educational assurance of the available assets remains #698.
+
+**Proof obligations before release:** exact-head static/unit/build and responsive CI; real authored Business/Psychology regression for the candidate, Start and changed evidence; cross-surface coherence; returning-learner dated simulation showing actual improvement without claiming all weekdays must be filled; no unjustified repeat or false activity. Human approval for PR #709 is required individually. The screenshot P0 remains open until sustained learner acceptance, regardless of successful CI.
+
+**Documentation impact:** this is implementation evidence in `docs/technical/` accompanying the code, not a change to normative planning policy or a rewrite of prior investigation.
