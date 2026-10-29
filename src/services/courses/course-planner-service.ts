@@ -95,6 +95,7 @@ export async function saveKnownPaperDates(
     moduleId: string
     title: string
     assessmentDate: string
+    scope?: { topicIds: string[] }
   }[],
 ): Promise<void> {
   for (const paper of papers) {
@@ -102,7 +103,7 @@ export async function saveKnownPaperDates(
 
     const { data, error } = await client
       .from('revision_assessments')
-      .select('assessment_id,module_id,title,assessment_date')
+      .select('assessment_id,module_id,title,assessment_date,scope')
       .eq('user_id', userId)
       .eq('course_id', paper.courseId)
       .eq('assessment_type', 'public_exam')
@@ -119,7 +120,12 @@ export async function saveKnownPaperDates(
     }
 
     const existing = matches[0]
-    if (existing && existing.module_id === paper.moduleId && existing.assessment_date === paper.assessmentDate) {
+    // A repeated first-use submission must not silently discard or ignore a
+    // newly supplied set of exact syllabus options for the same exam date.
+    const preservedScope = (existing?.scope && typeof existing.scope === 'object') ? existing.scope as Record<string, unknown> : {}
+    const requestedScope = paper.scope ?? preservedScope
+    const sameScope = JSON.stringify(requestedScope) === JSON.stringify(preservedScope)
+    if (existing && existing.module_id === paper.moduleId && existing.assessment_date === paper.assessmentDate && sameScope) {
       continue
     }
 
@@ -128,6 +134,7 @@ export async function saveKnownPaperDates(
       courseId: paper.courseId,
       subjectId: paper.subjectId,
       moduleId: paper.moduleId,
+      scope: requestedScope,
       title: paper.title,
       assessmentDate: paper.assessmentDate,
       assessmentType: 'public_exam',
