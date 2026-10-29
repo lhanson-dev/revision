@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import { mkdirSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import { buildCatalogue } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
@@ -113,15 +111,13 @@ describe('Issue #698: published learner requirement-to-assets evidence crosswalk
         { course: psychologyReport.courseId, ...psychologyReport.counts },
       ],
     }
-    console.info('REVISION_SOURCE_TO_LIVE_SUPPLY_AUDIT=' + JSON.stringify(summary))
-    const dir = process.env.REVISION_COVERAGE_EXPORT_DIR
-    if (!dir) return
-    mkdirSync(dir, { recursive: true })
-    writeFileSync(join(dir, 'aqa-7132-7182-published-coverage-provisional.json'),
-      JSON.stringify({
-        status: 'PROVISIONAL: user PDFs not independently enumerated; presence is not educational adequacy',
-        exactSpecificationPdfHashesVerified: false,
-        reports: [businessReport, psychologyReport],
-      }, null, 2) + '\n', 'utf8')
+    // Machine-readable full crosswalk, extracted by the separate Node
+    // assurance script. No Node globals/dependencies enter frontend tests.
+    console.info('REVISION_SOURCE_TO_LIVE_SUPPLY_AUDIT=' + JSON.stringify({
+      summary,
+      status: 'PROVISIONAL: exact user PDFs not independently enumerated; asset presence is not adequate learning or Practice',
+      exactSpecificationPdfHashesVerified: false,
+      reports: [businessReport, psychologyReport],
+    }))
   })
 })
