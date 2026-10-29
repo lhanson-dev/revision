@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import { buildAdaptivePlan } from '../engine/planning/planning'
-import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
+import { createFlashcardEvidence } from './practice-evidence'
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
 import { preparationCandidatesFromLearningState } from './planner-model'
