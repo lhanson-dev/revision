@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import { buildAdaptivePlan } from '../engine/planning/planning'
-import { createFlashcardEvidence } from './practice-evidence'
+import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
-import { preparationCandidatesFromLearningState } from './planner-model'
+import { buildPlannerSnapshot, preparationCandidatesFromLearningState } from './planner-model'
 import { supportedActivityMinutes, tasksFromPlanner } from './home-task'
-import type { RevisionAssessment } from '../services/planning/planner-service'
+import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
+import type { LearningEvidence } from '../engine/evidence/evidence'
 
 const programme = allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
   .filter((entry) => ['aqa:aqa-a-level:7132', 'aqa:aqa-a-level:7182'].includes(entry.course.id))
@@ -85,6 +86,64 @@ describe('P0 returning learner: distinct supported retrieval opportunities', () 
       .filter((item) => item.courseId === first.courseId && item.topicId === first.topicId
         && item.activityType === 'flashcards' && item.retrievalContentIds)
     expect(remaining).toHaveLength(0)
+  })
+
+  it('audits an experienced learner with 84 prior authentic-asset attempts and 45-minute weekdays', () => {
+    const evidence: LearningEvidence[] = []
+    const eligible = programme.flatMap((entry) => entry.course.learningAdapter.listTopics()
+      .filter((topic) => entry.course.learningAdapter.listQuestions(topic.id).length > 0)
+      .map((topic) => ({ entry, topic }))).slice(0, 21)
+    expect(eligible).toHaveLength(21)
+    for (const { entry, topic } of eligible) {
+      const questions = entry.course.learningAdapter.listQuestions(topic.id)
+      const cards = entry.course.learningAdapter.listFlashcards(topic.id)
+      for (let i = 0; i < 4; i++) {
+        const id = 'synthetic-attempt-' + evidence.length
+        const moduleId = entry.course.modules[0]!.manifest.id
+        const content = questions[i % questions.length]!
+        const time = '2026-10-' + String(19 + i).padStart(2, '0') + 'T09:00:00.000Z'
+        if (i === 0 && cards.length) {
+          const card = cards[0]!
+          evidence.push(createFlashcardEvidence({
+            id, moduleId, topicId: card.topic, contentId: card.id,
+            rating: 1, occurredAt: time,
+          }))
+        } else {
+          evidence.push(createMultipleChoiceEvidence({
+            id, moduleId, topicId: content.topic, contentId: content.id,
+            selectedOption: i % 2 === 0 ? content.correctOption : (content.correctOption + 1) % content.options.length,
+            correctOption: content.correctOption, occurredAt: time,
+          }))
+        }
+      }
+    }
+    expect(evidence).toHaveLength(84)
+    const states = programme.map((entry) => createCourseLearningState(entry.course, evidence))
+    const availability: RevisionAvailabilityProfile = {
+      userId: 'synthetic', weekdayMinutes: 45, weekendMinutes: 0, timezone: 'Europe/London',
+      weeklyMinutes: { monday: 45, tuesday: 45, wednesday: 45, thursday: 45,
+        friday: 45, saturday: 0, sunday: 0 },
+    }
+    const selected = preparationCandidatesFromLearningState(states, assessments, [], now)
+    const retrieval = selected.filter((item) => item.retrievalContentIds?.length)
+    const scheduled = buildPlannerSnapshot(states, assessments, availability, [], [], now, [], 14)
+    const days = scheduled?.schedule.filter((day) => day.date >= '2026-11-02'
+      && day.date <= '2026-11-08') ?? []
+    const activeWeekdays = days.filter((day) => day.items.length > 0).map((day) => day.date)
+    console.info('P0_RETURNING_LEARNER ' + JSON.stringify({
+      evidenceItems: evidence.length, candidateCount: selected.length,
+      newRetrievalCandidates: retrieval.length, activeWeekdays,
+      dailyMinutes: days.map((day) => [day.date, day.items.reduce((m, item) => m + item.estimatedMinutes, 0)]),
+    }))
+    expect(days).toHaveLength(7)
+    expect(days.every((day) => day.items.reduce((minutes, item) =>
+      minutes + item.estimatedMinutes, 0) <= day.availableMinutes)).toBe(true)
+    expect(days.slice(5).every((day) => day.items.length === 0)).toBe(true)
+    expect(retrieval.length).toBeGreaterThan(0)
+    // The screenshot counterexample has supported days on Mon/Tue only;
+    // with genuinely distinct authored retrieval now available, require more
+    // than the previously failing two days for this returning-learner fixture.
+    expect(activeWeekdays.length).toBeGreaterThan(2)
   })
 
   it('does not infer a score from two unverified self-rated cards', () => {
