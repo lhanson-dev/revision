@@ -3,9 +3,9 @@ import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
 import { businessFinanceNumericCases } from './shared/financial-numeric-practice'
-import { bankQuestionId, buildQuestionPool } from '../../src/app/practice-questions'
-import { checkCalculation } from '../../src/app/practice-calculation'
-import { createCalculationEvidence } from '../../src/app/practice-evidence'
+import { bankQuestionId, buildQuestionPool } from '../../../src/app/practice-questions'
+import { checkCalculation } from '../../../src/app/practice-calculation'
+import { createCalculationEvidence } from '../../../src/app/practice-evidence'
 
 const packs = [paper1, paper2, paper3] as const
 
@@ -97,7 +97,7 @@ describe('Issue #698 AQA Business §3.5.2 published finance construction and typ
       enteredValue: -3000,
       expectedValue: -3000,
       unit: '£',
-      confidence: 'sure',
+      confidence: 'certain',
       occurredAt: '2026-10-29T00:00:00.000Z',
     })
     expect(evidence.source).toBe('calculation')
