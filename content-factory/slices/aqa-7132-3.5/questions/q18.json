@@ -1,0 +1,58 @@
+{
+  "id": "q18",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:cash-flow-versus-profit",
+    "aqa-7132-3.5.1:cash-flow-objectives"
+  ],
+  "target_node_ids": [
+    "bus-fin-001",
+    "bus-fin-005"
+  ],
+  "question": {
+    "id": "q18",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Pinefield Furniture sells £80,000 of office desks to customers on 60-day credit. The sales are recognised in its income statement, but its suppliers must be paid this week.",
+    "stem": "Which conclusion best explains why reporting a profit from the sale does not guarantee Pinefield can pay its suppliers this week?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "The credit sale has already increased the bank balance by £80,000."
+      },
+      {
+        "label": "B",
+        "text": "Revenue can be recorded before customers pay, so the firm may be profitable while short of cash."
+      },
+      {
+        "label": "C",
+        "text": "A business cannot report a profit unless all customers have paid in full."
+      },
+      {
+        "label": "D",
+        "text": "Profit and net cash flow always have the same value over any given month."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect because recognised credit sales do not necessarily bring immediate cash receipts.",
+        "B is correct because sales revenue may be recognised before cash is collected, creating a short-term liquidity problem.",
+        "C is incorrect because accounting performance can recognise revenue before cash collection.",
+        "D is incorrect because accounting profit differs from cash flow because of timing, accruals and non-cash costs."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B. Credit sales can affect reported profit before the cash arrives; the firm must forecast and finance the period until customers settle invoices."
+    },
+    "calcs": []
+  }
+}

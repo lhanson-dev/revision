@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
-import { supportedActivityMinutes, type HomeTask } from './home-task'
+import { authoredFlashcardsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
 import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -124,7 +124,8 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     }
   }
 
-  const cards = useMemo(() => task.adapter.listFlashcards(task.topicId), [task])
+  // Planner-selected unattempted cards, or ordinary fallback course cards.
+  const cards = useMemo(() => authoredFlashcardsForTask(task), [task])
   const questions = useMemo(() => task.adapter.listQuestions(task.topicId), [task])
   const cardCount = focusedActivityCount('flashcards', cards.length)
   const questionCount = focusedActivityCount('quick-check', questions.length)

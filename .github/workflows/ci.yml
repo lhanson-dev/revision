@@ -201,7 +201,7 @@ jobs:
           fi
 
   private-auth-hook-assurance:
-    name: Real Auth private signup admission assurance
+    name: Real Auth standard signup assurance
     needs: assurance-plan
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -227,32 +227,19 @@ jobs:
           sed -i '/\[auth.hook.before_user_created\]/{n;s/enabled = false/enabled = true/;}' supabase/config.toml
           grep -A2 '^\[auth.hook.before_user_created\]' supabase/config.toml
           supabase start
-      - name: Activate ephemeral test admission and inject masked local code
+      - name: Export local-only Auth test credentials
         run: |
           set -euo pipefail
           eval "$(supabase status -o env)"
-          # Supabase CLI's isolated test DB only; the production code is never queried.
-          # Run UPDATE separately; PostgreSQL's command tag would otherwise be
-          # captured alongside RETURNING and fail the strict 32-hex validation.
-          docker exec supabase_db_revision psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
-            -c "update revision_private.family_signup_control set enabled = true where singleton = true" > /dev/null
-          code="$(docker exec supabase_db_revision psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At \
-            -c "select signup_code from revision_private.family_signup_control where singleton = true")"
-          if [[ ! "$code" =~ ^[0-9a-f]{32}$ ]]; then
-            echo "::error::Isolated admission secret was not initialised."
-            exit 1
-          fi
-          echo "::add-mask::$code"
           {
-            echo "REVISION_PRIVATE_SIGNUP_TEST_CODE=$code"
             echo "SUPABASE_URL=http://127.0.0.1:54321"
             echo "SUPABASE_ANON_KEY=$ANON_KEY"
             echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
             echo "REVISION_REAL_AUTH_HOOK_INTEGRATION=1"
           } >> "$GITHUB_ENV"
-      - name: Prove real Auth rejects missing or invalid codes and admits valid code
-        run: npx vitest run tests/integration/private-admission-auth.test.ts
-      - name: Diagnose local Auth hook failure (no real learner accounts)
+      - name: Prove real Auth creates and signs in normal email learners
+        run: npx vitest run tests/integration/standard-signup-auth.test.ts
+      - name: Diagnose local Auth signup failure (synthetic learners only)
         if: failure()
         run: |
           # CI uses a disposable database and synthetic identities only.
@@ -398,7 +385,7 @@ jobs:
       - name: Run isolated database-backed browser persistence and new-account first-use assurance
         env:
           REVISION_BROWSER_DB_INTEGRATION: '1'
-        run: npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts tests/e2e/learner-value-journey.spec.ts --project=desktop
+        run: npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts tests/e2e/plan-live-auth-configuration.spec.ts tests/e2e/learner-value-journey.spec.ts --project=desktop
       - name: Stop isolated Supabase test stack
         if: always()
         run: |

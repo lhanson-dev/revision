@@ -38,8 +38,10 @@ import { homeActivityLabel, type HomeTask } from './home-task'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow, readTodayChoice } from './today-recommendations'
 import { useLocalDay } from './use-local-day'
 import { buildPlannerSnapshot, buildLearnerPreparationProgramme, courseIdForLearningState } from './planner-model'
+import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope } from './psychology-paper3-option-scope'
 import { acceptedSessionWindows, combineAcceptedSessions, nearTermAcceptedSessions, DETAILED_PLANNER_HORIZON_DAYS, ACCEPTED_COMMITMENT_HORIZON_DAYS } from './plan-session-windows'
 import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
+import { PlanMonthPriorities } from './PlanMonthPriorities'
 import {
   addDaysToKey,
   daysBetween,
@@ -140,6 +142,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
     courseLabel: item.label,
     paperLabel: paperLabel(module),
     title: module.manifest.paper.name,
+    requiresOptionScope: isAqaPsychologyPaper3(module),
+    optionContract: psychologyPaper3OptionContract(module),
   }))), [programme])
 
   const [assessments, setAssessments] = useState<RevisionAssessment[]>([])
@@ -164,6 +168,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
   const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [examTemplateKey, setExamTemplateKey] = useState(() => examTemplates[0]?.key ?? '')
   const [examDate, setExamDate] = useState('')
+  const [psychologyPaper3Options, setPsychologyPaper3Options] = useState<Record<string, string>>({})
   const [courseId, setCourseId] = useState(programme[0]?.course.id ?? '')
   const [title, setTitle] = useState('')
   const [assessmentDate, setAssessmentDate] = useState('')
@@ -410,6 +415,14 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
       return
     }
 
+    const optionScope = selectedExamTemplate.requiresOptionScope
+      ? psychologyPaper3TopicScope(selectedExamTemplate.optionContract, psychologyPaper3Options)
+      : undefined
+    if (selectedExamTemplate.requiresOptionScope && !optionScope) {
+      setMessage('Choose one Psychology Paper 3 topic from each of Sections B, C and D before adding the exam.')
+      return
+    }
+
     setSaving(true)
     setMessage('')
     try {
@@ -417,6 +430,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
         courseId: selectedExamTemplate.courseId,
         subjectId: selectedExamTemplate.subjectId,
         moduleId: selectedExamTemplate.moduleId,
+        scope: optionScope ?? undefined,
         title: selectedExamTemplate.title,
         assessmentDate: examDate,
         assessmentType: 'public_exam',
@@ -424,6 +438,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
       })
       setAssessments((current) => [...current, saved])
       setExamDate('')
+      setPsychologyPaper3Options({})
       setExamsOpen(false)
       setMessage('Exam added. REV has re-planned around the new date.')
     } catch (error: unknown) {
@@ -601,7 +616,23 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
               <ol className="plan-exam-list">
                 {[...activeAssessments].sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate)).map((assessment) => (
                   <li key={assessment.assessmentId}>
-                    <div><span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span><strong>{assessment.title}</strong><span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span></div>
+                    <div>
+                      <span className="tag">{assessmentTypeLabel(assessment.assessmentType)}</span>
+                      <strong>{assessment.title}</strong>
+                      <span>{courseLabel(programme, assessment.courseId, assessment.subjectId)}</span>
+                      {assessment.moduleId?.startsWith('psychology-aqa-a-level-7182-paper-3')
+                        && (!Array.isArray(assessment.scope.topicIds) || assessment.scope.topicIds.length !== 4) && (
+                          <span>Paper 3 topic choices missing. Remove this exam date and add it again to select your topics.</span>
+                        )}
+                      {assessment.moduleId?.startsWith('psychology-aqa-a-level-7182-paper-3')
+                        && Array.isArray(assessment.scope.topicIds) && (
+                        <span>Paper 3 options: {(assessment.scope.topicIds as string[])
+                          .filter((id) => id !== 'issues-and-debates-in-psychology')
+                          .map((id) => programme.flatMap((item) => item.course.modules)
+                            .flatMap((module) => module.listTopics()).find((topic) => topic.id === id)?.shortTitle ?? id)
+                          .join(' · ')}</span>
+                      )}
+                    </div>
                     <div className="plan-exam-date"><strong>{formatDate(assessment.assessmentDate)}</strong></div>
                     <Button variant="tertiary" size="compact" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove<span className="sr-only"> {assessment.title}</span></Button>
                   </li>
@@ -610,11 +641,23 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
             )}
             {examTemplates.length > 0 && (
               <form className="plan-add-exam" onSubmit={handleAddKnownExam}>
-                <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => setExamTemplateKey(event.target.value)}>
+                <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => { setExamTemplateKey(event.target.value); setPsychologyPaper3Options({}) }}>
                   {examTemplates.map((template) => <option key={template.key} value={template.key}>{template.courseLabel} · {template.paperLabel}</option>)}
                 </SelectField>
+                {selectedExamTemplate?.requiresOptionScope && (
+                  <div className="planner-field-grid" aria-label="Psychology Paper 3 options">
+                    <p>Paper 3 includes Issues and Debates plus one topic from each of these three sections.</p>
+                    {selectedExamTemplate.optionContract ? selectedExamTemplate.optionContract.groups.map((group) => (
+                      <SelectField key={group.id} label={group.label} value={psychologyPaper3Options[group.id] ?? ''}
+                        required onChange={(event) => setPsychologyPaper3Options((current) => ({ ...current, [group.id]: event.target.value }))}>
+                        <option value="">Choose a topic</option>
+                        {group.options.map((option) => <option key={option.topicId} value={option.topicId}>{option.label}</option>)}
+                      </SelectField>
+                    )) : <p role="alert">The published option data is incomplete. This exam cannot be added until it is corrected.</p>}
+                  </div>
+                )}
                 <TextField label="Exam date" type="date" required value={examDate} onChange={(event) => setExamDate(event.target.value)} />
-                <Button type="submit" disabled={saving || !selectedExamTemplate}>Add exam</Button>
+                <Button type="submit" disabled={saving || !selectedExamTemplate || (selectedExamTemplate.requiresOptionScope && !selectedExamTemplate.optionContract)}>Add exam</Button>
               </form>
             )}
             <button className="plan-disclosure-link" type="button" onClick={() => setOtherAssessmentOpen((open) => !open)} aria-expanded={otherAssessmentOpen}>+ Add a mock, topic test or other assessment</button>
@@ -711,6 +754,31 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
                 <PlanWeekView days={visibleDays} todayKey={todayKey} actions={actions} onOpenDay={(key) => goTo('day', key)} />}
               {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month' &&
                 <PlanMonthView days={visibleDays} monthIndex={monthIndex} onOpenDay={(key) => goTo('day', key)} />}
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'month'
+                && fullProgramme?.finalKnownAssessment && <PlanMonthPriorities programme={fullProgramme}
+                  anchor={anchor} courseLabel={(id) => courseLabel(programme, id)} topicLabel={topicLabel}
+                  onOpenWeek={(key) => goTo('week', key)} />}
+
+              {showCalendar && sessionsReady && !visibleSessionsUnavailable && view === 'week'
+                && anchor > addDaysToKey(todayKey, DETAILED_PLANNER_HORIZON_DAYS - 1)
+                && fullProgramme && (() => {
+                  const focus = fullProgramme.weeks.find((week) => week.weekStart <= anchor && week.visibleUntil >= anchor)
+                  if (!focus) return null
+                  return <Surface variant="quiet" className="pln-weekly-outlook" aria-label="Preparation focus for this week">
+                    <h2>Preparation focus for this week</h2>
+                    <p>These are provisional learning objectives, not scheduled sessions. Specific activities appear in the rolling two-week plan.</p>
+                    {focus.objectives.length > 0 ? <ul>
+                      {focus.objectives.map((objective) => <li key={objective.candidateId}>
+                        <strong>{courseLabel(programme, objective.courseId)} — {topicLabel(objective.courseId, objective.topicId)}</strong>
+                        <span> · {objective.purpose}</span>
+                      </li>)}
+                    </ul> : <p>{focus.availableMinutes === 0
+                      ? 'No study time is available this week.'
+                      : focus.availableMinutes === null
+                        ? 'Study time is not configured for this week.'
+                        : 'No supported objectives are currently allocated this week. This does not mean your revision is complete.'}</p>}
+                  </Surface>
+                })()}
 
               <aside className="pln-guidance" aria-label="Help with your plan">
                 <Icon name="info" />

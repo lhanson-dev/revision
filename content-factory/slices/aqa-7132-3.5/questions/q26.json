@@ -1,0 +1,70 @@
+{
+  "id": "q26",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+    "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+  ],
+  "target_node_ids": [
+    "bus-fin-007"
+  ],
+  "question": {
+    "id": "q26",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-original monthly income/expenditure budget exercise. A bicycle repair firm budgeted £80,000 income, with £28,000 materials, £24,000 wages and £12,000 overheads. Its actual income is £75,000; actual materials £30,000, wages £25,000 and overheads £11,000.",
+    "stem": "Calculate the firm’s actual profit for March, in pounds.",
+    "table": null,
+    "options": [],
+    "calcs": [
+      {
+        "label": "Actual profit",
+        "formula_id": "profit",
+        "inputs": [
+          {
+            "name": "income",
+            "value": 75000
+          },
+          {
+            "name": "material_costs",
+            "value": 30000
+          },
+          {
+            "name": "wage_costs",
+            "value": 25000
+          },
+          {
+            "name": "overheads",
+            "value": 11000
+          }
+        ],
+        "stated_answer": 9000,
+        "unit": "£"
+      }
+    ],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Actual profit is £9,000: £75,000 − (£30,000 + £25,000 + £11,000).",
+          "accept": [
+            "9000",
+            "9,000",
+            "£9,000"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Actual expenditure = £30,000 + £25,000 + £11,000 = £66,000. Actual profit = £75,000 − £66,000 = £9,000."
+    }
+  }
+}

@@ -63,6 +63,17 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Complete activity-on-arrow construction and timing example",
+        "body": "A shop refit has A (2 days) before B (4 days) and C (3 days), and D (2 days) may begin only when BOTH B and C finish. Write every activity as an arrow between numbered events:\n\n1→2: A, 2 days\n2→4: B, 4 days\n2→3: C, 3 days\n3→4: dummy, 0 days\n4→5: D, 2 days\n\nThe zero-duration dummy arrow makes event 4 wait for C as well as B; it is not a real task and does not add time. Each event number increases along its arrows. For an AQA activity-on-arrow diagram, label activities and durations on arrows and record earliest event times (upper-right) and latest event times (lower-right) in split event circles.\n\nForward pass: E1=0; E2=2; E3=5; E4=max(E2+4,E3+0)=max(6,5)=6; E5=8.\nBackward pass: L5=8; L4=6; L3=6; L2=min(L4−4,L3−3)=min(2,3)=2; L1=0.\n\nThe event timings (earliest/latest) are 1 (0/0), 2 (2/2), 3 (5/6), 4 (6/6), 5 (8/8). Total float of C = L3−E2−duration = 6−2−3 = 1 day. A, B and D each have zero float; critical path A–B–D takes 8 days. Route A–C–dummy–D takes 7 days, so the dummy preserves the AND-dependency without making that route critical.\n\nIf C increases from 3 to 5 days, recalculate rather than retaining the original answer: E3=7; E4=max(6,7)=7; E5=9. The new critical path is A–C–dummy–D (9 days); B has one day of float. The diagram and event calculations are an original teaching example, not a reproduction of an AQA question.",
+        "item_ids": [
+          "aqa-7132-3.10.3:network-analysis",
+          "aqa-7132-3.10.3:amending-network-diagrams",
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
+        ]
+      },
+      {
         "treatment": "self_explanation_prompt",
         "heading": "Explain the management response",
         "body": "A project manager finds that a non-critical activity now has only one day of float after a supplier delay. Explain, in your own words, why the manager should monitor it more closely even though it is not currently on the critical path. Then identify one check the manager should make before moving workers from another activity.",
@@ -159,11 +170,14 @@
         "id": "p-construction-activity-on-arrow",
         "capability": "construction",
         "item_ids": [
-          "aqa-7132-3.10.3:network-analysis"
+          "aqa-7132-3.10.3:network-analysis",
+          "aqa-7132-3.10.3:amending-network-diagrams",
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
         ],
-        "prompt": "Construct an activity-on-arrow network for this project: A takes 2 days from the start; B takes 4 days after A; C takes 3 days after A; D takes 2 days only after both B and C finish. State the arrows you would draw and what each event circle must show.",
-        "answer": "Draw 1→2: A, 2 days; 2→3: B, 4 days; 2→4: C, 3 days; then arrange D, 2 days, from the event reached after both B and C to the final event, using suitable dummy logic if needed to preserve the dependency. Each split event circle shows event number on the left, earliest time upper-right and latest time lower-right.",
-        "explanation": "The network must show that A precedes both B and C, and that D cannot begin until both routes are complete. Activity letters go above arrows and durations below them.",
+        "prompt": "Construct and label an activity-on-arrow diagram for A (2 days), then parallel B (4 days) and C (3 days), followed by D (2 days), which cannot start until BOTH B and C finish. Supply an explicit numbered list of ALL arrows (including a dummy if needed), the earliest and latest times at each event, the critical path, project duration and total float for C. Do not merely describe how you would draw it.",
+        "answer": "One valid arrow network is 1→2 A(2); 2→4 B(4); 2→3 C(3); 3→4 dummy(0); 4→5 D(2). Event earliest/latest times: 1=0/0, 2=2/2, 3=5/6, 4=6/6, 5=8/8. Forward pass uses max at event 4; backward pass uses min at event 2. Critical path A–B–D is 8 days. Total float of C is L3−E2−3=6−2−3=1 day.",
+        "explanation": "The dummy preserves the requirement for D to wait for both B and C. A real diagram would show each activity letter above its arrow, duration below, and earliest/latest figures in each split event circle. A reveal card can support student self-comparison but does not automatically certify drawn-diagram competency.",
         "calc": null
       },
       {
@@ -264,6 +278,20 @@
         "prompt": "A construction firm wants to move workers from a non-critical decorating activity to a critical electrical installation activity. Judge whether this is automatically a good decision.",
         "answer": "Not automatically. It may protect the deadline, but managers should check the decorating activity's float, worker skills, quality effects, added cost and whether the resource move changes durations or dependencies requiring recalculation.",
         "explanation": "CPA identifies schedule priorities but does not itself solve resource constraints or guarantee that a faster plan is feasible or worthwhile.",
+        "calc": null
+      },
+      {
+        "id": "p-amend-activity-on-arrow",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.10.3:network-analysis",
+          "aqa-7132-3.10.3:amending-network-diagrams",
+          "aqa-7132-3.10.3:critical-path",
+          "aqa-7132-3.10.3:total-float"
+        ],
+        "prompt": "Using the activity-on-arrow network A:1→2 (2 days); B:2→4 (4 days); C:2→3 (3 days); dummy:3→4 (0 days); D:4→5 (2 days), a delay changes C from 3 to 5 days. Show the amended event earliest/latest times, new project duration, new critical path, and total float of B. Explain why the original path is no longer critical.",
+        "answer": "Amended earliest/latest event times: 1=0/0, 2=2/2, 3=7/7, 4=7/7, 5=9/9. Forward pass to event 4: max(2+4,7+0)=7. Backward pass at event 2: min(7−4,7−5)=2. New project duration is 9 days and critical path is A–C–dummy–D (2+5+0+2=9 days). B has total float L4−E2−4=7−2−4=1 day. The original A–B–D route lasts 8 days and is now shorter.",
+        "explanation": "Recalculate the AND-join after a duration change. A changed dependency path can become critical; copying the original critical path without a forward/backward pass would be wrong.",
         "calc": null
       }
     ]

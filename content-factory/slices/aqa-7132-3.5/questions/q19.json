@@ -1,0 +1,57 @@
+{
+  "id": "q19",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:variance-analysis",
+    "aqa-7132-3.5.2:adverse-and-favourable-variances"
+  ],
+  "target_node_ids": [
+    "bus-fin-007"
+  ],
+  "question": {
+    "id": "q19",
+    "family": "MCQ",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice. Ashbrook Bikes budgeted £24,000 of packaging costs for September but actually spent £27,000. The finance team uses actual minus budget as its cost-variance convention.",
+    "stem": "What is the packaging-cost variance, and what is the soundest immediate interpretation?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "£3,000 favourable; management spent less than planned."
+      },
+      {
+        "label": "B",
+        "text": "£3,000 adverse; investigate the cause before judging performance."
+      },
+      {
+        "label": "C",
+        "text": "£51,000 adverse; this is the actual cost plus the budget."
+      },
+      {
+        "label": "D",
+        "text": "£3,000 favourable; an increase in costs always supports demand."
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect because actual cost is greater than budget, not lower.",
+        "B is correct because £27,000 − £24,000 = £3,000 over budget; higher cost is adverse for this cost line, but causes require analysis.",
+        "C is incorrect because the variance is the difference, not the sum.",
+        "D is incorrect because an increase in expenditure is not by itself a favourable cost variance."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B. Cost variance = actual − budget = £3,000 adverse. Investigate volume and input price changes before inferring inefficient management."
+    },
+    "calcs": []
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "q14",
+  "label": "Revision-authored AQA-style practice question (original, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.10.3:network-analysis",
+    "aqa-7132-3.10.3:critical-path"
+  ],
+  "target_node_ids": [
+    "bus-evi-008"
+  ],
+  "question": {
+    "id": "q14",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Original Revision practice. In an activity-on-arrow network, A (2 days) precedes parallel B (4 days) and C (3 days). Activity D (2 days) may start only when BOTH B and C finish. A zero-duration dummy preserves the dependency.",
+    "stem": "Which pair correctly identifies the project duration and critical path?",
+    "options": [
+      {
+        "label": "A",
+        "text": "7 days, A–C–D"
+      },
+      {
+        "label": "B",
+        "text": "8 days, A–B–D"
+      },
+      {
+        "label": "C",
+        "text": "9 days, A–C–D"
+      },
+      {
+        "label": "D",
+        "text": "8 days, B–C–D"
+      }
+    ],
+    "calcs": [],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect because the A–C–D route is 7 days, but the other required route takes longer.",
+        "B is correct because A–B–D takes 2+4+2 = 8 days, longer than A–C–dummy–D at 7 days.",
+        "C is incorrect because the original C branch takes 3 days, not 5.",
+        "D is incorrect because B and C run in parallel after A; both routes include A."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B. A–B–D takes 8 days; the parallel route A–C–dummy–D takes 7 days. The 8-day route determines the earliest project completion."
+    },
+    "table": null
+  }
+}

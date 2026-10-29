@@ -47,6 +47,8 @@ export interface PlannerCandidate {
   moduleId?: string
   examTarget?: { moduleId: string; examId: string; questionId: string }
   learnTarget?: { learnPageId: string; moduleId?: string }
+  /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
+  retrievalContentIds?: readonly string[]
   earliestEligibleDate?: string
   latestEligibleDate?: string
   preparationStage?: 'acquire' | 'check' | 'exam-practice'
@@ -85,6 +87,8 @@ export interface PlannerItem {
   assessmentTargets?: readonly PlannerAssessmentTarget[]
   examTarget?: { moduleId: string; examId: string; questionId: string }
   learnTarget?: { learnPageId: string; moduleId?: string }
+  /** Exact authored flashcards not yet attempted; never a fabricated repeat. */
+  retrievalContentIds?: readonly string[]
 }
 
 export interface PlannerScheduledDay {
@@ -193,6 +197,7 @@ function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number
     moduleId: candidate.moduleId,
     examTarget: candidate.examTarget,
     learnTarget: candidate.learnTarget,
+    retrievalContentIds: candidate.retrievalContentIds,
     assessmentTargets: candidate.assessmentTargets,
   }
 }

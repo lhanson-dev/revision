@@ -40,6 +40,15 @@
       },
       {
         "treatment": "worked_example",
+        "heading": "Construct and update a three-month cash-flow forecast",
+        "body": "A bakery starts January with £8,000 in cash. Its forecast cash receipts are £18,000 in January, £12,000 in February and £22,000 in March. Cash payments are £20,000, £19,000 and £14,000 respectively. Construct a three-month forecast by carrying each closing balance into the next month's opening balance.\n\nJanuary: opening £8,000; receipts £18,000; payments £20,000; net cash flow −£2,000; closing £6,000.\nFebruary: opening £6,000; receipts £12,000; payments £19,000; net cash flow −£7,000; closing −£1,000.\nMarch: opening −£1,000; receipts £22,000; payments £14,000; net cash flow +£8,000; closing £7,000.\n\nThe February forecast negative closing cash balance means the bakery needs at least £1,000 in additional finance or a change in payment/receipt timing to cover the end-of-month position; it could have a greater intra-month shortfall. The negative figure is a planning warning, not a forecast of accounting loss.\n\nAmend the forecast when a £5,000 February customer receipt is now expected in March: February receipts fall to £7,000, net flow becomes −£12,000 and closing cash falls to −£6,000. March receipts rise to £27,000, net flow becomes +£13,000, and March closes at the same £7,000. This is a receivables-timing change: it creates a larger short-term cash gap even though the total three-month receipts are unchanged. If the business negotiates later supplier payment instead, move the actual cash payment between months; do not change its profit merely because the cash date changes.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "worked_example",
         "heading": "Test the effect of delayed receipts",
         "body": "Using the retailer forecast, suppose £20,000 of expected customer receipts will arrive next month instead. Receipts for April fall from £70,000 to £50,000. Net cash flow becomes £50,000 minus £82,000, or negative £32,000. Adding this to the £20,000 opening balance produces a negative £12,000 closing balance. The forecast has identified a financing need before the shortage happens.",
         "item_ids": [
@@ -234,6 +243,30 @@
         "prompt": "A firm has opening cash of £14,500. It forecasts £46,000 of receipts and £53,500 of payments. Calculate its forecast closing cash balance.",
         "answer": "£7,000.",
         "explanation": "Net cash flow is £46,000 minus £53,500, which is -£7,500. Adding this to £14,500 opening cash gives £7,000. This result still depends on the receipt and payment timing assumptions being accurate.",
+        "calc": null
+      },
+      {
+        "id": "p11-three-month-cash-flow-forecast",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ],
+        "prompt": "Construct a three-month cash-flow forecast on paper with columns for opening balance, cash receipts, cash payments, net cash flow and closing balance. A bakery opens January with £8,000. Cash receipts for January/February/March are £18,000/£12,000/£22,000; payments are £20,000/£19,000/£14,000. Give all three monthly net and closing balances, correctly carry each closing balance forward, and state the month and amount of the end-month financing shortfall.",
+        "answer": "January: opening £8,000, receipts £18,000, payments £20,000, net −£2,000, closing £6,000. February: opening £6,000, receipts £12,000, payments £19,000, net −£7,000, closing −£1,000. March: opening −£1,000, receipts £22,000, payments £14,000, net +£8,000, closing £7,000. February is the cash-shortfall month, requiring at least £1,000 in finance or timing changes for the forecast closing balance. Intra-month cash needs could be higher.",
+        "explanation": "The closing balance of one month is the next month's opening balance, even if negative. Net flow = receipts minus payments; closing = opening plus net. This is a paper construction and self-check task, not automatically graded financial statement evidence.",
+        "calc": null
+      },
+      {
+        "id": "p12-amend-delayed-receivable-forecast",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ],
+        "prompt": "Amend the bakery's original three-month forecast after discovering a £5,000 customer payment originally expected in February will actually arrive in March. Give revised February and March receipts, net cash flows and closings. Explain whether total three-month cash receipts, the March closing position and the short-term financing requirement change.",
+        "answer": "Revised February receipts £7,000, payments £19,000, net −£12,000, opening £6,000, closing −£6,000. Revised March receipts £27,000, payments £14,000, net +£13,000, opening −£6,000, closing £7,000. Three-month receipts remain £52,000 and March closing remains £7,000. February's end-month cash shortfall worsens from £1,000 to £6,000: an extra £5,000 of temporary liquidity is needed, assuming no other action.",
+        "explanation": "Recognise receivables at the expected cash date in the forecast. Delay changes timing and the maximum funding gap, not the total amount of cash expected over these three months, assuming the customer eventually pays.",
         "calc": null
       }
     ]

@@ -82,3 +82,7 @@ If the admission code leaks, disable or rotate the database registration gate, c
 - Evidence: Issue #665 dated 25 October 2026 live negative signup check, merged PR #684 dormant admission migration, candidate PR #679 real-GoTrue CI #3639 and pending hosted/tester acceptance.
 
 **Documentation-impact check:** This is a proposed current operational assessment, not a new normative authority, and creates no change to law, approved learning behaviour, permissions, or historical audit. Maintain alongside PR #679's technical release preflight. Do not close Issue #663 or represent this draft as external qualified legal/privacy review.
+
+## Proposed change to admission scope — 26 October 2026
+
+The Founder has now expressly requested standard account signup for the family learner **without** a private code. This **supersedes** the earlier proposed shared-code admission design if the implementing PR is approved and released. A publicly accessible application with self-service signup **cannot enforce a two-person-only population**; the "limited family" language in this record then describes intended participants and the controller's own trial, not an actual admission restriction. The earlier private-code checklist should not be used as an activation step. Keep data rights, learner transparency, safeguard/necessity review and risk disclosures open for real child data, while independent public-launch reviews remain under #663. No individual learner identity or secret should be added to the repository.

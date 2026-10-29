@@ -46,6 +46,19 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Construct and amend a break-even chart from figures",
+        "body": "A local bakery sells a standard cake for £20. Its fixed costs are £12,000 per period, the variable cost is £8 per cake, and forecast sales are 1,500 cakes. Construct a break-even chart on graph paper:\n\n1. Label the horizontal axis output (cakes) and the vertical axis costs and revenue (£). Choose scales that show at least 0–1,600 cakes and £0–£32,000.\n2. Fixed-cost line: £12,000 at every output, including zero. Plot (0, £12,000) and (1,500, £12,000).\n3. Total-cost line = £12,000 + £8 × output. Plot (0, £12,000), (1,000, £20,000), (1,500, £24,000) and join with a straight line.\n4. Total-revenue line = £20 × output. Plot (0, £0), (1,000, £20,000), (1,500, £30,000) and join with a straight line.\n5. Label the intersection at (1,000 cakes, £20,000). Verify algebraically: contribution per unit = £20−£8=£12; break-even output=£12,000/£12=1,000 cakes. Mark forecast output 1,500 on the horizontal axis, and label the 500-cake margin of safety between 1,000 and 1,500.\n6. At 1,500 cakes, total contribution = £12×1,500=£18,000 and profit = £18,000−£12,000=£6,000 (also £30,000−£24,000). The vertical gap between revenue and cost at that output is £6,000.\n\nNow illustrate three separate changes; draw or describe each on a fresh copy of the original chart, rather than mixing scenarios:\n• Price rises to £24, costs unchanged: the revenue line rotates upwards from the origin. New break-even output = £12,000/(£24−£8)=750 cakes. At 1,000 cakes the new revenue point is (1,000, £24,000).\n• Variable cost rises to £10 per cake, price and fixed costs unchanged: the total-cost line becomes steeper but retains its £12,000 intercept. New break-even output = £12,000/(£20−£10)=1,200 cakes; the new total cost at 1,000 cakes is £22,000.\n• Forecast output rises to 1,600 cakes with price and costs unchanged: neither the revenue nor cost line, nor the break-even intersection moves. The planned point moves rightwards along the existing lines; new margin of safety = 600 cakes; revenue £32,000, total cost £24,800, profit £7,200.\n\nThese are one-product, linear cost/revenue models. Real demand may change when price changes, and capacity, costs, sales mix and cash timing can invalidate a simple chart. The plotted lines illustrate a decision; they do not guarantee the forecast.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart",
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety",
+          "aqa-7132-3.5.2:contribution-per-unit",
+          "aqa-7132-3.5.2:total-contribution",
+          "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even"
+        ]
+      },
+      {
         "treatment": "self_explanation_prompt",
         "heading": "Explain the operating-risk effect",
         "body": "A manufacturer considers automation that raises fixed costs but lowers variable costs per unit. Explain, in your own words, how this could change contribution, break-even output and the risk faced if sales volume is lower than expected. Then explain why managers should test different demand assumptions rather than rely on one break-even estimate.",
@@ -278,6 +291,38 @@
         "prompt": "Complete the reasoning chain: automation raises fixed costs but lowers variable cost per unit. Explain how this can make a business more profitable at high volume but riskier at low volume.",
         "answer": "Lower variable cost can raise contribution per unit, so profit can grow faster once sales are high. However, the larger fixed-cost commitment must be covered even when volume is low, which can reduce margin of safety or raise break-even if the contribution improvement is insufficient.",
         "explanation": "The effect depends on the combined change in fixed costs and contribution, plus the volume actually achieved.",
+        "calc": null
+      },
+      {
+        "id": "construct-break-even-chart-from-data",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart",
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety",
+          "aqa-7132-3.5.2:contribution-per-unit",
+          "aqa-7132-3.5.2:total-contribution",
+          "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even"
+        ],
+        "prompt": "A café sells one sandwich at £16; variable cost is £6 per sandwich; fixed costs are £5,000 per month. Forecast output is 650 sandwiches. On paper construct a labelled break-even chart covering 0–700 sandwiches and £0–£12,000. Give two coordinates for EACH of the three lines (fixed cost, total cost, total revenue), mark their intersection, label the margin of safety, and calculate total contribution and profit at 650 sandwiches. Do not answer solely with the formula for break-even.",
+        "answer": "Horizontal axis: output; vertical axis: £. Fixed costs: (0, £5,000) and (650, £5,000). Total costs: (0, £5,000), (500, £8,000), (650, £8,900). Revenue: (0, £0), (500, £8,000), (650, £10,400). The revenue and total-cost lines intersect at 500 sandwiches / £8,000. Contribution per unit £10, break-even 500; margin of safety 650−500=150 sandwiches. At 650 sandwiches total contribution=£6,500, profit=£6,500−£5,000=£1,500. Check graph line starts, slopes, intersect and axes before comparing with this answer.",
+        "explanation": "Draw the three lines to scale and label the intersection; a calculation alone is not equivalent to constructing the graph. After comparing, correct any axis, intercept, slope or intersection mistakes. The existing flashcard surface only reveals this answer; it does not collect or grade a drawing.",
+        "calc": null
+      },
+      {
+        "id": "amend-break-even-chart-price-cost-and-output",
+        "capability": "graph_data_interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart",
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety",
+          "aqa-7132-3.5.2:contribution-per-unit",
+          "aqa-7132-3.5.2:total-contribution",
+          "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even"
+        ],
+        "prompt": "Use the original café chart (price £16, variable cost £6, fixed costs £5,000, forecast 650). Treat these as three ALTERNATIVE scenarios, not simultaneous changes. (A) Price rises to £18: state which line changes, give its new revenue at 500 units and new break-even output. (B) Variable cost rises to £8: state which line changes, give new total cost at 500 units and new break-even output. (C) Forecast output rises to 700 with price/cost unchanged: does the intersection move? Calculate new margin of safety and profit. Explain how each result should be shown on the chart.",
+        "answer": "A: Revenue line steepens from the origin; revenue at 500 = £9,000; new contribution £12; new break-even = £5,000/£12 = 416.67, so at least 417 whole sandwiches are needed to break even. B: Total-cost line steepens from the unchanged £5,000 intercept; total cost at 500 = £9,000; contribution £8; break-even = £5,000/£8 = 625 sandwiches. C: Neither original line nor their intersection changes; output is located further right. New margin of safety = 700−500=200 sandwiches; revenue £11,200, total cost £9,200 and profit £2,000. Price/cost changes move the intersection; moving the planned output alone does not.",
+        "explanation": "Distinguish a price-induced revenue slope change, variable-cost-induced total-cost slope change, and a pure movement of forecast output along the existing curves. A continuous graph intersection of about 416.7 is rounded UP to 417 saleable whole units; it is not 416 units. Check that all three cases use the original scenario as their baseline.",
         "calc": null
       }
     ]

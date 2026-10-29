@@ -10,6 +10,7 @@ import {
   psychologyTopicLinks,
   psychologyTopics,
 } from '../shared/course'
+import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsAppliedDrills } from '../shared/research-methods-practice'
 
 export const psychologyAqaALevel7182Paper3 = contentPackSchema.parse({
   manifest,
@@ -18,9 +19,9 @@ export const psychologyAqaALevel7182Paper3 = contentPackSchema.parse({
   formulas: [],
   topicLinks: psychologyTopicLinks,
   flashcards: psychologyFlashcards,
-  questions: psychologyQuestions,
+  questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions],
   caseStudies: [],
-  dataDrills: psychologyDataDrills,
+  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills],
   examTechnique: psychologyExamTechnique,
   exams: psychologyPaper3Exams,
 })
