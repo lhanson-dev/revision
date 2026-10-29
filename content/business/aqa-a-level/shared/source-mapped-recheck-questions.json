@@ -42,17 +42,17 @@
           },
           {
             "label": "D",
-            "text": "71.4%"
+            "text": "714.3%"
           }
         ],
         "mark_scheme": {
           "type": "single_option",
           "correct_option": "B",
           "option_rationale": [
-            "A is incorrect: dividing by a rounded or unrelated market total understates the actual share.",
+            "A is incorrect: 7% would use twice the actual market total as the denominator.",
             "B is correct: (£6.3 million ÷ £45 million) × 100 = 14%.",
             "C is incorrect: £38.7 million is the sales value of other firms, not Westhaven's percentage share.",
-            "D is incorrect: this reverses the comparison rather than dividing the firm's sales by the whole market."
+            "D is incorrect: reversing the firm and total market and multiplying by 100 would give approximately 714.3%, not its market share."
           ],
           "points": [],
           "levels": [],
