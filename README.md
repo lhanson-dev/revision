@@ -27,7 +27,7 @@ The Courses branch projects only the authenticated learner's saved active course
 
 Scored objective Practice questions now use owner-scoped versioned checkpoints; confirmed submitted answers remain durable independently of a finished question set. Students can reload and explicitly **Continue saved session**, or discard it without deleting previously scored evidence. Timed full-mock attempts have separate owner-scoped 14-day draft recovery and safe finalisation. Raw unsubmitted written Practice drafts, flashcard warm-ups and merely visited Learn pages are not durable sessions.
 
-Issue #727 / draft PR #728 is extending *navigation visibility*: Home and Course Overview can show only verified unfinished Practice and timed-mock work beneath REV's existing next-study recommendation. This addition is an **implementation candidate, not yet live**. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` and `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`.
+Issue #727 / merged PR #728 now provides *saved-work visibility* on Home and Course Overview: only verified unfinished Practice and timed-mock work is highlighted beneath REV's existing next-study recommendation. This feature is **live** following verified production deployment on 30 October 2026. Timed mocks reopen through Exam Prep's recovery controls; flashcard warm-ups and merely visited Learn pages are not treated as saved sessions. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` and `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`.
 
 ### Adaptive Plan
 
