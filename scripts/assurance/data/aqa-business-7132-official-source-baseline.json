@@ -1,0 +1,1702 @@
+{
+  "schema_version": 1,
+  "course": "AQA A-level Business 7132",
+  "version": "2.0 June 2023",
+  "source_url": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_pages": 42,
+  "source_rights": "REFERENCE_ONLY",
+  "founder_upload_expected_sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+  "founder_uploaded_bytes_verified": false,
+  "source_section_structure_reviewed_against_official_pdf": true,
+  "meaning": "SOURCE-FIRST SECTION CHECKPOINTS ONLY: not fully atomic, no quality pass, uploaded bytes unverified, printed page locators, not learner mastery",
+  "sections": [
+    {
+      "section_id": "3.1.1",
+      "printed_page": 11,
+      "pdf_page_index": 10,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.1.1-01",
+          "description": "business purpose",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-02",
+          "description": "mission and objectives",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-03",
+          "description": "profit objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-04",
+          "description": "growth objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-05",
+          "description": "survival objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-06",
+          "description": "cash-flow objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-07",
+          "description": "social objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-08",
+          "description": "ethical objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-09",
+          "description": "calculate revenue",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-10",
+          "description": "distinguish fixed costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-11",
+          "description": "distinguish variable costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-12",
+          "description": "calculate total costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-13",
+          "description": "measure profit",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-14",
+          "description": "explain why profit matters",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.1.2",
+      "printed_page": 12,
+      "pdf_page_index": 11,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.1.2-01",
+          "description": "ownership forms",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-02",
+          "description": "private/public sector and non-profit/social enterprise",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-03",
+          "description": "limited versus unlimited liability",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-04",
+          "description": "ordinary share capital",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-05",
+          "description": "market capitalisation",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-06",
+          "description": "dividends",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-07",
+          "description": "shareholder interests",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.2-08",
+          "description": "share price drivers and effects",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.1.3",
+      "printed_page": 13,
+      "pdf_page_index": 12,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.1.3-01",
+          "description": "competition affects costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-02",
+          "description": "market conditions costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-03",
+          "description": "incomes costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-04",
+          "description": "interest rates costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-05",
+          "description": "demographics costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-06",
+          "description": "environmental issues affecting costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-07",
+          "description": "fair-trade choices affecting costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.2.1",
+      "printed_page": 13,
+      "pdf_page_index": 12,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.2.1-01",
+          "description": "management versus leadership",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.1-02",
+          "description": "autocratic paternalistic democratic laissez-faire",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.1-03",
+          "description": "Tannenbaum-Schmidt continuum",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.1-04",
+          "description": "style suitability and effectiveness",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.2.2",
+      "printed_page": 14,
+      "pdf_page_index": 13,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.2.2-01",
+          "description": "scientific versus intuitive choice",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.2-02",
+          "description": "decision tree interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.2-03",
+          "description": "expected value calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.2-04",
+          "description": "net gain calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.2-05",
+          "description": "risk rewards uncertainty opportunity cost",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.2-06",
+          "description": "mission objectives ethics competition and resource constraints",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.2.3",
+      "printed_page": 14,
+      "pdf_page_index": 13,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.2.3-01",
+          "description": "stakeholder needs",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.3-02",
+          "description": "power-interest mapping",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.3-03",
+          "description": "stakeholder conflicts",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.2.3-04",
+          "description": "communication and consultation",
+          "evidence": "unverified",
+          "parent_source_section": "3.2.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.3.1",
+      "printed_page": 15,
+      "pdf_page_index": 14,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.3.1-01",
+          "description": "objectives and their value",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.1-02",
+          "description": "sales volume and value",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.1-03",
+          "description": "market size growth share",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.1-04",
+          "description": "brand loyalty",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.3.2",
+      "printed_page": 15,
+      "pdf_page_index": 14,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.3.2-01",
+          "description": "primary secondary qualitative quantitative research",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-02",
+          "description": "calculate market size growth and share",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-03",
+          "description": "random stratified quota sampling",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-04",
+          "description": "correlation direction and strength",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-05",
+          "description": "confidence intervals",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-06",
+          "description": "extrapolation",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-07",
+          "description": "interpret price and income elasticity",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.2-08",
+          "description": "analyse price/income revenue impacts without requiring elasticity calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.3.3",
+      "printed_page": 16,
+      "pdf_page_index": 15,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.3.3-01",
+          "description": "segmentation-targeting-positioning",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.3-02",
+          "description": "demographic geographic income behavioural segmentation",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.3-03",
+          "description": "mass and niche targeting",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.3-04",
+          "description": "market mapping",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.3.4",
+      "printed_page": 16,
+      "pdf_page_index": 15,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.3.4-01",
+          "description": "7Ps goods and services",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-02",
+          "description": "Boston Matrix",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-03",
+          "description": "product life cycle and extensions",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-04",
+          "description": "new product development",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-05",
+          "description": "penetration and skimming pricing",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-06",
+          "description": "branding social media and viral promotion",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-07",
+          "description": "multi-channel distribution",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-08",
+          "description": "integrated marketing mix",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.3.4-09",
+          "description": "digital marketing and e-commerce",
+          "evidence": "unverified",
+          "parent_source_section": "3.3.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.4.1",
+      "printed_page": 17,
+      "pdf_page_index": 16,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.4.1-01",
+          "description": "cost quality speed flexibility environment value-added objectives",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.4.2",
+      "printed_page": 18,
+      "pdf_page_index": 17,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.4.2-01",
+          "description": "labour productivity calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.2-02",
+          "description": "unit cost calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.2-03",
+          "description": "capacity calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.2-04",
+          "description": "capacity utilisation calculation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.2-05",
+          "description": "operational data interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.4.3",
+      "printed_page": 18,
+      "pdf_page_index": 17,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.4.3-01",
+          "description": "efficient capacity use",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.3-02",
+          "description": "efficiency and labour productivity trade-offs",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.3-03",
+          "description": "lean JIT versus JIC",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.3-04",
+          "description": "capital and labour intensity",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.3-05",
+          "description": "operations technology",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.4.4",
+      "printed_page": 18,
+      "pdf_page_index": 17,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.4.4-01",
+          "description": "quality assurance versus quality control",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.4-02",
+          "description": "benefits difficulties and consequences of quality choices",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.4.5",
+      "printed_page": 19,
+      "pdf_page_index": 18,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.4.5-01",
+          "description": "outsourcing temporary workforce and order production",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.5-02",
+          "description": "inventory chart interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.5-03",
+          "description": "lead time reorder level buffer level reorder quantity",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.4.5-04",
+          "description": "supplier choice and chain management",
+          "evidence": "unverified",
+          "parent_source_section": "3.4.5"
+        }
+      ]
+    },
+    {
+      "section_id": "3.5.1",
+      "printed_page": 19,
+      "pdf_page_index": 18,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.5.1-01",
+          "description": "financial objective setting",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.1-02",
+          "description": "ROI concept",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.1-03",
+          "description": "revenue cost profit and cash-flow objectives",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.1-04",
+          "description": "cash versus profit",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.1-05",
+          "description": "gross operating and annual profit distinctions",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.5.2",
+      "printed_page": 20,
+      "pdf_page_index": 19,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.5.2-01",
+          "description": "construct budgets and assess variances",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-02",
+          "description": "construct cash-flow forecasts",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-03",
+          "description": "construct break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-04",
+          "description": "interpret break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-05",
+          "description": "break-even output margin of safety unit/total contribution",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-06",
+          "description": "illustrate price change on break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-07",
+          "description": "illustrate output change on break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-08",
+          "description": "illustrate cost change on break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-09",
+          "description": "gross operating and net profitability",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-10",
+          "description": "payables receivables and cash timing",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.5.3",
+      "printed_page": 21,
+      "pdf_page_index": 20,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.5.3-01",
+          "description": "internal and external finance",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.3-02",
+          "description": "factoring overdrafts retained profit shares loans venture capital crowd funding",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.3-03",
+          "description": "short versus long term financing decisions",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.5.4",
+      "printed_page": 21,
+      "pdf_page_index": 20,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.5.4-01",
+          "description": "evaluate ways of improving cash flow",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.4-02",
+          "description": "evaluate improving profit and profitability",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.4-03",
+          "description": "limitations of improvements",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.6.1",
+      "printed_page": 22,
+      "pdf_page_index": 21,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.6.1-01",
+          "description": "employee engagement talent development training diversity",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.1-02",
+          "description": "values alignment",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.1-03",
+          "description": "workforce numbers skills locations",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.1-04",
+          "description": "soft and hard HRM",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.6.2",
+      "printed_page": 22,
+      "pdf_page_index": 21,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.6.2-01",
+          "description": "labour turnover calculation and interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.2-02",
+          "description": "labour productivity calculation and interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.2-03",
+          "description": "employee costs percentage calculation and interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.2-04",
+          "description": "unit labour cost calculation and interpretation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.6.3",
+      "printed_page": 22,
+      "pdf_page_index": 21,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.6.3-01",
+          "description": "functional product regional matrix structures",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.3-02",
+          "description": "authority span hierarchy delegation centralisation decentralisation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.3-03",
+          "description": "organisational redesign",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.3-04",
+          "description": "HR plan recruitment training redeployment redundancy",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.6.4",
+      "printed_page": 23,
+      "pdf_page_index": 22,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.6.4-01",
+          "description": "Taylor Maslow Herzberg",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.4-02",
+          "description": "piece rate commission salary performance pay",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.4-03",
+          "description": "empowerment teamwork flexible work enrichment rotation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.4-04",
+          "description": "motivation method evaluation",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.6.5",
+      "printed_page": 24,
+      "pdf_page_index": 23,
+      "qualification_scope": "all A-level content",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.6.5-01",
+          "description": "employee voice and influence",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.5-02",
+          "description": "trade unions and works councils",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.6.5-03",
+          "description": "employee relations and communication",
+          "evidence": "unverified",
+          "parent_source_section": "3.6.5"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.1",
+      "printed_page": 24,
+      "pdf_page_index": 23,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.1-01",
+          "description": "mission and corporate objectives",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.1-02",
+          "description": "short-termism and ownership pressure",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.1-03",
+          "description": "strategy versus tactics",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.1-04",
+          "description": "strategic-functional decision links",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.1-05",
+          "description": "SWOT",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.2",
+      "printed_page": 25,
+      "pdf_page_index": 24,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.2-01",
+          "description": "interpret accounts",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.2-02",
+          "description": "ROCE current ratio gearing",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.2-03",
+          "description": "payables days receivables days inventory turnover",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.2-04",
+          "description": "ratio evaluation over time and across firms",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.3",
+      "printed_page": 25,
+      "pdf_page_index": 24,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.3-01",
+          "description": "nonfinancial performance data",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.3-02",
+          "description": "core competences",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.3-03",
+          "description": "short/long evaluation",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.3-04",
+          "description": "Elkington triple bottom line",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.4",
+      "printed_page": 25,
+      "pdf_page_index": 24,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.4-01",
+          "description": "competition labour and environmental legislation",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.4-02",
+          "description": "government enterprise policy regulators infrastructure trade",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.5",
+      "printed_page": 26,
+      "pdf_page_index": 25,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.5-01",
+          "description": "GDP and taxation",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.5-02",
+          "description": "exchange rates and inflation",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.5-03",
+          "description": "fiscal monetary policy",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.5-04",
+          "description": "open trade versus protectionism",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.5"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.5-05",
+          "description": "interpret economic data",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.5"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.6",
+      "printed_page": 26,
+      "pdf_page_index": 25,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.6-01",
+          "description": "demographic shifts migration lifestyles digital consumer trends",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.6"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.6-02",
+          "description": "CSR pros/cons",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.6"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.6-03",
+          "description": "stakeholder versus shareholder",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.6"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.6-04",
+          "description": "Carroll CSR pyramid",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.6"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.6-05",
+          "description": "technology and social responsibility",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.6"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.7",
+      "printed_page": 27,
+      "pdf_page_index": 26,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.7-01",
+          "description": "Porter entry buyer supplier rivalry substitute forces",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.7"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.7-02",
+          "description": "changing five forces",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.7"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.7-03",
+          "description": "impact on strategy and profit",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.7"
+        }
+      ]
+    },
+    {
+      "section_id": "3.7.8",
+      "printed_page": 27,
+      "pdf_page_index": 26,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.7.8-01",
+          "description": "calculate and interpret payback",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.8"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.8-02",
+          "description": "calculate and interpret ARR",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.8"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.8-03",
+          "description": "calculate and interpret NPV",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.8"
+        },
+        {
+          "id": "BUS7132-CHK-3.7.8-04",
+          "description": "nonfinancial appraisal criteria and risk",
+          "evidence": "unverified",
+          "parent_source_section": "3.7.8"
+        }
+      ]
+    },
+    {
+      "section_id": "3.8.1",
+      "printed_page": 27,
+      "pdf_page_index": 26,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.8.1-01",
+          "description": "Ansoff matrix four directions",
+          "evidence": "unverified",
+          "parent_source_section": "3.8.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.8.1-02",
+          "description": "reasons and value of market/product strategic choices",
+          "evidence": "unverified",
+          "parent_source_section": "3.8.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.8.2",
+      "printed_page": 28,
+      "pdf_page_index": 27,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.8.2-01",
+          "description": "Porter low-cost differentiation focus positions",
+          "evidence": "unverified",
+          "parent_source_section": "3.8.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.8.2-02",
+          "description": "competitive advantage sustainability",
+          "evidence": "unverified",
+          "parent_source_section": "3.8.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.9.1",
+      "printed_page": 28,
+      "pdf_page_index": 27,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.9.1-01",
+          "description": "organic versus external growth",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.1-02",
+          "description": "economies scale scope diseconomies synergy overtrading",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.1-03",
+          "description": "mergers takeovers ventures franchising",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.1-04",
+          "description": "vertical horizontal conglomerate integration",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.1-05",
+          "description": "retrenchment impact",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.9.2",
+      "printed_page": 29,
+      "pdf_page_index": 28,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.9.2-01",
+          "description": "product versus process innovation",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.2-02",
+          "description": "Kaizen R&D intrapreneurship benchmarking",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.2-03",
+          "description": "patents copyrights",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.2-04",
+          "description": "innovation consequences",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.9.3",
+      "printed_page": 29,
+      "pdf_page_index": 28,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.9.3-01",
+          "description": "globalisation and emerging economies",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.3-02",
+          "description": "export licensing alliances direct investment",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.3-03",
+          "description": "market selection",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.3-04",
+          "description": "offshoring reshoring multinational choices",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.3-05",
+          "description": "local responsiveness versus cost reduction",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.9.4",
+      "printed_page": 30,
+      "pdf_page_index": 29,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.9.4-01",
+          "description": "automation",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.4-02",
+          "description": "e-commerce",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.4-03",
+          "description": "big data",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.4-04",
+          "description": "data mining",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.9.4-05",
+          "description": "digital strategic value",
+          "evidence": "unverified",
+          "parent_source_section": "3.9.4"
+        }
+      ]
+    },
+    {
+      "section_id": "3.10.1",
+      "printed_page": 30,
+      "pdf_page_index": 29,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.10.1-01",
+          "description": "internal external incremental disruptive change",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.1-02",
+          "description": "Lewin force field",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.1-03",
+          "description": "restructuring delayering flexible labour organic/mechanistic organisation",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.1-04",
+          "description": "Kotter-Schlesinger four resistance causes and six responses",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.1"
+        }
+      ]
+    },
+    {
+      "section_id": "3.10.2",
+      "printed_page": 31,
+      "pdf_page_index": 30,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.10.2-01",
+          "description": "Handy task role power person cultures",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.2-02",
+          "description": "organisational culture factors and changing culture",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.2"
+        }
+      ]
+    },
+    {
+      "section_id": "3.10.3",
+      "printed_page": 31,
+      "pdf_page_index": 30,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.10.3-01",
+          "description": "leadership communication and structure in strategy",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.3-02",
+          "description": "read network diagrams",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.3-03",
+          "description": "amend network diagrams",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.3-04",
+          "description": "critical path and total float",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.3"
+        }
+      ]
+    },
+    {
+      "section_id": "3.10.4",
+      "printed_page": 31,
+      "pdf_page_index": 30,
+      "qualification_scope": "A-level only",
+      "atomic_enumeration": "incomplete",
+      "checkpoints": [
+        {
+          "id": "BUS7132-CHK-3.10.4-01",
+          "description": "planned versus emergent strategy",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.4-02",
+          "description": "strategic drift",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.4-03",
+          "description": "performance evaluation",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.4"
+        },
+        {
+          "id": "BUS7132-CHK-3.10.4-04",
+          "description": "contingency and crisis planning",
+          "evidence": "unverified",
+          "parent_source_section": "3.10.4"
+        }
+      ]
+    }
+  ],
+  "annex_quantitative": [
+    {
+      "id": "BUS7132-ANNEX-1",
+      "printed_page": 41,
+      "description": "ratio average fraction operations",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-2",
+      "printed_page": 41,
+      "description": "percentages and percentage changes",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-3",
+      "printed_page": 41,
+      "description": "construct and interpret graphical forms",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-4",
+      "printed_page": 41,
+      "description": "interpret index numbers",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-5",
+      "printed_page": 41,
+      "description": "calculate cost revenue profit break-even",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-6",
+      "printed_page": 41,
+      "description": "calculate and interpret investment appraisal",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-7",
+      "printed_page": 41,
+      "description": "interpret demand elasticity values",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-8",
+      "printed_page": 41,
+      "description": "use qualitative and quantitative evidence",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-ANNEX-9",
+      "printed_page": 41,
+      "description": "interpret apply and analyse textual graphical numerical information",
+      "assessment_adequacy": "unverified"
+    }
+  ],
+  "a_level_exam_papers": [
+    {
+      "paper": 1,
+      "marks": 100,
+      "minutes": 120,
+      "shape": "15 MCQs; 35 short-answer marks; 2 selected 25-mark essays"
+    },
+    {
+      "paper": 2,
+      "marks": 100,
+      "minutes": 120,
+      "shape": "3 compulsory data-response stimuli of approximately 33 marks each"
+    },
+    {
+      "paper": 3,
+      "marks": 100,
+      "minutes": 120,
+      "shape": "1 compulsory case study with approximately 6 questions"
+    }
+  ],
+  "assessment_objectives": [
+    {
+      "id": "AO1",
+      "printed_page": 34,
+      "description": "knowledge",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "AO2",
+      "printed_page": 34,
+      "description": "contextual application",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "AO3",
+      "printed_page": 34,
+      "description": "analysis",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "AO4",
+      "printed_page": 34,
+      "description": "evaluation",
+      "assessment_adequacy": "unverified"
+    }
+  ],
+  "cross_cutting": [
+    {
+      "id": "BUS7132-XCUT-1",
+      "printed_page": 11,
+      "description": "synoptic connections",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-2",
+      "printed_page": 11,
+      "description": "diverse business contexts",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-3",
+      "printed_page": 11,
+      "description": "technology and change",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-4",
+      "printed_page": 11,
+      "description": "ethics and environment",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-5",
+      "printed_page": 11,
+      "description": "stakeholder consequences",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-6",
+      "printed_page": 11,
+      "description": "quality of decision evidence",
+      "assessment_adequacy": "unverified"
+    },
+    {
+      "id": "BUS7132-XCUT-7",
+      "printed_page": 11,
+      "description": "coherent sustained evaluation",
+      "assessment_adequacy": "unverified"
+    }
+  ]
+}

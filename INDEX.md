@@ -57,6 +57,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 Business §3.1.2 source-first ownership, shareholder value and share-price teaching correction with scoped 19-obligation evidence → `docs/technical/Issue 698 Business 3.1.2 Share Value Assurance.md`
 - Issue #698 Business §3.1.3 original single-target external-environment cost/demand Practice, bounded seven-factor source audit and honest learner evidence limits → `docs/technical/Issue 698 Business 3.1.3 External Environment Practice.md`
 - Issue #698 Business §3.2.2 decision-tree expected value/net gain typed scored Practice, 16-atom scoped audit and honest assessment boundaries → `docs/technical/Issue 698 Business 3.2.2 Decision Tree Numerical Assurance.md`
+- Issue #698 AQA Business official v2.0 source-first full 42-section baseline, 194 checking prompts, quantitative annex and assessment boundaries (NOT a whole-course atomic adequacy pass) → `docs/technical/Issue 698 AQA Business Source First Section Baseline.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
