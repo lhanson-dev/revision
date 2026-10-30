@@ -684,6 +684,7 @@ export function FocusedLearningWorkspace({
       expectedValue: question.expected,
       unit: question.unit,
       confidence,
+      itemMapping: objectiveItemMappingForPractice(question),
     })
     setStatusMove(null)
     const next = recordSessionAnswer(session, { questionId: question.id, correct: right, confidence, typedAnswer: calcDraft.trim(), level: question.level })
