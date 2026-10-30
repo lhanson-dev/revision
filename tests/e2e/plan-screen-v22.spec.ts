@@ -329,8 +329,9 @@ test('Week highlights exactly the current local day on 30 October in light and d
   await expect(today).toHaveCount(1)
   await expect(today).toHaveAttribute('aria-label', 'Today, Friday 30 October')
   await expect(today.locator('.pln-weekgroup__day')).toHaveAttribute('aria-current', 'date')
-  await expect(today).toHaveCSS('border-top-width', '2px')
+  await expect(today).toHaveCSS('border-top-width', '1px')
   await expect(today).toHaveCSS('border-top-style', 'solid')
+  expect(await today.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
   await expect(today).toHaveCSS('background-color', 'rgb(226, 243, 239)')
   await expect(page.locator('.pln-weekgroup:not([data-today])').first()).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
 
@@ -345,7 +346,8 @@ test('Week highlights exactly the current local day on 30 October in light and d
   const darkToday = page.locator('.pln-weekgroup[data-today]')
   await expect(darkToday).toHaveCount(1)
   await expect(darkToday).toHaveCSS('background-color', 'rgb(22, 52, 48)')
-  await expect(darkToday).toHaveCSS('border-top-width', '2px')
+  await expect(darkToday).toHaveCSS('border-top-width', '1px')
+  expect(await darkToday.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
 })
 
 test('Today is highlighted consistently across Day, Week and Month; browsing another day is different', async ({ page }) => {
