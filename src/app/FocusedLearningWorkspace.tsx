@@ -195,17 +195,17 @@ export function FocusedLearningWorkspace({
     // is detached, so restore focus to the corresponding new launch control.
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.practice-start button'))
     // Start becomes unavailable while its checkpoint is open. Restore focus to
-    // Carry on (the accessible continuation), never a disabled button.
+    // Continue saved session (the accessible primary continuation), never a disabled Start button.
     const preferred = buttons.find((button) => button.textContent?.trim() === activityLaunchLabel.current)
     const target = preferred && !preferred.disabled ? preferred
-      : buttons.find((button) => button.textContent?.trim() === 'Carry on')
+      : buttons.find((button) => button.textContent?.trim() === 'Continue saved session')
     target?.focus()
     activityLaunchLabel.current = null
   }, [openActivity])
   const [length, setLength] = useState<PracticeLength>(PRACTICE_LENGTHS[0])
   const [selectedTypes, setSelectedTypes] = useState<PracticeQuestionType[]>(['multiple-choice'])
   // The scored session in progress. Leaving the activity keeps it (every answer is already saved as evidence),
-  // and the start screen then offers "Carry on".
+  // and the start screen gives the saved session a prominent primary continuation action.
   const [session, setSession] = useState<QuestionSession | null>(null)
   const checkpointClient = checkpointContext?.client
   const checkpointStore = useMemo(() => checkpointClient ? supabasePracticeCheckpointStore(checkpointClient) : null, [checkpointClient])
