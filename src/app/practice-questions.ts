@@ -1,8 +1,9 @@
 /**
  * Practice questions for a session (v2.2): every source is turned into one shape here, so the session rules and the
  * screen never care where a question came from. Sources today: the course pack's own multiple-choice questions and
- * the AQA 7132 question bank (multiple choice, and written points-scheme questions up to 6 marks). Calculation questions
- * wait for their evidence migration. Levels-based written questions stay in Exam Prep.
+ * the AQA 7132 structured question bank (multiple choice, software-marked final-number
+ * calculations and written points-scheme questions up to 6 marks). Levels-based written
+ * questions stay in Exam Prep.
  */
 import type { MultipleChoiceQuestion } from '../../content/schema'
 import type { StructuredPracticeBankRecord } from '../../content/structured-practice-bank'
@@ -59,12 +60,12 @@ export type CalculationPracticeQuestion = QuestionBase & {
 
 export type PracticeQuestion = MultipleChoicePracticeQuestion | WrittenPracticeQuestion | CalculationPracticeQuestion
 
-/** Only source-tagged, software-marked single-option bank MCQs can
- * contribute a per-item raw observation. Multi-target mapping is retained
- * for inspection but never apportioned as if the mark separated skills.
- * Course-pack questions without explicit assurance stay topic evidence.
+/** Only source-tagged, software-scored bank MCQs and final-number calculations
+ * can carry this item-level observation. Multi-target mappings remain traceable,
+ * but no single-target observation is issued when the mark cannot distinguish them.
+ * Untagged course-pack MCQs stay topic-level evidence.
  */
-export function objectiveItemMappingForPractice(question: MultipleChoicePracticeQuestion): ObjectiveItemMapping | undefined {
+export function objectiveItemMappingForPractice(question: MultipleChoicePracticeQuestion | CalculationPracticeQuestion): ObjectiveItemMapping | undefined {
   if (question.source !== 'aqa-bank' || question.specItemIds.length === 0) return undefined
   const targets = [...new Set(question.specItemIds)]
   const nodes = [...new Set(question.nodeIds)]
@@ -121,8 +122,9 @@ export function bankQuestionId(record: Pick<AqaBusinessQuestionRecord, 'batch' |
 }
 
 /**
- * A single-number "Calculate" question. These become calculation questions (an input, no marking by REV) once their
- * evidence source is migrated, so they are not offered as written answers.
+ * A single-number "Calculate" question is marked by the standard typed-answer checker,
+ * not REV and not the points-based written-answer marker. A source-tagged single target
+ * may support only a final-number item observation; it cannot verify the written method.
  */
 export function isCalculationRecord(record: AqaBusinessQuestionRecord): boolean {
   const { question } = record

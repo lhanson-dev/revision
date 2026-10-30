@@ -58,6 +58,8 @@ export function createCalculationEvidence(input: {
   enteredValue: number
   expectedValue: number
   unit?: string | null
+  /** Exact assured bank targets only. Never infer a skill from the broad topic. */
+  itemMapping?: ObjectiveItemMapping
   confidence?: AnswerConfidence
   occurredAt?: string
 }): LearningEvidence {
@@ -74,6 +76,7 @@ export function createCalculationEvidence(input: {
     expectedValue: input.expectedValue,
     ...(input.unit ? { unit: input.unit } : {}),
     ...(input.confidence ? { confidence: input.confidence } : {}),
+    ...(input.itemMapping ? { itemMapping: input.itemMapping } : {}),
   }
 }
 
