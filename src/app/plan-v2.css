@@ -277,7 +277,8 @@
 .pln-summary__track > span,.pln-weekgroup__track > span { display:block; height:100%; border-radius:inherit; background:var(--color-action); }
 .pln-weekview { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:8px; align-items:stretch; }
 .pln-weekgroup { display:flex; flex-direction:column; gap:10px; min-width:0; min-height:300px; padding:12px 9px; border:1px solid var(--color-border); border-radius:var(--radius-surface); background:var(--color-surface); }
-.pln-weekgroup[data-today] { box-shadow:inset 0 0 0 2px var(--color-action); background:var(--color-surface-soft); }
+.pln-weekgroup[data-today] { border:2px solid var(--color-selection-text); padding:11px 8px; background:var(--color-selection-surface); box-shadow:0 0 0 1px var(--color-selection-text); }
+.pln-weekgroup[data-today] .pln-weekgroup__number { color:var(--color-accent-text); }
 .pln-weekgroup__day { padding:0; gap:5px; }
 .pln-weekgroup__number { font-size:18px; }
 .pln-weekgroup__capacity { display:flex; flex-direction:column; gap:6px; min-height:36px; font-size:12px; line-height:1.35; color:var(--color-text-secondary); }
@@ -308,6 +309,7 @@
 @media(max-width:1180px) {
   .pln-weekview { display:flex; flex-direction:column; gap:12px; }
   .pln-weekgroup { display:grid; grid-template-columns:105px minmax(0,1fr); gap:8px 16px; min-height:0; padding:14px; }
+  .pln-weekgroup[data-today] { padding:13px; }
   .pln-weekgroup__day,.pln-weekgroup__capacity { grid-column:1; }
   .pln-weekgroup .pln-list--week,.pln-weekgroup > .pln-empty { grid-column:2; grid-row:1 / span 2; }
   .pln-weekgroup .pln-row { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; padding:12px; }
@@ -325,6 +327,7 @@
   .pln-toolbar .pln-controls { flex-basis:100%; }
   .pln-toolbar .pln-summary { flex:1 1 100%; }
   .pln-weekgroup { display:flex; flex-direction:column; gap:8px; }
+  .pln-weekgroup[data-today] { padding:13px; }
   .pln-weekgroup__day { flex-direction:row; gap:8px; }
   .pln-weekgroup__capacity { min-height:0; }
   .pln-weekgroup .pln-row { grid-template-columns:auto minmax(0,1fr); }
