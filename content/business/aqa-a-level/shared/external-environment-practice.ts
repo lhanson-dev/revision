@@ -51,7 +51,7 @@ export const businessExternalEnvironmentCases = [
     "target": "aqa-7132-3.1.3:incomes-and-demand",
     "node": "bus-fnd-009",
     "context": "Household disposable incomes increase in a town where a small business sells discretionary weekend adventure experiences.",
-    "stem": "Which effect is most likely, other things equal?",
+    "stem": "Which effect on demand for the business is most likely, other things equal?",
     "options": [
       "The business must face higher loan interest charges.",
       "All customers will stop buying non-essential experiences.",
