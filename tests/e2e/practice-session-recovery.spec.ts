@@ -22,7 +22,9 @@ async function installRecoveryDatabase(page: Page) {
       .map(field => (url.searchParams.get(field) ?? '').replace(/^eq\./, '')).join('|')
     const current = checkpointRows.get(key)
     if (method === 'GET') {
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(current ? [current] : []) })
+      const filters = url.searchParams.get('course_id')
+      const values = filters?.startsWith('in.') ? [...checkpointRows.values()] : current ? [current] : []
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(values) })
       return
     }
     if (method === 'POST') {
