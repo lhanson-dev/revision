@@ -27,13 +27,15 @@ function fakeClient(rows: { practice?: unknown[]; exam?: unknown[]; practiceErro
   const client = {
     from(table: string) {
       return {
-        select(_columns: string) {
+        select(columns: string) {
+          void columns
           return {
             eq(_field: string, user: string) {
               return {
                 in(_field: string, courses: string[]) {
                   return {
-                    limit(_max: number) {
+                    limit(max: number) {
+                      void max
                       reads.push({ table, user, courses })
                       const failed = table === 'learner_practice_checkpoints' ? rows.practiceError : rows.examError
                       const data = table === 'learner_practice_checkpoints' ? rows.practice : rows.exam
