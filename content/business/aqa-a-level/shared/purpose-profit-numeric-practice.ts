@@ -8,7 +8,7 @@ export const businessPurposeProfitNumericCases = [
   {
     id: 'revenue-01',
     target: 'aqa-7132-3.1.1:revenue',
-    node: 'bus-fin-003',
+    node: 'bus-fnd-005',
     context: 'A small printer sells 320 personalised notebooks at £27 each during June.',
     prompt: 'Calculate the June sales revenue in pounds. Enter the final number only; your method is not marked.',
     expected: 8640,
