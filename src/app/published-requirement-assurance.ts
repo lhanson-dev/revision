@@ -12,7 +12,7 @@
  * being present does not show adequate teaching or learner understanding.
  */
 import type { CatalogueCourse } from './catalogue-model'
-import { bankRecordToPractice, bankQuestionId, objectiveItemMappingForPractice, type MultipleChoicePracticeQuestion } from './practice-questions'
+import { bankRecordToPractice, bankQuestionId, objectiveItemMappingForPractice, type CalculationPracticeQuestion, type MultipleChoicePracticeQuestion } from './practice-questions'
 
 export type ProvisionalRequirement = {
   id: string
@@ -37,7 +37,15 @@ export type PublishedRequirementRow = {
   taggedBankQuestionIds: string[]
   /** One-target software-scored source questions carrying exact item provenance. */
   independentlyScoredMcqIds: string[]
-  /** A supported distinct authored recheck pair, or null (never invented). */
+  /** One-target software-scored calculation assets. These currently save TOPIC
+   * evidence, not itemMapping; they must not be claimed as durable skill observations.
+   */
+  singleTargetScoredCalculationIds: string[]
+  /** Two differently authored single-target calculation questions; potential
+   * recheck supply, not proof that a learner retested later or mastered a skill.
+   */
+  distinctCalculationStimulusPair: [string, string] | null
+  /** One-target MCQ pair only; MCQ raw observations can carry itemMapping. */
   independentRecheckPair: [string, string] | null
   unscoredOrOtherTaggedQuestionIds: string[]
   /** Current supply only: no implied teaching adequacy, mastery or exam readiness. */
@@ -56,6 +64,10 @@ export type PublishedCourseSupplyReport = {
     provisionalItems: number
     itemsWithIdentifiedLearnPage: number
     itemsWithSingleTargetScoredMcq: number
+    itemsWithSingleTargetScoredCalculation: number
+    itemsWithDistinctCalculationStimulusPair: number
+    itemsWithAnySingleTargetScoredPractice: number
+    itemsWithoutAnySingleTargetScoredPractice: number
     itemsWithIndependentRetestPair: number
     itemsWithoutSingleTargetScoredMcq: number
   }
@@ -69,6 +81,13 @@ function sameQuestion(a: MultipleChoicePracticeQuestion, b: MultipleChoicePracti
   return a.prompt === b.prompt
     && a.context === b.context
     && JSON.stringify(a.options) === JSON.stringify(b.options)
+}
+
+/** Never count a reprinted identical calculation as a second stimulus. */
+function sameCalculation(a: CalculationPracticeQuestion, b: CalculationPracticeQuestion) {
+  return a.prompt === b.prompt
+    && a.context === b.context
+    && JSON.stringify(a.table) === JSON.stringify(b.table)
 }
 
 /** The consumer supplies a provisional set of requirement candidates rather
@@ -99,23 +118,38 @@ export function buildPublishedCourseSupplyReport(
       && (sourceNodes.has(page.id) || (page.sourceSectionIds ?? []).some(id => sections.has(id))))
       .map(page => page.id)
     const singleTarget = tagged.flatMap(record => {
-      if (record.target_item_ids.length !== 1) return []
+      if (record.target_item_ids.length !== 1 || record.target_item_ids[0] !== candidate.id) return []
       const q = bankRecordToPractice(record, candidate.topicId)
-      if (!q || q.type !== 'multiple-choice') return []
-      const mapping = objectiveItemMappingForPractice(q)
-      return mapping?.singleTargetSpecItemId === candidate.id ? [q] : []
+      return q && (q.type === 'multiple-choice' || q.type === 'calculation') ? [q] : []
     })
-    const uniqueScored = distinctById(singleTarget)
+    // A calculation answer is software-checked, but its currently persisted
+    // evidence carries no per-item mapping (unlike a bank MCQ). Keep separate.
+    const uniqueMcqs = distinctById(singleTarget.filter(
+      (q): q is MultipleChoicePracticeQuestion => q.type === 'multiple-choice'
+        && objectiveItemMappingForPractice(q)?.singleTargetSpecItemId === candidate.id,
+    ))
+    const uniqueCalculations = distinctById(singleTarget.filter(
+      (q): q is CalculationPracticeQuestion => q.type === 'calculation',
+    ))
     let pair: [string, string] | null = null
-    for (let i = 0; i < uniqueScored.length && !pair; i++) {
-      for (let j = i + 1; j < uniqueScored.length; j++) {
-        if (!sameQuestion(uniqueScored[i]!, uniqueScored[j]!)) {
-          pair = [uniqueScored[i]!.id, uniqueScored[j]!.id]
+    for (let i = 0; i < uniqueMcqs.length && !pair; i++) {
+      for (let j = i + 1; j < uniqueMcqs.length; j++) {
+        if (!sameQuestion(uniqueMcqs[i]!, uniqueMcqs[j]!)) {
+          pair = [uniqueMcqs[i]!.id, uniqueMcqs[j]!.id]
           break
         }
       }
     }
-    const scoredIds = new Set(uniqueScored.map(q => q.id))
+    let calculationPair: [string, string] | null = null
+    for (let i = 0; i < uniqueCalculations.length && !calculationPair; i++) {
+      for (let j = i + 1; j < uniqueCalculations.length; j++) {
+        if (!sameCalculation(uniqueCalculations[i]!, uniqueCalculations[j]!)) {
+          calculationPair = [uniqueCalculations[i]!.id, uniqueCalculations[j]!.id]
+          break
+        }
+      }
+    }
+    const scoredIds = new Set([...uniqueMcqs, ...uniqueCalculations].map(q => q.id))
     return {
       requirementId: candidate.id,
       topicId: candidate.topicId,
@@ -124,7 +158,9 @@ export function buildPublishedCourseSupplyReport(
       learnPageIds: [...new Set(learnPageIds)].sort(),
       topicOnlyMcqIds: mcqs.filter(q => q.topic === candidate.topicId).map(q => q.id).sort(),
       taggedBankQuestionIds: [...new Set(tagged.map(bankQuestionId))].sort(),
-      independentlyScoredMcqIds: [...scoredIds].sort(),
+      independentlyScoredMcqIds: uniqueMcqs.map(q => q.id).sort(),
+      singleTargetScoredCalculationIds: uniqueCalculations.map(q => q.id).sort(),
+      distinctCalculationStimulusPair: calculationPair,
       independentRecheckPair: pair,
       unscoredOrOtherTaggedQuestionIds: [...new Set(tagged.map(bankQuestionId))]
         .filter(id => !scoredIds.has(id)).sort(),
@@ -144,6 +180,10 @@ export function buildPublishedCourseSupplyReport(
       provisionalItems: rows.length,
       itemsWithIdentifiedLearnPage: rows.filter(r => r.learnPageIds.length > 0).length,
       itemsWithSingleTargetScoredMcq: rows.filter(r => r.independentlyScoredMcqIds.length > 0).length,
+      itemsWithSingleTargetScoredCalculation: rows.filter(r => r.singleTargetScoredCalculationIds.length > 0).length,
+      itemsWithDistinctCalculationStimulusPair: rows.filter(r => r.distinctCalculationStimulusPair !== null).length,
+      itemsWithAnySingleTargetScoredPractice: rows.filter(r => r.independentlyScoredMcqIds.length > 0 || r.singleTargetScoredCalculationIds.length > 0).length,
+      itemsWithoutAnySingleTargetScoredPractice: rows.filter(r => r.independentlyScoredMcqIds.length === 0 && r.singleTargetScoredCalculationIds.length === 0).length,
       itemsWithIndependentRetestPair: rows.filter(r => r.independentRecheckPair !== null).length,
       itemsWithoutSingleTargetScoredMcq: rows.filter(r => r.independentlyScoredMcqIds.length === 0).length,
     },
