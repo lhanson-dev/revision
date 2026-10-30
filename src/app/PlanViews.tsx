@@ -153,6 +153,7 @@ export function PlanDayStrip({ days, selectedKey, onSelect }: PlanStripProps) {
             role="tab"
             id={`pln-tab-${day.key}`}
             aria-selected={selected}
+            aria-current={day.today ? 'date' : undefined}
             aria-controls="pln-day-panel"
             aria-label={dayDescription(day)}
             tabIndex={selected ? 0 : -1}
@@ -385,6 +386,7 @@ export function PlanMonthView({ days, monthIndex, onOpenDay }: PlanMonthViewProp
             data-cell=""
             className="pln-cell"
             data-today={day.today || undefined}
+            aria-current={day.today ? 'date' : undefined}
             data-past={day.past || undefined}
             data-outside={outside || undefined}
             data-exam={exam ? '' : undefined}
