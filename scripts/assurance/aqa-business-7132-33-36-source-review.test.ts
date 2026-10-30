@@ -98,8 +98,8 @@ describe('Issue #698 AQA Business v2.0 source-first §§3.3–3.6 candidate atom
     ]))
     expect(text('3.6.2')).toEqual(expect.arrayContaining([
       'calculate labour turnover','interpret labour turnover',
-      'calculate unit labour cost','interpret labour cost per unit',
-    ].filter(x => text('3.6.2').includes(x))))
+      'calculate labour cost per unit','interpret labour cost per unit',
+    ]))
     expect(text('3.6.3')).toContain('evaluate decentralisation')
     expect(text('3.6.4')).toContain('apply Herzberg motivation')
   })
