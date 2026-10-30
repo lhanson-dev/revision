@@ -82,7 +82,7 @@
 .pln-dayview { display: flex; flex-direction: column; gap: 20px; }
 .pln-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
 .pln-tab { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; min-height: 44px; padding: 12px 0; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--color-text); cursor: pointer; }
-.pln-tab[aria-selected="true"] { background: var(--color-surface); box-shadow: inset 0 0 0 2px var(--color-action); }
+.pln-tab[aria-selected="true"]:not([data-today]) { background: var(--color-surface); box-shadow: inset 0 0 0 2px var(--color-text-secondary); }
 .pln-tab__name { font: 800 12px/1 var(--font-family-product); color: var(--color-text-secondary); }
 .pln-tab[data-today] .pln-tab__name { color: var(--color-accent-text); }
 .pln-tab__number { font: 800 22px/1 var(--font-family-display); color: var(--color-text); }
@@ -160,7 +160,6 @@
 .pln-month__weekday-short { display: none; }
 .pln-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; min-height: 76px; padding: 10px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--color-text); cursor: pointer; text-align: left; }
 /* Days outside the month are muted by colour, not opacity, so their numbers keep AA contrast. */
-.pln-cell[data-today] { background: var(--color-surface-soft); box-shadow: inset 0 0 0 2px var(--color-action); }
 .pln-cell__number { font: 800 16px/1 var(--font-family-display); }
 .pln-cell[data-past]:not([data-exam]) .pln-cell__number,
 .pln-cell[data-outside]:not([data-exam]) .pln-cell__number { color: var(--color-text-secondary); }
@@ -277,7 +276,16 @@
 .pln-summary__track > span,.pln-weekgroup__track > span { display:block; height:100%; border-radius:inherit; background:var(--color-action); }
 .pln-weekview { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:8px; align-items:stretch; }
 .pln-weekgroup { display:flex; flex-direction:column; gap:10px; min-width:0; min-height:300px; padding:12px 9px; border:1px solid var(--color-border); border-radius:var(--radius-surface); background:var(--color-surface); }
-.pln-weekgroup[data-today] { box-shadow:inset 0 0 0 2px var(--color-action); background:var(--color-surface-soft); }
+/* Today is a calendar fact with one visual meaning in all three views. */
+.pln-tab[data-today],
+.pln-weekgroup[data-today],
+.pln-cell[data-today] {
+  background:var(--color-selection-surface);
+  box-shadow:inset 0 0 0 2px var(--color-selection-text), 0 0 0 1px var(--color-selection-text);
+}
+.pln-tab[data-today] .pln-tab__number,
+.pln-weekgroup[data-today] .pln-weekgroup__number { color:var(--color-accent-text); }
+/* Exam subject fills retain their identity; Today remains identifiable by its teal outline. */
 .pln-weekgroup__day { padding:0; gap:5px; }
 .pln-weekgroup__number { font-size:18px; }
 .pln-weekgroup__capacity { display:flex; flex-direction:column; gap:6px; min-height:36px; font-size:12px; line-height:1.35; color:var(--color-text-secondary); }

@@ -319,3 +319,87 @@ test('Day from this month starts today, while deliberately browsed November stay
   expect(page.url()).toContain('view=day&date=2026-11-01')
   await expect(page.getByRole('button', { name: 'Today', exact: true })).toBeVisible()
 })
+
+test('Week highlights exactly the current local day on 30 October in light and dark modes', async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 30, 12))
+  await page.goto(`${appPath}#/plan?view=week&date=2026-11-01`)
+  await expect(page.locator('.pln-weekview')).toBeVisible()
+  const today = page.locator('.pln-weekgroup[data-today]')
+  await expect(today).toHaveCount(1)
+  await expect(today).toHaveAttribute('aria-label', 'Today, Friday 30 October')
+  await expect(today.locator('.pln-weekgroup__day')).toHaveAttribute('aria-current', 'date')
+  await expect(today).toHaveCSS('border-top-width', '1px')
+  await expect(today).toHaveCSS('border-top-style', 'solid')
+  expect(await today.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
+  await expect(today).toHaveCSS('background-color', 'rgb(226, 243, 239)')
+  await expect(page.locator('.pln-weekgroup:not([data-today])').first()).not.toHaveCSS('background-color', 'rgb(226, 243, 239)')
+
+  await page.locator('.pln-weekgroup[data-today] .pln-weekgroup__day').click()
+  await expect(page.getByRole('tabpanel').getByRole('heading', { level: 2 })).toHaveText('Today')
+  await page.getByRole('button', { name: 'Week', exact: true }).click()
+  await expect(page.locator('.pln-weekgroup[data-today]')).toHaveCount(1)
+
+  await page.evaluate(() => localStorage.setItem('revision:theme', 'dark'))
+  await page.reload()
+  await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', 'dark')
+  const darkToday = page.locator('.pln-weekgroup[data-today]')
+  await expect(darkToday).toHaveCount(1)
+  await expect(darkToday).toHaveCSS('background-color', 'rgb(22, 52, 48)')
+  await expect(darkToday).toHaveCSS('border-top-width', '1px')
+  expect(await darkToday.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
+})
+
+test('Today is highlighted consistently across Day, Week and Month; browsing another day is different', async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 30, 12))
+
+  for (const theme of ['light', 'dark'] as const) {
+    await page.goto(`${appPath}#/plan?view=day&date=2026-10-31`)
+    await page.evaluate((value) => localStorage.setItem('revision:theme', value), theme)
+    await page.reload()
+    await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', theme)
+    const dayToday = page.locator('.pln-tab[data-today]')
+    await expect(dayToday).toHaveCount(1)
+    await expect(dayToday).toHaveAttribute('aria-current', 'date')
+    await expect(dayToday).toHaveAttribute('aria-selected', 'false')
+    const chosen = page.locator('.pln-tab[aria-selected="true"]')
+    await expect(chosen).toHaveCount(1)
+    await expect(chosen).not.toHaveAttribute('data-today', 'true')
+
+    const appearance = async (selector: string) =>
+      page.locator(selector).evaluate((element) => {
+        const style = getComputedStyle(element)
+        return { background: style.backgroundColor, ring: style.boxShadow }
+      })
+
+    const dayStyle = await appearance('.pln-tab[data-today]')
+    const chosenStyle = await appearance('.pln-tab[aria-selected="true"]')
+    expect(chosenStyle).not.toEqual(dayStyle)
+    expect(dayStyle.ring).not.toBe('none')
+
+    await page.getByRole('button', { name: 'Week', exact: true }).click()
+    const weekToday = page.locator('.pln-weekgroup[data-today]')
+    await expect(weekToday).toHaveCount(1)
+    await expect(weekToday.locator('[aria-current="date"]')).toHaveCount(1)
+    expect(await appearance('.pln-weekgroup[data-today]')).toEqual(dayStyle)
+
+    await page.getByRole('button', { name: 'Month', exact: true }).click()
+    const monthToday = page.locator('.pln-cell[data-today]')
+    await expect(monthToday).toHaveCount(1)
+    await expect(monthToday).toHaveAttribute('aria-current', 'date')
+    expect(await appearance('.pln-cell[data-today]')).toEqual(dayStyle)
+  }
+})
+
+test("Month preserves the exam subject fill under today's common ring", async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 22, 12))
+  await page.goto(`${appPath}#/plan?view=month&date=2026-10-22`)
+  await expect(page.locator('.pln-month')).toBeVisible()
+  const examToday = page.locator('.pln-cell[data-today][data-exam]')
+  await expect(examToday).toHaveCount(1)
+  await expect(examToday).toHaveAttribute('aria-current', 'date')
+  await expect(examToday).toHaveAttribute('style', /--subject-/)
+  expect(await examToday.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
+})
