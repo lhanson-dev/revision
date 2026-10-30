@@ -114,6 +114,10 @@ test('scored Practice restores the exact next question after a refresh without a
   await page.goto('/revision/app/#/home')
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
   await expect(page.getByText('1 of 5 questions answered')).toBeVisible()
+  await testInfo.attach('saved-practice-home-' + testInfo.project.name + '.png', {
+    body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
+    contentType: 'image/png',
+  })
   await page.getByRole('button', { name: 'Open saved Practice' }).click()
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
   await page.goto('/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/overview')
