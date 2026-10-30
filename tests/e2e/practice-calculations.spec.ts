@@ -2,9 +2,23 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { captureEvidence, practicePath, seedReturningStudent } from './practice-seed'
+import { businessFinanceNumericCases } from '../../content/business/aqa-a-level/shared/financial-numeric-practice'
+import { businessPurposeProfitNumericCases } from '../../content/business/aqa-a-level/shared/purpose-profit-numeric-practice'
 
 type CalcRecord = { question: { stem: string; family: string; calcs: Array<{ stated_answer: number; unit: string }> } }
-const bank = (JSON.parse(readFileSync('content/business/aqa-a-level/shared/fast-path-question-bank.json', 'utf8')) as { questions: CalcRecord[] }).questions
+const originalBank = (JSON.parse(readFileSync('content/business/aqa-a-level/shared/fast-path-question-bank.json', 'utf8')) as { questions: CalcRecord[] }).questions
+// The published Practice pool includes Revision-owned, typed calculation packs
+// beyond the retained original static bank. Use their authored expected values
+// rather than assuming every calculation originates from the older JSON file.
+const appendedBank: CalcRecord[] = [
+  ...businessFinanceNumericCases,
+  ...businessPurposeProfitNumericCases,
+].map(item => ({ question: {
+  stem: item.prompt,
+  family: 'SHORT_ANSWER',
+  calcs: [{ stated_answer: item.expected, unit: '£' }],
+} }))
+const bank: CalcRecord[] = [...originalBank, ...appendedBank]
 const squash = (text: string) => text.replace(/\s*Show your working\.?/i, '').replace(/\s+/g, ' ').trim()
 const answerFor = (prompt: string) => bank.find((record) => record.question.family === 'SHORT_ANSWER' && record.question.calcs.length === 1 && squash(record.question.stem) === squash(prompt))?.question.calcs[0]
 
