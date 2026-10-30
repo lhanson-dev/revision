@@ -347,3 +347,45 @@ test('Week highlights exactly the current local day on 30 October in light and d
   await expect(darkToday).toHaveCSS('background-color', 'rgb(22, 52, 48)')
   await expect(darkToday).toHaveCSS('border-top-width', '2px')
 })
+
+test('Today is highlighted consistently across Day, Week and Month; browsing another day is different', async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 30, 12))
+
+  for (const theme of ['light', 'dark'] as const) {
+    await page.goto(`${appPath}#/plan?view=day&date=2026-10-31`)
+    await page.evaluate((value) => localStorage.setItem('revision:theme', value), theme)
+    await page.reload()
+    await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', theme)
+    const dayToday = page.locator('.pln-tab[data-today]')
+    await expect(dayToday).toHaveCount(1)
+    await expect(dayToday).toHaveAttribute('aria-current', 'date')
+    await expect(dayToday).toHaveAttribute('aria-selected', 'false')
+    const chosen = page.locator('.pln-tab[aria-selected="true"]')
+    await expect(chosen).toHaveCount(1)
+    await expect(chosen).not.toHaveAttribute('data-today', 'true')
+
+    const appearance = async (selector: string) =>
+      page.locator(selector).evaluate((element) => {
+        const style = getComputedStyle(element)
+        return { background: style.backgroundColor, ring: style.boxShadow }
+      })
+
+    const dayStyle = await appearance('.pln-tab[data-today]')
+    const chosenStyle = await appearance('.pln-tab[aria-selected="true"]')
+    expect(chosenStyle).not.toEqual(dayStyle)
+    expect(dayStyle.ring).not.toBe('none')
+
+    await page.getByRole('button', { name: 'Week', exact: true }).click()
+    const weekToday = page.locator('.pln-weekgroup[data-today]')
+    await expect(weekToday).toHaveCount(1)
+    await expect(weekToday.locator('[aria-current="date"]')).toHaveCount(1)
+    expect(await appearance('.pln-weekgroup[data-today]')).toEqual(dayStyle)
+
+    await page.getByRole('button', { name: 'Month', exact: true }).click()
+    const monthToday = page.locator('.pln-cell[data-today]')
+    await expect(monthToday).toHaveCount(1)
+    await expect(monthToday).toHaveAttribute('aria-current', 'date')
+    expect(await appearance('.pln-cell[data-today]')).toEqual(dayStyle)
+  }
+})
