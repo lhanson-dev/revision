@@ -8,6 +8,7 @@ export const businessPurposeProfitNumericCases = [
   {
     id: 'revenue-01',
     target: 'aqa-7132-3.1.1:revenue',
+    node: 'bus-fin-003',
     context: 'A small printer sells 320 personalised notebooks at £27 each during June.',
     prompt: 'Calculate the June sales revenue in pounds. Enter the final number only; your method is not marked.',
     expected: 8640,
@@ -16,6 +17,7 @@ export const businessPurposeProfitNumericCases = [
   {
     id: 'total-cost-01',
     target: 'aqa-7132-3.1.1:total-costs',
+    node: 'bus-fin-002',
     context: 'A joinery workshop makes 450 shelves. Its fixed costs for this order are £7,400 and variable costs are £12 per shelf.',
     prompt: 'Calculate total costs for this order in pounds. Enter the final number only.',
     expected: 12800,
@@ -24,6 +26,7 @@ export const businessPurposeProfitNumericCases = [
   {
     id: 'profit-01',
     target: 'aqa-7132-3.1.1:profit',
+    node: 'bus-fnd-005',
     context: 'A café sells 350 sandwiches at £12 each. Variable cost is £4.50 per sandwich, and fixed costs for the period are £1,800.',
     prompt: 'Calculate the profit for the period in pounds, after both variable and fixed costs. Enter the final number only.',
     expected: 825,
@@ -32,6 +35,7 @@ export const businessPurposeProfitNumericCases = [
   {
     id: 'profit-02',
     target: 'aqa-7132-3.1.1:profit',
+    node: 'bus-fnd-005',
     context: 'An independent original case: a small manufacturer sells 600 components at £18 each. Variable cost is £11.25 per component and fixed costs for the period are £2,400.',
     prompt: 'Calculate this manufacturer’s profit for the period in pounds, after all stated costs. Enter the final number only.',
     expected: 1650,
@@ -48,7 +52,7 @@ export const businessPurposeProfitNumericBank = businessPurposeProfitNumericCase
     confidence_label: 'Final numerical answer independently checked by deterministic test',
     topic_id: 'business',
     target_item_ids: [item.target],
-    target_node_ids: [item.target.endsWith(':profit') ? 'bus-fnd-005' : 'bus-fin-002'],
+    target_node_ids: [item.node],
     question: {
       id: item.id,
       family: 'SHORT_ANSWER',
