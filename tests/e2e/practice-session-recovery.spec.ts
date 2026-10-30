@@ -94,10 +94,10 @@ async function installRecoveryDatabase(page: Page) {
 }
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'Recovery state is tested through the canonical desktop browser route.')
+  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('scored Practice restores'), 'Only exact saved-work continuation is cross-device; fault injection remains desktop.')
 })
 
-test('scored Practice restores the exact next question after a refresh without another evidence write', async ({ page }) => {
+test('scored Practice restores the exact next question after a refresh without another evidence write', async ({ page }, testInfo) => {
   await installRecoveryDatabase(page)
   await page.goto(practicePath)
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
