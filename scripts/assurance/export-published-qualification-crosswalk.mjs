@@ -34,7 +34,13 @@ const report = JSON.parse(raw)
 if (report?.status?.startsWith('PROVISIONAL:') !== true
   || report?.exactSpecificationPdfHashesVerified !== false
   || report?.reports?.length !== 2
-  || report?.reports?.some(item => item.sourceUniverseStatus !== 'provisional-not-independently-enumerated')) {
+  || report?.reports?.some(item => item.sourceUniverseStatus !== 'provisional-not-independently-enumerated'
+    || typeof item.counts?.itemsWithSingleTargetScoredCalculation !== 'number'
+    || typeof item.counts?.itemsWithAnySingleTargetScoredPractice !== 'number'
+    || item.rows?.some(row => row.sourcePdfVerified !== false
+      || row.teachingAdequacy !== 'unverified'
+      || row.practiceAdequacy !== 'unverified'
+      || !Array.isArray(row.singleTargetScoredCalculationIds)))) {
   throw new Error('Refusing to write an unlabelled or unverified syllabus coverage claim')
 }
 mkdirSync(dirname(output), { recursive: true })
