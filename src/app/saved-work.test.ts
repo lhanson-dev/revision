@@ -92,7 +92,7 @@ describe('saved Practice and timed exam discovery', () => {
     const { client } = fakeClient({ exam: [{
       user_id: userId, course_id: entry.course.id, module_id: adapter.manifest.id,
       exam_id: 'fake', content_fingerprint: '0'.repeat(64),
-      snapshot: { schemaVersion: 1, phase: 'submitted', questionIndex: 0 },
+      phase: 'submitted',
       expires_at: '2026-11-09T12:00:00Z', updated_at: '2026-10-30T11:00:00Z',
     }] })
     expect((await loadSavedWork(client, userId, programme, now)).items).toEqual([])
@@ -103,7 +103,7 @@ describe('saved Practice and timed exam discovery', () => {
     const { client } = fakeClient({ exam: [{
       user_id: userId, course_id: entry.course.id, module_id: mock.moduleId,
       exam_id: mock.exam.id, content_fingerprint: await fingerprintExamContent(mock.exam),
-      snapshot: { schemaVersion: 1, phase: 'submitting', questionIndex: 2 },
+      phase: 'submitting',
       expires_at: '2026-11-09T12:00:00Z', updated_at: '2026-10-30T11:00:00Z',
     }] })
     expect((await loadSavedWork(client, userId, programme, now)).items).toMatchObject([{
