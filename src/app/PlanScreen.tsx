@@ -44,6 +44,7 @@ import { PlanProgrammeOutlook } from './PlanProgrammeOutlook'
 import { PlanMonthPriorities } from './PlanMonthPriorities'
 import {
   addDaysToKey,
+  anchorWhenChangingPlanView,
   daysBetween,
   monthGridKeys,
   monthName,
@@ -353,7 +354,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
 
   const week = weekTitle(anchor, todayKey)
   const summaryLabel = isMonth ? monthLabel(anchor, todayKey) : week.label
-  const atNow = isMonth ? sameMonth(anchor, todayKey) : weekStart(anchor) === weekStart(todayKey)
+  const atNow = isMonth ? sameMonth(anchor, todayKey) : view === 'day' ? anchor === todayKey : weekStart(anchor) === weekStart(todayKey)
 
   const examHues = useMemo(() => {
     const hues = new Map<string, SubjectHue>()
@@ -737,8 +738,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
               {showCalendar && <div className="pln-toolbar">
                 <PlanNav
                   view={view} anchorKey={anchor} todayKey={todayKey} atNow={atNow} examHues={examHues}
-                  onShift={(direction) => goTo(view, isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
-                  onGo={(key) => goTo(view, key)} onToday={() => goTo(view, todayKey)} onView={(next) => goTo(next, anchor)}
+                  onShift={(direction) => goTo(view, view === 'day' ? addDaysToKey(anchor, direction) : isMonth ? shiftMonth(anchor, direction, todayKey) : addDaysToKey(anchor, direction * 7))}
+                  onGo={(key) => goTo(view, key)} onToday={() => goTo(view, todayKey)} onView={(next) => goTo(next, anchorWhenChangingPlanView(view, next, anchor, todayKey))}
                 />
                 {sessionsReady && !visibleSessionsUnavailable && <PlanSummaryCard label={summaryLabel} summary={summary} />}
               </div>}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addDaysToKey, countdownWords, formatMinutes, longDate, monthGridKeys, shiftMonth, weekKeys, weekRangeLabel, weekStart } from './plan-dates'
+import { addDaysToKey, anchorWhenChangingPlanView, countdownWords, formatMinutes, longDate, monthGridKeys, shiftMonth, weekKeys, weekRangeLabel, weekStart } from './plan-dates'
 
 describe('plan dates', () => {
   it('starts weeks on Monday', () => {
@@ -21,6 +21,19 @@ describe('plan dates', () => {
     expect(october).toHaveLength(35)
     expect(monthGridKeys(2027, 1)).toHaveLength(28)
     expect(monthGridKeys(2026, 7)).toHaveLength(42)
+  })
+
+  it('switches Day to today from the current period across the October-November boundary', () => {
+    const today = '2026-10-29'
+    // Sunday 1 November is in the current Monday-Sunday week, not today's date.
+    expect(anchorWhenChangingPlanView('week', 'day', '2026-11-01', today)).toBe(today)
+    expect(anchorWhenChangingPlanView('week', 'day', '2026-10-26', today)).toBe(today)
+    expect(anchorWhenChangingPlanView('month', 'day', '2026-10-01', today)).toBe(today)
+
+    // Browsing a different period deliberately must not be reset to today.
+    expect(anchorWhenChangingPlanView('week', 'day', '2026-11-02', today)).toBe('2026-11-02')
+    expect(anchorWhenChangingPlanView('month', 'day', '2026-11-01', today)).toBe('2026-11-01')
+    expect(anchorWhenChangingPlanView('day', 'week', '2026-11-01', today)).toBe('2026-11-01')
   })
 
   it('steps months to today when it is the current month and to the 1st otherwise', () => {
