@@ -55,6 +55,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 AQA Business 7132 interpretation-only elasticity demand, published Learn correction and safe unshipped Practice alignment → `docs/technical/Issue 698 Business Elasticity Exam Alignment.md`
 - Issue #698 independent AQA Business §3.1.1 source-to-Learn review, profit importance and typed calculations (16 scoped obligations, not whole-course completion) → `docs/technical/Issue 698 Business 3.1.1 Profit Assurance.md`
 - Issue #698 Business §3.1.2 source-first ownership, shareholder value and share-price teaching correction with scoped 19-obligation evidence → `docs/technical/Issue 698 Business 3.1.2 Share Value Assurance.md`
+- Issue #698 Business §3.1.3 original single-target external-environment cost/demand Practice, bounded seven-factor source audit and honest learner evidence limits → `docs/technical/Issue 698 Business 3.1.3 External Environment Practice.md`
 - Issue #698 Business §3.2.2 decision-tree expected value/net gain typed scored Practice, 16-atom scoped audit and honest assessment boundaries → `docs/technical/Issue 698 Business 3.2.2 Decision Tree Numerical Assurance.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
