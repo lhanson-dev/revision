@@ -63,6 +63,10 @@ describe('Issue #698: published learner requirement-to-assets evidence crosswalk
       .filter(row => row.independentlyScoredMcqIds.length > 0)
     expect(directlyScored).toHaveLength(0)
     expect(psychologyReport.counts.itemsWithIndependentRetestPair).toBe(0)
+    // Psychology's banked calculations must be shown separately if present,
+    // not mislabelled as individually attributable durable MCQ observations.
+    expect(psychologyReport.counts.itemsWithAnySingleTargetScoredPractice)
+      .toBeLessThanOrEqual(psychologyReport.counts.provisionalItems)
   })
 
   it('proves the four new real Business authored recheck pairs, without claiming the entire course', () => {
@@ -86,6 +90,32 @@ describe('Issue #698: published learner requirement-to-assets evidence crosswalk
       .toBeLessThanOrEqual(businessReport.counts.provisionalItems)
   })
 
+  it('counts published Business numerical skills accurately without inventing persistent per-skill observations', () => {
+    const cases = [
+      { item: 'aqa-7132-3.2.2:expected-value', stem: 'expected-value' },
+      { item: 'aqa-7132-3.2.2:net-gain', stem: 'net-gain' },
+    ]
+    for (const { item, stem } of cases) {
+      const row = businessReport.rows.find(r => r.requirementId === item)
+      expect(row, `Missing numerical item ${item}`).toBeDefined()
+      expect(row!.singleTargetScoredCalculationIds).toEqual([
+        `rev7132-3.2.2-${stem}-01`, `rev7132-3.2.2-${stem}-02`,
+      ])
+      expect(row!.distinctCalculationStimulusPair).toEqual(row!.singleTargetScoredCalculationIds)
+      expect(row!.unscoredOrOtherTaggedQuestionIds)
+        .not.toContain(`rev7132-3.2.2-${stem}-01`)
+      expect(row!.sourcePdfVerified).toBe(false)
+      expect(row!.practiceAdequacy).toBe('unverified')
+    }
+    // Every count is a *provisional published supply* measure, never a source
+    // compliance score or a persisted calculation skill-mastery assertion.
+    expect(businessReport.counts.itemsWithSingleTargetScoredCalculation).toBeGreaterThanOrEqual(2)
+    expect(businessReport.counts.itemsWithDistinctCalculationStimulusPair).toBeGreaterThanOrEqual(2)
+    expect(businessReport.counts.itemsWithAnySingleTargetScoredPractice
+      + businessReport.counts.itemsWithoutAnySingleTargetScoredPractice)
+      .toBe(businessReport.counts.provisionalItems)
+  })
+
   it('rejects duplicated requirement candidates, false source-scoped item credit and unknown topics', () => {
     expect(() => buildPublishedCourseSupplyReport(business, [businessCandidates[0]!, businessCandidates[0]!]))
       .toThrow('Repeated provisional requirement ID')
@@ -100,6 +130,8 @@ describe('Issue #698: published learner requirement-to-assets evidence crosswalk
       inventoryOrigin: 'published-bank-target', sourceSectionIds: [],
     }])
     expect(fake.rows[0]?.independentlyScoredMcqIds).toEqual([])
+    expect(fake.rows[0]?.singleTargetScoredCalculationIds).toEqual([])
+    expect(fake.rows[0]?.distinctCalculationStimulusPair).toBeNull()
     expect(fake.rows[0]?.independentRecheckPair).toBeNull()
   })
 
