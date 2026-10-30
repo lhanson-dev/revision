@@ -419,7 +419,7 @@ export function CourseExperienceScreen({
               </p>
             </section>
           </section>
-          <CourseSectionSpotlights sections={sections} savedWork={savedWork} savedStatus={savedStatus}
+          <CourseSectionSpotlights sections={sections} savedWork={savedWork.filter(item => item.courseId === course.id)} savedStatus={savedStatus}
             reviewedCount={reviewedPages.filter(item => item.courseId === course.id && course.modules.some(module => module.manifest.id === item.moduleId)).length}
             onOpenSection={next => onOpenCourseSection(course.id, next)} onOpenSavedWork={onOpenSavedWork}
             onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
@@ -475,7 +475,7 @@ export function CourseExperienceScreen({
       <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
       {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section>
-      <CourseSectionSpotlights sections={sections} savedWork={savedWork} savedStatus={savedStatus}
+      <CourseSectionSpotlights sections={sections} savedWork={savedWork.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id)} savedStatus={savedStatus}
         reviewedCount={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).length}
         onOpenSection={next => onOpenModuleSection(course.id, adapter.manifest.id, next)}
         onOpenSavedWork={onOpenSavedWork} onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
