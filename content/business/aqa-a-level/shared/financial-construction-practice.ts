@@ -32,6 +32,7 @@ export const businessFinancialConstructionDrills = sources.map(({ asset, itemId,
   }
   return dataDrillSchema.parse({
     id,
+    topic: 'finance',
     title,
     prompt: task.prompt,
     answer: `${task.answer}\n\n${task.explanation}\n\nThis is an answer-reveal self-check. Revision does not capture or independently mark your constructed table.`,

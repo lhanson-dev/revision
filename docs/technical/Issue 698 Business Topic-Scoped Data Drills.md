@@ -1,0 +1,22 @@
+# Issue #698 — Business AQA 7132 topic-scoped data-drill access
+
+**29 October 2026 — candidate; not approved/merged/live.** Canonical learner application: `/revision/app/` React runtime, `PlannerRuntime` → `CourseExperienceScreen` → `FocusedLearningWorkspace` → selected Business topic's existing **Formulas & data** Practice. No new learner route, feature engine, evidence source or recording mode.
+
+## Observed failure on approved main
+
+The already-published Business 7132 learner Practice surface selects a course topic. Flashcards and scored questions are topic-scoped, but `FocusedLearningWorkspace` used `adapter.listDataDrills()` without passing the topic. All **29** original Business DataDrills were therefore presented on **every** selected topic, in a fixed course-wide sequence. A Finance learner needed to cycle past Market Share, Growth, Index, Expected Value, Capacity and Unit Cost before reaching Finance work. The budget, three-month cash-flow, graph and network construction packages delivered by PRs #715 and #718 existed, but their drills were buried and offered in irrelevant topics.
+
+This is an existing Practice usability/content-location defect, not new product scope. The approved `Course Content and Assessment Component Placement` and `Course Learning Blueprint` describe course-level shared learning with appropriate topic treatment; no normative change or Definition-of-Ready approval for an independent new feature is required.
+
+## Correction
+
+1. Add **optional** `DataDrill.topic` to the existing validated content schema and reject references to topics absent from the course manifest. Legacy unclassified packs remain valid and their unclassified drills remain visible as before; no cross-subject data is relabelled by inference.
+2. Explicitly classify all **25** existing shared Business quantitative drills by primary topic (Marketing 3; Leadership 1; Operations 4; Finance 14; HR 2; Strategic Change 1). Classify both existing Business network amendments as **Strategic Change**, and the two PR #718 full table construction exercises as **Finance**. No original prompt/answer, ID, order or scoring changes; 29 total Business drills after the change (Finance 16; Strategic Change 3).
+3. `LearningContentAdapter.listDataDrills(topicId)` returns explicitly tagged drills in that topic plus genuinely untagged legacy drills. Calling without a topic still returns the entire pack. `FocusedLearningWorkspace` requests the current selected topic and resets the drill cursor/revealed answer on topic switches. This prevents an answer for a previous topic being shown in the newly selected topic. It deliberately does not alter scored Practice sessions, saved checkpoints or progress.
+4. Regression tests inspect the **three actual published Business paper packs** through the shared adapter, enumerate exact retained identities and counts, show relevant charts/budgets/cash flow to Finance rather than Marketing, restrict network diagrams to Strategic Change, reject invalid references, and guard unclassified Psychology packs. Exact-head CI, production-mode browsers, authenticated course path and postmerge release require independent verification before a live claim.
+
+## Assurance boundary
+
+This is a **discoverability correction**, not proof of syllabus completeness or improved performance. The existing data-drill UX remains `Show model answer` only, with **no independently marked student-drawn chart, cash-flow table, network diagram or scored skill evidence**. It does not change 6 scored finance questions, the existing 261+ structured Business bank, prior network rechecks or full exam simulation. No student evidence migration, Auth change, RLS change, new backend service or source-rights use. The source specification and existing course teaching remain untouched; qualification requirements still require independent atomic source inventory and actual semantic learner acceptance under #698/#703. Do not tick any #698 gate due solely to topic filtering.
+
+**Documentation impact:** Shared schema/adapter and current runtime implementation changed; this implementation note and INDEX are updated in the same PR. Approved normative scope unchanged, existing historical evidence preserved. No new ADR because this is a narrow backward-compatible existing UI/adapter correction; the generic schema supports future exact content-tagging without forcing other course assumptions. Access checks are provided by existing Practice/route, not by client-side topic filtering.
