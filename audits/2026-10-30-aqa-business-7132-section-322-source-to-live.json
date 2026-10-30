@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "kind": "bounded-source-scoped-educational-supply-evidence",
+  "qualification": "AQA A-level Business 7132",
+  "version": "2.0 June 2023",
+  "source_section": "3.2.2",
+  "source_printed_page": 14,
+  "source_pdf_page_index": 13,
+  "source_url": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_rights": "REFERENCE_ONLY",
+  "source_official_pdf_visual_checked": true,
+  "user_supplied_pdf_sha_verified": false,
+  "scope": "Only §3.2.2; analytical/source-skill atoms, not full syllabus denominator or source-wide educational pass",
+  "count": 16,
+  "items": [
+    {
+      "atomic_id": "aqa7132-322-scientific-data-decision",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Scientific decision making: judge the value of data and structured models",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:scientific-decision-making",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-intuitive-decision",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Intuitive decision making: describe when experience-led judgement may help or mislead",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:intuitive-decision-making",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-scientific-v-intuitive",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Compare scientific and intuitive approaches in the context of a decision",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:scientific-decision-making",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-interpret-tree",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Read choices, uncertain outcomes and probabilities in a decision tree",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:decision-trees",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-expected-value",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Calculate the probability-weighted expected value from outcomes",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:expected-value",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [
+        "rev7132-3.2.2-expected-value-01",
+        "rev7132-3.2.2-expected-value-02"
+      ],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-net-gain",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Calculate a decision option's expected net gain after stated certain costs",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:net-gain",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [
+        "rev7132-3.2.2-net-gain-01",
+        "rev7132-3.2.2-net-gain-02"
+      ],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-risk",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Understand downside exposure and risk when assessing an option",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:risk",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-reward",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain the potential reward from a business decision",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:reward",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-uncertainty",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain uncertainty and the limits of probability estimates",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:uncertainty",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-opportunity-cost",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain the opportunity cost of choosing one option over the next best",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:opportunity-cost",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-tree-use-value",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Evaluate the usefulness and limits of decision trees in decisions",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:decision-trees",
+      "identified_learn_page_id": "bus-evi-004",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-mission",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain how a mission influences a managerial decision",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-objectives",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain how business objectives shape decisions",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-ethics",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Analyse how ethical considerations affect decisions",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-external-competition",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Assess external environment and competition as constraints on decisions",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-322-resource-constraints",
+      "source_section": "3.2.2",
+      "source_printed_page": 14,
+      "required_capability": "Explain how limited resources influence feasible options",
+      "legacy_candidate_spec_item_id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "identified_learn_page_id": "bus-fnd-009",
+      "published_scored_final_value_question_ids": [],
+      "teaching_adequacy": "unverified",
+      "authentic_assessment_adequacy": "unverified",
+      "real_student_acceptance": "unverified"
+    }
+  ],
+  "limits": [
+    "Two independent source-authored examples per numerical result; not a learner-specific later retest.",
+    "The imported course packs contain Learn and written bank assets, but normal Practice does not provide examiner-calibrated written marking.",
+    "Final number only. Does not assess drawn decision trees, methods, risk judgement, mission/ethics evaluation or persistent exact-skill mastery.",
+    "Do not report the 16 atoms as 16 missing requirements, or as 16 of 16 PASS."
+  ]
+}
