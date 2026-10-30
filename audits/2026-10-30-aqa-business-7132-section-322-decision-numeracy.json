@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "independent-source-scoped-measurable-obligations",
+  "qualification": "AQA A-level Business 7132",
+  "source_version": "Version 2.0 14 June 2023",
+  "source_pdf_url": "https://www.aqa.org.uk/files/faf787aa-3753-423d-b4fa-55f2374d4441/5c265ac92b9358f142c2b69483df78f811d52739.pdf",
+  "source_section": "3.2.2",
+  "source_printed_page": 14,
+  "pdf_page_index": 13,
+  "source_rights": "REFERENCE_ONLY",
+  "official_table_visually_reviewed": true,
+  "original_uploaded_file_byte_sha_verified": false,
+  "scope": "Two specific numerical requirements from §3.2.2, NOT the full section, complete decision-tree interpretation/construction, all source requirements or confirmed mastery.",
+  "obligations": [
+    {
+      "atomic_id": "aqa-7132-3.2.2:expected-value",
+      "capability": "Calculate the weighted-average financial outcome across chance outcomes in a decision tree, including negative branches.",
+      "published_learn_ids": [
+        "bus-evi-004"
+      ],
+      "prior_written_question_ids": [
+        "q03"
+      ],
+      "new_final_value_question_ids": [
+        "rev7132-3.2.2-expected-value-01",
+        "rev7132-3.2.2-expected-value-02"
+      ],
+      "assessed_response": "one final numerical value; workings and tree construction unscored",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "partial-final-number-only",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa-7132-3.2.2:net-gain",
+      "capability": "Deduct a certain option cost from the probability-weighted expected value in a decision-tree scenario.",
+      "published_learn_ids": [
+        "bus-evi-004"
+      ],
+      "prior_written_question_ids": [
+        "q03"
+      ],
+      "new_final_value_question_ids": [
+        "rev7132-3.2.2-net-gain-01",
+        "rev7132-3.2.2-net-gain-02"
+      ],
+      "assessed_response": "one final numerical value; workings and business judgement unscored",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "partial-final-number-only",
+      "authenticated_learner_acceptance": "unverified"
+    }
+  ],
+  "excluded_and_unverified": [
+    "scientific versus intuitive decision making",
+    "risk, reward and uncertainty",
+    "opportunity cost",
+    "decision tree drawing and interpretation",
+    "decision quality and model assumptions",
+    "mission, objectives, ethics, environment, competition and resource constraints",
+    "extended written evaluation",
+    "real signed-in learner progress/recheck and adaptive plan"
+  ]
+}
