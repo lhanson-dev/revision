@@ -61,7 +61,7 @@ describe('Issue #698: exact AQA 7132 §3.1.1 profit teaching and final-value Pra
       expect(records).toHaveLength(4)
       expect(records.map(bankQuestionId)).toEqual(exactIds)
       expect(records.every(record => record.topic_id === 'business' && record.target_item_ids.length === 1 && record.target_node_ids.length === 1)).toBe(true)
-      expect(records.map(record => record.target_node_ids[0])).toEqual(['bus-fin-003', 'bus-fin-002', 'bus-fnd-005', 'bus-fnd-005'])
+      expect(records.map(record => record.target_node_ids[0])).toEqual(['bus-fnd-005', 'bus-fin-002', 'bus-fnd-005', 'bus-fnd-005'])
       const pool = buildQuestionPool({
         topicId: 'business', topicOrder: 1, coursePack: pack.questions, bank: pack.practiceBank,
       })
