@@ -61,6 +61,23 @@ export function sameMonth(a: string, b: string) {
 }
 
 /**
+ * The Week/Month anchor identifies a period, not necessarily the day the learner wants to study.
+ * When switching to Day from the period containing today, select today. Preserve the exact
+ * anchor for deliberately browsed past/future periods or when leaving Day.
+ */
+export function anchorWhenChangingPlanView(
+  currentView: 'day' | 'week' | 'month',
+  nextView: 'day' | 'week' | 'month',
+  anchorKey: string,
+  todayKeyValue: string,
+) {
+  if (nextView !== 'day') return anchorKey
+  if (currentView === 'week' && weekStart(anchorKey) === weekStart(todayKeyValue)) return todayKeyValue
+  if (currentView === 'month' && sameMonth(anchorKey, todayKeyValue)) return todayKeyValue
+  return anchorKey
+}
+
+/**
  * Step by whole months. Landing in the current month goes to today; any other month goes to its 1st, so the
  * address always names a day that is clearly inside the month being shown.
  */

@@ -281,3 +281,41 @@ for (const route of routes) {
     })
   }
 }
+
+test('Day from this week selects 29 October rather than the 1 November week anchor', async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 29, 12))
+  await page.goto(`${appPath}#/plan?view=week&date=2026-11-01`)
+  await expect(page.locator('.pln-summary')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
+  expect(page.url()).toContain('view=day&date=2026-10-29')
+  await expect(page.getByRole('tabpanel').getByRole('heading', { level: 2 })).toHaveText('Today')
+  await expect(page.getByRole('button', { name: /Choose a date/ })).toContainText('Thursday 29 October 2026')
+  await expect(page.getByRole('button', { name: 'Next day' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Next day' }).click()
+  expect(page.url()).toContain('view=day&date=2026-10-30')
+  await expect(page.getByRole('tabpanel').getByRole('heading', { level: 2 })).toHaveText('Fri 30 Oct')
+  await page.getByRole('button', { name: 'Next day' }).click()
+  await page.getByRole('button', { name: 'Next day' }).click()
+  expect(page.url()).toContain('view=day&date=2026-11-01')
+  await expect(page.getByRole('button', { name: 'Today', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Today', exact: true }).click()
+  expect(page.url()).toContain('view=day&date=2026-10-29')
+})
+
+test('Day from this month starts today, while deliberately browsed November stays in November', async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 29, 12))
+  await page.goto(`${appPath}#/plan?view=month&date=2026-10-01`)
+  await expect(page.locator('.pln-summary')).toBeVisible()
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
+  expect(page.url()).toContain('view=day&date=2026-10-29')
+
+  await page.goto(`${appPath}#/plan?view=month&date=2026-11-01`)
+  await expect(page.locator('.pln-month')).toBeVisible()
+  await page.getByRole('button', { name: 'Day', exact: true }).click()
+  expect(page.url()).toContain('view=day&date=2026-11-01')
+  await expect(page.getByRole('button', { name: 'Today', exact: true })).toBeVisible()
+})
