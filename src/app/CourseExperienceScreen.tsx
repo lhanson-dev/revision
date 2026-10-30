@@ -259,8 +259,6 @@ export function CourseExperienceScreen({
   useEffect(() => {
     if (!resolved || !active || !['overview', 'practice'].includes(requestedSection)) return
     let mounted = true
-    setSavedWork([])
-    setSavedStatus('loading')
     void loadSavedWork(client, userId, [resolved])
       .then(result => {
         if (!mounted) return
