@@ -51,6 +51,14 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Fair trade, business costs and customer demand",
+        "body": "Fair trade is an approach to sourcing that aims to provide fairer trading terms and safeguards for producers. Depending on the product and scheme, this can involve a minimum price, a premium supporting producer communities and agreed standards. Consider a small chocolate maker choosing certified fair-trade cocoa at a higher purchase price. Its raw-material cost may rise; if it absorbs the difference, its margin could shrink. Some customers may prefer the more ethical sourcing and buy more chocolate or accept a higher selling price, but this demand response is uncertain and depends on customer preferences, credible evidence, competing products and affordability. A responsible decision weighs the extra cost against the likely demand benefit and verifies the specific supplier's claims. Fair trade is not identical to a legal duty and does not guarantee higher sales or eliminate every supply-chain problem.",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade"
+        ]
+      },
+      {
         "treatment": "connection_synoptic_link",
         "heading": "Link regulation, infrastructure and strategic choices",
         "body": "Regulation is an external influence because it can create compliance duties, taxes, reporting requirements or operating restrictions. The role of regulators therefore matters through the rules and requirements businesses must plan for. Infrastructure includes transport links, broadband, mobile networks, energy and water supply. Reliable infrastructure can lower transport and communication costs, improve supply-chain reliability and widen access to markets and workers. Poor infrastructure can create delays and deter investment. Its importance differs: an online retailer may depend heavily on broadband and delivery networks, while an exporter may depend more on ports and roads. Choices are also shaped by mission, ethics, stakeholder expectations and constraints on finance, time and skills.",
