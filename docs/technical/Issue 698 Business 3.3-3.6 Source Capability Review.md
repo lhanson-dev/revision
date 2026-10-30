@@ -30,7 +30,7 @@ It writes `tmp/assurance/aqa-business-7132-33-36-source-CANDIDATE.json` and refu
 
 ## Follow-through and documentation impact
 
-This package advances **18 distinct sections**, alongside separate open PR #741 for §§3.1–3.2. The remaining A-level-only sections §§3.7–3.10 must undergo their own source-first review (plus completeness reconciliation across the whole document, introductory/synoptic demands, quantitative Annex 6, AO and paper structure, upload hash and educational review). **Do not declare 24/42 certified:** #741 is a separate unmerged candidate, and both have known incompleteness.
+This package advances **18 distinct sections**, alongside separate open PR #741 for §§3.1–3.2. The A-level-only sections §§3.7–3.10 are included as provisional candidates in the expansion below. Completeness reconciliation across the whole document, introductory/synoptic demands, quantitative Annex 6, AO and paper structure, upload hash, educational review and authenticated learner acceptance remain open. **Do not declare 42/42 verified:** #741 is a separate unmerged candidate, and neither register has proved exhaustive atomisation or adequate pedagogy.
 
 Next gate is **one per-atom quality/evidence review** against actual Learn blocks, question stimuli, response/marking expectations and Exam Prep with explicit `adequate/inadequate/absent/incorrect/unverified` based on evidence, not keyword confidence. Then prioritise authentic graph/forecast construction, applied written analysis/evaluation and skill-specific diagnosis where published scoring cannot meet the skill. Validate real signed-in students, persistence, recheck and planning before claiming acceptance.
 
