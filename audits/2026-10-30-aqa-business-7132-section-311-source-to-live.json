@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "kind": "independently-scoped-official-source-to-live-audit",
+  "qualification": "AQA A-level Business 7132",
+  "official_version": "2.0 (June 2023)",
+  "source": "AQA-7131-7132-SP-2023.PDF",
+  "official_url": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_section": "3.1.1",
+  "pdf_printed_pages": [
+    11,
+    12
+  ],
+  "official_version_reviewed": true,
+  "original_user_upload_sha_verified": false,
+  "source_universe_scope": "Only §3.1.1; NOT all Business 7132 and NOT a final completeness denominator",
+  "count": 16,
+  "rights": "REFERENCE_ONLY; original Revision descriptions; not reproduced AQA teaching copy",
+  "status_limit": "Learn is identified and revised where necessary; no qualified educational review and no live hosted learner acceptance; final-value-only means method/analysis/skill mastery not independently marked.",
+  "items": [
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-why-businesses-exist",
+      "source_printed_page": 11,
+      "required_capability": "Why a business exists",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:why-businesses-exist",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-profit-as-objective",
+      "source_printed_page": 11,
+      "required_capability": "Profit as a possible business objective",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
+      "mapping_relationship": "compound_candidate_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-growth-as-objective",
+      "source_printed_page": 11,
+      "required_capability": "Growth as a possible business objective",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
+      "mapping_relationship": "compound_candidate_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-survival-as-objective",
+      "source_printed_page": 11,
+      "required_capability": "Survival as a possible business objective",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
+      "mapping_relationship": "compound_candidate_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-cash-flow-as-objective",
+      "source_printed_page": 11,
+      "required_capability": "Cash availability as a possible business objective",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
+      "mapping_relationship": "compound_candidate_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-social-objectives",
+      "source_printed_page": 11,
+      "required_capability": "Social objectives and relevant trade-offs",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:social-and-ethical-objectives",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-ethical-objectives",
+      "source_printed_page": 11,
+      "required_capability": "Ethical objectives and relevant trade-offs",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:social-and-ethical-objectives",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-mission-statement",
+      "source_printed_page": 12,
+      "required_capability": "Meaning of business mission",
+      "learn_page_ids": [
+        "bus-fnd-001"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:mission-statement",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-mission-objective-link",
+      "source_printed_page": 12,
+      "required_capability": "Mission/objectives relationship and practical alignment",
+      "learn_page_ids": [
+        "bus-fnd-001"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-why-set-objectives",
+      "source_printed_page": 12,
+      "required_capability": "Reasons for setting business objectives",
+      "learn_page_ids": [
+        "bus-fnd-001"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:why-businesses-set-objectives",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-sales-revenue",
+      "source_printed_page": 12,
+      "required_capability": "Measure revenue (price times quantity)",
+      "learn_page_ids": [
+        "bus-fin-003"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:revenue",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "final-value-only",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-fixed-costs",
+      "source_printed_page": 12,
+      "required_capability": "Identify and explain fixed costs",
+      "learn_page_ids": [
+        "bus-fin-002"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:fixed-costs",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-variable-costs",
+      "source_printed_page": 12,
+      "required_capability": "Identify and explain variable costs",
+      "learn_page_ids": [
+        "bus-fin-002"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:variable-costs",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-total-costs",
+      "source_printed_page": 12,
+      "required_capability": "Measure total fixed plus variable costs",
+      "learn_page_ids": [
+        "bus-fin-002"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:total-costs",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "final-value-only",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-profit-measurement",
+      "source_printed_page": 12,
+      "required_capability": "Calculate profit after relevant costs",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": "aqa-7132-3.1.1:profit",
+      "mapping_relationship": "candidate_single_or_shared",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "final-value-only",
+      "live_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-3.1.1-independent-profit-importance",
+      "source_printed_page": 12,
+      "required_capability": "Explain and evaluate why profit matters in context",
+      "learn_page_ids": [
+        "bus-fnd-005"
+      ],
+      "prior_344_candidate_id": null,
+      "mapping_relationship": "candidate_missing",
+      "teaching_adequacy": "unverified",
+      "published_assessment_evidence": "unverified",
+      "live_acceptance": "unverified"
+    }
+  ]
+}

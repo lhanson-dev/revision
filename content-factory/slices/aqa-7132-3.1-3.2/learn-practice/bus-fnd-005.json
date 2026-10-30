@@ -22,6 +22,18 @@
         ]
       },
       {
+        "heading": "Measuring profit and judging its importance",
+        "body": "Profit is the surplus left after the relevant costs of generating revenue are deducted. For a simple one-product period, revenue = selling price × quantity sold; total variable cost = variable cost per unit × quantity; total cost = fixed costs + total variable costs; and profit = revenue − total cost. A workshop selling 120 items at £85 each earns £10,200 revenue. At £33 variable cost per item and £4,200 fixed costs, variable costs are £3,960, total costs £8,160 and profit £2,040. Check the period and the classification of costs before calculating. Profit matters because it can reward risk-taking owners and investors, finance retained earnings for investment, and signal whether trading is financially sustainable over time. Its importance differs by context: a new enterprise may prioritise survival, cash and building customers before high current profit, while an established business may need sufficient profit to fund replacement assets and satisfy shareholders. A social enterprise may reinvest profit to pursue its mission. A positive profit does not prove cash is available when debts fall due, nor does higher profit automatically mean better ethics, customer satisfaction or longer-run success. In evaluation, consider absolute profit, relevant margins, cash, risk, future investment and objectives rather than claiming profit maximisation is always best.",
+        "item_ids": [
+          "aqa-7132-3.1.1:profit",
+          "aqa-7132-3.1.1:revenue",
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs",
+          "aqa-7132-3.1.1:total-costs"
+        ],
+        "treatment": "worked_example"
+      },
+      {
         "treatment": "connection_synoptic_link",
         "heading": "Mission, stakeholder priorities and social objectives",
         "body": "A mission should influence the objectives selected. For instance, a mission based on affordable healthy food could lead to objectives on price and sales of healthy products. Social and ethical objectives go beyond financial return, such as lowering environmental impact, treating employees and suppliers fairly, ethical sourcing or community support. They may strengthen reputation and customer loyalty, but can increase costs or constrain short-run profit. Mission emphasis is shaped by ownership, founder values, stakeholder expectations, life stage, financial position and external forces such as competition, technology, law and social attitudes. These links connect strategy with stakeholder management and operational decisions.",
