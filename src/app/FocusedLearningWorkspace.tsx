@@ -259,7 +259,7 @@ export function FocusedLearningWorkspace({
   const questions = useMemo(() => adapter.listQuestions(topicId), [adapter, topicId])
   const links = useMemo(() => adapter.listTopicLinks(topicId), [adapter, topicId])
   const formulas = adapter.listFormulas()
-  const drills = adapter.listDataDrills()
+  const drills = adapter.listDataDrills(topicId)
   const examTechnique = adapter.listExamTechnique()
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
@@ -352,6 +352,8 @@ export function FocusedLearningWorkspace({
     setCheckpointPhase(checkpointContext && isPractice ? 'loading' : 'ready')
     setCheckpointIssue('')
     setTopicId(nextTopic)
+    setDrillIndex(0)
+    setShowDrillAnswer(false)
     setDeck(null)
     setFlipped(false)
     setSelectedOption(null)

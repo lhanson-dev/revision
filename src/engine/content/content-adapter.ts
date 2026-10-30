@@ -47,7 +47,7 @@ export type LearningContentAdapter = {
   listQuestions: (topicId?: TopicId) => readonly MultipleChoiceQuestion[]
   listPracticeBank: () => readonly StructuredPracticeBankRecord[]
   listCaseStudies: () => readonly CaseStudy[]
-  listDataDrills: () => readonly DataDrill[]
+  listDataDrills: (topicId?: TopicId) => readonly DataDrill[]
   listExamTechnique: () => readonly ExamTechniqueGuide[]
   listExams: () => readonly Exam[]
   getExam: (examId: string) => Exam | undefined
@@ -137,7 +137,10 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     listQuestions: (topicId) => topicId ? pack.questions.filter((item) => item.topic === topicId) : pack.questions,
     listPracticeBank: () => practiceBank,
     listCaseStudies: () => pack.caseStudies,
-    listDataDrills: () => pack.dataDrills,
+    // Do not hide legacy untagged course drills; classified drills only display on their topic.
+    listDataDrills: (topicId) => topicId
+      ? pack.dataDrills.filter((drill) => !drill.topic || drill.topic === topicId)
+      : pack.dataDrills,
     listExamTechnique: () => pack.examTechnique,
     listExams: () => pack.exams,
     getExam: (examId) => pack.exams.find((exam) => exam.id === examId),
