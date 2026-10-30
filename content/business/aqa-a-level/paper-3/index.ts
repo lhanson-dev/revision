@@ -8,6 +8,7 @@ import { questions } from '../shared/questions'
 import { aqaBusinessQuestionBank } from '../shared/fast-path-questions'
 import { businessFinanceNumericPracticeBank } from '../shared/financial-numeric-practice'
 import { businessPurposeProfitNumericBank } from '../shared/purpose-profit-numeric-practice'
+import { businessExternalEnvironmentBank } from '../shared/external-environment-mcq-practice'
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
 import { businessFinancialConstructionDrills } from '../shared/financial-construction-practice'
@@ -23,7 +24,7 @@ export const businessAqaALevel7132Paper3 = contentPackSchema.parse({
   topicLinks,
   flashcards: publishedFlashcards,
   questions,
-  practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank],
+  practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank],
   caseStudies,
   dataDrills: [...dataDrills, ...networkPractice, ...businessFinancialConstructionDrills],
   examTechnique,

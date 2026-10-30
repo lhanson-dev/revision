@@ -51,6 +51,14 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Environmental issues and fair trade: costs and demand are different questions",
+        "body": "A business may face both higher costs and changed customer demand when it responds to environmental concerns or chooses fair-trade suppliers. Consider an original example: a small chocolate maker changes to responsibly sourced cocoa and recyclable packaging. Its cocoa and packaging unit costs rise, so its unit contribution may fall unless it changes prices, products, processes or volume. Some customers might value credible sourcing and packaging and become more willing to buy, but this increase is not automatic; price-sensitive customers may buy less if the selling price rises. The firm should check evidence of customer willingness to pay, the extra cost per unit, possible supplier reliability, the credibility and scope of any sourcing claims, and the effect on profit and cash. Fair trade concerns producer terms and livelihoods in the supply chain; it is not identical to lower packaging waste or a guarantee of environmental sustainability. A claim that 'fair trade always raises demand' confuses a possible response with a proven outcome. Exam-quality analysis links the factor to a specific cost or demand mechanism, then explains the limitation or trade-off.",
+        "item_ids": [
+          "aqa-7132-3.1.3:environmental-issues"
+        ]
+      },
+      {
         "treatment": "connection_synoptic_link",
         "heading": "Link regulation, infrastructure and strategic choices",
         "body": "Regulation is an external influence because it can create compliance duties, taxes, reporting requirements or operating restrictions. The role of regulators therefore matters through the rules and requirements businesses must plan for. Infrastructure includes transport links, broadband, mobile networks, energy and water supply. Reliable infrastructure can lower transport and communication costs, improve supply-chain reliability and widen access to markets and workers. Poor infrastructure can create delays and deter investment. Its importance differs: an online retailer may depend heavily on broadband and delivery networks, while an exporter may depend more on ports and roads. Choices are also shaped by mission, ethics, stakeholder expectations and constraints on finance, time and skills.",
@@ -146,6 +154,10 @@
       {
         "term": "consumer lifestyle and buying behaviour",
         "definition": "How people live and choose what to buy, affecting products, promotion and sales channels."
+      },
+      {
+        "term": "fair trade",
+        "definition": "A trading approach concerned with fairer producer terms and livelihoods in supply chains; it can affect purchasing costs and customer preferences without guaranteeing demand."
       }
     ],
     "worked_examples": []
@@ -250,6 +262,17 @@
         "prompt": "Select the best pairing for a new catering business: (A) employment law can create compliance duties; targeted start-up support may lower initial cost and risk; (B) employment law guarantees profit; regulators remove all uncertainty; (C) grants mean the business no longer needs staff.",
         "answer": "A.",
         "explanation": "Labour market legislation affects employer duties, and enterprise policy can provide limited support. Neither guarantees profit nor removes uncertainty.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p9",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.3:environmental-issues"
+        ],
+        "prompt": "A chocolate business switches to higher-cost fairly traded cocoa and recyclable packaging. Give one plausible effect on its costs and one plausible effect on demand, distinguishing a direct effect from a possible customer response.",
+        "answer": "Unit material and packaging costs may rise immediately. Demand might rise if customers value credible ethical sourcing, but it could fall if the firm increases price and customers are price-sensitive. Neither demand effect is guaranteed.",
+        "explanation": "AQA requires causal analysis of external influences on both costs and demand. Fair trade is not the same as environmental protection; neither guarantees higher sales.",
         "calc": null
       }
     ]
