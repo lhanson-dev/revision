@@ -259,7 +259,6 @@ export function CourseExperienceScreen({
   useEffect(() => {
     if (!resolved || !active || requestedSection !== 'overview') return
     let mounted = true
-    setSavedStatus('loading')
     void loadSavedWork(client, userId, [resolved])
       .then(result => {
         if (!mounted) return
@@ -423,7 +422,7 @@ export function CourseExperienceScreen({
           <CourseSectionSpotlights sections={sections} savedWork={savedWork} savedStatus={savedStatus}
             reviewedCount={reviewedPages.filter(item => item.courseId === course.id && course.modules.some(module => module.manifest.id === item.moduleId)).length}
             onOpenSection={next => onOpenCourseSection(course.id, next)} onOpenSavedWork={onOpenSavedWork}
-            onRetry={() => setSavedRefresh(value => value + 1)} />
+            onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
           <div className="course-overview-ask">
             <p>Need help deciding what to do next? Ask REV about this course.</p>
             <Button variant="secondary" onClick={() => onOpenRev()}>Ask REV about this course</Button>
@@ -479,7 +478,7 @@ export function CourseExperienceScreen({
       <CourseSectionSpotlights sections={sections} savedWork={savedWork} savedStatus={savedStatus}
         reviewedCount={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).length}
         onOpenSection={next => onOpenModuleSection(course.id, adapter.manifest.id, next)}
-        onOpenSavedWork={onOpenSavedWork} onRetry={() => setSavedRefresh(value => value + 1)} />
+        onOpenSavedWork={onOpenSavedWork} onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
       </div>}
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={true} /></div>}
