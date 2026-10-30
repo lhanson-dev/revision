@@ -32,6 +32,10 @@ export interface PracticeStartProps {
   /** Already worded, e.g. "Last practised 3 days ago". Null when the topic has never been practised. */
   lastPractised: string | null
   topics: readonly { id: string; label: string }[]
+  /** Verified, owner-scoped unfinished sessions only; never planned or merely visited activities. */
+  savedTopicIds?: readonly string[]
+  savedTopicStatus?: 'loading' | 'ready' | 'error'
+  onRetrySavedTopics?: () => void
   topicId: string
   onChangeTopic: (topicId: string) => void
 
@@ -65,7 +69,7 @@ export interface PracticeStartProps {
  */
 export function PracticeStart(props: PracticeStartProps) {
   const {
-    topicTitle, status, lastPractised, topics, topicId, onChangeTopic,
+    topicTitle, status, lastPractised, topics, savedTopicIds = [], savedTopicStatus = 'ready', onRetrySavedTopics, topicId, onChangeTopic,
     length, onChangeLength, availableQuestions, sessionCount, questionTypes, selectedTypes, onToggleType, onStart, startDisabled = false,
     carryOn, extraScored = [], onOpenExtraScored, warmups, onOpenWarmup, revReason,
   } = props
@@ -73,6 +77,7 @@ export function PracticeStart(props: PracticeStartProps) {
   const headingId = useId()
   const hasQuestions = availableQuestions > 0
   const capped = hasQuestions && sessionCount < length
+  const savedCount = topics.filter(item => savedTopicIds.includes(item.id)).length
 
   return (
     <div className="practice-start" aria-labelledby={headingId} role="region">
@@ -87,6 +92,13 @@ export function PracticeStart(props: PracticeStartProps) {
             </>
           )}
           {lastPractised && <span className="practice-start__last"><Icon name="clock" size="inline" />{lastPractised}</span>}
+          {savedTopicStatus === 'ready' && savedCount > 0 && topics.length > 1 &&
+            <span className="practice-start__last">{savedCount} {savedCount === 1 ? 'topic has' : 'topics have'} saved work</span>}
+          {savedTopicStatus === 'loading' && <span className="practice-start__last" role="status">Checking saved topics…</span>}
+          {savedTopicStatus === 'error' && <span className="practice-start__last" role="status">
+            Saved-topic status unavailable.
+            {onRetrySavedTopics && <button type="button" className="practice-link" onClick={onRetrySavedTopics}>Try again</button>}
+          </span>}
           {topics.length > 1 && (
             <button type="button" className="practice-link" aria-expanded={choosingTopic} onClick={() => setChoosingTopic((open) => !open)}>
               Change topic
@@ -95,7 +107,7 @@ export function PracticeStart(props: PracticeStartProps) {
         </div>
         {choosingTopic && (
           <SelectField groupClassName="practice-start__topic-picker" label="Topic" value={topicId} onChange={(event) => { onChangeTopic(event.target.value); setChoosingTopic(false) }}>
-            {topics.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+            {topics.map((item) => <option key={item.id} value={item.id}>{item.label}{savedTopicStatus === 'ready' && savedTopicIds.includes(item.id) ? ' · In progress' : ''}</option>)}
           </SelectField>
         )}
       </header>
