@@ -374,9 +374,16 @@ const courseOverviewVisualReview = [
  * retained CI #2971 visual artifact 11682782227. No other B7/C4 digests repinned.
  * This is not permission to merge PR #594.
  */
+/** PR #728: Founder explicitly approved the reviewed desktop Course Overview
+ * light/dark design changes on 30 October 2026, visual baselines ONLY.
+ * Two independent CI runs and their retries produced identical new digests.
+ * No Home/Learn or phone baseline, mask, tolerance, algorithm or test is changed.
+ * Evidence: audits/2026-10-30-pr728-course-overview-visual-approval.md.
+ * Merge/release approval is separate.
+ */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '8ef7f730770162cccd4c826df7b900131ff1a8d15770053a65eef0da4ca19132',
-  'desktop:dark': '5ac454abb01c9e53e0057b6fb033958d0a7d14274fb5968592498ece07efbb00',
+  'desktop:light': 'ea47b538ac0dd3e83f5b659a00510b25d5cfdaedfa69e64d9021ef9acf9f4957',
+  'desktop:dark': 'b0bb9ed6d89b9bb4372b046c7be728ebfd9b18f8fdb7c82157dd0d8649b02de5',
   'phone:light': 'fa07b3e1b999642e14c3b588ab0063ef020f1572c579d9289f17a6c1901f43af',
   'phone:dark': 'd0cfca9db327fae04bad5a322c677c66df56b1a604a470b745f8d32d946c9b1c',
 }

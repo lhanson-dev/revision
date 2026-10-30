@@ -3,12 +3,10 @@ import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { CatalogueCourse, ModuleLearningState } from './catalogue-model'
 import { ExamSimulator, type ExamSimulatorProps } from './ExamSimulator'
 import { examDateLabel, examPapersFor, lastMockFrom, mockRowFor, suggestMock, topicsCoveredPhrase, weeksAwayPhrase, type MockRow } from './exam-prep'
-import { retainedAqa7132MockExamForPaper } from './retained-aqa-business-mock'
+import { availableCourseMocks } from './course-mock-catalogue'
 import { resolveSubjectIdentity } from './subject-palette'
 import { topicProgressFor } from './topic-status'
 import { accentStyle, Button, ExamPrepPage, type ExamMockMode } from './ui'
-
-type MockExam = ExamSimulatorProps['exam']
 
 type ExamPrepSectionProps = {
   course: CatalogueCourse
@@ -22,18 +20,6 @@ type ExamPrepSectionProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   /** Only supplied after the governed raw-answer retention and timing decision. */
   checkpointContext?: ExamSimulatorProps['checkpointContext']
-}
-
-/** Every full-paper mock this course has: each paper's own simulation, and the retained AQA 7132 mock where there is one. */
-function mockExamsFor(course: CatalogueCourse): Array<{ exam: MockExam; moduleId: string; paperNumber: number }> {
-  const isAqa7132 = course.examBoardName === 'AQA' && course.specificationCode === '7132'
-  return course.modules.flatMap((paper) => {
-    const retained = isAqa7132 ? retainedAqa7132MockExamForPaper(paper.manifest.paper.number) : null
-    return [
-      ...(retained ? [{ exam: retained as MockExam, moduleId: paper.manifest.id, paperNumber: paper.manifest.paper.number }] : []),
-      ...paper.listExams().map((exam) => ({ exam: exam as MockExam, moduleId: paper.manifest.id, paperNumber: paper.manifest.paper.number })),
-    ]
-  })
 }
 
 /**
@@ -76,7 +62,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
   const guide = examPapersFor(course.examBoardName, course.specificationCode)
   const progress = useMemo(() => topicProgressFor(state), [state])
   const topicIds = useMemo(() => state.topicKnowledge.topics.map((topic) => topic.topicId), [state])
-  const mocks = useMemo(() => mockExamsFor(course), [course])
+  const mocks = useMemo(() => availableCourseMocks(course), [course])
   const rows: MockRow[] = useMemo(() => mocks.map(({ exam, paperNumber }) => mockRowFor(exam, progress, paperNumber)), [mocks, progress])
   useEffect(() => {
     if (!checkpointContext) return
