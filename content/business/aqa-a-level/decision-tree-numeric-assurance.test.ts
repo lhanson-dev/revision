@@ -49,7 +49,7 @@ describe('Issue #698 AQA Business 7132 §3.2.2 scored decision-tree calculations
   })
   it('independently reconstructs each numeric answer and keeps alternative contexts distinct', () => {
     expect([0.6*150000+0.4*20000, 0.25*210000+0.75*-30000,
-      0.55*180000+0.45*40000-70000, 0.4*200000+0.6*-20000-45000])
+      Math.round(0.55*180000+0.45*40000-70000), 0.4*200000+0.6*-20000-45000])
       .toEqual(businessDecisionTreeNumericalCases.map(item => item.expected))
     expect(businessDecisionTreeNumericalCases[0]!.context).not.toBe(businessDecisionTreeNumericalCases[1]!.context)
     expect(businessDecisionTreeNumericalCases[2]!.context).not.toBe(businessDecisionTreeNumericalCases[3]!.context)
