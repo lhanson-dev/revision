@@ -120,6 +120,22 @@ test('scored Practice restores the exact next question after a refresh without a
   })
   await page.getByRole('button', { name: 'Open saved Practice' }).click()
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+  // On a different device or topic there is no local hint. The Practice
+  // topic selector must identify the server-verified saved Business session.
+  await page.goto('/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/practice/leadership')
+  await expect(page.getByRole('heading', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Change topic' }).click()
+  const topicPicker = page.getByRole('combobox', { name: 'Topic' })
+  await expect(topicPicker.locator('option[value="business"]')).toContainText('In progress')
+  await expect(topicPicker.locator('option[value="leadership"]')).not.toContainText('In progress')
+  await expect(page.getByText('1 topic has saved work')).toBeVisible()
+  await testInfo.attach('saved-practice-topic-selector-' + testInfo.project.name + '.png', {
+    body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
+    contentType: 'image/png',
+  })
+  await topicPicker.selectOption('business')
+  await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+  expect(evidenceRows.size).toBe(1)
   await page.goto('/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/overview')
   await expect(page.getByRole('heading', { name: 'Explore this course' })).toBeVisible()
   const spotlight = page.locator('.course-overview-spotlight--saved').filter({ hasText: 'Practice' })

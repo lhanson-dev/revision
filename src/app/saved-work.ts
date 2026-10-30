@@ -37,7 +37,7 @@ export type SavedWork = {
   actionLabel: string
   updatedAt: string
 }
-export type SavedWorkResult = { items: SavedWork[]; partialError: boolean }
+export type SavedWorkResult = { items: SavedWork[]; partialError: boolean; practiceError: boolean }
 
 const alive = (expiry: string, now: number) => Number.isFinite(Date.parse(expiry)) && Date.parse(expiry) > now
 const currentTime = (timestamp: string) => Number.isFinite(Date.parse(timestamp)) ? Date.parse(timestamp) : 0
@@ -55,7 +55,7 @@ export async function loadSavedWork(
 ): Promise<SavedWorkResult> {
   if (!userId.trim()) throw new Error('Cannot check saved work without a learner.')
   const courseIds = [...new Set(programme.map(item => item.course.id))]
-  if (!courseIds.length) return { items: [], partialError: false }
+  if (!courseIds.length) return { items: [], partialError: false, practiceError: false }
 
   const reads = await Promise.allSettled([
     client.from('learner_practice_checkpoints')
@@ -119,5 +119,5 @@ export async function loadSavedWork(
   }
   items.sort((a, b) => currentTime(b.updatedAt) - currentTime(a.updatedAt) ||
     [a.courseId, a.kind, a.moduleId, a.topicId ?? ''].join('|').localeCompare([b.courseId, b.kind, b.moduleId, b.topicId ?? ''].join('|')))
-  return { items, partialError: practiceError || examError }
+  return { items, partialError: practiceError || examError, practiceError }
 }

@@ -128,6 +128,7 @@ Use this file to find the governing source before substantive work.
 - Course learning design / learning-node classification / Learn-Practice-Exam Prep treatment selection → `10-product-governance/Course Learning Blueprint.md`
 - Issue #727 Home/Course Overview unfinished-work continuation and section-spotlight Definition-of-Ready analysis → `10-product-governance/backlog/Unfinished Work Continuation Visibility Readiness Analysis.md`
 - Issue #727 Home/Course Overview saved-work projection, recovery navigation and assurance → `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`
+- Issue #736 Practice topic chooser saved-work visibility and source-backed resume status consistency → `docs/technical/Issue 736 Practice Saved Topic Visibility.md`
 - PR #728 Course Overview desktop light/dark visual-only Founder approval, candidate screenshot digests and release boundaries → `audits/2026-10-30-pr728-course-overview-visual-approval.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Returning Student Home hierarchy / REV recommendation / today's plan / exams / global Progress / courses and activity orientation → `10-product-governance/Returning Student Home Experience.md`

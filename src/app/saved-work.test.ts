@@ -75,12 +75,45 @@ describe('saved Practice and timed exam discovery', () => {
     const { client, reads } = fakeClient({ practice: [await practiceRow()] })
     const result = await loadSavedWork(client, userId, programme, now)
     expect(result.partialError).toBe(false)
+    expect(result.practiceError).toBe(false)
     expect(result.items).toMatchObject([{
       kind: 'practice', courseId: entry.course.id, moduleId: adapter.manifest.id,
       topicId: topic.id, detail: '1 of 5 questions answered', actionLabel: 'Open saved Practice',
     }])
     expect(reads).toHaveLength(2)
     expect(reads.every(read => read.user === userId && read.courses.includes(entry.course.id))).toBe(true)
+  })
+
+  it('retains both valid topic identities for course-wide Practice selection without mixing in exam attempts', async () => {
+    const secondTopic = adapter.listTopics().find(item => item.id !== topic.id)!
+    const secondPool = buildQuestionPool({
+      topicId: secondTopic.id, topicOrder: secondTopic.order,
+      coursePack: adapter.listQuestions(secondTopic.id), bank: adapter.listPracticeBank(),
+      includeWritten: false,
+    })
+    expect(secondPool.length).toBeGreaterThan(1)
+    const second = await practiceRow({
+      topic_id: secondTopic.id,
+      content_fingerprint: await fingerprintPracticeContent(secondPool),
+      updated_at: '2026-10-30T11:30:00.000Z',
+      snapshot: {
+        schemaVersion: 1,
+        session: {
+          total: 5, currentId: secondPool[1]!.id,
+          poolIds: secondPool.map(question => question.id),
+          answers: [{ retry: false }],
+        },
+        pending: null,
+      },
+    })
+    const first = await practiceRow()
+    const { client } = fakeClient({ practice: [first, second] })
+    const result = await loadSavedWork(client, userId, programme, now)
+    expect(result.practiceError).toBe(false)
+    expect(result.items.filter(item => item.kind === 'practice').map(item => item.topicId)).toEqual([
+      secondTopic.id, topic.id,
+    ])
+    expect(result.items.every(item => item.courseId === entry.course.id && item.moduleId === adapter.manifest.id)).toBe(true)
   })
 
   it('filters wrong owner, expired, changed content, unknown topic and submitted mocks', async () => {
@@ -116,7 +149,11 @@ describe('saved Practice and timed exam discovery', () => {
   it('keeps recoverable Practice visible when only exam lookup fails; fails closed if both fail', async () => {
     const partial = fakeClient({ practice: [await practiceRow()], examError: true })
     expect(await loadSavedWork(partial.client, userId, programme, now)).toMatchObject({
-      partialError: true, items: [{ kind: 'practice' }],
+      partialError: true, practiceError: false, items: [{ kind: 'practice' }],
+    })
+    const lostPractice = fakeClient({ practiceError: true })
+    expect(await loadSavedWork(lostPractice.client, userId, programme, now)).toMatchObject({
+      partialError: true, practiceError: true, items: [],
     })
     const both = fakeClient({ practiceError: true, examError: true })
     await expect(loadSavedWork(both.client, userId, programme, now)).rejects.toThrow(/Could not check/)
