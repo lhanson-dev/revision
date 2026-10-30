@@ -78,7 +78,7 @@ export function PracticeStart(props: PracticeStartProps) {
     <div className="practice-start" aria-labelledby={headingId} role="region">
       <header className="practice-start__head">
         <p className="ui-eyebrow">Practice · {topicTitle}</p>
-        <h2 id={headingId} className="practice-start__title">Test what you know</h2>
+        <h2 id={headingId} className="practice-start__title">{carryOn ? 'Your saved practice session' : 'Test what you know'}</h2>
         <div className="practice-start__now">
           {status && (
             <>
@@ -100,6 +100,20 @@ export function PracticeStart(props: PracticeStartProps) {
         )}
       </header>
 
+      {carryOn && (
+        <section className="practice-resume" aria-labelledby={`${headingId}-resume`}>
+          <div className="practice-resume__copy">
+            <p className="ui-eyebrow">Saved Practice session</p>
+            <h3 id={`${headingId}-resume`} className="practice-resume__title">Continue where you left off</h3>
+            <p className="practice-resume__progress">{carryOn.progress}. Your completed answers are saved.</p>
+          </div>
+          <Button size="large" className="practice-resume__action" onClick={carryOn.onCarryOn}>
+            Continue saved session
+            <Icon name="arrow-right" size="compact" />
+          </Button>
+        </section>
+      )}
+
       <div className="practice-start__grid">
         <section className="practice-panel practice-panel--scored" aria-label="Scored questions">
           <div className="practice-panel__head">
@@ -115,14 +129,7 @@ export function PracticeStart(props: PracticeStartProps) {
             </p>
           </div>
 
-          {carryOn && (
-            <div className="practice-carry-on">
-              <span className="practice-carry-on__text"><strong>You have a session open.</strong> {carryOn.progress}. Your saved answers are kept.</span>
-              <Button onClick={carryOn.onCarryOn}>Carry on</Button>
-            </div>
-          )}
-
-          {hasQuestions && (
+          {hasQuestions && !carryOn && (
             <>
               <div className="practice-field">
                 <span className="practice-field__label" id={`${headingId}-length`}>How many?</span>
@@ -163,6 +170,8 @@ export function PracticeStart(props: PracticeStartProps) {
               {capped && <p className="practice-panel__note">This topic has {availableQuestions} {availableQuestions === 1 ? 'question' : 'questions'} for now, so that is what you will get.</p>}
             </>
           )}
+
+          {carryOn && <p className="practice-panel__note">Finish or discard your saved session before starting a different question set.</p>}
 
           {extraScored.length > 0 && (
             <div className="practice-rows">
