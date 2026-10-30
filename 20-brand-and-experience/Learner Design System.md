@@ -4,10 +4,10 @@ document_id: "revision-learner-design-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
 effective_date: "2026-10-07"
-last_reviewed: "2026-10-07"
+last_reviewed: "2026-10-30"
 review_cadence: "quarterly"
 content_review_status: "founder-approved"
 source_of_truth_for: ["learner visual foundations", "learner semantic colour roles", "learner typography", "learner spacing and radii", "learner depth and surfaces", "learner action hierarchy", "learner REV visual presence", "learner responsive shell geometry", "learner content canvas", "learner course orientation pattern", "learner icon language", "learner light and dark themes", "learner forms and system states", "learner motion", "learner layered-surface design", "learner progress visualisation", "learner educational-treatment visual language", "learner Practice composition principles", "learner Course Overview composition principles", "learner Exam Prep and focused exam visual boundary", "learner design accessibility and quality gate"]
@@ -239,6 +239,12 @@ The Living E is identity, not a generic icon. Subject marks and semantic status 
 Light and Dark are equal expressions of one learner system. **System** is the default preference, with explicit Light and Dark choices.
 
 Component meaning, hierarchy and geometry remain the same across themes. Theme translation happens through semantic tokens. Subject identities remain recognisable in both themes. Primary Teal remains the ordinary action colour; REV remains Deep Teal + Living E.
+
+### Calendar orientation — Today versus selected date
+
+Across Plan Day, Week and Month, **Today** means the learner's actual local calendar date. It must use the same semantic selection-surface, teal outline and date-accent treatment in all three views, translated through the shared Light/Dark tokens. Day strips, week agenda cards and month cells may have different sizes or layouts, but must not invent different meanings or highlight strengths for Today.
+
+**Selected date** means the date the learner is inspecting, and is not necessarily Today. A selected non-today date should use a distinct neutral selected treatment rather than masquerading as Today. Represent the current date accessibly with `aria-current="date"`; selection controls keep their own accessible selection state. A month exam date retains its subject identity, including the solid subject-colour treatment where applicable, while the Today outline remains recognisable. Focus indication is independent of both calendar states.
 
 Do not create page-local dark palettes.
 

@@ -6,7 +6,7 @@
       {
         "treatment": "core_explanation",
         "heading": "Elasticity and pricing decisions",
-        "body": "Price provides revenue per unit, but it also influences customer demand and how a product is positioned. Price elasticity of demand (PED) shows the responsiveness of quantity demanded to a percentage price change. PED is normally negative: a higher price tends to reduce demand. Focus on the size of the figure: a magnitude above 1 is relatively elastic and below 1 is relatively inelastic. Income elasticity of demand (YED) instead shows the responsiveness of demand to changes in consumer income. Positive YED suggests a normal good; negative YED suggests an inferior good. Neither measure makes the decision automatically: managers must also consider costs, contribution, capacity, competitors, brand and long-term customer behaviour.",
+        "body": "Price provides revenue per unit, but it also influences customer demand and how a product is positioned. Price elasticity of demand (PED) shows the responsiveness of quantity demanded to a percentage price change. PED is normally negative: a higher price tends to reduce demand. Focus on the size of the figure: a magnitude above 1 is relatively elastic and below 1 is relatively inelastic. Income elasticity of demand (YED) instead shows the responsiveness of demand to changes in consumer income. Positive YED suggests a normal good; negative YED suggests an inferior good. Neither measure makes the decision automatically: managers must also consider costs, contribution, capacity, competitors, brand and long-term customer behaviour. For AQA A-level Business 7132, interpret supplied PED and YED data and its implications for revenue; calculating PED or YED is not an assessed requirement.",
         "item_ids": [
           "aqa-7132-3.3.2:price-elasticity-of-demand",
           "aqa-7132-3.3.2:income-elasticity-of-demand",
@@ -66,8 +66,8 @@
       },
       {
         "treatment": "worked_example",
-        "heading": "Calculating and using PED and YED",
-        "body": "A cinema raises its ticket price from £20 to £22, a 10% increase. Weekly tickets sold fall from 1,000 to 960, a 4% decrease. PED = -4% ÷ +10% = -0.4. Demand is relatively price inelastic over this change. Revenue changes from £20,000 to £21,120, so it rises; nevertheless, the cinema still needs cost and long-term customer information before judging profit.\n\nFor a premium leisure service, income rises by 5% while demand rises by 10%. YED = +10% ÷ +5% = +2.0. The positive figure suggests a normal good, with demand highly responsive to income in this observed setting. The business should consider downside demand risk when planning for an economic downturn.",
+        "heading": "Interpreting supplied PED and YED values",
+        "body": "A cinema raises its ticket price from £20 to £22. The case gives a PED estimate of -0.4: demand is relatively price inelastic, so customers reduce quantity by a smaller percentage than the price increases. If weekly tickets sold change from 1,000 to 960, revenue rises from £20,000 (1,000 × £20) to £21,120 (960 × £22). That does not establish increased profit: consider variable costs, capacity, competitors and the longer-term response.\n\nFor a premium leisure service the case gives YED of +2.0. Demand is income elastic and the service is a normal good in this context. A downturn in consumer incomes could cause a proportionally larger fall in demand, so managers should review their revenue forecast and capacity commitments. AQA 7132 expects you to interpret supplied elasticity figures and analyse revenue implications; you do not need to calculate PED or YED.",
         "item_ids": [
           "aqa-7132-3.3.2:price-elasticity-of-demand",
           "aqa-7132-3.3.2:income-elasticity-of-demand",
@@ -78,11 +78,11 @@
     "key_terms": [
       {
         "term": "price elasticity of demand (PED)",
-        "definition": "The percentage change in quantity demanded divided by the percentage change in price."
+        "definition": "A measure of how responsive quantity demanded is to a price change; interpret the sign and magnitude of supplied values."
       },
       {
         "term": "income elasticity of demand (YED)",
-        "definition": "The percentage change in quantity demanded divided by the percentage change in consumer income."
+        "definition": "A measure of how responsive demand is to a change in consumer income; interpret the sign and magnitude of supplied values."
       },
       {
         "term": "price elastic demand",
@@ -115,24 +115,24 @@
     "items": [
       {
         "id": "ped-calculation-01",
-        "capability": "calculation",
+        "capability": "interpretation",
         "item_ids": [
           "aqa-7132-3.3.2:price-elasticity-of-demand"
         ],
-        "prompt": "A food-delivery business increases its delivery charge by 8%. Orders fall by 12%. Calculate PED and classify demand.",
-        "answer": "PED = -12% ÷ 8% = -1.5. Demand is relatively price elastic.",
-        "explanation": "Quantity demanded changes by a greater percentage than price, so the absolute PED is above 1.",
+        "prompt": "A food-delivery business is given an estimated PED of -1.5 for its delivery service. Explain what this value suggests about customer responsiveness and the likely revenue effect of a moderate delivery-charge increase, assuming the estimate holds. Do not calculate PED.",
+        "answer": "Demand is relatively price elastic because the absolute PED exceeds 1. If the price increases, the percentage fall in orders is expected to be greater than the percentage price increase, so sales revenue is likely to fall, all else equal.",
+        "explanation": "The elasticity value is supplied, as required for AQA 7132 interpretation; a sound decision also considers delivery costs, competitors and whether the estimate remains reliable.",
         "calc": null
       },
       {
         "id": "yed-calculation-01",
-        "capability": "calculation",
+        "capability": "interpretation",
         "item_ids": [
           "aqa-7132-3.3.2:income-elasticity-of-demand"
         ],
-        "prompt": "Consumer income falls by 4% and demand for a budget own-label range rises by 2%. Calculate YED and classify the good.",
-        "answer": "YED = +2% ÷ -4% = -0.5. The range is an inferior good in this observed context.",
-        "explanation": "Demand moved in the opposite direction to income, producing a negative YED.",
+        "prompt": "A budget own-label product is given a YED of -0.5. If household income falls, explain what this indicates about the type of good and the likely effect on demand and possible revenue, assuming other influences are unchanged. Do not calculate YED.",
+        "answer": "Negative YED indicates an inferior good in the observed context. As income falls, demand for the budget product is likely to rise; revenue may rise at an unchanged price, but the actual effect depends on the scale of sales and other factors.",
+        "explanation": "Interpret the supplied negative sign and context rather than doing an elasticity calculation; avoid claiming a guaranteed profit outcome.",
         "calc": null
       },
       {
