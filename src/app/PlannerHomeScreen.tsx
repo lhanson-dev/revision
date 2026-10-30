@@ -98,7 +98,6 @@ export function PlannerHomeScreen({
   // Saved-work discovery is independent from REV/Plan. A failed read must not erase its recommendation.
   useEffect(() => {
     let mounted = true
-    setSavedStatus('loading')
     void loadSavedWork(client, userId, programme)
       .then(result => {
         if (!mounted) return
@@ -329,7 +328,7 @@ export function PlannerHomeScreen({
         <Button variant="secondary" onClick={() => onOpenSavedWork(savedWork[0])}>{savedWork[0].actionLabel} <Icon name="arrow-right" size="inline" /></Button>
       </section>}
       {savedStatus === 'error' && <div className="home-v3-saved-work__notice" role="status">
-        Some saved activities could not be checked. <Button variant="tertiary" onClick={() => setSavedWorkRefresh(value => value + 1)}>Try again</Button>
+        Some saved activities could not be checked. <Button variant="tertiary" onClick={() => { setSavedStatus('loading'); setSavedWorkRefresh(value => value + 1) }}>Try again</Button>
       </div>}
       {planNote && <p className="home-v3-notice" role="status">{planNote}</p>}
 
