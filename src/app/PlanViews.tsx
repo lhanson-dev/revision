@@ -57,9 +57,10 @@ export function PlanNav({ view, anchorKey, todayKey, atNow, examHues, onShift, o
   const [pickerOpen, setPickerOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const month = view === 'month'
-  const unit = month ? 'month' : 'week'
+  const day = view === 'day'
+  const unit = day ? 'day' : month ? 'month' : 'week'
   const { year, month: monthIndex } = { year: fromKey(anchorKey).getFullYear(), month: fromKey(anchorKey).getMonth() }
-  const dateLabel = month ? monthTitle(year, monthIndex) : weekRangeLabel(anchorKey)
+  const dateLabel = day ? `${longDate(anchorKey)} ${year}` : month ? monthTitle(year, monthIndex) : weekRangeLabel(anchorKey)
 
   function closePicker(returnFocus = true) {
     setPickerOpen(false)
@@ -98,7 +99,7 @@ export function PlanNav({ view, anchorKey, todayKey, atNow, examHues, onShift, o
           )}
         </div>
         <button type="button" className="pln-nav__step" aria-label={`Next ${unit}`} onClick={() => onShift(1)}><Icon name="arrow-right" size="compact" /></button>
-        {!atNow && <Button size="compact" variant="secondary" onClick={onToday}>{month ? 'This month' : 'This week'}</Button>}
+        {!atNow && <Button size="compact" variant="secondary" onClick={onToday}>{day ? 'Today' : month ? 'This month' : 'This week'}</Button>}
       </div>
       <div className="plan-view-toolbar">
         <SegmentedControl label="Plan view">
