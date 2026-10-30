@@ -73,7 +73,6 @@ export async function loadSavedWork(
   ])
   const [practiceRead, examRead] = reads.map(read =>
     read.status === 'fulfilled' ? read.value : { data: null, error: { message: 'Saved work read failed' } })
-  )
   const practiceError = Boolean(practiceRead.error)
   const examError = Boolean(examRead.error)
   if (practiceError && examError) throw new Error('Could not check your saved work.')
