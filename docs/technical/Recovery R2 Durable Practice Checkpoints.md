@@ -41,3 +41,11 @@ This implements the previously governed Recovery Control Plan and existing Claim
 ## Verified current-main release status — 22 October 2026
 
 PR #657 merged at `df1adc5b7fd49d52a78f8c5651977a1077ebf118` and production [Pages deployment #39790131231](https://github.com/lhanson-dev/revision/actions/runs/39790131231) completed successfully. Durable scored objective Practice session recovery is therefore live at this verified main baseline. Raw written mock answers and full timed exam recovery remain outside that release, tracked as REC-10 draft PR #658. Prior descriptions of candidate status above are historical snapshots, not a claim about current production.
+
+## Return-to-Practice prominence correction — 30 October 2026 (candidate)
+
+The existing server-owned checkpoint and per-answer evidence are unchanged. Founder testing exposed a UX issue: on reload, the saved session was restored, but its “Carry on” control was buried beneath a fresh-session heading and beside the question-count selector, giving the impression the work had disappeared.
+
+In the canonical Course Practice screen, a valid resumed checkpoint now renders a visually distinct **Continue where you left off** section before the question-set controls, with the saved answered-count and an obvious primary **Continue saved session** action. The fresh-session length/type and Start controls are hidden while a checkpoint exists; other available practice formats remain accessible. The original separate **Discard saved session and start again** action is retained. Focus return from a closed activity targets the renamed continuation action. No automatic progress, score, mastery or planner completion is inferred from returning to a session.
+
+Browser regression must establish resumed question position and one-time evidence writing after reload, the absence of fresh-session Start when a checkpoint exists, focus return, and desktop/mobile layout plus accessibility. This is a candidate change; neither CI nor production release is asserted here. No normative authority change is needed: the correction implements existing continuity and interface hierarchy requirements.

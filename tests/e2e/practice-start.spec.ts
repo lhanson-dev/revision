@@ -61,7 +61,7 @@ test('Practice activity is page-level and returns keyboard focus to its launch c
   await expect(workspace).toHaveCount(0)
   // A checkpointed session makes Start unavailable. Focus returns to the
   // enabled Carry on action, not a disabled replacement for the launch button.
-  await expect(page.getByRole('button', { name: 'Carry on' })).toBeFocused()
+  await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeFocused()
 
   const flashcards = page.getByRole('button', { name: /^Flashcards/ })
   await flashcards.click()
@@ -82,8 +82,9 @@ test('closing mid-session keeps every saved answer and the start screen offers C
   await expect(page.getByRole('region', { name: /^Practice:/ })).toHaveCount(0)
   expect(saved, 'closing must not lose or repeat a saved answer').toHaveLength(1)
 
-  await expect(page.getByText('You have a session open.')).toBeVisible()
-  await page.getByRole('button', { name: 'Carry on' }).click()
+  await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Continue saved session' }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   // The answer that was already checked is still on screen, with its feedback.
   await expect(page.locator('.ui-feedback-bar')).toBeVisible()
