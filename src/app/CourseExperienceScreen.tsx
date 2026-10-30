@@ -10,6 +10,7 @@ import {
   type CourseExamAssessment,
 } from '../services/planning/course-exam-date-service'
 import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
+import { loadSavedWork, type SavedWork } from './saved-work'
 import { ExamPrepSection } from './ExamPrepSection'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
@@ -52,6 +53,7 @@ type CourseExperienceScreenProps = {
   onOpenModuleSection: (courseId: string, moduleId: string, section: PaperSection) => void
   onOpenLearnPage: (pageId: string) => void
   onOpenPracticeTopic: (topicId: string) => void
+  onOpenSavedWork: (item: SavedWork) => void
   onOpenRev: (draft?: string) => void
 }
 
@@ -176,6 +178,51 @@ function ProgressPanel({ states, programmeCourse, topics, onAction }: {
   )
 }
 
+/** Course section orientation is subordinate to REV; only durable work gets an in-progress state. */
+function CourseSectionSpotlights({ sections, savedWork, savedStatus, reviewedCount, onOpenSection, onOpenSavedWork, onRetry }: {
+  sections: readonly CourseSection[]
+  savedWork: readonly SavedWork[]
+  savedStatus: 'loading' | 'ready' | 'error'
+  reviewedCount: number
+  onOpenSection: (section: CourseSection) => void
+  onOpenSavedWork: (item: SavedWork) => void
+  onRetry: () => void
+}) {
+  const modes = [
+    { id: 'learn', name: 'Learn', description: 'Understand concepts and examples.' },
+    { id: 'practice', name: 'Practice', description: 'Test recall, application and calculations.' },
+    { id: 'exam-prep', name: 'Exam Prep', description: 'Prepare for papers and exam-style questions.' },
+    { id: 'progress', name: 'Progress', description: 'Review what your evidence shows.' },
+  ] as const
+  return <section className="course-overview-spotlights" aria-labelledby="course-overview-spotlights-heading">
+    <div className="course-overview-spotlights__heading">
+      <h2 id="course-overview-spotlights-heading">Explore this course</h2>
+      <p>Choose how to study, or return to saved work.</p>
+    </div>
+    <div className="course-overview-spotlights__grid">
+      {modes.filter(mode => sections.includes(mode.id)).map(mode => {
+        const saved = mode.id === 'practice' ? savedWork.find(item => item.kind === 'practice')
+          : mode.id === 'exam-prep' ? savedWork.find(item => item.kind === 'exam') : undefined
+        return <article className={saved ? 'course-overview-spotlight course-overview-spotlight--saved' : 'course-overview-spotlight'} key={mode.id}>
+          <div>
+            <h3>{mode.name}</h3>
+            {saved ? <p className="course-overview-spotlight__state">In progress</p> : null}
+            <p>{saved ? `${saved.title} · ${saved.detail}` :
+              mode.id === 'learn' && reviewedCount > 0 ? `${reviewedCount} ${reviewedCount === 1 ? 'page' : 'pages'} reviewed` : mode.description}</p>
+          </div>
+          <Button variant={saved ? 'primary' : 'secondary'} onClick={() => saved ? onOpenSavedWork(saved) : onOpenSection(mode.id)}>
+            {saved ? saved.actionLabel : `Open ${mode.name}`}
+          </Button>
+        </article>
+      })}
+    </div>
+    {savedStatus === 'loading' && <p className="course-overview-spotlights__note" role="status">Checking saved activities…</p>}
+    {savedStatus === 'error' && <div className="course-overview-spotlights__note" role="status">
+      Saved activities could not be checked. <Button variant="tertiary" onClick={onRetry}>Try again</Button>
+    </div>}
+  </section>
+}
+
 export function CourseExperienceScreen({
   client,
   userId,
@@ -192,6 +239,7 @@ export function CourseExperienceScreen({
   onOpenModuleSection,
   onOpenLearnPage,
   onOpenPracticeTopic,
+  onOpenSavedWork,
   onOpenRev,
 }: CourseExperienceScreenProps) {
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
@@ -204,6 +252,24 @@ export function CourseExperienceScreen({
   const [saveError, setSaveError] = useState('')
   const [examAssessments, setExamAssessments] = useState<CourseExamAssessment[]>([])
   const [examDateStatus, setExamDateStatus] = useState<ExamDateStatus>('loading')
+  const [savedWork, setSavedWork] = useState<SavedWork[]>([])
+  const [savedStatus, setSavedStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [savedRefresh, setSavedRefresh] = useState(0)
+
+  useEffect(() => {
+    if (!resolved || !active || requestedSection !== 'overview') return
+    let mounted = true
+    void loadSavedWork(client, userId, [resolved])
+      .then(result => {
+        if (!mounted) return
+        setSavedWork(result.items)
+        setSavedStatus(result.partialError ? 'error' : 'ready')
+      })
+      .catch(() => {
+        if (mounted) { setSavedWork([]); setSavedStatus('error') }
+      })
+    return () => { mounted = false }
+  }, [client, userId, resolved, active, requestedSection, savedRefresh])
 
   useEffect(() => {
     let current = true
@@ -353,6 +419,10 @@ export function CourseExperienceScreen({
               </p>
             </section>
           </section>
+          <CourseSectionSpotlights sections={sections} savedWork={savedWork.filter(item => item.courseId === course.id)} savedStatus={savedStatus}
+            reviewedCount={reviewedPages.filter(item => item.courseId === course.id && course.modules.some(module => module.manifest.id === item.moduleId)).length}
+            onOpenSection={next => onOpenCourseSection(course.id, next)} onOpenSavedWork={onOpenSavedWork}
+            onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
           <div className="course-overview-ask">
             <p>Need help deciding what to do next? Ask REV about this course.</p>
             <Button variant="secondary" onClick={() => onOpenRev()}>Ask REV about this course</Button>
@@ -404,7 +474,12 @@ export function CourseExperienceScreen({
       <header className="page-heading paper-heading"><p className="eyebrow">{subject.name} · {course.examBoardName} · specification {course.specificationCode}</p><h1 id="component-page-title">{adapter.manifest.paper.name}</h1><p>{adapter.manifest.learnerExperience.what_is_this}</p></header>
       <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
-      {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
+      {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section>
+      <CourseSectionSpotlights sections={sections} savedWork={savedWork.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id)} savedStatus={savedStatus}
+        reviewedCount={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).length}
+        onOpenSection={next => onOpenModuleSection(course.id, adapter.manifest.id, next)}
+        onOpenSavedWork={onOpenSavedWork} onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
+      </div>}
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={true} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={examRecoveryEnabled ? {

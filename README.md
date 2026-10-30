@@ -23,9 +23,11 @@ Global learner navigation is:
 
 The Courses branch projects only the authenticated learner's saved active courses. Selecting a saved course expands its applicable Overview / Learn / Practice / Exam Prep / Progress sections without forcing a Subject navigation hop.
 
-### Interrupted Practice recovery (candidate, not yet live)
+### Saved Practice and exam recovery
 
-Draft Recovery R2 engineering adds learner-owned, versioned scored-question checkpoints for reload and safe retries. The schema-only production backend-ahead prerequisite is now installed and verified; no learner frontend has been merged or deployed. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` for the implementation scope, backend readiness dependency and excluded written/exam attempts.
+Scored objective Practice questions now use owner-scoped versioned checkpoints; confirmed submitted answers remain durable independently of a finished question set. Students can reload and explicitly **Continue saved session**, or discard it without deleting previously scored evidence. Timed full-mock attempts have separate owner-scoped 14-day draft recovery and safe finalisation. Raw unsubmitted written Practice drafts, flashcard warm-ups and merely visited Learn pages are not durable sessions.
+
+Issue #727 / draft PR #728 is extending *navigation visibility*: Home and Course Overview can show only verified unfinished Practice and timed-mock work beneath REV's existing next-study recommendation. This addition is an **implementation candidate, not yet live**. See `docs/technical/Recovery R2 Durable Practice Checkpoints.md` and `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`.
 
 ### Adaptive Plan
 

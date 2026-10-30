@@ -248,3 +248,24 @@
   .home-v3-hero .powered-by-rev { flex-direction: column; gap: 6px; margin-bottom: 0; }
   .home-v3-card-heading > .ui-button { white-space: normal; }
 }
+
+
+/* Optional continuation: ordinary student-owned navigation, never another REV hero. */
+.home-v3-saved-work {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; min-width: 0; padding: 20px 24px;
+  border: 1px solid var(--color-action);
+  border-radius: var(--radius-surface);
+  background: var(--color-selection-surface);
+}
+.home-v3-saved-work__copy { min-width: 0; }
+.home-v3-saved-work__copy .ui-eyebrow { margin: 0 0 6px; color: var(--color-text-secondary); }
+.home-v3-saved-work h2 { margin: 0 0 6px; font: 800 var(--type-learner-h3-size)/var(--type-learner-h3-line) var(--font-family-display); }
+.home-v3-saved-work p { margin: 4px 0 0; font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); overflow-wrap: anywhere; }
+.home-v3-saved-work__other, .home-v3-saved-work__notice { color: var(--color-text-secondary); }
+.home-v3-saved-work__notice { font-size: var(--type-body-s-size); }
+.home-v3-saved-work > .ui-button { flex: 0 0 auto; }
+@media (max-width: 620px) {
+  .home-v3-saved-work { flex-direction: column; align-items: stretch; padding: 20px; }
+  .home-v3-saved-work > .ui-button { justify-content: center; width: 100%; white-space: normal; }
+}

@@ -22,7 +22,9 @@ async function installRecoveryDatabase(page: Page) {
       .map(field => (url.searchParams.get(field) ?? '').replace(/^eq\./, '')).join('|')
     const current = checkpointRows.get(key)
     if (method === 'GET') {
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(current ? [current] : []) })
+      const filters = url.searchParams.get('course_id')
+      const values = filters?.startsWith('in.') ? [...checkpointRows.values()] : current ? [current] : []
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(values) })
       return
     }
     if (method === 'POST') {
@@ -92,10 +94,10 @@ async function installRecoveryDatabase(page: Page) {
 }
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'Recovery state is tested through the canonical desktop browser route.')
+  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('scored Practice restores'), 'Only exact saved-work continuation is cross-device; fault injection remains desktop.')
 })
 
-test('scored Practice restores the exact next question after a refresh without another evidence write', async ({ page }) => {
+test('scored Practice restores the exact next question after a refresh without another evidence write', async ({ page }, testInfo) => {
   await installRecoveryDatabase(page)
   await page.goto(practicePath)
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
@@ -104,6 +106,29 @@ test('scored Practice restores the exact next question after a refresh without a
   expect(evidenceRows.size).toBe(1)
   await page.getByRole('button', { name: 'Next question' }).click()
   await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+  // A different browser need not have any local hint; discovery must use Supabase.
+  await page.evaluate(() => {
+    Object.keys(localStorage).filter(key => key.startsWith('revision:practice-resume-topic:'))
+      .forEach(key => localStorage.removeItem(key))
+  })
+  await page.goto('/revision/app/#/home')
+  await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+  await expect(page.getByText('1 of 5 questions answered')).toBeVisible()
+  await testInfo.attach('saved-practice-home-' + testInfo.project.name + '.png', {
+    body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
+    contentType: 'image/png',
+  })
+  await page.getByRole('button', { name: 'Open saved Practice' }).click()
+  await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+  await page.goto('/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/overview')
+  await expect(page.getByRole('heading', { name: 'Explore this course' })).toBeVisible()
+  const spotlight = page.locator('.course-overview-spotlight--saved').filter({ hasText: 'Practice' })
+  await expect(spotlight.getByText('In progress')).toBeVisible()
+  await testInfo.attach('saved-practice-overview-' + testInfo.project.name + '.png', {
+    body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
+    contentType: 'image/png',
+  })
+  await spotlight.getByRole('button', { name: 'Open saved Practice' }).click()
   await page.reload()
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
   await expect(page.getByText('1 of 5 answered. Your completed answers are saved.')).toBeVisible()
