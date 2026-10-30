@@ -37,8 +37,9 @@ export type PublishedRequirementRow = {
   taggedBankQuestionIds: string[]
   /** One-target software-scored source questions carrying exact item provenance. */
   independentlyScoredMcqIds: string[]
-  /** One-target software-scored calculation assets. These currently save TOPIC
-   * evidence, not itemMapping; they must not be claimed as durable skill observations.
+  /** One-target software-scored calculation assets. The governed B1b save path
+   * can carry exact itemMapping in schema v2. These IDs are authored SUPPLY only:
+   * they do not prove any learner actually answered, retested or mastered a skill.
    */
   singleTargetScoredCalculationIds: string[]
   /** Two differently authored single-target calculation questions; potential
@@ -122,8 +123,9 @@ export function buildPublishedCourseSupplyReport(
       const q = bankRecordToPractice(record, candidate.topicId)
       return q && (q.type === 'multiple-choice' || q.type === 'calculation') ? [q] : []
     })
-    // A calculation answer is software-checked, but its currently persisted
-    // evidence carries no per-item mapping (unlike a bank MCQ). Keep separate.
+    // A calculation answer is software-checked, and the B1b Practice save path
+    // can preserve single-target provenance. Count published supply by response
+    // type; neither count implies that any learner actually completed an item.
     const uniqueMcqs = distinctById(singleTarget.filter(
       (q): q is MultipleChoicePracticeQuestion => q.type === 'multiple-choice'
         && objectiveItemMappingForPractice(q)?.singleTargetSpecItemId === candidate.id,

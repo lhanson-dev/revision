@@ -1,6 +1,6 @@
 # Issue #698 — real published Business/Psychology evidence-supply crosswalk
 
-**State:** existing crosswalk released in PR #721, with subsequent calculation-supply accounting proposed in this correction PR. Neither version is independent educational sign-off. **Route:** the one canonical `/revision/app/` learner application. **Source of implemented content:** exactly the current available `content/**/index.ts` packs through `src/engine/content/content-registry.ts` → `createLearningContentAdapter` → `buildCatalogue`. **Authority:** Course Learning Blueprint, Claims and Progress Governance, #698, #703 and the AI Agent Constitution.
+**State:** published supply crosswalk released in PR #721 and calculation-supply accounting released in PR #738. B1b exact-item calculation evidence is proposed separately in PR #739 (not released while this candidate is under review). None is independent educational sign-off. **Route:** the one canonical `/revision/app/` learner application. **Source of implemented content:** exactly the current available `content/**/index.ts` packs through `src/engine/content/content-registry.ts` → `createLearningContentAdapter` → `buildCatalogue`. **Authority:** Course Learning Blueprint, Claims and Progress Governance, #698, #703 and the AI Agent Constitution.
 
 ## Decision boundary: do not confuse evidence of existence with educational readiness
 
@@ -11,8 +11,8 @@ The new `src/app/published-requirement-assurance.ts` is a reusable **read-only s
 - the provisional requirement ID, course ID, topic and **unverified** PDF source locator;
 - exact Learn pages selected by recorded source-section IDs or matching Foundation node IDs, **not generic text-keyword hits**;
 - generic topic-scoped scored pack MCQs, **separately flagged as non-attributable to an individual skill**;
-- the IDs of structured-bank questions tagged to that requirement, separating source-mapped **multiple-choice** items (which can persist single-target raw observations) from automatically checked **calculations** (which currently persist only topic-scoped results);
-- whether a second materially different authored calculation exists for the same exact target, as *potential recheck supply* only; there is no claim that the learner retested later or that calculation evidence persisted the exact skill mapping;
+- the IDs of structured-bank questions tagged to that requirement, separating source-mapped **multiple-choice** items (which can persist single-target raw observations) from automatically checked **calculations** (whose authored single-target identity can be saved as a raw observation by B1b's proposed schema-v2 Practice integration, not an inferred mastery state);
+- whether a second materially different authored calculation exists for the same exact target, as *potential recheck supply* only; there is no claim that the learner actually retested later or achieved mastery;
 - an independently retrievable pair only when at least **two different published question stimuli** can be scored on the same mapped target; merely duplicating a stable ID or coaching a repeated prompt does not count;
 - `teachingAdequacy: 'unverified'`, `practiceAdequacy: 'unverified'`, `sourcePdfVerified: false` on **every** row.
 
@@ -20,7 +20,7 @@ All course/qualifying source counts in this first report are **provisional and s
 
 ## What the first real-source audit measures
 
-**Business numerical accounting correction (30 October 2026):** the published §3.2.2 expected-value and net-gain questions in PR #734 are automatically marked final-number calculations; the earlier crosswalk only counted source-mapped MCQs, misleadingly grouping those calculations with unscored/other bank records. The revised report lists `singleTargetScoredCalculationIds` and `distinctCalculationStimulusPair` independently of `independentlyScoredMcqIds` and `independentRecheckPair`. It also provides an inclusive *single-target scored Practice supply* count, still explicitly provisional. Calculation answers currently have **no per-item `itemMapping` in saved evidence**, so none of the calculation supply counts may be used as skill-level mastery or recheck proof. This is not a claim that numerical workings, diagram drawing or application have been validated.
+**Business numerical accounting correction (30 October 2026):** the published §3.2.2 expected-value and net-gain questions in PR #734 are automatically marked final-number calculations; the earlier crosswalk only counted source-mapped MCQs, misleadingly grouping those calculations with unscored/other bank records. The revised report lists `singleTargetScoredCalculationIds` and `distinctCalculationStimulusPair` independently of `independentlyScoredMcqIds` and `independentRecheckPair`. It also provides an inclusive *single-target scored Practice supply* count, still explicitly provisional. Prior to B1b, calculation answers had **no per-item `itemMapping` in saved evidence**. PR #739 proposes the same bounded schema-v2 mapping as authored bank MCQs, permitting a **raw** specific-skill observation for one software-checked final value. These supply counts still cannot prove actual learner attempts, later rechecks or skill mastery. This is not a claim that numerical workings, diagram drawing or application have been validated.
 
 **Business AQA 7132:** the first candidate universe is the set of *actual published, explicitly tagged* structured bank `target_item_ids`; it is **not** the complete AQA atomic requirement inventory. The bank’s 4 newly authored distinct alternatives (PR #717) are regression fixtures for the same-skill source-to-live retest capability, not proof of adequate treatment of all relevant calculation, graph, application, essay or AO demands.
 
@@ -43,7 +43,7 @@ This writes `tmp/assurance/aqa-7132-7182-published-coverage-provisional.json`, c
 
 ## QA and documentation impact
 
-Unit tests include both exact published §3.2.2 calculations and check that fake requirements get neither scored MCQ nor numerical skill credit; these are content-supply tests only, not real learner persistence.
+The crosswalk's unit tests include the published §3.2.2 calculations and reject fictitious requirement credit. They measure content supply only. B1b has its own real-pack evidence contract and idempotent storage/reload tests in `src/app/scored-calculation-item-evidence.test.ts`; genuine authenticated learner-to-Plan acceptance remains separate.
 
 Unit tests use the true published `listAvailableContentAdapters` and source objects (no duplicated synthetic site modules) and fail if the pinned 118 Psychology prototype-to-Learn relation vanishes, if extra topic questions are mislabelled specific-skill evidence, or if #717’s four verifiable Business retest pairs cease to be published. A fake requirement receives zero scored credit even if a generic MCQ exists in that topic. This prevents future regressions toward spurious 100% course coverage.
 
