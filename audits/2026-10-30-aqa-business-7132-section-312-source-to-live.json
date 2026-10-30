@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "kind": "independent-section-source-to-live-audit",
+  "qualification": "AQA A-level Business 7132",
+  "official_version": "v2.0 June 2023",
+  "official_source": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_section": "3.1.2",
+  "source_printed_page": 12,
+  "source_pdf_physical_page_index": 11,
+  "source_rights": "REFERENCE_ONLY",
+  "official_page_visually_checked": true,
+  "original_uploaded_sha_verified": false,
+  "scope": "3.1.2 only; not complete Business or externally verified teaching or Practice adequacy",
+  "count": 19,
+  "items": [
+    {
+      "atomic_id": "aqa7132-312-reasons-to-choose-form",
+      "source_printed_page": 12,
+      "required_capability": "Evaluate why a business chooses a particular organisational form",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-reasons-to-change-form",
+      "source_printed_page": 12,
+      "required_capability": "Explain why a growing or changing business might alter its legal form",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-sole-trader",
+      "source_printed_page": 12,
+      "required_capability": "Identify the one-owner business form and associated decisions",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-private-limited",
+      "source_printed_page": 12,
+      "required_capability": "Compare private limited companies with other forms",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-public-limited",
+      "source_printed_page": 12,
+      "required_capability": "Compare public limited companies with other forms",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-private-sector",
+      "source_printed_page": 12,
+      "required_capability": "Distinguish privately owned organisations from public-sector bodies",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-public-sector",
+      "source_printed_page": 12,
+      "required_capability": "Explain how public ownership may affect mission and decisions",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-not-for-profit",
+      "source_printed_page": 12,
+      "required_capability": "Explain organisational aims where surpluses support the mission",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-social-enterprises",
+      "source_printed_page": 12,
+      "required_capability": "Apply the social-enterprise model to business objectives",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-unlimited-liability",
+      "source_printed_page": 12,
+      "required_capability": "Explain owner exposure to business obligations where liability is unlimited",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-limited-liability",
+      "source_printed_page": 12,
+      "required_capability": "Explain the scope and limitations of limited shareholder liability",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-ordinary-share-capital",
+      "source_printed_page": 12,
+      "required_capability": "Explain how an ordinary share issue raises equity finance and affects ownership",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-market-capitalisation",
+      "source_printed_page": 12,
+      "required_capability": "Calculate or interpret share price times issued shares and avoid confusing valuation with cash",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-dividends",
+      "source_printed_page": 12,
+      "required_capability": "Explain dividend income and why it is not guaranteed",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-shareholder-role",
+      "source_printed_page": 12,
+      "required_capability": "Distinguish shareholders' ownership from company management",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-why-invest",
+      "source_printed_page": 12,
+      "required_capability": "Explain possible dividend, capital-growth and influence motives of investors",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-share-price-influences",
+      "source_printed_page": 12,
+      "required_capability": "Analyse internal and external drivers of quoted share prices",
+      "identified_learn_page_ids": [
+        "bus-fnd-004"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-share-price-significance",
+      "source_printed_page": 12,
+      "required_capability": "Interpret what a share-price change means and what it does not prove",
+      "identified_learn_page_ids": [
+        "bus-fnd-004"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-312-ownership-mission-objectives",
+      "source_printed_page": 12,
+      "required_capability": "Analyse how organisational ownership influences mission and objectives",
+      "identified_learn_page_ids": [
+        "bus-fnd-003"
+      ],
+      "learn_asset_identified_only": true,
+      "teaching_adequacy": "unverified",
+      "independently_scored_assessment": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    }
+  ]
+}

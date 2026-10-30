@@ -12,6 +12,25 @@
         ]
       },
       {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why quoted share prices change",
+        "body": "A quoted share price reflects investors' willingness to buy and sell ownership at a particular price, influenced by expectations of future cash flows, profit, dividends, growth and risk. Internal developments such as a credible expansion plan, higher expected costs, weak results or a governance concern can change those expectations. External developments such as interest rates, economic growth, sector demand, inflation, competitor activity and shifts in investor sentiment also matter. For example, if a retailer reports stronger sales but rising costs and reduced expected profit, its share price could fall despite the sales increase. Conversely, credible forecasts of stronger future profit may lift the price before reported profit improves. Explain the chain from new information to changed expected returns or risk to demand for shares; avoid claiming a fixed price response, because several influences act at once.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "What a share-price change means for a business",
+        "body": "A company has 4 million issued shares at £5 each, so its equity market capitalisation is £20 million. After less optimistic earnings expectations, the price moves to £4.50. With the number of shares unchanged, market capitalisation becomes £18 million. Existing shareholders' holdings are worth less at the new market price, but the company has not itself paid out £2 million merely because its shares traded lower. A lower quoted price may affect investor confidence, the appeal and dilution cost of a future share issue, perceived takeover vulnerability or management pressure. It does not automatically change the revenue earned from customers today. A higher price may improve confidence, but it is not proof of a better underlying strategy. For a justified judgement, distinguish the cause of the change, its size and persistence, the company's cash and financing needs, and the interests of existing and prospective investors.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price",
+          "aqa-7132-3.1.2:market-capitalisation",
+          "aqa-7132-3.1.2:effects-of-ownership-on-mission-objectives-and-decisions"
+        ]
+      },
+      {
         "treatment": "comparison",
         "heading": "Ownership, management and governance are different",
         "body": "Ownership means holding a legal or economic interest, such as shares. Management is the delegated organisation of daily and strategic business activity. Governance is the system through which a company is directed, overseen and held accountable. A shareholder does not necessarily manage the company, and a manager setting staff rotas is not carrying out corporate governance. A board challenging a high-risk acquisition is governance because it involves oversight of a major decision and risk.",
@@ -96,6 +115,14 @@
       {
         "term": "incentive",
         "definition": "A reward or pressure that may influence a person’s behaviour or decisions."
+      },
+      {
+        "term": "quoted share price",
+        "definition": "The market price at which an ordinary share is currently traded, reflecting buyers' and sellers' expectations and risk."
+      },
+      {
+        "term": "capital gain or loss",
+        "definition": "A rise or fall in the market value of an investor's shareholding relative to its purchase value, distinct from dividend income."
       }
     ],
     "worked_examples": []
