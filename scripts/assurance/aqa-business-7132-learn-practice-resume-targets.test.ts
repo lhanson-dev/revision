@@ -30,9 +30,10 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     const cases = [
       {
         batch: '3.1-3.2',
-        // #698: profit-importance learning changes bus-fnd-005. Preserve the
-        // historical ledger; its old exact fingerprint is NOT reusable.
-        stale: ['bus-fnd-005', 'bus-fnd-009'],
+        // #698: merged profit-importance teaching changes bus-fnd-005;
+        // §3.1.2 shareholder valuation/price explanations change 003/004.
+        // Preserve the historic ledger: changed fingerprints are NOT reusable.
+        stale: ['bus-fnd-003', 'bus-fnd-004', 'bus-fnd-005', 'bus-fnd-009'],
       },
       {
         batch: '3.4',

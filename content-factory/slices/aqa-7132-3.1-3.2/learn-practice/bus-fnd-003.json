@@ -29,6 +29,17 @@
         ]
       },
       {
+        "treatment": "worked_example",
+        "heading": "Ordinary shares, dividends and market capitalisation",
+        "body": "Ordinary shares represent portions of a company's equity ownership. An investor might buy them for possible dividend income, future capital gains, a vote or influence, but neither a dividend nor a price rise is guaranteed. A dividend is a distribution to shareholders when declared; it is not an interest payment or the same thing as the company's total profit. Market capitalisation is the market value of issued equity: share price × shares in issue. Suppose a listed company has 2 million issued ordinary shares priced at £3.50. Its market capitalisation is £7 million. If the price falls to £2.80 with the share count unchanged, market capitalisation becomes £5.6 million. The £1.4 million change is in investors' aggregate market valuation, not automatically a £1.4 million cash outflow from the company. An investor with 1,000 shares receiving a declared dividend of 12p per share receives £120, subject to the dividend's actual terms. In an exam response, separate ownership, the company's access to new share finance, shareholder returns and the immediate cash consequences of a changing quoted price.",
+        "item_ids": [
+          "aqa-7132-3.1.2:ordinary-share-capital",
+          "aqa-7132-3.1.2:market-capitalisation",
+          "aqa-7132-3.1.2:dividends",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest"
+        ]
+      },
+      {
         "treatment": "example_non_example",
         "heading": "Applying ownership to mission, objectives and decisions",
         "body": "Example: Green Routes Ltd is a social enterprise selling refurbished bicycles. Its ownership and purpose mean that it may set objectives such as expanding affordable access to transport and reinvesting most profits in training local repair workers. It still needs enough financial health to survive, but maximising payouts to owners is not its main objective. If its founders issue ordinary shares to new investors, the extra finance could fund a workshop. However, the founders' ownership is diluted and new shareholders may seek greater influence or a stronger focus on financial returns. The ownership change could therefore affect objectives and decisions.\n\nExample: A private-sector plc seeking equity investment may prioritise growth, profits and returns to shareholders. Its directors may choose a decision that delivers finance for expansion, while balancing potential shareholder pressure and loss of founder control.\n\nNon-example: It is too simplistic to say every business has the same objective because all organisations need money. A council service, a charity and a shareholder-owned company can all need sound finances, but their ownership and mission can lead them to judge success differently.",
@@ -97,6 +108,14 @@
       {
         "term": "social enterprise",
         "definition": "A trading business that pursues a social or environmental purpose and reinvests most profits in that purpose."
+      },
+      {
+        "term": "market capitalisation",
+        "definition": "The current share price multiplied by the number of issued shares; an equity market valuation, not the company's cash balance."
+      },
+      {
+        "term": "dividend",
+        "definition": "A distribution declared by a company to eligible shareholders, often quoted per share; it is not guaranteed."
       }
     ],
     "worked_examples": []
