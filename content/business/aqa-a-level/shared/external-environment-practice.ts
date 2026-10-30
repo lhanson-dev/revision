@@ -129,7 +129,7 @@ export const businessExternalEnvironmentCases = [
   {
     "id": "fair-trade",
     "target": "aqa-7132-3.1.3:fair-trade",
-    "node": "bus-ext-006",
+    "node": "bus-fnd-009",
     "context": "A small chocolate maker is considering certified fair-trade cocoa from a supplier whose price is above its current input price. Some of its customers say ethical sourcing matters when they choose chocolate.",
     "stem": "Which judgement gives the most balanced effect on costs and potential demand?",
     "options": [
