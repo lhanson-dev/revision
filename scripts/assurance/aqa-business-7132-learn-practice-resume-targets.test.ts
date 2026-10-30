@@ -30,7 +30,9 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
     const cases = [
       {
         batch: '3.1-3.2',
-        stale: ['bus-fnd-009'],
+        // #698: profit-importance learning changes bus-fnd-005. Preserve the
+        // historical ledger; its old exact fingerprint is NOT reusable.
+        stale: ['bus-fnd-005', 'bus-fnd-009'],
       },
       {
         batch: '3.4',
