@@ -321,8 +321,8 @@ export function PlanWeekView({ days, todayKey, actions, onOpenDay }: PlanWeekVie
           ? Math.min(100, Math.round((day.plannedMinutes / day.availableMinutes) * 100))
           : 0
         return (
-          <section key={day.key} className="pln-weekgroup" data-today={day.today || undefined} aria-label={longDate(day.key)}>
-            <button type="button" className="pln-weekgroup__day" data-today={day.today || undefined} data-past={day.past || undefined} aria-label={`Open ${longDate(day.key)}`} onClick={() => onOpenDay(day.key)}>
+          <section key={day.key} className="pln-weekgroup" data-today={day.today || undefined} aria-label={day.today ? `Today, ${longDate(day.key)}` : longDate(day.key)}>
+            <button type="button" className="pln-weekgroup__day" data-today={day.today || undefined} data-past={day.past || undefined} aria-current={day.today ? 'date' : undefined} aria-label={`Open ${longDate(day.key)}`} onClick={() => onOpenDay(day.key)}>
               <span className="pln-weekgroup__name">{day.today ? 'Today' : weekdayName(day.key)}</span>
               <span className="pln-weekgroup__number">{shortDate(day.key)}</span>
             </button>
