@@ -51,6 +51,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
 - Issue #698 Business §3.5.2 reuse of original budget/cash-flow construction, six typed finance results and evidence limits → `docs/technical/Issue 698 Business Budget and Cash Flow Practice.md`
 - Issue #698 existing Business Practice DataDrills grouped to their actual topic while retaining untagged legacy courses → `docs/technical/Issue 698 Business Topic-Scoped Data Drills.md`
+- Issue #698 AQA Business 7132 interpretation-only elasticity demand, published Learn correction and safe unshipped Practice alignment → `docs/technical/Issue 698 Business Elasticity Exam Alignment.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
