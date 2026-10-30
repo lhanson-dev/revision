@@ -4,6 +4,7 @@ import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planni
 import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { loadLearnExposures } from '../services/progress/learn-exposure-service'
+import { loadSavedWork, type SavedWork } from './saved-work'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { homeActivityLabel, supportedActivityMinutes, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
@@ -35,6 +36,7 @@ interface PlannerHomeScreenProps {
   onOpenRev: (draft?: string, submit?: boolean) => void
   onOpenCourses: () => void
   onOpenCourse: (courseId: string) => void
+  onOpenSavedWork: (item: SavedWork) => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
@@ -70,7 +72,7 @@ function examDateLabel(key: string, short = false) {
 export function PlannerHomeScreen({
   client, userId, learnerName, programme,
   onOpenPlan, onOpenExamDates, onOpenProgress, onOpenRev, onOpenCourses,
-  onOpenCourse,
+  onOpenCourse, onOpenSavedWork,
 }: PlannerHomeScreenProps) {
   const [evidenceLoading, setEvidenceLoading] = useState(true)
   const [setupLoading, setSetupLoading] = useState(true)
@@ -78,6 +80,9 @@ export function PlannerHomeScreen({
   const [evidenceError, setEvidenceError] = useState('')
   const [setupError, setSetupError] = useState('')
   const [sessionsError, setSessionsError] = useState('')
+  const [savedWork, setSavedWork] = useState<SavedWork[]>([])
+  const [savedStatus, setSavedStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [savedWorkRefresh, setSavedWorkRefresh] = useState(0)
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
   const [plannedSessions, setPlannedSessions] = useState<PlannedSession[] | null>(null)
@@ -89,6 +94,22 @@ export function PlannerHomeScreen({
   const [askFocused, setAskFocused] = useState(false)
   const today = useLocalDay()
   const todayKey = dayKey(today)
+
+  // Saved-work discovery is independent from REV/Plan. A failed read must not erase its recommendation.
+  useEffect(() => {
+    let mounted = true
+    setSavedStatus('loading')
+    void loadSavedWork(client, userId, programme)
+      .then(result => {
+        if (!mounted) return
+        setSavedWork(result.items)
+        setSavedStatus(result.partialError ? 'error' : 'ready')
+      })
+      .catch(() => {
+        if (mounted) { setSavedWork([]); setSavedStatus('error') }
+      })
+    return () => { mounted = false }
+  }, [client, userId, programme, savedWorkRefresh])
 
   // Each data owner is independent. A failed exam/setup read does not erase valid Progress data.
   useEffect(() => {
@@ -297,6 +318,19 @@ export function PlannerHomeScreen({
         </form>
       </section>
 
+      {savedWork.length > 0 && <section className="home-v3-saved-work" aria-labelledby="home-v3-saved-work-heading">
+        <div className="home-v3-saved-work__copy">
+          <p className="ui-eyebrow">Saved activity · In progress</p>
+          <h2 id="home-v3-saved-work-heading">Continue where you left off</h2>
+          <p><strong>{savedWork[0].courseLabel}</strong> · {savedWork[0].kind === 'practice' ? 'Practice' : 'Exam Prep'} · {savedWork[0].title}</p>
+          <p>{savedWork[0].detail}</p>
+          {savedWork.length > 1 && <p className="home-v3-saved-work__other">{savedWork.length - 1} other saved {savedWork.length === 2 ? 'activity' : 'activities'} in your courses.</p>}
+        </div>
+        <Button variant="secondary" onClick={() => onOpenSavedWork(savedWork[0])}>{savedWork[0].actionLabel} <Icon name="arrow-right" size="inline" /></Button>
+      </section>}
+      {savedStatus === 'error' && <div className="home-v3-saved-work__notice" role="status">
+        Some saved activities could not be checked. <Button variant="tertiary" onClick={() => setSavedWorkRefresh(value => value + 1)}>Try again</Button>
+      </div>}
       {planNote && <p className="home-v3-notice" role="status">{planNote}</p>}
 
       <div className="home-v3-upper">
