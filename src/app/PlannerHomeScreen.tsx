@@ -323,7 +323,10 @@ export function PlannerHomeScreen({
           <h2 id="home-v3-saved-work-heading">Continue where you left off</h2>
           <p><strong>{savedWork[0].courseLabel}</strong> · {savedWork[0].kind === 'practice' ? 'Practice' : 'Exam Prep'} · {savedWork[0].title}</p>
           <p>{savedWork[0].detail}</p>
-          {savedWork.length > 1 && <p className="home-v3-saved-work__other">{savedWork.length - 1} other saved {savedWork.length === 2 ? 'activity' : 'activities'} in your courses.</p>}
+          {savedWork.length > 1 && <div className="home-v3-saved-work__other">
+            <p>{savedWork.length - 1} other saved {savedWork.length === 2 ? 'activity' : 'activities'} in your courses.</p>
+            <Button variant="tertiary" onClick={onOpenCourses}>View your courses</Button>
+          </div>}
         </div>
         <Button variant="secondary" onClick={() => onOpenSavedWork(savedWork[0])}>{savedWork[0].actionLabel} <Icon name="arrow-right" size="inline" /></Button>
       </section>}
