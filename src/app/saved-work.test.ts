@@ -75,6 +75,7 @@ describe('saved Practice and timed exam discovery', () => {
     const { client, reads } = fakeClient({ practice: [await practiceRow()] })
     const result = await loadSavedWork(client, userId, programme, now)
     expect(result.partialError).toBe(false)
+    expect(result.practiceError).toBe(false)
     expect(result.items).toMatchObject([{
       kind: 'practice', courseId: entry.course.id, moduleId: adapter.manifest.id,
       topicId: topic.id, detail: '1 of 5 questions answered', actionLabel: 'Open saved Practice',
@@ -116,7 +117,11 @@ describe('saved Practice and timed exam discovery', () => {
   it('keeps recoverable Practice visible when only exam lookup fails; fails closed if both fail', async () => {
     const partial = fakeClient({ practice: [await practiceRow()], examError: true })
     expect(await loadSavedWork(partial.client, userId, programme, now)).toMatchObject({
-      partialError: true, items: [{ kind: 'practice' }],
+      partialError: true, practiceError: false, items: [{ kind: 'practice' }],
+    })
+    const lostPractice = fakeClient({ practiceError: true })
+    expect(await loadSavedWork(lostPractice.client, userId, programme, now)).toMatchObject({
+      partialError: true, practiceError: true, items: [],
     })
     const both = fakeClient({ practiceError: true, examError: true })
     await expect(loadSavedWork(both.client, userId, programme, now)).rejects.toThrow(/Could not check/)
