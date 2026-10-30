@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "qualification": "AQA A-level Business 7132",
+  "source_version": "v2.0 June 2023",
+  "source_url": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_section": "3.1.3",
+  "printed_page": 13,
+  "pdf_page_index": 12,
+  "source_rights": "REFERENCE_ONLY",
+  "official_source_page_visually_checked": true,
+  "original_uploaded_sha256_parity_verified": false,
+  "scope": "Only §3.1.3. Seven separately named influences x effects on cost and demand; 14 analytic obligations, not a complete A-level denominator.",
+  "count": 14,
+  "items": [
+    {
+      "atomic_id": "aqa7132-313-competition-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of competition, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-competition-restaurant-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-competition-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of competition, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-competition-restaurant-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-market-conditions-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of market conditions, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:market-conditions",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-market-conditions-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of market conditions, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:market-conditions",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-incomes-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of incomes, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:incomes-and-demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-income-premium-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-incomes-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of incomes, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:incomes-and-demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-income-premium-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-interest-rates-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of interest rates, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:interest-rates",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-interest-housebuilder-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-interest-rates-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of interest rates, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:interest-rates",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-interest-housebuilder-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-demographic-factors-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of demographic factors, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:demographic-factors",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-demographic-care-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-demographic-factors-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of demographic factors, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:demographic-factors",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-demographic-care-01"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-environmental-issues-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of environmental issues, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:environmental-issues",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-ethical-packaging-01",
+        "rev7132-3.1.3-fair-trade-cocoa-02"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-environmental-issues-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of environmental issues, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:environmental-issues",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-ethical-packaging-01",
+        "rev7132-3.1.3-fair-trade-cocoa-02"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-fair-trade-costs",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific costs effect of fair trade, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:environmental-issues",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-ethical-packaging-01",
+        "rev7132-3.1.3-fair-trade-cocoa-02"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-fair-trade-demand",
+      "source_printed_page": 13,
+      "source_pdf_page_index": 12,
+      "required_obligation": "Explain a plausible, business-specific demand effect of fair trade, stating uncertainty and context",
+      "existing_candidate_id": "aqa-7132-3.1.3:environmental-issues",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "published_mcq_ids": [
+        "rev7132-3.1.3-ethical-packaging-01",
+        "rev7132-3.1.3-fair-trade-cocoa-02"
+      ],
+      "published_mcq_only_one_selected_effect": "not independent proof of explaining both cost and demand",
+      "teaching_adequacy": "unverified",
+      "written_application_assessment": "unverified",
+      "real_signed_in_acceptance": "unverified"
+    }
+  ],
+  "caveats": [
+    "The historic course foundation combines environmental issues/fair trade into an environmental-issues candidate; neither should be reported as a separately validated exact-skill mastery.",
+    "Single-option MCQs check selected inference, not complete written analysis, two-channel explanation or qualified examiner judgement.",
+    "No live signed-in evidence/repair/retest, no source-PDF binary parity, no independent expert course assurance."
+  ]
+}
