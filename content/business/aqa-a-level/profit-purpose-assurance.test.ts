@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import sourceAudit from '../../../audits/2026-10-30-aqa-business-7132-section-311-source-to-live.json'
 import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
@@ -16,6 +17,25 @@ const exactIds = [
 ]
 
 describe('Issue #698: exact AQA 7132 §3.1.1 profit teaching and final-value Practice', () => {
+  it('records 16 distinct source-derived obligations, without laundering old keyword hits into coverage PASS', () => {
+    expect(sourceAudit.source_section).toBe('3.1.1')
+    expect(sourceAudit.official_version_reviewed).toBe(true)
+    expect(sourceAudit.original_user_upload_sha_verified).toBe(false)
+    expect(sourceAudit.items).toHaveLength(16)
+    expect(new Set(sourceAudit.items.map(item => item.atomic_id)).size).toBe(16)
+    expect(sourceAudit.items.every(item =>
+      [11, 12].includes(item.source_printed_page)
+      && item.teaching_adequacy === 'unverified'
+      && item.live_acceptance === 'unverified'
+      && item.learn_page_ids.length > 0)).toBe(true)
+    const objectives = sourceAudit.items.filter(item => item.atomic_id.endsWith('-as-objective'))
+    expect(objectives).toHaveLength(4)
+    expect(new Set(objectives.map(item => item.prior_344_candidate_id)).size).toBe(1)
+    const profitImportance = sourceAudit.items.find(item => item.atomic_id.endsWith('-profit-importance'))
+    expect(profitImportance?.prior_344_candidate_id).toBeNull()
+    expect(profitImportance?.published_assessment_evidence).toBe('unverified')
+  })
+
   it('publishes explicit measurement AND importance in the actual Learn page for all three A-level papers', () => {
     for (const pack of packs) {
       const pages = pack.learn!.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages))
