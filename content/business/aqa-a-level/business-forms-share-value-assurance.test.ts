@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
-import scoped from '../../audits/2026-10-30-aqa-business-7132-section-312-source-to-live.json'
+import scoped from '../../../audits/2026-10-30-aqa-business-7132-section-312-source-to-live.json'
 
 const packs = [paper1, paper2, paper3] as const
 const page = (pack: (typeof packs)[number], id: string) => pack.learn!.chapters
