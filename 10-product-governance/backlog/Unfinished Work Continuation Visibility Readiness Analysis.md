@@ -1,7 +1,7 @@
 # Unfinished Work Continuation Visibility — Home and Course Overview
 
 **Issue:** #727  
-**Lifecycle:** Analyse — Founder concept direction given 30 October 2026; Definition of Ready / permission to implement **not yet approved**.  
+**Lifecycle:** In Progress — Founder explicitly approved Issue #727 as Ready on 30 October 2026. Governed implementation has started in PR #728; merge remains separately gated.  
 **Canonical experience:** `/revision/app/` → `src/main.tsx` → `PlannerRuntime` → `PlannerHomeScreen` or `CourseExperienceScreen`.  
 **Governed reference:** `80-company-workflows/Feature Definition and Measurement Workflow.md`. This is backlog analysis, **not active product authority**.
 
@@ -104,6 +104,6 @@ The implementation PR must include actual code, tests, documentation, and any ne
 14. Test approach — PASS, scoped acceptance listed.
 15. Documentation and authority — PROPOSED on branch; pending Founder-reviewed governed merge.
 16. Blocking experience choices — recommendation is single most recent on Home, four subordinate Overview spotlights, no fake Learn/Progress in-progress status; no further scope expansion.
-17. **Founder Definition-of-Ready approval — NOT YET GRANTED.**
+17. **Founder Definition-of-Ready approval — GRANTED** in the 30 October 2026 conversation, authorising implementation but not merge.
 
-**Recommendation:** approve this constrained design as Ready after Founder reviews this definition and its proposed authority amendments. Do not start material implementation until approval. Founder must also separately approve the eventual specific implementation PR merge under current repository governance.
+**Decision:** Founder approved this scope as Ready on 30 October 2026. Implementation is underway; final exact-head CI and separate PR-specific merge approval remain required.
