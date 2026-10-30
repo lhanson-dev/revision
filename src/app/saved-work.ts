@@ -16,19 +16,13 @@ const practiceSnapshot = z.object({
   }),
   pending: z.unknown().nullable(),
 })
-const examSnapshot = z.object({
-  schemaVersion: z.literal(1),
-  phase: z.enum(['writing', 'marking', 'submitting', 'submitted']),
-  questionIndex: z.number().int().nonnegative(),
-})
-
 type PracticeRow = {
   user_id: string; course_id: string; module_id: string; topic_id: string
   content_fingerprint: string; snapshot: unknown; expires_at: string; updated_at: string
 }
 type ExamRow = {
   user_id: string; course_id: string; module_id: string; exam_id: string
-  content_fingerprint: string; snapshot: unknown; expires_at: string; updated_at: string
+  content_fingerprint: string; phase: string; expires_at: string; updated_at: string
 }
 
 export type SavedWork = {
@@ -68,7 +62,7 @@ export async function loadSavedWork(
       .select('user_id,course_id,module_id,topic_id,content_fingerprint,snapshot,expires_at,updated_at')
       .eq('user_id', userId).in('course_id', courseIds).limit(200),
     client.from('learner_exam_attempts')
-      .select('user_id,course_id,module_id,exam_id,content_fingerprint,snapshot,expires_at,updated_at')
+      .select('user_id,course_id,module_id,exam_id,content_fingerprint,phase:snapshot->>phase,expires_at,updated_at')
       .eq('user_id', userId).in('course_id', courseIds).limit(200),
   ])
   const [practiceRead, examRead] = reads.map(read =>
@@ -109,8 +103,7 @@ export async function loadSavedWork(
   for (const row of (examRead.data ?? []) as ExamRow[]) {
     const entry = courses.get(row.course_id)
     if (!entry || row.user_id !== userId || !alive(row.expires_at, now)) continue
-    const parsed = examSnapshot.safeParse(row.snapshot)
-    if (!parsed.success || parsed.data.phase === 'submitted') continue
+    if (!['writing', 'marking', 'submitting'].includes(row.phase)) continue
     const mock = availableCourseMocks(entry.course)
       .find(item => item.moduleId === row.module_id && item.exam.id === row.exam_id)
     if (!mock) continue
@@ -118,8 +111,8 @@ export async function loadSavedWork(
     items.push({
       kind: 'exam', courseId: row.course_id, moduleId: row.module_id,
       courseLabel: entry.label, title: mock.exam.title,
-      detail: parsed.data.phase === 'submitting' ? 'Exam submission needs finishing'
-        : parsed.data.phase === 'marking' ? 'Marking in progress'
+      detail: row.phase === 'submitting' ? 'Exam submission needs finishing'
+        : row.phase === 'marking' ? 'Marking in progress'
         : 'Timed mock saved',
       actionLabel: 'Open saved Exam Prep', updatedAt: row.updated_at,
     })
