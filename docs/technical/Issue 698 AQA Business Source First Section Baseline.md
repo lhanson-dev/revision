@@ -25,7 +25,9 @@ All teaching, assessment, Exam Prep and live learner acceptance fields are **UNV
 
 `scripts/assurance/aqa-business-7132-source-baseline.test.ts` validates the source structure and explicit epistemic limitations, retains the old 344 candidate source for comparison, rejects the compound-objective keyword false pass, checks the three actual AQA 7132 Business ContentPacks, and emits a machine-readable `REVISION_BUSINESS_SOURCE_FIRST_BASELINE` **section-level supply report**.
 
-The report only associates historical bank records and possible Learn nodes at **section scope**; it never treats a section-level tagged question as proof that an independent checkpoint is taught, that working is examined, or that a signed-in student's result is persisted. Canonical learner application remains `/revision/app/`. No content, schema, learner evidence, question identity, Plan/REV, signup or UI change is included.
+The report only associates historical bank records and possible Learn nodes at **section scope**; it never treats a section-level tagged question as proof that an independent checkpoint is taught, that working is examined, or that a signed-in student's result is persisted.
+
+For a reproducible local JSON checkpoint ledger run `node scripts/assurance/export-aqa-business-7132-source-baseline.mjs`. The script reruns the actual ContentPack-backed test and writes `tmp/assurance/aqa-7132-source-first-checkpoints-CANDIDATE.json` with one row per checkpoint. It deliberately sets exact checkpoint Learn, scored Practice and exam-marking links to `null`; the accompanying per-section supply candidates are insufficient for an adequacy PASS. Canonical learner application remains `/revision/app/`. No content, schema, learner evidence, question identity, Plan/REV, signup or UI change is included.
 
 ## Required follow-through — do not close #698 on this checkpoint
 
