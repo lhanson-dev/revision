@@ -83,6 +83,10 @@ export type FocusedLearningWorkspaceProps = {
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   checkpointContext?: { client: SupabaseClient; userId: string; courseId: string }
+  /** Factual owner-verified Practice checkpoints for the current course/module, not REV recommendations. */
+  savedPracticeTopics?: readonly { id: string; detail: string }[]
+  savedPracticeStatus?: 'loading' | 'ready' | 'error'
+  onRetrySavedTopics?: () => void
   contextLabel?: string
   includeExamQuestions?: boolean
   /** Practice only: open this topic first (for example when arriving from a Learn page). */
@@ -158,6 +162,9 @@ export function FocusedLearningWorkspace({
   saveError,
   onRecordEvidence,
   checkpointContext,
+  savedPracticeTopics = [],
+  savedPracticeStatus = 'ready',
+  onRetrySavedTopics,
   contextLabel,
   includeExamQuestions = true,
   preferredTopicId,
@@ -1063,6 +1070,9 @@ export function FocusedLearningWorkspace({
             status={progress?.status}
             lastPractised={lastPractisedLabel(progress?.lastPractisedAt)}
             topics={topics.map((item) => ({ id: item.id, label: item.shortTitle }))}
+            savedTopicIds={savedPracticeTopics.map(item => item.id)}
+            savedTopicStatus={savedPracticeStatus}
+            onRetrySavedTopics={onRetrySavedTopics}
             topicId={topicId}
             onChangeTopic={changeTopic}
             length={length}
