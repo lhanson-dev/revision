@@ -121,6 +121,8 @@ export const calculationEvidenceSchema = z.object({
   expectedValue: z.number().finite(),
   unit: z.string().min(1).optional(),
   confidence: answerConfidenceSchema.optional(),
+  /** Single final-number result only: never claim the student showed method or a diagram. */
+  itemMapping: objectiveItemMappingSchema.optional(),
 })
 
 export const examQuestionEvidenceSchema = z.object({
@@ -198,14 +200,14 @@ export type LearningEvidence = z.infer<typeof learningEvidenceSchema>
  * Multi-target questions and legacy data cannot silently prove a specific skill.
  */
 export function individualSpecItemObservation(evidence: LearningEvidence) {
-  if (evidence.source !== 'multiple_choice' || evidence.schemaVersion !== 2) return null
+  if ((evidence.source !== 'multiple_choice' && evidence.source !== 'calculation') || evidence.schemaVersion !== 2) return null
   const specItemId = evidence.itemMapping?.singleTargetSpecItemId
   if (!specItemId) return null
   return {
     evidenceId: evidence.id, moduleId: evidence.moduleId, topicId: evidence.topicId,
     contentId: evidence.contentId, specItemId, occurredAt: evidence.occurredAt,
     correct: evidence.correct, confidence: evidence.confidence ?? null,
-    scoring: 'software-scored-choice' as const,
+    scoring: evidence.source === 'calculation' ? 'software-scored-final-number' as const : 'software-scored-choice' as const,
   }
 }
 
