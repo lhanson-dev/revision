@@ -31,19 +31,73 @@
         },
         {
           "id": "BUS7132-CHK-3.1.1-03",
-          "description": "profit growth survival cash flow social ethical objectives separately",
+          "description": "profit objective",
           "evidence": "unverified",
           "parent_source_section": "3.1.1"
         },
         {
           "id": "BUS7132-CHK-3.1.1-04",
-          "description": "revenue fixed variable total costs",
+          "description": "growth objective",
           "evidence": "unverified",
           "parent_source_section": "3.1.1"
         },
         {
           "id": "BUS7132-CHK-3.1.1-05",
-          "description": "profit importance",
+          "description": "survival objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-06",
+          "description": "cash-flow objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-07",
+          "description": "social objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-08",
+          "description": "ethical objective",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-09",
+          "description": "calculate revenue",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-10",
+          "description": "distinguish fixed costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-11",
+          "description": "distinguish variable costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-12",
+          "description": "calculate total costs",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-13",
+          "description": "measure profit",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.1"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.1-14",
+          "description": "explain why profit matters",
           "evidence": "unverified",
           "parent_source_section": "3.1.1"
         }
@@ -145,7 +199,13 @@
         },
         {
           "id": "BUS7132-CHK-3.1.3-06",
-          "description": "environmental issues and fair trade costs and demand",
+          "description": "environmental issues affecting costs and demand",
+          "evidence": "unverified",
+          "parent_source_section": "3.1.3"
+        },
+        {
+          "id": "BUS7132-CHK-3.1.3-07",
+          "description": "fair-trade choices affecting costs and demand",
           "evidence": "unverified",
           "parent_source_section": "3.1.3"
         }
@@ -655,30 +715,48 @@
         },
         {
           "id": "BUS7132-CHK-3.5.2-03",
-          "description": "construct and interpret break-even diagrams",
+          "description": "construct break-even diagram",
           "evidence": "unverified",
           "parent_source_section": "3.5.2"
         },
         {
           "id": "BUS7132-CHK-3.5.2-04",
-          "description": "break-even output margin of safety unit/total contribution",
+          "description": "interpret break-even diagram",
           "evidence": "unverified",
           "parent_source_section": "3.5.2"
         },
         {
           "id": "BUS7132-CHK-3.5.2-05",
-          "description": "illustrate changes in price output and costs on break-even diagram",
+          "description": "break-even output margin of safety unit/total contribution",
           "evidence": "unverified",
           "parent_source_section": "3.5.2"
         },
         {
           "id": "BUS7132-CHK-3.5.2-06",
-          "description": "gross operating and net profitability",
+          "description": "illustrate price change on break-even diagram",
           "evidence": "unverified",
           "parent_source_section": "3.5.2"
         },
         {
           "id": "BUS7132-CHK-3.5.2-07",
+          "description": "illustrate output change on break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-08",
+          "description": "illustrate cost change on break-even diagram",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-09",
+          "description": "gross operating and net profitability",
+          "evidence": "unverified",
+          "parent_source_section": "3.5.2"
+        },
+        {
+          "id": "BUS7132-CHK-3.5.2-10",
           "description": "payables receivables and cash timing",
           "evidence": "unverified",
           "parent_source_section": "3.5.2"
