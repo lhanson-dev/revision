@@ -124,6 +124,10 @@ test('scored Practice restores the exact next question after a refresh without a
   await expect(page.getByRole('heading', { name: 'Explore this course' })).toBeVisible()
   const spotlight = page.locator('.course-overview-spotlight--saved').filter({ hasText: 'Practice' })
   await expect(spotlight.getByText('In progress')).toBeVisible()
+  await testInfo.attach('saved-practice-overview-' + testInfo.project.name + '.png', {
+    body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
+    contentType: 'image/png',
+  })
   await spotlight.getByRole('button', { name: 'Open saved Practice' }).click()
   await page.reload()
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
