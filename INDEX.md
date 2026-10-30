@@ -56,6 +56,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 independent AQA Business §3.1.1 source-to-Learn review, profit importance and typed calculations (16 scoped obligations, not whole-course completion) → `docs/technical/Issue 698 Business 3.1.1 Profit Assurance.md`
 - Issue #698 Business §3.1.2 source-first ownership, shareholder value and share-price teaching correction with scoped 19-obligation evidence → `docs/technical/Issue 698 Business 3.1.2 Share Value Assurance.md`
 - Issue #698 Business §3.1.3 original single-target external-environment cost/demand Practice, bounded seven-factor source audit and honest learner evidence limits → `docs/technical/Issue 698 Business 3.1.3 External Environment Practice.md`
+- Issue #698 Business §3.2.2 original scored expected-value/net-gain Practice with exact two-requirement source boundary → `docs/technical/Issue 698 Business 3.2.2 Decision Numeracy Assurance.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
