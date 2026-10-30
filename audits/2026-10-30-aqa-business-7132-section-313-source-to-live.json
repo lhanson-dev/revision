@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "kind": "independent-section-source-to-live-audit",
+  "qualification": "AQA A-level Business 7132",
+  "official_version": "v2.0 June 2023",
+  "official_source": "https://filestore.aqa.org.uk/resources/business/specifications/AQA-7131-7132-SP-2023.PDF",
+  "source_section": "3.1.3",
+  "source_printed_page": 13,
+  "source_pdf_physical_page_index": 12,
+  "source_rights": "REFERENCE_ONLY",
+  "official_page_visually_checked": true,
+  "original_uploaded_sha_verified": false,
+  "scope": "Seven distinct source-listed factors for §3.1.3; this is neither the full section's skill denominator nor an adequate teaching, marked performance or whole-course pass.",
+  "count": 7,
+  "assessment_boundary": "One independently scored selected option per factor at AO2. Does not independently mark written cost-and-demand chains, evaluate per-factor teaching depth, demonstrate later repair/recheck or prove authenticated live learner persistence.",
+  "items": [
+    {
+      "atomic_id": "aqa7132-313-competition",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+      "required_capability": "Analyse how rivalry can change marketing costs and customer demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-competition",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-market-conditions",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:market-conditions",
+      "required_capability": "Distinguish market demand conditions from movements in input costs",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-market-conditions",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-incomes",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:incomes-and-demand",
+      "required_capability": "Apply income changes to consumer demand in a stated market",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-incomes",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-interest-rates",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:interest-rates",
+      "required_capability": "Explain the potential effect of rates on borrowing costs and finance-sensitive customer demand",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-interest-rates",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-demographics",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:demographic-factors",
+      "required_capability": "Apply a demographic shift to demand and labour cost pressures",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-demographics",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-environment",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:environmental-issues",
+      "required_capability": "Analyse environmental preferences as a demand change requiring possible investment",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-environment",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    },
+    {
+      "atomic_id": "aqa7132-313-fair-trade",
+      "source_printed_page": 13,
+      "source_requirement": "aqa-7132-3.1.3:fair-trade",
+      "required_capability": "Evaluate the cost and potential demand effects of sourcing under fair-trade arrangements",
+      "identified_learn_page_ids": [
+        "bus-fnd-009"
+      ],
+      "linked_original_practice_id": "rev7132-3.1.3-fair-trade",
+      "independently_scored_response": "single-option-MCQ",
+      "teaching_adequacy": "unverified",
+      "assessment_adequacy": "unverified",
+      "authenticated_learner_acceptance": "unverified"
+    }
+  ]
+}
