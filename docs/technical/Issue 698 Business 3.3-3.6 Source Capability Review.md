@@ -1,6 +1,6 @@
 # Issue #698 — AQA Business §§3.3–3.6, source-led capability and published-supply candidate audit
 
-**30 October 2026 — unmerged governed candidate.** Canonical learner runtime `/revision/app/`; actual paper packs `content/business/aqa-a-level/paper-{1,2,3}/index.ts`, through the existing validated content adapter. This is a **non-publishing audit-only change**: no user interface, content, marking engine, question IDs, account, Plan/Progress/REV, storage or learner migration changes.
+**30 October 2026 — unmerged governed candidate, expanded to include A-level-only sections §§3.7–3.10.** Canonical learner runtime `/revision/app/`; actual paper packs `content/business/aqa-a-level/paper-{1,2,3}/index.ts`, through the existing validated content adapter. This is a **non-publishing audit-only change**: no user interface, content, marking engine, question IDs, account, Plan/Progress/REV, storage or learner migration changes.
 
 ## Source, rights and denominator boundary
 
@@ -35,3 +35,18 @@ This package advances **18 distinct sections**, alongside separate open PR #741 
 Next gate is **one per-atom quality/evidence review** against actual Learn blocks, question stimuli, response/marking expectations and Exam Prep with explicit `adequate/inadequate/absent/incorrect/unverified` based on evidence, not keyword confidence. Then prioritise authentic graph/forecast construction, applied written analysis/evaluation and skill-specific diagnosis where published scoring cannot meet the skill. Validate real signed-in students, persistence, recheck and planning before claiming acceptance.
 
 Documentation: original candidate data, test, export script, this indexed technical note and INDEX move together on this PR. No normative authority is being amended; historical 344 keyword and 194 baseline records remain unchanged. Issue #698 and #703 checkpoints stay open until proven.
+
+
+## A-level-only extension: §§3.7–3.10 (same governed PR)
+
+A second independent official-source candidate inventory, `scripts/assurance/data/aqa-business-7132-sections-37-310-atomic-review.json`, records **201 additional, provisional separately observable capabilities** across **18 A-level-only sections** (§§3.7.1–3.10.4). It separates financial ratio and investment-appraisal calculations from interpretation, different Porter's Five Forces and Ansoff options, types of integration and innovation, social/CSR models, the various change-management models and **network diagram interpretation, amendment, critical-path identification and total-float calculations**.
+
+`scripts/assurance/aqa-business-7132-37-310-source-review.test.ts` uses the same actual three-published-paper-pack supply boundary: section-linked candidate bank IDs, tagged Learn page existence and separately identified single-target scoreable question IDs. It **does not** attribute a general MCQ, question result, self-checked activity or model answer to an independently proved atomic skill. The new combined exporter can be run as:
+
+```bash
+node scripts/assurance/export-aqa-business-7132-33-310-review.mjs
+```
+
+It combines both separately tested inventories into a bounded **36-section, 421-skill candidate report**. No combined count is a verified complete AQA atom denominator, an exam-readiness rate or a completed independent educational review. The separate six-section §§3.1–3.2 **draft PR #741** is not assumed merged. These inventories still require independent exhaustive crosschecking of every official source row, qualified educational scrutiny and actual *per-atom* teaching/response/feedback evidence; they do not themselves close #698.
+
+**Documentation impact of expansion:** Additional original data, test and deterministic exporter are in this same PR; INDEX description and this technical note updated; no normative authority change, no existing learner-facing implementation and no rewriting of the 194/344 historic records.
