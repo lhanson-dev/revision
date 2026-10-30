@@ -28,7 +28,21 @@ const drills = [
   ['Break-even chart construction','Without looking at a model, sketch a break-even chart on paper for a product selling at £16 per unit, with £10 variable cost per unit and £12,000 fixed costs. Label your axes; plot total revenue and total cost at outputs 0, 2,000 and 4,000; mark their intersection. Then separately amend the revenue line for a new price of £14, the fixed-cost intercept for new fixed costs of £15,000 (original £16 selling price restored), and the forecast output from 3,000 to 3,500 units. For each, mark the relevant intersection or output and state the margin of safety and profit effect. Check your own drawing against the model after attempting it.','Use output (units) on the horizontal axis and money (£) on the vertical axis, with uniform scales. At £16: total revenue points (0, £0), (2,000, £32,000), (4,000, £64,000). Total cost points (0, £12,000), (2,000, £32,000), (4,000, £52,000). Both straight lines meet at (2,000 units, £32,000). At £14: new revenue points (0, £0), (2,000, £28,000), (4,000, £56,000), so the new break-even intersection is (3,000 units, £42,000). At fixed costs £15,000 with the original £16 price, the new cost line passes through (0, £15,000), (2,000, £35,000), (4,000, £55,000) and intersects original revenue at (2,500 units, £40,000). With the original assumptions restored and only forecast output changed from 3,000 to 3,500 units, break-even stays at 2,000 units, margin of safety increases from 1,000 to 1,500 units, and profit from £6,000 to £9,000. Verify both labelled lines, cost intercept and axes on your own sketch. This model-answer reveal does not score or independently verify your drawing.'],
 ] as const
 
+// Reviewed primary topic for each existing original drill, with unchanged IDs,
+// order, prompts and answers. A new source drill needs a reviewed topic here.
+const drillTopics = [
+  'marketing', 'marketing', 'marketing', 'leadership', 'operations',
+  'operations', 'finance', 'finance', 'finance', 'finance',
+  'hr', 'hr', 'finance', 'finance', 'finance',
+  'finance', 'finance', 'operations', 'finance', 'finance',
+  'finance', 'finance', 'strategic-change', 'operations', 'finance',
+] as const
+if (drillTopics.length !== drills.length) {
+  throw new Error('Every published Business quantitative drill requires a reviewed topic')
+}
+
 export const dataDrills = drills.map(([title, prompt, answer], index) => dataDrillSchema.parse({
+  topic: drillTopics[index],
   id: `a-level-data-drill-${String(index + 1).padStart(2, '0')}`,
   title,
   prompt,

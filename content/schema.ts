@@ -86,6 +86,8 @@ export const caseStudySchema = z.object({
 
 export const dataDrillSchema = z.object({
   id: slugSchema,
+  /** Primary educational topic, optional for legacy unclassified packs. */
+  topic: topicIdSchema.optional(),
   title: z.string().min(1),
   prompt: z.string().min(1),
   answer: z.string().min(1),
@@ -318,6 +320,11 @@ export const contentPackSchema = z.object({
   assertUniqueIds(pack.flashcards, 'flashcards', context)
   assertUniqueIds(pack.questions, 'questions', context)
   assertUniqueIds(pack.caseStudies, 'caseStudies', context)
+  pack.dataDrills.forEach((drill, index) => {
+    if (drill.topic && !manifestTopics.has(drill.topic)) {
+      context.addIssue({ code: 'custom', path: ['dataDrills', index, 'topic'], message: `Data drill ${drill.id} references unknown topic ${drill.topic}` })
+    }
+  })
   assertUniqueIds(pack.dataDrills, 'dataDrills', context)
   assertUniqueIds(pack.examTechnique, 'examTechnique', context)
   assertUniqueIds(pack.exams, 'exams', context)
