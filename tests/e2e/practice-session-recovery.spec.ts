@@ -109,7 +109,7 @@ test('scored Practice restores the exact next question after a refresh without a
   await expect(page.getByText('1 of 5 answered. Your completed answers are saved.')).toBeVisible()
   await expect(page.getByRole('group', { name: 'How many?' })).toHaveCount(0)
   expect([...checkpointRows.values()].map(row => row.topic_id)).toEqual(['business'])
-  await page.getByRole('button', { name: 'Continue saved session' }.click()
+  await page.getByRole('button', { name: 'Continue saved session' }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
   expect(evidenceRows.size).toBe(1)
@@ -128,7 +128,7 @@ test('ambiguous answer checkpoint failure restores the same evidence id and comp
   const id = [...evidenceRows.keys()][0]
   await page.reload()
   await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
-  await page.getByRole('button', { name: 'Continue saved session' }.click()
+  await page.getByRole('button', { name: 'Continue saved session' }).click()
   await expect(page.locator('.ui-feedback-bar')).toBeVisible()
   expect(evidenceRows.size).toBe(1)
   expect([...evidenceRows.keys()][0]).toBe(id)
