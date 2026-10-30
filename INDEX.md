@@ -49,6 +49,7 @@ Use this file to find the governing source before substantive work.
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
+- Issue #698 current **published** AQA Business/Psychology per-requirement supply crosswalk, exact tagged question IDs, truthful unverified source/PDF and educational-status boundaries → `docs/technical/Issue 698 Real Published Course Requirement Evidence Crosswalk.md`
 - Issue #698 Business §3.5.2 reuse of original budget/cash-flow construction, six typed finance results and evidence limits → `docs/technical/Issue 698 Business Budget and Cash Flow Practice.md`
 - Issue #698 existing Business Practice DataDrills grouped to their actual topic while retaining untagged legacy courses → `docs/technical/Issue 698 Business Topic-Scoped Data Drills.md`
 - Issue #698 AQA Business 7132 interpretation-only elasticity demand, published Learn correction and safe unshipped Practice alignment → `docs/technical/Issue 698 Business Elasticity Exam Alignment.md`
