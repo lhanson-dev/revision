@@ -53,6 +53,8 @@ Use this file to find the governing source before substantive work.
 - Issue #698 Business §3.5.2 reuse of original budget/cash-flow construction, six typed finance results and evidence limits → `docs/technical/Issue 698 Business Budget and Cash Flow Practice.md`
 - Issue #698 existing Business Practice DataDrills grouped to their actual topic while retaining untagged legacy courses → `docs/technical/Issue 698 Business Topic-Scoped Data Drills.md`
 - Issue #698 AQA Business 7132 interpretation-only elasticity demand, published Learn correction and safe unshipped Practice alignment → `docs/technical/Issue 698 Business Elasticity Exam Alignment.md`
+- Issue #698 independent AQA Business §3.1.1 source-to-Learn review, profit importance and typed calculations (16 scoped obligations, not whole-course completion) → `docs/technical/Issue 698 Business 3.1.1 Profit Assurance.md`
+- Issue #698 Business §3.1.2 source-first ownership, shareholder value and share-price teaching correction with scoped 19-obligation evidence → `docs/technical/Issue 698 Business 3.1.2 Share Value Assurance.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
@@ -122,8 +124,9 @@ Use this file to find the governing source before substantive work.
 - Product principles → `10-product-governance/Product Principles.md`
 - Product system model / structured learner intelligence / Weakness Repair / adaptive recall foundations → `10-product-governance/Product System Model.md`
 - Course learning design / learning-node classification / Learn-Practice-Exam Prep treatment selection → `10-product-governance/Course Learning Blueprint.md`
-- Issue #727 Home/Course Overview unfinished-work continuation and section-spotlight Definition-of-Ready analysis (proposed, not approved authority) → `10-product-governance/backlog/Unfinished Work Continuation Visibility Readiness Analysis.md`
-- Issue #727 Home/Course Overview saved-work projection, recovery navigation and assurance (implementation candidate) → `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`
+- Issue #727 Home/Course Overview unfinished-work continuation and section-spotlight Definition-of-Ready analysis → `10-product-governance/backlog/Unfinished Work Continuation Visibility Readiness Analysis.md`
+- Issue #727 Home/Course Overview saved-work projection, recovery navigation and assurance → `docs/technical/Issue 727 Unfinished Work Visibility Implementation.md`
+- PR #728 Course Overview desktop light/dark visual-only Founder approval, candidate screenshot digests and release boundaries → `audits/2026-10-30-pr728-course-overview-visual-approval.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Returning Student Home hierarchy / REV recommendation / today's plan / exams / global Progress / courses and activity orientation → `10-product-governance/Returning Student Home Experience.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`

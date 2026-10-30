@@ -49,7 +49,7 @@ describe('Issue #698 AQA Business §3.5.2 published finance construction and typ
     const stableIds = businessFinanceNumericCases.map(x => `rev7132-3.5.2-${x.id}`)
     expect(new Set(stableIds).size).toBe(6)
     for (const pack of packs) {
-      const records = pack.practiceBank!.filter(record => record.namespace === 'rev7132')
+      const records = pack.practiceBank!.filter(record => record.namespace === 'rev7132' && record.batch === '3.5.2')
       expect(records).toHaveLength(6)
       expect(records.map(bankQuestionId)).toEqual(stableIds)
       expect(records.every(record => record.target_item_ids.length === 1
