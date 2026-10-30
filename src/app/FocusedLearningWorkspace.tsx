@@ -370,6 +370,9 @@ export function FocusedLearningWorkspace({
     setStatusMove(null)
     resetWritten()
     setOpenActivity(null)
+    // The previous topic may have gained or discarded a saved checkpoint since
+    // the summary was fetched. Recheck owner-scoped truth when choosing a topic.
+    if (isPractice && nextTopic !== topicId) onRetrySavedTopics?.()
   }
 
   /** Start the focused in-page activity, remembering the trigger for keyboard focus return. */
