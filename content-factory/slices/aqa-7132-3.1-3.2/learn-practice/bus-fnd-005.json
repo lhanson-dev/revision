@@ -30,7 +30,8 @@
           "aqa-7132-3.1.1:fixed-costs",
           "aqa-7132-3.1.1:variable-costs",
           "aqa-7132-3.1.1:total-costs"
-        ]
+        ],
+        "treatment": "worked_example"
       },
       {
         "treatment": "connection_synoptic_link",
