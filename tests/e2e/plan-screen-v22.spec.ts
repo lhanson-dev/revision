@@ -391,3 +391,15 @@ test('Today is highlighted consistently across Day, Week and Month; browsing ano
     expect(await appearance('.pln-cell[data-today]')).toEqual(dayStyle)
   }
 })
+
+test("Month preserves the exam subject fill under today's common ring", async ({ page }) => {
+  await seedPlanStudent(page)
+  await page.clock.setFixedTime(new Date(2026, 9, 22, 12))
+  await page.goto(`${appPath}#/plan?view=month&date=2026-10-22`)
+  await expect(page.locator('.pln-month')).toBeVisible()
+  const examToday = page.locator('.pln-cell[data-today][data-exam]')
+  await expect(examToday).toHaveCount(1)
+  await expect(examToday).toHaveAttribute('aria-current', 'date')
+  await expect(examToday).toHaveAttribute('style', /--subject-/)
+  expect(await examToday.evaluate((element) => getComputedStyle(element).boxShadow)).toContain('inset')
+})
