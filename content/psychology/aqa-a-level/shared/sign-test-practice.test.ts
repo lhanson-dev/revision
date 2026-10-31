@@ -27,6 +27,8 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
         expect(question?.type).toBe('calculation')
         if (question?.type !== 'calculation') continue
         expect(question.expected).toBe(item.question.calcs[0].stated_answer)
+        expect(question.unit).toBeNull()
+        expect(question.answerText).toBe(String(question.expected))
         const mapping = objectiveItemMappingForPractice(question)
         expect(mapping?.singleTargetSpecItemId).toBe('PSY-07-32')
         const saved = createCalculationEvidence({
