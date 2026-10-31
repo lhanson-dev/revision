@@ -36,7 +36,10 @@ describe('Issue #698 — real typed-number standard deviation Practice for AQA 7
   })
   it('publishes the same safe numeric response mode and worked method across all three existing packs',()=>{
     for(const pack of [paper1,paper2,paper3]) {
-      expect(pack.practiceBank).toEqual(psychologyStandardDeviationPracticeBank)
+      expect(pack.practiceBank).toEqual(expect.arrayContaining(psychologyStandardDeviationPracticeBank))
+      // Other Psychology calculations may be published without rewriting or
+      // replacing the four existing independently keyed SD cases.
+      expect(pack.practiceBank?.filter(q=>q.id.startsWith('sd-population-'))).toEqual(psychologyStandardDeviationPracticeBank)
       expect(pack.questions).toHaveLength(131)
       expect(pack.dataDrills).toHaveLength(16)
       const adapter=createLearningContentAdapter(pack)
@@ -45,7 +48,7 @@ describe('Issue #698 — real typed-number standard deviation Practice for AQA 7
         bank:adapter.listPracticeBank(),includeWritten:false,
       })
       expect(availableTypes(pool)).toEqual(['multiple-choice','calculation'])
-      const calculations=pool.filter(p=>p.type==='calculation')
+      const calculations=pool.filter(p=>p.type==='calculation' && p.id.startsWith('rev7182-4.2.3-sd-population-'))
       expect(calculations.map(p=>p.id)).toEqual(psychologyStandardDeviationPracticeBank.map(p=>`rev7182-4.2.3-${p.id}`))
       const learn=adapter.listLearnChapters().flatMap(ch=>ch.groups.flatMap(g=>g.pages)).find(p=>p.id==='research-methods-psy0726')
       expect(learn).toBeDefined()
