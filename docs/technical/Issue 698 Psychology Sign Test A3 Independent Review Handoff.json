@@ -17,7 +17,6 @@
     "content/psychology/aqa-a-level/paper-2/index.ts",
     "content/psychology/aqa-a-level/paper-3/index.ts"
   ],
-  "reviewedCodeBlobSha": "7d9a299d8aa2c6ae2418a5d5694a8cf1b1675aa4",
   "authoredItems": [
     {
       "id": "rev7182-4.2.3-sign-test-01",
@@ -80,6 +79,20 @@
       "affectedArtifact": "content/psychology/aqa-a-level/shared/sign-test-practice.ts",
       "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
       "origin": "internal review within authoring context; not independent A3"
+    },
+    {
+      "id": "A3-746-03",
+      "severity": "material",
+      "issueType": "compound-requirement-credit-from-one-numeric-answer",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "Parent PSY-07-32 contains both choosing the sign test and calculating it; an S value can evidence only the latter",
+      "recommendedCorrection": "Persist source-first calculation atom PSY-SRC-4233-IT03 as exact single target; retain parent only for canonical Learn page",
+      "affectedArtifact": "content/psychology/aqa-a-level/shared/sign-test-practice.ts and source-first supply crosswalk",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
     }
   ],
   "independentA3Review": {
@@ -97,5 +110,6 @@
     "durableMasteryClaimPermitted": false,
     "dataMigrationRequired": false,
     "founderMergeApprovalGiven": false
-  }
+  },
+  "sourceContentBlobSha": "321578d98328f10f6062be170a21ba84664c2ca4"
 }
