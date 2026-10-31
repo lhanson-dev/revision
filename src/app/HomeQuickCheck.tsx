@@ -109,7 +109,7 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
         </header>
         {task.source === 'planner' && actualMinutes !== task.estimatedMinutes && <p className="home-quick-check__notice" role="status">This topic has about {actualMinutes} minutes of supported practice. Your original {task.estimatedMinutes}-minute plan allocation is unchanged.</p>}
         {error && <Status tone="error">{error}</Status>}
-        {retryOption !== null && !checked && <p role="status">Your answer may already be saved. Retry the same choice to protect your progress.</p>}
+        {retryOption !== null && !checked && !saving && <p role="status">Your answer may already be saved. Retry the same choice to protect your progress.</p>}
         {!question ? <Status tone="warning">This quick check is no longer available for the recommended topic.</Status> : summary ? (
           <div className="home-quick-check__summary">
             <p className="ui-eyebrow">Quick check done · answers saved</p>
