@@ -49,6 +49,13 @@ describe('Issue #698 — source-first AQA Psychology 7182 v1.4 review baseline',
     expect(review.scope.assessment_annex_reconciled).toBe(false)
     expect(Object.values(review.acceptance).every(v=>v===false)).toBe(true)
     expect(review.paper_3.real_selection_and_persistence_acceptance).toBe('unverified')
+    const signChoice=review.inferential_review.atoms.find(x=>x.id==='PSY-SRC-4233-IT02')
+    const probability=review.inferential_review.atoms.find(x=>x.id==='PSY-SRC-4233-IT04')
+    // A question that specifies a sign test does not test independent test
+    // selection, and a supplied-critical-value decision does not prove a
+    // learner can explain probability and a significance threshold.
+    expect(signChoice?.candidate_practice_question_ids).toEqual([])
+    expect(probability?.candidate_practice_question_ids).toEqual([])
     const sign = review.inferential_review.atoms.find(x=>x.id==='PSY-SRC-4233-IT03')
     expect(sign?.required_independent_evidence_mode).toBe('typed-numeric-original')
     expect(sign?.candidate_practice_question_ids).toEqual(['psy-rm-applied-sign-test-01'])
