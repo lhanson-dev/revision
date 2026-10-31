@@ -42,7 +42,7 @@ export function parseTrustedEvent(event) {
 
 export function gitBlobSha(content) {
   const bytes = Buffer.from(content, 'utf8')
-  return createHash('sha1').update('blob ' + bytes.length + '\\0').update(bytes).digest('hex')
+  return createHash('sha1').update('blob ' + bytes.length).update(Buffer.from([0])).update(bytes).digest('hex')
 }
 
 export function validateReview(review) {
@@ -85,7 +85,7 @@ export function validateReview(review) {
 }
 
 function reviewSchema() {
-  const str = { type: 'string', minLength: 1 }
+  const str = { type: 'string' }
   const finding = {
     type: 'object', additionalProperties: false,
     required: ['itemId', 'severity', 'issueType', 'evidence', 'recommendedCorrection', 'affectedArtifact', 'resolutionStatus'],
