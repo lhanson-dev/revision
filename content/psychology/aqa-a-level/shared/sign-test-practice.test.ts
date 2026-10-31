@@ -4,6 +4,7 @@ import paper2 from '../paper-2'
 import paper3 from '../paper-3'
 import { individualSpecItemObservation } from '../../../../src/engine/evidence/evidence'
 import { createCalculationEvidence } from '../../../../src/app/practice-evidence'
+import { checkCalculation } from '../../../../src/app/practice-calculation'
 import { bankRecordToPractice, objectiveItemMappingForPractice } from '../../../../src/app/practice-questions'
 import { psychologySignTestCaseContracts, psychologySignTestPracticeBank, signTestCounts } from './sign-test-practice'
 
@@ -28,6 +29,13 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
         if (question?.type !== 'calculation') continue
         expect(question.expected).toBe(item.question.calcs[0].stated_answer)
         expect(question.unit).toBeNull()
+        expect(question.exactInteger).toBe(true)
+        for (const valid of [String(question.expected), String(question.expected) + '.0']) {
+          expect(checkCalculation(valid, question.accepted, question.unit, question.exactInteger).status).toBe('right')
+        }
+        for (const invalid of [String(question.expected - 0.4), String(question.expected + 0.4), 'not sure']) {
+          expect(checkCalculation(invalid, question.accepted, question.unit, question.exactInteger).status).not.toBe('right')
+        }
         expect(question.answerText).toBe(String(question.expected))
         const mapping = objectiveItemMappingForPractice(question)
         expect(mapping?.singleTargetSpecItemId).toBe('PSY-07-32')
