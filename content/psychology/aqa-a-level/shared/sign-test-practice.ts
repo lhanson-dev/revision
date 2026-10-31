@@ -90,7 +90,7 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
         points: [{ marks: 1, descriptor: 'Correct smaller sign count S after excluding ties.', accept: [String(item.statistic)] }],
         levels: [],
         indicative_content: [],
-        model_answer: `There are ${item.positive} ${item.positive === 1 ? 'increase' : 'increases'}, ${item.negative} ${item.negative === 1 ? 'decrease' : 'decreases'} and ${item.ties} ${item.ties === 1 ? 'tied pair' : 'tied pairs'}. Remove the ties: effective n = ${result.n}. S is the smaller of ${item.positive} and ${item.negative}, so S = ${item.statistic}. This is the sign-test statistic only, not a significance decision; a suitable critical-value table and stated test convention are needed for that.`,
+        model_answer: `There are ${item.positive} ${item.positive === 1 ? 'increase' : 'increases'}, ${item.negative} decreases and ${item.ties} ${item.ties === 1 ? 'tied pair' : 'tied pairs'}. Remove the ties: effective n = ${result.n}. S is the smaller of ${item.positive} and ${item.negative}, so S = ${item.statistic}. This is the sign-test statistic only, not a significance decision; a suitable critical-value table and stated test convention are needed for that.`,
       },
     },
   })
