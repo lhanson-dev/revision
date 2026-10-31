@@ -1,34 +1,41 @@
-# Issue #698 — AQA Business 7132 Marketing numerical capability: source-to-published correction
+# Issue #698 — Business 7132 Marketing numerical skills: source-to-published correction
 
-**31 October 2026 — governed candidate, not merged, live or externally educationally approved.** Canonical route `/revision/app/` → Courses → AQA A-level Business 7132 → Learn / Practice. Published storage: `content/business/aqa-a-level/paper-{1,2,3}/index.ts`, shared Learn projection `shared/learn.ts` from `content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-002.json`, shared structured bank via `src/app/practice-questions.ts` and `FocusedLearningWorkspace`. Exam Prep and mocks are unchanged.
+**31 October 2026 — unmerged governed candidate, not expert assured or accepted by a real learner.** The canonical route is `/revision/app/` → Courses → AQA Business 7132 → Learn/Practice. The three `content/business/aqa-a-level/paper-{1,2,3}/index.ts` packs share `bus-mkt-002` Learn and the same structured Practice adapter. No separate assessment engine is introduced.
 
-## Governing source and rights
+## Source and source-rights boundary
 
-The original Founder-supplied AQA AS/A-level Business **7132**, **v2.0, 14 June 2023**, 42-page PDF was SHA-256 verified in the audit workspace against #698's pinned `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`. It is `REFERENCE_ONLY`. Printed p15, §§3.3.1–3.3.2, requires business marketing objectives and the **separable calculations** of market growth, sales growth, share and size. The new examples are independently Revision-authored, not copied source text or awarding-body questions.
+The Founder-supplied AQA Business 7132 **v2.0 (14 June 2023)** 42-page PDF matched Issue #698 SHA-256 `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332` in the audit workspace. Printed **p15** requires independently distinguishable calculations for market size, market growth, market share and a firm's **sales growth**. Source is `REFERENCE_ONLY`; the new teaching and question contexts are original Revision-authored materials.
 
-The previous 501-provisional-atom register correctly differentiates these four abilities as `BUS7132-ATOM-3.3.2-005..008`, but this is not an independently approved complete denominator. The legacy 344 item IDs for market size, market growth and share are attached to **§3.3.1**; the historical map does **not** include a separately approved `sales-growth` item. Do not equate market-level growth and one firm's sales growth, including when attributing marks. Do not modify/relabel the historical 344 inventory to hide the gap.
+`BUS7132-ATOM-3.3.2-005..008` are four **provisional** independent source skills, not a complete or independently approved source denominator. Source maps historically associate size, growth and share with §3.3.1 item IDs. The old 344-item map lacks an exact, separate `sales-growth` item ID; it must not be fabricated or credited by reusing market-growth results.
 
-## Exact learner review
+## What was actually published before this correction
 
-| Source skill | Actual Learn | Previously published evidence | Corrective work | Remaining limitation |
-| --- | --- | --- | --- | --- |
-| Market growth (atom 005) | `bus-mkt-002` explains percentage growth | Unscored worked methods and written answer-reveal/point responses, not a reliable software-scored isolated final number | Two original typed final-answer calculations, with both an increase and a **negative contraction** | Working, applied interpretation and later independent retest not demonstrated |
-| **Sales growth (atom 006)** | `bus-mkt-002` compares firm sales with the market, but previously lacked an explicit worked firm-specific percentage-growth method | No separately mapped, independently scored sales-growth item | Added original **20% firm sales vs 30% market growth** stepwise worked comparison, and demonstrated the fall in market share from 20% to ~18.46% | Distinct approved `sales-growth` item mapping and authentic independently marked response **remain absent** |
-| Market share (atom 007) | `bus-mkt-002` has ratio, value/volume and counterexamples | Published `aqa7132-3.3-q03` and `rev7132-recheck-3.3-recheck-market-share-01` source-tagged MCQs | Reused both rather than generating a duplicate | Correct selected percentage does not prove independent working, interpretation or AO3/AO4 |
-| Market size (atom 008) | `bus-mkt-002` has size-by-value definition and sum-of-firms worked method | Historical source bank includes written numeric question not automatically marked as a final-number check | Two original typed results: **sum all market suppliers** and **derive total market from a firm’s share** | No scored market-definition reasoning, working or exam judgement |
+The actual structured bank already contained **software-scored final numbers**:
+- `aqa7132-3.3-q01`, `aqa-7132-3.3.1:market-size`: a sum of four firm sales, £24.2m. Original **4-mark** source question includes method points, while the current typed-answer Practice checks only the final number.
+- `aqa7132-3.3-q02`, `aqa-7132-3.3.1:market-growth`: rising market £48m→£54m, 12.5%. Original **3-mark** source question includes method points, while Practice checks only the final number.
+- `aqa7132-3.3-q03` and `rev7132-recheck-3.3-recheck-market-share-01`: existing individually tagged, independently answered *option-selection* market-share calculations, not marked workings.
 
-The scoped machine-readable adjudication is `audits/2026-10-31-aqa-business-7132-marketing-measures-source-to-learner.json`. It retains all four distinct requirement statuses; **none** is marked `Adequate and verified`. Sales-growth practice is **Inadequate**, not hidden by tagging it as market growth. The other three remain **Unverified** until marking, educational quality and actual student acceptance pass.
+These are **not unscored exercises**. Earlier candidate description asserting otherwise was corrected after inspecting `fast-path-question-bank.json` and the actual `bankRecordToPractice` behaviour. A separate observed assessment-integrity defect remains: the Practice screen can retain the legacy source's *multi-mark label* on a one-number check, despite not assessing method. This is tracked for a separate shared assessment contract correction rather than mixing it into the content-only PR.
 
-## Published implementation and validity boundary
+## Exact bounded corrective work
 
-Four new `rev7132-3.3.2-*` structured-bank question identities in `shared/marketing-quantitative-practice.ts` use the *existing* generic practice adapter and the exact historical 3.3.1 item IDs plus `bus-mkt-002` Learn node. Each is single-target and deterministically scores a **one-mark final number**. There are two genuine independent contexts for size, two for market growth; these are pedagogically justified alternatives for a fresh skill check, not an arbitrary number-of-questions quota.
+| Requirement | Actual Learn | Proposed new supply | Remaining limitation |
+| --- | --- | --- | --- |
+| Market growth — atom 005 | `bus-mkt-002` explains market growth | **One original negative-growth** final-number task `rev7132-3.3.2-market-growth-decline-02`, genuinely different from existing positive `q02` | No independent workings or AO3 application/evaluation |
+| **Sales growth — atom 006** | Adds a **firm-sales 20% vs whole-market 30%** worked method; firm share falls from 20% to 18.46% | No new scored item until source mapping is governed | **Inadequate** separately credited sales-growth practice |
+| Market share — atom 007 | `bus-mkt-002` includes value/volume share, working and pitfalls | No new task; reuse existing two exact-item MCQs | Options do not establish constructed calculation or judgement |
+| Market size — atom 008 | `bus-mkt-002` explains totals and summing companies | **One original inverse market-share** final-number task `rev7132-3.3.2-market-size-from-share-02`, distinct from existing summed-market `q01` | No independently marked written method, market definition or evaluation |
 
-All three Business ContentPacks import the same four authored records. Existing question identities, mock papers, Learn page IDs, saved evidence, signup, database, course-level sequencing, REV, Plan and Psychology are unchanged. The separate draft #743 is responsible for using signed-off numerical evidence to launch a typed Plan/REV independent recheck; this patch **does not claim** that the adaptive learner loop is released or that any right number proves workings, a sound method or mastery.
+These two new tasks provide meaningful alternative *methods or direction of change* for the two existing tagged final-number skills, not a quota of questions. Every original scored record and evidence ID stays intact.
 
-## Assurance and next action
+Machine-readable four-atom evidence ledger: `audits/2026-10-31-aqa-business-7132-marketing-measures-source-to-learner.json`. Three requirements remain **Unverified** as to overall educational adequacy and authentic learner experience; sales growth remains **Inadequate** for individually scored Practice. None is `Adequate and verified`.
 
-`content/business/aqa-a-level/marketing-quantitative-assurance.test.ts` inspects all three *actual* learner packs and their Learn, resolves real Practice-pool identities, checks deterministic numerical results and wrong answers (including sign), distinguishes the two exact targets, and prevents the sales-growth mapping gap from being silently claimed as covered. CI, signed-in live learner E2E, expert mathematical/exam-script checking and Paper-specific marking are separate gates, **not** satisfied by this record.
+## Tests, learner evidence and governance
 
-**Next within #698:** Approve a reviewed, distinct `sales-growth` source item in the governed Foundation/skill map, then publish an appropriate independently evaluated student attempt and recheck without attributing a general market-growth calculation to the new requirement. Continue source-led per-atom quality adjudication for the other 18 provisional §3.3.2 skills, then the other sections and AO/Annex. #704/#705 own shared evidence and Plan linkage, not this content patch.
+`content/business/aqa-a-level/marketing-quantitative-assurance.test.ts` loads the *three real published Business packs*, verifies the existing original q01/q02 are already projected as final-number calculations, checks the new uniquely tagged and different scenarios, independently reconstructs £25m and −16%, checks wrong-sign rejection and observes actual Learn teaching text. Exact-head CI and real signed-in browser acceptance remain separate.
 
-**Documentation impact:** scoped source-to-learner audit JSON, this technical note, regression, Learn correction and bank changes, with INDEX link, are included in the same PR. The approved Learning Blueprint and content licensing/claims/assessment authority already prescribe these outcomes, so no normative authority/ADR change is proposed. Historical source review datasets and question IDs remain untouched.
+The existing Focused Learning workspace can capture the new typed final number and student confidence; this patch does **not** change the storage contract, self-assessed essays, model marking or learner planning. The separate #743 / #704–705 work owns durable fine-grained detection, independent Plan rechecks and honest mastery. It does not demonstrate qualified examiner review or full course adequacy.
+
+**Next #698 step:** Repair the generic **one-number / legacy multi-mark display mismatch** as an assessment-integrity defect with separate tests; independently approve a distinct sales-growth source-to-skill ID and correct scored practice; continue per-atom adequacy review for the rest of §3.3.2 and all applicable sections.
+
+**Documentation impact:** Current-source audit, this indexed technical note, source Learn correction, two original bank alternatives and three-pack regression are in the same PR. No new product feature, normative authority/ADR, database schema or historical evidence overwrite.
