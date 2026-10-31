@@ -84,6 +84,47 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     expect(responseSections.every((item) => item.sectionName && item.responseFormat)).toBe(true)
   })
 
+  it('reports honest paper capacity before the exam date, net of accepted work, without labelling activity stock as required effort', () => {
+    const state = createCourseLearningState(business, [])
+    const exam = paper(business, 1, '2026-10-19')
+    const base = buildLearnerPreparationProgramme([state], [exam], availability, [], [], now)
+    const boundary = base.programme.paperCapacityBoundaries?.[0]
+    expect(boundary).toBeDefined()
+    // Oct 15 (Thu) 30m, 16 (Fri) 45m, 17 (Sat) 90m, 18 (Sun) 0m.
+    // No paper-specific revision is endorsed on the 19 October exam date.
+    expect(boundary?.provisionalAvailableMinutes).toBe(165)
+    expect(boundary?.assessmentDate).toBe('2026-10-19')
+    expect(boundary?.scopeResolved).toBe(true)
+    expect(boundary?.mappedKnowledgeTopics).toBeGreaterThan(0)
+    expect(boundary?.topicsWithSupportedOpportunity).toBeLessThanOrEqual(boundary!.mappedKnowledgeTopics)
+    expect(boundary?.supportedOpportunityMinutes).toBeGreaterThan(0)
+    const session: PlannedSession = {
+      sessionId: 'booked-16-oct', userId: 'fixture', courseId: business.id,
+      topicId: 'finance', plannedDate: '2026-10-16', activityType: 'practice',
+      minutes: 20, addedBy: 'student', recommendationId: null, status: 'planned',
+      createdAt: '2026-10-15T12:00:00Z', updatedAt: '2026-10-15T12:00:00Z',
+    }
+    const booked = buildLearnerPreparationProgramme([state], [exam], availability, [], [], now, [session])
+    expect(booked.programme.paperCapacityBoundaries?.[0]?.provisionalAvailableMinutes).toBe(145)
+    const unavailable = buildLearnerPreparationProgramme([state], [exam], null, [], [], now)
+    expect(unavailable.programme.paperCapacityBoundaries?.[0]?.provisionalAvailableMinutes).toBeNull()
+    const unknownCommitments = buildLearnerPreparationProgramme([state], [exam], availability, [], [], now, null)
+    expect(unknownCommitments.programme.paperCapacityBoundaries?.[0]?.provisionalAvailableMinutes).toBeNull()
+  })
+
+  it('does not conflate shared-course study opportunities with independently demonstrated preparation for each paper', () => {
+    const state = createCourseLearningState(business, [])
+    const exams = [paper(business, 1, '2027-05-18'), paper(business, 2, '2027-06-02')]
+    const boundaries = buildLearnerPreparationProgramme([state], exams, availability, [], [], now)
+      .programme.paperCapacityBoundaries ?? []
+    expect(boundaries.map((item) => item.assessmentId)).toEqual(exams.map((exam) => exam.assessmentId))
+    expect(boundaries.every((item) => item.mappedKnowledgeTopics > 0)).toBe(true)
+    expect(boundaries.every((item) => item.topicsWithSupportedOpportunity <= item.mappedKnowledgeTopics)).toBe(true)
+    expect(boundaries.every((item) => item.mappedResponseSections !== null)).toBe(true)
+    // These represent per-paper eligible options, not independent mandatory workloads.
+    expect(boundaries.every((item) => item.supportedOpportunityMinutes > 0)).toBe(true)
+  })
+
   it('retains the real paper requirement and existing supported assets when a session is accepted', () => {
     const state = createCourseLearningState(business, [])
     const exam = paper(business, 1, '2027-05-18')
