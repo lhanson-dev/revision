@@ -196,6 +196,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
       setError('Enter a valid number before checking.')
       return
     }
+    const enteredValue = result.entered
     setSaving(true)
     setError('')
     let answerSaved = false
@@ -207,7 +208,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
           topicId: calculation.topicId,
           contentId: calculation.id,
           correct: result.status === 'right',
-          enteredValue: result.entered,
+          enteredValue,
           expectedValue: calculation.expected,
           unit: calculation.unit,
           confidence,
