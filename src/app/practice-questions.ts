@@ -52,6 +52,8 @@ export type CalculationPracticeQuestion = QuestionBase & {
   /** Every number that counts as right: the answer, and the roundings the mark scheme accepts. */
   accepted: number[]
   unit: string | null
+  /** Exact discrete integer required; no nearest-whole-number tolerance. */
+  exactInteger?: boolean
   /** The answer as the exam writes it, e.g. "£24.2m". */
   answerText: string
   /** The worked answer from the mark scheme, shown after checking. */
@@ -204,6 +206,7 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
     expected: calc.stated_answer,
     accepted: acceptedValuesFor(calc.stated_answer, unit, finalAccepts),
     unit,
+    exactInteger: calc.answer_rule === 'exact-integer',
     answerText: formatAnswer(calc.stated_answer, unit),
     workings: question.mark_scheme.model_answer?.trim() ?? '',
   }

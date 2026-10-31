@@ -30,6 +30,8 @@ export const structuredPracticeBankRecordSchema = z.object({
     calcs: z.array(z.object({
       stated_answer: z.number().finite(),
       unit: z.string(),
+      // Opt-in discrete scoring; existing numeric items retain rounding tolerance.
+      answer_rule: z.enum(['exact-integer']).optional(),
     }).passthrough()),
     mark_scheme: z.object({
       type: z.string().optional(),

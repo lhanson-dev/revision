@@ -666,7 +666,7 @@ export function FocusedLearningWorkspace({
   /** Choosing how sure you are checks the typed number against the mark scheme (software only) and saves it as evidence. */
   async function checkCalculationAnswer(confidence: AnswerConfidence) {
     if (question?.type !== 'calculation' || !session || calcChecked || answering.current) return
-    const result = checkCalculation(calcDraft, question.accepted, question.unit)
+    const result = checkCalculation(calcDraft, question.accepted, question.unit, question.exactInteger)
     if (result.status === 'unreadable' || result.entered === null) {
       setCalcError('I couldn’t read a number there. Type just the number, like 24.2 or £15,150.')
       return
