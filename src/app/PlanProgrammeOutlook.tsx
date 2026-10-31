@@ -121,7 +121,7 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                         <p>{paper.mappedResponseSections === null
                           ? 'Exact paper-response requirements cannot yet be confirmed from the saved paper identity.'
                           : `${paper.sectionsWithExactPractice} of ${paper.mappedResponseSections} mapped response sections have an exact published practice question.`}</p>
-                        <p>{formatMinutes(paper.supportedOpportunityMinutes)} of currently verified activity options are identifiable for this paper. These are not the total hours you need, and shared activities can apply to multiple papers; do not add these figures together.</p>
+                        <p>{formatMinutes(paper.supportedOpportunityMinutes)} of currently published, eligible activity options are identifiable for this paper. These are not the total hours you need, and shared activities can apply to multiple papers; do not add these figures together.</p>
                         {paper.provisionalAvailableMinutes !== null
                           && paper.supportedOpportunityMinutes > paper.provisionalAvailableMinutes && (
                           <p role="status">Even the currently identified activities exceed your provisional time before this paper. Revision must prioritise; this does not measure the full preparation shortfall.</p>
