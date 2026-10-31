@@ -28,6 +28,7 @@ interface Props {
   index: number
   actualMinutes: number
   selected: number | null
+  retryOption: number | null
   checked: boolean
   saving: boolean
   error: string
@@ -44,7 +45,7 @@ interface Props {
 }
 
 /** Presentation only: the parent retains evidence, dose and planner ownership. */
-export function HomeQuickCheck({ task, questions, index, actualMinutes, selected, checked, saving, error, results, backLabel, finishedBooking, completionPending, onRetryCompletion, onSelect, onCheck, onNext, onBack, onFinish }: Props) {
+export function HomeQuickCheck({ task, questions, index, actualMinutes, selected, retryOption, checked, saving, error, results, backLabel, finishedBooking, completionPending, onRetryCompletion, onSelect, onCheck, onNext, onBack, onFinish }: Props) {
   const [summary, setSummary] = useState(false)
   const question = questions[index]
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -66,16 +67,25 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
   }, [summary, checked, saving, index])
 
   function advance() {
-    if (!checked || saving) return
-    if (last && !completionPending) setSummary(true)
+    if (!checked || saving || completionPending) return
+    if (last) setSummary(true)
     else onNext()
   }
 
   function keyboard(event: KeyboardEvent<HTMLElement>) {
     const target = event.target as HTMLElement
     if (summary || saving || !question || event.repeat || event.altKey || event.ctrlKey || event.metaKey || target.closest('input, textarea, select, [contenteditable="true"]')) return
+    if (completionPending) {
+      // Enter must never advance past the final saved answer while Plan confirmation is retryable.
+      // Let a focused native button handle Enter normally, avoiding a double request.
+      if (checked && event.key === 'Enter' && !target.closest('button, a')) {
+        event.preventDefault()
+        onRetryCompletion()
+      }
+      return
+    }
     const option = 'abcd'.indexOf(event.key.toLowerCase())
-    if (!checked && option >= 0 && option < question.options.length) {
+    if (!checked && retryOption === null && option >= 0 && option < question.options.length) {
       event.preventDefault()
       onSelect(option)
     } else if (event.key === 'Enter' && (!target.closest('button, a') || target.closest('[data-quick-action]'))) {
@@ -99,6 +109,7 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
         </header>
         {task.source === 'planner' && actualMinutes !== task.estimatedMinutes && <p className="home-quick-check__notice" role="status">This topic has about {actualMinutes} minutes of supported practice. Your original {task.estimatedMinutes}-minute plan allocation is unchanged.</p>}
         {error && <Status tone="error">{error}</Status>}
+        {retryOption !== null && !checked && <p role="status">Your answer may already be saved. Retry the same choice to protect your progress.</p>}
         {!question ? <Status tone="warning">This quick check is no longer available for the recommended topic.</Status> : summary ? (
           <div className="home-quick-check__summary">
             <p className="ui-eyebrow">Quick check done · answers saved</p>
@@ -116,7 +127,7 @@ export function HomeQuickCheck({ task, questions, index, actualMinutes, selected
             <div className="home-focused-options home-quick-check__options" role="group" aria-label="Answer options">
               {question.options.map((option, position) => {
                 const state = checked ? position === question.correctOption ? 'right' : position === selected ? 'wrong' : 'rest' : position === selected ? 'selected' : 'idle'
-                return <button key={position} type="button" className="ui-answer-option" data-quick-action="option" data-state={state} aria-pressed={selected === position} disabled={checked || saving} onClick={() => onSelect(position)}><span className="ui-answer-option__letter home-quick-check__letter" aria-hidden="true">{state === 'right' || state === 'wrong' ? <Icon name={state === 'right' ? 'check' : 'close'} size="inline" /> : String.fromCharCode(65 + position)}</span><span className="ui-answer-option__text">{displayQuickCheckTerm(option)}</span>{state === 'right' && <small className="ui-answer-option__note">Correct</small>}{state === 'wrong' && <small className="ui-answer-option__note">Your answer</small>}</button>
+                return <button key={position} type="button" className="ui-answer-option" data-quick-action="option" data-state={state} aria-pressed={selected === position} disabled={checked || saving || retryOption !== null} onClick={() => onSelect(position)}><span className="ui-answer-option__letter home-quick-check__letter" aria-hidden="true">{state === 'right' || state === 'wrong' ? <Icon name={state === 'right' ? 'check' : 'close'} size="inline" /> : String.fromCharCode(65 + position)}</span><span className="ui-answer-option__text">{displayQuickCheckTerm(option)}</span>{state === 'right' && <small className="ui-answer-option__note">Correct</small>}{state === 'wrong' && <small className="ui-answer-option__note">Your answer</small>}</button>
               })}
             </div>
             {checked ? <div ref={nextRef} className="home-quick-check__feedback" data-state={right ? 'right' : 'wrong'} aria-live="polite"><span className="home-quick-check__feedback-icon"><Icon name={right ? 'check' : 'close'} /></span><div><h3>{right ? 'Correct.' : `Not quite. It's ${question.options[question.correctOption].toLocaleLowerCase()}.`}</h3><p>{question.explanation}</p></div>{last && completionPending
