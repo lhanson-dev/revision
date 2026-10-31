@@ -16,7 +16,8 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
     ])
     for (const item of psychologySignTestCaseContracts) expect(signTestCounts(item.pairs)).toEqual(item.expected)
     expect(new Set(psychologySignTestPracticeBank.map(x => x.id)).size).toBe(2)
-    expect(psychologySignTestPracticeBank.every(x => x.target_item_ids.length === 1 && x.target_item_ids[0] === 'PSY-07-32')).toBe(true)
+    // A numeric calculation cannot establish the separate sign-test-selection skill.
+    expect(psychologySignTestPracticeBank.every(x => x.target_item_ids.length === 1 && x.target_item_ids[0] === 'PSY-SRC-4233-IT03')).toBe(true)
   })
 
   it('delivers the two source-mapped questions through every existing paper pack', () => {
@@ -43,7 +44,7 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
         }
         expect(question.answerText).toBe(String(question.expected))
         const mapping = objectiveItemMappingForPractice(question)
-        expect(mapping?.singleTargetSpecItemId).toBe('PSY-07-32')
+        expect(mapping?.singleTargetSpecItemId).toBe('PSY-SRC-4233-IT03')
         const saved = createCalculationEvidence({
           id: 'learner-' + item.id, moduleId: paper.manifest.id, topicId: 'research-methods',
           contentId: question.id, correct: true, enteredValue: question.expected, expectedValue: question.expected,
@@ -51,7 +52,7 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
           itemMapping: mapping,
         })
         expect(individualSpecItemObservation(saved)).toMatchObject({
-          specItemId: 'PSY-07-32', correct: true,
+          specItemId: 'PSY-SRC-4233-IT03', correct: true,
           scoring: 'software-scored-final-number', contentId: question.id,
         })
         expect(individualSpecItemObservation(saved)).not.toHaveProperty('mastery')
