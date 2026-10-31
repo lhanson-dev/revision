@@ -342,7 +342,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
               <>
                 <div className="home-focused-answer"><strong>Answer</strong><p>{card.answer}</p></div>
                 <p className="home-focused-rating">How well did you know it?</p>
-                {retryRating !== null && <p role="status">The first save was not confirmed. Retry the same rating to protect your recorded progress.</p>}
+                {retryRating !== null && !saving && <p role="status">The first save was not confirmed. Retry the same rating to protect your recorded progress.</p>}
                 <div className="home-focused-actions">
                   <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 0} onClick={() => void saveFlashcard(0)}>Not yet</Button>
                   <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 1} onClick={() => void saveFlashcard(1)}>Nearly</Button>
