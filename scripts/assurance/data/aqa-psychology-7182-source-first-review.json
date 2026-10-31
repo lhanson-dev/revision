@@ -1,0 +1,429 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_SOURCE_FIRST_SECTION_BASELINE_WITH_BOUNDED_INFERENTIAL_CHECKS_NOT_COURSE_ASSURANCE",
+  "source": {
+    "qualification": "AQA A-level Psychology 7182",
+    "version": "1.4, 1 September 2025",
+    "sha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "pdf_pages": 38,
+    "rights": "REFERENCE_ONLY",
+    "method": "Manually checked section headings and separately observable inferential capabilities against exact Founder-supplied PDF in this work session; no source prose reproduced",
+    "source_byte_parity_verified": true
+  },
+  "scope": {
+    "topic_sections": [
+      {
+        "section": "4.1.1",
+        "topicId": "social-influence",
+        "group": "compulsory",
+        "printedPage": 17,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.1.2",
+        "topicId": "memory",
+        "group": "compulsory",
+        "printedPage": 17,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.1.3",
+        "topicId": "attachment",
+        "group": "compulsory",
+        "printedPage": 18,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.1.4",
+        "topicId": "clinical-psychology-and-mental-health",
+        "group": "compulsory",
+        "printedPage": 18,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.2.1",
+        "topicId": "approaches-in-psychology",
+        "group": "compulsory",
+        "printedPage": 19,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.2.2",
+        "topicId": "biopsychology",
+        "group": "compulsory",
+        "printedPage": 19,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.2.3",
+        "topicId": "research-methods",
+        "group": "compulsory",
+        "printedPage": 19,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.1",
+        "topicId": "issues-and-debates-in-psychology",
+        "group": "compulsory",
+        "printedPage": 21,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.2",
+        "topicId": "relationships",
+        "group": "group-1",
+        "printedPage": 22,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.3",
+        "topicId": "gender",
+        "group": "group-1",
+        "printedPage": 22,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.4",
+        "topicId": "cognition-and-development",
+        "group": "group-1",
+        "printedPage": 22,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.5",
+        "topicId": "schizophrenia",
+        "group": "group-2",
+        "printedPage": 22,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.6",
+        "topicId": "eating-behaviour",
+        "group": "group-2",
+        "printedPage": 23,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.7",
+        "topicId": "stress",
+        "group": "group-2",
+        "printedPage": 23,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.8",
+        "topicId": "aggression",
+        "group": "group-3",
+        "printedPage": 23,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.9",
+        "topicId": "forensic-psychology",
+        "group": "group-3",
+        "printedPage": 23,
+        "allAtomicObligationsReviewed": false
+      },
+      {
+        "section": "4.3.10",
+        "topicId": "addiction",
+        "group": "group-3",
+        "printedPage": 24,
+        "allAtomicObligationsReviewed": false
+      }
+    ],
+    "topic_section_inventory_complete": true,
+    "full_independent_atomic_inventory_complete": false,
+    "assessment_annex_reconciled": false
+  },
+  "inferential_review": {
+    "section": "4.2.3.3",
+    "printedPage": 21,
+    "scope_status": "bounded_first_pass-not-proven-exhaustive",
+    "atoms": [
+      {
+        "id": "PSY-SRC-4233-IT01",
+        "capability": "explain the purpose of inferential hypothesis testing",
+        "mode": "explain",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [],
+        "required_independent_evidence_mode": "written-independent",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT02",
+        "capability": "choose a sign test for matched directional categorical outcomes",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-32",
+        "candidate_learn_page_id": "research-methods-psy0732",
+        "candidate_practice_question_ids": [],
+        "required_independent_evidence_mode": "unseen-choice-and-reason",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT03",
+        "capability": "calculate the sign-test statistic after excluding ties",
+        "mode": "calculate",
+        "learner_requirement_candidate_id": "PSY-07-32",
+        "candidate_learn_page_id": "research-methods-psy0732",
+        "candidate_practice_question_ids": [
+          "psy-rm-applied-sign-test-01"
+        ],
+        "required_independent_evidence_mode": "typed-numeric-original",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT04",
+        "capability": "explain probability and the meaning of a significance threshold",
+        "mode": "explain",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [],
+        "required_independent_evidence_mode": "unseen-interpretation",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT05",
+        "capability": "retrieve the appropriate critical value from a supplied statistical table",
+        "mode": "interpret",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [],
+        "required_independent_evidence_mode": "authentic-table-lookup",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT06",
+        "capability": "apply the correct test-specific critical-value rule and interpret significance",
+        "mode": "interpret",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [
+          "psy-rm-applied-spearman-01"
+        ],
+        "required_independent_evidence_mode": "independently-marked-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT07",
+        "capability": "distinguish a false positive (Type I error)",
+        "mode": "interpret",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [
+          "psy-rm-type-i-error-01"
+        ],
+        "required_independent_evidence_mode": "unseen-diagnostic",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT08",
+        "capability": "distinguish a false negative (Type II error)",
+        "mode": "interpret",
+        "learner_requirement_candidate_id": "PSY-07-33",
+        "candidate_learn_page_id": "research-methods-psy0733",
+        "candidate_practice_question_ids": [
+          "psy-rm-type-ii-error-01"
+        ],
+        "required_independent_evidence_mode": "unseen-diagnostic",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT09",
+        "capability": "use measurement scale to justify inferential test selection",
+        "mode": "justify",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-spearman-01",
+          "psy-rm-select-pearson-01"
+        ],
+        "required_independent_evidence_mode": "independent-reasoned-choice",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT10",
+        "capability": "use research design and related versus independent observations to justify a test",
+        "mode": "justify",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-wilcoxon-01",
+          "psy-rm-select-mann-whitney-01"
+        ],
+        "required_independent_evidence_mode": "independent-reasoned-choice",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT11",
+        "capability": "choose Spearman correlation for appropriately ranked association data",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-spearman-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT12",
+        "capability": "choose Pearson correlation for suitable continuous linear association data",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-pearson-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT13",
+        "capability": "choose Wilcoxon for related ranked differences",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-wilcoxon-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT14",
+        "capability": "choose Mann–Whitney for independent ranked differences",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-mann-whitney-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT15",
+        "capability": "choose a related t-test for appropriate paired continuous differences",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-related-t-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT16",
+        "capability": "choose an unrelated t-test for appropriate independent continuous differences",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-unrelated-t-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      },
+      {
+        "id": "PSY-SRC-4233-IT17",
+        "capability": "choose Chi-squared for suitable nominal frequency association data",
+        "mode": "choose",
+        "learner_requirement_candidate_id": "PSY-07-34",
+        "candidate_learn_page_id": "research-methods-psy0734",
+        "candidate_practice_question_ids": [
+          "psy-rm-select-chi-squared-01"
+        ],
+        "required_independent_evidence_mode": "unseen-context",
+        "individual_requirement_scoring_verified": false,
+        "teaching_adequacy": "unverified",
+        "practice_adequacy": "unverified",
+        "exam_prep_adequacy": "unverified",
+        "signed_in_learner_accepted": false
+      }
+    ]
+  },
+  "paper_3": {
+    "required_choice": "one topic from each group",
+    "valid_group_sizes": [
+      3,
+      3,
+      3
+    ],
+    "valid_combinations": 27,
+    "real_selection_and_persistence_acceptance": "unverified"
+  },
+  "acceptance": {
+    "all_independent_source_atoms_enumerated": false,
+    "all_atomic_learner_content_assured": false,
+    "all_learner_skills_independently_assessed": false,
+    "qualified_reviewer_signed_off": false,
+    "live_authenticated_student_accepted": false
+  }
+}
