@@ -91,12 +91,27 @@ describe('the AQA 7132 question bank as practice questions', () => {
     questions.forEach((question) => {
       if (question?.type !== 'calculation') return
       expect(question.prompt).not.toMatch(/show your working/i)
+      expect(question.marks).toBe(1) // One final value scored, regardless of source question's method marks.
       expect(question.accepted).toContain(question.expected)
       expect(question.answerText).not.toBe('')
       expect(question.workings).not.toBe('')
     })
     const market = bankRecordToPractice(records.find((record) => record.question.calcs[0].unit === '£m')!, 'finance')
     expect(market).toMatchObject({ type: 'calculation', expected: 24.2, answerText: '£24.2m' })
+  })
+
+  it('does not display legacy AQA method marks when the learner only enters a final number', () => {
+    const legacySize = aqaBusinessQuestionBank.find(record => record.batch === '3.3' && record.id === 'q01')!
+    const legacyGrowth = aqaBusinessQuestionBank.find(record => record.batch === '3.3' && record.id === 'q02')!
+    // These authored written exam-style tasks retain method marks for provenance.
+    expect(legacySize.question.marks).toBe(4)
+    expect(legacyGrowth.question.marks).toBe(3)
+    const size = bankRecordToPractice(legacySize, 'marketing')
+    const growth = bankRecordToPractice(legacyGrowth, 'marketing')
+    expect(size).toMatchObject({ type: 'calculation', marks: 1, expected: 24.2, answerText: '£24.2m' })
+    expect(growth).toMatchObject({ type: 'calculation', marks: 1, expected: 12.5, answerText: '12.5%' })
+    expect(size?.prompt).not.toMatch(/show your working/i)
+    expect(growth?.prompt).not.toMatch(/show your working/i)
   })
 
   it('accepts the roundings a mark scheme allows for payback and receivables days', () => {
