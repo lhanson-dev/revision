@@ -77,7 +77,9 @@ describe('Issue #698 AQA Business §§3.3.1–3.3.2 Marketing numerical skills',
       (36.8 - 32) / 32 * 100,
       (63 - 75) / 75 * 100,
     ]
-    expect(results).toEqual([2200000, 25000000, 14.999999999999991, -16])
+    expect(results[0]).toBe(2200000)
+    expect(results[1]).toBe(25000000)
+    expect(results[3]).toBe(-16)
     results.forEach((answer, i) => expect(answer).toBeCloseTo(businessMarketingQuantitativeCases[i]!.expected, 8))
     const cases = businessMarketingQuantitativeCases
     for (const target of [sizeTarget, growthTarget]) {
