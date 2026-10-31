@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
-import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
-import { authoredFlashcardsForTask, authoredQuestionsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
+import { createCalculationEvidence, createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
+import { authoredCalculationForTask, authoredFlashcardsForTask, authoredQuestionsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
 import { Button, Icon, Status } from './ui'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -12,6 +12,10 @@ import { recordPlannerActivityEvent } from '../services/planning/planner-service
 import { setPlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { HomeQuickCheck } from './HomeQuickCheck'
+import { HomeCalculationCheck } from './HomeCalculationCheck'
+import { checkCalculation } from './practice-calculation'
+import { objectiveItemMappingForPractice } from './practice-questions'
+import type { AnswerConfidence } from '../engine/evidence/evidence'
 
 interface HomeFocusedActivityProps {
   client: SupabaseClient
@@ -30,6 +34,10 @@ function evidenceId(prefix: string) {
 export function HomeFocusedActivity({ client, userId, task, programme, backLabel = 'Home', onBack, onFinish }: HomeFocusedActivityProps) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
+  const [typedAnswer, setTypedAnswer] = useState('')
+  const [calculationResult, setCalculationResult] = useState<{ correct: boolean; typed: string } | null>(null)
+  // An uncertain save must never be retried with a different answer or confidence.
+  const [calculationAttemptConfidence, setCalculationAttemptConfidence] = useState<AnswerConfidence | null>(null)
   const [checked, setChecked] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -127,8 +135,9 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   // Planner-selected unattempted cards, or ordinary fallback course cards.
   const cards = useMemo(() => authoredFlashcardsForTask(task), [task])
   const questions = useMemo(() => authoredQuestionsForTask(task), [task])
+  const calculation = useMemo(() => authoredCalculationForTask(task), [task])
   const cardCount = focusedActivityCount('flashcards', cards.length)
-  const questionCount = focusedActivityCount('quick-check', questions.length)
+  const questionCount = focusedActivityCount('quick-check', questions.length + Number(Boolean(calculation)))
   const card = activityIndex < cardCount ? cards[activityIndex] : undefined
   const question = activityIndex < questionCount ? questions[activityIndex] : undefined
   const focused = task.activityType === 'flashcards' || task.activityType === 'quick-check'
@@ -182,6 +191,54 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     }
   }
 
+  async function checkTypedCalculation(confidence: AnswerConfidence) {
+    if (!calculation || checked || saving || completionPending) return
+    const result = checkCalculation(typedAnswer, calculation.accepted, calculation.unit)
+    if (result.status === 'unreadable' || result.entered === null) {
+      setError('Enter a valid number before checking.')
+      return
+    }
+    const enteredValue = result.entered
+    const pendingCalculation = pendingEvidence.current.get('quick-calculation:' + calculation.id)
+    if (pendingCalculation?.source === 'calculation'
+      && (pendingCalculation.enteredValue !== enteredValue || pendingCalculation.confidence !== confidence)) {
+      setError('The earlier answer may already be saved. Retry the same number and confidence, or return to Plan.')
+      return
+    }
+    setCalculationAttemptConfidence(confidence)
+    setSaving(true)
+    setError('')
+    let answerSaved = false
+    try {
+      await recordLearningEvidence(createSupabaseEvidenceStore(client), userId,
+        stableAnswer('quick-calculation:' + calculation.id, () => createCalculationEvidence({
+          id: stableEvidenceId('home-calculation', calculation.id),
+          moduleId: task.adapter.manifest.id,
+          topicId: calculation.topicId,
+          contentId: calculation.id,
+          correct: result.status === 'right',
+          enteredValue,
+          expectedValue: calculation.expected,
+          unit: calculation.unit,
+          confidence,
+          itemMapping: objectiveItemMappingForPractice(calculation),
+        })))
+      answerSaved = true
+      setCalculationResult({ correct: result.status === 'right', typed: typedAnswer })
+      setChecked(true)
+      setResults([result.status === 'right'])
+      await markSessionFinished(1)
+      setCompleted(true)
+    } catch (reason: unknown) {
+      if (answerSaved) {
+        setCompletionPending(true)
+        setError('Your calculation is saved, but Plan could not confirm completion. Retry without answering again.')
+      } else setError(reason instanceof Error ? reason.message : 'Could not save this calculation. Your answer is still on screen.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   async function checkQuestion() {
     if (!question || selectedOption === null || checked || saving) return
     setSaving(true)
@@ -215,6 +272,15 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
       setSaving(false)
     }
   }
+
+  if (task.activityType === 'quick-check' && calculation) return (
+    <HomeCalculationCheck task={task} question={calculation} typedAnswer={typedAnswer}
+      attemptConfidence={calculationAttemptConfidence}
+      onTypedAnswer={setTypedAnswer} onCheck={confidence => void checkTypedCalculation(confidence)}
+      result={calculationResult} saving={saving} error={error} completed={completed}
+      completionPending={completionPending} onRetryCompletion={() => void retryCompletion()}
+      finishedBooking={finishedBooking} backLabel={backLabel} onBack={onBack} onFinish={onFinish} />
+  )
 
   if (task.activityType === 'quick-check') return (
     <HomeQuickCheck task={task} questions={questions.slice(0, questionCount)} index={activityIndex}
