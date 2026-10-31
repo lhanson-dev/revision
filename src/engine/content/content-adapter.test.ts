@@ -8,6 +8,7 @@ import { businessFinanceNumericPracticeBank } from '../../../content/business/aq
 import { businessPurposeProfitNumericBank } from '../../../content/business/aqa-a-level/shared/purpose-profit-numeric-practice'
 import { businessExternalEnvironmentBank } from '../../../content/business/aqa-a-level/shared/external-environment-practice'
 import { businessDecisionTreeNumericalBank } from '../../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
+import { businessMarketingQuantitativeBank } from '../../../content/business/aqa-a-level/shared/marketing-quantitative-practice'
 import { fastPathFlashcards } from '../../../content/business/aqa-a-level/shared/fast-path-flashcards'
 import { buildQuestionPool } from '../../app/practice-questions'
 import { businessAqaAsPaper2 } from '../../../content/business/aqa-as/paper-2'
@@ -35,12 +36,12 @@ describe('shared content adapter', () => {
     expect(fastPathFlashcards.length).toBeGreaterThan(0)
     for (const pack of actualPacks) {
       const adapter = createLearningContentAdapter(pack)
-      expect(adapter.listPracticeBank()).toHaveLength(aqaBusinessQuestionBank.length + businessFinanceNumericPracticeBank.length + businessPurposeProfitNumericBank.length + businessExternalEnvironmentBank.length + businessDecisionTreeNumericalBank.length)
+      expect(adapter.listPracticeBank()).toHaveLength(aqaBusinessQuestionBank.length + businessFinanceNumericPracticeBank.length + businessPurposeProfitNumericBank.length + businessExternalEnvironmentBank.length + businessDecisionTreeNumericalBank.length + businessMarketingQuantitativeBank.length)
       // Append only new source-tagged exercises. All legacy bank IDs/order stay intact.
       expect(adapter.listPracticeBank().slice(0, aqaBusinessQuestionBank.length).map((record) => [record.batch, record.id]))
         .toEqual(aqaBusinessQuestionBank.map((record) => [record.batch, record.id]))
       expect(adapter.listPracticeBank().slice(aqaBusinessQuestionBank.length).map((record) => [record.batch, record.id]))
-        .toEqual([...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank, ...businessDecisionTreeNumericalBank].map((record) => [record.batch, record.id]))
+        .toEqual([...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank, ...businessDecisionTreeNumericalBank, ...businessMarketingQuantitativeBank].map((record) => [record.batch, record.id]))
       expect(adapter.listFlashcards().filter((card) => card.id.startsWith('fast-'))).toHaveLength(fastPathFlashcards.length)
       expect(adapter.listLearnChapters().length).toBe(10)
       expect(adapter.listExams()).toHaveLength(1)
