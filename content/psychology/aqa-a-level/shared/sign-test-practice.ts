@@ -82,7 +82,7 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
       stem: `Paired Before → After scores: ${scorePairs}. Mark an increase as +, a decrease as −, and omit ties. Calculate S, the smaller of the plus and minus counts. Enter the number only; the full working is not scored in this quick check.`,
       table: null,
       options: [],
-      calcs: [{ stated_answer: item.statistic, unit: '' }],
+      calcs: [{ stated_answer: item.statistic, unit: '', answer_rule: 'exact-integer' }],
       mark_scheme: {
         type: 'points',
         correct_option: '',
