@@ -62,7 +62,6 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
     || result.ties !== item.ties || result.S !== item.statistic) {
     throw new Error('Incorrect authored sign-test key: ' + item.id)
   }
-  const scorePairs = item.pairs.map(([before, after]) => `${before} → ${after}`).join('; ')
   return structuredPracticeBankRecordSchema.parse({
     id: item.id,
     batch: '4.2.3',
@@ -79,8 +78,12 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
       marks: 1,
       ao_tags: ['AO2'],
       context: item.context,
-      stem: `Paired Before → After scores: ${scorePairs}. Mark an increase as +, a decrease as −, and omit ties. Calculate S, the smaller of the plus and minus counts. Enter the number only; the full working is not scored in this quick check.`,
-      table: null,
+      stem: 'Using the paired Before and After scores in the table, mark an increase as +, a decrease as −, and omit ties. Calculate S, the smaller of the plus and minus counts. Enter the number only; the full working is not scored in this quick check.',
+      table: {
+        title: 'Scores for each participant',
+        columns: ['Participant', 'Before', 'After'],
+        rows: item.pairs.map(([before, after], index) => ({ cells: [String(index + 1), String(before), String(after)] })),
+      },
       options: [],
       calcs: [{ stated_answer: item.statistic, unit: '', answer_rule: 'exact-integer' }],
       mark_scheme: {
