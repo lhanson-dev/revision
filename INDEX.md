@@ -48,6 +48,7 @@ Use this file to find the governing source before substantive work.
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
+- Issue #698 Business Paper 1 essay choice and paper-time guidance correction, with remaining review limits → `docs/technical/Issue 698 Business Paper Choice and Pacing Guidance.md`
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
 - Issue #698 Psychology 7182 original independently scored sign-test S calculation pair, source mapping and limited evidence → `docs/technical/Issue 698 Psychology Sign Test Scored Practice.md`
 - Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
