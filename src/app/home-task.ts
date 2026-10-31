@@ -10,7 +10,7 @@ import type { LearnerProgrammeCourse } from './learner-programme'
 import { subjectAccentKey, type SubjectAccentKey } from './subject-accents'
 import { focusedActivityMinutes } from './focused-activity-dose'
 import { authoredSkillQuestions } from './skill-recheck'
-import { objectiveItemMappingForPractice } from './practice-questions'
+import { objectiveItemMappingForPractice, type CalculationPracticeQuestion } from './practice-questions'
 import type { ObjectiveItemMapping } from '../engine/evidence/evidence'
 
 export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question' | 'learn'
@@ -63,7 +63,7 @@ export function authoredQuestionsForTask(task: HomeTask): Array<{
   return task.targetedQuestionIds.flatMap((id) => {
     const question = questions.get(id)
     const mapping = question && objectiveItemMappingForPractice(question)
-    if (!question || !mapping || mapping.singleTargetSpecItemId !== task.skillFocus?.specItemId) return []
+    if (!question || question.type !== 'multiple-choice' || !mapping || mapping.singleTargetSpecItemId !== task.skillFocus?.specItemId) return []
     return [{
       id: question.id, topic: question.topicId, prompt: question.prompt,
       options: question.options.map((option) => option.text), correctOption: question.correctOption,
@@ -72,9 +72,22 @@ export function authoredQuestionsForTask(task: HomeTask): Array<{
   })
 }
 
+/** The Home/Plan MCQ focus cannot render a typed calculation as answer options.
+ * Resolve a mapped calculation separately, using the existing software checker
+ * and original typed-answer evidence contract. Never substitute another item.
+ */
+export function authoredCalculationForTask(task: HomeTask): CalculationPracticeQuestion | null {
+  if (!task.targetedQuestionIds || task.targetedQuestionIds.length !== 1 || !task.skillFocus) return null
+  const found = authoredSkillQuestions(task.adapter, task.topicId)
+    .find((candidate) => candidate.id === task.targetedQuestionIds![0])
+  if (!found || found.type !== 'calculation') return null
+  const mapping = objectiveItemMappingForPractice(found)
+  return mapping?.singleTargetSpecItemId === task.skillFocus.specItemId ? found : null
+}
+
 /** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
-  if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', authoredQuestionsForTask(task).length)
+  if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', authoredQuestionsForTask(task).length + Number(Boolean(authoredCalculationForTask(task))))
   if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.retrievalContentIds?.length ?? task.adapter.listFlashcards(task.topicId).length)
   return task.estimatedMinutes
 }
