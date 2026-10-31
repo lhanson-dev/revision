@@ -1,10 +1,11 @@
 /** #698 AQA Business 7132 v2.0 §§3.3.1–3.3.2, printed pp15–16.
- * Two new, genuinely different single-target Marketing final-number checks to
- * supplement already published scored size/growth calculations.
+ * Two existing size/market-growth checks and two original, separately
+ * source-mapped firm-sales-growth checks. All independently score the final number only.
  * No working, business interpretation, or exam method marks are awarded.
  * Source PDF is REFERENCE_ONLY; no protected exam items are reproduced.
  */
 import { structuredPracticeBankRecordSchema } from '../../../structured-practice-bank'
+import { salesGrowthSourceRequirement } from './marketing-sales-growth-source'
 
 export const businessMarketingQuantitativeCases = [
   {
@@ -24,6 +25,24 @@ export const businessMarketingQuantitativeCases = [
     expected: -16,
     unit: '%',
     working: 'Percentage market growth = (£63m − £75m) ÷ £75m × 100 = −16%. A fall has a negative sign. This is the market’s change, not the sales growth rate of any particular firm.',
+  },
+  {
+    id: 'firm-sales-growth-increase-01',
+    target: salesGrowthSourceRequirement.id,
+    context: 'An independent stationery manufacturer increases its annual sales revenue from £6 million to £7.5 million. Over the same period, total sales of the wider stationery market increase from £40 million to £56 million. Both measures use sales value and the same year boundaries.',
+    stem: 'Calculate the manufacturer’s own sales growth as a percentage, not the growth rate of the whole market. Enter the percentage number; only the final result is marked.',
+    expected: 25,
+    unit: '%',
+    working: 'Firm sales growth = (this year’s firm sales − last year’s firm sales) ÷ last year’s firm sales × 100 = (£7.5m − £6m) ÷ £6m × 100 = 25%. The whole market grew by (£56m − £40m) ÷ £40m × 100 = 40%; that is not the firm’s sales growth. A rising sales figure can accompany falling market share.',
+  },
+  {
+    id: 'firm-sales-growth-decline-02',
+    target: salesGrowthSourceRequirement.id,
+    context: 'A single specialist bicycle-accessories retailer has annual sales revenue of £160,000 in the earlier year and £140,000 in the following year. The total regional accessories market rises from £2 million to £2.2 million over those same two years.',
+    stem: 'Calculate the signed percentage change in this retailer’s own sales, using the earlier year as the base. Enter a negative number for declining sales; only the final result is marked.',
+    expected: -12.5,
+    unit: '%',
+    working: 'The retailer’s sales growth = (£140,000 − £160,000) ÷ £160,000 × 100 = −12.5%. A negative result means the firm’s sales fell. The total market grew by (£2.2m − £2m) ÷ £2m × 100 = 10%, which must not be substituted for the firm’s rate.',
   },
 ] as const
 
