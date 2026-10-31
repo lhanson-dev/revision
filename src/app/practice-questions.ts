@@ -53,7 +53,7 @@ export type CalculationPracticeQuestion = QuestionBase & {
   accepted: number[]
   unit: string | null
   /** Exact discrete integer required; no nearest-whole-number tolerance. */
-  exactInteger: boolean
+  exactInteger?: boolean
   /** The answer as the exam writes it, e.g. "£24.2m". */
   answerText: string
   /** The worked answer from the mark scheme, shown after checking. */
