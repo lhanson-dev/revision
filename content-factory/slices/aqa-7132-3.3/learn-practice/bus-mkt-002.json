@@ -41,6 +41,16 @@
         ]
       },
       {
+        "treatment": "guided_example",
+        "heading": "Calculate a firm's sales growth separately from market growth",
+        "body": "Sales growth measures the percentage change in ONE business's sales over time; market growth measures the percentage change in sales across the WHOLE defined market. Both use (new value − earlier value) ÷ earlier value × 100, but they have different denominators. For example, a drinks business increases its annual sales from £4m to £4.8m: its sales growth is (£4.8m − £4m) ÷ £4m × 100 = 20%. Across the same period, the total market rises from £20m to £26m: market growth is (£26m − £20m) ÷ £20m × 100 = 30%. Its value market share therefore falls from 20% (£4m ÷ £20m) to about 18.46% (£4.8m ÷ £26m). Higher business sales and lower market share can coexist. Use the same period, measure and market boundary for meaningful comparison.",
+        "item_ids": [
+          "aqa-7132-3.3.1:sales-volume-and-sales-value",
+          "aqa-7132-3.3.1:market-growth",
+          "aqa-7132-3.3.1:market-share"
+        ]
+      },
+      {
         "treatment": "worked_example",
         "heading": "Worked example: size, growth and share",
         "body": "A regional meal-kit market has three firms with annual sales of £1.2m, £0.9m and £1.4m. Market size is £3.5m. Last year the market was £3.2m, so market growth is (£3.5m − £3.2m) / £3.2m × 100 = 9.38%. The firm with £0.9m sales has market share of £0.9m / £3.5m × 100 = 25.71%. These figures are meaningful only if all sales use the same market boundary and are measured consistently by value.",
@@ -98,6 +108,10 @@
       {
         "term": "volume market share",
         "definition": "Market share calculated using units or quantity sold."
+      },
+      {
+        "term": "sales growth",
+        "definition": "The percentage change in the sales of one business between comparable periods; distinct from total market growth."
       }
     ],
     "worked_examples": [
