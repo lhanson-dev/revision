@@ -1,6 +1,11 @@
 name: Psychology PR 746 Fresh Independent A3 Review
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/psychology-pr746-a3-review.yml'
+      - 'scripts/assurance/psychology-pr746-a3-review.mjs'
+      - 'scripts/assurance/psychology-pr746-a3-review.test.mjs'
   issue_comment:
     types: [created]
 
@@ -14,9 +19,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  guard-tests:
+    name: Review trigger and receipt contract tests (no provider key)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --test scripts/assurance/psychology-pr746-a3-review.test.mjs
+
   independent-a3:
     name: Trusted exact-head original sign-test assessment review
     if: >-
+      github.event_name == 'issue_comment' &&
       github.event.issue.number == 746 &&
       github.event.comment.user.login == 'lhanson-dev' &&
       github.event.comment.author_association == 'OWNER' &&
