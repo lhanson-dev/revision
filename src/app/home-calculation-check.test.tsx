@@ -51,5 +51,6 @@ describe('Home and Plan calculation start path', () => {
     expect(after).toContain('Not the expected final number')
     expect(after).toContain('Published answer:')
     expect(after).toContain(question.answerText)
+    if (question.workings) expect(after).toContain('<strong>Worked answer</strong>')
   })
 })
