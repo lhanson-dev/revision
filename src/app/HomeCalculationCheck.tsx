@@ -8,6 +8,7 @@ type Props = {
   task: HomeTask
   question: CalculationPracticeQuestion
   typedAnswer: string
+  attemptConfidence: AnswerConfidence | null
   onTypedAnswer: (value: string) => void
   onCheck: (confidence: AnswerConfidence) => void
   result: { correct: boolean; typed: string } | null
@@ -26,10 +27,12 @@ type Props = {
  * the student's number has been scored and safely saved as evidence.
  */
 export function HomeCalculationCheck({
-  task, question, typedAnswer, onTypedAnswer, onCheck, result, saving, error,
+  task, question, typedAnswer, attemptConfidence, onTypedAnswer, onCheck, result, saving, error,
   completed, completionPending, onRetryCompletion, finishedBooking,
   backLabel, onBack, onFinish,
 }: Props) {
+  const cannotCheck = (confidence: AnswerConfidence) => saving || completionPending || !typedAnswer.trim()
+    || (attemptConfidence !== null && attemptConfidence !== confidence)
   return (
     <main className="dashboard screen-dashboard home-focused-activity" aria-labelledby="home-focused-activity-title" data-subject-accent={task.subjectAccent}>
       <Button variant="tertiary" className="home-focused-back" onClick={onBack}>Back to {backLabel}</Button>
@@ -51,12 +54,14 @@ export function HomeCalculationCheck({
             <>
               <label htmlFor="home-calculation-entry">Your final number {question.unit ? `(${question.unit})` : ''}</label>
               <input id="home-calculation-entry" value={typedAnswer} onChange={event => onTypedAnswer(event.currentTarget.value)}
-                inputMode="decimal" autoComplete="off" disabled={saving || completionPending} />
-              <p>How sure are you? Choose your confidence to check and save this answer.</p>
+                inputMode="decimal" autoComplete="off" disabled={saving || completionPending || attemptConfidence !== null} />
+              {attemptConfidence && !saving
+                ? <p role="status">The first save was not confirmed. Retry the same answer and confidence to protect your recorded progress.</p>
+                : <p>How sure are you? Choose your confidence to check and save this answer.</p>}
               <div className="home-focused-actions">
-                <Button variant="secondary" disabled={saving || completionPending || !typedAnswer.trim()} onClick={() => onCheck('guess')}>Guessing</Button>
-                <Button variant="secondary" disabled={saving || completionPending || !typedAnswer.trim()} onClick={() => onCheck('fairly')}>Fairly sure</Button>
-                <Button disabled={saving || completionPending || !typedAnswer.trim()} onClick={() => onCheck('certain')}>Certain</Button>
+                <Button variant="secondary" disabled={cannotCheck('guess')} onClick={() => onCheck('guess')}>Guessing</Button>
+                <Button variant="secondary" disabled={cannotCheck('fairly')} onClick={() => onCheck('fairly')}>Fairly sure</Button>
+                <Button disabled={cannotCheck('certain')} onClick={() => onCheck('certain')}>Certain</Button>
               </div>
             </>
           ) : (
