@@ -161,9 +161,7 @@
         "mode": "choose",
         "learner_requirement_candidate_id": "PSY-07-32",
         "candidate_learn_page_id": "research-methods-psy0732",
-        "candidate_practice_question_ids": [
-          "psy-rm-applied-sign-test-01"
-        ],
+        "candidate_practice_question_ids": [],
         "required_independent_evidence_mode": "unseen-choice-and-reason",
         "individual_requirement_scoring_verified": false,
         "teaching_adequacy": "unverified",
@@ -193,9 +191,7 @@
         "mode": "explain",
         "learner_requirement_candidate_id": "PSY-07-33",
         "candidate_learn_page_id": "research-methods-psy0733",
-        "candidate_practice_question_ids": [
-          "psy-rm-applied-spearman-01"
-        ],
+        "candidate_practice_question_ids": [],
         "required_independent_evidence_mode": "unseen-interpretation",
         "individual_requirement_scoring_verified": false,
         "teaching_adequacy": "unverified",
