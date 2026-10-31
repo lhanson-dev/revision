@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "workstream": "Issue #698 / PR #746",
+  "state": "HOLD-independent-A3-review-not-yet-completed",
+  "qualification": {
+    "code": "7182",
+    "examSeries": "A-level from May/June 2027",
+    "version": "1.4 (1 September 2025)",
+    "referenceOnlySpecSha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "sourceLocator": "A-level section 4.2.3.3 printed page 21",
+    "rights": "REFERENCE_ONLY",
+    "protectedSourceTextIncluded": false
+  },
+  "learnerRuntime": "/revision/app/",
+  "packPaths": [
+    "content/psychology/aqa-a-level/paper-1/index.ts",
+    "content/psychology/aqa-a-level/paper-2/index.ts",
+    "content/psychology/aqa-a-level/paper-3/index.ts"
+  ],
+  "reviewedCodeBlobSha": "7d9a299d8aa2c6ae2418a5d5694a8cf1b1675aa4",
+  "authoredItems": [
+    {
+      "id": "rev7182-4.2.3-sign-test-01",
+      "caseId": "sign-test-01",
+      "requirementId": "PSY-07-32",
+      "participantCount": 8,
+      "positive": 5,
+      "negative": 2,
+      "ties": 1,
+      "effectiveN": 7,
+      "expectedS": 2,
+      "marks": 1,
+      "format": "individual numeric entry; visible paired-score table",
+      "scoringRule": "exact-integer",
+      "responseEvidence": "raw final-number correctness only"
+    },
+    {
+      "id": "rev7182-4.2.3-sign-test-02",
+      "caseId": "sign-test-02",
+      "requirementId": "PSY-07-32",
+      "participantCount": 7,
+      "positive": 1,
+      "negative": 4,
+      "ties": 2,
+      "effectiveN": 5,
+      "expectedS": 1,
+      "marks": 1,
+      "format": "individual numeric entry; visible paired-score table",
+      "scoringRule": "exact-integer",
+      "responseEvidence": "raw final-number correctness only"
+    }
+  ],
+  "internalAuditFindings": [
+    {
+      "id": "A3-746-01",
+      "severity": "material",
+      "issueType": "non-discrete-near-integer-result-marked-correct",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "The prior generic checker accepted decimal 1.6 against integer S = 2 because it used half-unit rounding tolerance",
+      "recommendedCorrection": "Opt-in exact-integer rule in published bank record and checker, preserving default rounding behavior for unrelated calculation items",
+      "affectedArtifact": "src/app/practice-calculation.ts and sign-test bank/calculation-adapter/learner call",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
+    },
+    {
+      "id": "A3-746-02",
+      "severity": "minor",
+      "issueType": "paired-numbers-readability",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "Previously inline delimited before/after pairs were lengthy to scan",
+      "recommendedCorrection": "Present data in learner-native captioned table, preserve numerical values and question identity",
+      "affectedArtifact": "content/psychology/aqa-a-level/shared/sign-test-practice.ts",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
+    }
+  ],
+  "independentA3Review": {
+    "status": "NOT_RUN",
+    "reviewerIdentity": null,
+    "reviewedExactContentSha": null,
+    "issueRegister": [],
+    "requiredDecision": "PASS or documented authorised conditional restricted pilot, not independently provided",
+    "reviewerInstructions": "Fresh-context reviewer must receive only original Revision-authored question, permitted structured Board Alignment facts, reusable subject-truth, numeric test results, provenance and no protected AQA text. Adversarially verify independent pair counts; S arithmetic and ties; exact-integer scoring and all alternative numeric input paths; assessment demand and marks/AO; study plausibility, table accessibility, model feedback, copyright; and any misleading mastery or significance implication. Return for each item severity (blocking/material/minor/no issue), type, evidence, correction, affected artifact and resolution. Do not treat this authoring-context internal finding list as fresh independent review."
+  },
+  "releaseBoundaries": {
+    "fullEducationalSignoff": false,
+    "externalSubjectExpertSignoff": false,
+    "authenticatedProductionLearnerAcceptance": false,
+    "durableMasteryClaimPermitted": false,
+    "dataMigrationRequired": false,
+    "founderMergeApprovalGiven": false
+  }
+}
