@@ -34,6 +34,9 @@ function evidenceId(prefix: string) {
 export function HomeFocusedActivity({ client, userId, task, programme, backLabel = 'Home', onBack, onFinish }: HomeFocusedActivityProps) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
+  // An uncertain write must always retry the original MCQ selection, never a new answer.
+  const [retryOption, setRetryOption] = useState<number | null>(null)
+  const [retryRating, setRetryRating] = useState<0 | 1 | 2 | null>(null)
   const [typedAnswer, setTypedAnswer] = useState('')
   const [calculationResult, setCalculationResult] = useState<{ correct: boolean; typed: string } | null>(null)
   // An uncertain save must never be retried with a different answer or confidence.
@@ -160,6 +163,11 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   async function saveFlashcard(rating: 0 | 1 | 2) {
     if (!card || saving || completionPending) return
+    if (retryRating !== null && retryRating !== rating) {
+      setError('This card may already be saved. Retry the same rating to keep your progress consistent.')
+      return
+    }
+    setRetryRating(rating)
     setSaving(true)
     setError('')
     let answerSaved = false
@@ -178,6 +186,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
       } else {
         setActivityIndex(activityIndex + 1)
         setShowAnswer(false)
+        setRetryRating(null)
       }
     } catch (reason: unknown) {
       if (answerSaved) {
@@ -240,7 +249,13 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   }
 
   async function checkQuestion() {
-    if (!question || selectedOption === null || checked || saving) return
+    if (!question || selectedOption === null || checked || saving || completionPending) return
+    if (retryOption !== null && retryOption !== selectedOption) {
+      setError('This answer may already be saved. Retry the same choice to keep your progress consistent.')
+      return
+    }
+    const submittedOption = selectedOption
+    setRetryOption(submittedOption)
     setSaving(true)
     setError('')
     let answerSaved = false
@@ -250,13 +265,13 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         moduleId: task.adapter.manifest.id,
         topicId: question.topic,
         contentId: question.id,
-        selectedOption,
+        selectedOption: submittedOption,
         correctOption: question.correctOption,
         ...(question.itemMapping ? { itemMapping: question.itemMapping } : {}),
       })))
       answerSaved = true
       setChecked(true)
-      setResults(previous => [...previous, selectedOption === question.correctOption])
+      setResults(previous => [...previous, submittedOption === question.correctOption])
       if (activityIndex + 1 >= questionCount) {
         await markSessionFinished(questionCount)
         setCompleted(true)
@@ -284,11 +299,11 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   if (task.activityType === 'quick-check') return (
     <HomeQuickCheck task={task} questions={questions.slice(0, questionCount)} index={activityIndex}
-      actualMinutes={actualMinutes} selected={selectedOption} checked={checked} saving={saving}
+      actualMinutes={actualMinutes} selected={selectedOption} retryOption={retryOption} checked={checked} saving={saving}
       error={error} results={results} backLabel={backLabel} finishedBooking={finishedBooking}
       completionPending={completionPending} onRetryCompletion={() => void retryCompletion()}
-      onSelect={setSelectedOption} onCheck={() => void checkQuestion()}
-      onNext={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setChecked(false) }}
+      onSelect={option => { if (retryOption === null) setSelectedOption(option) }} onCheck={() => void checkQuestion()}
+      onNext={() => { setActivityIndex(activityIndex + 1); setSelectedOption(null); setRetryOption(null); setChecked(false) }}
       onBack={onBack} onFinish={onFinish} />
   )
 
@@ -327,10 +342,11 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
               <>
                 <div className="home-focused-answer"><strong>Answer</strong><p>{card.answer}</p></div>
                 <p className="home-focused-rating">How well did you know it?</p>
+                {retryRating !== null && !saving && <p role="status">The first save was not confirmed. Retry the same rating to protect your recorded progress.</p>}
                 <div className="home-focused-actions">
-                  <Button variant="secondary" disabled={saving} onClick={() => void saveFlashcard(0)}>Not yet</Button>
-                  <Button variant="secondary" disabled={saving} onClick={() => void saveFlashcard(1)}>Nearly</Button>
-                  <Button variant="secondary" disabled={saving} onClick={() => void saveFlashcard(2)}>Knew it</Button>
+                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 0} onClick={() => void saveFlashcard(0)}>Not yet</Button>
+                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 1} onClick={() => void saveFlashcard(1)}>Nearly</Button>
+                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 2} onClick={() => void saveFlashcard(2)}>Knew it</Button>
                 </div>
               </>
             )}
