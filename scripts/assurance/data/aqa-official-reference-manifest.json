@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "purpose": "Exact-version reference-only AQA PDF source validation for #698, not content licensing or coverage assurance",
+  "sources": [
+    {
+      "id": "business-7132",
+      "issuer": "AQA",
+      "qualification": "A-level Business",
+      "specification_code": "7132",
+      "version": "2.0",
+      "version_date": "2023-06-14",
+      "pdf_pages": 42,
+      "sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+      "official_pdf_url": "https://www.aqa.org.uk/files/faf787aa-3753-423d-b4fa-55f2374d4441/5c265ac92b9358f142c2b69483df78f811d52739.pdf",
+      "source_use": "REFERENCE_ONLY",
+      "allow_pdf_text_in_ai_generation": false,
+      "allow_pdf_commit": false
+    },
+    {
+      "id": "psychology-7182",
+      "issuer": "AQA",
+      "qualification": "A-level Psychology",
+      "specification_code": "7182",
+      "version": "1.4",
+      "version_date": "2025-09-01",
+      "pdf_pages": 38,
+      "sha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+      "official_pdf_url": "https://www.aqa.org.uk/files/850e1d56-91f9-4d84-a0c8-e0965b7ac733/661250c1cb8bd3586f93ddb48c89a3218a3913ca.pdf",
+      "source_use": "REFERENCE_ONLY",
+      "allow_pdf_text_in_ai_generation": false,
+      "allow_pdf_commit": false
+    }
+  ]
+}
