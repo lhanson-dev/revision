@@ -50,6 +50,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
 - Issue #698 Psychology 7182 original independently scored sign-test S calculation pair, source mapping and limited evidence → `docs/technical/Issue 698 Psychology Sign Test Scored Practice.md`
+- Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
 - Issue #698 current **published** AQA Business/Psychology per-requirement supply crosswalk, exact tagged question IDs, truthful unverified source/PDF and educational-status boundaries → `docs/technical/Issue 698 Real Published Course Requirement Evidence Crosswalk.md`
 - Issue #698 Business §3.5.2 reuse of original budget/cash-flow construction, six typed finance results and evidence limits → `docs/technical/Issue 698 Business Budget and Cash Flow Practice.md`
 - Issue #698 existing Business Practice DataDrills grouped to their actual topic while retaining untagged legacy courses → `docs/technical/Issue 698 Business Topic-Scoped Data Drills.md`
