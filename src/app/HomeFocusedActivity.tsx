@@ -36,6 +36,8 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [typedAnswer, setTypedAnswer] = useState('')
   const [calculationResult, setCalculationResult] = useState<{ correct: boolean; typed: string } | null>(null)
+  // An uncertain save must never be retried with a different answer or confidence.
+  const [calculationAttemptConfidence, setCalculationAttemptConfidence] = useState<AnswerConfidence | null>(null)
   const [checked, setChecked] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -197,6 +199,13 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
       return
     }
     const enteredValue = result.entered
+    const pendingCalculation = pendingEvidence.current.get('quick-calculation:' + calculation.id)
+    if (pendingCalculation?.source === 'calculation'
+      && (pendingCalculation.enteredValue !== enteredValue || pendingCalculation.confidence !== confidence)) {
+      setError('The earlier answer may already be saved. Retry the same number and confidence, or return to Plan.')
+      return
+    }
+    setCalculationAttemptConfidence(confidence)
     setSaving(true)
     setError('')
     let answerSaved = false
@@ -266,6 +275,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
 
   if (task.activityType === 'quick-check' && calculation) return (
     <HomeCalculationCheck task={task} question={calculation} typedAnswer={typedAnswer}
+      attemptConfidence={calculationAttemptConfidence}
       onTypedAnswer={setTypedAnswer} onCheck={confidence => void checkTypedCalculation(confidence)}
       result={calculationResult} saving={saving} error={error} completed={completed}
       completionPending={completionPending} onRetryCompletion={() => void retryCompletion()}
