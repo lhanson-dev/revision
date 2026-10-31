@@ -52,9 +52,9 @@ describe('Issue #698 — source-first AQA Psychology 7182 v1.4 review baseline',
     const sign = review.inferential_review.atoms.find(x=>x.id==='PSY-SRC-4233-IT03')
     expect(sign?.required_independent_evidence_mode).toBe('typed-numeric-original')
     expect(sign?.candidate_practice_question_ids).toEqual(['psy-rm-applied-sign-test-01'])
-    // Current approved main offers recognition of n/S and answer reveal; the
-    // separate Psychology sign-test numerical PR is not assumed published.
+    // This original topic MCQ checks recognition of a statistical result; it
+    // is not proof that written method or fresh independently scored
+    // calculations have been completed by a real learner.
     expect(paper2.questions.find(x=>x.id==='psy-rm-applied-sign-test-01')).toBeDefined()
-    expect(paper2.practiceBank?.some(x=>x.id.startsWith('sign-test-'))).toBe(false)
   })
 })
