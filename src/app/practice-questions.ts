@@ -198,6 +198,12 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
   const fields = commonFields(record, topicId)
   return {
     ...fields,
+    // Original exam-style bank questions can carry method marks (for example,
+    // 4 marks for a calculation with workings). The Practice UI only observes
+    // the submitted final number: presenting all source marks as assessable
+    // would falsely imply the method was marked. This is a single one-mark
+    // final-answer check; the original authored bank and exam rubric are kept.
+    marks: 1,
     // "Show your working" is for the exam; here the student types the answer, so it would mislead.
     prompt: fields.prompt.replace(/\s*Show your working\.?/i, '').trim(),
     type: 'calculation',
