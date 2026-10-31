@@ -47,10 +47,30 @@ describe('the AQA 7132 paper guide', () => {
     expect(items).toHaveLength(14)
     expect(new Set(items.map((item) => item.id)).size).toBe(items.length)
     expect(items.every((item) => item.why.length > 10)).toBe(true)
-    // The known problem is written down where the checker will see it.
-    expect(items.find((item) => item.text === 'Answer every question')?.why).toMatch(/one essay from two/)
+    // The AQA choice rule is correctly taught, while editorial guidance remains marked for review.
+    expect(items.find((item) => item.text.includes('choose ONE of the two essay questions'))?.why).toMatch(/p9/)
+    expect(items.every((item) => item.text !== 'Answer every question')).toBe(true)
     expect(items.find((item) => item.text === 'Calculator allowed')?.why).toMatch(/do not state a calculator rule/)
     expect(aqaBusiness7132ExamPapers.checkedAgainst.approvedBy).toMatch(/Exam Truth/)
+  })
+  it('gives accurate learner-visible paper-choice, pacing and case-reading instructions', () => {
+    const guide = examPapersFor('AQA', '7132')!
+    const [paper1, paper2, paper3] = guide.papers
+    expect(paper1.sections.slice(2).map((section) => [section.type, section.marks])).toEqual([
+      ['One essay from two', 25], ['One essay from two', 25],
+    ])
+    expect(paper2.sections).toHaveLength(3)
+    expect(paper3.sections).toHaveLength(1)
+    const [calculator, choice, pacing] = guide.dayRules!
+    expect(calculator.check.status).toBe('needs_check')
+    expect(choice.text).toMatch(/For Paper 1, choose ONE of the two essay questions in EACH of Sections C and D/)
+    expect(choice.text).not.toBe('Answer every question')
+    expect(pacing.text).toContain('1 minute 12 seconds per mark')
+    expect(pacing.text).toContain('reading and checking')
+    expect(120 * 60 / 100).toBe(72)
+    expect(paper3.notes?.[0].text).not.toMatch(/15 minutes/)
+    expect(paper3.notes?.[0].text).toMatch(/two-hour paper/)
+    expect([choice, pacing, paper3.notes![0]].every((item) => item.check.status === 'needs_check')).toBe(true)
   })
   it('refuses unflagged wording: a command word without a check is not allowed', () => {
     const bad = structuredClone(aqaBusiness7132ExamPapers) as unknown as { commandWords: Array<Record<string, unknown>> }
