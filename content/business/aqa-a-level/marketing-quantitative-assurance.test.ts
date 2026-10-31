@@ -79,7 +79,7 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
   })
 
   it('independently reconstructs the two new cases with explicit denominators and a negative sign', () => {
-    expect(3500000 / 0.14).toBe(25000000)
+    expect(Math.round(3500000 / 0.14)).toBe(25000000)
     expect((63 - 75) / 75 * 100).toBe(-16)
     expect(businessMarketingQuantitativeCases.map(x => x.expected)).toEqual([25000000, -16])
     const pool = buildQuestionPool({
