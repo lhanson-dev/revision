@@ -10,7 +10,7 @@ The existing Psychology Step 6 and launch workflows review approved `main`, not 
 
 ## Trusted trigger and execution contract
 
-Approved-main GitHub Actions workflow: `.github/workflows/psychology-pr746-a3-review.yml`. Entrypoint: `scripts/assurance/psychology-pr746-a3-review.mjs`, with standalone tests `psychology-pr746-a3-review.test.mjs`.
+Approved-main GitHub Actions workflow: `.github/workflows/psychology-pr746-a3-review.yml`. Entrypoint: `scripts/assurance/psychology-pr746-a3-review.mjs`, with standalone tests `psychology-pr746-a3-review.node-check.mjs`.
 
 After this review-workflow change has its own governed Founder-approved merge, the authorized Founder can trigger the reviewer by posting an **issue comment on PR #746** with *exactly*:
 
