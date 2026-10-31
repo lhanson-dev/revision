@@ -5,7 +5,8 @@
  * AQA specification is REFERENCE_ONLY. These paired observations, questions
  * and explanations are original Revision work, not exam-board questions.
  *
- * A scored numeric S provides one bounded observation for PSY-07-32.
+ * A scored numeric S provides one bounded observation for source-first atom
+ * PSY-SRC-4233-IT03 (calculation only), under compound PSY-07-32.
  * It does NOT verify test selection, critical-value interpretation, written
  * working, an independent later attempt or durable mastery by itself.
  */
@@ -69,7 +70,7 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
     confidence_label: 'Original arithmetic-verified pilot; educational sign-off pending',
     namespace: 'rev7182',
     topic_id: 'research-methods',
-    target_item_ids: ['PSY-07-32'],
+    target_item_ids: ['PSY-SRC-4233-IT03'],
     target_node_ids: ['research-methods-psy0732'],
     question: {
       id: item.id,
@@ -100,5 +101,5 @@ export const psychologySignTestPracticeBank = cases.map((item) => {
 })
 
 export const psychologySignTestRequirementBindings = Object.fromEntries(
-  cases.map((item) => [`rev7182-4.2.3-${item.id}`, ['PSY-07-32'] as const]),
+  cases.map((item) => [`rev7182-4.2.3-${item.id}`, ['PSY-SRC-4233-IT03'] as const]),
 )
