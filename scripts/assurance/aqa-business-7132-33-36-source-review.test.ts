@@ -54,7 +54,7 @@ describe('Issue #698 AQA Business v2.0 source-first §§3.3–3.6 candidate atom
     expect(review.version).toBe('2.0 14 June 2023')
     expect(review.rights).toBe('REFERENCE_ONLY')
     expect(review.pdf_actual_pages).toBe(42)
-    expect(review.founder_upload_sha_verified).toBe(false)
+    expect(review.founder_pdf_sha_verified).toBe(false)
     expect(source.sections).toHaveLength(42)
     expect(review.sections.map(s => s.section_id)).toEqual([
       '3.3.1','3.3.2','3.3.3','3.3.4',
