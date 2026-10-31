@@ -88,7 +88,7 @@ export function authoredCalculationForTask(task: HomeTask): CalculationPracticeQ
 /** Supported Practice can differ from the learner's accepted booking. */
 export function supportedActivityMinutes(task: HomeTask): number {
   if (task.activityType === 'quick-check') return focusedActivityMinutes('quick-check', authoredQuestionsForTask(task).length + Number(Boolean(authoredCalculationForTask(task))))
-  if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', task.retrievalContentIds?.length ?? task.adapter.listFlashcards(task.topicId).length)
+  if (task.activityType === 'flashcards') return focusedActivityMinutes('flashcards', authoredFlashcardsForTask(task).length)
   return task.estimatedMinutes
 }
 
