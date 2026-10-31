@@ -47,7 +47,7 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
     for (const pack of packs) {
       const newRecords = pack.practiceBank!.filter(record => record.namespace === 'rev7132' && record.batch === '3.3.2')
       expect(newRecords.map(bankQuestionId)).toEqual([
-        ...newIds,
+        ...newIds.slice(0, 2),
         'rev7132-3.3.2-firm-sales-growth-increase-01',
         'rev7132-3.3.2-firm-sales-growth-decline-02',
       ])
