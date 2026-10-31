@@ -101,6 +101,38 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
           <>
             <p>Working towards <strong>{dated(final)}</strong> across {programme.weeks.length} weeks. Revision uses known paper deadlines, your evidence and saved study time to allocate supported preparation objectives. These remain adaptable forecasts, not booked sessions or promises of exam readiness.</p>
             <p>We have identified {programme.requiredMinutes > 0 ? formatMinutes(programme.requiredMinutes) : 'no measured time'} of currently supported preparation opportunities; {formatMinutes(programme.allocatedMinutes)} can be allocated with known availability. This is <strong>not</strong> a measurement of all syllabus work still needed.</p>
+            {!!programme.paperCapacityBoundaries?.length && (
+              <section aria-label="Paper-specific time and preparation uncertainty">
+                <h3>Time and verified work before each paper</h3>
+                <p>Revision can compare your provisional available time with the activities it can currently verify for each exam. It cannot yet calculate all the study, skill practice or independent rechecking you will need. <strong>Whole-paper feasibility is unknown</strong> until that work is independently mapped and assessed.</p>
+                <details>
+                  <summary>Explore your papers, available time and preparation gaps</summary>
+                  <ul>
+                    {programme.paperCapacityBoundaries.map((paper) => (
+                      <li key={paper.assessmentId}>
+                        <strong>{courseLabel(paper.courseId)} — {paper.title}</strong>
+                        <span> · {dated(paper.assessmentDate)}</span>
+                        <p>{paper.provisionalAvailableMinutes === null
+                          ? 'Remaining study capacity cannot currently be calculated from reliable availability and saved sessions.'
+                          : `${formatMinutes(paper.provisionalAvailableMinutes)} provisionally available before this paper, based on your saved weekly time and known commitments. Later bookings and time changes may reduce it.`}</p>
+                        <p>{paper.scopeResolved
+                          ? `${paper.topicsWithSupportedOpportunity} of ${paper.mappedKnowledgeTopics} mapped knowledge topics have at least one currently published practice or learning opportunity.`
+                          : 'This paper’s applicable topic or option scope is unresolved; no topic coverage is assumed.'}</p>
+                        <p>{paper.mappedResponseSections === null
+                          ? 'Exact paper-response requirements cannot yet be confirmed from the saved paper identity.'
+                          : `${paper.sectionsWithExactPractice} of ${paper.mappedResponseSections} mapped response sections have an exact published practice question.`}</p>
+                        <p>{formatMinutes(paper.supportedOpportunityMinutes)} of currently verified activity options are identifiable for this paper. These are not the total hours you need, and shared activities can apply to multiple papers; do not add these figures together.</p>
+                        {paper.provisionalAvailableMinutes !== null
+                          && paper.supportedOpportunityMinutes > paper.provisionalAvailableMinutes && (
+                          <p role="status">Even the currently identified activities exceed your provisional time before this paper. Revision must prioritise; this does not measure the full preparation shortfall.</p>
+                        )}
+                        <p>Overall preparation feasibility: cannot assess from verified opportunities alone.</p>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </section>
+            )}
             {programme.requirements.length > 0 && (
               <div aria-label="Verified course knowledge requirements">
                 <h3>What your known papers require</h3>
