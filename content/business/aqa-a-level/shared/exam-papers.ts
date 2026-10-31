@@ -57,7 +57,7 @@ export const aqaBusiness7132ExamPapers = examPapersContentSchema.parse({
         { name: 'Case study questions', type: 'About 6 questions on one case study', marks: 100 },
       ],
       topics: 'all',
-      notes: [{ text: 'Read the case study and appendices first: about 15 minutes before you start writing.', check: { status: 'needs_check', why: 'Reading time is from the design sample copy. AQA’s published page does not state one.' } }],
+      notes: [{ text: 'Read the case study and any appendices carefully before answering. Budget reading, writing and checking within the two-hour paper.', check: { status: 'needs_check', why: 'This is Revision study advice, not an AQA-prescribed reading period; AQA Business 7132 v2.0 p10 specifies two hours but no separate 15-minute reading allocation.' } }],
     },
   ],
   assessmentObjectives: [
@@ -76,7 +76,7 @@ export const aqaBusiness7132ExamPapers = examPapersContentSchema.parse({
   levelsNote: { text: 'Longer answers are marked in levels. The examiner reads the whole answer, decides which level it fits, then picks a mark within that level.', check: { status: 'needs_check', why: 'Explains how answers are marked. Check against the factory’s level descriptors and AQA’s mark scheme approach.' } },
   dayRules: [
     { text: 'Calculator allowed', check: { status: 'needs_check', why: 'AQA’s published pages do not state a calculator rule. Check the paper’s front cover or AQA’s exam rules.' } },
-    { text: 'Answer every question', check: { status: 'needs_check', why: 'Likely wrong as written: Paper 1 Sections C and D are one essay from two. Needs correcting before it is approved.' } },
-    { text: 'The marks are printed next to each question. Use them to pace yourself: about 1 minute a mark.', check: { status: 'needs_check', why: 'Pacing advice from the design sample copy. The “1 minute a mark” figure is 120 minutes over 100 marks; the “printed next to each question” claim needs checking.' } },
+    { text: 'Answer the compulsory questions. For Paper 1, choose ONE of the two essay questions in EACH of Sections C and D; do not answer both alternatives.', check: { status: 'needs_check', why: 'Question-choice rule confirmed against AQA Business 7132 v2.0, printed p9; retained for editorial/Content Factory sign-off of learner-facing advice.' } },
+    { text: 'Plan time across the 120-minute, 100-mark paper: the overall average is 1 minute 12 seconds per mark, before allowing time for reading and checking. Adapt your timing to each question.', check: { status: 'needs_check', why: 'The 120-minute and 100-mark totals are verified in AQA Business 7132 v2.0, printed pp9–10. The average is arithmetic, not an AQA timing rule or a promise that every mark takes the same time.' } },
   ],
 })
