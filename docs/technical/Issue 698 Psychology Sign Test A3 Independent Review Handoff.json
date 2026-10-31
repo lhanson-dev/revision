@@ -22,7 +22,7 @@
     {
       "id": "rev7182-4.2.3-sign-test-01",
       "caseId": "sign-test-01",
-      "requirementId": "PSY-07-32",
+      "requirementId": "PSY-SRC-4233-IT03",
       "participantCount": 8,
       "positive": 5,
       "negative": 2,
@@ -32,12 +32,13 @@
       "marks": 1,
       "format": "individual numeric entry; visible paired-score table",
       "scoringRule": "exact-integer",
-      "responseEvidence": "raw final-number correctness only"
+      "responseEvidence": "raw final-number correctness only",
+      "courseTruthParentId": "PSY-07-32"
     },
     {
       "id": "rev7182-4.2.3-sign-test-02",
       "caseId": "sign-test-02",
-      "requirementId": "PSY-07-32",
+      "requirementId": "PSY-SRC-4233-IT03",
       "participantCount": 7,
       "positive": 1,
       "negative": 4,
@@ -47,7 +48,8 @@
       "marks": 1,
       "format": "individual numeric entry; visible paired-score table",
       "scoringRule": "exact-integer",
-      "responseEvidence": "raw final-number correctness only"
+      "responseEvidence": "raw final-number correctness only",
+      "courseTruthParentId": "PSY-07-32"
     }
   ],
   "internalAuditFindings": [
@@ -86,7 +88,7 @@
     "reviewedExactContentSha": null,
     "issueRegister": [],
     "requiredDecision": "PASS or documented authorised conditional restricted pilot, not independently provided",
-    "reviewerInstructions": "Fresh-context reviewer must receive only original Revision-authored question, permitted structured Board Alignment facts, reusable subject-truth, numeric test results, provenance and no protected AQA text. Adversarially verify independent pair counts; S arithmetic and ties; exact-integer scoring and all alternative numeric input paths; assessment demand and marks/AO; study plausibility, table accessibility, model feedback, copyright; and any misleading mastery or significance implication. Return for each item severity (blocking/material/minor/no issue), type, evidence, correction, affected artifact and resolution. Do not treat this authoring-context internal finding list as fresh independent review."
+    "reviewerInstructions": "Fresh-context reviewer must receive only original Revision-authored question, permitted structured Board Alignment facts, reusable subject-truth, numeric test results, provenance and no protected AQA text. Adversarially verify independent pair counts; S arithmetic and ties; exact-integer scoring and all alternative numeric input paths; assessment demand and marks/AO; study plausibility, table accessibility, model feedback, copyright; and any misleading mastery or significance implication. Return for each item severity (blocking/material/minor/no issue), type, evidence, correction, affected artifact and resolution. Do not treat this authoring-context internal finding list as fresh independent review. Verify that the atomic calculation ID PSY-SRC-4233-IT03 does not credit parent PSY-07-32's separate test-selection capability."
   },
   "releaseBoundaries": {
     "fullEducationalSignoff": false,
