@@ -176,7 +176,9 @@
         "learner_requirement_candidate_id": "PSY-07-32",
         "candidate_learn_page_id": "research-methods-psy0732",
         "candidate_practice_question_ids": [
-          "psy-rm-applied-sign-test-01"
+          "psy-rm-applied-sign-test-01",
+          "rev7182-4.2.3-sign-test-01",
+          "rev7182-4.2.3-sign-test-02"
         ],
         "required_independent_evidence_mode": "typed-numeric-original",
         "individual_requirement_scoring_verified": false,
