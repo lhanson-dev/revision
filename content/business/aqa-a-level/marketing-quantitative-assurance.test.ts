@@ -46,7 +46,11 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
     ])
     for (const pack of packs) {
       const newRecords = pack.practiceBank!.filter(record => record.namespace === 'rev7132' && record.batch === '3.3.2')
-      expect(newRecords.map(bankQuestionId)).toEqual(newIds)
+      expect(newRecords.map(bankQuestionId)).toEqual([
+        ...newIds,
+        'rev7132-3.3.2-firm-sales-growth-increase-01',
+        'rev7132-3.3.2-firm-sales-growth-decline-02',
+      ])
       const questionPool = buildQuestionPool({
         topicId: 'marketing', topicOrder: 3, coursePack: pack.questions, bank: pack.practiceBank,
       })
@@ -81,7 +85,7 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
   it('independently reconstructs the two new cases with explicit denominators and a negative sign', () => {
     expect(Math.round(3500000 / 0.14)).toBe(25000000)
     expect((63 - 75) / 75 * 100).toBe(-16)
-    expect(businessMarketingQuantitativeCases.map(x => x.expected)).toEqual([25000000, -16])
+    expect(businessMarketingQuantitativeCases.map(x => x.expected)).toEqual([25000000, -16, 25, -12.5])
     const pool = buildQuestionPool({
       topicId: 'marketing', topicOrder: 3, coursePack: paper1.questions, bank: paper1.practiceBank,
     })
@@ -94,8 +98,12 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
   })
 
   it('does not invent an exact sales-growth target from the historical market-growth identifier', () => {
-    expect(businessMarketingQuantitativeCases.map(x => x.target)).toEqual([marketSizeItem, marketGrowthItem])
+    expect(businessMarketingQuantitativeCases.map(x => x.target)).toEqual([
+      marketSizeItem, marketGrowthItem,
+      'aqa-7132-3.3.2:sales-growth', 'aqa-7132-3.3.2:sales-growth',
+    ])
     expect(paper1.practiceBank!.filter(r => r.namespace === 'rev7132' && r.batch === '3.3.2')
-      .every(r => r.target_item_ids.length === 1 && r.target_item_ids[0] !== 'aqa-7132-3.3.2:sales-growth')).toBe(true)
+      .every(r => r.target_item_ids.length === 1)).toBe(true)
+    expect(businessMarketingQuantitativeCases.slice(2).every(x => x.target !== marketGrowthItem)).toBe(true)
   })
 })
