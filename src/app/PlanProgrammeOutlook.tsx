@@ -103,8 +103,8 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
             <p>We have identified {programme.requiredMinutes > 0 ? formatMinutes(programme.requiredMinutes) : 'no measured time'} of currently supported preparation opportunities; {formatMinutes(programme.allocatedMinutes)} can be allocated with known availability. This is <strong>not</strong> a measurement of all syllabus work still needed.</p>
             {!!programme.paperCapacityBoundaries?.length && (
               <section aria-label="Paper-specific time and preparation uncertainty">
-                <h3>Time and verified work before each paper</h3>
-                <p>Revision can compare your provisional available time with the activities it can currently verify for each exam. It cannot yet calculate all the study, skill practice or independent rechecking you will need. <strong>Whole-paper feasibility is unknown</strong> until that work is independently mapped and assessed.</p>
+                <h3>Available time and published activities before each paper</h3>
+                <p>Revision can compare your provisional available time with the published activities currently eligible for each exam. It cannot yet calculate all the study, skill practice or independent rechecking you will need. <strong>Whole-paper feasibility is unknown</strong> until that work is independently mapped and assessed.</p>
                 <details>
                   <summary>Explore your papers, available time and preparation gaps</summary>
                   <ul>
@@ -117,7 +117,8 @@ export function PlanProgrammeOutlook({ programme, courseLabel, topicLabel, onOpe
                           : `${formatMinutes(paper.provisionalAvailableMinutes)} provisionally available before this paper, based on your saved weekly time and known commitments. Later bookings and time changes may reduce it.`}</p>
                         <p>{paper.scopeResolved
                           ? `${paper.topicsWithSupportedOpportunity} of ${paper.mappedKnowledgeTopics} mapped knowledge topics have at least one currently published practice or learning opportunity.`
-                          : 'This paper’s applicable topic or option scope is unresolved; no topic coverage is assumed.'}</p>
+                          : 'This paper has no resolved applicable topic mapping; no topic coverage is assumed.'}</p>
+                        <p>Mapped topic counts are not a claim of complete paper scope; optional choices that have not been saved may be absent.</p>
                         <p>{paper.mappedResponseSections === null
                           ? 'Exact paper-response requirements cannot yet be confirmed from the saved paper identity.'
                           : `${paper.sectionsWithExactPractice} of ${paper.mappedResponseSections} mapped response sections have an exact published practice question.`}</p>
