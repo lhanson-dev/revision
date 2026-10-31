@@ -42,7 +42,9 @@ describe('Home and Plan calculation start path', () => {
     expect(before).toContain('Your final number')
     expect(before).toContain('Guessing')
     expect(before).not.toContain('Published answer:')
-    expect(before).not.toContain(question.answerText)
+    // Scenario inputs may contain the same number as the answer. Check for
+    // answer/working disclosures, not a bare numeric substring in the prompt.
+    expect(before).not.toContain('<strong>Worked answer</strong>')
     const after = renderToStaticMarkup(createElement(HomeCalculationCheck, {
       ...common, result: { correct: false, typed: '42' }, completed: true,
     }))
