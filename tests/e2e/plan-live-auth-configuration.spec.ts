@@ -73,6 +73,16 @@ test('configured ordinary learner sees actual derived Plan activities with no ac
     await page.goto(`${app}#/plan`)
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     await expect(page.locator('.pln-weekview')).toBeVisible()
+    // This synthetic learner has zero Saturday/Sunday study minutes. When the
+    // test runs at the weekend, the current week can validly contain no future
+    // suggested sessions. Check the next week inside the rolling 14-day plan
+    // rather than misclassifying that policy as a planner outage.
+    const localWeekday = new Intl.DateTimeFormat('en-GB', {
+      weekday: 'long', timeZone: 'Europe/London',
+    }).format(new Date())
+    if (localWeekday === 'Saturday' || localWeekday === 'Sunday') {
+      await page.getByRole('button', { name: 'Next week' }).click()
+    }
     await expect(page.locator('.pln-row[data-kind="suggested"]').first()).toBeVisible()
     await expect(page.locator('.pln-summary')).not.toContainText('No activities planned')
     await page.reload()
