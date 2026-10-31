@@ -26,6 +26,11 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
         expect(actual).toEqual(item)
         const question = bankRecordToPractice(actual!, 'research-methods')
         expect(question?.type).toBe('calculation')
+        expect(actual?.question.table?.columns).toEqual(['Participant','Before','After'])
+        expect(actual?.question.table?.rows).toHaveLength(item.question.table!.rows.length)
+        expect(actual?.question.table?.rows.map(row => row.cells.slice(1).map(Number))).toEqual(
+          psychologySignTestCaseContracts.find(testCase => testCase.id === item.id)?.pairs,
+        )
         if (question?.type !== 'calculation') continue
         expect(question.expected).toBe(item.question.calcs[0].stated_answer)
         expect(question.unit).toBeNull()
