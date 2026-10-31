@@ -38,12 +38,14 @@ function answered(
   id: string, when = '2026-10-30T12:00:00.000Z',
   moduleId = paper1.manifest.id,
 ): CalculationEvidence {
-  return createCalculationEvidence({
+  const evidence = createCalculationEvidence({
     id, moduleId, topicId, contentId: question.id, occurredAt: when,
     correct, enteredValue: correct ? question.expected : question.expected + 9999,
     expectedValue: question.expected, unit: question.unit,
     confidence, itemMapping: objectiveItemMappingForPractice(question),
   })
+  if (evidence.source !== 'calculation') throw new Error('Expected scored calculation evidence')
+  return evidence
 }
 
 describe('IA-05 B2b: scoreable calculation to independent published skill recheck', () => {
