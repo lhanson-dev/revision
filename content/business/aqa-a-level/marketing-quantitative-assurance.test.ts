@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import originalSource from '../../scripts/assurance/data/aqa-business-7132-sections-33-36-atomic-review.json'
+import originalSource from '../../../scripts/assurance/data/aqa-business-7132-sections-33-36-atomic-review.json'
 import paper1 from './paper-1'
 import paper2 from './paper-2'
 import paper3 from './paper-3'
 import { businessMarketingQuantitativeCases } from './shared/marketing-quantitative-practice'
-import { bankQuestionId, buildQuestionPool, objectiveItemMappingForPractice } from '../../src/app/practice-questions'
-import { checkCalculation } from '../../src/app/practice-calculation'
+import { bankQuestionId, buildQuestionPool, objectiveItemMappingForPractice } from '../../../src/app/practice-questions'
+import { checkCalculation } from '../../../src/app/practice-calculation'
 
 const packs = [paper1, paper2, paper3] as const
 const caseIds = businessMarketingQuantitativeCases.map(item => `rev7132-3.3.2-${item.id}`)
