@@ -1,21 +1,12 @@
 /** #698 AQA Business 7132 v2.0 §§3.3.1–3.3.2, printed pp15–16.
- * Four original, single-target Marketing final-number calculations where the
- * published bank previously relied on unscored/self-marked size/growth methods.
+ * Two new, genuinely different single-target Marketing final-number checks to
+ * supplement already published scored size/growth calculations.
  * No working, business interpretation, or exam method marks are awarded.
  * Source PDF is REFERENCE_ONLY; no protected exam items are reproduced.
  */
 import { structuredPracticeBankRecordSchema } from '../../../structured-practice-bank'
 
 export const businessMarketingQuantitativeCases = [
-  {
-    id: 'market-size-sum-01',
-    target: 'aqa-7132-3.3.1:market-size',
-    context: 'A defined local market for bicycle servicing has three providers. Over the same year, their sales by value are £620,000, £730,000 and £850,000. Assume these are all providers in that market.',
-    stem: 'Calculate the total annual market size by sales value in pounds. Enter one number. Your workings are not marked.',
-    expected: 2200000,
-    unit: '£',
-    working: 'Market size is total sales across all firms in the defined market: £620,000 + £730,000 + £850,000 = £2,200,000. The result is market size by value, not one firm’s sales or market share.',
-  },
   {
     id: 'market-size-from-share-02',
     target: 'aqa-7132-3.3.1:market-size',
@@ -24,15 +15,6 @@ export const businessMarketingQuantitativeCases = [
     expected: 25000000,
     unit: '£',
     working: 'Market share = firm sales ÷ market sales × 100. Rearrange: market size = £3,500,000 ÷ 0.14 = £25,000,000. Do not multiply sales by 14 or divide by 14 rather than 0.14.',
-  },
-  {
-    id: 'market-growth-rise-01',
-    target: 'aqa-7132-3.3.1:market-growth',
-    context: 'The total annual sales value of a defined UK home-repair service market rises from £32 million one year to £36.8 million the next. The market definition is unchanged.',
-    stem: 'Calculate the percentage growth of the whole market. Enter the number of percent, without the % sign. Only the final percentage is scored.',
-    expected: 15,
-    unit: '%',
-    working: 'Market growth = (new market size − original market size) ÷ original size × 100 = (£36.8m − £32m) ÷ £32m × 100 = 15%. Use the earlier £32m as the denominator, not the new size.',
   },
   {
     id: 'market-growth-decline-02',
