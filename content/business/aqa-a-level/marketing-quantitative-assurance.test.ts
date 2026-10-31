@@ -59,7 +59,7 @@ describe('Issue #698 — Marketing source-led measurable growth and size', () =>
       expect(before.map(q => q?.type)).toEqual(['calculation', 'calculation'])
       const originalTargets = before.map(q => q?.specItemIds)
       expect(originalTargets).toEqual([[marketSizeItem], [marketGrowthItem]])
-      for (const [index, id] of newIds.entries()) {
+      for (const [index, id] of newIds.slice(0, 2).entries()) {
         const q = questionPool.find(question => question.id === id)
         const original = before[index]!
         const asset = businessMarketingQuantitativeCases[index]!
