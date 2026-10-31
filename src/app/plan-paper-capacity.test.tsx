@@ -45,7 +45,7 @@ describe('B3 paper capacity and coverage honesty on canonical Plan', () => {
     expect(html).toContain('Psychology paper 1')
     expect(html).toContain('Business paper 1')
     expect(html).toContain('provisionally available before this paper')
-    expect(html).toContain('currently verified activity options')
+    expect(html).toContain('currently published, eligible activity options')
     expect(html).toContain('do not add these figures together')
     expect(html).toContain('Overall preparation feasibility: cannot assess')
     expect(html).not.toContain('ready for your exams')
