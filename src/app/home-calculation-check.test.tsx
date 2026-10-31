@@ -34,7 +34,7 @@ describe('Home and Plan calculation start path', () => {
     const item = task()
     const question = authoredCalculationForTask(item)!
     const common = {
-      task: item, question, typedAnswer: '42', onTypedAnswer() {}, onCheck() {},
+      task: item, question, typedAnswer: '42', attemptConfidence: null, onTypedAnswer() {}, onCheck() {},
       saving: false, error: '', completed: false, completionPending: false,
       onRetryCompletion() {}, finishedBooking: null, backLabel: 'Plan', onBack() {}, onFinish() {},
     }
@@ -45,6 +45,14 @@ describe('Home and Plan calculation start path', () => {
     // Scenario inputs may contain the same number as the answer. Check for
     // answer/working disclosures, not a bare numeric substring in the prompt.
     expect(before).not.toContain('<strong>Worked answer</strong>')
+    const retry = renderToStaticMarkup(createElement(HomeCalculationCheck, {
+      ...common, attemptConfidence: 'certain', result: null,
+    }))
+    expect(retry).toContain('Retry the same answer and confidence')
+    expect(retry).toMatch(/<input[^>]*disabled=""/)
+    expect(retry).toMatch(/<button[^>]*disabled=""[^>]*>Guessing<\/button>/)
+    expect(retry).toMatch(/<button[^>]*disabled=""[^>]*>Fairly sure<\/button>/)
+    expect(retry).not.toMatch(/<button[^>]*disabled=""[^>]*>Certain<\/button>/)
     const after = renderToStaticMarkup(createElement(HomeCalculationCheck, {
       ...common, result: { correct: false, typed: '42' }, completed: true,
     }))
