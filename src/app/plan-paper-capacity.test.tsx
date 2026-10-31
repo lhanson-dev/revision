@@ -40,11 +40,12 @@ function render(available: RevisionAvailabilityProfile | null, papers = exams) {
 describe('B3 paper capacity and coverage honesty on canonical Plan', () => {
   it('shows real paper identities and capacity without claiming total effort, mastery or guaranteed exam feasibility', () => {
     const html = render(availability)
-    expect(html).toContain('Time and verified work before each paper')
+    expect(html).toContain('Available time and published activities before each paper')
     expect(html).toContain('Whole-paper feasibility is unknown')
     expect(html).toContain('Psychology paper 1')
     expect(html).toContain('Business paper 1')
     expect(html).toContain('provisionally available before this paper')
+    expect(html).toContain('optional choices that have not been saved may be absent')
     expect(html).toContain('currently published, eligible activity options')
     expect(html).toContain('do not add these figures together')
     expect(html).toContain('Overall preparation feasibility: cannot assess')
