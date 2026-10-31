@@ -8,7 +8,7 @@
   "founder_pdf_sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
   "source_rights": "REFERENCE_ONLY",
   "source_hash_verified_in_revision_audit_workspace": true,
-  "note": "Scoped internal observation on four provisional §3.3.2 atoms, not exhaustive course adequacy or qualified subject sign-off.",
+  "note": "Scoped internal observation of four provisional §3.3.2 atoms. Original q01/q02 already software-score final numerical answers; this correction adds distinct alternatives and firm-specific growth teaching. No exhaustive assurance or subject expert sign-off.",
   "status_policy": "Adequate and verified requires independent educational adequacy plus authenticated learner acceptance; this register does not grant it.",
   "requirements": [
     {
@@ -16,15 +16,15 @@
       "observable_skill": "calculate market growth",
       "historical_skill_target": "aqa-7132-3.3.1:market-growth",
       "learn_page_id": "bus-mkt-002",
-      "learn_observation": "Published stepwise growth method and worked examples",
+      "learn_observation": "Published stepwise market growth method; old q02 already provides one scored final number",
       "practice_ids": [
-        "rev7132-3.3.2-market-growth-rise-01",
+        "aqa7132-3.3-q02",
         "rev7132-3.3.2-market-growth-decline-02"
       ],
       "practice_evidence_mode": "software-scored-final-number",
       "assessment_limit": "No marked workings or evaluation; alternative written points question remains uncalibrated",
       "exam_prep_marking": "Unverified",
-      "diagnosis_and_recheck": "Two distinct published scenarios after merge; #743 adaptive typed recheck not merged at this audit",
+      "diagnosis_and_recheck": "One original rising-market number already published plus a distinct signed-contraction alternative proposed; typed Plan recheck is separate #743",
       "authenticated_learner_acceptance": "Unverified",
       "status": "Unverified"
     },
@@ -64,15 +64,15 @@
       "observable_skill": "calculate market size",
       "historical_skill_target": "aqa-7132-3.3.1:market-size",
       "learn_page_id": "bus-mkt-002",
-      "learn_observation": "Published size-by-value explanation plus summing firms' sales worked example",
+      "learn_observation": "Published value market-size explanation and sum-of-firms method; old q01 already provides one scored final number",
       "practice_ids": [
-        "rev7132-3.3.2-market-size-sum-01",
+        "aqa7132-3.3-q01",
         "rev7132-3.3.2-market-size-from-share-02"
       ],
       "practice_evidence_mode": "software-scored-final-number",
       "assessment_limit": "No independently evaluated definition of market boundary, calculation method or interpretation",
       "exam_prep_marking": "Unverified",
-      "diagnosis_and_recheck": "Two distinct published scenarios after merge; #743 typed Plan recheck under separate governance",
+      "diagnosis_and_recheck": "One original market-total sum already published plus a distinct inverse-share calculation proposed; typed Plan recheck is separate #743",
       "authenticated_learner_acceptance": "Unverified",
       "status": "Unverified"
     }
