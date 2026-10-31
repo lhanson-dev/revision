@@ -49,6 +49,7 @@ Use this file to find the governing source before substantive work.
 - Fifth governed release-lineage recovery after the 2026-10-05 GitHub Actions incident → `decisions/ADR-0030-fifth-release-lineage-recovery-after-github-actions-incident.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Issue #698 Business Paper 1 essay choice and paper-time guidance correction, with remaining review limits → `docs/technical/Issue 698 Business Paper Choice and Pacing Guidance.md`
+- Practice typed final-number one-mark assessment scope and legacy method-mark integrity fix → `docs/technical/Practice Typed Calculation Mark Integrity.md`
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
 - Issue #698 PR #746 gated fresh independent Psychology A3 original-assessment reviewer on approved main (proposed trusted automation; not itself educational sign-off) → `docs/technical/Issue 698 Psychology PR746 Trusted Independent A3 Review.md`
 - Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
@@ -152,7 +153,7 @@ Use this file to find the governing source before substantive work.
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Issue #698 Business source-mapped published independent second scored questions for market share, capacity, payables and critical path (candidate; independent educational review pending) → `docs/technical/Issue 698 Business Published Independent Recheck Supply.md`
-- Issue #704 bounded per-spec-item evidence persistence: live MCQ mapping and B1b candidate exact-item scored calculation mapping → `docs/technical/Issue 704 Skill-Level Assessment Evidence Implementation.md`
+- Issue #704 / #705 bounded per-spec-item evidence: live MCQ and calculation mappings; B2b candidate exact-item calculation repair/recheck integration → `docs/technical/Issue 704 Skill-Level Assessment Evidence Implementation.md`
 - FI-001 Gate B bounded assessed-skill/repair/recheck/whole-exam feasibility proposed Definition of Ready (Founder Ready approved 29 October 2026; no runtime implementation yet) → `10-product-governance/backlog/FI-001 Gate B Evidence-Led Learner Loop Readiness Analysis.md`; P0 acceptance #694 and #703
 - FI-001 R2 full-exam programme Definition-of-Ready analysis (Founder-approved Ready following PR #628; implementation In Progress, not full R2 Live) → `10-product-governance/backlog/FI-001 Evidence-led Planner R2 Readiness Analysis.md` (readiness evidence and decision history, not normative product authority; see `Adaptive Revision Planning.md`)
 - FI-023 Home v3 Definition-of-Ready and implementation boundaries → `10-product-governance/backlog/FI-023 Returning Student Home v3 Analysis.md` (readiness evidence; not normative Home authority)
