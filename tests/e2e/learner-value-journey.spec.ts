@@ -382,9 +382,26 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
       source: 'calculation', confidence: 'certain', enteredValue: first.expected + 9000,
     })
 
-    // Leave the unfinished Practice checkpoint intact and navigate normally.
-    // The Plan must still derive an independently authored skill recheck from
-    // the stored wrong answer rather than substituting a generic question.
+    // A started five-question Practice session is genuinely still unfinished
+    // after the first wrong answer. Respect the existing Continue/Discard
+    // contract: close the activity and deliberately discard the *unfinished
+    // session* via the normal learner UI before attempting an independent
+    // Plan recheck. Scored evidence must NOT be deleted with the checkpoint.
+    await page.getByRole('button', { name: 'Back to practice' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toHaveCount(0)
+    const persisted = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(persisted.find((item) => item.id === wrong?.id)).toBeDefined()
+    expect(findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      persisted, topicId, [moduleId], ['bus-evi-004'],
+    )).toEqual(expect.arrayContaining([expect.objectContaining({
+      specItemId, need: 'missed', freshQuestionId: fresh.id,
+    })]))
+    // No synthetic Plan task is injected. It must still derive the authored
+    // recheck from the browser-created, persisted wrong final-number evidence.
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     await expect(page.locator('.pln-daypanel')).toBeVisible()
