@@ -207,7 +207,11 @@
         "mode": "interpret",
         "learner_requirement_candidate_id": "PSY-07-33",
         "candidate_learn_page_id": "research-methods-psy0733",
-        "candidate_practice_question_ids": [],
+        "candidate_practice_question_ids": [
+          "rev7182-4.2.3-sign-critical-lookup-01",
+          "rev7182-4.2.3-sign-critical-lookup-02",
+          "rev7182-4.2.3-sign-critical-lookup-03"
+        ],
         "required_independent_evidence_mode": "authentic-table-lookup",
         "individual_requirement_scoring_verified": false,
         "teaching_adequacy": "unverified",
