@@ -22,6 +22,8 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
   it('retains exact source identity and the real four-to-21 scoped demand map',()=>{
     expect(audit.source.sha256).toBe(crosswalk.qualification.pdfSha256)
     expect(audit.source.rights).toBe('REFERENCE_ONLY')
+    expect(audit.source.exactScopeSafeguard.section411ConformityTypes).toEqual(['compliance','internalisation'])
+    expect(audit.source.exactScopeSafeguard.identificationRequiredByThisExactVersion).toBe(false)
     expect(audit.rows).toHaveLength(21)
     expect(new Set(audit.rows.map(x=>x.id)).size).toBe(21)
     const parents = crosswalk.rows.filter(x=>x.sourceSection==='4.1.1')
@@ -78,7 +80,7 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
         expect(conformity,phrase).toContain(phrase)
       }
       const obedience=textForPage(pack,'PSY-01-02')
-      for(const phrase of ['450 volts','65%','62.5%','40%','30%','47.5%','20%','acquiescence bias','harsh, punitive parenting','displaced','everyday clothes','separate']) {
+      for(const phrase of ['450 volts','65%','62.5%','40%','30%','47.5%','20%','acquiescence bias','harsh, punitive parenting','displaced','everyday clothes','agentic-state interpretation','legitimacy-of-authority explanation','separate']) {
         expect(obedience,phrase).toContain(phrase)
       }
       const resistance=textForPage(pack,'PSY-01-03')
