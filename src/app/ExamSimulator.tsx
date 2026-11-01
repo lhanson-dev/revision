@@ -874,7 +874,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           <Button onClick={resetExam}>Retake exam</Button>
           {onExit && <Button variant="secondary" onClick={onExit}>Back to Exam Prep</Button>}
         </div>
-        {submissionError && <p role="alert" className="error">{submissionError}</p>
+        {submissionError && <p role="alert" className="error">{submissionError}</p>}
       </section>
     )
   }
