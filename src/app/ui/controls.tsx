@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type ButtonHTMLAttributes, type ChangeEvent, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type Ref, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type ButtonHTMLAttributes, type ChangeEvent, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type Ref, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { classNames } from './classNames'
 import { Icon } from './Icon'
 
@@ -116,6 +116,9 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
   const [open, setOpen] = useState(false)
   const [month, setMonth] = useState(() => selectedDate ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1) : new Date(new Date().getFullYear(), new Date().getMonth(), 1))
   const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const popoverRef = useRef<HTMLDivElement>(null)
+  const [popoverPosition, setPopoverPosition] = useState<{ top: number; left: number } | null>(null)
   const supportId = fieldSupportId(id, hint, error)
   const labelId = `${id}-label`
   const requiredAccessibleLabel = required && typeof label === 'string' ? `${label} (required)` : undefined
@@ -138,6 +141,35 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
     }
   }, [open])
 
+  // The calendar must escape scrolling exam dialogs and stay visible when the
+  // browser is short or zoomed. Keep it in the dialog DOM for its focus trap.
+  useLayoutEffect(() => {
+    if (!open) return
+    function positionCalendar() {
+      const trigger = triggerRef.current?.getBoundingClientRect()
+      const popover = popoverRef.current?.getBoundingClientRect()
+      if (!trigger || !popover) return
+      const inset = 16
+      const gap = 8
+      const below = window.innerHeight - inset - trigger.bottom - gap
+      const above = trigger.top - inset - gap
+      const placeBelow = below >= popover.height || below >= above
+      const top = placeBelow
+        ? Math.max(inset, Math.min(trigger.bottom + gap, window.innerHeight - inset - popover.height))
+        : Math.max(inset, trigger.top - gap - popover.height)
+      const left = Math.max(inset, Math.min(trigger.left, window.innerWidth - inset - popover.width))
+      setPopoverPosition((current) => current?.top === top && current.left === left ? current : { top, left })
+    }
+    positionCalendar()
+    window.addEventListener('resize', positionCalendar)
+    // Includes scroll inside the Plan exam manager, not just window scroll.
+    window.addEventListener('scroll', positionCalendar, true)
+    return () => {
+      window.removeEventListener('resize', positionCalendar)
+      window.removeEventListener('scroll', positionCalendar, true)
+    }
+  }, [open, month])
+
   function toggleCalendar() {
     if (disabled || readOnly) return
     if (!open && selectedDate) setMonth(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))
@@ -150,12 +182,22 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
       onChange({ target: { value: nextValue }, currentTarget: { value: nextValue } } as unknown as ChangeEvent<HTMLInputElement>)
     }
     setOpen(false)
+    triggerRef.current?.focus({ preventScroll: true })
   }
 
   return (
-    <div ref={rootRef} className={classNames('ui-field-group', 'ui-date-field-group', groupClassName)}>
+    <div ref={rootRef} className={classNames('ui-field-group', 'ui-date-field-group', groupClassName)}
+      onKeyDownCapture={(event) => {
+        // The parent modal must not close when Escape is dismissing this calendar.
+        if (event.key === 'Escape' && open) {
+          event.stopPropagation()
+          setOpen(false)
+          triggerRef.current?.focus({ preventScroll: true })
+        }
+      }}>
       <span id={labelId} className="ui-field-label">{label}</span>
       <button
+        ref={triggerRef}
         id={id}
         type="button"
         disabled={disabled}
@@ -172,7 +214,9 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
         <span className={classNames(!currentValue && 'ui-date-field-placeholder')}>{displayDate(currentValue) || placeholder || 'DD / MM / YYYY'}</span>
       </button>
       <input type="hidden" name={name} value={currentValue} data-required={required ? 'true' : undefined} />
-      {open && <div className="ui-date-popover" role="dialog" aria-label={`Choose ${typeof label === 'string' ? label.toLowerCase() : 'date'}`}>
+      {open && <div ref={popoverRef} className="ui-date-popover" role="dialog"
+        style={popoverPosition ? { top: popoverPosition.top, left: popoverPosition.left } : undefined}
+        aria-label={`Choose ${typeof label === 'string' ? label.toLowerCase() : 'date'}`}>
         <div className="ui-date-popover-header">
           <button type="button" className="ui-date-nav" aria-label="Previous month" onClick={() => setMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}><Icon name="chevron-right" size="compact" /></button>
           <strong>{new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(month)}</strong>
