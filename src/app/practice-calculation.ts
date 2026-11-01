@@ -62,6 +62,12 @@ export type CalculationCheck = { status: 'right' | 'wrong' | 'unreadable'; enter
  * the answer's own unit (24.2 for "£m"), and a number with "m", "million" or in full (24,200,000) is read as typed.
  */
 export function checkCalculation(typed: string, accepted: readonly number[], unit: string | null | undefined, exactInteger = false): CalculationCheck {
+  // A discrete statistic must be one complete numeric token, not a prefix of
+  // an expression or prose. The general parser intentionally allows units and
+  // context; do not change its behavior for existing Business calculations.
+  if (exactInteger && !/^[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.0+)?$/.test(typed.trim())) {
+    return { status: 'unreadable', entered: null }
+  }
   const parsed = parseAnswer(typed)
   if (!parsed) return { status: 'unreadable', entered: null }
   const scale = unitScale(unit)
