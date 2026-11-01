@@ -14,7 +14,7 @@ The CI-invoked `tests/e2e/learner-value-journey.spec.ts` now contains a second i
 
 1. Guard local Supabase scheme, hostname, port 54321 and presence of keys; never use a hosted backend.
 2. Create a disposable confirmed ordinary learner, enrol AQA Business, set a future applicable exam and seven-day available time.
-3. Build the initial **wrong-and-certain expected-value result** from the published, single-target `rev7132-3.2.2-expected-value-01` and save it as this learner via the ordinary owner-scoped evidence service. This initial answer is *seeded*, not browser-typed.
+3. Save prior review of the exact published decision-tree Learn page using the normal learner service, then build the initial **wrong-and-certain expected-value result** from the published, single-target `rev7132-3.2.2-expected-value-01` and save it as this learner via the ordinary owner-scoped evidence service. This initial answer is *seeded*, not browser-typed.
 4. Independently confirm source-backed `rev7132-3.2.2-expected-value-02` as a different fresh question of precisely the same skill.
 5. Sign into the canonical browser, open today's real Plan, find an actual supported Leadership focused calculation, and require that it displays the **fresh published prompt**. A fabricated/forced task or alternate direct component mount must not satisfy the assertion.
 6. Type the correct new number on-screen, select confidence and require saved feedback. Independently load PostgREST evidence and verify the exact original and new content IDs, source, score, confidence and specification item provenance.
@@ -32,3 +32,6 @@ The scenario intentionally fails if today's Plan cannot expose or launch the ind
 ## Documentation impact
 
 The only intended changes are this scoped CI acceptance test, this technical record and an `INDEX.md` pointer. Product authority already prescribes evidence-sensitive independent rechecking; no normative update or ADR is needed. Historical audits are unchanged. Track actual results and next gaps in #703 and #698 after CI, and do not mark the learner loop complete based on this package.
+## First CI failure and corrected test prerequisite
+
+CI #41304933271 passed its static, security, signup and responsive checks but the new real-auth browser test failed to open a calculation recheck among **today's** Plan rows (4/5 database-backed browser tests passed). This did **not** prove the source-backed recheck is absent from the wider programme: the existing planner intentionally places a not-yet-reviewed Learn repair ahead of its independent recheck, potentially on different days. The original test did not distinguish that valid sequencing from a missing recheck. The next version records a genuine prior Learn-page review using the existing owner-scoped service before the missed calculation, so the test specifically exercises the launchable independent check rather than trying to skip a required repair. The complete first-time wrong → learn → later recheck remains separate acceptance; no test assertion about real Plan launch, browser submission or persisted item evidence has been removed. This correction remains **pending re-run verification**.
