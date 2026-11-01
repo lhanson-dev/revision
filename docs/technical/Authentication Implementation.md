@@ -85,6 +85,15 @@ Google OAuth was enabled in the production Supabase Auth configuration on 2026-0
 
 The repository does not contain the Google OAuth client secret.
 
+
+### Shared-device account selection correction (1 November 2026; proposed PR)
+
+The canonical `AuthGate` Google OAuth request now passes `queryParams: { prompt: 'select_account' }` to Supabase `signInWithOAuth`, requesting Google's account chooser rather than silently reusing a previously active Google account. The same Google action is shown in both Sign in and Create account modes, conditional on the existing provider-capability check. Google controls the chooser itself; the request cannot force a particular account and does not replace signing out of an already authenticated Revision session before switching users.
+
+This is a targeted authentication first-use defect correction, consistent with the approved Google account-creation option and recoverable Student identity requirements. It changes no database, learner evidence, permissions, or Supabase provider configuration. `tests/e2e/auth-entry.spec.ts` checks that both modes expose the Google action and the outbound Supabase authorize request carries the account-selection parameter. Browser interception proves the request shape, not Google's hosted UI or production behaviour. Exact-head CI, current-main integration and deployment smoke are required before reporting this as live.
+
+**Documentation impact:** Technical authentication truth changes here; the existing Authentication Experience and Student Lifecycle Journey Contracts already authorize Google first-use and account choice, so no new normative product authority or ADR is needed. No historical audit is rewritten.
+
 ## Password recovery
 
 Forgot-password requests use the canonical `/app/` URL as the recovery redirect. `AuthGate` listens for the Supabase `PASSWORD_RECOVERY` auth event and presents the new-password form in the same application.
