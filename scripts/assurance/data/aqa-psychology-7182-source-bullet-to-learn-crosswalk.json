@@ -1,0 +1,2511 @@
+{
+  "schemaVersion": 1,
+  "status": "PDF_SOURCE_BULLET_CHECKPOINTS_TO_PUBLISHED_LEARN_PAGES_PROVISIONAL_NOT_ATOMIC_OR_EDUCATIONALLY_ASSURED",
+  "qualification": {
+    "board": "AQA",
+    "code": "7182",
+    "level": "A-level",
+    "version": "1.4, 1 September 2025",
+    "pdfSha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "pdfPages": 38,
+    "rights": "REFERENCE_ONLY",
+    "sourcePrintedPages": "17–24",
+    "learnApplication": "/revision/app/"
+  },
+  "method": {
+    "basis": "Exact Founder-supplied 38-page AQA A-level Psychology specification: Section 4, printed pages 17–24, manually verified bullet boundaries and page transitions; no official protected prose copied.",
+    "observation": "117 original Section 4 content bullets across 17 topic headings. Existing production prototype splits the first Approaches bullet into distinct behaviourist and social-learning pages, yielding 118 published prototype records.",
+    "mapping": "Source section + within-section content bullet ordinal → named existing prototype requirement ID(s) → deterministic Learn page ID in three current course packs.",
+    "limits": "This is a complete top-level Section 4 content-bullet locator inventory only, not a decomposition of all named studies/models/skills or the complete 7182 exam-scope universe. The crosswalk does NOT inspect teaching sufficiency or individual question/rubric quality. General Section 4 Paper 1/2/3 AO/practical requirements, 7.2 maths Annex and Section 5 scheme-of-assessment are separate mandatory audit strands.",
+    "caution": "No 100% coverage claim. Source text is excluded because AQA PDF classified REFERENCE_ONLY. A topic-scoped MCQ is never evidence of individually demonstrated bullet or sub-skill."
+  },
+  "counts": {
+    "topicHeadings": 17,
+    "compulsoryTopics": 8,
+    "optionalGroups": 3,
+    "optionalTopics": 9,
+    "sourceContentBulletCheckpoints": 117,
+    "prototypeRequirementIds": 118,
+    "publishedLearnPageCandidates": 118,
+    "sourceBulletsWithValidatedTeachingAdequacy": 0,
+    "sourceBulletsWithValidatedIndependentPracticeAdequacy": 0,
+    "sourceBulletsWithAuthenticatedLearnerAcceptance": 0
+  },
+  "rows": [
+    {
+      "sourceCheckpointId": "PSY-7182-411-B01",
+      "sourceSection": "4.1.1",
+      "printedPage": 17,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "social-influence",
+      "candidatePrototypeRequirementIds": [
+        "PSY-01-01"
+      ],
+      "candidateLearnPageIds": [
+        "social-influence-psy0101"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-411-B02",
+      "sourceSection": "4.1.1",
+      "printedPage": 17,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "social-influence",
+      "candidatePrototypeRequirementIds": [
+        "PSY-01-02"
+      ],
+      "candidateLearnPageIds": [
+        "social-influence-psy0102"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-411-B03",
+      "sourceSection": "4.1.1",
+      "printedPage": 17,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "social-influence",
+      "candidatePrototypeRequirementIds": [
+        "PSY-01-03"
+      ],
+      "candidateLearnPageIds": [
+        "social-influence-psy0103"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-411-B04",
+      "sourceSection": "4.1.1",
+      "printedPage": 17,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "social-influence",
+      "candidatePrototypeRequirementIds": [
+        "PSY-01-04"
+      ],
+      "candidateLearnPageIds": [
+        "social-influence-psy0104"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-412-B01",
+      "sourceSection": "4.1.2",
+      "printedPage": 17,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "memory",
+      "candidatePrototypeRequirementIds": [
+        "PSY-02-01"
+      ],
+      "candidateLearnPageIds": [
+        "memory-psy0201"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-412-B02",
+      "sourceSection": "4.1.2",
+      "printedPage": 17,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "memory",
+      "candidatePrototypeRequirementIds": [
+        "PSY-02-02"
+      ],
+      "candidateLearnPageIds": [
+        "memory-psy0202"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-412-B03",
+      "sourceSection": "4.1.2",
+      "printedPage": 17,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "memory",
+      "candidatePrototypeRequirementIds": [
+        "PSY-02-03"
+      ],
+      "candidateLearnPageIds": [
+        "memory-psy0203"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-412-B04",
+      "sourceSection": "4.1.2",
+      "printedPage": 17,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "memory",
+      "candidatePrototypeRequirementIds": [
+        "PSY-02-04"
+      ],
+      "candidateLearnPageIds": [
+        "memory-psy0204"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-413-B01",
+      "sourceSection": "4.1.3",
+      "printedPage": 18,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "attachment",
+      "candidatePrototypeRequirementIds": [
+        "PSY-03-01"
+      ],
+      "candidateLearnPageIds": [
+        "attachment-psy0301"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-413-B02",
+      "sourceSection": "4.1.3",
+      "printedPage": 18,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "attachment",
+      "candidatePrototypeRequirementIds": [
+        "PSY-03-02"
+      ],
+      "candidateLearnPageIds": [
+        "attachment-psy0302"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-413-B03",
+      "sourceSection": "4.1.3",
+      "printedPage": 18,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "attachment",
+      "candidatePrototypeRequirementIds": [
+        "PSY-03-03"
+      ],
+      "candidateLearnPageIds": [
+        "attachment-psy0303"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-413-B04",
+      "sourceSection": "4.1.3",
+      "printedPage": 18,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "attachment",
+      "candidatePrototypeRequirementIds": [
+        "PSY-03-04"
+      ],
+      "candidateLearnPageIds": [
+        "attachment-psy0304"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-413-B05",
+      "sourceSection": "4.1.3",
+      "printedPage": 18,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "attachment",
+      "candidatePrototypeRequirementIds": [
+        "PSY-03-05"
+      ],
+      "candidateLearnPageIds": [
+        "attachment-psy0305"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-414-B01",
+      "sourceSection": "4.1.4",
+      "printedPage": 18,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "clinical-psychology-and-mental-health",
+      "candidatePrototypeRequirementIds": [
+        "PSY-04-01"
+      ],
+      "candidateLearnPageIds": [
+        "clinical-psychology-and-mental-health-psy0401"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-414-B02",
+      "sourceSection": "4.1.4",
+      "printedPage": 18,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "clinical-psychology-and-mental-health",
+      "candidatePrototypeRequirementIds": [
+        "PSY-04-02"
+      ],
+      "candidateLearnPageIds": [
+        "clinical-psychology-and-mental-health-psy0402"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-414-B03",
+      "sourceSection": "4.1.4",
+      "printedPage": 18,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "clinical-psychology-and-mental-health",
+      "candidatePrototypeRequirementIds": [
+        "PSY-04-03"
+      ],
+      "candidateLearnPageIds": [
+        "clinical-psychology-and-mental-health-psy0403"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-414-B04",
+      "sourceSection": "4.1.4",
+      "printedPage": 18,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "clinical-psychology-and-mental-health",
+      "candidatePrototypeRequirementIds": [
+        "PSY-04-04"
+      ],
+      "candidateLearnPageIds": [
+        "clinical-psychology-and-mental-health-psy0404"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-414-B05",
+      "sourceSection": "4.1.4",
+      "printedPage": 18,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "clinical-psychology-and-mental-health",
+      "candidatePrototypeRequirementIds": [
+        "PSY-04-05"
+      ],
+      "candidateLearnPageIds": [
+        "clinical-psychology-and-mental-health-psy0405"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B01",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-01",
+        "PSY-05-02"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0501",
+        "approaches-in-psychology-psy0502"
+      ],
+      "mappingScope": "one-pdf-bullet-to-two-prototype-records",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B02",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-03"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0503"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B03",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-04"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0504"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B04",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-05"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0505"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B05",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-06"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0506"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-421-B06",
+      "sourceSection": "4.2.1",
+      "printedPage": 19,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "approaches-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-05-07"
+      ],
+      "candidateLearnPageIds": [
+        "approaches-in-psychology-psy0507"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B01",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-01"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0601"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B02",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-02"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0602"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B03",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-03"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0603"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B04",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-04"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0604"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B05",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-05"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0605"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-422-B06",
+      "sourceSection": "4.2.2",
+      "printedPage": 19,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "biopsychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-06-06"
+      ],
+      "candidateLearnPageIds": [
+        "biopsychology-psy0606"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B01",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-01"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0701"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B02",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-02"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0702"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B03",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-03"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0703"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B04",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-04"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0704"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B05",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-05"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0705"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-423-B06",
+      "sourceSection": "4.2.3",
+      "printedPage": 19,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-06"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0706"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B01",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 19,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-07"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0707"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B02",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 19,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-08"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0708"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B03",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-09"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0709"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B04",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-10"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0710"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B05",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-11"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0711"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B06",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-12"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0712"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B07",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 7,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-13"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0713"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B08",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 8,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-14"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0714"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B09",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 9,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-15"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0715"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B10",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 10,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-16"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0716"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B11",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 11,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-17"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0717"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B12",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 12,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-18"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0718"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B13",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 13,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-19"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0719"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B14",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 14,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-20"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0720"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B15",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 15,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-21"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0721"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B16",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 16,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-22"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0722"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4231-B17",
+      "sourceSection": "4.2.3.1",
+      "printedPage": 20,
+      "bulletOrdinal": 17,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-23"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0723"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B01",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-24"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0724"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B02",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-25"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0725"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B03",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-26"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0726"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B04",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-27"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0727"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B05",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-28"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0728"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B06",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-29"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0729"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B07",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 7,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-30"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0730"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4232-B08",
+      "sourceSection": "4.2.3.2",
+      "printedPage": 20,
+      "bulletOrdinal": 8,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-31"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0731"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4233-B01",
+      "sourceSection": "4.2.3.3",
+      "printedPage": 21,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-32"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0732"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4233-B02",
+      "sourceSection": "4.2.3.3",
+      "printedPage": 21,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-33"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0733"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4233-B03",
+      "sourceSection": "4.2.3.3",
+      "printedPage": 21,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "research-methods",
+      "candidatePrototypeRequirementIds": [
+        "PSY-07-34"
+      ],
+      "candidateLearnPageIds": [
+        "research-methods-psy0734"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B01",
+      "sourceSection": "4.3.1",
+      "printedPage": 21,
+      "bulletOrdinal": 1,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-01"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0801"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B02",
+      "sourceSection": "4.3.1",
+      "printedPage": 21,
+      "bulletOrdinal": 2,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-02"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0802"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B03",
+      "sourceSection": "4.3.1",
+      "printedPage": 21,
+      "bulletOrdinal": 3,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-03"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0803"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B04",
+      "sourceSection": "4.3.1",
+      "printedPage": 21,
+      "bulletOrdinal": 4,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-04"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0804"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B05",
+      "sourceSection": "4.3.1",
+      "printedPage": 22,
+      "bulletOrdinal": 5,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-05"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0805"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-431-B06",
+      "sourceSection": "4.3.1",
+      "printedPage": 22,
+      "bulletOrdinal": 6,
+      "scopeGroup": "compulsory",
+      "candidateTopicId": "issues-and-debates-in-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-08-06"
+      ],
+      "candidateLearnPageIds": [
+        "issues-and-debates-in-psychology-psy0806"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-432-B01",
+      "sourceSection": "4.3.2",
+      "printedPage": 22,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "relationships",
+      "candidatePrototypeRequirementIds": [
+        "PSY-09-01"
+      ],
+      "candidateLearnPageIds": [
+        "relationships-psy0901"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-432-B02",
+      "sourceSection": "4.3.2",
+      "printedPage": 22,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "relationships",
+      "candidatePrototypeRequirementIds": [
+        "PSY-09-02"
+      ],
+      "candidateLearnPageIds": [
+        "relationships-psy0902"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-432-B03",
+      "sourceSection": "4.3.2",
+      "printedPage": 22,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "relationships",
+      "candidatePrototypeRequirementIds": [
+        "PSY-09-03"
+      ],
+      "candidateLearnPageIds": [
+        "relationships-psy0903"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-432-B04",
+      "sourceSection": "4.3.2",
+      "printedPage": 22,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "relationships",
+      "candidatePrototypeRequirementIds": [
+        "PSY-09-04"
+      ],
+      "candidateLearnPageIds": [
+        "relationships-psy0904"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B01",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-01"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1001"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B02",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-02"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1002"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B03",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-03"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1003"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B04",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-04"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1004"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B05",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-05"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1005"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-433-B06",
+      "sourceSection": "4.3.3",
+      "printedPage": 22,
+      "bulletOrdinal": 6,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "gender",
+      "candidatePrototypeRequirementIds": [
+        "PSY-10-06"
+      ],
+      "candidateLearnPageIds": [
+        "gender-psy1006"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-434-B01",
+      "sourceSection": "4.3.4",
+      "printedPage": 22,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "cognition-and-development",
+      "candidatePrototypeRequirementIds": [
+        "PSY-11-01"
+      ],
+      "candidateLearnPageIds": [
+        "cognition-and-development-psy1101"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-434-B02",
+      "sourceSection": "4.3.4",
+      "printedPage": 22,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "cognition-and-development",
+      "candidatePrototypeRequirementIds": [
+        "PSY-11-02"
+      ],
+      "candidateLearnPageIds": [
+        "cognition-and-development-psy1102"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-434-B03",
+      "sourceSection": "4.3.4",
+      "printedPage": 22,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "cognition-and-development",
+      "candidatePrototypeRequirementIds": [
+        "PSY-11-03"
+      ],
+      "candidateLearnPageIds": [
+        "cognition-and-development-psy1103"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-434-B04",
+      "sourceSection": "4.3.4",
+      "printedPage": 22,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-1",
+      "candidateTopicId": "cognition-and-development",
+      "candidatePrototypeRequirementIds": [
+        "PSY-11-04"
+      ],
+      "candidateLearnPageIds": [
+        "cognition-and-development-psy1104"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B01",
+      "sourceSection": "4.3.5",
+      "printedPage": 22,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-01"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1201"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B02",
+      "sourceSection": "4.3.5",
+      "printedPage": 22,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-02"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1202"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B03",
+      "sourceSection": "4.3.5",
+      "printedPage": 22,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-03"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1203"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B04",
+      "sourceSection": "4.3.5",
+      "printedPage": 22,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-04"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1204"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B05",
+      "sourceSection": "4.3.5",
+      "printedPage": 23,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-05"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1205"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-435-B06",
+      "sourceSection": "4.3.5",
+      "printedPage": 23,
+      "bulletOrdinal": 6,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "schizophrenia",
+      "candidatePrototypeRequirementIds": [
+        "PSY-12-06"
+      ],
+      "candidateLearnPageIds": [
+        "schizophrenia-psy1206"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B01",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-01"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1301"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B02",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-02"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1302"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B03",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-03"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1303"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B04",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-04"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1304"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B05",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-05"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1305"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-436-B06",
+      "sourceSection": "4.3.6",
+      "printedPage": 23,
+      "bulletOrdinal": 6,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "eating-behaviour",
+      "candidatePrototypeRequirementIds": [
+        "PSY-13-06"
+      ],
+      "candidateLearnPageIds": [
+        "eating-behaviour-psy1306"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B01",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-01"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1401"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B02",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-02"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1402"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B03",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-03"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1403"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B04",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-04"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1404"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B05",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-05"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1405"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-437-B06",
+      "sourceSection": "4.3.7",
+      "printedPage": 23,
+      "bulletOrdinal": 6,
+      "scopeGroup": "group-2",
+      "candidateTopicId": "stress",
+      "candidatePrototypeRequirementIds": [
+        "PSY-14-06"
+      ],
+      "candidateLearnPageIds": [
+        "stress-psy1406"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-438-B01",
+      "sourceSection": "4.3.8",
+      "printedPage": 23,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "aggression",
+      "candidatePrototypeRequirementIds": [
+        "PSY-15-01"
+      ],
+      "candidateLearnPageIds": [
+        "aggression-psy1501"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-438-B02",
+      "sourceSection": "4.3.8",
+      "printedPage": 23,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "aggression",
+      "candidatePrototypeRequirementIds": [
+        "PSY-15-02"
+      ],
+      "candidateLearnPageIds": [
+        "aggression-psy1502"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-438-B03",
+      "sourceSection": "4.3.8",
+      "printedPage": 23,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "aggression",
+      "candidatePrototypeRequirementIds": [
+        "PSY-15-03"
+      ],
+      "candidateLearnPageIds": [
+        "aggression-psy1503"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-438-B04",
+      "sourceSection": "4.3.8",
+      "printedPage": 23,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "aggression",
+      "candidatePrototypeRequirementIds": [
+        "PSY-15-04"
+      ],
+      "candidateLearnPageIds": [
+        "aggression-psy1504"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-438-B05",
+      "sourceSection": "4.3.8",
+      "printedPage": 23,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "aggression",
+      "candidatePrototypeRequirementIds": [
+        "PSY-15-05"
+      ],
+      "candidateLearnPageIds": [
+        "aggression-psy1505"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-439-B01",
+      "sourceSection": "4.3.9",
+      "printedPage": 23,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "forensic-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-16-01"
+      ],
+      "candidateLearnPageIds": [
+        "forensic-psychology-psy1601"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-439-B02",
+      "sourceSection": "4.3.9",
+      "printedPage": 23,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "forensic-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-16-02"
+      ],
+      "candidateLearnPageIds": [
+        "forensic-psychology-psy1602"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-439-B03",
+      "sourceSection": "4.3.9",
+      "printedPage": 24,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "forensic-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-16-03"
+      ],
+      "candidateLearnPageIds": [
+        "forensic-psychology-psy1603"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-439-B04",
+      "sourceSection": "4.3.9",
+      "printedPage": 24,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "forensic-psychology",
+      "candidatePrototypeRequirementIds": [
+        "PSY-16-04"
+      ],
+      "candidateLearnPageIds": [
+        "forensic-psychology-psy1604"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B01",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 1,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-01"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1701"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B02",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 2,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-02"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1702"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B03",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 3,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-03"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1703"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B04",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 4,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-04"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1704"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B05",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 5,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-05"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1705"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    },
+    {
+      "sourceCheckpointId": "PSY-7182-4310-B06",
+      "sourceSection": "4.3.10",
+      "printedPage": 24,
+      "bulletOrdinal": 6,
+      "scopeGroup": "group-3",
+      "candidateTopicId": "addiction",
+      "candidatePrototypeRequirementIds": [
+        "PSY-17-06"
+      ],
+      "candidateLearnPageIds": [
+        "addiction-psy1706"
+      ],
+      "mappingScope": "one-pdf-bullet-to-one-prototype-record",
+      "structuralLearnCandidate": "present-not-adequacy",
+      "authoredPracticeAttribution": "not-reviewed-per-source-bullet",
+      "teachingAdequacy": "unverified",
+      "independentPracticeAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "authenticatedLearnerAcceptance": "unverified"
+    }
+  ],
+  "completion": {
+    "allSection4BulletsLocated": true,
+    "allNamedSubRequirementsIndependentlyEnumerated": false,
+    "allPublishedLearnPagesReviewedForQuality": false,
+    "allAppropriatePracticeReviewed": false,
+    "examPrepAndPracticalAOsReviewed": false,
+    "qualifiedSubjectReviewComplete": false,
+    "realSignedInLearnerAccepted": false
+  },
+  "nextActions": [
+    "Decompose every compound content bullet into named testable study/model/skill demands, preserving AQA page and parent source checkpoint.",
+    "Independently read Learn pages and compare depth/accuracy with each named subrequirement.",
+    "Resolve which published questions and paper tasks genuinely test each skill, without attributing topic-only MCQs.",
+    "Record adequate/inadequate/absent/unsupported/unverified states based on examined evidence and issue small corrections.",
+    "Join Paper 1–3 practical/AO requirements, Annex 7.2 and all 27 optional selections with actual learner acceptance."
+  ]
+}
