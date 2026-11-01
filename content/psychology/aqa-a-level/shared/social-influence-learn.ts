@@ -4,6 +4,10 @@
  * Original, bounded LEARN enrichment for the existing four Social Influence
  * pages. Source PDF is REFERENCE_ONLY: no AQA passages or official items copied.
  * Wider source mapping is independently maintained in the #767 crosswalk.
+ * Exact Section 4.1.1 type list for this v1.4 cohort: compliance and
+ * internalisation only. Some older teaching resources add identification,
+ * but identification is NOT named as a mandatory 7182 v1.4 conformity type.
+ * Do not introduce unlisted content to satisfy an erroneous AI A2 finding.
  *
  * A2 editorial candidates; they do not establish independent student mastery
  * or per-skill marking. Independent fresh-context educational review is required
@@ -52,6 +56,7 @@ export const psychologySocialInfluenceLearnAdditions: Record<string, OriginalLea
       paragraphs: [
         'The Authoritarian Personality account, developed by Adorno and colleagues, proposes a relatively enduring cluster of rigid conventional attitudes, submission to established authority and aggression towards people seen as deviating from rules. Its original psychodynamic developmental explanation proposes that harsh, punitive parenting encourages fear and resentment of parents, while hostility towards them is suppressed and may be displaced onto less powerful outgroups. This is a historical theoretical proposal, not an established rule that strict parents inevitably produce authoritarian children. It is a dispositional account, in contrast to explanations based on immediate authority, setting or group pressure.',
         'Adorno’s F-scale is a questionnaire intended to indicate authoritarian attitudes. Its predominantly agree-with-the-statement format can suffer from acquiescence bias: a person inclined to agree with prompts may receive a higher score regardless of their true outlook. Self-report is also affected by interpretation and social desirability. Associations between questionnaire scores and obedience are correlational, not evidence that upbringing or a stable disposition caused any particular act; Milgram’s large situational differences also show that context matters. Compare methods and rival explanations rather than treating F-scale scores as a direct measurement of the cause of obedience.',
+        'Worked comparison: in a research laboratory, a participant may regard an experimenter as entitled to give scientific instructions because the role and institution appear legitimate. That is the legitimacy-of-authority explanation. If the participant says they felt the experimenter, rather than they themselves, bore responsibility for the consequences, that illustrates an agentic-state interpretation, in which they act as an agent of the authority. These accounts can coexist: the perceived right to command differs from a perceived transfer of responsibility. The same obedient act alone cannot demonstrate which internal process occurred, and situational variation supplies a rival explanation.',
         'For an exam scenario, explain whether evidence points to an agentic state, legitimate authority, a specific situational variable or an authoritarian disposition. Develop the mechanism and a limitation instead of treating all explanations as interchangeable.',
       ],
     },
