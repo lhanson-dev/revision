@@ -30,6 +30,7 @@ import topic16 from '../../../../research/source-first-course-prototype/psycholo
 import topic17 from '../../../../research/source-first-course-prototype/psychology-course-truth/topic-17-addiction.json'
 import examTruth from '../../../../research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
+import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
 
 type TruthRequirement = {
   requirementId: string
@@ -204,6 +205,7 @@ export const psychologyLearn = learnCourseSchema.parse({
                 'Practice independently: select Calculations within Research Methods and enter your own numerical result before viewing the worked feedback. These one-mark checks assess the final numerical answer, not whether you have shown every line of working.',
               ],
             }] : []),
+            ...(psychologySocialInfluenceLearnAdditions[requirement.requirementId] ?? []),
             ...(research.length >= 2 ? [{
               type: 'relationship' as const,
               title: 'Research, evidence and relationships',

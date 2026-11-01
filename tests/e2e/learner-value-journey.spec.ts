@@ -286,8 +286,9 @@ const enabledForBusinessRecheck = process.env.REVISION_BROWSER_DB_INTEGRATION ==
  * #703 follow-on: the wrong final number is entered by the actual signed-in
  * learner in canonical Practice, not seeded. The independent other question
  * must then appear and be answered from the actual Plan. The precise earlier
- * Learn exposure is owner-saved via the existing learner service; teaching
- * UI, two-skill coverage and shared Home/REV response remain separate gates.
+ * The learner opens the actual targeted Learn page and records its
+ * reviewed state in the browser, without turning reading into scored proof.
+ * Two-skill coverage and shared Home/REV response remain separate gates.
  */
 test('Business browser-entered wrong Practice calculation leads to different Plan reassessment', async ({ page }) => {
   test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
@@ -343,11 +344,11 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     })
     expect(capacityError).toBeNull()
 
-    // Previously reviewed teaching is legitimate exposure, not knowledge,
-    // scored evidence or a fabricated completed activity.
-    await markLearnPageReviewed(learner, {
-      userId, courseId: businessId, moduleId, topicId, pageId: 'bus-evi-004',
-    })
+    // Do not seed any Learn exposure. The real browser must complete that
+    // part of the learner journey after the wrong calculation below.
+    const startingExposure = await loadLearnExposures(learner, userId)
+    expect(startingExposure.some((item) => item.pageId === 'bus-evi-004'
+      && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
     await page.goto(appPath)
     await page.getByLabel('Email').fill(email)
     await page.getByLabel('Password').fill(password)
@@ -400,6 +401,35 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     )).toEqual(expect.arrayContaining([expect.objectContaining({
       specItemId, need: 'missed', freshQuestionId: fresh.id,
     })]))
+    // This is the real learner-facing authored repair page, reached using
+    // its canonical Courses/Learn route only AFTER the first incorrect
+    // Practice result. The learner explicitly marks it reviewed on-screen.
+    // Reviewing is unscored exposure, never proof of understanding.
+    const beforeRead = await loadLearnExposures(learner, userId)
+    expect(beforeRead.some((item) => item.pageId === 'bus-evi-004'
+      && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/learn/bus-evi-004')
+    await expect(page.locator('#learn-page-bus-evi-004')).toBeVisible()
+    await expect(page.locator('.learn-reading-body')).not.toBeEmpty()
+    const pageReview = page.getByRole('region', { name: 'Learn page review' })
+    await pageReview.getByRole('button', { name: 'I have read this page' }).click()
+    await expect(pageReview).toContainText('Page reviewed. This records reading, not understanding or exam readiness.')
+    await expect.poll(async () => (await loadLearnExposures(learner, userId))
+      .some((item) => item.pageId === 'bus-evi-004'
+        && item.moduleId === moduleId && item.courseId === businessId)).toBe(true)
+    // A review cannot clear the wrong scored observation or manufacture an
+    // independently scored result: the fresh question is still needed.
+    const afterReviewEvidence = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(afterReviewEvidence.map((item) => item.id).sort())
+      .toEqual(persisted.map((item) => item.id).sort())
+    expect(findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      afterReviewEvidence, topicId, [moduleId], ['bus-evi-004'],
+    )).toEqual(expect.arrayContaining([expect.objectContaining({
+      specItemId, need: 'missed', freshQuestionId: fresh.id,
+    })]))
+
     // No synthetic Plan task is injected. It must still derive the authored
     // recheck from the browser-created, persisted wrong final-number evidence.
     await page.goto(appPath + '#/plan?view=day')
