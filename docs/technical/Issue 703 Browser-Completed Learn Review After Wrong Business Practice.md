@@ -31,3 +31,7 @@ Extend the already CI-invoked `tests/e2e/learner-value-journey.spec.ts` scenario
 ## Documentation impact and safety
 
 The code change is exclusively the existing authenticated acceptance test. This same-branch technical note and `INDEX.md` pointer record the new bounded proof. **No** normative course/evidence authority, course content, persisted schema, scorer, learner route implementation, permissions, or production setting is changed. Earlier CI failures and approved narrow tests remain in Git history; source/score identities are preserved. Before changing PR state or seeking specific Founder merge approval, require a passing exact-head full CI and inspect browser/database log for retries, not merely a green parent job. Do not merge without explicit Founder approval of this distinct PR.
+
+## Current-main integration checkpoint — 1 November 2026
+
+The first draft test head began CI #41354052706 against its original main. Approved main subsequently added unrelated Psychology Social Influence content correction #768, commit `a3c4fb8dfb3fddc79e00edd473cd209d2363d943`. This branch has been mechanically refreshed onto that exact approved main while preserving the scoped Business E2E assertions and existing Learn review route. The old-head CI result is useful diagnostic evidence, but only fresh CI on the **integrated head** can qualify this PR for merge review. No new learner runtime behaviour or curriculum mapping was introduced here; no earlier evidence record has been rewritten.

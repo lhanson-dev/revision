@@ -1,0 +1,12 @@
+# Immutable audit evidence — 1 November 2026: second PR #768 fresh independent A2 review
+
+This is a **dated fail-hold receipt**, NOT a pass and not the result for any later PR head.
+
+- Exact reviewed head: `3f36da539b4471d8cd09ad0b7ee8ad033d173fc8`
+- Run: https://github.com/lhanson-dev/revision/actions/runs/41350285511
+- Retained original machine-readable reviewer artifact: `psychology-pr768-a2-independent-41350285511`, ID `13101196841`, receipt `independent-review-receipt.json`.
+- Decision: **`fail_hold`**, four Learn page IDs and eight review dimensions examined. Model usage **US$0.121970**. Reviewer rated the Asch, Authoritarian Personality, resistance and minority-influence dimensions `pass`, Milgram `minor`, and source alignment plus education depth `material`; practice limitation `minor`.
+- **False positive requiring adjudication, not syllabus expansion:** Reviewer claimed that `identification` was a **mandatory** AQA Psychology 7182 v1.4 conformity type, even though its approved-main reviewer instructions explicitly excluded that older-spec demand. The exact Founder PDF, sha256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`, section 4.1.1 printed page 17, lists **internalisation and compliance** only. The original reviewer inference is contrary to source evidence. The project deliberately does **not** add identification as mandatory or reclassify this failed receipt as a pass. The discrepancy is retained as an independent reviewer quality limitation.
+- **Minor valid improvement:** the distinction between agentic state (perceived transferred responsibility) and legitimacy of authority (belief that the authority has the right to instruct) needed more of a worked causal explanation, despite improved Milgram variation evidence. A separate original comparison was added in the next revision. Four generic concept MCQs still do not independently score each skill.
+
+**Process:** Retain original artifact and this adverse result as historical evidence; update provisional source scope record to identify what the exact PDF really requires; ensure learner text does not suggest unsupported universal causal findings; run the approved-main reviewer anew on a different exact head and inspect the full receipt. This is a source-based objection to one AI reviewer finding, not an independent qualified human educational review. Full #698/#703/#704/#705 assurance remains open.
