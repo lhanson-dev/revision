@@ -391,11 +391,21 @@ const courseOverviewVisualReview = [
  * Provenance: audits/2026-11-01-pr754-course-overview-visual-approval.md.
  * This is NOT a PR merge approval.
  */
+/** PR #762: Founder approved the reviewed compact desktop/phone Light/Dark
+ * Course Overview visuals on 1 November 2026 ("looks good, please continue").
+ * Desktop C4 screenshots captured by CI #4108 match the reviewed #4107
+ * compact layout. Phone C4 now scrolls the tiles into view, fixing the
+ * previous top-of-page-only screenshot. Each of the four new C4 SHA-256
+ * values was stable across original + retry on exact PR head f04417dd.
+ * Only these four C4 entries are repinned, not unrelated B7/other pages.
+ * Evidence: audits/2026-11-01-pr762-compact-course-overview-visual-approval.md.
+ * Visual approval is not PR merge approval.
+ */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'be3a85f383f25c1b9743fb830a18a5951493e67d51a978307af2770766c4fd1b',
-  'desktop:dark': 'd01d97559f650c3a656981ba51dd62385c8adcf46fd7f577876cb568fd0115ed',
-  'phone:light': 'fa07b3e1b999642e14c3b588ab0063ef020f1572c579d9289f17a6c1901f43af',
-  'phone:dark': 'd0cfca9db327fae04bad5a322c677c66df56b1a604a470b745f8d32d946c9b1c',
+  'desktop:light': 'fe06e8f58b74ce5e5643619dfdf461f000131d42305d5dfac2fe61bbd3fae282',
+  'desktop:dark': '9e129c4f116b90e5b3924aaf9b7c6164bb7f2e75e199631602fb02545b944616',
+  'phone:light': '7bc726bedccc1bbea8ff8e9965de2fe301edb25e111a560ab271b491b98d3cc8',
+  'phone:dark': '69e45ef85c1ab8ee41a6d308c598f888a00e6d0adc03cd918a06cc53b2a03fd7',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
