@@ -446,13 +446,14 @@ export function preparationCandidatesFromLearningState(
         ...(index ? { preparationPrerequisiteId:
           `${candidate.id}:learn:${learningPages[index - 1]!.id}` } : {}),
       }))
-      const lastLesson = lessons[lessons.length - 1]!.id
+      // Preserve the existing early check after the first genuine Learn page.
+      // Further unread pages stay available as distinct sequenced objectives;
+      // requiring an entire chapter before any check would delay diagnosis.
+      const firstLesson = lessons[0]!.id
       const checked: PlannerCandidate = { ...practice,
-        preparationStage: 'check', preparationPrerequisiteId: lastLesson }
-      // A scored check and paper response remain separately actionable; their
-      // Plan forecast follows the current initial teaching sequence.
-      return [...lessons, checked, ...skillSteps, ...retrieval(lastLesson),
-        ...paperPractice(practice, lastLesson)]
+        preparationStage: 'check', preparationPrerequisiteId: firstLesson }
+      return [...lessons, checked, ...skillSteps, ...retrieval(firstLesson),
+        ...paperPractice(practice, firstLesson)]
     }
     return [practice, ...skillSteps, ...retrieval(), ...paperPractice(practice)]
 
