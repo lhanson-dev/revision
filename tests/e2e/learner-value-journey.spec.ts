@@ -280,3 +280,181 @@ test('Business learner completes an independent Plan calculation recheck and ret
 })
 
 const enabledForBusinessRecheck = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
+
+
+/**
+ * #703 follow-on: the wrong final number is entered by the actual signed-in
+ * learner in canonical Practice, not seeded. The independent other question
+ * must then appear and be answered from the actual Plan. The precise earlier
+ * Learn exposure is owner-saved via the existing learner service; teaching
+ * UI, two-skill coverage and shared Home/REV response remain separate gates.
+ */
+test('Business browser-entered wrong Practice calculation leads to different Plan reassessment', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
+  test.setTimeout(180_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const origin = new URL(url)
+  if (origin.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(origin.hostname)
+    || origin.port !== '54321' || !anon || !secret) {
+    throw new Error('Never run browser-entered Practice acceptance against production')
+  }
+  const admin = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
+  const learner = createClient(url, anon, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
+  const email = 'business-practice-to-plan-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'PracticePlan-' + crypto.randomUUID() + '-A1!'
+  const topicId = 'leadership'
+  const moduleId = 'business-aqa-a-level-7132-paper-1'
+  const specItemId = 'aqa-7132-3.2.2:expected-value'
+  const first = bankRecordToPractice(businessDecisionTreeNumericalBank.find((q) => q.id === 'expected-value-01')!, topicId)
+  const fresh = bankRecordToPractice(businessDecisionTreeNumericalBank.find((q) => q.id === 'expected-value-02')!, topicId)
+  if (!first || first.type !== 'calculation' || !fresh || fresh.type !== 'calculation') {
+    throw new Error('Required separately authored decision-tree calculation assets missing')
+  }
+  expect(first.prompt).not.toBe(fresh.prompt)
+  expect(objectiveItemMappingForPractice(first)?.singleTargetSpecItemId).toBe(specItemId)
+  expect(objectiveItemMappingForPractice(fresh)?.singleTargetSpecItemId).toBe(specItemId)
+  let userId: string | undefined
+  try {
+    const { data, error } = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (error || !data.user) throw new Error('Could not create local learner: ' + error?.message)
+    userId = data.user.id
+    const signedIn = await learner.auth.signInWithPassword({ email, password })
+    if (signedIn.error) throw signedIn.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+    const { error: assessmentError } = await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: businessId, subject_id: 'business', module_id: null,
+      assessment_type: 'public_exam', title: 'Business Paper 1',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: [topicId] }, is_active: true,
+    })
+    expect(assessmentError).toBeNull()
+    const { error: capacityError } = await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London',
+      weekday_minutes: 240, weekend_minutes: 240,
+      monday_minutes: 240, tuesday_minutes: 240, wednesday_minutes: 240,
+      thursday_minutes: 240, friday_minutes: 240,
+      saturday_minutes: 240, sunday_minutes: 240,
+    })
+    expect(capacityError).toBeNull()
+
+    // Previously reviewed teaching is legitimate exposure, not knowledge,
+    // scored evidence or a fabricated completed activity.
+    await markLearnPageReviewed(learner, {
+      userId, courseId: businessId, moduleId, topicId, pageId: 'bus-evi-004',
+    })
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByRole('region', { name: 'Test what you know' }).getByLabel('Topic').selectOption(topicId)
+    const kinds = page.locator('.practice-kinds')
+    await kinds.getByRole('button', { name: 'Calculations' }).click()
+    await kinds.getByRole('button', { name: 'Multiple choice' }).click()
+    const start = page.getByRole('button', { name: /^Start \d+ questions?$/ })
+    await expect(start).toBeEnabled()
+    await start.click()
+    // This is the genuine authored question reached through the learner's
+    // choice of Practice topic and type, not a forced component or fake answer.
+    await expect(page.locator('.practice-question__prompt')).toHaveText(first.prompt)
+    await page.getByLabel('Your answer').fill(String(first.expected + 9000))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Not quite.', { exact: true })).toBeVisible()
+    const store = createSupabaseEvidenceStore(learner)
+    let wrong: Awaited<ReturnType<typeof loadLearningEvidence>>[number] | undefined
+    await expect.poll(async () => {
+      const saved = await loadLearningEvidence(store, userId!, moduleId, topicId)
+      wrong = saved.find((x) => x.contentId === first.id && x.source === 'calculation')
+      return wrong?.source === 'calculation' && !wrong.correct
+    }).toBe(true)
+    expect(individualSpecItemObservation(wrong!)).toMatchObject({
+      specItemId, correct: false, scoring: 'software-scored-final-number',
+    })
+    expect(wrong).toMatchObject({
+      source: 'calculation', confidence: 'certain', enteredValue: first.expected + 9000,
+    })
+
+    // A started five-question Practice session is genuinely still unfinished
+    // after the first wrong answer. Respect the existing Continue/Discard
+    // contract: close the activity and deliberately discard the *unfinished
+    // session* via the normal learner UI before attempting an independent
+    // Plan recheck. Scored evidence must NOT be deleted with the checkpoint.
+    await page.getByRole('button', { name: 'Back to practice' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toHaveCount(0)
+    const persisted = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(persisted.find((item) => item.id === wrong?.id)).toBeDefined()
+    expect(findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      persisted, topicId, [moduleId], ['bus-evi-004'],
+    )).toEqual(expect.arrayContaining([expect.objectContaining({
+      specItemId, need: 'missed', freshQuestionId: fresh.id,
+    })]))
+    // No synthetic Plan task is injected. It must still derive the authored
+    // recheck from the browser-created, persisted wrong final-number evidence.
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(page.locator('.pln-daypanel')).toBeVisible()
+    const rows = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
+      .filter({ hasText: 'Leadership' }).filter({ hasText: 'Practice question' })
+    const count = await rows.count()
+    expect(count, 'Leadership must offer a real current-day Practice activity').toBeGreaterThan(0)
+    let selected = false
+    const seen: string[] = []
+    for (let i = 0; i < count; i += 1) {
+      seen.push((await rows.nth(i).innerText()).replace(/\s+/g, ' ').trim())
+      await rows.nth(i).getByRole('button', { name: /^(Up next|Start)/ }).click()
+      // handleStartSuggested persists a best-effort start event asynchronously
+      // before mounting the focused activity. Playwright click() only waits
+      // for the click, not the async handler promise; checking isVisible()
+      // immediately afterwards can race the real UI launch.
+      const back = page.getByRole('button', { name: 'Back to Plan' })
+      await expect(back, 'Wait for the actual Plan activity to open before classifying it').toBeVisible()
+      if (await page.getByText('Calculation recheck').isVisible()) {
+        selected = true
+        break
+      }
+      await back.click()
+      await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    }
+    expect(selected, `Actual learner Plan must launch the distinct expected-value check. Opened today's Leadership rows: ${JSON.stringify(seen)}`).toBe(true)
+    await expect(page.getByRole('heading', { name: fresh.prompt })).toBeVisible()
+    await page.getByLabel('Your final number').fill(String(fresh.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => {
+      const saved = await loadLearningEvidence(store, userId!, moduleId, topicId)
+      return saved.some((x) => x.contentId === fresh.id && x.source === 'calculation'
+        && x.correct && individualSpecItemObservation(x)?.specItemId === specItemId)
+    }).toBe(true)
+    const saved = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(saved.find((x) => x.id === wrong?.id)).toBeDefined()
+    const opportunities = findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      saved, topicId, [moduleId], ['bus-evi-004'],
+    )
+    expect(opportunities.filter((x) => x.specItemId === specItemId)).toHaveLength(0)
+
+    await page.getByRole('button', { name: 'Back to today’s plan' }).click()
+    await page.reload()
+    await page.goto(appPath + '#/progress')
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Local learner cleanup').toBeNull()
+    }
+  }
+})
