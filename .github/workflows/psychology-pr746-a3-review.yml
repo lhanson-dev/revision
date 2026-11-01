@@ -1,0 +1,71 @@
+name: Psychology PR 746 Fresh Independent A3 Review
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/psychology-pr746-a3-review.yml'
+      - 'scripts/assurance/psychology-pr746-a3-review.mjs'
+      - 'scripts/assurance/psychology-pr746-a3-review.node-check.mjs'
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+concurrency:
+  group: psychology-pr746-fresh-a3
+  cancel-in-progress: false
+
+jobs:
+  guard-tests:
+    name: Review trigger and receipt contract tests (no provider key)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --test scripts/assurance/psychology-pr746-a3-review.node-check.mjs
+
+  independent-a3:
+    name: Trusted exact-head original sign-test assessment review
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 746 &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, 'revision-run-psychology-sign-test-a3:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout approved main runner only
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+
+      - name: Validate trusted review guards without provider spend
+        run: node --test scripts/assurance/psychology-pr746-a3-review.node-check.mjs
+
+      - name: Conduct bounded fresh-context educational assessment review
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/assurance/psychology-pr746-a3-review.mjs
+
+      - name: Upload exact-head independent reviewer evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: psychology-pr746-a3-independent-${{ github.run_id }}
+          path: .artifacts/issue-698-pr746-a3-review/
+          if-no-files-found: warn
+          retention-days: 30
