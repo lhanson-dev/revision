@@ -42,6 +42,11 @@ describe('Issue #698 AQA Psychology 7182 sign-test scored Practice', () => {
         for (const invalid of [String(question.expected - 0.4), String(question.expected + 0.4), 'not sure']) {
           expect(checkCalculation(invalid, question.accepted, question.unit, question.exactInteger).status).not.toBe('right')
         }
+        // Fresh-context A3 found that prefix parsing wrongly credited "2+1" / "1+1".
+        for (const invalid of [String(question.expected) + '+1', String(question.expected) + '-1', String(question.expected) + ' apples']) {
+          expect(checkCalculation(invalid, question.accepted, question.unit, question.exactInteger).status).toBe('unreadable')
+        }
+        expect(question.marks).toBe(1) // shared final-number display must not claim unmarked method marks
         expect(question.answerText).toBe(String(question.expected))
         const mapping = objectiveItemMappingForPractice(question)
         expect(mapping?.singleTargetSpecItemId).toBe('PSY-SRC-4233-IT03')
