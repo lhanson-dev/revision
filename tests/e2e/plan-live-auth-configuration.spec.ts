@@ -6,6 +6,9 @@ import type { StructuredPracticeBankRecord } from '../../content/structured-prac
 import { bankRecordToPractice, objectiveItemMappingForPractice, topicOrderForSpecItem } from '../../src/app/practice-questions'
 import { topics as businessTopics } from '../../content/business/aqa-a-level/shared/topics'
 import { createMultipleChoiceEvidence } from '../../src/app/practice-evidence'
+import { createCalculationEvidence } from '../../src/app/practice-evidence'
+import { businessMarketingQuantitativeBank } from '../../content/business/aqa-a-level/shared/marketing-quantitative-practice'
+import type { CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { individualSpecItemObservation } from '../../src/engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 
@@ -128,6 +131,119 @@ test('configured ordinary learner sees actual derived Plan activities with no ac
     if (userId) {
       const { error } = await admin.auth.admin.deleteUser(userId)
       expect(error, 'Synthetic test account cleanup must succeed').toBeNull()
+    }
+  }
+})
+
+/** IA-03 / IA-05 / #703: separate *real owner-authenticated PostgREST/browser*
+ * proof of the two independent Business Marketing skill deficits.
+ *
+ * Does not claim the seeded first wrong answers came from browser UI, that
+ * method marks were awarded, or that all repair → recheck → Progress behaviour
+ * has passed. Never run this against a hosted/production Supabase project.
+ */
+test('real Business learner retains two distinct wrong Marketing skills and sees source-backed Plan after reload', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable isolated local Supabase stack')
+  test.setTimeout(120_000)
+  const address = new URL(url)
+  if (address.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(address.hostname)
+    || address.port !== '54321' || !anon || !secret) {
+    throw new Error('Business real-auth evidence acceptance must never target production')
+  }
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const email = `business-skills-${crypto.randomUUID()}@revision.invalid`
+  const password = `Revision-${crypto.randomUUID()}-A1!`
+  let userId: string | undefined
+  try {
+    const { data: created, error: createError } = await admin.auth.admin.createUser({
+      email, password, email_confirm: true,
+    })
+    if (createError || !created.user) throw new Error('Cannot create isolated student: ' + createError?.message)
+    userId = created.user.id
+    const { error: signInError } = await learner.auth.signInWithPassword({ email, password })
+    if (signInError) throw signInError
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+
+    const courseId = 'aqa:aqa-a-level:7132'
+    const moduleId = 'business-aqa-a-level-7132-paper-1'
+    const { error: courseError } = await learner.from('learner_courses').insert({ user_id: userId, course_id: courseId })
+    expect(courseError).toBeNull()
+    const { error: examError } = await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: courseId, subject_id: 'business',
+      module_id: null, assessment_type: 'public_exam', title: 'Business Paper 1',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: ['marketing'] }, is_active: true,
+    })
+    expect(examError).toBeNull()
+    const { error: timeError } = await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London', weekday_minutes: 90, weekend_minutes: 90,
+      monday_minutes: 90, tuesday_minutes: 90, wednesday_minutes: 90,
+      thursday_minutes: 90, friday_minutes: 90, saturday_minutes: 90, sunday_minutes: 90,
+    })
+    expect(timeError).toBeNull()
+
+    const salesBank = businessMarketingQuantitativeBank.find(x => x.id === 'firm-sales-growth-increase-01')
+    const marketBank = businessMarketingQuantitativeBank.find(x => x.id === 'market-growth-decline-02')
+    expect(salesBank).toBeDefined()
+    expect(marketBank).toBeDefined()
+    const getCalculation = (record: NonNullable<typeof salesBank>) => {
+      const q = bankRecordToPractice(record, 'marketing')
+      if (!q || q.type !== 'calculation') throw new Error('Missing original published Marketing numeric task')
+      return q as CalculationPracticeQuestion
+    }
+    const sales = getCalculation(salesBank!)
+    const market = getCalculation(marketBank!)
+    const salesSkill = objectiveItemMappingForPractice(sales)?.singleTargetSpecItemId
+    const marketSkill = objectiveItemMappingForPractice(market)?.singleTargetSpecItemId
+    expect(salesSkill).toBe('aqa-7132-3.3.2:sales-growth')
+    expect(marketSkill).toBe('aqa-7132-3.3.1:market-growth')
+    expect(salesSkill).not.toBe(marketSkill)
+
+    const start = new Date(Date.now() - 120_000).toISOString()
+    const facts = [sales, market].map((question, index) => createCalculationEvidence({
+      id: `real-business-wrong-${index}-${crypto.randomUUID()}`,
+      moduleId, topicId: 'marketing', contentId: question.id, correct: false,
+      enteredValue: question.expected + 7, expectedValue: question.expected,
+      unit: question.unit, confidence: 'certain',
+      itemMapping: objectiveItemMappingForPractice(question),
+      occurredAt: new Date(Date.parse(start) + index * 1000).toISOString(),
+    }))
+    const store = createSupabaseEvidenceStore(learner)
+    for (const fact of facts) await recordLearningEvidence(store, userId, fact)
+    const actual = await loadLearningEvidence(store, userId, moduleId, 'marketing')
+    expect(actual).toEqual(expect.arrayContaining(facts))
+    const observed = actual.map(individualSpecItemObservation).filter(Boolean)
+    expect(new Set(observed.map(x => x!.specItemId))).toEqual(new Set([salesSkill, marketSkill]))
+    expect(observed.every(x => !x!.correct)).toBe(true)
+    expect(observed.every(x => x!.scoring === 'software-scored-final-number')).toBe(true)
+
+    // A fresh signed-in browser, with NO synthetic tokens, response mocking or
+    // admin-created evidence, must consume those same persisted owner facts.
+    await page.goto(app)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(`${app}#/plan`)
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(page.locator('.pln-weekview')).toBeVisible()
+    await expect(page.locator('.pln-row[data-kind="suggested"]').filter({ hasText: 'Marketing' }).first()).toBeVisible()
+    await page.reload()
+    await expect(page.locator('.pln-row[data-kind="suggested"]').filter({ hasText: 'Marketing' }).first()).toBeVisible()
+    await page.goto(`${app}#/progress`)
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress', exact: true })).toBeVisible()
+    const persisted = await loadLearningEvidence(store, userId, moduleId, 'marketing')
+    expect(persisted).toEqual(expect.arrayContaining(facts))
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Isolated Business test learner cleanup').toBeNull()
     }
   }
 })

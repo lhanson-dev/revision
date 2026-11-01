@@ -1,6 +1,6 @@
 # Issue #703 — Browser-entered Business mistake to independent Plan reassessment
 
-**Date:** 1 November 2026. **Status:** Candidate, unmerged. Corrected test's source-head CI #41325542499 passed all nine required jobs, including 6/6 isolated real-Auth browser/database tests on their first attempt. Exact current-main integration recheck pending. No runtime change proposed.
+**Date:** 1 November 2026. **Status:** Candidate, unmerged. Corrected test's source-head CI #41325542499 passed all nine required jobs, including 6/6 isolated real-Auth browser/database tests on their first attempt. Exact current-main CI was red (#41340092786); async Plan launch race under investigation and corrected-test rerun pending. No runtime change proposed.
 
 ## Tested acceptance slice
 
@@ -36,3 +36,9 @@ The original draft PR #763 CI #41315240160 failed only the new real-Auth test (a
 ## Corrected test first successful run and current-main reconciliation
 
 The original scenario failed in CI #41315240160 because its real browser-entered wrong answer was saved but a new recheck did not open while its five-question Practice checkpoint was unfinished. This is **not** evidence the planner was broken; the test conflated unfinished-session recovery with standalone reassessment. The corrected test exercises the real Back to practice → Discard saved session control, independently verifies scored evidence and source-backed recheck eligibility survive, and then requires launching a different published Plan item. On its corrected head, CI #41325542499 passed **all nine** required jobs, with **6/6** local real-auth browser tests passing first time and no Playwright retries. The branch is being brought forward onto approved main `ff9609880b898f37f8f4799fabb50d387cd6db7e`, preserving all intervening work; the exact integrated-head CI is a separate release gate. No production code or authority changes; the earlier failure remains in the historical record.
+
+## 1 November late CI failure — async Plan launch classification and approved-main refresh
+
+Exact integrated head `3906e286aee9ad14cac1df1138493925837501b9` failed CI #41340092786 only in the added authenticated browser test. The wrong Practice final number, owner-scoped saving, explicit discard and preservation of exact skill recheck opportunity succeeded. The failure was the **same UI assertion** that today's Plan lacked an opened 'Calculation recheck', both first attempt and retry. The previous corrected CI #41325542499 was green, so the evidence is **intermittent**, not reliable full acceptance. Code inspection identified an unawaited asynchronous launch: `handleStartSuggested` awaits recording a planner activity event before mounting `HomeFocusedActivity`. The test had used `isVisible()` immediately after `click()`, which does **not** wait for async React state change. The test now awaits the actual 'Back to Plan' control (proof that focused activity opened) before classifying that row. It also reports actual clicked rows on failure, without weakening the demanded exact new question or saved result. This is a **candidate diagnosis**, not proof of the only cause; if next CI fails, investigate real scheduling/selected item under the preserved evidence. No runtime or score changes.
+
+In parallel Founder-approved PR #755 landed on main, so PR #763 is mechanically reconciled onto new canonical main, retaining #755's Marketing test, same-branch technical documentation and INDEX references. A fresh exact-head 9-job CI is obligatory before requesting approval. No historical evidence is rewritten.
