@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-01",
+  "state": "material finding corrected in code; fresh independent re-review pending",
+  "review": {
+    "workflowRun": "https://github.com/lhanson-dev/revision/actions/runs/41301075994",
+    "artifactId": 13081755854,
+    "originalFile": "independent-review-receipt.json",
+    "reviewedPr": 746,
+    "reviewedHead": "8bcdf0c6a4bd033dadeefc3dad4768138d85dd98",
+    "reviewedPracticeQuestionBlob": "321578d98328f10f6062be170a21ba84664c2ca4",
+    "reviewedCalculationCheckerBlob": "e92367fe653b087818f28d54974c0ef757bfb1f3",
+    "reviewedAdapterBlob": "9c765bf4d16f8618c8f7968e135932e50a063c91",
+    "decision": "fail_hold",
+    "model": "gpt-5.6-terra",
+    "observedCostUsd": 0.064872,
+    "conservativeReserveUsd": 0.166392,
+    "reviewedItemIds": [
+      "rev7182-4.2.3-sign-test-01",
+      "rev7182-4.2.3-sign-test-02"
+    ],
+    "passedDimensions": [
+      "source_scope_and_rights",
+      "paired_data_arithmetic_item_01",
+      "paired_data_arithmetic_item_02",
+      "statistical_method_validity",
+      "worked_feedback",
+      "learner_readability",
+      "evidence_claim_boundaries"
+    ],
+    "materialDimension": "marks_and_scoring",
+    "findingSummary": "Shared parseAnswer extracts only leading integer. checkCalculation('2+1', [2], null, true) was right; checkCalculation('1+1',[1],null,true) was right, despite invalid whole expression.",
+    "materialFindings": 2
+  },
+  "remediation": {
+    "scope": "exactInteger opt-in path only",
+    "files": [
+      "src/app/practice-calculation.ts",
+      "src/app/practice-calculation.test.ts",
+      "content/psychology/aqa-a-level/shared/sign-test-practice.test.ts"
+    ],
+    "rule": "Complete trimmed signed numeric token, optionally grouped thousands and an all-zero decimal suffix. Reject trailing arithmetic, units, letters or unconsumed input as unreadable; retain original general parser for all non-opt-in questions.",
+    "regressionCases": {
+      "correct": [
+        "2",
+        "+2",
+        "2.0",
+        "2.00",
+        "1",
+        "1.0"
+      ],
+      "invalid": [
+        "2+1",
+        "2-1",
+        "1+1",
+        "1-1",
+        "2 apples",
+        "1 apples",
+        "about 2",
+        "2%",
+        "2e0",
+        "2.0+1"
+      ]
+    },
+    "proof": "Current-head CI and new independent A3 review still required",
+    "noClaim": "Not a live learner test, original AQA examiner sign-off, full course adequacy or robust method evidence."
+  },
+  "rights": "Only original Revision questions are published. Official AQA 7182 v1.4 reference-only source SHA256 db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d is not copied."
+}
