@@ -355,13 +355,27 @@ export function preparationCandidatesFromLearningState(
     // before another independent check, without erasing the scored weakness.
     // Insufficient-but-nonzero evidence alone does not force the learner to
     // reread; a valid scored low band or no exposure is required.
+    const noScoredExposure = score === null && (knowledge?.distinctContentItems ?? 0) === 0
     const needsSupportedExplanation =
-      score !== null && score < MEDIUM_SCORE_MIN / 100
-      || score === null && (knowledge?.distinctContentItems ?? 0) === 0
+      score !== null && score < MEDIUM_SCORE_MIN / 100 || noScoredExposure
+    const alreadyReviewed = new Set((state?.learnExposures ?? [])
+      .filter((page) => page.topicId === candidate.topicId
+        && page.courseId === candidate.courseId
+        && page.moduleId === state?.adapter.manifest.id)
+      .map((page) => page.pageId))
     const chapter = needsSupportedExplanation
       ? state?.adapter.listLearnChapters?.().find((item) => item.topicId === candidate.topicId)
       : undefined
-    const page = chapter?.groups.flatMap((group) => group.pages).find((item) => item.topicId === candidate.topicId)
+    const remainingPages = chapter?.groups.flatMap((group) => group.pages)
+      .filter((page) => page.topicId === candidate.topicId
+        && !alreadyReviewed.has(page.id)
+        && state?.adapter.getLearnPage(page.id)) ?? []
+    // An unassessed topic can have several distinct published sections. All
+    // unread pages are real learning opportunities, not repeat sessions or
+    // scored evidence. A verified weak topic retains its existing single
+    // initial explanation/targeted repair route rather than generic rereading.
+    const learningPages = noScoredExposure ? remainingPages : remainingPages.slice(0, 1)
+    const page = learningPages[0]
     // A verified exact exam intent must not be silently substituted with Learn.
     const directSection = state && candidate.examTarget
       ? verifiedPaperResponseSection(state, candidate.examTarget, candidate.assessmentId, candidate.topicId)
@@ -380,9 +394,6 @@ export function preparationCandidatesFromLearningState(
     const skillNeeds = state ? findSkillRecheckOpportunities(
       bankChoices, state.evidence, candidate.topicId, moduleIds, learnPageIds) : []
     const skillSteps: PlannerCandidate[] = []
-    const alreadyReviewed = new Set((state?.learnExposures ?? [])
-      .filter((page) => page.topicId === candidate.topicId && page.courseId === candidate.courseId)
-      .map((page) => page.pageId))
     for (const need of skillNeeds) {
       // A page already read remains exposed but not proof of knowledge; avoid
       // repeatedly treating the very same previously-read page as a new repair.
@@ -424,21 +435,24 @@ export function preparationCandidatesFromLearningState(
       examTarget: undefined, retrievalContentIds: unseenCards.map((card) => card.id),
     }] : []
     if (page && candidate.activityType !== 'exam-question') {
-      // Teaching and checking are two different preparation opportunities.
-      // Neither is evidence of mastery until a legitimate scored result exists.
-      // Their independent IDs allow a real sequence instead of repeating Learn.
-      const learn: PlannerCandidate = {
-        ...practice, id: `${candidate.id}:learn:${page.id}`,
+      // A topic's genuinely distinct, unpublished-to-this-learner Learn pages
+      // must not disappear behind its first page. Only previously unreviewed
+      // published assets are eligible, and actual review remains unscored.
+      const lessons: PlannerCandidate[] = learningPages.map((lesson, index) => ({
+        ...practice, id: `${candidate.id}:learn:${lesson.id}`,
         activityType: 'learn', estimatedMinutes: 15, understanding: score,
-        learnTarget: { learnPageId: page.id, moduleId: candidate.moduleId },
+        learnTarget: { learnPageId: lesson.id, moduleId: candidate.moduleId },
         examTarget: undefined, preparationStage: 'acquire',
-      }
+        ...(index ? { preparationPrerequisiteId:
+          `${candidate.id}:learn:${learningPages[index - 1]!.id}` } : {}),
+      }))
+      const lastLesson = lessons[lessons.length - 1]!.id
       const checked: PlannerCandidate = { ...practice,
-        preparationStage: 'check', preparationPrerequisiteId: learn.id }
-      // A verified exam question already provides an independent application
-      // opportunity. A generic knowledge check is not a compulsory gateway
-      // before exam-response practice; supported initial Learn still is.
-      return [learn, checked, ...skillSteps, ...retrieval(learn.id), ...paperPractice(practice, learn.id)]
+        preparationStage: 'check', preparationPrerequisiteId: lastLesson }
+      // A scored check and paper response remain separately actionable; their
+      // Plan forecast follows the current initial teaching sequence.
+      return [...lessons, checked, ...skillSteps, ...retrieval(lastLesson),
+        ...paperPractice(practice, lastLesson)]
     }
     return [practice, ...skillSteps, ...retrieval(), ...paperPractice(practice)]
 
