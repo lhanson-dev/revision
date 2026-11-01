@@ -69,7 +69,27 @@ export interface PreparationPaperResponseRequirement {
   verifiedAssessmentObjectives: string[]
 }
 
+/** A paper-scoped inventory and time boundary, never an exam-readiness verdict.
+ * A supported candidate may apply to several papers; minutes are not additive.
+ * Incomplete syllabus/skill assessment means whole-paper feasibility is unknown.
+ */
+export interface PaperCapacityBoundary {
+  assessmentId: string
+  courseId: string
+  title: string
+  assessmentDate: string
+  provisionalAvailableMinutes: number | null
+  supportedOpportunityMinutes: number
+  mappedKnowledgeTopics: number
+  topicsWithSupportedOpportunity: number
+  mappedResponseSections: number | null
+  sectionsWithExactPractice: number | null
+  scopeResolved: boolean
+}
+
 export interface PreparationProgramme extends Omit<PlannerProgramme, 'weeks'> {
+  /** Populated by the learner bridge from current paper scope and genuine assets. */
+  paperCapacityBoundaries?: PaperCapacityBoundary[]
   policy: 'exam-backwards-v1'
   weeks: PreparationWeek[]
   unserved: PreparationObjective[]
