@@ -761,6 +761,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       }
     }
     await stopExam(false)
+    // A retake from the result begins the new timed attempt, not just the launch screen.
+    await startExam()
   }
 
   if (checkpointContext && autoStart !== 'untimed' && recoveryPhase !== 'ready') {
