@@ -620,6 +620,14 @@ for (const [project, theme] of courseOverviewVisualReview) {
     test.skip(testInfo.project.name !== project, `Captured only in the ${project} canonical viewport.`)
     await seedSession(page, theme, false)
     await openState(page, 'course-overview')
+    // The four editorial destinations are not four competing REV recommendations.
+    const spotlights = page.locator('.course-overview-spotlight')
+    await expect(spotlights).toHaveCount(4)
+    for (const title of ['Learn', 'Practice', 'Exam Prep', 'Progress']) {
+      await expect(spotlights.getByRole('heading', { name: title })).toHaveCount(1)
+    }
+    await expect(spotlights.locator('.course-overview-spotlight__icon svg')).toHaveCount(4)
+    await expect(page.locator('.course-overview-ask')).toHaveCount(0)
     const screenshot = await page.screenshot({
       animations: 'disabled',
       caret: 'hide',
