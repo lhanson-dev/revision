@@ -82,7 +82,7 @@ describe('Issue #698 AQA Psychology 7182 original applied Research Methods pract
     expect(psychologyDataDrills).toHaveLength(12)
     expect(psychologyResearchMethodsAppliedDrills).toHaveLength(3)
     for (const pack of [paper1,paper2,paper3]) {
-      expect(pack.dataDrills).toHaveLength(16)
+      expect(pack.dataDrills).toHaveLength(18)
       for (const drill of psychologyResearchMethodsAppliedDrills) {
         expect(pack.dataDrills.find(x=>x.id===drill.id)).toEqual(drill)
         expect(drill.prompt).toMatch(/On paper|Using paired/i)
