@@ -200,6 +200,9 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
   const fields = commonFields(record, topicId)
   return {
     ...fields,
+    // Source exam rubrics may award method marks, but this Practice activity
+    // checks one final numeric value only. Retain the source rubric unchanged.
+    marks: 1,
     // "Show your working" is for the exam; here the student types the answer, so it would mislead.
     prompt: fields.prompt.replace(/\s*Show your working\.?/i, '').trim(),
     type: 'calculation',
