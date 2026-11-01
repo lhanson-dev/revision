@@ -1,6 +1,6 @@
 # Issue #703 — Browser-entered Business mistake to independent Plan reassessment
 
-**Date:** 1 November 2026. **Status:** Candidate, unmerged; CI evidence pending. No runtime change proposed.
+**Date:** 1 November 2026. **Status:** Candidate, unmerged. Corrected test's source-head CI #41325542499 passed all nine required jobs, including 6/6 isolated real-Auth browser/database tests on their first attempt. Exact current-main integration recheck pending. No runtime change proposed.
 
 ## Tested acceptance slice
 
@@ -32,3 +32,7 @@ The new regression, this same-branch technical note and the `INDEX.md` pointer f
 ## First CI failure and checkpoint-lifecycle correction
 
 The original draft PR #763 CI #41315240160 failed only the new real-Auth test (all other eight jobs succeeded): the browser-entered incorrect final number was saved with its exact source identity, but the demanded recheck did not open from today's Plan. Playwright retried and the same Plan assertion failed again. That test had deliberately **left the five-question Practice session unfinished**. A user should be able to complete or explicitly discard unfinished Practice before demanding an independent Plan reassessment; the original test had mixed that in-progress-session state with the standalone reassessment acceptance. The revised test now exercises the real Back to practice → Discard saved session control, independently confirms the wrong scored observation is still owner-readable and that the exact expected-value recheck opportunity survives, then demands the real Plan launch and second browser-entered result. This does not assume the correction fixes the integration; **revised exact-head CI is pending**. The separate user journey for leaving a session unfinished and returning to resume remains covered elsewhere and must not be confused with completed repair/retesting. No runtime code or assessment/scoring logic changed.
+
+## Corrected test first successful run and current-main reconciliation
+
+The original scenario failed in CI #41315240160 because its real browser-entered wrong answer was saved but a new recheck did not open while its five-question Practice checkpoint was unfinished. This is **not** evidence the planner was broken; the test conflated unfinished-session recovery with standalone reassessment. The corrected test exercises the real Back to practice → Discard saved session control, independently verifies scored evidence and source-backed recheck eligibility survive, and then requires launching a different published Plan item. On its corrected head, CI #41325542499 passed **all nine** required jobs, with **6/6** local real-auth browser tests passing first time and no Playwright retries. The branch is being brought forward onto approved main `ff9609880b898f37f8f4799fabb50d387cd6db7e`, preserving all intervening work; the exact integrated-head CI is a separate release gate. No production code or authority changes; the earlier failure remains in the historical record.
