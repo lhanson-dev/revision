@@ -203,20 +203,25 @@ function CourseSectionSpotlights({ sections, savedWork, savedStatus, reviewedCou
       {modes.filter(mode => sections.includes(mode.id)).map(mode => {
         const saved = mode.id === 'practice' ? savedWork.find(item => item.kind === 'practice')
           : mode.id === 'exam-prep' ? savedWork.find(item => item.kind === 'exam') : undefined
-        return <article className={saved ? 'course-overview-spotlight course-overview-spotlight--saved' : 'course-overview-spotlight'} key={mode.id}>
-          <div className="course-overview-spotlight__body">
-            <div className="course-overview-spotlight__topline">
-              <span className="course-overview-spotlight__icon"><Icon name={mode.icon} size="large" /></span>
-              <h3>{mode.name}</h3>
-            </div>
-            {saved ? <p className="course-overview-spotlight__state"><Icon name="clock" size="inline" /> In progress</p> : null}
-            <p>{saved ? `${saved.title} · ${saved.detail}` :
-              mode.id === 'learn' && reviewedCount > 0 ? `${reviewedCount} ${reviewedCount === 1 ? 'page' : 'pages'} reviewed` : mode.description}</p>
-          </div>
-          <Button variant={saved ? 'primary' : 'secondary'} onClick={() => saved ? onOpenSavedWork(saved) : onOpenSection(mode.id)}>
-            {saved ? saved.actionLabel : `Open ${mode.name}`}
-          </Button>
-        </article>
+        return <button
+          className={saved ? 'course-overview-spotlight course-overview-spotlight--saved' : 'course-overview-spotlight'}
+          key={mode.id}
+          type="button"
+          aria-label={saved ? `${mode.name}: ${saved.actionLabel} — ${saved.title}` : `Open ${mode.name}`}
+          onClick={() => saved ? onOpenSavedWork(saved) : onOpenSection(mode.id)}
+        >
+          <span className="course-overview-spotlight__body">
+            <span className="course-overview-spotlight__topline">
+              <span className="course-overview-spotlight__title" role="heading" aria-level={3}>{mode.name}</span>
+              <span className="course-overview-spotlight__arrow" aria-hidden="true"><Icon name="arrow-right" size="compact" /></span>
+            </span>
+            {saved ? <span className="course-overview-spotlight__state"><Icon name="clock" size="inline" /> In progress</span> : null}
+            <span className="course-overview-spotlight__description">{saved ? `${saved.title} · ${saved.detail}` :
+              mode.id === 'learn' && reviewedCount > 0 ? `${reviewedCount} ${reviewedCount === 1 ? 'page' : 'pages'} reviewed` : mode.description}</span>
+            {saved ? <span className="course-overview-spotlight__continue">{saved.actionLabel}</span> : null}
+          </span>
+          <span className="course-overview-spotlight__icon" aria-hidden="true"><Icon name={mode.icon} size="large" /></span>
+        </button>
       })}
     </div>
     {savedStatus === 'loading' && <p className="course-overview-spotlights__note" role="status">Checking saved activities…</p>}
