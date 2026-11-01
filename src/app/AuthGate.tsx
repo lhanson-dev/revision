@@ -124,7 +124,7 @@ export function AuthGate({ children }: AuthGateProps) {
     setMessage('Opening Google…')
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: currentAppUrl() },
+      options: { redirectTo: currentAppUrl(), queryParams: { prompt: 'select_account' } },
     })
 
     if (error) {
@@ -222,7 +222,7 @@ export function AuthGate({ children }: AuthGateProps) {
         <h1 id="auth-heading">{creatingAccount ? 'Create your account' : 'Sign in'}</h1>
         <p className="intro">{creatingAccount ? 'Create an account so Revision can remember your subjects and progress.' : 'Welcome back. Sign in to continue your revision.'}</p>
 
-        {googleEnabled && !creatingAccount && (
+        {googleEnabled && (
           <Button variant="secondary" className="auth-provider-button" type="button" disabled={busy} onClick={continueWithGoogle}>
             <svg className="google-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
               <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -234,7 +234,7 @@ export function AuthGate({ children }: AuthGateProps) {
           </Button>
         )}
 
-        {googleEnabled && !creatingAccount && <div className="auth-divider" aria-hidden="true"><span>or</span></div>}
+        {googleEnabled && <div className="auth-divider" aria-hidden="true"><span>or</span></div>}
 
         <div className="auth-email-form">
           {creatingAccount && <label>First name<input type="text" autoComplete="given-name" maxLength={40} value={firstName} onChange={(event) => setFirstName(event.target.value)} /></label>}
