@@ -1,6 +1,6 @@
 # Issue #760 — Compact editorial Course Overview tiles
 
-**Status:** Founder-approved design and scoped implementation candidate, 1 November 2026. This document describes the PR candidate, not a shipped release.
+**Status:** Founder-approved compact design and visual-only approval recorded on 1 November 2026; PR #762 remains a release candidate, **not merged or shipped**. Visual provenance: `audits/2026-11-01-pr762-compact-course-overview-visual-approval.md`.
 
 ## Canonical learner experience
 
@@ -19,7 +19,7 @@ For verified saved Practice and exam work, the exact existing `SavedWork.actionL
 - `tests/e2e/interface-visual-regression.spec.ts`: four semantic headings, four native tile actions, four existing shared icons, no duplicate Ask REV and compact desktop height; screenshots attached as the visual approval evidence.
 - `tests/e2e/practice-session-recovery.spec.ts`: existing verified saved Practice journey retains exact “Open saved Practice” entry, one action and continued saved question/evidence.
 - Verify all four routes, true Practice and Exam Prep continuation, dark/light contrast, desktop/tablet/phone at and below 320px, keyboard and focus, 200% text zoom, and reduced motion. No new persistence, grading, planning, course content, schema, exam scoring or external network calls.
-- C4 Course Overview desktop and phone screenshots **must differ** from PR #754's historically approved digests. Those digests are protected; never replace, mask, loosen or re-pin them without new Founder visual approval. Home, Learn and unrelated visual baselines remain untouched. A visual-regression failure on this candidate is a **visual-review hold**, not permission to bypass CI or approve merge.
+- Founder visually approved the compact desktop/phone Light/Dark design after reviewing CI #4107 evidence on 1 November 2026. CI #4108 independently reproduced the desktop images and now captures the visible tiles in the phone C4 viewport. The four exact C4 digests are documented in the dated audit and updated with that approval. Home, Learn, Plan and every unrelated visual baseline remain unchanged. New exact-head CI and separate Founder PR merge approval are still required.
 
 ## Documentation impact and release scope
 
