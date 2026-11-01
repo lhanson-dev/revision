@@ -7,7 +7,17 @@
     "qual": "AQA A-level Psychology 7182 v1.4 (1 September 2025)",
     "section": "4.1.1",
     "page": 17,
-    "canonicalRoute": "/revision/app/"
+    "canonicalRoute": "/revision/app/",
+    "exactScopeSafeguard": {
+      "section411ConformityTypes": [
+        "compliance",
+        "internalisation"
+      ],
+      "identificationRequiredByThisExactVersion": false,
+      "olderVersionComparison": "Some prior/third-party resources teach identification and Zimbardo; neither is listed as a mandatory v1.4 Section 4.1.1 conformity type",
+      "verificationMethod": "Direct inspection of exact Founder PDF p17 (not inferred from a historic course guide)",
+      "reviewException": "Second independent AI review on head 3f36da5 marked identification missing as material; finding contradicts pinned source PDF and is disputed, not a valid correction instruction"
+    }
   },
   "scope": {
     "sourceParentBullets": 4,
@@ -20,7 +30,17 @@
     "existingObjectiveMcqs": "One generic concept MCQ per prototype; topic-only, no per-atomic-skill marking",
     "proposedRevisions": "Original scored/constructed responses not introduced; Learn enrichment is the only product change in this PR",
     "independentA2Review": "not-run",
-    "subjectExpertReview": "not-run"
+    "subjectExpertReview": "not-run",
+    "secondIndependentA2Review": {
+      "reviewedHead": "3f36da539b4471d8cd09ad0b7ee8ad033d173fc8",
+      "run": "https://github.com/lhanson-dev/revision/actions/runs/41350285511",
+      "artifactId": 13101196841,
+      "verdict": "fail_hold",
+      "assertedMissingConformityType": "identification",
+      "sourceAdjudication": "source-incorrect",
+      "remainingTeachingNote": "Agentic state vs legitimate authority is a minor pedagogical improvement; now revised, needs fresh review",
+      "independentSkillAssessment": "unverified"
+    }
   },
   "rows": [
     {
