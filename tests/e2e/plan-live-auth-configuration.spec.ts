@@ -8,7 +8,6 @@ import { topics as businessTopics } from '../../content/business/aqa-a-level/sha
 import { createMultipleChoiceEvidence } from '../../src/app/practice-evidence'
 import { createCalculationEvidence } from '../../src/app/practice-evidence'
 import { businessMarketingQuantitativeBank } from '../../content/business/aqa-a-level/shared/marketing-quantitative-practice'
-import { findSkillRecheckOpportunities } from '../../src/app/skill-recheck'
 import type { CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { individualSpecItemObservation } from '../../src/engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
