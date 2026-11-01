@@ -34,7 +34,7 @@ for (const lastDate of futureDates) {
     await expect(outlook).toContainText('Business Final Paper')
     await expect(outlook).toContainText('not booked sessions')
     await outlook.getByText('Explore the whole preparation programme and examination milestones', { exact: true }).click()
-    await expect(outlook.getByText('Business Final Paper', { exact: false }).first()).toBeVisible()
+    await expect(outlook.locator('details.pln-programme__details').getByText('Business Final Paper', { exact: false }).first()).toBeVisible()
     await expect(outlook.getByRole('button', { name: /View week/i }).last()).toBeVisible()
     await expect(page.locator('.pln-row[data-kind="suggested"]')).toHaveCount(0)
     expect(spans.length).toBeGreaterThan(0)

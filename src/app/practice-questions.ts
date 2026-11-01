@@ -52,6 +52,8 @@ export type CalculationPracticeQuestion = QuestionBase & {
   /** Every number that counts as right: the answer, and the roundings the mark scheme accepts. */
   accepted: number[]
   unit: string | null
+  /** Exact discrete integer required; no nearest-whole-number tolerance. */
+  exactInteger?: boolean
   /** The answer as the exam writes it, e.g. "£24.2m". */
   answerText: string
   /** The worked answer from the mark scheme, shown after checking. */
@@ -198,11 +200,8 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
   const fields = commonFields(record, topicId)
   return {
     ...fields,
-    // Original exam-style bank questions can carry method marks (for example,
-    // 4 marks for a calculation with workings). The Practice UI only observes
-    // the submitted final number: presenting all source marks as assessable
-    // would falsely imply the method was marked. This is a single one-mark
-    // final-answer check; the original authored bank and exam rubric are kept.
+    // Source exam rubrics may award method marks, but this Practice activity
+    // checks one final numeric value only. Retain the source rubric unchanged.
     marks: 1,
     // "Show your working" is for the exam; here the student types the answer, so it would mislead.
     prompt: fields.prompt.replace(/\s*Show your working\.?/i, '').trim(),
@@ -210,6 +209,7 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
     expected: calc.stated_answer,
     accepted: acceptedValuesFor(calc.stated_answer, unit, finalAccepts),
     unit,
+    exactInteger: calc.answer_rule === 'exact-integer',
     answerText: formatAnswer(calc.stated_answer, unit),
     workings: question.mark_scheme.model_answer?.trim() ?? '',
   }
