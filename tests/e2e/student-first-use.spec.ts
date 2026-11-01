@@ -606,3 +606,30 @@ for (const theme of ['light', 'dark'] as const) {
     expect([approvedFirstUseDigests[theme]]).toContain(createHash('sha256').update(screenshot).digest('hex'))
   })
 }
+
+
+test('LF-01 first-use calendar is viewport accessible on small desktop and at narrow widths', async ({ page }) => {
+  await seedNewStudentSession(page)
+  await stubFirstUseBackend(page)
+  await page.goto(appPath)
+  await page.getByRole('button', { name: /^Student\b/ }).click()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('checkbox', { name: 'Business' }).check()
+  await page.getByRole('button', { name: 'Continue' }).click()
+  await page.getByRole('radio', { name: /AQA A-level · Specification 7132/ }).check()
+  await page.getByRole('button', { name: 'Add 1 course' }).click()
+  for (const [width, height] of [[1024, 420], [390, 640]] as const) {
+    await page.setViewportSize({ width, height })
+    await page.getByRole('button', { name: 'Paper 1 date' }).click()
+    const picker = page.getByRole('dialog', { name: 'Choose paper 1 date' })
+    await expect(picker).toBeVisible()
+    const rect = await picker.boundingBox()
+    expect(rect).not.toBeNull()
+    expect(rect!.x).toBeGreaterThanOrEqual(0)
+    expect(rect!.y).toBeGreaterThanOrEqual(0)
+    expect(rect!.x + rect!.width).toBeLessThanOrEqual(width + 1)
+    expect(rect!.y + rect!.height).toBeLessThanOrEqual(height + 1)
+    await page.keyboard.press('Escape')
+    await expect(picker).toHaveCount(0)
+  }
+})

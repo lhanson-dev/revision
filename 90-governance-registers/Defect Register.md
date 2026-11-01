@@ -36,6 +36,13 @@
 
 | DEF-2026-011 | P1 | Exam Prep whole-paper attempts falsely counted as one arbitrary topic's scored evidence in topic knowledge, readiness, coverage and last-practised state | Approved-main `ExamSimulator.tsx` persists `exam_attempt.topicId` as the first question's topic; `assessTopicKnowledge`, `assessTopicReadiness`, `recommendNextActivity`, course `evidencedTopics` and `topic-status` previously consumed it as topic evidence. A whole-paper result cannot validly establish a single topic's competence. | Fix in review | Engineering — preserve legacy append-only paper attempts but exclude from all topic projections; separately design paper-scoped persistent attempts and truthful exam-readiness aggregation | Recovery evidence-scope PR (in review) | Scoped real Business 7132 multi-paper regression test and exact-head CI are required; no qualified educational acceptance or production release claim until verified. This fix does not change the legacy event schema or restore interrupted mock attempts. |
 
+## LF-01 — desktop exam date calendar (Issue #765, 1 November 2026)
+
+- **Severity:** provisional P1; firsthand desktop/laptop inability to choose dates. Current main implements a shared custom calendar, absolutely positioned inside a height-limited, overflow-scrolling Plan exam dialog. This is a code-supported clipping mechanism, not an authenticated reproduction on the student's browser.
+- **Status:** Fix in review, still Open. Governed branch `fix/lf01-exam-date-calendar-viewport-765` limits the change to shared calendar viewport placement and scrolling, with focused Plan/onboarding browser assertions.
+- **Affected:** Plan → Exam dates → Add exam, additional assessments, first-use paper dates. Does not change stored dates, date identifiers, assessment writes, or Plan navigation.
+- **Closure evidence needed:** exact-head CI and browser proof on short desktop, zoom 100%/200%, Chrome/Edge and Safari where feasible; save/reload, light/dark, keyboard and mobile/tablet, plus actual affected learner verification. PR creation or a passing unit test alone is not closure.
+
 ## Triage note — 2026-08-19
 
 The foundation stabilisation review established this register as Revision's durable P0/P1/P2 source. DEF-2026-001 and DEF-2026-002 were both discovered by the new automated accessibility gate, corrected in PR #66 and closed only after exact-head Revision CI #381 passed the complete responsive WCAG A/AA journey across phone, tablet and desktop.
