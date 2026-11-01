@@ -10,6 +10,10 @@ Three original one-mark, strictly integer scored critical-value **lookup** activ
 
 One on-paper self-marked table interpretation/explanation exercise and one on-paper self-marked five-point scatterplot construction/interpretation exercise are added under the same existing Research Methods topic. No software-scored or teacher-verified graph construction is claimed; `PSY-MATH-72-32` remains unverified as independently demonstrated. Existing question IDs, Learn, Exam Prep, learner evidence, planning and persistence are unchanged. No database migration.
 
+## Preserved historical evidence and proposed additive mapping
+
+The approved-main 32-maths-skill and 17-inferential-capability source-audit JSON snapshots from PR #758 / previous source review remain historically unchanged, including their earlier missing-candidate and `unverified` fields. This branch adds `scripts/assurance/data/aqa-psychology-7182-pr759-proposed-practice-addendum.json` and a dedicated test that link **proposed** scoped candidate assets to `PSY-SRC-4233-IT05`, `PSY-SRC-4233-IT06`, `PSY-MATH-72-24` and `PSY-MATH-72-32`. This is explicitly prospective, not source-to-live acceptance or a retroactive assertion that those assets existed at the prior audit.
+
 ## Assurance and risks
 
 Deterministic test reconstructs the critical table and three numeric cases from exact binomial sums, validates each new ID in all three course packs, checks actual one-mark single-number adapter and discrete integer rules, and confirms the graph exercise is not misrepresented as scored. This test alone is **not** A3 independent review, authenticated learner acceptance, or real student understanding.
