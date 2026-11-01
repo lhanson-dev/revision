@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { seedExamAttemptBackend } from './exam-attempt-backend'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -151,4 +152,62 @@ test('restricted Psychology learner can traverse the canonical course journey on
 
   await expect(page.getByText(/not available in the current published catalogue/i)).toHaveCount(0)
   await expect(page.getByText(/course not in active programme/i)).toHaveCount(0)
+})
+
+test('LF-02: Psychology Paper 1 saves a genuine zero and permits a clean retake after result review and reload', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  const checkpoints = await seedExamAttemptBackend(page)
+  const scored = new Map<string, Record<string, unknown>>()
+  // Synthetic owner-scoped API: keep each evidence identity and its original score after checkpoint cleanup.
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    const request = route.request()
+    if (request.method() === 'POST') {
+      const row = request.postDataJSON() as Record<string, unknown>
+      const id = String(row.evidence_id)
+      if (scored.has(id)) {
+        await route.fulfill({ status: 409, contentType: 'application/json',
+          body: JSON.stringify({ code: '23505', message: 'Duplicate evidence identity' }) })
+        return
+      }
+      scored.set(id, row)
+      await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+      return
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json',
+      body: JSON.stringify([...scored.values()].map((row) => ({ payload: row.payload }))) })
+  })
+
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/exam-prep`)
+  await expect(page.getByRole('heading', { name: 'Get ready for the exams' })).toBeVisible()
+  const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1' })
+  await expect(paper.getByRole('button', { name: 'Start timed' })).toBeVisible()
+  await paper.getByRole('button', { name: 'Start timed' }).click()
+  await page.locator('.exam-question-sheet textarea').fill('An intentionally incorrect Psychology answer for a zero-mark result.')
+  await expect(page.getByText('Work saved')).toBeVisible()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam result' })).toBeVisible()
+  await expect(page.locator('.exam-score')).toContainText('0/96')
+  await expect.poll(() => scored.size).toBe(2)
+  const firstResult = [...scored.values()].find((row) =>
+    (row.payload as { source?: string }).source === 'exam_attempt')
+  expect((firstResult?.payload as { marksAwarded?: number }).marksAwarded).toBe(0)
+  expect(checkpoints.size).toBe(1)
+
+  await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+  await expect(paper.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+  await paper.getByRole('button', { name: 'View saved result' }).click()
+  await expect(page.locator('.exam-score')).toContainText('0/96')
+  await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+  await paper.getByRole('button', { name: 'Retake exam' }).click()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.locator('.exam-question-sheet textarea')).toHaveValue('')
+  expect([...scored.values()].some((row) => row.evidence_id === firstResult?.evidence_id)).toBe(true)
+  expect(checkpoints.size).toBe(1)
+  await page.reload()
+  await expect(paper.getByRole('button', { name: 'Continue saved exam' })).toBeVisible()
+  await paper.getByRole('button', { name: 'Continue saved exam' }).click()
+  await expect(page.getByRole('dialog', { name: 'Exam paused' })).toBeVisible()
+  expect([...scored.values()].find((row) => row.evidence_id === firstResult?.evidence_id)?.payload)
+    .toEqual(firstResult?.payload)
 })
