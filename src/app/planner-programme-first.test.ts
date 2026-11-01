@@ -200,7 +200,7 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     }
     const check = initial.find((item) => item.topicId === multiPage.topicId
       && item.activityType === 'quick-check' && !item.skillFocus)
-    expect(check?.preparationPrerequisiteId).toBe(lessons.at(-1)?.id)
+    expect(check?.preparationPrerequisiteId).toBe(lessons[0]?.id) // Test soon, while other unread teaching remains available
 
     const review = (pageId: string) => ({
       userId: 'fixture', courseId: business.id, moduleId: business.learningAdapter.manifest.id,
