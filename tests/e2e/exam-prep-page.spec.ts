@@ -99,6 +99,31 @@ test('mock exams: real mocks, honest notes, two buttons, and the last mock', asy
   await expect(page.getByText(/^Last mock: .* · 21 of 100 · Timed · /)).toBeVisible()
 })
 
+test('LF-02: prior completed paper evidence offers Retake exam without deleting the recorded zero', async ({ page }) => {
+  await open(page)
+  // Previously submitted zero is genuine paper evidence, not an entirely blank draft.
+  // This fixture has historical evidence but no short-lived checkpoint.
+  const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(paper.getByRole('button', { name: 'Start timed' })).toBeVisible()
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+      { payload: { id: 'zero-mock-1', moduleId: 'business-aqa-a-level-7132-paper-1',
+        topicId: 'business', contentId: 'aqa-a-level-7132-paper-1-sim-1',
+        occurredAt: '2026-10-30T15:00:00.000Z', schemaVersion: 1,
+        source: 'exam_attempt', marksAwarded: 0, marksAvailable: 100,
+        durationMinutes: 80, timed: true, markingMethod: 'self_assessed' } },
+    ]) })
+  })
+  await page.reload()
+  const retake = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(retake.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+  await retake.getByRole('button', { name: 'Retake exam' }).click()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/')
+  await page.reload()
+  await expect(page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: /Continue saved exam|Retake exam/ })).toBeVisible()
+})
+
 test('timed mock enters a focused full-viewport exam, then stop confirmation returns to Exam Prep and restores focus', async ({ page }) => {
   await open(page)
   const button = page.locator('.exam-mock').first().getByRole('button', { name: 'Start timed' })
