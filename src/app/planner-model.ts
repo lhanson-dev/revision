@@ -732,7 +732,63 @@ export function buildLearnerPreparationProgramme(
   const responseConstraint = unmetResponseSections.length
     ? `${unmetResponseSections.length} verified paper response sections do not yet have an exact section-mapped practice opportunity. Their preparation cannot be claimed covered.`
     : null
+  // B3: paper-level facts are narrower than an estimate of all work required.
+  // Never compare a one-time activity inventory to capacity as a readiness or
+  // whole-syllabus feasibility score. Future weekly capacity is provisional.
+  const capacityBeforePaper = (deadline: string): number | null => {
+    if (!availability || acceptedSessions === null) return null
+    let minutes = 0
+    for (const week of prepared.weeks) {
+      for (const date of weekKeys(week.weekStart)) {
+        if (date < week.visibleFrom || date > week.visibleUntil || date >= deadline) continue
+        const available = capacityOn(date, availability.weeklyMinutes, exceptions)
+        if (available === null || !Number.isFinite(available) || available < 0) return null
+        // Only accepted sessions inside the confirmed loading window are known;
+        // later dates are a conditional recurrence forecast, not free bookings.
+        const booked = date > nearThrough ? 0 : acceptedSessions
+          .filter((item) => item.status !== 'skipped' && item.plannedDate === date)
+          .reduce((sum, item) => sum + (Number.isFinite(item.minutes)
+            ? Math.max(0, item.minutes) : 0), 0)
+        minutes += Math.max(0, available - booked)
+      }
+    }
+    return minutes
+  }
+  const paperCapacityBoundaries = applicable.flatMap((assessment) => {
+    const state = stateForAssessment(states, assessment)
+    if (!state) return []
+    const courseId = courseIdForLearningState(state)
+    const paperKnowledge = requirements.filter((item) =>
+      item.courseId === courseId && item.papers.some((paper) =>
+        paper.assessmentId === assessment.assessmentId
+          && paper.assessmentDate === assessment.assessmentDate))
+    const paperOpportunities = supported.filter((candidate) =>
+      candidate.courseId === courseId && candidate.assessmentTargets?.some((target) =>
+        target.assessmentId === assessment.assessmentId
+          && target.assessmentDate === assessment.assessmentDate))
+    const availableTopics = new Set(paperOpportunities.map((candidate) => candidate.topicId))
+    const sections = paperResponseRequirements.filter((section) =>
+      section.assessmentId === assessment.assessmentId)
+    return [{
+      assessmentId: assessment.assessmentId, courseId, title: assessment.title,
+      assessmentDate: assessment.assessmentDate,
+      provisionalAvailableMinutes: capacityBeforePaper(assessment.assessmentDate),
+      // Different supported opportunity IDs, not mandatory learning minutes.
+      supportedOpportunityMinutes: [...new Map(paperOpportunities.map((item) =>
+        [item.id, item.estimatedMinutes])).values()].reduce((sum, value) => sum + value, 0),
+      mappedKnowledgeTopics: paperKnowledge.length,
+      topicsWithSupportedOpportunity: paperKnowledge.filter((item) =>
+        availableTopics.has(item.topicId)).length,
+      mappedResponseSections: sections.length ? sections.length : null,
+      sectionsWithExactPractice: sections.length
+        ? sections.filter((section) => section.verifiedPracticeCandidateIds.length > 0).length
+        : null,
+      scopeResolved: scopeTopicIds(assessment, state).length > 0,
+    }]
+  }).sort((a, b) => a.assessmentDate.localeCompare(b.assessmentDate)
+    || a.courseId.localeCompare(b.courseId) || a.assessmentId.localeCompare(b.assessmentId))
   const programme = { ...prepared, requirements, paperResponseRequirements, unsupportedRequirements, verifiedPaperDemands,
+    paperCapacityBoundaries,
     constraints: [
       ...prepared.constraints,
       ...(unsupportedRequirements.length
