@@ -43,7 +43,9 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     // corresponding live button, never to a detached element.
     const rows = Array.from(document.querySelectorAll<HTMLElement>('.exam-mock'))
     const row = rows.find((item) => item.dataset.mockId === previous.id)
-    const action = row?.querySelectorAll<HTMLButtonElement>('button')[previous.mode === 'timed' ? 0 : 1]
+    const buttons = Array.from(row?.querySelectorAll<HTMLButtonElement>('button') ?? [])
+    const action = buttons.find((button) => button.textContent?.trim() === previous.label) ??
+      buttons[previous.mode === 'timed' ? 0 : buttons.length - 1]
     const revAction = Array.from(document.querySelectorAll<HTMLButtonElement>('.exam-prep__rev button')).find(
       (item) => item.textContent?.trim() === previous.label,
     )
