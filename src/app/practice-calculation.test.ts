@@ -62,7 +62,8 @@ describe('checking a calculation', () => {
   it('requires exact integer input for opt-in discrete statistics without changing other calculations', () => {
     const values = acceptedValuesFor(2, null, ['2'])
     for (const answer of ['2', '2.0', ' 2 ']) expect(checkCalculation(answer, values, null, true).status).toBe('right')
-    for (const answer of ['1.5', '1.6', '2.4', '2.5', '-2', '3']) expect(checkCalculation(answer, values, null, true).status).toBe('wrong')
+    for (const answer of ['1.5', '1.6', '2.4', '2.5']) expect(checkCalculation(answer, values, null, true).status).toBe('unreadable')
+    for (const answer of ['-2', '3']) expect(checkCalculation(answer, values, null, true).status).toBe('wrong')
     expect(checkCalculation('1.6', values, null).status).toBe('right') // historical rounded-number behavior remains available
   })
   it('rejects trailing expressions and prose in exact-integer mode without changing ordinary calculations', () => {
