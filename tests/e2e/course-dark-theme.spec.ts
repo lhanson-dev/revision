@@ -207,9 +207,9 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   expect(adviceSurface.actual).toBe(adviceSurface.expected)
   expect(adviceSurface.actual).not.toBe('rgb(255, 255, 255)')
 
-  // Contextual Ask REV follows the recommendation/summary rather than
-  // duplicating the primary action inside another dashboard panel.
-  await overview.locator('.course-overview-ask').getByRole('button', { name: 'Ask REV about this course' }).click()
+  // Global Ask REV stays accessible without a redundant second prompt on Overview.
+  await expect(overview.locator('.course-overview-ask')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Ask REV', exact: true }).first().click()
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
   await expect(revDialog).toBeVisible()
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()

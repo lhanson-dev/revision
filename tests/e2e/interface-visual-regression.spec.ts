@@ -381,9 +381,19 @@ const courseOverviewVisualReview = [
  * Evidence: audits/2026-10-30-pr728-course-overview-visual-approval.md.
  * Merge/release approval is separate.
  */
+/** PR #754: Founder approved reviewed desktop/phone Course Overview design
+ * screenshots in chat on 1 November 2026 ("approved, continue").
+ * The PR #754 visual-only approval follows presentation of the redesigned
+ * desktop Light/Dark and phone evidence. Exactly two desktop C4 digests
+ * replace the old ones from CI #4067 / run 41301571947 (head 6888f08c),
+ * each reproduced on initial capture and retry. Phone hashes, unrelated
+ * Home/Learn and the B7 matrix remain unchanged.
+ * Provenance: audits/2026-11-01-pr754-course-overview-visual-approval.md.
+ * This is NOT a PR merge approval.
+ */
 const approvedCourseOverviewDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': 'ea47b538ac0dd3e83f5b659a00510b25d5cfdaedfa69e64d9021ef9acf9f4957',
-  'desktop:dark': 'b0bb9ed6d89b9bb4372b046c7be728ebfd9b18f8fdb7c82157dd0d8649b02de5',
+  'desktop:light': 'be3a85f383f25c1b9743fb830a18a5951493e67d51a978307af2770766c4fd1b',
+  'desktop:dark': 'd01d97559f650c3a656981ba51dd62385c8adcf46fd7f577876cb568fd0115ed',
   'phone:light': 'fa07b3e1b999642e14c3b588ab0063ef020f1572c579d9289f17a6c1901f43af',
   'phone:dark': 'd0cfca9db327fae04bad5a322c677c66df56b1a604a470b745f8d32d946c9b1c',
 }
@@ -620,6 +630,14 @@ for (const [project, theme] of courseOverviewVisualReview) {
     test.skip(testInfo.project.name !== project, `Captured only in the ${project} canonical viewport.`)
     await seedSession(page, theme, false)
     await openState(page, 'course-overview')
+    // The four editorial destinations are not four competing REV recommendations.
+    const spotlights = page.locator('.course-overview-spotlight')
+    await expect(spotlights).toHaveCount(4)
+    for (const title of ['Learn', 'Practice', 'Exam Prep', 'Progress']) {
+      await expect(spotlights.getByRole('heading', { name: title })).toHaveCount(1)
+    }
+    await expect(spotlights.locator('.course-overview-spotlight__icon svg')).toHaveCount(4)
+    await expect(page.locator('.course-overview-ask')).toHaveCount(0)
     const screenshot = await page.screenshot({
       animations: 'disabled',
       caret: 'hide',

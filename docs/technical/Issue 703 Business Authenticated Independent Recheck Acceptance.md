@@ -1,6 +1,6 @@
 # Issue #703 — Business authenticated independent calculation recheck acceptance (candidate)
 
-**Date:** 1 November 2026. **Status:** Draft regression candidate; CI not yet accepted, not merged or released. **Dependency:** PR #755 is a separate first evidence/Plan readback slice and still requires its own explicit Founder approval.
+**Date:** 1 November 2026. **Status:** Draft regression candidate; first retry-enabled CI run #41306350676 was green (9/9 jobs) but the authenticated Plan test failed once before passing on retry. This is a flaky pass, not stable independent acceptance; branch reintegration/validation against current main remains required. Not merged or released. **Dependency:** PR #755 is a separate first evidence/Plan readback slice and still requires its own explicit Founder approval.
 
 ## Canonical route and educational boundary
 
@@ -24,7 +24,7 @@ The scenario intentionally fails if today's Plan cannot expose or launch the ind
 
 ## Unproven acceptance and release boundary
 
-- CI and authenticated browser results **pending**; mere creation of the test and PR is not a pass.
+- First corrected CI #41306350676: all required jobs succeeded, but the new authenticated Plan test was **flaky** (initial failure, successful retry). Treat as unverified repeatability; do not use a green CI badge alone as stable learner proof.
 - The first answer is service-seeded. A full on-screen wrong → exact Learn repair → fresh distinct question → adjusted shared Home/REV/Progress/Plan journey is not yet accepted.
 - A correct final number is one software-scored result; it does not prove workings, method, AQA AO3/AO4 judgement or durable mastery.
 - This test does not establish Psychology course completeness, qualified independent subject review, all Business 42-section coverage, hosted email/signup or production/live learner acceptance.
@@ -35,3 +35,7 @@ The only intended changes are this scoped CI acceptance test, this technical rec
 ## First CI failure and corrected test prerequisite
 
 CI #41304933271 passed its static, security, signup and responsive checks but the new real-auth browser test failed to open a calculation recheck among **today's** Plan rows (4/5 database-backed browser tests passed). This did **not** prove the source-backed recheck is absent from the wider programme: the existing planner intentionally places a not-yet-reviewed Learn repair ahead of its independent recheck, potentially on different days. The original test did not distinguish that valid sequencing from a missing recheck. The next version records a genuine prior Learn-page review using the existing owner-scoped service before the missed calculation, so the test specifically exercises the launchable independent check rather than trying to skip a required repair. The complete first-time wrong → learn → later recheck remains separate acceptance; no test assertion about real Plan launch, browser submission or persisted item evidence has been removed. This correction remains **pending re-run verification**.
+
+## Repeatability gate — first corrected CI is flaky
+
+The first attempt of the new browser test in #41306350676 failed at the assertion that a distinct recheck could open from today's real Plan, and its retry passed. All other jobs were green. The reason for that variability is **not yet proven**: it could be timing/race conditions in the test or a genuine intermittent Plan experience problem. Do not assert that prior Learn-page review definitively resolved the original failure. Leave PR draft until an independent diagnostic/repeatability check discriminates these cases; keep the launch-and-persist assertion intact. Recheck full head CI after bringing the branch onto latest main.
