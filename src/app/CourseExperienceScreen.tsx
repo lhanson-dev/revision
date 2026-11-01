@@ -221,7 +221,7 @@ function CourseSectionSpotlights({ sections, savedWork, savedStatus, reviewedCou
           <button
             type="button"
             className="course-overview-spotlight__action"
-            aria-label={saved ? `${mode.name}: ${saved.actionLabel} — ${saved.title}` : `Open ${mode.name}`}
+            aria-label={saved ? saved.actionLabel : `Open ${mode.name}`}
             onClick={() => saved ? onOpenSavedWork(saved) : onOpenSection(mode.id)}
           />
         </article>
