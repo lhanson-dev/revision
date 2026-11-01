@@ -38,10 +38,10 @@
 
 ## LF-01 — desktop exam date calendar (Issue #765, 1 November 2026)
 
-- **Severity:** provisional P1; firsthand desktop/laptop inability to choose dates. Current main implements a shared custom calendar, absolutely positioned inside a height-limited, overflow-scrolling Plan exam dialog. This is a code-supported clipping mechanism, not an authenticated reproduction on the student's browser.
-- **Status:** Fix in review, still Open. Governed branch `fix/lf01-exam-date-calendar-viewport-765` limits the change to shared calendar viewport placement and scrolling, with focused Plan/onboarding browser assertions.
+- **Severity:** provisional P1; firsthand desktop/laptop inability to choose dates. Before PR #766 the shared custom calendar was absolutely positioned inside the height-limited, overflow-scrolling Plan exam dialog. That was a code-supported clipping mechanism, not a recreation on the student's exact browser.
+- **Status:** Deployed and Founder visually accepted, **still Open for final learner-journey acceptance**. PR #766 merged as `2f0b9030208654696396cf2d3a6b2a6f26a0c985`; exact-head CI [41342064273](https://github.com/lhanson-dev/revision/actions/runs/41342064273) and production Pages/deployment smoke [41342761469](https://github.com/lhanson-dev/revision/actions/runs/41342761469) passed. Founder said “looks good” on 1 November 2026; this is visual feedback, not evidence of full date persistence or 200% zoom.
 - **Affected:** Plan → Exam dates → Add exam, additional assessments, first-use paper dates. Does not change stored dates, date identifiers, assessment writes, or Plan navigation.
-- **Closure evidence needed:** exact-head CI and browser proof on short desktop, zoom 100%/200%, Chrome/Edge and Safari where feasible; save/reload, light/dark, keyboard and mobile/tablet, plus actual affected learner verification. PR creation or a passing unit test alone is not closure.
+- **Closure evidence needed:** original learner saves and reopens/edits an exam date; verify 200% zoom and reported laptop browser, noting any unavailable cross-browser coverage explicitly. CI, responsive Chromium regression and production smoke are complete; do not downgrade residual unknowns to Passed. Track final acceptance in #765.
 
 ## Triage note — 2026-08-19
 
