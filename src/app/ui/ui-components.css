@@ -156,11 +156,16 @@
 }
 
 .ui-date-popover {
-  position: absolute;
+  /* Viewport positioning prevents a scrolling exam dialog from clipping the
+     calendar; React anchors it to its trigger and flips it where space allows. */
+  position: fixed;
   z-index: 40;
-  top: calc(100% + var(--space-2));
-  left: 0;
+  top: 16px;
+  left: 16px;
   width: min(360px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
   display: grid;
   gap: var(--space-3);
   padding: var(--space-4);
@@ -358,16 +363,6 @@
 
   .ui-surface-component {
     padding: var(--space-4);
-  }
-
-  .ui-date-popover {
-    position: fixed;
-    top: 50%;
-    right: var(--space-4);
-    left: var(--space-4);
-    width: auto;
-    max-height: calc(100dvh - 32px);
-    transform: translateY(-50%);
   }
 
   .ui-date-day {
