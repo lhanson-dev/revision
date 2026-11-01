@@ -56,7 +56,9 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     // Freeze eligibility when a mock begins. A delayed Auth verification must
     // never silently upgrade an already-running transient mock to persisted
     // work (or switch a durable attempt off during the same session).
-    const completed = savedExams.find((item) => item.id === id)?.phase === 'submitted'
+    const completed = savedExams.find((item) => item.id === id)?.phase === 'submitted' ||
+      state.evidence.some((item) => item.source === 'exam_attempt' && item.contentId === id &&
+        typeof item.marksAwarded === 'number')
     setActive({ id, mode, retakeCompleted: mode === 'timed' && completed && !review,
       durableContext: mode === 'timed' ? checkpointContext : undefined })
   }
