@@ -612,7 +612,7 @@ test('LF-01 first-use calendar is viewport accessible on small desktop and at na
   await seedNewStudentSession(page)
   await stubFirstUseBackend(page)
   await page.goto(appPath)
-  await page.getByRole('button', { name: /^Student\\b/ }).click()
+  await page.getByRole('button', { name: /^Student\b/ }).click()
   await page.getByRole('button', { name: 'Continue' }).click()
   await page.getByRole('checkbox', { name: 'Business' }).check()
   await page.getByRole('button', { name: 'Continue' }).click()
