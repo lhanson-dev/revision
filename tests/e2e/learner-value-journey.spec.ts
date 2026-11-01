@@ -412,7 +412,7 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     let selected = false
     const seen: string[] = []
     for (let i = 0; i < count; i += 1) {
-      seen.push((await rows.nth(i).innerText()).replace(/\\s+/g, ' ').trim())
+      seen.push((await rows.nth(i).innerText()).replace(/\s+/g, ' ').trim())
       await rows.nth(i).getByRole('button', { name: /^(Up next|Start)/ }).click()
       // handleStartSuggested persists a best-effort start event asynchronously
       // before mounting the focused activity. Playwright click() only waits
