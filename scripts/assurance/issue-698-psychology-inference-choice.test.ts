@@ -44,7 +44,7 @@ describe('Issue #698: original AQA 7182 inferential test-choice and error practi
     expect(psychologyInferenceChoiceDrills).toHaveLength(1)
     for(const pack of [paper1,paper2,paper3]){
       expect(pack.questions).toHaveLength(131)
-      expect(pack.dataDrills).toHaveLength(16)
+      expect(pack.dataDrills).toHaveLength(18)
       expect(new Set(pack.questions.map(q=>q.id)).size).toBe(131)
       for(const old of [...psychologyQuestions,...psychologyResearchMethodsAppliedQuestions]){
         expect(pack.questions.find(q=>q.id===old.id),old.id).toEqual(old)

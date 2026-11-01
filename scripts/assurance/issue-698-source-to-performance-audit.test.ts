@@ -70,7 +70,7 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       }
     }
     // A student could recognise a concept while still being unable to write, calculate or construct it.
-    expect(published.every(p=>p.questions.length===131 && p.dataDrills.length===16)).toBe(true)
+    expect(published.every(p=>p.questions.length===131 && p.dataDrills.length===18)).toBe(true)
   })
 
   it('checks separately bound Research Methods additions really enter published packs without promoting self-checks to scored skill evidence',()=>{
