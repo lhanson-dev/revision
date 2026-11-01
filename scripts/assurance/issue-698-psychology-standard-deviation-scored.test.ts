@@ -41,7 +41,7 @@ describe('Issue #698 — real typed-number standard deviation Practice for AQA 7
       // replacing the four existing independently keyed SD cases.
       expect(pack.practiceBank?.filter(q=>q.id.startsWith('sd-population-'))).toEqual(psychologyStandardDeviationPracticeBank)
       expect(pack.questions).toHaveLength(131)
-      expect(pack.dataDrills).toHaveLength(18)
+      expect(pack.dataDrills).toHaveLength(22)
       const adapter=createLearningContentAdapter(pack)
       const pool=buildQuestionPool({
         topicId:'research-methods',topicOrder:7,coursePack:adapter.listQuestions('research-methods'),
