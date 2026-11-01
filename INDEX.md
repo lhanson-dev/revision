@@ -24,6 +24,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Course Overview activity tiles and duplicate Ask REV removal, visual-only approval → `docs/technical/Course Overview Exploration Visual Refresh.md`; `audits/2026-11-01-pr754-course-overview-visual-approval.md`
+- Issue #760 compact editorial Course Overview redesign, Founder-approved scope and guarded visual assurance → `docs/technical/Course Overview Compact Editorial Tiles.md`; `audits/2026-11-01-pr762-compact-course-overview-visual-approval.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - PR #623 Home visual approval / baseline provenance (not merge authority) → `audits/2026-10-13-home-622-visual-approval.md`
 - PR #637 FI-001 Home Practice-question visual approval (four baselines only; not merge authority) → `audits/2026-10-18-fi001-home-practice-visual-approval.md`
@@ -52,6 +53,8 @@ Use this file to find the governing source before substantive work.
 - Issue #698 Business Paper 1 essay choice and paper-time guidance correction, with remaining review limits → `docs/technical/Issue 698 Business Paper Choice and Pacing Guidance.md`
 - Practice typed final-number one-mark assessment scope and legacy method-mark integrity fix → `docs/technical/Practice Typed Calculation Mark Integrity.md`
 - Issue #698 Business break-even/network diagram method, published unscored construction drills and assurance limits → `docs/technical/Issue 698 Business Graph and Network Construction Practice.md`
+- Issue #698 Psychology 7182 original critical-value table lookup and self-marked scatter construction correction, scoped AI A2/A3 pass for original head; latest integration and live acceptance outstanding → `docs/technical/Issue 698 Psychology Critical Value Table and Scatter Practice.md`
+- Issue #698 dated PR #759 independent A2/A3 review of original 5 learner activities (historical exact head; subsequent heads require revalidation) → `audits/2026-11-01-pr759-original-a3-review.md`
 - Issue #698 PR #759 restricted trusted independent Psychology critical-table and scatter A2/A3 reviewer (not installed until separate merge) → `docs/technical/Issue 698 Psychology PR759 Trusted A3 Review.md`
 - Issue #698 PR #746 gated fresh independent Psychology A3 original-assessment reviewer on approved main (proposed trusted automation; not itself educational sign-off) → `docs/technical/Issue 698 Psychology PR746 Trusted Independent A3 Review.md`
 - Issue #698 Psychology 7182 original independently scored sign-test S calculation pair, source mapping and limited evidence → `docs/technical/Issue 698 Psychology Sign Test Scored Practice.md`

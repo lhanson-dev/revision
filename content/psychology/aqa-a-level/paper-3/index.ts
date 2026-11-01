@@ -14,6 +14,7 @@ import { psychologyResearchMethodsAppliedQuestions, psychologyResearchMethodsApp
 import { psychologyInferenceChoiceQuestions, psychologyInferenceChoiceDrills } from '../shared/inferential-choice-practice'
 import { psychologyStandardDeviationPracticeBank } from '../shared/standard-deviation-practice'
 import { psychologySignTestPracticeBank } from '../shared/sign-test-practice'
+import { psychologySignCriticalPracticeBank, psychologySignCriticalDrills } from '../shared/sign-critical-practice'
 
 export const psychologyAqaALevel7182Paper3 = contentPackSchema.parse({
   manifest,
@@ -23,9 +24,9 @@ export const psychologyAqaALevel7182Paper3 = contentPackSchema.parse({
   topicLinks: psychologyTopicLinks,
   flashcards: psychologyFlashcards,
   questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions, ...psychologyInferenceChoiceQuestions],
-  practiceBank: [...psychologyStandardDeviationPracticeBank, ...psychologySignTestPracticeBank],
+  practiceBank: [...psychologyStandardDeviationPracticeBank, ...psychologySignTestPracticeBank, ...psychologySignCriticalPracticeBank],
   caseStudies: [],
-  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills],
+  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills, ...psychologySignCriticalDrills],
   examTechnique: psychologyExamTechnique,
   exams: psychologyPaper3Exams,
 })

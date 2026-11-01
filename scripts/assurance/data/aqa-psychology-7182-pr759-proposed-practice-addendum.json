@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "status": "PROPOSED_PR759_NOT_LIVE_NOT_EDUCATIONALLY_ASSURED",
+  "qualification": {
+    "code": "7182",
+    "specVersion": "1.4, 1 September 2025",
+    "pdfSha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "rights": "REFERENCE_ONLY"
+  },
+  "baselineReferences": [
+    "scripts/assurance/data/aqa-psychology-7182-source-first-review.json",
+    "scripts/assurance/data/aqa-psychology-7182-maths-annex-source-review.json"
+  ],
+  "mapping": [
+    {
+      "source": "§4.2.3.3 p21",
+      "sourceAtom": "PSY-SRC-4233-IT05",
+      "annexAtom": "PSY-MATH-72-24",
+      "candidateIds": [
+        "rev7182-4.2.3-sign-critical-lookup-01",
+        "rev7182-4.2.3-sign-critical-lookup-02",
+        "rev7182-4.2.3-sign-critical-lookup-03"
+      ],
+      "evidenceMode": "scored-one-integer-critical-value-only",
+      "assurance": "unverified",
+      "liveAcceptance": false
+    },
+    {
+      "source": "§4.2.3.3 p21",
+      "sourceAtom": "PSY-SRC-4233-IT06",
+      "annexAtom": "PSY-MATH-72-24",
+      "candidateIds": [
+        "psy-rm-sign-critical-interpret-01"
+      ],
+      "evidenceMode": "self-checked-on-paper-not-independent-scored",
+      "assurance": "unverified",
+      "liveAcceptance": false
+    },
+    {
+      "source": "§7.2 p37",
+      "sourceAtom": null,
+      "annexAtom": "PSY-MATH-72-32",
+      "candidateIds": [
+        "psy-rm-scatterplot-construction-01"
+      ],
+      "evidenceMode": "self-checked-on-paper-not-independent-scored",
+      "assurance": "unverified",
+      "liveAcceptance": false
+    }
+  ],
+  "limits": [
+    "Source-to-live academic crosswalk is proposed, not accepted.",
+    "Critical value lookup alone does not establish statistical inference, appropriate test choice or method.",
+    "Self-marked graph construction cannot be credited as independently observed proficiency.",
+    "Current approved main baseline records are preserved unchanged until a separately dated audit is performed."
+  ]
+}

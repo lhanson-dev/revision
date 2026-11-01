@@ -1,6 +1,6 @@
 # Issue #703 — AQA Business authenticated skill-evidence acceptance, first observed slice
 
-**Status (1 November 2026):** First isolated authentic learner evidence acceptance slice; prior full CI #41301700438 passed, but the branch must be revalidated after integration with the latest approved main. Not merged or live; new exact-head CI pending. **Do not close #703, #704, #705, #698 or #694 on this package.**
+**Status (1 November 2026):** Authenticated Marketing evidence assurance candidate; CI #41314801678 passed all nine required jobs on prior integrated head, including the real database/browser test. Current-main integration must be repeated on the final merge candidate. Not merged or live. **Do not close #703, #704, #705, #698 or #694 on this package.**
 
 ## Canonical user path and purpose
 
@@ -35,3 +35,7 @@ The next governed acceptance package should navigate and submit the **different*
 ## Current main reconciliation — 1 November 2026
 
 The original candidate was approved-ready and passed all nine required CI jobs in run #41301700438. Since then approved main advanced. This branch is mechanically integrated with latest main without changing its scoped learner test contract, scoring or runtime. A new exact-head full CI is required; its result must be recorded before seeking specific merge approval. This is separate from draft PR #757, which adds a *different* new authored independent calculated recheck browser scenario. Neither branch alone constitutes complete wrong-answer → two-skill exact repair → independent follow-up → shared Home/REV/Plan/Progress acceptance.
+
+## Integration refresh after the latest approved main — 1 November 2026
+
+Approved main advanced since the 9/9 passing #41314801678 run, incorporating separate learner and specification assurance work. This candidate retains only its already-scoped Marketing two-skill database/Plan/Progress acceptance test, this technical note and INDEX pointer. A mechanical current-main integration has been prepared; all newer main source and technical changes must be retained unchanged. Fresh exact-head CI and the original specific Founder merge approval are still required before merging. No new runtime behaviour, user-facing feature, source-bank content or governing rule is introduced.
