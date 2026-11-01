@@ -133,7 +133,12 @@ describe('FI-001 real-content scenario boundary probes (NOT five-view educationa
     const essays = unknown.candidates.filter((item) =>
       item.topicId === topicId && item.activityType === 'exam-question'
       && item.paperResponseFormat?.toLowerCase().includes('essay'))
-    expect(foundations).toHaveLength(1)
+    expect(foundations.length).toBeGreaterThan(1)
+    const uniquePages = foundations.map((item) => item.learnTarget?.learnPageId)
+    expect(new Set(uniquePages).size).toBe(foundations.length)
+    for (let i = 1; i < foundations.length; i++) {
+      expect(foundations[i]?.preparationPrerequisiteId).toBe(foundations[i - 1]?.id)
+    }
     // Scored quiz and independently authored retrieval are both valid
     // optional checks. Neither becomes a gateway before exam paper practice.
     expect(checks.map((item) => item.activityType).sort()).toEqual(['flashcards', 'quick-check'])
