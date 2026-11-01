@@ -19,7 +19,8 @@ describe('defect register projection', () => {
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-011' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-012' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-013' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
-    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 6, P2: 0, total: 6 })
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-014' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
+    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 7, P2: 0, total: 7 })
   })
 
   it('treats a deliberately triaged valid empty register as available with zero known open defects', () => {

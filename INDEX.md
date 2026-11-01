@@ -10,6 +10,7 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+- LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`

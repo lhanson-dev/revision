@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   commitFrozenExamSubmission, createExamAttempt, discardExamAttempt, examElapsedMs,
   examPauseTiming, examResumeTiming, examHeartbeatTiming, examInterruptTiming,
-  finaliseExamSnapshot, initialExamSnapshot, loadExamAttempt, updateExamAttempt,
+  finaliseExamSnapshot, initialExamSnapshot, loadExamAttempt, removeCompletedExamAttempt, updateExamAttempt,
   fingerprintExamContent, type ExamAttemptKey, type ExamAttemptRow, type ExamAttemptStore,
 } from './exam-attempt-service'
 import { listRetainedAqa7132MockExams } from '../../app/retained-aqa-business-mock'
@@ -63,6 +63,41 @@ function frozen() {
   })
 }
 describe('REC-10 draft persistence contract', () => {
+  it('LF-02: clears only completed checkpoint and creates successive independent attempts without rewriting evidence', async () => {
+    const memory = memoryStore()
+    const evidence = new Map<string, { awarded: number; timestamp: string }>()
+    for (const [index, score] of [0, 12, 20].entries()) {
+      const id = `11111111-1111-4111-8111-${String(index + 1).padStart(12, '0')}`
+      const started = await createExamAttempt(memory.store, key, hash, id, initialExamSnapshot(), expiry)
+      const marking = await updateExamAttempt(memory.store, started, {
+        ...started.snapshot, phase: 'marking',
+        timing: examPauseTiming(started.snapshot.timing),
+      })
+      const frozenBatch = frozen()
+      const submitting = await commitFrozenExamSubmission(memory.store, marking, frozenBatch)
+      const completed = await updateExamAttempt(memory.store, submitting, finaliseExamSnapshot(submitting.snapshot))
+      const evidenceId = `exam-attempt-${index}`
+      evidence.set(evidenceId, { awarded: score, timestamp: `2026-11-01T12:0${index}:00Z` })
+      expect((await loadExamAttempt(memory.store, key, hash))?.attemptId).toBe(id)
+      await removeCompletedExamAttempt(memory.store, completed)
+      expect(await loadExamAttempt(memory.store, key, hash)).toBeNull()
+    }
+    expect([...evidence.values()].map(row => row.awarded)).toEqual([0, 12, 20])
+    expect(new Set([...evidence.values()].map(row => row.timestamp)).size).toBe(3)
+  })
+
+  it('LF-02: cannot clear an unfinished or partially submitting mock to force a retake', async () => {
+    const memory = memoryStore()
+    const writing = await createExamAttempt(memory.store, key, hash, attemptId, initialExamSnapshot(), expiry)
+    await expect(removeCompletedExamAttempt(memory.store, writing)).rejects.toThrow('unfinished')
+    const marking = await updateExamAttempt(memory.store, writing, {
+      ...writing.snapshot, phase: 'marking', timing: examPauseTiming(writing.snapshot.timing),
+    })
+    const submitting = await commitFrozenExamSubmission(memory.store, marking, frozen())
+    await expect(removeCompletedExamAttempt(memory.store, submitting)).rejects.toThrow('unfinished')
+    expect((await loadExamAttempt(memory.store, key, hash))?.snapshot.phase).toBe('submitting')
+  })
+
   it('saves and reloads exactly scoped unfinished written work without making learning evidence', async () => {
     const memory = memoryStore()
     const first = await createExamAttempt(memory.store, key, hash, attemptId, starting, expiry)
