@@ -417,7 +417,7 @@ test('LF-01 exam calendar fits short desktop dialogs and remains keyboard select
   expect(bounds!.y).toBeGreaterThanOrEqual(0)
   expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(441)
   await calendar.getByRole('button', { name: 'Next month' }).click()
-  await calendar.getByRole('button', { name: '5 November 2026' }).click()
+  await calendar.getByRole('button', { name: '5 November 2026', exact: true }).click()
   await expect(manager.getByRole('button', { name: 'Exam date (required)' })).toContainText('05 / 11 / 2026')
   await manager.getByRole('button', { name: 'Exam date (required)' }).focus()
   await page.keyboard.press('Enter')
