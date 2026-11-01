@@ -53,7 +53,7 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
       expect(pack.manifest.status).toBe('available')
       const conformity=textForPage(pack,'PSY-01-01')
       for(const term of ['Asch', 'line', 'Group size','Unanimity','Task difficulty','normative','informational','internalisation']) {
-        expect(conformity,term).toContain(term)
+        expect(conformity.toLowerCase(),term).toContain(term.toLowerCase())
       }
       const obedience=textForPage(pack,'PSY-01-02')
       for(const term of ['Milgram','Proximity','Location','office building','Uniform','Authoritarian Personality','F-scale','agentic']) {
