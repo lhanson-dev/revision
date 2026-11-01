@@ -473,24 +473,7 @@
       "skill": "statistical-table-significance",
       "capability": "Locate the relevant critical value from a supplied statistical table and apply the proper significance decision rule.",
       "independentEvidenceRequired": "authentic-table-lookup-and-decision",
-      "publishedCandidateAssets": [
-        {
-          "id": "rev7182-4.2.3-sign-critical-lookup-01",
-          "kind": "scored-single-number"
-        },
-        {
-          "id": "rev7182-4.2.3-sign-critical-lookup-02",
-          "kind": "scored-single-number"
-        },
-        {
-          "id": "rev7182-4.2.3-sign-critical-lookup-03",
-          "kind": "scored-single-number"
-        },
-        {
-          "id": "psy-rm-sign-critical-interpret-01",
-          "kind": "unscored-drill"
-        }
-      ],
+      "publishedCandidateAssets": [],
       "teachingAdequacy": "unverified",
       "practiceAdequacy": "unverified",
       "examPrepAdequacy": "unverified",
@@ -623,12 +606,7 @@
       "skill": "plot-two-variables",
       "capability": "Plot data for two variables, including a suitable scatter representation of a correlational investigation.",
       "independentEvidenceRequired": "student-constructed-plot",
-      "publishedCandidateAssets": [
-        {
-          "id": "psy-rm-scatterplot-construction-01",
-          "kind": "unscored-drill"
-        }
-      ],
+      "publishedCandidateAssets": [],
       "teachingAdequacy": "unverified",
       "practiceAdequacy": "unverified",
       "examPrepAdequacy": "unverified",
