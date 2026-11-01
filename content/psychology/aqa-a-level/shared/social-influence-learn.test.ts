@@ -80,7 +80,7 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
         expect(conformity,phrase).toContain(phrase)
       }
       const obedience=textForPage(pack,'PSY-01-02')
-      for(const phrase of ['450-volt','remote/no-voice-feedback','voice-feedback','staged','65%','62.5%','40%','30%','47.5%','20%','acquiescence bias','harsh, punitive parenting','displaced','everyday clothes','Bickman','milkman','guard','field experiments','agentic-state interpretation','legitimacy-of-authority explanation','separate']) {
+      for(const phrase of ['450-volt','remote/no-voice-feedback','voice-feedback','staged','real 45-volt sample shock','learner received no shocks','65%','62.5%','40%','30%','47.5%','20%','acquiescence bias','harsh, punitive parenting','displaced','everyday clothes','Bickman','milkman','guard','field experiments','agentic-state interpretation','legitimacy-of-authority explanation','separate']) {
         expect(obedience,phrase).toContain(phrase)
       }
       const resistance=textForPage(pack,'PSY-01-03')
