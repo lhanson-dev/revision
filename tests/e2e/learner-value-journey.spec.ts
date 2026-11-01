@@ -410,15 +410,24 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     const count = await rows.count()
     expect(count, 'Leadership must offer a real current-day Practice activity').toBeGreaterThan(0)
     let selected = false
+    const seen: string[] = []
     for (let i = 0; i < count; i += 1) {
+      seen.push((await rows.nth(i).innerText()).replace(/\\s+/g, ' ').trim())
       await rows.nth(i).getByRole('button', { name: /^(Up next|Start)/ }).click()
+      // handleStartSuggested persists a best-effort start event asynchronously
+      // before mounting the focused activity. Playwright click() only waits
+      // for the click, not the async handler promise; checking isVisible()
+      // immediately afterwards can race the real UI launch.
+      const back = page.getByRole('button', { name: 'Back to Plan' })
+      await expect(back, 'Wait for the actual Plan activity to open before classifying it').toBeVisible()
       if (await page.getByText('Calculation recheck').isVisible()) {
         selected = true
         break
       }
-      await page.getByRole('button', { name: 'Back to Plan' }).click()
+      await back.click()
+      await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     }
-    expect(selected, 'Actual learner Plan must launch the distinct expected-value check').toBe(true)
+    expect(selected, `Actual learner Plan must launch the distinct expected-value check. Opened today's Leadership rows: ${JSON.stringify(seen)}`).toBe(true)
     await expect(page.getByRole('heading', { name: fresh.prompt })).toBeVisible()
     await page.getByLabel('Your final number').fill(String(fresh.expected))
     await page.getByRole('button', { name: 'Certain', exact: true }).click()
