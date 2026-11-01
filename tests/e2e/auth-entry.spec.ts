@@ -117,7 +117,7 @@ test('ordinary email signup does not require a code and sends no private proof',
   await page.getByRole('button', { name: 'Create account' }).click()
 
   await expect(page.getByRole('heading', { name: 'Create your account' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
   await expect(page.getByLabel('First name')).toBeVisible()
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
