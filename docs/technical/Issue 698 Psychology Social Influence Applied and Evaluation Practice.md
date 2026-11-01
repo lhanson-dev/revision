@@ -23,6 +23,8 @@ Existing Social Influence Practice has four generated topic-concept MCQs, withou
 
 The eight question IDs are new; pre-existing question identities, marks, Progress and learner data are preserved. These SI numbers are Revision provisional decomposition IDs, **not official AQA atomic scores**. Selected responses can support only bounded one-item recognition/decision evidence, not written AO2 or AO3 reasoning, mastery or durable rechecking. Four additional paper/written `dataDrills` provide model-answer checklists for conformity, obedience, resistance and minority influence, with **no score** or independently judged response.
 
+The four older Psychology assurance suites retain their original Research Methods identity/marking assertions; only their cumulative three-pack DataDrill count has been reconciled from 18 to 22 (18 pre-existing + four new Social Influence self-checks). No historical snapshots have been edited.
+
 ## Test and release gate
 
 The cross-pack test `content/psychology/aqa-a-level/shared/social-influence-practice.test.ts` verifies original PDF fingerprint, parent/target IDs, all three real content packs, eight distinct scored records, exactly one target each, correct conversion through `bankRecordToPractice`, original four concept-MCQ IDs retained, four self-check drills and no invented written marks.
