@@ -57,7 +57,7 @@ test('reviewer cannot cite unknown items or omit finding evidence', () => {
 
 test('review must include each original Learn page exactly once', () => {
   assert.equal(ITEM_IDS.length, 4)
-  assert.equal(new Set(ITEM_IDS).size, 5)
+  assert.equal(new Set(ITEM_IDS).size, 4)
   assert.equal(DIMENSIONS.length, 8)
   assert.ok(ITEM_IDS.includes('PSY-01-04'))
   const duplicate = valid()
