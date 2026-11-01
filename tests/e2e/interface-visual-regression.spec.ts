@@ -650,6 +650,11 @@ for (const [project, theme] of courseOverviewVisualReview) {
       expect(Math.max(...heights)).toBeLessThan(160)
     }
     await expect(page.locator('.course-overview-ask')).toHaveCount(0)
+    // On phones the section is below REV and progress: the old top-of-page
+    // screenshot missed every tile and gave false visual acceptance.
+    if (project === 'phone') {
+      await page.locator('.course-overview-spotlights').scrollIntoViewIfNeeded()
+    }
     const screenshot = await page.screenshot({
       animations: 'disabled',
       caret: 'hide',
