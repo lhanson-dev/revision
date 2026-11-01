@@ -1,0 +1,110 @@
+{
+  "recordType": "independent-a3-evidence-transcription-from-actions-artifact",
+  "recordedOn": "2026-11-01",
+  "originalEvidence": {
+    "workflow": "https://github.com/lhanson-dev/revision/actions/runs/41300191372",
+    "artifactId": 13080927642,
+    "artifactName": "psychology-pr746-a3-independent-41300191372",
+    "originalFile": "independent-review-receipt.json",
+    "triggerComment": "https://github.com/lhanson-dev/revision/pull/746#issuecomment-6557071789",
+    "note": "This is a repo-retained faithful factual transcription of a separately downloaded provider receipt, not a bitwise byte-for-byte copy. The original artifact is retained by GitHub Actions for 30 days."
+  },
+  "source": {
+    "artifactType": "revision_pr746_fresh_independent_a3_review",
+    "reviewedPr": 746,
+    "reviewedHead": "840ac310e293f1830bd29e09432c2f005fc16d5d",
+    "approvedMainUsedForTrustedRunner": "a5c12b79dceecde7c33ee01bd5b4fa90fca9b7d0",
+    "reviewedSources": [
+      {
+        "path": "content/psychology/aqa-a-level/shared/sign-test-practice.ts",
+        "blobSha": "321578d98328f10f6062be170a21ba84664c2ca4"
+      },
+      {
+        "path": "content/structured-practice-bank.ts",
+        "blobSha": "83d841b3a090ea73e8e95623d8af5e0b98b8569b"
+      },
+      {
+        "path": "src/app/practice-calculation.ts",
+        "blobSha": "e92367fe653b087818f28d54974c0ef757bfb1f3"
+      },
+      {
+        "path": "src/app/practice-questions.ts",
+        "blobSha": "9aa73826e6f51ca4eeba1a15638727092bedcb50"
+      },
+      {
+        "path": "src/app/FocusedLearningWorkspace.tsx",
+        "blobSha": "db300ea6e86bf20af96004edc5ad7b9f22a5f9b3"
+      },
+      {
+        "path": "docs/technical/Issue 698 Psychology Sign Test A3 Independent Review Handoff.json",
+        "blobSha": "45314c1fad390722ba1c7c3ea47935a01f754491"
+      }
+    ],
+    "reviewerModel": "gpt-5.6-terra",
+    "method": "fresh isolated OpenAI Responses review, store=false",
+    "sourceUse": "REFERENCE_ONLY structured alignment; no protected original AQA prose",
+    "budgetCapUsd": 0.5,
+    "conservativeReserveUsd": 0.166276,
+    "status": "completed",
+    "decision": "pass",
+    "completed": true,
+    "review": {
+      "schemaVersion": 1,
+      "reviewedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "decision": "pass",
+      "dimensions": [
+        {
+          "dimension": "source_scope_and_rights",
+          "status": "pass",
+          "summary": "Under the supplied REFERENCE_ONLY boundary, both questions, paired datasets, tables and feedback are visibly original Revision content; assessment scope limited to the sign-test calculation atom PSY-SRC-4233-IT03."
+        },
+        {
+          "dimension": "paired_data_arithmetic_item_01",
+          "status": "pass",
+          "summary": "Independent recount: increases 4→6, 5→9, 9→10, 3→5, 10→11 (5); decreases 6→4, 8→6 (2); tie 7→7 (1); effective n=7, S=min(5,2)=2. Matches the original answer, table and model feedback."
+        },
+        {
+          "dimension": "paired_data_arithmetic_item_02",
+          "status": "pass",
+          "summary": "Independent recount: increase 6→10 (1); decreases 11→9, 5→4, 9→6, 7→5 (4); ties 8→8 and 4→4 (2); effective n=5, S=min(1,4)=1. Matches the original answer, table and model feedback."
+        },
+        {
+          "dimension": "statistical_method_validity",
+          "status": "pass",
+          "summary": "Paired before/after comparisons exclude ties and calculate S as the smaller non-tied sign count; no unsupported significance conclusion; critical-value interpretation is explicitly out of scope."
+        },
+        {
+          "dimension": "marks_and_scoring",
+          "status": "pass",
+          "summary": "One final-number mark is proportionate; calculation schema, adapter and checker carry exact-integer rule without rounding fractional values. The two keyed values are 2 and 1."
+        },
+        {
+          "dimension": "worked_feedback",
+          "status": "pass",
+          "summary": "Feedback separately counts increases, decreases and ties, gives non-tied n and S, and does not claim a significance decision."
+        },
+        {
+          "dimension": "learner_readability",
+          "status": "pass",
+          "summary": "Before/After participant tables and direction/tie instructions are clear, and question explicitly states that only the final number is scored."
+        },
+        {
+          "dimension": "evidence_claim_boundaries",
+          "status": "pass",
+          "summary": "Only PSY-SRC-4233-IT03 receives the single-target final-number observation; no sign-test choice, written method, critical-value interpretation, later independent performance or mastery credit."
+        }
+      ],
+      "findings": [],
+      "knownLimitations": [
+        "Reviewed only six supplied source/code excerpts and two exact assessment items; did not execute the application, inspect published pack registration outside excerpts or conduct authenticated browser UI testing.",
+        "REFERENCE_ONLY alignment and visible non-copying are inspectable; ownership, licensing history and legal clearance are not independently established from source code.",
+        "Independent AI scope review, not examiner-quality validation, qualified educator sign-off, legal clearance or student learning-outcome evidence."
+      ],
+      "summary": "Independent pass for the two in-scope sign-test calculation items: paired data, statistics, feedback, exact-integer one-mark scoring and bounded source-atom mapping; no material/blocking findings."
+    },
+    "observedCostUsd": 0.049858
+  }
+}

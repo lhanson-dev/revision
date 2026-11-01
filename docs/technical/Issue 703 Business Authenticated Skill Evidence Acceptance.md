@@ -1,6 +1,6 @@
 # Issue #703 — AQA Business authenticated skill-evidence acceptance, first observed slice
 
-**Status (1 November 2026):** Governed implementation/assurance candidate. Not merged or live; CI and exact-head integration pending. **Do not close #703, #704, #705, #698 or #694 on this package.**
+**Status (1 November 2026):** First isolated authentic learner evidence acceptance slice; prior full CI #41301700438 passed, but the branch must be revalidated after integration with the latest approved main. Not merged or live; new exact-head CI pending. **Do not close #703, #704, #705, #698 or #694 on this package.**
 
 ## Canonical user path and purpose
 
@@ -31,3 +31,7 @@ The test then independently re-reads PostgREST rows and verifies the unique exac
 The change adds one real database/browser acceptance case to an existing CI-invoked test file, without modifying learner code, schema, migrations, progress labels, privacy rules, source files, exam bank identities, or Psychology. This note and `INDEX.md` are included in the **same PR**, preserving dated historical assessments. **Normative authority remains unchanged** because the test verifies pre-existing approved behaviour.
 
 The next governed acceptance package should navigate and submit the **different** assigned question through the actual Plan/Home activity UI, verify accurate owner-scoped persisted evidence and the changed recheck recommendation, then observe what the learner sees in Home/REV/Progress after refresh. Where the live UI fails, fix only the verified integration defect and add regression evidence; do not claim readiness based on this scoped test.
+
+## Current main reconciliation — 1 November 2026
+
+The original candidate was approved-ready and passed all nine required CI jobs in run #41301700438. Since then approved main advanced. This branch is mechanically integrated with latest main without changing its scoped learner test contract, scoring or runtime. A new exact-head full CI is required; its result must be recorded before seeking specific merge approval. This is separate from draft PR #757, which adds a *different* new authored independent calculated recheck browser scenario. Neither branch alone constitutes complete wrong-answer → two-skill exact repair → independent follow-up → shared Home/REV/Plan/Progress acceptance.

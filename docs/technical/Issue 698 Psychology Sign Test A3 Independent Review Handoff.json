@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "workstream": "Issue #698 / PR #746",
+  "state": "HOLD-independent-A3-review-not-yet-completed",
+  "qualification": {
+    "code": "7182",
+    "examSeries": "A-level from May/June 2027",
+    "version": "1.4 (1 September 2025)",
+    "referenceOnlySpecSha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "sourceLocator": "A-level section 4.2.3.3 printed page 21",
+    "rights": "REFERENCE_ONLY",
+    "protectedSourceTextIncluded": false
+  },
+  "learnerRuntime": "/revision/app/",
+  "packPaths": [
+    "content/psychology/aqa-a-level/paper-1/index.ts",
+    "content/psychology/aqa-a-level/paper-2/index.ts",
+    "content/psychology/aqa-a-level/paper-3/index.ts"
+  ],
+  "authoredItems": [
+    {
+      "id": "rev7182-4.2.3-sign-test-01",
+      "caseId": "sign-test-01",
+      "requirementId": "PSY-SRC-4233-IT03",
+      "participantCount": 8,
+      "positive": 5,
+      "negative": 2,
+      "ties": 1,
+      "effectiveN": 7,
+      "expectedS": 2,
+      "marks": 1,
+      "format": "individual numeric entry; visible paired-score table",
+      "scoringRule": "exact-integer",
+      "responseEvidence": "raw final-number correctness only",
+      "courseTruthParentId": "PSY-07-32"
+    },
+    {
+      "id": "rev7182-4.2.3-sign-test-02",
+      "caseId": "sign-test-02",
+      "requirementId": "PSY-SRC-4233-IT03",
+      "participantCount": 7,
+      "positive": 1,
+      "negative": 4,
+      "ties": 2,
+      "effectiveN": 5,
+      "expectedS": 1,
+      "marks": 1,
+      "format": "individual numeric entry; visible paired-score table",
+      "scoringRule": "exact-integer",
+      "responseEvidence": "raw final-number correctness only",
+      "courseTruthParentId": "PSY-07-32"
+    }
+  ],
+  "internalAuditFindings": [
+    {
+      "id": "A3-746-01",
+      "severity": "material",
+      "issueType": "non-discrete-near-integer-result-marked-correct",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "The prior generic checker accepted decimal 1.6 against integer S = 2 because it used half-unit rounding tolerance",
+      "recommendedCorrection": "Opt-in exact-integer rule in published bank record and checker, preserving default rounding behavior for unrelated calculation items",
+      "affectedArtifact": "src/app/practice-calculation.ts and sign-test bank/calculation-adapter/learner call",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
+    },
+    {
+      "id": "A3-746-02",
+      "severity": "minor",
+      "issueType": "paired-numbers-readability",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "Previously inline delimited before/after pairs were lengthy to scan",
+      "recommendedCorrection": "Present data in learner-native captioned table, preserve numerical values and question identity",
+      "affectedArtifact": "content/psychology/aqa-a-level/shared/sign-test-practice.ts",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
+    },
+    {
+      "id": "A3-746-03",
+      "severity": "material",
+      "issueType": "compound-requirement-credit-from-one-numeric-answer",
+      "affectedItemIds": [
+        "rev7182-4.2.3-sign-test-01",
+        "rev7182-4.2.3-sign-test-02"
+      ],
+      "evidence": "Parent PSY-07-32 contains both choosing the sign test and calculating it; an S value can evidence only the latter",
+      "recommendedCorrection": "Persist source-first calculation atom PSY-SRC-4233-IT03 as exact single target; retain parent only for canonical Learn page",
+      "affectedArtifact": "content/psychology/aqa-a-level/shared/sign-test-practice.ts and source-first supply crosswalk",
+      "resolutionStatus": "corrected-in-PR-requires-current-head-CI",
+      "origin": "internal review within authoring context; not independent A3"
+    }
+  ],
+  "independentA3Review": {
+    "status": "NOT_RUN",
+    "reviewerIdentity": null,
+    "reviewedExactContentSha": null,
+    "issueRegister": [],
+    "requiredDecision": "PASS or documented authorised conditional restricted pilot, not independently provided",
+    "reviewerInstructions": "Fresh-context reviewer must receive only original Revision-authored question, permitted structured Board Alignment facts, reusable subject-truth, numeric test results, provenance and no protected AQA text. Adversarially verify independent pair counts; S arithmetic and ties; exact-integer scoring and all alternative numeric input paths; assessment demand and marks/AO; study plausibility, table accessibility, model feedback, copyright; and any misleading mastery or significance implication. Return for each item severity (blocking/material/minor/no issue), type, evidence, correction, affected artifact and resolution. Do not treat this authoring-context internal finding list as fresh independent review. Verify that the atomic calculation ID PSY-SRC-4233-IT03 does not credit parent PSY-07-32's separate test-selection capability."
+  },
+  "releaseBoundaries": {
+    "fullEducationalSignoff": false,
+    "externalSubjectExpertSignoff": false,
+    "authenticatedProductionLearnerAcceptance": false,
+    "durableMasteryClaimPermitted": false,
+    "dataMigrationRequired": false,
+    "founderMergeApprovalGiven": false
+  },
+  "sourceContentBlobSha": "321578d98328f10f6062be170a21ba84664c2ca4"
+}

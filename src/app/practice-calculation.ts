@@ -61,7 +61,13 @@ export type CalculationCheck = { status: 'right' | 'wrong' | 'unreadable'; enter
  * Right when the typed number matches an accepted value, allowing for the last decimal place. A bare number is read in
  * the answer's own unit (24.2 for "£m"), and a number with "m", "million" or in full (24,200,000) is read as typed.
  */
-export function checkCalculation(typed: string, accepted: readonly number[], unit: string | null | undefined): CalculationCheck {
+export function checkCalculation(typed: string, accepted: readonly number[], unit: string | null | undefined, exactInteger = false): CalculationCheck {
+  // A discrete statistic must be one complete numeric token, not a prefix of
+  // an expression or prose. The general parser intentionally allows units and
+  // context; do not change its behavior for existing Business calculations.
+  if (exactInteger && !/^[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.0+)?$/.test(typed.trim())) {
+    return { status: 'unreadable', entered: null }
+  }
   const parsed = parseAnswer(typed)
   if (!parsed) return { status: 'unreadable', entered: null }
   const scale = unitScale(unit)
@@ -69,6 +75,9 @@ export function checkCalculation(typed: string, accepted: readonly number[], uni
     ? [(parsed.value * parsed.factor) / scale]
     : [parsed.value, parsed.value / scale]
   const right = accepted.some((expected) => {
+    // Sign-test S and other explicitly discrete statistics cannot be rounded.
+    // Preserve the existing tolerance for all ordinary calculations.
+    if (exactInteger) return Number.isInteger(expected) && candidates.some((candidate) => Number.isInteger(candidate) && candidate === expected)
     const tolerance = 0.5 * 10 ** -decimalPlaces(expected)
     return candidates.some((candidate) => Math.abs(candidate - expected) <= tolerance + 1e-9)
   })

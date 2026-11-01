@@ -1,0 +1,623 @@
+{
+  "schemaVersion": 1,
+  "qualification": {
+    "board": "AQA",
+    "level": "A-level",
+    "code": "7182",
+    "specVersion": "1.4, 1 September 2025",
+    "pdfSha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+    "pageCount": 38,
+    "rights": "REFERENCE_ONLY"
+  },
+  "scope": {
+    "section": "7.2",
+    "printedPages": [
+      35,
+      36,
+      37
+    ],
+    "kind": "SOURCE_DERIVED_PROVISIONAL_SKILL_BREAKDOWN",
+    "mathsAssessmentMinimum": "At least 10% of A-level Psychology assessment marks require mathematical skills; not a per-paper, per-session or content coverage rate.",
+    "textRights": "Paraphrased skill statements only. AQA table examples are illustrative, not blanket calculation requirements for every inferential test.",
+    "interpretation": "32 independently observable checks derived from the annex; a candidate presence match does not prove independent response skill or adequacy.",
+    "section4Crosswalk": "Incomplete; complete §4.2.3 research-methods and all §4 subject obligations separately before course assurance.",
+    "denominatorCoverage": "Annex §7.2 scoped only, not all of Psychology 7182."
+  },
+  "atoms": [
+    {
+      "id": "PSY-MATH-72-01",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "arithmetic"
+      },
+      "skill": "interpret-decimal-standard-form",
+      "capability": "Read and convert representations between decimal and standard form in a Psychology data context.",
+      "independentEvidenceRequired": "interpreted-or-converted-number",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-02",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "arithmetic"
+      },
+      "skill": "apply-ratios",
+      "capability": "Set up and use a ratio for relevant psychological data.",
+      "independentEvidenceRequired": "worked-numeric-or-ratio",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-03",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "arithmetic"
+      },
+      "skill": "apply-fractions",
+      "capability": "Represent and manipulate a fraction for relevant psychological data.",
+      "independentEvidenceRequired": "worked-numeric-or-fraction",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-04",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "arithmetic"
+      },
+      "skill": "apply-percentages",
+      "capability": "Calculate or interpret percentages for psychological observations.",
+      "independentEvidenceRequired": "typed-numeric-or-worked",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-05",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "arithmetic"
+      },
+      "skill": "estimate-results",
+      "capability": "Estimate and justify an appropriate numerical result or data spread.",
+      "independentEvidenceRequired": "independent-estimate-and-reason",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-06",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "significant-figures",
+      "capability": "Round or present a psychology result to an appropriate number of significant figures.",
+      "independentEvidenceRequired": "typed-result-with-precision",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-07",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "arithmetic-mean",
+      "capability": "Calculate an arithmetic mean from original raw scores.",
+      "independentEvidenceRequired": "independent-final-numeric",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-applied-mean-01",
+          "kind": "scored-mcq-recognition"
+        },
+        {
+          "id": "psy-rm-applied-drill-average",
+          "kind": "unscored-drill"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-08",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "construct-frequency-display",
+      "capability": "Construct a valid frequency table or diagram from given psychology data.",
+      "independentEvidenceRequired": "student-constructed-display",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-09",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "interpret-frequency-display",
+      "capability": "Read and interpret a frequency table or diagram.",
+      "independentEvidenceRequired": "independent-interpretation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-10",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "construct-bar-chart",
+      "capability": "Construct a bar chart suitable for a Psychology dataset.",
+      "independentEvidenceRequired": "student-constructed-graph",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-11",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "interpret-bar-chart",
+      "capability": "Interpret a bar chart in a Psychology context.",
+      "independentEvidenceRequired": "independent-graph-interpretation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-12",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "construct-histogram",
+      "capability": "Construct a histogram representing frequency, including unequal bin widths where relevant.",
+      "independentEvidenceRequired": "student-constructed-graph",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-applied-drill-histogram",
+          "kind": "unscored-drill"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-13",
+      "source": {
+        "section": "7.2",
+        "printedPage": 35,
+        "tableGroup": "data"
+      },
+      "skill": "interpret-histogram",
+      "capability": "Interpret histogram axes, class width, frequency and relative density.",
+      "independentEvidenceRequired": "independent-graph-interpretation",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-applied-histogram-01",
+          "kind": "scored-mcq-recognition"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-14",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "simple-probability",
+      "capability": "Explain or calculate simple probability and significance-level quantities in context.",
+      "independentEvidenceRequired": "independent-numeric-and-explanation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-15",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "sampling-principles",
+      "capability": "Apply the principles of sampling to a specific psychological investigation.",
+      "independentEvidenceRequired": "unseen-method-choice-and-reason",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-16",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "central-tendency-concepts",
+      "capability": "Differentiate mean, median and mode and select an appropriate measure for a dataset.",
+      "independentEvidenceRequired": "unseen-measure-selection-and-reason",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-applied-drill-average",
+          "kind": "unscored-drill"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-17",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "calculate-standard-deviation",
+      "capability": "Calculate standard deviation using a stated convention and suitable raw data.",
+      "independentEvidenceRequired": "typed-numeric-with-procedure-check",
+      "publishedCandidateAssets": [
+        {
+          "id": "rev7182-4.2.3-sd-population-01",
+          "kind": "scored-single-number"
+        },
+        {
+          "id": "rev7182-4.2.3-sd-population-02",
+          "kind": "scored-single-number"
+        },
+        {
+          "id": "rev7182-4.2.3-sd-population-03",
+          "kind": "scored-single-number"
+        },
+        {
+          "id": "rev7182-4.2.3-sd-population-04",
+          "kind": "scored-single-number"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-18",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "identify-scatter-correlation",
+      "capability": "Read a scatter diagram to identify whether two variables correlate and in which direction.",
+      "independentEvidenceRequired": "independent-scatter-interpretation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-19",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "use-statistical-test",
+      "capability": "Apply an appropriate statistical test to data; sign-test calculation is an explicitly taught course procedure, unlike example-only calculation of other named tests.",
+      "independentEvidenceRequired": "typed-statistic-and-valid-conditions",
+      "publishedCandidateAssets": [
+        {
+          "id": "rev7182-4.2.3-sign-test-01",
+          "kind": "scored-single-number"
+        },
+        {
+          "id": "rev7182-4.2.3-sign-test-02",
+          "kind": "scored-single-number"
+        },
+        {
+          "id": "psy-rm-applied-sign-test-01",
+          "kind": "scored-mcq-recognition"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-20",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "order-of-magnitude",
+      "capability": "Perform order-of-magnitude or scale estimates using psychological data.",
+      "independentEvidenceRequired": "independent-estimate-or-computation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-21",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "measurement-levels",
+      "capability": "Identify and distinguish nominal, ordinal and interval measurement levels in an unseen study.",
+      "independentEvidenceRequired": "unseen-diagnostic-and-reason",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-22",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "normal-skewed-distributions",
+      "capability": "Interpret key characteristics of normal and skewed data distributions.",
+      "independentEvidenceRequired": "independent-distribution-interpretation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-23",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "select-statistical-test",
+      "capability": "Choose a suitable inferential test from the investigation's design and level of measurement.",
+      "independentEvidenceRequired": "unseen-test-choice-and-justification",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-select-spearman-01",
+          "kind": "scored-mcq-recognition"
+        },
+        {
+          "id": "psy-rm-select-pearson-01",
+          "kind": "scored-mcq-recognition"
+        },
+        {
+          "id": "psy-rm-select-wilcoxon-01",
+          "kind": "scored-mcq-recognition"
+        },
+        {
+          "id": "psy-rm-select-mann-whitney-01",
+          "kind": "scored-mcq-recognition"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-24",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "statistical-table-significance",
+      "capability": "Locate the relevant critical value from a supplied statistical table and apply the proper significance decision rule.",
+      "independentEvidenceRequired": "authentic-table-lookup-and-decision",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-25",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "dispersion-range-sd",
+      "capability": "Distinguish range and standard deviation and explain their usefulness for a given score distribution.",
+      "independentEvidenceRequired": "unseen-comparison-and-reason",
+      "publishedCandidateAssets": [
+        {
+          "id": "psy-rm-applied-drill-average",
+          "kind": "unscored-drill"
+        }
+      ],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-26",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "qualitative-quantitative",
+      "capability": "Distinguish qualitative and quantitative data and how they can be represented or transformed.",
+      "independentEvidenceRequired": "unseen-data-classification-and-explanation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-27",
+      "source": {
+        "section": "7.2",
+        "printedPage": 36,
+        "tableGroup": "data"
+      },
+      "skill": "primary-secondary",
+      "capability": "Distinguish primary and secondary data in psychological research.",
+      "independentEvidenceRequired": "unseen-data-provenance-choice",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-28",
+      "source": {
+        "section": "7.2",
+        "printedPage": 37,
+        "tableGroup": "algebra"
+      },
+      "skill": "maths-symbols",
+      "capability": "Interpret and use mathematical comparison, proportionality and approximate-equality symbols appropriately.",
+      "independentEvidenceRequired": "independent-symbol-application",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-29",
+      "source": {
+        "section": "7.2",
+        "printedPage": 37,
+        "tableGroup": "algebra"
+      },
+      "skill": "substitute-into-equations",
+      "capability": "Substitute valid numerical observations into an algebraic equation with appropriate units.",
+      "independentEvidenceRequired": "worked-substitution",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-30",
+      "source": {
+        "section": "7.2",
+        "printedPage": 37,
+        "tableGroup": "algebra"
+      },
+      "skill": "solve-simple-equations",
+      "capability": "Solve simple algebraic equations arising in psychological investigations.",
+      "independentEvidenceRequired": "worked-equation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-31",
+      "source": {
+        "section": "7.2",
+        "printedPage": 37,
+        "tableGroup": "graphs"
+      },
+      "skill": "translate-representations",
+      "capability": "Translate equivalent information between graphical, numerical and algebraic representations.",
+      "independentEvidenceRequired": "student-transformed-representation",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    },
+    {
+      "id": "PSY-MATH-72-32",
+      "source": {
+        "section": "7.2",
+        "printedPage": 37,
+        "tableGroup": "graphs"
+      },
+      "skill": "plot-two-variables",
+      "capability": "Plot data for two variables, including a suitable scatter representation of a correlational investigation.",
+      "independentEvidenceRequired": "student-constructed-plot",
+      "publishedCandidateAssets": [],
+      "teachingAdequacy": "unverified",
+      "practiceAdequacy": "unverified",
+      "examPrepAdequacy": "unverified",
+      "sourceToLiveAccepted": false
+    }
+  ],
+  "acceptance": {
+    "allMathsSkillsTaughtAdequately": false,
+    "allMathsSkillsPractisedAdequately": false,
+    "fullAlevelSpecCoverage": false,
+    "independentEducationalReviewComplete": false,
+    "authenticatedLearnerAcceptanceComplete": false
+  }
+}

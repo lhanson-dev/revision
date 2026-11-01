@@ -34,7 +34,7 @@ import { resolveSubjectIdentity } from './subject-palette'
 import { lastFlashcardRatings } from './practice-flashcards'
 import { lastAnsweredByContent } from './practice-questions'
 import { topicLearningStatus, topicProgressFor, understandingCounts } from './topic-status'
-import { Button, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge } from './ui'
+import { Button, Icon, LoadingState, ProgressMeasures, RevSuggestionCard, Status, StatusBadge } from './ui'
 
 type CourseExperienceScreenProps = {
   /** Authenticated learner exam-draft persistence; Supabase enforces owner RLS. */
@@ -189,10 +189,10 @@ function CourseSectionSpotlights({ sections, savedWork, savedStatus, reviewedCou
   onRetry: () => void
 }) {
   const modes = [
-    { id: 'learn', name: 'Learn', description: 'Understand concepts and examples.' },
-    { id: 'practice', name: 'Practice', description: 'Test recall, application and calculations.' },
-    { id: 'exam-prep', name: 'Exam Prep', description: 'Prepare for papers and exam-style questions.' },
-    { id: 'progress', name: 'Progress', description: 'Review what your evidence shows.' },
+    { id: 'learn', name: 'Learn', icon: 'book', description: 'Work through topics with clear explanations and examples.' },
+    { id: 'practice', name: 'Practice', icon: 'pencil', description: 'Use flashcards and questions to check what you know.' },
+    { id: 'exam-prep', name: 'Exam Prep', icon: 'paper', description: 'Get familiar with paper formats and exam-style questions.' },
+    { id: 'progress', name: 'Progress', icon: 'progress', description: "See what you’ve covered and where to focus next." },
   ] as const
   return <section className="course-overview-spotlights" aria-labelledby="course-overview-spotlights-heading">
     <div className="course-overview-spotlights__heading">
@@ -204,9 +204,12 @@ function CourseSectionSpotlights({ sections, savedWork, savedStatus, reviewedCou
         const saved = mode.id === 'practice' ? savedWork.find(item => item.kind === 'practice')
           : mode.id === 'exam-prep' ? savedWork.find(item => item.kind === 'exam') : undefined
         return <article className={saved ? 'course-overview-spotlight course-overview-spotlight--saved' : 'course-overview-spotlight'} key={mode.id}>
-          <div>
-            <h3>{mode.name}</h3>
-            {saved ? <p className="course-overview-spotlight__state">In progress</p> : null}
+          <div className="course-overview-spotlight__body">
+            <div className="course-overview-spotlight__topline">
+              <span className="course-overview-spotlight__icon"><Icon name={mode.icon} size="large" /></span>
+              <h3>{mode.name}</h3>
+            </div>
+            {saved ? <p className="course-overview-spotlight__state"><Icon name="clock" size="inline" /> In progress</p> : null}
             <p>{saved ? `${saved.title} · ${saved.detail}` :
               mode.id === 'learn' && reviewedCount > 0 ? `${reviewedCount} ${reviewedCount === 1 ? 'page' : 'pages'} reviewed` : mode.description}</p>
           </div>
@@ -424,10 +427,6 @@ export function CourseExperienceScreen({
             reviewedCount={reviewedPages.filter(item => item.courseId === course.id && course.modules.some(module => module.manifest.id === item.moduleId)).length}
             onOpenSection={next => onOpenCourseSection(course.id, next)} onOpenSavedWork={onOpenSavedWork}
             onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
-          <div className="course-overview-ask">
-            <p>Need help deciding what to do next? Ask REV about this course.</p>
-            <Button variant="secondary" onClick={() => onOpenRev()}>Ask REV about this course</Button>
-          </div>
         </div>}
 
         {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}

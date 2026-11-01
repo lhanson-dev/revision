@@ -361,13 +361,13 @@ The preferred large-screen hierarchy is:
 
 `REV recommendation + reason + direct action | concise progress measures`
 
-with contextual Ask REV beneath.
+with persistent global Ask REV access; a separate bottom-of-page Ask REV panel is not required when the shared conversation action is already available.
 
 Constrained screens stack:
 
-`REV recommendation → concise progress measures → Ask REV`.
+`REV recommendation → concise progress measures → activity exploration`, with global Ask REV available from the learner shell.
 
-Detailed topic evidence belongs in Progress. A permanent separate Weak spots panel or generic destination-card grid must not merely duplicate REV, Progress or navigation.
+Detailed topic evidence belongs in Progress. A permanent separate Weak spots panel or generic destination-card grid must not merely duplicate REV, Progress or navigation. When a small course section spotlight set is useful, make the four distinct activity purposes inviting with shared product icons, deliberate typography, restrained brand-accent icon surfaces and concise explanatory copy; do not create four competing priority prompts or per-activity colour schemes.
 
 **Proposed continuation/section spotlight refinement — Issue #727 (Founder Ready and merge approval pending):** Course Overview may present one restrained, clearly subordinate set of Learn, Practice, Exam Prep and Progress section spotlights when each describes a distinct section purpose or genuinely useful, verified continuation context. It is not a second course dashboard, a duplicate of the shared course navigation, or four competing recommendation CTAs. A section with saved work may lead with the verified state and a precise, truthful recovery entry action (Continue only where directly supported); otherwise use neutral Open/Explore language. Learn's last reviewed page is not a saved unfinished session; Progress is a reporting view, never "in progress". Saved progress may never be invented from navigation history, planned tasks or mere page views. This refinement takes effect only after the governed Founder-approved implementation is merged.
 

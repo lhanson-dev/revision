@@ -3,6 +3,7 @@ import review from './data/aqa-psychology-7182-source-first-review.json'
 import paper1 from '../../content/psychology/aqa-a-level/paper-1'
 import paper2 from '../../content/psychology/aqa-a-level/paper-2'
 import paper3 from '../../content/psychology/aqa-a-level/paper-3'
+import { bankQuestionId } from '../../src/app/practice-questions'
 
 const packs = [paper1, paper2, paper3]
 
@@ -32,7 +33,7 @@ describe('Issue #698 — source-first AQA Psychology 7182 v1.4 review baseline',
     expect(new Set(atoms.map(x=>x.id)).size).toBe(17)
     expect(new Set(atoms.map(x=>x.learner_requirement_candidate_id))).toEqual(new Set(['PSY-07-32','PSY-07-33','PSY-07-34']))
     const actualPages=new Set(paper2.learn!.chapters.flatMap(ch=>ch.groups.flatMap(g=>g.pages)).map(p=>p.id))
-    const publishedQuestions=new Set(paper2.questions.map(x=>x.id))
+    const publishedQuestions=new Set([...paper2.questions.map(x=>x.id), ...(paper2.practiceBank ?? []).map(bankQuestionId)])
     for(const atom of atoms){
       expect(actualPages.has(atom.candidate_learn_page_id),atom.id).toBe(true)
       for(const id of atom.candidate_practice_question_ids) expect(publishedQuestions.has(id),atom.id+':'+id).toBe(true)
@@ -58,10 +59,16 @@ describe('Issue #698 — source-first AQA Psychology 7182 v1.4 review baseline',
     expect(probability?.candidate_practice_question_ids).toEqual([])
     const sign = review.inferential_review.atoms.find(x=>x.id==='PSY-SRC-4233-IT03')
     expect(sign?.required_independent_evidence_mode).toBe('typed-numeric-original')
-    expect(sign?.candidate_practice_question_ids).toEqual(['psy-rm-applied-sign-test-01'])
+    expect(sign?.candidate_practice_question_ids).toEqual([
+      'psy-rm-applied-sign-test-01', 'rev7182-4.2.3-sign-test-01', 'rev7182-4.2.3-sign-test-02',
+    ])
+    for (const question of (paper2.practiceBank ?? []).filter(q=>q.id.startsWith('sign-test-'))) {
+      expect(question.target_item_ids).toEqual(['PSY-SRC-4233-IT03'])
+      expect(question.target_node_ids).toEqual(['research-methods-psy0732'])
+    }
     // This original topic MCQ checks recognition of a statistical result; it
-    // is not proof that written method or fresh independently scored
-    // calculations have been completed by a real learner.
+    // is not proof that written method or the new independent calculations
+    // have actually been completed by an authenticated learner.
     expect(paper2.questions.find(x=>x.id==='psy-rm-applied-sign-test-01')).toBeDefined()
   })
 })

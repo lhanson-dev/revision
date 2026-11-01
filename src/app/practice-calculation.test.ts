@@ -59,6 +59,30 @@ describe('checking a calculation', () => {
     expect(check('2.675', 2.67, 'years')).toBe('right')
     expect(check('2.8', 2.67, 'years')).toBe('wrong')
   })
+  it('requires exact integer input for opt-in discrete statistics without changing other calculations', () => {
+    const values = acceptedValuesFor(2, null, ['2'])
+    for (const answer of ['2', '2.0', ' 2 ']) expect(checkCalculation(answer, values, null, true).status).toBe('right')
+    for (const answer of ['1.5', '1.6', '2.4', '2.5']) expect(checkCalculation(answer, values, null, true).status).toBe('unreadable')
+    for (const answer of ['-2', '3']) expect(checkCalculation(answer, values, null, true).status).toBe('wrong')
+    expect(checkCalculation('1.6', values, null).status).toBe('right') // historical rounded-number behavior remains available
+  })
+  it('rejects trailing expressions and prose in exact-integer mode without changing ordinary calculations', () => {
+    const accepted = acceptedValuesFor(2, null, ['2'])
+    for (const valid of ['2', '+2', '2.0', '2.00', ' 2 ']) {
+      expect(checkCalculation(valid, accepted, null, true).status, valid).toBe('right')
+    }
+    for (const invalid of ['2+1', '2-1', '2 * 1', '2 apples', 'about 2', '2%', '2e0', '2,0', '2.0+1', '2.1', '+ 2']) {
+      expect(checkCalculation(invalid, accepted, null, true).status, invalid).toBe('unreadable')
+    }
+    expect(checkCalculation('2 apples', accepted, null).status).toBe('right') // existing permissive generic parser unaffected
+    expect(checkCalculation('2+1', accepted, null).status).toBe('right') // non-discrete legacy mode unchanged
+  })
+  it('accepts only a complete negative integer when an exact numeric source requires one', () => {
+    const accepted = acceptedValuesFor(-2, null, ['-2'])
+    expect(checkCalculation('-2', accepted, null, true).status).toBe('right')
+    expect(checkCalculation('-2.00', accepted, null, true).status).toBe('right')
+    expect(checkCalculation('-2-1', accepted, null, true).status).toBe('unreadable')
+  })
   it('accepts the rounded answers the mark scheme itself accepts', () => {
     expect(check('2.7', 2.67, 'years', ['2.67 years', '2 years 8 months', '2.7 years if rounded to one decimal place.'])).toBe('right')
     expect(check('37', 36.5, 'days', ['36.5 days', '36.50 days', 'approximately 37 days if rounded to a whole day'])).toBe('right')
