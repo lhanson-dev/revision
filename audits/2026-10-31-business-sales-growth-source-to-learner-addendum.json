@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "programme_issue": 698,
+  "related_issues": [
+    703,
+    704,
+    705
+  ],
+  "observation_date": "2026-10-31",
+  "course": "AQA A-level Business 7132",
+  "source": {
+    "publication": "AQA Business v2.0 (14 June 2023)",
+    "founder_pdf_sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+    "pdf_pages": 42,
+    "printed_page": 15,
+    "section": "3.3.2",
+    "cross_reference_section": "3.3.1",
+    "rights": "REFERENCE_ONLY",
+    "verified_against_founder_supplied_pdf": true
+  },
+  "source_atom_id": "BUS7132-ATOM-3.3.2-006",
+  "observable_skill": "calculate sales growth of an individual business",
+  "skill_item_id": "aqa-7132-3.3.2:sales-growth",
+  "skill_mapping_kind": "new source-reviewed extension, not historically approved 344-item identifier and not independent educational sign-off",
+  "historical_344_map_changed": false,
+  "learn": {
+    "page_id": "bus-mkt-002",
+    "status": "published, source-aligned worked firm vs market growth comparison; adequacy not independently signed off"
+  },
+  "practice": {
+    "status": "new original source-mapped, deterministically scored final-number opportunities — pending merge and live acceptance",
+    "question_ids": [
+      "rev7132-3.3.2-firm-sales-growth-increase-01",
+      "rev7132-3.3.2-firm-sales-growth-decline-02"
+    ],
+    "assessed_scope": "AO2 calculate own sales value percentage change using previous period base; one final number; correct negative sign",
+    "explicitly_not_assessed": [
+      "written working",
+      "formula knowledge independently",
+      "business analysis",
+      "AO3/AO4 evaluation",
+      "exam-style method marks",
+      "durable mastery"
+    ],
+    "different_contexts_and_answers": true
+  },
+  "feedback_repair_recheck": {
+    "shared_infrastructure": "existing #743/#704/#705 exact single-target calculation evidence and distinct-source Plan recheck",
+    "expected_repair_page": "bus-mkt-002",
+    "automated_unit_and_plan_candidate_tests": "candidate tests added; CI and authenticated learner acceptance pending",
+    "student_authenticated_saved_progress": "unverified",
+    "full_live_learner_retest": "unverified"
+  },
+  "exam_prep_and_full_mocks": "unverified for this exact sales-growth ability",
+  "independent_subject_expert_approval": "outstanding",
+  "overall_status": "Unverified",
+  "status_justification": "Proposed source-aligned Learn/Practice evidence is not live and independent expert and real learner acceptance are not complete.",
+  "documentation_impact": "source extension and distinct authored test/bank, dated audit addendum, INDEX and technical assurance update in same governed PR; no normative change and no historical rewrite"
+}

@@ -271,7 +271,10 @@ test('practice question keyboard saves once, retains feedback and summarises mis
     await page.keyboard.press('Enter')
     if (index === 0) {
       await expect(activity).toContainText('Could not save')
-      await expect(activity.locator('[aria-pressed="true"]')).toBeEnabled()
+      await expect(activity).toContainText('Retry the same choice')
+      await expect(activity.locator('[aria-pressed="true"]')).toBeDisabled()
+      await page.keyboard.press('b')
+      await expect(activity.locator('[data-quick-action="option"]').first()).toHaveAttribute('aria-pressed', 'true')
       await page.keyboard.press('Enter')
     }
     const next = activity.getByRole('button', { name: index === count - 1 ? 'See how it went' : 'Next question' })
@@ -288,6 +291,7 @@ test('practice question keyboard saves once, retains feedback and summarises mis
   expect(posted).toHaveLength(count + 1)
   expect(posted[0].evidence_id).toBeTruthy()
   expect(posted[0].evidence_id).toBe(posted[1].evidence_id)
+  expect(posted[0].payload).toEqual(posted[1].payload) // An uncertain retry must never change the recorded answer.
   await expect(activity.getByRole('heading', { name: `${count - missed.length} of ${count} right` })).toBeFocused()
   for (const term of missed) await expect(activity.locator('.home-quick-check__summary strong').filter({ hasText: term })).toBeVisible()
   await expect(activity.getByRole('button', { name: 'Back to today’s plan' })).toBeVisible()

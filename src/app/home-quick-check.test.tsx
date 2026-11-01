@@ -16,9 +16,9 @@ const task = {
   source: 'rules', estimatedMinutes: 2,
 } as HomeTask
 
-function render(selected: number | null, checked = false, saving = false, completionPending = false) {
+function render(selected: number | null, checked = false, saving = false, completionPending = false, retryOption: number | null = null) {
   return renderToStaticMarkup(createElement(HomeQuickCheck, {
-    task, questions: [question], index: 0, actualMinutes: 2, selected, checked, saving,
+    task, questions: [question], index: 0, actualMinutes: 2, selected, retryOption, checked, saving,
     error: '', results: checked ? [selected === 1] : [], backLabel: 'Plan', finishedBooking: null,
     completionPending, onRetryCompletion() {},
     onSelect() {}, onCheck() {}, onNext() {}, onBack() {}, onFinish() {},
@@ -59,6 +59,13 @@ describe('Home/Plan quick check presentation', () => {
     const html = render(1, true, false, true)
     expect(html).toContain('Retry confirming session')
     expect(html).not.toContain('See how it went')
+  })
+
+  it('keeps a failed MCQ save on its originally selected choice', () => {
+    const html = render(1, false, false, false, 1)
+    expect(html).toContain('Retry the same choice to protect your progress')
+    expect(html).toContain('Check “True experiment”')
+    expect(html.match(/data-quick-action="option"[^>]*disabled=""/g)).toHaveLength(2)
   })
 
   it('labels a correct answer without a wrong-answer state', () => {

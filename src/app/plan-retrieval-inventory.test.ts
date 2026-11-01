@@ -46,6 +46,20 @@ describe('P0 returning learner: distinct supported retrieval opportunities', () 
     expect(supportedActivityMinutes(task)).toBe(retrieval.estimatedMinutes)
   })
 
+  it('counts only cards that still exist when a saved Plan contains stale retrieval identities', () => {
+    const states = programme.map((entry) => createCourseLearningState(entry.course, []))
+    const candidate = preparationCandidatesFromLearningState(states, assessments, [], now)
+      .find((item) => item.activityType === 'flashcards' && !!item.retrievalContentIds?.length)
+    expect(candidate).toBeDefined()
+    if (!candidate?.retrievalContentIds?.length) return
+    const task = tasksFromPlanner(buildAdaptivePlan([candidate], [
+      { date: '2026-10-29', availableMinutes: 45 },
+    ]).today, states, programme)[0]!
+    const actual = { ...task, retrievalContentIds: [candidate.retrievalContentIds[0], 'removed-authored-card'] }
+    expect(authoredFlashcardsForTask(actual)).toHaveLength(1)
+    expect(supportedActivityMinutes(actual)).toBe(2)
+  })
+
   it('after a real authored card has been attempted, a new Plan selects remaining cards rather than repeating it', () => {
     const original = programme.map((entry) => createCourseLearningState(entry.course, []))
     const first = preparationCandidatesFromLearningState(original, assessments, [], now)
