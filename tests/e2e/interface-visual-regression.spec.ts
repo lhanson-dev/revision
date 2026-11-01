@@ -637,6 +637,18 @@ for (const [project, theme] of courseOverviewVisualReview) {
       await expect(spotlights.getByRole('heading', { name: title })).toHaveCount(1)
     }
     await expect(spotlights.locator('.course-overview-spotlight__icon svg')).toHaveCount(4)
+    // Every destination is one native action, not a separate Open button
+    // below the icon, title and description.
+    await expect(spotlights.getByRole('button')).toHaveCount(4)
+    for (const name of ['Learn', 'Practice', 'Exam Prep', 'Progress']) {
+      await expect(spotlights.getByRole('button', { name: `Open ${name}` })).toHaveCount(1)
+    }
+    await expect(spotlights.locator('.course-overview-spotlight__continue')).toHaveCount(0)
+    if (project === 'desktop') {
+      const heights = await spotlights.evaluateAll(elements =>
+        elements.map(element => Math.round(element.getBoundingClientRect().height)))
+      expect(Math.max(...heights)).toBeLessThan(160)
+    }
     await expect(page.locator('.course-overview-ask')).toHaveCount(0)
     const screenshot = await page.screenshot({
       animations: 'disabled',
