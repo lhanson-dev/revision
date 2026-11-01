@@ -85,6 +85,31 @@ test('sign in keeps the primary path clear and uses the canonical Revision ident
   await expectNoPageOverflow(page)
 })
 
+test('Google sign-in and signup request account selection on a shared browser', async ({ page }) => {
+  await stubAuthSettings(page, true)
+  await page.goto(appPath)
+
+  const checkGoogleRequest = async () => {
+    const authorizeRequest = page.waitForRequest((request) => request.url().includes('/auth/v1/authorize') && request.url().includes('provider=google'))
+    await page.getByRole('button', { name: 'Continue with Google' }).click()
+    const request = await authorizeRequest
+    const url = new URL(request.url())
+    expect(url.searchParams.get('provider')).toBe('google')
+    expect(url.searchParams.get('prompt')).toBe('select_account')
+    expect(url.searchParams.get('redirect_to')).toContain(appPath)
+  }
+
+  await page.route('**/auth/v1/authorize**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>OAuth handoff intercepted</title>' })
+  })
+  await checkGoogleRequest()
+
+  await page.goto(appPath)
+  await page.getByRole('button', { name: 'Create account' }).click()
+  await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
+  await checkGoogleRequest()
+})
+
 test('ordinary email signup does not require a code and sends no private proof', async ({ page }) => {
   await stubAuthSettings(page, true)
   await page.goto(appPath)
