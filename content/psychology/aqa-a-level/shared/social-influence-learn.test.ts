@@ -69,6 +69,29 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
     }
   })
 
+
+  it('retains the independently checked study evidence and avoids conflating conditions or percentages with persons',()=>{
+    for(const pack of packs) {
+      const conformity=textForPage(pack,'PSY-01-01')
+      for(const phrase of ['12 critical trials','18-trial','36.8%','fewer than 1%','3.6%','13.6%','31.8%','percentage of judgements','synchronic']) {
+        if(phrase==='synchronic')continue
+        expect(conformity,phrase).toContain(phrase)
+      }
+      const obedience=textForPage(pack,'PSY-01-02')
+      for(const phrase of ['450 volts','65%','62.5%','40%','30%','47.5%','20%','acquiescence bias','harsh, punitive parenting','displaced','everyday clothes','separate']) {
+        expect(obedience,phrase).toContain(phrase)
+      }
+      const resistance=textForPage(pack,'PSY-01-03')
+      for(const phrase of ['Asch','Milgram','10%','Rotter','correlational','social support']) {
+        expect(resistance,phrase).toContain(phrase)
+      }
+      const minority=textForPage(pack,'PSY-01-04')
+      for(const phrase of ['diachronic','synchronic','augmentation principle','Moscovici','8.42%','1.25%','0.25%','public judgements','rigidity']) {
+        expect(minority,phrase).toContain(phrase)
+      }
+    }
+  })
+
   it('never conflates authored teaching supply with assessed capability or learner success',()=>{
     expect(audit.currentSourceToLiveState.independentA2Review).toBe('not-run')
     expect(audit.rows.every(x=>x.teachingAdequacy==='unverified'&&x.practiceAdequacy==='unverified'&&!x.signedInLearnerAccepted)).toBe(true)
