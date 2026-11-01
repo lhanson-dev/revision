@@ -36,23 +36,29 @@ const availability: RevisionAvailabilityProfile = {
 }
 
 describe('REC-06 / Issue #694: published-content preparation diagnostic', () => {
-  it('tracks unserved and sparse future weeks without manufacturing appointments', () => {
+  it('tracks source-backed learning supply and unserved weeks without manufacturing appointments', () => {
     const { programme, candidates } = buildLearnerPreparationProgramme(
       states, exams, availability, [], [], now, [])
     const objectives = programme.weeks.flatMap((week) => week.objectives)
     const candidateIds = objectives.map((item) => item.candidateId)
-    const emptyCapacityWeeks = programme.weeks.filter(
-      (week) => week.availableMinutes !== null && week.availableMinutes > 0
-        && week.objectives.length === 0 && week.visibleUntil < programme.finalKnownAssessment!)
+    const publishedCandidateById = new Map(candidates.map((item) => [item.id, item]))
+    const learning = objectives.filter((item) => item.activityType === 'learn')
     expect(programme.finalKnownAssessment).toBe('2027-06-14')
     expect(programme.weeks.length).toBeGreaterThan(25)
     expect(candidates.length).toBeGreaterThan(0)
     expect(objectives.length).toBeGreaterThan(0)
     expect(new Set(candidateIds).size).toBe(candidateIds.length)
     expect(objectives.every((objective) => objective.assessmentDate > (objective.forecastDate ?? programme.today))).toBe(true)
-    // Diagnostic of the currently finite opportunity model, not an acceptance
-    // rule saying an empty week is pedagogically good or that a repeat is owed.
-    expect(emptyCapacityWeeks.length).toBeGreaterThan(0)
+    // Formerly sparse weeks can now contain distinct, genuinely published
+    // pages. Do not require empty weeks merely to preserve the old screenshot:
+    // ensure each allocated Learn objective resolves to its actual source page.
+    expect(learning.length).toBeGreaterThan(0)
+    expect(learning.every((objective) => {
+      const candidate = publishedCandidateById.get(objective.candidateId)
+      const pageId = candidate?.learnTarget?.learnPageId
+      const source = courses.find((course) => course.id === objective.courseId)
+      return !!pageId && source?.learningAdapter.getLearnPage(pageId)?.topicId === objective.topicId
+    })).toBe(true)
     expect(programme.allocatedMinutes + programme.unserved.reduce(
       (total, item) => total + item.estimatedMinutes, 0)).toBe(programme.requiredMinutes)
   })
