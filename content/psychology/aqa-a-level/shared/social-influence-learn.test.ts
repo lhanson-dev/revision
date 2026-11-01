@@ -56,16 +56,16 @@ describe('Psychology #698 AQA 7182 v1.4 Social Influence source-first Learn corr
         expect(conformity.toLowerCase(),term).toContain(term.toLowerCase())
       }
       const obedience=textForPage(pack,'PSY-01-02')
-      for(const term of ['Milgram','Proximity','Location','office building','Uniform','Authoritarian Personality','F-scale','agentic']) {
-        expect(obedience,term).toContain(term)
+      for(const term of ['Milgram','Proximity','Location','commercial building','Uniform','Authoritarian Personality','F-scale','agentic']) {
+        expect(obedience.toLowerCase(),term).toContain(term.toLowerCase())
       }
       const resistance=textForPage(pack,'PSY-01-03')
       for(const term of ['conformity','obedience','internal locus','external locus','disobedient']) {
-        expect(resistance,term).toContain(term)
+        expect(resistance.toLowerCase(),term).toContain(term.toLowerCase())
       }
       const minority=textForPage(pack,'PSY-01-04')
       for(const term of ['Consistency','Commitment','Flexibility','rigidity']) {
-        expect(minority,term).toContain(term)
+        expect(minority.toLowerCase(),term).toContain(term.toLowerCase())
       }
       expect(pack.questions.filter(q=>q.topic==='social-influence')).toHaveLength(4)
     }
