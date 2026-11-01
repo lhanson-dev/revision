@@ -236,7 +236,7 @@ test('real Business learner retains two distinct wrong Marketing skills and sees
     await page.reload()
     await expect(page.locator('.pln-row[data-kind="suggested"]').filter({ hasText: 'Marketing' }).first()).toBeVisible()
     await page.goto(`${app}#/progress`)
-    await expect(page.getByRole('heading', { name: /Progress/ })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress', exact: true })).toBeVisible()
     const persisted = await loadLearningEvidence(store, userId, moduleId, 'marketing')
     expect(persisted).toEqual(expect.arrayContaining(facts))
   } finally {
