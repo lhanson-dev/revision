@@ -1,6 +1,6 @@
 # LF-02 — Completed mock retakes
 
-**Status:** PR candidate; awaiting exact-head CI, authenticated backend/browser verification and Founder merge approval.
+**Status:** PR candidate; integrated CI 9/9 at previous head, additional Psychology browser regression awaiting exact-head checks and Founder merge approval.
 **Canonical route:** `/revision/app/` → course → Exam Prep → `ExamPrepSection` → `ExamSimulator`.
 
 ## Source-confirmed defect
@@ -19,6 +19,8 @@ This is a code-traced cause, **not a reproduction from the reporting learner acc
 
 ## Evidence and assurance
 
-Automated candidate regression added to `tests/e2e/exam-prep-page.spec.ts` for historical scored-zero evidence and fresh start in the canonical app. Existing recovery/retry tests cover draft recovery, CAS protection, frozen submission retries and owner-scoped evidence identity. Exact-head CI and realistic authenticated database/browser checks remain outstanding until separately verified. The present change has no SQL migration or new product authority.
+Business canonical-app regressions in `tests/e2e/exam-prep-page.spec.ts` exercise both historical scored-zero evidence and 0-to-positive fresh attempts. The Psychology canonical-app browser regression in `tests/e2e/psychology-restricted-pilot-route.spec.ts` exercises a genuine submitted zero-mark Psychology Paper 1, saved-result review, direct clean retake, retained scored evidence and interrupted-draft recovery using synthetic signed-in browser API fixtures. Existing recovery/retry tests cover draft recovery, CAS protection, frozen submission retries and owner-scoped evidence identity.
+
+**Verification boundary:** The fully integrated head `7abaae799bbcdbc4670d163726eaed40320006b3` completed Revision CI 9/9 on 1 November 2026, including isolated authenticated database/RLS and responsive browser suites. The added Psychology-specific test changes the PR head; it **must pass new exact-head CI** before merge readiness. Synthetic browser authentication is not a real learner account; live learner acceptance remains outstanding after deployment. No SQL migration or new product authority is required.
 
 **Documentation impact:** Existing approved Exam Session Recovery and Course Content and Assessment Component Placement authorities already cover this correction. Technical implementation, defect register, INDEX and #765/#703 status require linked tracking; no historical audit rewrite.
