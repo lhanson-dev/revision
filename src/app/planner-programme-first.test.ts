@@ -177,6 +177,49 @@ describe('FI-001: published Business 7132 and Psychology 7182 programme pathway'
     expect(snapshot?.today.every((item) => eligibleGoals.has(item.candidateId))).toBe(true)
     expect(snapshot?.today.every((item) => item.assessmentTargets?.some((target) => target.assessmentDate > '2026-10-15'))).toBe(true)
   })
+  it('offers each distinct unread published Learn page for a genuinely unseen Business topic, then an independent check', () => {
+    const state = createCourseLearningState(business, [])
+    const exam = paper(business, 1, '2027-05-18')
+    const scoped = new Set(scopeTopicIds(exam, state))
+    const multiPage = business.learningAdapter.listLearnChapters()
+      .find((chapter) => scoped.has(chapter.topicId)
+        && chapter.groups.flatMap((group) => group.pages)
+          .filter((page) => page.topicId === chapter.topicId).length > 1)
+    expect(multiPage, 'AQA Business has a real multi-page scoped topic').toBeDefined()
+    if (!multiPage) return
+    const pages = multiPage.groups.flatMap((group) => group.pages)
+      .filter((page) => page.topicId === multiPage.topicId)
+    const initial = preparationCandidatesFromLearningState([state], [exam], [], now)
+    const lessons = initial.filter((item) => item.topicId === multiPage.topicId
+      && item.activityType === 'learn' && !item.skillFocus)
+    expect(lessons.map((item) => item.learnTarget?.learnPageId)).toEqual(pages.map((page) => page.id))
+    expect(new Set(lessons.map((item) => item.id)).size).toBe(pages.length)
+    expect(lessons[0]?.preparationPrerequisiteId).toBeUndefined()
+    for (let i = 1; i < lessons.length; i++) {
+      expect(lessons[i]?.preparationPrerequisiteId).toBe(lessons[i - 1]?.id)
+    }
+    const check = initial.find((item) => item.topicId === multiPage.topicId
+      && item.activityType === 'quick-check' && !item.skillFocus)
+    expect(check?.preparationPrerequisiteId).toBe(lessons[0]?.id) // Test soon, while other unread teaching remains available
+
+    const review = (pageId: string) => ({
+      userId: 'fixture', courseId: business.id, moduleId: business.learningAdapter.manifest.id,
+      topicId: multiPage.topicId, pageId, reviewedAt: '2026-10-15T10:00:00Z',
+    })
+    const afterOne = createCourseLearningState(business, [], [review(pages[0]!.id)])
+    const remaining = preparationCandidatesFromLearningState([afterOne], [exam], [], now)
+      .filter((item) => item.topicId === multiPage.topicId
+        && item.activityType === 'learn' && !item.skillFocus)
+    expect(remaining.map((item) => item.learnTarget?.learnPageId)).toEqual(pages.slice(1).map((page) => page.id))
+    expect(afterOne.topicKnowledge?.topics.find((item) => item.topicId === multiPage.topicId)?.score).toBeNull()
+    const allRead = createCourseLearningState(business, [], pages.map((page) => review(page.id)))
+    const afterAll = preparationCandidatesFromLearningState([allRead], [exam], [], now)
+    expect(afterAll.some((item) => item.topicId === multiPage.topicId
+      && item.activityType === 'learn' && !item.skillFocus)).toBe(false)
+    expect(afterAll.some((item) => item.topicId === multiPage.topicId
+      && item.activityType === 'quick-check')).toBe(true)
+  })
+
   it('pairs published Learn material with a later scored-check opportunity without treating exposure as mastery', () => {
     const states = [createCourseLearningState(business, [])]
     const assessments = [paper(business, 1, '2027-05-18')]
