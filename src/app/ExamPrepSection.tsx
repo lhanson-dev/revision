@@ -29,7 +29,7 @@ type ExamPrepSectionProps = {
  */
 export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
-  const [active, setActive] = useState<{ id: string; mode: ExamMockMode; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
+  const [active, setActive] = useState<{ id: string; mode: ExamMockMode; retakeCompleted?: boolean; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
   const [savedExams, setSavedExams] = useState<Array<{ id: string; phase: string }>>([])
   const [savedExamCheck, setSavedExamCheck] = useState<'checking' | 'ready' | 'unavailable'>(
     checkpointContext ? 'checking' : 'ready',
@@ -50,13 +50,15 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     ;(previous.label === 'Start it' ? revAction : action)?.focus()
   }, [active])
 
-  function startMock(id: string, mode: ExamMockMode) {
+  function startMock(id: string, mode: ExamMockMode, review = false) {
     const label = document.activeElement instanceof HTMLElement ? document.activeElement.textContent?.trim() ?? '' : ''
     launchControl.current = { id, mode, label }
     // Freeze eligibility when a mock begins. A delayed Auth verification must
     // never silently upgrade an already-running transient mock to persisted
     // work (or switch a durable attempt off during the same session).
-    setActive({ id, mode, durableContext: mode === 'timed' ? checkpointContext : undefined })
+    const completed = savedExams.find((item) => item.id === id)?.phase === 'submitted'
+    setActive({ id, mode, retakeCompleted: mode === 'timed' && completed && !review,
+      durableContext: mode === 'timed' ? checkpointContext : undefined })
   }
   const identity = resolveSubjectIdentity(subjectId, subjectName)
   const guide = examPapersFor(course.examBoardName, course.specificationCode)
@@ -116,6 +118,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
           onRecordEvidence={onRecordEvidence}
           checkpointContext={active.durableContext}
           autoStart={active.mode}
+          retakeCompleted={active.retakeCompleted}
           onExit={() => setActive(null)}
         />
       </section>
@@ -141,6 +144,10 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
         })}
       </section>}
       <ExamPrepPage
+        completedMockIds={state.evidence.filter((item) => item.source === 'exam_attempt' &&
+          typeof item.marksAwarded === 'number').map((item) => item.contentId)}
+        savedMockPhases={Object.fromEntries(savedExams.map((item) => [item.id, item.phase]))}
+        onReviewSavedMock={(id) => startMock(id, 'timed', true)}
         courseName={subjectName}
         boardName={`${course.examBoardName} ${course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}`.trim()}
         accentStyle={accentStyle(identity.hue)}
