@@ -140,6 +140,9 @@ test('scored Practice restores the exact next question after a refresh without a
   await expect(page.getByRole('heading', { name: 'Explore this course' })).toBeVisible()
   const spotlight = page.locator('.course-overview-spotlight--saved').filter({ hasText: 'Practice' })
   await expect(spotlight.getByText('In progress')).toBeVisible()
+  await expect(spotlight.locator('.course-overview-spotlight__continue')).toHaveText('Open saved Practice')
+  // The full editorial tile retains exactly one actual recovery action.
+  await expect(spotlight.getByRole('button', { name: 'Open saved Practice' })).toHaveCount(1)
   await testInfo.attach('saved-practice-overview-' + testInfo.project.name + '.png', {
     body: await page.screenshot({ fullPage: true, animations: 'disabled', caret: 'hide' }),
     contentType: 'image/png',

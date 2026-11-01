@@ -24,6 +24,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Course Overview activity tiles and duplicate Ask REV removal, visual-only approval → `docs/technical/Course Overview Exploration Visual Refresh.md`; `audits/2026-11-01-pr754-course-overview-visual-approval.md`
+- Issue #760 compact editorial Course Overview redesign, Founder-approved scope and guarded visual assurance → `docs/technical/Course Overview Compact Editorial Tiles.md`; `audits/2026-11-01-pr762-compact-course-overview-visual-approval.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - PR #623 Home visual approval / baseline provenance (not merge authority) → `audits/2026-10-13-home-622-visual-approval.md`
 - PR #637 FI-001 Home Practice-question visual approval (four baselines only; not merge authority) → `audits/2026-10-18-fi001-home-practice-visual-approval.md`
