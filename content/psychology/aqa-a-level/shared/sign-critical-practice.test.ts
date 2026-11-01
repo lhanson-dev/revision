@@ -4,6 +4,8 @@ import paper2 from '../paper-2'
 import paper3 from '../paper-3'
 import { bankRecordToPractice, objectiveItemMappingForPractice, bankQuestionId } from '../../../../src/app/practice-questions'
 import { checkCalculation } from '../../../../src/app/practice-calculation'
+import { createCalculationEvidence } from '../../../../src/app/practice-evidence'
+import { individualSpecItemObservation } from '../../../../src/engine/evidence/evidence'
 import {
   psychologyOriginalSignCriticalTable,
   psychologySignCriticalPracticeBank,
@@ -44,7 +46,28 @@ describe('Issue #698 — AQA Psychology 7182 original sign-test critical table a
         expect(question.exactInteger).toBe(true)
         expect(question.expected).toBe(record.question.calcs[0].stated_answer)
         expect(question.table?.rows).toHaveLength(5)
-        expect(objectiveItemMappingForPractice(question)?.singleTargetSpecItemId).toBe('PSY-SRC-4233-IT05')
+        const mapping = objectiveItemMappingForPractice(question)
+        expect(mapping?.singleTargetSpecItemId).toBe('PSY-SRC-4233-IT05')
+        const saved = createCalculationEvidence({
+          id: 'learner-lookup-' + record.id,
+          moduleId: pack.manifest.id,
+          topicId: 'research-methods',
+          contentId: question.id,
+          correct: true,
+          enteredValue: question.expected,
+          expectedValue: question.expected,
+          unit: question.unit,
+          confidence: 'guess',
+          occurredAt: '2026-11-01T12:00:00Z',
+          itemMapping: mapping,
+        })
+        expect(individualSpecItemObservation(saved)).toMatchObject({
+          specItemId: 'PSY-SRC-4233-IT05',
+          correct: true,
+          scoring: 'software-scored-final-number',
+          contentId: question.id,
+        })
+        expect(individualSpecItemObservation(saved)).not.toHaveProperty('mastery')
         for (const input of [String(question.expected), String(question.expected) + '.0'])
           expect(checkCalculation(input, question.accepted, question.unit, true).status).toBe('right')
         for (const input of [String(question.expected) + '+1', '3 bananas', String(question.expected + 1)])
