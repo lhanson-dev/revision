@@ -3,6 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { businessDecisionTreeNumericalBank } from '../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
 import { bankRecordToPractice, objectiveItemMappingForPractice, type CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { createCalculationEvidence } from '../../src/app/practice-evidence'
+import { markLearnPageReviewed, loadLearnExposures } from '../../src/services/progress/learn-exposure-service'
 import { individualSpecItemObservation } from '../../src/engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 import { findSkillRecheckOpportunities } from '../../src/app/skill-recheck'
@@ -192,6 +193,15 @@ test('Business learner completes an independent Plan calculation recheck and ret
     expect(objectiveItemMappingForPractice(first!)?.singleTargetSpecItemId).toBe(expectedSkill)
     expect(objectiveItemMappingForPractice(second!)?.singleTargetSpecItemId).toBe(expectedSkill)
 
+    // The learner has already reviewed the corresponding published Learn page.
+    // This isolates the independent recheck without a pending teaching prerequisite.
+    const priorLearn = await markLearnPageReviewed(learner, {
+      userId, courseId: businessId, moduleId, topicId, pageId: 'bus-evi-004',
+    })
+    expect(priorLearn.pageId).toBe('bus-evi-004')
+    expect(await loadLearnExposures(learner, userId)).toEqual(expect.arrayContaining([
+      expect.objectContaining({ topicId, pageId: 'bus-evi-004' }),
+    ]))
     const store = createSupabaseEvidenceStore(learner)
     const initial = createCalculationEvidence({
       id: 'initial-missed-' + crypto.randomUUID(),
