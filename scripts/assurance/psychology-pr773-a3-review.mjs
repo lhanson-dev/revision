@@ -151,6 +151,51 @@ async function prFile(path, sha, token) {
   return { path, blobSha: body.sha, content: Buffer.from(body.content, 'base64').toString('utf8') }
 }
 
+/**
+ * Retain the original independent A3 fail/hold. For a NEW review, supply the
+ * trusted approved-main product authority and bounded, actually implemented
+ * learner-route evidence. The reviewer must still judge any genuine exam
+ * placement error independently; paper pack filenames are not UI routes.
+ *
+ * These source strings come from the trusted main checkout only, NEVER from
+ * the untrusted PR #773. Missing or changed anchors fail closed.
+ */
+export function trustedCoursePlacementEvidence({ authority, packTest, browserTest }) {
+  function excerpt(source, startText, endText) {
+    const start = source.indexOf(startText)
+    if (start < 0 || source.indexOf(startText, start + 1) >= 0) throw new Error('Trusted placement source marker missing or ambiguous: ' + startText)
+    const end = source.indexOf(endText, start + startText.length)
+    if (end < 0) throw new Error('Trusted placement source ending missing: ' + endText)
+    return source.slice(start, end)
+  }
+  if (!authority.includes('**Status:** Founder-approved product authority') ||
+      !authority.includes('Internal storage may retain paper/module identifiers') ||
+      !authority.includes('Paper/component distinctions belong inside Exam Prep')) {
+    throw new Error('Approved course placement authority is missing or changed')
+  }
+  const sharedPackProof = excerpt(
+    packTest,
+    "it('keeps the three paper modules on one shared learner course'",
+    "it('keeps each representative mock at 96 attempted marks and 120 minutes'",
+  )
+  const learnerRouteProof = excerpt(
+    browserTest,
+    "test('restricted Psychology learner can traverse the canonical course journey on the promotion candidate'",
+    "test('LF-02: Psychology Paper 1 saves a genuine zero",
+  )
+  if (!sharedPackProof.includes('expect(paper1.questions).toEqual(paper2.questions)') ||
+      !learnerRouteProof.includes("name: 'Practice'") ||
+      !learnerRouteProof.includes("name: 'Exam Prep'") ||
+      !learnerRouteProof.includes("toHaveCount(3)")) {
+    throw new Error('Trusted published-pack or canonical learner-route proof incomplete')
+  }
+  return [
+    { path: '10-product-governance/Course Content and Assessment Component Placement.md', sourceClass: 'approved normative main', content: authority },
+    { path: 'content/psychology/aqa-a-level/content.test.ts', sourceClass: 'approved-main shared-pack test excerpt (not executed by reviewer)', content: sharedPackProof },
+    { path: 'tests/e2e/psychology-restricted-pilot-route.spec.ts', sourceClass: 'approved-main canonical learner-route test excerpt (not executed by reviewer)', content: learnerRouteProof },
+  ]
+}
+
 async function run() {
   const event = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, 'utf8'))
   const head = parseTrustedEvent(event)
@@ -177,6 +222,13 @@ async function run() {
   for (const f of results) if (gitBlobSha(f.content) !== f.blobSha) {
     throw new Error('Git content hash mismatch: ' + f.path)
   }
+  // Placement evidence is read from this trusted approved-main checkout, not
+  // from candidate PR source or a self-asserted test. No PR code is executed.
+  const placementEvidence = trustedCoursePlacementEvidence({
+    authority: await readFile('10-product-governance/Course Content and Assessment Component Placement.md', 'utf8'),
+    packTest: await readFile('content/psychology/aqa-a-level/content.test.ts', 'utf8'),
+    browserTest: await readFile('tests/e2e/psychology-restricted-pilot-route.spec.ts', 'utf8'),
+  })
   // Never execute source from a PR with provider secrets; fetch inert exact SHA text.
   const prompt = {
     reviewType: 'Independent fresh-context A3 challenge of original Psychology Social Influence Practice, PR #773',
@@ -190,6 +242,7 @@ async function run() {
     },
     reviewedItems: ITEM_IDS,
     authoredSources: results.map(x=>({path:x.path,sourceBlobSha:x.blobSha,content:x.content})),
+    trustedApprovedMainPlacementEvidence: placementEvidence,
     reviewerTasks: [
       'Independently verify ALL eight original scenario questions, A/B/C/D answer keys, single-correct-option constraints and every incorrect-option rationale, without trusting assertions in code or tests.',
       'Identify any scenario where more than one option is defensibly correct, information is insufficient, a distractor is misleading, or explanations mistake correlations for causes.',
@@ -197,7 +250,7 @@ async function run() {
       'Check the resistance and minority influence case applications and competing interpretations under exact Section 4.1.1 AQA v1.4 curriculum scope.',
       'Verify each scored question has ONE honest target and only one software-assessed multiple-choice decision, not a claim of written AO2/AO3 evaluation or skill mastery.',
       'Independently assess the original stimulus and answer/checklist for ALL four written DataDrills, including distinct knowledge/application/evaluation points and valid alternatives.',
-      'Check all three production ContentPack imports and actual adapter/test meaning, without executing untrusted PR code under provider credentials.',
+      'Independently check three production ContentPack imports against the trusted approved-main course-level placement authority, shared-pack test excerpt and actual signed-in route test excerpt. Internal paper pack filenames do not themselves establish learner-visible Paper 2/3 Exam Prep placement; still flag any evidenced mixing into paper-specific mocks or incorrect learner-facing navigation. Tests are corroboration, not proof they executed in this review. Never run untrusted PR code under provider credentials.',
       'Inspect source provenance and rights, A-level educational depth, AO tags, confusing language, ability to provide useful corrective feedback and no unsupported progress or full-course claims.',
       'Report every material/blocking finding with exact item ID and concrete correction; cover 12 of 12 items and 8 of 8 dimensions, even on fail. AI review is not qualified human examiner signoff or live learner acceptance.',
     ],

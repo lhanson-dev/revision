@@ -8,6 +8,8 @@ import { preparationCandidatesFromLearningState } from './planner-model'
 import { createMultipleChoiceEvidence } from './practice-evidence'
 import { bankRecordToPractice, objectiveItemMappingForPractice, topicOrderForSpecItem } from './practice-questions'
 import { authoredQuestionsForTask, supportedActivityMinutes, tasksFromPlanner } from './home-task'
+import { planSkillFocusLabel } from './plan-skill-focus'
+import { recommendationExplanation } from './today-recommendations'
 import type { StructuredPracticeBankRecord } from '../../content/structured-practice-bank'
 
 const catalogue = allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
@@ -65,6 +67,14 @@ describe('IA-05: shared FI-001 planner to real exact Start', () => {
     const [task] = tasksFromPlanner(scheduled.today, [state], [course])
     expect(task).toBeDefined()
     expect(task.targetedQuestionIds).toEqual([second.id])
+    expect(task.skillFocus).toEqual(targeted[0]?.skillFocus)
+    const focus = planSkillFocusLabel(task.skillFocus!)
+    expect(focus).toContain('Independent recheck:')
+    // This label is the exact same text Plan, Home and REV use, not a
+    // topic guess or a newly selected recommendation.
+    expect(recommendationExplanation(task)).toContain(focus)
+    expect(recommendationExplanation({ ...task, skillFocus: undefined })).not.toContain(focus)
+    expect(task.id).toBe(scheduled.today[0]?.recommendationId)
     const questions = authoredQuestionsForTask(task)
     expect(questions).toHaveLength(1)
     expect(questions[0]?.id).toBe(second.id)

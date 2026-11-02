@@ -600,6 +600,26 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
     const browserErrors: string[] = []
     page.on('pageerror', (error) => browserErrors.push(error.message))
+
+    // The same enrolled student must receive one consistent next-topic
+    // recommendation on Home and the actual Ask REV drawer. If Home's
+    // scheduled task carries exact skill evidence, REV must repeat that
+    // specific wording rather than collapsing to a generic topic.
+    await page.goto(appPath + '#/home')
+    const homeHero = page.locator('.home-v3-next')
+    await expect(homeHero.locator('h2')).toBeVisible()
+    const selectedTopic = await homeHero.locator('h2').innerText()
+    const homeReasons = await homeHero.locator('.home-v3-hero-reason').allInnerTexts()
+    await page.goto(appPath + '#/rev')
+    await expect(page.getByRole('heading', { name: 'Ask REV', exact: true })).toBeVisible()
+    const revOpening = page.locator('.rev-chat__log .rev-chat__message--rev').first()
+    await expect(revOpening).toContainText(selectedTopic)
+    for (const reason of homeReasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(revOpening).toContainText(reason)
+      }
+    }
+    await page.goto(appPath + '#/home')
     const launch = async (item: typeof cases[number]) => {
       await page.goto(appPath + '#/plan?view=day')
       try {
