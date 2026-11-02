@@ -207,7 +207,7 @@ export const learn = learnCourseSchema.parse({
                   heading: 'Choose meaningful axes before drawing',
                   paragraphs: [
                     'A market map compares how customers perceive competing products or brands on two selected dimensions. Price can be measured directly, while an attribute such as perceived durability depends on evidence from customers. A map helps compare relative positions; it does not measure demand or prove that a gap is attractive.',
-                    'Use a consistent scale on each axis, label the characteristics and units, place every competitor at its own coordinates and distinguish a proposed offer. The business must check whether the perceptions are representative and whether other attributes matter more to customers.',
+                    'Use suitable, evenly spaced and labelled intervals within each axis, with relevant units. Plot and label every competitor at its coordinates; if two offers overlap, use distinct symbols or labels so both remain identifiable. Distinguish the proposed offer. Check whether perceptions are representative and whether other attributes matter more to customers.',
                   ],
                 },
                 {
@@ -234,7 +234,7 @@ export const learn = learnCourseSchema.parse({
                 {
                   type: 'recap',
                   items: [
-                    'Label both axes with suitable characteristics, units and equal scales.',
+                    'Label both axes with relevant characteristics, units and suitable, evenly spaced intervals on each axis.',
                     'Plot and label competitors and proposals from coordinates rather than guessing their position.',
                     'Compare relative positions but test whether apparent gaps reflect real demand and feasible delivery.',
                     'Practise constructing and evaluating a new map on paper; a self-check is not a scored exam performance.',
