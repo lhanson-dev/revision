@@ -22,11 +22,21 @@ import { practicePath, seedReturningStudent } from './practice-seed'
  * Existing comparison algorithms, masks and unchanged baselines are retained.
  * This is visual approval only; PR #618 merge approval remains separate.
  */
+/**
+ * PR #780 LF-10 visual direction approval (Founder, 2 November 2026):
+ * all four changed active-Practice phone/desktop × light/dark frames reviewed
+ * from exact candidate head 1f32a0d28f4a10665cee31e0e65182466564afbf,
+ * CI 41500300206; phone artifact 13167514743, desktop artifact 13167889595.
+ * See PR #780 Founder approval comment and the technical B4 implementation note
+ * for old/new digest mapping and evidence boundaries. This is approval of
+ * the larger mark-label direction, NOT merge approval or real learner acceptance.
+ * The pixel hash, full-PNG attachments and phone REV dock mask are unchanged.
+ */
 const cases = [
-  { project: 'phone', theme: 'light', sha256: '5bf11bece88b8b726337ad22e957a31bf654776ea4b2c03c971a4eb4b88c50a0' },
-  { project: 'phone', theme: 'dark', sha256: '738fad8f44753dfacb0a7422e6cb3a6b22970336a76f84e381a8b2d7c14f7f4b' },
-  { project: 'desktop', theme: 'light', sha256: 'ebf1eae802610e9154b4e11b95f6ce5b1547ce4d77a8f70ceb1dea06c3346add' },
-  { project: 'desktop', theme: 'dark', sha256: 'bbeb6868999be29a721de6380d8af81e80f1e982199c174ee38be6d48a2b32b0' },
+  { project: 'phone', theme: 'light', sha256: '9c78f928c7fb0be57278a8e1e0916d747271830359817a193c1f381619fcdb89' },
+  { project: 'phone', theme: 'dark', sha256: 'b071b8ea37d4aa5df8d33c7df56a5b089958091489d672fe51af8339d639db4a' },
+  { project: 'desktop', theme: 'light', sha256: 'c76e0074741b04732725e8cc1e2310437523f664d589918dc90e41faa26e9906' },
+  { project: 'desktop', theme: 'dark', sha256: '4ff48ab96b498c070667f8cd7fea54c8bd563f4afca9cfa6db21c19bc6daafc4' },
 ] as const
 
 for (const visualCase of cases) {
