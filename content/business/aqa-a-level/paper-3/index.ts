@@ -14,6 +14,7 @@ import { businessMarketingQuantitativeBank } from '../shared/marketing-quantitat
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
 import { businessFinancialConstructionDrills } from '../shared/financial-construction-practice'
+import { businessPositioningMapDrills } from '../shared/marketing-positioning-practice'
 import { caseStudies } from '../shared/cases'
 import { examTechnique } from '../shared/exam-technique'
 import { exams } from './exam'
@@ -28,7 +29,7 @@ export const businessAqaALevel7132Paper3 = contentPackSchema.parse({
   questions,
   practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank, ...businessDecisionTreeNumericalBank, ...businessMarketingQuantitativeBank],
   caseStudies,
-  dataDrills: [...dataDrills, ...networkPractice, ...businessFinancialConstructionDrills],
+  dataDrills: [...dataDrills, ...networkPractice, ...businessFinancialConstructionDrills, ...businessPositioningMapDrills],
   examTechnique,
   exams,
 })

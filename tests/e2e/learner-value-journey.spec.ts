@@ -702,3 +702,78 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     }
   }
 })
+
+/**
+ * #698 source-to-learner Marketing §3.3.3: use a real disposable local
+ * GoTrue/PostgREST account to prove the new paper-based diagram exercise is
+ * discoverable through the integrated Course Practice, not a fixture app.
+ * Do not infer scored diagram or written AO3/AO4 evidence from answer reveal.
+ */
+test('Business 7132 §3.3.3 real learner can reach market-map construction without false scored evidence', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
+  test.setTimeout(120_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const origin = new URL(url)
+  if (origin.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(origin.hostname)
+    || origin.port !== '54321' || !anon || !secret) {
+    throw new Error('Never use hosted or production Supabase for this learner acceptance test')
+  }
+
+  const admin = createClient(url, secret, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  })
+  const learner = createClient(url, anon, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  })
+  const email = 'business-map-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Map-Review-' + crypto.randomUUID() + '-A1!'
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Local learner creation failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const login = await learner.auth.signInWithPassword({ email, password })
+    if (login.error) throw login.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(`${appPath}#/courses/${encodeURIComponent(businessId)}/practice`)
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByLabel('Topic').selectOption('marketing')
+    await expect(page.getByText('Practice · 3. Marketing Management')).toBeVisible()
+    await page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Formulas/ }).click()
+
+    // The first three Marketing drills are historical accepted content.
+    // The new fourth drill must be reachable by normal in-app navigation.
+    for (let index = 0; index < 3; index++) {
+      await page.getByRole('button', { name: 'Show model answer' }).click()
+      await page.getByRole('button', { name: 'Next data drill' }).click()
+    }
+    await expect(page.getByRole('heading', { name: 'Draw and interpret a market-positioning map' })).toBeVisible()
+    await expect(page.getByText(/Plot three competitors: CupGo/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/cannot score or independently verify a student-drawn graph/i)).toBeVisible()
+
+    // Revealing the model must not generate an assessed result or mastery claim.
+    const { data: recorded, error: evidenceError } = await learner.from('learning_evidence')
+      .select('evidence_id').eq('user_id', userId)
+    expect(evidenceError).toBeNull()
+    expect(recorded).toEqual([])
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Local learner cleanup').toBeNull()
+    }
+  }
+})
