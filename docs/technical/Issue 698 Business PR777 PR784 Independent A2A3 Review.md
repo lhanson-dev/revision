@@ -42,3 +42,14 @@ A fresh AI review is *not* a qualified AQA teacher/examiner, an A4 written marki
 ## Documentation-impact decision
 
 Infrastructure changes only: workflow, trusted script, guard tests, this technical contract and INDEX pointer belong in this separate governed PR. No normative authority is being changed. Existing documents already define the required process. No historical assessment record is rewritten, and this reviewer is not evidence until its actual exact-head result is retained and inspected.
+
+
+## Follow-up: PR #777 first review FAIL/HOLD and reviewer evidence scope correction (2 November 2026)
+
+[Trusted review run #41472160176](https://github.com/lhanson-dev/revision/actions/runs/41472160176) completed against exact candidate #777 head `dda5df2bfbb3c884fb68cadb625a315740aa19ca`, main `99fe1885c3906e809f975c095f35edd45909c9ac`. Retained artifact `13155277875` explicitly states `completed=true, decision=fail_hold`. Reviewer independently verified the plotted coordinates and price comparisons as correct, accepted the source-rights boundary and unscored diagram/written evaluation limitations, and reported two minor language corrections (independently suitable scales, possible overlapping positions, direct price wording). A material integration finding was **a review-input deficiency**: although exact-head nine-job CI had passed, the independent reviewer was given only assertions in test source—not the three paper pack files or trusted CI receipts. **It did not prove the implementation broken**, and **cannot be promoted to PASS** by interpretation.
+
+This correction to the trusted reviewer provides separately Git-hash-verified actual Paper 1/2/3 ContentPack sources at the exact target PR head and fetches completed **latest** GitHub `Revision CI` run plus exactly nine successful jobs by the GitHub Actions read-only API. The trusted workflow gains `actions: read` only. The reviewer prompt must distinguish local authenticated CI from *production* acceptance and A4 independent marking. Missing, stale, incomplete, failed, duplicated or newer pending CI must fail closed before model invocation. Candidate source remains inert and never runs under secrets.
+
+The original PR #777 has been amended with two minor educational text corrections and tests. Reviewer evidence for the old content SHA remains historically valid, but is **invalidated** for any newly corrected head; rerun exact-head CI and independent A2/A3 after both the reviewer-infrastructure fix and candidate updates have been approved as applicable.
+
+This is review evidence plumbing, not a policy change or learner-facing feature. The historical FAIL/HOLD receipt and Issue #698 notes are preserved. No production/section/full-course completion claim.
