@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
   parseTrustedEvent, extractExactItems, reviewDecision, EXPECTED,
-  REVIEW_MARKER, gitBlobSha,
+  REVIEW_MARKER, gitBlobSha, explanationDecision,
 } from './lf03-pr779-a3-review.mjs'
 
 const HEAD='a'.repeat(40)
@@ -61,4 +61,17 @@ test('independent reviewer must return exact four blinded answers with concrete 
   assert.equal(reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,verdict:'material'})},items).decision,'fail_hold')
   assert.throws(()=>reviewDecision({...review,items:review.items.slice(1)},items))
   assert.throws(()=>reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,answerReason:''})},items))
+})
+
+test('separate fresh feedback pass requires correct item identity and substantive explanation critique',()=>{
+  const items=extractExactItems(fixture)
+  const assessment={items:items.map(x=>({
+    id:x.id,verdict:'pass',
+    keyAndExplanationConsistency:'The given key and explanation directly agree with the scenario and principle.',
+    misconceptionAndDistractorFeedback:'Each alternative is reviewed as a separate misconception or application boundary.',
+  })),overallFeedbackVerdict:'A bounded original-feedback review without full examination readiness claims.'}
+  assert.equal(explanationDecision(assessment,items).decision,'pass')
+  assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,verdict:'material'})},items).decision,'fail_hold')
+  assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,id:'another-question'})},items).decision,'fail_hold')
+  assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,keyAndExplanationConsistency:''})},items).decision,'fail_hold')
 })
