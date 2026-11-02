@@ -219,7 +219,7 @@ export function individualSpecItemObservation(evidence: LearningEvidence) {
  * independently topic-attributed and remains eligible.
  */
 /**
- * LF-03: prior generated Social Influence definition checks used the same four
+ * LF-03: prior generated Social Influence and Memory definition checks used the same four
  * answer options and were easy to game. Preserve the immutable raw result and
  * display its historic scored outcome, but do not let an unreliable assessment
  * increase a learner's knowledge, readiness or future-plan confidence.
@@ -227,13 +227,17 @@ export function individualSpecItemObservation(evidence: LearningEvidence) {
  * Exact content and course identities: other questions and genuine corrections
  * (the new -v2 IDs) remain fully eligible.
  */
-const retiredPsychologySocialInfluenceIds = new Set([
+const retiredPsychologyPatternedObjectiveIds = new Set([
   'psy-psy0101-check', 'psy-psy0102-check', 'psy-psy0103-check', 'psy-psy0104-check',
+  // LF-03 / #787: original Memory source generated the identical four answer
+  // concepts in every question. Retain raw scored history; retire only its
+  // unreliable inferred readiness/understanding contribution.
+  'psy-psy0201-check', 'psy-psy0202-check', 'psy-psy0203-check', 'psy-psy0204-check',
 ])
 export function supportsLearningInference(evidence: LearningEvidence): boolean {
   return !(evidence.source === 'multiple_choice'
     && evidence.moduleId.startsWith('psychology-aqa-a-level-7182-paper-')
-    && retiredPsychologySocialInfluenceIds.has(evidence.contentId))
+    && retiredPsychologyPatternedObjectiveIds.has(evidence.contentId))
 }
 
 export function isTopicScopedEvidence(evidence: LearningEvidence): boolean {

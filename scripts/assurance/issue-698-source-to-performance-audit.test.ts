@@ -60,9 +60,9 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       expect(topic,r.requirementId).toBeDefined()
       const code=r.requirementId.toLowerCase().replaceAll('-','')
       const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`
-      // Exact prior LF-03 Psychology Social Influence IDs remain immutable history;
+      // Exact prior LF-03 Psychology Social Influence and Memory IDs remain immutable history;
       // published objective Practice is explicitly versioned at these four parents.
-      const mcq=`psy-${code}-check${/^PSY-01-0[1-4]$/.test(r.requirementId) ? '-v2' : ''}`
+      const mcq=`psy-${code}-check${/^PSY-0[12]-0[1-4]$/.test(r.requirementId) ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
       expect(cardIds.has(card),r.requirementId).toBe(true)
       expect(mcqIds.has(mcq),r.requirementId).toBe(true)
