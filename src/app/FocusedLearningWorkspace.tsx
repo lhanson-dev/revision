@@ -320,11 +320,10 @@ export function FocusedLearningWorkspace({
   const typedPool = filterByTypes(fullPool, chosenTypes)
   const availableQuestions = typedPool.length
   const startCount = sessionQuestionCount(length, availableQuestions)
+  const guidedWarmup = guidedExerciseWarmup(formulas.length, drills.length)
   const warmups: PracticeWarmupRow[] = [
     ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${Math.min(cards.length, FLASHCARD_DECK_SIZE)} ${Math.min(cards.length, FLASHCARD_DECK_SIZE) === 1 ? 'card' : 'cards'}${cards.length > FLASHCARD_DECK_SIZE ? ` · ${cards.length} on this topic` : ''}` }] : []),
-    ...(guidedExerciseWarmup(formulas.length, drills.length)
-      ? [{ id: 'formulas-data', ...guidedExerciseWarmup(formulas.length, drills.length)! }]
-      : []),
+    ...(guidedWarmup ? [{ id: 'formulas-data', ...guidedWarmup }] : []),
     ...(caseStudy ? [{ id: 'case-study', name: 'Case study', meta: `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'}` }] : []),
   ]
   const extraScored: PracticeWarmupRow[] = includeExamQuestions && exam
