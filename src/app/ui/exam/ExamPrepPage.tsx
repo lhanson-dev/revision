@@ -33,7 +33,11 @@ export interface ExamPrepPageProps {
   untimedUnavailable?: readonly string[]
   suggestion: MockSuggestion | null
   lastMock: LastMock | null
+  /** Completed paper evidence survives the separate 14-day recovery checkpoint. Zero is a valid score. */
+  completedMockIds?: readonly string[]
+  savedMockPhases?: Readonly<Record<string, string>>
   onStartMock: (mockId: string, mode: ExamMockMode) => void
+  onReviewSavedMock?: (mockId: string) => void
 }
 
 /**
@@ -42,7 +46,7 @@ export interface ExamPrepPageProps {
  * Presentation only: every number and sentence arrives as a prop.
  */
 export function ExamPrepPage(props: ExamPrepPageProps) {
-  const { courseName, boardName, accentStyle, firstExam, guide, topicsCovered, mocks, untimedUnavailable = [], suggestion, lastMock, onStartMock } = props
+  const { courseName, boardName, accentStyle, firstExam, guide, topicsCovered, mocks, untimedUnavailable = [], suggestion, lastMock, completedMockIds = [], savedMockPhases = {}, onStartMock, onReviewSavedMock } = props
   const titleId = useId()
   const panelId = useId()
   const [openPaper, setOpenPaper] = useState<number | null>(null)
@@ -152,8 +156,13 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
           <p className="exam-prep__empty">No mock exam is published for this course yet.</p>
         ) : (
           <ul className="exam-mocks">
-            {mocks.map((mock) => (
-              <li key={mock.id} data-mock-id={mock.id} className="exam-mock">
+            {mocks.map((mock) => {
+              const phase = savedMockPhases[mock.id]
+              const completed = phase === 'submitted' || completedMockIds.includes(mock.id)
+              const label = phase === 'submitting' ? 'Finish saving exam'
+                : phase === 'writing' || phase === 'marking' ? 'Continue saved exam'
+                : completed ? 'Retake exam' : 'Start timed'
+              return <li key={mock.id} data-mock-id={mock.id} className="exam-mock">
                 <div className="exam-mock__copy">
                   <strong className="exam-mock__name">{mock.name}</strong>
                   <span className="exam-mock__meta">{mock.meta}</span>
@@ -162,11 +171,12 @@ export function ExamPrepPage(props: ExamPrepPageProps) {
                   {mock.note && <span className="exam-mock__note">{mock.note}</span>}
                 </div>
                 <div className="exam-mock__actions">
-                  <Button onClick={() => onStartMock(mock.id, 'timed')}>Start timed</Button>
+                  <Button onClick={() => onStartMock(mock.id, 'timed')}>{label}</Button>
+                  {phase === 'submitted' && onReviewSavedMock && <Button variant="secondary" onClick={() => onReviewSavedMock(mock.id)}>View saved result</Button>}
                   <Button variant="secondary" disabled={untimedUnavailable.includes(mock.id)} onClick={() => onStartMock(mock.id, 'untimed')}>Practise untimed</Button>
                 </div>
               </li>
-            ))}
+            })}
           </ul>
         )}
         {lastMock && <p className="exam-prep__last">Last mock: {lastMock.name} · {lastMock.marks} · {lastMock.mode} · {lastMock.date}</p>}

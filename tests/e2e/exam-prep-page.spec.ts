@@ -99,6 +99,31 @@ test('mock exams: real mocks, honest notes, two buttons, and the last mock', asy
   await expect(page.getByText(/^Last mock: .* · 21 of 100 · Timed · /)).toBeVisible()
 })
 
+test('LF-02: prior completed paper evidence offers Retake exam without deleting the recorded zero', async ({ page }) => {
+  await open(page)
+  // Previously submitted zero is genuine paper evidence, not an entirely blank draft.
+  // This fixture has historical evidence but no short-lived checkpoint.
+  const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(paper.getByRole('button', { name: 'Start timed' })).toBeVisible()
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+      { payload: { id: 'zero-mock-1', moduleId: 'business-aqa-a-level-7132-paper-1',
+        topicId: 'business', contentId: 'aqa-a-level-7132-paper-1-sim-1',
+        occurredAt: '2026-10-30T15:00:00.000Z', schemaVersion: 1,
+        source: 'exam_attempt', marksAwarded: 0, marksAvailable: 100,
+        durationMinutes: 80, timed: true, markingMethod: 'self_assessed' } },
+    ]) })
+  })
+  await page.reload()
+  const retake = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(retake.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+  await retake.getByRole('button', { name: 'Retake exam' }).click()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/')
+  await page.reload()
+  await expect(page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' }).getByRole('button', { name: /Continue saved exam|Retake exam/ })).toBeVisible()
+})
+
 test('timed mock enters a focused full-viewport exam, then stop confirmation returns to Exam Prep and restores focus', async ({ page }) => {
   await open(page)
   const button = page.locator('.exam-mock').first().getByRole('button', { name: 'Start timed' })
@@ -282,6 +307,38 @@ test('a wrong authored Business MCQ cannot create positive scored evidence', asy
   await expect.poll(() => captured.length).toBe(2)
   expect((captured[0].payload as Record<string, unknown> | undefined)?.source ?? captured[0].source).toBe('multiple_choice')
   expect((captured[0].payload as Record<string, unknown> | undefined)?.correct ?? captured[0].correct).toBe(false)
+
+  // LF-02: save a genuine zero, leave the results screen and retake the same paper.
+  await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+  const samePaper = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+  await expect(samePaper.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+  await samePaper.getByRole('button', { name: 'View saved result' }).click()
+  await expect(page.locator('.exam-score')).toContainText('0/100')
+  await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+  await samePaper.getByRole('button', { name: 'Retake exam' }).click()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/24 answered')
+  await expect(page.locator('input[name="answer-p1-q01"][value="A"]')).not.toBeChecked()
+  await page.locator('input[name="answer-p1-q01"][value="B"]').check()
+  const freshNav = page.getByRole('navigation', { name: 'Exam questions' })
+  await freshNav.getByRole('button').nth(22).click()
+  await page.locator('.exam-choice-select input').check()
+  await freshNav.getByRole('button').nth(24).click()
+  await page.locator('.exam-choice-select input').check()
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  await expect(page.locator('.exam-submit-summary')).toContainText('1/100')
+  await page.getByRole('button', { name: 'Save exam result' }).click()
+  await expect(page.locator('.exam-score')).toContainText('1/100')
+  await expect.poll(() => captured.length).toBe(4)
+  const storedIds = captured.map((row) => String(row.evidence_id))
+  expect(new Set(storedIds).size).toBe(4)
+  expect((captured[1].payload as Record<string, unknown>).marksAwarded).toBe(0)
+  expect((captured[3].payload as Record<string, unknown>).marksAwarded).toBe(1)
+
+  // Result-screen retake also starts a clean third attempt without an extra launch step.
+  await page.getByRole('button', { name: 'Retake exam' }).click()
+  await expect(page.locator('.exam-session-page')).toBeVisible()
+  await expect(page.locator('.exam-sticky-bar')).toContainText('0/24 answered')
 })
 
 test('a completely blank timed paper is not recorded as scored learning evidence', async ({ page }) => {

@@ -29,7 +29,7 @@ type ExamPrepSectionProps = {
  */
 export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
-  const [active, setActive] = useState<{ id: string; mode: ExamMockMode; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
+  const [active, setActive] = useState<{ id: string; mode: ExamMockMode; retakeCompleted?: boolean; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
   const [savedExams, setSavedExams] = useState<Array<{ id: string; phase: string }>>([])
   const [savedExamCheck, setSavedExamCheck] = useState<'checking' | 'ready' | 'unavailable'>(
     checkpointContext ? 'checking' : 'ready',
@@ -43,20 +43,26 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
     // corresponding live button, never to a detached element.
     const rows = Array.from(document.querySelectorAll<HTMLElement>('.exam-mock'))
     const row = rows.find((item) => item.dataset.mockId === previous.id)
-    const action = row?.querySelectorAll<HTMLButtonElement>('button')[previous.mode === 'timed' ? 0 : 1]
+    const buttons = Array.from(row?.querySelectorAll<HTMLButtonElement>('button') ?? [])
+    const action = buttons.find((button) => button.textContent?.trim() === previous.label) ??
+      buttons[previous.mode === 'timed' ? 0 : buttons.length - 1]
     const revAction = Array.from(document.querySelectorAll<HTMLButtonElement>('.exam-prep__rev button')).find(
       (item) => item.textContent?.trim() === previous.label,
     )
     ;(previous.label === 'Start it' ? revAction : action)?.focus()
   }, [active])
 
-  function startMock(id: string, mode: ExamMockMode) {
+  function startMock(id: string, mode: ExamMockMode, review = false) {
     const label = document.activeElement instanceof HTMLElement ? document.activeElement.textContent?.trim() ?? '' : ''
     launchControl.current = { id, mode, label }
     // Freeze eligibility when a mock begins. A delayed Auth verification must
     // never silently upgrade an already-running transient mock to persisted
     // work (or switch a durable attempt off during the same session).
-    setActive({ id, mode, durableContext: mode === 'timed' ? checkpointContext : undefined })
+    const completed = savedExams.find((item) => item.id === id)?.phase === 'submitted' ||
+      state.evidence.some((item) => item.source === 'exam_attempt' && item.contentId === id &&
+        typeof item.marksAwarded === 'number')
+    setActive({ id, mode, retakeCompleted: mode === 'timed' && completed && !review,
+      durableContext: mode === 'timed' ? checkpointContext : undefined })
   }
   const identity = resolveSubjectIdentity(subjectId, subjectName)
   const guide = examPapersFor(course.examBoardName, course.specificationCode)
@@ -116,6 +122,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
           onRecordEvidence={onRecordEvidence}
           checkpointContext={active.durableContext}
           autoStart={active.mode}
+          retakeCompleted={active.retakeCompleted}
           onExit={() => setActive(null)}
         />
       </section>
@@ -124,11 +131,11 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
 
   return (
     <>
-      {checkpointContext && (savedExams.length > 0 || savedExamCheck === 'unavailable') && <section className="exam-prep-recovery" aria-label="Saved mock examinations">
+      {checkpointContext && (savedExams.some((item) => item.phase !== 'submitted') || savedExamCheck === 'unavailable') && <section className="exam-prep-recovery" aria-label="Saved mock examinations">
         <p>Unfinished full mocks are saved privately for up to 14 days. You can continue from your last confirmed answers after leaving or refreshing. Draft answers are removed after your result is safely recorded.</p>
         {savedExamCheck === 'checking' && <p role="status">Checking unfinished exams…</p>}
         {savedExamCheck === 'unavailable' && <p role="alert">We cannot confirm your saved exams right now. Starting an exam will check again before changing work.</p>}
-        {savedExams.map((item) => {
+        {savedExams.filter((item) => item.phase !== 'submitted').map((item) => {
           const mock = mocks.find((candidate) => candidate.exam.id === item.id)
           if (!mock) return null
           return <div key={item.id} className="inline-actions">
@@ -141,6 +148,10 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
         })}
       </section>}
       <ExamPrepPage
+        completedMockIds={state.evidence.filter((item) => item.source === 'exam_attempt' &&
+          typeof item.marksAwarded === 'number').map((item) => item.contentId)}
+        savedMockPhases={Object.fromEntries(savedExams.map((item) => [item.id, item.phase]))}
+        onReviewSavedMock={(id) => startMock(id, 'timed', true)}
         courseName={subjectName}
         boardName={`${course.examBoardName} ${course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}`.trim()}
         accentStyle={accentStyle(identity.hue)}

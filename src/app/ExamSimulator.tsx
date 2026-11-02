@@ -189,6 +189,8 @@ export type ExamSimulatorProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   /** Opened from the Exam Prep page: skip the launch screen. `untimed` opens single-question practice. */
   autoStart?: 'timed' | 'untimed'
+  /** Explicit fresh attempt requested from Exam Prep for a completed paper. */
+  retakeCompleted?: boolean
   /** Return to the owning Exam Prep page after explicitly discarding a timed attempt. */
   onExit?: () => void
   /** Focused Home practice: an already-verified question in this exam. */
@@ -200,7 +202,7 @@ export type ExamSimulatorProps = {
   }
 }
 
-export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId, checkpointContext }: ExamSimulatorProps) {
+export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvidence, autoStart, onExit, preferredQuestionId, checkpointContext, retakeCompleted }: ExamSimulatorProps) {
   const [started, setStarted] = useState(autoStart === 'timed')
   const [finishedWriting, setFinishedWriting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -263,7 +265,12 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           moduleId, examId: exam.id,
         }
         const fingerprint = await fingerprintExamContent(exam)
-        const previous = await loadExamAttempt(attemptStore, key, fingerprint)
+        let previous = await loadExamAttempt(attemptStore, key, fingerprint)
+        if (retakeCompleted && previous?.snapshot.phase === 'submitted') {
+          // Submitted evidence lives independently. Only the minimal finished checkpoint is removed.
+          await removeCompletedExamAttempt(attemptStore, previous)
+          previous = null
+        }
         if (!previous && autoStart !== 'timed') {
           if (!cancelled) {
             setRecoveryPhase('ready')
@@ -317,7 +324,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     void init()
     return () => { cancelled = true }
   }, [attemptStore, autoStart, checkpointContext?.userId, checkpointContext?.courseId,
-    checkpointContext?.retentionDays, checkpointContext?.timerPolicy, moduleId, exam, recoveryReload])
+    checkpointContext?.retentionDays, checkpointContext?.timerPolicy, moduleId, exam, recoveryReload, retakeCompleted])
 
   const enqueueExamCheckpoint = (
     makeNext: (current: ExamAttemptSnapshot) => ExamAttemptSnapshot,
@@ -754,6 +761,8 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       }
     }
     await stopExam(false)
+    // A retake from the result begins the new timed attempt, not just the launch screen.
+    await startExam()
   }
 
   if (checkpointContext && autoStart !== 'untimed' && recoveryPhase !== 'ready') {
@@ -863,7 +872,11 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           })}
         </div>
         <div className="next-step"><strong>What should I do next?</strong><span>Use the weakest AO above to choose your next practice. If AO2/AO3 is weakest, return to targeted paper questions. If AO4 is weakest, practise conditional judgements on extended responses.</span></div>
-        <Button variant="secondary" onClick={resetExam}>Start another attempt</Button>
+        <div className="inline-actions">
+          <Button onClick={resetExam}>Retake exam</Button>
+          {onExit && <Button variant="secondary" onClick={onExit}>Back to Exam Prep</Button>}
+        </div>
+        {submissionError && <p role="alert" className="error">{submissionError}</p>}
       </section>
     )
   }
