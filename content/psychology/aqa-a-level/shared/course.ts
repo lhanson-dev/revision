@@ -283,6 +283,19 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
   }),
 )
 
+
+// LF-06: map a requirement to the *published* active-retrieval cards.
+// Most requirements have one card; PSY-04-01 has four independently versioned
+// definition cards. The retired composite card is never treated as current.
+export function psychologyFlashcardsForRequirement(requirementId: string) {
+  const code = requirementId.toLowerCase().replaceAll('-', '')
+  if (requirementId === 'PSY-04-01') {
+    return psychologyFlashcards.filter((card) =>
+      card.id.startsWith('psy-psy0401-') && card.id.endsWith('-card-v2'))
+  }
+  return psychologyFlashcards.filter((card) => card.id === `psy-${code}-card`)
+}
+
 function legacyObjectiveQuestion(topic: TruthTopic, requirement: TruthRequirement) {
   const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
   return multipleChoiceQuestionSchema.parse({
