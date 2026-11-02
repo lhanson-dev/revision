@@ -1,6 +1,6 @@
 # LF-03 — Social Influence MCQ assessment validity and saved evidence safety
 
-**Status (2 November 2026):** Governed candidate fix, **NOT approved / merged / live**. Educational assurance A3 **HOLD** until a separate fresh-context independent adversarial review of this exact PR head and resolution of any material findings. Real student browser acceptance and production verification outstanding.
+**Status (2 November 2026):** Governed candidate fix, **NOT approved / merged / live**. Independent fresh-context A3 on exact authored source blob **PASSED** on 2 November 2026 (run #41429038976). Original-head full CI also passed. Integration with current approved `main`, followed by release and real student acceptance, remains outstanding.
 **Programmes:** [#765](https://github.com/lhanson-dev/revision/issues/765), [#698](https://github.com/lhanson-dev/revision/issues/698). Does not depend on unmerged [#773](https://github.com/lhanson-dev/revision/pull/773) or [#774](https://github.com/lhanson-dev/revision/pull/774). Prior Social Influence A2 Learn remediation is already merged separately in #768.
 
 ## Root cause reproduced from approved main
@@ -45,11 +45,11 @@ No auth, RLS, database, stored score schema, question engine, or history mutatio
 | Gate | Current evidence | Decision |
 | --- | --- | --- |
 | A1 exact qualification and Section 4.1.1 source | Founder official PDF version + existing approved structured source crosswalk; four parent demands verified | Scope mapped; detailed inference requires reviewer |
-| A3 individually blind-answer all four | Author's candidate keys + software key/feedback consistency checks; **no independent reviewer yet** | **HOLD** |
-| Fresh-context adversarial A3 finding register | Separate independent reviewer not yet executed on this branch | **HOLD** |
-| Hard option and key checks | Source tests added, pass/fail only after exact-head CI completes | Pending |
-| Actual canonical Practice + responsive/browser scoring + restart | Playwright seeded synthetic signed-in end-to-end test added for desktop/tablet/phone; **not a real learner** | Pending CI |
-| Prior saved scores and owner-scoped checkpoints | Tests cover immutable old IDs/keys, exact-fingerprint recovery, no duplicate new evidence; real database acceptance not run | Pending CI; real acceptance pending |
+| A3 individually blind-answer all four | Independent fresh-context reviewer, exact-head source `254ce046e0bc9422152ac715fb23852e867e1dd1`, blind picks B, D, A, C agree with authored keys | **PASS — run #41429038976** |
+| Fresh-context adversarial A3 finding register | Second separate fresh-context review assessed all four authored explanations, distractor misconceptions and question ambiguity; zero blocking/material findings | **PASS — run #41429038976** |
+| Hard option and key checks | Exact original-head CI run #41423336529 passed source tests and marked answers | PASS; latest-main integration CI pending |
+| Actual canonical Practice + responsive/browser scoring + restart | Original-head CI run #41423336529 passed desktop, tablet and phone; synthetic signed-in student journey, **not an actual learner** | PASS at original head; integration CI pending |
+| Prior saved scores and owner-scoped checkpoints | Original-head tests passed immutable old IDs/keys, exact-fingerprint recovery and historical evidence exclusion from inflated readiness; real learner acceptance not run | PASS at original head; real acceptance pending |
 | Production release | Explicit Founder merge approval, successful path-to-live and post-deploy validation required | NOT MERGED / NOT LIVE |
 
 **Not educationally assured merely by CI:** causal or historical nuance, all plausible distractors, independently blind answer validity, full AQA syllabus sufficiency, actual learner outcomes and professional examiner review. The narrower automated correction may be reviewed for merge only after required independent A3 review, exact-head CI and browser evidence pass; live/learner acceptance follow deployment.
@@ -57,3 +57,9 @@ No auth, RLS, database, stored score schema, question engine, or history mutatio
 ## Documentation-impact decision
 
 No new normative product behaviour was requested; explicitly retiring proven-invalid question signals from a derived progress calculation implements existing Claims and Progress Governance rather than changing the governing meaning of progress.  Learning Blueprint, Claims and Progress, Content Accuracy Assurance Gate and Testing & Assurance Standard already require meaningful objective questions and evidence-safe scoring. This is a **defect correction**. This technical implementation note, #765 and #698, `90-governance-registers/Defect Register.md`, repeatable checks, and `INDEX.md` are therefore the governed documentation record. Do not rewrite original prototype research or the historical A2 / A3 evidence.
+
+## 2 November 2026 independent review provenance
+
+Trusted approved-main workflow [run #41429038976](https://github.com/lhanson-dev/revision/actions/runs/41429038976) successfully examined exactly four V2 original assessment items at `cfb63d1b2497d5ffca3d8167745f40c65fd056c4`, original authored content blob `254ce046e0bc9422152ac715fb23852e867e1dd1`. Blind answers B, D, A, C matched all original keys without exposing those keys to the blind reviewer. A separate fresh-context reviewer accepted all four answer explanations and distractors with no material concerns. Receipt retained in GitHub artifact #13134130337. The review was based on section-scoped curriculum facts and **did not have independent direct access to the official Founder-supplied AQA PDF**, nor assess the broader course, qualified teacher moderation or real learner results. All such limitations remain.
+
+Following later Practice repair and summary merges, the implementation branch was integrated with approved `main` while preserving the exact independently reviewed authored source blob unchanged. The new Practice workspace must retain both the currently merged source-backed repair/summary affordances and exact historical LF-03 checkpoint restoration. This *integration is not yet verified by combined CI*. No educational or production-completeness claim is made before combined tests and Founder approval.
