@@ -11,7 +11,12 @@ async function openBusinessPractice(page: Page) {
 
 async function selectTopic(page: Page, topic: string) {
   await page.getByRole('button', { name: 'Change topic' }).click()
-  await page.getByLabel('Topic', { exact: true }).selectOption(topic)
+  // SelectField renders a native select inside the existing topic-picker group.
+  // Target that stable UI control, not an exact accessible-name match that can
+  // include the nested option text in some browser accessibility trees.
+  const selector = page.locator('.practice-start__topic-picker select')
+  await expect(selector).toBeVisible()
+  await selector.selectOption(topic)
 }
 
 test('LF-04: Business Practice opens the case relevant to the topic, not the first global case', async ({ page }) => {
