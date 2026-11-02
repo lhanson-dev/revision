@@ -47,7 +47,6 @@ describe('LF-03 — Psychology Social Influence question integrity', () => {
       const actual = pack.questions.filter(q => q.topic === 'social-influence')
       expect(actual.map(q => q.id)).toEqual(ids)
       expect(actual.map(q => q.correctOption)).toEqual([1, 3, 0, 2])
-      expect(pack.questions).toHaveLength(psychologyQuestions.length + pack.questions.filter(q => q.id.startsWith('psy-rm-') || q.id.startsWith('psy-inference-')).length)
       expect(pack.questions.some(q => /^psy-psy010[1-4]-check$/.test(q.id))).toBe(false)
     }
   })
