@@ -51,7 +51,7 @@ export function usableQuestionTypes(
  * Preserve first-case fallback for older packs with no relevance tags at all.
  * An explicitly tagged pack without a match must not advertise a random case.
  */
-export function caseStudyForPractice<T extends { topicIds?: readonly string[] }>(
+export function caseStudyForPractice<T extends { id: string; topicIds?: readonly string[] }>(
   studies: readonly T[],
   topicId: string,
 ): T | null {
