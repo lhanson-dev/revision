@@ -38,6 +38,15 @@ describe('LF-03 bounded source-to-published AQA question-bank audit', () => {
     expect(findings.filter(x => ['invalid-key', 'duplicate-option', 'repeated-option-set', 'answer-position-run', 'answer-position-bias'].includes(x.rule))).toEqual([])
   })
 
+  it('rejects repeated options or exploitable position patterns in the four new Memory cases', () => {
+    const memory = fromPack(psychology.questions).filter(item => item.id.startsWith('psy-psy02'))
+    expect(memory.map(item => item.id)).toEqual([1, 2, 3, 4].map(i => `psy-psy020${i}-check-v2`))
+    expect(memory.map(item => item.correctOption)).toEqual([2, 0, 3, 1])
+    expect(reviewMcqQuality(memory).filter(f =>
+      f.disposition === 'block' || ['repeated-option-set', 'answer-position-run', 'answer-position-bias', 'generic-feedback'].includes(f.rule)
+    )).toEqual([])
+  })
+
   it('keeps the systemic Psychology 7182 review queue explicit rather than silently failing all content', () => {
     const findings = reviewMcqQuality(fromPack(psychologyPrototypeQuestions))
     expect(psychologyPrototypeQuestions).toHaveLength(118)
