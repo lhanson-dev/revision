@@ -1,0 +1,33 @@
+# Issue #698 — AQA Business 7132 §3.3.3 market-map construction, STP content correction and evidence
+
+**2 November 2026; governed candidate; not merged or live.** Canonical route is `/revision/app/` → saved AQA A-level Business 7132 → Marketing Learn / Practice; the shared learner content adapter assembles three existing `content/business/aqa-a-level/paper-{1,2,3}/index.ts` packs. No extra learner application, page route, scoring feature or new qualification.
+
+## Controlling source, confirmed exact bytes
+
+The Founder-supplied **42-page AQA Business 7132 specification v2.0, 14 June 2023** was opened and independently fingerprinted in the current conversation. **SHA-256 confirmed** `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`, matching GitHub Issue #698. §3.3.3 **printed page 16** requires segmentation (demographic/geographic/income/behavioural), targeting (including niche/mass) and positioning including **market mapping**. The **Annex §6, printed p41**, calls for construction and interpretation of standard graphical forms, as a cross-course capability. §3.3.3 does **not** expressly say that every market map must be *drawn under examination conditions*: the construction check is therefore a candidate capability inferred from the subject requirement and the quantitative annex, **not** a new official source clause.
+
+**Rights:** AQA PDF `REFERENCE_ONLY`. New exercises, dataset, written explanations, stimuli and answer guidance are Revision-original; no protected AQA item, answer or mark-scheme prose is reproduced. The source PDF itself is not added to the GitHub repo.
+
+## Real published supply and observed defects
+
+The existing `bus-mkt-005` Learn page, from `content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json`, teaches the STP sequence, describes market maps, and shows a text approximation of a map. The existing `content/business/aqa-a-level/shared/fast-path-question-bank.json` has §3.3.3 candidate questions `q11` (one-mark behavioural selection), `q12` (four-mark niche/targeting explanation), `q13` (four-mark mass/positioning explanation), `q14` (six-mark target-selection analysis), and `q15` (nine-mark market-positioning evaluation with a **coordinate table**). These bank questions are not interchangeable proof of independently drawn graphs, written evaluation or all four segmentation bases. The fact that q15 mentions a map does not mean the learner is shown or asked to **construct** one.
+
+Before this correction there was no explicit construction method or paper-map drawing task within these published sources. The existing `bus-mkt-005` targeting worked example also held an inappropriate placeholder `gross_profit` calculation with a zero answer. The Learn adapter used its formula to generate a misleading “Work out the gross profit” task on a qualitative targeting example. Neither this invented arithmetic demand nor a source-section MCQ is evidence of the intended skill.
+
+## Narrow candidate correction, preserving accepted assets
+
+1. **Teaching:** adds original authored Learn page `market-positioning-map-method` with price/durability axis construction, scaled coordinates, reading a competitor position, conditional selection and a misconception check. The existing `bus-mkt-005` and authored Marketing content remain in place; no accepted Learn identifier is renamed.
+2. **Practice:** appends `rev7132-333-positioning-map-01`, an original `marketing` DataDrill. Learners plot four positions on paper (CupGo £12/3, DailySip £20/6, LongLife £38/8, BrewLoop £28/9) and independently compare their chart and reasoning against the model. The prompt asks for axes, consistent scales, positions, nearest-price interpretation and limits of the apparent gap.
+3. **Correctness:** removes only the false dummy calculation metadata from `bus-mkt-005`'s existing targeting worked example; the learning steps and identity remain unchanged.
+4. **Delivery:** reuses the existing `learn` and `dataDrills` ContentPack fields for all three paper packs. Existing question IDs, existing 29 drill IDs/order and saved learner evidence are unchanged; total candidate drill supply becomes 30. No schema migration, new marker, Progress/Plan/REV claims, mock alteration or source-rights expansion.
+5. **Traceability:** append-only 11-candidate evidence ledger `audits/2026-11-02-business-333-positioning-map-source-to-learner.json` records source locator, named skill, actual Learn/Practice references, absence or limit of credible evidence, and every unverified gate. The 11 entries are *provisional decompositions*, not a complete or official section denominator. The historical 194/344 and 421-item candidate inventories remain untouched.
+
+The paper task is exposed by the existing `dataDrills` answer-reveal UI, not an independently marked drawing submission. **Scored graph construction remains unsupported**; written AO3/AO4 marking, q15 diagram presentation, independent application, retained evidence and signed-in learner paths remain **unverified**. This PR does **not** establish Business §3.3.3 adequate Practice or any full-course percentage.
+
+## Assurance and follow-through
+
+`content/business/aqa-a-level/marketing-positioning-assurance.test.ts` checks shared three-paper published Learn and DataDrill assembly, stable IDs, correct coordinates, no false chart grade and removal of the inappropriate profit task. The prior break-even/network construction regression is adjusted only for the append-only total. Full current-head CI and independent A2/A3 educational review are release conditions; authenticated staging/production site, actual learner construction, feedback/resume and Progress/Plan need post-merge verification. An AI-authored example is not equivalent to an external qualified AQA examiner's judgement.
+
+**Next §3.3.3 action:** confirm all 11 candidate source demands against the exact PDF, inspect each published question's response availability and marking on the signed-in site, independently review q11–q15 correctness and written rubric, explicitly retain an **unsupported** status for independently scoring drawings, then proceed to §3.3.4 (marketing mix) without inventing an overall coverage denominator.
+
+**Documentation impact:** This technical implementation record, source-evidence addendum, regression test and INDEX pointer accompany the bounded correction. Existing Course Learning Blueprint, educational licensing, assessment and evidence governance already cover the intended behaviour; no normative change or ADR proposed. Historical audits are preserved.
