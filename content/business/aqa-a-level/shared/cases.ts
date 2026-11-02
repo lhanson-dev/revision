@@ -77,7 +77,9 @@ export const emberHomeCase = caseStudySchema.parse({
 
 export const tideRenewablesCase = caseStudySchema.parse({
   id: 'tide-renewables',
-  topicIds: ['finance'],
+  // AQA 7132 §§3.7.8 (investment appraisal) and 3.10.3 (network analysis),
+  // not core §3.5 Financial Management. Retain this historical case in the
+  // pack, but do not misrepresent it as an exact Finance-topic warm-up.
   title: 'Tide Renewables plc',
   bodyHtml: 'Tide Renewables plc develops and maintains offshore wind projects. A proposed new project requires a large up-front investment and has a payback period of seven years, positive NPV and an ARR above the board’s target. However, construction depends on planning approvals, specialised suppliers and a network of linked activities. Government environmental policy supports renewable energy, but interest rates have risen and managers expect some equipment costs to remain volatile. The project team is using network analysis and contingency plans.',
   facts: ['Renewable-energy developer','Large capital investment','Seven-year payback','Positive NPV','ARR above target','Planning and supplier dependencies','Higher interest rates','Network and contingency planning'],
