@@ -259,7 +259,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           // teaching and evaluation. All of that remains visible in Learn.
           const learnPage = psychologyLearn.chapters
             .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
-            .find((page) => page.sourceSectionIds.includes('psy0401'))
+            .find((page) => page.sourceSectionIds?.includes('psy0401'))
           expect(learnPage).toBeDefined()
           for (const paragraph of requiredParagraphs) {
             expect(JSON.stringify(learnPage), `Learn PSY-04-01: ${paragraph}`).toContain(paragraph)
