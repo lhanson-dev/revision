@@ -221,8 +221,10 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   const course = encodeURIComponent(courseId)
   await page.goto(`${appPath}#/courses/${course}/practice/social-influence`)
   await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Start 4 questions' })).toBeVisible()
-  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+  // Four LF-03 scored items remain first, and the eight #698 original
+  // applied cases extend the same Course Practice session rather than replacing it.
+  await expect(page.getByRole('button', { name: 'Start 12 questions' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 12 questions' }).click()
   const positions = [1, 3, 0, 2]
   const expectedPrompts = [/Freya privately thinks/, /respected university/, /One other person openly disagrees/, /small campaign group/]
   for (let index = 0; index < 4; index++) {
@@ -250,6 +252,11 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(
     [1, 2, 3, 4].map(number => `psy-psy010${number}-check-v2`),
   )
+  // Another scored case must follow the four original LF-03 checks: this is a
+  // 12-question session and must not silently present only the old set.
+  await page.getByRole('button', { name: 'Next question' }).click()
+  await expect(page.locator('.practice-question__prompt')).toContainText(/Which explanation best predicts/)
+  expect(saved).toHaveLength(4)
 })
 
 test('LF-03 #787 canonical Memory Practice displays, scores and restores four different original scenario MCQs', async ({ page }) => {
