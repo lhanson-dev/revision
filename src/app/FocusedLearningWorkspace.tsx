@@ -27,6 +27,7 @@ import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, or
 import { legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
 import {
   PRACTICE_LENGTHS,
+  caseStudyForPractice,
   guidedExerciseWarmup,
   lastPractisedLabel,
   sessionQuestionCount,
@@ -272,7 +273,7 @@ export function FocusedLearningWorkspace({
   const formulas = adapter.listFormulas()
   const drills = adapter.listDataDrills(topicId)
   const examTechnique = adapter.listExamTechnique()
-  const caseStudy = adapter.listCaseStudies()[0]
+  const caseStudy = caseStudyForPractice(adapter.listCaseStudies(), topicId)
   const exam = adapter.listExams()[0]
   const knownRatings = { ...flashcardRatings, ...flashRatings }
   const deckCard = deck && !isDeckDone(deck) ? cards.find((item) => item.id === deck.ids[deck.index]) : undefined
