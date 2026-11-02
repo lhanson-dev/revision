@@ -595,9 +595,21 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     await page.getByLabel('Email').fill(email)
     await page.getByLabel('Password').fill(password)
     await page.getByRole('button', { name: 'Sign in' }).click()
+    // Wait for real authenticated navigation to replace the sign-in form;
+    // a click alone does not prove Supabase Auth finished asynchronously.
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
+    const browserErrors: string[] = []
+    page.on('pageerror', (error) => browserErrors.push(error.message))
     const launch = async (item: typeof cases[number]) => {
       await page.goto(appPath + '#/plan?view=day')
-      await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+      try {
+        await expect(page.getByRole('heading', { name: 'Plan', exact: true }))
+          .toBeVisible({ timeout: 15_000 })
+      } catch {
+        const visible = (await page.locator('body').innerText()).slice(0, 1500)
+        throw new Error('Real-auth Plan never mounted. URL=' + page.url()
+          + ' | visible=' + visible + ' | JS errors=' + JSON.stringify(browserErrors))
+      }
       await expect(page.locator('.pln-daypanel')).toBeVisible()
       for (let index = 0; index < 14; index++) {
         const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
