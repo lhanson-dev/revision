@@ -87,3 +87,27 @@ At the **2 November 2026 evidence cut**, use #765's current state rather than hi
 ## Documentation-impact check
 
 This change is **assurance evidence and task tracking only**. It does not change normative user journeys, a feature's Ready status, learner code, schema, production configuration or the curriculum. Add one dated auditable acceptance record and an INDEX pointer in the same governed branch/PR; link #665/#703/#765/#693 rather than duplicating owning issues. If a retest reveals a real defect, record a reproducible finding in the existing owner issue and add a narrow governed fix with its own technical/regression documentation. No ADR or normative authority rewrite warranted, and historical evidence is preserved.
+
+## Subsequent current-state reconciliation — 2 November 2026, after PR #780 deployment
+
+**This is an additive update to the earlier dated evidence cut above, not retrospective modification of what was known at that cut.** The latest main checked here is `b8444d6c0ec14f0fc1679265dc2c7cf1c759f054`. [Production release #41519356283](https://github.com/lhanson-dev/revision/actions/runs/41519356283) is **completed success** for this exact SHA; all six governed deployment jobs completed including live smoke, and [main CI #41519356281](https://github.com/lhanson-dev/revision/actions/runs/41519356281) completed successfully. That deployment includes the previously released `6668f06` Home/REV skill-identification change; it **does not** prove a learner's four-surface consistency, hosted signup or original-feedback resolution.
+
+**Updated status relative to the earlier LF-01–LF-11 rows (which preserve their historical delivery position):**
+
+| Feedback | Latest verified implementation/release position | Workstream 5 acceptance still required |
+|---|---|---|
+| LF-01 | [PR #766](https://github.com/lhanson-dev/revision/pull/766) **merged/released**. The picker is Revision's **custom** `TextField type="date"` calendar (not a native browser popup). [PR #770](https://github.com/lhanson-dev/revision/pull/770) remains a distinct unmerged documentation follow-up. | Original student same-device save/reopen/edit, short laptop, 200% zoom, and keyboard evidence |
+| LF-02 | [PR #772](https://github.com/lhanson-dev/revision/pull/772) **merged/released**; zero-score retake correction exists. | Same reported paper and Business/Psychology completed-zero → fresh attempt → both results preserved after reload/login |
+| LF-03 | Released narrow Social Influence and Memory corrections, separate broader bank issues in #765/#787. | Actual student distractor variation and evidence preservation; sample wider bank |
+| LF-04 | Business [PR #781](https://github.com/lhanson-dev/revision/pull/781) still **draft/unmerged**; Psychology context remains unresolved pending exact question-ID classification. | Both subjects' required original case/stimulus rendered with correct question and marking context |
+| LF-05 | Feature remains `Analyse`, no authorised new mark-selection or examiner-style AI grading implementation. | Accept only released self-assessment scope; hold new experience until Ready approval and actual evidence |
+| LF-06 | New narrow Psychology mental-health flashcard [draft PR #796](https://github.com/lhanson-dev/revision/pull/796) prepared, **not live**; replaces one multi-demand card with four versioned cards, retaining old ratings. | Direct learner test of the four after deployment; both-course systematic card quality still open |
+| LF-07 | **Now released in PR #780**, exact production SHA above: Data Drill activity clarity and honest unscored guided exercises. | Actual phone/laptop usability and no false independent marks after model reveal |
+| LF-08 | Sitewide British-English consistency still open. | Product UI/editorial source scan and genuine learner check |
+| LF-09 | **Now released in PR #780**: respectful available-question wording. | Actual short-session learner comprehension/accurate quantity |
+| LF-10 | **Now released in PR #780**: visually prominent available marks. | Actual learner and 200% zoom/screen-reader/mobile/desktop checks; original visual direction approval is not final acceptance |
+| LF-11 | Educational-content British-English consistency remains open. | Business/Psychology published question/answer/explanation editorial regression and learner check |
+
+**Ownership does not change after release:** [#765](https://github.com/lhanson-dev/revision/issues/765) owns the correction queue, Product/Business/Psychology supply fixes, #703 and #705 cover evidence/recommendation consequences, and Workstream 5 alone accepts that the original student problem is gone. [#693](https://github.com/lhanson-dev/revision/issues/693) remains an external hosted SMTP/confirmation/reset dependency. [#698](https://github.com/lhanson-dev/revision/issues/698) alone owns course educational adequacy. No new authenticated production/browser/child session has been executed by this reconciliation. **Every LF acceptance verdict remains OPEN** until actual observed retest; release does not close any row.
+
+**Documentation impact check:** This amendment records new live operational truth without changing the existing authority, product implementation or historical original cut. Existing #770/#798 documentation-only reconciliation proposals remain independently governed, not merged by this record. The matrix and INDEX remain a scoped documentation/assurance PR.
