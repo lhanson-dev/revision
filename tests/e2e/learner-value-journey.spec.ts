@@ -383,6 +383,43 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
       source: 'calculation', confidence: 'certain', enteredValue: first.expected + 9000,
     })
 
+    // This is the real learner-facing authored repair page, reached using
+    // its canonical Courses/Learn route only AFTER the first incorrect
+    // Practice result. The learner explicitly marks it reviewed on-screen.
+    // Reviewing is unscored exposure, never proof of understanding.
+    const beforeRead = await loadLearnExposures(learner, userId)
+    expect(beforeRead.some((item) => item.pageId === 'bus-evi-004'
+      && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
+    const repair = page.getByRole('button', { name: /^Read: / })
+    await expect(repair, 'Wrong answer should lead to an exact published Learn repair').toBeVisible()
+    await repair.click()
+    await expect(page).toHaveURL(new RegExp('/learn/bus-evi-004'))
+    await expect(page.locator('#learn-page-bus-evi-004')).toBeVisible()
+    await expect(page.locator('.learn-reading-body')).not.toBeEmpty()
+    const pageReview = page.getByRole('region', { name: 'Learn page review' })
+    await pageReview.getByRole('button', { name: 'I have read this page' }).click()
+    await expect(pageReview).toContainText('Page reviewed. This records reading, not understanding or exam readiness.')
+    await expect.poll(async () => (await loadLearnExposures(learner, userId))
+      .some((item) => item.pageId === 'bus-evi-004'
+        && item.moduleId === moduleId && item.courseId === businessId)).toBe(true)
+    // A review cannot clear the wrong scored observation or manufacture an
+    // independently scored result: the fresh question is still needed.
+    const afterReviewEvidence = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(afterReviewEvidence.map((item) => item.id).sort())
+      .toEqual([wrong!.id])
+    expect(findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      afterReviewEvidence, topicId, [moduleId], ['bus-evi-004'],
+    )).toEqual(expect.arrayContaining([expect.objectContaining({
+      specItemId, need: 'missed', freshQuestionId: fresh.id,
+    })]))
+
+    // Leaving for Learn must retain the original unfinished Practice checkpoint.
+    // Re-enter it using the normal browser navigation; do not fake session completion.
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+
     // A started five-question Practice session is genuinely still unfinished
     // after the first wrong answer. Respect the existing Continue/Discard
     // contract: close the activity and deliberately discard the *unfinished
@@ -401,35 +438,6 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     )).toEqual(expect.arrayContaining([expect.objectContaining({
       specItemId, need: 'missed', freshQuestionId: fresh.id,
     })]))
-    // This is the real learner-facing authored repair page, reached using
-    // its canonical Courses/Learn route only AFTER the first incorrect
-    // Practice result. The learner explicitly marks it reviewed on-screen.
-    // Reviewing is unscored exposure, never proof of understanding.
-    const beforeRead = await loadLearnExposures(learner, userId)
-    expect(beforeRead.some((item) => item.pageId === 'bus-evi-004'
-      && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
-    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/learn/bus-evi-004')
-    await expect(page.locator('#learn-page-bus-evi-004')).toBeVisible()
-    await expect(page.locator('.learn-reading-body')).not.toBeEmpty()
-    const pageReview = page.getByRole('region', { name: 'Learn page review' })
-    await pageReview.getByRole('button', { name: 'I have read this page' }).click()
-    await expect(pageReview).toContainText('Page reviewed. This records reading, not understanding or exam readiness.')
-    await expect.poll(async () => (await loadLearnExposures(learner, userId))
-      .some((item) => item.pageId === 'bus-evi-004'
-        && item.moduleId === moduleId && item.courseId === businessId)).toBe(true)
-    // A review cannot clear the wrong scored observation or manufacture an
-    // independently scored result: the fresh question is still needed.
-    const afterReviewEvidence = await loadLearningEvidence(store, userId, moduleId, topicId)
-    expect(afterReviewEvidence.map((item) => item.id).sort())
-      .toEqual(persisted.map((item) => item.id).sort())
-    expect(findSkillRecheckOpportunities(
-      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
-        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
-      afterReviewEvidence, topicId, [moduleId], ['bus-evi-004'],
-    )).toEqual(expect.arrayContaining([expect.objectContaining({
-      specItemId, need: 'missed', freshQuestionId: fresh.id,
-    })]))
-
     // No synthetic Plan task is injected. It must still derive the authored
     // recheck from the browser-created, persisted wrong final-number evidence.
     await page.goto(appPath + '#/plan?view=day')
