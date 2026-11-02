@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { lastFlashcardRatings, orderDeck } from '../../../src/app/practice-flashcards'
 
 import paper1 from './paper-1'
 import paper2 from './paper-2'
@@ -41,6 +42,18 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(psychologyFlashcards.some((card) => card.id === 'psy-psy0401-card')).toBe(false)
     const ids = psychologyFlashcards.map((card) => card.id)
     expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('retains an old composite self-rating without attributing it to the four replacement cards', () => {
+    const ratings = lastFlashcardRatings([
+      { source: 'flashcard', contentId: 'psy-psy0401-card', occurredAt: '2026-10-31T12:00:00.000Z', rating: 2 },
+    ])
+    const active = psychologyFlashcardsForRequirement('PSY-04-01')
+    expect(ratings['psy-psy0401-card']).toBe(2)
+    expect(active).toHaveLength(4)
+    expect(active.every((card) => ratings[card.id] === undefined)).toBe(true)
+    expect(orderDeck(active, ratings).map((card) => card.id)).toEqual(active.map((card) => card.id))
+    expect(psychologyFlashcards.some((card) => card.id === 'psy-psy0401-card')).toBe(false)
   })
 
   it('keeps the three paper modules on one shared learner course', () => {
