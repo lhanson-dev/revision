@@ -619,6 +619,21 @@ test('two Business skill weaknesses produce named independent Plan checks withou
         await expect(revOpening).toContainText(reason)
       }
     }
+    // Global Progress must project the same configured FI-001 next action, not
+    // independently rank a broad-topic practice activity. These saved wrong
+    // answers came from actual owner-scoped Auth/DB evidence above.
+    await page.goto(appPath + '#/progress')
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+    const progressNext = page.locator('.progress-intro__action')
+    await expect(progressNext).toContainText(selectedTopic, { timeout: 20_000 })
+    for (const reason of homeReasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(progressNext).toContainText(reason)
+      }
+    }
+    await progressNext.getByRole('button', { name: /Continue on Home:/ }).click()
+    await expect(page.locator('.home-v3-next h2')).toHaveText(selectedTopic)
+
     await page.goto(appPath + '#/home')
     const launch = async (item: typeof cases[number]) => {
       await page.goto(appPath + '#/plan?view=day')
