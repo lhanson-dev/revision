@@ -495,6 +495,180 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
 })
 
 /**
+ * #703 / #705: two different independently scored weaknesses within the SAME
+ * Business topic, no fabricated Plan items and no automatic method marks.
+ * Initial observations use the ordinary owner-scoped EvidenceStore; the later
+ * independently authored results are entered and scored through the real UI.
+ * A separate browser journey covers the actual wrong → Learn link → review.
+ */
+test('two Business skill weaknesses produce named independent Plan checks without cross-skill credit', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
+  test.setTimeout(240_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const host = new URL(url)
+  if (host.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(host.hostname)
+    || host.port !== '54321' || !anon || !secret) throw new Error('Never run against Production')
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const email = 'business-double-skill-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'TwoSkills-' + crypto.randomUUID() + '-A1!'
+  const topicId = 'leadership'
+  const moduleId = 'business-aqa-a-level-7132-paper-1'
+  const questions = businessDecisionTreeNumericalBank
+    .map((record) => bankRecordToPractice(record, topicId))
+    .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation')
+  const authored = (id: string) => {
+    const question = questions.find((q) => q.id === 'rev7132-3.2.2-' + id)
+    if (!question) throw new Error('Missing published AQA Business check: ' + id)
+    return question
+  }
+  const cases = [
+    { skill: 'aqa-7132-3.2.2:expected-value', label: 'Independent recheck: Expected value',
+      wrong: authored('expected-value-01'), fresh: authored('expected-value-02') },
+    { skill: 'aqa-7132-3.2.2:net-gain', label: 'Independent recheck: Net gain',
+      wrong: authored('net-gain-01'), fresh: authored('net-gain-02') },
+  ]
+  let userId: string | undefined
+  try {
+    const { data: created, error: createError } = await admin.auth.admin.createUser({
+      email, password, email_confirm: true,
+    })
+    if (createError || !created.user) throw new Error('Isolated student creation failed: ' + createError?.message)
+    userId = created.user.id
+    const signedIn = await learner.auth.signInWithPassword({ email, password })
+    if (signedIn.error) throw signedIn.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+    const { error: examError } = await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: businessId, subject_id: 'business', module_id: null,
+      assessment_type: 'public_exam', title: 'Business Paper 1',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: [topicId] }, is_active: true,
+    })
+    expect(examError).toBeNull()
+    const { error: capacityError } = await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London',
+      weekday_minutes: 240, weekend_minutes: 240,
+      monday_minutes: 240, tuesday_minutes: 240, wednesday_minutes: 240,
+      thursday_minutes: 240, friday_minutes: 240, saturday_minutes: 240, sunday_minutes: 240,
+    })
+    expect(capacityError).toBeNull()
+    // Exposure only: one shared Foundation page can explain both methods;
+    // it does not count as an independent answer for either distinct skill.
+    const exposure = await markLearnPageReviewed(learner, {
+      userId, courseId: businessId, moduleId, topicId, pageId: 'bus-evi-004',
+    })
+    expect(exposure.pageId).toBe('bus-evi-004')
+    const store = createSupabaseEvidenceStore(learner)
+    for (const [i, item] of cases.entries()) {
+      expect(item.wrong.prompt).not.toBe(item.fresh.prompt)
+      expect(objectiveItemMappingForPractice(item.wrong)?.singleTargetSpecItemId).toBe(item.skill)
+      expect(objectiveItemMappingForPractice(item.fresh)?.singleTargetSpecItemId).toBe(item.skill)
+      await recordLearningEvidence(store, userId, createCalculationEvidence({
+        id: 'two-distinct-misses-' + i + '-' + crypto.randomUUID(),
+        moduleId, topicId, contentId: item.wrong.id,
+        correct: false, enteredValue: item.wrong.expected + 7000,
+        expectedValue: item.wrong.expected, unit: item.wrong.unit,
+        confidence: 'certain', itemMapping: objectiveItemMappingForPractice(item.wrong),
+        occurredAt: new Date(Date.now() - (120 - i) * 1000).toISOString(),
+      }))
+    }
+    const before = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(new Set(before.map((item) => individualSpecItemObservation(item)?.specItemId)))
+      .toEqual(new Set(cases.map((item) => item.skill)))
+    const needs = findSkillRecheckOpportunities(questions, before, topicId, [moduleId], ['bus-evi-004'])
+    expect(new Set(needs.map((need) => need.freshQuestionId)))
+      .toEqual(new Set(cases.map((item) => item.fresh.id)))
+
+    // The student signs in normally and must find two genuinely different
+    // actionable Plan entries across the existing rolling 14-day period.
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    // Wait for real authenticated navigation to replace the sign-in form;
+    // a click alone does not prove Supabase Auth finished asynchronously.
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
+    const browserErrors: string[] = []
+    page.on('pageerror', (error) => browserErrors.push(error.message))
+    const launch = async (item: typeof cases[number]) => {
+      await page.goto(appPath + '#/plan?view=day')
+      try {
+        await expect(page.getByRole('heading', { name: 'Plan', exact: true }))
+          .toBeVisible({ timeout: 15_000 })
+      } catch {
+        const visible = (await page.locator('body').innerText()).slice(0, 1500)
+        throw new Error('Real-auth Plan never mounted. URL=' + page.url()
+          + ' | visible=' + visible + ' | JS errors=' + JSON.stringify(browserErrors))
+      }
+      await expect(page.locator('.pln-daypanel')).toBeVisible()
+      for (let index = 0; index < 14; index++) {
+        const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
+          .filter({ hasText: item.label })
+        if (await row.count()) {
+          await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
+          await expect(page.getByRole('button', { name: 'Back to Plan' })).toBeVisible()
+          await expect(page.getByText('Calculation recheck')).toBeVisible()
+          await expect(page.getByRole('heading', { name: item.fresh.prompt })).toBeVisible()
+          return
+        }
+        await page.getByRole('button', { name: 'Next day' }).click()
+        await expect(page.locator('.pln-daypanel')).toBeVisible()
+      }
+      throw new Error('No source-backed distinct ' + item.label + ' task in rolling 14-day Plan')
+    }
+    await launch(cases[0]!)
+    await page.getByLabel('Your final number').fill(String(cases[0]!.fresh.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => (await loadLearningEvidence(store, userId!, moduleId, topicId))
+      .some((item) => item.contentId === cases[0]!.fresh.id && item.correct
+        && individualSpecItemObservation(item)?.specItemId === cases[0]!.skill)).toBe(true)
+    const afterFirst = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(findSkillRecheckOpportunities(questions, afterFirst, topicId, [moduleId], ['bus-evi-004'])
+      .map((need) => need.specItemId)).toEqual([cases[1]!.skill])
+
+    // Finish the first focused activity through the actual learner control.
+    // Hash navigation alone must not abandon an open, already-saved check.
+    await page.getByRole('button', { name: 'Back to today’s plan' }).click()
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+
+    // First skill's improvement cannot silently remove the other weakness.
+    await launch(cases[1]!)
+    await page.getByLabel('Your final number').fill(String(cases[1]!.fresh.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => (await loadLearningEvidence(store, userId!, moduleId, topicId))
+      .some((item) => item.contentId === cases[1]!.fresh.id && item.correct
+        && individualSpecItemObservation(item)?.specItemId === cases[1]!.skill)).toBe(true)
+    const afterBoth = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(afterBoth).toHaveLength(4)
+    expect(findSkillRecheckOpportunities(questions, afterBoth, topicId, [moduleId], ['bus-evi-004']))
+      .toEqual([])
+    await page.reload()
+    await page.goto(appPath + '#/progress')
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+    // This is bounded final-number performance; no complete method or
+    // exam-readiness grade has been demonstrated.
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const deleted = await admin.auth.admin.deleteUser(userId)
+      expect(deleted.error, 'Isolated learner cleanup').toBeNull()
+    }
+  }
+})
+
+/**
  * #698 source-to-learner Marketing §3.3.3: use a real disposable local
  * GoTrue/PostgREST account to prove the new paper-based diagram exercise is
  * discoverable through the integrated Course Practice, not a fixture app.
