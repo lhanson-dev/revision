@@ -198,7 +198,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           expect(question.prompt).not.toBe(contract?.prompt)
           expect(question.explanation.length).toBeGreaterThan(100)
           expect(['Compliance:', 'The setting may affect', 'Social support can', 'Flexibility:']
-            .some(label => question.options[question.correctOption].startsWith(label))).toBe(true)
+            .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
           continue
         }
         expect(question.options[question.correctOption], question.id).toBe(contract?.label)
