@@ -1,0 +1,44 @@
+# Issue #698 — Trusted independent A2/A3 educational review for Business PRs #777 / #784
+
+**2 November 2026. Proposed reviewer infrastructure only, unmerged and not executable from approved main before a separately Founder-approved PR merge.** This review runner is intentionally NOT inside the unmerged learner-content PRs.
+
+## Authority and exact learner targets
+
+- Governing: `80-company-workflows/Content Accuracy Assurance Gate.md` (A1 factual alignment, A2 explanations, A3 original practice and A4 marking) and `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`.
+- Reference source: exact Founder-supplied 42-page AQA Business 7132 v2.0, 14 June 2023, for Summer 2027, SHA-256 `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`. Use classification **REFERENCE_ONLY**, no protected original AQA PDF text supplied to the review worker.
+- Real affected runtime `/revision/app/` → authenticated AQA Business Course → Marketing Learn / Practice Warm-up / Formulas. Shared `content/business/aqa-a-level/shared/learn.ts` and three paper ContentPacks are the current actual implementation, not a new application.
+- Target **PR #777** §3.3.3, printed p16, original market map method, construction self-check and qualitative targeting example; and **PR #784** §3.3.4, printed pp16–17, Boston Matrix and seven Ps Learn + two original self-check exercises. Both content PRs remain independently subject to their own CI, review and Founder approval.
+
+## Why fresh-context review is required
+
+Successful TypeScript/unit/browser/database CI cannot independently establish A2/A3 educational correctness. Both content PRs were authored in one production context, so a fresh-context reviewer must challenge (not simply endorse) each exact candidate after a source-scoped factual check. The unchanged published question bank `3.3:q11–q15` for #777 and `3.3:q31–q32` for #784 provides assessment-demand context; this reviewer does **not** certify existing written Marking Packs/A4 or qualified examiner calibration.
+
+## Protected exact-head contract
+
+`.github/workflows/business-pr777-784-independent-a2a3.yml` runs a no-secret test job on this infrastructure PR. After this infrastructure itself passes CI and obtains **separate explicit Founder approval for its own merge**, the protected provider job can be triggered by an authenticated GitHub PR comment authored by repository owner `lhanson-dev`, **only** on PR #777 or #784, in this exact format:
+
+```text
+revision-run-business-marketing-a2a3:v1
+head_sha: <exact 40-character current candidate PR SHA>
+```
+
+This comment **triggers educational review only**; it cannot grant merge approval. The runner checks:
+- named target PR, exact SHA, open PR, `base.ref=main`, same-repository head, owner/OWNER comment association;
+- trusted workflow checkout `github.sha` matches then-current approved `main`, and no checked-out/exec/import candidate PR code ever receives provider credentials;
+- six fixed allowlisted inert source paths for #777 or five for #784, independently checking Git blob hashes;
+- a separate published question bank: Git blob hash checked, then only exact specified question IDs extracted from parsed JSON, never executing untrusted code;
+- fresh independent `gpt-5.6-terra` Responses context (`store=false`), structured JSON schema and seven mandatory educational dimensions;
+- all named changed assets reviewed; material/blocking findings force `fail_hold`, missing dimensions, malformed findings, unavailable provider keys, stale SHA and truncation fail closed;
+- conservative model usage reserve **≤ USD $0.85 per bounded review**. A conservative preflight reserve uses the existing engineering rate assumptions. It does not represent guaranteed real billing; available provider quotas/rates must be observed at runtime.
+
+A 30-day retained receipt records exact target SHA, trusted main SHA, Git blob hashes, source provenance, review model, findings, limitations and decision. This CI does **not** merge, release or alter production data.
+
+## Scope boundaries and required next gates
+
+The model reviewer must challenge all original coordinates/ratios/Boston classifications, scenario logic, sources and educational depth, unclear wording, omissions, A2 pedagogy, A3 self-check explanations and **avoid false claims that showing a model answer independently scores a drawn chart or written evaluation**. If the reviewer returns material/blocking issues, remediate the smallest affected content PR, rerun exact-head CI and invalidate/retrigger prior independent receipt. Existing historical audits are preserved.
+
+A fresh AI review is *not* a qualified AQA teacher/examiner, an A4 written marking calibration, a 42-subsection assurance pass or an authenticated hosted production test. Publication remains **HOLD** until applicable source/rights, educational challenge, CI and release conditions pass. Further expert moderation is required before the product can be marketed as a benchmark educational offering; limited restricted-pilot decisions must be explicitly justified against the Content Accuracy Assurance Gate.
+
+## Documentation-impact decision
+
+Infrastructure changes only: workflow, trusted script, guard tests, this technical contract and INDEX pointer belong in this separate governed PR. No normative authority is being changed. Existing documents already define the required process. No historical assessment record is rewritten, and this reviewer is not evidence until its actual exact-head result is retained and inspected.
