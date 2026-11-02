@@ -420,13 +420,10 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
     await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
 
-    // A started five-question Practice session is genuinely still unfinished
-    // after the first wrong answer. Respect the existing Continue/Discard
-    // contract: close the activity and deliberately discard the *unfinished
-    // session* via the normal learner UI before attempting an independent
-    // Plan recheck. Scored evidence must NOT be deleted with the checkpoint.
-    await page.getByRole('button', { name: 'Back to practice' }).click()
-    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    // Returning from Learn opens the ordinary Practice setup with the
+    // unfinished checkpoint already visible. Discard that checkpoint using its
+    // real control; never delete the previously saved scored answer.
+    // There is no Back to practice control unless a focused activity is open.
     await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
     await expect(page.getByRole('button', { name: 'Continue saved session' })).toHaveCount(0)
     const persisted = await loadLearningEvidence(store, userId, moduleId, topicId)
