@@ -25,7 +25,7 @@ describe('Issue #698 AQA Business §3.5.2 published finance construction and typ
       expect(ids).toContain('a-level-network-amendment-01')
       expect(ids).toContain('rev7132-35-budget-construction-01')
       expect(ids).toContain('rev7132-35-cashflow-construction-01')
-      expect(new Set(ids).size).toBe(30)
+      expect(new Set(ids).size).toBe(32)
     }
   })
 
