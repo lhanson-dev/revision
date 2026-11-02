@@ -187,6 +187,66 @@ export const learn = learnCourseSchema.parse({
       ],
     },
     {
+      id: 'marketing',
+      topicId: 'marketing',
+      title: '3. Marketing Management',
+      groups: [
+        {
+          id: 'market-positioning-construction',
+          title: 'Market mapping: construction and interpretation',
+          pages: [
+            {
+              id: 'market-positioning-map-method',
+              topicId: 'marketing',
+              sourceSectionIds: ['stp'],
+              title: 'How to construct and use a market map',
+              orientation: 'Learn how to plot offers against two relevant perceived characteristics, then judge what the map can and cannot establish.',
+              blocks: [
+                {
+                  type: 'explanation',
+                  heading: 'Choose meaningful axes before drawing',
+                  paragraphs: [
+                    'A market map compares how customers perceive competing products or brands on two selected dimensions. Price can be measured directly, while an attribute such as perceived durability depends on evidence from customers. A map helps compare relative positions; it does not measure demand or prove that a gap is attractive.',
+                    'Use suitable, evenly spaced and labelled intervals within each axis, with relevant units. Plot and label every competitor at its coordinates; if two offers overlap, use distinct symbols or labels so both remain identifiable. Distinguish the proposed offer. Check whether perceptions are representative and whether other attributes matter more to customers.',
+                  ],
+                },
+                {
+                  type: 'worked-example',
+                  title: 'Construct a position map from customer research',
+                  setup: 'A bottle retailer compares three reusable bottles on price and perceived durability (0 to 10): Swift (£10, 4), Trek (£25, 7) and Endure (£35, 9). It is considering a bottle at £20 with a durability rating of 8.',
+                  task: 'Draw your own labelled two-axis market map before following these steps.',
+                  steps: [
+                    { label: 'Axes and scales', value: 'Use price (£) on the horizontal axis from £0 to £40, marked at £10 intervals; use perceived durability on the vertical axis from 0 to 10, marked at 2-point intervals.' },
+                    { label: 'Plot competitors', value: 'Plot and label Swift (10, 4), Trek (25, 7) and Endure (35, 9). Keep their positions proportional to both axis scales.' },
+                    { label: 'Plot the proposal', value: 'Mark the proposed bottle (20, 8) with a different symbol. It is £5 cheaper than Trek with a customer rating one point higher.' },
+                    { label: 'Interpret relative position', value: 'The proposal may occupy a comparatively attractive price/durability position, but a gap alone does not establish that enough customers will buy the bottle or that the rating is reliable.' },
+                    { label: 'Make a conditional decision', value: 'Check willingness to pay, production cost, reliability of customer ratings and the feasibility of delivering the claimed durability before deciding whether to launch.' },
+                  ],
+                  conclusion: 'A model map teaches how coordinates and scales work. Viewing or revealing the model does not independently verify a student’s drawing, analysis or evaluation.',
+                },
+                {
+                  type: 'misconception',
+                  title: 'An empty part of a market map is not automatically a business opportunity.',
+                  paragraphs: [
+                    'Competitors may avoid an area because customers do not value that combination of characteristics or because serving it would be too costly. The selected axes also omit other influences such as availability, brand, service and product quality.',
+                  ],
+                },
+                {
+                  type: 'recap',
+                  items: [
+                    'Label both axes with relevant characteristics, units and suitable, evenly spaced intervals on each axis.',
+                    'Plot and label competitors and proposals from coordinates rather than guessing their position.',
+                    'Compare relative positions but test whether apparent gaps reflect real demand and feasible delivery.',
+                    'Practise constructing and evaluating a new map on paper; a self-check is not a scored exam performance.',
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       id: 'finance',
       topicId: 'finance',
       title: '5. Financial Management',
