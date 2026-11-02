@@ -2,6 +2,7 @@ import { caseStudySchema } from '../../../schema'
 
 export const northstarMealsCase = caseStudySchema.parse({
   id: 'northstar-meals',
+  topicIds: ['operations'],
   title: 'Northstar Meals plc',
   bodyHtml: 'Northstar Meals plc manufactures chilled ready meals for UK supermarkets. Revenue has grown quickly after winning two national contracts, but its main factory now operates at 96% capacity utilisation. Retail customers impose strict delivery and quality targets. Northstar is considering a £14m automated production line that would increase capacity and reduce labour cost per unit. The project has a positive forecast NPV, although the forecasts assume supermarket volumes continue to grow. Employee representatives are concerned about job losses. Northstar also imports several ingredients, so exchange-rate movements can change input costs.',
   facts: ['UK food manufacturer','PLC','96% capacity utilisation','Strict retailer quality/delivery targets','£14m automation proposal','Positive forecast NPV','Employee job concerns','Imported inputs create exchange-rate exposure'],
@@ -16,6 +17,7 @@ export const northstarMealsCase = caseStudySchema.parse({
 
 export const willowHealthCase = caseStudySchema.parse({
   id: 'willow-health',
+  topicIds: ['hr', 'strategic-methods'],
   title: 'Willow Health Clinics Ltd',
   bodyHtml: 'Willow Health Clinics Ltd operates 18 private physiotherapy clinics. It has grown organically for six years and has a strong reputation for specialist treatment. Labour turnover among physiotherapists has risen to 22% as a national competitor expands. Willow is considering acquiring a smaller chain of nine clinics. Management expects purchasing and managerial economies of scale, but the target company has a more centralised culture and lower employee engagement scores. Willow would need a large bank loan to fund the acquisition.',
   facts: ['Private healthcare service','18 clinics','Organic growth history','22% professional staff turnover','Nine-clinic acquisition target','Different organisational culture','Expected scale economies','Large loan required'],
@@ -30,6 +32,7 @@ export const willowHealthCase = caseStudySchema.parse({
 
 export const kestrelBikesCase = caseStudySchema.parse({
   id: 'kestrel-bikes',
+  topicIds: ['marketing', 'strategic-direction'],
   title: 'Kestrel Bikes Ltd',
   bodyHtml: 'Kestrel Bikes Ltd is a small UK manufacturer of premium cargo bicycles. It sells mainly online and has differentiated through custom design and durable components. A distributor in the Netherlands wants exclusive rights to sell Kestrel bikes in three European countries. Management could license the brand and designs to a European producer instead, or invest directly in a small assembly facility. The owners have limited retained profit and are worried that rapid international growth could cause overtrading and weaken quality.',
   facts: ['Small UK manufacturer','Premium differentiation','Online sales','European market opportunity','Export/distribution option','Licensing option','Direct-investment option','Overtrading and quality concerns'],
@@ -44,6 +47,7 @@ export const kestrelBikesCase = caseStudySchema.parse({
 
 export const pulseLearningCase = caseStudySchema.parse({
   id: 'pulse-learning',
+  topicIds: ['strategic-position'],
   title: 'Pulse Learning Ltd',
   bodyHtml: 'Pulse Learning Ltd provides subscription-based workplace training software. Customer numbers have risen, but several larger technology firms now offer competing products. Pulse holds large amounts of customer usage data and is considering using data mining to personalise training recommendations. Management also wants to enter the US market using an alliance with a local provider. Software developers favour a task culture and high autonomy, while the new chief operating officer wants clearer processes and performance targets.',
   facts: ['Subscription software service','Customer growth','Larger new competitors','Large usage-data set','Data-mining proposal','US alliance proposal','Task-culture preference','Pressure for clearer processes'],
@@ -58,6 +62,7 @@ export const pulseLearningCase = caseStudySchema.parse({
 
 export const emberHomeCase = caseStudySchema.parse({
   id: 'ember-home',
+  topicIds: ['strategic-change'],
   title: 'Ember Home plc',
   bodyHtml: 'Ember Home plc sells furniture through 70 UK stores and online. Store revenue has been flat while e-commerce has grown strongly. The board is considering closing 20 stores, investing in a highly automated national distribution centre and expanding its online range. Some directors see this as necessary response to technological and social change; others worry about redundancy costs, customer reaction and the risk of concentrating distribution in one site. Ember also wants to reduce its environmental impact and has published People, Planet and Profit targets.',
   facts: ['Large omnichannel retailer','70 stores','Store revenue flat','E-commerce growing','20-store closure proposal','Automated distribution-centre proposal','Concentration risk','Triple Bottom Line targets'],
@@ -72,6 +77,7 @@ export const emberHomeCase = caseStudySchema.parse({
 
 export const tideRenewablesCase = caseStudySchema.parse({
   id: 'tide-renewables',
+  topicIds: ['finance'],
   title: 'Tide Renewables plc',
   bodyHtml: 'Tide Renewables plc develops and maintains offshore wind projects. A proposed new project requires a large up-front investment and has a payback period of seven years, positive NPV and an ARR above the board’s target. However, construction depends on planning approvals, specialised suppliers and a network of linked activities. Government environmental policy supports renewable energy, but interest rates have risen and managers expect some equipment costs to remain volatile. The project team is using network analysis and contingency plans.',
   facts: ['Renewable-energy developer','Large capital investment','Seven-year payback','Positive NPV','ARR above target','Planning and supplier dependencies','Higher interest rates','Network and contingency planning'],
