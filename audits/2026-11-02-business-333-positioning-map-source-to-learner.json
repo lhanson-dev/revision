@@ -44,7 +44,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-002",
@@ -68,7 +68,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-003",
@@ -92,7 +92,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-004",
@@ -116,7 +116,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-005",
@@ -140,7 +140,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-006",
@@ -164,7 +164,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-007",
@@ -188,7 +188,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-008",
@@ -212,7 +212,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-009",
@@ -238,7 +238,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-010",
@@ -265,7 +265,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     },
     {
       "id": "BUS7132-ATOM-3.3.3-011",
@@ -292,7 +292,7 @@
       "exam_class": "unverified",
       "production_learner_acceptance": "unverified",
       "progress_rev_plan_evidence": "unverified",
-      "reviewer": "pending_independent_subject_review"
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
     }
   ],
   "defects": [
@@ -320,5 +320,27 @@
     "qualified_educational_review": false,
     "authenticated_acceptance": false,
     "claim": "No course-completeness denominator or percentage"
+  },
+  "independentReview": {
+    "reviewed_candidate_sha": "dda5df2bfbb3c884fb68cadb625a315740aa19ca",
+    "reviewer_approved_main_sha": "99fe1885c3906e809f975c095f35edd45909c9ac",
+    "workflow_run": "https://github.com/lhanson-dev/revision/actions/runs/41472160176",
+    "artifact_id": 13155277875,
+    "status": "fail_hold",
+    "reviewer_decision": "fail_hold",
+    "completed": true,
+    "explanation": "Material finding is missing published integration/run inputs in the isolated reviewer payload, not a demonstrated broken learner integration. Independently verified original exact-head 9/9 CI #41450857245 succeeded, including authenticated local learner route. Reviewer was not supplied three paper pack source files or CI receipts; no new educational release pass can be inferred.",
+    "reviewed_factual_results": "All map coordinates and price differences reviewed correct; two minor wording improvements identified and applied on the post-review branch; reviewer receipt invalidated for modified head.",
+    "minorCorrections": [
+      "Clarified that each axis requires appropriate evenly spaced intervals, not identical scales",
+      "Acknowledged overlapping product coordinates with distinct labels/symbols",
+      "Made £8/£10 price comparisons explicit"
+    ],
+    "remainingRequirements": [
+      "New exact-head CI after wording changes",
+      "Trusted reviewer must receive actual three published pack definitions and independently retrievable validated CI evidence in order to adjudicate integration, not just test code assertions",
+      "Fresh exact-head A2/A3 reviewer run after reviewer input correction",
+      "Actual production learner validation after Founder-approved merge"
+    ]
   }
 }
