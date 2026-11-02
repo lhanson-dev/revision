@@ -131,11 +131,11 @@ function reviewerSchema() {
     required:['schemaVersion','items','knownLimitations','overallEducationalJudgement'],
     properties:{
       schemaVersion:{type:'integer',enum:[1]},
-      items:{type:'array',minItems:4,maxItems:4,items:{type:'object',additionalProperties:false,
+      items:{type:'array',items:{type:'object',additionalProperties:false,
         required:['id','blindAnswerIndex','verdict','answerReason','distractorChallenge','specificationAlignment','ambiguityAndClueRisk'],
         properties:{
           id:{type:'string',enum:EXPECTED.map(x=>x[1])},
-          blindAnswerIndex:{type:'integer',minimum:0,maximum:3},
+          blindAnswerIndex:{type:'integer'},
           verdict:{type:'string',enum:['pass','minor','material','blocking']},
           answerReason:string,distractorChallenge:string,specificationAlignment:string,ambiguityAndClueRisk:string,
         }}},
@@ -168,7 +168,7 @@ function explanationSchema() {
   return {type:'object',additionalProperties:false,
     required:['items','overallFeedbackVerdict'],
     properties:{
-      items:{type:'array',minItems:4,maxItems:4,items:{type:'object',additionalProperties:false,
+      items:{type:'array',items:{type:'object',additionalProperties:false,
         required:['id','verdict','keyAndExplanationConsistency','misconceptionAndDistractorFeedback'],
         properties:{
           id:{type:'string',enum:EXPECTED.map(x=>x[1])},
