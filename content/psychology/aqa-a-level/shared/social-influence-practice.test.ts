@@ -6,6 +6,7 @@ import { bankRecordToPractice, objectiveItemMappingForPractice } from '../../../
 import crosswalk from '../../../../scripts/assurance/data/aqa-psychology-7182-source-bullet-to-learn-crosswalk.json'
 import atomic from '../../../../scripts/assurance/data/aqa-psychology-7182-social-influence-atomic-review.json'
 import { psychologySocialInfluenceAppliedPracticeBank as scored, psychologySocialInfluenceWrittenDrills as written, psychologySocialInfluencePracticeCandidateBindings as bindings } from './social-influence-practice'
+import { psychologyLegacySocialInfluenceQuestions } from './course'
 
 const packs = [paper1, paper2, paper3]
 const liveTopic = 'social-influence'
@@ -67,7 +68,7 @@ describe('Issue #698 AQA Psychology Social Influence scoped applied/evaluation P
     expect(scored.filter(row => row.question.ao_tags.includes('AO3'))).toHaveLength(3)
   })
 
-  it('supplies the same original items through every real Psychology content pack without changing legacy question identities', () => {
+  it('supplies original applied items through every shared Course Practice pack and preserves separately versioned LF-03 history', () => {
     for (const pack of packs) {
       expect(pack.manifest.status).toBe('available')
       const candidates = (pack.practiceBank ?? []).filter(row => row.topic_id === liveTopic)
@@ -77,9 +78,16 @@ describe('Issue #698 AQA Psychology Social Influence scoped applied/evaluation P
         expect(candidate.target_node_ids[0]).toMatch(/^social-influence-psy010[1-4]$/)
       }
       const existing = pack.questions.filter(item => item.topic === liveTopic)
-      expect(existing.map(x => x.id).sort()).toEqual([
+      const historicalIds = psychologyLegacySocialInfluenceQuestions.map(item => item.id)
+      const liveIds = historicalIds.map(id => id + '-v2')
+      expect(historicalIds).toEqual([
         'psy-psy0101-check', 'psy-psy0102-check', 'psy-psy0103-check', 'psy-psy0104-check',
-      ].sort())
+      ])
+      // The original LF-03 scored questions are immutable history, not republished
+      // or overwritten by the eight independently source-targeted #698 cases.
+      expect(existing.map(x => x.id).sort()).toEqual([...liveIds].sort())
+      expect(existing.every(item => !historicalIds.includes(item.id))).toBe(true)
+      expect(questionIds.every(id => !liveIds.includes(id))).toBe(true)
       const drills = pack.dataDrills.filter(item => item.topic === liveTopic)
       expect(drills.map(item => item.id)).toEqual(written.map(item => item.id))
     }
