@@ -14,6 +14,7 @@ Use this file to find the governing source before substantive work.
 - LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
 - LF-03 #787 Memory four-item option-set defect, source-aligned versioned V2 MCQs and historical evidence preservation → `docs/technical/LF-03 Memory MCQ Application Correction.md`
+- Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection, not syllabus or renderer assurance (candidate) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
@@ -179,6 +180,7 @@ Use this file to find the governing source before substantive work.
 - Issue #703 Business authenticated actual Plan independent expected-value calculation retest candidate and evidence readback (CI and complete loop remain open) → `docs/technical/Issue 703 Business Authenticated Independent Recheck Acceptance.md`
 - Issue #703 Business 7132 real isolated authenticated two-skill Marketing evidence readback and returning Plan/Progress first acceptance slice (full learner loop remains open) → `docs/technical/Issue 703 Business Authenticated Skill Evidence Acceptance.md`
 - Issue #703 Business browser-entered wrong Practice calculation → different independent Plan reassessment acceptance (authenticated browser acceptance; final main integration CI pending) → `docs/technical/Issue 703 Business Browser Practice to Independent Plan Recheck Acceptance.md`
+- Issue #703 Home/Ask REV exact assessed-skill identity matching Plan's existing FI-001 recommendation, plus Progress remaining mismatch → `docs/technical/Issue 703 Home REV Exact Skill Focus Continuity.md`
 - Issue #703 FI-001 Plan two-skill named evidence focus and independent expected-value/net-gain Browser/Auth checks (candidate, not full loop) → `docs/technical/Issue 703 Distinct Business Skill Focus in Plan.md`
 - Issue #703 bounded incorrect Practice objective feedback → exact published Learn repair handoff, honest single-target session skill tiles and real Auth E2E candidate (not merged/live; broader acceptance open) → `docs/technical/Issue 703 Exact Practice Feedback Repair and Session Evidence.md`
 - Issue #703 browser-completed Business targeted Learn page review after real wrong Practice result and before independent Plan recheck (candidate; CI pending) → `docs/technical/Issue 703 Browser-Completed Learn Review After Wrong Business Practice.md`

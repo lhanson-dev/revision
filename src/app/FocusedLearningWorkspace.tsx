@@ -28,6 +28,7 @@ import { legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from './
 import {
   PRACTICE_LENGTHS,
   caseStudyForPractice,
+  guidedExerciseWarmup,
   lastPractisedLabel,
   sessionQuestionCount,
   toggleQuestionType,
@@ -125,7 +126,7 @@ const modeLabels: Record<WorkspaceMode, string> = {
   'quick-check': 'Quick check',
   'case-study': 'Case study',
   'exam-question': 'Exam question',
-  'formulas-data': 'Formulas & data',
+  'formulas-data': 'Formulas and guided exercises',
 }
 
 function defaultMode(section: FocusedLearningSection): WorkspaceMode {
@@ -330,9 +331,10 @@ export function FocusedLearningWorkspace({
   const typedPool = filterByTypes(fullPool, chosenTypes)
   const availableQuestions = typedPool.length
   const startCount = sessionQuestionCount(length, availableQuestions)
+  const guidedWarmup = guidedExerciseWarmup(formulas.length, drills.length)
   const warmups: PracticeWarmupRow[] = [
     ...(cards.length > 0 ? [{ id: 'flashcards', name: 'Flashcards', meta: `${Math.min(cards.length, FLASHCARD_DECK_SIZE)} ${Math.min(cards.length, FLASHCARD_DECK_SIZE) === 1 ? 'card' : 'cards'}${cards.length > FLASHCARD_DECK_SIZE ? ` · ${cards.length} on this topic` : ''}` }] : []),
-    ...(formulas.length > 0 || drills.length > 0 ? [{ id: 'formulas-data', name: 'Formulas', meta: `${formulas.length} ${formulas.length === 1 ? 'formula' : 'formulas'} · ${drills.length} data ${drills.length === 1 ? 'drill' : 'drills'}` }] : []),
+    ...(guidedWarmup ? [{ id: 'formulas-data', ...guidedWarmup }] : []),
     ...(caseStudy ? [{ id: 'case-study', name: 'Case study', meta: `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'}` }] : []),
   ]
   const extraScored: PracticeWarmupRow[] = includeExamQuestions && exam
@@ -902,7 +904,7 @@ export function FocusedLearningWorkspace({
     const openLabels: Partial<Record<WorkspaceMode, string>> = {
       'quick-check': 'Questions',
       flashcards: 'Warm-up · Flashcards',
-      'formulas-data': 'Warm-up · Formulas',
+      'formulas-data': `Warm-up · ${guidedWarmup?.name ?? 'Guided exercises'}`,
       'case-study': 'Warm-up · Case study',
       'exam-question': 'Exam question',
     }
@@ -1277,11 +1279,12 @@ export function FocusedLearningWorkspace({
             )}
             {drill && (
               <article className="practice-box">
-                <div className="practice-meta">Data drill {(drillIndex % drills.length) + 1} of {drills.length}</div>
+                <div className="practice-meta">Exercise {(drillIndex % drills.length) + 1} of {drills.length}</div>
                 <h3>{drill.title}</h3>
+                <p className="muted">Try this yourself before checking the model answer. This warm-up is not marked.</p>
                 <p>{drill.prompt}</p>
                 {showDrillAnswer ? <div className="answer-panel"><strong>Model answer</strong><p>{drill.answer}</p></div> : <Button variant="secondary" onClick={() => setShowDrillAnswer(true)}>Show model answer</Button>}
-                {showDrillAnswer && <Button onClick={nextDrill}>Next data drill</Button>}
+                {showDrillAnswer && <Button onClick={nextDrill}>Next exercise</Button>}
               </article>
             )}
           </div>

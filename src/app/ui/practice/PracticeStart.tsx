@@ -179,7 +179,7 @@ export function PracticeStart(props: PracticeStartProps) {
                 </Button>
                 <span className="practice-start__time"><Icon name="clock" size="inline" />about {estimatedMinutes(sessionCount)} min</span>
               </div>
-              {capped && <p className="practice-panel__note">This topic has {availableQuestions} {availableQuestions === 1 ? 'question' : 'questions'} for now, so that is what you will get.</p>}
+              {capped && <p className="practice-panel__note">There {availableQuestions === 1 ? 'is' : 'are'} {availableQuestions} {availableQuestions === 1 ? 'question' : 'questions'} available for this topic. Your session will use {availableQuestions === 1 ? 'it' : 'them all'}.</p>}
             </>
           )}
 
