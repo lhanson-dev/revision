@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createPracticeCheckpoint, discardPracticeCheckpoint, fingerprintPracticeContent,
-  loadPracticeCheckpoint, removePracticeCheckpoint, supabasePracticeCheckpointStore, updatePracticeCheckpoint,
+  removePracticeCheckpoint, supabasePracticeCheckpointStore, updatePracticeCheckpoint,
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointSnapshot,
 } from '../services/progress/practice-checkpoint-service'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
