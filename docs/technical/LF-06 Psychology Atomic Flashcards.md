@@ -16,6 +16,16 @@ The former card ID is deliberately not reused: its prior self-rated evidence rem
 
 The standard flashcard deck remains capped at 12 cards and uses existing saved rating/ordering mechanics. Tests assert four exact new IDs, unique IDs, single-demand prompts, topic identity and course total 121 (former 118 minus one plus four).
 
+## Source and evidence boundaries
+
+The exact Founder-provided AQA Psychology 7182 PDF (SHA-256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`) lists **four definitions in the field of mental health** in §4.1.4, printed page 18. These four retrieval prompts specifically address those definitions; they are not an exam-preparation or evaluation-completeness claim. The unchanged PSY-04-01 Learn page still supplies the full approved Course Truth explanation, Jahoda's ideal mental-health criteria, related research distinctions and evaluative limitations.
+
+The existing launch-review and source-to-learner audit originally assumed *one flashcard per Course Truth requirement*. The initial candidate's [CI #41517333971](https://github.com/lhanson-dev/revision/actions/runs/41517333971) correctly failed these safeguards: the count changed from 118 to 121; `psy-psy0401-card` was deliberately retired; the launch review could not find its former ID. The isolated signup job also failed because a local Supabase test attempted to bind port 54322 while already in use; this was not an application sign-up defect. Do **not** treat the initial failing run as acceptance.
+
+Corrections now expose `psychologyFlashcardsForRequirement` as the single source mapping: 117 requirements retain one existing card each; PSY-04-01 maps to exactly four new cards. The independent Psychology launch packet contains **all four** cards and review-scope IDs (not one arbitrary representative). Course and source-to-performance tests require the exact 118 requirement/121 card counts, preserve all published cards in all three paper packs and verify the original full Learn explanation was not discarded. No retired card is made active merely to satisfy a count.
+
+Historical flashcard evidence on `psy-psy0401-card` remains present under the old content ID in persistence but is not mapped to or credited to any new card ID. Existing scored questions, marking and progress thresholds are untouched; short self-rated retrieval does not assert independently measured mastery.
+
 ## Assurance / remaining work
 
 Exact-head CI (static, unit, build, responsive, security and data-path suites) and current-main integration are required. Live authenticated learner test and independent AQA-alignment/readability review remain outstanding. This is **one targeted correction**, not the complete Business/Psychology flashcard-quality audit; other long compound cards are a known open risk.
