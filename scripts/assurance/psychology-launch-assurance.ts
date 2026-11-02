@@ -194,7 +194,10 @@ function flashcardFor(requirementId: string) {
 }
 
 function questionFor(requirementId: string) {
-  // LF-03 deliberately versions all four original Social Influence concept checks.\n  // Challenge the actually published V2 content; never fall back to retired V1.\n  const version = /^PSY-01-0[1-4]$/.test(requirementId) ? '-v2' : ''\n  const found = psychologyQuestions.find((question) => question.id === `psy-${sectionId(requirementId)}-check${version}`)
+  // LF-03 deliberately versions all four original Social Influence concept checks.
+  // Challenge the actually published V2 content; never fall back to retired V1.
+  const version = /^PSY-01-0[1-4]$/.test(requirementId) ? '-v2' : ''
+  const found = psychologyQuestions.find((question) => question.id === `psy-${sectionId(requirementId)}-check${version}`)
   if (!found) throw new Error(`Missing production objective Practice for ${requirementId}`)
   return found
 }
@@ -556,7 +559,8 @@ export async function runPsychologyLaunchAssurance(args: {
 
   const packets = buildPsychologyLaunchPackets(args.courseTruthDir, args.examTruthPath)
   await mkdir(OUTPUT_DIR, { recursive: true })
-  await writeFile(join(OUTPUT_DIR, 'packet-summary.json'), `${JSON.stringify(packets.summary, null, 2)}\n`)
+  await writeFile(join(OUTPUT_DIR, 'packet-summary.json'), `${JSON.stringify(packets.summary, null, 2)}
+`)
 
   const reviews: LaunchReview[] = []
   let observedSpendUsd = 0
@@ -575,7 +579,8 @@ export async function runPsychologyLaunchAssurance(args: {
       observedSpendUsd = Number((observedSpendUsd + result.costUsd).toFixed(8))
       providerAttempts += result.attempts
       reviews.push(result.review)
-      await writeFile(join(OUTPUT_DIR, `${packet.packetId}.review.json`), `${JSON.stringify(result.review, null, 2)}\n`)
+      await writeFile(join(OUTPUT_DIR, `${packet.packetId}.review.json`), `${JSON.stringify(result.review, null, 2)}
+`)
       if (observedSpendUsd > maxSpendUsd) throw new Error(`Observed launch-assurance spend exceeded configured ceiling: US$${observedSpendUsd}`)
     }
   } catch (error) {
@@ -627,7 +632,8 @@ export async function runPsychologyLaunchAssurance(args: {
     },
   }
 
-  await writeFile(join(OUTPUT_DIR, 'final-receipt.json'), `${JSON.stringify(receipt, null, 2)}\n`)
+  await writeFile(join(OUTPUT_DIR, 'final-receipt.json'), `${JSON.stringify(receipt, null, 2)}
+`)
   if (finalDecision !== 'pass') throw new Error(`Psychology launch assurance fail-closed: ${failureReason ?? `${unresolvedFindings.length} blocking/material findings; ${unresolvedDimensions.length} blocking/material dimensions`}`)
   return receipt
 }
