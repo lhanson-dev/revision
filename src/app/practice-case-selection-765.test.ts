@@ -15,14 +15,14 @@ describe('LF-04 — case-study relevance on canonical Practice', () => {
     'strategic-direction': 'kestrel-bikes',
     'strategic-position': 'pulse-learning',
     'strategic-change': 'ember-home',
-    finance: 'tide-renewables',
   }
 
-  it('declares a non-empty, known-topic inventory for every published Business case', () => {
+  it('declares authentic topic relevance for five cases, without misclassifying investment appraisal as §3.5 Finance', () => {
     const known = new Set(topics.map(t => t.id))
     expect(caseStudies).toHaveLength(6)
+    expect(caseStudies.filter(c => (c.topicIds?.length ?? 0) > 0)).toHaveLength(5)
+    expect(caseStudies.find(c => c.id === 'tide-renewables')?.topicIds).toBeUndefined()
     for (const c of caseStudies) {
-      expect(c.topicIds?.length, c.id).toBeGreaterThan(0)
       expect(new Set(c.topicIds).size, c.id).toBe(c.topicIds?.length)
       for (const id of c.topicIds ?? []) expect(known.has(id), `${c.id}: ${id}`).toBe(true)
       expect(c.bodyHtml.length, c.id).toBeGreaterThan(100)
@@ -36,9 +36,11 @@ describe('LF-04 — case-study relevance on canonical Practice', () => {
       expect(c?.id, topicId).toBe(id)
       expect(c?.topicIds, topicId).toContain(topicId)
     }
-    // No topic-aligned case exists yet for these two topics. Do not claim one does.
-    expect(caseStudyForPractice(caseStudies, 'business')).toBeNull()
-    expect(caseStudyForPractice(caseStudies, 'leadership')).toBeNull()
+    // Finance (§3.5) does not include the §3.7.8 investment appraisal
+    // illustrated by Tide. A misleading case is worse than an honest gap.
+    for (const topic of ['business', 'leadership', 'finance']) {
+      expect(caseStudyForPractice(caseStudies, topic), topic).toBeNull()
+    }
   })
 
   it('publishes identical tagged cases across all three Business paper packs', () => {
