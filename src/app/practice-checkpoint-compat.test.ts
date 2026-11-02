@@ -83,7 +83,7 @@ describe('LF-03 #787 exact previous Memory sessions, not silently rekeyed', () =
   it('offers only the new V2 questions in new sessions while preserving exact previous V1 keys for recovery', () => {
     expect(published.map(q => q.id)).toEqual(ids.map(id => id + '-v2'))
     expect(legacy?.map(q => q.id)).toEqual(ids)
-    expect(legacy?.map(q => q.correctOption)).toEqual([0, 1, 1, 2])
+    expect(legacy?.map(q => q.type === 'multiple-choice' ? q.correctOption : null)).toEqual([0, 1, 1, 2])
     expect(legacyPsychologyCheckpointPool('7182', 'memory', published)).toEqual(legacy)
     expect(legacyPsychologyCheckpointPool('7132', 'memory', published)).toBeNull()
     expect(legacyPsychologyCheckpointPool('7182', 'social-influence', published)).toBeNull()
