@@ -31,6 +31,7 @@ import topic17 from '../../../../research/source-first-course-prototype/psycholo
 import examTruth from '../../../../research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
+import { socialInfluenceOriginalMcqOverrides } from './social-influence-original-mcqs'
 
 type TruthRequirement = {
   requirementId: string
@@ -110,6 +111,13 @@ function objectivePracticeDistractorIsDistinct(requirementId: string, candidateI
 
 function objectivePracticeOptions(topic: TruthTopic, requirement: TruthRequirement) {
   const correct = psychologyObjectivePracticeConcept(requirement)
+  const originalQuestion = socialInfluenceOriginalMcqOverrides[requirement.requirementId]
+  if (originalQuestion) {
+    const options = [...originalQuestion.distractors]
+    options.splice(originalQuestion.correctOption, 0, correct.label)
+    if (new Set(options).size !== 4) throw new Error(`Duplicate original Social Influence options: ${requirement.requirementId}`)
+    return { correct, correctOption: originalQuestion.correctOption, options }
+  }
   const distractors = topic.requirements
     .filter((candidate) => candidate.requirementId !== requirement.requirementId && objectivePracticeDistractorIsDistinct(requirement.requirementId, candidate.requirementId))
     .map((candidate) => ({
