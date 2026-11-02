@@ -63,6 +63,22 @@ export function usableQuestionTypes(
   return usable.length > 0 ? usable : [...available]
 }
 
+/**
+ * Only offer a topic-relevant case where the content author declared topic IDs.
+ * Preserve first-case fallback for older packs with no relevance tags at all.
+ * An explicitly tagged pack without a match must not advertise a random case.
+ */
+export function caseStudyForPractice<T extends { id: string; topicIds?: readonly string[] }>(
+  studies: readonly T[],
+  topicId: string,
+): T | null {
+  if (studies.length === 0) return null
+  if (studies.some(study => study.topicIds && study.topicIds.length > 0)) {
+    return studies.find(study => study.topicIds?.includes(topicId)) ?? null
+  }
+  return studies[0]
+}
+
 const DAY_MS = 86_400_000
 
 /** "Last practised 3 days ago". Null when the student has never practised the topic. */

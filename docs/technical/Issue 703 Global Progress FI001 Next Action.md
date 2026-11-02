@@ -1,6 +1,6 @@
 # #703 — global Progress consumes the shared FI-001 next action
 
-**State:** Governed candidate PR, not merged or live. **Canonical app:** `/revision/app/#/progress` via `PlannerRuntime → ProgrammeProgressScreen`. **Original branch base:** approved main `5b27ab3c25ac34015d033dd6d38a3722ffa81312`; **current-main integration refresh:** `b719831b3e6778244d31d59f83861729c6ba68e0`. Human FI-001 Gate B Ready was granted 29 October 2026 in PR #711; the approved Course Learning Blueprint, Adaptive Revision Planning and Claims and Progress Governance are unchanged.
+**State:** Governed candidate PR, not merged or live. **Canonical app:** `/revision/app/#/progress` via `PlannerRuntime → ProgrammeProgressScreen`. **Original branch base:** approved main `5b27ab3c25ac34015d033dd6d38a3722ffa81312`; **current-main integration refresh:** `2c84972a3ec2d2ecf15abf5c2cf378102255cc35` (incorporating LF-04 without replacing its implementation). Human FI-001 Gate B Ready was granted 29 October 2026 in PR #711; the approved Course Learning Blueprint, Adaptive Revision Planning and Claims and Progress Governance are unchanged.
 
 ## Observed discrepancy and correction
 
