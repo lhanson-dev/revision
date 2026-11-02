@@ -1,0 +1,563 @@
+{
+  "schema_version": "2026-11-02-334-source-to-published-candidate-v1",
+  "issue": 698,
+  "source": {
+    "qualification": "AQA Business 7132",
+    "version": "2.0",
+    "date": "2023-06-14",
+    "pdf_pages": 42,
+    "printed_pages": [
+      16,
+      17
+    ],
+    "sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+    "rights": "REFERENCE_ONLY"
+  },
+  "source_details": {
+    "sevenPs": [
+      "product",
+      "price",
+      "promotion",
+      "place",
+      "people",
+      "process",
+      "physical environment"
+    ],
+    "product": [
+      "Boston Matrix",
+      "product life cycle and extension strategies",
+      "new product development"
+    ],
+    "pricing": [
+      "penetration",
+      "price skimming"
+    ],
+    "promotion": [
+      "branding",
+      "social media",
+      "viral marketing"
+    ],
+    "place": [
+      "multi-channel distribution"
+    ],
+    "markets": [
+      "industrial goods",
+      "consumer goods",
+      "industrial services",
+      "consumer services"
+    ],
+    "integrationInfluences": [
+      "product life-cycle position",
+      "Boston Matrix",
+      "type of product",
+      "marketing objectives",
+      "target market",
+      "competition",
+      "positioning"
+    ],
+    "digital": [
+      "digital marketing",
+      "e-commerce"
+    ]
+  },
+  "status": "candidate_published_not_independently_assured",
+  "scope_note": "21 earlier provisional candidate atoms are NOT a verified complete source denominator. Applies to branch correction only. Every row must be independently educationally challenged against the exact PDF, written markers and actual signed-in routes before adequacy can pass. Does not change historical 194/344/421 registers.",
+  "real_learner_route": "/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/practice",
+  "assets": {
+    "learn": [
+      "content/business/aqa-a-level/shared/marketing-mix-supplement.ts",
+      "content/business/aqa-a-level/shared/learn.ts",
+      "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-006.json",
+      "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-008.json",
+      "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-009.json"
+    ],
+    "practice": [
+      "content/business/aqa-a-level/shared/fast-path-question-bank.json",
+      "content/business/aqa-a-level/shared/marketing-mix-practice.ts"
+    ]
+  },
+  "rows": [
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-001",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "explain all seven Ps for goods",
+      "observable_mode": "explain",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q29"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-seven-ps-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Earlier topic list names seven Ps, but detailed goods/services industrial/consumer differentiation has not been independently evidenced"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-002",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "apply all seven Ps to services",
+      "observable_mode": "apply",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-006",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q28",
+        "3.3:q29"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-seven-ps-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Earlier topic list names seven Ps, but detailed goods/services industrial/consumer differentiation has not been independently evidenced"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-003",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate Boston Matrix portfolio decisions",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "boston-matrix-decision-method",
+        "bus-mkt-006"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q17",
+        "3.3:q31",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-boston-matrix-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing q31/q32 are 9 and 25 marks but the current Learn supply does not explicitly teach axes, relative share ratios or all four categories; candidate correction adds those"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-004",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "interpret product life cycle stage",
+      "observable_mode": "interpret",
+      "published_learn_page_ids": [
+        "bus-mkt-006"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q20",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-005",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate extension strategies",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-006"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q17"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-006",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate new product development",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-006"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q18"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-007",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate penetration pricing",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-008"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q23"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-008",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate skimming pricing",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-008"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q24"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-009",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate branding",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-006",
+        "bus-mkt-007",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q19"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-010",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate social media promotion",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q26"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-011",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate viral marketing",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q27"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-012",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate multi-channel distribution",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q27"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-013",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "analyse people in a service mix",
+      "observable_mode": "analyse",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q28"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-seven-ps-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-014",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "analyse process in a service mix",
+      "observable_mode": "analyse",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q28"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-seven-ps-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-015",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "analyse physical environment in a service mix",
+      "observable_mode": "analyse",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q28"
+      ],
+      "published_practice_examples": [
+        "rev7132-334-seven-ps-01"
+      ],
+      "main_teaching_class": "inadequate",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-016",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate integrated marketing mix",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "marketing-mix-seven-ps-context",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q29",
+        "3.3:q30",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-017",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate influence of lifecycle on marketing mix",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-006",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q30",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-018",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate influence of competition on marketing mix",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-008",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q30",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-019",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate influence of positioning on marketing mix",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-005",
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q30",
+        "3.3:q32"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-020",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate digital marketing",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q28"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    },
+    {
+      "candidate_id": "BUS7132-ATOM-3.3.4-021",
+      "source_section": "3.3.4",
+      "printed_page": 16,
+      "candidate_skill": "evaluate e-commerce",
+      "observable_mode": "evaluate",
+      "published_learn_page_ids": [
+        "bus-mkt-009"
+      ],
+      "published_practice_bank_ids": [
+        "3.3:q29"
+      ],
+      "published_practice_examples": [],
+      "main_teaching_class": "unverified",
+      "branch_teaching_class": "unverified",
+      "practice_adequacy_class": "unverified",
+      "exam_adequacy_class": "unverified",
+      "authenticated_production_class": "unverified",
+      "assessment_boundary": "Questions include marker-dependent formats; no independent educator marking established",
+      "notes": "Existing assets linked as possible routes, not educational adequacy passes"
+    }
+  ],
+  "limitations": [
+    "Boston diagram self-drawing is not software marked.",
+    "Seven-P written application and evaluation are not independently marked by model reveal.",
+    "Marker-dependent 9/25 mark Boston evaluation cannot be treated as independently marked without the marker and validated rubric.",
+    "No production release or signed-in acceptance yet; no Progress/REV/Plan mastery proof.",
+    "Commercial calculations and quadrant classification are checked in software tests, not in student response evidence."
+  ]
+}
