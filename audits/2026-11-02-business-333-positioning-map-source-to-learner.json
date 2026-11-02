@@ -309,8 +309,8 @@
       "class_on_main": "incorrect",
       "source": "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json",
       "observation": "Targeting worked example had dummy gross_profit formula and zero result, which the Learn adapter rendered as a profit-calculation instruction despite no arithmetic context",
-      "candidate_correction": "Remove misleading dummy calculation metadata while retaining targeting steps and page identity",
-      "remaining_gap": "Independent educational regression and production validation pending"
+      "candidate_correction": "Preserve mandatory Content Factory calc metadata, but intercept reviewed 'not applicable' sentinel in published Learn adapter and require meaningful targeting question; reject unreviewed sentinels.",
+      "remaining_gap": "The legacy source still holds mandatory placeholder fields but published learner no longer receives the erroneous gross-profit instruction; independent review and production verification pending."
     }
   ],
   "summary": {
