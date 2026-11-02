@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { MARKER, SETTINGS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview } from './business-pr777-784-a2a3-review.mjs'
+import { MARKER, SETTINGS, PACK_PATHS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview, verifiedCiReceipt } from './business-pr777-784-a2a3-review.mjs'
 
 const head='a'.repeat(40)
 const event=(id=777,body=MARKER+'\nhead_sha: '+head)=>({
@@ -80,5 +80,40 @@ describe('independent review completeness and fail-closed decision',()=>{
     const bytes=Buffer.from(test,'utf8')
     const expected=createHash('sha1').update('blob '+bytes.length).update(Buffer.from([0])).update(bytes).digest('hex')
     assert.equal(gitBlobSha(test),expected)
+  })
+})
+
+describe('reviewer receives actual paper-pack sources and trusted CI evidence',()=>{
+  it('requires each of the real three published Business paper pack definitions',()=>{
+    assert.deepEqual(PACK_PATHS,[
+      'content/business/aqa-a-level/paper-1/index.ts',
+      'content/business/aqa-a-level/paper-2/index.ts',
+      'content/business/aqa-a-level/paper-3/index.ts',
+    ])
+    const workflow=readFileSync('.github/workflows/business-pr777-784-independent-a2a3.yml','utf8')
+    assert.match(workflow,/actions: read/)
+    const code=readFileSync('scripts/assurance/business-pr777-784-a2a3-review.mjs','utf8')
+    assert.match(code,/publishedPaperPackSources:packs/)
+    assert.match(code,/verifiedGitHubCi:ci/)
+  })
+  it('requires exact head, all nine successful CI jobs and rejects newer failed CI',()=>{
+    const labels=[
+      'Assurance plan and secret scan','Foundation static, unit and build assurance',
+      'Database, RLS and protected service assurance','Real Auth standard signup assurance',
+      'Responsive browser assurance (phone, shard 1/1)',
+      'Responsive browser assurance (tablet, shard 1/1)',
+      'Responsive browser assurance (desktop, shard 1/2)',
+      'Responsive browser assurance (desktop, shard 2/2)','Foundation quality',
+    ]
+    const jobs=labels.map(name=>({name,status:'completed',conclusion:'success'}))
+    const good={id:123,head_sha:head,name:'Revision CI',status:'completed',conclusion:'success',
+      event:'pull_request',created_at:'2026-11-02T12:00:00Z',html_url:'https://github.com/lhanson-dev/revision/actions/runs/123'}
+    assert.equal(verifiedCiReceipt([good],jobs,head).runId,123)
+    assert.throws(()=>verifiedCiReceipt([good],jobs,'b'.repeat(40)))
+    assert.throws(()=>verifiedCiReceipt([good],jobs.slice(1),head))
+    assert.throws(()=>verifiedCiReceipt([good],jobs.map((job,i)=>i===1?{...job,conclusion:'failure'}:job),head))
+    assert.throws(()=>verifiedCiReceipt([good,{...good,id:124,conclusion:'failure',created_at:'2026-11-02T13:00:00Z'}],jobs,head))
+    assert.throws(()=>verifiedCiReceipt([{...good,event:'push'}],jobs,head))
+    assert.throws(()=>verifiedCiReceipt([good],[...jobs,jobs[0]],head))
   })
 })
