@@ -1,6 +1,6 @@
 # LF-03 / #787 — AQA Psychology Memory multiple-choice application correction
 
-**Status (2 November 2026):** Governed implementation candidate, **NOT merged, released, educationally approved or learner accepted**. Fresh independent A3 for this exact four-question source is **HOLD** until a separate trusted-context review and exact-head CI pass. Corrective scope is Memory only; #765 original Social Influence acceptance and #787 remaining course-bank work continue independently.
+**Status (2 November 2026):** Governed implementation candidate, **NOT merged, deployed or learner accepted**. Independent exact-blob A3 has **PASSED** with four blind correct answers and separate explanation checks, [trusted run #41443871347](https://github.com/lhanson-dev/revision/actions/runs/41443871347), retained receipt artifact #13140134502. Full original content-head CI passed [#41438463056](https://github.com/lhanson-dev/revision/actions/runs/41438463056) and first approved-main integration CI passed [#41439517744](https://github.com/lhanson-dev/revision/actions/runs/41439517744). Reviewer PR #789 was separately Founder-approved and merged. **Fresh integration with the new #789 main and separate Founder content PR #788 approval remain outstanding.** Corrective scope is Memory only; #765 original Social Influence acceptance and #787 remaining course-bank work continue independently.
 
 ## Authority and route
 
@@ -33,15 +33,21 @@ Four new original scenario MCQs and full explanations live in `content/psycholog
 
 | Gate | Current proof / limit | Status |
 | --- | --- | --- |
-| Exact AQA §4.1.2 scope | Official supplied PDF directly reviewed, original candidate content mapped to four requirements; independently licensed subject-synthesis used for explanation | Source match checked; independent key review pending |
+| Exact AQA §4.1.2 scope | Official supplied PDF directly reviewed, original candidate content mapped to four requirements; independently licensed subject-synthesis used for explanation | Source checked; A3 all four keys/explanations PASS within defined scope |
 | Original questions and rights | Four independently authored Revision scenarios; no AQA paper question or protected text copied | Candidate |
 | Source MCQ defect reproduction | Identical four-item multiset + old A,B,B,C indexes derived from actual published generator | Confirmed |
-| Tests across three real Psychology packs | V2 IDs, keys, option-set variance, source test, real session marking and evidence paths | Added; exact-head CI pending |
-| Saved prior answers and old sessions | Immutable V1 keys, full original fingerprint and domain-specific inference retirement | Added; exact-head CI pending |
-| Responsive browser path | Desktop, tablet and phone E2E test with synthetic signed-in backend | Added; exact-head CI pending |
-| Independent blinded A3 | Reviewer must separately choose each correct answer **without authored key/feedback**, then inspect all distractors, syllabus, clue patterns and subtle ambiguities; separate fresh reviewer must challenge authored feedback | **HOLD — not run** |
+| Tests across three real Psychology packs | V2 IDs, keys, option-set variance, source test, real session marking and evidence paths | Original and first integrated-head CI PASS; final current-main CI pending |
+| Saved prior answers and old sessions | Immutable V1 keys, full original fingerprint and domain-specific inference retirement | Original and first integrated-head CI PASS; final current-main CI pending |
+| Responsive browser path | Desktop, tablet and phone E2E test with synthetic signed-in backend | Original and first integrated-head CI PASS; final current-main CI pending |
+| Independent blinded A3 | Reviewer must separately choose each correct answer **without authored key/feedback**, then inspect all distractors, syllabus, clue patterns and subtle ambiguities; separate fresh reviewer must challenge authored feedback | **PASS** — blind C,A,D,B and separate explanations all pass; exact source blob `88d1e660a55b2399e7e631aad69fe7b9d630ddf2` |
 | Merge / release / student acceptance | Specific Founder approval, full CI, deploy lineage + backend + production smoke and authentic learner feedback required separately | **NOT approved, NOT merged, NOT live** |
 
 ## Documentation impact
 
 This is a **bounded content defect**, not a newly approved feature. Existing normative Course Learning Blueprint, the Content Accuracy Assurance Gate and Claims and Progress Governance already require meaningful and evidence-safe assessment. The same governed PR updates the published question content, canonical Practice checkpoint and evidence implementation, impacted source-ID tests, technical note and INDEX. Historical source inventory `audits/2026-11-02-lf03-mcq-bank-source-audit.md` remains unchanged; current status updates go in #787/#698 and this note. The remaining 13 originally identified non-Memory option-repeat groups, and Business A-biased retained bank, remain **unverified and uncorrected**. No personal learner evidence was inspected.
+
+## Independent A3 receipt — 2 November 2026
+
+[Trusted workflow #41443871347](https://github.com/lhanson-dev/revision/actions/runs/41443871347) completed as `success`, with retained [artifact #13140134502](https://github.com/lhanson-dev/revision/actions/runs/41443871347/artifacts/13140134502). The actual JSON receipt was inspected: `completed=true`, `decision=pass`, first independent `review.decision=pass`, second independent `feedbackReview.decision=pass`. The first model did not receive authored correct keys or explanations and independently selected indexes **2,0,3,1 (C,A,D,B)** for four unchanged V2 items. It assessed whether distractors, wording and alternatives created factual ambiguity, and found no material flaw; second reviewer independently confirmed all authored keys and feedback. Exact candidate source Git blob `88d1e660a55b2399e7e631aad69fe7b9d630ddf2`; target PR head during review `009cbc5a5b8c353517f7b56d12b6076255fd807b`; approved-main review SHA `acc0c4a7d568b18ba3307a4e6043cd014d4c58f3`.
+
+This is **not** a qualified teacher or examiner sign-off, model access to the original official AQA PDF, full syllabus assurance, empirical learner performance or production release. Any material change to the V2 authored file requires fresh independent review.
