@@ -72,7 +72,7 @@ describe('independent review completeness and fail-closed decision',()=>{
     assert.match(implementation,/process.env.GITHUB_SHA!==main.commit.sha/)
     assert.match(implementation,/gitBlobSha\(content\)!==meta.sha/)
     assert.doesNotMatch(implementation,/\beval\(/)
-    assert.doesNotMatch(implementation,/\bexec\(/)
+    assert.doesNotMatch(implementation,/from ['\"]node:child_process['\"]/)\n    assert.doesNotMatch(implementation,/\bexecSync\(/)
   })
   it('independently calculates source git blob identifier',()=>{
     const test='original Revision teaching only'
