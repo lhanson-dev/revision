@@ -266,8 +266,8 @@ function legacyObjectiveQuestion(topic: TruthTopic, requirement: TruthRequiremen
 
 /** Exact prior published Social Influence item definitions for safe in-progress
  * checkpoint recovery only. Never publish these in a new Practice pool. */
-export const psychologyLegacySocialInfluenceQuestions = truthTopics[0].requirements
-  .map((requirement) => legacyObjectiveQuestion(truthTopics[0], requirement))
+export const psychologyLegacySocialInfluenceQuestions = truthTopics[0]!.requirements
+  .map((requirement) => legacyObjectiveQuestion(truthTopics[0]!, requirement))
 
 const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
