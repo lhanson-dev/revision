@@ -534,9 +534,11 @@ test('Business 7132 §3.3.3 real learner can reach market-map construction witho
     await page.getByLabel('Password').fill(password)
     await page.getByRole('button', { name: 'Sign in' }).click()
     await page.goto(`${appPath}#/courses/${encodeURIComponent(businessId)}/practice`)
-    await expect(page.getByLabel('Topic')).toBeVisible()
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
     await page.getByLabel('Topic').selectOption('marketing')
-    await page.getByRole('tab', { name: 'Formulas & data' }).click()
+    await expect(page.getByText('Practice · 3. Marketing Management')).toBeVisible()
+    await page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Formulas/ }).click()
 
     // The first three Marketing drills are historical accepted content.
     // The new fourth drill must be reachable by normal in-app navigation.
