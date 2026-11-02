@@ -757,7 +757,7 @@ test('Business 7132 §3.3.3 real learner can reach market-map construction witho
     // The new fourth drill must be reachable by normal in-app navigation.
     for (let index = 0; index < 3; index++) {
       await page.getByRole('button', { name: 'Show model answer' }).click()
-      await page.getByRole('button', { name: 'Next data drill' }).click()
+      await page.getByRole('button', { name: 'Next exercise' }).click()
     }
     await expect(page.getByRole('heading', { name: 'Draw and interpret a market-positioning map' })).toBeVisible()
     await expect(page.getByText(/Plot three competitors: CupGo/)).toBeVisible()
