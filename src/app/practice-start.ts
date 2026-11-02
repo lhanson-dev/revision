@@ -14,6 +14,23 @@ export const practiceQuestionTypeLabels: Record<PracticeQuestionType, string> = 
   written: 'Written answers',
 }
 
+/**
+ * The legacy "Data drill" is an unmarked exercise with a model answer, not
+ * necessarily a numerical task. Name the warm-up from the actual supplied
+ * formula/exercise counts rather than advertising non-existent formulas.
+ */
+export function guidedExerciseWarmup(formulaCount: number, exerciseCount: number): { name: string; meta: string } | null {
+  if (formulaCount <= 0 && exerciseCount <= 0) return null
+  const name = formulaCount > 0 && exerciseCount > 0
+    ? 'Formulas and guided exercises'
+    : formulaCount > 0 ? 'Formulas' : 'Guided exercises'
+  const details = [
+    ...(formulaCount > 0 ? [`${formulaCount} ${formulaCount === 1 ? 'formula' : 'formulas'}`] : []),
+    ...(exerciseCount > 0 ? [`${exerciseCount} ${exerciseCount === 1 ? 'exercise' : 'exercises'} · model answers`] : []),
+  ]
+  return { name, meta: details.join(' · ') }
+}
+
 const knownMinutes: Record<PracticeLength, number> = { 5: 8, 10: 15, 15: 25 }
 
 /** "About 8 min" for 5 questions, 15 for 10, 25 for 15. Other counts (a short topic) use the same pace. */
