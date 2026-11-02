@@ -16,7 +16,7 @@ The generic question UI already receives and renders any `context`/data `table` 
 - The canonical Practice workspace calls `caseStudyForPractice(adapter.listCaseStudies(), topicId)` instead of taking the first case globally.
 - For a fully tagged pack, select the first case that is explicitly relevant to the chosen topic; if none is tagged for the topic, omit the misleading Case study warm-up. For an older pack with **no tags at all**, preserve the pre-existing first-case fallback; do not silently disable its experience.
 - Exact current Business route: Operations → Northstar; Human resources / Strategic methods → Willow; Marketing / Strategic direction → Kestrel; Strategic position → Pulse; Strategic change → Ember; Finance → Tide. **What is Business? / Leadership** currently have no appropriately tagged existing whole-case warm-up; do not claim they do. Independent subject-review of case relevance and missing-source cases remains an action for #698.
-- Existing six case texts, questions, explanations and marks remain identical. Published case IDs, internal activity id `formulas-data` and evidence/save behaviour are unchanged; there is no schema database migration.
+- Existing six case texts, questions, explanations and marks remain identical. Published case IDs, internal activity id `case-study` and evidence/save behaviour are unchanged; there is no schema database migration.
 
 ## Tests and learner acceptance
 
