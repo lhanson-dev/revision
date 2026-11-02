@@ -251,3 +251,42 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
     [1, 2, 3, 4].map(number => `psy-psy010${number}-check-v2`),
   )
 })
+
+test('LF-03 #787 canonical Memory Practice displays, scores and restores four different original scenario MCQs', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/memory`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+  const positions = [2, 0, 3, 1]
+  const stems = [/briefly sees a grid/, /listening to spoken directions/, /After studying French verbs/, /Two witnesses discuss an accident/]
+  const sets = new Set<string>()
+  for (let index = 0; index < 4; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(stems[index]!)
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    const texts = await options.allTextContents()
+    sets.add([...texts].map(t => t.trim().toLowerCase()).sort().join('|'))
+    await options.nth(positions[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    expect(saved).toHaveLength(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: `psy-psy020${index + 1}-check-v2`,
+      selectedOption: positions[index], correctOption: positions[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1) // do not double-save on re-entry
+    }
+    if (index < 3) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(sets.size).toBe(4)
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(
+    [1, 2, 3, 4].map(i => `psy-psy020${i}-check-v2`),
+  )
+})

@@ -1,6 +1,6 @@
 import type { PracticeQuestion } from './practice-questions'
 import { coursePackQuestionToPractice } from './practice-questions'
-import { psychologyLegacySocialInfluenceQuestions } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions } from '../../content/psychology/aqa-a-level/shared/course'
 import {
   fingerprintPracticeContent, loadPracticeCheckpoint,
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointStore,
@@ -23,6 +23,33 @@ export function legacySocialInfluencePool(
   ]))
   if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 4) return null
   return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
+/**
+ * LF-03 Memory extension. Keep the original Social Influence compatibility
+ * function intact; each topic is reconstructed only with the four exactly
+ * previously published questions, and only if all four V2 IDs are present.
+ */
+export function legacyMemoryPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  if (specificationCode !== '7182' || topicId !== 'memory') return null
+  const previousByCurrentId = new Map(psychologyLegacyMemoryQuestions.map(question => [
+    question.id + '-v2', coursePackQuestionToPractice(question),
+  ]))
+  if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 4) return null
+  return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
+export function legacyPsychologyCheckpointPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  return legacySocialInfluencePool(specificationCode, topicId, publishedPool)
+    ?? legacyMemoryPool(specificationCode, topicId, publishedPool)
 }
 
 export async function loadLf03CompatibleCheckpoint(
