@@ -11,7 +11,6 @@ describe('LF-04 — case-study relevance on canonical Practice', () => {
     operations: 'northstar-meals',
     hr: 'willow-health',
     'strategic-methods': 'willow-health',
-    marketing: 'kestrel-bikes',
     'strategic-direction': 'kestrel-bikes',
     'strategic-position': 'pulse-learning',
     'strategic-change': 'ember-home',
@@ -38,7 +37,7 @@ describe('LF-04 — case-study relevance on canonical Practice', () => {
     }
     // Finance (§3.5) does not include the §3.7.8 investment appraisal
     // illustrated by Tide. A misleading case is worse than an honest gap.
-    for (const topic of ['business', 'leadership', 'finance']) {
+    for (const topic of ['business', 'leadership', 'finance', 'marketing']) {
       expect(caseStudyForPractice(caseStudies, topic), topic).toBeNull()
     }
   })
