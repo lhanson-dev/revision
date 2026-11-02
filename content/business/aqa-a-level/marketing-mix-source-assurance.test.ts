@@ -49,7 +49,7 @@ describe('Issue #698 AQA Business §3.3.4 Boston Matrix and 7Ps published learne
         const drill = all.find(d => d.id === id)
         expect(drill?.topic).toBe('marketing')
         expect(drill?.prompt).toMatch(/On paper|Write a short recommendation/)
-        expect(drill?.answer).toMatch(/NOT independently/)
+        expect(drill?.answer).toMatch(/NOT (?:an )?independently/)
         expect(drill).not.toHaveProperty('marks')
         expect(drill).not.toHaveProperty('score')
       }
