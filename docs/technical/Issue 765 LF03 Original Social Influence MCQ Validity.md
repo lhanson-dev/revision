@@ -15,6 +15,10 @@ The new `social-influence-original-mcqs.ts` supplies only this four-question exc
 
 Student-owned scored evidence remains associated with the original stable question and topic IDs. The existing versioned saved-Practice checkpoint fingerprint rejects a resumed question set with changed content; it must not replay a previously selected letter against the new order. Authenticated resume/reload acceptance remains an explicit release gate.
 
+## CI/regression finding and correction
+
+The first full PR #778 foundation job in [CI run 41418731700](https://github.com/lhanson-dev/revision/actions/runs/41418731700) failed on one existing test in `content/psychology/aqa-a-level/content.test.ts`. That test required **every** distractor in all 118 generated questions to equal one of the other parent-requirement headline labels — the exact design constraint responsible for LF-03's repeated four-option menu. The new dedicated LF-03 tests themselves passed in that run. The existing full-course test has therefore been narrowed **only for these four named IDs** to assert the explicitly authored options and keyed correctness; its unchanged source-label constraint continues to apply to the other 114 generated questions. The failing CI outcome remains recorded historically and a new exact-head full suite must pass.
+
 ## Educational/evidence boundary
 
 The four questions remain **single-concept recognition**, not independent demonstration of AQA AO2 application, AO3 evaluation, extended explanation, an individual specification subskill, or Social Influence mastery. Draft PR #773 is a *separate* eight-scenario/four-self-check educational addition and itself requires independent A3 review via proposed reviewer PR #774. Neither the #773 reviewer nor earlier A2 Learn assurance automatically validates these four updated original questions.
