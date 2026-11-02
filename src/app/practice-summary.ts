@@ -5,7 +5,7 @@
  */
 import { GUESSED_RIGHT_PERCENTAGE } from '../engine/evidence/evidence'
 import { bandForScore } from '../engine/knowledge/topic-knowledge'
-import { topicOrderForSpecItem, type PracticeQuestion } from './practice-questions'
+import { objectiveItemMappingForPractice, topicOrderForSpecItem, type PracticeQuestion } from './practice-questions'
 import { statusDirection, type QuestionSession, type SessionAnswer } from './practice-session'
 import { estimatedMinutes } from './practice-start'
 import { learningStatusMeta, type LearningStatus } from './ui/learning-status'
@@ -131,12 +131,23 @@ export function summariseSession(input: SummaryInput): SessionSummaryModel {
   if (input.topicOrder !== null) {
     const inTopic = (id: string) => topicOrderForSpecItem(id) === input.topicOrder
     const results = new Map<string, number[]>()
+    // One software-scored answer is not evidence of every tagged demand.
+    // Only the same single-target source mapping permitted by the persisted
+    // individual-spec observation may appear as a scored session skill.
+    const supportedTarget = (question: PracticeQuestion | undefined): string | null => {
+      if (!question || question.type === 'written') return null
+      const target = objectiveItemMappingForPractice(question)?.singleTargetSpecItemId
+      return target && inTopic(target) ? target : null
+    }
     answers.forEach((answer) => {
-      const question = byId.get(answer.questionId)
-      question?.specItemIds.filter(inTopic).forEach((id) => results.set(id, [...(results.get(id) ?? []), percentageOf(answer)]))
+      const id = supportedTarget(byId.get(answer.questionId))
+      if (id) results.set(id, [...(results.get(id) ?? []), percentageOf(answer)])
     })
     const tested = [...results.entries()].map(([id, values]) => ({ id, label: input.skillLabel(id), status: skillStatusFor(values.reduce((sum, value) => sum + value, 0) / values.length) }))
-    const untestedIds = [...new Set(session.poolIds.flatMap((id) => byId.get(id)?.specItemIds ?? []).filter((id) => inTopic(id) && !results.has(id)))]
+    const untestedIds = [...new Set(session.poolIds.flatMap((id) => {
+      const target = supportedTarget(byId.get(id))
+      return target && !results.has(target) ? [target] : []
+    }))]
     skills.push(...tested, ...untestedIds.map((id) => ({ id, label: input.skillLabel(id), status: 'nottested' as const })))
     skills.splice(MAX_SKILL_TILES)
   }
