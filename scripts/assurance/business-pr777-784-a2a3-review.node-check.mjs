@@ -66,9 +66,9 @@ describe('independent review completeness and fail-closed decision',()=>{
   it('never executes unmerged candidate scripts and only permits reviewer on approved main',()=>{
     const workflow=readFileSync('.github/workflows/business-pr777-784-independent-a2a3.yml','utf8')
     const implementation=readFileSync('scripts/assurance/business-pr777-784-a2a3-review.mjs','utf8')
-    assert.match(workflow,/ref: \\$\{\{ github.sha \}\}/)
+    assert.ok(workflow.includes('ref: ' + '$' + '{{ github.sha }}'))
     assert.match(workflow,/github.event.comment.author_association == 'OWNER'/)
-    assert.match(workflow,/OPENAI_API_KEY: \\$\{\{ secrets.OPENAI_API_KEY \}\}/)
+    assert.ok(workflow.includes('OPENAI_API_KEY: ' + '$' + '{{ secrets.OPENAI_API_KEY }}'))
     assert.match(implementation,/process.env.GITHUB_SHA!==main.commit.sha/)
     assert.match(implementation,/gitBlobSha\(content\)!==meta.sha/)
     assert.doesNotMatch(implementation,/\beval\(/)
