@@ -30,6 +30,7 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
       const [drill] = drills
       expect(drill.topic).toBe('marketing')
       expect(drill.prompt).toMatch(/draw a market map/i)
+      expect(drill.prompt).toMatch(/extension exercise/i)
       expect(drill.prompt).toMatch(/plot three competitors/i)
       expect(drill.answer).toMatch(/cannot score or independently verify/i)
       expect(drill).not.toHaveProperty('marks')
