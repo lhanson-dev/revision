@@ -890,7 +890,7 @@ export function FocusedLearningWorkspace({
     const openLabels: Partial<Record<WorkspaceMode, string>> = {
       'quick-check': 'Questions',
       flashcards: 'Warm-up · Flashcards',
-      'formulas-data': 'Warm-up · Guided exercises',
+      'formulas-data': `Warm-up · ${guidedWarmup?.name ?? 'Guided exercises'}`,
       'case-study': 'Warm-up · Case study',
       'exam-question': 'Exam question',
     }
