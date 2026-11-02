@@ -118,6 +118,7 @@
 .pln-row--compact .pln-row__title { font-size: 15px; }
 .pln-row__title[data-done] { color: var(--color-text-secondary); }
 .pln-row__meta { font: 600 14px/1.3 var(--font-family-product); color: var(--color-text-secondary); }
+.pln-row__skill { font: 600 13px/1.4 var(--font-family-product); color: var(--color-text-secondary); overflow-wrap: anywhere; }
 .pln-row__done { display: inline-flex; align-items: center; gap: 6px; font: 800 13px/1 var(--font-family-product); color: var(--color-text-secondary); }
 .pln-row__action { display: flex; }
 .pln-row--exam { border-top: 0; }
