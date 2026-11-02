@@ -10,7 +10,7 @@ import paper3 from '../../content/psychology/aqa-a-level/paper-3'
 import {
   psychologyDataDrills,
   psychologyExamTechnique,
-  psychologyFlashcards,
+  psychologyFlashcardsForRequirement,
   psychologyLearn,
   psychologyQuestions,
   psychologyTopicLinks,
@@ -80,7 +80,7 @@ type EducationalPacket = {
       requirementId: string
       courseTruth: SubjectTruth
       learnPage: unknown
-      flashcard: unknown
+      flashcards: unknown[]
       objectivePractice: unknown
       dataDrill?: unknown
     }>
@@ -187,9 +187,10 @@ function learnPageFor(requirementId: string) {
   return group.pages[0]
 }
 
-function flashcardFor(requirementId: string) {
-  const found = psychologyFlashcards.find((card) => card.id === `psy-${sectionId(requirementId)}-card`)
-  if (!found) throw new Error(`Missing production flashcard for ${requirementId}`)
+function flashcardsFor(requirementId: string) {
+  const found = psychologyFlashcardsForRequirement(requirementId)
+  const expected = requirementId === 'PSY-04-01' ? 4 : 1
+  if (found.length !== expected) throw new Error(`Missing or extra production flashcards for ${requirementId}: expected ${expected}, got ${found.length}`)
   return found
 }
 
@@ -250,7 +251,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
           requirementId: requirement.requirementId,
           courseTruth: requirement.subjectTruth,
           learnPage: learnPageFor(requirement.requirementId),
-          flashcard: flashcardFor(requirement.requirementId),
+          flashcards: flashcardsFor(requirement.requirementId),
           objectivePractice: questionFor(requirement.requirementId),
           ...(dataDrillFor(topic, requirement) ? { dataDrill: dataDrillFor(topic, requirement) } : {}),
         }))
@@ -271,7 +272,7 @@ export function buildPsychologyLaunchPackets(courseTruthDir: string, examTruthPa
       ...topic.requirements.flatMap((requirement) => [
         requirement.requirementId,
         (requirement.learnPage as { id: string }).id,
-        (requirement.flashcard as { id: string }).id,
+        ...(requirement.flashcards as Array<{ id: string }>).map((card) => card.id),
         (requirement.objectivePractice as { id: string }).id,
         ...((requirement.dataDrill as { id?: string } | undefined)?.id ? [(requirement.dataDrill as { id: string }).id] : []),
       ]),
