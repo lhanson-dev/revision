@@ -7,7 +7,7 @@ type FastPathAsset = {
     title: string
     sections: Array<{ heading: string; body: string; item_ids: string[] }>
     key_terms: Array<{ term: string; definition: string }>
-    worked_examples: Array<{ id: string; scenario: string; steps: string[]; calc?: { formula_id: string } }>
+    worked_examples: Array<{ id: string; scenario: string; steps: string[]; calc?: { formula_id: string; unit?: string } }>
   }
   practice: { items: Array<{ item_ids: string[] }> }
 }
@@ -79,6 +79,27 @@ function taskFor(formulaId: string | undefined): string | undefined {
   return `Work out the ${name}.`
 }
 
+/**
+ * Some legacy source assets satisfy a mandatory numeric-calc schema with a
+ * sentinel unit despite being qualitative decision examples. The source
+ * calculation must not become a learner-facing numerical task.
+ * Map each reviewed exception to a subject-appropriate, observable question;
+ * fail closed for any unreviewed sentinel rather than inventing a formula.
+ * Issue #698, Business 7132 §3.3.3.
+ */
+const reviewedQualitativeWorkedTasks: Record<string, string> = {
+  'worked-example-gym-target': 'Explain how the gym should decide whether busy professionals are an appropriate target segment.',
+}
+
+function reviewedExampleTask(example: FastPathAsset['learn']['worked_examples'][number]): string | undefined {
+  if (example.calc?.unit === 'not applicable') {
+    const task = reviewedQualitativeWorkedTasks[example.id]
+    if (!task) throw new Error(`Unreviewed non-calculation Business worked example: ${example.id}`)
+    return task
+  }
+  return taskFor(example.calc?.formula_id)
+}
+
 function blocksFor(asset: FastPathAsset): LearnBlock[] {
   const blocks: LearnBlock[] = asset.learn.sections.map((section) => ({
     type: 'explanation',
@@ -93,7 +114,7 @@ function blocksFor(asset: FastPathAsset): LearnBlock[] {
       type: 'worked-example',
       label: 'Worked example',
       setup: example.scenario,
-      task: taskFor(example.calc?.formula_id),
+      task: reviewedExampleTask(example),
       steps: example.steps.map((step, index) => ({ label: `Step ${index + 1}`, value: step })),
     })
   })
