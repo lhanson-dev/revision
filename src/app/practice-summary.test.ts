@@ -114,6 +114,25 @@ describe('the skills map', () => {
     expect(skills.find((skill) => skill.id.endsWith('item-a'))?.status).toBe('nearly') // 50
   })
 
+  it('does not treat a coached same-session retry as independent skill success', () => {
+    const questions = [mc('a'), mc('b')]
+    let session = startQuestionSession(questions, 2)
+    session = advanceQuestionSession(answerAs(session, {
+      correct: false, selected: 1, confidence: 'certain',
+    }), questions)
+    session = advanceQuestionSession(answerAs(session, {
+      correct: true, selected: 0, confidence: 'certain',
+    }), questions)
+    // Practice retries a previous miss in the same session. That coaching
+    // is not fresh, independent skill reassessment.
+    session = advanceQuestionSession(answerAs(session, {
+      correct: true, selected: 0, confidence: 'certain',
+    }), questions)
+    expect(summariseSession(input(session, questions)).skills.find(
+      (skill) => skill.id === 'aqa-7132-3.5.1:item-a',
+    )?.status).toBe('needswork')
+  })
+
   it('does not award two distinct skills from a single multi-target MCQ mark', () => {
     const multi = mc('multi', { specItemIds: [
       'aqa-7132-3.5.1:profit', 'aqa-7132-3.5.1:revenue',
