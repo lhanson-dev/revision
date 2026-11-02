@@ -127,9 +127,9 @@ async function githubJson(path, token) {
   if (!res.ok) throw new Error('Read-only GitHub HTTP '+res.status+' '+path.split('?')[0])
   return res.json()
 }
-async function fetchInertSource(path, head, token) {
+async function fetchInertSource(path, head, token, maxBytes=125000) {
   const meta=await githubJson('/contents/'+path.split('/').map(encodeURIComponent).join('/')+'?ref='+head, token)
-  if (meta.encoding!=='base64'||typeof meta.content!=='string'||meta.size>125000) {
+  if (meta.encoding!=='base64'||typeof meta.content!=='string'||meta.size>maxBytes) {
     throw new Error('Invalid source encoding or oversize file: '+path)
   }
   const content=Buffer.from(meta.content,'base64').toString('utf8')
@@ -156,7 +156,8 @@ async function run() {
     throw new Error('Stale PR head, untrusted branch, or workflow not executing approved main')
   }
   const sources=await Promise.all(settings.paths.map(p=>fetchInertSource(p,head,process.env.GITHUB_TOKEN)))
-  const bank=await fetchInertSource('content/business/aqa-a-level/shared/fast-path-question-bank.json',head,process.env.GITHUB_TOKEN)
+  // Existing source bank is roughly 793kB: verify the inert Git blob, then extract only bounded named questions.
+  const bank=await fetchInertSource('content/business/aqa-a-level/shared/fast-path-question-bank.json',head,process.env.GITHUB_TOKEN,950000)
   const questions=JSON.parse(bank.content).questions.filter(x=>x.batch==='3.3'&&settings.questionIds.includes(x.id))
   if (questions.length!==settings.questionIds.length || !settings.questionIds.every(id=>questions.some(q=>q.id===id))) {
     throw new Error('Expected published bank item absent or duplicated')
