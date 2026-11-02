@@ -17,6 +17,7 @@ import {
   psychologyTopics,
 } from '../../content/psychology/aqa-a-level/shared/course'
 import { aqaPsychology7182ExamPapers } from '../../content/psychology/aqa-a-level/shared/exam-papers'
+import { socialInfluenceObjectiveQuestions } from '../../content/psychology/aqa-a-level/shared/social-influence-objective-questions'
 
 type SubjectTruth = {
   definitionsAndCoreConcepts?: string[]
@@ -194,7 +195,8 @@ function flashcardFor(requirementId: string) {
 }
 
 function questionFor(requirementId: string) {
-  const found = psychologyQuestions.find((question) => question.id === `psy-${sectionId(requirementId)}-check`)
+  const expectedId = `psy-${sectionId(requirementId)}-check${socialInfluenceObjectiveQuestions[requirementId] ? '-v2' : ''}`
+  const found = psychologyQuestions.find((question) => question.id === expectedId)
   if (!found) throw new Error(`Missing production objective Practice for ${requirementId}`)
   return found
 }
