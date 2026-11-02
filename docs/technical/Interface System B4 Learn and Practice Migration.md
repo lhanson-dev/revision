@@ -183,7 +183,7 @@ Issue #765 includes learner reports of overly mechanical Practice copy and marks
 
 The small branch `fix/765-lf09-lf10-practice-copy-marks` now replaces the capped-session line with grammatical, count-accurate wording. It places the available marks ahead of the level in the same metadata row as a semantic `strong` element with an explicit assistive label, 17px text, existing token-based surface/border styling and normal wrapping. All questions (MCQ, calculations and written) already use the shared `QuestionHead`; the supplied scenarios and tables are unchanged. New static-render tests cover one/multiple questions, numeric mark labels and unchanged stimulus/table rendering. No new action, layout system, evidence contract, saved data, service, database or migration; the current Tone of Voice and Learner Design System already govern this correction. Candidate is not merged/live; exact-head CI, desktop/tablet/phone and learner visual acceptance remain required. Keep the separate general flashcard-length/Data Drill checks under #765 open.
 
-### LF-08 — “Data drill” naming and zero-formula warm-up clarity
+### LF-07 — “Data drill” naming and zero-formula warm-up clarity
 
 The same issue #765 Practice experience review found that `FocusedLearningWorkspace` labelled the `formulas-data` warm-up “Formulas” even when `formulas.length === 0` and the content contained only self-check `dataDrills`. The existing “Data drill” label also gave no indication that these are **unmarked exercises with a revealed model answer**, not necessarily numerical drills. The generic content adapter already returns the correct activities; this is a misleading presentation label, not an absent module or an assessment-engine defect.
 
