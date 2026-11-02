@@ -1,0 +1,47 @@
+# LF-03 / #787 — AQA Psychology Memory multiple-choice application correction
+
+**Status (2 November 2026):** Governed implementation candidate, **NOT merged, released, educationally approved or learner accepted**. Fresh independent A3 for this exact four-question source is **HOLD** until a separate trusted-context review and exact-head CI pass. Corrective scope is Memory only; #765 original Social Influence acceptance and #787 remaining course-bank work continue independently.
+
+## Authority and route
+
+- Official Founder-supplied AQA A-level Psychology 7182 **v1.4, 1 September 2025**, printed **p17 §4.1.2 Memory** (SHA-256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`), **REFERENCE_ONLY**. Memory consists of the multi-store model (features of each store), working-memory model (components, coding and capacity), interference/cue-driven forgetting, and eyewitness accuracy factors/cognitive interview. This material is an **AQA syllabus reference**, not a license to duplicate protected source prose or past papers.
+- Source-first reusable OPEN-licensed educational reference: `research/source-first-course-prototype/psychology-course-truth/topic-02-memory.json`. It is **historical production input, not promoted normative authority**, and contains independent source evidence (CC BY references). Normative curriculum/teaching constraints are the active Approved Course Foundation / Course Learning Blueprint, Content Accuracy Assurance Gate and Claims and Progress Governance.
+- **Canonical runtime:** signed-in React application on GitHub Pages at `/revision/app/#/courses/aqa%3Aaqa-a-level%3A7182/practice/memory`. The real Practice path is published `content/psychology/aqa-a-level/paper-1/index.ts` and shared pack `course.ts` → `content-adapter` → `FocusedLearningWorkspace` → `buildQuestionPool` → `PracticeQuestionView` → `createMultipleChoiceEvidence`. The repeated source prototype, an isolated sandbox, or a PR preview is **not** the canonical learner application.
+
+## Reproduced original V1 root cause and inventory
+
+At approved main `25d988af58b7b5a15a1226f0a85057c248305fa9`, the default `legacyObjectiveQuestion()` in `course.ts` turns the *first* definition of each requirement into a concept-name completion question. `objectivePracticeOptions()` selects three distinct labels from the **other three** requirement parents in Memory. Every one of the four questions therefore necessarily shares the identical four-option set irrespective of ordering. The stored correct index is calculated from `stablePsychologyPracticeHash(requirementId) % 4` (A, B, B, C). The stem and feedback repeat boilerplate. Static content, not browser randomness, causes the defect.
+
+| AQA parent | Old scored ID | Original correct / position | Original four options A / B / C / D | New V2 ID | Focus / position |
+| --- | --- | --- | --- | --- | --- |
+| PSY-02-01 | `psy-psy0201-check` | multi-store model / A | multi-store model; Proactive interference; Working memory; Eyewitness memory | `psy-psy0201-check-v2` | Sensory input, attention and short-term transfer / C |
+| PSY-02-02 | `psy-psy0202-check` | Working memory / B | Eyewitness memory; Working memory; Proactive interference; multi-store model | `psy-psy0202-check-v2` | Separate verbal/visuo-spatial resources and central control / A |
+| PSY-02-03 | `psy-psy0203-check` | Proactive interference / B | Eyewitness memory; Proactive interference; multi-store model; Working memory | `psy-psy0203-check-v2` | Old-on-new learning interference / D |
+| PSY-02-04 | `psy-psy0204-check` | Eyewitness memory / C | Proactive interference; Working memory; Eyewitness memory; multi-store model | `psy-psy0204-check-v2` | Co-witness post-event discussion/memory conformity / B |
+
+Four new original scenario MCQs and full explanations live in `content/psychology/aqa-a-level/shared/memory-mcq-v2.ts`. Their correct positions are C, A, D, B; static, purposefully authored—not shuffled on screen. The four answer-option multisets are distinct; the stems demand applied recognition from specific scenarios rather than identifying one of the same four topic titles.
+
+**Educational coverage limit:** Each question samples one AQA §4.1.2 parent. Four MCQs **do not** prove complete Memory topic practice, coding/capacity/duration, episodic buffer, anxiety effects, cognitive interview competence, AO3 evaluation, or full AQA readiness. Course-pack MCQs remain existing topic-level evidence, not independently skill-mapped evidence. The fixed test is useful bounded recognition, not a new assessment engine.
+
+## Historical score, readiness and checkpoint integrity
+
+- No original question ID, stored selected index, correct index, raw result or exam history row is rewritten. All new applied-assessment IDs use `-v2`. The four old MCQ results remain visible in historical activity but cannot count towards **derived** topic understanding, confidence/readiness or future-plan evidence: `supportsLearningInference` retires the exact four V1 IDs **only for AQA Psychology 7182 module MCQ evidence**. Similar prior Social Influence retirement remains intact. Displayed derived readiness can decrease legitimately; existing scores remain.
+- Existing 14-day owner-scoped checkpoint records are content-fingerprinted. An exact reconstruction of **the previous complete Memory Practice question pool** (original question text, options, keyed indexes and feedback) is available only to resume an old saved checkpoint, never offered to a fresh activity. `legacyMemoryPool` and `legacyPsychologyCheckpointPool` apply the strict 7182 topic gate. `loadLf03CompatibleCheckpoint` attempts the published fingerprint first, then the exact previous fingerprint only upon a known content-change mismatch. Unknown drift remains blocked, expired checkpoints remain unavailable. No backend/auth/RLS/migration change.
+- Synthetic integrated browser tests must verify all four displayed options, keyed selection, actual evidence payload, refresh/resume and no duplicate score. Further tests must check old V1 resume, rejects unexpected old fingerprints, Social Influence unchanged, and historical-score exclusion from inferred readiness.
+
+## Quality and educational gates
+
+| Gate | Current proof / limit | Status |
+| --- | --- | --- |
+| Exact AQA §4.1.2 scope | Official supplied PDF directly reviewed, original candidate content mapped to four requirements; independently licensed subject-synthesis used for explanation | Source match checked; independent key review pending |
+| Original questions and rights | Four independently authored Revision scenarios; no AQA paper question or protected text copied | Candidate |
+| Source MCQ defect reproduction | Identical four-item multiset + old A,B,B,C indexes derived from actual published generator | Confirmed |
+| Tests across three real Psychology packs | V2 IDs, keys, option-set variance, source test, real session marking and evidence paths | Added; exact-head CI pending |
+| Saved prior answers and old sessions | Immutable V1 keys, full original fingerprint and domain-specific inference retirement | Added; exact-head CI pending |
+| Responsive browser path | Desktop, tablet and phone E2E test with synthetic signed-in backend | Added; exact-head CI pending |
+| Independent blinded A3 | Reviewer must separately choose each correct answer **without authored key/feedback**, then inspect all distractors, syllabus, clue patterns and subtle ambiguities; separate fresh reviewer must challenge authored feedback | **HOLD — not run** |
+| Merge / release / student acceptance | Specific Founder approval, full CI, deploy lineage + backend + production smoke and authentic learner feedback required separately | **NOT approved, NOT merged, NOT live** |
+
+## Documentation impact
+
+This is a **bounded content defect**, not a newly approved feature. Existing normative Course Learning Blueprint, the Content Accuracy Assurance Gate and Claims and Progress Governance already require meaningful and evidence-safe assessment. The same governed PR updates the published question content, canonical Practice checkpoint and evidence implementation, impacted source-ID tests, technical note and INDEX. Historical source inventory `audits/2026-11-02-lf03-mcq-bank-source-audit.md` remains unchanged; current status updates go in #787/#698 and this note. The remaining 13 originally identified non-Memory option-repeat groups, and Business A-biased retained bank, remain **unverified and uncorrected**. No personal learner evidence was inspected.
