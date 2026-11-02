@@ -139,7 +139,9 @@ export function summariseSession(input: SummaryInput): SessionSummaryModel {
       const target = objectiveItemMappingForPractice(question)?.singleTargetSpecItemId
       return target && inTopic(target) ? target : null
     }
-    answers.forEach((answer) => {
+    // First independent attempts only: a corrected in-session retry is
+    // valuable practice but cannot turn the original miss into skill proof.
+    firstAnswers(session).forEach((answer) => {
       const id = supportedTarget(byId.get(answer.questionId))
       if (id) results.set(id, [...(results.get(id) ?? []), percentageOf(answer)])
     })
