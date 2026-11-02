@@ -63,9 +63,9 @@ const REQUIRED_CI_JOBS = [
 /** Validate only GitHub Actions' exact-head job record, never candidate-PR statements. */
 export function verifiedCiReceipt(runs, jobs, head) {
   const matching = (runs??[]).filter(r => r.name==='Revision CI' && r.event==='pull_request' &&
-    r.head_sha===head && r.status==='completed')
+    r.head_sha===head)
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))
-  if (!matching.length || matching[0].conclusion!=='success') {
+  if (!matching.length || matching[0].status!=='completed' || matching[0].conclusion!=='success') {
     throw new Error('No successful latest completed exact-head Revision CI')
   }
   const run=matching[0]
