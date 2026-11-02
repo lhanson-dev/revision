@@ -11,6 +11,7 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
+- LF-04 Business Practice case relevance: topic-scoped existing case selection, not syllabus or renderer assurance (candidate) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
