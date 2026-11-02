@@ -1,5 +1,6 @@
 import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'
 import { learn as authoredLearn } from './authored-learn'
+import { marketingMixSupplement } from './marketing-mix-supplement'
 
 type FastPathAsset = {
   node_id: string
@@ -128,11 +129,12 @@ export const learn: LearnCourse = {
   chapters: topicOrder.map((topicId): LearnChapter => {
     const authored = authoredLearn.chapters.find((chapter) => chapter.topicId === topicId)
     const fastPath = fastPathLearn.chapters.find((chapter) => chapter.topicId === topicId)
+    const supplement = marketingMixSupplement.chapters.find((chapter) => chapter.topicId === topicId)
     return {
       id: topicId,
       topicId,
       title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],
-      groups: [...(authored?.groups ?? []), ...(fastPath?.groups ?? [])],
+      groups: [...(authored?.groups ?? []), ...(supplement?.groups ?? []), ...(fastPath?.groups ?? [])],
     }
   }).filter((chapter) => chapter.groups.length > 0),
 }
