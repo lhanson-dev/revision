@@ -188,3 +188,22 @@ The small branch `fix/765-lf09-lf10-practice-copy-marks` now replaces the capped
 The same issue #765 Practice experience review found that `FocusedLearningWorkspace` labelled the `formulas-data` warm-up “Formulas” even when `formulas.length === 0` and the content contained only self-check `dataDrills`. The existing “Data drill” label also gave no indication that these are **unmarked exercises with a revealed model answer**, not necessarily numerical drills. The generic content adapter already returns the correct activities; this is a misleading presentation label, not an absent module or an assessment-engine defect.
 
 The PR scopes one count-derived `guidedExerciseWarmup` label helper to the existing Practice start screen; introduces “Guided exercises” when no formulas exist and “Formulas and guided exercises” when both exist; labels the activity “Exercise” and “Next exercise”; and adds one short instruction to attempt before revealing the answer. Existing `formulas-data` activity ID and navigation are unchanged. No saved learner data, evidence score, published teaching content or content type is changed, and the exercises remain unscored. Unit assertions cover zero-formula/one-formula/mixed inventory; responsive/accessible production learner checks remain a release hold. The existing Tone of Voice/UX rules govern this correction without new normative authority.
+
+### PR #780 Founder visual direction approval — 2 November 2026
+
+**Explicit Founder instruction:** “Approve the visual direction for PR #780, covering the larger marks display on phone and desktop in light and dark modes. This is visual approval only, not permission to merge.” The instruction is recorded on the [PR #780 conversation](https://github.com/lhanson-dev/revision/pull/780) against reviewed exact-head commit `1f32a0d28f4a10665cee31e0e65182466564afbf`. The Founder reviewed a composite of the actual Practice activity screenshots for all four requested states. The approved scope is **mark visibility only**; no other interface, scoring or workflow change receives visual acceptance through this instruction.
+
+The approval evidence is [Revision CI run 41500300206](https://github.com/lhanson-dev/revision/actions/runs/41500300206), [phone native PNG/trace artifact 13167514743](https://github.com/lhanson-dev/revision/actions/runs/41500300206/artifacts/13167514743), and [desktop native PNG/trace artifact 13167889595](https://github.com/lhanson-dev/revision/actions/runs/41500300206/artifacts/13167889595). Each new digest was stable over initial and retry captures; old and new SHA-256 values are:
+
+| Practice screenshot | Previously approved SHA-256 | Founder-approved candidate SHA-256 |
+|---|---|---|
+| Phone light | `5bf11bece88b8b726337ad22e957a31bf654776ea4b2c03c971a4eb4b88c50a0` | `9c78f928c7fb0be57278a8e1e0916d747271830359817a193c1f381619fcdb89` |
+| Phone dark | `738fad8f44753dfacb0a7422e6cb3a6b22970336a76f84e381a8b2d7c14f7f4b` | `b071b8ea37d4aa5df8d33c7df56a5b089958091489d672fe51af8339d639db4a` |
+| Desktop light | `ebf1eae802610e9154b4e11b95f6ce5b1547ce4d77a8f70ceb1dea06c3346add` | `c76e0074741b04732725e8cc1e2310437523f664d589918dc90e41faa26e9906` |
+| Desktop dark | `bbeb6868999be29a721de6380d8af81e80f1e982199c174ee38be6d48a2b32b0` | `4ff48ab96b498c070667f8cd7fea54c8bd563f4afca9cfa6db21c19bc6daafc4` |
+
+**Change implementation:** Update exactly the four `sha256` expectations in `tests/e2e/practice-activity-visual.spec.ts` while retaining the SHA-256 comparison algorithm, full-PNG trace attachments, 64×64 phone animation exclusion, responsive framing and historic B7 start-screen visual baseline matrix unchanged. Source review found no obvious clipping in the four actual frames, but that does not establish a complete 200%-zoom, screen-reader or real signed-in learner acceptance. The previous failed screenshot test runs remain valid historical evidence of the intentional delta.
+
+**Release gates remain independent:** Fresh exact-head CI after baseline updates, preservation of saved answers and marks, production deployment after **separate explicit Founder approval for merging PR #780**, and actual learner acceptance. Do not infer permission to merge, deploy or close issue #765 from visual approval.
+
+**Documentation-impact check:** This is a previously governed presentation repair under existing UX/Tone and Learner Design System authority. Only this implementation record and the four protected screenshot checks change; no new normative standard, ADR, educational content or historical evidence modification is needed.
