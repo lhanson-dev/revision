@@ -12,6 +12,7 @@ import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type 
 import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
+import { sourceBackedPracticeRepairPage } from './practice-repair'
 import {
   advanceQuestionSession,
   isSessionFinished,
@@ -892,11 +893,21 @@ export function FocusedLearningWorkspace({
       'case-study': 'Warm-up · Case study',
       'exam-question': 'Exam question',
     }
+    // Exact, single-target scored questions may offer the student's actual
+    // published Foundation Learn page. Do not guess a broad-topic repair.
+    const exactLearnPageFor = (item: PracticeQuestion): SummaryLearnPage | null => {
+      if (!onOpenLearnPage) return null
+      const page = sourceBackedPracticeRepairPage(item, adapter)
+      return page ? { id: page.id, title: page.title, minutes: readMinutes(page) } : null
+    }
     const learnPageFor = (item: PracticeQuestion): SummaryLearnPage | null => {
+      if (item.type !== 'written') return exactLearnPageFor(item)
+      // Written feedback is advisory only; no independent skill score or
+      // automatically diagnosed misconception is inferred from a mark point.
       if (!onOpenLearnPage) return null
       for (const nodeId of item.nodeIds) {
         const page = adapter.getLearnPage(nodeId)
-        if (page) return { id: page.id, title: page.title, minutes: readMinutes(page) }
+        if (page && page.topicId === item.topicId) return { id: page.id, title: page.title, minutes: readMinutes(page) }
       }
       return null
     }
@@ -992,7 +1003,9 @@ export function FocusedLearningWorkspace({
       />
     ) : null
 
-    // The feedback bar: what happened, why, and one action. No Learn or Ask REV links per question (they are in the summary).
+    // The saved objective answer may lead straight to a verified exact-skill
+    // Learn repair. The primary Next action and resumable checkpoint remain.
+    // This link is omitted when the question cannot identify one tested skill.
     const feedbackFor = () => {
       if (question?.type === 'calculation' && calcChecked) {
         const action = <Button size="large" onClick={goNext}>{upcoming && isSessionFinished(upcoming) ? 'See how you did' : 'Next question'} <Icon name="arrow-right" size="compact" /></Button>
@@ -1008,6 +1021,7 @@ export function FocusedLearningWorkspace({
             >{action}</FeedbackBar>
           )
         }
+        const repair = exactLearnPageFor(question)
         return (
           <FeedbackBar
             tone="wrong"
@@ -1015,9 +1029,12 @@ export function FocusedLearningWorkspace({
             picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
             explanation={workings}
             note={calcChecked.confidence === 'certain'
-              ? 'You were certain, so this is the one most worth fixing. I’ll bring it back later.'
-              : 'I’ll bring this back later.'}
-          >{action}</FeedbackBar>
+              ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
+              : 'This result may need another independent check.'}
+          >
+            {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
+            {action}
+          </FeedbackBar>
         )
       }
       if (!checked || question?.type !== 'multiple-choice') return null
@@ -1036,6 +1053,7 @@ export function FocusedLearningWorkspace({
           >{action}</FeedbackBar>
         )
       }
+      const repair = exactLearnPageFor(question)
       return (
         <FeedbackBar
           tone="wrong"
@@ -1043,9 +1061,12 @@ export function FocusedLearningWorkspace({
           picked={why ? `You picked ${letter}: ${why}` : `You picked ${letter}.`}
           explanation={question.explanation}
           note={checked.confidence === 'certain'
-            ? 'You were certain, so this is the one most worth fixing. I’ll bring it back later.'
-            : 'I’ll bring this back later.'}
-        >{action}</FeedbackBar>
+            ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
+            : 'This result may need another independent check.'}
+        >
+          {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
+          {action}
+        </FeedbackBar>
       )
     }
     const questionFeedback = <div className="practice-feedback-region" aria-live="polite">{feedbackFor()}</div>
