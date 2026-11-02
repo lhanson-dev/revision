@@ -57,6 +57,21 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
     expect(options.every(item => item.price >= 0 && item.price <= 40 && item.durability <= 10)).toBe(true)
   })
 
+  it('keeps each axis independently spaced and permits overlapping competing positions', () => {
+    for (const pack of packs) {
+      const pages = pack.learn?.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages)) ?? []
+      const guide = pages.find(page => page.id === 'market-positioning-map-method')
+      expect(guide).toBeDefined()
+      const words = JSON.stringify(guide)
+      expect(words).toMatch(/evenly spaced/)
+      expect(words).toMatch(/if two offers overlap/)
+      expect(words).not.toMatch(/equal scales|its own coordinates/)
+      const drill = pack.dataDrills.find(item => item.id === 'rev7132-333-positioning-map-01')
+      expect(drill?.answer).toContain('DailySip is £8 cheaper than BrewLoop and LongLife is £10 more expensive')
+      expect(drill?.answer).not.toContain('each £8/£10')
+    }
+  })
+
   it('replaces an incorrect gross-profit instruction with a contextual targeting task', () => {
     for (const pack of packs) {
       const pages = pack.learn?.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages)) ?? []
