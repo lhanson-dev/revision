@@ -637,6 +637,11 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     expect(findSkillRecheckOpportunities(questions, afterFirst, topicId, [moduleId], ['bus-evi-004'])
       .map((need) => need.specItemId)).toEqual([cases[1]!.skill])
 
+    // Finish the first focused activity through the actual learner control.
+    // Hash navigation alone must not abandon an open, already-saved check.
+    await page.getByRole('button', { name: 'Back to today’s plan' }).click()
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+
     // First skill's improvement cannot silently remove the other weakness.
     await launch(cases[1]!)
     await page.getByLabel('Your final number').fill(String(cases[1]!.fresh.expected))
