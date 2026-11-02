@@ -47,8 +47,17 @@ describe('LF-03 Social Influence V2 source-aligned assessment', () => {
       coursePack: paper1.questions.filter(q => q.topic === 'social-influence'),
       bank: paper1.practiceBank,
     })
-    expect(pool.map(q => q.id)).toEqual(ids)
-    const session = startQuestionSession(pool, 4)
+    // Course Practice now publishes the four independently versioned LF-03
+    // questions PLUS the eight new #698 applied items. Do not reject valid
+    // additive Practice simply because the original four remain the first four.
+    expect(pool).toHaveLength(12)
+    expect(pool.slice(0, 4).map(q => q.id)).toEqual(ids)
+    expect(pool.slice(4).map(q => q.id)).toEqual(
+      (paper1.practiceBank ?? []).filter(row => row.topic_id === 'social-influence')
+        .map(row => `${row.namespace}-${row.batch}-${row.id}`),
+    )
+    expect(new Set(pool.map(q => q.id)).size).toBe(12)
+    const session = startQuestionSession(pool.slice(0, 4), 4)
     expect(session.currentId).toBe(ids[0])
     let state = session
     for (const expected of positions) {
