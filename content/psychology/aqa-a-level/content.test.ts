@@ -14,6 +14,7 @@ import {
   psychologyTopics,
 } from './shared/course'
 import { aqaPsychology7182ExamPapers } from './shared/exam-papers'
+import { socialInfluenceOriginalMcqOverrides } from './shared/social-influence-original-mcqs'
 
 describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   it('projects the complete approved Course Truth into learner content', () => {
@@ -193,8 +194,19 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         expect(question.prompt, question.id).toBe(contract?.prompt)
         expect(question.explanation, question.id).toContain(contract?.definition)
         expect(question.prompt.toLowerCase(), question.id).not.toContain(contract?.label.toLowerCase())
-        for (const option of question.options) {
-          expect(contracts.some((candidate) => candidate.label === option), `${question.id}: ${option}`).toBe(true)
+        const legacyFix = socialInfluenceOriginalMcqOverrides[contract?.requirementId ?? '']
+        if (legacyFix) {
+          // LF-03: these four original questions use source-related authored
+          // distractors rather than repeating the other three parent labels.
+          const expectedOptions = [...legacyFix.distractors]
+          expectedOptions.splice(legacyFix.correctOption, 0, contract!.label)
+          expect(question.options, question.id).toEqual(expectedOptions)
+          expect(question.correctOption, question.id).toBe(legacyFix.correctOption)
+        } else {
+          // Preserve the original generator contract for the other 114 checks.
+          for (const option of question.options) {
+            expect(contracts.some((candidate) => candidate.label === option), `${question.id}: ${option}`).toBe(true)
+          }
         }
       }
 
