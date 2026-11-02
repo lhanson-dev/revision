@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import psychology from '../../content/psychology/aqa-a-level/paper-1'
+import { psychologyQuestions as psychologyPrototypeQuestions } from '../../content/psychology/aqa-a-level/shared/course'
 import business from '../../content/business/aqa-a-level/paper-1'
 import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
 import retainedBusinessBank from '../../content/business/aqa-a-level/shared/fast-path-question-bank.json'
@@ -38,8 +39,11 @@ describe('LF-03 bounded source-to-published AQA question-bank audit', () => {
   })
 
   it('keeps the systemic Psychology 7182 review queue explicit rather than silently failing all content', () => {
-    const findings = reviewMcqQuality(fromPack(psychology.questions))
-    expect(psychology.questions).toHaveLength(118)
+    const findings = reviewMcqQuality(fromPack(psychologyPrototypeQuestions))
+    expect(psychologyPrototypeQuestions).toHaveLength(118)
+    // The real published pack additionally contains applied Research Methods questions.
+    expect(psychology.questions.length).toBeGreaterThanOrEqual(118)
+    expect(reviewMcqQuality(fromPack(psychology.questions)).every(f => f.ids.length > 0)).toBe(true)
     expect(findings.filter(f => f.rule === 'repeated-option-set').length).toBeGreaterThanOrEqual(10)
     expect(findings.some(f => f.rule === 'generic-feedback')).toBe(true)
     expect(findings.every(f => f.ids.length > 0 && f.detail.length > 0)).toBe(true)
