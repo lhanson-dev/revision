@@ -6,6 +6,7 @@ import { psychologyInferenceChoiceRequirementBindings } from '../../content/psyc
 import paper1 from '../../content/psychology/aqa-a-level/paper-1'
 import paper2 from '../../content/psychology/aqa-a-level/paper-2'
 import paper3 from '../../content/psychology/aqa-a-level/paper-3'
+import { socialInfluenceObjectiveQuestions } from '../../content/psychology/aqa-a-level/shared/social-influence-objective-questions'
 
 const source=JSON.parse(readFileSync('research/specification-to-learner/aqa-2027-source-manifest.json','utf8')) as {courses:Array<{specification_code:string,pdf_sha256:string}>}
 const skills=JSON.parse(readFileSync('research/specification-to-learner/aqa-2027-cross-cutting-assurance-assertions.json','utf8')) as {
@@ -44,7 +45,7 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
     expect(skills.assertions.some(x=>x.id==='B-G01')).toBe(true)
   })
 
-  it('tracks every currently published Psychology requirement to the ACTUAL Learn page, recognition MCQ and flashcard',()=>{
+  it('tracks every published Psychology requirement to its ACTUAL Learn page, valid MCQ and flashcard',()=>{
     const pages=psychologyLearn.chapters.flatMap(ch=>ch.groups.flatMap(g=>g.pages))
     const published=[paper1,paper2,paper3]
     const requirements=psychologyCourseTruthTopics.flatMap(t=>t.requirements.map(r=>({t,r})))
@@ -59,10 +60,12 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       const topic=psychologyTopics.find(q=>q.order===t.topicNumber)
       expect(topic,r.requirementId).toBeDefined()
       const code=r.requirementId.toLowerCase().replaceAll('-','')
-      const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`,mcq=`psy-${code}-check`
+      const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`,mcq=`psy-${code}-check${socialInfluenceObjectiveQuestions[r.requirementId] ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
       expect(cardIds.has(card),r.requirementId).toBe(true)
       expect(mcqIds.has(mcq),r.requirementId).toBe(true)
+      // Never accept both the retired and corrected identity as one assessment.
+      if (socialInfluenceObjectiveQuestions[r.requirementId]) expect(mcqIds.has(`psy-${code}-check`),r.requirementId).toBe(false)
       expect(pages.find(x=>x.id===pid)?.sourceSectionIds,r.requirementId).toContain(code)
       for(const p of published){
         expect(p.learn.chapters.flatMap(ch=>ch.groups.flatMap(g=>g.pages)).some(x=>x.id===pid),p.manifest.id).toBe(true)
