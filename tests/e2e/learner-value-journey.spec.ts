@@ -383,24 +383,6 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
       source: 'calculation', confidence: 'certain', enteredValue: first.expected + 9000,
     })
 
-    // A started five-question Practice session is genuinely still unfinished
-    // after the first wrong answer. Respect the existing Continue/Discard
-    // contract: close the activity and deliberately discard the *unfinished
-    // session* via the normal learner UI before attempting an independent
-    // Plan recheck. Scored evidence must NOT be deleted with the checkpoint.
-    await page.getByRole('button', { name: 'Back to practice' }).click()
-    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
-    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
-    await expect(page.getByRole('button', { name: 'Continue saved session' })).toHaveCount(0)
-    const persisted = await loadLearningEvidence(store, userId, moduleId, topicId)
-    expect(persisted.find((item) => item.id === wrong?.id)).toBeDefined()
-    expect(findSkillRecheckOpportunities(
-      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
-        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
-      persisted, topicId, [moduleId], ['bus-evi-004'],
-    )).toEqual(expect.arrayContaining([expect.objectContaining({
-      specItemId, need: 'missed', freshQuestionId: fresh.id,
-    })]))
     // This is the real learner-facing authored repair page, reached using
     // its canonical Courses/Learn route only AFTER the first incorrect
     // Practice result. The learner explicitly marks it reviewed on-screen.
@@ -408,7 +390,10 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     const beforeRead = await loadLearnExposures(learner, userId)
     expect(beforeRead.some((item) => item.pageId === 'bus-evi-004'
       && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
-    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/learn/bus-evi-004')
+    const repair = page.getByRole('button', { name: /^Read: / })
+    await expect(repair, 'Wrong answer should lead to an exact published Learn repair').toBeVisible()
+    await repair.click()
+    await expect(page).toHaveURL(new RegExp('/learn/bus-evi-004'))
     await expect(page.locator('#learn-page-bus-evi-004')).toBeVisible()
     await expect(page.locator('.learn-reading-body')).not.toBeEmpty()
     const pageReview = page.getByRole('region', { name: 'Learn page review' })
@@ -421,7 +406,7 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     // independently scored result: the fresh question is still needed.
     const afterReviewEvidence = await loadLearningEvidence(store, userId, moduleId, topicId)
     expect(afterReviewEvidence.map((item) => item.id).sort())
-      .toEqual(persisted.map((item) => item.id).sort())
+      .toEqual([wrong!.id])
     expect(findSkillRecheckOpportunities(
       businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
         .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
@@ -430,6 +415,26 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
       specItemId, need: 'missed', freshQuestionId: fresh.id,
     })]))
 
+    // Leaving for Learn must retain the original unfinished Practice checkpoint.
+    // Re-enter it using the normal browser navigation; do not fake session completion.
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+
+    // Returning from Learn opens the ordinary Practice setup with the
+    // unfinished checkpoint already visible. Discard that checkpoint using its
+    // real control; never delete the previously saved scored answer.
+    // There is no Back to practice control unless a focused activity is open.
+    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toHaveCount(0)
+    const persisted = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(persisted.find((item) => item.id === wrong?.id)).toBeDefined()
+    expect(findSkillRecheckOpportunities(
+      businessDecisionTreeNumericalBank.map((record) => bankRecordToPractice(record, topicId))
+        .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation'),
+      persisted, topicId, [moduleId], ['bus-evi-004'],
+    )).toEqual(expect.arrayContaining([expect.objectContaining({
+      specItemId, need: 'missed', freshQuestionId: fresh.id,
+    })]))
     // No synthetic Plan task is injected. It must still derive the authored
     // recheck from the browser-created, persisted wrong final-number evidence.
     await page.goto(appPath + '#/plan?view=day')

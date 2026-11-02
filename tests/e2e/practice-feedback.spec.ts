@@ -23,10 +23,16 @@ test('a certain wrong answer is coral, says what was picked and why, is saved wi
   await expect(bar.getByText('Not quite.', { exact: true })).toBeVisible()
   await expect(bar.locator('.ui-feedback-bar__picked')).toContainText(/^You picked [A-D]/)
   await expect(bar.locator('.ui-feedback-bar__explanation')).not.toBeEmpty()
-  await expect(bar.getByText('You were certain, so this is the one most worth fixing. I’ll bring it back later.')).toBeVisible()
+  await expect(bar.getByText('You were certain, so this is the one most worth fixing. A separate check is still needed.')).toBeVisible()
   await expect(bar.locator('.ui-feedback-bar__title svg')).toBeVisible()
-  // One action only: no Learn or Ask REV links per question.
-  await expect(bar.getByRole('button')).toHaveCount(1)
+  // Next remains the sole primary action. A second Read action is permitted
+  // only when the authored question has an exact published Learn repair.
+  await expect(bar.getByRole('button', { name: 'Next question' })).toHaveCount(1)
+  const buttons = bar.getByRole('button')
+  expect(await buttons.count()).toBeLessThanOrEqual(2)
+  if (await buttons.count() === 2) {
+    await expect(bar.getByRole('button', { name: /^Read: / })).toBeVisible()
+  }
   await expect(bar.getByRole('link')).toHaveCount(0)
   const missedCorrectIndex = await page.locator('.practice-question__options button').evaluateAll((buttons) => buttons.findIndex((button) => button.classList.contains('ui-answer-option--correct')))
 
