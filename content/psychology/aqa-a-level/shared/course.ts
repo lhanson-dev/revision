@@ -32,6 +32,7 @@ import examTruth from '../../../../research/source-first-course-prototype/psycho
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
 import { socialInfluenceMcqV2 } from './social-influence-mcq-v2'
+import { memoryMcqV2 } from './memory-mcq-v2'
 
 type TruthRequirement = {
   requirementId: string
@@ -269,10 +270,17 @@ function legacyObjectiveQuestion(topic: TruthTopic, requirement: TruthRequiremen
 export const psychologyLegacySocialInfluenceQuestions = truthTopics[0]!.requirements
   .map((requirement) => legacyObjectiveQuestion(truthTopics[0]!, requirement))
 
+/** Preserve exact pre-change Memory assessments solely for matching a saved V1 Practice checkpoint. */
+export const psychologyLegacyMemoryQuestions = truthTopics[1]!.requirements
+  .map((requirement) => legacyObjectiveQuestion(truthTopics[1]!, requirement))
+
 const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
+const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = memoryMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) =>
-    updatedSocialInfluenceQuestions[requirement.requirementId] ?? legacyObjectiveQuestion(topic, requirement)),
+    updatedSocialInfluenceQuestions[requirement.requirementId]
+    ?? updatedMemoryQuestions[requirement.requirementId]
+    ?? legacyObjectiveQuestion(topic, requirement)),
 )
 
 const researchMethodsTopic = truthTopics.find((topic) => topic.topicNumber === 7)

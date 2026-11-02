@@ -24,7 +24,7 @@ import {
   type QuestionSession,
 } from './practice-session'
 import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness, type PracticeQuestion, objectiveItemMappingForPractice } from './practice-questions'
-import { legacySocialInfluencePool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
+import { legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
 import {
   PRACTICE_LENGTHS,
   caseStudyForPractice,
@@ -282,10 +282,10 @@ export function FocusedLearningWorkspace({
     [adapter, topicId, questions, practiceBank, lastAnsweredAt, marker],
   )
   const legacyLf03Pool = useMemo(
-    () => legacySocialInfluencePool(adapter.manifest.specificationCode, topicId, fullPool),
+    () => legacyPsychologyCheckpointPool(adapter.manifest.specificationCode, topicId, fullPool),
     [adapter.manifest.specificationCode, topicId, fullPool],
   )
-  // Old saved four-item sessions use their exact previous questions. Never
+  // Old saved Social Influence or Memory sessions use their exact previous questions. Never
   // include legacy items when selecting a fresh learner activity.
   const sessionPool = usingLegacyLf03Session && legacyLf03Pool ? legacyLf03Pool : fullPool
   useEffect(() => {

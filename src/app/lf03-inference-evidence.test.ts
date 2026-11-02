@@ -39,3 +39,43 @@ describe('LF-03 recorded answers versus trustworthy learning inference', () => {
     expect(recommended?.readinessScore).toBeNull()
   })
 })
+
+describe('LF-03 #787 previously guessable Memory MCQs cannot raise readiness', () => {
+  const memoryModule = 'psychology-aqa-a-level-7182-paper-1'
+  const original = createMultipleChoiceEvidence({
+    id: 'historical-memory', moduleId: memoryModule, topicId: 'memory',
+    contentId: 'psy-psy0201-check', selectedOption: 0, correctOption: 0,
+    confidence: 'certain', occurredAt: '2026-11-01T12:00:00.000Z',
+  })
+  const revised = createMultipleChoiceEvidence({
+    id: 'new-memory', moduleId: memoryModule, topicId: 'memory',
+    contentId: 'psy-psy0201-check-v2', selectedOption: 2, correctOption: 2,
+    confidence: 'certain', occurredAt: '2026-11-02T12:00:00.000Z',
+  })
+
+  it('keeps historical answers and original marks in the activity record without counting them as knowledge', () => {
+    expect(original).toMatchObject({ correct: true, selectedOption: 0, correctOption: 0 })
+    expect(recentActivity([original, revised]).map(item => item.evidenceId)).toContain('historical-memory')
+    expect(supportsLearningInference(original)).toBe(false)
+    expect(supportsLearningInference(revised)).toBe(true)
+    const items = [original, revised]
+    expect(assessTopicKnowledge(memoryModule, 'memory', items).distinctContentItems).toBe(1)
+    expect(assessReadiness(items).evidenceCount).toBe(1)
+    expect(recommendNextActivity(memoryModule, ['memory'], items)?.evidenceCount).toBe(1)
+  })
+
+  it('retired ids are strictly limited to original Psychology V1 MCQs, not other courses or evidence families', () => {
+    for (let i = 1; i <= 4; i++) {
+      const old = createMultipleChoiceEvidence({
+        id: 'memory-' + i, moduleId: memoryModule, topicId: 'memory',
+        contentId: 'psy-psy020' + i + '-check', selectedOption: 0, correctOption: 0,
+      })
+      expect(supportsLearningInference(old)).toBe(false)
+    }
+    const otherCourse = createMultipleChoiceEvidence({
+      id: 'business-historical', moduleId: 'business-aqa-a-level-7132-paper-1',
+      topicId: 'memory', contentId: 'psy-psy0201-check', selectedOption: 0, correctOption: 0,
+    })
+    expect(supportsLearningInference(otherCourse)).toBe(true)
+  })
+})

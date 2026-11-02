@@ -392,4 +392,12 @@ jobs:
           if [ -f /tmp/revision-edge-functions.pid ]; then
             kill "$(cat /tmp/revision-edge-functions.pid)" 2>/dev/null || true
           fi
-          supabase stop --no-backup
+          # GitHub-hosted ubuntu-latest runners are disposable. Supabase CLI
+          # 2.111.0 can return exit 1 after all pgTAP, RLS, integration and
+          # browser checks pass when docker fails to stop an ephemeral container.
+          # Preserve any preceding test failure, but report this *cleanup-only*
+          # failure explicitly instead of reclassifying passed tests as failed.
+          if ! supabase stop --no-backup; then
+            echo '::warning::Supabase test stack stop failed on the ephemeral GitHub-hosted runner after assurance; prior test failures remain authoritative.'
+            echo 'Supabase cleanup warning (disposable runner; not an assessment PASS claim).' >> "$GITHUB_STEP_SUMMARY"
+          fi
