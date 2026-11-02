@@ -21,6 +21,7 @@ import { HomeSetupEmpty, planCardEmptyCopy } from './HomeSetupEmpty'
 import { PoweredByRev } from './RevCompactWordmark'
 import { Button, HueProgressBar, Icon, ProgressMeasures, RevMark, SubjectBadge } from './ui'
 import { todayRecommendations, learnRouteForTask, ACCEPTED_ACTIVITY_UNAVAILABLE, taskForTodayRow } from './today-recommendations'
+import { planSkillFocusLabel } from './plan-skill-focus'
 import { resolveSubjectIdentity } from './subject-palette'
 import { useLocalDay } from './use-local-day'
 import type { PlanItem } from './plan-model'
@@ -296,6 +297,7 @@ export function PlannerHomeScreen({
                   ? firstTask.estimatedMinutes + ' min booked · about ' + immediateMinutes + ' min practice'
                   : firstTask.estimatedMinutes + ' min'}</p>
                 <h2>{firstTask.topicLabel}</h2>
+                {firstTask.skillFocus && <p className="home-v3-hero-reason">{planSkillFocusLabel(firstTask.skillFocus)}</p>}
                 <p className="home-v3-hero-reason">{recommendedReason}{todayPlan?.allDone ? ' You can also stop for today.' : ''}</p>
                 <span className="home-v3-plan-tag"><Icon name="clock" size="inline" />{planTag}</span>
                 <div className="home-v3-hero-actions">
@@ -363,6 +365,7 @@ export function PlannerHomeScreen({
                     <span className="home-v3-plan-row-copy">
                       <strong>{row.topic}</strong>
                       <small>{row.subject.name} · {row.activityLabel} · {row.minutes} min{isNext ? ' · REV’s pick' : ''}</small>
+                      {row.kind === 'suggested' && row.item.skillFocus && <small>{planSkillFocusLabel(row.item.skillFocus)}</small>}
                     </span>
                     <Button variant="secondary" onClick={() => startPlanRow(row)}>Start <Icon name="arrow-right" size="inline" /></Button>
                   </li>
