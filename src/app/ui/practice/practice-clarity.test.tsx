@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { PracticeStart } from './PracticeStart'
 import { QuestionHead } from './PracticeQuestion'
+import { guidedExerciseWarmup } from '../../practice-start'
 
 const noop = () => undefined
 
@@ -39,6 +40,19 @@ describe('LF-09 / LF-10 canonical Practice clarity', () => {
     const markup = startFor(3, 3)
     expect(markup).toContain('There are 3 questions available for this topic. Your session will use them all.')
     expect(markup).not.toContain('so that is what you will get')
+  })
+
+  it('names unmarked exercises without claiming that absent formulas exist', () => {
+    expect(guidedExerciseWarmup(0, 0)).toBeNull()
+    expect(guidedExerciseWarmup(0, 12)).toEqual({
+      name: 'Guided exercises',
+      meta: '12 exercises · model answers',
+    })
+    expect(guidedExerciseWarmup(1, 0)).toEqual({ name: 'Formulas', meta: '1 formula' })
+    expect(guidedExerciseWarmup(3, 2)).toEqual({
+      name: 'Formulas and guided exercises',
+      meta: '3 formulas · 2 exercises · model answers',
+    })
   })
 
   it('makes marks readable before level, with a text alternative for screen readers', () => {
