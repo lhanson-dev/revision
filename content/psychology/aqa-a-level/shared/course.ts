@@ -31,6 +31,7 @@ import topic17 from '../../../../research/source-first-course-prototype/psycholo
 import examTruth from '../../../../research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
+import { socialInfluenceObjectiveQuestions } from './social-influence-objective-questions'
 
 type TruthRequirement = {
   requirementId: string
@@ -253,6 +254,17 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
 
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) => {
+    const authored = socialInfluenceObjectiveQuestions[requirement.requirementId]
+    if (authored) {
+      return multipleChoiceQuestionSchema.parse({
+        // The v1 question contained a different prompt, options and answer key.
+        // A new identity prevents old scored responses being mistaken for
+        // observations against this materially changed educational question.
+        id: `psy-${requirementSectionId(requirement)}-check-v2`,
+        topic: topicId(topic),
+        ...authored,
+      })
+    }
     const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
     return multipleChoiceQuestionSchema.parse({
       id: `psy-${requirementSectionId(requirement)}-check`,
