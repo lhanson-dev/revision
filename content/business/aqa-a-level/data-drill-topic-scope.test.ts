@@ -11,7 +11,7 @@ const businessPacks = [paper1, paper2, paper3] as const
 const expectedCountByTopic: Record<string, number> = {
   business: 0,
   leadership: 1,
-  marketing: 3,
+  marketing: 5,
   operations: 4,
   finance: 16,
   hr: 2,
@@ -22,13 +22,13 @@ const expectedCountByTopic: Record<string, number> = {
 }
 
 describe('Issue #698 — existing Business data drills respect selected course topic', () => {
-  it('classifies all 29 original/published Business exercises without changing original IDs or duplicates', () => {
+  it('classifies all 31 published Business exercises without changing original IDs or duplicates', () => {
     for (const pack of businessPacks) {
       const adapter = createLearningContentAdapter(pack)
       const all = adapter.listDataDrills()
       const validTopics = new Set(pack.topics.map(topic => topic.id))
-      expect(all).toHaveLength(29)
-      expect(new Set(all.map(item => item.id)).size).toBe(29)
+      expect(all).toHaveLength(31)
+      expect(new Set(all.map(item => item.id)).size).toBe(31)
       expect(all.every(item => item.topic && validTopics.has(item.topic))).toBe(true)
       expect(all.slice(0, 25).map(item => item.id)).toEqual(Array.from(
         { length: 25 }, (_, index) => `a-level-data-drill-${String(index + 1).padStart(2, '0')}`,
@@ -38,6 +38,8 @@ describe('Issue #698 — existing Business data drills respect selected course t
         'a-level-network-amendment-02',
         'rev7132-35-budget-construction-01',
         'rev7132-35-cashflow-construction-01',
+        'rev7132-334-boston-matrix-01',
+        'rev7132-334-seven-ps-01',
       ])
       for (const [topicId, count] of Object.entries(expectedCountByTopic)) {
         const scoped = adapter.listDataDrills(topicId)
@@ -62,7 +64,7 @@ describe('Issue #698 — existing Business data drills respect selected course t
       expect(strategicChange.map(drill => drill.id)).toContain('a-level-network-amendment-02')
       expect(strategicChange.every(drill => !drill.title.toLowerCase().includes('cash-flow'))).toBe(true)
       const marketing = adapter.listDataDrills('marketing')
-      expect(marketing.map(drill => drill.title)).toEqual(['Market share', 'Market growth', 'Index interpretation'])
+      expect(marketing.map(drill => drill.title)).toEqual(['Market share', 'Market growth', 'Index interpretation', 'Build and challenge a Boston Matrix', 'Design an integrated seven-P mix for a service'])
       expect(marketing.every(drill => drill.topic === 'marketing')).toBe(true)
     }
   })
