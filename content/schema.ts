@@ -78,6 +78,8 @@ export const guidedQuestionSchema = z.object({
 
 export const caseStudySchema = z.object({
   id: slugSchema,
+  /** Curated course-topic relevance; untagged legacy packs retain their prior fallback. */
+  topicIds: z.array(topicIdSchema).min(1).optional(),
   title: z.string().min(1),
   bodyHtml: z.string().min(1),
   facts: z.array(z.string().min(1)).min(1),
