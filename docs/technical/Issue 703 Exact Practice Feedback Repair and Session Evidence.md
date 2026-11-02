@@ -15,7 +15,7 @@ The published Business expected-value wrong-number real-auth journey had verifie
 
 ## Acceptance proof and exclusions
 
-Targeted unit tests guard exact source mapping, missing/ambiguous/mismatched published pages, multi-skill scored-credit refusal, coached-retry refusal, self-assessed written exclusion and untested targets. The existing disposable **local real-Auth/PostgREST Playwright** Business journey is extended to require:
+Targeted unit tests guard exact source mapping, missing/ambiguous/mismatched published pages, multi-skill scored-credit refusal, coached-retry refusal, self-assessed written exclusion and untested targets. Existing responsive feedback browser tests are reconciled to retain **exactly one primary Next action** while allowing at most one secondary published Learn link. The original old-copy/one-button assertion failed on the candidate and was corrected without removing scoring or retry assertions. The existing disposable **local real-Auth/PostgREST Playwright** Business journey is extended to require:
 
 `wrong certain expected-value-01 typed in ordinary Practice → source-backed feedback Read link → actual bus-evi-004 Learn page → browser click I have read this page → unchanged saved score and pending independent need → resume/discard only unfinished checkpoint → genuine Plan Start → independently scored expected-value-02 → evidence readback → reload/Progress`.
 
