@@ -220,7 +220,7 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   const saved = await captureEvidence(page)
   const course = encodeURIComponent(courseId)
   await page.goto(`${appPath}#/courses/${course}/practice/social-influence`)
-  await expect(page.getByRole('heading', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Start 4 questions' })).toBeVisible()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
   const positions = [1, 3, 0, 2]
