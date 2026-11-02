@@ -23,6 +23,7 @@ import {
   type QuestionSession,
 } from './practice-session'
 import { availableTypes as questionTypesIn, buildQuestionPool, filterByTypes, orderByFreshness, type PracticeQuestion, objectiveItemMappingForPractice } from './practice-questions'
+import { legacySocialInfluencePool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
 import {
   PRACTICE_LENGTHS,
   lastPractisedLabel,
@@ -217,6 +218,7 @@ export function FocusedLearningWorkspace({
   const checkpointClient = checkpointContext?.client
   const checkpointStore = useMemo(() => checkpointClient ? supabasePracticeCheckpointStore(checkpointClient) : null, [checkpointClient])
   const [checkpoint, setCheckpoint] = useState<PracticeCheckpoint | null>(null)
+  const [usingLegacyLf03Session, setUsingLegacyLf03Session] = useState(false)
   const [checkpointPhase, setCheckpointPhase] = useState<'loading' | 'ready' | 'blocked'>(checkpointContext && isPractice ? 'loading' : 'ready')
   const [checkpointBusy, setCheckpointBusy] = useState(false)
   const [checkpointIssue, setCheckpointIssue] = useState('')
@@ -277,17 +279,24 @@ export function FocusedLearningWorkspace({
     () => orderByFreshness(buildQuestionPool({ topicId, topicOrder: adapter.getTopic(topicId)?.order ?? null, coursePack: questions, bank: practiceBank, includeWritten: marker !== null }), lastAnsweredAt),
     [adapter, topicId, questions, practiceBank, lastAnsweredAt, marker],
   )
+  const legacyLf03Pool = useMemo(
+    () => legacySocialInfluencePool(adapter.manifest.specificationCode, topicId, fullPool),
+    [adapter.manifest.specificationCode, topicId, fullPool],
+  )
+  // Old saved four-item sessions use their exact previous questions. Never
+  // include legacy items when selecting a fresh learner activity.
+  const sessionPool = usingLegacyLf03Session && legacyLf03Pool ? legacyLf03Pool : fullPool
   useEffect(() => {
     if (!isPractice || !checkpointContext || !checkpointStore) return
     let mounted = true
     const key = { userId: checkpointContext.userId, courseId: checkpointContext.courseId, moduleId: adapter.manifest.id, topicId }
     void (async () => {
       try {
-        const hash = await fingerprintPracticeContent(fullPool)
-        const saved = await loadPracticeCheckpoint(checkpointStore, key, hash)
+        const result = await loadLf03CompatibleCheckpoint(checkpointStore, key, fullPool, legacyLf03Pool)
         if (!mounted) return
-        setCheckpoint(saved)
-        setSession(saved?.snapshot.session ?? null)
+        setUsingLegacyLf03Session(result.legacy && Boolean(result.checkpoint))
+        setCheckpoint(result.checkpoint)
+        setSession(result.checkpoint?.snapshot.session ?? null)
         if (saved && !saved.snapshot.pending) restoreFeedback(saved.snapshot.session)
         setCheckpointPhase('ready')
       } catch (error) {
@@ -300,11 +309,11 @@ export function FocusedLearningWorkspace({
     // Evidence updates re-order questions but do not change the authored question fingerprint.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPractice, checkpointContext?.client, checkpointContext?.userId, checkpointContext?.courseId, checkpointStore, adapter.manifest.id, topicId])
-  const question = session?.currentId ? fullPool.find((item) => item.id === session.currentId) : undefined
+  const question = session?.currentId ? sessionPool.find((item) => item.id === session.currentId) : undefined
   const isRetry = session?.currentIsRetry ?? false
   const freshAnswered = session ? session.answers.filter((answer) => !answer.retry).length : 0
   const answeredNow = question?.type === 'written' ? writtenPhase === 'marked' : question?.type === 'calculation' ? Boolean(calcChecked) : Boolean(checked)
-  const upcoming = session && answeredNow ? advanceQuestionSession(session, fullPool) : null
+  const upcoming = session && answeredNow ? advanceQuestionSession(session, sessionPool) : null
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
   const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
@@ -356,6 +365,7 @@ export function FocusedLearningWorkspace({
   function changeTopic(nextTopic: string) {
     if (checkpointLock.current) return
     setCheckpoint(null)
+    setUsingLegacyLf03Session(false)
     setCheckpointPhase(checkpointContext && isPractice ? 'loading' : 'ready')
     setCheckpointIssue('')
     setTopicId(nextTopic)
@@ -405,11 +415,11 @@ export function FocusedLearningWorkspace({
     checkpointLock.current = true
     setCheckpointBusy(true)
     try {
-      const hash = await fingerprintPracticeContent(fullPool)
-      const saved = await loadPracticeCheckpoint(checkpointStore, key, hash)
-      setCheckpoint(saved)
-      setSession(saved?.snapshot.session ?? null)
-      if (saved && !saved.snapshot.pending) restoreFeedback(saved.snapshot.session)
+      const result = await loadLf03CompatibleCheckpoint(checkpointStore, key, fullPool, legacyLf03Pool)
+      setUsingLegacyLf03Session(result.legacy && Boolean(result.checkpoint))
+      setCheckpoint(result.checkpoint)
+      setSession(result.checkpoint?.snapshot.session ?? null)
+      if (result.checkpoint && !result.checkpoint.snapshot.pending) restoreFeedback(result.checkpoint.snapshot.session)
       setCheckpointPhase('ready')
       setCheckpointIssue('')
     } catch (error) {
@@ -429,6 +439,7 @@ export function FocusedLearningWorkspace({
       if (checkpoint) await removePracticeCheckpoint(checkpointStore, checkpoint)
       else await discardPracticeCheckpoint(checkpointStore, key)
       setCheckpoint(null)
+      setUsingLegacyLf03Session(false)
       setSession(null)
       if (checkpointTopicHintKey) {
         try { window.localStorage.removeItem(checkpointTopicHintKey) } catch { /* discard remains verified */ }
@@ -591,7 +602,7 @@ export function FocusedLearningWorkspace({
   /** The action after an answer: the next question, or the summary after the last. */
   async function goNext() {
     if (!session || checkpointLock.current) return
-    const next = advanceQuestionSession(session, fullPool)
+    const next = advanceQuestionSession(session, sessionPool)
     if (isSessionFinished(next)) await showSummary()
     else await nextQuestion(next)
   }
@@ -904,7 +915,7 @@ export function FocusedLearningWorkspace({
     const summaryModel = summary
       ? summariseSession({
         session: summary.session,
-        questions: fullPool,
+        questions: sessionPool,
         topicTitle: topic?.title ?? topicShort,
         topicOrder: practiceBank.some((record) => !record.topic_id) ? topic?.order ?? null : null,
         startStatus: summary.startStatus,
