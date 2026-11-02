@@ -44,6 +44,42 @@ export const SETTINGS = Object.freeze({
       'rev7132-334-boston-matrix-01','rev7132-334-seven-ps-01'],
   },
 })
+export const PACK_PATHS = [
+  'content/business/aqa-a-level/paper-1/index.ts',
+  'content/business/aqa-a-level/paper-2/index.ts',
+  'content/business/aqa-a-level/paper-3/index.ts',
+]
+const REQUIRED_CI_JOBS = [
+  'Assurance plan and secret scan',
+  'Foundation static, unit and build assurance',
+  'Database, RLS and protected service assurance',
+  'Real Auth standard signup assurance',
+  'Responsive browser assurance (phone, shard 1/1)',
+  'Responsive browser assurance (tablet, shard 1/1)',
+  'Responsive browser assurance (desktop, shard 1/2)',
+  'Responsive browser assurance (desktop, shard 2/2)',
+  'Foundation quality',
+]
+/** Validate only GitHub Actions' exact-head job record, never candidate-PR statements. */
+export function verifiedCiReceipt(runs, jobs, head) {
+  const matching = (runs??[]).filter(r => r.name==='Revision CI' && r.event==='pull_request' &&
+    r.head_sha===head && r.status==='completed')
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))
+  if (!matching.length || matching[0].conclusion!=='success') {
+    throw new Error('No successful latest completed exact-head Revision CI')
+  }
+  const run=matching[0]
+  if (!Array.isArray(jobs) || jobs.length!==REQUIRED_CI_JOBS.length) {
+    throw new Error('Revision CI job set incomplete or unexpected')
+  }
+  for(const name of REQUIRED_CI_JOBS) {
+    const match=jobs.filter(x=>x.name===name && x.status==='completed' && x.conclusion==='success')
+    if (match.length!==1) throw new Error('Missing successful exact-head CI job: '+name)
+  }
+  return {runId:run.id,headSha:head,conclusion:'success',
+    runUrl:run.html_url,jobs:jobs.map(x=>({name:x.name,conclusion:x.conclusion}))}
+}
+
 export const DIMENSIONS = [
   'source_scope_and_rights', 'factual_accuracy_and_quantitative_work',
   'pedagogical_clarity_and_unwarranted_certainty', 'original_practice_validity',
@@ -156,6 +192,13 @@ async function run() {
     throw new Error('Stale PR head, untrusted branch, or workflow not executing approved main')
   }
   const sources=await Promise.all(settings.paths.map(p=>fetchInertSource(p,head,process.env.GITHUB_TOKEN)))
+  const packs=await Promise.all(PACK_PATHS.map(p=>fetchInertSource(p,head,process.env.GITHUB_TOKEN)))
+  const runList=await githubJson('/actions/runs?head_sha='+head+'&per_page=30',process.env.GITHUB_TOKEN)
+  const possibleRuns=(runList.workflow_runs??[]).filter(r=>r.name==='Revision CI'&&r.event==='pull_request'&&r.head_sha===head)
+  const newest=[...possibleRuns].sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0]
+  if(!newest)throw new Error('No Revision CI run for target head')
+  const jobList=await githubJson('/actions/runs/'+newest.id+'/jobs?per_page=100',process.env.GITHUB_TOKEN)
+  const ci=verifiedCiReceipt(possibleRuns,jobList.jobs,head)
   // Existing source bank is roughly 793kB: verify the inert Git blob, then extract only bounded named questions.
   const bank=await fetchInertSource('content/business/aqa-a-level/shared/fast-path-question-bank.json',head,process.env.GITHUB_TOKEN,950000)
   const questions=JSON.parse(bank.content).questions.filter(x=>x.batch==='3.3'&&settings.questionIds.includes(x.id))
@@ -171,12 +214,15 @@ async function run() {
       approvedStructuredScope:settings.scope},
     publishedQuestionContext:questions.map(x=>({id:x.id,targets:x.target_item_ids,question:x.question})),
     authorCandidateFiles:sources,
+    publishedPaperPackSources:packs,
+    verifiedGitHubCi:ci,
     exactReviewedItemIds:settings.reviewedItemIds,
     reviewDimensions:DIMENSIONS,
     instructions:[
       'You are not the author. Identify errors, omissions, incorrect quantitative working, overclaimed scope and material pedagogy or assessment defects in every changed lesson and paper self-check.',
       'Independently calculate every coordinate, comparison, ratio and quadrant, including comparison thresholds and economically plausible alternative arguments. Do not trust answer keys, tests or audit claims.',
       'Check claimed official requirement versus educationally useful extension; distinguish diagrams drawn on paper from independently marked graph construction. Never turn reveal-only practice into scored proof.',
+      'For published integration inspect actual separately hash-verified three-paper ContentPack code and the independently queried exact-head GitHub CI job record; do not infer authenticated production deployment from local browser CI.',
       'Challenge published question context but avoid declaring an unchanged bank question independently A4 calibrated merely because it is included for context.',
       'Check exact section-specific structured alignment facts and reference-only source rights; never request verbatim source PDF excerpts.',
       'Report concrete source/asset references and severity, including if the evidence in the provided artefacts is insufficient to pass. No full-course sufficiency claims.',
@@ -190,6 +236,8 @@ async function run() {
   const receipt={schemaVersion:1,reviewPr:id,reviewHead:head,approvedMain:main.commit.sha,
     sourceSha256:input.source.sha256,rights:'REFERENCE_ONLY',
     reviewedSources:sources.map(({path,blobSha})=>({path,blobSha})),
+    publishedPaperPackBlobs:packs.map(({path,blobSha})=>({path,blobSha})),
+    independentlyQueriedExactHeadCI:ci,
     questionBankSha:bank.blobSha,reviewMethod:'separate isolated OpenAI Responses context store=false',
     model:MODEL,maximumReservedUsd:MAX_RESERVE_USD,preflightReserveUsd:reserve,
     completed:false,decision:'fail_hold'}
