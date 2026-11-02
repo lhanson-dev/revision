@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
+- LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
+- LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection, not syllabus or renderer assurance (candidate) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
