@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
+- LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
+- LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
@@ -65,6 +67,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 dated first Psychology Social Influence PR #768 independent A2 **fail/hold** (five material findings, one minor; original exact-head receipt preserved) → `audits/2026-11-01-psychology-pr768-first-a2-hold.md`
 - Issue #698 AQA Psychology 7182 §4.1.1 Social Influence four source bullets → 21 provisional named demand checks, four original A2 Learn corrections and explicit independent-review HOLD → `docs/technical/Issue 698 Psychology Social Influence A2 Teaching Correction.md`
 - Issue #698 restricted independent original Psychology Social Influence Practice A3 reviewer for PR #773 (trusted-main-only, separate Founder approval and exact-head trigger) → `docs/technical/Issue 698 Psychology PR773 Trusted A3 Review.md`
+- LF-03 PR #779 trusted blinded A3 review trigger, exact-head read-only provider isolation and $0.50 cap → `docs/technical/LF-03 PR779 Fresh A3 Reviewer.md`
 - Issue #698 exact PDF Psychology 7182 §4, 117 source content-bullet checkpoints → 118 existing Learn prototype pages across 17 topics (structural presence only, not educational adequacy) → `docs/technical/Issue 698 Psychology Section 4 Source Bullet to Learn Crosswalk.md`
 - Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
 - Issue #698 current **published** AQA Business/Psychology per-requirement supply crosswalk, exact tagged question IDs, truthful unverified source/PDF and educational-status boundaries → `docs/technical/Issue 698 Real Published Course Requirement Evidence Crosswalk.md`
