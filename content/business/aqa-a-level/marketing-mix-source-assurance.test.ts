@@ -74,6 +74,22 @@ describe('Issue #698 AQA Business §3.3.4 Boston Matrix and 7Ps published learne
     expect(text).toMatch(/do not|unknown|not automatic/i)
   })
 
+  it('keeps q31 Boston application grounded in the correct product evidence', () => {
+    const q31 = packs[0].practiceBank?.find(item => item.batch === '3.3' && item.id === 'q31')
+    expect(q31).toBeDefined()
+    const model = q31?.question.mark_scheme.model_answer ?? ''
+    expect(model).toContain('£0.8m investment in advertising and retailer incentives')
+    expect(model).toContain('the data do not show whether this will be sufficient')
+    expect(model).not.toMatch(/Aero needs[^.]+lower-priced competitor/i)
+    expect(q31?.question.table?.rows.find(row => row.cells[0] === 'BlendPro Mixers')?.cells.join(' '))
+      .toContain('lower-priced model')
+    expect(q31?.question.table?.rows.find(row => row.cells[0] === 'Aero Air Fryers')?.cells.join(' '))
+      .toContain('£0.8m')
+    // Preserve the stable item, its nine marks and assessment rubric.
+    expect(q31?.question.marks).toBe(9)
+    expect(q31?.question.mark_scheme.type).toBe('levels')
+  })
+
   it('retains existing 9 and 25 mark Boston Matrix exam-style Practice, without claiming trusted marking', () => {
     for (const pack of packs) {
       const matched = (pack.practiceBank ?? []).filter(q => q.batch === '3.3'
