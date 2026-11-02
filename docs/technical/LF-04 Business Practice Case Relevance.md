@@ -29,7 +29,7 @@ Remaining case-level labels are plausible cross-functional links to the AQA sect
 
 ## Tests and learner acceptance
 
-New Vitest checks preserve the six content objects in all three Business paper packs, ensure each tag names a real Business topic, verify exact seven existing topic matches and three honest empty states, and preserve the legacy all-untagged fallback. This proves selection logic and content provision, **not actual student comprehension, adequate syllabus-wide case coverage, or real learner acceptance**.
+New Vitest checks preserve the six content objects in all three Business paper packs, ensure each tag names a real Business topic, verify exact seven existing topic matches and three honest empty states, and preserve the legacy all-untagged fallback. Added canonical learner-route Playwright tests use the published Business course: Strategic Position opens Pulse rather than the first case, Operations opens Northstar with its original stimulus, and §3.5 Finance hides the mismatched Tide warm-up while still offering scored questions. The tests verify no accidental saved evidence is created from opening these unscored examples and run across the existing responsive project matrix. This proves selection logic and content provision, **not actual student comprehension, adequate syllabus-wide case coverage, or real learner acceptance**.
 
 Before any merge: exact-head CI, responsive desktop/tablet/phone in canonical Practice (including no-case honest state), screen reader/keyboard and appearance checks, independent content judgement under #698, Founder approval. After merge: Pages production deployment and real signed-in learner confirmation, no historical-score or saving regression. All remain unverified at candidate stage.
 
