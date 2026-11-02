@@ -114,6 +114,32 @@ describe('the skills map', () => {
     expect(skills.find((skill) => skill.id.endsWith('item-a'))?.status).toBe('nearly') // 50
   })
 
+  it('does not award two distinct skills from a single multi-target MCQ mark', () => {
+    const multi = mc('multi', { specItemIds: [
+      'aqa-7132-3.5.1:profit', 'aqa-7132-3.5.1:revenue',
+    ] })
+    const session = run([multi], [{ correct: true, selected: 0, confidence: 'certain' }])
+    expect(summariseSession(input(session, [multi])).skills).toEqual([])
+  })
+
+  it('does not manufacture independently scored skill evidence from written/self-assessed points', () => {
+    const question = written('explain')
+    const session = run([question], [{
+      correct: true, marks: { got: 2, available: 2 }, pointsGiven: [true, true],
+    }])
+    expect(summariseSession(input(session, [question], { topicOrder: 5 })).skills).toEqual([])
+  })
+
+  it('keeps untested single-target opportunities visible without crediting an ambiguous answer', () => {
+    const multi = mc('multi', { specItemIds: [
+      'aqa-7132-3.5.1:profit', 'aqa-7132-3.5.1:revenue',
+    ] })
+    const single = mc('single', { specItemIds: ['aqa-7132-3.5.1:profit'] })
+    const session = run([multi, single], [{ correct: true, selected: 0, confidence: 'certain' }])
+    expect(summariseSession(input(session, [multi, single])).skills)
+      .toEqual([{ id: 'aqa-7132-3.5.1:profit', label: 'profit', status: 'nottested' }])
+  })
+
   it('has no map without a spec mapping, and never more tiles than fit', () => {
     const many = Array.from({ length: 14 }, (_, index) => mc(`q${index}`))
     const session = startQuestionSession(many, 1)
