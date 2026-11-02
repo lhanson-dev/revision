@@ -16,6 +16,7 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
       expect(worked?.type).toBe('worked-example')
       if (worked?.type !== 'worked-example') throw new Error('Missing market map method')
       expect(worked.task).toMatch(/draw your own labelled two-axis/i)
+      expect(worked.task).toMatch(/extension practice/i)
       expect(worked.steps).toHaveLength(5)
       expect(worked.conclusion).toMatch(/does not independently verify/i)
       expect(pages.some(page => page.id === 'bus-mkt-005')).toBe(true)
