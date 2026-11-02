@@ -23,7 +23,7 @@ describe('LF-04 — case-study relevance on canonical Practice', () => {
     expect(caseStudies.filter(c => (c.topicIds?.length ?? 0) > 0)).toHaveLength(5)
     expect(caseStudies.find(c => c.id === 'tide-renewables')?.topicIds).toBeUndefined()
     for (const c of caseStudies) {
-      expect(new Set(c.topicIds).size, c.id).toBe(c.topicIds?.length)
+      expect(new Set(c.topicIds ?? []).size, c.id).toBe((c.topicIds ?? []).length)
       for (const id of c.topicIds ?? []) expect(known.has(id), `${c.id}: ${id}`).toBe(true)
       expect(c.bodyHtml.length, c.id).toBeGreaterThan(100)
       expect(c.questions.length, c.id).toBeGreaterThan(0)
