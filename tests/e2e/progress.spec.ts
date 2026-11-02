@@ -132,12 +132,17 @@ test('a brand-new student sees an honest Progress screen: a plain sentence, one 
 
 test('failed saved-session read retains measures without inventing a Progress next action', async ({ page }) => {
   await seedReturningStudent(page)
+  let failedReads = 0
   await page.route('**/rest/v1/learner_planned_sessions**', async (route) => {
-    await route.fulfill({ status: 503, contentType: 'application/json',
-      body: JSON.stringify({ code: 'PGRST503', message: 'Synthetic saved-session read failure' }) })
+    failedReads += 1
+    // A non-retryable backend failure proves the application boundary.
+    // HTTP 503 may trigger network retries longer than the browser timeout.
+    await route.fulfill({ status: 400, contentType: 'application/json',
+      body: JSON.stringify({ code: 'PGRST001', message: 'Synthetic saved-session read failure' }) })
   })
   await page.goto(progressPath)
   await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+  await expect.poll(() => failedReads).toBeGreaterThan(0)
   await expect(page.getByText(/current Plan recommendation could not be checked/)).toBeVisible()
   const summary = page.getByRole('region', { name: 'Progress summary' })
   await expect(summary.locator('.progress-intro__action')).toHaveCount(0)
