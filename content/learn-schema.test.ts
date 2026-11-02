@@ -55,11 +55,22 @@ describe('Learn quick-check block', () => {
     expect(learnPageSchema.safeParse(page).success).toBe(true)
   })
 
-  it('leaves all existing Business Learn content valid and unchanged', () => {
-    // `learn` is parsed with the schema when it loads, so a break would already have thrown on import.
+  it('preserves baseline Learn and confines new unscored teaching quick checks to the approved source correction', () => {
+    // Quick checks are a schema-approved teaching treatment, never scored evidence.
     expect(learnCourseSchema.safeParse(learn).success).toBe(true)
-    const types = new Set(learn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages.flatMap((page) => page.blocks.map((block) => block.type)))))
-    expect(types.has('quick-check')).toBe(false)
+    const pages = learn.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages))
+    const checked = pages.filter(page => page.blocks.some(block => block.type === 'quick-check'))
+    expect(checked.map(page => page.id)).toEqual([
+      'boston-matrix-decision-method',
+      'marketing-mix-seven-ps-context',
+    ])
+    for (const page of checked) {
+      for (const block of page.blocks.filter(block => block.type === 'quick-check')) {
+        expect(block).not.toHaveProperty('marks')
+        expect(block).not.toHaveProperty('mastery')
+        expect(block).not.toHaveProperty('evidence')
+      }
+    }
   })
 })
 
