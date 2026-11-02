@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import { seedExamAttemptBackend } from './exam-attempt-backend'
+import { seedPracticeCheckpoints } from './practice-checkpoint-seed'
+import { captureEvidence } from './practice-seed'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
@@ -7,7 +9,7 @@ const userId = '00000000-0000-4000-8000-000000000718'
 const courseId = 'aqa:aqa-a-level:7182'
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop', 'The restricted-pilot route gate needs one canonical authenticated browser journey; responsive coverage is exercised elsewhere.')
+  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('LF-03'), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
 })
 
 async function seedRestrictedPsychologyLearner(page: Page) {
@@ -210,4 +212,81 @@ test('LF-02: Psychology Paper 1 saves a genuine zero and permits a clean retake 
   await expect(page.getByRole('dialog', { name: 'Exam paused' })).toBeVisible()
   expect([...scored.values()].find((row) => row.evidence_id === firstResult?.evidence_id)?.payload)
     .toEqual(firstResult?.payload)
+})
+
+test('LF-03 canonical Psychology Practice independently marks four varied Social Influence questions and recovers evidence', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  const course = encodeURIComponent(courseId)
+  await page.goto(`${appPath}#/courses/${course}/practice/social-influence`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Start 4 questions' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+  const positions = [1, 3, 0, 2]
+  const expectedPrompts = [/Freya privately thinks/, /respected university/, /One other person openly disagrees/, /small campaign group/]
+  for (let index = 0; index < 4; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(expectedPrompts[index]!)
+    expect(await page.locator('.practice-question__options button').count()).toBe(4)
+    await page.locator('.practice-question__options button').nth(positions[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    expect(saved).toHaveLength(index + 1)
+    const payload = saved[index]!.payload as Record<string, unknown>
+    expect(payload).toMatchObject({
+      source: 'multiple_choice', correct: true,
+      selectedOption: positions[index], correctOption: positions[index],
+      contentId: `psy-psy010${index + 1}-check-v2`,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < 3) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(
+    [1, 2, 3, 4].map(number => `psy-psy010${number}-check-v2`),
+  )
+})
+
+test('LF-03 #787 canonical Memory Practice displays, scores and restores four different original scenario MCQs', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/memory`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+  const positions = [2, 0, 3, 1]
+  const stems = [/briefly sees a grid/, /listening to spoken directions/, /After studying French verbs/, /Two witnesses discuss an accident/]
+  const sets = new Set<string>()
+  for (let index = 0; index < 4; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(stems[index]!)
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    const texts = await options.allTextContents()
+    sets.add([...texts].map(t => t.trim().toLowerCase()).sort().join('|'))
+    await options.nth(positions[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    expect(saved).toHaveLength(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: `psy-psy020${index + 1}-check-v2`,
+      selectedOption: positions[index], correctOption: positions[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1) // do not double-save on re-entry
+    }
+    if (index < 3) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(sets.size).toBe(4)
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(
+    [1, 2, 3, 4].map(i => `psy-psy020${i}-check-v2`),
+  )
 })

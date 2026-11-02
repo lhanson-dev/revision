@@ -1,4 +1,4 @@
-import { evidencePercentage, isTopicScopedEvidence, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
+import { evidencePercentage, isTopicScopedEvidence, supportsLearningInference, withoutSuperseded, type LearningEvidence } from '../evidence/evidence'
 
 export type EvidenceFamily = 'recall' | 'application' | 'exam' | 'simulation'
 export type ConfidenceLevel = 'insufficient' | 'low' | 'medium' | 'high'
@@ -121,7 +121,7 @@ export function recentActivity(evidence: readonly LearningEvidence[], limit = 5)
 }
 
 export function assessReadiness(allEvidence: readonly LearningEvidence[], now = new Date()): ReadinessResult {
-  const evidence = withoutSuperseded(allEvidence)
+  const evidence = withoutSuperseded(allEvidence).filter(supportsLearningInference)
   const usable = evidence
     .map((item) => ({ item, percentage: evidencePercentage(item), family: familyFor(item) }))
     .filter((entry): entry is typeof entry & { percentage: number } => entry.percentage !== null)
@@ -189,7 +189,7 @@ export function assessTopicReadiness(moduleId: string, topicId: string, evidence
 export function unresolvedConfidentMisses(items: readonly LearningEvidence[]): string[] {
   const latest = new Map<string, LearningEvidence>()
   items.forEach((item) => {
-    if (item.source !== 'multiple_choice' && item.source !== 'calculation') return
+    if (!supportsLearningInference(item) || (item.source !== 'multiple_choice' && item.source !== 'calculation')) return
     const current = latest.get(item.contentId)
     if (!current || item.occurredAt >= current.occurredAt) latest.set(item.contentId, item)
   })
@@ -214,7 +214,7 @@ export function recommendNextActivity(
   now = new Date(),
 ): RevisionRecommendation | null {
   if (topicIds.length === 0) return null
-  const evidence = withoutSuperseded(allEvidence)
+  const evidence = withoutSuperseded(allEvidence).filter(supportsLearningInference)
 
   const candidates = topicIds.map((topicId, order) => {
     const items = evidence.filter((item) => item.moduleId === moduleId && item.topicId === topicId && isTopicScopedEvidence(item) && evidencePercentage(item) !== null)

@@ -174,7 +174,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds every objective Practice stem and key to the same approved Course Truth definition', () => {
+  it('binds generic objective Practice to Course Truth and eight versioned Social Influence and Memory scenarios to distinct purposes', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -189,6 +189,23 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         const contract = contracts[index]
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
+        if (topic.topicNumber === 1 || topic.topicNumber === 2) {
+          // LF-03 replaces generic recognition for Social Influence and Memory
+          // with four independently source-aligned scenarios per topic. Do not require the old word
+          // completion prompt or distractors after assessment versioning.
+          const requirementId = topic.requirements[index]!.requirementId
+          expect(question.id).toBe(`psy-${requirementId.toLowerCase().replaceAll('-', '')}-check-v2`)
+          expect(question.prompt).not.toBe(contract?.prompt)
+          expect(question.explanation.length).toBeGreaterThan(100)
+          if (topic.topicNumber === 1) {
+            expect(['Compliance:', 'The setting may affect', 'Social support can', 'Flexibility:']
+              .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
+          } else {
+            expect(['The sensory register', 'The phonological loop', 'Proactive interference:', 'Post-event discussion,']
+              .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
+          }
+          continue
+        }
         expect(question.options[question.correctOption], question.id).toBe(contract?.label)
         expect(question.prompt, question.id).toBe(contract?.prompt)
         expect(question.explanation, question.id).toContain(contract?.definition)

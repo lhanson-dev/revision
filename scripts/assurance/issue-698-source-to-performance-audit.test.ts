@@ -44,7 +44,7 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
     expect(skills.assertions.some(x=>x.id==='B-G01')).toBe(true)
   })
 
-  it('tracks every currently published Psychology requirement to the ACTUAL Learn page, recognition MCQ and flashcard',()=>{
+  it('tracks every currently published Psychology requirement to ACTUAL Learn page, versioned objective Practice and flashcard',()=>{
     const pages=psychologyLearn.chapters.flatMap(ch=>ch.groups.flatMap(g=>g.pages))
     const published=[paper1,paper2,paper3]
     const requirements=psychologyCourseTruthTopics.flatMap(t=>t.requirements.map(r=>({t,r})))
@@ -59,7 +59,10 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       const topic=psychologyTopics.find(q=>q.order===t.topicNumber)
       expect(topic,r.requirementId).toBeDefined()
       const code=r.requirementId.toLowerCase().replaceAll('-','')
-      const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`,mcq=`psy-${code}-check`
+      const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`
+      // Exact prior LF-03 Psychology Social Influence and Memory IDs remain immutable history;
+      // published objective Practice is explicitly versioned at these four parents.
+      const mcq=`psy-${code}-check${/^PSY-0[12]-0[1-4]$/.test(r.requirementId) ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
       expect(cardIds.has(card),r.requirementId).toBe(true)
       expect(mcqIds.has(mcq),r.requirementId).toBe(true)
