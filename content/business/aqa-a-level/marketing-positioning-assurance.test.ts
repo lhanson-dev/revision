@@ -34,8 +34,8 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
       expect(drill.prompt).toMatch(/plot three competitors/i)
       expect(drill.answer).toMatch(/cannot score or independently verify/i)
       expect(drill).not.toHaveProperty('marks')
-      expect(pack.dataDrills.map(item => item.id)).toHaveLength(30)
-      expect(new Set(pack.dataDrills.map(item => item.id)).size).toBe(30)
+      expect(pack.dataDrills.map(item => item.id)).toHaveLength(32)
+      expect(new Set(pack.dataDrills.map(item => item.id)).size).toBe(32)
       expect(pack.dataDrills.some(item => item.id === 'a-level-data-drill-25')).toBe(true)
       expect(pack.dataDrills.some(item => item.id === 'a-level-network-amendment-02')).toBe(true)
     }

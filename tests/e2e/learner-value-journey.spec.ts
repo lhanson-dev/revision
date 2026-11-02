@@ -709,7 +709,7 @@ test('two Business skill weaknesses produce named independent Plan checks withou
  * discoverable through the integrated Course Practice, not a fixture app.
  * Do not infer scored diagram or written AO3/AO4 evidence from answer reveal.
  */
-test('Business 7132 §3.3.3 real learner can reach market-map construction without false scored evidence', async ({ page }) => {
+test('Business 7132 Marketing real learner reaches market-map, Boston Matrix and seven-P drills without false scored evidence', async ({ page }) => {
   test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
   test.setTimeout(120_000)
   const url = process.env.SUPABASE_URL ?? ''
@@ -763,6 +763,19 @@ test('Business 7132 §3.3.3 real learner can reach market-map construction witho
     await expect(page.getByText(/Plot three competitors: CupGo/)).toBeVisible()
     await page.getByRole('button', { name: 'Show model answer' }).click()
     await expect(page.getByText(/cannot score or independently verify a student-drawn graph/i)).toBeVisible()
+
+    // #784: advance in the SAME signed-in Marketing exercise to the two new
+    // original Boston Matrix and seven-P unscored scenarios, preserving #777.
+    await page.getByRole('button', { name: 'Next exercise' }).click()
+    await expect(page.getByRole('heading', { name: 'Build and challenge a Boston Matrix' })).toBeVisible()
+    await expect(page.getByText(/Everyday Pans/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/Everyday Pans: 30\/15 = 2\.00/)).toBeVisible()
+    await page.getByRole('button', { name: 'Next exercise' }).click()
+    await expect(page.getByRole('heading', { name: 'Design an integrated seven-P mix for a service' })).toBeVisible()
+    await expect(page.getByText(/Northgate Testing/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/no marks or mastery are awarded/i)).toBeVisible()
 
     // Revealing the model must not generate an assessed result or mastery claim.
     const { data: recorded, error: evidenceError } = await learner.from('learning_evidence')
