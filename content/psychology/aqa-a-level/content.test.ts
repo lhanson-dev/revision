@@ -21,8 +21,25 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(psychologyTopics).toHaveLength(17)
     expect(psychologyLearn.chapters).toHaveLength(17)
     expect(psychologyLearn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))).toHaveLength(118)
-    expect(psychologyFlashcards).toHaveLength(118)
+    expect(psychologyFlashcards).toHaveLength(121)
     expect(psychologyQuestions).toHaveLength(118)
+  })
+
+  it('separates mental-health definitions into single-demand, versioned retrieval cards', () => {
+    const cards = psychologyFlashcards.filter((card) => card.id.startsWith('psy-psy0401-'))
+    expect(cards).toHaveLength(4)
+    expect(cards.map((card) => card.id)).toEqual([
+      'psy-psy0401-statistical-infrequency-card-v2',
+      'psy-psy0401-social-norms-card-v2',
+      'psy-psy0401-failure-to-function-card-v2',
+      'psy-psy0401-ideal-mental-health-card-v2',
+    ])
+    expect(cards.every((card) => card.topic === 'clinical-psychology-and-mental-health')).toBe(true)
+    expect(cards.every((card) => card.prompt.endsWith('?'))).toBe(true)
+    expect(cards.every((card) => card.answer.length < 320)).toBe(true)
+    expect(psychologyFlashcards.some((card) => card.id === 'psy-psy0401-card')).toBe(false)
+    const ids = psychologyFlashcards.map((card) => card.id)
+    expect(new Set(ids).size).toBe(ids.length)
   })
 
   it('keeps the three paper modules on one shared learner course', () => {
