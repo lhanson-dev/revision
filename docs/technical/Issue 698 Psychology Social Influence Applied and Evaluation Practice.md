@@ -1,5 +1,15 @@
 # Issue #698 — Psychology Social Influence applied and evaluation Practice
 
+## 2 November 2026 — combined LF-03 and #698 pre-release assurance state
+
+**Draft, UNMERGED, A3 FAIL/HOLD remains in force.** After the live Social Influence LF-03 four-question V2 correction (PR #779), previously published V1 `psy-psy010[1-4]-check` identifiers remain **immutable historical evidence**, rather than still appearing in the fresh Practice pool. Their live replacements are `psy-psy010[1-4]-check-v2`, and this candidate adds **eight distinct** source-targeted one-mark scenario MCQs after those four: **12 selectable scored Social Influence Practice questions**, plus four self-check written DataDrills. Do not mistakenly interpret the historical pre-LF-03 references below as a requirement to republish the deficient V1 questions.
+
+Original independent trusted [A3 #41424189543](https://github.com/lhanson-dev/revision/actions/runs/41424189543) remains a retained `fail_hold` despite positive checks on the eight proposed keys and four written models. Its one material objection misidentified three internal shared course packs as paper-specific student destinations. Separate draft [review evidence correction PR #793](https://github.com/lhanson-dev/revision/pull/793) is awaiting its own governed approval, then a **fresh** independent review with approved placement authority and Course Practice/Exam Prep route evidence. Do not infer an A3 PASS yet.
+
+The first combined current-main [CI #41511830732](https://github.com/lhanson-dev/revision/actions/runs/41511830732) **FAILED** because older LF-03 automated tests expected exactly four Social Influence scored questions, a four-question start label, and original V1 identifiers, which conflicts with the candidate's new twelve-question published pool and already-live V2 identities. Updated unit tests now separately verify preserved first-four LF-03 V2 keys/evidence **and all eight additional source-mapped questions**; shared-pack tests explicitly assert four current V2 identities while keeping immutable V1 historical records; the signed-in course browser test initiates a twelve-question session, proves saved recovery of the original four and then advances into the fifth original applied case. These are test-contract changes, **not removal of evidence checks or alteration to question/learner scoring code**. Fresh exact-head CI remains required. This addition supersedes dated pre-LF-03 test-count/identity statements below; historical source and review records remain unchanged.
+
+
+
 **Draft candidate, NOT independently A3 reviewed or approved for publication.**
 
 ## Controlling source and route
