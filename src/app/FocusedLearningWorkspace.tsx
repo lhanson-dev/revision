@@ -297,7 +297,7 @@ export function FocusedLearningWorkspace({
         setUsingLegacyLf03Session(result.legacy && Boolean(result.checkpoint))
         setCheckpoint(result.checkpoint)
         setSession(result.checkpoint?.snapshot.session ?? null)
-        if (saved && !saved.snapshot.pending) restoreFeedback(saved.snapshot.session)
+        if (result.checkpoint && !result.checkpoint.snapshot.pending) restoreFeedback(result.checkpoint.snapshot.session)
         setCheckpointPhase('ready')
       } catch (error) {
         if (!mounted) return
@@ -551,6 +551,7 @@ export function FocusedLearningWorkspace({
         setCheckpointBusy(false)
       }
     }
+    setUsingLegacyLf03Session(false)
     setSession(next)
     setCheckpointIssue('')
     setSummary(null)
