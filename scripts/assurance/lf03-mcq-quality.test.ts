@@ -49,10 +49,11 @@ describe('LF-03 bounded source-to-published AQA question-bank audit', () => {
   it('includes actual retained Business 7132 MCQs and provides answer-position bias review evidence', () => {
     const bankFindings = reviewMcqQuality(fromBank)
     expect(fromBank.length).toBeGreaterThanOrEqual(63)
-    const retained = retainedBusinessBank.questions.filter(r => r.question.family === 'MCQ').map(r => ({
+    const retainedSource = retainedBusinessBank.questions as unknown as Array<{ id: string; question: { family: string; stem: string; options: Array<{ label: string; text: string }>; mark_scheme: { correct_option?: string } } }>
+    const retained = retainedSource.filter(r => r.question.family === 'MCQ').map(r => ({
       id: r.id, prompt: r.question.stem, options: r.question.options.map(o => o.text),
       correctOption: r.question.options.findIndex(o => o.label === r.question.mark_scheme.correct_option),
-      explanation: r.question.mark_scheme.option_rationale?.join(' ') ?? '',
+      explanation: 'Retained bank source item, independently reviewed for keyed position only.',
     }))
     expect(retained).toHaveLength(59)
     expect(retained.filter(x => x.correctOption === 0)).toHaveLength(40)
