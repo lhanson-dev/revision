@@ -31,6 +31,8 @@ import topic17 from '../../../../research/source-first-course-prototype/psycholo
 import examTruth from '../../../../research/source-first-course-prototype/psychology-exam-truth/assessment-blueprint.json'
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
+import { socialInfluenceMcqV2 } from './social-influence-mcq-v2'
+import { memoryMcqV2 } from './memory-mcq-v2'
 
 type TruthRequirement = {
   requirementId: string
@@ -251,18 +253,34 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
   })),
 )
 
+function legacyObjectiveQuestion(topic: TruthTopic, requirement: TruthRequirement) {
+  const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
+  return multipleChoiceQuestionSchema.parse({
+    id: `psy-${requirementSectionId(requirement)}-check`,
+    topic: topicId(topic),
+    prompt: correct.prompt,
+    options,
+    correctOption,
+    explanation: `${correct.definition} The keyed answer names the concept defined by the stem; the alternatives are different concepts from the same topic.`,
+  })
+}
+
+/** Exact prior published Social Influence item definitions for safe in-progress
+ * checkpoint recovery only. Never publish these in a new Practice pool. */
+export const psychologyLegacySocialInfluenceQuestions = truthTopics[0]!.requirements
+  .map((requirement) => legacyObjectiveQuestion(truthTopics[0]!, requirement))
+
+/** Preserve exact pre-change Memory assessments solely for matching a saved V1 Practice checkpoint. */
+export const psychologyLegacyMemoryQuestions = truthTopics[1]!.requirements
+  .map((requirement) => legacyObjectiveQuestion(truthTopics[1]!, requirement))
+
+const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
+const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = memoryMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
-  topic.requirements.map((requirement) => {
-    const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
-    return multipleChoiceQuestionSchema.parse({
-      id: `psy-${requirementSectionId(requirement)}-check`,
-      topic: topicId(topic),
-      prompt: correct.prompt,
-      options,
-      correctOption,
-      explanation: `${correct.definition} The keyed answer names the concept defined by the stem; the alternatives are different concepts from the same topic.`,
-    })
-  }),
+  topic.requirements.map((requirement) =>
+    updatedSocialInfluenceQuestions[requirement.requirementId]
+    ?? updatedMemoryQuestions[requirement.requirementId]
+    ?? legacyObjectiveQuestion(topic, requirement)),
 )
 
 const researchMethodsTopic = truthTopics.find((topic) => topic.topicNumber === 7)

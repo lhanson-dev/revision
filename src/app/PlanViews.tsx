@@ -15,6 +15,7 @@ import {
 } from './plan-dates'
 import type { PlanDay, PlanExamItem, PlanItem, PlanSessionItem, PlanSuggestedItem, PlanSummary } from './plan-model'
 import { daysFromToday } from './plan-model'
+import { planSkillFocusLabel } from './plan-skill-focus'
 import type { PlannedSession, PlannedSessionStatus } from '../services/planning/planned-session-service'
 import type { PlanViewKey } from './navigation'
 import type { SubjectHue } from './subject-palette'
@@ -243,6 +244,10 @@ export function PlanRow({ item, day, todayKey, actions, compact = false }: PlanR
   const revPick = item.kind === 'session' && item.revPick
   const isNext = day.today && actions.nextTaskId === (item.kind === 'session' ? item.key : item.item.recommendationId)
   const meta = `${item.activityLabel} · ${formatMinutes(item.minutes)}`
+  // Two distinct assessed weaknesses in the same topic must not look like
+  // indistinguishable generic Practice rows. No new planning logic is used.
+  const skillFocus = item.kind === 'suggested' && item.item.skillFocus
+    ? planSkillFocusLabel(item.item.skillFocus) : null
   let action: ReactNode = null
   if (isNext) action = <Button onClick={() => item.kind === 'session' ? actions.onStartSession(item.session) : actions.onStartSuggested(item)}>Up next<span className="sr-only"> {item.topic}</span></Button>
   else if (done) action = <span className="pln-row__done"><Icon name="check" size="inline" />Done</span>
@@ -261,6 +266,7 @@ export function PlanRow({ item, day, todayKey, actions, compact = false }: PlanR
           <span className="pln-row__title" data-done={done || undefined}>{name} · {item.topic}</span>
         </span>
         <span className="pln-row__meta">{meta}</span>
+        {skillFocus && <span className="pln-row__skill">{skillFocus}</span>}
       </div>
       {action && <div className="pln-row__action">{action}</div>}
       {item.kind === 'session' && <SessionOptions item={item} todayKey={todayKey} actions={actions} />}

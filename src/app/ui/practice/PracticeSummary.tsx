@@ -3,7 +3,6 @@ import { Button } from '../controls'
 import { Icon, type IconName } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
 import { StatusBadge } from '../StatusBadge'
-import { learningStatusMeta } from '../learning-status'
 import type { SessionSummaryModel, SkillStatus } from '../../practice-summary'
 
 export interface PracticeSummaryProps {
@@ -28,7 +27,13 @@ const skillIcon: Record<SkillStatus, IconName> = {
   nottested: 'status-notstarted',
 }
 
-const skillWord = (status: SkillStatus) => (status === 'nottested' ? 'Not tested yet' : learningStatusMeta[status].label)
+// These describe this session's objective responses, NOT established mastery.
+const skillWord: Record<SkillStatus, string> = {
+  gotit: 'Strong answer result',
+  nearly: 'Mixed or uncertain result',
+  needswork: 'Answer needs work',
+  nottested: 'Not tested yet',
+}
 
 /**
  * What the pop-up closes onto: the session's result, where the topic's status went, the skills map, what to go over,
@@ -63,11 +68,12 @@ export function PracticeSummary({ topicTitle, topicShort, model, onReadPage, onS
           )}
           {model.skills.length > 0 && (
             <div className="practice-summary__skills">
-              <h3 className="ui-eyebrow">What this session proved</h3>
+              <h3 className="ui-eyebrow">What these answers showed</h3>
+              <p className="practice-panel__lead">These are results from individual scored questions, not proof of complete skill understanding.</p>
               <ul className="practice-summary__tiles">
                 {model.skills.map((skill) => (
                   <li key={skill.id} className={`practice-summary__tile practice-summary__tile--${skill.status}`}>
-                    <span className="practice-summary__tile-status"><Icon name={skillIcon[skill.status]} size="inline" />{skillWord(skill.status)}</span>
+                    <span className="practice-summary__tile-status"><Icon name={skillIcon[skill.status]} size="inline" />{skillWord[skill.status]}</span>
                     <span className="practice-summary__tile-name">{skill.label}</span>
                   </li>
                 ))}
