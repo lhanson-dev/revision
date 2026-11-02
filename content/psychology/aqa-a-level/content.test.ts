@@ -8,6 +8,7 @@ import {
   psychologyCourseTruthTopics,
   psychologyDataDrills,
   psychologyFlashcards,
+  psychologyFlashcardsForRequirement,
   psychologyLearn,
   psychologyObjectivePracticeContracts,
   psychologyQuestions,
@@ -243,9 +244,8 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     for (const topic of psychologyCourseTruthTopics) {
       for (const requirement of topic.requirements) {
         const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
-        const card = psychologyFlashcards.find((candidate) => candidate.id === cardId)
-        expect(card, cardId).toBeDefined()
-        expect(card?.prompt, cardId).toContain(requirement.boardAlignment.summary)
+        const cards = psychologyFlashcardsForRequirement(requirement.requirementId)
+        expect(cards, requirement.requirementId).toHaveLength(requirement.requirementId === 'PSY-04-01' ? 4 : 1)
 
         const requiredParagraphs = [...new Set([
           ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
@@ -254,8 +254,24 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         ])]
         expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
 
+        if (requirement.requirementId === 'PSY-04-01') {
+          // The short retrieval answers do not replace the fuller specification-backed
+          // teaching and evaluation. All of that remains visible in Learn.
+          const learnPage = psychologyLearn.chapters
+            .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+            .find((page) => page.sourceSectionIds.includes('psy0401'))
+          expect(learnPage).toBeDefined()
+          for (const paragraph of requiredParagraphs) {
+            expect(JSON.stringify(learnPage), `Learn PSY-04-01: ${paragraph}`).toContain(paragraph)
+          }
+          expect(cards.every((card) => card.id.endsWith('-card-v2'))).toBe(true)
+          continue
+        }
+
+        expect(cards[0]?.id).toBe(cardId)
+        expect(cards[0]?.prompt, cardId).toContain(requirement.boardAlignment.summary)
         for (const paragraph of requiredParagraphs) {
-          expect(card?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
+          expect(cards[0]?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
         }
       }
     }
