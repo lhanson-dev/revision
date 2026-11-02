@@ -14,6 +14,7 @@ import {
   psychologyTopics,
 } from './shared/course'
 import { aqaPsychology7182ExamPapers } from './shared/exam-papers'
+import { socialInfluenceObjectiveQuestions } from './shared/social-influence-objective-questions'
 
 describe('AQA Psychology 7182 restricted-pilot content pack', () => {
   it('projects the complete approved Course Truth into learner content', () => {
@@ -174,7 +175,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds every objective Practice stem and key to the same approved Course Truth definition', () => {
+  it('keeps 114 generated recognition contracts and four source-scoped authored scenarios valid', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -189,12 +190,25 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         const contract = contracts[index]
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
-        expect(question.options[question.correctOption], question.id).toBe(contract?.label)
-        expect(question.prompt, question.id).toBe(contract?.prompt)
-        expect(question.explanation, question.id).toContain(contract?.definition)
-        expect(question.prompt.toLowerCase(), question.id).not.toContain(contract?.label.toLowerCase())
-        for (const option of question.options) {
-          expect(contracts.some((candidate) => candidate.label === option), `${question.id}: ${option}`).toBe(true)
+        const sourceId = topic.requirements[index].requirementId
+        const authored = socialInfluenceObjectiveQuestions[sourceId]
+        if (authored) {
+          // Four corrected LF-03 items assess specific situations rather than
+          // generated definition-label recognition. Check their published ID,
+          // authored key and explanatory contract separately.
+          expect(question.id).toBe(`psy-${sourceId.toLowerCase().replaceAll('-', '')}-check-v2`)
+          expect(question.options).toEqual(authored.options)
+          expect(question.correctOption).toBe(authored.correctOption)
+          expect(question.prompt).toBe(authored.prompt)
+          expect(question.explanation).toBe(authored.explanation)
+        } else {
+          expect(question.options[question.correctOption], question.id).toBe(contract?.label)
+          expect(question.prompt, question.id).toBe(contract?.prompt)
+          expect(question.explanation, question.id).toContain(contract?.definition)
+          expect(question.prompt.toLowerCase(), question.id).not.toContain(contract?.label.toLowerCase())
+          for (const option of question.options) {
+            expect(contracts.some((candidate) => candidate.label === option), `${question.id}: ${option}`).toBe(true)
+          }
         }
       }
 
