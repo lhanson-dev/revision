@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import psychology from '../../content/psychology/aqa-a-level/paper-1'
 import business from '../../content/business/aqa-a-level/paper-1'
 import { aqaBusinessQuestionBank } from '../../content/business/aqa-a-level/shared/fast-path-questions'
+import retainedBusinessBank from '../../content/business/aqa-a-level/shared/fast-path-question-bank.json'
 import { bankRecordToPractice } from '../../src/app/practice-questions'
 import { reviewMcqQuality, type McqQualityInput } from './lf03-mcq-quality'
 
@@ -48,7 +49,14 @@ describe('LF-03 bounded source-to-published AQA question-bank audit', () => {
   it('includes actual retained Business 7132 MCQs and provides answer-position bias review evidence', () => {
     const bankFindings = reviewMcqQuality(fromBank)
     expect(fromBank.length).toBeGreaterThanOrEqual(63)
-    expect(bankFindings.filter(f => f.rule === 'answer-position-bias' || f.rule === 'answer-position-run').length).toBeGreaterThanOrEqual(1)
+    const retained = retainedBusinessBank.questions.filter(r => r.question.family === 'MCQ').map(r => ({
+      id: r.id, prompt: r.question.stem, options: r.question.options.map(o => o.text),
+      correctOption: r.question.options.findIndex(o => o.label === r.question.mark_scheme.correct_option),
+      explanation: r.question.mark_scheme.option_rationale?.join(' ') ?? '',
+    }))
+    expect(retained).toHaveLength(59)
+    expect(retained.filter(x => x.correctOption === 0)).toHaveLength(40)
+    expect(reviewMcqQuality(retained).some(f => f.rule === 'answer-position-bias')).toBe(true)
     expect(bankFindings.every(f => f.ids.length > 0)).toBe(true)
     // Business course-pack and bank are separately authored; both sources must be reviewed.
     expect(business.questions.length).toBeGreaterThan(0)
