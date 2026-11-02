@@ -224,7 +224,7 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   await expect(page.getByRole('button', { name: 'Start 4 questions' })).toBeVisible()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
   const positions = [1, 3, 0, 2]
-  const expectedPrompts = [/Freya privately thinks/, /respected university/, /another person openly disagrees/, /small campaign group/]
+  const expectedPrompts = [/Freya privately thinks/, /respected university/, /One other person openly disagrees/, /small campaign group/]
   for (let index = 0; index < 4; index++) {
     await expect(page.locator('.practice-question__prompt')).toContainText(expectedPrompts[index]!)
     expect(await page.locator('.practice-question__options button').count()).toBe(4)
