@@ -11,6 +11,7 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
+- LF-03 PR #779 trusted blinded A3 review trigger, exact-head read-only provider isolation and $0.50 cap → `docs/technical/LF-03 PR779 Fresh A3 Reviewer.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
