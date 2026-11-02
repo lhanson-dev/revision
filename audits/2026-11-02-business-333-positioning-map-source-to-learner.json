@@ -1,0 +1,346 @@
+{
+  "schema_version": "2026-11-02-source-to-published-candidate-v1",
+  "issue": 698,
+  "qualification": "AQA A-level Business 7132",
+  "source": {
+    "version": "2.0",
+    "date": "2023-06-14",
+    "pdf_pages": 42,
+    "section": "3.3.3",
+    "printed_page": 16,
+    "sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+    "byte_parity_verified": true,
+    "rights": "REFERENCE_ONLY"
+  },
+  "scope_note": "Eleven prior candidate capabilities, not eleven enumerated official AQA clauses. Exact mapping and evidence are still under educational review. These per-row statuses apply to the proposed branch and cannot be treated as live until merge/deploy.",
+  "canonical_route": "/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/practice",
+  "course_packs": [
+    "content/business/aqa-a-level/paper-1/index.ts",
+    "content/business/aqa-a-level/paper-2/index.ts",
+    "content/business/aqa-a-level/paper-3/index.ts"
+  ],
+  "records": [
+    {
+      "id": "BUS7132-ATOM-3.3.3-001",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "explain segmentation targeting positioning process",
+      "mode": "explain",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q12",
+        "fast-path-question-bank:3.3:q13",
+        "fast-path-question-bank:3.3:q14"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing authored Practice is a possible route; per-atom scored evidence and independent marking not confirmed",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-002",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "apply demographic segmentation",
+      "mode": "apply",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q11"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q11 asks selection of behavioural basis; does not independently demonstrate application of all four types",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-003",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "apply geographic segmentation",
+      "mode": "apply",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q11"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q11 asks selection of behavioural basis; does not independently demonstrate application of all four types",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-004",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "apply income segmentation",
+      "mode": "apply",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q11"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q11 asks selection of behavioural basis; does not independently demonstrate application of all four types",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-005",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "apply behavioural segmentation",
+      "mode": "apply",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q11"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q11 asks selection of behavioural basis; does not independently demonstrate application of all four types",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-006",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "evaluate niche targeting",
+      "mode": "evaluate",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q12"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing authored Practice is a possible route; per-atom scored evidence and independent marking not confirmed",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-007",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "evaluate mass targeting",
+      "mode": "evaluate",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q13"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses previously authored instruction; educational adequacy not independently verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing authored Practice is a possible route; per-atom scored evidence and independent marking not confirmed",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-008",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "evaluate target market selection",
+      "mode": "evaluate",
+      "learn_ids": [
+        "bus-mkt-005"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q14"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Reuses published STP sequence and target-choice examples",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing authored Practice is a possible route; per-atom scored evidence and independent marking not confirmed",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-009",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "construct a positioning map",
+      "mode": "construct",
+      "learn_ids": [
+        "bus-mkt-005",
+        "market-positioning-map-method"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json",
+        "content/business/aqa-a-level/shared/authored-learn.ts"
+      ],
+      "practice_candidates": [
+        "dataDrills:rev7132-333-positioning-map-01"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Original construction teaching added; independent A2 adequacy not yet verified",
+      "practice_class": "inadequate",
+      "practice_boundary": "Paper drawing and model reveal only; no saved drawing or independent mark",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-010",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "interpret a positioning map",
+      "mode": "interpret",
+      "learn_ids": [
+        "bus-mkt-005",
+        "market-positioning-map-method"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json",
+        "content/business/aqa-a-level/shared/authored-learn.ts"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q15",
+        "dataDrills:rev7132-333-positioning-map-01"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Original construction teaching added; independent A2 adequacy not yet verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q15 judges a tabular coordinate display, not a plotted map; written-marking validity unverified",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    },
+    {
+      "id": "BUS7132-ATOM-3.3.3-011",
+      "source_section": "3.3.3",
+      "printed_page": 16,
+      "capability": "evaluate positioning choices",
+      "mode": "evaluate",
+      "learn_ids": [
+        "bus-mkt-005",
+        "market-positioning-map-method"
+      ],
+      "learn_paths": [
+        "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json",
+        "content/business/aqa-a-level/shared/authored-learn.ts"
+      ],
+      "practice_candidates": [
+        "fast-path-question-bank:3.3:q15",
+        "dataDrills:rev7132-333-positioning-map-01"
+      ],
+      "current_teaching_class": "unverified",
+      "proposed_teaching_change": "Original construction teaching added; independent A2 adequacy not yet verified",
+      "practice_class": "unverified",
+      "practice_boundary": "Existing q15 judges a tabular coordinate display, not a plotted map; written-marking validity unverified",
+      "exam_class": "unverified",
+      "production_learner_acceptance": "unverified",
+      "progress_rev_plan_evidence": "unverified",
+      "reviewer": "initial independent FAIL/HOLD 41472160176; re-review required after correction"
+    }
+  ],
+  "defects": [
+    {
+      "id": "BUS7132-333-DEFECT-01",
+      "class_on_main": "inadequate",
+      "source": "AQA §3.3.3 plus Annex 6 graph capability",
+      "observation": "Published STP has map reading and tabular market-map evaluation but no explicit mapped construction method or map-sketch Practice drill",
+      "candidate_correction": "market-positioning-map-method and rev7132-333-positioning-map-01 (self-check only)",
+      "remaining_gap": "Independently marked drawn-map construction unsupported"
+    },
+    {
+      "id": "BUS7132-333-DEFECT-02",
+      "class_on_main": "incorrect",
+      "source": "content-factory/slices/aqa-7132-3.3/learn-practice/bus-mkt-005.json",
+      "observation": "Targeting worked example had dummy gross_profit formula and zero result, which the Learn adapter rendered as a profit-calculation instruction despite no arithmetic context",
+      "candidate_correction": "Preserve mandatory Content Factory calc metadata, but intercept reviewed 'not applicable' sentinel in published Learn adapter and require meaningful targeting question; reject unreviewed sentinels.",
+      "remaining_gap": "The legacy source still holds mandatory placeholder fields but published learner no longer receives the erroneous gross-profit instruction; independent review and production verification pending."
+    }
+  ],
+  "summary": {
+    "adequacy_pass_claim": false,
+    "confirmed_source_sha": true,
+    "provisional_capabilities": 11,
+    "qualified_educational_review": false,
+    "authenticated_acceptance": false,
+    "claim": "No course-completeness denominator or percentage"
+  },
+  "independentReview": {
+    "reviewed_candidate_sha": "dda5df2bfbb3c884fb68cadb625a315740aa19ca",
+    "reviewer_approved_main_sha": "99fe1885c3906e809f975c095f35edd45909c9ac",
+    "workflow_run": "https://github.com/lhanson-dev/revision/actions/runs/41472160176",
+    "artifact_id": 13155277875,
+    "status": "fail_hold",
+    "reviewer_decision": "fail_hold",
+    "completed": true,
+    "explanation": "Material finding is missing published integration/run inputs in the isolated reviewer payload, not a demonstrated broken learner integration. Independently verified original exact-head 9/9 CI #41450857245 succeeded, including authenticated local learner route. Reviewer was not supplied three paper pack source files or CI receipts; no new educational release pass can be inferred.",
+    "reviewed_factual_results": "All map coordinates and price differences reviewed correct; two minor wording improvements identified and applied on the post-review branch; reviewer receipt invalidated for modified head.",
+    "minorCorrections": [
+      "Clarified that each axis requires appropriate evenly spaced intervals, not identical scales",
+      "Acknowledged overlapping product coordinates with distinct labels/symbols",
+      "Made £8/£10 price comparisons explicit"
+    ],
+    "remainingRequirements": [
+      "New exact-head CI after wording changes",
+      "Trusted reviewer must receive actual three published pack definitions and independently retrievable validated CI evidence in order to adjudicate integration, not just test code assertions",
+      "Fresh exact-head A2/A3 reviewer run after reviewer input correction",
+      "Actual production learner validation after Founder-approved merge"
+    ]
+  }
+}
