@@ -57,7 +57,7 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
     expect(options.every(item => item.price >= 0 && item.price <= 40 && item.durability <= 10)).toBe(true)
   })
 
-  it('removes an incorrect invented gross-profit instruction from the existing targeting example', () => {
+  it('replaces an incorrect gross-profit instruction with a contextual targeting task', () => {
     for (const pack of packs) {
       const pages = pack.learn?.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages)) ?? []
       const page = pages.find(item => item.id === 'bus-mkt-005')
@@ -66,7 +66,8 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
       expect(targetingExample?.type).toBe('worked-example')
       if (targetingExample?.type !== 'worked-example') throw new Error('Missing STP targeting example')
       expect(targetingExample.steps.length).toBeGreaterThan(0)
-      expect(targetingExample.task).toBeUndefined()
+      expect(targetingExample.task).toBe('Explain how the gym should decide whether busy professionals are an appropriate target segment.')
+      expect(targetingExample.task).not.toMatch(/gross profit|work out/i)
     }
   })
 })
