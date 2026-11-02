@@ -85,6 +85,8 @@ describe('Issue #698 AQA Business 7132 v2.0 §3.3.3 market mapping correction', 
       expect(targetingExample.steps.length).toBeGreaterThan(0)
       expect(targetingExample.task).toBe('Explain how the gym should decide whether busy professionals are an appropriate target segment.')
       expect(targetingExample.task).not.toMatch(/gross profit|work out/i)
+      const pageText = JSON.stringify(page?.blocks)
+      expect(pageText).toMatch(/does not by itself establish behavioural segmentation/i)
     }
   })
 })
