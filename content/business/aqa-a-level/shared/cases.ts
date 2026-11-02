@@ -32,7 +32,9 @@ export const willowHealthCase = caseStudySchema.parse({
 
 export const kestrelBikesCase = caseStudySchema.parse({
   id: 'kestrel-bikes',
-  topicIds: ['marketing', 'strategic-direction'],
+  // Original questions assess competitive/international strategy (AQA 7132 §§3.8–3.9),
+  // not specific §3.3 marketing-management skills.
+  topicIds: ['strategic-direction'],
   title: 'Kestrel Bikes Ltd',
   bodyHtml: 'Kestrel Bikes Ltd is a small UK manufacturer of premium cargo bicycles. It sells mainly online and has differentiated through custom design and durable components. A distributor in the Netherlands wants exclusive rights to sell Kestrel bikes in three European countries. Management could license the brand and designs to a European producer instead, or invest directly in a small assembly facility. The owners have limited retained profit and are worried that rapid international growth could cause overtrading and weaken quality.',
   facts: ['Small UK manufacturer','Premium differentiation','Online sales','European market opportunity','Export/distribution option','Licensing option','Direct-investment option','Overtrading and quality concerns'],
