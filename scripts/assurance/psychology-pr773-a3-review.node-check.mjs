@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { gitBlobSha, parseTrustedEvent, validateReview, ITEM_IDS, DIMENSIONS, REVIEW_MARKER } from './psychology-pr773-a3-review.mjs'
+import { readFileSync } from 'node:fs'
+import { gitBlobSha, parseTrustedEvent, validateReview, trustedCoursePlacementEvidence, ITEM_IDS, DIMENSIONS, REVIEW_MARKER } from './psychology-pr773-a3-review.mjs'
 
 const SHA = '840ac310e293f1830bd29e09432c2f005fc16d5d'
 const event = (body, user = 'lhanson-dev') => ({
@@ -74,4 +75,24 @@ test('review trigger fails closed for wrong PR, non-owner, stale or malformed re
   assert.throws(() => parseTrustedEvent({ ...event(REVIEW_MARKER + '\nhead_sha: ' + SHA), comment: {
     ...event(REVIEW_MARKER + '\nhead_sha: ' + SHA).comment, author_association: 'CONTRIBUTOR'
   } }))
+})
+
+test('trusted main placement evidence distinguishes Course Practice from paper-specific Exam Prep', () => {
+  const inputs = {
+    authority: readFileSync('10-product-governance/Course Content and Assessment Component Placement.md', 'utf8'),
+    packTest: readFileSync('content/psychology/aqa-a-level/content.test.ts', 'utf8'),
+    browserTest: readFileSync('tests/e2e/psychology-restricted-pilot-route.spec.ts', 'utf8'),
+  }
+  const evidence = trustedCoursePlacementEvidence(inputs)
+  assert.equal(evidence.length, 3)
+  assert.equal(evidence[0].sourceClass, 'approved normative main')
+  assert.match(evidence[0].content, /Internal storage may retain paper\/module identifiers/)
+  assert.match(evidence[1].content, /expect\(paper1\.questions\)\.toEqual\(paper2\.questions\)/)
+  assert.match(evidence[2].content, /name: 'Practice'/)
+  assert.match(evidence[2].content, /name: 'Exam Prep'/)
+  assert.match(evidence[2].content, /\.exam-mock/)
+  // Fail closed when authority or current-route implementation changes.
+  assert.throws(() => trustedCoursePlacementEvidence({ ...inputs, authority: 'unapproved design note' }))
+  assert.throws(() => trustedCoursePlacementEvidence({ ...inputs, packTest: 'paper1 appears elsewhere' }))
+  assert.throws(() => trustedCoursePlacementEvidence({ ...inputs, browserTest: 'Exam Prep' }))
 })
