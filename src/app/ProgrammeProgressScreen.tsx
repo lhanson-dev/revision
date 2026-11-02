@@ -59,12 +59,22 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const [exposures, setExposures] = useState<LearnPageExposure[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [plannerSetup, setPlannerSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
-  const [acceptedSessions, setAcceptedSessions] = useState<PlannedSession[] | null>(null)
-  const [plannerLoading, setPlannerLoading] = useState(true)
-  const [plannerError, setPlannerError] = useState('')
+  // Key asynchronous planner reads to the actual learner, day and active courses.
+  // A stale response must never become a fresh Progress recommendation.
+  const [plannerRead, setPlannerRead] = useState<{
+    key: string
+    setup: Awaited<ReturnType<typeof loadPlannerSetup>> | null
+    sessions: PlannedSession[] | null
+    error: string
+  } | null>(null)
   const now = useLocalDay()
   const todayKey = dayKey(now)
+  const plannerKey = `${userId}:${todayKey}:${programme.courses.map((item) => item.course.id).sort().join('|')}`
+  const currentRead = plannerRead?.key === plannerKey ? plannerRead : null
+  const plannerSetup = currentRead?.setup ?? null
+  const acceptedSessions = currentRead?.sessions ?? null
+  const plannerError = currentRead?.error ?? ''
+  const plannerLoading = programme.courses.length > 0 && currentRead === null
 
   useEffect(() => {
     let active = true
@@ -92,27 +102,18 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   // One FI-001 action is projected into global Progress; evidence measures remain separate.
   useEffect(() => {
     let active = true
-    if (programme.courses.length === 0) {
-      setPlannerLoading(false)
-      return () => { active = false }
-    }
-    setPlannerLoading(true)
+    if (programme.courses.length === 0) return () => { active = false }
     void Promise.all([
       loadPlannerSetup(client, userId),
       loadPlannedSessions(client, userId, todayKey, addDays(todayKey, ACCEPTED_COMMITMENT_HORIZON_DAYS - 1)),
     ]).then(([setup, sessions]) => {
-      if (!active) return
-      setPlannerSetup(setup)
-      setAcceptedSessions(sessions)
-      setPlannerError('')
+      if (active) setPlannerRead({ key: plannerKey, setup, sessions, error: '' })
     }).catch((caught: unknown) => {
-      if (!active) return
-      setPlannerSetup(null)
-      setAcceptedSessions(null)
-      setPlannerError(caught instanceof Error ? caught.message : 'Could not read your current plan.')
-    }).finally(() => { if (active) setPlannerLoading(false) })
+      if (active) setPlannerRead({ key: plannerKey, setup: null, sessions: null,
+        error: caught instanceof Error ? caught.message : 'Could not read your current plan.' })
+    })
     return () => { active = false }
-  }, [client, userId, todayKey, programme.courses.length])
+  }, [client, userId, todayKey, plannerKey, programme.courses.length])
 
   const grouped = useMemo(() => courseStates(programme.courses, evidence, exposures), [evidence, exposures, programme.courses])
   const allStates = useMemo(() => grouped.flatMap((item) => item.states), [grouped])
