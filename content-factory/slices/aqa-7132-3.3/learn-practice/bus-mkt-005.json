@@ -132,22 +132,7 @@
           "Assess attractiveness, including whether sufficient local customers can be reached.",
           "Assess whether the gym can provide the required access, location and service.",
           "If the fit is strong, prioritise this segment and align the offer with its needs."
-        ],
-        "calc": {
-          "formula_id": "gross_profit",
-          "inputs": [
-            {
-              "name": "revenue",
-              "value": 0
-            },
-            {
-              "name": "cost_of_sales",
-              "value": 0
-            }
-          ],
-          "stated_answer": 0,
-          "unit": "not applicable"
-        }
+        ]
       }
     ]
   },
