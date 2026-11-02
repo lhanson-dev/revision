@@ -34,7 +34,6 @@ type ProgrammeProgressScreenProps = {
   onOpenCourses: () => void
   onOpenHome: () => void
   onOpenCourseProgress: (courseId: string) => void
-  onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
 function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['courses'], evidence: readonly LearningEvidence[], exposures: readonly LearnPageExposure[]) {
