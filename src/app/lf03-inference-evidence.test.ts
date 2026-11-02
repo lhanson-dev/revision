@@ -32,7 +32,7 @@ describe('LF-03 recorded answers versus trustworthy learning inference', () => {
   it('does not let invalid source MCQs inflate knowledge scores, readiness or future planning', () => {
     const original = [oldRight, oldWrong, newRight]
     expect(assessReadiness(original).evidenceCount).toBe(1)
-    expect(assessTopicKnowledge(moduleId, topicId, original).evidenceCount).toBe(1)
+    expect(assessTopicKnowledge(moduleId, topicId, original).distinctContentItems).toBe(1)
     expect(unresolvedConfidentMisses(original)).toEqual([])
     const recommended = recommendNextActivity(moduleId, [topicId], original)
     expect(recommended?.evidenceCount).toBe(1)
