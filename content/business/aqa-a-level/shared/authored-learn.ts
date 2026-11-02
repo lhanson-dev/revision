@@ -214,7 +214,7 @@ export const learn = learnCourseSchema.parse({
                   type: 'worked-example',
                   title: 'Construct a position map from customer research',
                   setup: 'A bottle retailer compares three reusable bottles on price and perceived durability (0 to 10): Swift (£10, 4), Trek (£25, 7) and Endure (£35, 9). It is considering a bottle at £20 with a durability rating of 8.',
-                  task: 'Draw your own labelled two-axis market map before following these steps.',
+                  task: 'Extension practice: drawing your own market map helps you interpret market positions, but is not presented as an express AQA examination command. Draw your own labelled two-axis map before following these steps.',
                   steps: [
                     { label: 'Axes and scales', value: 'Use price (£) on the horizontal axis from £0 to £40, marked at £10 intervals; use perceived durability on the vertical axis from 0 to 10, marked at 2-point intervals.' },
                     { label: 'Plot competitors', value: 'Plot and label Swift (10, 4), Trek (25, 7) and Endure (35, 9). Keep their positions proportional to both axis scales.' },
