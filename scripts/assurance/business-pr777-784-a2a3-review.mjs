@@ -153,7 +153,7 @@ export function parseTrustedEvent(event) {
   if (!Object.hasOwn(SETTINGS, id) || event?.comment?.user?.login !== 'lhanson-dev' ||
       event?.comment?.author_association !== 'OWNER') throw new Error('Untrusted or wrong PR review comment')
   const marker = id === 809 ? REPAIR_MARKER : MARKER
-  const match = new RegExp('^' + marker + '\\nhead_sha: ([a-f0-9]{40})\\n?
+  const match = new RegExp('^' + marker + '\\nhead_sha: ([a-f0-9]{40})\\n?$').exec(event.comment.body ?? '')
   if (!match) throw new Error('Expected exact two-line reviewer marker and SHA')
   return { id, head: match[1], settings: SETTINGS[id] }
 }
