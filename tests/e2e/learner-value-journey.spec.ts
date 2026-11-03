@@ -369,6 +369,11 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     await page.getByLabel('Your answer').fill(String(first.expected + 9000))
     await page.getByRole('button', { name: 'Certain', exact: true }).click()
     await expect(page.getByText('Not quite.', { exact: true })).toBeVisible()
+    const methodRepair = page.getByRole('region', { name: 'Guided repair: Calculate a probability-weighted expected value' })
+    await expect(methodRepair).toContainText('0.7 chance of a £180,000 outcome')
+    await expect(methodRepair).toContainText('not marked and cannot clear a weakness')
+    await methodRepair.getByText('Reveal the worked method after your attempt').click()
+    await expect(methodRepair).toContainText('£126,000 − £30,000 = £96,000')
     const store = createSupabaseEvidenceStore(learner)
     let wrong: Awaited<ReturnType<typeof loadLearningEvidence>>[number] | undefined
     await expect.poll(async () => {
