@@ -9,6 +9,7 @@ import { individualSpecItemObservation } from '../../src/engine/evidence/evidenc
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 import { findSkillRecheckOpportunities } from '../../src/app/skill-recheck'
 import { completeStudentFirstUse, establishStudentExperience } from '../../src/services/onboarding/student-first-use-service'
+import { addDaysToKey } from '../../src/app/plan-dates'
 
 // This test uses an actual local GoTrue account, PostgREST persistence and the
 // canonical /revision/app/ React runtime. It does NOT use browser route mocks,
@@ -904,19 +905,40 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
     // reassessment via deterministic Plan, not a fabricated test-only route.
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    // A visible Plan heading does not prove that owner-scoped evidence and
+    // accepted sessions have finished loading. And a visible day panel after
+    // Next day might still belong to the previous day. Require each selected
+    // date before deciding that an independent task is absent.
+    const dayPanel = page.locator('.pln-daypanel')
+    await expect(dayPanel).toBeVisible()
+    const initialTab = await dayPanel.getAttribute('aria-labelledby')
+    expect(initialTab, 'The rendered Plan day must expose its actual selected date')
+      .toMatch(/^pln-tab-\d{4}-\d{2}-\d{2}$/)
+    let selectedDay = initialTab!.slice('pln-tab-'.length)
+    const scannedDays: string[] = []
     let launched = false
     for (let day = 0; day < 14; day++) {
-      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-        .filter({ hasText: /Independent recheck:.*(?:Unit cost|average cost)/i })
+      await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${selectedDay}`)
+      const suggested = dayPanel.locator('.pln-row[data-kind="suggested"]')
+      const row = suggested.filter({ hasText: /Independent recheck:.*(?:Unit cost|average cost)/i })
+      const allLabels = await suggested.allTextContents()
+      scannedDays.push(`${selectedDay}: ${allLabels.length} suggested; ${allLabels
+        .filter(label => /Independent recheck/i.test(label))
+        .map(label => label.trim().replace(/\s+/g, ' ').slice(0, 140))
+        .join(' | ') || 'no independent recheck'}`)
       if (await row.count()) {
         await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
         launched = true
         break
       }
-      await page.getByRole('button', { name: 'Next day' }).click()
-      await expect(page.locator('.pln-daypanel')).toBeVisible()
+      if (day < 13) {
+        const nextDay = addDaysToKey(selectedDay, 1)
+        await page.getByRole('button', { name: 'Next day' }).click()
+        await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${nextDay}`)
+        selectedDay = nextDay
+      }
     }
-    expect(launched, 'Original wrong unit-cost result must generate a source-linked Plan recheck').toBe(true)
+    expect(launched, `Original wrong unit-cost result must generate a source-linked Plan recheck. Rendered days: ${scannedDays.join('; ')}`).toBe(true)
     await expect(page.getByText('Calculation recheck')).toBeVisible()
     await expect(page.getByRole('heading', { name: fresh.prompt })).toBeVisible()
     await page.getByLabel('Your final number').fill(String(fresh.expected))
