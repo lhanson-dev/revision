@@ -44,6 +44,27 @@ export type ExamRuntime = Omit<Exam, 'questions'> & {
   restrictedPilot?: boolean
 }
 
+/** A question's authored case/data must remain visible in untimed work, timed work
+ * and when self-assessing the answer. Reuse the same accessible presentation. */
+function QuestionStimulus({ stimulus }: { stimulus: ExamQuestionRuntime['stimulus'] }) {
+  if (!stimulus) return null
+  return (
+    <section className="exam-stimulus" aria-label={stimulus.title ?? 'Question stimulus'}>
+      {stimulus.title && <h4>{stimulus.title}</h4>}
+      {stimulus.narrative && <p>{stimulus.narrative}</p>}
+      {stimulus.table && (
+        <div className="exam-stimulus-table-wrap">
+          <table>
+            <caption>{stimulus.table.title}</caption>
+            <thead><tr>{stimulus.table.columns.map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
+            <tbody>{stimulus.table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.cells.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  )
+}
+
 const emptyMarks = (): Marks => ({ ao1: 0, ao2: 0, ao3: 0, ao4: 0 })
 
 /** A response must exist before its self-awarded AO marks can count. */
@@ -800,6 +821,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
           ? `${practiceQuestion.sectionLabel ?? pLabel} · ${choiceOptionLabel(practiceQuestion)}`
           : `Question ${practiceIndex + 1} of ${questionCount}`} · {practiceQuestion.marks} marks</div>
         {exam.caseHtml && <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />}
+        <QuestionStimulus stimulus={practiceQuestion.stimulus} />
         <h3>{practiceQuestion.prompt}</h3>
         {practiceQuestion.responseType === 'multiple-choice' ? (
           <fieldset className="exam-mcq">
@@ -966,21 +988,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
                     Attempt {question.choiceOption ? choiceOptionLabel(question) : 'this question'} for {choiceGroupLabel(question.choiceGroup)}
                   </label>
                 )}
-                {question.stimulus && (
-                  <section className="exam-stimulus" aria-label={question.stimulus.title ?? 'Question stimulus'}>
-                    {question.stimulus.title && <h4>{question.stimulus.title}</h4>}
-                    {question.stimulus.narrative && <p>{question.stimulus.narrative}</p>}
-                    {question.stimulus.table && (
-                      <div className="exam-stimulus-table-wrap">
-                        <table>
-                          <caption>{question.stimulus.table.title}</caption>
-                          <thead><tr>{question.stimulus.table.columns.map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
-                          <tbody>{question.stimulus.table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.cells.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
-                        </table>
-                      </div>
-                    )}
-                  </section>
-                )}
+                <QuestionStimulus stimulus={question.stimulus} />
                 <h3>{question.prompt}</h3>
                 {question.responseType === 'multiple-choice' ? (
                   <fieldset className="exam-mcq"><legend>Your answer</legend>{question.options?.map((option) => <label key={option.label}><input type="radio" name={`answer-${question.id}`} value={option.label} checked={answers[question.id] === option.label} onChange={() => setAnswers((current) => ({ ...current, [question.id]: option.label }))} /><span><strong>{option.label}</strong> {option.text}</span></label>)}</fieldset>
@@ -1020,6 +1028,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             {question && (
               <article className="exam-question-sheet">
                 <div className="practice-meta">Question {questionIndex + 1} · {question.marks} marks</div>
+                <QuestionStimulus stimulus={question.stimulus} />
                 <h3>{question.prompt}</h3>
                 <div className="submitted-answer"><strong>Your answer</strong><p>{answers[question.id]?.trim() || 'No answer recorded.'}</p></div>
                 <div className="mark-guidance"><strong>Marking guidance</strong><ul>{question.markingGuidance.map((line) => <li key={line}>{line}</li>)}</ul></div>
