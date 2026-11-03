@@ -205,7 +205,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds generic objective Practice and ten versioned Social Influence, Memory and Attachment scenarios to Course Truth', () => {
+  it('binds generic objective Practice and twelve versioned Social Influence, Memory, Attachment and Issues and Debates scenarios to Course Truth', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -223,8 +223,8 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)
           || (topic.topicNumber === 8 && [0, 3].includes(index))) {
           // LF-03 versions all four Social Influence and Memory checks, and only the
-          // final two Attachment checks. Older keyed choices remain historical;
-          // all new scenario questions must be assessed on their own demands.
+          // final two Attachment and Issues and Debates 01/04 checks. Old
+          // keyed choices remain historical; V2 needs distinct assessment evidence.
           const requirementId = topic.requirements[index]!.requirementId
           expect(question.id).toBe(`psy-${requirementId.toLowerCase().replaceAll('-', '')}-check-v2`)
           expect(question.prompt).not.toBe(contract?.prompt)
@@ -237,9 +237,10 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
               .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
           } else if (topic.topicNumber === 3) {
             expect(question.correctOption).toBe(index === 3 ? 2 : 0)
+            expect(question.prompt).toContain(index === 3 ? 'responsive care' : 'supportive friendship')
           } else {
             expect(question.correctOption).toBe(index === 0 ? 1 : 3)
-            expect(question.prompt).toContain(index === 3 ? 'responsive care' : 'supportive friendship')
+            expect(question.prompt).toContain(index === 0 ? 'university students' : 'neurotransmitter')
           }
           continue
         }
