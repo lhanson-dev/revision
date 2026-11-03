@@ -10,7 +10,9 @@ The existing 2 November source-pattern audit covers the 118 base AQA Psychology 
 
 `/revision/app/` → Courses → AQA 7132 Business or AQA 7182 Psychology → Practice. The canonical source is **all six actually imported published ContentPacks**, `paper-1`/`paper-2`/`paper-3` for both subjects. Identical item IDs across each subject's paper projections are deduplicated only if *all student-facing MCQ text, choices and keys agree*. Course-pack question IDs and structured-bank conversion identities come from the same `coursePackQuestionToPractice` / `bankRecordToPractice` adapters used by Practice; no new course or question engine.
 
-`scripts/assurance/lf03-published-disposition.test.ts` emits `.artifacts/lf03-bank-dispositions/published-qa-queue.json` during test execution, without student data, question stems or option text. It provides **per published item ID**:
+`scripts/assurance/lf03-published-disposition.test.ts` emits `.artifacts/lf03-bank-dispositions/published-qa-queue.json` during test execution, without student data, question stems or option text. The dedicated non-secret GitHub workflow `.github/workflows/lf03-published-mcq-disposition.yml` runs the inventory test and uploads its actual source output as a **30-day GitHub Actions artifact**, bound to the workflow's candidate SHA; it can be manually rerun from approved `main` after merge. Evidence reviewers must use the precise release/head of the emitted report, because earlier artifact counts do not validate later bank changes.
+
+It provides **per published item ID**:
 - subject and published source family, topic and correct-answer position;
 - review signals (invalid key/option, repeated options, keyed bias/run, duplicated stem, length clue or generic feedback);
 - a deliberately conservative disposition: *targeted V2 correction published but original learner acceptance open* (only the 12 specific corrected Social Influence, Memory, Attachment and Issues/Debates IDs in current approved main) **or** *unresolved independent item review needed*.
