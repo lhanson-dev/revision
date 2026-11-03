@@ -65,7 +65,7 @@ describe('#698 Psychology §4.3.4 source-grounded Cognition and Development V2',
         correctOption: psychologyLegacyCognitionDevelopmentQuestions[i]!.correctOption,
         confidence: 'certain',
       })
-      expect(evidence.correct).toBe(true)
+      expect(evidence).toMatchObject({ source: 'multiple_choice', correct: true })
       expect(supportsLearningInference(evidence)).toBe(false)
       const newEvidence = createMultipleChoiceEvidence({
         id: 'new-' + i, moduleId: key.moduleId, topicId: topic, contentId: newIds[i]!,
