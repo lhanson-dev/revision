@@ -28,7 +28,8 @@ import {
 } from './catalogue-model'
 import { findCatalogueCourse, type LearnerProgrammeCourse } from './learner-programme'
 import { ProgressIntro } from './ProgressIntro'
-import { nextProgressAction, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor, type ProgressNextAction } from './progress-summary'
+import { progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor, type ProgressNextAction } from './progress-summary'
+import { useProgrammeFi001Progress } from './use-programme-fi001-progress'
 import type { PaperSection } from './navigation'
 import { resolveSubjectIdentity } from './subject-palette'
 import { lastFlashcardRatings } from './practice-flashcards'
@@ -55,6 +56,7 @@ type CourseExperienceScreenProps = {
   onOpenPracticeTopic: (topicId: string) => void
   onOpenSavedWork: (item: SavedWork) => void
   onOpenRev: (draft?: string) => void
+  onOpenHome: () => void
 }
 
 type ExamDateStatus = 'loading' | 'ready' | 'error'
@@ -142,20 +144,25 @@ function withPreferredTopic(adapter: LearningContentAdapter, topicId?: string | 
   }
 }
 
-function ProgressPanel({ states, programmeCourse, topics, onAction }: {
+function ProgressPanel({ client, userId, catalogue, memberships, states, programmeCourse, topics, onAction }: {
+  client: SupabaseClient
+  userId: string
+  catalogue: readonly CatalogueSubject[]
+  memberships: readonly LearnerCourseMembership[]
   states: readonly ModuleLearningState[]
   programmeCourse: LearnerProgrammeCourse
   topics: ReturnType<LearningContentAdapter['listTopics']>
   onAction: (action: ProgressNextAction) => void
 }) {
-  const [now] = useState(() => new Date())
+  const { nextAction: action, loading, plannerLoading, plannerError, error } = useProgrammeFi001Progress(client, userId, catalogue, memberships)
   const measures = progressMeasuresFor(states)
   const readiness = states.length === 1 ? readinessFor(states[0]) : readinessAcross(states)
-  const action = nextProgressAction(states, [programmeCourse], now)
   const { hue } = resolveSubjectIdentity(programmeCourse.subject.id, programmeCourse.subject.name)
   const knowledge = new Map(states.flatMap((state) => state.topicKnowledge.topics.map((item) => [item.topicId, { band: item.band, answered: state.evidence.some((entry) => entry.topicId === item.topicId), count: state.evidence.filter((entry) => entry.topicId === item.topicId).length }] as const)))
   return (
     <>
+      {(loading || plannerLoading) && <Status tone="info">Checking your current Plan recommendation…</Status>}
+      {(plannerError || error) && <Status tone="warning">Your course progress is available, but your programme recommendation could not be checked. Open Home or Plan for your next activity.</Status>}
       <ProgressIntro sentence={progressSummarySentence(measures, action?.topicName ?? null)} action={action} onAction={onAction} />
       <ProgressMeasures hue={hue} covered={measures.covered} total={measures.total} understanding={measures.understanding} readiness={readiness.value} readinessNote={readiness.note} />
       <section className="home-section" aria-labelledby="course-topic-progress-title">
@@ -252,6 +259,7 @@ export function CourseExperienceScreen({
   onOpenPracticeTopic,
   onOpenSavedWork,
   onOpenRev,
+  onOpenHome,
 }: CourseExperienceScreenProps) {
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
   const active = memberships.some((membership) => membership.courseId === courseId)
@@ -446,7 +454,7 @@ export function CourseExperienceScreen({
         } : undefined} /></div>}
 
         {section === 'progress' && <div className="paper-section-content">
-          <ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenCourseSection(course.id, action.section)} />
+          <ProgressPanel client={client} userId={userId} catalogue={catalogue} memberships={memberships} states={[state]} programmeCourse={resolved} topics={topics} onAction={() => onOpenHome()} />
         </div>}
       </main>
     )
@@ -493,7 +501,7 @@ export function CourseExperienceScreen({
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={examRecoveryEnabled ? {
           client, userId, courseId: course.id, retentionDays: 14, timerPolicy: 'pause-on-interruption',
         } : undefined} /></section>)}</div>}
-      {section === 'progress' && <div className="paper-section-content"><ProgressPanel states={[state]} programmeCourse={resolved} topics={topics} onAction={(action) => onOpenModuleSection(course.id, adapter.manifest.id, action.section)} /></div>}
+      {section === 'progress' && <div className="paper-section-content"><ProgressPanel client={client} userId={userId} catalogue={catalogue} memberships={memberships} states={[state]} programmeCourse={resolved} topics={topics} onAction={() => onOpenHome()} /></div>}
     </main>
   )
 }
