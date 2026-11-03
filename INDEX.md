@@ -18,6 +18,7 @@ Use this file to find the governing source before substantive work.
 - Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - LF-06 Psychology mental-health definitions atomic flashcards (released PR #796; real learner and full educational assurance open) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
+- LF-06 Psychology Social Influence: proposed 13 atomic retrieval cards replacing four compound prompts; original ratings and wider quality acceptance open → `docs/technical/LF-06 Social Influence Atomic Flashcards.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
