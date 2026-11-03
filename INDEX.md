@@ -17,7 +17,7 @@ Use this file to find the governing source before substantive work.
 - LF-03 #787 Attachment two-item V2 scenario correction, old-session and scored-history preservation (draft educational HOLD) → `docs/technical/LF-03 Attachment MCQ Validity Correction.md`
 - Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
-- LF-06 Psychology mental-health definitions atomic flashcards, new IDs and retained historic self-ratings (candidate) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
+- LF-06 Psychology mental-health definitions atomic flashcards (released PR #796; real learner and full educational assurance open) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
