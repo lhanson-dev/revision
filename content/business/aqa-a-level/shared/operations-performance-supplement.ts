@@ -16,7 +16,7 @@ export const operationsPerformanceSupplement = learnCourseSchema.parse({
       pages: [{
         id: 'operations-four-performance-measures',
         topicId: 'operations',
-        sourceSectionIds: ['operations-performance'],
+        sourceSectionIds: ['operations-performance', 'aqa-7132-3-4-2'],
         title: 'Four operational measures: calculate, then decide',
         orientation: 'Keep the four denominators and time periods separate. Use the result to support a business judgement, not replace it.',
         blocks: [
@@ -62,6 +62,32 @@ export const operationsPerformanceSupplement = learnCourseSchema.parse({
               { label: 'Evaluate a decision', value: 'A lower unit cost or higher productivity can be useful, but compare quality, product mix, wage inputs, reliability and whether the change requires expensive machinery.' },
             ],
             conclusion: 'A correct final number is useful Practice evidence for the named measure; the worked method, units and interpretation still require separate scrutiny.',
+          },
+          {
+            type: 'worked-example',
+            title: 'Use operational evidence to make a conditional business decision',
+            setup: 'A delivery business compares two original plans for next week. Its demand is usually about 900 deliveries per week but may rise above 1,000. Plan A adds shifts: forecast 960 deliveries from a weekly capacity of 1,200, with 12 delivery staff, £30,720 weekly operating costs and 94% delivered on time. Plan B trains and reschedules the existing team: forecast 900 deliveries from a weekly capacity of 1,000, with 10 staff, £25,200 weekly operating costs and 97% delivered on time. Each figure is a projection for the same one-week period, not a verified result.',
+            task: 'Before reading the model reasoning, calculate both plans’ capacity utilisation, deliveries per worker and average cost per delivery. Recommend a plan for demand near 900, justify it using the figures and service conditions, and explain when the other plan might be better.',
+            steps: [
+              { label: 'Calculate Plan A from matching weekly figures', value: 'Utilisation = 960 ÷ 1,200 × 100 = 80%. Labour productivity = 960 ÷ 12 = 80 deliveries per worker per week. Average cost = £30,720 ÷ 960 = £32 per delivery.' },
+              { label: 'Calculate Plan B from matching weekly figures', value: 'Utilisation = 900 ÷ 1,000 × 100 = 90%. Labour productivity = 900 ÷ 10 = 90 deliveries per worker per week. Average cost = £25,200 ÷ 900 = £28 per delivery.' },
+              { label: 'Interpret the differences, not just the percentages', value: 'At their projected weekly volumes, Plan B has £4 lower average cost and 10 more deliveries per worker, with a higher projected on-time rate (97% versus 94%). Plan A has 200 more deliveries of capacity per week (1,200 versus 1,000), despite lower forecast utilisation of that capacity.' },
+              { label: 'Make and qualify a decision', value: 'For demand near 900 where reliability and cost matter most, prefer Plan B provisionally: it covers the expected volume and has better projected service and average cost. If demand consistently moves above 1,000 per week or the firm needs substantial headroom, Plan A may be preferable despite its higher unit cost. Capacity alone does not ensure demand or quality.' },
+              { label: 'Plan what to monitor', value: 'Check actual weekly orders and unfilled demand, punctuality, staffing costs and complaints before committing. These are projected comparisons; no option is proved more profitable because selling revenue, implementation risks and actual outcomes are not given.' },
+            ],
+            conclusion: 'A defensible answer uses at least two calculated measures alongside the case conditions, reaches a conditional recommendation and identifies missing evidence. Writing this judgement is an unscored Learn self-review, not independent AO3/AO4 or method-mark evidence.',
+          },
+          {
+            type: 'quick-check',
+            question: 'In the worked delivery case, demand next week is expected to be close to 900 deliveries and reliability matters, but demand could grow beyond 1,000. Which recommendation best uses the available data?',
+            options: [
+              { id: 'conditional', text: 'Prefer Plan B for current demand and service; monitor orders, and reconsider Plan A if sustained demand exceeds 1,000.' },
+              { id: 'low-utilisation', text: 'Always choose Plan A because 80% utilisation proves it is more profitable.' },
+              { id: 'guarantee', text: 'Choose Plan B permanently because its £28 average cost guarantees superior profit and quality.' },
+              { id: 'capacity-only', text: 'Either plan is equally suitable because both can produce at least 900 deliveries.' },
+            ],
+            correctOptionId: 'conditional',
+            explanation: 'Plan B projects £28 per delivery, 90 deliveries per worker and 97% on time, versus Plan A £32, 80 and 94%; it is a reasonable near-term choice for around 900 orders. Plan A offers greater capacity if demand regularly exceeds 1,000. The evidence does not establish profit or guarantee service outcomes. This is an unscored contextual decision check, not a marked written evaluation.',
           },
           {
             type: 'quick-check',
