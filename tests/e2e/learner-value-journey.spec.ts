@@ -9,6 +9,7 @@ import { individualSpecItemObservation } from '../../src/engine/evidence/evidenc
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 import { findSkillRecheckOpportunities } from '../../src/app/skill-recheck'
 import { completeStudentFirstUse, establishStudentExperience } from '../../src/services/onboarding/student-first-use-service'
+import { addDaysToKey } from '../../src/app/plan-dates'
 
 // This test uses an actual local GoTrue account, PostgREST persistence and the
 // canonical /revision/app/ React runtime. It does NOT use browser route mocks,
@@ -88,7 +89,46 @@ test('one ordinary real-auth learner can practise, see evidence, plan and prepar
       return data?.filter((entry) => entry.payload?.source === 'multiple_choice').length ?? 0
     }).toBe(1)
 
+    // LA-14: real local Auth/PostgREST, not fixture routes. Confirm a submitted
+    // Practice answer and the durable server checkpoint independently, leave
+    // the learner application, then resume the exact next question after reload.
+    const { data: beforeEvidence, error: beforeEvidenceError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(beforeEvidenceError).toBeNull()
+    const originalMcqIds = (beforeEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()
+    expect(originalMcqIds).toHaveLength(1)
+
+    await page.getByRole('button', { name: 'Next question' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    const secondPrompt = await page.locator('.practice-question__prompt').textContent()
+    expect(secondPrompt).toBeTruthy()
+    await expect.poll(async () => {
+      const { data, error } = await learner.from('learner_practice_checkpoints')
+        .select('session_id').eq('user_id', userId).eq('course_id', businessId)
+      if (error) throw error
+      return data?.length ?? 0
+    }).toBe(1)
+
+    await page.goto(`${appPath}#/home`)
+    await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+    await page.getByRole('button', { name: 'Open saved Practice' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
     await page.reload()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Continue saved session' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    await expect(page.locator('.practice-question__prompt')).toHaveText(secondPrompt!.trim())
+
+    // Re-entering an unfinished session cannot score the same answer again.
+    const { data: resumedEvidence, error: resumedError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(resumedError).toBeNull()
+    expect((resumedEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()).toEqual(originalMcqIds)
+
     await page.goto(`${appPath}#/progress`)
     await expect(page.getByRole('region', { name: 'Progress summary' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Understanding' }).first()).toBeVisible()
@@ -904,19 +944,40 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
     // reassessment via deterministic Plan, not a fabricated test-only route.
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    // A visible Plan heading does not prove that owner-scoped evidence and
+    // accepted sessions have finished loading. And a visible day panel after
+    // Next day might still belong to the previous day. Require each selected
+    // date before deciding that an independent task is absent.
+    const dayPanel = page.locator('.pln-daypanel')
+    await expect(dayPanel).toBeVisible()
+    const initialTab = await dayPanel.getAttribute('aria-labelledby')
+    expect(initialTab, 'The rendered Plan day must expose its actual selected date')
+      .toMatch(/^pln-tab-\d{4}-\d{2}-\d{2}$/)
+    let selectedDay = initialTab!.slice('pln-tab-'.length)
+    const scannedDays: string[] = []
     let launched = false
     for (let day = 0; day < 14; day++) {
-      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-        .filter({ hasText: /Independent recheck:.*(?:Unit cost|average cost)/i })
+      await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${selectedDay}`)
+      const suggested = dayPanel.locator('.pln-row[data-kind="suggested"]')
+      const row = suggested.filter({ hasText: /Independent recheck:.*(?:Unit cost|average cost)/i })
+      const allLabels = await suggested.allTextContents()
+      scannedDays.push(`${selectedDay}: ${allLabels.length} suggested; ${allLabels
+        .filter(label => /Independent recheck/i.test(label))
+        .map(label => label.trim().replace(/\s+/g, ' ').slice(0, 140))
+        .join(' | ') || 'no independent recheck'}`)
       if (await row.count()) {
         await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
         launched = true
         break
       }
-      await page.getByRole('button', { name: 'Next day' }).click()
-      await expect(page.locator('.pln-daypanel')).toBeVisible()
+      if (day < 13) {
+        const nextDay = addDaysToKey(selectedDay, 1)
+        await page.getByRole('button', { name: 'Next day' }).click()
+        await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${nextDay}`)
+        selectedDay = nextDay
+      }
     }
-    expect(launched, 'Original wrong unit-cost result must generate a source-linked Plan recheck').toBe(true)
+    expect(launched, `Original wrong unit-cost result must generate a source-linked Plan recheck. Rendered days: ${scannedDays.join('; ')}`).toBe(true)
     await expect(page.getByText('Calculation recheck')).toBeVisible()
     await expect(page.getByRole('heading', { name: fresh.prompt })).toBeVisible()
     await page.getByLabel('Your final number').fill(String(fresh.expected))

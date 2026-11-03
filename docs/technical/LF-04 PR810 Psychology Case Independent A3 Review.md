@@ -27,6 +27,16 @@ Both stages must return strict machine-readable individual `pass`/`minor`/`mater
 
 The exact PR head, blob SHA, approved trusted runner SHA, source version/rights, two reviewer outputs, issue register and final `pass`/`fail_hold` are retained under `.artifacts/lf04-pr810-psychology-case-a3/` for 30 days. A green workflow without that matching PASS receipt is insufficient.
 
+## 3 November 2026 — first exact-head execution and fail-closed retention correction
+
+The first trusted OWNER-triggered run on content PR #810 head `080383cd738f6cb4578fa0f66022eb60cf5e0eda` was [GitHub Actions #41646180075](https://github.com/lhanson-dev/revision/actions/runs/41646180075). The reviewer-contract checks passed and the external provider returned a structured **blind-stage** result; validation then stopped with `Missing independent scrutiny of question psy-social-influence-supervisor-q2`. **No A3 PASS was issued** and the guidance-review stage never ran.
+
+The failure is an **incomplete review response**, not proof that the authored Social Influence answer is wrong. The original runner assigned the raw response to the receipt in the same expression that validated it. Because validation threw, the published 30-day artifact contained the fail-closed error but **not the model response**. This lost the ability to distinguish reviewer brevity from a reported issue without repeating provider spend.
+
+This bounded correction persists each provider response and token usage as **unvalidated, default `fail_hold` evidence before invoking validation**. It never promotes that interim receipt to a pass; the full two-stage PASS still requires every case and question to meet the existing exact identity/quality contract. The model prompts also explicitly request at least 35 characters of case-specific reasoning in every critique field, including no-issue findings. Provider-free contract tests simulate abbreviated blind and guidance fields and prove their raw outputs remain in the retained receipt while validation fails closed. The previous historical artifact is not rewritten or represented as complete.
+
+**Release boundary:** This is a separate governed infrastructure correction, not a content remediation, approval to rerun a paid review, waiver of A3, learner-site change or approval to merge #810. After the correction is approved, merged and verified on main, an exact-head fresh review must be run again and the actual retained issue register inspected. PR #810 remains educational HOLD until those requirements pass.
+
 ## Explicit release boundary and documentation impact
 
 This infrastructure PR makes **no learner-facing, scoring, evidence, published content, account, Supabase, planner or schema change**. It does not consume provider budget merely by being reviewed in CI. Existing A3 authority is implemented, not amended; this technical note and INDEX pointer accompany the code/contract tests. Historical A1 findings and passed previous PR CI remain unchanged.
