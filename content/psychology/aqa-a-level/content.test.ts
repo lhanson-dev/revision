@@ -220,7 +220,8 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         const contract = contracts[index]
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
-        if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)) {
+        if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)
+          || (topic.topicNumber === 8 && [0, 3].includes(index))) {
           // LF-03 versions all four Social Influence and Memory checks, and only the
           // final two Attachment checks. Older keyed choices remain historical;
           // all new scenario questions must be assessed on their own demands.
@@ -234,8 +235,10 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           } else if (topic.topicNumber === 2) {
             expect(['The sensory register', 'The phonological loop', 'Proactive interference:', 'Post-event discussion,']
               .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
-          } else {
+          } else if (topic.topicNumber === 3) {
             expect(question.correctOption).toBe(index === 3 ? 2 : 0)
+          } else {
+            expect(question.correctOption).toBe(index === 0 ? 1 : 3)
             expect(question.prompt).toContain(index === 3 ? 'responsive care' : 'supportive friendship')
           }
           continue
