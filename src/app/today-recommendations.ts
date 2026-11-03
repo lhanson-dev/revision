@@ -9,6 +9,7 @@ import { stateForAssessment } from './planner-model'
 import { subjectAccentKey } from './subject-accents'
 import { homeActivityLabel, tasksFromPlanner, type HomeTask } from './home-task'
 import { planSkillFocusLabel } from './plan-skill-focus'
+import { guidedMethodRepairForPublishedPage } from './practice-repair'
 import { focusedActivityMinutes } from './focused-activity-dose'
 import type { NotNowRecord } from './rev-suggestions'
 import { activeNotNow, dayKey } from './rev-suggestions'
@@ -111,14 +112,34 @@ export function readTodayChoice(userId: string): NotNowRecord | null {
 export function learnRouteForTask(task: HomeTask): string | null {
   const target = task.learnTarget
   if (task.activityType !== 'learn' || !target || !task.adapter.getLearnPage(target.learnPageId)) return null
-  // Carry only the already-selected FI-001 repair identity into Learn.
-  // A URL query is display context, not evidence or a newly ranked treatment.
-  const context = {
-    ...target,
-    repairSpecItemId: task.skillFocus?.treatment === 'repair' ? task.skillFocus.specItemId : undefined,
-  }
-  return routeHash(target.moduleId ? learnerModuleRoute(task.courseId, target.moduleId, 'learn', context)
-    : learnerCourseRoute(task.courseId, 'learn', context))
+  // A Learn address is just the published page. It never selects a treatment.
+  return routeHash(target.moduleId ? learnerModuleRoute(task.courseId, target.moduleId, 'learn', target)
+    : learnerCourseRoute(task.courseId, 'learn', target))
 }
 
 export const ACCEPTED_ACTIVITY_UNAVAILABLE = 'Your session has been kept, but its exact learning page or exam paper/question cannot be verified. Open the course to choose the activity you intended.'
+
+/**
+ * A selected repair is derived only from the FI-001 planner item actually
+ * started in authenticated Home/Plan, never from route query, local storage,
+ * Learn page exposure, or an unscored self-rating. Validate the task against
+ * the exact underlying planner item's identity and published page.
+ *
+ * This is transient display guidance, not persisted assessment evidence.
+ */
+export function guidedRepairForStartedPlannerTask(task: HomeTask) {
+  const item = task.plannerItem
+  const target = task.learnTarget
+  const skill = task.skillFocus
+  if (task.source !== 'planner' || task.activityType !== 'learn' || !item || item.activityType !== 'learn' ||
+      !target || !skill || skill.treatment !== 'repair' ||
+      !item.skillFocus || item.skillFocus.treatment !== 'repair' ||
+      !item.recommendationId || item.recommendationId !== task.id ||
+      item.courseId !== task.courseId || item.topicId !== task.topicId ||
+      item.learnTarget?.learnPageId !== target.learnPageId ||
+      item.learnTarget?.moduleId !== target.moduleId ||
+      item.skillFocus.specItemId !== skill.specItemId) return null
+  const page = task.adapter.getLearnPage(target.learnPageId)
+  if (!page || page.topicId !== task.topicId) return null
+  return guidedMethodRepairForPublishedPage(skill.specItemId, page)
+}
