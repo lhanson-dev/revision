@@ -95,6 +95,8 @@ Use this file to find the governing source before substantive work.
 - Issue #698 first six Business §§3.1.1–3.2.3 source-derived atomic review and actual three-paper Learn/Practice candidate crosswalk (80 provisional atoms, NOT whole-course sufficiency) → `docs/technical/Issue 698 Business 3.1-3.2 Source to Published Candidate Review.md`
 - Issue #698 AQA Business §§3.3–3.10, 36-section Marketing-to-Strategy candidate audit (421 provisional skill checks, not verified complete atom denominator or adequacy pass) → `docs/technical/Issue 698 Business 3.3-3.6 Source Capability Review.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Edexcel 9BS0 non-public Market section adapter compatibility trial, limits, actual output/cost and HOLD → `docs/technical/Content Factory Edexcel Isolated Production Trial.md` (proposal)
+- Bounded Edexcel 9BS0 original-content feasibility decision (proposed, not live) → `decisions/ADR-0033-edexcel-isolated-production-feasibility-exception.md`
 - Executable site-ingestion contract for generated Learn/Practice/Exam Prep (real AQA course proof and new-course binding requirements) → `docs/technical/Content Factory Site Content Ingestion.md`
 - Content Factory repeatability 22 October scenario baseline (dated audit; not new production authority) → `audits/2026-10-22-content-production-repeatability-baseline.md`
 - Content Factory qualification-shape provider-free proof protocol (non-publishing research) → `research/content-production-repeatability/QUALIFICATION-SHAPE-PROOF.md`
