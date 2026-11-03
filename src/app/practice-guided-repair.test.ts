@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import businessPack from '../../content/business/aqa-a-level/paper-1'
-import { createContentAdapter } from '../engine/content/content-adapter'
+import { createLearningContentAdapter } from '../engine/content/content-adapter'
 import { bankRecordToPractice, type CalculationPracticeQuestion } from './practice-questions'
 import { sourceBackedGuidedMethodRepair } from './practice-repair'
 
