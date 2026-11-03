@@ -8,6 +8,7 @@ import { learnerCourseRoute, learnerModuleRoute, routeHash } from './navigation'
 import { stateForAssessment } from './planner-model'
 import { subjectAccentKey } from './subject-accents'
 import { homeActivityLabel, tasksFromPlanner, type HomeTask } from './home-task'
+import { planSkillFocusLabel } from './plan-skill-focus'
 import { focusedActivityMinutes } from './focused-activity-dose'
 import type { NotNowRecord } from './rev-suggestions'
 import { activeNotNow, dayKey } from './rev-suggestions'
@@ -92,7 +93,11 @@ export function todayRecommendations(day: PlanDay | null, states: readonly Modul
 }
 
 export function recommendationExplanation(task: HomeTask | null) {
-  return task ? `I’d start with ${task.topicLabel} — ${homeActivityLabel(task.activityType)} in ${task.courseLabel}. ${task.reason}` : 'There’s no recommended activity to start just now. You can open Plan or choose your own work in Courses.'
+  if (!task) return 'There’s no recommended activity to start just now. You can open Plan or choose your own work in Courses.'
+  // Show the same exact, source-backed assessed skill that Plan displays.
+  // A generic, student-booked or unscored task has no atomic diagnosis.
+  const skill = task.skillFocus ? `${planSkillFocusLabel(task.skillFocus)}. ` : ''
+  return `I’d start with ${task.topicLabel} — ${homeActivityLabel(task.activityType)} in ${task.courseLabel}. ${skill}${task.reason}`
 }
 
 export function readTodayChoice(userId: string): NotNowRecord | null {

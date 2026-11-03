@@ -5,7 +5,7 @@ describe('defect register projection', () => {
   it('projects every current open P1 defect with accurate Founder Assurance counts', () => {
     expect(defectRegister.available).toBe(true)
     expect(defectRegister.version).toBe(1)
-    expect(defectRegister.lastTriaged).toBe('2026-10-22')
+    expect(defectRegister.lastTriaged).toBe('2026-11-02')
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002' && record.status === 'Closed')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-003' && record.severity === 'P1' && record.status === 'Closed')).toBe(true)
@@ -21,7 +21,8 @@ describe('defect register projection', () => {
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-013' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-014' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-015' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
-    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 8, P2: 0, total: 8 })
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-016' && record.severity === 'P1' && record.status === 'Fix in review')).toBe(true)
+    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 9, P2: 0, total: 9 })
   })
 
   it('treats a deliberately triaged valid empty register as available with zero known open defects', () => {

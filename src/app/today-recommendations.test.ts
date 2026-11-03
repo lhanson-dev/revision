@@ -37,6 +37,23 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     // QuickCheck remains unscored and cannot update topic readiness.
   })
 
+  it('shows exact Plan skill in REV but not for broad-topic or student-booked work', () => {
+    const base = choices(context())[0]
+    expect(base).toBeDefined()
+    const precise = { ...base, skillFocus: {
+      specItemId: 'aqa-7132-3.2.2:expected-value',
+      need: 'missed' as const, treatment: 'recheck' as const,
+    } }
+    expect(recommendationExplanation(precise))
+      .toContain('Independent recheck: Expected value (last result was incorrect)')
+    expect(recommendationExplanation({ ...precise, skillFocus: undefined }))
+      .not.toContain('Expected value')
+    const selected = choices(context([session('student-chosen', 'finance')]))[0]
+    expect(selected.skillFocus).toBeUndefined()
+    expect(recommendationExplanation(selected)).not.toContain('Independent recheck:')
+    expect(recommendationExplanation(null)).toContain('no recommended activity')
+  })
+
   it('R1-07 accepted before derived, exact row identity and shared REV rationale', () => {
     const sessions = [session('z', 'finance'), session('a', 'marketing'), session('done', 'operations', 'done'), session('skip', 'hr', 'skipped')]
     const day = context(sessions)

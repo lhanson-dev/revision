@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { psychologyCourseTruthTopics, psychologyLearn, psychologyFlashcards, psychologyQuestions, psychologyTopics, psychologyDataDrills } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyCourseTruthTopics, psychologyLearn, psychologyFlashcards, psychologyFlashcardsForRequirement, psychologyQuestions, psychologyTopics, psychologyDataDrills } from '../../content/psychology/aqa-a-level/shared/course'
 import { psychologyResearchMethodsAppliedRequirementBindings } from '../../content/psychology/aqa-a-level/shared/research-methods-practice'
 import { psychologyInferenceChoiceRequirementBindings } from '../../content/psychology/aqa-a-level/shared/inferential-choice-practice'
 import paper1 from '../../content/psychology/aqa-a-level/paper-1'
@@ -50,30 +50,34 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
     const requirements=psychologyCourseTruthTopics.flatMap(t=>t.requirements.map(r=>({t,r})))
     expect(requirements).toHaveLength(118)
     expect(pages).toHaveLength(118)
-    expect(psychologyFlashcards).toHaveLength(118)
+    expect(psychologyFlashcards).toHaveLength(121)
     expect(psychologyQuestions).toHaveLength(118)
     const pageIds=new Set(pages.map(p=>p.id))
     const cardIds=new Set(psychologyFlashcards.map(q=>q.id))
+    expect(cardIds.size).toBe(psychologyFlashcards.length)
     const mcqIds=new Set(psychologyQuestions.map(q=>q.id))
     for(const {t,r} of requirements){
       const topic=psychologyTopics.find(q=>q.order===t.topicNumber)
       expect(topic,r.requirementId).toBeDefined()
       const code=r.requirementId.toLowerCase().replaceAll('-','')
-      const pid=`${topic!.id}-${code}`,card=`psy-${code}-card`
+      const pid=`${topic!.id}-${code}`
       // Exact prior LF-03 Psychology Social Influence and Memory IDs remain immutable history;
       // published objective Practice is explicitly versioned at these four parents.
       const mcq=`psy-${code}-check${/^PSY-0[12]-0[1-4]$/.test(r.requirementId) ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
-      expect(cardIds.has(card),r.requirementId).toBe(true)
+      const cards=psychologyFlashcardsForRequirement(r.requirementId)
+      expect(cards.length,r.requirementId).toBe(r.requirementId === 'PSY-04-01' ? 4 : 1)
+      for(const card of cards)expect(cardIds.has(card.id),r.requirementId).toBe(true)
       expect(mcqIds.has(mcq),r.requirementId).toBe(true)
       expect(pages.find(x=>x.id===pid)?.sourceSectionIds,r.requirementId).toContain(code)
       for(const p of published){
         expect(p.learn.chapters.flatMap(ch=>ch.groups.flatMap(g=>g.pages)).some(x=>x.id===pid),p.manifest.id).toBe(true)
         expect(p.questions.some(q=>q.id===mcq),r.requirementId).toBe(true)
+        for(const card of cards)expect(p.flashcards.some(q=>q.id===card.id),`${p.manifest.id}: ${card.id}`).toBe(true)
       }
     }
     // A student could recognise a concept while still being unable to write, calculate or construct it.
-    expect(published.every(p=>p.questions.length===131 && p.dataDrills.length===18)).toBe(true)
+    expect(published.every(p=>p.questions.length===131 && p.dataDrills.length===22)).toBe(true)
   })
 
   it('checks separately bound Research Methods additions really enter published packs without promoting self-checks to scored skill evidence',()=>{

@@ -1,5 +1,20 @@
 # Issue #698 — Trusted independent Psychology Social Influence Practice A3 reviewer
 
+## 2 November 2026 — independently challenged placement evidence (proposed correction, NOT installed)
+
+**The trusted A3 infrastructure of PR #774 is already merged and deployed**, superseding the original prospective-infrastructure status below. Original exact-head [A3 run #41424189543](https://github.com/lhanson-dev/revision/actions/runs/41424189543) reviewed all 12 PR #773 items and all eight dimensions. Its retained [receipt #13130768978](https://github.com/lhanson-dev/revision/actions/runs/41424189543/artifacts/13130768978) concluded `fail_hold` with one material `incorrect_paper_specific_content_pack_placement` finding. All eight original scored answer keys/distractor rationales and four written self-check models received bounded positive review; their educational judgement is **not** promoted to final signoff while the overall A3 is on hold. Preserve that original failed review as historical evidence.
+
+The material finding inferred paper-specific learner exposure solely from the same general Practice questions being assembled under internal `paper-1/2/3` ContentPack filenames. This conflicts with Founder-approved `10-product-governance/Course Content and Assessment Component Placement.md`: **Learn and general Practice appear once at course level; per-paper mock/paper-format material belongs to Exam Prep; internal module identifiers do not decide the learner-facing hierarchy**. Existing approved-main `content/psychology/aqa-a-level/content.test.ts` asserts the three paper packs share `topics`, `learn` and `questions`, while `tests/e2e/psychology-restricted-pilot-route.spec.ts` traverses a single signed-in course Practice route and a separate three-paper Exam Prep route. These tests are structural and simulated browser evidence, **not** independent real-student acceptance.
+
+This branch proposes to supply the *actual source text* of the normative placement authority and bounded excerpts from both approved-main tests to the next independent reviewer. Source files come strictly from the **trusted approved-main checkout**, not the unmerged content PR or model assertions. The reviewer must independently decide whether general Practice is genuinely misrouted, must still identify real mixing into paper-specific mocks if demonstrated, must challenge every original answer and feedback, and must keep all eight original assessment dimensions. An explicit fail-closed source-anchor contract test prevents silent omission if governing authority or routing tests change. The exact PR #773 six inert candidate sources, their blob verification, Founder-only owner trigger, $0.50 cap and protected model runtime are unchanged.
+
+**Release gates:** This is a **new proposed reviewer correction PR**, not an automatic reversal of the original `fail_hold`. It requires exact current-main CI and **distinct Founder approval for the reviewer change** before merge. Only then can the reviewer run again on the **exact still-current PR #773 head**, with a new retained independent receipt. Candidate Practice PR #773 remains draft and unmerged, additionally behind current main and in need of integration/CI, qualified assessment boundary and its **own** separate Founder approval before publication. Do not count one model's changed conclusion as whole-section educational adequacy.
+
+**Documentation impact:** This active technical note describes the reviewer evidence distinction. No normative authority changes, historical reviewer receipts altered, exam content released, schema migration, or scored-progress change. Issue #698 remains the programme owner; #703–705 remain learning-loop dependencies.
+
+---
+
+
 **Status:** Proposed infrastructure on governed branch; NOT available on approved main until this separate reviewer PR passes CI and receives specific Founder approval.
 
 ## Why a separate reviewer is needed

@@ -27,8 +27,8 @@
   },
   "currentSourceToLiveState": {
     "underlyingPrototypeLearnPages": 4,
-    "existingObjectiveMcqs": "One generic concept MCQ per prototype; topic-only, no per-atomic-skill marking",
-    "proposedRevisions": "Original scored/constructed responses not introduced; Learn enrichment is the only product change in this PR",
+    "existingObjectiveMcqs": "Four live, versioned LF-03 Social Influence V2 one-option application MCQs provide topic-level selected-answer evidence; historical V1 generic recognition MCQs are retained only as raw past attempts and exact old checkpoint recovery. No full independent AO2/AO3 essay skill score follows.",
+    "proposedRevisions": "Candidate PR #773 (NOT merged): eight original source-targeted, one-mark software-scored scenario MCQs, each measuring one bounded selected decision, plus four original unscored learner-written self-check DataDrills with model/checklist feedback. These do not prove constructed AO2/AO3 responses, all 21 provisional atomic demands, mastery or whole-course readiness.",
     "independentA2Review": "not-run",
     "subjectExpertReview": "not-run",
     "secondIndependentA2Review": {
@@ -40,7 +40,8 @@
       "sourceAdjudication": "source-incorrect",
       "remainingTeachingNote": "Agentic state vs legitimate authority is a minor pedagogical improvement; now revised, needs fresh review",
       "independentSkillAssessment": "unverified"
-    }
+    },
+    "independentA3ReviewBoundary": "The fresh independent A3 model for exact previous candidate head 04937c7def8281489a6be02f5dfcd3794b3d1204 returned PASS with one minor stale-metadata finding (run 41550940824, retained artifact 13191791447). Correction of this metadata changes the A3 source input and requires a fresh exact-head independent receipt; the previous receipt and original FAIL/HOLD are preserved as history, not promoted to current-head signoff. This is not expert or real-learner acceptance."
   },
   "rows": [
     {

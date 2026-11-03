@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { lastFlashcardRatings, orderDeck } from '../../../src/app/practice-flashcards'
 
 import paper1 from './paper-1'
 import paper2 from './paper-2'
@@ -8,6 +9,7 @@ import {
   psychologyCourseTruthTopics,
   psychologyDataDrills,
   psychologyFlashcards,
+  psychologyFlashcardsForRequirement,
   psychologyLearn,
   psychologyObjectivePracticeContracts,
   psychologyQuestions,
@@ -21,8 +23,37 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(psychologyTopics).toHaveLength(17)
     expect(psychologyLearn.chapters).toHaveLength(17)
     expect(psychologyLearn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))).toHaveLength(118)
-    expect(psychologyFlashcards).toHaveLength(118)
+    expect(psychologyFlashcards).toHaveLength(121)
     expect(psychologyQuestions).toHaveLength(118)
+  })
+
+  it('separates mental-health definitions into single-demand, versioned retrieval cards', () => {
+    const cards = psychologyFlashcards.filter((card) => card.id.startsWith('psy-psy0401-'))
+    expect(cards).toHaveLength(4)
+    expect(cards.map((card) => card.id)).toEqual([
+      'psy-psy0401-statistical-infrequency-card-v2',
+      'psy-psy0401-social-norms-card-v2',
+      'psy-psy0401-failure-to-function-card-v2',
+      'psy-psy0401-ideal-mental-health-card-v2',
+    ])
+    expect(cards.every((card) => card.topic === 'clinical-psychology-and-mental-health')).toBe(true)
+    expect(cards.every((card) => card.prompt.endsWith('?'))).toBe(true)
+    expect(cards.every((card) => card.answer.length < 320)).toBe(true)
+    expect(psychologyFlashcards.some((card) => card.id === 'psy-psy0401-card')).toBe(false)
+    const ids = psychologyFlashcards.map((card) => card.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('retains an old composite self-rating without attributing it to the four replacement cards', () => {
+    const ratings = lastFlashcardRatings([
+      { source: 'flashcard', contentId: 'psy-psy0401-card', occurredAt: '2026-10-31T12:00:00.000Z', rating: 2 },
+    ])
+    const active = psychologyFlashcardsForRequirement('PSY-04-01')
+    expect(ratings['psy-psy0401-card']).toBe(2)
+    expect(active).toHaveLength(4)
+    expect(active.every((card) => ratings[card.id] === undefined)).toBe(true)
+    expect(orderDeck(active, ratings).map((card) => card.id)).toEqual(active.map((card) => card.id))
+    expect(psychologyFlashcards.some((card) => card.id === 'psy-psy0401-card')).toBe(false)
   })
 
   it('keeps the three paper modules on one shared learner course', () => {
@@ -226,9 +257,8 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     for (const topic of psychologyCourseTruthTopics) {
       for (const requirement of topic.requirements) {
         const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
-        const card = psychologyFlashcards.find((candidate) => candidate.id === cardId)
-        expect(card, cardId).toBeDefined()
-        expect(card?.prompt, cardId).toContain(requirement.boardAlignment.summary)
+        const cards = psychologyFlashcardsForRequirement(requirement.requirementId)
+        expect(cards, requirement.requirementId).toHaveLength(requirement.requirementId === 'PSY-04-01' ? 4 : 1)
 
         const requiredParagraphs = [...new Set([
           ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
@@ -237,8 +267,24 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         ])]
         expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
 
+        if (requirement.requirementId === 'PSY-04-01') {
+          // The short retrieval answers do not replace the fuller specification-backed
+          // teaching and evaluation. All of that remains visible in Learn.
+          const learnPage = psychologyLearn.chapters
+            .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+            .find((page) => page.sourceSectionIds?.includes('psy0401'))
+          expect(learnPage).toBeDefined()
+          for (const paragraph of requiredParagraphs) {
+            expect(JSON.stringify(learnPage), `Learn PSY-04-01: ${paragraph}`).toContain(paragraph)
+          }
+          expect(cards.every((card) => card.id.endsWith('-card-v2'))).toBe(true)
+          continue
+        }
+
+        expect(cards[0]?.id).toBe(cardId)
+        expect(cards[0]?.prompt, cardId).toContain(requirement.boardAlignment.summary)
         for (const paragraph of requiredParagraphs) {
-          expect(card?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
+          expect(cards[0]?.answer, `${cardId}: ${paragraph}`).toContain(paragraph)
         }
       }
     }
