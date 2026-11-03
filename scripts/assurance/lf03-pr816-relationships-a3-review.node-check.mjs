@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
@@ -20,7 +21,7 @@ const fixture='export const relationshipsMcqV2 = {\n'
     "  }),"
   ).join('\n')+'\n} as const'
 
-test('owner-authenticated exact four-line event only',()=>{
+test('owner-authenticated exact two-line event only',()=>{
   assert.equal(parseTrustedEvent(valid),HEAD)
   for(const mutation of [
     {...valid,issue:{number:794}},
@@ -31,7 +32,7 @@ test('owner-authenticated exact four-line event only',()=>{
   ])assert.throws(()=>parseTrustedEvent(mutation))
 })
 
-test('parse only two expected static literals from inert candidate TypeScript',()=>{
+test('parse exactly four expected static literals from inert candidate TypeScript',()=>{
   const items=extractExactItems(fixture)
   assert.deepEqual(items.map(x=>x.id),EXPECTED.map(x=>x[1]))
   assert.deepEqual(items.map(x=>x.correctOption),[0,1,2,3])
@@ -74,4 +75,13 @@ test('separate fresh feedback pass requires correct item identity and substantiv
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,verdict:'material'})},items).decision,'fail_hold')
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,id:'another-question'})},items).decision,'fail_hold')
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,keyAndExplanationConsistency:''})},items).decision,'fail_hold')
+})
+
+
+test('exact-head review receipt and provider schemas are labelled Relationships, not another course section', () => {
+  const code = readFileSync(new URL('./lf03-pr816-relationships-a3-review.mjs', import.meta.url), 'utf8')
+  assert.match(code, /LF03_PR816_RELATIONSHIPS_FRESH_BLIND_A3/)
+  assert.match(code, /lf03_pr816_relationships_blind_a3/)
+  assert.match(code, /lf03_pr816_relationships_feedback_a3/)
+  assert.doesNotMatch(code, /lf03_pr816_issues_debates|LF03_PR816_ISSUES_DEBATES/)
 })
