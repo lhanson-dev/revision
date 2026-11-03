@@ -35,6 +35,7 @@ import { socialInfluenceMcqV2 } from './social-influence-mcq-v2'
 import { memoryMcqV2 } from './memory-mcq-v2'
 import { attachmentMcqV2 } from './attachment-mcq-v2'
 import { issuesDebatesMcqV2 } from './issues-debates-mcq-v2'
+import { relationshipsMcqV2 } from './relationships-mcq-v2'
 
 type TruthRequirement = {
   requirementId: string
@@ -330,13 +331,19 @@ export const psychologyLegacyIssuesDebatesQuestions = truthTopics[7]!.requiremen
 const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
 const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = memoryMcqV2
 const updatedAttachmentQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = attachmentMcqV2
+/** Exact previous four-item Relationships source definitions for old saved checkpoints only. */
+export const psychologyLegacyRelationshipsQuestions = truthTopics[8]!.requirements
+  .map(requirement => legacyObjectiveQuestion(truthTopics[8]!, requirement))
+
 const updatedIssuesDebatesQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = issuesDebatesMcqV2
+const updatedRelationshipsQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = relationshipsMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) =>
     updatedSocialInfluenceQuestions[requirement.requirementId]
     ?? updatedMemoryQuestions[requirement.requirementId]
     ?? updatedAttachmentQuestions[requirement.requirementId]
     ?? updatedIssuesDebatesQuestions[requirement.requirementId]
+    ?? updatedRelationshipsQuestions[requirement.requirementId]
     ?? legacyObjectiveQuestion(topic, requirement)),
 )
 
