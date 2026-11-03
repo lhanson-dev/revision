@@ -101,6 +101,7 @@ export function answerToday(
   programme: readonly LearnerProgrammeCourse[],
   _now: Date,
 ): RevAnswer {
+  void _now // Keep the historical helper signature without inferring a topic from the date.
   if (programme.length === 0) return { text: 'You haven’t added a course yet. Add one in Courses and I can tell you what to do next.' }
   return { text: 'Open Home to see your current Plan recommendation. I won’t guess a different next task without your scheduled programme.' }
 }
