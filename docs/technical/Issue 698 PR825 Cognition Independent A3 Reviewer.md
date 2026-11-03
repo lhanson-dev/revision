@@ -19,7 +19,7 @@ revision-run-lf03-pr825-cognition-independent-a3:v1
 head_sha: <exact current PR #825 40-character head SHA>
 ```
 
-The existing trusted reviewer contract runs first with **no provider spend**. The actual provider workflow sends question stems and four original answer options **without author keys or explanations** for independent key selection and adversarial distractor/ambiguity challenge; a separate fresh-context review then checks authored key and explanatory feedback. Material concerns, multiple defensible answers, wrong key, incomplete review or malformed receipt cause **FAIL/HOLD**. Both stages and source/head/provenance must be present before any PASS. AI A3 is independent from question authorship but is **not qualified examiner sign-off**.
+The existing trusted reviewer contract runs first with **no provider spend**. The actual provider workflow sends question stems and four original answer options **without author keys or explanations** for independent key selection and adversarial distractor/ambiguity challenge; a separate fresh-context review then checks authored key and explanatory feedback. Material concerns, multiple defensible answers, wrong key, a material/blocking **overall feedback verdict**, superficial reasoning, wrong topic scope, incomplete review or malformed receipt cause **FAIL/HOLD**. Both stages and source/head/provenance must be present before any PASS. AI A3 is independent from question authorship but is **not qualified examiner sign-off**.
 
 - Model: trusted existing `gpt-5.6-terra` provider pattern; `store:false`.
 - Conservative per-trigger reserve cap: **US$0.95**; owner comment may incur spend and must not be repeated unnecessarily.
