@@ -16,7 +16,7 @@ export const operationsPerformanceSupplement = learnCourseSchema.parse({
       pages: [{
         id: 'operations-four-performance-measures',
         topicId: 'operations',
-        sourceSectionIds: ['3.4.2'],
+        sourceSectionIds: ['operations-performance'],
         title: 'Four operational measures: calculate, then decide',
         orientation: 'Keep the four denominators and time periods separate. Use the result to support a business judgement, not replace it.',
         blocks: [
