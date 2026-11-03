@@ -24,7 +24,7 @@ test('AQA Business §3.4.5 inventory chart plots actual delivery, reveals access
     await expect(table.getByText('Day 16 · before delivery')).toBeVisible()
     await expect(table.getByText('Day 16 · after delivery')).toBeVisible()
     await expect(table.getByRole('cell', { name: '200' })).toHaveCount(1)
-    await expect(table.getByRole('cell', { name: '1,800' })).toHaveCount(2)
+    await expect(table.getByRole('cell', { name: '1,800', exact: true })).toHaveCount(2)
     const checks = page.locator('.ui-quick-check')
     await expect(checks).toHaveCount(2)
     await expect(checks.first()).toContainText('Not scored')
