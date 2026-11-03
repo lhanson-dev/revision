@@ -7,7 +7,7 @@ import { sourceBackedGuidedMethodRepair } from './practice-repair'
 // This is a failing-first acceptance contract: two different observed
 // calculation skills need genuinely different teaching steps without
 // inventing separate Foundation node identities or scoring the repair.
-const adapter = createContentAdapter(businessPack)
+const adapter = createLearningContentAdapter(businessPack)
 const cases = businessPack.practiceBank!
   .filter(item => item.namespace === 'rev7132' && item.batch === '3.2.2')
   .map(item => bankRecordToPractice(item, 'leadership'))
