@@ -43,7 +43,7 @@ describe('LF-04 Psychology case-context Practice warmups', () => {
       expect(study.questions.every(q => !('marks' in q) && !('correctOption' in q))).toBe(true)
       for (const pack of packs) {
         expect(pack.questions.some(q => q.id === study.id || qids.includes(q.id))).toBe(false)
-        expect(pack.practiceBank.some(q => q.id === study.id || qids.includes(q.id))).toBe(false)
+        expect((pack.practiceBank ?? []).some(q => q.id === study.id || qids.includes(q.id))).toBe(false)
       }
     }
   })
