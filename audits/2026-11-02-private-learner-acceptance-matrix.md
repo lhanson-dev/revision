@@ -111,3 +111,70 @@ This change is **assurance evidence and task tracking only**. It does not change
 **Ownership does not change after release:** [#765](https://github.com/lhanson-dev/revision/issues/765) owns the correction queue, Product/Business/Psychology supply fixes, #703 and #705 cover evidence/recommendation consequences, and Workstream 5 alone accepts that the original student problem is gone. [#693](https://github.com/lhanson-dev/revision/issues/693) remains an external hosted SMTP/confirmation/reset dependency. [#698](https://github.com/lhanson-dev/revision/issues/698) alone owns course educational adequacy. No new authenticated production/browser/child session has been executed by this reconciliation. **Every LF acceptance verdict remains OPEN** until actual observed retest; release does not close any row.
 
 **Documentation impact check:** This amendment records new live operational truth without changing the existing authority, product implementation or historical original cut. Existing #770/#798 documentation-only reconciliation proposals remain independently governed, not merged by this record. The matrix and INDEX remain a scoped documentation/assurance PR.
+
+
+## Workstream 5 acceptance checkpoint — 3 November 2026 (append-only)
+
+**Scope and execution:** Independent review of approved GitHub `main`, published Actions release evidence, connected Supabase **project-health metadata**, current issues and the existing LA/LF matrix. **No new authenticated production browser session or direct learner re-observation was executed.** The connected tools here cannot inspect hosted Auth SMTP settings or access an authenticated production browser, and an attempted independent public HTTP request failed DNS resolution in the current execution environment. Do not interpret that local DNS failure as a Revision outage. This checkpoint does **not** retrofit a PASS to earlier release-specific or student-specific evidence.
+
+**Exact approved and deployed baseline:** `f0951c14ddc1d2cfaed034a4eba90b1d897adb6f` (PR #794, 3 November). [Governed production release #41577319773](https://github.com/lhanson-dev/revision/actions/runs/41577319773): six of six jobs **completed success** (lineage, backend readiness, build, deploy, production-smoke and path-to-live publication). Exact commit's `revision/path-to-live` status is **success**. These are **P** observations through the trusted automated release, not a manual authenticated production run. Previous matrix's local real-Auth 8/8 CI evidence remains bound to its earlier stated release; it was **not rerun in this checkpoint**. No new version of AQA source/content has been independently approved through this exercise.
+
+**Hosted Auth #693:** Supabase connected project **Revision** in eu-west-1 reports `ACTIVE_HEALTHY` at this checkpoint, which is *not* evidence of working SMTP, verified From/DNS, appropriate hosted email limits, confirmation callback or password reset. Latest documented failure remains the earlier `over_email_send_rate_limit`/429 reported in #693. No configuration read of SMTP/provider/redirect settings and no controlled non-team inbox receipt occurred here, so the hosted signup/reset gate remains **BLOCKED — unverified**; do not assert that the 429 continues on this exact release without a new test. Exact release-specific next action: authorised service owner verifies Supabase Authentication SMTP / sender-domain, limits, site URL and callback; controlled adult tests fresh signup, email receipt, confirmation, sign-in/out, recovery and records only non-sensitive outcomes on #693.
+
+**Verdict notation for this checkpoint:** One `PASS (P)` applies **only to public deployment availability via CI smoke**. The two email-dependent live journeys remain `BLOCKED`. All other current-release **full H/O learner journeys** are `NOT TESTED`, even where previous CI/Synthetic/Local evidence exists. Earlier original learner-reported faults remain **OPEN** and are not overwritten by an absence of recent failures. No current-release authenticated `FAIL` is invented. The columns below identify *current-release end-to-end acceptance*, not whether narrower prior tests passed.
+
+| ID | Current-release full-journey verdict | Narrow evidence / next independent acceptance action and existing owner |
+|---|---|---|
+| LA-01 | **PASS (P only)** | Six-job production deployment / public Pages asset smoke for `f0951c14`; no login tested. Release/QA |
+| LA-02 | **BLOCKED** | Hosted normal signup, real email confirmation, callback and fresh sign-in not executed; #693 Auth/operations |
+| LA-03 | **BLOCKED** | Hosted recovery email, change password and new login not executed; #693 Auth/operations |
+| LA-04 | **NOT TESTED (H/O)** | Adult Google account switch/identity and owner isolation at this release; #665 Auth/QA |
+| LA-05 | **NOT TESTED (H/O)** | First-use setup, both 2027 AQA courses and persistence (prior `PASS—L` only); #665 QA |
+| LA-06 | **NOT TESTED (H/O)** | Compare Home/REV/Plan after independent scoring/reload; #703/#705. #790 released |
+| LA-07 | **NOT TESTED (H/O)** | Business Learn → repair comprehension → saved review without false mastery; #698/#703 |
+| LA-08 | **NOT TESTED (H/O)** | Psychology compulsory and one-from-each Paper 3 option traversal; #698 |
+| LA-09 | **NOT TESTED (H/O)** | Business independently scored Practice, feedback, Progress and reload; prior `PASS—L` narrower; #703/#698 |
+| LA-10 | **NOT TESTED (H/O)** | Real learner's Social Influence, Memory and newly released Attachment V2 item clarity, variation, key, historical checkpoint; #765 LF-03/#787/#698 |
+| LA-11 | **NOT TESTED (H/O)** | Business wrong typed result → adequate Learn → distinct scored Plan retest → Progress; prior `PASS—L` only; #703/#705/#698 |
+| LA-12 | **NOT TESTED (H/O)** | Two named Business skills, independent reassessment and no cross-credit; #703/#705 |
+| LA-13 | **NOT TESTED (H/O)** | Entire Psychology Research Methods diagnostic/repair/different independently scored recheck; #703/#705/#698 |
+| LA-14 | **NOT TESTED (H/O)** | Practice interruption → Continue saved session → resume/reload on phone/tablet/desktop without duplicate scoring; #703 |
+| LA-15 | **NOT TESTED (H/O)** | Real zero-score completed mock and new same-paper retake for both courses, both historical results retained; #765 LF-02 |
+| LA-16 | **NOT TESTED (H/O)** | Hosted mock interruption, flags/timer/draft restoration and single result; #703 recovery QA |
+| LA-17 | **NOT TESTED (H/O)** | Both courses' full papers, option choice, result/retake and explicit self-mark labels; #703/#698/#706 |
+| LA-18 | **NOT TESTED (H/O)** | 14-day two-course Plan under realistic capacity, exam dates, view consistency and recalculation after progress; #703 |
+| LA-19 | **NOT TESTED (H/O)** | Signed-in owner-only original evidence, zero scores, past answer versions and checkpoint persistence over relogin; #703 |
+| LA-20 | **NOT TESTED (H/O)** | Home / Plan / global and course-local Progress / REV after a new score, retest and reload; #703/#705. #797 corrected global Progress only |
+| LA-21 | **NOT TESTED (current H/O); original fault reported** | Correct visible question-relevant case for Business and Psychology, desktop + phone; #765 LF-04/#698. #781 corrected scoped Business selection only |
+| LA-22 | **NOT TESTED (current H/O); original fault reported** | Same learner laptop date picker at 100%/200% zoom, short height, keyboard and saved/reloaded exam; #765 LF-01. #766 released |
+| LA-23 | **NOT TESTED (H/O)** | Uninterrupted real learner two-course session with meaningful next step; #665/#703/Workstream 5 |
+
+**Current checkpoint totals:** `1 PASS (production-smoke only)`, `2 BLOCKED`, `20 NOT TESTED for full hosted/direct acceptance`. These are not counts of missing or failed automated CI, nor proof that every feature is absent.
+
+### Original learner feedback — mandatory LF-01–LF-11 checkpoint
+
+**All eleven remain OPEN for actual learner acceptance.** The classifications here describe release implementation position and explicit next retest; they do not close original defects. Attach device/browser and release SHA, expected/observed behaviour, case/item ID where applicable, evidence channel and retest result under existing #765 records. Do not publish child identifiers or raw learner answers.
+
+| Feedback | Current released/pending position on `f0951c14` | Original-problem acceptance required; owning workstream |
+|---|---|---|
+| LF-01 | Calendar fix #766 released | **NOT TESTED** on reporting laptop: date picker 100%/200%, keyboard, short window, saved/reopened date; Workstream 3, #765 |
+| LF-02 | Zero-mock retake #772 released | **NOT TESTED** by reporting learner: completed zero → same-paper retake (both subjects) → old zero/new score after relogin; Workstream 3, #765 |
+| LF-03 | Social Influence #779, Memory #788 and Attachment #794 bounded V2 corrections released; wider bank #787 open | **NOT TESTED** learner comprehension/variation/old evidence; test specific V2 IDs and other source-bias cases; Workstreams 1–2, #765/#787/#698 |
+| LF-04 | Business relevance correction #781 released; Psychology question-context classification unresolved | **NOT TESTED** question-relevant context in both subjects; specific Practice question IDs, desktop+phone, correct mark guidance; Workstreams 1–3, #765/#698 |
+| LF-05 | Material new mark-selection/extended-answer capability remains `Analyse` under #706 | **NOT TESTED / NOT RELEASED** new feature; do not build without explicit Ready approval. Review authentic self-assessed existing paper route; Product/#706/#698 |
+| LF-06 | Four atomic Psychology mental-health cards #796 released; full two-course bank still open | **NOT TESTED** by reporting learner; check four v2 cards, older ratings, phone/zoom and systematic Business/Psychology cards; Workstreams 1–2, #765/#698 |
+| LF-07 | Business data-drill explanation/copy #780 released | **NOT TESTED** direct learner understanding and honest unscored model-answer behavior on phone/laptop; Workstream 3, #765 |
+| LF-08 | British-English sitewide product copy not accepted | **NOT TESTED** full product editorial/learner check; Workstream 3, #765 |
+| LF-09 | Practice-start copy #780 released | **NOT TESTED** direct learner reaction to small-question-count state on both courses; Workstream 3, #765 |
+| LF-10 | Practice marks visual prominence #780 released | **NOT TESTED** current release by learner at high zoom, light/dark, phone/tablet/desktop and keyboard; Workstream 3, #765 |
+| LF-11 | British-English Learn/Practice/model feedback not accepted | **NOT TESTED** full published two-course content check; Workstreams 1–2, #765/#698 |
+
+### Release-specific next acceptance execution (non-destructive)
+
+1. **Auth owner (#693) — immediate prerequisite:** prove SMTP and callback configuration via provider console and fresh *controlled adult* inbox test, including password recovery. Do not assume `ACTIVE_HEALTHY` verifies email. Report exact results, with no secrets or personal address.
+2. **Workstream 5 / #665 — hosted adult-controlled journeys:** on exact deployed SHA `f0951c14` (or re-identify the SHA if deployment has advanced), execute LA-04/05/09/14/15/16/19 first; record UI screenshots or redacted observations without personal data. Keep existing scored history untouched, use controlled disposable answers, and preserve owner-only data.
+3. **Workstream 4 #703/#705 — educational loop:** LA-06/07/11/12/13/18/20/23 through both courses with real independent question identity and a post-recheck reload. Scope Psychology option/Research Methods and global vs course Progress deliberately; #698 resolves content inadequacy, not Workstream 5.
+4. **Workstream 3 + course owners #765/#698 — original learner retests:** LF-01–LF-11 on the user's originally affected route/device and question IDs after exact-release verification; keep a defect open if unavailable or not reproduced, and preserve the original report. Review all responsive/keyboard/high-zoom paths; do not label CI screenshots as learner acceptance.
+5. **Record at next checkpoint:** update each LA/LF line additively with `PASS`/`FAIL`/`BLOCKED`/`NOT TESTED`, channel `B/L/P/H/O`, release SHA, device, evidence URL or protected reference, original fault, and owning workstream. Production availability remains a separate gate.
+
+**Documentation impact:** Evidence-only checkpoint; append to the existing audit rather than editing its 2 November cuts. Existing INDEX pointer remains correct; no new source-of-truth location, ADR, normative authority, code, content, test, schema or deployed configuration change is introduced. This document must ship through a governed branch and independent Founder-approved PR. Historical PR descriptions that still say “draft” do not override verified merge status. Any subsequent code fix must carry its own tests and technical-documentation change; actual child-data pre-use safeguards and public-launch obligations remain separate stage gates.
