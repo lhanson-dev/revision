@@ -351,3 +351,45 @@ test('LF-03 #787 canonical Attachment Practice independently scores two V2 items
   }
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(expectedIds)
 })
+
+
+test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact keys and saved continuation', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/issues-and-debates-in-psychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.locator('.practice-length').filter({
+    has: page.locator('.practice-length__number', { hasText: /^15$/ }),
+  }).click()
+  await page.getByRole('button', { name: 'Start 6 questions' }).click()
+
+  const ids = [
+    'psy-psy0801-check-v2', 'psy-psy0802-check', 'psy-psy0803-check',
+    'psy-psy0804-check-v2', 'psy-psy0805-check', 'psy-psy0806-check',
+  ]
+  const correctKeys = [1, 2, 1, 3, 1, 1]
+  for (let index = 0; index < ids.length; index++) {
+    if (index === 0) await expect(page.locator('.practice-question__prompt')).toContainText('university students')
+    if (index === 3) await expect(page.locator('.practice-question__prompt')).toContainText('neurotransmitter')
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    await options.nth(correctKeys[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: ids[index],
+      selectedOption: correctKeys[index], correctOption: correctKeys[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < ids.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
+})
