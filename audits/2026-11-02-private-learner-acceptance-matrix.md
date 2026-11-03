@@ -187,3 +187,73 @@ The Founder has parked #693 and confirmed no new account signup is required at p
 Workstream 5 should now prioritise LA-04 through LA-23, plus LF-01 through LF-11, using an **existing authorised adult test account**, if available. Continue the two-course learning loop, practice evidence, session restoration, mock retakes, Progress/REV/Plan agreement and device checks without waiting for new-user signup. If an existing account cannot sign in, mark the exact test BLOCKED rather than describing it as hosted acceptance. The 23 journeys remain in the matrix, and this pause does not turn either deferred journey into PASS.
 
 Before final learner readiness is claimed, restore LA-02/LA-03 to the test queue and obtain actual hosted confirmation/recovery evidence. This is an audit scheduling note only; no change to product authority, application code, account controls or technical documentation is needed. The earlier dated record remains unchanged.
+
+
+## Workstream 5 verified current-main reconciliation — 3 November 2026 (additional, later evidence)
+
+**Method and boundaries:** Re-read approved main and indexed active governing standards, the exact existing 23 LA rows and 11 LF rows, #665/#765/#698/#703/#705/#706/#693, #802 and merged/candidate PR statuses. Direct GitHub CI/deployment job results and failing logs were inspected independently. An independent unauthenticated HTTP HEAD from this execution environment failed DNS resolution; this does **not** evidence a production outage. No authenticated hosted browser, real-learner session, owner-readback from production, destructive learner-data operation or human observed feedback retest was available or performed. All earlier L/B tests retain their original evidence dates and versions; no old H/O verdict was upgraded.
+
+**Current approved main / successfully deployed SHA:** \`8f7b23b5b2c98cb5b9ae6339457b58bd294b99ce\`, incorporating merged #805 (Business operations), #803 (Psychology Issues and Debates V2), #804 (course Progress shared next action), #806 (Psychology stimulus visibility), and #814 (independent review infrastructure only). [Production deployment #41635275259](https://github.com/lhanson-dev/revision/actions/runs/41635275259) completed **6/6 success**: governed lineage, backend readiness, build, deployment, unauthenticated Pages smoke and durable path-to-live publication. Exact SHA has \`revision/path-to-live=success\`. This establishes **P**, not H or O.
+
+**Important failed assurance at exactly the same SHA:** [Main Revision CI #41635275472](https://github.com/lhanson-dev/revision/actions/runs/41635275472) ended **failure**, so it is incorrect to report a completely green release. The desktop browser shard 1/2 failed: \`auth-entry.spec.ts\` sign-in light approved screenshot digest and \`interface-visual-regression.spec.ts\` Learn light digest failed on retries; Plan light/dark approved digests initially mismatched but were flaky and recovered on retry. Desktop shard 2, phone, tablet, static/unit/build, signup, security-plan and local database/RLS/protected service assurance were successful. The \`Foundation quality\` aggregate failed because browser assurance failed. Screenshot mismatches are not proof that a learner cannot sign in or use Learn, but must not be waived or baselines casually rewritten. Ownership: existing learner-interface/assurance owners, Workstream 5 regression verification; reproduce exact expected/actual screenshot diffs before corrective code or governed visual baseline approval.
+
+**Local real-Auth test caveat:** In successful [database/RLS job #125914915100](https://github.com/lhanson-dev/revision/actions/runs/41635275472/job/125914915100), **9 local authenticated tests passed and one was flaky**: \`learner-value-journey.spec.ts:816\` (Business Operations unit-cost wrong answer → source-linked independent Plan recheck) initially failed assertion \`Original wrong unit-cost result must generate a source-linked Plan recheck\`, then passed on retry. The test uses actual isolated local Auth/PostgREST/browser; it is not hosted. No evidence yet distinguishes timing/race, fixture sequencing or true scheduling intermittency. Treat this as an unresolved reliability signal for #703/#705/#805, not a confirmed production data-loss defect or a clean stable PASS.
+
+### Current released SHA: 23-journey evidence reconciliation
+
+**Current H/O acceptance count: zero independently proved in this execution.** The previous table retains all historical narrow successful L/B/P checks and original O complaints. The \`H/O current release\` column below specifically means a real, hosted authenticated or firsthand observed learner acceptance at \`8f7b23b5\`, not whether the narrow previously recorded synthetic assertions worked.
+
+| LA | Narrow current finding, release delta or existing earlier evidence | Current full H/O verdict and governing owner |
+|---|---|---|
+| LA-01 | **PASS—P**: exact release #41635275259 and \`revision/path-to-live=success\`; public app/root/assets smoke | H/O **OPEN**; #665 QA |
+| LA-02 | Prior local signup L; new hosted email/confirmation not tested; #693 Founder-deferred | H **BLOCKED/deferred**; Auth #693 |
+| LA-03 | Hosted password-reset email/callback not tested; #693 Founder-deferred | H **BLOCKED/deferred**; Auth #693 |
+| LA-04 | Existing-account Google sign-in/switch and ownership not newly replayed | H/O **OPEN**; #665 |
+| LA-05 | Earlier L two-course enrolment/owner-readback; not current hosted relogin | H/O **OPEN**; #665 |
+| LA-06 | #790 Home/REV and #804 course Progress alignment released; no after-recheck hosted four-surface run | H/O **OPEN**; #703/#705 |
+| LA-07 | Earlier B/L Business Learn and recovery exposure; #805 adds capacity/utilisation/productivity/unit-cost teaching | H/O **OPEN**; #698/#703 |
+| LA-08 | Psychology Learn, compulsory and one-topic-per-Paper-3-option not fully learner traversed | H/O **OPEN**; #698 |
+| LA-09 | Earlier L single Business MCQ score and owner-read; no current hosted bank breadth retest | H/O **OPEN**; #703/#698 |
+| LA-10 | Earlier B Social Influence/Memory V2; #803 now releases two Issues/Debates V2 items with remaining distractor warnings | H/O **OPEN**; #765 LF-03/#787/#698 |
+| LA-11 | Earlier L Business wrong result → Learn → distinct Plan question; new #805 unit-cost L test passed only after retry | H/O **OPEN**, and **local flaky**; #703/#705/#805 |
+| LA-12 | Earlier L distinct Business skills, some seeded; no hosted independent two-weakness closure | H/O **OPEN**; #703/#705 |
+| LA-13 | Still no complete Psychology wrong answer → relevant repair → different scored recheck → updated plan proof | H/O **OPEN**; #703/#705/#698 |
+| LA-14 | Earlier B scored Practice checkpoint/no-duplicate retry; no hosted multi-device resume | H/O **OPEN**; #703 |
+| LA-15 | Earlier B zero-score completed mock retake; direct original learner and hosted historical-zero preservation untested | H/O **OPEN**; #765 LF-02 |
+| LA-16 | Earlier B mock recovery and RLS; no hosted flags/timer/re-entry or single-result readback | H/O **OPEN**; #703 |
+| LA-17 | Earlier L paper lists and B structural tests; no full signed-in both-course paper/options/self-mark/retake acceptance | H/O **OPEN**; #703/#698/#706 |
+| LA-18 | Earlier L capacity and B calendar controls; no realistic hosted 14-day two-course replanning evidence | H/O **OPEN**; #703 |
+| LA-19 | Earlier L owner persistence/RLS; no production before/after learner ID/count invariants and relogin | H/O **OPEN**; #703 |
+| LA-20 | #804 corrects course-local Progress next action; no complete hosted Home/REV/Plan/global+course Progress after retest/reload | H/O **OPEN**; #703/#705 |
+| LA-21 | #781 Business topic-specific case and #806 Psychology Exam Prep stimulus **released**; original missing-context Practice reports not re-observed | H/O **OPEN, reported defect**; #765 LF-04/#698 |
+| LA-22 | #766 custom date-calendar positioning released; no original laptop/browser and same-user exam-date save/edit/reload retest | H/O **OPEN, reported defect**; #765 LF-01 |
+| LA-23 | No genuine uninterrupted two-course guided learning session with after-retest recommendation and durable progress | H/O **OPEN**; #665/#703/WS5 |
+
+### Current released SHA: original feedback verification
+
+All eleven remain **OPEN for original learner acceptance**, with **no direct O or hosted H re-observation** in this checkpoint. The earlier LF table is historical and must be read with this newest release state; do not change its original claims.
+
+| LF | Current implementation boundary | Actual original-problem retest still required (WS5 unless stated) |
+|---|---|---|
+| LF-01 | #766 released | Reporting laptop, both exam-date flows, short height/200% zoom, keyboard and saved date |
+| LF-02 | #772 released | Both courses' completed 0-score same-paper retake and old/new attempts after relogin |
+| LF-03 | Social Influence/Memory/Attachment V2 plus two Issues/Debates V2 in #803 released; broader #787 still open, #816/#817 proposed | Actual question IDs, distractor quality, score/key and previous answer identity; source/content ownership WS1/2 |
+| LF-04 | Business #781 released; Psychology existing Exam Prep stimulus #806 released; new original Practice cases #810 draft A3 hold | Actual question-specific visible context and marking, both subjects/phone/desktop; WS1/2+Product owner |
+| LF-05 | Existing Exam Prep untimed self-assessment usable as narrower route; new mark-value selection #813 draft Analyse, not approved Ready; Psychology published representative mocks do not supply 16-mark item | Honest self-mark and preserved answers on released route; no unsupported AI score or invented 16-mark choice; Product/#706/#698 |
+| LF-06 | Narrow mental-health #796 released; Social Influence atomic cards #811 draft/A2 hold; both-course systematic review incomplete | Actual four mental-health cards, session rotation, phone legibility and historical ratings; WS1/2 |
+| LF-07 | #780 released | Guided Business data task clarity and no false independent marks; phone/laptop |
+| LF-08 | UK-English preventive #812 proposed, unmerged | Whole-product correct British usage and actual learner copy read; Product |
+| LF-09 | #780 released | Capped-question message wording/count/start flow, both courses |
+| LF-10 | #780 released | Marks visible at actual zoom, responsive sizes, light/dark and accessibility |
+| LF-11 | UK-English content guard #812 proposed, unmerged | Published teaching/question/answer/model text scan and contextual expert check; WS1/2 |
+
+### Risk-based next execution queue and ownership
+
+1. **P1 assurance failure, WS5/learner UI** — investigate [CI #41635275472](https://github.com/lhanson-dev/revision/actions/runs/41635275472) current-main sign-in and Learn snapshot differences and Plan flakiness; compare actual image artifacts and approved visual references before any baseline acceptance or tightly scoped corrective PR. Do not pretend production smoke implies full CI green.
+2. **P1 uncertain adaptive reliability, WS4 #703/#705** — reproduce the #805 unit-cost Plan recheck local first-attempt miss deterministically; inspect supported task availability, schedule/resume/data reads, and differentiate true planner race from unstable test. No independent learner conclusion from retry-only pass.
+3. **P0 critical H journey, WS5 #665/#703** — with an existing authorised adult test account and consented access (no new signup requirement), capture deployed SHA and browser/viewport, sign-in → both courses → Home/REV/Plan → Learn/Practice → wrong answer → correct repair → different scored check → Progress and all four next actions → reload and relogin. Repeat for Psychology Research Methods and Business, actual published IDs, no child data in GitHub. No current tool access to that authenticated browser: **BLOCKED for H**, not presumed PASS.
+4. **P0 data-continuity H journey, WS5 #765/#703** — controlled Practice interruption and mock zero→retake, preserve earlier results, session IDs and learner isolation; test first on disposable *adult* account. This cannot be checked from public asset smoke.
+5. **P1 original LF acceptance, WS5 #765** — retest all 11 on originally affected devices/routes and record PASS or persisting defect individually. Course educational repair and precise option/mark demand remain owned by #698/#706; unmerged #809/#810/#811/#812/#813 require independent governed reviews.
+6. **Deferred outside current private-entry scope** — LA-02/03 hosted email #693 and #663 public launch; neither is a dependency for existing-account H sessions.
+
+**Documentation impact:** Evidence append only on existing #802 branch, same current matrix and existing INDEX link. No student records, production code, normative product authority, educational claims, technical mechanism, child identity, new programme tracker or database change. Preserve older evidence. #802 remains draft and requires current-main integration, assurance, review and specific Founder merge approval; this record is **not** a release or signed-off learner acceptance.
