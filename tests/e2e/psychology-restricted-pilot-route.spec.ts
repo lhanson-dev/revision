@@ -308,3 +308,46 @@ test('LF-03 #787 canonical Memory Practice displays, scores and restores four di
     [1, 2, 3, 4].map(i => `psy-psy020${i}-check-v2`),
   )
 })
+
+
+test('LF-03 #787 canonical Attachment Practice independently scores two V2 items and resumes without duplicate evidence', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/attachment`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 5 questions' }).click()
+
+  const expectedIds = [
+    'psy-psy0301-check', 'psy-psy0302-check', 'psy-psy0303-check',
+    'psy-psy0304-check-v2', 'psy-psy0305-check-v2',
+  ]
+  for (let index = 0; index < expectedIds.length; index++) {
+    if (index === 3) {
+      await expect(page.locator('.practice-question__prompt')).toContainText(/Two infants are separated/)
+    }
+    if (index === 4) {
+      await expect(page.locator('.practice-question__prompt')).toContainText(/An adult recalls secure/)
+    }
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    const selected = index === 3 ? 2 : 0
+    await options.nth(selected).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: expectedIds[index], selectedOption: selected,
+    })
+    if (index >= 3) {
+      expect(saved[index]?.payload).toMatchObject({ correct: true, correctOption: selected })
+    }
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < expectedIds.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(expectedIds)
+})
