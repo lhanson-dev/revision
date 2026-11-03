@@ -15,9 +15,11 @@ Use this file to find the governing source before substantive work.
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
 - LF-03 #787 Memory four-item option-set defect, source-aligned versioned V2 MCQs and historical evidence preservation → `docs/technical/LF-03 Memory MCQ Application Correction.md`
 - LF-03 #787 Attachment two-item V2 scenario correction, old-session and scored-history preservation (draft educational HOLD) → `docs/technical/LF-03 Attachment MCQ Validity Correction.md`
+- LF-03 #787 Issues and Debates two V2 scenario MCQ candidates, old six-item session and historic evidence preservation (educational A3 HOLD) → `docs/technical/LF-03 Psychology Issues and Debates V2 MCQ Correction.md`
 - Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Psychology authored question stimulus across untimed, timed and self-marking Exam Prep views (candidate; real learner acceptance open) → `docs/technical/LF-04 Psychology Question Stimulus Visibility.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
+- LF-04 #810 proposed trusted independent Psychology original case A3 reviewer (separate infrastructure approval, not an educational pass) → `docs/technical/LF-04 PR810 Psychology Case Independent A3 Review.md`
 - LF-06 Psychology mental-health definitions atomic flashcards (released PR #796; real learner and full educational assurance open) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
