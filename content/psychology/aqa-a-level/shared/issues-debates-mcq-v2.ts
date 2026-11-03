@@ -19,7 +19,7 @@ export const issuesDebatesMcqV2 = {
     prompt: 'A researcher develops a test of memory using only university students from one country. The researcher then claims the findings reveal how memory works for every culture, age group and gender. Which evaluation is best justified?',
     options: [
       'Using the same test with every participant gives enough evidence to claim universality.',
-      'The restricted sample limits that claim; wider sampling and checks of the test are needed.',
+      'The restricted sample limits universality; wider sampling and checks of the test are needed.',
       'The sample reveals cultural differences in memory that the researcher should report.',
       'Having more university participants would remove the need to study other groups.',
     ],
