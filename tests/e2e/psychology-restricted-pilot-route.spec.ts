@@ -390,7 +390,7 @@ test('LF-06: published Social Influence flashcards have short independent retrie
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
   await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
   const flashcards = page.locator('.practice-row').filter({ hasText: 'Flashcards' })
-  await expect(flashcards).toContainText('13 cards')
+  await expect(flashcards).toContainText('12 cards · 13 on this topic')
   await flashcards.click()
   // One deck intentionally caps at 12; the thirteenth enters a future round
   // based on the student's per-card ratings. No retired composite card is shown.
