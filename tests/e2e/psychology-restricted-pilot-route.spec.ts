@@ -373,6 +373,8 @@ test('LF-04 Psychology exam stimulus is visible in untimed Practice and when sel
   await expect(page.locator('.exam-question-sheet .exam-stimulus')).toContainText(originalText.trim())
   await page.locator('.exam-question-sheet textarea').fill('An independently written trial answer.')
   await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  // The existing marking flow deliberately starts at Question 1.
+  await page.locator('.self-marking nav.question-nav button').nth(1).click()
   const marking = page.locator('.self-marking .exam-question-sheet')
   await expect(marking.locator('.exam-stimulus')).toContainText(originalText.trim())
   await expect(marking).toContainText('An independently written trial answer.')
