@@ -21,6 +21,7 @@ Use this file to find the governing source before substantive work.
 - LF-04 Psychology authored question stimulus across untimed, timed and self-marking Exam Prep views (candidate; real learner acceptance open) → `docs/technical/LF-04 Psychology Question Stimulus Visibility.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - LF-04 #810 proposed trusted independent Psychology original case A3 reviewer (separate infrastructure approval, not an educational pass) → `docs/technical/LF-04 PR810 Psychology Case Independent A3 Review.md`
+- LF-04 Psychology Practice: proposed topic-relevant unscored cases for five published topics, source/learner acceptance still open → `docs/technical/LF-04 Psychology Practice Case Warmups.md`
 - LF-06 Psychology mental-health definitions atomic flashcards (released PR #796; real learner and full educational assurance open) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
@@ -81,10 +82,11 @@ Use this file to find the governing source before substantive work.
 - LF-03 #787 Memory PR #788 trusted two-context A3 workflow, exact-head immutable Memory content and separate Founder approval → `docs/technical/LF-03 Memory Fresh Independent A3 Reviewer.md`
 - LF-03 #787 Attachment PR #794 trusted blind-key and separate-feedback A3 reviewer (draft) → `docs/technical/LF-03 PR794 Attachment Independent A3 Reviewer.md`
 - LF-03 #787 Issues and Debates PR #803 independent blind-key and separate-feedback A3 reviewer (separate infrastructure approval) → `docs/technical/LF-03 PR803 Issues and Debates Independent A3 Reviewer.md`
+- LF-03 #787 Relationships PR #816 four-context trusted exact-head independent A3 reviewer (proposed infrastructure, separate approval required) → `docs/technical/LF-03 PR816 Relationships Independent A3 Reviewer.md`
 - Issue #698 exact PDF Psychology 7182 §4, 117 source content-bullet checkpoints → 118 existing Learn prototype pages across 17 topics (structural presence only, not educational adequacy) → `docs/technical/Issue 698 Psychology Section 4 Source Bullet to Learn Crosswalk.md`
 - Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
 - Issue #698 current **published** AQA Business/Psychology per-requirement supply crosswalk, exact tagged question IDs, truthful unverified source/PDF and educational-status boundaries → `docs/technical/Issue 698 Real Published Course Requirement Evidence Crosswalk.md`
-- Issue #698 approved-main/owner-guarded independent exact-head Business A2/A3 reviewer for Marketing PRs #777/#784, with a separate unmerged proposed Operations §3.4.2 PR #805 extension; truthful source/educational review boundaries → `docs/technical/Issue 698 Business PR777 PR784 Independent A2A3 Review.md`
+- Issue #698 approved-main/owner-guarded exact-head independent Business A2/A3 reviewer for Marketing #777/#784 and Operations #805/#820; proposed CRLF owner-comment compatibility fix (historical invocation FAIL, education still HOLD) → `docs/technical/Issue 698 Business PR777 PR784 Independent A2A3 Review.md`
 - Issue #698 Business §§3.3.1–3.3.2 market growth, size, share and sales-growth source-to-learner review and final-answer corrections → `docs/technical/Issue 698 Business Marketing Measures Practical Assurance.md`
 - Issue #698 AQA Business §3.3.2 distinct firm sales-growth source mapping, two scored numerical cases and bounded exact-skill Plan recheck candidate → `docs/technical/Issue 698 Business Marketing Measures Practical Assurance.md` (follow-up section); `audits/2026-10-31-business-sales-growth-source-to-learner-addendum.json`
 - Issue #698 Business §3.5.2 reuse of original budget/cash-flow construction, six typed finance results and evidence limits → `docs/technical/Issue 698 Business Budget and Cash Flow Practice.md`
@@ -94,6 +96,7 @@ Use this file to find the governing source before substantive work.
 - Issue #698 Business §3.1.2 source-first ownership, shareholder value and share-price teaching correction with scoped 19-obligation evidence → `docs/technical/Issue 698 Business 3.1.2 Share Value Assurance.md`
 - Issue #698 Business §3.1.3 original single-target external-environment cost/demand Practice, bounded seven-factor source audit and honest learner evidence limits → `docs/technical/Issue 698 Business 3.1.3 External Environment Practice.md`
 - Issue #698 Business §3.2.2 decision-tree expected value/net gain typed scored Practice, 16-atom scoped audit and honest assessment boundaries → `docs/technical/Issue 698 Business 3.2.2 Decision Tree Numerical Assurance.md`
+- Issue #698 Business §3.4.2 four source-named operational measures: original method teaching and eight distinct one-mark final-result candidates (scoped AI A2/A3 PASS; full-course, release and production acceptance HOLD) → `docs/technical/Issue 698 Business 3.4.2 Operational Measures Scored Practice.md`
 - Issue #698 Business §3.3.3 exact-PDF market-positioning map construction teaching, original paper self-check, removal of incorrect gross-profit targeting instruction and 11-row bounded source-to-learner evidence → `docs/technical/Issue 698 Business 3.3.3 Positioning Map Construction.md`; `audits/2026-11-02-business-333-positioning-map-source-to-learner.json`
 - Issue #698 Business §3.3.4 Boston Matrix and seven-P source-grounded Learn / unscored Marketing Practice, 21 provisional capability-level evidence rows and assurance limits → `docs/technical/Issue 698 Business 3.3.4 Boston and Seven Ps.md`; `audits/2026-11-02-business-334-marketing-mix-source-to-learner.json`
 - Issue #698 AQA Business official v2.0 source-first full 42-section baseline, 194 checking prompts, quantitative annex and assessment boundaries (NOT a whole-course atomic adequacy pass) → `docs/technical/Issue 698 AQA Business Source First Section Baseline.md`
@@ -269,6 +272,7 @@ Use this file to find the governing source before substantive work.
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
 
+- Issue #705 PR #809 trusted independent A2/A3 educational review of Business expected-value and net-gain repairs (separate reviewer infrastructure, not an educational pass) → `docs/technical/Issue 705 PR809 Independent Guided Repair A2A3 Review.md`
 - Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
 
 ## Current implementation and history
