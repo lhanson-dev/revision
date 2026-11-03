@@ -18,6 +18,8 @@ import { useLocalDay } from './use-local-day'
 import { progressActionFromPlannerTask } from './progress-summary'
 
 type Programme = ReturnType<typeof projectLearnerProgramme>['courses']
+const NO_EVIDENCE: LearningEvidence[] = []
+const NO_EXPOSURES: LearnPageExposure[] = []
 
 function programmeStates(courses: Programme, evidence: readonly LearningEvidence[], exposures: readonly LearnPageExposure[]) {
   return courses.map(({ course, label }) => ({
@@ -64,8 +66,8 @@ export function useProgrammeFi001Progress(
 
   const currentEvidence = evidenceRead?.key === evidenceKey ? evidenceRead : null
   const currentPlanner = plannerRead?.key === plannerKey ? plannerRead : null
-  const evidence = currentEvidence?.evidence ?? []
-  const exposures = currentEvidence?.exposures ?? []
+  const evidence = currentEvidence?.evidence ?? NO_EVIDENCE
+  const exposures = currentEvidence?.exposures ?? NO_EXPOSURES
   const error = currentEvidence?.error ?? ''
   const loading = adapters.length > 0 && currentEvidence === null
   const plannerLoading = programme.courses.length > 0 && currentPlanner === null
