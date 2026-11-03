@@ -11,6 +11,7 @@ import { businessPurposeProfitNumericBank } from '../shared/purpose-profit-numer
 import { businessExternalEnvironmentBank } from '../shared/external-environment-practice'
 import { businessDecisionTreeNumericalBank } from '../shared/decision-tree-numeric-practice'
 import { businessMarketingQuantitativeBank } from '../shared/marketing-quantitative-practice'
+import { businessOperationsPerformanceBank } from '../shared/operations-performance-practice'
 import { dataDrills } from '../shared/quantitative'
 import { networkPractice } from '../shared/network-practice'
 import { businessFinancialConstructionDrills } from '../shared/financial-construction-practice'
@@ -28,7 +29,7 @@ export const businessAqaALevel7132Paper1 = contentPackSchema.parse({
   topicLinks,
   flashcards: publishedFlashcards,
   questions,
-  practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank, ...businessDecisionTreeNumericalBank, ...businessMarketingQuantitativeBank],
+  practiceBank: [...aqaBusinessQuestionBank, ...businessFinanceNumericPracticeBank, ...businessPurposeProfitNumericBank, ...businessExternalEnvironmentBank, ...businessDecisionTreeNumericalBank, ...businessMarketingQuantitativeBank, ...businessOperationsPerformanceBank],
   caseStudies,
   dataDrills: [...dataDrills, ...networkPractice, ...businessFinancialConstructionDrills, ...businessPositioningMapDrills, ...businessMarketingMixDrills],
   examTechnique,
