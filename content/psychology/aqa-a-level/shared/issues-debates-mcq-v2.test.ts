@@ -55,6 +55,26 @@ describe('#698/#787 Issues and Debates V2 candidate — 7182 §4.3.1', () => {
       expect(pool.map(q => q.id)).toEqual(currentIds)
     }
   })
+  it('removes answer-length and obvious-elimination cues without changing the two source requirements', () => {
+    // A3 review on the first unpublished V2 candidate (run 41616254863) found
+    // two trivially dominant correct answers and implausibly absolute distractors.
+    // This is a mechanical clue guard, not proof of item discrimination.
+    const items = paper1.questions.filter(q => ['psy-psy0801-check-v2', 'psy-psy0804-check-v2'].includes(q.id))
+    expect(items).toHaveLength(2)
+    expect(items.map(q => q.correctOption)).toEqual([1, 3])
+    for (const [index, q] of items.entries()) {
+      const lengths = q.options.map(value => value.length)
+      expect(Math.max(...lengths) / Math.min(...lengths), q.id).toBeLessThan(1.25)
+      expect(q.options.some(value => /\b(always|never|worthless|automatically|must)\b/i.test(value)), q.id).toBe(false)
+      const sharedTerm = index === 0 ? 'universality' : 'biologically reductionist'
+      // A key cannot be found just by recognising the one mention of its label.
+      expect(q.options.filter(value => value.toLowerCase().includes(sharedTerm)), q.id).toHaveLength(2)
+      expect(q.explanation.length, q.id).toBeGreaterThan(260)
+    }
+    expect(items[0]?.options[2]).toContain('cultural differences')
+    expect(items[1]?.options[2]).toContain('environmental reductionism')
+  })
+
   it('preserves old source keys and does not reinterpret historical answers as new ones', () => {
     const old = psychologyLegacyIssuesDebatesQuestions.filter(q => [originalIds[0], originalIds[3]].includes(q.id))
     expect(old).toHaveLength(2)
