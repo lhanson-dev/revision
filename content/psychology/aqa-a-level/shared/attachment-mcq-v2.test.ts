@@ -27,9 +27,11 @@ describe('LF-03 #787 AQA 7182 §4.1.3 Attachment source-first two-item repair', 
       expect(reviewMcqQuality(topic.slice(3)).filter(f =>
         f.disposition === 'block' || ['repeated-option-set', 'generic-feedback'].includes(f.rule)
       )).toEqual([])
-      expect(reviewMcqQuality(topic).some(f =>
-        f.rule === 'repeated-option-set' && f.ids.some(id => legacyIds.slice(0, 3).includes(id))
-      )).toBe(true)
+      // The original repeated two-item option set is retained only as
+      // historical data, not published in the current five-item pool.
+      expect(reviewMcqQuality(psychologyLegacyAttachmentQuestions.slice(3))
+        .some(f => f.rule === 'repeated-option-set')).toBe(true)
+      expect(reviewMcqQuality(topic).filter(f => f.disposition === 'block')).toEqual([])
     }
   })
 
