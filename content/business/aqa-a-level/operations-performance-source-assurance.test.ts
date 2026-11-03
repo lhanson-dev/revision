@@ -21,7 +21,7 @@ describe('Issue #698 — original AQA Business §3.4.2 operational-measures corr
       const pages = pack.learn!.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages))
       const page = pages.find(candidate => candidate.id === 'operations-four-performance-measures')
       expect(page?.topicId).toBe('operations')
-      expect(page?.sourceSectionIds).toContain('3.4.2')
+      expect(page?.sourceSectionIds).toContain('operations-performance')
       expect(page?.blocks.some(block => block.type === 'key-idea')).toBe(true)
       expect(page?.blocks.filter(block => block.type === 'worked-example')).toHaveLength(2)
       expect(page?.blocks.some(block => block.type === 'quick-check')).toBe(true)
