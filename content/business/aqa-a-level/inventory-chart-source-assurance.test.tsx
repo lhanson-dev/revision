@@ -102,7 +102,7 @@ describe('Issue #698 Business §3.4.5 — published inventory chart and bounded 
       expect(q20Text).toContain('700 − (4 × 100) = 300')
       expect(q20Text).toContain('500-filter re-order trigger')
       expect(q20Text).toContain('conditional')
-      expect(q20Text).toContain('not change inventory or save money')
+      expect(q20Text).toContain('does not reduce inventory or save money')
       expect(pack.exams).toHaveLength(1)
       expect(pack.exams[0].totalMarks).toBe(100)
     }
