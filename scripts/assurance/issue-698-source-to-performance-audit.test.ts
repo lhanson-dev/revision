@@ -50,7 +50,7 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
     const requirements=psychologyCourseTruthTopics.flatMap(t=>t.requirements.map(r=>({t,r})))
     expect(requirements).toHaveLength(118)
     expect(pages).toHaveLength(118)
-    expect(psychologyFlashcards).toHaveLength(121)
+    expect(psychologyFlashcards).toHaveLength(130)
     expect(psychologyQuestions).toHaveLength(118)
     const pageIds=new Set(pages.map(p=>p.id))
     const cardIds=new Set(psychologyFlashcards.map(q=>q.id))
@@ -67,7 +67,7 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       const mcq=`psy-${code}-check${/^(PSY-0[12]-0[1-4]|PSY-03-0[45])$/.test(r.requirementId) ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
       const cards=psychologyFlashcardsForRequirement(r.requirementId)
-      expect(cards.length,r.requirementId).toBe(r.requirementId === 'PSY-04-01' ? 4 : 1)
+      expect(cards.length,r.requirementId).toBe(({ 'PSY-01-01': 5, 'PSY-01-02': 3, 'PSY-01-03': 2, 'PSY-01-04': 3, 'PSY-04-01': 4 } as Record<string,number>)[r.requirementId] ?? 1)
       for(const card of cards)expect(cardIds.has(card.id),r.requirementId).toBe(true)
       expect(mcqIds.has(mcq),r.requirementId).toBe(true)
       expect(pages.find(x=>x.id===pid)?.sourceSectionIds,r.requirementId).toContain(code)
