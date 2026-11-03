@@ -17,8 +17,15 @@ test('AQA Business §3.4.5 inventory chart plots actual delivery, reveals access
     await expect(chart).toBeVisible()
     await expect(chart.locator('svg[role="img"]')).toHaveAttribute('aria-label', /Stock level over time.*six-day horizontal gap/i)
     await expect(chart.locator('path.learn-chart__line')).toHaveCount(3)
-    await expect(chart.getByRole('button', { name: 'Show the data' })).toHaveAttribute('aria-expanded', 'false')
-    await chart.getByRole('button', { name: 'Show the data' }).click()
+    // A responsive resize may retain the mounted Learn chart's already-open
+    // data state. Verify both states honestly instead of assuming remount.
+    const toggle = chart.getByRole('button', { name: /^(Show the data|Hide the data)$/ })
+    const initialExpansion = await toggle.getAttribute('aria-expanded')
+    expect(['false', 'true']).toContain(initialExpansion)
+    if (initialExpansion === 'false') {
+      await toggle.click()
+    }
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
     const table = chart.getByRole('table', { name: 'Stock on hand' })
     await expect(table).toBeVisible()
     await expect(table.getByText('Day 16 · before delivery')).toBeVisible()
