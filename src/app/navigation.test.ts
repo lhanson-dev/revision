@@ -62,6 +62,23 @@ describe('learner navigation model', () => {
     expect(parseRoute(hash)).toEqual(route)
   })
 
+  it('retains a display-only FI-001 assessed repair skill across course and component Learn reloads', () => {
+    const specId = 'aqa-7132-3.2.2:expected-value'
+    const course = learnerCourseRoute('aqa:aqa-a-level:7132', 'learn', {
+      learnPageId: 'bus-evi-004', repairSpecItemId: specId,
+    })
+    const component = learnerModuleRoute('aqa:aqa-a-level:7132', 'business-aqa-a-level-7132-paper-1', 'learn', {
+      learnPageId: 'bus-evi-004', repairSpecItemId: specId,
+    })
+    expect(routeHash(course)).toContain('/learn/bus-evi-004?repairSkill=aqa-7132-3.2.2%3Aexpected-value')
+    expect(parseRoute(routeHash(course))).toEqual(course)
+    expect(parseRoute(routeHash(component))).toEqual(component)
+    // A normal Learn bookmark must never acquire an implicit skill diagnosis.
+    const normal = learnerCourseRoute('aqa:aqa-a-level:7132', 'learn', { learnPageId: 'bus-evi-004' })
+    expect(parseRoute(routeHash(normal))).toEqual(normal)
+    expect(routeHash(normal)).not.toContain('repairSkill')
+  })
+
   it('round-trips a course Practice topic through the URL', () => {
     const route = learnerCourseRoute('aqa:aqa-a-level:7132', 'practice', { topicId: 'finance' })
     const hash = routeHash(route)
