@@ -205,7 +205,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds generic objective Practice and twelve versioned Social Influence, Memory, Attachment and Issues and Debates scenarios to Course Truth', () => {
+  it('binds generic objective Practice and sixteen versioned Social Influence, Memory, Attachment, Issues and Debates and Relationships scenarios to Course Truth', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -221,9 +221,9 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
         if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)
-          || (topic.topicNumber === 8 && [0, 3].includes(index))) {
+          || (topic.topicNumber === 8 && [0, 3].includes(index)) || topic.topicNumber === 9) {
           // LF-03 versions all four Social Influence and Memory checks, and only the
-          // final two Attachment and Issues and Debates 01/04 checks. Old
+          // final two Attachment, Issues and Debates 01/04, and four Relationships checks. Old
           // keyed choices remain historical; V2 needs distinct assessment evidence.
           const requirementId = topic.requirements[index]!.requirementId
           expect(question.id).toBe(`psy-${requirementId.toLowerCase().replaceAll('-', '')}-check-v2`)
@@ -238,9 +238,12 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           } else if (topic.topicNumber === 3) {
             expect(question.correctOption).toBe(index === 3 ? 2 : 0)
             expect(question.prompt).toContain(index === 3 ? 'responsive care' : 'supportive friendship')
-          } else {
+          } else if (topic.topicNumber === 8) {
             expect(question.correctOption).toBe(index === 0 ? 1 : 3)
             expect(question.prompt).toContain(index === 0 ? 'university students' : 'neurotransmitter')
+          } else {
+            expect(question.correctOption).toBe([2, 0, 3, 1][index])
+            expect(question.prompt).toContain(['volunteering group', 'Leah is unhappy', 'Sam finds face-to-face', 'Finn watches'][index]!)
           }
           continue
         }
