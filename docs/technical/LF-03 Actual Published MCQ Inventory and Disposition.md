@@ -37,3 +37,11 @@ This is not a shortcut to close the issue through a green regex test. The AQA re
 ## Documentation impact
 
 Technical-test/inventory implementation only. Existing Course Learning Blueprint, source rights, Claims and Progress Governance, AI Agent Constitution and learner route are unchanged. INDEX receives the pointer in the same governed PR. Historical audit files remain untouched; add future dated evidence cuts as new records.
+
+## Found and corrected: signed Business arithmetic false positive (3 November 2026)
+
+The first all-published artifact [Actions #41627746794](https://github.com/lhanson-dev/revision/actions/runs/41627746794) emitted **275 exact active MCQ IDs** (Business 50 pack + 86 structured-bank; Psychology 131 pack + 8 structured-bank), including 12 previously released narrow V2 items and 263 without independently completed source-to-answer acceptance. This is a source snapshot, *not* 275 invalid questions or a complete skill denominator. On that first run, the existing `reviewMcqQuality` reported a duplicate-option flag for Business `aqa7132-3.5-q17`.
+
+Source inspection showed **the options are genuinely different**: `−£6,000` is a negative closing balance, while `+£6,000` is a positive number. The old normaliser removed signs and thereby conflated two distinct amounts. The QA signal was false, and reauthoring or rekeying the student's question would have been harmful. The amended source normaliser preserves numeric signs and standard thousands separators. Regression references the real q17 source and proves true identical signed numbers still flag; do not claim the item's mathematical explanation has been independently educationally reviewed.
+
+The first artifact also reported **106 Psychology generic-feedback pattern hits**, **26 Psychology repeated-option-set item hits**, **59 Business retained-subgroup answer-position bias item hits** and published answer-position runs. These are **item-level warning occurrences**, not counts of independently invalid questions. The signed-number correction does not repair these outstanding content-quality classes. Every cohort still requires the source-to-item dispositions and review controls in #787; this test is not a licence to mass shuffle or close the wider bank.
