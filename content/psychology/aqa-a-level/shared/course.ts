@@ -32,6 +32,7 @@ import examTruth from '../../../../research/source-first-course-prototype/psycho
 import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from './objective-practice'
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
 import { socialInfluenceMcqV2 } from './social-influence-mcq-v2'
+import { socialInfluenceAtomicCardsByRequirement } from './social-influence-flashcards-v2'
 import { memoryMcqV2 } from './memory-mcq-v2'
 import { attachmentMcqV2 } from './attachment-mcq-v2'
 
@@ -272,6 +273,8 @@ const mentalHealthDefinitionCards = [
 
 export const psychologyFlashcards = truthTopics.flatMap((topic) =>
   topic.requirements.flatMap((requirement) => {
+    const socialCards = socialInfluenceAtomicCardsByRequirement[requirement.requirementId]
+    if (socialCards) return socialCards
     if (requirement.requirementId === 'PSY-04-01') {
       return mentalHealthDefinitionCards.map((card) => flashcardSchema.parse({ ...card, topic: topicId(topic) }))
     }
@@ -289,6 +292,8 @@ export const psychologyFlashcards = truthTopics.flatMap((topic) =>
 // Most requirements have one card; PSY-04-01 has four independently versioned
 // definition cards. The retired composite card is never treated as current.
 export function psychologyFlashcardsForRequirement(requirementId: string) {
+  const socialCards = socialInfluenceAtomicCardsByRequirement[requirementId]
+  if (socialCards) return socialCards
   const code = requirementId.toLowerCase().replaceAll('-', '')
   if (requirementId === 'PSY-04-01') {
     return psychologyFlashcards.filter((card) =>
