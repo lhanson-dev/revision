@@ -83,3 +83,10 @@ export function progressActionFromPlannerTask(task: HomeTask | null): ProgressNe
     recommendationId: task.id,
   }
 }
+
+/** The optional "How this is worked out" note: three plain sentences at most. */
+export const HOW_THIS_IS_WORKED_OUT: readonly string[] = [
+  'Topics covered counts topics with scored answers or all current Learn pages explicitly reviewed.',
+  'Understanding sorts each topic by how your answers have gone, once there are enough varied answers to tell.',
+  'Exam readiness only appears when there’s enough varied work, and it’s never a predicted grade.',
+]
