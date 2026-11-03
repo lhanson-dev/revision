@@ -9,7 +9,7 @@ const userId = '00000000-0000-4000-8000-000000000718'
 const courseId = 'aqa:aqa-a-level:7182'
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('LF-03'), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
+  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('LF-03') && !testInfo.title.startsWith('LF-04'), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 and LF-04 also cover phone and tablet.')
 })
 
 async function seedRestrictedPsychologyLearner(page: Page) {
@@ -350,4 +350,25 @@ test('LF-03 #787 canonical Attachment Practice independently scores two V2 items
     if (index < expectedIds.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
   }
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(expectedIds)
+})
+
+
+test('LF-04: Psychology Practice pairs the Social Influence case with its actual question and guidance', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+
+  const caseRow = page.locator('.practice-row').filter({ hasText: 'Case study' })
+  await expect(caseRow).toContainText('2 written questions')
+  await caseRow.click()
+
+  await expect(page.getByRole('heading', { name: 'Instructions at a training centre' })).toBeVisible()
+  await expect(page.locator('.case-material')).toContainText('senior supervisor')
+  await expect(page.locator('.written-practice')).toContainText('legitimacy of authority')
+  await page.getByLabel('Draft your answer').fill('The supervisor has an official position, which might explain the employee continuing despite hesitation.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('recognised supervisor')
+  await expect(page.getByText('These questions have no authoritative mark allocation', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Next case question' }).click()
+  await expect(page.locator('.written-practice')).toContainText('alternative explanation')
 })
