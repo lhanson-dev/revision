@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { businessDecisionTreeNumericalBank } from '../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
+import { businessOperationsPerformanceBank } from '../../content/business/aqa-a-level/shared/operations-performance-practice'
 import { bankRecordToPractice, objectiveItemMappingForPractice, type CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { createCalculationEvidence } from '../../src/app/practice-evidence'
 import { markLearnPageReviewed, loadLearnExposures } from '../../src/services/progress/learn-exposure-service'
@@ -8,6 +9,7 @@ import { individualSpecItemObservation } from '../../src/engine/evidence/evidenc
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../../src/services/progress/learning-evidence-service'
 import { findSkillRecheckOpportunities } from '../../src/app/skill-recheck'
 import { completeStudentFirstUse, establishStudentExperience } from '../../src/services/onboarding/student-first-use-service'
+import { addDaysToKey } from '../../src/app/plan-dates'
 
 // This test uses an actual local GoTrue account, PostgREST persistence and the
 // canonical /revision/app/ React runtime. It does NOT use browser route mocks,
@@ -87,7 +89,46 @@ test('one ordinary real-auth learner can practise, see evidence, plan and prepar
       return data?.filter((entry) => entry.payload?.source === 'multiple_choice').length ?? 0
     }).toBe(1)
 
+    // LA-14: real local Auth/PostgREST, not fixture routes. Confirm a submitted
+    // Practice answer and the durable server checkpoint independently, leave
+    // the learner application, then resume the exact next question after reload.
+    const { data: beforeEvidence, error: beforeEvidenceError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(beforeEvidenceError).toBeNull()
+    const originalMcqIds = (beforeEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()
+    expect(originalMcqIds).toHaveLength(1)
+
+    await page.getByRole('button', { name: 'Next question' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    const secondPrompt = await page.locator('.practice-question__prompt').textContent()
+    expect(secondPrompt).toBeTruthy()
+    await expect.poll(async () => {
+      const { data, error } = await learner.from('learner_practice_checkpoints')
+        .select('session_id').eq('user_id', userId).eq('course_id', businessId)
+      if (error) throw error
+      return data?.length ?? 0
+    }).toBe(1)
+
+    await page.goto(`${appPath}#/home`)
+    await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+    await page.getByRole('button', { name: 'Open saved Practice' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
     await page.reload()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Continue saved session' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    await expect(page.locator('.practice-question__prompt')).toHaveText(secondPrompt!.trim())
+
+    // Re-entering an unfinished session cannot score the same answer again.
+    const { data: resumedEvidence, error: resumedError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(resumedError).toBeNull()
+    expect((resumedEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()).toEqual(originalMcqIds)
+
     await page.goto(`${appPath}#/progress`)
     await expect(page.getByRole('region', { name: 'Progress summary' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Understanding' }).first()).toBeVisible()
@@ -819,6 +860,161 @@ test('Business 7132 Marketing real learner reaches market-map, Boston Matrix and
     if (userId) {
       const { error } = await admin.auth.admin.deleteUser(userId)
       expect(error, 'Local learner cleanup').toBeNull()
+    }
+  }
+})
+
+
+/**
+ * Issue #698 AQA Business §3.4.2: authenticate a real disposable student,
+ * retain a wrong source-specific unit-cost answer, and prove the existing
+ * Plan launches a *different*, actually saved final-number reassessment.
+ * This does not mark working, interpretation or exam-readiness mastery.
+ */
+test('Business Operations unit-cost source mistake leads to a real scored independent Plan check', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase Auth and DB.')
+  test.setTimeout(240_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const local = new URL(url)
+  if (local.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(local.hostname)
+    || local.port !== '54321' || !anon || !secret) {
+    throw new Error('Never run this assessment against hosted learner accounts')
+  }
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const email = 'business-operations-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Operations-' + crypto.randomUUID() + '-A1!'
+  const moduleId = 'business-aqa-a-level-7132-paper-1'
+  const topicId = 'operations'
+  const target = 'aqa-7132-3.4.2:unit-cost-average-cost'
+  const candidates = businessOperationsPerformanceBank
+    .filter(record => record.target_item_ids.length === 1 && record.target_item_ids[0] === target)
+    .map(record => bankRecordToPractice(record, topicId))
+    .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation')
+  expect(candidates).toHaveLength(2)
+  expect(candidates[0]?.id).not.toBe(candidates[1]?.id)
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Synthetic account failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const login = await learner.auth.signInWithPassword({ email, password })
+    if (login.error) throw login.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+    const { error: examError } = await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: businessId, subject_id: 'business', module_id: null,
+      assessment_type: 'public_exam', title: 'Business Paper 1',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: [topicId] }, is_active: true,
+    })
+    expect(examError).toBeNull()
+    const { error: availabilityError } = await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London',
+      weekday_minutes: 240, weekend_minutes: 240,
+      monday_minutes: 240, tuesday_minutes: 240, wednesday_minutes: 240,
+      thursday_minutes: 240, friday_minutes: 240, saturday_minutes: 240, sunday_minutes: 240,
+    })
+    expect(availabilityError).toBeNull()
+
+    await markLearnPageReviewed(learner, {
+      userId, courseId: businessId, moduleId, topicId, pageId: 'operations-four-performance-measures',
+    })
+    const store = createSupabaseEvidenceStore(learner)
+    const wrong = candidates[0]!
+    const fresh = candidates[1]!
+    expect(objectiveItemMappingForPractice(wrong)?.singleTargetSpecItemId).toBe(target)
+    expect(objectiveItemMappingForPractice(fresh)?.singleTargetSpecItemId).toBe(target)
+    expect(wrong.prompt).not.toBe(fresh.prompt)
+    await recordLearningEvidence(store, userId, createCalculationEvidence({
+      id: 'operations-unit-cost-miss-' + crypto.randomUUID(),
+      moduleId, topicId, contentId: wrong.id,
+      correct: false, enteredValue: wrong.expected + 10,
+      expectedValue: wrong.expected, unit: wrong.unit,
+      confidence: 'certain', itemMapping: objectiveItemMappingForPractice(wrong),
+      occurredAt: new Date(Date.now() - 120_000).toISOString(),
+    }))
+    const before = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(findSkillRecheckOpportunities(candidates, before, topicId, [moduleId], ['operations-four-performance-measures'])
+      .map(need => [need.specItemId, need.freshQuestionId, need.repairLearnPageId]))
+      .toEqual([[target, fresh.id, 'operations-four-performance-measures']])
+
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
+    await page.goto(`${appPath}#/courses/${encodeURIComponent(businessId)}/practice`)
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByLabel('Topic').selectOption(topicId)
+    await expect(page.getByText('Practice · 4. Operational Management')).toBeVisible()
+    // The same actual enrolled learner must receive the exact source-backed
+    // reassessment via deterministic Plan, not a fabricated test-only route.
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    // A visible Plan heading does not prove that owner-scoped evidence and
+    // accepted sessions have finished loading. And a visible day panel after
+    // Next day might still belong to the previous day. Require each selected
+    // date before deciding that an independent task is absent.
+    const dayPanel = page.locator('.pln-daypanel')
+    await expect(dayPanel).toBeVisible()
+    const initialTab = await dayPanel.getAttribute('aria-labelledby')
+    expect(initialTab, 'The rendered Plan day must expose its actual selected date')
+      .toMatch(/^pln-tab-\d{4}-\d{2}-\d{2}$/)
+    let selectedDay = initialTab!.slice('pln-tab-'.length)
+    const scannedDays: string[] = []
+    let launched = false
+    for (let day = 0; day < 14; day++) {
+      await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${selectedDay}`)
+      const suggested = dayPanel.locator('.pln-row[data-kind="suggested"]')
+      const row = suggested.filter({ hasText: /Independent recheck:.*(?:Unit cost|average cost)/i })
+      const allLabels = await suggested.allTextContents()
+      scannedDays.push(`${selectedDay}: ${allLabels.length} suggested; ${allLabels
+        .filter(label => /Independent recheck/i.test(label))
+        .map(label => label.trim().replace(/\s+/g, ' ').slice(0, 140))
+        .join(' | ') || 'no independent recheck'}`)
+      if (await row.count()) {
+        await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
+        launched = true
+        break
+      }
+      if (day < 13) {
+        const nextDay = addDaysToKey(selectedDay, 1)
+        await page.getByRole('button', { name: 'Next day' }).click()
+        await expect(dayPanel).toHaveAttribute('aria-labelledby', `pln-tab-${nextDay}`)
+        selectedDay = nextDay
+      }
+    }
+    expect(launched, `Original wrong unit-cost result must generate a source-linked Plan recheck. Rendered days: ${scannedDays.join('; ')}`).toBe(true)
+    await expect(page.getByText('Calculation recheck')).toBeVisible()
+    await expect(page.getByRole('heading', { name: fresh.prompt })).toBeVisible()
+    await page.getByLabel('Your final number').fill(String(fresh.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => (await loadLearningEvidence(store, userId!, moduleId, topicId))
+      .some(item => item.contentId === fresh.id && item.correct
+        && individualSpecItemObservation(item)?.specItemId === target)).toBe(true)
+    const after = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(findSkillRecheckOpportunities(candidates, after, topicId, [moduleId], ['operations-four-performance-measures']))
+      .toEqual([])
+    await page.reload()
+    await page.goto(appPath + '#/progress')
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const deleted = await admin.auth.admin.deleteUser(userId)
+      expect(deleted.error, 'Synthetic learner must be removed').toBeNull()
     }
   }
 })
