@@ -64,6 +64,8 @@ test('independent reviewer must return exact four blinded answers with concrete 
   assert.equal(reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,verdict:'material'})},items).decision,'fail_hold')
   assert.throws(()=>reviewDecision({...review,items:review.items.slice(1)},items))
   assert.throws(()=>reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,answerReason:''})},items))
+  assert.throws(()=>reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,answerReason:'ok'})},items))
+  assert.throws(()=>reviewDecision({...review,items:review.items.map((x,i)=>i?x:{...x,distractorChallenge:'too short'})},items))
 })
 
 test('separate fresh feedback pass requires correct item identity and substantive explanation critique',()=>{
