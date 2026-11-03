@@ -45,7 +45,7 @@ function fromPack(pack: AnyPack, course: Row['course']): Row[] {
     return q?.type === 'multiple-choice' ? [{
       course, source: 'structured-practice-bank' as const,
       id: q.id, topic: 'source-section:' + record.batch,
-      sourceSpecItemIds: [...record.target_item_ids], sourceNodeIds: [...record.target_node_ids], prompt: q.prompt,
+      sourceSpecItemIds: [...(record.target_item_ids ?? [])], sourceNodeIds: [...(record.target_node_ids ?? [])], prompt: q.prompt,
       options: q.options.map(x => x.text), correctOption: q.correctOption,
       explanation: q.explanation,
     }] : []
