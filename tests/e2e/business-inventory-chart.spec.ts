@@ -34,5 +34,5 @@ test('AQA Business §3.4.5 inventory chart plots actual delivery, reveals access
   // An unscored Learn quick-check must not create independent Practice evidence.
   const quick = page.locator('.ui-quick-check').first()
   await quick.getByRole('button', { name: /Ordered on day 10/ }).click()
-  await expect(quick.locator('[aria-live="polite"]')).toContainText(/right|correct/i)
+  await expect(quick.locator('[aria-live="polite"]')).toContainText('Yep.')
 })
