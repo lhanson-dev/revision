@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 
 export const MARKER = 'revision-run-business-marketing-a2a3:v1'
+export const REPAIR_MARKER = 'revision-run-business-guided-repair-a2a3:v1'
 export const REPO = 'lhanson-dev/revision'
 export const SETTINGS = Object.freeze({
   777: {
@@ -102,6 +103,35 @@ export const SETTINGS = Object.freeze({
       'rev7132-3.4.5-inventory-lead-time-delivery-day-02',
     ],
   },
+  809: {
+    section: '3.2.2', printedPages: [14], questionBatch: '3.2', questionIds: [],
+    scope: [
+      'AQA A-level Business 7132 v2.0 section 3.2.2, printed page 14: understand and interpret decision trees, calculate expected values and net gains',
+      'Probability-weighted expected value uses signed outcomes, including losses. Check 0.7 × £180,000 plus 0.3 × −£100,000 without trusting the author result',
+      'Net gain is different from expected value if a separate certain cost has not already been included; verify £96,000 less £60,000 for the published example',
+      'The two repairs are unscored independent guided methods for observed failed skills, not proof of exactly which calculation step was misunderstood',
+      'The genuine published Foundation node bus-evi-004 remains shared; a later independently scored check must be a different, source-tagged original question',
+      'The AQA specification is REFERENCE_ONLY; only verified structured curriculum/assessment scope is supplied to the model',
+    ],
+    paths: [
+      'src/app/practice-repair.ts',
+      'src/app/GuidedMethodRepairView.tsx',
+      'src/app/FocusedLearningWorkspace.tsx',
+      'src/app/LearnReadingWorkspace.tsx',
+      'src/app/ui/learn/LearnPageLayout.tsx',
+      'src/app/navigation.ts',
+      'src/app/today-recommendations.ts',
+      'src/app/PlannerRuntime.tsx',
+      'content/business/aqa-a-level/shared/decision-tree-numeric-practice.ts',
+      'content-factory/slices/aqa-7132-3.1-3.2/learn-practice/bus-evi-004.json',
+      'src/app/practice-guided-repair.test.ts',
+    ],
+    reviewedItemIds: [
+      'aqa-7132-3.2.2:expected-value',
+      'aqa-7132-3.2.2:net-gain',
+      'fi001-plan-to-learn-unscored-repair',
+    ],
+  },
 })
 export const PACK_PATHS = [
   'content/business/aqa-a-level/paper-1/index.ts',
@@ -152,7 +182,8 @@ export function parseTrustedEvent(event) {
       event?.comment?.author_association !== 'OWNER') throw new Error('Untrusted or wrong PR review comment')
   // GitHub may store a genuine two-line OWNER comment with CRLF line endings.
   // Permit LF or CRLF only; still reject extra lines, whitespace and spoofed SHAs.
-  const match = new RegExp('^' + MARKER + '\\r?\\nhead_sha: ([a-f0-9]{40})\\r?\\n?$').exec(event.comment.body ?? '')
+  const marker = id === 809 ? REPAIR_MARKER : MARKER
+  const match = new RegExp('^' + marker + '\\r?\\nhead_sha: ([a-f0-9]{40})\\r?\\n?$').exec(event.comment.body ?? '')
   if (!match) throw new Error('Expected exact two-line reviewer marker and SHA')
   return { id, head: match[1], settings: SETTINGS[id] }
 }
@@ -286,6 +317,13 @@ async function run() {
         'Independently recompute all eight Operations final-number prompts from their actual scenario data, verify units and period alignment, accepted scoring, distinguish AQA-required calculation and interpretation from what the current one-mark items actually assess.',
         'Inspect each source target and its repair Learn node. A unit-cost error must direct to the new explicit average-cost method rather than an older productivity-only page.',
         'Challenge whether the two independent attempts for each of the four skills use distinct numbers and situations, retain historical content IDs and evidence, and resist wrong-answer acceptance.',
+      ] : []),
+      ...(id===809 ? [
+        'Independently derive expected value from the original published Foundation example and verify every probability, negative outcome, arithmetic step, £ currency unit, and the separate certain cost in net gain.',
+        'Treat expected value and net gain as different assessed skills. Challenge whether their two guided challenges and methods are genuinely differentiated, pedagogically safe, and avoid presenting final-number mistakes as diagnosed procedural misconceptions.',
+        'Inspect both original separately tagged source questions for each assessed skill and the published bus-evi-004 Foundation. A reading/reveal or URL query is NEVER independently scored evidence.',
+        'Inspect the canonical FI-001 selected skill handoff from Plan/Home into the Learn page, including canonicalRoute, and fail if a different method can be fabricated, wrongly credited, or promoted to mastery.',
+        'Record an explicit finding if actual published source/evidence coverage is insufficient to verify a claim; passing CI only shows the named tests succeeded.',
       ] : []),
       ...(id===820 ? [
         'Independently read the actual chart series and recompute every plotted coordinate and threshold: order at 800 on day 10, delivery day 16 from 200 to 1,800, six-day lead time and 1,600 replenished packets. Find arithmetic or chronology errors and reject misleading graph labels.',
