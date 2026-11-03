@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { MARKER, SETTINGS, PACK_PATHS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview, verifiedCiReceipt } from './business-pr777-784-a2a3-review.mjs'
+import { MARKER, REPAIR_MARKER, SETTINGS, PACK_PATHS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview, verifiedCiReceipt } from './business-pr777-784-a2a3-review.mjs'
 
 const head='a'.repeat(40)
 const event=(id=777,body=MARKER+'\nhead_sha: '+head)=>({
@@ -56,6 +56,26 @@ describe('exact-head trusted owner trigger',()=>{
       MARKER+'\r\nhead_sha: '+head.toUpperCase(),
     ]
     for(const body of forbidden) assert.throws(()=>parseTrustedEvent(event(820,body)))
+  })
+  it('allows #809 only on its own exact-head owner marker and covers two distinct teaching methods', () => {
+    const e=event(809,REPAIR_MARKER+'\nhead_sha: '+head)
+    assert.equal(parseTrustedEvent(e).id,809)
+    const c=SETTINGS[809]
+    assert.equal(c.section,'3.2.2')
+    assert.deepEqual(c.printedPages,[14])
+    assert.deepEqual(c.questionIds,[])
+    assert.deepEqual(c.reviewedItemIds,[
+      'aqa-7132-3.2.2:expected-value','aqa-7132-3.2.2:net-gain','fi001-plan-to-learn-unscored-repair',
+    ])
+    assert.ok(c.paths.includes('src/app/practice-repair.ts'))
+    assert.ok(c.paths.includes('src/app/GuidedMethodRepairView.tsx'))
+    assert.ok(c.paths.includes('src/app/PlannerRuntime.tsx'))
+    assert.ok(c.paths.includes('content/business/aqa-a-level/shared/decision-tree-numeric-practice.ts'))
+    assert.ok(!c.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    assert.throws(()=>parseTrustedEvent(event(809)))
+    assert.throws(()=>parseTrustedEvent(event(777,REPAIR_MARKER+'\nhead_sha: '+head)))
+    assert.throws(()=>parseTrustedEvent(event(809,REPAIR_MARKER+'\nhead_sha: '+head+'\nmerge now')))
+    assert.throws(()=>parseTrustedEvent({...e,comment:{...e.comment,user:{login:'not-owner'}}}))
   })
   it('scopes #805 to four Operations measures and nine original reviewed assets',()=>{
     const config=SETTINGS[805]
