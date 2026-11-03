@@ -178,3 +178,12 @@ This change is **assurance evidence and task tracking only**. It does not change
 5. **Record at next checkpoint:** update each LA/LF line additively with `PASS`/`FAIL`/`BLOCKED`/`NOT TESTED`, channel `B/L/P/H/O`, release SHA, device, evidence URL or protected reference, original fault, and owning workstream. Production availability remains a separate gate.
 
 **Documentation impact:** Evidence-only checkpoint; append to the existing audit rather than editing its 2 November cuts. Existing INDEX pointer remains correct; no new source-of-truth location, ADR, normative authority, code, content, test, schema or deployed configuration change is introduced. This document must ship through a governed branch and independent Founder-approved PR. Historical PR descriptions that still say “draft” do not override verified merge status. Any subsequent code fix must carry its own tests and technical-documentation change; actual child-data pre-use safeguards and public-launch obligations remain separate stage gates.
+
+
+## Founder scheduling update — 3 November 2026
+
+The Founder has parked #693 and confirmed no new account signup is required at present. **This changes sequencing, not the acceptance criteria.** LA-02 and LA-03 are **DEFERRED / NOT ACCEPTED** for the current tranche. The earlier 429 result and technical BLOCKED findings remain preserved above. #693 stays open for a later Founder-led return to SMTP, email confirmation and password recovery.
+
+Workstream 5 should now prioritise LA-04 through LA-23, plus LF-01 through LF-11, using an **existing authorised adult test account**, if available. Continue the two-course learning loop, practice evidence, session restoration, mock retakes, Progress/REV/Plan agreement and device checks without waiting for new-user signup. If an existing account cannot sign in, mark the exact test BLOCKED rather than describing it as hosted acceptance. The 23 journeys remain in the matrix, and this pause does not turn either deferred journey into PASS.
+
+Before final learner readiness is claimed, restore LA-02/LA-03 to the test queue and obtain actual hosted confirmation/recovery evidence. This is an audit scheduling note only; no change to product authority, application code, account controls or technical documentation is needed. The earlier dated record remains unchanged.
