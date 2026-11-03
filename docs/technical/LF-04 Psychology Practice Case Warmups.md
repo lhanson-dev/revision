@@ -22,6 +22,22 @@ Five original short case narratives, each tied to exactly one course topic, have
 
 Each case contains two case-linked guided prompts and authored explanation, with no marks or grading. Each is tagged with its actual course topic, so `caseStudyForPractice` cannot select a random unrelated case for an unsupported topic. All three published Paper 1/2/3 packs share identical course-level case warm-ups. All original scored MCQs, objective Practice records, exam questions, scores, old checkpoints and existing case material are unchanged. No migration, new UI screen, account feature flag or new recommendation engine.
 
+## Source-bound educational review inventory
+
+Founder-supplied AQA Psychology 7182 specification **version 1.4 (1 September 2025)**, SHA-256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`, is registered as `REFERENCE_ONLY`: original Revision scenarios are used rather than protected source prose. Printed AQA pages and requirement codes below identify **scope**; they do not establish independent A3 pass.
+
+| Authored case ID | Source requirement in the 2027 specification | Specific challenge the reviewer must check |
+| --- | --- | --- |
+| `psy-social-influence-supervisor-case` | §4.1.1 Social influence, p17, explanations of obedience and legitimacy of authority | Formal role/badge may support authority-based obedience, but motive or peer-following is not observed. Q2 guidance explicitly names the missing peer observation, not an invented behaviour. |
+| `psy-memory-dual-task-case` | §4.1.2 Memory, p17, working memory model and phonological loop/visuo-spatial sketchpad | Verbal and visual interference cues are distinct; alternatives such as load/attention and lack of controlled comparison are acknowledged. |
+| `psy-attachment-caregiver-case` | §4.1.3 Attachment, p18, Bowlby and Ainsworth's Strange Situation | Secure-base cues can be discussed without classifying the toddler from one brief, uncontrolled observation. |
+| `psy-clinical-ocd-case` | §4.1.4 Clinical Psychology and Mental Health, p18; §4.2.3.1 Research Methods, p20 | Cognitive/emotional/behavioural OCD features and episode-count operationalisation are correct; a fictional scenario is not a diagnosis. |
+| `psy-research-methods-memory-cues-case` | §4.2.3.1 Research Methods, p20, IV/DV, operationalisation, control and sampling | Self-selected picture/spoken conditions, not random allocation, preclude a causal inference without stronger design. The scored recall variable is exactly 0–10. |
+
+An internal source-first cross-check found no material conflict in these five case-topic mappings; an earlier Social Influence guidance example suggesting that the employee followed other trainees was revised because the case never observed those trainees acting. **This is author-side remediation, not an independent fresh-context adversarial review or qualified examiner sign-off.** The independent reviewer must examine all ten original prompts and corresponding guidance, classify findings against the Content Accuracy Assurance Gate, and bind the result to the exact corrected content head.
+
+**Candidate regression:** In addition to the schema/source/ID tests, the canonical authenticated-fixture browser route attempts both Social Influence prompts, confirms that guidance addresses the real case facts, checks there was no independently scored evidence POST, and verifies that unsupported Biopsychology has no unrelated Case study entry. Real learner acceptance is Workstream 5's separate task.
+
 **Important boundary:** These materials are unscored, self-directed application warm-ups. Reading them or seeing guidance is not independently assessed understanding or readiness. Do not attach them automatically as stimuli to unrelated legacy MCQs. Topic scope and exam applicability remain governed by the source-version AQA Psychology 7182 v1.4 and the Course Learning Blueprint; question-level AO fit needs independent educational review before final adequacy claims.
 
 ## Verification and acceptance gates
