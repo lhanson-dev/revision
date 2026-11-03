@@ -1,5 +1,12 @@
 # Issue #698 — Psychology Social Influence applied and evaluation Practice
 
+## 3 November 2026 — first corrected-context independent A3 PASS (retained, exact prior head)
+
+The newly installed approved-main PR #793 reviewer completed [independent A3 run #41550940824](https://github.com/lhanson-dev/revision/actions/runs/41550940824), retained receipt artifact [#13191791447](https://github.com/lhanson-dev/revision/actions/runs/41550940824/artifacts/13191791447), for PR #773 exact head `04937c7def8281489a6be02f5dfcd3794b3d1204`. The downloaded JSON was inspected: `status=completed`, `decision=pass`, `12/12 item IDs`, `8/8 dimensions PASS`, **zero material findings**, and one **minor** audit-metadata finding (`stale_assurance_metadata`). Actual reviewer-observed spend was USD 0.099672. The reviewer confirmed the question keys, rationales, self-check response models and course-level Practice placement are defensible within the bounded source scope, without granting qualified human or full-course acceptance.
+
+The minor finding correctly notes that `scripts/assurance/data/aqa-psychology-7182-social-influence-atomic-review.json` still describes the candidate as Learn-only. The associated metadata text is being corrected **without modifying any original learner question, answer, three shared-pack imports or historical independent review receipts**. The prior-head A3 receipt remains valid historical evidence; it is **not** automatic signoff for a later content/metadata head. Current exact-head CI, any new independent review necessary for changed source input, visual assurance and Founder-specific content merge approval remain required.
+
+
 ## 3 November 2026 — corrected E2E locator and current-main integration (candidate, NOT released)
 
 **PR #793** reviewer-context infrastructure was separately Founder-approved, merged as `c389867771c735eb53bfd06ea8e381b910844ccb`, and production verified in [release #41517283492](https://github.com/lhanson-dev/revision/actions/runs/41517283492). This permits a fresh independently initiated A3 on the exact head of **PR #773**, but does not reverse the original `fail_hold` receipt or grant publication approval.
