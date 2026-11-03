@@ -49,6 +49,17 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
+  it('keeps the 13th Social Influence atomic card reachable after a 12-card round', () => {
+    const cards = psychologyFlashcards.filter(card => card.topic === 'social-influence')
+    expect(cards).toHaveLength(13)
+    const first = orderDeck(cards, {})
+    expect(first).toHaveLength(12)
+    const pastRatings = Object.fromEntries(first.map(card => [card.id, 2 as const]))
+    const next = orderDeck(cards, pastRatings)
+    expect(next[0]?.id).toBe(cards[12]?.id)
+    expect(new Set(next.map(card => card.id)).size).toBe(next.length)
+  })
+
   it('separates mental-health definitions into single-demand, versioned retrieval cards', () => {
     const cards = psychologyFlashcards.filter((card) => card.id.startsWith('psy-psy0401-'))
     expect(cards).toHaveLength(4)
