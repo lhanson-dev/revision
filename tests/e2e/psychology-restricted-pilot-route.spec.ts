@@ -260,7 +260,13 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   // Another scored case must follow the four original LF-03 checks: this is a
   // 12-question session and must not silently present only the old set.
   await page.getByRole('button', { name: 'Next question' }).click()
-  await expect(page.locator('.practice-question__prompt')).toContainText(/Which explanation best predicts/)
+  // The existing session order need not match authored-bank order. The fifth
+  // question must instead be one of the eight genuinely new, contextual
+  // Social Influence cases (not an old repeated concept-recognition item).
+  await expect(page.locator('.practice-question__context p')).toContainText(
+    /^(A pupil sees five classmates|A student compares faint pairs of lines|Two versions of an original authority study|In an original street scenario|In a sixth-form survey|A volunteer initially follows a supervisor|A researcher reports that students with more internal|A small group consistently advocates a safer laboratory routine)/,
+  )
+  await expect(page.locator('.practice-question__options button')).toHaveCount(4)
   expect(saved).toHaveLength(4)
 })
 
