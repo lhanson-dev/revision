@@ -15,6 +15,7 @@ import { psychologyInferenceChoiceQuestions, psychologyInferenceChoiceDrills } f
 import { psychologyStandardDeviationPracticeBank } from '../shared/standard-deviation-practice'
 import { psychologySignTestPracticeBank } from '../shared/sign-test-practice'
 import { psychologySignCriticalPracticeBank, psychologySignCriticalDrills } from '../shared/sign-critical-practice'
+import { psychologySocialInfluenceAppliedPracticeBank, psychologySocialInfluenceWrittenDrills } from '../shared/social-influence-practice'
 
 export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   manifest,
@@ -24,9 +25,9 @@ export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   topicLinks: psychologyTopicLinks,
   flashcards: psychologyFlashcards,
   questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions, ...psychologyInferenceChoiceQuestions],
-  practiceBank: [...psychologyStandardDeviationPracticeBank, ...psychologySignTestPracticeBank, ...psychologySignCriticalPracticeBank],
+  practiceBank: [...psychologyStandardDeviationPracticeBank, ...psychologySignTestPracticeBank, ...psychologySignCriticalPracticeBank, ...psychologySocialInfluenceAppliedPracticeBank],
   caseStudies: [],
-  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills, ...psychologySignCriticalDrills],
+  dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills, ...psychologySignCriticalDrills, ...psychologySocialInfluenceWrittenDrills],
   examTechnique: psychologyExamTechnique,
   exams: psychologyPaper1Exams,
 })
