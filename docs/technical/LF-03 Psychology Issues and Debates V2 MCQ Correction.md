@@ -1,6 +1,6 @@
 # #698 / #787 — Psychology Issues and Debates V2 single-decision checks
 
-**State:** draft educational candidate, 3 November 2026. **Not independently A3 approved, not merged or live.** No full-course acceptance claim.
+**State:** revised educational candidate, 3 November 2026. The *earlier* exact-head AI A3 passed with minor distractor concerns; the **revised head requires its own independent A3**. PR #803 remains unmerged/not live. No full-course acceptance claim.
 
 ## Source, routes, and bounded defect
 
@@ -32,7 +32,18 @@ Initial candidate head `18463b43fb30818ef237c728306c4284a9742d52` failed [full C
 
 The branch then updated the two exact ID contracts without relaxing the all-118 requirement/three-pack evidence checks, restricted the Issues and Debates and Attachment wording assertions to their own topics, and replaced the stale repeated-group count floor with checks that **Relationships, Cognition and Development, and Forensic Psychology** remain explicitly flagged for review. A separate canonical synthetic authenticated Playwright test was added to `tests/e2e/psychology-restricted-pilot-route.spec.ts`, covering six original topic items, both V2 correct keys, exact persisted content IDs and reloading a saved scored session on desktop/tablet/phone. It uses synthetic user/auth and owner-scoped API fixtures, **not** an authentic student account. Later CI results, exact head, independent A3 receipt and production status must be checked separately; test authorship alone is not passing evidence.
 
-A separate trusted reviewer [draft PR #807](https://github.com/lhanson-dev/revision/pull/807) proposes guarded independent blinded-key and separate feedback A3 infrastructure. Its no-secret contract test workflow is not itself a model educational review. It requires separate Founder merger approval before it can be used against exact PR #803 content.
+The trusted reviewer in [merged PR #807](https://github.com/lhanson-dev/revision/pull/807) was Founder-approved and deployed at main `bb85f994ac4a454f89d02add5eccd20482d5d7ba` with passing path-to-live evidence. Its separate reviewer run 41616254863 assessed the pre-revision PR #803 head only. The approved-main reviewer can be retriggered for the new exact head; its provider review is independent from authored tests and cannot be replaced by them.
+
+### Independent A3 finding and targeted correction (3 November 2026)
+
+The **first** independent [A3 run #41616254863](https://github.com/lhanson-dev/revision/actions/runs/41616254863), from trusted main `bb85f994...`, reviewed *previous unpublished head* `c9f018ce177cbd2eba95a23296dc015038386259`, exact question blob `bb67ef9491106ae17f7c2554cfb8832316246112`, and retained 30-day artifact `lf03-pr803-issues-debates-independent-a3-41616254863` (artifact ID `13221661727`). Both blind keys matched the authored 1/3; both question verdicts **minor**; separate feedback review **pass**, overall A3 **pass**. The written receipt independently flagged the correct option in each item as disproportionately nuanced and long; several distractors were readily eliminated by implausible absolutes or category reversals. This is narrower than a claim of good assessment discrimination.
+
+**Revised question treatment:** keep the original Revision-owned stimuli, PSY-08-01 and PSY-08-04 one-mark target, public-facing candidate IDs `psy-psy0801-check-v2` / `psy-psy0804-check-v2`, answer positions **1 and 3**, and unchanged historical V1 reconstruction. Replace only *unpublished* V2 options and explanatory feedback with comparable-length choices where a wrong option shares the target concept term; contrast a standardised versus representative sample, a supposed cultural difference versus absence of group comparisons, a biological mechanism versus holistic interaction, and environmental triggers versus level of explanation. Correct explanations now explicitly address **each** plausible misconception. The bounded regression enforces a max/min option character-length ratio below **1.25**, removes conspicuous universal-word distractor cues, and checks a target concept occurs in both a distractor and the keyed choice. These deterministic safeguards do not prove psychometric discrimination or an independent A3 PASS.
+
+**Rights and scope:** Founder-uploaded official exact AQA Psychology 7182 v1.4 PDF verified locally at SHA-256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`; §4.3.1 explicitly covers gender/culture/universality and biological/environmental reductionism within holism, among other demands. Protected wording remains REFERENCE_ONLY; revised student text is original. No old V2 content was ever released to learners, so its unpublished wording can be edited without rekeying scored history; production V1 selected answers are preserved. Do not claim this assesses alpha/beta bias, written AO3 or all §4.3.1 duties.
+
+**Required fresh gates:** rerun exact-head full CI and the trusted two-context independent reviewer for the *new* question blob/PR head. Any reviewer material finding or failed tests remain blocking; do not recycle the previous PASS for changed text. After passing, mechanically integrate current approved main without losing LF-04 canonical Practice/Exam Prep stimulus coverage and reconfirm CI. Obtain a separate explicit Founder approval for PR #803 before merging; production smoke is then required.
+
 
 ### Release gates pending
 
