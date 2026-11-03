@@ -20,6 +20,7 @@ Use this file to find the governing source before substantive work.
 - LF-04 Psychology authored question stimulus across untimed, timed and self-marking Exam Prep views (candidate; real learner acceptance open) → `docs/technical/LF-04 Psychology Question Stimulus Visibility.md`
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - LF-04 #810 proposed trusted independent Psychology original case A3 reviewer (separate infrastructure approval, not an educational pass) → `docs/technical/LF-04 PR810 Psychology Case Independent A3 Review.md`
+- LF-04 Psychology Practice: proposed topic-relevant unscored cases for five published topics, source/learner acceptance still open → `docs/technical/LF-04 Psychology Practice Case Warmups.md`
 - LF-06 Psychology mental-health definitions atomic flashcards (released PR #796; real learner and full educational assurance open) → `docs/technical/LF-06 Psychology Atomic Flashcards.md`
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
