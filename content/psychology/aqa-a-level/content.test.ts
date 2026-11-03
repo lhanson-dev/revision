@@ -205,7 +205,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds generic objective Practice to Course Truth and eight versioned Social Influence and Memory scenarios to distinct purposes', () => {
+  it('binds generic objective Practice and ten versioned Social Influence, Memory and Attachment scenarios to Course Truth', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -220,10 +220,10 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         const contract = contracts[index]
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
-        if (topic.topicNumber === 1 || topic.topicNumber === 2) {
-          // LF-03 replaces generic recognition for Social Influence and Memory
-          // with four independently source-aligned scenarios per topic. Do not require the old word
-          // completion prompt or distractors after assessment versioning.
+        if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)) {
+          // LF-03 versions all four Social Influence and Memory checks, and only the
+          // final two Attachment checks. Older keyed choices remain historical;
+          // all new scenario questions must be assessed on their own demands.
           const requirementId = topic.requirements[index]!.requirementId
           expect(question.id).toBe(`psy-${requirementId.toLowerCase().replaceAll('-', '')}-check-v2`)
           expect(question.prompt).not.toBe(contract?.prompt)
@@ -231,9 +231,12 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           if (topic.topicNumber === 1) {
             expect(['Compliance:', 'The setting may affect', 'Social support can', 'Flexibility:']
               .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
-          } else {
+          } else if (topic.topicNumber === 2) {
             expect(['The sensory register', 'The phonological loop', 'Proactive interference:', 'Post-event discussion,']
               .some(label => question.options[question.correctOption]?.startsWith(label) ?? false)).toBe(true)
+          } else {
+            expect(question.correctOption).toBe(index === 3 ? 2 : 0)
+            expect(question.prompt).toContain(index === 3 ? 'responsive care' : 'supportive friendship')
           }
           continue
         }
