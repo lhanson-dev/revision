@@ -632,6 +632,20 @@ test('two Business skill weaknesses produce named independent Plan checks withou
         await expect(progressNext).toContainText(reason)
       }
     }
+    // Course-local Progress must now show the exact same *programme* decision,
+    // not the previously separate course-only rankSuggestions action.
+    await page.goto(appPath + '#/courses/aqa%3Aaqa-a-level%3A7132/progress')
+    const localProgressNext = page.locator('.progress-intro__action')
+    await expect(localProgressNext).toContainText(selectedTopic, { timeout: 20_000 })
+    for (const reason of homeReasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(localProgressNext).toContainText(reason)
+      }
+    }
+    await localProgressNext.getByRole('button', { name: /Continue on Home:/ }).click()
+    await expect(page.locator('.home-v3-next h2')).toHaveText(selectedTopic)
+
+    await page.goto(appPath + '#/progress')
     await progressNext.getByRole('button', { name: /Continue on Home:/ }).click()
     await expect(page.locator('.home-v3-next h2')).toHaveText(selectedTopic)
 
