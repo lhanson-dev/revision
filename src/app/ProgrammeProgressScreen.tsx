@@ -1,29 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
-import { loadPlannerSetup } from '../services/planning/planner-service'
-import { loadPlannedSessions, type PlannedSession } from '../services/planning/planned-session-service'
+import { useMemo } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { LearningEvidence } from '../engine/evidence/evidence'
-import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
-import { loadLearnExposures, type LearnPageExposure } from '../services/progress/learn-exposure-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
-import {
-  createCourseLearningState,
-  createModuleLearningState,
-  type CatalogueSubject,
-  type ModuleLearningState,
-} from './catalogue-model'
+
 import { ProgressIntro } from './ProgressIntro'
-import { homeToday } from './home-v3-model'
-import { buildPlannerSnapshot } from './planner-model'
-import { ACCEPTED_COMMITMENT_HORIZON_DAYS, DETAILED_PLANNER_HORIZON_DAYS } from './plan-session-windows'
-import { addDays } from './accepted-sessions'
-import { todayRecommendations, readTodayChoice } from './today-recommendations'
-import { dayKey } from './rev-suggestions'
-import { useLocalDay } from './use-local-day'
+import type { CatalogueSubject } from './catalogue-model'
+import { useProgrammeFi001Progress } from './use-programme-fi001-progress'
+import { progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor } from './progress-summary'
 import { RevPresence } from './RevPresence'
-import { progressActionFromPlannerTask, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor } from './progress-summary'
+
 import { resolveSubjectIdentity } from './subject-palette'
-import { adaptersForProgramme, projectLearnerProgramme } from './learner-programme'
+
 import { Button, EmptyState, LoadingState, ProgressMeasures, Status, SubjectBadge } from './ui'
 
 type ProgrammeProgressScreenProps = {
@@ -36,113 +22,14 @@ type ProgrammeProgressScreenProps = {
   onOpenCourseProgress: (courseId: string) => void
 }
 
-function courseStates(programme: ReturnType<typeof projectLearnerProgramme>['courses'], evidence: readonly LearningEvidence[], exposures: readonly LearnPageExposure[]) {
-  const states: Array<{ courseId: string; label: string; states: ModuleLearningState[] }> = []
-  programme.forEach(({ course, label }) => {
-    if (course.sharedLearning) {
-      states.push({ courseId: course.id, label, states: [createCourseLearningState(course, evidence, exposures)] })
-      return
-    }
-    states.push({
-      courseId: course.id,
-      label,
-      states: course.modules.map((adapter) => createModuleLearningState(adapter, evidence, exposures, course.id)),
-    })
-  })
-  return states
-}
-
 export function ProgrammeProgressScreen({ client, userId, catalogue, memberships, onOpenCourses, onOpenHome, onOpenCourseProgress }: ProgrammeProgressScreenProps) {
-  const programme = useMemo(() => projectLearnerProgramme(catalogue, memberships), [catalogue, memberships])
-  const adapters = useMemo(() => adaptersForProgramme(programme.courses), [programme.courses])
-  const [evidence, setEvidence] = useState<LearningEvidence[]>([])
-  const [exposures, setExposures] = useState<LearnPageExposure[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  // Key asynchronous planner reads to the actual learner, day and active courses.
-  // A stale response must never become a fresh Progress recommendation.
-  const [plannerRead, setPlannerRead] = useState<{
-    key: string
-    setup: Awaited<ReturnType<typeof loadPlannerSetup>> | null
-    sessions: PlannedSession[] | null
-    error: string
-  } | null>(null)
-  const now = useLocalDay()
-  const todayKey = dayKey(now)
-  const plannerKey = `${userId}:${todayKey}:${programme.courses.map((item) => item.course.id).sort().join('|')}`
-  const currentRead = plannerRead?.key === plannerKey ? plannerRead : null
-  const plannerSetup = currentRead?.setup ?? null
-  const acceptedSessions = currentRead?.sessions ?? null
-  const plannerError = currentRead?.error ?? ''
-  const plannerLoading = programme.courses.length > 0 && currentRead === null
-
-  useEffect(() => {
-    let active = true
-    if (adapters.length === 0) return () => { active = false }
-    const store = createSupabaseEvidenceStore(client)
-    Promise.all([
-      Promise.all(adapters.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id))),
-      loadLearnExposures(client, userId),
-    ])
-      .then(([items, reviewed]) => {
-        if (!active) return
-        setEvidence(items.flat())
-        setExposures(reviewed)
-        setError('')
-      })
-      .catch((caught: unknown) => {
-        if (active) setError(caught instanceof Error ? caught.message : 'Could not load your progress.')
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
-    return () => { active = false }
-  }, [adapters, client, userId])
-
-  // One FI-001 action is projected into global Progress; evidence measures remain separate.
-  useEffect(() => {
-    let active = true
-    if (programme.courses.length === 0) return () => { active = false }
-    void Promise.all([
-      loadPlannerSetup(client, userId),
-      loadPlannedSessions(client, userId, todayKey, addDays(todayKey, ACCEPTED_COMMITMENT_HORIZON_DAYS - 1)),
-    ]).then(([setup, sessions]) => {
-      if (active) setPlannerRead({ key: plannerKey, setup, sessions, error: '' })
-    }).catch((caught: unknown) => {
-      if (active) setPlannerRead({ key: plannerKey, setup: null, sessions: null,
-        error: caught instanceof Error ? caught.message : 'Could not read your current plan.' })
-    })
-    return () => { active = false }
-  }, [client, userId, todayKey, plannerKey, programme.courses.length])
-
-  const grouped = useMemo(() => courseStates(programme.courses, evidence, exposures), [evidence, exposures, programme.courses])
-  const allStates = useMemo(() => grouped.flatMap((item) => item.states), [grouped])
+  const { programme, evidence, exposures, grouped, allStates, loading, error, plannerError, nextAction } =
+    useProgrammeFi001Progress(client, userId, catalogue, memberships)
   const measures = useMemo(() => progressMeasuresFor(allStates), [allStates])
   const readiness = useMemo(() => readinessAcross(allStates), [allStates])
-  const activeAssessments = useMemo(() => plannerSetup?.assessments.filter((assessment) => {
-    if (!assessment.isActive) return false
-    if (assessment.courseId) return programme.courses.some((item) => item.course.id === assessment.courseId)
-    return programme.courses.filter((item) => item.subject.id === assessment.subjectId).length === 1
-  }) ?? [], [plannerSetup, programme.courses])
-  const snapshot = useMemo(() =>
-    plannerSetup && acceptedSessions !== null && !loading && !error
-      ? buildPlannerSnapshot(allStates, activeAssessments, plannerSetup.availability,
-        plannerSetup.exceptions, plannerSetup.preferences, now, acceptedSessions, DETAILED_PLANNER_HORIZON_DAYS)
-      : null,
-  [plannerSetup, acceptedSessions, loading, error, allStates, activeAssessments, now])
-  const nextTask = useMemo(() => {
-    if (!plannerSetup || plannerLoading || plannerError || acceptedSessions === null || loading || error) return null
-    const todayPlan = homeToday(todayKey, acceptedSessions, snapshot?.schedule ?? [], activeAssessments,
-      plannerSetup.availability?.weeklyMinutes ?? null, plannerSetup.exceptions, programme.courses, allStates)
-    return todayRecommendations(todayPlan, allStates, programme.courses,
-      !plannerSetup.availability || activeAssessments.length === 0, true, now,
-      readTodayChoice(userId), activeAssessments, plannerSetup.preferences)[0] ?? null
-  }, [plannerSetup, plannerLoading, plannerError, acceptedSessions, loading, error,
-    todayKey, snapshot, activeAssessments, programme.courses, allStates, now, userId])
-  const nextAction = useMemo(() => progressActionFromPlannerTask(nextTask), [nextTask])
   const nextTopicName = nextAction?.topicName ?? null
 
-  if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
+  if (programme.courses.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
   if (error) return (
     <main className="dashboard page-screen" aria-label="Progress temporarily unavailable">
       <Status tone="warning">Your saved progress could not be loaded. Revision will not show zero coverage or readiness while your existing records are unavailable.</Status>
