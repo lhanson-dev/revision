@@ -55,11 +55,11 @@ describe('Questions REV can answer from the student\'s own data', () => {
     expect(classifyQuestion('What is break-even?')).toBe('unknown')
   })
 
-  it('says what to do today with a reason, and offers one action', () => {
+  it('does not fabricate a competing recommendation without the FI-001 planner snapshot', () => {
     const state = createCourseLearningState(business.course, weak(topics[2]))
     const answer = answerToday([state], [business], now)
-    expect(answer.text).toContain('I’d start with')
-    expect(answer.action?.courseId).toBe(business.course.id)
+    expect(answer.text).toContain('Open Home')
+    expect(answer.action).toBeUndefined()
   })
 
   it('is honest when there is no course', () => {

@@ -25,14 +25,38 @@ function valid(config, severity='pass') {
   }
 }
 describe('exact-head trusted owner trigger',()=>{
-  it('accepts only two well-formed 40-character SHA comments from Owner on selected PRs',()=>{
-    for(const id of [777,784]) {
+  it('accepts only allowed exact-head SHA comments from Owner on selected PRs',()=>{
+    for(const id of [777,784,805,820]) {
       const parsed=parseTrustedEvent(event(id))
       assert.equal(parsed.id,id)
       assert.equal(parsed.head,head)
       assert.ok(parsed.settings.paths.length>0)
       assert.ok(parsed.settings.reviewedItemIds.length>=3)
     }
+  })
+  it('scopes #805 to four Operations measures and nine original reviewed assets',()=>{
+    const config=SETTINGS[805]
+    assert.equal(config.section,'3.4.2')
+    assert.deepEqual(config.printedPages,[18])
+    assert.equal(config.questionBatch,'3.4')
+    assert.deepEqual(config.questionIds,['q07','q08','q09'])
+    assert.equal(config.reviewedItemIds.length,9)
+    assert.ok(config.paths.includes('src/app/skill-recheck.ts'))
+    assert.ok(config.paths.includes('content/business/aqa-a-level/shared/operations-performance-practice.ts'))
+    assert.ok(!config.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    assert.ok(config.reviewedItemIds.every(id=>id==='operations-four-performance-measures'||id.startsWith('rev7132-3.4.2-')))
+  })
+  it('allowlists only bounded real-chart and final-number 820 materials, not generic course or source PDF',()=>{
+    const cfg=SETTINGS[820]
+    assert.equal(cfg.section,'3.4.5')
+    assert.deepEqual(cfg.printedPages,[19])
+    assert.equal(cfg.questionBatch,'3.4')
+    assert.deepEqual(cfg.questionIds,['q13','q20','q43'])
+    assert.equal(cfg.reviewedItemIds.length,5)
+    assert.ok(cfg.paths.includes('content/business/aqa-a-level/shared/operations-inventory-chart-supplement.ts'))
+    assert.ok(cfg.paths.includes('src/app/ui/learn/Quantitative.tsx'))
+    assert.ok(!cfg.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    assert.ok(cfg.reviewedItemIds.every(id=>id==='operations-inventory-control-chart'||id.startsWith('rev7132-3.4.5-inventory-')))
   })
   it('rejects PR spoof, altered identity, whitespace, arbitrary body and SHA injection',()=>{
     const attempts=[

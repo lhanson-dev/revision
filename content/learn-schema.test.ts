@@ -55,7 +55,7 @@ describe('Learn quick-check block', () => {
     expect(learnPageSchema.safeParse(page).success).toBe(true)
   })
 
-  it('preserves baseline Learn and confines new unscored teaching quick checks to the approved source correction', () => {
+  it('preserves baseline Learn and confines new unscored checks to source-scoped teaching corrections', () => {
     // Quick checks are a schema-approved teaching treatment, never scored evidence.
     expect(learnCourseSchema.safeParse(learn).success).toBe(true)
     const pages = learn.chapters.flatMap(chapter => chapter.groups.flatMap(group => group.pages))
@@ -63,6 +63,7 @@ describe('Learn quick-check block', () => {
     expect(checked.map(page => page.id)).toEqual([
       'boston-matrix-decision-method',
       'marketing-mix-seven-ps-context',
+      'operations-four-performance-measures',
     ])
     for (const page of checked) {
       for (const block of page.blocks.filter(block => block.type === 'quick-check')) {

@@ -9,7 +9,7 @@ const userId = '00000000-0000-4000-8000-000000000718'
 const courseId = 'aqa:aqa-a-level:7182'
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('LF-03'), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
+  test.skip(testInfo.project.name !== 'desktop' && !/^LF-0[34]/.test(testInfo.title), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
 })
 
 async function seedRestrictedPsychologyLearner(page: Page) {
@@ -350,4 +350,78 @@ test('LF-03 #787 canonical Attachment Practice independently scores two V2 items
     if (index < expectedIds.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
   }
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(expectedIds)
+})
+
+test('LF-04 Psychology exam stimulus is visible in untimed Practice and when self-marking', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedExamAttemptBackend(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/exam-prep`)
+  await expect(page.getByRole('heading', { name: 'Get ready for the exams' })).toBeVisible()
+
+  const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1' }).first()
+  await paper.getByRole('button', { name: 'Practise untimed' }).click()
+  await page.getByRole('button', { name: 'Next question' }).click()
+  const untimed = page.locator('.exam-simulator .exam-stimulus')
+  await expect(untimed).toBeVisible()
+  await expect(untimed).toContainText('At a training centre')
+  const originalNarrative = await untimed.locator('p').innerText()
+  await expect(untimed.locator('h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(page.getByRole('heading', { level: 3, name: /Using the stimulus/ })).toBeVisible()
+
+  await page.locator('.exam-prep-activity__back').click()
+  await paper.getByRole('button', { name: 'Start timed' }).click()
+  await page.getByRole('navigation', { name: 'Exam questions' }).getByRole('button').nth(1).click()
+  const timedStimulus = page.locator('.exam-question-sheet .exam-stimulus')
+  await expect(timedStimulus.locator('h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(timedStimulus.locator('p')).toHaveText(originalNarrative)
+  await page.locator('.exam-question-sheet textarea').fill('An independently written trial answer.')
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  // The existing marking flow deliberately starts at Question 1.
+  await page.locator('.self-marking nav.question-nav button').nth(1).click()
+  const marking = page.locator('.self-marking .exam-question-sheet')
+  await expect(marking.locator('.exam-stimulus h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(marking.locator('.exam-stimulus p')).toHaveText(originalNarrative)
+  await expect(marking).toContainText('An independently written trial answer.')
+})
+
+
+test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact keys and saved continuation', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/issues-and-debates-in-psychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.locator('.practice-length').filter({
+    has: page.locator('.practice-length__number', { hasText: /^15$/ }),
+  }).click()
+  await page.getByRole('button', { name: 'Start 6 questions' }).click()
+
+  const ids = [
+    'psy-psy0801-check-v2', 'psy-psy0802-check', 'psy-psy0803-check',
+    'psy-psy0804-check-v2', 'psy-psy0805-check', 'psy-psy0806-check',
+  ]
+  const correctKeys = [1, 2, 1, 3, 1, 1]
+  for (let index = 0; index < ids.length; index++) {
+    if (index === 0) await expect(page.locator('.practice-question__prompt')).toContainText('university students')
+    if (index === 3) await expect(page.locator('.practice-question__prompt')).toContainText('neurotransmitter')
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    await options.nth(correctKeys[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: ids[index],
+      selectedOption: correctKeys[index], correctOption: correctKeys[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < ids.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
 })

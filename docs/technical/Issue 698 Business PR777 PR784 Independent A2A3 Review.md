@@ -53,3 +53,45 @@ This correction to the trusted reviewer provides separately Git-hash-verified ac
 The original PR #777 has been amended with two minor educational text corrections and tests. Reviewer evidence for the old content SHA remains historically valid, but is **invalidated** for any newly corrected head; rerun exact-head CI and independent A2/A3 after both the reviewer-infrastructure fix and candidate updates have been approved as applicable.
 
 This is review evidence plumbing, not a policy change or learner-facing feature. The historical FAIL/HOLD receipt and Issue #698 notes are preserved. No production/section/full-course completion claim.
+
+
+## Proposed extension — PR #805 Operations §3.4.2 (3 November 2026)
+
+This is a separate, **unmerged reviewer-infrastructure candidate**. The already-approved trusted Business runner originally limits itself to Marketing PRs #777 and #784. The proposed guarded extension adds only PR **#805**, the original eight one-mark Operations §3.4.2 final-value checks and the combined Operations Learn page, without creating a new model-based learner system or weakening the existing owner/exact-head restrictions.
+
+**Structured AQA source facts only:** official Business 7132 v2.0, 14 June 2023, PDF SHA-256 `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`, §3.4.2 printed page 18. The source specifies *interpretation, calculation and use* of labour productivity, unit costs (average costs), capacity and capacity utilisation for operational decision-making and planning. Rights stay `REFERENCE_ONLY`; no substantial AQA PDF or protected source question text enters the AI review worker. The original published `3.4:q07/q08/q09` bank records provide bounded published learner assessment context, not examiner calibration.
+
+On approved-main operation, the existing read-only runner for #805 would verify the current open PR identity and full **exact 40-character HEAD SHA**, trusted current `main`, inert allowlisted Git blobs for the current candidate lesson, eight question objects, exact-skill reassessment link, regression tests, technical evidence and three actual paper pack definitions. It independently queries the newest exact-head nine-job GitHub CI receipt and fails closed on missing/failed/replaced CI, missing secrets, excessive cost, stale SHA, malformed results or material educational findings. Candidate files are treated only as **untrusted data** and are never checked out or executed with provider credentials.
+
+The separate fresh-context adversarial A2/A3 model review must recompute all **eight** responses, check method/units/time periods, scenario plausibility, two distinct stimuli per exact AQA skill, Learn repair mapping, existing ID/evidence preservation, original exam-style assessment structure, honest one-mark-only grading and the distinction between numeric correctness and interpretation/use. A machine-readable receipt must include each of the **nine** reviewed asset IDs, all seven existing review dimensions, severity-classified findings, known limitations, exact Git blob hashes and the current successful CI receipt. **A2/A3 pass does not certify AO3/AO4 or qualified AQA examiner approval**, nor prove hosted production learner acceptance or entire §3.4.2 adequacy.
+
+For the specific PR #805, after the infrastructure PR is separately approved and merged, the repository owner may trigger the existing trusted workflow with a GitHub **PR #805 Conversation** comment, using this exact two-line format:
+
+```text
+revision-run-business-marketing-a2a3:v1
+head_sha: <current exact 40-character #805 commit SHA>
+```
+
+The legacy trigger marker is deliberately unchanged to preserve compatibility with #777/#784. Review initiation is **not Founder merge approval**. The caller must use the then-current #805 SHA, not a stale example. Do not submit the trigger before the infrastructure is merged and enabled on approved `main`. Each new #805 commit invalidates the prior scoped review receipt and requires fresh CI and review.
+
+**Documentation impact:** This extension modifies only the existing trusted reviewer, its node guard, workflow and this technical note. The approved content accuracy, source rights, AI operating and merge governance already prescribe the needed controls; no normative authority or ADR change. Historical Marketing receipts are not rewritten. Issue #698 stays the single programme tracker.
+
+
+## Proposed trusted extension: PR #820, original inventory-control chart (§3.4.5)
+
+**State:** proposed on separate unmerged reviewer-infrastructure branch `assurance/698-pr820-independent-inventory-a2a3`; not yet active on approved main and **not an independent review receipt for PR #820**. This reuses the existing approved Business A2/A3 reviewer, its owner-comment authorisation, exact-head CI checks, Git blob hash verification, fail-closed structured result, retained artifact and read-only fetching. It does **not** add another evaluation system or execute untrusted PR source with credentials.
+
+The trusted allowlist is extended only to **PR #820** with original inventory-content source scope AQA Business **7132 v2.0, 14 June 2023, §3.4.5 printed page 19**; source rights remain `REFERENCE_ONLY`. Only the syllabus-derived structured themes (interpret inventory charts; lead times, re-order levels, buffer inventory and quantities) are in the model input. The PDF itself and protected exam text are not ingested or published.
+
+The fresh AI reviewer must examine one actual original plotted Learn chart and four exact identity-bound original Practice questions, independently recompute all original chart points/event timings and all four numeric answers, inspect unchanged chart renderer code as *read-only supporting evidence*, verify all three actual published paper pack definitions, and be explicit that the four **final-number arithmetic** questions do not test a new visual chart independently. Existing Bank q13/q20/q43 are background *source-tagged* context, not evidence that tables are plotted charts or that AO3/AO4 is auto-scored.
+
+The existing legacy trigger marker remains unchanged for compatible PRs. **After** the separate infrastructure PR has passed exact-head CI and received specific Founder merge approval, the owner may comment on PR #820 with:
+
+```text
+revision-run-business-marketing-a2a3:v1
+head_sha: <exact current 40-character PR #820 commit SHA>
+```
+
+The marker only requests educational review, not merge. The runner must independently verify the latest nine-job CI, that PR #820 is still open and has exactly the supplied SHA, and that its input source blobs match the receipt. Retain FAIL/HOLD as evidence; never reclassify an A2/A3 judgment without a new reviewed head. An AI A2/A3 PASS is **not** qualified AQA examiner assurance or real student acceptance. Full §§3.4.3–3.4.5 adequacy and a genuinely **independently marked unseen chart** remain unresolved.
+
+**Documentation impact:** strictly extends the already governed review mechanism and this technical record/INDEX. No normative learning authority, source-licensing policy or assessment claim is changed; historical Marketing/Operations #805 A2/A3 receipts are untouched. The education correction PR #820 and the reviewer-infrastructure PR are distinct and require their own Founder merge approvals.
