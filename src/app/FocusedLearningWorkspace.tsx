@@ -12,7 +12,7 @@ import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type 
 import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
-import { sourceBackedPracticeRepairPage } from './practice-repair'
+import { sourceBackedGuidedMethodRepair, sourceBackedPracticeRepairPage } from './practice-repair'
 import {
   advanceQuestionSession,
   isSessionFinished,
@@ -1037,19 +1037,33 @@ export function FocusedLearningWorkspace({
           )
         }
         const repair = exactLearnPageFor(question)
+        const guided = sourceBackedGuidedMethodRepair(question, adapter)
         return (
-          <FeedbackBar
-            tone="wrong"
-            title="Not quite."
-            picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
-            explanation={workings}
-            note={calcChecked.confidence === 'certain'
-              ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
-              : 'This result may need another independent check.'}
-          >
-            {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
-            {action}
-          </FeedbackBar>
+          <>
+            {guided && <section className="practice-guided-repair" aria-label={`Guided repair: ${guided.title}`}>
+              <p><strong>Try a different, unscored method check: {guided.title}</strong></p>
+              <p>{guided.challenge}</p>
+              <details>
+                <summary>Reveal the worked method after your attempt</summary>
+                <ol>{guided.steps.map((step) => <li key={step}>{step}</li>)}</ol>
+                <p>{guided.answer}</p>
+                <p>{guided.caution}</p>
+              </details>
+              <p>This method check is for learning only. It is not marked and cannot clear a weakness; a different independent question is still required.</p>
+            </section>}
+            <FeedbackBar
+              tone="wrong"
+              title="Not quite."
+              picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
+              explanation={workings}
+              note={calcChecked.confidence === 'certain'
+                ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
+                : 'This result may need another independent check.'}
+            >
+              {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
+              {action}
+            </FeedbackBar>
+          </>
         )
       }
       if (!checked || question?.type !== 'multiple-choice') return null
