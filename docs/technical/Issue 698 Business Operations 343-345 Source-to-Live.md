@@ -1,6 +1,6 @@
 # Issue #698 — AQA Business §§3.4.3–3.4.5 source-to-live checkpoint
 
-**State:** Governed *candidate correction* on `assurance/698-business-345-inventory-chart`; **unmerged, not in production, educational A2/A3 and real learner acceptance pending**. This is implementation evidence, not a new product authority or a claim of full Operations readiness.
+**State:** Governed *candidate correction* on `assurance/698-business-345-inventory-chart`; **unmerged, not in production; third scoped independent AI A2/A3 PASS on reviewed head; final integration CI, Founder approval and authentic learner acceptance outstanding**. This is implementation evidence, not a new product authority or a claim of full Operations readiness.
 
 ## Controlling source and delivery
 
@@ -100,3 +100,13 @@ The proposed repair changes only `3.4:q13`'s learner stem and explanatory ration
 ## Documentation impact
 
 No normative authority amendment. Existing Course Learning Blueprint, source rights, Claims and Progress and the #698 audit protocol already govern this content-only addition. Update this technical note and INDEX in the **same** scoped PR as implementation. Preserve historical keyword, 194/220/421 candidate inventories and independent #805 review records. Update issue #698 with the verified pre-merge educational/technical result and the remaining gap; do not invent a whole-course pass percentage.
+
+## Third independent A2/A3 review — bounded PASS (3 November 2026)
+
+Following the q13 conditional-premise correction, the published correct-answer rationale was made compatible with the unchanged Practice feedback adapter without altering the original question ID, correct option B, marks or historical scored learner results. [Reviewed head `b8cfcc2caef51a605bd4b5105fc2814466ac6b46`](https://github.com/lhanson-dev/revision/commit/b8cfcc2caef51a605bd4b5105fc2814466ac6b46) passed all nine [Revision CI #41673724764](https://github.com/lhanson-dev/revision/actions/runs/41673724764) jobs, including static/unit/build, RLS/database, real Auth signup, desktop/tablet/phone browser and foundation gate.
+
+The protected, fresh-context [A2/A3 review #41678179419](https://github.com/lhanson-dev/revision/actions/runs/41678179419) completed with **PASS**, `findings: []`, five reviewed learning and Practice assets, seven independently assessed PASS dimensions, and a complete retained [machine-readable receipt #13252110860](https://github.com/lhanson-dev/revision/actions/runs/41678179419/artifacts/13252110860) inspected directly. It confirms the plotted 1,800 → 800 → 200 → 1,800 stock sequence, day 10 order to day 16 receipt (six-day lead time), 1,600-packet arrival, independently calculated results 1,600 / 1,150 / 7 / 5, conditioned q13 result 950, and correctly conditional q20 cash-saving inference. All three canonical published Business paper ContentPacks remain wired; question identities, stored scores and source REFERENCE_ONLY rights are preserved. The reviewed question-bank blob is `de2a0d1859e8c329b7be272d0dde1c5c63ff4bb7` and plotted lesson blob `f8d3bbc9aa7aa6f7ed41997f7cc6d2978cb78c27`.
+
+**Scope and limits:** This is independent AI A2/A3 assurance for the bounded original assets, not qualified AQA examiner sign-off, evidence of independent unseen plotted-chart interpretation, marked written AO3/AO4 reasoning, authentic hosted learner acceptance or complete §3.4.5 / all-Business readiness. Both earlier independent FAIL/HOLD receipts are retained unchanged as accurate reviews of previous heads.
+
+**Current-main refresh:** The branch integration retains the above reviewed source and question-bank blobs unchanged, combining the latest approved INDEX pointers with this source-to-live note. This appended checkpoint updates only technical documentation, not curriculum behaviour or normative authority. The newly integrated exact-head CI/reviewer contract, explicit PR-specific Founder approval, production release and WS5 learner acceptance remain pre-release requirements. Issue #698 remains OPEN.

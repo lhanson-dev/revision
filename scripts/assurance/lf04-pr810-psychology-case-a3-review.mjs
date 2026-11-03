@@ -188,6 +188,23 @@ async function reviewWithModel(input, stage, apiKey) {
   return {review:JSON.parse(outputText(body)),usage:body.usage??null}
 }
 
+/**
+ * Persist provider output as *unvalidated evidence* before applying the gate.
+ * On malformed responses the original text survives in the retained receipt;
+ * no partial result can be represented as an educational pass.
+ */
+export async function retainReviewerResponse(receipt, stage, response, save) {
+  if (stage !== 'blind' && stage !== 'guidance') throw new Error('Unknown A3 review stage')
+  if (!response || !response.review || typeof save !== 'function') throw new Error('No review evidence to retain')
+  receipt.stage = stage + '_response_received'
+  receipt[stage] = {
+    result: response.review,
+    usage: response.usage ?? null,
+    validation: {decision:'fail_hold',validated:false},
+  }
+  await save()
+}
+
 async function run() {
   const event = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH,'utf8'))
   const sha = parseTrustedEvent(event)
@@ -220,7 +237,7 @@ async function run() {
       'Review every original narrative and both questions, independently, WITHOUT seeing authored guidance. Confirm topic scope and internally coherent facts.',
       'For each question articulate a plausible accurate answer and any materially valid alternative. Flag unsupported inferences, muddled terms, age/diagnostic/causation overclaims, wording clues and wrong exam demand.',
       'The task is an unscored guidance warm-up, not an AQA official item, AO-marked essay or mastery test. Evaluate suitability for that limited purpose.',
-      'Return five cases in exact input order and two question reviews for each, with verdicts pass/minor/material/blocking, concrete citations to the provided case facts, and potential corrections.',
+      'Return five cases in exact input order and two question reviews for each. Every written case and question critique field must contain at least 35 characters of concrete, case-specific reasoning (do not answer only none, no issue, or N/A). Classify each issue pass/minor/material/blocking and propose corrections if relevant.',
     ],
   }
   const guidanceTask={
@@ -233,7 +250,7 @@ async function run() {
       'Independently check each authored guidance paragraph against case evidence and the corresponding original question; do not treat supplied guidance as an authority.',
       'Find unsupported claims, assessment misconceptions, omissions that could misteach, inappropriate certainty, illegitimate diagnoses or causal inferences, and fair alternative correct reasoning.',
       'Classify all ten guidance pairs pass/minor/material/blocking; propose the smallest accurate correction for any issue. These are unscored, not examiner-grade models.',
-      'Report exactly five case decisions and two question decisions for each in source order, retaining cautions against treating unscored exposure as assessment evidence.',
+      'Report exactly five case decisions and two question decisions for each in source order. Every written case and question critique field must contain at least 35 characters of concrete, case-specific reasoning even where no material issue exists. Retain cautions against treating unscored exposure as assessment evidence.',
     ],
   }
   // Conservative capacity reserve borrowed from existing bounded reviewer pattern.
@@ -254,14 +271,16 @@ async function run() {
   await save()
   try {
     const first=await reviewWithModel(blindTask,'blind',apiKey)
+    await retainReviewerResponse(receipt,'blind',first,save)
+    receipt.blind.validation={...reviewDecision(first.review,cases,'blind'),validated:true}
     receipt.stage='blind_completed'
-    receipt.blind={result:first.review,usage:first.usage,validation:reviewDecision(first.review,cases,'blind')}
     await save()
     if(receipt.blind.validation.decision!=='pass')throw new Error('Material/blocking independent blind A3 issue; HOLD')
 
     const second=await reviewWithModel(guidanceTask,'guidance',apiKey)
+    await retainReviewerResponse(receipt,'guidance',second,save)
+    receipt.guidance.validation={...reviewDecision(second.review,cases,'guidance'),validated:true}
     receipt.stage='guidance_completed'
-    receipt.guidance={result:second.review,usage:second.usage,validation:reviewDecision(second.review,cases,'guidance')}
     receipt.completed=true
     receipt.decision=receipt.guidance.validation.decision==='pass'?'pass':'fail_hold'
     await save()

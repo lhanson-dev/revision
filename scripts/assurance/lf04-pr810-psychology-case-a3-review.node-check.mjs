@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
   REVIEW_MARKER, EXPECTED, gitBlobSha, parseTrustedEvent,
-  extractExactCases, reviewDecision,
+  extractExactCases, reviewDecision, retainReviewerResponse,
 } from './lf04-pr810-psychology-case-a3-review.mjs'
 
 const SHA='a'.repeat(40)
@@ -70,4 +70,39 @@ test('both independent stages must scrutinise all five cases and all ten authore
   assert.throws(()=>reviewDecision({...review,cases:review.cases.map((c,i)=>i===0?{...c,id:'unrelated'}:c)},cases,'guidance'))
   assert.throws(()=>reviewDecision({...review,cases:review.cases.map((c,i)=>i===1?{...c,questions:c.questions.slice(0,1)}:c)},cases,'blind'))
   assert.throws(()=>reviewDecision({...review,cases:review.cases.map((c,i)=>i===2?{...c,unobservedAssumptions:''}:c)},cases,'blind'))
+})
+
+test('incomplete blind response is retained verbatim before validation fails closed',async()=>{
+  const cases=extractExactCases(fixture),review=validReview(cases)
+  review.cases[0].questions[1].proposedCorrection='none'
+  const receipt={completed:false,decision:'fail_hold',stage:'not_started'}
+  const snapshots=[]
+  await retainReviewerResponse(receipt,'blind',{review,usage:{input_tokens:123,output_tokens:456}},async()=>{
+    snapshots.push(JSON.parse(JSON.stringify(receipt)))
+  })
+  assert.equal(snapshots.length,1)
+  assert.equal(snapshots[0].stage,'blind_response_received')
+  assert.equal(snapshots[0].blind.validation.decision,'fail_hold')
+  assert.equal(snapshots[0].blind.validation.validated,false)
+  assert.equal(snapshots[0].blind.result.cases[0].questions[1].proposedCorrection,'none')
+  assert.deepEqual(snapshots[0].blind.usage,{input_tokens:123,output_tokens:456})
+  assert.throws(()=>reviewDecision(review,cases,'blind'),/Missing independent scrutiny/)
+  assert.equal(receipt.completed,false)
+  assert.equal(receipt.decision,'fail_hold')
+  await assert.rejects(()=>retainReviewerResponse(receipt,'unknown',{review},async()=>{}))
+})
+
+test('guidance stage is retained before its own incomplete review is rejected',async()=>{
+  const cases=extractExactCases(fixture),review=validReview(cases)
+  review.cases[3].questions[0].alternativeValidAnswers=''
+  const receipt={completed:false,decision:'fail_hold',stage:'blind_completed'}
+  let persisted
+  await retainReviewerResponse(receipt,'guidance',{review,usage:null},async()=>{
+    persisted=JSON.parse(JSON.stringify(receipt))
+  })
+  assert.equal(persisted.stage,'guidance_response_received')
+  assert.equal(persisted.guidance.result.cases[3].questions[0].alternativeValidAnswers,'')
+  assert.equal(persisted.guidance.validation.validated,false)
+  assert.throws(()=>reviewDecision(review,cases,'guidance'))
+  assert.equal(receipt.completed,false)
 })

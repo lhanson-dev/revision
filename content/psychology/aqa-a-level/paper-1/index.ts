@@ -1,4 +1,5 @@
 import { contentPackSchema } from '../../../schema'
+import { psychologyCaseStudies } from '../shared/cases'
 import { manifest } from './manifest'
 import {
   psychologyDataDrills,
@@ -26,7 +27,7 @@ export const psychologyAqaALevel7182Paper1 = contentPackSchema.parse({
   flashcards: psychologyFlashcards,
   questions: [...psychologyQuestions, ...psychologyResearchMethodsAppliedQuestions, ...psychologyInferenceChoiceQuestions],
   practiceBank: [...psychologyStandardDeviationPracticeBank, ...psychologySignTestPracticeBank, ...psychologySignCriticalPracticeBank, ...psychologySocialInfluenceAppliedPracticeBank],
-  caseStudies: [],
+  caseStudies: psychologyCaseStudies,
   dataDrills: [...psychologyDataDrills, ...psychologyResearchMethodsAppliedDrills, ...psychologyInferenceChoiceDrills, ...psychologySignCriticalDrills, ...psychologySocialInfluenceWrittenDrills],
   examTechnique: psychologyExamTechnique,
   exams: psychologyPaper1Exams,
