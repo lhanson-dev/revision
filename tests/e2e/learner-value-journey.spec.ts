@@ -89,7 +89,46 @@ test('one ordinary real-auth learner can practise, see evidence, plan and prepar
       return data?.filter((entry) => entry.payload?.source === 'multiple_choice').length ?? 0
     }).toBe(1)
 
+    // LA-14: real local Auth/PostgREST, not fixture routes. Confirm a submitted
+    // Practice answer and the durable server checkpoint independently, leave
+    // the learner application, then resume the exact next question after reload.
+    const { data: beforeEvidence, error: beforeEvidenceError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(beforeEvidenceError).toBeNull()
+    const originalMcqIds = (beforeEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()
+    expect(originalMcqIds).toHaveLength(1)
+
+    await page.getByRole('button', { name: 'Next question' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    const secondPrompt = await page.locator('.practice-question__prompt').textContent()
+    expect(secondPrompt).toBeTruthy()
+    await expect.poll(async () => {
+      const { data, error } = await learner.from('learner_practice_checkpoints')
+        .select('session_id').eq('user_id', userId).eq('course_id', businessId)
+      if (error) throw error
+      return data?.length ?? 0
+    }).toBe(1)
+
+    await page.goto(`${appPath}#/home`)
+    await expect(page.getByRole('heading', { name: 'Continue where you left off' })).toBeVisible()
+    await page.getByRole('button', { name: 'Open saved Practice' }).click()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
     await page.reload()
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Continue saved session' }).click()
+    await expect(page.getByText('Question 2', { exact: true })).toBeVisible()
+    await expect(page.locator('.practice-question__prompt')).toHaveText(secondPrompt!.trim())
+
+    // Re-entering an unfinished session cannot score the same answer again.
+    const { data: resumedEvidence, error: resumedError } = await learner
+      .from('learning_evidence').select('evidence_id,payload').eq('user_id', userId)
+    expect(resumedError).toBeNull()
+    expect((resumedEvidence ?? [])
+      .filter(item => item.payload?.source === 'multiple_choice')
+      .map(item => item.evidence_id).sort()).toEqual(originalMcqIds)
+
     await page.goto(`${appPath}#/progress`)
     await expect(page.getByRole('region', { name: 'Progress summary' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Understanding' }).first()).toBeVisible()
