@@ -9,6 +9,7 @@ import psychology2 from '../../content/psychology/aqa-a-level/paper-2'
 import psychology3 from '../../content/psychology/aqa-a-level/paper-3'
 import { bankQuestionId, bankRecordToPractice } from '../../src/app/practice-questions'
 import retainedBusinessSource from '../../content/business/aqa-a-level/shared/fast-path-question-bank.json'
+import signedCashFlowSource from '../../content-factory/slices/aqa-7132-3.5/questions/q17.json'
 import { reviewMcqQuality, type McqQualityInput } from './lf03-mcq-quality'
 
 /**
@@ -142,6 +143,21 @@ describe('#787 cross-course published MCQ identity/disposition inventory', () =>
     const folder = join(process.cwd(), '.artifacts', 'lf03-bank-dispositions')
     mkdirSync(folder, { recursive: true })
     writeFileSync(join(folder, 'published-qa-queue.json'), JSON.stringify(report, null, 2) + '\n')
+  })
+
+  it('distinguishes signed amounts in the actual Business cash-flow source without letting duplicated answers pass', () => {
+    const q = signedCashFlowSource.question
+    const sourceKey = q.options.findIndex(option => option.label === q.mark_scheme.correct_option)
+    const candidate = { id: 'aqa7132-3.5-q17', prompt: q.stem,
+      options: q.options.map(option => option.text), correctOption: sourceKey,
+      explanation: q.mark_scheme.model_answer }
+    expect(candidate.options).toContain('−£6,000')
+    expect(candidate.options).toContain('+£6,000')
+    expect(reviewMcqQuality([candidate]).filter(f => f.rule === 'duplicate-option')).toEqual([])
+    const actuallyDuplicated = { ...candidate, options: ['−£6,000', '−£6,000', '+£7,000', '+£6,000'] }
+    expect(reviewMcqQuality([actuallyDuplicated]).filter(f => f.rule === 'duplicate-option')).toHaveLength(1)
+    // A positive/negative arithmetic sign changes the meaning. This is a
+    // lexical QA correction, not independent assurance of the cash-flow method.
   })
 
   it('retains known unresolved Business key skew and Psychology repeated-set warnings as review requests', () => {
