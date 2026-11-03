@@ -111,8 +111,14 @@ export function readTodayChoice(userId: string): NotNowRecord | null {
 export function learnRouteForTask(task: HomeTask): string | null {
   const target = task.learnTarget
   if (task.activityType !== 'learn' || !target || !task.adapter.getLearnPage(target.learnPageId)) return null
-  return routeHash(target.moduleId ? learnerModuleRoute(task.courseId, target.moduleId, 'learn', target)
-    : learnerCourseRoute(task.courseId, 'learn', target))
+  // Carry only the already-selected FI-001 repair identity into Learn.
+  // A URL query is display context, not evidence or a newly ranked treatment.
+  const context = {
+    ...target,
+    repairSpecItemId: task.skillFocus?.treatment === 'repair' ? task.skillFocus.specItemId : undefined,
+  }
+  return routeHash(target.moduleId ? learnerModuleRoute(task.courseId, target.moduleId, 'learn', context)
+    : learnerCourseRoute(task.courseId, 'learn', context))
 }
 
 export const ACCEPTED_ACTIVITY_UNAVAILABLE = 'Your session has been kept, but its exact learning page or exam paper/question cannot be verified. Open the course to choose the activity you intended.'
