@@ -1,6 +1,4 @@
 import type { ModuleLearningState } from './catalogue-model'
-import type { LearnerProgrammeCourse } from './learner-programme'
-import { rankSuggestions } from './rev-suggestions'
 import type { HomeTask } from './home-task'
 import { planSkillFocusLabel } from './plan-skill-focus'
 import { understandingCounts } from './topic-status'
@@ -85,30 +83,3 @@ export function progressActionFromPlannerTask(task: HomeTask | null): ProgressNe
     recommendationId: task.id,
   }
 }
-
-/** Legacy single-course Progress suggestion without programme/exam context.
- * The global Progress page never uses this topic-only fallback.
- */
-export function nextProgressAction(
-  states: readonly ModuleLearningState[],
-  programme: readonly LearnerProgrammeCourse[],
-  now: Date,
-): ProgressNextAction | null {
-  const top = rankSuggestions(states, [], programme, now)[0]
-  if (!top) return null
-  const section = top.task.activityType === 'exam-question' ? 'exam-prep' : 'practice'
-  return {
-    label: `Practise ${top.task.topicLabel}`,
-    courseId: top.task.courseId,
-    section,
-    topicName: top.task.topicLabel,
-    reason: top.reason,
-  }
-}
-
-/** The optional "How this is worked out" note: three plain sentences at most. */
-export const HOW_THIS_IS_WORKED_OUT: readonly string[] = [
-  'Topics covered counts topics with scored answers or all current Learn pages explicitly reviewed.',
-  'Understanding sorts each topic by how your answers have gone, once there are enough varied answers to tell.',
-  'Exam readiness only appears when there’s enough varied work, and it’s never a predicted grade.',
-]
