@@ -100,9 +100,9 @@ describe('Issue #698 Business §3.4.5 — published inventory chart and bounded 
       const q20Text = JSON.stringify(originalQ20?.question)
       expect(q20Text).toContain('re-order trigger')
       expect(q20Text).toContain('700 − (4 × 100) = 300')
-      expect(q20Text).toContain('500-filter re-order trigger')
+      expect(q20Text).toContain('100 + (4 × 100) = 500')
       expect(q20Text).toContain('conditional')
-      expect(q20Text).toContain('does not reduce inventory or save money')
+      expect(q20Text).toContain('does not actually reduce the inventory held')
       expect(pack.exams).toHaveLength(1)
       expect(pack.exams[0].totalMarks).toBe(100)
     }
