@@ -74,11 +74,9 @@ describe('Issue #698 — original AQA Business §3.4.2 operational-measures corr
       }
       expect(pack.dataDrills).toHaveLength(32)
       expect(pack.exams).toHaveLength(1)
-      expect(pack.exams[0]?.questions.reduce((total, q) => {
-        // Original printed question inventory is unchanged. The original
-        // component-specific mark allocation remains covered by content.test.
-        return total + (q.marks > 0 ? 1 : 0)
-      }, 0)).toBeGreaterThan(10)
+      // The three original published mock papers and their 100-mark
+      // component contracts remain intact; question count differs by paper.
+      expect(pack.exams[0]?.totalMarks).toBe(100)
     }
   })
 
