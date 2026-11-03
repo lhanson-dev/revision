@@ -9,7 +9,7 @@ const userId = '00000000-0000-4000-8000-000000000718'
 const courseId = 'aqa:aqa-a-level:7182'
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop' && !testInfo.title.startsWith('LF-03') && !testInfo.title.startsWith('LF-04'), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 and LF-04 also cover phone and tablet.')
+  test.skip(testInfo.project.name !== 'desktop' && !/^LF-0[34]/.test(testInfo.title), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
 })
 
 async function seedRestrictedPsychologyLearner(page: Page) {
@@ -352,6 +352,37 @@ test('LF-03 #787 canonical Attachment Practice independently scores two V2 items
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(expectedIds)
 })
 
+test('LF-04 Psychology exam stimulus is visible in untimed Practice and when self-marking', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedExamAttemptBackend(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/exam-prep`)
+  await expect(page.getByRole('heading', { name: 'Get ready for the exams' })).toBeVisible()
+
+  const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1' }).first()
+  await paper.getByRole('button', { name: 'Practise untimed' }).click()
+  await page.getByRole('button', { name: 'Next question' }).click()
+  const untimed = page.locator('.exam-simulator .exam-stimulus')
+  await expect(untimed).toBeVisible()
+  await expect(untimed).toContainText('At a training centre')
+  const originalNarrative = await untimed.locator('p').innerText()
+  await expect(untimed.locator('h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(page.getByRole('heading', { level: 3, name: /Using the stimulus/ })).toBeVisible()
+
+  await page.locator('.exam-prep-activity__back').click()
+  await paper.getByRole('button', { name: 'Start timed' }).click()
+  await page.getByRole('navigation', { name: 'Exam questions' }).getByRole('button').nth(1).click()
+  const timedStimulus = page.locator('.exam-question-sheet .exam-stimulus')
+  await expect(timedStimulus.locator('h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(timedStimulus.locator('p')).toHaveText(originalNarrative)
+  await page.locator('.exam-question-sheet textarea').fill('An independently written trial answer.')
+  await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+  // The existing marking flow deliberately starts at Question 1.
+  await page.locator('.self-marking nav.question-nav button').nth(1).click()
+  const marking = page.locator('.self-marking .exam-question-sheet')
+  await expect(marking.locator('.exam-stimulus h4')).toHaveText('Revision-owned application and mini-study context')
+  await expect(marking.locator('.exam-stimulus p')).toHaveText(originalNarrative)
+  await expect(marking).toContainText('An independently written trial answer.')
+})
 
 test('LF-04: Psychology Practice pairs the Social Influence case with its actual question and guidance', async ({ page }) => {
   await seedRestrictedPsychologyLearner(page)
