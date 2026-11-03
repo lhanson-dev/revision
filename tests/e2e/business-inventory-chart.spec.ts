@@ -16,6 +16,7 @@ test('AQA Business §3.4.5 inventory chart plots actual delivery, reveals access
     const chart = page.locator('.learn-block--quantitative')
     await expect(chart).toBeVisible()
     await expect(chart.locator('svg[role="img"]')).toHaveAttribute('aria-label', /Stock level over time.*six-day horizontal gap/i)
+    await expect(chart.locator('svg text.learn-chart__axis-label--y')).toHaveText('Packets in stock')
     await expect(chart.locator('path.learn-chart__line')).toHaveCount(3)
     // A responsive resize may retain the mounted Learn chart's already-open
     // data state. Verify both states honestly instead of assuming remount.
