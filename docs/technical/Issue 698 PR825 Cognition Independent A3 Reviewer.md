@@ -23,7 +23,7 @@ The existing trusted reviewer contract runs first with **no provider spend**. Th
 
 - Model: trusted existing `gpt-5.6-terra` provider pattern; `store:false`.
 - Conservative per-trigger reserve cap: **US$0.95**; owner comment may incur spend and must not be repeated unnecessarily.
-- Retention: exact-head source blob, stage outputs/verdict and failed receipt for 30 days.
+- Retention: exact-head source blob, provider response text/ID/usage persisted **before** validation (including incomplete/failed independent reviews), stage verdicts and fail-closed receipt for 30 days. Short superficial educational justifications are rejected.
 - Scope: one PR/content cohort only. No generic reviewer capable of reading arbitrary untrusted files or executing candidate code.
 
 ## Assurance / release blockers
