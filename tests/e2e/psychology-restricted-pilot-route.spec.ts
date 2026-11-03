@@ -386,6 +386,12 @@ test('LF-04 Psychology exam stimulus is visible in untimed Practice and when sel
 
 test('LF-04: Psychology Practice pairs the Social Influence case with its actual question and guidance', async ({ page }) => {
   await seedRestrictedPsychologyLearner(page)
+  const scoredWrites: string[] = []
+  page.on('request', request => {
+    if (request.method() === 'POST' && request.url().includes('/rest/v1/learning_evidence')) {
+      scoredWrites.push(request.url())
+    }
+  })
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
   await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
 
@@ -402,4 +408,14 @@ test('LF-04: Psychology Practice pairs the Social Influence case with its actual
   await expect(page.getByText('These questions have no authoritative mark allocation', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'Next case question' }).click()
   await expect(page.locator('.written-practice')).toContainText('alternative explanation')
+  await page.getByLabel('Draft your answer').fill('The student may fear losing their supervisor’s approval.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('their behaviour is not described')
+  // Unscored application warm-ups may guide learning but must never record independent evidence.
+  expect(scoredWrites).toHaveLength(0)
+
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/biopsychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.locator('.practice-row').filter({ hasText: 'Case study' })).toHaveCount(0)
+  expect(scoredWrites).toHaveLength(0)
 })
