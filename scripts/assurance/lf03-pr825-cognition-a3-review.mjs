@@ -91,8 +91,10 @@ export function reviewDecision(review, items) {
     const a = review.items[i], expected=items[i]
     if (a.id !== expected.id || !Number.isInteger(a.blindAnswerIndex) || a.blindAnswerIndex < 0 || a.blindAnswerIndex > 3 ||
       !accepted.includes(a.verdict) ||
-      [a.answerReason, a.distractorChallenge, a.specificationAlignment, a.ambiguityAndClueRisk]
-        .some(x=>typeof x !== 'string' || !x.trim())) {
+      typeof a.answerReason !== 'string' || a.answerReason.trim().length < 30 ||
+      typeof a.distractorChallenge !== 'string' || a.distractorChallenge.trim().length < 45 ||
+      typeof a.specificationAlignment !== 'string' || a.specificationAlignment.trim().length < 25 ||
+      typeof a.ambiguityAndClueRisk !== 'string' || a.ambiguityAndClueRisk.trim().length < 35) {
       throw new Error('Reviewer omitted a required per-question A3 challenge')
     }
     keyed.push({
@@ -244,6 +246,12 @@ async function run() {
     })
     if(!response.ok)throw new Error('Provider HTTP '+response.status)
     const body=await response.json()
+    // Persist raw independent answer/reasoning text before schema/educational validation.
+    // A malformed or incomplete review is historical FAIL/HOLD evidence, not discardable noise.
+    let blindText=null
+    try { blindText=responseText(body) } catch { /* retain provider ID, status and usage below */ }
+    receipt.blindProviderResponse={id:body.id??null,status:body.status??null,usage:body.usage??null,text:blindText}
+    await writeFile(OUTPUT+'/receipt.json',JSON.stringify(receipt,null,2)+'\n')
     const reviewed=JSON.parse(responseText(body))
     const decision=reviewDecision(reviewed,items)
     receipt.review=decision
@@ -275,7 +283,12 @@ async function run() {
       }),
     })
     if(!followup.ok)throw new Error('Provider feedback review HTTP '+followup.status)
-    const explanation=explanationDecision(JSON.parse(responseText(await followup.json())),items)
+    const feedbackBody=await followup.json()
+    let feedbackText=null
+    try { feedbackText=responseText(feedbackBody) } catch { /* preserve provider provenance before fail-closed validation */ }
+    receipt.feedbackProviderResponse={id:feedbackBody.id??null,status:feedbackBody.status??null,usage:feedbackBody.usage??null,text:feedbackText}
+    await writeFile(OUTPUT+'/receipt.json',JSON.stringify(receipt,null,2)+'\n')
+    const explanation=explanationDecision(JSON.parse(responseText(feedbackBody)),items)
     receipt.feedbackReview=explanation
     receipt.status='completed'
     receipt.completed=true
