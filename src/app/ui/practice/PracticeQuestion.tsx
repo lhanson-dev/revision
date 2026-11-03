@@ -77,8 +77,8 @@ export function QuestionHead({ eyebrow, level, marksLabel, sourceChip, levelNote
     <>
       <div className="practice-activity__meta">
         <span className="ui-eyebrow">{eyebrow}</span>
+        <strong className="practice-question__marks" aria-label={`Available marks: ${marksLabel}`}>{marksLabel}</strong>
         <span className="practice-chip">{level}</span>
-        <span className="practice-chip">{marksLabel}</span>
         {sourceChip && <span className="practice-chip">{sourceChip}</span>}
         {levelNote && <span className="practice-question__note">{levelNote}</span>}
       </div>

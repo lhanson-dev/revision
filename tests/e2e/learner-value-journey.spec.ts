@@ -600,6 +600,41 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
     const browserErrors: string[] = []
     page.on('pageerror', (error) => browserErrors.push(error.message))
+
+    // The same enrolled student must receive one consistent next-topic
+    // recommendation on Home and the actual Ask REV drawer. If Home's
+    // scheduled task carries exact skill evidence, REV must repeat that
+    // specific wording rather than collapsing to a generic topic.
+    await page.goto(appPath + '#/home')
+    const homeHero = page.locator('.home-v3-next')
+    await expect(homeHero.locator('h2')).toBeVisible()
+    const selectedTopic = await homeHero.locator('h2').innerText()
+    const homeReasons = await homeHero.locator('.home-v3-hero-reason').allInnerTexts()
+    await page.goto(appPath + '#/rev')
+    await expect(page.getByRole('heading', { name: 'Ask REV', exact: true })).toBeVisible()
+    const revOpening = page.locator('.rev-chat__log .rev-chat__message--rev').first()
+    await expect(revOpening).toContainText(selectedTopic)
+    for (const reason of homeReasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(revOpening).toContainText(reason)
+      }
+    }
+    // Global Progress must project the same configured FI-001 next action, not
+    // independently rank a broad-topic practice activity. These saved wrong
+    // answers came from actual owner-scoped Auth/DB evidence above.
+    await page.goto(appPath + '#/progress')
+    await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+    const progressNext = page.locator('.progress-intro__action')
+    await expect(progressNext).toContainText(selectedTopic, { timeout: 20_000 })
+    for (const reason of homeReasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(progressNext).toContainText(reason)
+      }
+    }
+    await progressNext.getByRole('button', { name: /Continue on Home:/ }).click()
+    await expect(page.locator('.home-v3-next h2')).toHaveText(selectedTopic)
+
+    await page.goto(appPath + '#/home')
     const launch = async (item: typeof cases[number]) => {
       await page.goto(appPath + '#/plan?view=day')
       try {
@@ -664,6 +699,94 @@ test('two Business skill weaknesses produce named independent Plan checks withou
     if (userId) {
       const deleted = await admin.auth.admin.deleteUser(userId)
       expect(deleted.error, 'Isolated learner cleanup').toBeNull()
+    }
+  }
+})
+
+/**
+ * #698 source-to-learner Marketing §3.3.3: use a real disposable local
+ * GoTrue/PostgREST account to prove the new paper-based diagram exercise is
+ * discoverable through the integrated Course Practice, not a fixture app.
+ * Do not infer scored diagram or written AO3/AO4 evidence from answer reveal.
+ */
+test('Business 7132 Marketing real learner reaches market-map, Boston Matrix and seven-P drills without false scored evidence', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
+  test.setTimeout(120_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const origin = new URL(url)
+  if (origin.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(origin.hostname)
+    || origin.port !== '54321' || !anon || !secret) {
+    throw new Error('Never use hosted or production Supabase for this learner acceptance test')
+  }
+
+  const admin = createClient(url, secret, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  })
+  const learner = createClient(url, anon, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  })
+  const email = 'business-map-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Map-Review-' + crypto.randomUUID() + '-A1!'
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Local learner creation failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const login = await learner.auth.signInWithPassword({ email, password })
+    if (login.error) throw login.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(`${appPath}#/courses/${encodeURIComponent(businessId)}/practice`)
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByLabel('Topic').selectOption('marketing')
+    await expect(page.getByText('Practice · 3. Marketing Management')).toBeVisible()
+    await page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Formulas/ }).click()
+
+    // The first three Marketing drills are historical accepted content.
+    // The new fourth drill must be reachable by normal in-app navigation.
+    for (let index = 0; index < 3; index++) {
+      await page.getByRole('button', { name: 'Show model answer' }).click()
+      await page.getByRole('button', { name: 'Next exercise' }).click()
+    }
+    await expect(page.getByRole('heading', { name: 'Draw and interpret a market-positioning map' })).toBeVisible()
+    await expect(page.getByText(/Plot three competitors: CupGo/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/cannot score or independently verify a student-drawn graph/i)).toBeVisible()
+
+    // #784: advance in the SAME signed-in Marketing exercise to the two new
+    // original Boston Matrix and seven-P unscored scenarios, preserving #777.
+    await page.getByRole('button', { name: 'Next exercise' }).click()
+    await expect(page.getByRole('heading', { name: 'Build and challenge a Boston Matrix' })).toBeVisible()
+    await expect(page.getByText(/Everyday Pans/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/Everyday Pans: 30\/15 = 2\.00/)).toBeVisible()
+    await page.getByRole('button', { name: 'Next exercise' }).click()
+    await expect(page.getByRole('heading', { name: 'Design an integrated seven-P mix for a service' })).toBeVisible()
+    await expect(page.getByText(/Northgate Testing/)).toBeVisible()
+    await page.getByRole('button', { name: 'Show model answer' }).click()
+    await expect(page.getByText(/no marks or mastery are awarded/i)).toBeVisible()
+
+    // Revealing the model must not generate an assessed result or mastery claim.
+    const { data: recorded, error: evidenceError } = await learner.from('learning_evidence')
+      .select('evidence_id').eq('user_id', userId)
+    expect(evidenceError).toBeNull()
+    expect(recorded).toEqual([])
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Local learner cleanup').toBeNull()
     }
   }
 })

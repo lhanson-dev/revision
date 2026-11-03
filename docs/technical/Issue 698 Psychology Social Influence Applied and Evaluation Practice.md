@@ -1,5 +1,16 @@
 # Issue #698 — Psychology Social Influence applied and evaluation Practice
 
+## 3 November 2026 — corrected E2E locator and current-main integration (candidate, NOT released)
+
+**PR #793** reviewer-context infrastructure was separately Founder-approved, merged as `c389867771c735eb53bfd06ea8e381b910844ccb`, and production verified in [release #41517283492](https://github.com/lhanson-dev/revision/actions/runs/41517283492). This permits a fresh independently initiated A3 on the exact head of **PR #773**, but does not reverse the original `fail_hold` receipt or grant publication approval.
+
+PR #773's prior exact-head [CI #41514143779](https://github.com/lhanson-dev/revision/actions/runs/41514143779) **FAILED** three responsive browser shards on the same Social Influence Practice test: `.practice-length` filtered by `hasText: '15'` matched both 15-question and 10-question controls, because the latter displays an estimated 15 minutes. The correction targets the 15-question **number** element with a strictly anchored regex, retaining the test's full 12-item session, refresh/recovery, first-four independently scored V2 evidence and fifth new scenario assertions. Foundation/unit/auth/database jobs had passed on the failed head. The old failed CI run remains failed.
+
+The integrated candidate preserves the original eight scenario and four written authored source blobs and three shared pack imports unchanged, while starting from approved `main` to retain later Social Influence/Memory, Flashcard and other independent work. The source-to-performance audit test retains current-main Flashcard V2 mapping and adjusts only the actual published shared drill count from 18 to 22; INDEX uses the approved-main index plus this candidate pointer. No production learner evidence has been altered, no marking/schema/governance change is proposed, and no visual baseline is approved by this test correction.
+
+**Still HOLD:** newest exact-head CI including visual approval constraints, fresh independent A3 of all 12 assets with retained receipt, resolution of any material issues, signed-in learner acceptance and a separate explicit Founder approval for PR #773. Current-main Playwright simulation is not real-user acceptance. The remaining #698 / #703–705 Psychology coverage and learning-loop obligations remain OPEN.
+
+
 ## 2 November 2026 — combined LF-03 and #698 pre-release assurance state
 
 **Draft, UNMERGED, A3 FAIL/HOLD remains in force.** After the live Social Influence LF-03 four-question V2 correction (PR #779), previously published V1 `psy-psy010[1-4]-check` identifiers remain **immutable historical evidence**, rather than still appearing in the fresh Practice pool. Their live replacements are `psy-psy010[1-4]-check-v2`, and this candidate adds **eight distinct** source-targeted one-mark scenario MCQs after those four: **12 selectable scored Social Influence Practice questions**, plus four self-check written DataDrills. Do not mistakenly interpret the historical pre-LF-03 references below as a requirement to republish the deficient V1 questions.

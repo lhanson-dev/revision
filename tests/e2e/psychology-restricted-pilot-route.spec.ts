@@ -225,7 +225,9 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   // applied cases extend the same Course Practice session rather than replacing it.
   // The default is 5 questions, so select the supported 15-question length,
   // which correctly caps the session at the 12 available questions.
-  await page.locator('.practice-length').filter({ hasText: '15' }).click()
+  await page.locator('.practice-length').filter({
+    has: page.locator('.practice-length__number', { hasText: /^15$/ }),
+  }).click()
   await expect(page.getByRole('button', { name: 'Start 12 questions' })).toBeVisible()
   await page.getByRole('button', { name: 'Start 12 questions' }).click()
   const positions = [1, 3, 0, 2]

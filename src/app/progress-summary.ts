@@ -1,6 +1,8 @@
 import type { ModuleLearningState } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { rankSuggestions } from './rev-suggestions'
+import type { HomeTask } from './home-task'
+import { planSkillFocusLabel } from './plan-skill-focus'
 import { understandingCounts } from './topic-status'
 import { learningStatusMeta, type LearningStatus } from './ui'
 
@@ -68,9 +70,25 @@ export function progressSummarySentence(measures: ProgressMeasuresData, nextTopi
   return `${covered} So far: ${rated.join(', ')}.`
 }
 
-export type ProgressNextAction = { label: string; courseId: string; section: 'practice' | 'exam-prep'; topicName: string; reason: string }
+export type ProgressNextAction = { label: string; courseId: string; section: 'practice' | 'exam-prep'; topicName: string; reason: string; recommendationId?: string }
 
-/** One next action, chosen by REV's rules (not a model), or null when there is nothing to suggest. */
+/** Only display an already-selected FI-001 Home/Plan/REV task. Never re-rank. */
+export function progressActionFromPlannerTask(task: HomeTask | null): ProgressNextAction | null {
+  if (!task) return null
+  const skill = task.skillFocus ? `${planSkillFocusLabel(task.skillFocus)}. ` : ''
+  return {
+    label: `Continue on Home: ${task.topicLabel}`,
+    courseId: task.courseId,
+    section: task.activityType === 'exam-question' ? 'exam-prep' : 'practice',
+    topicName: task.topicLabel,
+    reason: `${skill}${task.reason}`,
+    recommendationId: task.id,
+  }
+}
+
+/** Legacy single-course Progress suggestion without programme/exam context.
+ * The global Progress page never uses this topic-only fallback.
+ */
 export function nextProgressAction(
   states: readonly ModuleLearningState[],
   programme: readonly LearnerProgrammeCourse[],
