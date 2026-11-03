@@ -66,8 +66,7 @@ describe('#698/#787 Issues and Debates V2 candidate — 7182 §4.3.1', () => {
         correctOption: old.find(q => q.id === originalIds[i])!.correctOption,
         confidence: 'certain',
       })
-      expect(historical.source).toBe('multiple_choice')
-      expect(historical.correct).toBe(true)
+      expect(historical).toMatchObject({ source: 'multiple_choice', correct: true, contentId: originalIds[i] })
       expect(supportsLearningInference(historical)).toBe(false)
       const replacement = createMultipleChoiceEvidence({
         id: 'new-' + i, moduleId: key.moduleId, topicId,
