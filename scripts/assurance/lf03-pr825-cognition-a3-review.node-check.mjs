@@ -23,6 +23,8 @@ const fixture='export const cognitionDevelopmentMcqV2 = {\n'
 
 test('owner-authenticated exact two-line event only',()=>{
   assert.equal(parseTrustedEvent(valid),HEAD)
+  assert.equal(parseTrustedEvent({...valid, comment:{...valid.comment, body:REVIEW_MARKER+'\\r\\nhead_sha: '+HEAD}}), HEAD)
+  assert.equal(parseTrustedEvent({...valid, comment:{...valid.comment, body:REVIEW_MARKER+'\\r\\nhead_sha: '+HEAD+'\\r\\n'}}), HEAD)
   for(const mutation of [
     {...valid,issue:{number:794}},
     {...valid,comment:{...valid.comment,user:{login:'someoneelse'}}},
