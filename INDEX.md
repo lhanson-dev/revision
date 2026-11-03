@@ -263,6 +263,7 @@ Use this file to find the governing source before substantive work.
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
 
+- Issue #705 source-backed distinct Business expected-value and net-gain unscored guided method repairs (candidate; separate educational review/learner recheck required) → `docs/technical/Issue 705 Business Distinct Guided Method Repairs.md`
 - Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
 
 ## Current implementation and history
