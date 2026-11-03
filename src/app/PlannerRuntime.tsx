@@ -33,6 +33,9 @@ import { PlannerActivityReconciler } from './PlannerActivityReconciler'
 import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import type { SavedWork } from './saved-work'
+import type { HomeTask } from './home-task'
+import type { GuidedMethodRepair } from './practice-repair'
+import { guidedRepairForStartedPlannerTask, learnRouteForTask } from './today-recommendations'
 import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
@@ -87,12 +90,12 @@ function learnerName(user: User) {
 
 function canonicalRoute(route: AppRoute) {
   if (route.kind === 'subjects' || route.kind === 'subject') return coursesRoute()
-  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId, repairSpecItemId: route.repairSpecItemId })
+  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId })
   if (route.kind === 'module') {
     const resolved = route.courseId
       ? { course: { id: route.courseId } }
       : findCourseForModule(catalogue, route.moduleId)
-    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId, repairSpecItemId: route.repairSpecItemId }) : coursesRoute()
+    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId }) : coursesRoute()
   }
   return route
 }
@@ -100,6 +103,7 @@ function canonicalRoute(route: AppRoute) {
 export function PlannerRuntime() {
   const [user, setUser] = useState<User | null>(null)
   const [route, setRoute] = useState<AppRoute>(() => canonicalRoute(parseRoute(window.location.hash)))
+  const [selectedRepair, setSelectedRepair] = useState<{ userId: string; hash: string; method: GuidedMethodRepair } | null>(null)
   const [memberships, setMemberships] = useState<LearnerCourseMembership[]>([])
   const [programmeResolved, setProgrammeResolved] = useState(false)
   const [programmeError, setProgrammeError] = useState('')
@@ -125,6 +129,7 @@ export function PlannerRuntime() {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (active) {
         setUser(session?.user ?? null)
+        setSelectedRepair(null)
         setIsAdmin(false)
         setAdminAccessResolved(false)
         setMemberships([])
@@ -137,12 +142,16 @@ export function PlannerRuntime() {
 
   useEffect(() => {
     const syncRoute = () => {
-      const parsed = parseRoute(window.location.hash)
+      const enteredHash = window.location.hash
+      const parsed = parseRoute(enteredHash)
       const canonical = canonicalRoute(parsed)
       const canonicalHash = routeHash(canonical)
-      if (window.location.hash !== canonicalHash) {
+      if (enteredHash !== canonicalHash) {
         window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${canonicalHash}`)
       }
+      // Browser navigation, hand-edited query strings and reloads never choose
+      // a new method or preserve an unrelated previously selected task.
+      setSelectedRepair(current => enteredHash === canonicalHash && current?.hash === canonicalHash ? current : null)
       setRoute(canonical)
       setMenuOpen(false)
       setMobileAccountOpen(false)
@@ -225,6 +234,7 @@ export function PlannerRuntime() {
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
 
   function navigate(nextRoute: AppRoute) {
+    setSelectedRepair(null)
     setMenuOpen(false)
     setMobileAccountOpen(false)
     setAccountMenuOpen(false)
@@ -234,6 +244,19 @@ export function PlannerRuntime() {
     const hash = routeHash(canonical)
     if (window.location.hash === hash) setRoute(canonical)
     else window.location.hash = hash
+  }
+
+  /** Only a real FI-001 Home/Plan Start task may set the current repair.
+   * The URL is a published Learn locator, never evidence or treatment identity.
+   * A reload fails closed to normal Foundation teaching until Start is chosen again.
+   */
+  function startLearnFromPlanner(task: HomeTask) {
+    if (!user || !programme.some(entry => entry.course.id === task.courseId)) return
+    const targetHash = learnRouteForTask(task)
+    if (!targetHash) return
+    const method = guidedRepairForStartedPlannerTask(task)
+    navigate(parseRoute(targetHash))
+    if (method) setSelectedRepair({ userId: user.id, hash: targetHash, method })
   }
 
   function openCourse(courseId: string, source: 'global_navigation' | 'courses_index' | 'recommendation' = 'global_navigation') {
@@ -316,23 +339,27 @@ export function PlannerRuntime() {
 
   if (!user) return <main className="loading-shell">Loading Revision…</main>
 
+  const activeGuidedRepair = selectedRepair?.userId === user.id && selectedRepair.hash === routeHash(route) &&
+    (route.kind === 'course' || route.kind === 'module') && programme.some(entry => entry.course.id === route.courseId)
+    ? selectedRepair.method : null
+
   let screen
   if (route.kind !== 'admin' && !programmeResolved) {
     screen = <main className="loading-shell">Loading your courses…</main>
   } else if (route.kind !== 'admin' && programmeError) {
     screen = <main className="dashboard screen-dashboard page-screen"><Status tone="error">{programmeError} Revision will not substitute the published catalogue for your programme.</Status></main>
   } else if (route.kind === 'home' || route.kind === 'rev') {
-    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={(draft, submit) => openRev(draft, submit)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenSavedWork={openSavedWork} onOpenProgress={() => navigate(progressRoute())} onOpenExamDates={() => navigate(planRoute({ intent: 'manage-exams' }))} onOpenCourseSection={(courseId, section) => navigate(learnerCourseRoute(courseId, section))} />
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={(draft, submit) => openRev(draft, submit)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenSavedWork={openSavedWork} onOpenProgress={() => navigate(progressRoute())} onOpenExamDates={() => navigate(planRoute({ intent: 'manage-exams' }))} onOpenCourseSection={(courseId, section) => navigate(learnerCourseRoute(courseId, section))} onStartLearnTask={startLearnFromPlanner} />
   } else if (route.kind === 'plan') {
-    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenRev={(draft) => openRev(draft)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
+    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenRev={(draft) => openRev(draft)} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onStartLearnTask={startLearnFromPlanner} />
   } else if (route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject') {
     screen = <CoursesScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onMembershipsChange={setMemberships} onOpenCourse={(courseId) => openCourse(courseId, 'courses_index')} />
   } else if (route.kind === 'progress') {
     screen = <ProgrammeProgressScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onOpenCourses={() => navigate(coursesRoute())} onOpenHome={() => navigate(homeRoute())} onOpenCourseProgress={(courseId) => navigate(learnerCourseRoute(courseId, 'progress'))} />
   } else if (route.kind === 'course') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} repairSpecItemId={route.repairSpecItemId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenSavedWork={openSavedWork} onOpenRev={openRev} onOpenHome={() => navigate(homeRoute())} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} guidedRepair={activeGuidedRepair} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenSavedWork={openSavedWork} onOpenRev={openRev} onOpenHome={() => navigate(homeRoute())} />
   } else if (route.kind === 'module') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} repairSpecItemId={route.repairSpecItemId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenSavedWork={openSavedWork} onOpenRev={openRev} onOpenHome={() => navigate(homeRoute())} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} examRecoveryEnabled={examRecoveryEnabled} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} guidedRepair={activeGuidedRepair} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenSavedWork={openSavedWork} onOpenRev={openRev} onOpenHome={() => navigate(homeRoute())} />
   } else if (route.kind === 'admin') {
     if (!adminAccessResolved) screen = <main className="loading-shell">Checking Admin access…</main>
     else if (!isAdmin) screen = <main className="dashboard screen-dashboard page-screen" aria-labelledby="admin-access-title"><header className="page-heading"><p className="eyebrow">Account</p><h1 id="admin-access-title">Admin access unavailable</h1><p>This account does not have permission to open Revision Admin.</p></header><Button onClick={() => navigate(homeRoute())}>Back to Home</Button></main>
