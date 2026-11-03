@@ -81,6 +81,21 @@ export function sourceBackedGuidedMethodRepair(
   const page = sourceBackedPracticeRepairPage(question, adapter)
   const item = objectiveItemMappingForPractice(question)?.singleTargetSpecItemId
   if (!page || page.id !== 'bus-evi-004' || page.topicId !== 'leadership' || !item) return null
-  const method = decisionTreeGuidedRepairs[item]
-  return method ? { ...method, specItemId: item, sourceLearnPageId: page.id } : null
+  return guidedMethodRepairForPublishedPage(item, page)
+}
+
+/**
+ * Planned FI-001 repair route only: this is read-only teaching content. The
+ * URL parameter does not prove the learner got anything wrong; it is never
+ * accepted as assessment evidence or a mastery decision. Non-matching page
+ * and item combinations fail closed.
+ */
+export function guidedMethodRepairForPublishedPage(
+  specItemId: string | null | undefined,
+  page: { id: string; topicId: string },
+): GuidedMethodRepair | null {
+  if (!specItemId || page.id !== 'bus-evi-004' || page.topicId !== 'leadership') return null
+  const method = Object.prototype.hasOwnProperty.call(decisionTreeGuidedRepairs, specItemId)
+    ? decisionTreeGuidedRepairs[specItemId] : null
+  return method ? { ...method, specItemId, sourceLearnPageId: page.id } : null
 }
