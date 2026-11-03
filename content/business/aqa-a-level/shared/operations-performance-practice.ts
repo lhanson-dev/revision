@@ -51,7 +51,7 @@ export const businessOperationsPerformanceCases = [
   {
     id: 'monthly-unit-cost-trays-01',
     target: 'aqa-7132-3.4.2:unit-cost-average-cost',
-    node: 'bus-ops-004',
+    node: 'operations-four-performance-measures',
     context: 'A factory incurs £96,000 total production costs in a month when it makes 7,500 identical reusable food trays.',
     stem: 'Calculate the average production cost per tray in pounds. Enter one final number; only the result is marked.',
     expected: 12.8,
@@ -61,7 +61,7 @@ export const businessOperationsPerformanceCases = [
   {
     id: 'monthly-unit-cost-bottles-02',
     target: 'aqa-7132-3.4.2:unit-cost-average-cost',
-    node: 'bus-ops-004',
+    node: 'operations-four-performance-measures',
     context: 'A manufacturer makes 18,000 bottles in a month. Its total production costs for that month are £261,000.',
     stem: 'Calculate the average production cost for one bottle in pounds. Enter one final number; only the result is marked.',
     expected: 14.5,
