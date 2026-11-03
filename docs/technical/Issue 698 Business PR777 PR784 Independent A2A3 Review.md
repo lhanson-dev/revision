@@ -75,3 +75,33 @@ head_sha: <current exact 40-character #805 commit SHA>
 The legacy trigger marker is deliberately unchanged to preserve compatibility with #777/#784. Review initiation is **not Founder merge approval**. The caller must use the then-current #805 SHA, not a stale example. Do not submit the trigger before the infrastructure is merged and enabled on approved `main`. Each new #805 commit invalidates the prior scoped review receipt and requires fresh CI and review.
 
 **Documentation impact:** This extension modifies only the existing trusted reviewer, its node guard, workflow and this technical note. The approved content accuracy, source rights, AI operating and merge governance already prescribe the needed controls; no normative authority or ADR change. Historical Marketing receipts are not rewritten. Issue #698 stays the single programme tracker.
+
+
+## Proposed trusted extension: PR #820, original inventory-control chart (§3.4.5)
+
+**Historical state:** originally proposed on separate `assurance/698-pr820-independent-inventory-a2a3` and subsequently merged as [PR #821](https://github.com/lhanson-dev/revision/pull/821) on 3 November 2026, production path-to-live verified at merge `08dbbfa2d5b825d35e3e41c0308779b457cd2c69`. This authorises review of PR #820, **not an independent educational PASS for PR #820**. This reuses the existing approved Business A2/A3 reviewer, its owner-comment authorisation, exact-head CI checks, Git blob hash verification, fail-closed structured result, retained artifact and read-only fetching. It does **not** add another evaluation system or execute untrusted PR source with credentials.
+
+The trusted allowlist is extended only to **PR #820** with original inventory-content source scope AQA Business **7132 v2.0, 14 June 2023, §3.4.5 printed page 19**; source rights remain `REFERENCE_ONLY`. Only the syllabus-derived structured themes (interpret inventory charts; lead times, re-order levels, buffer inventory and quantities) are in the model input. The PDF itself and protected exam text are not ingested or published.
+
+The fresh AI reviewer must examine one actual original plotted Learn chart and four exact identity-bound original Practice questions, independently recompute all original chart points/event timings and all four numeric answers, inspect unchanged chart renderer code as *read-only supporting evidence*, verify all three actual published paper pack definitions, and be explicit that the four **final-number arithmetic** questions do not test a new visual chart independently. Existing Bank q13/q20/q43 are background *source-tagged* context, not evidence that tables are plotted charts or that AO3/AO4 is auto-scored.
+
+The existing legacy trigger marker remains unchanged for compatible PRs. **After** the separate infrastructure PR has passed exact-head CI and received specific Founder merge approval, the owner may comment on PR #820 with:
+
+```text
+revision-run-business-marketing-a2a3:v1
+head_sha: <exact current 40-character PR #820 commit SHA>
+```
+
+The marker only requests educational review, not merge. The runner must independently verify the latest nine-job CI, that PR #820 is still open and has exactly the supplied SHA, and that its input source blobs match the receipt. Retain FAIL/HOLD as evidence; never reclassify an A2/A3 judgment without a new reviewed head. An AI A2/A3 PASS is **not** qualified AQA examiner assurance or real student acceptance. Full §§3.4.3–3.4.5 adequacy and a genuinely **independently marked unseen chart** remain unresolved.
+
+**Documentation impact:** strictly extends the already governed review mechanism and this technical record/INDEX. No normative learning authority, source-licensing policy or assessment claim is changed; historical Marketing/Operations #805 A2/A3 receipts are untouched. The education correction PR #820 and the reviewer-infrastructure PR are distinct and require their own Founder merge approvals.
+
+## Exact owner comment line-ending compatibility — issue #698 PR #820 review trigger
+
+**Observed defect, 3 November 2026:** the repository OWNER supplied the required exact two-line review comment for [draft PR #820](https://github.com/lhanson-dev/revision/pull/820), at head `450ad011650932d3dba625f9a48ef4318bb21c68`. GitHub retained the comment body with `CRLF` (`\\r\\n`) line endings. Protected review [run #41647646823](https://github.com/lhanson-dev/revision/actions/runs/41647646823) reached the approved-main read-only reviewer but **failed immediately** at `parseTrustedEvent`: `Expected exact two-line reviewer marker and SHA`. All 11 reviewer-contract unit checks passed; no independent model call, review receipt or A2/A3 judgement was produced. This is a **failed invocation**, not an educational FAIL/HOLD and not student-facing failure.
+
+**Proposed bounded correction:** accept precisely two marker lines separated with either `LF` or `CRLF`, with an optional single final line ending, and still require all existing owner-login, OWNER-association, hardcoded PR-number allowlist and exactly 40 lowercase hexadecimal head-SHA protections. Additional text, whitespace, CR-only separators, extra blank lines, malformed or uppercase SHAs, and injection attempts remain rejected by direct guard tests. The approved-main, read-only candidate blobs, actual nine-job CI, provider secret isolation, retention and fail-closed educational decision logic remain unchanged.
+
+**Release and review sequence:** merge this reviewer-contract correction only after its own exact-head CI, reviewer-guard verification, and a **new PR-specific explicit Founder approval**. Record a production path-to-live PASS. The earlier failed trigger is not replayed automatically. The repository owner then submits a new valid exact-head review trigger to PR #820, and a separate independent AI review must complete with a retained pass/hold receipt before PR #820 can progress. The correction does **not** modify the unmerged inventory lesson, Practice bank, assessment scoring or source material.
+
+**Documentation impact:** reviewer implementation, direct guard regression, and this existing indexed technical record only. No normative policy or new review workflow; historical failure and existing Marketing/#805 review receipts stay intact.

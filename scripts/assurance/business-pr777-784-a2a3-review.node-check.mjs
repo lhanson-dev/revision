@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { MARKER, SETTINGS, PACK_PATHS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview, verifiedCiReceipt } from './business-pr777-784-a2a3-review.mjs'
+import { MARKER, REPAIR_MARKER, SETTINGS, PACK_PATHS, DIMENSIONS, parseTrustedEvent, gitBlobSha, validateReview, verifiedCiReceipt } from './business-pr777-784-a2a3-review.mjs'
 
 const head='a'.repeat(40)
 const event=(id=777,body=MARKER+'\nhead_sha: '+head)=>({
@@ -26,13 +26,56 @@ function valid(config, severity='pass') {
 }
 describe('exact-head trusted owner trigger',()=>{
   it('accepts only allowed exact-head SHA comments from Owner on selected PRs',()=>{
-    for(const id of [777,784,805]) {
+    for(const id of [777,784,805,820]) {
       const parsed=parseTrustedEvent(event(id))
       assert.equal(parsed.id,id)
       assert.equal(parsed.head,head)
       assert.ok(parsed.settings.paths.length>0)
       assert.ok(parsed.settings.reviewedItemIds.length>=3)
     }
+  })
+  it('accepts actual GitHub OWNER CRLF two-line comments for every allowed PR, without permitting suffixes',()=>{
+    for(const id of [777,784,805,820]) {
+      for(const body of [
+        MARKER+'\r\nhead_sha: '+head,
+        MARKER+'\r\nhead_sha: '+head+'\r\n',
+        MARKER+'\nhead_sha: '+head+'\n',
+      ]) {
+        const parsed=parseTrustedEvent(event(id,body))
+        assert.equal(parsed.id,id)
+        assert.equal(parsed.head,head)
+      }
+    }
+    const forbidden=[
+      MARKER+'\rhead_sha: '+head,
+      MARKER+'\r\nhead_sha: '+head+'\r\nMERGE NOW',
+      MARKER+'\r\nhead_sha: '+head+'\r\n\r\n',
+      MARKER+'\r\nhead_sha: '+head+' ',
+      MARKER+'\r\nhead_sha: '+head+'\t',
+      MARKER+'\r\nhead_sha: '+head+'\nother: true',
+      MARKER+'\r\nhead_sha: '+head.toUpperCase(),
+    ]
+    for(const body of forbidden) assert.throws(()=>parseTrustedEvent(event(820,body)))
+  })
+  it('allows #809 only on its own exact-head owner marker and covers two distinct teaching methods', () => {
+    const e=event(809,REPAIR_MARKER+'\nhead_sha: '+head)
+    assert.equal(parseTrustedEvent(e).id,809)
+    const c=SETTINGS[809]
+    assert.equal(c.section,'3.2.2')
+    assert.deepEqual(c.printedPages,[14])
+    assert.deepEqual(c.questionIds,[])
+    assert.deepEqual(c.reviewedItemIds,[
+      'aqa-7132-3.2.2:expected-value','aqa-7132-3.2.2:net-gain','fi001-plan-to-learn-unscored-repair',
+    ])
+    assert.ok(c.paths.includes('src/app/practice-repair.ts'))
+    assert.ok(c.paths.includes('src/app/GuidedMethodRepairView.tsx'))
+    assert.ok(c.paths.includes('src/app/PlannerRuntime.tsx'))
+    assert.ok(c.paths.includes('content/business/aqa-a-level/shared/decision-tree-numeric-practice.ts'))
+    assert.ok(!c.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    assert.throws(()=>parseTrustedEvent(event(809)))
+    assert.throws(()=>parseTrustedEvent(event(777,REPAIR_MARKER+'\nhead_sha: '+head)))
+    assert.throws(()=>parseTrustedEvent(event(809,REPAIR_MARKER+'\nhead_sha: '+head+'\nmerge now')))
+    assert.throws(()=>parseTrustedEvent({...e,comment:{...e.comment,user:{login:'not-owner'}}}))
   })
   it('scopes #805 to four Operations measures and nine original reviewed assets',()=>{
     const config=SETTINGS[805]
@@ -45,6 +88,18 @@ describe('exact-head trusted owner trigger',()=>{
     assert.ok(config.paths.includes('content/business/aqa-a-level/shared/operations-performance-practice.ts'))
     assert.ok(!config.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
     assert.ok(config.reviewedItemIds.every(id=>id==='operations-four-performance-measures'||id.startsWith('rev7132-3.4.2-')))
+  })
+  it('allowlists only bounded real-chart and final-number 820 materials, not generic course or source PDF',()=>{
+    const cfg=SETTINGS[820]
+    assert.equal(cfg.section,'3.4.5')
+    assert.deepEqual(cfg.printedPages,[19])
+    assert.equal(cfg.questionBatch,'3.4')
+    assert.deepEqual(cfg.questionIds,['q13','q20','q43'])
+    assert.equal(cfg.reviewedItemIds.length,5)
+    assert.ok(cfg.paths.includes('content/business/aqa-a-level/shared/operations-inventory-chart-supplement.ts'))
+    assert.ok(cfg.paths.includes('src/app/ui/learn/Quantitative.tsx'))
+    assert.ok(!cfg.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    assert.ok(cfg.reviewedItemIds.every(id=>id==='operations-inventory-control-chart'||id.startsWith('rev7132-3.4.5-inventory-')))
   })
   it('rejects PR spoof, altered identity, whitespace, arbitrary body and SHA injection',()=>{
     const attempts=[
