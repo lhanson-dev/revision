@@ -20,6 +20,8 @@ type Row = McqQualityInput & {
   course: 'business-7132' | 'psychology-7182'
   source: 'course-pack' | 'structured-practice-bank'
   topic: string
+  sourceSpecItemIds: string[]
+  sourceNodeIds: string[]
 }
 const publishedNarrowCorrections = new Set([
   ...[1, 2, 3, 4].map(i => `psy-psy010${i}-check-v2`),
@@ -35,14 +37,15 @@ type AnyPack = Pack | PsyPack
 function fromPack(pack: AnyPack, course: Row['course']): Row[] {
   const own = pack.questions.map(q => ({
     course, source: 'course-pack' as const, id: q.id,
-    topic: q.topic, prompt: q.prompt, options: [...q.options],
+    topic: q.topic, sourceSpecItemIds: [], sourceNodeIds: [], prompt: q.prompt, options: [...q.options],
     correctOption: q.correctOption, explanation: q.explanation,
   }))
   const bank = (pack.practiceBank ?? []).flatMap(record => {
     const q = bankRecordToPractice(record, 'audit-only')
     return q?.type === 'multiple-choice' ? [{
       course, source: 'structured-practice-bank' as const,
-      id: q.id, topic: q.topicId, prompt: q.prompt,
+      id: q.id, topic: 'source-section:' + record.batch,
+      sourceSpecItemIds: [...record.target_item_ids], sourceNodeIds: [...record.target_node_ids], prompt: q.prompt,
       options: q.options.map(x => x.text), correctOption: q.correctOption,
       explanation: q.explanation,
     }] : []
@@ -101,6 +104,8 @@ function results() {
     source: q.source,
     id: q.id,
     topic: q.topic,
+    sourceSpecItemIds: q.sourceSpecItemIds,
+    sourceNodeIds: q.sourceNodeIds,
     correctOption: q.correctOption,
     reviewSignals: [...(flags.get(q.id) ?? [])].sort(),
     disposition: publishedNarrowCorrections.has(q.id)
@@ -139,6 +144,9 @@ describe('#787 cross-course published MCQ identity/disposition inventory', () =>
     expect(report.items.every(q => !!q.id && q.correctOption >= 0 && q.correctOption < 4)).toBe(true)
     expect(new Set(report.items.map(q => q.course + ':' + q.id)).size).toBe(report.items.length)
     expect(report.items.every(q => q.disposition && Array.isArray(q.reviewSignals))).toBe(true)
+    expect(report.items.filter(q => q.source === 'structured-practice-bank')
+      .every(q => q.topic.startsWith('source-section:') && Array.isArray(q.sourceSpecItemIds) && Array.isArray(q.sourceNodeIds))).toBe(true)
+    expect(report.items.some(q => q.source === 'structured-practice-bank' && q.sourceSpecItemIds.length > 0)).toBe(true)
     // A source-level no-flag result is never evidence of factually valid options.
     const folder = join(process.cwd(), '.artifacts', 'lf03-bank-dispositions')
     mkdirSync(folder, { recursive: true })
