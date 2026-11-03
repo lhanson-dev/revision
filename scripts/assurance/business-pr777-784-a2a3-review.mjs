@@ -75,6 +75,34 @@ export const SETTINGS = Object.freeze({
       'rev7132-3.4.2-daily-capacity-utilisation-02',
     ],
   },
+  820: {
+    section: '3.4.5', printedPages: [19], questionBatch: '3.4',
+    questionIds: ['q13', 'q20', 'q43'],
+    scope: [
+      'AQA Business 7132 §3.4.5 requires interpreting actual inventory control charts, and understanding lead time, re-order level, buffer inventory and re-order quantities',
+      'Official curriculum source is REFERENCE_ONLY; the exact Founder-uploaded v2.0 PDF has verified SHA-256 3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332',
+      'New quantitative chart is a genuine original two-axis plotted sawtooth in Learn, with order and delivery events separated by time, an accessible data table and unscored reasoning checks',
+      'Four new typed Practice items use explicitly stated chart-event numbers only. A correct one-mark result does not prove independent interpretation of a new unseen plotted chart, graph construction, written method or AO3/AO4',
+      'Current baseline bank q20/q43 refers to inventory-control charts but supplies text/tables rather than plotted visual evidence; review must not overclaim full graphical competence',
+      'Review the distinction between an order placed at the re-order trigger, a later delivery, the vertical delivered quantity and realistic risks from variable demand or lead time',
+    ],
+    paths: [
+      'content/business/aqa-a-level/shared/operations-inventory-chart-supplement.ts',
+      'content/business/aqa-a-level/shared/operations-inventory-calculations.ts',
+      'content/business/aqa-a-level/shared/learn.ts',
+      'content/business/aqa-a-level/inventory-chart-source-assurance.test.tsx',
+      'tests/e2e/business-inventory-chart.spec.ts',
+      'src/app/ui/learn/Quantitative.tsx',
+      'docs/technical/Issue 698 Business Operations 343-345 Source-to-Live.md',
+    ],
+    reviewedItemIds: [
+      'operations-inventory-control-chart',
+      'rev7132-3.4.5-inventory-reorder-quantity-cartons-01',
+      'rev7132-3.4.5-inventory-reorder-quantity-jars-02',
+      'rev7132-3.4.5-inventory-lead-time-delivery-day-01',
+      'rev7132-3.4.5-inventory-lead-time-delivery-day-02',
+    ],
+  },
   809: {
     section: '3.2.2', printedPages: [14], questionBatch: '3.2', questionIds: [],
     scope: [
@@ -283,6 +311,11 @@ async function run() {
     instructions:[
       'You are not the author. Identify errors, omissions, incorrect quantitative working, overclaimed scope and material pedagogy or assessment defects in every changed lesson and paper self-check.',
       'Independently calculate every required numeric result, coordinate, comparison, ratio and classification where applicable. Do not trust answer keys, tests or audit claims.',
+      ...(id===805 ? [
+        'Independently recompute all eight Operations final-number prompts from their actual scenario data, verify units and period alignment, accepted scoring, distinguish AQA-required calculation and interpretation from what the current one-mark items actually assess.',
+        'Inspect each source target and its repair Learn node. A unit-cost error must direct to the new explicit average-cost method rather than an older productivity-only page.',
+        'Challenge whether the two independent attempts for each of the four skills use distinct numbers and situations, retain historical content IDs and evidence, and resist wrong-answer acceptance.',
+      ] : []),
       ...(id===809 ? [
         'Independently derive expected value from the original published Foundation example and verify every probability, negative outcome, arithmetic step, £ currency unit, and the separate certain cost in net gain.',
         'Treat expected value and net gain as different assessed skills. Challenge whether their two guided challenges and methods are genuinely differentiated, pedagogically safe, and avoid presenting final-number mistakes as diagnosed procedural misconceptions.',
@@ -290,10 +323,11 @@ async function run() {
         'Inspect the canonical FI-001 selected skill handoff from Plan/Home into the Learn page, including canonicalRoute, and fail if a different method can be fabricated, wrongly credited, or promoted to mastery.',
         'Record an explicit finding if actual published source/evidence coverage is insufficient to verify a claim; passing CI only shows the named tests succeeded.',
       ] : []),
-      ...(id===805 ? [
-        'Independently recompute all eight Operations final-number prompts from their actual scenario data, verify units and period alignment, accepted scoring, distinguish AQA-required calculation and interpretation from what the current one-mark items actually assess.',
-        'Inspect each source target and its repair Learn node. A unit-cost error must direct to the new explicit average-cost method rather than an older productivity-only page.',
-        'Challenge whether the two independent attempts for each of the four skills use distinct numbers and situations, retain historical content IDs and evidence, and resist wrong-answer acceptance.',
+      ...(id===820 ? [
+        'Independently read the actual chart series and recompute every plotted coordinate and threshold: order at 800 on day 10, delivery day 16 from 200 to 1,800, six-day lead time and 1,600 replenished packets. Find arithmetic or chronology errors and reject misleading graph labels.',
+        'Check that the renderer will draw a genuine stock-versus-day sawtooth rather than using a textual substitute. Verify guide lines, same-day vertical stock jump, accessible data alternative, small-screen presentation and unscored self-checks, using the actual inert renderer source.',
+        'Recompute all four separate newly scored inventory event calculations from their scenario numbers, units and evidence targets. Reject any implication that a typed result proves ability to read a fresh plotted inventory control chart, analyse a business situation or construct a chart.',
+        'Check old inventory bank questions q13/q20/q43 and source-to-live inventory honestly: questions that give tables of chart data must not be represented as authentic visual chart tests. Preserve all published IDs and three 100-mark Business paper packs.',
       ] : []),
       'Check claimed official requirement versus educationally useful extension; distinguish diagrams drawn on paper from independently marked graph construction. Never turn reveal-only practice into scored proof.',
       'For published integration inspect actual separately hash-verified three-paper ContentPack code and the independently queried exact-head GitHub CI job record; do not infer authenticated production deployment from local browser CI.',
