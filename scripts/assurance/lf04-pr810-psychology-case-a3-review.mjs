@@ -166,9 +166,10 @@ async function githubJson(url, token) {
   return res.json()
 }
 function outputText(result) {
+  if (result.status !== 'completed') throw new Error('Incomplete independent provider response')
   if (typeof result.output_text === 'string' && result.output_text.trim()) return result.output_text
   const chunks = (result.output??[]).flatMap(x=>x.content??[]).filter(x=>x.type==='output_text').map(x=>x.text)
-  if (!chunks.length || result.status !== 'completed') throw new Error('Incomplete independent provider response')
+  if (!chunks.length) throw new Error('Independent provider returned no completed output text')
   return chunks.join('')
 }
 async function reviewWithModel(input, stage, apiKey) {
