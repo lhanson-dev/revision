@@ -9,6 +9,8 @@ export const planViewKeys: readonly PlanViewKey[] = ['day', 'week', 'month']
 export type LearningRouteContext = {
   learnPageId?: string | null
   topicId?: string | null
+  /** Display-only exact skill treatment on an FI-001 selected Learn repair. */
+  repairSpecItemId?: string | null
 }
 
 export type AppRoute =
@@ -17,8 +19,8 @@ export type AppRoute =
   | { kind: 'courses' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
-  | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection; learnPageId?: string | null; topicId?: string | null }
-  | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection; learnPageId?: string | null; topicId?: string | null }
+  | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection; learnPageId?: string | null; topicId?: string | null; repairSpecItemId?: string | null }
+  | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection; learnPageId?: string | null; topicId?: string | null; repairSpecItemId?: string | null }
   | { kind: 'progress' }
   | { kind: 'rev' }
   | { kind: 'admin'; section?: AdminSection }
@@ -56,6 +58,7 @@ export const revRoute = (): AppRoute => ({ kind: 'rev' })
 export const adminRoute = (section?: AdminSection): AppRoute => section ? ({ kind: 'admin', section }) : ({ kind: 'admin' })
 
 const clean = (value: string) => encodeURIComponent(value)
+const learnWithRepair = (path: string, specId?: string | null) => specId ? `${path}?repairSkill=${clean(specId)}` : path
 
 export function routeHash(route: AppRoute) {
   switch (route.kind) {
@@ -72,13 +75,13 @@ export function routeHash(route: AppRoute) {
     case 'subjects':
     case 'subject': return '#/courses'
     case 'course': {
-      if (route.section === 'learn' && route.learnPageId) return `#/courses/${clean(route.courseId)}/learn/${clean(route.learnPageId)}`
+      if (route.section === 'learn' && route.learnPageId) return learnWithRepair(`#/courses/${clean(route.courseId)}/learn/${clean(route.learnPageId)}`, route.repairSpecItemId)
       if (route.section === 'practice' && route.topicId) return `#/courses/${clean(route.courseId)}/practice/${clean(route.topicId)}`
       return `#/courses/${clean(route.courseId)}/${route.section}`
     }
     case 'module': {
       if (!route.courseId) return '#/courses'
-      if (route.section === 'learn' && route.learnPageId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/learn/${clean(route.learnPageId)}`
+      if (route.section === 'learn' && route.learnPageId) return learnWithRepair(`#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/learn/${clean(route.learnPageId)}`, route.repairSpecItemId)
       if (route.section === 'practice' && route.topicId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/practice/${clean(route.topicId)}`
       return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/${route.section}`
     }
@@ -133,13 +136,14 @@ export function parseRoute(hash: string): AppRoute {
     return validAdminSection(section) ? adminRoute(section) : adminRoute()
   }
 
-  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
+  const query = new URLSearchParams(hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '')
+  const parts = hash.split('?')[0]!.replace(/^#\/?/, '').split('/').filter(Boolean)
 
   if (parts[0] === 'courses' && parts.length === 4) {
     const courseId = decode(parts[1])
     const section = parts[2]
     const contextId = decode(parts[3])
-    if (courseId && contextId && section === 'learn') return learnerCourseRoute(courseId, 'learn', { learnPageId: contextId })
+    if (courseId && contextId && section === 'learn') return learnerCourseRoute(courseId, 'learn', { learnPageId: contextId, repairSpecItemId: query.get('repairSkill') })
     if (courseId && contextId && section === 'practice') return learnerCourseRoute(courseId, 'practice', { topicId: contextId })
   }
 
@@ -154,7 +158,7 @@ export function parseRoute(hash: string): AppRoute {
     const moduleId = decode(parts[3])
     const section = parts[4]
     const contextId = decode(parts[5])
-    if (courseId && moduleId && contextId && section === 'learn') return learnerModuleRoute(courseId, moduleId, 'learn', { learnPageId: contextId })
+    if (courseId && moduleId && contextId && section === 'learn') return learnerModuleRoute(courseId, moduleId, 'learn', { learnPageId: contextId, repairSpecItemId: query.get('repairSkill') })
     if (courseId && moduleId && contextId && section === 'practice') return learnerModuleRoute(courseId, moduleId, 'practice', { topicId: contextId })
   }
 
