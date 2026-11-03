@@ -183,6 +183,7 @@ Use this file to find the governing source before substantive work.
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Issue #698 Business source-mapped published independent second scored questions for market share, capacity, payables and critical path (candidate; independent educational review pending) → `docs/technical/Issue 698 Business Published Independent Recheck Supply.md`
+- Issue #703 course-local and global Progress share the same FI-001 scheduled next action, with exact Home Start and remaining learner acceptance limits → `docs/technical/Issue 703 Course Progress Shared FI001 Action.md`
 - Issue #703 global Progress FI-001 scheduled next-action reconciliation (candidate; course-local Progress and authenticated acceptance remain open) → `docs/technical/Issue 703 Global Progress FI001 Next Action.md`
 - Issue #703 Business authenticated actual Plan independent expected-value calculation retest candidate and evidence readback (CI and complete loop remain open) → `docs/technical/Issue 703 Business Authenticated Independent Recheck Acceptance.md`
 - Issue #703 Business 7132 real isolated authenticated two-skill Marketing evidence readback and returning Plan/Progress first acceptance slice (full learner loop remains open) → `docs/technical/Issue 703 Business Authenticated Skill Evidence Acceptance.md`

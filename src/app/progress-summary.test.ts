@@ -3,14 +3,13 @@ import { listAvailableContentAdapters } from '../engine/content/content-registry
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
-import { HOW_THIS_IS_WORKED_OUT, nextProgressAction, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor } from './progress-summary'
+import { HOW_THIS_IS_WORKED_OUT, progressActionFromPlannerTask, progressMeasuresFor, progressSummarySentence, readinessAcross, readinessFor } from './progress-summary'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const business = allCatalogueCourses(catalogue).find((item) => item.subject.id === 'business')
 if (!business) throw new Error('Business missing')
 const moduleId = business.course.learningAdapter.manifest.id
 const topics = business.course.learningAdapter.listTopics().map((topic) => topic.id)
-const now = new Date(2026, 9, 7, 9, 0)
 
 function weak(topicId: string): LearningEvidence[] {
   const common = { moduleId, topicId, occurredAt: '2026-10-05T10:00:00.000Z', schemaVersion: 1 as const }
@@ -59,13 +58,21 @@ describe('Progress summary', () => {
     expect(across.value).toBeNull()
   })
 
-  it('suggests one next action by REV\'s rules', () => {
-    const state = createCourseLearningState(business.course, weak(topics[2]))
-    const action = nextProgressAction([state], [business], now)
-    expect(action?.courseId).toBe(business.course.id)
-    expect(action?.label).toMatch(/^Practise /)
-    expect(action?.reason.length).toBeGreaterThan(0)
-    expect(nextProgressAction([], [business], now)).toBeNull()
+  it('projects a scheduled task with unchanged identity and without making a new decision', () => {
+    const task = {
+      id: 'existing-fi001-task',
+      courseId: business.course.id,
+      topicLabel: 'Leadership',
+      reason: 'A supported independent check is due',
+      activityType: 'quick-check' as const,
+    }
+    // This function projects an already-selected Home task. It is not a
+    // separate topic recommender and never assigns score or mastery.
+    const action = progressActionFromPlannerTask(task as Parameters<typeof progressActionFromPlannerTask>[0])
+    expect(action?.recommendationId).toBe(task.id)
+    expect(action?.courseId).toBe(task.courseId)
+    expect(action?.reason).toContain(task.reason)
+    expect(progressActionFromPlannerTask(null)).toBeNull()
   })
 
   it('keeps "How this is worked out" to three plain sentences and never promises a grade', () => {
