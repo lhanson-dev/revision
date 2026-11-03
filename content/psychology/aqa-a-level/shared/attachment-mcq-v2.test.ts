@@ -22,9 +22,14 @@ describe('LF-03 #787 AQA 7182 §4.1.3 Attachment source-first two-item repair', 
       expect(topic[4]?.prompt).toContain('supportive friendship')
       expect(topic.slice(3).every(q => q.explanation.length > 160 && q.options.length === 4)).toBe(true)
       expect(topic.slice(3).every(q => !q.prompt.startsWith('Which concept or approach'))).toBe(true)
-      expect(reviewMcqQuality(topic).filter(f =>
+      // Review exactly the replaced items. Three unchanged V1 items remain
+      // repetitive; their limitation belongs to the outstanding wider bank audit.
+      expect(reviewMcqQuality(topic.slice(3)).filter(f =>
         f.disposition === 'block' || ['repeated-option-set', 'generic-feedback'].includes(f.rule)
       )).toEqual([])
+      expect(reviewMcqQuality(topic).some(f =>
+        f.rule === 'repeated-option-set' && f.ids.some(id => legacyIds.slice(0, 3).includes(id))
+      )).toBe(true)
     }
   })
 
@@ -55,8 +60,8 @@ describe('LF-03 #787 AQA 7182 §4.1.3 Attachment source-first two-item repair', 
         id: 'wrong-' + id, moduleId: paper1.manifest.id, topicId: 'attachment',
         contentId: id, selectedOption: (key + 1) % 4, correctOption: key, confidence: 'certain',
       })
-      expect(right.correct).toBe(true)
-      expect(wrong.correct).toBe(false)
+      expect(right).toMatchObject({ source: 'multiple_choice', contentId: id, selectedOption: key, correctOption: key, correct: true })
+      expect(wrong).toMatchObject({ source: 'multiple_choice', contentId: id, selectedOption: (key + 1) % 4, correctOption: key, correct: false })
     }
   })
 })
