@@ -62,6 +62,11 @@ describe('Issue #698 — original AQA Business §3.4.2 operational-measures corr
         expect(question.topicId).toBe('operations')
         expect(question.specItemIds).toEqual([item.target])
         expect(question.nodeIds).toEqual([item.node])
+        // Unit-cost repair must point at the page which really teaches the
+        // method; legacy productivity and capacity lessons stay available.
+        if (item.target.endsWith(':unit-cost-average-cost')) {
+          expect(question.nodeIds).toEqual(['operations-four-performance-measures'])
+        }
         expect(question.expected).toBe(item.expected)
         expect(question.unit).toBe(item.unit)
         expect(question.marks).toBe(1)
