@@ -31,7 +31,9 @@ This package reuses the **existing published** course-level `learn` and `practic
 
 `content/business/aqa-a-level/operations-performance-source-assurance.test.ts` is designed to validate every actual three-paper ContentPack, distinct targets and two stimuli per skill, correct independent arithmetic, one-mark typed scoring, no credit for working, retained legacy identities, and exact source-linked Learn presence.
 
-**Pending:** run full exact-PR-head CI including TypeScript, unit/build, real signup/database/RLS, and desktop/tablet/phone; add or execute signed-in browser acceptance reaching these particular new exercises on the real canonical runtime and verifying owner-readable saved evidence; fresh independent A2/A3 source-bounded challenge of new Learn and eight questions; inspect actual review receipt and resolve any material findings. After separate Founder approval and merge, require production path-to-live success and genuine learner acceptance. An AI educational check is not qualified AQA examiner certification.
+A new disposable local-Supabase real-auth Playwright candidate in `tests/e2e/learner-value-journey.spec.ts` traverses the actual Operations Practice topic and the deterministic Plan, after a persisted *wrong* unit-cost answer to the first original check. It must launch the second, differently authored unit-cost check and persist a correct single-target result in the owner-scoped evidence store, surviving Progress navigation. Test presence is **not** a passing browser result; assess the exact-head CI receipt.
+
+**Pending:** finish full exact-PR-head CI including TypeScript, unit/build, real signup/database/RLS, and desktop/tablet/phone with this new real-auth case; fresh independent A2/A3 source-bounded challenge of the new Learn and eight questions; inspect the actual review receipt and resolve any material findings. After separate Founder approval and merge, require production path-to-live success and genuine learner acceptance. An AI educational check is not qualified AQA examiner certification.
 
 ## Documentation impact
 
