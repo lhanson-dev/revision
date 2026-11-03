@@ -310,6 +310,46 @@ test('LF-03 #787 canonical Memory Practice displays, scores and restores four di
 })
 
 
+
+test('LF-03 #698 canonical Cognition and Development V2 Practice scores four distinct cases and survives reload', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/cognition-and-development`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+
+  const positions = [2, 0, 3, 1]
+  const stems = [/same water poured/, /sequence of hints/, /looking-time study/, /Sally puts a marble/]
+  const distinctOptions = new Set<string>()
+  for (let index = 0; index < 4; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(stems[index]!)
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    distinctOptions.add((await options.allTextContents()).map(t => t.trim().toLowerCase()).sort().join('|'))
+    await options.nth(positions[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: `psy-psy110${index + 1}-check-v2`,
+      selectedOption: positions[index], correctOption: positions[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < 3) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(distinctOptions.size).toBe(4)
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(
+    [1, 2, 3, 4].map(i => `psy-psy110${i}-check-v2`),
+  )
+})
+
 test('LF-03 #787 canonical Attachment Practice independently scores two V2 items and resumes without duplicate evidence', async ({ page }) => {
   await seedRestrictedPsychologyLearner(page)
   await seedPracticeCheckpoints(page)
