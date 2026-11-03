@@ -20,7 +20,14 @@ export type McqReviewFinding = {
 }
 
 function normalise(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ')
+  // Do not erase the mathematical sign in distinct cash-flow answers.
+  // Previously −£6,000 and +£6,000 both became '6 000', generating a
+  // spurious duplicate-option finding for a valid Business MCQ.
+  return value.toLowerCase()
+    .replace(/[−–]/g, '-')
+    .replace(/([+-])(?=\s*[£$]?\s*\d)/g, sign => sign === '+' ? ' positive ' : ' negative ')
+    .replace(/(?<=\d),(?=\d{3}(?!\d))/g, '')
+    .replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ')
 }
 
 function stemSimilarity(a: string, b: string) {
