@@ -13,7 +13,7 @@ The existing 2 November source-pattern audit covers the 118 base AQA Psychology 
 `scripts/assurance/lf03-published-disposition.test.ts` emits `.artifacts/lf03-bank-dispositions/published-qa-queue.json` during test execution, without student data, question stems or option text. The dedicated non-secret GitHub workflow `.github/workflows/lf03-published-mcq-disposition.yml` runs the inventory test and uploads its actual source output as a **30-day GitHub Actions artifact**, bound to the workflow's candidate SHA; it can be manually rerun from approved `main` after merge. Evidence reviewers must use the precise release/head of the emitted report, because earlier artifact counts do not validate later bank changes.
 
 It provides **per published item ID**:
-- subject and published source family, topic and correct-answer position;
+- subject, source family, course-pack topic (or the **real source section** for bank records), exact published source-item/node locators where authored and correct-answer position; bank contents must not be falsely attributed to an invented `audit-only` topic;
 - review signals (invalid key/option, repeated options, keyed bias/run, duplicated stem, length clue or generic feedback);
 - a deliberately conservative disposition: *targeted V2 correction published but original learner acceptance open* (only the 12 specific corrected Social Influence, Memory, Attachment and Issues/Debates IDs in current approved main) **or** *unresolved independent item review needed*.
 
