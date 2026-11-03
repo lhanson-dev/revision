@@ -87,12 +87,12 @@ function learnerName(user: User) {
 
 function canonicalRoute(route: AppRoute) {
   if (route.kind === 'subjects' || route.kind === 'subject') return coursesRoute()
-  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId })
+  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId, repairSpecItemId: route.repairSpecItemId })
   if (route.kind === 'module') {
     const resolved = route.courseId
       ? { course: { id: route.courseId } }
       : findCourseForModule(catalogue, route.moduleId)
-    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId }) : coursesRoute()
+    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId, repairSpecItemId: route.repairSpecItemId }) : coursesRoute()
   }
   return route
 }
