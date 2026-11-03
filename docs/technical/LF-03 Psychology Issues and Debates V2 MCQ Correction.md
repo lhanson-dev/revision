@@ -25,6 +25,15 @@ The old six-item pool stays reconstructable only for matching older owner-scoped
 
 Dedicated candidate regression asserts the exact current three-pack question content, six unchanged source-bullet locators, present correct-answer indices, distinct current options, concrete Practice conversion, historical-score/inference distinction, source-limited six-question checkpoint recovery and fail-closed unknown drift. These are **tests authored with the change**, not substitutes for unbiased external review. No database migration or normative behaviour change is proposed.
 
+
+### Dated CI reconciliation (3 November 2026)
+
+Initial candidate head `18463b43fb30818ef237c728306c4284a9742d52` failed [full CI #41603034380](https://github.com/lhanson-dev/revision/actions/runs/41603034380). **Actual failure** was four outdated version/quality contracts: `psychology-launch-assurance.ts` looked up the two old question IDs; the #698 source-to-performance test expected unversioned keys; the global LF-03 pattern-count threshold expected at least ten repeated groups when one had been repaired; and the course test mistakenly asserted Attachment wording for the new Issues and Debates questions. Seven other main CI jobs including actual responsive browser checks, Auth and DB/RLS passed. These historical failed results remain recorded.
+
+The branch then updated the two exact ID contracts without relaxing the all-118 requirement/three-pack evidence checks, restricted the Issues and Debates and Attachment wording assertions to their own topics, and replaced the stale repeated-group count floor with checks that **Relationships, Cognition and Development, and Forensic Psychology** remain explicitly flagged for review. A separate canonical synthetic authenticated Playwright test was added to `tests/e2e/psychology-restricted-pilot-route.spec.ts`, covering six original topic items, both V2 correct keys, exact persisted content IDs and reloading a saved scored session on desktop/tablet/phone. It uses synthetic user/auth and owner-scoped API fixtures, **not** an authentic student account. Later CI results, exact head, independent A3 receipt and production status must be checked separately; test authorship alone is not passing evidence.
+
+A separate trusted reviewer [draft PR #807](https://github.com/lhanson-dev/revision/pull/807) proposes guarded independent blinded-key and separate feedback A3 infrastructure. Its no-secret contract test workflow is not itself a model educational review. It requires separate Founder merger approval before it can be used against exact PR #803 content.
+
 ### Release gates pending
 
 - Exact-head fresh-context A3: independent blinded answer/key reconstruction for both original contexts; separately challenge each author-written rationale, plausible distractors, alternative single-best-answer ambiguities and source/AO fit. If material fail, revise and re-run on new exact head.
