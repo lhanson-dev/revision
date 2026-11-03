@@ -180,8 +180,10 @@ export function parseTrustedEvent(event) {
   const id = event?.issue?.number
   if (!Object.hasOwn(SETTINGS, id) || event?.comment?.user?.login !== 'lhanson-dev' ||
       event?.comment?.author_association !== 'OWNER') throw new Error('Untrusted or wrong PR review comment')
+  // GitHub may store a genuine two-line OWNER comment with CRLF line endings.
+  // Permit LF or CRLF only; still reject extra lines, whitespace and spoofed SHAs.
   const marker = id === 809 ? REPAIR_MARKER : MARKER
-  const match = new RegExp('^' + marker + '\\nhead_sha: ([a-f0-9]{40})\\n?$').exec(event.comment.body ?? '')
+  const match = new RegExp('^' + marker + '\\r?\\nhead_sha: ([a-f0-9]{40})\\r?\\n?$').exec(event.comment.body ?? '')
   if (!match) throw new Error('Expected exact two-line reviewer marker and SHA')
   return { id, head: match[1], settings: SETTINGS[id] }
 }

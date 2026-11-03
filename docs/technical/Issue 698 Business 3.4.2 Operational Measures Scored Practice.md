@@ -62,3 +62,18 @@ The non-blocking minor is that Plan A's £32 forecast cost applies to 960 foreca
 ## Documentation impact
 
 The approved Course Learning Blueprint, source-rights authority, and Claims and Progress Governance already require exact-skill evidence with truthful limits. This is a bounded correction to existing learner content, not a new product-policy decision: no normative authority/ADR change. This technical record and INDEX pointer accompany the governed PR. Do not overwrite or relabel historical inventories (194 checkpoint, 344 keyword, 80+421 provisional candidate reviews), and do not claim whole-course percentage or completeness. Carry continuing work in Issue #698.
+
+
+## 3 November 2026 — #703 deterministic Plan-day traversal regression (candidate)
+
+**Observed:** Exact released main \`8f7b23b5b2c98cb5b9ae6339457b58bd294b99ce\`, [Revision CI #41635275472](https://github.com/lhanson-dev/revision/actions/runs/41635275472) isolated real Auth/PostgREST/browser database job, had one **flaky** case: \`tests/e2e/learner-value-journey.spec.ts:816\`. The wrong single-target unit-cost result was saved and the standalone source-backed opportunity was found in a service assertion, but the browser's fourteen-day Plan traversal failed to launch the corresponding different question on its first attempt; a retry passed. Production smoke and the later successful desktop CI rerun do **not** establish this local test as reliably stable.
+
+**Narrow test-only hypothesis:** The original traversal asserted only a visible \`Plan\` heading before reading the first day's rows, and after each Next day click asserted merely that *some* \`.pln-daypanel\` was visible. Neither assertion proves that the requested day panel and asynchronous owner-scoped Plan session/evidence reads are settled; the test might inspect an incomplete or previous day's content. This is a plausible **test race, not confirmed planner root cause**.
+
+**Candidate correction:** Preserve the real local student, published two distinct unit-cost items, wrong earlier owner-scoped evidence, authentic Plan Start action, fresh independent final-number entry, saved correct item evidence and reload. Add:
+- wait until the real \`.pln-daypanel\` is rendered;
+- read its \`aria-labelledby="pln-tab-YYYY-MM-DD"\` exact selected day;
+- after each Next day, require the **next date's** selected panel before checking rows;
+- retain all fourteen distinct days, record the actual date and any supported independent-recheck rows in a failing assertion, and do not navigate past the final checked day.
+
+**Assurance boundary:** No modification to a planner algorithm, recommendation priority, approved content, frontend component, UI baseline, persistent evidence, rubric, source mapping or result criterion. A new green CI on this test is evidence for *repeatable local L* only. A fresh authenticated hosted H and genuine learner O journey, including adequate repair before a different independent check and persistence after relogin, remains unproved under #703/#705/#665; full-course assurance remains under #698. If the corrected test still fails with fourteen confirmed dates, investigate the real scheduler rather than loosening the launch criterion. No normative authority or ADR change is justified by this test-only clarification; INDEX already points here and the existing Workstream 5 matrix remains historical until an independently verified new release.

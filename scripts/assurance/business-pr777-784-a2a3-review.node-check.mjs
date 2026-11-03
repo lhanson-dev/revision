@@ -34,6 +34,29 @@ describe('exact-head trusted owner trigger',()=>{
       assert.ok(parsed.settings.reviewedItemIds.length>=3)
     }
   })
+  it('accepts actual GitHub OWNER CRLF two-line comments for every allowed PR, without permitting suffixes',()=>{
+    for(const id of [777,784,805,820]) {
+      for(const body of [
+        MARKER+'\r\nhead_sha: '+head,
+        MARKER+'\r\nhead_sha: '+head+'\r\n',
+        MARKER+'\nhead_sha: '+head+'\n',
+      ]) {
+        const parsed=parseTrustedEvent(event(id,body))
+        assert.equal(parsed.id,id)
+        assert.equal(parsed.head,head)
+      }
+    }
+    const forbidden=[
+      MARKER+'\rhead_sha: '+head,
+      MARKER+'\r\nhead_sha: '+head+'\r\nMERGE NOW',
+      MARKER+'\r\nhead_sha: '+head+'\r\n\r\n',
+      MARKER+'\r\nhead_sha: '+head+' ',
+      MARKER+'\r\nhead_sha: '+head+'\t',
+      MARKER+'\r\nhead_sha: '+head+'\nother: true',
+      MARKER+'\r\nhead_sha: '+head.toUpperCase(),
+    ]
+    for(const body of forbidden) assert.throws(()=>parseTrustedEvent(event(820,body)))
+  })
   it('allows #809 only on its own exact-head owner marker and covers two distinct teaching methods', () => {
     const e=event(809,REPAIR_MARKER+'\nhead_sha: '+head)
     assert.equal(parseTrustedEvent(e).id,809)
