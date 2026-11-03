@@ -66,10 +66,10 @@ export function extractExactItems(source) {
     }
     const q = call.arguments[0]
     const item = {
-      parent: key, id: valueOf(q,'id'), prompt: valueOf(q,'prompt'), options: valueOf(q,'options'),
+      parent: key, id: valueOf(q,'id'), topic: valueOf(q,'topic'), prompt: valueOf(q,'prompt'), options: valueOf(q,'options'),
       correctOption: valueOf(q,'correctOption'), explanation: valueOf(q,'explanation'),
     }
-    if (item.id !== EXPECTED[index][1] || typeof item.prompt !== 'string' ||
+    if (item.id !== EXPECTED[index][1] || item.topic !== 'cognition-and-development' || typeof item.prompt !== 'string' ||
       !Array.isArray(item.options) || item.options.length !== 4 ||
       item.options.some(x=>typeof x !== 'string' || x.length < 15) ||
       new Set(item.options.map(x=>x.toLowerCase().trim())).size !== 4 ||
@@ -152,11 +152,11 @@ function reviewerSchema() {
  */
 export function explanationDecision(review, items) {
   if (!review || !Array.isArray(review.items) || review.items.length !== 4 ||
-    typeof review.overallFeedbackVerdict !== 'string' || !review.overallFeedbackVerdict.trim()) {
+    !['pass','minor','material','blocking'].includes(review.overallFeedbackVerdict)) {
     throw new Error('Independent feedback reviewer response incomplete')
   }
   return {
-    decision: review.items.every((q,i) =>
+    decision: ['pass','minor'].includes(review.overallFeedbackVerdict) && review.items.every((q,i) =>
       q.id===items[i].id && ['pass','minor'].includes(q.verdict) &&
       typeof q.keyAndExplanationConsistency==='string' && q.keyAndExplanationConsistency.trim().length>20 &&
       typeof q.misconceptionAndDistractorFeedback==='string' && q.misconceptionAndDistractorFeedback.trim().length>20
@@ -178,7 +178,7 @@ function explanationSchema() {
           keyAndExplanationConsistency:string,
           misconceptionAndDistractorFeedback:string,
         }}},
-      overallFeedbackVerdict:string,
+      overallFeedbackVerdict:{type:'string',enum:['pass','minor','material','blocking']},
     }}
 }
 
@@ -269,7 +269,7 @@ async function run() {
       instructions:[
         'For each item challenge agreement among question stem, original keyed option, complete authored feedback, independent answer and each distractor.',
         'Flag as material any incorrect fact, misleading omission, multiple defensible keys, inaccurate explanation, or feedback that would teach the wrong lesson.',
-        'Do not declare full AQA syllabus coverage or teacher signoff from four MCQs. Return exactly four item critiques in their input order.',
+        'Do not declare full AQA syllabus coverage or teacher signoff from four MCQs. Return exactly four item critiques in input order and set overallFeedbackVerdict to pass, minor, material or blocking; it must reflect any identified material issue.',
       ],
     }
     const followup=await fetch('https://api.openai.com/v1/responses',{
