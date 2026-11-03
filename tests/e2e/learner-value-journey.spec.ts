@@ -490,6 +490,19 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
     await page.reload()
     await page.goto(appPath + '#/progress')
     await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible()
+
+    // The normal canonical Learn route keeps the shared Foundation page but
+    // never invents a specific weakness. An FI-001 skill-focused Learn link
+    // displays a different unscored method for each exact source item.
+    const learnBase = appPath + '#/courses/' + encodeURIComponent(businessId) + '/learn/bus-evi-004'
+    await page.goto(learnBase)
+    await expect(page.getByRole('region', { name: /^Guided repair:/ })).toHaveCount(0)
+    await page.goto(learnBase + '?repairSkill=' + encodeURIComponent('aqa-7132-3.2.2:expected-value'))
+    await expect(page.getByRole('region', { name: 'Guided repair: Calculate a probability-weighted expected value' })).toBeVisible()
+    await page.goto(learnBase + '?repairSkill=' + encodeURIComponent('aqa-7132-3.2.2:net-gain'))
+    await expect(page.getByRole('region', { name: 'Guided repair: Separate net gain from expected value' })).toBeVisible()
+    const afterGuidedRead = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(afterGuidedRead.map((item) => item.id).sort()).toEqual(saved.map((item) => item.id).sort())
   } finally {
     await learner.auth.signOut()
     if (userId) {
