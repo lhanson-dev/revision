@@ -913,7 +913,7 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
     await expect(dayPanel).toBeVisible()
     const initialTab = await dayPanel.getAttribute('aria-labelledby')
     expect(initialTab, 'The rendered Plan day must expose its actual selected date')
-      .toMatch(/^pln-tab-\\d{4}-\\d{2}-\\d{2}$/)
+      .toMatch(/^pln-tab-\d{4}-\d{2}-\d{2}$/)
     let selectedDay = initialTab!.slice('pln-tab-'.length)
     const scannedDays: string[] = []
     let launched = false
@@ -924,7 +924,7 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
       const allLabels = await suggested.allTextContents()
       scannedDays.push(`${selectedDay}: ${allLabels.length} suggested; ${allLabels
         .filter(label => /Independent recheck/i.test(label))
-        .map(label => label.trim().replace(/\\s+/g, ' ').slice(0, 140))
+        .map(label => label.trim().replace(/\s+/g, ' ').slice(0, 140))
         .join(' | ') || 'no independent recheck'}`)
       if (await row.count()) {
         await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
