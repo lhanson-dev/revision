@@ -52,6 +52,8 @@ describe('LF-04 Psychology case-context Practice warmups', () => {
     const social = caseStudyForPractice(psychologyCaseStudies, 'social-influence')
     expect(social?.questions[0]?.guidance).toContain('supervisor')
     expect(social?.questions[1]?.guidance).toContain('one observation')
+    expect(social?.questions[1]?.guidance).toContain('their behaviour is not described')
+    expect(social?.questions[1]?.guidance).not.toContain('follow the other trainees')
     const memory = caseStudyForPractice(psychologyCaseStudies, 'memory')
     expect(memory?.questions[0]?.guidance).toContain('phonological loop')
     const rm = caseStudyForPractice(psychologyCaseStudies, 'research-methods')
