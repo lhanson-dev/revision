@@ -24,7 +24,7 @@ const BUDGET_USD = 0.95
 export function parseTrustedEvent(event) {
   if (event?.issue?.number !== REVIEW_PR || event?.comment?.user?.login !== 'lhanson-dev' ||
       event?.comment?.author_association !== 'OWNER') throw new Error('Only Founder-owned PR 825 comment is authorized')
-  const match = new RegExp('^' + REVIEW_MARKER + '\nhead_sha: ([a-f0-9]{40})\n?$').exec(event.comment.body ?? '')
+  const match = new RegExp('^' + REVIEW_MARKER + '(?:\r\n|\n)head_sha: ([a-f0-9]{40})(?:\r\n|\n)?$').exec(event.comment.body ?? '')
   if (!match) throw new Error('Expected exact review marker and 40-character head SHA')
   return match[1]
 }
