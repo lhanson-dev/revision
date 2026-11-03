@@ -7,7 +7,8 @@ import business3 from '../../content/business/aqa-a-level/paper-3'
 import psychology1 from '../../content/psychology/aqa-a-level/paper-1'
 import psychology2 from '../../content/psychology/aqa-a-level/paper-2'
 import psychology3 from '../../content/psychology/aqa-a-level/paper-3'
-import { bankRecordToPractice } from '../../src/app/practice-questions'
+import { bankQuestionId, bankRecordToPractice } from '../../src/app/practice-questions'
+import retainedBusinessSource from '../../content/business/aqa-a-level/shared/fast-path-question-bank.json'
 import { reviewMcqQuality, type McqQualityInput } from './lf03-mcq-quality'
 
 /**
@@ -72,12 +73,19 @@ function allPublished(): Row[] {
 function results() {
   const rows = allPublished()
   const flags = new Map<string, Set<string>>()
+  const retainedIds = new Set(retainedBusinessSource.questions
+    .filter(record => record.question.family === 'MCQ')
+    .map(record => bankQuestionId(record)))
   const cohorts = [
     rows.filter(q => q.course === 'business-7132' && q.source === 'course-pack'),
     rows.filter(q => q.course === 'business-7132' && q.source === 'structured-practice-bank'),
     rows.filter(q => q.course === 'psychology-7182' && q.source === 'course-pack'),
     rows.filter(q => q.course === 'psychology-7182' && q.source === 'structured-practice-bank'),
   ]
+  // The historical 59-item retained Business MCQ source is A=40/B=12/C=7/D=0.
+  // Its skew must remain visible even when newer 7132 rechecks and slices dilute
+  // a whole-integrated-bank >=60% heuristic below its normal warning threshold.
+  cohorts.push(rows.filter(q => q.course === 'business-7132' && retainedIds.has(q.id)))
   for (const group of cohorts) {
     for (const f of reviewMcqQuality(group)) {
       for (const id of f.ids) {
