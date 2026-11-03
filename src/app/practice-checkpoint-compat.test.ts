@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import paper1 from '../../content/psychology/aqa-a-level/paper-1'
 import { coursePackQuestionToPractice } from './practice-questions'
 import { createMultipleChoiceEvidence } from './practice-evidence'
-import { legacySocialInfluencePool, legacyMemoryPool, legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
+import { legacySocialInfluencePool, legacyMemoryPool, legacyAttachmentPool, legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from './practice-checkpoint-compat'
 import { startQuestionSession, recordSessionAnswer } from './practice-session'
 import {
   createPracticeCheckpoint, fingerprintPracticeContent, type PracticeCheckpointKey,
@@ -116,5 +116,47 @@ describe('LF-03 #787 exact previous Memory sessions, not silently rekeyed', () =
       schemaVersion: 1, session: startQuestionSession(legacy!, 4), pending: null,
     })
     await expect(loadLf03CompatibleCheckpoint(store, memoryKey, published, legacy)).rejects.toThrow(/content changed/)
+  })
+})
+
+// #787: two changed Attachment questions must not strand the previous five-item session.
+describe('LF-03 #787 original Attachment checkpoint compatibility', () => {
+  const attachmentKey = { ...key, topicId: 'attachment' }
+  const published = paper1.questions.filter(q => q.topic === 'attachment').map(coursePackQuestionToPractice)
+  const legacy = legacyAttachmentPool('7182', 'attachment', published)
+
+  it('publishes two new keys while reconstructing the complete previous five-item content', () => {
+    expect(published).toHaveLength(5)
+    expect(published.map(x => x.id)).toEqual([
+      'psy-psy0301-check', 'psy-psy0302-check', 'psy-psy0303-check',
+      'psy-psy0304-check-v2', 'psy-psy0305-check-v2',
+    ])
+    expect(legacy?.map(x => x.id)).toEqual([
+      'psy-psy0301-check', 'psy-psy0302-check', 'psy-psy0303-check',
+      'psy-psy0304-check', 'psy-psy0305-check',
+    ])
+    expect(legacyPsychologyCheckpointPool('7182', 'attachment', published)).toEqual(legacy)
+    expect(legacyAttachmentPool('7132', 'attachment', published)).toBeNull()
+    expect(legacyAttachmentPool('7182', 'memory', published)).toBeNull()
+    expect(legacyAttachmentPool('7182', 'attachment', published.slice(0, 3))).toBeNull()
+  })
+
+  it('recovers the immutable old session only for its full exact fingerprint', async () => {
+    const store = memoryStore()
+    const prior = recordSessionAnswer(startQuestionSession(legacy!, 5), {
+      questionId: legacy![0]!.id, correct: true, level: legacy![0]!.level,
+      selectedOption: 0, confidence: 'certain',
+    })
+    await createPracticeCheckpoint(store, attachmentKey, await fingerprintPracticeContent(legacy!), crypto.randomUUID(), {
+      schemaVersion: 1, session: prior, pending: null,
+    })
+    const restored = await loadLf03CompatibleCheckpoint(store, attachmentKey, published, legacy)
+    expect(restored.legacy).toBe(true)
+    expect(restored.checkpoint?.snapshot.session).toEqual(prior)
+    const store2 = memoryStore()
+    await createPracticeCheckpoint(store2, attachmentKey, 'c'.repeat(64), crypto.randomUUID(), {
+      schemaVersion: 1, session: prior, pending: null,
+    })
+    await expect(loadLf03CompatibleCheckpoint(store2, attachmentKey, published, legacy)).rejects.toThrow(/content changed/)
   })
 })

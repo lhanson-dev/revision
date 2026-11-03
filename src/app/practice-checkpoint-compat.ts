@@ -1,6 +1,6 @@
 import type { PracticeQuestion } from './practice-questions'
 import { coursePackQuestionToPractice } from './practice-questions'
-import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions, psychologyLegacyAttachmentQuestions } from '../../content/psychology/aqa-a-level/shared/course'
 import {
   fingerprintPracticeContent, loadPracticeCheckpoint,
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointStore,
@@ -43,6 +43,21 @@ export function legacyMemoryPool(
   return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
 }
 
+/** #787 Attachment correction: rebuild the exact old five-item pool, swapping only
+ * the two newly versioned entries. Never offer this pool to a new session. */
+export function legacyAttachmentPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  if (specificationCode !== '7182' || topicId !== 'attachment') return null
+  const previousByCurrentId = new Map(psychologyLegacyAttachmentQuestions
+    .filter(question => ['psy-psy0304-check', 'psy-psy0305-check'].includes(question.id))
+    .map(question => [question.id + '-v2', coursePackQuestionToPractice(question)]))
+  if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 2) return null
+  return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
 export function legacyPsychologyCheckpointPool(
   specificationCode: string,
   topicId: string,
@@ -50,6 +65,7 @@ export function legacyPsychologyCheckpointPool(
 ): PracticeQuestion[] | null {
   return legacySocialInfluencePool(specificationCode, topicId, publishedPool)
     ?? legacyMemoryPool(specificationCode, topicId, publishedPool)
+    ?? legacyAttachmentPool(specificationCode, topicId, publishedPool)
 }
 
 export async function loadLf03CompatibleCheckpoint(

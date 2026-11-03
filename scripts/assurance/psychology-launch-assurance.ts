@@ -195,9 +195,9 @@ function flashcardsFor(requirementId: string) {
 }
 
 function questionFor(requirementId: string) {
-  // LF-03 deliberately versions four original Social Influence and four Memory concept checks.
-  // Challenge the actually published V2 content; never fall back to retired V1.
-  const version = /^PSY-0[12]-0[1-4]$/.test(requirementId) ? '-v2' : ''
+  // LF-03 now versions four Social Influence and four Memory items plus the
+  // last two Attachment items. Challenge published V2, never retired old keys.
+  const version = /^(PSY-0[12]-0[1-4]|PSY-03-0[45])$/.test(requirementId) ? '-v2' : ''
   const found = psychologyQuestions.find((question) => question.id === `psy-${sectionId(requirementId)}-check${version}`)
   if (!found) throw new Error(`Missing production objective Practice for ${requirementId}`)
   return found

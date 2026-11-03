@@ -33,6 +33,7 @@ import { psychologyObjectivePracticeConcept, stablePsychologyPracticeHash } from
 import { psychologySocialInfluenceLearnAdditions } from './social-influence-learn'
 import { socialInfluenceMcqV2 } from './social-influence-mcq-v2'
 import { memoryMcqV2 } from './memory-mcq-v2'
+import { attachmentMcqV2 } from './attachment-mcq-v2'
 
 type TruthRequirement = {
   requirementId: string
@@ -317,12 +318,18 @@ export const psychologyLegacySocialInfluenceQuestions = truthTopics[0]!.requirem
 export const psychologyLegacyMemoryQuestions = truthTopics[1]!.requirements
   .map((requirement) => legacyObjectiveQuestion(truthTopics[1]!, requirement))
 
+/** Prior full Attachment five-item pool for exact saved-session recovery only. */
+export const psychologyLegacyAttachmentQuestions = truthTopics[2]!.requirements
+  .map(requirement => legacyObjectiveQuestion(truthTopics[2]!, requirement))
+
 const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
 const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = memoryMcqV2
+const updatedAttachmentQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = attachmentMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) =>
     updatedSocialInfluenceQuestions[requirement.requirementId]
     ?? updatedMemoryQuestions[requirement.requirementId]
+    ?? updatedAttachmentQuestions[requirement.requirementId]
     ?? legacyObjectiveQuestion(topic, requirement)),
 )
 

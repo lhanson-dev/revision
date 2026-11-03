@@ -79,3 +79,30 @@ describe('LF-03 #787 previously guessable Memory MCQs cannot raise readiness', (
     expect(supportsLearningInference(otherCourse)).toBe(true)
   })
 })
+
+// Versioned, assessment-changed Attachment items must not re-score old selections.
+describe('LF-03 #787 Attachment evidence retirement is topic and source bounded', () => {
+  it('retains V1 raw records but counts only replacement decisions toward understanding', () => {
+    for (const i of [4, 5]) {
+      const id = `psy-psy030${i}-check`
+      const old = createMultipleChoiceEvidence({
+        id: 'attachment-old-' + i, moduleId, topicId: 'attachment',
+        contentId: id, selectedOption: 0, correctOption: 0, confidence: 'certain',
+      })
+      const updated = createMultipleChoiceEvidence({
+        id: 'attachment-new-' + i, moduleId, topicId: 'attachment',
+        contentId: id + '-v2', selectedOption: i === 4 ? 2 : 0,
+        correctOption: i === 4 ? 2 : 0, confidence: 'certain',
+      })
+      expect(recentActivity([old, updated]).map(x => x.evidenceId)).toContain(old.id)
+      expect(supportsLearningInference(old)).toBe(false)
+      expect(supportsLearningInference(updated)).toBe(true)
+      expect(assessReadiness([old, updated]).evidenceCount).toBe(1)
+      expect(assessTopicKnowledge(moduleId, 'attachment', [old, updated]).distinctContentItems).toBe(1)
+      expect(supportsLearningInference(createMultipleChoiceEvidence({
+        id: 'other-course-' + i, moduleId: 'business-aqa-a-level-7132-paper-1',
+        topicId: 'attachment', contentId: id, selectedOption: 0, correctOption: 0,
+      }))).toBe(true)
+    }
+  })
+})

@@ -233,6 +233,9 @@ const retiredPsychologyPatternedObjectiveIds = new Set([
   // concepts in every question. Retain raw scored history; retire only its
   // unreliable inferred readiness/understanding contribution.
   'psy-psy0201-check', 'psy-psy0202-check', 'psy-psy0203-check', 'psy-psy0204-check',
+  // #787 Attachment: repeated identical option set for maternal deprivation
+  // and later relationship inference; keep raw scores but retire readiness credit.
+  'psy-psy0304-check', 'psy-psy0305-check',
 ])
 export function supportsLearningInference(evidence: LearningEvidence): boolean {
   return !(evidence.source === 'multiple_choice'
