@@ -855,7 +855,7 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
     expect(availabilityError).toBeNull()
 
     await markLearnPageReviewed(learner, {
-      userId, courseId: businessId, moduleId, topicId, pageId: 'bus-ops-004',
+      userId, courseId: businessId, moduleId, topicId, pageId: 'operations-four-performance-measures',
     })
     const store = createSupabaseEvidenceStore(learner)
     const wrong = candidates[0]!
@@ -872,9 +872,9 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
       occurredAt: new Date(Date.now() - 120_000).toISOString(),
     }))
     const before = await loadLearningEvidence(store, userId, moduleId, topicId)
-    expect(findSkillRecheckOpportunities(candidates, before, topicId, [moduleId], ['bus-ops-004'])
+    expect(findSkillRecheckOpportunities(candidates, before, topicId, [moduleId], ['operations-four-performance-measures'])
       .map(need => [need.specItemId, need.freshQuestionId, need.repairLearnPageId]))
-      .toEqual([[target, fresh.id, 'bus-ops-004']])
+      .toEqual([[target, fresh.id, 'operations-four-performance-measures']])
 
     await page.goto(appPath)
     await page.getByLabel('Email').fill(email)
@@ -912,7 +912,7 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
       .some(item => item.contentId === fresh.id && item.correct
         && individualSpecItemObservation(item)?.specItemId === target)).toBe(true)
     const after = await loadLearningEvidence(store, userId, moduleId, topicId)
-    expect(findSkillRecheckOpportunities(candidates, after, topicId, [moduleId], ['bus-ops-004']))
+    expect(findSkillRecheckOpportunities(candidates, after, topicId, [moduleId], ['operations-four-performance-measures']))
       .toEqual([])
     await page.reload()
     await page.goto(appPath + '#/progress')
