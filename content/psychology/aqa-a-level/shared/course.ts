@@ -245,14 +245,57 @@ export const psychologyLearn = learnCourseSchema.parse({
   })),
 })
 
+// LF-06: one definition per retrieval prompt. These new identities deliberately
+// do not inherit historical self-ratings from the former multi-demand card.
+const mentalHealthDefinitionCards = [
+  {
+    id: 'psy-psy0401-statistical-infrequency-card-v2',
+    prompt: 'How does statistical infrequency define abnormality?',
+    answer: 'A characteristic is statistically infrequent when it is rare in the population. Rarity by itself does not show that the characteristic is harmful.',
+  },
+  {
+    id: 'psy-psy0401-social-norms-card-v2',
+    prompt: 'How does deviation from social or cultural norms define abnormality?',
+    answer: 'Behaviour is judged against the expectations of its social or cultural setting. Those expectations can differ across groups and change over time.',
+  },
+  {
+    id: 'psy-psy0401-failure-to-function-card-v2',
+    prompt: 'What is failure to function adequately?',
+    answer: 'A person has substantial difficulty managing everyday demands, or experiences meaningful distress or impairment. The effect on their functioning matters.',
+  },
+  {
+    id: 'psy-psy0401-ideal-mental-health-card-v2',
+    prompt: 'How does deviation from ideal mental health define abnormality?',
+    answer: 'It compares a person with positive criteria for psychological wellbeing, such as autonomy and realistic perception, rather than judging only whether symptoms are absent.',
+  },
+] as const
+
 export const psychologyFlashcards = truthTopics.flatMap((topic) =>
-  topic.requirements.map((requirement) => flashcardSchema.parse({
-    id: `psy-${requirementSectionId(requirement)}-card`,
-    topic: topicId(topic),
-    prompt: `Revise the key definitions, evidence/relationships and limits for: ${requirement.boardAlignment.summary}`,
-    answer: completeRevisionSummary(requirement),
-  })),
+  topic.requirements.flatMap((requirement) => {
+    if (requirement.requirementId === 'PSY-04-01') {
+      return mentalHealthDefinitionCards.map((card) => flashcardSchema.parse({ ...card, topic: topicId(topic) }))
+    }
+    return [flashcardSchema.parse({
+      id: `psy-${requirementSectionId(requirement)}-card`,
+      topic: topicId(topic),
+      prompt: `Revise the key definitions, evidence/relationships and limits for: ${requirement.boardAlignment.summary}`,
+      answer: completeRevisionSummary(requirement),
+    })]
+  }),
 )
+
+
+// LF-06: map a requirement to the *published* active-retrieval cards.
+// Most requirements have one card; PSY-04-01 has four independently versioned
+// definition cards. The retired composite card is never treated as current.
+export function psychologyFlashcardsForRequirement(requirementId: string) {
+  const code = requirementId.toLowerCase().replaceAll('-', '')
+  if (requirementId === 'PSY-04-01') {
+    return psychologyFlashcards.filter((card) =>
+      card.id.startsWith('psy-psy0401-') && card.id.endsWith('-card-v2'))
+  }
+  return psychologyFlashcards.filter((card) => card.id === `psy-${code}-card`)
+}
 
 function legacyObjectiveQuestion(topic: TruthTopic, requirement: TruthRequirement) {
   const { correct, correctOption, options } = objectivePracticeOptions(topic, requirement)
@@ -275,9 +318,9 @@ export const psychologyLegacySocialInfluenceQuestions = truthTopics[0]!.requirem
 export const psychologyLegacyMemoryQuestions = truthTopics[1]!.requirements
   .map((requirement) => legacyObjectiveQuestion(truthTopics[1]!, requirement))
 
-/** Retain all five unchanged legacy Attachment identities for exact old checkpoint reconstruction only. */
+/** Prior full Attachment five-item pool for exact saved-session recovery only. */
 export const psychologyLegacyAttachmentQuestions = truthTopics[2]!.requirements
-  .map((requirement) => legacyObjectiveQuestion(truthTopics[2]!, requirement))
+  .map(requirement => legacyObjectiveQuestion(truthTopics[2]!, requirement))
 
 const updatedSocialInfluenceQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = socialInfluenceMcqV2
 const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = memoryMcqV2
