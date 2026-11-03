@@ -2,7 +2,7 @@ import type { RevisionAssessment } from '../services/planning/planner-service'
 import type { ModuleLearningState } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { courseIdForLearningState } from './planner-model'
-import { nextProgressAction, progressMeasuresFor, progressSummarySentence, type ProgressNextAction } from './progress-summary'
+import { progressMeasuresFor, progressSummarySentence } from './progress-summary'
 
 /**
  * What REV can answer today, with no model (decisions file section 2, data model proposal 10.3 step 1):
@@ -86,23 +86,23 @@ export function classifyQuestion(text: string): QuestionKind {
   return 'unknown'
 }
 
-export type RevAnswer = { text: string; action?: { label: string; courseId: string; section: ProgressNextAction['section'] } }
+export type RevAnswer = { text: string; action?: { label: string; courseId: string; section: 'practice' | 'exam-prep' } }
 
 export const CANNOT_ANSWER_YET =
   'I can’t answer that one yet. For now I can tell you what to do next, how you’re doing in a course, and when your exams are, and I can shift your plan if you ask. Answers to other questions are coming.'
 
+/**
+ * Legacy answer helper retained for compatibility tests and non-planner callers.
+ * Today's actual recommendation is owned by FI-001 in PlannerRevScreen.
+ * Without that snapshot, no topic-only fallback may invent a different action.
+ */
 export function answerToday(
-  states: readonly ModuleLearningState[],
+  _states: readonly ModuleLearningState[],
   programme: readonly LearnerProgrammeCourse[],
-  now: Date,
+  _now: Date,
 ): RevAnswer {
   if (programme.length === 0) return { text: 'You haven’t added a course yet. Add one in Courses and I can tell you what to do next.' }
-  const action = nextProgressAction(states, programme, now)
-  if (!action) return { text: 'Nothing needs to jump the queue right now. Pick any topic in Courses and carry on.' }
-  return {
-    text: `I’d start with ${action.topicName}. ${action.reason}`,
-    action: { label: action.label, courseId: action.courseId, section: action.section },
-  }
+  return { text: 'Open Home to see your current Plan recommendation. I won’t guess a different next task without your scheduled programme.' }
 }
 
 function mentionedCourses(programme: readonly LearnerProgrammeCourse[], text: string) {
