@@ -18,7 +18,7 @@ import psychology3 from '../../content/psychology/aqa-a-level/paper-3'
  * This is a narrow repeatable lexical guard, not a proof that every usage of
  * practice (noun) / practise (verb) is semantically correct.
  */
-const americanEnglish = /\b(?:behaviors?|behavioral(?:ly)?|analyz(?:e|es|ed|ing)|organiz(?:e|es|ed|ing|ation|ations)|recogniz(?:e|es|ed|ing)|summariz(?:e|es|ed|ing)|prioritiz(?:e|es|ed|ing)|personaliz(?:e|es|ed|ing)|utiliz(?:e|es|ed|ing)|memorize(?:s|d|r)?|counselor|centered|colorful|colored|judgment|practicing|practiced|(?:can|should|must) practice)\b/gi
+const americanEnglish = /\b(?:behaviors?|behavioral(?:ly)?|analyz(?:e|es|ed|ing)|organiz(?:e|es|ed|ing|ation|ations)|recogniz(?:e|es|ed|ing)|summariz(?:e|es|ed|ing)|prioritiz(?:e|es|ed|ing)|personaliz(?:e|es|ed|ing)|utiliz(?:e|es|ed|ing)|memorize(?:s|d|r)?|counselor|centered|colorful|colored|judgment|practicing|practiced|(?:can|should|must|to) practice|practice\s+your\s+(?:answer|answers|response|responses|skills?|technique|techniques|writing|calculations?|method|methods|questions?))\b/gi
 
 function flags(text: string): string[] {
   return [...text.matchAll(americanEnglish)].map(match => match[0])
@@ -62,8 +62,10 @@ function stringsIn(value: unknown, results: string[], depth = 0) {
 
 describe('LF-08 / LF-11 published UK-English regression', () => {
   it('recognises common US spelling and verb forms as review defects', () => {
-    expect(flags('Analyze the behavior and then practice your answer.')).toEqual(['Analyze', 'behavior'])
+    expect(flags('Analyze the behavior and then practice your answer.')).toEqual(['Analyze', 'behavior', 'practice your answer'])
     expect(flags('You should practice a written answer.')).toEqual(['should practice'])
+    expect(flags('You need to practice these skills.')).toEqual(['to practice'])
+    expect(flags('Practise your answer and review your practice questions.')).toEqual([])
     expect(flags('Organise your thoughts and practise this question.')).toEqual([])
   })
 
