@@ -9,7 +9,7 @@ const userId = '00000000-0000-4000-8000-000000000718'
 const courseId = 'aqa:aqa-a-level:7182'
 
 test.beforeEach(({}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop' && !/^LF-0[34]/.test(testInfo.title), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
+  test.skip(testInfo.project.name !== 'desktop' && !/^LF-0[346]/.test(testInfo.title), 'The restricted-pilot route gate needs one canonical authenticated browser journey; LF-03 also covers phone and tablet.')
 })
 
 async function seedRestrictedPsychologyLearner(page: Page) {
@@ -382,4 +382,21 @@ test('LF-04 Psychology exam stimulus is visible in untimed Practice and when sel
   await expect(marking.locator('.exam-stimulus h4')).toHaveText('Revision-owned application and mini-study context')
   await expect(marking.locator('.exam-stimulus p')).toHaveText(originalNarrative)
   await expect(marking).toContainText('An independently written trial answer.')
+})
+
+
+test('LF-06: published Social Influence flashcards have short independent retrieval demands in real Practice', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  const flashcards = page.locator('.practice-row').filter({ hasText: 'Flashcards' })
+  await expect(flashcards).toContainText('13 cards')
+  await flashcards.click()
+  // One deck intentionally caps at 12; the thirteenth enters a future round
+  // based on the student's per-card ratings. No retired composite card is shown.
+  await expect(page.locator('.practice-activity__meta')).toContainText('Card 1 of 12')
+  await expect(page.locator('.practice-flashcard__question')).toHaveText('What does conformity mean in social psychology?')
+  await page.getByRole('button', { name: 'Show answer' }).click()
+  await expect(page.locator('.practice-flashcard__answer')).toContainText('Changing behaviour')
+  await expect(page.getByRole('group', { name: 'Did you know it?' })).toBeVisible()
 })
