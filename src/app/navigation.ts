@@ -143,7 +143,7 @@ export function parseRoute(hash: string): AppRoute {
     const courseId = decode(parts[1])
     const section = parts[2]
     const contextId = decode(parts[3])
-    if (courseId && contextId && section === 'learn') return learnerCourseRoute(courseId, 'learn', { learnPageId: contextId, repairSpecItemId: query.get('repairSkill') })
+    if (courseId && contextId && section === 'learn') return learnerCourseRoute(courseId, 'learn', { learnPageId: contextId, ...(query.has('repairSkill') ? { repairSpecItemId: query.get('repairSkill') } : {}) })
     if (courseId && contextId && section === 'practice') return learnerCourseRoute(courseId, 'practice', { topicId: contextId })
   }
 
@@ -158,7 +158,7 @@ export function parseRoute(hash: string): AppRoute {
     const moduleId = decode(parts[3])
     const section = parts[4]
     const contextId = decode(parts[5])
-    if (courseId && moduleId && contextId && section === 'learn') return learnerModuleRoute(courseId, moduleId, 'learn', { learnPageId: contextId, repairSpecItemId: query.get('repairSkill') })
+    if (courseId && moduleId && contextId && section === 'learn') return learnerModuleRoute(courseId, moduleId, 'learn', { learnPageId: contextId, ...(query.has('repairSkill') ? { repairSpecItemId: query.get('repairSkill') } : {}) })
     if (courseId && moduleId && contextId && section === 'practice') return learnerModuleRoute(courseId, moduleId, 'practice', { topicId: contextId })
   }
 
