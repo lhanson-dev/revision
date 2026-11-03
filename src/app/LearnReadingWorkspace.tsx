@@ -3,12 +3,12 @@ import type { LearnChapter, LearnGroup, LearnPage } from '../../content/learn-sc
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { resolveSubjectIdentity } from './subject-palette'
 import { LearnPageLayout, type LearnPageNeighbour } from './ui/learn'
-import { guidedMethodRepairForPublishedPage } from './practice-repair'
+import { guidedMethodRepairForPublishedPage, type GuidedMethodRepair } from './practice-repair'
 
 type LearnReadingWorkspaceProps = {
   adapter: LearningContentAdapter
   pageId?: string | null
-  repairSpecItemId?: string | null
+  guidedRepair?: GuidedMethodRepair | null
   onOpenPage: (pageId: string) => void
   onOpenPractice?: (topicId: string) => void
   onOpenRev?: (draft?: string) => void
@@ -43,7 +43,7 @@ function neighbour(target: LocatedPage | null, current: LocatedPage, direction: 
   return { title: target.page.title, caption: `${lead} · page ${index + 1} of ${current.group.pages.length}` }
 }
 
-export function LearnReadingWorkspace({ adapter, pageId, repairSpecItemId, onOpenPage, onOpenPractice, onOpenRev, reviewedPages = [], onMarkReviewed }: LearnReadingWorkspaceProps) {
+export function LearnReadingWorkspace({ adapter, pageId, guidedRepair, onOpenPage, onOpenPractice, onOpenRev, reviewedPages = [], onMarkReviewed }: LearnReadingWorkspaceProps) {
   const [savingPage, setSavingPage] = useState<string | null>(null)
   const [reviewError, setReviewError] = useState<{ page: string; message: string } | null>(null)
   async function markReviewed(page: LearnPage) {
@@ -79,7 +79,9 @@ export function LearnReadingWorkspace({ adapter, pageId, repairSpecItemId, onOpe
   return (
     <LearnPageLayout
       page={current.page}
-      guidedRepair={guidedMethodRepairForPublishedPage(repairSpecItemId, current.page)}
+      guidedRepair={guidedRepair && guidedRepair.sourceLearnPageId === current.page.id
+        ? guidedMethodRepairForPublishedPage(guidedRepair.specItemId, current.page)
+        : null}
       chapterTitle={current.chapter.title}
       groupTitle={current.group.title}
       position={{ index: current.group.pages.findIndex((page) => page.id === current.page.id) + 1, of: current.group.pages.length }}
