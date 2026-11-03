@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import businessPack from '../../content/business/aqa-a-level/paper-1'
 import { createLearningContentAdapter } from '../engine/content/content-adapter'
 import { bankRecordToPractice, type CalculationPracticeQuestion } from './practice-questions'
-import { sourceBackedGuidedMethodRepair } from './practice-repair'
+import { guidedMethodRepairForPublishedPage, sourceBackedGuidedMethodRepair } from './practice-repair'
 
 // This is a failing-first acceptance contract: two different observed
 // calculation skills need genuinely different teaching steps without
@@ -41,6 +41,20 @@ describe('#705: two Business 3.2.2 assessed skills receive different unscored me
       expect(first).toEqual(second)
       expect(first?.steps.length).toBeGreaterThanOrEqual(2)
     }
+  })
+
+  it('routes actual Plan repair skills to distinct methods but never infers evidence from a URL', () => {
+    const page = adapter.getLearnPage('bus-evi-004')!
+    const value = guidedMethodRepairForPublishedPage('aqa-7132-3.2.2:expected-value', page)
+    const gain = guidedMethodRepairForPublishedPage('aqa-7132-3.2.2:net-gain', page)
+    expect(value?.title).not.toEqual(gain?.title)
+    expect(value?.steps).not.toEqual(gain?.steps)
+    expect(value?.kind).toBe('unscored-guided-repair')
+    expect(gain?.kind).toBe('unscored-guided-repair')
+    expect(guidedMethodRepairForPublishedPage(undefined, page)).toBeNull()
+    expect(guidedMethodRepairForPublishedPage('aqa-7132-3.2.2:other', page)).toBeNull()
+    expect(guidedMethodRepairForPublishedPage('aqa-7132-3.2.2:net-gain', { ...page, id: 'unrelated-page' })).toBeNull()
+    expect(guidedMethodRepairForPublishedPage('aqa-7132-3.2.2:net-gain', { ...page, topicId: 'finance' })).toBeNull()
   })
 
   it('fails closed on unsupported, multi-target, untagged, changed node and wrong-topic evidence', () => {
