@@ -137,6 +137,14 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(page.topicId).toBe('finance')
     expect(learnRouteForTask(task)).toContain(`/learn/${page.id}`)
     expect(learnRouteForTask(task)).not.toContain('/components/')
+    const targeted = {
+      ...task,
+      learnTarget: { learnPageId: 'bus-evi-004' },
+      skillFocus: { specItemId: 'aqa-7132-3.2.2:net-gain', treatment: 'repair' as const, need: 'missed' as const },
+    }
+    expect(learnRouteForTask(targeted)).toContain('?repairSkill=aqa-7132-3.2.2%3Anet-gain')
+    expect(learnRouteForTask({ ...targeted, skillFocus: { ...targeted.skillFocus, treatment: 'recheck' as const } })).not.toContain('repairSkill')
+    expect(learnRouteForTask({ ...targeted, skillFocus: undefined })).not.toContain('repairSkill')
     const component = createModuleLearningState(course.modules[0], [])
     const componentTask = taskForTodayRow(row, [component], programme)!
     expect(learnRouteForTask(componentTask)).toContain(`/components/${component.adapter.manifest.id}/learn/${componentTask.learnTarget!.learnPageId}`)
