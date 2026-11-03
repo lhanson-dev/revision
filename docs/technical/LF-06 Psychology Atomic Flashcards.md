@@ -1,6 +1,6 @@
 # LF-06 — Psychology mental-health atomic flashcards
 
-**State:** Candidate on governed branch; not merged, deployed or independently learner-accepted. Issue #765 LF-06; wider assessment/content review stays #698/#787.
+**State:** Released to production through PR #796 on 3 November 2026. Authenticated reporting-learner, accessibility and independent qualified educational acceptance remain outstanding. Issue #765 LF-06; wider content assurance stays #698/#787.
 
 ## Canonical learner journey and source
 
@@ -28,6 +28,16 @@ Historical flashcard evidence on `psy-psy0401-card` remains present under the ol
 
 ## Assurance / remaining work
 
-Exact-head CI (static, unit, build, responsive, security and data-path suites) and current-main integration are required. Live authenticated learner test and independent AQA-alignment/readability review remain outstanding. This is **one targeted correction**, not the complete Business/Psychology flashcard-quality audit; other long compound cards are a known open risk.
+At the pre-merge stage, exact-head CI and current-main integration were required; their verified outcome is recorded below. Live authenticated original learner testing, high-zoom/screen-reader acceptance and qualified educational AQA alignment/readability review remain outstanding. This is **one targeted correction**, not the complete Business/Psychology flashcard-quality audit; other long compound cards remain a known open risk.
 
 **Documentation impact:** Existing Course Learning Blueprint and Learner Design System already govern atomic meaningful active retrieval; no normative authority change, ADR or schema change. This implementation note and INDEX pointer accompany the code and tests. Retain historical evidence unchanged.
+
+## Verified release receipt — 3 November 2026
+
+The Founder explicitly approved **merge PR #796** after [latest exact-head CI #41549150393](https://github.com/lhanson-dev/revision/actions/runs/41549150393) completed **success across all 9 required jobs**. Machine-readable exact-commit approval was recorded under the Founder GitHub login in [comment #6591737921](https://github.com/lhanson-dev/revision/pull/796#issuecomment-6591737921), and the trusted `revision/founder-approval=success`, timestamp and zero-behind integration were independently checked immediately before merging.
+
+[PR #796](https://github.com/lhanson-dev/revision/pull/796) was squash-merged as `e6ed983916116300bfdfb9b9af88b14d0b19a53a`. [Governed production release #41550534115](https://github.com/lhanson-dev/revision/actions/runs/41550534115) **completed successfully**: release lineage, backend readiness, build, Pages deploy, production smoke and exact merge-commit `revision/path-to-live=success` all passed. Separate [post-merge CI #41550534219](https://github.com/lhanson-dev/revision/actions/runs/41550534219) is independently assessed; production release success does not automatically establish its conclusion.
+
+**Learner impact:** Four individually answerable flashcards replace a single broad mental-health definitions warm-up in the live Psychology Practice experience. This is **not** a new scored examination item or reliable skill-mastery signal. Original composite-card historical self-ratings remain on their retired content ID and do not transfer to the four new cards. Learn teaching, scored questions, exam papers and saved student records remain unchanged. No database migration and no normative authority amendment.
+
+**Still open:** Original reporting-learner authenticated testing, keyboard/high-zoom/screen-reader checks, independent qualified educational review, and a complete systematic atomic-card audit across Psychology and Business. Track under #765/#698, not as closed from this release alone.
