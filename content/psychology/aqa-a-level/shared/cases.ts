@@ -28,7 +28,7 @@ export const psychologyCaseStudies = [
       {
         id: 'psy-social-influence-supervisor-q2',
         prompt: 'Give one alternative explanation for the behaviour and say what extra information would help distinguish it.',
-        guidance: 'For example, the employee may expect social approval, fear a poor evaluation or follow the other trainees. Asking about perceived consequences, or comparing behaviour with a peer rather than the supervisor present, would help distinguish explanations. Do not infer a unique cause from one observation.',
+        guidance: 'For example, the employee may expect social approval from colleagues or fear a poor evaluation. Asking about perceived consequences, or comparing responses when a supervisor rather than a peer gives the instruction, could help distinguish explanations. Other employees are present but their behaviour is not described, so peer-following has not been observed. Do not infer a unique cause from one observation.',
       },
     ],
   }),
