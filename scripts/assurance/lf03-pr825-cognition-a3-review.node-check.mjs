@@ -40,6 +40,7 @@ test('parse exactly four expected static literals from inert candidate TypeScrip
   assert.deepEqual(items.map(x=>x.correctOption),[0,1,2,3])
   assert.equal(items.every(x=>x.options.length===4),true)
   assert.throws(()=>extractExactItems(fixture.replace('correctOption: 1','correctOption: evil()')))
+  assert.throws(()=>extractExactItems(fixture.replace("topic: 'cognition-and-development'", "topic: 'relationships'")))
   assert.throws(()=>extractExactItems(fixture.replace("'PSY-11-04':","'INVALID':")))
   assert.throws(()=>extractExactItems(fixture.replace("'PSY-11-01':","'INVALID-04':")))
   assert.match(gitBlobSha(fixture),/^[a-f0-9]{40}$/)
@@ -74,9 +75,11 @@ test('separate fresh feedback pass requires correct item identity and substantiv
     id:x.id,verdict:'pass',
     keyAndExplanationConsistency:'The given key and explanation directly agree with the scenario and principle.',
     misconceptionAndDistractorFeedback:'Each alternative is reviewed as a separate misconception or application boundary.',
-  })),overallFeedbackVerdict:'A bounded original-feedback review without full examination readiness claims.'}
+  })),overallFeedbackVerdict:'pass'}
   assert.equal(explanationDecision(assessment,items).decision,'pass')
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,verdict:'material'})},items).decision,'fail_hold')
+  assert.equal(explanationDecision({...assessment,overallFeedbackVerdict:'material'},items).decision,'fail_hold')
+  assert.throws(()=>explanationDecision({...assessment,overallFeedbackVerdict:'A vague pass'},items))
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,id:'another-question'})},items).decision,'fail_hold')
   assert.equal(explanationDecision({...assessment,items:assessment.items.map((x,i)=>i?x:{...x,keyAndExplanationConsistency:''})},items).decision,'fail_hold')
 })
