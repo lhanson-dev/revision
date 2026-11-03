@@ -7,6 +7,7 @@ import { cognitionDevelopmentMcqV2 } from './cognition-development-mcq-v2'
 import { reviewMcqQuality } from '../../../../scripts/assurance/lf03-mcq-quality'
 import { coursePackQuestionToPractice } from '../../../../src/app/practice-questions'
 import { createMultipleChoiceEvidence } from '../../../../src/app/practice-evidence'
+import { startQuestionSession, recordSessionAnswer } from '../../../../src/app/practice-session'
 import { supportsLearningInference } from '../../../../src/engine/evidence/evidence'
 import { legacyCognitionDevelopmentPool, legacyPsychologyCheckpointPool, loadLf03CompatibleCheckpoint } from '../../../../src/app/practice-checkpoint-compat'
 import {
@@ -82,19 +83,21 @@ describe('#698 Psychology §4.3.4 source-grounded Cognition and Development V2',
     expect(legacyCognitionDevelopmentPool('7132', topic, published)).toBeNull()
     expect(legacyCognitionDevelopmentPool('7182', 'memory', published)).toBeNull()
     expect(legacyCognitionDevelopmentPool('7182', topic, published.slice(1))).toBeNull()
-    const snapshot = {
-      schemaVersion: 1 as const,
-      session: {
-        // Use an actual session starter so saved snapshot conforms to runtime schema.
-        ...((await import('../../../../src/app/practice-session')).startQuestionSession(legacy!, 4)),
-      },
-      pending: null,
-    }
+    // Preserve a real partially answered legacy session, including the old question ID,
+    // option index, correctness and confidence, not merely an empty draft session.
+    const session = recordSessionAnswer(startQuestionSession(legacy!, 4), {
+      questionId: oldIds[0]!, correct: false, level: legacy![0]!.level,
+      selectedOption: 0, confidence: 'certain',
+    })
+    const snapshot = { schemaVersion: 1 as const, session, pending: null }
     const saved = store()
     await createPracticeCheckpoint(saved, key, await fingerprintPracticeContent(legacy!), '12345678-1234-4234-8234-123456789012', snapshot)
     const recovered = await loadLf03CompatibleCheckpoint(saved, key, published, legacy)
     expect(recovered.legacy).toBe(true)
     expect(recovered.checkpoint?.snapshot).toEqual(snapshot)
+    expect(recovered.checkpoint?.snapshot.session.answers[0]).toMatchObject({
+      questionId: oldIds[0], selectedOption: 0, correct: false,
+    })
     const unknown = store()
     await createPracticeCheckpoint(unknown, key, 'f'.repeat(64), '12345678-1234-4234-8234-123456789012', snapshot)
     await expect(loadLf03CompatibleCheckpoint(unknown, key, published, legacy)).rejects.toThrow(/content changed/)
