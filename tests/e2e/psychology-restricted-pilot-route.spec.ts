@@ -461,3 +461,41 @@ test('LF-04: Psychology Practice pairs the Social Influence case with its actual
   await expect(page.locator('.practice-row').filter({ hasText: 'Case study' })).toHaveCount(0)
   expect(scoredWrites).toHaveLength(0)
 })
+
+test('LF-03 #787 Relationships V2 publishes four authentic one-mark cases and resumes exact saved results', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/relationships`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.locator('.practice-length').filter({
+    has: page.locator('.practice-length__number', { hasText: /^15$/ }),
+  }).click()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+
+  const ids = [1, 2, 3, 4].map(i => `psy-psy090${i}-check-v2`)
+  const keys = [2, 0, 3, 1]
+  const expectedStems = ['volunteering group', 'Leah is unhappy', 'face-to-face', 'commentator']
+  for (let index = 0; index < ids.length; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(expectedStems[index]!)
+    const choices = page.locator('.practice-question__options button')
+    await expect(choices).toHaveCount(4)
+    await choices.nth(keys[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: ids[index],
+      selectedOption: keys[index], correctOption: keys[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      expect(saved).toHaveLength(1)
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    }
+    if (index < ids.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
+})

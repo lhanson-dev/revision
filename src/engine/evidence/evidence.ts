@@ -239,6 +239,9 @@ const retiredPsychologyPatternedObjectiveIds = new Set([
   // #787 Issues and Debates: identical concept-list option set in two old
   // questions. Preserve their historical marks, not derived mastery credit.
   'psy-psy0801-check', 'psy-psy0804-check',
+  // #787 Relationships: retire V1 repeated concept-option recognition from inferred
+  // readiness but leave raw answers, original keys and historic marks unchanged.
+  'psy-psy0901-check', 'psy-psy0902-check', 'psy-psy0903-check', 'psy-psy0904-check',
 ])
 export function supportsLearningInference(evidence: LearningEvidence): boolean {
   return !(evidence.source === 'multiple_choice'

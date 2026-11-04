@@ -13,6 +13,7 @@ Use this file to find the governing source before substantive work.
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
 - LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
+- LF-03 #787 AQA Psychology Relationships four source-grounded context-specific V2 MCQs, original-score exclusion and exact prior checkpoint recovery (source-blob independent A3 pass, release and learner acceptance pending) → `docs/technical/LF-03 Relationships V2 MCQ Source and Evidence Correction.md`
 - LF-03 #787 all-six-published-pack Business/Psychology MCQ identity and conservative per-item disposition gate (source risk signals, not educational pass) → `docs/technical/LF-03 Actual Published MCQ Inventory and Disposition.md`
 - LF-03 #787 Memory four-item option-set defect, source-aligned versioned V2 MCQs and historical evidence preservation → `docs/technical/LF-03 Memory MCQ Application Correction.md`
 - LF-03 #787 Attachment two-item V2 scenario correction, old-session and scored-history preservation (draft educational HOLD) → `docs/technical/LF-03 Attachment MCQ Validity Correction.md`
