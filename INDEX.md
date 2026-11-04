@@ -19,6 +19,8 @@ Use this file to find the governing source before substantive work.
 - LF-03 #787 Issues and Debates two V2 scenario MCQ candidates, old six-item session and historic evidence preservation (educational A3 HOLD) → `docs/technical/LF-03 Psychology Issues and Debates V2 MCQ Correction.md`
 - Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Psychology authored question stimulus across untimed, timed and self-marking Exam Prep views (candidate; real learner acceptance open) → `docs/technical/LF-04 Psychology Question Stimulus Visibility.md`
+- LF-05 mark-value written Exam Prep question practice (Analyse; human Ready outstanding, exact source availability and evidence guardrails) → `10-product-governance/backlog/LF-05 Mark-Value Written Practice Readiness Analysis.md`; #706
+- LF-05 4 November source-first 2027 extended-writing topic/candidate and actual published written-item inventory (dated evidence, **not** tariff/education sign-off) → `audits/2026-11-04-lf05-written-assessment-demand-baseline.md`; #698/#706
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - LF-04 #810 proposed trusted independent Psychology original case A3 reviewer (separate infrastructure approval, not an educational pass) → `docs/technical/LF-04 PR810 Psychology Case Independent A3 Review.md`
 - LF-04 Psychology Practice: proposed topic-relevant unscored cases for five published topics, source/learner acceptance still open → `docs/technical/LF-04 Psychology Practice Case Warmups.md`
@@ -274,6 +276,7 @@ Use this file to find the governing source before substantive work.
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
 
+- Issue #705 source-first correction to AQA Business 7132 §3.2.2 independent reviewer scope (p14 risks/rewards/uncertainty/opportunity cost; historical FAIL/HOLD retained) → `docs/technical/Issue 705 AQA 322 Independent Reviewer Complete Source Scope.md`
 - Issue #705 PR #809 trusted independent A2/A3 educational review of Business expected-value and net-gain repairs (separate reviewer infrastructure, not an educational pass) → `docs/technical/Issue 705 PR809 Independent Guided Repair A2A3 Review.md`
 - Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
 
