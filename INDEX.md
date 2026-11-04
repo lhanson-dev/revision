@@ -14,12 +14,14 @@ Use this file to find the governing source before substantive work.
 - LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
 - LF-03 #787 all-six-published-pack Business/Psychology MCQ identity and conservative per-item disposition gate (source risk signals, not educational pass) → `docs/technical/LF-03 Actual Published MCQ Inventory and Disposition.md`
-- Issue #698 / LF-03 Psychology Cognition and Development: four original source-targeted V2 decisions replacing repeated definition checks, exact historical checkpoint recovery and educational HOLD → `docs/technical/Issue 698 Psychology Cognition and Development V2 MCQ Correction.md`
 - LF-03 #787 Memory four-item option-set defect, source-aligned versioned V2 MCQs and historical evidence preservation → `docs/technical/LF-03 Memory MCQ Application Correction.md`
+- Issue #698 / LF-03 Psychology Cognition and Development: four original source-targeted V2 decisions replacing repeated definition checks, exact historical checkpoint recovery and original-source independent A3 pass; production and learner acceptance pending → `docs/technical/Issue 698 Psychology Cognition and Development V2 MCQ Correction.md`
 - LF-03 #787 Attachment two-item V2 scenario correction, old-session and scored-history preservation (draft educational HOLD) → `docs/technical/LF-03 Attachment MCQ Validity Correction.md`
 - LF-03 #787 Issues and Debates two V2 scenario MCQ candidates, old six-item session and historic evidence preservation (educational A3 HOLD) → `docs/technical/LF-03 Psychology Issues and Debates V2 MCQ Correction.md`
 - Consolidated private learner acceptance matrix (2 November 2026, release-bound synthetic/production/hosted/direct observations, #665/#703/#765) → `audits/2026-11-02-private-learner-acceptance-matrix.md`
 - LF-04 Psychology authored question stimulus across untimed, timed and self-marking Exam Prep views (candidate; real learner acceptance open) → `docs/technical/LF-04 Psychology Question Stimulus Visibility.md`
+- LF-05 mark-value written Exam Prep question practice (Analyse; human Ready outstanding, exact source availability and evidence guardrails) → `10-product-governance/backlog/LF-05 Mark-Value Written Practice Readiness Analysis.md`; #706
+- LF-05 4 November source-first 2027 extended-writing topic/candidate and actual published written-item inventory (dated evidence, **not** tariff/education sign-off) → `audits/2026-11-04-lf05-written-assessment-demand-baseline.md`; #698/#706
 - LF-04 Business Practice case relevance: topic-scoped existing case selection (released PR #781; original learner acceptance and syllabus adequacy still open) → `docs/technical/LF-04 Business Practice Case Relevance.md`
 - LF-04 #810 proposed trusted independent Psychology original case A3 reviewer (separate infrastructure approval, not an educational pass) → `docs/technical/LF-04 PR810 Psychology Case Independent A3 Review.md`
 - LF-04 Psychology Practice: proposed topic-relevant unscored cases for five published topics, source/learner acceptance still open → `docs/technical/LF-04 Psychology Practice Case Warmups.md`
@@ -83,6 +85,7 @@ Use this file to find the governing source before substantive work.
 - LF-03 #787 Memory PR #788 trusted two-context A3 workflow, exact-head immutable Memory content and separate Founder approval → `docs/technical/LF-03 Memory Fresh Independent A3 Reviewer.md`
 - LF-03 #787 Attachment PR #794 trusted blind-key and separate-feedback A3 reviewer (draft) → `docs/technical/LF-03 PR794 Attachment Independent A3 Reviewer.md`
 - LF-03 #787 Issues and Debates PR #803 independent blind-key and separate-feedback A3 reviewer (separate infrastructure approval) → `docs/technical/LF-03 PR803 Issues and Debates Independent A3 Reviewer.md`
+- Issue #698 / #787 PR #825 Cognition and Development four-item trusted source-limited blind-key and separate-feedback A3 reviewer; proposed infrastructure only, not an educational approval → `docs/technical/Issue 698 PR825 Cognition Independent A3 Reviewer.md`
 - LF-03 #787 Relationships PR #816 four-context trusted exact-head independent A3 reviewer (proposed infrastructure, separate approval required) → `docs/technical/LF-03 PR816 Relationships Independent A3 Reviewer.md`
 - Issue #698 exact PDF Psychology 7182 §4, 117 source content-bullet checkpoints → 118 existing Learn prototype pages across 17 topics (structural presence only, not educational adequacy) → `docs/technical/Issue 698 Psychology Section 4 Source Bullet to Learn Crosswalk.md`
 - Issue #698 Psychology 7182 v1.4 source-first 17-topic section structure and 17 bounded inferential-testing skill candidates (not whole-course completeness or adequacy) → `docs/technical/Issue 698 Psychology Source First Scope and Inferential Review.md`
@@ -274,6 +277,7 @@ Use this file to find the governing source before substantive work.
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
 
+- Issue #705 source-first correction to AQA Business 7132 §3.2.2 independent reviewer scope (p14 risks/rewards/uncertainty/opportunity cost; historical FAIL/HOLD retained) → `docs/technical/Issue 705 AQA 322 Independent Reviewer Complete Source Scope.md`
 - Issue #705 PR #809 trusted independent A2/A3 educational review of Business expected-value and net-gain repairs (separate reviewer infrastructure, not an educational pass) → `docs/technical/Issue 705 PR809 Independent Guided Repair A2A3 Review.md`
 - Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
 
