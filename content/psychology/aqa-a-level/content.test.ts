@@ -23,8 +23,40 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     expect(psychologyTopics).toHaveLength(17)
     expect(psychologyLearn.chapters).toHaveLength(17)
     expect(psychologyLearn.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))).toHaveLength(118)
-    expect(psychologyFlashcards).toHaveLength(121)
+    expect(psychologyFlashcards).toHaveLength(130)
     expect(psychologyQuestions).toHaveLength(118)
+  })
+
+  it('splits Social Influence four composite cards into 13 single-demand v2 cards without old rating credit', () => {
+    const expected: Record<string, number> = { 'PSY-01-01': 5, 'PSY-01-02': 3, 'PSY-01-03': 2, 'PSY-01-04': 3 }
+    for (const [requirementId, count] of Object.entries(expected)) {
+      const cards = psychologyFlashcardsForRequirement(requirementId)
+      expect(cards).toHaveLength(count)
+      expect(cards.every(card => card.topic === 'social-influence')).toBe(true)
+      expect(cards.every(card => card.id.endsWith('-card-v2'))).toBe(true)
+      expect(cards.every(card => card.prompt.endsWith('?'))).toBe(true)
+      expect(cards.every(card => card.answer.length < 250)).toBe(true)
+      const historicId = `psy-${requirementId.toLowerCase().replaceAll('-', '')}-card`
+      const oldRatings = lastFlashcardRatings([
+        { source: 'flashcard', contentId: historicId, occurredAt: '2026-11-01T12:00:00Z', rating: 2 },
+      ])
+      expect(oldRatings[historicId]).toBe(2)
+      expect(cards.every(card => oldRatings[card.id] === undefined)).toBe(true)
+      expect(psychologyFlashcards.some(card => card.id === historicId)).toBe(false)
+    }
+    const ids = psychologyFlashcards.map(card => card.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('keeps the 13th Social Influence atomic card reachable after a 12-card round', () => {
+    const cards = psychologyFlashcards.filter(card => card.topic === 'social-influence')
+    expect(cards).toHaveLength(13)
+    const first = orderDeck(cards, {})
+    expect(first).toHaveLength(12)
+    const pastRatings = Object.fromEntries(first.map(card => [card.id, 2 as const]))
+    const next = orderDeck(cards, pastRatings)
+    expect(next[0]?.id).toBe(cards[12]?.id)
+    expect(new Set(next.map(card => card.id)).size).toBe(next.length)
   })
 
   it('separates mental-health definitions into single-demand, versioned retrieval cards', () => {
@@ -265,7 +297,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
       for (const requirement of topic.requirements) {
         const cardId = `psy-${requirement.requirementId.toLowerCase().replaceAll('-', '')}-card`
         const cards = psychologyFlashcardsForRequirement(requirement.requirementId)
-        expect(cards, requirement.requirementId).toHaveLength(requirement.requirementId === 'PSY-04-01' ? 4 : 1)
+        expect(cards, requirement.requirementId).toHaveLength(({ 'PSY-01-01': 5, 'PSY-01-02': 3, 'PSY-01-03': 2, 'PSY-01-04': 3, 'PSY-04-01': 4 } as Record<string, number>)[requirement.requirementId] ?? 1)
 
         const requiredParagraphs = [...new Set([
           ...(requirement.subjectTruth.definitionsAndCoreConcepts ?? []),
@@ -274,15 +306,15 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         ])]
         expect(requiredParagraphs.length, cardId).toBeGreaterThan(0)
 
-        if (requirement.requirementId === 'PSY-04-01') {
+        if (requirement.requirementId.startsWith('PSY-01-') || requirement.requirementId === 'PSY-04-01') {
           // The short retrieval answers do not replace the fuller specification-backed
           // teaching and evaluation. All of that remains visible in Learn.
           const learnPage = psychologyLearn.chapters
             .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
-            .find((page) => page.sourceSectionIds?.includes('psy0401'))
+            .find((page) => page.sourceSectionIds?.includes(requirement.requirementId.toLowerCase().replaceAll('-', '')))
           expect(learnPage).toBeDefined()
           for (const paragraph of requiredParagraphs) {
-            expect(JSON.stringify(learnPage), `Learn PSY-04-01: ${paragraph}`).toContain(paragraph)
+            expect(JSON.stringify(learnPage), `Learn ${requirement.requirementId}: ${paragraph}`).toContain(paragraph)
           }
           expect(cards.every((card) => card.id.endsWith('-card-v2'))).toBe(true)
           continue

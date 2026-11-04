@@ -62,10 +62,10 @@ describe('Psychology launch assurance', () => {
         for (const requirement of topic.requirements) {
           expect((requirement.learnPage as { id?: string }).id).toBeTruthy()
           const cards = requirement.flashcards as Array<{ id: string }>
-          expect(cards.length, requirement.requirementId).toBe(requirement.requirementId === 'PSY-04-01' ? 4 : 1)
+          expect(cards.length, requirement.requirementId).toBe(({ 'PSY-01-01': 5, 'PSY-01-02': 3, 'PSY-01-03': 2, 'PSY-01-04': 3, 'PSY-04-01': 4 } as Record<string, number>)[requirement.requirementId] ?? 1)
           expect(new Set(cards.map((card) => card.id)).size).toBe(cards.length)
           for (const card of cards) expect(packet.reviewScopeIds, card.id).toContain(card.id)
-          if (requirement.requirementId === 'PSY-04-01') {
+          if (requirement.requirementId.startsWith('PSY-01-') || requirement.requirementId === 'PSY-04-01') {
             expect(cards.every((card) => card.id.endsWith('-card-v2'))).toBe(true)
             expect(packet.reviewScopeIds).not.toContain('psy-psy0401-card')
           }

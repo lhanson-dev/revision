@@ -189,7 +189,7 @@ function learnPageFor(requirementId: string) {
 
 function flashcardsFor(requirementId: string) {
   const found = psychologyFlashcardsForRequirement(requirementId)
-  const expected = requirementId === 'PSY-04-01' ? 4 : 1
+  const expected = ({ 'PSY-01-01': 5, 'PSY-01-02': 3, 'PSY-01-03': 2, 'PSY-01-04': 3, 'PSY-04-01': 4 } as Record<string, number>)[requirementId] ?? 1
   if (found.length !== expected) throw new Error(`Missing or extra production flashcards for ${requirementId}: expected ${expected}, got ${found.length}`)
   return found
 }
