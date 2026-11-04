@@ -227,6 +227,8 @@ Use this file to find the governing source before substantive work.
 
 ## Brand and marketing
 - Core product messaging / no-shame positioning → `30-marketing-governance/Core Product Messaging.md`
+- **Proposed** staged marketing website (content, IA, visual, waitlist, claims and launch acceptance) → `30-marketing-governance/Marketing Website Design and Content Specification.md` (candidate pending Founder-approved merge)
+- **Proposed** bounded launch teacher progress insight (FI-024, Analyse; distinct from parked FI-018) → `10-product-governance/backlog/Product Feature Backlog.md` and `10-product-governance/Target Audience and Personas.md`
 - Marketing, website, content, SEO and channels → `30-marketing-governance/`
 
 ## Evidence, engineering and operations
