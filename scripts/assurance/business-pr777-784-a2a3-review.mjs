@@ -106,12 +106,16 @@ export const SETTINGS = Object.freeze({
   809: {
     section: '3.2.2', printedPages: [14], questionBatch: '3.2', questionIds: [],
     scope: [
-      'AQA A-level Business 7132 v2.0 section 3.2.2, printed page 14: understand and interpret decision trees, calculate expected values and net gains',
-      'Probability-weighted expected value uses signed outcomes, including losses. Check 0.7 × £180,000 plus 0.3 × −£100,000 without trusting the author result',
-      'Net gain is different from expected value if a separate certain cost has not already been included; verify £96,000 less £60,000 for the published example',
-      'The two repairs are unscored independent guided methods for observed failed skills, not proof of exactly which calculation step was misunderstood',
-      'The genuine published Foundation node bus-evi-004 remains shared; a later independently scored check must be a different, source-tagged original question',
-      'The AQA specification is REFERENCE_ONLY; only verified structured curriculum/assessment scope is supplied to the model',
+      'Verified Founder-uploaded official AQA A-level Business 7132 v2.0 14 June 2023, printed page 14, section 3.2.2 Understanding management decision making',
+      'Scientific decision making: understanding and interpreting decision trees and calculating expected value and net gains. Decision making also explicitly includes understanding risks, rewards, uncertainty, opportunity cost, and the use/value of decision trees',
+      'Section 3.2.2 additionally includes the value of data-based versus intuitive decision making, and influences on decisions: mission, objectives, ethics, external environment including competition, and resource constraints',
+      'These risk, reward, uncertainty and opportunity-cost mappings are actual verified section requirements. Do NOT classify them unsupported merely because the review targets two calculation methods. Separately challenge educational adequacy and correct skill-to-asset mapping',
+      'Cost-benefit analysis, sensitivity testing, liquidity, reversibility, stakeholder effects and strategic fit may be useful optional broader appraisal, but are NOT independently listed section 3.2.2 requirements. Require clear extension labelling and do not count these as independently verified targets',
+      'Probability-weighted expected value uses signed outcomes, including losses. Check 0.7 × £180,000 plus 0.3 × −£100,000 without trusting author arithmetic',
+      'Where separately stated certain option costs are not included in outcomes or expected value, net gain subtracts this cost ONCE. If already included, no second deduction. Verify £96,000 less £60,000 for the published example',
+      'The two repairs remain unscored methods for observed weak results, not step-specific diagnoses, calibrated method marking, independently drawn diagram evidence or mastery claims',
+      'Both repairs retain the genuine published Foundation node bus-evi-004, and a later independent score must come from a different, source-tagged question. FI-001 Start and exact task identity control transient repair display; forged URLs cannot select a treatment',
+      'AQA original PDF is REFERENCE_ONLY, never transmitted to the model; only the above verified structured scope and original Revision assets are supplied',
     ],
     paths: [
       'src/app/practice-repair.ts',
@@ -125,6 +129,7 @@ export const SETTINGS = Object.freeze({
       'content/business/aqa-a-level/shared/decision-tree-numeric-practice.ts',
       'content-factory/slices/aqa-7132-3.1-3.2/learn-practice/bus-evi-004.json',
       'src/app/practice-guided-repair.test.ts',
+      'content/business/aqa-a-level/decision-tree-foundation-source.test.ts',
     ],
     reviewedItemIds: [
       'aqa-7132-3.2.2:expected-value',
@@ -323,6 +328,9 @@ async function run() {
         'Treat expected value and net gain as different assessed skills. Challenge whether their two guided challenges and methods are genuinely differentiated, pedagogically safe, and avoid presenting final-number mistakes as diagnosed procedural misconceptions.',
         'Inspect both original separately tagged source questions for each assessed skill and the published bus-evi-004 Foundation. A reading/reveal or URL query is NEVER independently scored evidence.',
         'Inspect the canonical FI-001 selected skill handoff from Plan/Home into the Learn page, including canonicalRoute, and fail if a different method can be fabricated, wrongly credited, or promoted to mastery.',
+        'Do not misclassify risk, rewards, uncertainty, opportunity cost, scientific/intuitive decisions or influences on decisions as absent from official 3.2.2; the printed source page explicitly includes them. Distinguish optional broader appraisal from those real specified capabilities.',
+        'Challenge unconditional net-gain cost subtraction, confirm that the separately stated cost was not previously included, and verify consistency across core explanation, key term, worked method, Practice explanation and unscored guided repair.',
+        'Record a finding only against the complete approved structured scope and the actual candidate content. A green CI is not an educational PASS; an under-scoped reviewer prompt is not a ground for deleting real AQA requirements.',
         'Record an explicit finding if actual published source/evidence coverage is insufficient to verify a claim; passing CI only shows the named tests succeeded.',
       ] : []),
       ...(id===820 ? [
