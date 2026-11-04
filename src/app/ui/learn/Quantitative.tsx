@@ -5,9 +5,9 @@ import { BlockLabel } from './BlockLabel'
 import { describeCrossing, findCrossing, formatTick, niceAxis } from './chart-geometry'
 import type { LearnBlockOf } from './types'
 
-const wideView = { width: 760, height: 300, left: 64, top: 14, right: 20, bottom: 44 }
+const wideView = { width: 760, height: 300, left: 76, top: 14, right: 20, bottom: 44 }
 /** Phones draw the chart on a smaller canvas so the labels stay readable instead of shrinking with it. */
-const compactView = { width: 360, height: 260, left: 46, top: 14, right: 16, bottom: 44 }
+const compactView = { width: 360, height: 260, left: 70, top: 14, right: 16, bottom: 44 }
 
 /** Legend and line styles come from CSS by series position: 1 accent solid, 2 ink solid, 3 muted dashed. */
 export function Quantitative({ block }: { block: LearnBlockOf<'quantitative'> }) {
@@ -23,6 +23,8 @@ export function Quantitative({ block }: { block: LearnBlockOf<'quantitative'> })
   const sx = (x: number) => view.left + (x / maxX) * plotWidth
   const sy = (y: number) => view.top + plotHeight - (y / axis.max) * plotHeight
   const baseline = view.top + plotHeight
+  const yAxisLabelX = view.left > 70 ? 17 : 13
+  const yAxisLabelY = view.top + plotHeight / 2
   const currency = /^[£$€]$/.test(block.yLabel.trim()) ? block.yLabel.trim() : ''
 
   const crossing = block.series.length >= 2 ? findCrossing(block.series[0].points, block.series[1].points) : null
@@ -51,6 +53,7 @@ export function Quantitative({ block }: { block: LearnBlockOf<'quantitative'> })
             <text key={step} x={sx((maxX / 4) * step)} y={baseline + 20} textAnchor="middle" className="learn-chart__tick">{((maxX / 4) * step).toLocaleString('en-GB')}</text>
           ))}
           <text x={view.left + plotWidth / 2} y={view.height - 4} textAnchor="middle" className="learn-chart__axis-label">{block.xLabel}</text>
+          <text x={yAxisLabelX} y={yAxisLabelY} textAnchor="middle" transform={`rotate(-90 ${yAxisLabelX} ${yAxisLabelY})`} className="learn-chart__axis-label learn-chart__axis-label--y">{block.yLabel}</text>
           {block.series.map((series, index) => (
             <path
               key={series.name}

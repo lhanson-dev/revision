@@ -64,6 +64,7 @@ describe('Learn quick-check block', () => {
       'boston-matrix-decision-method',
       'marketing-mix-seven-ps-context',
       'operations-four-performance-measures',
+      'operations-inventory-control-chart',
     ])
     for (const page of checked) {
       for (const block of page.blocks.filter(block => block.type === 'quick-check')) {
