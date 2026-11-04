@@ -49,7 +49,7 @@ describe('#705 source-first Business 7132 3.2.2 conditional net-gain teaching', 
 
   it('delivers the corrected source teaching through all three actual published Business packs', () => {
     for (const pack of packs) {
-      const page = pack.learn.chapters.flatMap(c => c.groups.flatMap(g => g.pages))
+      const page = (pack.learn?.chapters ?? []).flatMap(c => c.groups.flatMap(g => g.pages))
         .find(page => page.id === 'bus-evi-004')
       expect(page?.topicId).toBe('leadership')
       const text = page?.blocks.map(block => {
