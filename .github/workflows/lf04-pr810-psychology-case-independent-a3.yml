@@ -1,0 +1,71 @@
+name: LF-04 PR 810 Independent Psychology Case A3
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lf04-pr810-psychology-case-independent-a3.yml'
+      - 'scripts/assurance/lf04-pr810-psychology-case-a3-review.mjs'
+      - 'scripts/assurance/lf04-pr810-psychology-case-a3-review.node-check.mjs'
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: lf04-pr810-psychology-case-independent-a3
+  cancel-in-progress: false
+
+jobs:
+  reviewer-contract:
+    name: Trusted exact-source reviewer contract tests (no secrets)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test scripts/assurance/lf04-pr810-psychology-case-a3-review.node-check.mjs
+
+  independent-a3:
+    name: Trusted exact-head Psychology case-context and guidance A3
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 810 &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, 'revision-run-lf04-pr810-psychology-case-a3:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout approved main review runner only
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Install trusted parser without running package scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify trigger, parser and review-contract security without provider
+        run: node --test scripts/assurance/lf04-pr810-psychology-case-a3-review.node-check.mjs
+      - name: Independently challenge five unscored cases and ten guidance pairs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/assurance/lf04-pr810-psychology-case-a3-review.mjs
+      - name: Retain per-head A3 result and issue register
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lf04-pr810-psychology-case-a3-${{ github.run_id }}
+          path: .artifacts/lf04-pr810-psychology-case-a3/
+          if-no-files-found: warn
+          retention-days: 30

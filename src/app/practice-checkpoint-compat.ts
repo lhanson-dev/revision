@@ -1,6 +1,6 @@
 import type { PracticeQuestion } from './practice-questions'
 import { coursePackQuestionToPractice } from './practice-questions'
-import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions, psychologyLegacyAttachmentQuestions } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions, psychologyLegacyAttachmentQuestions, psychologyLegacyIssuesDebatesQuestions } from '../../content/psychology/aqa-a-level/shared/course'
 import {
   fingerprintPracticeContent, loadPracticeCheckpoint,
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointStore,
@@ -58,6 +58,21 @@ export function legacyAttachmentPool(
   return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
 }
 
+/** Recover only the exact former six-item Issues and Debates session fingerprint.
+ * The two changed items retain immutable V1 keys for old saved sessions. */
+export function legacyIssuesDebatesPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  if (specificationCode !== '7182' || topicId !== 'issues-and-debates-in-psychology') return null
+  const previousByCurrentId = new Map(psychologyLegacyIssuesDebatesQuestions
+    .filter(question => ['psy-psy0801-check', 'psy-psy0804-check'].includes(question.id))
+    .map(question => [question.id + '-v2', coursePackQuestionToPractice(question)]))
+  if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 2) return null
+  return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
 export function legacyPsychologyCheckpointPool(
   specificationCode: string,
   topicId: string,
@@ -66,6 +81,7 @@ export function legacyPsychologyCheckpointPool(
   return legacySocialInfluencePool(specificationCode, topicId, publishedPool)
     ?? legacyMemoryPool(specificationCode, topicId, publishedPool)
     ?? legacyAttachmentPool(specificationCode, topicId, publishedPool)
+    ?? legacyIssuesDebatesPool(specificationCode, topicId, publishedPool)
 }
 
 export async function loadLf03CompatibleCheckpoint(

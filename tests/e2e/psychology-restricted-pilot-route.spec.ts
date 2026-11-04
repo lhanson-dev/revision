@@ -385,6 +385,83 @@ test('LF-04 Psychology exam stimulus is visible in untimed Practice and when sel
 })
 
 
+test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact keys and saved continuation', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/issues-and-debates-in-psychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.locator('.practice-length').filter({
+    has: page.locator('.practice-length__number', { hasText: /^15$/ }),
+  }).click()
+  await page.getByRole('button', { name: 'Start 6 questions' }).click()
+
+  const ids = [
+    'psy-psy0801-check-v2', 'psy-psy0802-check', 'psy-psy0803-check',
+    'psy-psy0804-check-v2', 'psy-psy0805-check', 'psy-psy0806-check',
+  ]
+  const correctKeys = [1, 2, 1, 3, 1, 1]
+  for (let index = 0; index < ids.length; index++) {
+    if (index === 0) await expect(page.locator('.practice-question__prompt')).toContainText('university students')
+    if (index === 3) await expect(page.locator('.practice-question__prompt')).toContainText('neurotransmitter')
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    await options.nth(correctKeys[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice', contentId: ids[index],
+      selectedOption: correctKeys[index], correctOption: correctKeys[index], correct: true,
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+      expect(saved).toHaveLength(1)
+    }
+    if (index < ids.length - 1) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
+})
+
+test('LF-04: Psychology Practice pairs the Social Influence case with its actual question and guidance', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  const scoredWrites: string[] = []
+  page.on('request', request => {
+    if (request.method() === 'POST' && request.url().includes('/rest/v1/learning_evidence')) {
+      scoredWrites.push(request.url())
+    }
+  })
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+
+  const caseRow = page.locator('.practice-row').filter({ hasText: 'Case study' })
+  await expect(caseRow).toContainText('2 written questions')
+  await caseRow.click()
+
+  await expect(page.getByRole('heading', { name: 'Instructions at a training centre' })).toBeVisible()
+  await expect(page.locator('.case-material')).toContainText('senior supervisor')
+  await expect(page.locator('.written-practice')).toContainText('legitimacy of authority')
+  await page.getByLabel('Draft your answer').fill('The supervisor has an official position, which might explain the employee continuing despite hesitation.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('recognised supervisor')
+  await expect(page.getByText('These questions have no authoritative mark allocation', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Next case question' }).click()
+  await expect(page.locator('.written-practice')).toContainText('alternative explanation')
+  await page.getByLabel('Draft your answer').fill('The student may fear losing their supervisor’s approval.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('their behaviour is not described')
+  // Unscored application warm-ups may guide learning but must never record independent evidence.
+  expect(scoredWrites).toHaveLength(0)
+
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/biopsychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.locator('.practice-row').filter({ hasText: 'Case study' })).toHaveCount(0)
+  expect(scoredWrites).toHaveLength(0)
+})
+
 test('LF-06: published Social Influence flashcards have short independent retrieval demands in real Practice', async ({ page }) => {
   await seedRestrictedPsychologyLearner(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
