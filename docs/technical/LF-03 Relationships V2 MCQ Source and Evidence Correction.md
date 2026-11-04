@@ -1,6 +1,6 @@
 # #787 / LF-03 — AQA Psychology 7182 Relationships V2 Practice correction
 
-**Implementation status:** Draft candidate on governed branch. **NOT merged, released or original-learner accepted.** Independently judged A3 answer/explanation review is outstanding. Existing #787/#765/#698 remain the owners; this is not a new content programme.
+**Implementation status:** Draft candidate on governed branch. **NOT merged, released or original-learner accepted.** Independent source-blob educational A3 key/distractor and separate feedback challenge passed on 3 November 2026; integrated-head CI and release remain outstanding. Existing #787/#765/#698 remain the owners; this is not a new content programme.
 
 ## Canonical learner entry and rights
 
@@ -34,10 +34,15 @@ Each question has four distinct contextual options and model-authored feedback t
 
 Deterministic candidate tests in `relationships-mcq-v2.test.ts` cover all three real course packs; exact source crosswalk, keys, no repeated option multisets, option length and explanation specificity; old historic evidence and scoped non-inference; current V2 evidence; old precise checkpoint recovery and unknown mismatch. The actual authenticated synthetic canonical Practice route checks every keyed answer, score append, reload and continuation across desktop/tablet/phone in `psychology-restricted-pilot-route.spec.ts`. Source-to-Learn checks remain intact. Updated `lf03-mcq-quality.test.ts` removes only this proven repeated-option cohort from its fixed unresolved queue and retains the other two large unsolved four-item cohorts.
 
-**Still required before a merge request:** exact-head full CI including responsive/DB/RLS/Auth; fresh independent blind answer/key A3 for each new question, separate adverse feedback review and source/AO check; optional genuinely qualified educator review where required; integration with latest approved `main` and **explicit separate Founder merge approval**. Release and original learner's observation are further gates.
+**Remaining before merge:** fresh integrated-head full CI including responsive/DB/RLS/Auth; verify unchanged A3-reviewed source blob and previously accepted blind keys plus separate adverse feedback receipt; optional qualified educator review where necessary; **explicit separate Founder merge approval**. Release and original learner's observation are further gates.
 
 **Further #787 risk:** Other Psychology option-set groups, generic feedback and the Business 59-item A=40/B=12/C=7/D=0 retained source-position bias remain OPEN. This package does not close either bank, #787 or LF-03. Do not claim production readiness or complete educational adequacy based on this four-item patch.
 
 ## Documentation impact
 
 Existing Course Learning Blueprint and Claims and Progress Governance already prohibit unsupported mastery claims; no normative amendment is proposed. Implemented source, technical note, regression and INDEX update belong on the same governed PR. Dated 2 November audit remains historically immutable. #787 and #765 receive additive status updates; no duplicate tracker.
+
+
+## 4 November 2026 — checked independent A3 and integration boundary
+
+The trusted main-only independent [review #41666277535](https://github.com/lhanson-dev/revision/actions/runs/41666277535) passed on the prior exact PR #816 head `5c24236a092483855d56b2d2f11fdfcb75123121` with original review [artifact #13244528585](https://github.com/lhanson-dev/revision/actions/runs/41666277535/artifacts/13244528585) and its verified candidate source Git blob `ad96b281613e045222758e3acfa2e114cb90528c`. Blind answers 2/0/3/1 match all four authored keys; separate feedback challenge passed. Minor item-phrasing clues remained noted, not a competing correct key. The 4 November main integration preserves this **exact unchanged source blob**; the reviewed questions are not reauthored during integration. The receipt is associated with the original PR head, so do not misdescribe it as a newly executed A3 at the merge head; a new review would be required if authored content changed. Current exact-head CI and separate Founder approval are still required; no new learner marks or historic scores are touched.

@@ -426,6 +426,41 @@ test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact key
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
 })
 
+test('LF-04: Psychology Practice pairs the Social Influence case with its actual question and guidance', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  const scoredWrites: string[] = []
+  page.on('request', request => {
+    if (request.method() === 'POST' && request.url().includes('/rest/v1/learning_evidence')) {
+      scoredWrites.push(request.url())
+    }
+  })
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+
+  const caseRow = page.locator('.practice-row').filter({ hasText: 'Case study' })
+  await expect(caseRow).toContainText('2 written questions')
+  await caseRow.click()
+
+  await expect(page.getByRole('heading', { name: 'Instructions at a training centre' })).toBeVisible()
+  await expect(page.locator('.case-material')).toContainText('senior supervisor')
+  await expect(page.locator('.written-practice')).toContainText('legitimacy of authority')
+  await page.getByLabel('Draft your answer').fill('The supervisor has an official position, which might explain the employee continuing despite hesitation.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('recognised supervisor')
+  await expect(page.getByText('These questions have no authoritative mark allocation', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Next case question' }).click()
+  await expect(page.locator('.written-practice')).toContainText('alternative explanation')
+  await page.getByLabel('Draft your answer').fill('The student may fear losing their supervisor’s approval.')
+  await page.getByRole('button', { name: 'Compare with guidance' }).click()
+  await expect(page.locator('.written-practice')).toContainText('their behaviour is not described')
+  // Unscored application warm-ups may guide learning but must never record independent evidence.
+  expect(scoredWrites).toHaveLength(0)
+
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/biopsychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.locator('.practice-row').filter({ hasText: 'Case study' })).toHaveCount(0)
+  expect(scoredWrites).toHaveLength(0)
+})
 
 test('LF-03 #787 Relationships V2 publishes four authentic one-mark cases and resumes exact saved results', async ({ page }) => {
   await seedRestrictedPsychologyLearner(page)
