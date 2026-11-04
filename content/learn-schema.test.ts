@@ -65,6 +65,7 @@ describe('Learn quick-check block', () => {
       'marketing-mix-seven-ps-context',
       'operations-four-performance-measures',
       'operations-inventory-control-chart',
+      'strategic-financial-ratios-method',
     ])
     for (const page of checked) {
       for (const block of page.blocks.filter(block => block.type === 'quick-check')) {
