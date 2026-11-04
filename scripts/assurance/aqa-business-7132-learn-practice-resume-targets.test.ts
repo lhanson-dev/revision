@@ -32,8 +32,10 @@ describe('AQA 7132 Learn + Practice targeted refresh scope', () => {
         batch: '3.1-3.2',
         // #698: merged profit-importance teaching changes bus-fnd-005;
         // §3.1.2 shareholder valuation/price explanations change 003/004.
+        // #705 corrects net-gain teaching in bus-evi-004. The old QA ledger must
+        // NOT be reused as a current content review for that changed asset.
         // Preserve the historic ledger: changed fingerprints are NOT reusable.
-        stale: ['bus-fnd-003', 'bus-fnd-004', 'bus-fnd-005', 'bus-fnd-009'],
+        stale: ['bus-evi-004', 'bus-fnd-003', 'bus-fnd-004', 'bus-fnd-005', 'bus-fnd-009'],
       },
       {
         batch: '3.4',
