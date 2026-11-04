@@ -10,6 +10,8 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+- LF-05 #698/#706 original *research-only* exam-format candidate question bank and individual indicative guides (17 Psychology 16-mark-style topic families; Business 10 × 16 + 10 × 25; **independent A2/A3/A4 and 2027 tariff verification HOLD**, no learner publication) → `research/lf05-extended-response/README.md`, `research/lf05-extended-response/psychology-7182-2027-17-topic-original-16-mark-candidates.md`, `research/lf05-extended-response/business-7132-2027-10-area-original-16-and-25-mark-candidates.md`
+
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
 - LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
