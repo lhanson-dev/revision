@@ -62,13 +62,15 @@ A parent primarily needs confidence that their child is engaging with revision a
 
 Parent insight should be high-level and useful. It should not default to surveillance of every learning action, answer or tutor conversation.
 
-## Future persona — Teacher
+## Intended public-launch supporting persona — Teacher (proposed change, 4 November 2026)
 
-Teachers are a likely future audience, but are not the first product priority.
+**Proposed Founder launch-scope decision, pending this governance PR:** Bounded teacher progress visibility belongs in the target product for the *same public launch* as the complete student proposition, while student learning effectiveness remains the first design priority. This is a target, **not evidence that teacher access is currently Live or that implementation is Ready**.
 
-A useful teacher experience could show class-level progress and identify specification areas or concepts where a group appears weak, helping teachers decide where further teaching or intervention may be useful.
+The teacher's job is to understand how appropriately linked students or an authorised group are progressing, identify meaningful learning gaps, and decide where extra teaching or support may help. Access must be relationship-verified, proportionate and explicitly authorised; private REV conversations, raw individual answers and detailed behaviour surveillance remain private by default.
 
-Teacher functionality should be developed only once the core student experience has been proven. Revision should not become a school LMS or classroom administration platform by default.
+The bounded launch capability is **not** a school learning-management system, assignment-management tool, teacher lesson planner or general classroom operations suite. The separately parked FI-018 classroom-tools scope stays parked. Before teacher visibility is implemented it requires its own Definition of Ready: exact permissions and data minimisation, lawful basis/age-appropriate notice, safeguarding, entitlement/commercial position, backend enforcement, accessibility, user journeys and independent acceptance. See `30-marketing-governance/Marketing Website Design and Content Specification.md`.
+
+Until the change is approved, the existing teacher-future prioritisation is the operative baseline; launch messaging may be developed in parallel but public claims must be conditioned on actual acceptance.
 
 ## Audience priority
 
