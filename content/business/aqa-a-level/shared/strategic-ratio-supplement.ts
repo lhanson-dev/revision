@@ -66,7 +66,7 @@ export const strategicRatioSupplement = learnCourseSchema.parse({
               { label: 'Inventory turnover', value: '£730,000 ÷ £73,000 = 10 times per year; use average inventory at cost.' },
               { label: 'Compare and qualify', value: 'Suppliers are paid on average after 40 days, while customer balances are collected after 30 days, under the stated approximations. These figures cannot prove contract compliance, future cash availability or appropriate stock levels.' },
             ],
-            conclusion: 'The methods yield days, days and times per year. A one-mark typed final answer cannot verify working or contextual interpretation.',
+            conclusion: 'The methods yield days, days and times per year. Working and contextual interpretation are not independently marked by a one-mark typed final-answer question.',
           },
           {
             type: 'quick-check',
