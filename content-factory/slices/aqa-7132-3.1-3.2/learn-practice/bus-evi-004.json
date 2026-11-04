@@ -6,7 +6,7 @@
       {
         "treatment": "core_explanation",
         "heading": "Using decision tools as evidence, not answers",
-        "body": "A decision tree maps a choice, the uncertain outcomes that may follow, their probabilities and their financial consequences. Managers can calculate expected value by adding each probability multiplied by its financial outcome. They can then subtract the cost of an option to find net gain.\n\nThese figures support a decision, but do not determine it. A stronger appraisal also compares each option with a realistic baseline, considers opportunity cost, tests assumptions and keeps downside risk, liquidity, reversibility, strategic fit and stakeholder effects visible. Cost-benefit analysis can include financial and non-financial impacts; effects that cannot be credibly priced should not simply be ignored.",
+        "body": "A decision tree maps a management choice, possible chance outcomes, their probabilities and financial consequences. Expected value is the sum of each outcome multiplied by its probability. When a certain option cost is separately stated and has NOT already been included in the outcomes or expected value, net gain = expected value − that cost. If the stated outcomes already include that cost, do not subtract it again.\n\nAQA section 3.2.2 also requires understanding risks, rewards, uncertainty, opportunity cost, and how decision trees can help or mislead decisions. Expected value is a weighted average, not a guaranteed financial result. Consider the downside as well as the expected reward, the reliability of probability estimates, and the best alternative forgone.\n\nOptional broader business appraisal practice (not separately claimed as AQA section 3.2.2 requirements): compare options with a realistic baseline and consider cash availability, reversibility, strategic fit and stakeholder effects. Cost-benefit and sensitivity checks can add useful context, but these are extensions rather than separate verified item targets on this page.",
         "item_ids": [
           "aqa-7132-3.2.2:decision-trees",
           "aqa-7132-3.2.2:expected-value",
@@ -18,8 +18,8 @@
       },
       {
         "treatment": "purposeful_visual",
-        "heading": "Reading a simple decision tree",
-        "body": "A tree separates a management choice from chance outcomes:\n\n[Choose launch]\n  └─ Chance node\n      ├─ 0.6 → £200,000 contribution\n      └─ 0.4 → −£50,000 contribution\n\nMultiply along each outcome branch: 0.6 × £200,000 and 0.4 × −£50,000. Add the weighted contributions to obtain expected value. The probabilities at this chance node describe the defined possible outcomes and should add to 1.",
+        "heading": "Reading a schematic representation of a decision tree",
+        "body": "This text schematic shows the idea of a decision tree; it is not a conventionally drawn or independently marked diagram:\n\n[Choose launch]\n  └─ Chance node\n      ├─ 0.6 → £200,000 contribution\n      └─ 0.4 → −£50,000 contribution\n\nMultiply along each outcome branch: 0.6 × £200,000 and 0.4 × −£50,000. Add the weighted contributions to obtain expected value. The probabilities at this chance node describe the defined possible outcomes and should add to 1.",
         "item_ids": [
           "aqa-7132-3.2.2:decision-trees",
           "aqa-7132-3.2.2:expected-value",
@@ -29,7 +29,7 @@
       {
         "treatment": "worked_example",
         "heading": "Calculate expected value and net gain",
-        "body": "A UK meal-kit business is considering a regional launch. It estimates a 0.7 probability of a £180,000 outcome and a 0.3 probability of a £100,000 loss. The launch requires a certain cost of £60,000.\n\nExpected value is £96,000. After the certain option cost, net gain is £36,000. This does not mean £36,000 is guaranteed: management should still consider whether it can absorb the loss outcome and whether its probability estimates are dependable.",
+        "body": "A UK meal-kit business is considering a regional launch. It estimates a 0.7 probability of a £180,000 outcome and a 0.3 probability of a £100,000 loss. The launch requires a separate certain cost of £60,000, which is not included in either stated outcome.\n\nExpected value is £96,000. After subtracting that separate, previously uncounted cost once, net gain is £36,000. If the stated outcomes already included the cost, no second deduction would be appropriate. This does not mean £36,000 is guaranteed: management should still consider whether it can absorb the loss outcome and whether its probability estimates are dependable.",
         "item_ids": [
           "aqa-7132-3.2.2:expected-value",
           "aqa-7132-3.2.2:net-gain",
@@ -38,8 +38,8 @@
       },
       {
         "treatment": "guided_example",
-        "heading": "Build an appraisal before making a recommendation",
-        "body": "For a proposed delivery depot, use this sequence:\n1. State the baseline, such as continuing with the current delivery arrangement.\n2. List the realistic options, including doing nothing where relevant.\n3. Set out financial outcomes, probabilities and any certain costs consistently.\n4. Calculate expected value and, where needed, net gain.\n5. Add non-financial effects, such as stakeholder impacts, that are important but hard to monetise.\n6. Identify opportunity cost: what is the best alternative use of the funds?\n7. Change a key assumption to see whether the recommendation reverses.\n8. Reach a conditional judgement that considers risk, liquidity, reversibility and strategic fit.",
+        "heading": "Optional extension: build a broader appraisal before making a recommendation",
+        "body": "This unscored general management appraisal is optional broader practice, not a list of additional independently verified AQA section 3.2.2 obligations. For a proposed delivery depot, use this sequence:\n1. State the baseline, such as continuing with the current delivery arrangement.\n2. List the realistic options, including doing nothing where relevant.\n3. Set out financial outcomes, probabilities and any certain costs consistently.\n4. Calculate expected value and, only where a separate certain cost has not already been included in those outcomes, subtract it once to calculate net gain.\n5. Add non-financial effects, such as stakeholder impacts, that are important but hard to monetise.\n6. Identify opportunity cost: what is the best alternative use of the funds?\n7. Change a key assumption to see whether the recommendation reverses.\n8. Reach a conditional judgement that considers risk, liquidity, reversibility and strategic fit.",
         "item_ids": [
           "aqa-7132-3.2.2:decision-trees",
           "aqa-7132-3.2.2:expected-value",
@@ -51,8 +51,8 @@
       },
       {
         "treatment": "example_non_example",
-        "heading": "A calculation is not a complete decision",
-        "body": "Example: A retailer compares two store formats using expected value, then checks the possible loss, cash exposure, probability quality, effects on employees and whether the investment can be reversed.\n\nNon-example: The retailer selects the option with the largest expected value immediately, without asking whether it could survive the adverse outcome or whether relevant non-financial effects have been omitted.",
+        "heading": "Optional wider appraisal: a calculation is not a complete decision",
+        "body": "Optional wider business context (not a separately verified 3.2.2 requirement): Example: A retailer compares two store formats using expected value, then checks the possible loss, cash exposure, probability quality, effects on employees and whether the investment can be reversed.\n\nNon-example: The retailer selects the option with the largest expected value immediately, without asking whether it could survive the adverse outcome or whether relevant non-financial effects have been omitted.",
         "item_ids": [
           "aqa-7132-3.2.2:expected-value",
           "aqa-7132-3.2.2:risk",
@@ -71,8 +71,8 @@
       },
       {
         "treatment": "self_explanation_prompt",
-        "heading": "Explain the judgement behind the number",
-        "body": "A business has calculated that Option A has the higher net gain. Explain, in your own words, why this alone may not justify choosing A. Include at least three of: reliability of probabilities, downside risk, liquidity, reversibility, stakeholder effects, non-financial impacts, opportunity cost or strategic fit.",
+        "heading": "Optional unscored reflection beyond the calculation",
+        "body": "Optional broader reflection, not an independently marked 3.2.2 response: A business has calculated that Option A has the higher net gain. Explain, in your own words, why this alone may not justify choosing A. Include at least three of: reliability of probabilities, downside risk, liquidity, reversibility, stakeholder effects, non-financial impacts, opportunity cost or strategic fit.",
         "item_ids": [
           "aqa-7132-3.2.2:net-gain",
           "aqa-7132-3.2.2:risk",
@@ -92,7 +92,7 @@
       },
       {
         "term": "net gain",
-        "definition": "Expected value of an option minus the cost of that option."
+        "definition": "Where a certain option cost is not already included in the stated outcomes or their expected value, expected value minus that separate cost. Do not deduct an already included cost twice."
       },
       {
         "term": "probability",
@@ -153,11 +153,11 @@
       {
         "id": "we-net-gain-regional-launch",
         "item_id": "aqa-7132-3.2.2:net-gain",
-        "scenario": "The same regional launch has an expected value of £96,000 and requires a certain cost of £60,000.",
+        "scenario": "The same regional launch has an expected value of £96,000 before a separately stated certain launch cost of £60,000 that is not included in its outcomes.",
         "steps": [
-          "Start with the expected value of £96,000.",
-          "Subtract the cost of the option: £96,000 − £60,000.",
-          "The net gain is £36,000."
+          "Start with expected value of £96,000, calculated before the certain launch cost.",
+          "Verify that the £60,000 certain option cost has not already been included in the stated outcomes.",
+          "Subtract the separate cost once: £96,000 − £60,000 = £36,000. If already included, do not subtract again."
         ],
         "calc": {
           "formula_id": "net_gain",
@@ -229,9 +229,9 @@
         "item_ids": [
           "aqa-7132-3.2.2:net-gain"
         ],
-        "prompt": "A marketing campaign has an expected value of £88,000 and costs £31,000. Calculate its net gain.",
+        "prompt": "A marketing campaign has an expected value of £88,000 before a separately stated certain cost of £31,000 that has not already been counted in its outcomes. Calculate its net gain.",
         "answer": "£57,000.",
-        "explanation": "Net gain equals expected value minus the cost of the option: £88,000 − £31,000.",
+        "explanation": "Because the £31,000 certain cost is separate and not included in the outcomes, subtract it once: £88,000 − £31,000 = £57,000. Never subtract an already included cost a second time.",
         "calc": {
           "formula_id": "net_gain",
           "inputs": [
@@ -255,9 +255,9 @@
           "aqa-7132-3.2.2:decision-trees",
           "aqa-7132-3.2.2:uncertainty"
         ],
-        "prompt": "Describe the branches you would draw for a decision tree where a café can either extend its opening hours or retain current hours. If it extends, there is a 0.4 probability of a £30,000 outcome and a 0.6 probability of a £8,000 loss.",
+        "prompt": "Unscored diagram practice: describe the branches you would draw for a decision tree where a café can either extend opening hours or retain current hours. If it extends, there is a 0.4 probability of a £30,000 outcome and a 0.6 probability of a £8,000 loss.",
         "answer": "Draw a decision node with ‘extend hours’ and ‘retain current hours’. From ‘extend hours’, draw a chance node with branches 0.4 to £30,000 and 0.6 to −£8,000.",
-        "explanation": "The decision node shows the café's choices. The chance node shows the uncertain outcomes for the extension option, with coherent probabilities totalling 1.",
+        "explanation": "The decision node shows the café's choices. The chance node shows the uncertain outcomes for the extension option, with coherent probabilities totalling 1. This is unscored guidance, not evidence that a conventional tree diagram has been correctly drawn.",
         "calc": null
       },
       {
