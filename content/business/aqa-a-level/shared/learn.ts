@@ -1,6 +1,8 @@
 import type { LearnBlock, LearnChapter, LearnCourse, LearnPage } from '../../../learn-schema'
 import { learn as authoredLearn } from './authored-learn'
 import { marketingMixSupplement } from './marketing-mix-supplement'
+import { operationsPerformanceSupplement } from './operations-performance-supplement'
+import { operationsInventoryChartSupplement } from './operations-inventory-chart-supplement'
 
 type FastPathAsset = {
   node_id: string
@@ -151,11 +153,13 @@ export const learn: LearnCourse = {
     const authored = authoredLearn.chapters.find((chapter) => chapter.topicId === topicId)
     const fastPath = fastPathLearn.chapters.find((chapter) => chapter.topicId === topicId)
     const supplement = marketingMixSupplement.chapters.find((chapter) => chapter.topicId === topicId)
+    const operationsSupplement = operationsPerformanceSupplement.chapters.find((chapter) => chapter.topicId === topicId)
+    const inventoryChartSupplement = operationsInventoryChartSupplement.chapters.find((chapter) => chapter.topicId === topicId)
     return {
       id: topicId,
       topicId,
       title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],
-      groups: [...(authored?.groups ?? []), ...(supplement?.groups ?? []), ...(fastPath?.groups ?? [])],
+      groups: [...(authored?.groups ?? []), ...(supplement?.groups ?? []), ...(operationsSupplement?.groups ?? []), ...(inventoryChartSupplement?.groups ?? []), ...(fastPath?.groups ?? [])],
     }
   }).filter((chapter) => chapter.groups.length > 0),
 }
