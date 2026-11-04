@@ -54,7 +54,7 @@ const decisionTreeGuidedRepairs: Record<string, Omit<GuidedMethodRepair, 'specIt
       'Add the signed weighted outcomes: £126,000 − £30,000 = £96,000.',
     ],
     answer: 'Expected value = £96,000, a probability-weighted average rather than a guaranteed return.',
-    caution: 'Do not change a loss into a positive amount or subtract a separate option cost when asked only for expected value.',
+    caution: 'Keep any loss negative. This expected value is before the separately stated certain launch cost; subtract that cost only if the question asks for net gain and it has not already been included in the outcomes.',
   },
   'aqa-7132-3.2.2:net-gain': {
     kind: 'unscored-guided-repair',
