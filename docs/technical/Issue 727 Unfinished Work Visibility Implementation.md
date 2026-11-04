@@ -1,6 +1,6 @@
 # Issue #727 — Unfinished activity orientation on Home and Course Overview
 
-**Status:** Candidate on draft PR #728; no production or merge claim.  
+**Status:** Live — PR #728 merged to main at `442a47a742a6f2b2482aa7c855dfafce31579318` on 30 October 2026; governed Pages run [41069099164](https://github.com/lhanson-dev/revision/actions/runs/41069099164) passed backend readiness, production build, deployment and smoke, and `revision/path-to-live = success`. This note otherwise preserves the implementation and assurance contract.  
 **Canonical owner:** `PlannerRuntime` → `PlannerHomeScreen` / `CourseExperienceScreen` → `FocusedLearningWorkspace` / `ExamPrepSection`.  
 **Design authority (proposed):** `10-product-governance/Returning Student Home Experience.md` and `20-brand-and-experience/Learner Design System.md` §19. The draft authority changes are not operative until Founder-approved merge.
 

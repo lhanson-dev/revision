@@ -1,7 +1,7 @@
 # Unfinished Work Continuation Visibility — Home and Course Overview
 
 **Issue:** #727  
-**Lifecycle:** In Progress — Founder explicitly approved Issue #727 as Ready on 30 October 2026. Governed implementation has started in PR #728; merge remains separately gated.  
+**Lifecycle:** Live — Founder approved Ready then separately approved PR #728 merge on 30 October 2026. PR #728 merged to main at `442a47a742a6f2b2482aa7c855dfafce31579318`; governed production run [41069099164](https://github.com/lhanson-dev/revision/actions/runs/41069099164) and `revision/path-to-live = success` verified. This is the historical Definition-of-Ready analysis, not a competing active product authority.  
 **Canonical experience:** `/revision/app/` → `src/main.tsx` → `PlannerRuntime` → `PlannerHomeScreen` or `CourseExperienceScreen`.  
 **Governed reference:** `80-company-workflows/Feature Definition and Measurement Workflow.md`. This is backlog analysis, **not active product authority**.
 
@@ -106,4 +106,4 @@ The implementation PR must include actual code, tests, documentation, and any ne
 16. Blocking experience choices — recommendation is single most recent on Home, four subordinate Overview spotlights, no fake Learn/Progress in-progress status; no further scope expansion.
 17. **Founder Definition-of-Ready approval — GRANTED** in the 30 October 2026 conversation, authorising implementation but not merge.
 
-**Decision:** Founder approved this scope as Ready on 30 October 2026. Implementation is underway; final exact-head CI and separate PR-specific merge approval remain required.
+**Decision and closure:** Founder approved this scope as Ready, then separately approved merging PR #728 on 30 October 2026. Exact-head CI passed, PR merged and governed production deployment/smoke were verified. Issue #727 is closed; scope exclusions recorded above remain. Historical readiness risks and proposed acceptance criteria are retained for traceability.
