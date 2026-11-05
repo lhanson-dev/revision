@@ -185,6 +185,22 @@ Use \`20-brand-and-experience/Visual Brand System.md\`, \`Identity Asset Usage R
 - **Responsive:** narrow mobile through desktop, no horizontal page scroll, accessible mobile navigation, 44–52px touch targets, keyboard access, clear focus, WCAG 2.2 AA target and tested contrast.
 - **Performance:** fast loading on typical mobile connections; avoid autoplay media or layout shifts that obscure primary CTA.
 
+## 6A. Selected visual direction and canonical identity corrections (Founder feedback, 5 November 2026)
+
+**Status:** Founder preference, **not final visual approval**. The darker of the first three revised marketing concepts is preferred; the lighter before-and-after storytelling idea is a secondary reference. Marketing should be brighter/bolder than the working learner app, while maintaining mature gender-neutral contrast and avoiding excessive pastel styling, school graphics and invented AI/robot mascots.
+
+**Brand fidelity is a hard acceptance condition.** Image-generation previews created earlier redrew the Revision logo and REV glyph inaccurately; **do not treat those generated marks as brand assets**. The implementation and any definitive design review must load the canonical, unchanged assets by repository path, not reconstruct them from text prompts:
+
+- Masthead wordmark on dark: `assets/brand/exports/revision-wordmark-primary-dark.svg` (derived from the approved `assets/brand/source/revision-wordmark-primary-master.svg`; white lettering + teal three-bar E). On light surfaces use `assets/brand/exports/revision-wordmark-primary-light.svg`.
+- REV presence: `assets/brand/source/revision-rev-living-e-master.svg` or the appropriate approved resting export from `assets/brand/exports/`. Three teal horizontal rounded bars within the approved restrained halo, **not** an R-shaped symbol, freehand E, mascot, robot or unrelated swirl.
+- When REV's compact wordmark is required, use the governed `src/app/RevCompactWordmark.tsx` treatment under `Identity Asset Usage Rules.md`; the full corporate wordmark still owns the marketing masthead.
+- Preserve the identity's aspect ratio and canonical geometry; obey full-wordmark minimum **160px digital** width and **2× E-bar** clear space. Preserve Living E halo/bar proportions and contrast for both bright and dark contexts.
+- The visual proof step must compare a browser-rendered desktop **and mobile** screenshot against these actual SVG assets. **Do not claim an image-generator draft is brand compliant** merely because it visually resembles the mark.
+
+**Story direction:** a relatable student moving from revision overload to a calmer next step; show a labelled, illustrative plan/REV explanation grounded in the real product proposition, without presenting fabricated metrics or all-course coverage as proven live facts. Use approved subject marks/names/hues for subject-specific examples. Visual assets and artwork in a mock-up are not production/learner launch approval.
+
+**Documentation impact:** this update clarifies previously approved identity authority for this **marketing-specific** design handoff; it does not change the corporate logo, REV geometry, learner app or brand tokens. A final designer-produced and Founder-accepted implementation baseline is still needed.
+
 ## 7. Waiting-list functional requirements
 
 ### Collection and data model
