@@ -960,6 +960,35 @@ Would require Founder-approved change to product scope, target audience/journeys
 
 ---
 
+## FI-024 — Permissioned Teacher Progress Insight (public-launch target, proposed)
+
+**Status:** Analyse — proposed Founder-directed launch-scope promotion, pending governance PR approval; **not Ready, In Progress or Live**  
+**Captured:** 2026-11-04  
+**Capability fit:** Progress and Readiness; bounded supporting adult/teacher insight, not classroom management  
+**Founder direction:** Include teacher visibility in intended public-launch proposition while marketing-site and product development run in parallel.  
+**Proposed normative sources:** `10-product-governance/Target Audience and Personas.md`; `30-marketing-governance/Marketing Website Design and Content Specification.md`  
+**Related but separate:** FI-018 Teacher / Classroom Tools remains **Parked**. FI-002 already governs permissioned parent/supporter visibility.
+
+### Intended student and teacher value
+
+A suitably authorised teacher can understand each linked student's meaningful revision progress and, where appropriate and privacy-safe, group-level learning needs. The student remains the primary beneficiary; the teacher uses bounded insight to decide where support is most useful.
+
+### Scope boundary
+
+- In scope for **intended public product launch**: accountable verified teacher/learner or group linking; approved course/progress/understanding indicators; appropriate needs-attention signals; actionable support suggestions; visibility of permissions to learners.
+- Out of scope: assignments, lesson builders, classroom administration, attendance, parent substitute access, raw answer inspection, private REV conversations, individual clickstream surveillance, automatic access based on school email or merely claiming teacher status.
+- Prior teacher-future positioning and parked FI-018 scope **conflict** with the new launch target; this new bounded entry requires an approved normative change and does not silently promote FI-018.
+
+### Outstanding Definition of Ready
+
+Set exact user journey, trust relationships, lawful bases/privacy/safeguarding and age-appropriate notices, precise allowed fields and group thresholds, permission grant/revoke and audit, commercial tier/entitlement rules, backend access enforcement, accessibility, evidence meaning, test matrix, realistic cost/architecture and independent production acceptance. No teacher feature implementation may start until full Definition of Ready and explicit human Ready approval.
+
+### Launch gate
+
+Do not publish teacher-progress visibility in present tense unless implemented, independently accepted, permission-safe and confirmed on the canonical production learner and teacher routes. If launch approaches with an unmet criterion, the Founder must explicitly decide correction or narrower scope and update both product authority and marketing claims.
+
+---
+
 ## FI-019 — Predicted / Forecast Exam Practice
 
 **Status:** New  
