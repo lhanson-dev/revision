@@ -51,7 +51,8 @@ describe('#705 source-first Business 7132 3.2.2 conditional net-gain teaching', 
     for (const id of ['p-framework-application-appraisal', 'p-procedure-execution-sensitivity',
       'p-reasoning-chain-non-financial']) {
       const item = source.practice.items.find(x => x.id === id)
-      expect(item?.prompt).toMatch(/^Optional unscored .*not a separately verified AQA 3\\.2\\.2 target/)
+      expect(item?.prompt).toMatch(/^Optional unscored /)
+      expect(item?.prompt).toContain('not a separately verified AQA 3.2.2 target')
       expect(item?.calc).toBeNull()
     }
     const term = source.learn.key_terms.find(t => t.term === 'cost-benefit analysis')
