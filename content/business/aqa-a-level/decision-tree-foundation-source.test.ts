@@ -47,6 +47,17 @@ describe('#705 source-first Business 7132 3.2.2 conditional net-gain teaching', 
     expect(tree?.body).toContain('not a conventionally drawn')
   })
 
+  it('keeps broader-appraisal examples explicitly optional and unscored at their actual prompts', () => {
+    for (const id of ['p-framework-application-appraisal', 'p-procedure-execution-sensitivity',
+      'p-reasoning-chain-non-financial']) {
+      const item = source.practice.items.find(x => x.id === id)
+      expect(item?.prompt).toMatch(/^Optional unscored .*not a separately verified AQA 3\\.2\\.2 target/)
+      expect(item?.calc).toBeNull()
+    }
+    const term = source.learn.key_terms.find(t => t.term === 'cost-benefit analysis')
+    expect(term?.definition).toContain('Optional wider appraisal extension')
+  })
+
   it('delivers the corrected source teaching through all three actual published Business packs', () => {
     for (const pack of packs) {
       const page = (pack.learn?.chapters ?? []).flatMap(c => c.groups.flatMap(g => g.pages))
