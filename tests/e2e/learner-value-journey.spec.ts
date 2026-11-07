@@ -410,23 +410,13 @@ test('Business learner completes an independent Plan calculation recheck and ret
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     await expect(page.locator('.pln-daypanel')).toBeVisible()
-    // Only a today's activity has a Start action. With one scoped topic and
-    // available time, locate an actual authored recheck among today's work.
-    // Do not force a synthetic Plan row or invoke HomeFocusedActivity directly.
-    const practiceRows = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-      .filter({ hasText: 'Leadership' }).filter({ hasText: 'Practice question' })
-    const count = await practiceRows.count()
-    expect(count, 'Supported Leadership Practice must be present in the authentic day Plan').toBeGreaterThan(0)
-    let openedRecheck = false
-    for (let index = 0; index < count; index += 1) {
-      await practiceRows.nth(index).getByRole('button', { name: /^(Up next|Start)/ }).click()
-      if (await page.getByText('Calculation recheck').isVisible()) {
-        openedRecheck = true
-        break
-      }
-      await page.getByRole('button', { name: 'Back to Plan' }).click()
-    }
-    expect(openedRecheck, 'A source-backed different calculation recheck must be startable in Plan').toBe(true)
+    // A source-backed independent reassessment can appear on any eligible
+    // day of FI-001's rolling 14-day Plan; today's generic Practice rows do
+    // not prove that exact skill. Use the same date-settled original-task
+    // contract as the two browser-entered wrong-answer journeys.
+    const search = await startExactTaskAcrossSettledPlanDays(page, 'Independent recheck: Expected value')
+    expect(search.started, `A source-backed different calculation recheck must be startable in the real 14-day Plan. Rendered dates: ${search.visited.join('; ')}`).toBe(true)
+    await expect(page.getByText('Calculation recheck')).toBeVisible()
     await expect(page.getByRole('heading', { name: second!.prompt })).toBeVisible()
     await expect(page.getByText('Worked answer')).toHaveCount(0)
     await page.getByLabel('Your final number').fill(String(second!.expected))
