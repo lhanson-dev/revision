@@ -164,6 +164,118 @@ test('one ordinary real-auth learner can practise, see evidence, plan and prepar
 })
 
 
+
+/**
+ * LF-02 / LA-15: actually finish a published Business mock twice in the
+ * canonical app with a disposable GoTrue/PostgREST learner. Unlike the
+ * historical synthetic browser retake check, both original zero and later
+ * positive mark must survive as distinct owner-readable records.
+ *
+ * This does not claim a hosted learner retest, examiner marking or a complete
+ * Psychology paper. Historical answers are not cleared on a new attempt.
+ */
+test('LF-02: a real locally authenticated learner retains zero-scored mock evidence after a same-paper retake', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Auth/PostgREST.')
+  test.setTimeout(180_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const publishableKey = process.env.SUPABASE_ANON_KEY ?? ''
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const endpoint = new URL(url)
+  if (endpoint.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(endpoint.hostname) || endpoint.port !== '54321') {
+    throw new Error('Never run a mock-retake acceptance test against production Auth.')
+  }
+  if (!publishableKey || !serviceKey) throw new Error('Missing isolated test stack credentials.')
+  const options = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+  const admin: SupabaseClient = createClient(url, serviceKey, options)
+  const learner: SupabaseClient = createClient(url, publishableKey, options)
+  const email = 'zero-retake-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Synthetic-' + crypto.randomUUID() + '-A1!'
+  const mockId = 'aqa-a-level-7132-paper-1-sim-1'
+  let userId: string | undefined
+
+  async function ownerAttempts() {
+    const { data, error } = await learner.from('learning_evidence')
+      .select('evidence_id,payload').eq('user_id', userId!)
+    if (error) throw error
+    return (data ?? []).filter(row => row.payload?.source === 'exam_attempt' && row.payload?.contentId === mockId)
+  }
+
+  async function completeAttempt(selected: 'A' | 'B', expectedMarks: number) {
+    await expect(page.locator('.exam-session-page')).toBeVisible()
+    await page.locator('input[name="answer-p1-q01"][value="' + selected + '"]').check()
+    const navigation = page.getByRole('navigation', { name: 'Exam questions' })
+    await navigation.getByRole('button').nth(22).click()
+    await page.locator('.exam-choice-select input').check()
+    await navigation.getByRole('button').nth(24).click()
+    await page.locator('.exam-choice-select input').check()
+    await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+    await expect(page.locator('.exam-submit-summary')).toContainText(expectedMarks + '/100')
+    await page.getByRole('button', { name: 'Save exam result' }).click()
+    await expect(page.locator('.exam-score')).toContainText(expectedMarks + '/100')
+  }
+
+  try {
+    const { data: created, error: createError } = await admin.auth.admin.createUser({
+      email, password, email_confirm: true,
+    })
+    if (createError || !created.user) throw new Error('Disposable learner creation failed: ' + (createError?.message ?? 'unknown'))
+    userId = created.user.id
+    const { error: loginError } = await learner.auth.signInWithPassword({ email, password })
+    if (loginError) throw loginError
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(appPath + '#/courses')
+    await page.getByRole('button', { name: /Add course/i }).first().click()
+    const dialog = page.getByRole('dialog', { name: /Add course/i })
+    await dialog.getByRole('listitem').filter({ hasText: 'A-level Business' })
+      .getByRole('button', { name: /Add course/i }).click()
+    await expect(dialog).toHaveCount(0)
+
+    const examPrep = appPath + '#/courses/' + encodeURIComponent(businessId) + '/exam-prep'
+    await page.goto(examPrep)
+    const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+    await expect(paper.getByRole('button', { name: 'Start timed' })).toBeVisible()
+    await paper.getByRole('button', { name: 'Start timed' }).click()
+    await completeAttempt('A', 0)
+    await expect.poll(async () => (await ownerAttempts()).length).toBe(1)
+    const original = (await ownerAttempts())[0]!
+    expect(original.payload.marksAwarded).toBe(0)
+    expect(original.payload.markingMethod).toBe('self_assessed')
+
+    await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+    await expect(paper.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+    await paper.getByRole('button', { name: 'Retake exam' }).click()
+    await expect(page.locator('.exam-sticky-bar')).toContainText('0/24 answered')
+    await expect(page.locator('input[name="answer-p1-q01"][value="A"]')).not.toBeChecked()
+    await completeAttempt('B', 1)
+    await expect.poll(async () => (await ownerAttempts()).length).toBe(2)
+    const after = await ownerAttempts()
+    expect(new Set(after.map(record => record.evidence_id)).size).toBe(2)
+    expect(after.map(record => record.payload.marksAwarded).sort()).toEqual([0, 1])
+    expect(after.find(record => record.evidence_id === original.evidence_id)).toEqual(original)
+
+    await page.reload()
+    await page.goto(examPrep)
+    await expect(page.locator('.exam-mock').filter({ hasText: 'Paper 1 Simulation 1' })
+      .getByRole('button', { name: 'Retake exam' })).toBeVisible()
+    const durable = await ownerAttempts()
+    expect(durable.map(record => record.evidence_id).sort()).toEqual(after.map(record => record.evidence_id).sort())
+    expect(durable.find(record => record.evidence_id === original.evidence_id)).toEqual(original)
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Disposable learner cleanup must succeed').toBeNull()
+    }
+  }
+})
+
+
 /**
  * #703 / #705 next acceptance slice: unlike evidence-seeded Plan-only cases,
  * the *fresh reassessment* is typed, submitted and saved via a real signed-in
