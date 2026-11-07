@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { businessDecisionTreeNumericalBank } from '../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
 import { businessOperationsPerformanceBank } from '../../content/business/aqa-a-level/shared/operations-performance-practice'
@@ -18,6 +18,37 @@ const enabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const appPath = '/revision/app/'
 const businessId = 'aqa:aqa-a-level:7132'
 const psychologyId = 'aqa:aqa-a-level:7182'
+
+// These are actual FI-001 suggestions in the authenticated Plan. A visible
+// panel alone does not prove the asynchronously selected date has settled.
+async function startExactTaskAcrossSettledPlanDays(page: Page, label: string) {
+  const panel = page.locator('.pln-daypanel')
+  await expect(panel).toBeVisible()
+  const tab = await panel.getAttribute('aria-labelledby')
+  expect(tab, 'The real Plan day must expose its selected date').toMatch(/^pln-tab-\\d{4}-\\d{2}-\\d{2}$/)
+  let selectedDay = tab!.slice('pln-tab-'.length)
+  const visited: string[] = []
+  for (let day = 0; day < 14; day++) {
+    await expect(panel).toHaveAttribute('aria-labelledby', `pln-tab-${selectedDay}`)
+    const suggested = panel.locator('.pln-row[data-kind="suggested"]')
+    const labels = await suggested.allTextContents()
+    visited.push(`${selectedDay}: ${labels.length} suggested; ${labels
+      .filter(value => /Review .* after an incorrect answer|Independent recheck/i.test(value))
+      .map(value => value.trim().replace(/\\s+/g, ' ').slice(0, 110)).join(' | ') || 'no named repair/recheck'}`)
+    const row = suggested.filter({ hasText: label })
+    if (await row.count()) {
+      await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
+      return { started: true, visited }
+    }
+    if (day < 13) {
+      const nextDay = addDaysToKey(selectedDay, 1)
+      await page.getByRole('button', { name: 'Next day' }).click()
+      await expect(panel).toHaveAttribute('aria-labelledby', `pln-tab-${nextDay}`)
+      selectedDay = nextDay
+    }
+  }
+  return { started: false, visited }
+}
 
 test('one ordinary real-auth learner can practise, see evidence, plan and prepare across Business and Psychology', async ({ page }) => {
   test.skip(!enabled, 'Requires the disposable local Supabase browser integration stack.')
@@ -551,18 +582,8 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
       && item.moduleId === moduleId && item.courseId === businessId)).toBe(false)
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
-    let repairStarted = false
-    for (let day = 0; day < 14; day++) {
-      const reviewRows = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-        .filter({ hasText: 'Review Expected value after an incorrect answer' })
-      if (await reviewRows.count()) {
-        await reviewRows.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
-        repairStarted = true
-        break
-      }
-      await page.getByRole('button', { name: 'Next day' }).click()
-    }
-    expect(repairStarted, 'FI-001 must offer the source-mapped expected-value Learn repair').toBe(true)
+    const repairSearch = await startExactTaskAcrossSettledPlanDays(page, 'Review Expected value after an incorrect answer')
+    expect(repairSearch.started, `FI-001 must offer the source-mapped expected-value Learn repair. Rendered dates: ${repairSearch.visited.join('; ')}`).toBe(true)
     await expect(page).toHaveURL(new RegExp('/learn/bus-evi-004'))
     await expect(page).not.toHaveURL(/repairSkill/)
     const chosenMethod = page.getByRole('region', { name: 'Guided repair: Calculate a probability-weighted expected value' })
@@ -809,18 +830,8 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     await expect(page.locator('.pln-daypanel')).toBeVisible()
-    let startedRepair = false
-    for (let day = 0; day < 14; day++) {
-      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-        .filter({ hasText: 'Review Net gain after an incorrect answer' })
-      if (await row.count()) {
-        await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
-        startedRepair = true
-        break
-      }
-      await page.getByRole('button', { name: 'Next day' }).click()
-    }
-    expect(startedRepair, 'Actual FI-001 Plan must offer the separate net-gain method').toBe(true)
+    const repairSearch = await startExactTaskAcrossSettledPlanDays(page, 'Review Net gain after an incorrect answer')
+    expect(repairSearch.started, `Actual FI-001 Plan must offer the separate net-gain method. Rendered dates: ${repairSearch.visited.join('; ')}`).toBe(true)
     await expect(page).toHaveURL(/\/learn\/bus-evi-004/)
     const planned = page.getByRole('region', { name: 'Guided repair: Separate net gain from expected value' })
     await expect(planned).toBeVisible()
@@ -844,19 +855,9 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     await page.goto(appPath + '#/plan?view=day')
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
     await expect(page.locator('.pln-daypanel')).toBeVisible()
-    let startedRecheck = false
-    for (let day = 0; day < 14; day++) {
-      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-        .filter({ hasText: 'Independent recheck: Net gain' })
-      if (await row.count()) {
-        await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
-        await expect(page.getByText('Calculation recheck')).toBeVisible()
-        startedRecheck = true
-        break
-      }
-      await page.getByRole('button', { name: 'Next day' }).click()
-    }
-    expect(startedRecheck, 'Actual FI-001 Plan must offer a different independent net-gain check').toBe(true)
+    const recheckSearch = await startExactTaskAcrossSettledPlanDays(page, 'Independent recheck: Net gain')
+    expect(recheckSearch.started, `Actual FI-001 Plan must offer a different independent net-gain check. Rendered dates: ${recheckSearch.visited.join('; ')}`).toBe(true)
+    await expect(page.getByText('Calculation recheck')).toBeVisible()
     await expect(page.getByRole('heading', { name: independent!.prompt })).toBeVisible()
     await page.getByLabel('Your final number').fill(String(independent!.expected))
     await page.getByRole('button', { name: 'Certain', exact: true }).click()
@@ -1071,21 +1072,11 @@ test('two Business skill weaknesses produce named independent Plan checks withou
         throw new Error('Real-auth Plan never mounted. URL=' + page.url()
           + ' | visible=' + visible + ' | JS errors=' + JSON.stringify(browserErrors))
       }
-      await expect(page.locator('.pln-daypanel')).toBeVisible()
-      for (let index = 0; index < 14; index++) {
-        const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
-          .filter({ hasText: item.label })
-        if (await row.count()) {
-          await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
-          await expect(page.getByRole('button', { name: 'Back to Plan' })).toBeVisible()
-          await expect(page.getByText('Calculation recheck')).toBeVisible()
-          await expect(page.getByRole('heading', { name: item.fresh.prompt })).toBeVisible()
-          return
-        }
-        await page.getByRole('button', { name: 'Next day' }).click()
-        await expect(page.locator('.pln-daypanel')).toBeVisible()
-      }
-      throw new Error('No source-backed distinct ' + item.label + ' task in rolling 14-day Plan')
+      const search = await startExactTaskAcrossSettledPlanDays(page, item.label)
+      expect(search.started, `No source-backed distinct ${item.label} task in rolling 14-day Plan. Rendered dates: ${search.visited.join('; ')}`).toBe(true)
+      await expect(page.getByRole('button', { name: 'Back to Plan' })).toBeVisible()
+      await expect(page.getByText('Calculation recheck')).toBeVisible()
+      await expect(page.getByRole('heading', { name: item.fresh.prompt })).toBeVisible()
     }
     await launch(cases[0]!)
     await page.getByLabel('Your final number').fill(String(cases[0]!.fresh.expected))
