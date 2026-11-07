@@ -881,6 +881,11 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     await page.goto(appPath + '#/rev')
     const opening = page.locator('.rev-chat__log .rev-chat__message--rev').first()
     await expect(opening).toContainText(topic)
+    for (const reason of reasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(opening).toContainText(reason)
+      }
+    }
     await page.goto(appPath + '#/progress')
     const globalNext = page.locator('.progress-intro__action')
     await expect(globalNext).toContainText(topic, { timeout: 20_000 })
@@ -889,7 +894,7 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     await expect(courseNext).toContainText(topic, { timeout: 20_000 })
     for (const reason of reasons) {
       if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
-        await expect(opening).toContainText(reason)
+        await expect(globalNext).toContainText(reason)
         await expect(courseNext).toContainText(reason)
       }
     }
