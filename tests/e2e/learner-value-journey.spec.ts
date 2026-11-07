@@ -689,6 +689,221 @@ test('Business browser-entered wrong Practice calculation leads to different Pla
  * independently authored results are entered and scored through the real UI.
  * A separate browser journey covers the actual wrong → Learn link → review.
  */
+
+/**
+ * #703/#705 complementary real-Auth acceptance for net gain. Unlike the
+ * two-skill fixture, the incorrect net-gain result is typed and saved through
+ * the actual Course Practice UI. Other original calculations, when offered
+ * first, are answered correctly through that same UI; the second net-gain
+ * prompt is reserved as an independent FI-001 recheck.
+ */
+test('Business browser-entered net-gain weakness receives Plan method and independent different net-gain recheck', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
+  test.setTimeout(240_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const origin = new URL(url)
+  if (origin.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(origin.hostname)
+    || origin.port !== '54321' || !anon || !secret) {
+    throw new Error('Never exercise the net-gain acceptance test against hosted learner accounts')
+  }
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const moduleId = 'business-aqa-a-level-7132-paper-1'
+  const topicId = 'leadership'
+  const skill = 'aqa-7132-3.2.2:net-gain'
+  const questions = businessDecisionTreeNumericalBank
+    .map(record => bankRecordToPractice(record, topicId))
+    .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation')
+  const wrongPrompt = questions.find(q => q.id === 'rev7132-3.2.2-net-gain-01')
+  const independent = questions.find(q => q.id === 'rev7132-3.2.2-net-gain-02')
+  expect(wrongPrompt && independent, 'Both original net-gain questions must be published').toBeTruthy()
+  expect(wrongPrompt!.prompt).not.toBe(independent!.prompt)
+  expect(objectiveItemMappingForPractice(wrongPrompt!)?.singleTargetSpecItemId).toBe(skill)
+  expect(objectiveItemMappingForPractice(independent!)?.singleTargetSpecItemId).toBe(skill)
+  const email = 'business-net-gain-ui-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'NetGain-' + crypto.randomUUID() + '-A1!'
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Local net-gain account creation failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const auth = await learner.auth.signInWithPassword({ email, password })
+    if (auth.error) throw auth.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const { error: courseError } = await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: businessId })
+    expect(courseError).toBeNull()
+    const { error: examError } = await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: businessId, subject_id: 'business', module_id: null,
+      assessment_type: 'public_exam', title: 'Business Paper 1',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: [topicId] }, is_active: true,
+    })
+    expect(examError).toBeNull()
+    const { error: capacityError } = await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London', weekday_minutes: 240, weekend_minutes: 240,
+      monday_minutes: 240, tuesday_minutes: 240, wednesday_minutes: 240,
+      thursday_minutes: 240, friday_minutes: 240, saturday_minutes: 240, sunday_minutes: 240,
+    })
+    expect(capacityError).toBeNull()
+    const store = createSupabaseEvidenceStore(learner)
+    expect(await loadLearningEvidence(store, userId, moduleId, topicId)).toEqual([])
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByRole('region', { name: 'Test what you know' }).getByLabel('Topic').selectOption(topicId)
+    const kinds = page.locator('.practice-kinds')
+    await kinds.getByRole('button', { name: 'Calculations' }).click()
+    await kinds.getByRole('button', { name: 'Multiple choice' }).click()
+    await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+
+    // Walk the app's genuine adaptive question order; never fabricate or
+    // pre-seed the net-gain wrong answer or consume its fresh retest question.
+    let reachedNetGain = false
+    for (let i = 0; i < questions.length; i++) {
+      const displayed = await page.locator('.practice-question__prompt').innerText()
+      if (displayed === wrongPrompt!.prompt) { reachedNetGain = true; break }
+      const previous = questions.find(q => q.prompt === displayed)
+      expect(previous, 'Only actually authored calculation items may precede net gain').toBeDefined()
+      expect(previous!.id, 'The independent net-gain recheck must stay unseen').not.toBe(independent!.id)
+      await page.getByLabel('Your answer').fill(String(previous!.expected))
+      await page.getByRole('button', { name: 'Certain', exact: true }).click()
+      await expect(page.getByText('Nice, that’s the one.', { exact: true })).toBeVisible()
+      await page.getByRole('button', { name: 'Next question' }).click()
+      await expect(page.locator('.practice-question__prompt')).not.toHaveText(displayed)
+    }
+    expect(reachedNetGain, 'The original net-gain question must be reachable through ordinary Practice').toBe(true)
+    await page.getByLabel('Your answer').fill(String(wrongPrompt!.expected + 7000))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Not quite.', { exact: true })).toBeVisible()
+    const inline = page.getByRole('region', { name: 'Guided repair: Separate net gain from expected value' })
+    await expect(inline).toContainText('not marked and cannot clear a weakness')
+    await inline.getByText('Reveal the worked method after your attempt').click()
+    await expect(inline).toContainText('£96,000 − £60,000 = £36,000')
+    let wrong: Awaited<ReturnType<typeof loadLearningEvidence>>[number] | undefined
+    await expect.poll(async () => {
+      const saved = await loadLearningEvidence(store, userId!, moduleId, topicId)
+      wrong = saved.find(x => x.contentId === wrongPrompt!.id && x.source === 'calculation')
+      return wrong?.correct === false
+    }).toBe(true)
+    expect(individualSpecItemObservation(wrong!)).toMatchObject({
+      specItemId: skill, correct: false, scoring: 'software-scored-final-number',
+    })
+    expect((await loadLearningEvidence(store, userId, moduleId, topicId))
+      .some(e => e.contentId === independent!.id)).toBe(false)
+
+    // Only an authentic FI-001 task Start can select the targeted method on
+    // published Learn. A URL alone has no teaching-selection authority.
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(page.locator('.pln-daypanel')).toBeVisible()
+    let startedRepair = false
+    for (let day = 0; day < 14; day++) {
+      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
+        .filter({ hasText: 'Review Net gain after an incorrect answer' })
+      if (await row.count()) {
+        await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
+        startedRepair = true
+        break
+      }
+      await page.getByRole('button', { name: 'Next day' }).click()
+    }
+    expect(startedRepair, 'Actual FI-001 Plan must offer the separate net-gain method').toBe(true)
+    await expect(page).toHaveURL(/\/learn\/bus-evi-004/)
+    const planned = page.getByRole('region', { name: 'Guided repair: Separate net gain from expected value' })
+    await expect(planned).toBeVisible()
+    await page.reload()
+    await expect(page.locator('#learn-page-bus-evi-004')).toBeVisible()
+    await expect(page.getByRole('region', { name: /^Guided repair:/ })).toHaveCount(0)
+    const review = page.getByRole('region', { name: 'Learn page review' })
+    await review.getByRole('button', { name: 'I have read this page' }).click()
+    await expect(review).toContainText('Page reviewed. This records reading, not understanding or exam readiness.')
+    await expect.poll(async () => (await loadLearnExposures(learner, userId!))
+      .some(x => x.pageId === 'bus-evi-004' && x.courseId === businessId)).toBe(true)
+    const beforeRecheck = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(beforeRecheck.some(x => x.id === wrong!.id)).toBe(true)
+    expect(beforeRecheck.some(x => x.contentId === independent!.id)).toBe(false)
+
+    // Discard the unfinished Practice checkpoint, never its saved scored
+    // observations. FI-001 now provides a genuinely different question.
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(businessId) + '/practice')
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(page.locator('.pln-daypanel')).toBeVisible()
+    let startedRecheck = false
+    for (let day = 0; day < 14; day++) {
+      const row = page.locator('.pln-daypanel .pln-row[data-kind="suggested"]')
+        .filter({ hasText: 'Independent recheck: Net gain' })
+      if (await row.count()) {
+        await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
+        await expect(page.getByText('Calculation recheck')).toBeVisible()
+        startedRecheck = true
+        break
+      }
+      await page.getByRole('button', { name: 'Next day' }).click()
+    }
+    expect(startedRecheck, 'Actual FI-001 Plan must offer a different independent net-gain check').toBe(true)
+    await expect(page.getByRole('heading', { name: independent!.prompt })).toBeVisible()
+    await page.getByLabel('Your final number').fill(String(independent!.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => (await loadLearningEvidence(store, userId!, moduleId, topicId))
+      .some(x => x.contentId === independent!.id && x.correct
+        && individualSpecItemObservation(x)?.specItemId === skill)).toBe(true)
+    const after = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(after.some(x => x.id === wrong!.id)).toBe(true)
+    expect(findSkillRecheckOpportunities(questions, after, topicId, [moduleId], ['bus-evi-004'])
+      .filter(x => x.specItemId === skill)).toHaveLength(0)
+    await page.getByRole('button', { name: 'Back to today’s plan' }).click()
+    await page.reload()
+
+    // After independent retest, Home, REV, global and course Progress must
+    // project one current programme decision. The score is only a final number.
+    await page.goto(appPath + '#/home')
+    const hero = page.locator('.home-v3-next')
+    await expect(hero.locator('h2')).toBeVisible()
+    const topic = await hero.locator('h2').innerText()
+    const reasons = await hero.locator('.home-v3-hero-reason').allInnerTexts()
+    await page.goto(appPath + '#/rev')
+    const opening = page.locator('.rev-chat__log .rev-chat__message--rev').first()
+    await expect(opening).toContainText(topic)
+    await page.goto(appPath + '#/progress')
+    const globalNext = page.locator('.progress-intro__action')
+    await expect(globalNext).toContainText(topic, { timeout: 20_000 })
+    await page.goto(appPath + '#/courses/aqa%3Aaqa-a-level%3A7132/progress')
+    const courseNext = page.locator('.progress-intro__action')
+    await expect(courseNext).toContainText(topic, { timeout: 20_000 })
+    for (const reason of reasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(opening).toContainText(reason)
+        await expect(courseNext).toContainText(reason)
+      }
+    }
+    expect((await loadLearningEvidence(store, userId, moduleId, topicId)).map(x => x.id).sort())
+      .toEqual(after.map(x => x.id).sort())
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Isolated test user cleanup must succeed').toBeNull()
+    }
+  }
+})
+
 test('two Business skill weaknesses produce named independent Plan checks without cross-skill credit', async ({ page }) => {
   test.skip(!enabled, 'Requires disposable local Supabase and real Auth.')
   test.setTimeout(240_000)
