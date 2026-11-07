@@ -38,6 +38,7 @@ interface PlannerHomeScreenProps {
   onOpenCourses: () => void
   onOpenCourse: (courseId: string) => void
   onOpenSavedWork: (item: SavedWork) => void
+  onStartLearnTask: (task: HomeTask) => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
 }
 
@@ -73,7 +74,7 @@ function examDateLabel(key: string, short = false) {
 export function PlannerHomeScreen({
   client, userId, learnerName, programme,
   onOpenPlan, onOpenExamDates, onOpenProgress, onOpenRev, onOpenCourses,
-  onOpenCourse, onOpenSavedWork,
+  onOpenCourse, onOpenSavedWork, onStartLearnTask,
 }: PlannerHomeScreenProps) {
   const [evidenceLoading, setEvidenceLoading] = useState(true)
   const [setupLoading, setSetupLoading] = useState(true)
@@ -231,7 +232,11 @@ export function PlannerHomeScreen({
   }
 
   async function startTask(task: HomeTask) {
-    if (task.activityType === 'learn') { window.location.assign(learnRouteForTask(task)!); return }
+    if (task.activityType === 'learn') {
+      if (!learnRouteForTask(task)) { setPlanNote(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
+      onStartLearnTask(task)
+      return
+    }
     await recordTaskStart(task)
     setActiveTask(task)
   }

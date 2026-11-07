@@ -4,6 +4,11 @@ import { createCalculationEvidence } from './practice-evidence'
 import { bankRecordToPractice, objectiveItemMappingForPractice, type CalculationPracticeQuestion } from './practice-questions'
 import { findSkillRecheckOpportunities } from './skill-recheck'
 import { planSkillFocusLabel } from './plan-skill-focus'
+import { listAvailableContentAdapters } from '../engine/content/content-registry'
+import { buildCatalogue, createCourseLearningState } from './catalogue-model'
+import { allCatalogueCourses } from './learner-programme'
+import { buildPlannerSnapshot } from './planner-model'
+import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
 
 const topicId = 'leadership'
 const moduleId = 'business-aqa-a-level-7132-paper-1'
@@ -29,6 +34,42 @@ const firstMisses = [
 ]
 const find = (facts: ReturnType<typeof scored>[]) =>
   findSkillRecheckOpportunities(questions, facts, topicId, [moduleId], ['bus-evi-004'])
+
+describe('#705: timely source-backed repair scheduling within the existing FI-001 programme', () => {
+  it('does not postpone two independently observed calculation weaknesses for months while an exam remains distant', () => {
+    const course = allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
+      .find((item) => item.course.id === 'aqa:aqa-a-level:7132')!
+    const state = createCourseLearningState(course.course, firstMisses)
+    const now = new Date(2026, 10, 3, 12)
+    const assessment: RevisionAssessment = {
+      assessmentId: 'business-paper-next-year', userId: 'isolated',
+      courseId: course.course.id, subjectId: 'business', moduleId: null,
+      assessmentType: 'public_exam', title: 'Business Paper 1',
+      assessmentDate: '2027-05-20', relativeImportance: 'high',
+      scope: { topicIds: [topicId] }, isActive: true,
+    }
+    const minutes = { monday: 240, tuesday: 240, wednesday: 240, thursday: 240,
+      friday: 240, saturday: 240, sunday: 240 }
+    const available: RevisionAvailabilityProfile = {
+      userId: 'isolated', timezone: 'Europe/London',
+      weekdayMinutes: 240, weekendMinutes: 240, weeklyMinutes: minutes,
+    }
+    const plan = buildPlannerSnapshot([state], [assessment], available, [], [], now, [], 14)
+    const days = plan?.schedule.flatMap(day => day.items.map(item => ({ day: day.date, item }))) ?? []
+    const repairs = days.filter(entry => entry.item.skillFocus?.treatment === 'repair')
+    expect(new Set(repairs.map(entry => entry.item.skillFocus?.specItemId))).toEqual(new Set([
+      'aqa-7132-3.2.2:expected-value', 'aqa-7132-3.2.2:net-gain',
+    ]))
+    for (const repair of repairs) {
+      expect(repair.item.activityType).toBe('learn')
+      expect(repair.item.learnTarget?.learnPageId).toBe('bus-evi-004')
+      const next = days.find(entry => entry.item.skillFocus?.treatment === 'recheck'
+        && entry.item.skillFocus.specItemId === repair.item.skillFocus?.specItemId)
+      expect(next?.item.targetedQuestionIds).toHaveLength(1)
+      expect(next?.day && next.day > repair.day).toBe(true)
+    }
+  })
+})
 
 describe('#703: two genuinely distinct Business skills in one published topic', () => {
   it('distinguishes separate AQA demands and separate independently authored checks', () => {

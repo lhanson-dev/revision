@@ -5,6 +5,8 @@ import { RevPresence } from '../../RevPresence'
 import { Button } from '../controls'
 import { Icon } from '../Icon'
 import { LearnBlock } from './LearnBlock'
+import { GuidedMethodRepairView } from '../../GuidedMethodRepairView'
+import type { GuidedMethodRepair } from '../../practice-repair'
 import { planLearnLayout, questionCountPhrase, readMinutes } from './layout-plan'
 
 export type LearnPageNeighbour = {
@@ -15,6 +17,7 @@ export type LearnPageNeighbour = {
 
 export type LearnPageLayoutProps = {
   page: LearnPage
+  guidedRepair?: GuidedMethodRepair | null
   chapterTitle: string
   groupTitle: string
   /** This page's place in its group. */
@@ -44,7 +47,7 @@ export function accentStyle(hue: SubjectHue): CSSProperties {
 }
 
 export function LearnPageLayout({
-  page, chapterTitle, groupTitle, position, hue, practiceQuestionCount, topicName,
+  page, guidedRepair, chapterTitle, groupTitle, position, hue, practiceQuestionCount, topicName,
   previous, next, onPrevious, onNext, onOpenPractice, onOpenRev,
   reviewed = false, reviewing = false, reviewError, onMarkReviewed,
 }: LearnPageLayoutProps) {
@@ -66,6 +69,7 @@ export function LearnPageLayout({
         </header>
 
         <div className="learn-reading-body">
+          {guidedRepair && <GuidedMethodRepairView repair={guidedRepair} />}
           {items.map((item) => item.kind === 'margin-row'
             ? (
               <div className="learn-row" data-key-idea-first={item.keyIdeaFirst} key={item.key}>

@@ -4,7 +4,7 @@ import { buildCatalogue, createCourseLearningState, createModuleLearningState } 
 import { allCatalogueCourses } from './learner-programme'
 import { buildPlannerSnapshot } from './planner-model'
 import { homeToday, homeTaskOnToday } from './home-v3-model'
-import { todayRecommendations, recommendationExplanation, taskForTodayRow, learnRouteForTask } from './today-recommendations'
+import { todayRecommendations, recommendationExplanation, taskForTodayRow, learnRouteForTask, guidedRepairForStartedPlannerTask } from './today-recommendations'
 import { homeActivityLabel } from './home-task'
 import { resolveHomeExamQuestion } from './home-exam-question'
 import type { RevisionAssessment, RevisionAvailabilityProfile } from '../services/planning/planner-service'
@@ -137,6 +137,10 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(page.topicId).toBe('finance')
     expect(learnRouteForTask(task)).toContain(`/learn/${page.id}`)
     expect(learnRouteForTask(task)).not.toContain('/components/')
+    const targeted = { ...task, learnTarget: { learnPageId: 'bus-evi-004' } }
+    expect(learnRouteForTask(targeted)).toContain('/learn/bus-evi-004')
+    expect(learnRouteForTask(targeted)).not.toContain('repairSkill')
+    expect(guidedRepairForStartedPlannerTask(targeted)).toBeNull() // accepted session is not an independently selected FI-001 skill
     const component = createModuleLearningState(course.modules[0], [])
     const componentTask = taskForTodayRow(row, [component], programme)!
     expect(learnRouteForTask(componentTask)).toContain(`/components/${component.adapter.manifest.id}/learn/${componentTask.learnTarget!.learnPageId}`)
@@ -144,6 +148,50 @@ describe('FI-001 R1b same-input Home/Plan/REV contract', () => {
     expect(taskForTodayRow(row, [noLearn], programme)).toBeNull()
     expect(accepted.status).toBe('planned')
   })
+  it('binds a repair to the exact selected FI-001 task rather than URL, fallback or unrelated skill', () => {
+    const evSkill = { specItemId: 'aqa-7132-3.2.2:expected-value', need: 'missed' as const, treatment: 'repair' as const }
+    const source = choices(context())[0]!
+    const selection = {
+      ...source,
+      id: 'fi001:business:leadership:expected-value:repair',
+      courseId: course.id,
+      topicId: 'leadership',
+      source: 'planner' as const,
+      activityType: 'learn' as const,
+      learnTarget: { learnPageId: 'bus-evi-004' },
+      skillFocus: evSkill,
+      plannerItem: {
+        recommendationId: 'fi001:business:leadership:expected-value:repair',
+        candidateId: 'leadership-ev-method',
+        subjectId: 'business',
+        courseId: course.id,
+        assessmentId: 'paper1',
+        topicId: 'leadership',
+        activityType: 'learn',
+        estimatedMinutes: 15,
+        reasons: [],
+        learnTarget: { learnPageId: 'bus-evi-004' },
+        skillFocus: evSkill,
+      },
+    }
+    const repair = guidedRepairForStartedPlannerTask(selection)
+    expect(repair?.specItemId).toBe(evSkill.specItemId)
+    expect(repair?.sourceLearnPageId).toBe('bus-evi-004')
+    expect(repair?.kind).toBe('unscored-guided-repair')
+    expect(learnRouteForTask(selection)).not.toContain('repairSkill')
+    expect(guidedRepairForStartedPlannerTask({ ...selection, source: 'fallback' })).toBeNull()
+    expect(guidedRepairForStartedPlannerTask({ ...selection, plannerItem: undefined })).toBeNull()
+    expect(guidedRepairForStartedPlannerTask({
+      ...selection,
+      skillFocus: { ...evSkill, specItemId: 'aqa-7132-3.2.2:net-gain' },
+    })).toBeNull()
+    expect(guidedRepairForStartedPlannerTask({ ...selection, learnTarget: { learnPageId: 'unrelated-page' } })).toBeNull()
+    expect(guidedRepairForStartedPlannerTask({
+      ...selection,
+      plannerItem: { ...selection.plannerItem, skillFocus: { ...evSkill, treatment: 'recheck' as const } },
+    })).toBeNull()
+  })
+
   it('accepted Exam Prep without exact identity, expired target or ambiguous scope never substitutes another question', () => {
     const accepted = { ...session('exam', 'finance'), activityType: 'exam_prep' as const }
     const row = context([accepted]).items.find((r) => r.kind === 'session')!
