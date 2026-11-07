@@ -25,7 +25,7 @@ async function startExactTaskAcrossSettledPlanDays(page: Page, label: string) {
   const panel = page.locator('.pln-daypanel')
   await expect(panel).toBeVisible()
   const tab = await panel.getAttribute('aria-labelledby')
-  expect(tab, 'The real Plan day must expose its selected date').toMatch(/^pln-tab-\\d{4}-\\d{2}-\\d{2}$/)
+  expect(tab, 'The real Plan day must expose its selected date').toMatch(/^pln-tab-\d{4}-\d{2}-\d{2}$/)
   let selectedDay = tab!.slice('pln-tab-'.length)
   const visited: string[] = []
   for (let day = 0; day < 14; day++) {
@@ -34,7 +34,7 @@ async function startExactTaskAcrossSettledPlanDays(page: Page, label: string) {
     const labels = await suggested.allTextContents()
     visited.push(`${selectedDay}: ${labels.length} suggested; ${labels
       .filter(value => /Review .* after an incorrect answer|Independent recheck/i.test(value))
-      .map(value => value.trim().replace(/\\s+/g, ' ').slice(0, 110)).join(' | ') || 'no named repair/recheck'}`)
+      .map(value => value.trim().replace(/\s+/g, ' ').slice(0, 110)).join(' | ') || 'no named repair/recheck'}`)
     const row = suggested.filter({ hasText: label })
     if (await row.count()) {
       await row.first().getByRole('button', { name: /^(Up next|Start)/ }).click()
