@@ -889,12 +889,16 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     await page.goto(appPath + '#/progress')
     const globalNext = page.locator('.progress-intro__action')
     await expect(globalNext).toContainText(topic, { timeout: 20_000 })
+    for (const reason of reasons) {
+      if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
+        await expect(globalNext).toContainText(reason)
+      }
+    }
     await page.goto(appPath + '#/courses/aqa%3Aaqa-a-level%3A7132/progress')
     const courseNext = page.locator('.progress-intro__action')
     await expect(courseNext).toContainText(topic, { timeout: 20_000 })
     for (const reason of reasons) {
       if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason)) {
-        await expect(globalNext).toContainText(reason)
         await expect(courseNext).toContainText(reason)
       }
     }
