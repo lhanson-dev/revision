@@ -326,10 +326,17 @@ export function buildPreparationProgramme(
         // Supported tasks may be scheduled in the rolling forecast; they are
         // re-evaluated after genuine learner evidence rather than declared to
         // cover the entire course or filled with invented repetitions.
+        // Genuine independently scored atomic weaknesses are actionable
+        // *now*, not merely a fraction of total paper prep demand spread over
+        // months. Preserve real capacity, exam deadlines, eligible dates and
+        // prerequisites; only waive proportional pacing for a bounded
+        // first repair and its different independent skill recheck.
+        const assessedSkillRecovery = item.candidate.skillFocus?.treatment === 'repair'
+          || item.candidate.skillFocus?.treatment === 'recheck'
         const nearTermEvidenceBuilding = !!fitDate
           && dayDistance(horizon.today, fitDate) >= 0
           && dayDistance(horizon.today, fitDate) < 14
-          && item.candidate.understanding === null
+          && (item.candidate.understanding === null || assessedSkillRecovery)
         if (!nearTermEvidenceBuilding && pacing && pacing.totalCapacity >= paperDemand && paperDemand > 0) {
           const elapsed = pacing.weekCapacity.slice(0, weeks.length + 1)
             .reduce((sum, minutes) => sum + minutes, 0)

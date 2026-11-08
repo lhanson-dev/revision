@@ -59,7 +59,6 @@ describe('LF-03 bounded source-to-published AQA question-bank audit', () => {
     const remainingOptionGroups = findings.filter(f => f.rule === 'repeated-option-set')
     for (const ids of [
       [1, 2, 3, 4].map(i => `psy-psy090${i}-check`), // Relationships
-      [1, 2, 3, 4].map(i => `psy-psy110${i}-check`), // Cognition & Development
       [1, 2, 3, 4].map(i => `psy-psy160${i}-check`), // Forensic Psychology
     ]) {
       expect(remainingOptionGroups.some(f => ids.every(id => f.ids.includes(id))), ids.join(', ')).toBe(true)

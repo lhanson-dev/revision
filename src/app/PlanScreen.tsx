@@ -67,6 +67,7 @@ interface PlanScreenProps {
   onOpenCourses: () => void
   onOpenRev: (draft?: string) => void
   onOpenCourse: (courseId: string) => void
+  onStartLearnTask: (task: HomeTask) => void
 }
 
 const MAX_STUDY_MINUTES = 240
@@ -124,7 +125,7 @@ function monthLabel(anchor: string, todayKey: string) {
   return year === monthOf(todayKey).year ? name : `${name} ${year}`
 }
 
-export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev }: PlanScreenProps) {
+export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev, onStartLearnTask }: PlanScreenProps) {
   const now = useLocalDay()
   const todayKey = toKey(now)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
@@ -509,15 +510,17 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
         subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
         activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) } })
     } catch { /* Recording failure must not block supported work. */ }
-    if (learnRoute) { window.location.assign(learnRoute); return }
+    if (learnRoute) { onStartLearnTask(task); return }
     setActiveTask(task)
   }
 
   function startSession(session: PlannedSession) {
     const task = taskForTodayRow(buildDay(session.plannedDate).items.find((row) => row.kind === 'session' && row.session.sessionId === session.sessionId)!, learningStates, programme, activeAssessments, todayKey)
     if (!task) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
-    if (task.activityType === 'learn') window.location.assign(learnRouteForTask(task)!)
-    else setActiveTask(task)
+    if (task.activityType === 'learn') {
+      if (!learnRouteForTask(task)) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
+      onStartLearnTask(task)
+    } else setActiveTask(task)
   }
 
   function replaceSession(updated: PlannedSession) {
