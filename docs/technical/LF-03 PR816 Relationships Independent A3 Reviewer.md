@@ -1,6 +1,6 @@
 # #787 — Trusted exact-head independent Relationships A3 reviewer (PR #816)
 
-**Status:** Proposed reviewer infrastructure only. **NOT installed on approved main; no educational A3 has run for PR #816.** This workflow is separate from both the learner question correction PR #816 and any Founder authorisation to merge it.
+**Status (4 November 2026):** Trusted reviewer infrastructure merged in PR #818 and verified on production. The separate original Relationships PR #816 independent review passed on its prior exact head; this reviewer receipt remains content-bound and does **not** authorise a merge. This workflow remains distinct from the separate Founder approval required for PR #816.
 
 ## Purpose and source boundary
 
@@ -30,3 +30,10 @@ After the content PR's A3 gate, still require full exact-head CI, latest-main in
 ## Documentation impact
 
 New trusted workflow and exact-head reviewer contract tests, this technical note and INDEX pointer are governed together. No UI, learner assessment, scoring, model-marking feature, session content, old marks, database, subscription or normative rule changes. All #787 remaining Business/Psychology item reviews stay open and are not silently replaced by four A3 results.
+
+## 4 November 2026 — executed A3 evidence, not fresh current-head review
+
+- The trusted reviewer was merged in [PR #818](https://github.com/lhanson-dev/revision/pull/818); its release #41666176559 passed all six governed jobs. The first previously required owner comment [#6608145404](https://github.com/lhanson-dev/revision/pull/816#issuecomment-6608145404) actually triggered [independent review run #41666277535](https://github.com/lhanson-dev/revision/actions/runs/41666277535).
+- [Artifact #13244528585](https://github.com/lhanson-dev/revision/actions/runs/41666277535/artifacts/13244528585) recorded a **PASS** for the four blind keys 2/0/3/1 and a separate authored-feedback challenge on PR #816 prior head `5c24236a092483855d56b2d2f11fdfcb75123121`, source blob `ad96b281613e045222758e3acfa2e114cb90528c`. The review did not find a material competing correct key, but noted minor wording/distractor clues and cannot establish actual student discrimination.
+- The 4 November approved-main integration and technical-document updates to #816 **do not modify the independently reviewed source blob**, as checked from the new head. This prior receipt is therefore evidence about exactly that unchanged authored content, **not** a new reviewer run on the integration commit. Any authored-content change requires fresh independent review before an educational-content release decision; repeated reviewer comments also incur additional provider cost.
+- The separate #816 exact-head full CI, specific Founder merge approval, production deployment and observed learner retest are independent required gates. #787 and #765 remain open for wider-bank and actual learner acceptance.
