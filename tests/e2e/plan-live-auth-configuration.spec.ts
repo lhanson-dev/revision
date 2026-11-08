@@ -321,7 +321,27 @@ test('real Psychology learner changes Paper 3 options without planning unselecte
       await optionSelects.nth(0).selectOption(b)
       await optionSelects.nth(1).selectOption(c)
       await optionSelects.nth(2).selectOption(d)
-      await modal.locator('.plan-add-exam input[type="date"]').fill(date)
+      // TextField(type=date) is a custom accessible calendar button, not a
+      // native input. Choose the exact requested date through real UI events.
+      const trigger = modal.locator('.plan-add-exam .ui-date-field-trigger')
+      await expect(trigger).toBeVisible({ timeout: 15_000 })
+      await trigger.click()
+      const calendar = modal.getByRole('dialog', { name: 'Choose exam date' })
+      await expect(calendar).toBeVisible()
+      const target = new Date(date + 'T12:00:00')
+      const targetMonth = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(target)
+      const targetDay = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(target)
+      for (let index = 0; index < 48; index++) {
+        const visibleMonth = (await calendar.locator('.ui-date-popover-header strong').innerText()).trim()
+        if (visibleMonth === targetMonth) break
+        const parsedMonth = new Date('1 ' + visibleMonth)
+        expect(Number.isNaN(parsedMonth.getTime()), 'The actual month heading must be parseable').toBe(false)
+        const direction = parsedMonth < target ? 'Next month' : 'Previous month'
+        await calendar.getByRole('button', { name: direction }).click()
+      }
+      await expect(calendar.locator('.ui-date-popover-header strong')).toHaveText(targetMonth)
+      await calendar.getByRole('button', { name: targetDay, exact: true }).click()
+      await expect(calendar).toHaveCount(0)
       await modal.getByRole('button', { name: 'Add exam' }).click()
       await expect(page.getByText('Exam added. REV has re-planned around the new date.')).toBeVisible()
       await expect(modal).toHaveCount(0)
