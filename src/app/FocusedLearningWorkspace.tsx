@@ -12,7 +12,8 @@ import { MarkingError, resolveChallenge, verifyMarking, type MarkedAnswer, type 
 import { calculationUnitLabel, checkCalculation, parseAnswer } from './practice-calculation'
 import { summariseSession, type SummaryLearnPage } from './practice-summary'
 import { specItemLabel } from './spec-item-labels'
-import { sourceBackedPracticeRepairPage } from './practice-repair'
+import { sourceBackedGuidedMethodRepair, sourceBackedPracticeRepairPage } from './practice-repair'
+import { GuidedMethodRepairView } from './GuidedMethodRepairView'
 import {
   advanceQuestionSession,
   isSessionFinished,
@@ -1037,19 +1038,23 @@ export function FocusedLearningWorkspace({
           )
         }
         const repair = exactLearnPageFor(question)
+        const guided = sourceBackedGuidedMethodRepair(question, adapter)
         return (
-          <FeedbackBar
-            tone="wrong"
-            title="Not quite."
-            picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
-            explanation={workings}
-            note={calcChecked.confidence === 'certain'
-              ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
-              : 'This result may need another independent check.'}
-          >
-            {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
-            {action}
-          </FeedbackBar>
+          <>
+            {guided && <GuidedMethodRepairView repair={guided} />}
+            <FeedbackBar
+              tone="wrong"
+              title="Not quite."
+              picked={`You answered ${calcChecked.typed}. The answer is ${question.answerText}.`}
+              explanation={workings}
+              note={calcChecked.confidence === 'certain'
+                ? 'You were certain, so this is the one most worth fixing. A separate check is still needed.'
+                : 'This result may need another independent check.'}
+            >
+              {repair && <Button variant="secondary" onClick={() => onOpenLearnPage?.(repair.id)}>Read: {repair.title}</Button>}
+              {action}
+            </FeedbackBar>
+          </>
         )
       }
       if (!checked || question?.type !== 'multiple-choice') return null

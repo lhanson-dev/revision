@@ -205,7 +205,7 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
     }
   })
 
-  it('binds generic objective Practice and sixteen versioned Social Influence, Memory, Attachment, Issues and Debates and Relationships scenarios to Course Truth', () => {
+  it('binds generic objective Practice and twenty versioned Psychology scenario checks to Course Truth', () => {
     expect(psychologyObjectivePracticeContracts).toHaveLength(118)
     expect(psychologyQuestions).toHaveLength(118)
     expect(new Set(psychologyQuestions.map((question) => question.correctOption))).toEqual(new Set([0, 1, 2, 3]))
@@ -221,10 +221,10 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
         expect(contract, question.id).toBeDefined()
         expect(new Set(question.options).size, question.id).toBe(4)
         if (topic.topicNumber === 1 || topic.topicNumber === 2 || (topic.topicNumber === 3 && index >= 3)
-          || (topic.topicNumber === 8 && [0, 3].includes(index)) || topic.topicNumber === 9) {
-          // LF-03 versions all four Social Influence and Memory checks, and only the
-          // final two Attachment, Issues and Debates 01/04, and four Relationships checks. Old
-          // keyed choices remain historical; V2 needs distinct assessment evidence.
+          || (topic.topicNumber === 8 && [0, 3].includes(index)) || topic.topicNumber === 9 || topic.topicNumber === 11) {
+          // LF-03/#698 versions four-item Social Influence, Memory, Relationships and
+          // Cognition & Development cohorts, plus Attachment 04/05 and Issues & Debates 01/04.
+          // Old keyed choices remain historical; V2 requires distinct assessment evidence.
           const requirementId = topic.requirements[index]!.requirementId
           expect(question.id).toBe(`psy-${requirementId.toLowerCase().replaceAll('-', '')}-check-v2`)
           expect(question.prompt).not.toBe(contract?.prompt)
@@ -241,9 +241,15 @@ describe('AQA Psychology 7182 restricted-pilot content pack', () => {
           } else if (topic.topicNumber === 8) {
             expect(question.correctOption).toBe(index === 0 ? 1 : 3)
             expect(question.prompt).toContain(index === 0 ? 'university students' : 'neurotransmitter')
-          } else {
+          } else if (topic.topicNumber === 9) {
             expect(question.correctOption).toBe([2, 0, 3, 1][index])
             expect(question.prompt).toContain(['volunteering group', 'Leah is unhappy', 'Sam finds face-to-face', 'Finn watches'][index]!)
+          } else {
+            // Four distinct source-targeted Piaget/Vygotsky/Baillargeon/Sally–Anne
+            // cases, not the former reusable concept-list template.
+            expect(question.correctOption).toBe([2, 0, 3, 1][index])
+            expect(question.prompt).toContain(['same water', 'sequence of hints', 'looking-time study', 'Sally puts'][index])
+            expect(new Set(question.options).size).toBe(4)
           }
           continue
         }

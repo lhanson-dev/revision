@@ -70,6 +70,15 @@ describe('exact-head trusted owner trigger',()=>{
     assert.ok(c.paths.includes('src/app/practice-repair.ts'))
     assert.ok(c.paths.includes('src/app/GuidedMethodRepairView.tsx'))
     assert.ok(c.paths.includes('src/app/PlannerRuntime.tsx'))
+    const scope = c.scope.join(' ')
+    for (const required of ['risks', 'rewards', 'uncertainty', 'opportunity cost',
+      'mission', 'objectives', 'ethics', 'competition', 'resource constraints']) {
+      assert.ok(scope.includes(required), 'Missing official 3.2.2 requirement: '+required)
+    }
+    assert.ok(scope.includes('optional broader appraisal'))
+    assert.ok(scope.includes('already included'))
+    assert.ok(c.paths.includes('content/business/aqa-a-level/decision-tree-foundation-source.test.ts'))
+
     assert.ok(c.paths.includes('content/business/aqa-a-level/shared/decision-tree-numeric-practice.ts'))
     assert.ok(!c.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
     assert.throws(()=>parseTrustedEvent(event(809)))
