@@ -1,10 +1,10 @@
 # Issue #698 — AQA Business 7132 §3.7.2 financial-ratio method and independent final-number candidates
 
-**4 November 2026. PR candidate, educational A2/A3 HOLD.** Canonical learner route: `/revision/app/` → Courses → Business → Learn/Practice. Shared `content/business/aqa-a-level/shared/` assets are assembled in all three actual published Business ContentPacks, not an alternate assessment engine.
+**Prepared 4 November; updated 8 November 2026. PR candidate, educational A2/A3 HOLD.** Canonical learner route: `/revision/app/` → Courses → Business → Learn/Practice. Shared `content/business/aqa-a-level/shared/` assets are assembled in all three actual published Business ContentPacks, not an alternate assessment engine.
 
 ## Source and bounded requirements
 
-Founder-supplied AQA A-level Business 7132 **v2.0 dated 14 June 2023**, 42 pages, SHA-256 **`3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`** verified in this work session; rights **REFERENCE_ONLY**. Printed page 25, **§3.7.2**, calls for assessment of financial performance using balance sheets, income statements, profitability (ROCE), liquidity (current ratio), gearing and efficiency ratios (payables days, receivables days, inventory turnover), including comparison across time or with other businesses. The 42-section/504-candidate audit register is separately proposed in PR #830; it is **not** a certified exhaustive atomic source denominator.
+Founder-supplied AQA A-level Business 7132 **v2.0 dated 14 June 2023**, 42 pages, SHA-256 **`3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`** verified in this work session; rights **REFERENCE_ONLY**. Printed page 25, **§3.7.2**, calls for assessment of financial performance using balance sheets, income statements, profitability (ROCE), liquidity (current ratio), gearing and efficiency ratios (payables days, receivables days, inventory turnover), including comparison across time or with other businesses. The 42-section/504-candidate audit register was merged in PR #830 on 7 November 2026 and its deployment passed; the candidates remain **provisional**, not a certified exhaustive atomic source denominator.
 
 The existing three published packs already contain general ratio explanations (`shared/topics.ts`), calculation formulas (`shared/learning.ts`), self-checked `shared/quantitative.ts` drills, section-linked original fast-path bank questions and mock-paper content. Those constitute **supply**, not independently verified proficiency in all six calculations, statement interpretation or AO3/AO4 evaluation.
 
@@ -25,7 +25,7 @@ The existing three published packs already contain general ratio explanations (`
 | Interpret each ratio in distinct business contexts | New caveats and original worked comparisons plus previous mixed prompts | **Unverified; no separately scored written AO3 evidence** |
 | Compare performance over time and against competitors; defend judgement | Existing original mixed assessment stimuli and limited Learn guidance | **Unverified AO3/AO4/A4 marking** |
 | Saved authenticated learner result, repair, independent Plan retest, readiness | Existing general scoring/evidence systems only | **WS4/WS5 acceptance outstanding** |
-| Full-course exact atomisation, three-paper suitability and expert sign-off | PR #830 candidate register and earlier #698 audits | **Unverified** |
+| Full-course exact atomisation, three-paper suitability and expert sign-off | Released PR #830 provisional register and earlier #698 audits | **Unverified** |
 
 ## Review and release gate
 
