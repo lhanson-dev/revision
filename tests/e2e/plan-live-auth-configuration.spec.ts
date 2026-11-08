@@ -247,3 +247,146 @@ test('real Business learner retains two distinct wrong Marketing skills and sees
     }
   }
 })
+
+
+/**
+ * #703: authentic Psychology Paper 3 choices → owner-scoped persistence →
+ * FI-001 Plan programme after changed options, dates and availability.
+ * Does not claim educational adequacy or independently assessed mastery.
+ */
+test('real Psychology learner changes Paper 3 options without planning unselected syllabus topics', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local real-Auth Supabase/PostgREST')
+  test.setTimeout(180_000)
+  const address = new URL(url)
+  if (address.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(address.hostname)
+    || address.port !== '54321' || !anon || !secret) {
+    throw new Error('Psychology scope acceptance must never target hosted learners')
+  }
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const courseId = 'aqa:aqa-a-level:7182'
+  const moduleId = 'psychology-aqa-a-level-7182-paper-3'
+  const firstOptions = ['issues-and-debates-in-psychology', 'relationships', 'schizophrenia', 'aggression']
+  const secondOptions = ['issues-and-debates-in-psychology', 'cognition-and-development', 'eating-behaviour', 'forensic-psychology']
+  const email = 'psychology-options-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Psychology-' + crypto.randomUUID() + '-A1!'
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Local Psychology user setup failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const auth = await learner.auth.signInWithPassword({ email, password })
+    if (auth.error) throw auth.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    const course = await learner.from('learner_courses').insert({ user_id: userId, course_id: courseId })
+    expect(course.error).toBeNull()
+    const daily = {
+      user_id: userId, timezone: 'Europe/London', weekday_minutes: 75, weekend_minutes: 75,
+      monday_minutes: 75, tuesday_minutes: 75, wednesday_minutes: 75, thursday_minutes: 75,
+      friday_minutes: 75, saturday_minutes: 75, sunday_minutes: 75,
+    }
+    expect((await learner.from('revision_availability_profiles').upsert(daily)).error).toBeNull()
+
+    const stored = async () => {
+      const { data, error } = await learner.from('revision_assessments')
+        .select('assessment_id, module_id, scope, assessment_date, is_active')
+        .eq('user_id', userId!).eq('course_id', courseId).eq('module_id', moduleId)
+      if (error) throw error
+      return data ?? []
+    }
+    const active = async () => (await stored()).filter((row) => row.is_active)
+    await page.goto(app)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click()
+    await page.goto(app + '#/plan?view=week')
+    await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
+
+    async function saveChoice(b: string, c: string, d: string, date: string) {
+      await page.getByRole('button', { name: 'Exam dates' }).click()
+      const modal = page.locator('.pln-dialog')
+      await expect(modal.getByRole('heading', { name: 'Your exams' })).toBeVisible()
+      await modal.getByLabel('Exam', { exact: true }).selectOption(courseId + '::' + moduleId)
+      await expect(modal.locator('[aria-label="Psychology Paper 3 options"]')).toBeVisible()
+      await modal.getByLabel('Section B').selectOption(b)
+      await modal.getByLabel('Section C').selectOption(c)
+      await modal.getByLabel('Section D').selectOption(d)
+      await modal.getByLabel('Exam date').fill(date)
+      await modal.getByRole('button', { name: 'Add exam' }).click()
+      await expect(page.getByText('Exam added. REV has re-planned around the new date.')).toBeVisible()
+      await expect(modal).toHaveCount(0)
+      await expect.poll(async () => (await active()).length).toBe(1)
+    }
+
+    async function assertPlanScope(chosen: string[], excluded: string[]) {
+      await page.goto(app + '#/plan?view=week')
+      await expect(page.locator('.pln-weekview')).toBeVisible()
+      const disclosure = page.locator('.pln-programme-disclosure')
+      await expect(disclosure).toBeVisible()
+      if (await disclosure.getAttribute('open') === null) await disclosure.locator(':scope > summary').click()
+      const programme = page.getByRole('region', { name: 'Your full exam programme' })
+      await expect(programme).toContainText('not a measurement of all syllabus work')
+      const required = programme.locator('[aria-label="Verified course knowledge requirements"]')
+      const details = required.locator('details')
+      if (await details.getAttribute('open') === null) await details.locator(':scope > summary').click()
+      const names = (await required.locator('li strong').allInnerTexts()).map((text) => text.toLowerCase())
+      expect(names, 'Only four actual selected Paper 3 topics may be obligations').toHaveLength(4)
+      for (const item of chosen) expect(names.some((name) => name.includes(item.toLowerCase()))).toBe(true)
+      for (const item of excluded) expect(names.some((name) => name.includes(item.toLowerCase()))).toBe(false)
+      await expect(programme).not.toContainText('All preparation is complete')
+    }
+
+    await saveChoice('relationships', 'schizophrenia', 'aggression', '2027-06-09')
+    const first = (await active())[0]!
+    expect(first.scope).toEqual({ topicIds: firstOptions })
+    expect(first.assessment_date).toBe('2027-06-09')
+    await page.reload()
+    await assertPlanScope(
+      ['Issues and Debates', 'Relationships', 'Schizophrenia', 'Aggression'],
+      ['Gender', 'Cognition', 'Eating behaviour', 'Stress', 'Forensic', 'Addiction'],
+    )
+
+    // Change option group and date via ordinary Plan controls, retaining the
+    // original archived assessment as historical data, not active scope.
+    await page.getByRole('button', { name: 'Exam dates' }).click()
+    const old = page.locator('.plan-exam-list li').filter({ hasText: 'Paper 3' })
+    await expect(old).toContainText('Paper 3 options:')
+    await old.getByRole('button', { name: /^Remove/ }).click()
+    await expect.poll(async () => (await active()).length).toBe(0)
+    await page.locator('.pln-dialog').getByRole('button', { name: 'Close' }).click()
+    await saveChoice('cognition-and-development', 'eating-behaviour', 'forensic-psychology', '2027-05-20')
+    const second = (await active())[0]!
+    expect(second.scope).toEqual({ topicIds: secondOptions })
+    expect(second.assessment_date).toBe('2027-05-20')
+    expect(second.assessment_id).not.toBe(first.assessment_id)
+    expect((await stored()).find((row) => row.assessment_id === first.assessment_id)?.is_active).toBe(false)
+    await page.reload()
+    await assertPlanScope(
+      ['Issues and Debates', 'Cognition', 'Eating behaviour', 'Forensic'],
+      ['Relationships', 'Gender', 'Schizophrenia', 'Stress', 'Aggression', 'Addiction'],
+    )
+
+    // Zero saved study time changes allocation, not the course requirements.
+    const zero = Object.fromEntries(Object.keys(daily).filter((key) => key.endsWith('_minutes'))
+      .map((key) => [key, 0]))
+    expect((await learner.from('revision_availability_profiles').update(zero).eq('user_id', userId)).error).toBeNull()
+    await page.reload()
+    await assertPlanScope(
+      ['Issues and Debates', 'Cognition', 'Eating behaviour', 'Forensic'],
+      ['Relationships', 'Gender', 'Schizophrenia', 'Stress', 'Aggression', 'Addiction'],
+    )
+    await expect(page.getByRole('region', { name: 'Your full exam programme' }))
+      .toContainText('No saved study time for this week')
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const removed = await admin.auth.admin.deleteUser(userId)
+      expect(removed.error, 'Disposable user cleanup must succeed').toBeNull()
+    }
+  }
+})
