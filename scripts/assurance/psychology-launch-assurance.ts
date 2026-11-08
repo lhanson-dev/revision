@@ -196,8 +196,8 @@ function flashcardsFor(requirementId: string) {
 
 function questionFor(requirementId: string) {
   // LF-03 versions four Social Influence, four Memory, two Attachment and
-  // two Issues and Debates checks. Challenge published V2, not retired old keys.
-  const version = /^(PSY-0[12]-0[1-4]|PSY-03-0[45]|PSY-08-0[14])$/.test(requirementId) ? '-v2' : ''
+  // two Issues and Debates and four Cognition and Development checks. Challenge published V2, not retired old keys.
+  const version = /^(PSY-0[12]-0[1-4]|PSY-03-0[45]|PSY-08-0[14]|PSY-11-0[1-4])$/.test(requirementId) ? '-v2' : ''
   const found = psychologyQuestions.find((question) => question.id === `psy-${sectionId(requirementId)}-check${version}`)
   if (!found) throw new Error(`Missing production objective Practice for ${requirementId}`)
   return found
