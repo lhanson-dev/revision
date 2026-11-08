@@ -16,7 +16,7 @@
 
 | Provisional holistic level | Training marks | Defining characteristics |
 | --- | ---: | --- |
-| 4 — sustained and well-focused | 13–16 | Accurate, detailed, selective knowledge of both elements; genuinely developed, evidence-sensitive evaluation; coherent sustained argument directly addressing the command and balanced limitations |
+| 4 — sustained and well-focused | 13–16 | Accurate, detailed, selective knowledge addressing the specific prompt; developed, evidence-sensitive evaluation; a coherent sustained argument with justified strengths, limitations and an answer-focused conclusion |
 | 3 — mostly developed | 9–12 | Broadly accurate knowledge, relevant but uneven analytical/evaluative reasoning, some linked evidence and reasonable structure, limitations on range or precision |
 | 2 — partially developed | 5–8 | Some valid knowledge and limited or one-sided evaluation; mostly descriptive or unsupported statements; uneven focus and weak connections |
 | 1 — fragmentary | 1–4 | Minimal or inaccurate knowledge, limited reasoning and poor focus; isolated relevant points |
@@ -29,6 +29,13 @@
 **Full-paper integrity:** Paper 3 option groups are **one topic from each group**, not all options simultaneously; original timed 96-mark papers must not have these 16-mark writing drills appended. The user may practise outside their chosen options but that must be identified as broad training, not a required examined option.
 
 **Source and assessor gate on every item:** 2027 exact source A1 and paper-option/mark validation; independent A2 content truth; blinded A3 question, AO/level and rubric adequacy; A4 integrated learner exercise; rights review; historical evidence-safe version IDs. Review high-, medium- and low-quality original learner responses before approval. No copied AQA stems or mark grids are published here.
+
+
+### Source-first editorial reconciliation — 8 November 2026 (NOT independent A2/A3)
+
+- The official Founder-provided Psychology 7182 v1.4 §4.1.2 and §4.3.1 plus the Paper 3 synoptic instruction and AQA's public assessment-authoring guidance were rechecked. The first Memory candidate now uses one integrated `Discuss` demand rather than two separate command sentences, retaining source-aligned WMM components, dual-task evidence and model limitation guidance. The Issues and Debates candidate no longer imposes a particular number of topic examples as if AQA itself required it; use appropriate synoptic knowledge from the learner's studied topics, with compulsory-course examples always available.
+- The common illustrative top-level marking descriptor no longer requires knowledge of "both elements" for a single-model question. Every level remains **a provisional Revision training descriptor**, not an official 2027 AQA marking scheme. Neither candidate has been independently A2/A3 or original-learner validated and both remain **A1 item-tariff HOLD** while 2027 Set 3 material is not lawfully available to this review.
+- The pre-implementation student-feedback PDFs described in issue #706 were prepared against earlier draft prompts in another conversation. The changed Memory / Issues and Debates versions must be re-issued or clearly version-labelled before the student's review is counted; do not silently attach prior comments to different question wording. There is no learner approval from this edit.
 
 ## One original response task per 17-topic source family
 
@@ -64,7 +71,7 @@
 
 - **Paper/option:** 1; **exact source:** AQA Psychology 7182 v1.4 §4.1.2, pp17–18 — working-memory model and its components
 - **Publishing classification:** DRAFT — 16-mark exam-style candidate, 2027 item-level tariff not yet validated; **assurance:** A1 item tariff HOLD, A2/A3/A4 pending
-- **Original question:** Discuss how the working-memory model accounts for people managing different short-term memory tasks at the same time. Evaluate the model as an explanation of memory. [16 marks]
+- **Original question:** Discuss the working-memory model as an explanation of how people can carry out different short-term memory tasks at the same time. [16 marks]
 - **Provisional AO allocation:** AO1 6 / AO2 0 / AO3 10. This is an *item proposal*, not inferred from topic-section marks.
 
 **Indicative marking guidance — not exhaustive**
@@ -236,7 +243,7 @@
 
 - **Paper/option:** 3 compulsory; **exact source:** AQA Psychology 7182 v1.4 §4.3.1, pp21–22 — nature–nurture debate and interactionist approach
 - **Publishing classification:** DRAFT — 16-mark exam-style candidate, 2027 item-level tariff not yet validated; **assurance:** A1 item tariff HOLD, A2/A3/A4 pending
-- **Original question:** Discuss the nature–nurture debate in psychology, using examples from at least two other areas of psychological study. [16 marks]
+- **Original question:** Discuss the nature–nurture debate in psychology, using relevant examples from other topics of psychology you have studied. [16 marks]
 - **Provisional AO allocation:** AO1 6 / AO2 0 / AO3 10. This is an *item proposal*, not inferred from topic-section marks.
 
 **Indicative marking guidance — not exhaustive**
@@ -244,15 +251,15 @@
 **AO1 — accurate knowledge:** 
 1. Explain the distinction between heritable/biological and environmental influences.
 2. Define interactionism rather than portraying heredity and environment as mutually exclusive.
-3. Accurately identify relevant examples from different specified topics.
+3. Accurately select relevant examples from compulsory topics that students have studied; examples from an optional topic are also creditworthy if the learner has studied that option.
 
 **AO3 — supported analysis, evaluation and judgement:** 
 1. Evaluate explanatory limits of strictly nature-only or nurture-only accounts using connected psychological evidence.
 2. Discuss how gene–environment interplay changes interpretation and practical intervention.
 3. Evaluate scientific/ethical implications of deterministic oversimplification where pertinent.
-4. Build a synoptic judgement grounded in at least two topics and quality of evidence.
+4. Build a synoptic judgement grounded in appropriately selected studied topics and the quality of relevant evidence, rather than rewarding a fixed number of topic names.
 
-**Alternative valid answer routes:** Accept sound examples from aggression, schizophrenia, attachment or other examined topics. Do not demand a fixed named-study list; reward explicit links between examples and debate.
+**Alternative valid answer routes:** First illustrate valid links using common compulsory content, such as attachment, biopsychology, memory or approaches. Also credit sound examples from aggression, schizophrenia or any other relevant optional content **where the learner has actually studied that option**. No fixed named-study list or minimum topic count is an AQA-wide rule; award credit for accurate explicit links, developed evaluation and defensible alternatives.
 
 **Higher-band discrimination:** A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this *specific* command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
 

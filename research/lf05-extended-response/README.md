@@ -20,6 +20,14 @@
 
 **This is not a syllabus-sufficiency or tariff-eligible demand denominator.** These items are broad topic *entry points*. Actual 2027 exam-demand denominator must be source-first: exact spec point(s) × assessed skill × paper/section × option × valid response family × source-supported tariff × command × AO profile × required context/stimulus × marking model; calculate fully supported, inadequate and missing after each valid source check. Do not imply 37 items prove a full course.
 
+
+## Psychology source-first editorial check — 8 November 2026
+
+- **Scope:** existing `PSY-LF05-02` (Memory) and `PSY-LF05-08` (Issues and Debates) question/indicative guidance plus one shared provisional upper-level descriptor. Original 7182 v1.4 PDF fingerprint `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d` verified locally; applicable §4.1.2 (printed p17), §4.3.1 and Paper 3 cross-topic instruction (printed p21), scheme of assessment, 96-mark paper totals. AQA's current publicly accessible assessment-writing guidance supports sufficiently broad `Discuss` questions and indicative AO1 6 / AO3 10 for a non-stimulus 16-mark extended answer. The **updated 2027 Set 3 item-level materials remain accessible via Centre Services only** and have not been inspected under authorised access here.
+- **Corrections:** one coherent Memory command instead of competing commands; optional-topic-neutral nature/nurture writing, rooted in compulsory topics; a holistic training level descriptor that tests the actual prompt rather than an artificial requirement for "both elements". These are editorial source-alignment improvements only, not A1 2027 tariff acceptance, independent A2/A3, calibrated examiner grading or an end-to-end learner pass.
+- **Candidate version / student review:** the Memory and Issues/Debates prompt wording has changed after the earlier seven-item student feedback PDFs were prepared. Those PDFs must be clearly superseded or reissued for the exact amended prompts before the Founder's son is asked to review; no authentic learner feedback/approval has been received in this PR. The original learner review gate from #706 remains blocking publication.
+- **Disposition:** all **37** candidates remain non-publishing research, **0/37 independently approved**, **0/37 live**. This draft stays outside `content/` and `src/`, and does not change the existing 96- and 100-mark timed papers, raw results, app schema or readiness estimates. Documented in the current PR, not a new feature or governing authority.
+
 ## Authenticity checklist — every item must pass independently
 
 1. **A1 source/legal:** compare the exact 2027 source material (not Psychology 2014/2020 and not Business 7138). Record source version, section/page, official sample/2027 Set 3 access status, provenance and rights. Distinguish exact applicable course from training analogue. No copying AQA text, cases or entire mark schemes.
