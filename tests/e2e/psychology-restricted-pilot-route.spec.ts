@@ -538,3 +538,41 @@ test('LF-03 #787 Relationships V2 publishes four authentic one-mark cases and re
   }
   expect(saved.map(row => (row.payload as Record<string, unknown>).contentId)).toEqual(ids)
 })
+
+
+test('LF-03 #787 Forensic Psychology V2 preserves scored answer and session after reload', async ({ page }) => {
+  await seedRestrictedPsychologyLearner(page)
+  await seedPracticeCheckpoints(page)
+  const saved = await captureEvidence(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/forensic-psychology`)
+  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await page.getByRole('button', { name: 'Start 4 questions' }).click()
+
+  const expectedStems = ['spatial distribution', 'inherited characteristics', 'queue', 'freely agree']
+  const positions = [1, 3, 0, 2]
+  for (let index = 0; index < 4; index++) {
+    await expect(page.locator('.practice-question__prompt')).toContainText(expectedStems[index]!)
+    const options = page.locator('.practice-question__options button')
+    await expect(options).toHaveCount(4)
+    await options.nth(positions[index]!).click()
+    await page.getByRole('group', { name: 'How sure are you?' }).getByRole('button', { name: 'Certain' }).click()
+    await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    await expect.poll(() => saved.length).toBe(index + 1)
+    expect(saved[index]?.payload).toMatchObject({
+      source: 'multiple_choice',
+      contentId: `psy-psy160${index + 1}-check-v2`,
+      correct: true, selectedOption: positions[index],
+      correctOption: positions[index],
+    })
+    if (index === 0) {
+      await page.reload()
+      await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+      await page.getByRole('button', { name: 'Continue saved session' }).click()
+      expect(saved).toHaveLength(1)
+      await expect(page.locator('.ui-feedback-bar--correct')).toBeVisible()
+    }
+    if (index < 3) await page.getByRole('button', { name: 'Next question' }).click()
+  }
+  expect(saved.map(row => (row.payload as Record<string, unknown>).contentId))
+    .toEqual([1, 2, 3, 4].map(i => `psy-psy160${i}-check-v2`))
+})

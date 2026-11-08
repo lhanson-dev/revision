@@ -37,6 +37,7 @@ import { attachmentMcqV2 } from './attachment-mcq-v2'
 import { issuesDebatesMcqV2 } from './issues-debates-mcq-v2'
 import { cognitionDevelopmentMcqV2 } from './cognition-development-mcq-v2'
 import { relationshipsMcqV2 } from './relationships-mcq-v2'
+import { forensicPsychologyMcqV2 } from './forensic-psychology-mcq-v2'
 
 type TruthRequirement = {
   requirementId: string
@@ -333,6 +334,10 @@ export const psychologyLegacyIssuesDebatesQuestions = truthTopics[7]!.requiremen
 export const psychologyLegacyRelationshipsQuestions = truthTopics[8]!.requirements
   .map(requirement => legacyObjectiveQuestion(truthTopics[8]!, requirement))
 
+/** Exact previous Forensic Psychology V1 question definitions for saved checkpoints only. */
+export const psychologyLegacyForensicQuestions = truthTopics[15]!.requirements
+  .map(requirement => legacyObjectiveQuestion(truthTopics[15]!, requirement))
+
 /** Recover exact earlier Cognition and Development four-item definitions only for old saved fingerprints. */
 export const psychologyLegacyCognitionDevelopmentQuestions = truthTopics[10]!.requirements
   .map(requirement => legacyObjectiveQuestion(truthTopics[10]!, requirement))
@@ -343,6 +348,7 @@ const updatedMemoryQuestions: Record<string, z.infer<typeof multipleChoiceQuesti
 const updatedAttachmentQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = attachmentMcqV2
 const updatedIssuesDebatesQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = issuesDebatesMcqV2
 const updatedRelationshipsQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = relationshipsMcqV2
+const updatedForensicPsychologyQuestions: Record<string, z.infer<typeof multipleChoiceQuestionSchema>> = forensicPsychologyMcqV2
 export const psychologyQuestions = truthTopics.flatMap((topic) =>
   topic.requirements.map((requirement) =>
     updatedSocialInfluenceQuestions[requirement.requirementId]
@@ -350,6 +356,7 @@ export const psychologyQuestions = truthTopics.flatMap((topic) =>
     ?? updatedAttachmentQuestions[requirement.requirementId]
     ?? updatedIssuesDebatesQuestions[requirement.requirementId]
     ?? updatedRelationshipsQuestions[requirement.requirementId]
+    ?? updatedForensicPsychologyQuestions[requirement.requirementId]
     ?? updatedCognitionDevelopmentQuestions[requirement.requirementId]
     ?? legacyObjectiveQuestion(topic, requirement)),
 )
