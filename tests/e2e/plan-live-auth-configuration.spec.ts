@@ -308,7 +308,7 @@ test('real Psychology learner changes Paper 3 options without planning unselecte
     await expect(page.getByRole('heading', { name: 'Plan', exact: true })).toBeVisible()
 
     async function saveChoice(b: string, c: string, d: string, date: string) {
-      await page.getByRole('button', { name: 'Exam dates' }).click()
+      await page.locator('.pln-head__actions').getByRole('button', { name: 'Exam dates', exact: true }).click()
       const modal = page.locator('.pln-dialog')
       await expect(modal.getByRole('heading', { name: 'Your exams' })).toBeVisible()
       await modal.getByLabel('Exam', { exact: true }).selectOption(courseId + '::' + moduleId)
@@ -353,7 +353,7 @@ test('real Psychology learner changes Paper 3 options without planning unselecte
 
     // Change option group and date via ordinary Plan controls, retaining the
     // original archived assessment as historical data, not active scope.
-    await page.getByRole('button', { name: 'Exam dates' }).click()
+    await page.locator('.pln-head__actions').getByRole('button', { name: 'Exam dates', exact: true }).click()
     const old = page.locator('.plan-exam-list li').filter({ hasText: 'Paper 3' })
     await expect(old).toContainText('Paper 3 options:')
     await old.getByRole('button', { name: /^Remove/ }).click()
