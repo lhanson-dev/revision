@@ -133,7 +133,9 @@ export function parseRoute(hash: string): AppRoute {
     return validAdminSection(section) ? adminRoute(section) : adminRoute()
   }
 
-  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
+  // Only the canonical page locator belongs in a Learn URL. A query cannot
+  // select an assessed repair; only a live FI-001 Start event can do so.
+  const parts = hash.split('?')[0]!.replace(/^#\/?/, '').split('/').filter(Boolean)
 
   if (parts[0] === 'courses' && parts.length === 4) {
     const courseId = decode(parts[1])

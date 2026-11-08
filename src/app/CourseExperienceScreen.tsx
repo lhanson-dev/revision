@@ -15,6 +15,7 @@ import { ExamPrepSection } from './ExamPrepSection'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
+import type { GuidedMethodRepair } from './practice-repair'
 import {
   availableCourseSections,
   availablePaperSections,
@@ -48,6 +49,7 @@ type CourseExperienceScreenProps = {
   moduleId?: string | null
   section: CourseSection | PaperSection
   learnPageId?: string | null
+  guidedRepair?: GuidedMethodRepair | null
   practiceTopicId?: string | null
   onOpenCourses: () => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
@@ -251,6 +253,7 @@ export function CourseExperienceScreen({
   moduleId,
   section: requestedSection,
   learnPageId,
+  guidedRepair,
   practiceTopicId,
   onOpenCourses,
   onOpenCourseSection,
@@ -445,7 +448,7 @@ export function CourseExperienceScreen({
             onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
         </div>}
 
-        {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
+        {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} guidedRepair={guidedRepair} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
 
         {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} savedPracticeTopics={savedWork.filter(item => item.kind === 'practice' && item.courseId === course.id && item.moduleId === practiceAdapter.manifest.id && item.topicId).map(item => ({ id: item.topicId!, detail: item.detail }))} savedPracticeStatus={savedStatus} onRetrySavedTopics={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
@@ -496,7 +499,7 @@ export function CourseExperienceScreen({
         onOpenSection={next => onOpenModuleSection(course.id, adapter.manifest.id, next)}
         onOpenSavedWork={onOpenSavedWork} onRetry={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} />
       </div>}
-      {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
+      {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} guidedRepair={guidedRepair} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} reviewedPages={reviewedPages.filter(item => item.courseId === course.id && item.moduleId === adapter.manifest.id).map(item => item.pageId)} onMarkReviewed={(pageId, topicId) => saveReviewedPage(adapter, pageId, topicId)} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" topicProgress={topicProgressFor(state)} lastAnsweredAt={lastAnsweredByContent(state.evidence)} flashcardRatings={lastFlashcardRatings(state.evidence)} onOpenLearnPage={onOpenLearnPage} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={{ client, userId, courseId: course.id }} savedPracticeTopics={savedWork.filter(item => item.kind === 'practice' && item.courseId === course.id && item.moduleId === adapter.manifest.id && item.topicId).map(item => ({ id: item.topicId!, detail: item.detail }))} savedPracticeStatus={savedStatus} onRetrySavedTopics={() => { setSavedStatus('loading'); setSavedRefresh(value => value + 1) }} contextLabel={`${label} ${paperLabel(adapter)}`} includeExamQuestions={true} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} checkpointContext={examRecoveryEnabled ? {
           client, userId, courseId: course.id, retentionDays: 14, timerPolicy: 'pause-on-interruption',

@@ -62,6 +62,18 @@ describe('learner navigation model', () => {
     expect(parseRoute(hash)).toEqual(route)
   })
 
+  it('rejects a hand-edited repairSkill query on course and module Learn routes', () => {
+    const course = learnerCourseRoute('aqa:aqa-a-level:7132', 'learn', { learnPageId: 'bus-evi-004' })
+    const module = learnerModuleRoute('aqa:aqa-a-level:7132', 'business-aqa-a-level-7132-paper-1', 'learn', { learnPageId: 'bus-evi-004' })
+    for (const route of [course, module]) {
+      const normal = routeHash(route)
+      const injected = normal + '?repairSkill=' + encodeURIComponent('aqa-7132-3.2.2:net-gain')
+      expect(routeHash(parseRoute(injected))).toBe(normal)
+      expect(parseRoute(injected)).toEqual(route)
+      expect(routeHash(route)).not.toContain('repairSkill')
+    }
+  })
+
   it('round-trips a course Practice topic through the URL', () => {
     const route = learnerCourseRoute('aqa:aqa-a-level:7132', 'practice', { topicId: 'finance' })
     const hash = routeHash(route)
