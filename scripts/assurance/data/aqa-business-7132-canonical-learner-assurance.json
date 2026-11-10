@@ -13087,8 +13087,8 @@
         "section": "cross-cutting AO3/AO4 and Papers 1–3",
         "type": "assessment-calibration-unverified",
         "status": "open",
-        "finding": "One-mark final-answer arithmetic and self-marked narrative do not verify extended analysis, evaluative judgement or calibrated application under the three real 100-mark paper structures.",
-        "closure": "Independently review original written-question demands, rubrics, feedback and authenticity for each paper; separately calibrate mark-value writing and authentic contextual performance under #706/#813."
+        "finding": "Existing level-marked financial ratio questions 3.7:q15 (6 marks), q16 (9 marks), and q37 (25 marks) exist in the source bank, but the canonical Practice converter (`src/app/practice-questions.ts`) rejects these `levels` and `ESSAY` records rather than producing independently marked learner tasks. Their existence is not evidence of accessible assessed AO3/AO4. One-mark final-answer arithmetic and self-marked narrative do not verify extended analysis, evaluative judgement or calibrated application under the three real 100-mark paper structures. Exam Prep appearance/marking of these exact questions is separately unverified.",
+        "closure": "Check the actual published Exam Prep route, content identity and authentic 6/9/25-mark response availability before deciding what is truly absent; then independently review original written-question demands, rubrics, feedback and marking for each paper. Coordinate any new mark-value writing capability with #706/#813 and its Ready gate. Do not treat inert bank records as independently assessed skill evidence."
       },
       {
         "id": "BUS-698-EX-006",
