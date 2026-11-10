@@ -69,9 +69,15 @@ describe('Issue #698 AQA 7132 v2.0 §3.7.2 independently entered financial-ratio
         expect(result.marks).toBe(1)
         expect(result.expected).toBe(item.expected)
         expect(result.unit).toBe(item.unit)
+        expect(result.exactNumber).toBe(true)
+        expect(result.exactInteger).toBe(false)
         expect(objectiveItemMappingForPractice(result)?.singleTargetSpecItemId).toBe('aqa-7132-3.7.2:' + item.target)
-        expect(checkCalculation(String(item.expected), result.accepted, item.unit).status).toBe('right')
-        expect(checkCalculation(String(item.expected + (Number.isInteger(item.expected) ? 10 : 2)), result.accepted, item.unit).status).toBe('wrong')
+        expect(checkCalculation(String(item.expected), result.accepted, item.unit, result.exactInteger, result.exactNumber).status).toBe('right')
+        expect(checkCalculation(String(item.expected + (Number.isInteger(item.expected) ? 10 : 2)), result.accepted, item.unit, result.exactInteger, result.exactNumber).status).toBe('wrong')
+        const falsePositive = Number.isInteger(item.expected) ? item.expected - 0.5 : item.expected - 0.05
+        expect(checkCalculation(String(falsePositive), result.accepted, item.unit).status).toBe('right') // Legacy implicit rounding, not used for these items.
+        expect(checkCalculation(String(falsePositive), result.accepted, item.unit, result.exactInteger, result.exactNumber).status).toBe('wrong')
+        expect(checkCalculation(String(item.expected).padEnd(String(item.expected).length + 2, '0'), result.accepted, item.unit, result.exactInteger, result.exactNumber).status).toBe(Number.isInteger(item.expected) ? 'wrong' : 'right') // Trailing decimal zeroes are equivalent; appending whole-number zeroes is not.
         expect(result.workings.length).toBeGreaterThan(85)
         expect(result).not.toHaveProperty('validatedWorking')
         expect(result).not.toHaveProperty('awardedSkillMastery')
@@ -79,6 +85,24 @@ describe('Issue #698 AQA 7132 v2.0 §3.7.2 independently entered financial-ratio
       expect(pack.exams).toHaveLength(1)
       expect(pack.exams[0]?.totalMarks).toBe(100)
     }
+  })
+
+  it('explicitly disallows half-step false positives and decimal boundary errors in the actual published paths', () => {
+    for (const pack of packs) {
+      const bank = pack.practiceBank!.filter(record => record.namespace === 'rev7132' && record.batch === '3.7.2')
+      expect(bank).toHaveLength(12)
+      for (const record of bank) {
+        expect(record.question.calcs[0]?.answer_rule).toBe('exact-number')
+      }
+    }
+    const sample = packs[0].practiceBank!.find(record => record.namespace === 'rev7132' && record.id === 'roce-cycle-01')!
+    const question = buildQuestionPool({ topicId: 'strategic-position', topicOrder: 7, coursePack: packs[0].questions, bank: packs[0].practiceBank }).find(q => q.id === 'rev7132-3.7.2-roce-cycle-01')
+    expect(question?.type).toBe('calculation')
+    if (question?.type !== 'calculation') return
+    expect(checkCalculation('19.5', question.accepted, question.unit, question.exactInteger, question.exactNumber).status).toBe('wrong')
+    expect(checkCalculation('20.0', question.accepted, question.unit, question.exactInteger, question.exactNumber).status).toBe('right')
+    expect(checkCalculation('20%', question.accepted, question.unit, question.exactInteger, question.exactNumber).status).toBe('unreadable')
+    expect(sample.question.calcs[0]?.stated_answer).toBe(20)
   })
 
   it('labels current ratio and other outputs with their correct units and no automatic method marks', () => {

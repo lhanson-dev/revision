@@ -114,7 +114,7 @@ export const businessStrategicRatioBank = businessStrategicRatioCases.map(item =
       stem: item.stem,
       table: null,
       options: [],
-      calcs: [{ stated_answer: item.expected, unit: item.unit }],
+      calcs: [{ stated_answer: item.expected, unit: item.unit, answer_rule: 'exact-number' }],
       mark_scheme: {
         type: 'points',
         correct_option: '',
