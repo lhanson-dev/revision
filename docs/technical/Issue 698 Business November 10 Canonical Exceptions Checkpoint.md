@@ -18,6 +18,10 @@ The six open exception identities and their precise closure criteria live **only
 
 Prioritise **genuine educational failures and invalid evidence attribution** over producing new metadata or duplicating content. For every candidate inspect the actual published Learn page/block, scored or appropriately self-assessed Practice item and feedback, actual Paper 1/2/3 exam question and rubric, then classify `adequate / inadequate / absent / incorrect / unverified` with a source locator and a concrete evidence reason. An unverified item is not automatically absent. Preserve published identifiers and saved learner attempts. Document required student capability and separate what the current UI cannot authentically evidence.
 
+## New educational evidence — 10 November
+
+Independent A2/A3 reviewer run [42919603566](https://github.com/lhanson-dev/revision/actions/runs/42919603566) returned **FAIL/HOLD** for earlier #836 head `eff091879454b0cbe8dd63957281b595d321f805`. All 12 answers and both worked examples were independently recalculated as correct, but the shared calculation scorer accepted near-correct answers such as `19.5` for exact `20`, without explicit rounding permission. This risk is an actual learner-evidence validity defect, not a missing-metadata issue. The retained workflow artifact and matching `BUS-698-EX-003` exception preserve the failure. Corrected draft #836 head `13e7bbe7b3c6f2161b25e9265fb3c4fdaf8713f7` opts only the 12 new cases into exact-number marking and explicitly tells students that these exact results require no rounding; latest-head CI, fresh independent A2/A3 and authenticated release acceptance are not established by the previous review.
+
 ## Review sequencing and release boundary
 
 - **PR #837**, reviewer infrastructure, was mechanically refreshed against approved main at exact head `fb18f8e12ff687ceb22be3d27bf6d2a5d8e94d88`; zero behind main at that checkpoint, same five change paths. Former CI on the **old head** passed, but **fresh current-head CI was not observed** after this refresh. It remains a draft, unmerged; only the Founder may specifically approve its separate merge.
