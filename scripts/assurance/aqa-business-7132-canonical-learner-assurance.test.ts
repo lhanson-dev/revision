@@ -116,4 +116,29 @@ describe('Issue #698 — one provisional Business source-to-learner register', (
     const swot = rows371.find(row => row.requirement_candidate_id.endsWith('-011'))
     expect(swot?.exam_prep_candidates[0].scope).toContain('not-exam-competence-proof')
   })
+  it('keeps the single exceptions queue honest about full-course source and learner assurance', () => {
+    const record = register.exceptions_register
+    expect(record.source_requirements_verified_full_denominator).toBeNull()
+    expect(record.provisional_candidate_count).toBe(register.candidates.length)
+    expect(record.source_section_review_totals).toEqual({
+      sections: 42, complete_atomic_sections: 0, incomplete_atomic_sections: 42,
+    })
+    expect(new Set(record.exceptions.map(exception => exception.id)).size).toBe(record.exceptions.length)
+    for (const exception of record.exceptions) {
+      expect(exception.status).toBe('open')
+      expect(exception.finding.length).toBeGreaterThan(30)
+      expect(exception.closure.length).toBeGreaterThan(30)
+    }
+    for (const field of [
+      'teaching_status', 'practice_status', 'exam_prep_status',
+      'independent_skill_assessment_status', 'learner_acceptance_status',
+    ] as const) {
+      expect(record.candidate_assurance_totals[field]).toEqual({
+        unverified: register.candidates.filter(candidate => candidate[field] === 'unverified').length,
+      })
+    }
+    expect(register.candidates.every(candidate =>
+      candidate.teaching_status !== 'adequate' && candidate.practice_status !== 'adequate')).toBe(true)
+  })
+
 })
