@@ -13066,8 +13066,11 @@
         "section": "3.7.2",
         "type": "pending-educational-review",
         "status": "open",
-        "finding": "PR #836 proposes a six-ratio method Learn page and 12 typed final-number cases, not live. Fresh independent A2/A3 of each number, units and explanation is pending; ratio statement extraction, longitudinal/peer evaluation and AO3/AO4 remain unverified.",
-        "closure": "Review infrastructure PR #837 separately; obtain its specific Founder-approved merge, independently challenge PR #836 at current head and correct findings, then obtain separate Founder approval before any learner release."
+        "finding": "The first exact-head independent A2/A3 review of draft #836 (run 42919603566, old head eff09187) returned FAIL/HOLD: twelve exact ratio values and both Learn worked examples recomputed correctly, but the shared calculation scorer silently credited inaccurate results (e.g. 19.5 for 20 and 1.45 for 1.5). Precision instructions were also unclear. The review and its historical receipt remain preserved. Draft #836 now proposes a scoped exact-number rule and explicit no-rounding instructions (head 13e7bbe7), not yet independently re-reviewed or released. Broader financial statement interpretation, peer/time comparison and AO3/AO4 remain unverified.",
+        "closure": "Require 9/9 CI and fresh independent A2/A3 exact-head PASS on the corrected published answer conversion/scorer/12 items with boundary tests; then specific Founder merge approval, production lineage and authenticated learner acceptance. Retain 42919603566 FAIL/HOLD evidence and do not misclassify final-number accuracy as method, written interpretation or complete financial-ratio proficiency.",
+        "evidence_receipt_url": "https://github.com/lhanson-dev/revision/actions/runs/42919603566",
+        "review_decision": "fail_hold",
+        "corrected_candidate_head_pending_ci": "13e7bbe7b3c6f2161b25e9265fb3c4fdaf8713f7"
       },
       {
         "id": "BUS-698-EX-004",
