@@ -26,7 +26,7 @@ function valid(config, severity='pass') {
 }
 describe('exact-head trusted owner trigger',()=>{
   it('accepts only allowed exact-head SHA comments from Owner on selected PRs',()=>{
-    for(const id of [777,784,805,820]) {
+    for(const id of [777,784,805,820,836]) {
       const parsed=parseTrustedEvent(event(id))
       assert.equal(parsed.id,id)
       assert.equal(parsed.head,head)
@@ -35,7 +35,7 @@ describe('exact-head trusted owner trigger',()=>{
     }
   })
   it('accepts actual GitHub OWNER CRLF two-line comments for every allowed PR, without permitting suffixes',()=>{
-    for(const id of [777,784,805,820]) {
+    for(const id of [777,784,805,820,836]) {
       for(const body of [
         MARKER+'\r\nhead_sha: '+head,
         MARKER+'\r\nhead_sha: '+head+'\r\n',
@@ -109,6 +109,36 @@ describe('exact-head trusted owner trigger',()=>{
     assert.ok(cfg.paths.includes('src/app/ui/learn/Quantitative.tsx'))
     assert.ok(!cfg.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
     assert.ok(cfg.reviewedItemIds.every(id=>id==='operations-inventory-control-chart'||id.startsWith('rev7132-3.4.5-inventory-')))
+  })
+  it('accepts #836 only for original exact-head ratio practice and 13 bounded assets',()=>{
+    const cfg=SETTINGS[836]
+    assert.equal(cfg.section,'3.7.2')
+    assert.deepEqual(cfg.printedPages,[25])
+    assert.equal(cfg.questionBatch,'3.7')
+    assert.deepEqual(cfg.questionIds,['q15','q16','q17','q18','q19','q20','q37'])
+    assert.equal(cfg.reviewedItemIds.length,13)
+    assert.equal(cfg.reviewedItemIds.filter(x=>x.startsWith('rev7132-3.7.2-')).length,12)
+    assert.ok(cfg.reviewedItemIds.includes('strategic-financial-ratios-method'))
+    for(const p of [
+      'content/business/aqa-a-level/shared/strategic-ratio-supplement.ts',
+      'content/business/aqa-a-level/shared/strategic-ratio-practice.ts',
+      'content/business/aqa-a-level/strategic-ratio-assurance.test.ts',
+      'content/learn-schema.test.ts',
+      'src/engine/content/content-adapter.test.ts',
+      'src/app/practice-calculation.ts',
+    ])assert.ok(cfg.paths.includes(p))
+    assert.ok(!cfg.paths.some(p=>p.toLowerCase().endsWith('.pdf')))
+    const actual=cfg.reviewedItemIds.filter(x=>x.startsWith('rev7132-3.7.2-'))
+    for(const skill of ['roce','current-ratio','gearing','payables-days','receivables-days','inventory-turnover']) {
+      assert.equal(actual.filter(id=>id.includes(skill+'-')).length,2)
+    }
+    for(const s of ['balance sheets','income statements','over time','between businesses','REFERENCE_ONLY']) {
+      assert.ok(cfg.scope.join(' ').includes(s))
+    }
+    assert.equal(parseTrustedEvent(event(836)).id,836)
+    assert.throws(()=>parseTrustedEvent({...event(836),comment:{...event(836).comment,user:{login:'attacker'}}}))
+    const workflow=readFileSync('.github/workflows/business-pr777-784-independent-a2a3.yml','utf8')
+    assert.match(workflow,/github\.event\.issue\.number == 836/)
   })
   it('rejects PR spoof, altered identity, whitespace, arbitrary body and SHA injection',()=>{
     const attempts=[

@@ -28,6 +28,17 @@
 - **Candidate version / student review:** the Memory and Issues/Debates prompt wording has changed after the earlier seven-item student feedback PDFs were prepared. Those PDFs must be clearly superseded or reissued for the exact amended prompts before the Founder's son is asked to review; no authentic learner feedback/approval has been received in this PR. The original learner review gate from #706 remains blocking publication.
 - **Disposition:** all **37** candidates remain non-publishing research, **0/37 independently approved**, **0/37 live**. This draft stays outside `content/` and `src/`, and does not change the existing 96- and 100-mark timed papers, raw results, app schema or readiness estimates. Documented in the current PR, not a new feature or governing authority.
 
+
+## Memory and Issues/Debates first response-calibration fixtures — 10 November 2026
+
+An additional **original, research-only** file, `psychology-memory-issues-16-mark-independent-review-fixture.md`, now contains three **unmarked** candidate response exemplars for **each** of the first two source-led Psychology 16-mark-style questions (`PSY-LF05-02` and `PSY-LF05-08`), with explicit factual/demand checks, legitimate alternative-credit probes and a staged independent A2/A3/A4 review brief.
+
+**Source-first scope checked on the exact Founder-uploaded AQA Psychology 7182 v1.4 PDF (SHA256 `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`):** §4.1.2 printed p17, §4.3.1 and the synoptic cross-topic instruction printed p21. AQA confirms first A-level exams summer 2027 and Set 3 SAM in Centre Services; this research has **not** accessed or established 2027 item-level 16-mark tariffs. Historic 16-mark question/level conventions remain *format precedents*, not an approval to label these new stems official or 2027 exam-authentic.
+
+The six examples are intentionally labelled **relative-quality training hypotheses**, **not calibrated 0–16 marks or examiner models**. They cannot be exposed as worked answers before a learner commits their initial response, and cannot infer independently scored mastery. A separate fresh-context reviewer must first draft a rubric blind to these answers, then critique the original guidance and all six samples, resolve material findings and obtain authorised tariff evidence or retain clearly labelled `training_only` status. Human Ready for LF-05, owner-scoped draft persistence, source/version identity, paper options and original learner acceptance remain separate gates.
+
+**Counters unchanged:** 17 Psychology and 20 Business draft question-and-guide pairs; six *additional* response-calibration examples for two Psychology candidates; **0/37 independently A2/A3/A4 approved**, **0 live**. No new question IDs, published marks, course code, timed-paper totals or learner evidence. Documentation impact: new fixture + this README + INDEX in existing governed PR #834, dated evidence preserved.
+
 ## Authenticity checklist — every item must pass independently
 
 1. **A1 source/legal:** compare the exact 2027 source material (not Psychology 2014/2020 and not Business 7138). Record source version, section/page, official sample/2027 Set 3 access status, provenance and rights. Distinguish exact applicable course from training analogue. No copying AQA text, cases or entire mark schemes.

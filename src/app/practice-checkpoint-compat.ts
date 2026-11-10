@@ -1,6 +1,6 @@
 import type { PracticeQuestion } from './practice-questions'
 import { coursePackQuestionToPractice } from './practice-questions'
-import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions, psychologyLegacyAttachmentQuestions, psychologyLegacyIssuesDebatesQuestions, psychologyLegacyCognitionDevelopmentQuestions } from '../../content/psychology/aqa-a-level/shared/course'
+import { psychologyLegacySocialInfluenceQuestions, psychologyLegacyMemoryQuestions, psychologyLegacyAttachmentQuestions, psychologyLegacyIssuesDebatesQuestions, psychologyLegacyCognitionDevelopmentQuestions, psychologyLegacyRelationshipsQuestions, psychologyLegacyForensicQuestions } from '../../content/psychology/aqa-a-level/shared/course'
 import {
   fingerprintPracticeContent, loadPracticeCheckpoint,
   type PracticeCheckpoint, type PracticeCheckpointKey, type PracticeCheckpointStore,
@@ -73,6 +73,35 @@ export function legacyIssuesDebatesPool(
   return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
 }
 
+/** #787 Relationships: only exact old V1 identities can restore a previously saved session. */
+export function legacyRelationshipsPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  if (specificationCode !== '7182' || topicId !== 'relationships') return null
+  const previousByCurrentId = new Map(psychologyLegacyRelationshipsQuestions.map(question => [
+    question.id + '-v2', coursePackQuestionToPractice(question),
+  ]))
+  if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 4) return null
+  return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
+/** #787 Forensic Psychology: restore only exact former four V1 questions when the
+ * saved content fingerprint agrees; never offer V1 to new sessions. */
+export function legacyForensicPool(
+  specificationCode: string,
+  topicId: string,
+  publishedPool: readonly PracticeQuestion[],
+): PracticeQuestion[] | null {
+  if (specificationCode !== '7182' || topicId !== 'forensic-psychology') return null
+  const previousByCurrentId = new Map(psychologyLegacyForensicQuestions.map(question => [
+    question.id + '-v2', coursePackQuestionToPractice(question),
+  ]))
+  if ([...previousByCurrentId.keys()].filter(id => publishedPool.some(item => item.id === id)).length !== 4) return null
+  return publishedPool.map(question => previousByCurrentId.get(question.id) ?? question)
+}
+
 /** #698/#787: reconstruct only the exact four Cognition & Development legacy questions.
  * The previous choice order/key is retained for fingerprint-based saved session recovery.
  * New sessions can see V2 only; unknown content fingerprints still fail closed.
@@ -99,6 +128,8 @@ export function legacyPsychologyCheckpointPool(
     ?? legacyMemoryPool(specificationCode, topicId, publishedPool)
     ?? legacyAttachmentPool(specificationCode, topicId, publishedPool)
     ?? legacyIssuesDebatesPool(specificationCode, topicId, publishedPool)
+    ?? legacyRelationshipsPool(specificationCode, topicId, publishedPool)
+    ?? legacyForensicPool(specificationCode, topicId, publishedPool)
     ?? legacyCognitionDevelopmentPool(specificationCode, topicId, publishedPool)
 }
 
