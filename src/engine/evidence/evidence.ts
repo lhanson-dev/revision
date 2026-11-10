@@ -239,6 +239,12 @@ const retiredPsychologyPatternedObjectiveIds = new Set([
   // #787 Issues and Debates: identical concept-list option set in two old
   // questions. Preserve their historical marks, not derived mastery credit.
   'psy-psy0801-check', 'psy-psy0804-check',
+  // #787 Relationships: retire repeated-concept answer sets for new inference;
+  // preserve all raw historical choices and scores.
+  'psy-psy0901-check', 'psy-psy0902-check', 'psy-psy0903-check', 'psy-psy0904-check',
+  // #787 Forensic Psychology: retired V1 shared concept options are historical
+  // marks only; they may not add new inferred understanding or readiness.
+  'psy-psy1601-check', 'psy-psy1602-check', 'psy-psy1603-check', 'psy-psy1604-check',
   // #698/#787 Cognition & Development: retire four repeatedly patterned V1
   // definition checks from newly derived learning inference; keep historical marks.
   'psy-psy1101-check', 'psy-psy1102-check', 'psy-psy1103-check', 'psy-psy1104-check',
