@@ -307,6 +307,125 @@ test('LF-02: a real locally authenticated learner retains zero-scored mock evide
 })
 
 
+
+/**
+ * LA-15 / LF-02 Psychology parity: test the published Paper 1's actual
+ * self-assessment route with disposable local Auth and owner-only PostgREST.
+ * Written AO marks are learner-awarded; they are never examiner-scored.
+ *
+ * The first completed attempt has zero marks. A fresh same-paper retake has
+ * one self-awarded AO1 mark; both separate immutable paper results must survive
+ * an application reload. Synthetic browser intercepts do not count here.
+ */
+test('LF-02: Psychology real-Auth zero-mark Paper 1 and positive retake preserve two owner results', async ({ page }) => {
+  test.skip(!enabled, 'Requires disposable local Supabase Auth/PostgREST.')
+  test.setTimeout(180_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const publishableKey = process.env.SUPABASE_ANON_KEY ?? ''
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const origin = new URL(url)
+  if (origin.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(origin.hostname)
+    || origin.port !== '54321' || !publishableKey || !serviceKey) {
+    throw new Error('Psychology learner-retake test must never use hosted or production Auth')
+  }
+  const authOptions = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+  const admin: SupabaseClient = createClient(url, serviceKey, authOptions)
+  const learner: SupabaseClient = createClient(url, publishableKey, authOptions)
+  const email = 'psychology-zero-retake-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Synthetic-' + crypto.randomUUID() + '-A1!'
+  const mockId = 'psychology-aqa-7182-paper-1-mock'
+  const examPrep = appPath + '#/courses/' + encodeURIComponent(psychologyId) + '/exam-prep'
+  let userId: string | undefined
+
+  async function savedOwnerAttempts() {
+    const { data, error } = await learner.from('learning_evidence')
+      .select('evidence_id,payload').eq('user_id', userId!)
+    if (error) throw error
+    return (data ?? []).filter(item => item.payload?.source === 'exam_attempt'
+      && item.payload?.contentId === mockId)
+  }
+
+  async function submitWrittenAttempt(selfMark: number) {
+    await expect(page.locator('.exam-session-page')).toBeVisible()
+    const firstAnswer = page.locator('.exam-question-sheet textarea')
+    await firstAnswer.fill('An original, deliberately short practice response for checking saved self-assessed marks.')
+    await expect(page.getByText('Work saved')).toBeVisible()
+    await page.getByRole('button', { name: 'Finish and self-mark' }).click()
+    await expect(page.locator('.self-marking')).toBeVisible()
+    if (selfMark > 0) {
+      // Published Psychology Paper 1 opens with a 4-mark AO1 written item.
+      // Give one mark via the *ordinary on-screen* self-marking control.
+      const ao1 = page.locator('.self-marking .ao-marker-grid')
+        .getByRole('spinbutton', { name: /AO1/i })
+      await expect(ao1).toBeEnabled()
+      await ao1.fill(String(selfMark))
+    }
+    await expect(page.locator('.exam-submit-summary')).toContainText(selfMark + '/96')
+    await page.getByRole('button', { name: 'Save exam result' }).click()
+    await expect(page.locator('.exam-score')).toContainText(selfMark + '/96')
+  }
+
+  try {
+    const { data: created, error: createError } = await admin.auth.admin.createUser({
+      email, password, email_confirm: true,
+    })
+    if (createError || !created.user) throw new Error('Disposable Psychology learner creation failed: ' + (createError?.message ?? 'unknown'))
+    userId = created.user.id
+    const { error: loginError } = await learner.auth.signInWithPassword({ email, password })
+    if (loginError) throw loginError
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.goto(appPath + '#/courses')
+    await page.getByRole('button', { name: /Add course/i }).first().click()
+    const dialog = page.getByRole('dialog', { name: /Add course/i })
+    await dialog.getByRole('listitem').filter({ hasText: 'A-level Psychology' })
+      .getByRole('button', { name: /Add course/i }).click()
+    await expect(dialog).toHaveCount(0)
+
+    await page.goto(examPrep)
+    const paper = page.locator('.exam-mock').filter({ hasText: 'Paper 1' })
+    await expect(paper.getByRole('button', { name: 'Start timed' })).toBeVisible()
+    await paper.getByRole('button', { name: 'Start timed' }).click()
+    await submitWrittenAttempt(0)
+    await expect.poll(async () => (await savedOwnerAttempts()).length).toBe(1)
+    const original = (await savedOwnerAttempts())[0]!
+    expect(original.payload.marksAwarded).toBe(0)
+    expect(original.payload.marksAvailable).toBe(96)
+    expect(original.payload.markingMethod).toBe('self_assessed')
+
+    await page.getByRole('button', { name: 'Back to Exam Prep' }).click()
+    await expect(paper.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+    await paper.getByRole('button', { name: 'Retake exam' }).click()
+    await expect(page.locator('.exam-question-sheet textarea')).toHaveValue('')
+    await submitWrittenAttempt(1)
+    await expect.poll(async () => (await savedOwnerAttempts()).length).toBe(2)
+    const after = await savedOwnerAttempts()
+    expect(new Set(after.map(item => item.evidence_id)).size).toBe(2)
+    expect(after.map(item => item.payload.marksAwarded).sort()).toEqual([0, 1])
+    expect(after.every(item => item.payload.markingMethod === 'self_assessed')).toBe(true)
+    expect(after.find(item => item.evidence_id === original.evidence_id)).toEqual(original)
+
+    await page.reload()
+    await page.goto(examPrep)
+    await expect(paper.getByRole('button', { name: 'Retake exam' })).toBeVisible()
+    const durable = await savedOwnerAttempts()
+    expect(durable.map(item => item.evidence_id).sort()).toEqual(after.map(item => item.evidence_id).sort())
+    expect(durable.find(item => item.evidence_id === original.evidence_id)).toEqual(original)
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const { error } = await admin.auth.admin.deleteUser(userId)
+      expect(error, 'Disposable Psychology learner cleanup must succeed').toBeNull()
+    }
+  }
+})
+
+
 /**
  * #703 / #705 next acceptance slice: unlike evidence-seeded Plan-only cases,
  * the *fresh reassessment* is typed, submitted and saved via a real signed-in

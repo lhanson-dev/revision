@@ -62,9 +62,9 @@ describe('Issue #698 full-course proof cannot be substituted by source ID or MCQ
       const code=r.requirementId.toLowerCase().replaceAll('-','')
       const pid=`${topic!.id}-${code}`
       // Preserve versioned Psychology identities: Social Influence, Memory,
-      // PSY-03-04/05 Attachment and PSY-08-01/04 Issues and Debates, and four PSY-11 Cognition and Development.
+      // PSY-03-04/05 Attachment, PSY-08-01/04 Issues and Debates, four PSY-09 Relationships, four PSY-11 Cognition and Development and four PSY-16 Forensic Psychology.
       // Retired keys remain historical only; never used for fresh scoring.
-      const mcq=`psy-${code}-check${/^(PSY-0[12]-0[1-4]|PSY-03-0[45]|PSY-08-0[14]|PSY-11-0[1-4])$/.test(r.requirementId) ? '-v2' : ''}`
+      const mcq=`psy-${code}-check${/^(PSY-0[12]-0[1-4]|PSY-03-0[45]|PSY-08-0[14]|PSY-09-0[1-4]|PSY-11-0[1-4]|PSY-16-0[1-4])$/.test(r.requirementId) ? '-v2' : ''}`
       expect(pageIds.has(pid),r.requirementId).toBe(true)
       const cards=psychologyFlashcardsForRequirement(r.requirementId)
       expect(cards.length,r.requirementId).toBe(r.requirementId === 'PSY-04-01' ? 4 : 1)
