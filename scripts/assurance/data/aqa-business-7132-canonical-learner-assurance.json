@@ -13011,5 +13011,91 @@
     "adequate_claims": 0,
     "full_course_assurance": "not_established"
   },
-  "next_gate": "Externally verify source atomisation across all sections, review exact Learn/Practice/Exam Prep response quality and map WS5 authenticated acceptance per atom. Do not publish a coverage percentage."
+  "next_gate": "Externally verify source atomisation across all sections, review exact Learn/Practice/Exam Prep response quality and map WS5 authenticated acceptance per atom. Do not publish a coverage percentage.",
+  "exceptions_register": {
+    "updated_at": "2026-11-10",
+    "evidence_baseline": "approved main e5555706504dabb571131a44ef93e4c0c8982fa9",
+    "status": "OPEN — source denominator and educational assurance are not yet established",
+    "contract": "An exception is a documented risk/gap requiring closure evidence, not proof that source coverage is absent. Do not turn an unverified candidate into an adequate or absent claim without specific independent evaluation.",
+    "source_requirements_verified_full_denominator": null,
+    "provisional_candidate_count": 504,
+    "candidate_assurance_totals": {
+      "teaching_status": {
+        "unverified": 504
+      },
+      "practice_status": {
+        "unverified": 504
+      },
+      "exam_prep_status": {
+        "unverified": 504
+      },
+      "independent_skill_assessment_status": {
+        "unverified": 504
+      },
+      "learner_acceptance_status": {
+        "unverified": 504
+      }
+    },
+    "source_section_review_totals": {
+      "sections": 42,
+      "complete_atomic_sections": 0,
+      "incomplete_atomic_sections": 42
+    },
+    "exceptions": [
+      {
+        "id": "BUS-698-EX-001",
+        "severity": "blocking-claim",
+        "section": "whole course",
+        "type": "source-denominator-incomplete",
+        "status": "open",
+        "finding": "504 merged candidate checks are provisional; 42/42 sections are structurally present but all source section atomic reviews remain incomplete; quantitative Annex, AO1–AO4, three paper shapes and seven synoptic overlays are not independently atomised.",
+        "closure": "Independently decompose exact uploaded AQA v2.0 source into every observable requirement, reconcile each candidate identity including omissions and overlaps, explicitly map annex/AO/papers and freeze a versioned verified denominator."
+      },
+      {
+        "id": "BUS-698-EX-002",
+        "severity": "material",
+        "section": "3.7.1",
+        "type": "assessment-evidence-gap",
+        "status": "open",
+        "finding": "Three distinct internal, external and mission-to-strategy competencies were added as candidate checks; their current Learn candidate locators exist, but exact independently scored skill-specific Practice is not demonstrated.",
+        "closure": "Independently review actual published teaching and write original context-specific assessment/feedback; verify scoring evidence rather than assuming a general strategy question assesses each named competence."
+      },
+      {
+        "id": "BUS-698-EX-003",
+        "severity": "material",
+        "section": "3.7.2",
+        "type": "pending-educational-review",
+        "status": "open",
+        "finding": "PR #836 proposes a six-ratio method Learn page and 12 typed final-number cases, not live. Fresh independent A2/A3 of each number, units and explanation is pending; ratio statement extraction, longitudinal/peer evaluation and AO3/AO4 remain unverified.",
+        "closure": "Review infrastructure PR #837 separately; obtain its specific Founder-approved merge, independently challenge PR #836 at current head and correct findings, then obtain separate Founder approval before any learner release."
+      },
+      {
+        "id": "BUS-698-EX-004",
+        "severity": "material",
+        "section": "3.10.3",
+        "type": "authentic-skill-acceptance-unverified",
+        "status": "open",
+        "finding": "Specification explicitly requires interpreting and amending network diagrams and identifying critical path and total float. An existing construction-drill supply reference alone does not establish independently demonstrated diagram amendment or marking.",
+        "closure": "Inspect current Learn and published Practice diagram interactions, then independently assess actual diagram alteration, critical path and total float with authentic feedback or mark the capability gap."
+      },
+      {
+        "id": "BUS-698-EX-005",
+        "severity": "material",
+        "section": "cross-cutting AO3/AO4 and Papers 1–3",
+        "type": "assessment-calibration-unverified",
+        "status": "open",
+        "finding": "One-mark final-answer arithmetic and self-marked narrative do not verify extended analysis, evaluative judgement or calibrated application under the three real 100-mark paper structures.",
+        "closure": "Independently review original written-question demands, rubrics, feedback and authenticity for each paper; separately calibrate mark-value writing and authentic contextual performance under #706/#813."
+      },
+      {
+        "id": "BUS-698-EX-006",
+        "severity": "material",
+        "section": "canonical learner route",
+        "type": "live-acceptance-unverified",
+        "status": "open",
+        "finding": "Current 504 records have no verified authenticated learner acceptance; published supply, isolated browser CI and arithmetic tests do not prove signed-in attempt, targeted feedback, independent recheck, persisted evidence and Plan/Progress behaviour.",
+        "closure": "After each specific Founder-approved release, test /revision/app/ with genuine saved sessions, wrong and correct responses, different recheck, reload and persisted Plan/Progress evidence; record release commit and observed results."
+      }
+    ]
+  }
 }
