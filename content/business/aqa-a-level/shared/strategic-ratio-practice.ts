@@ -111,7 +111,7 @@ export const businessStrategicRatioBank = businessStrategicRatioCases.map(item =
       marks: 1,
       ao_tags: ['AO2'],
       context: item.context,
-      stem: item.stem,
+      stem: `${item.stem} Enter the exact numerical result; no rounding is needed for these figures.`,
       table: null,
       options: [],
       calcs: [{ stated_answer: item.expected, unit: item.unit, answer_rule: 'exact-number' }],

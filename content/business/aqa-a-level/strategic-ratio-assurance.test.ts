@@ -67,6 +67,7 @@ describe('Issue #698 AQA 7132 v2.0 §3.7.2 independently entered financial-ratio
         expect(result.specItemIds).toEqual(['aqa-7132-3.7.2:' + item.target])
         expect(result.nodeIds).toEqual(['strategic-financial-ratios-method'])
         expect(result.marks).toBe(1)
+        expect(result.prompt).toContain('Enter the exact numerical result; no rounding is needed')
         expect(result.expected).toBe(item.expected)
         expect(result.unit).toBe(item.unit)
         expect(result.exactNumber).toBe(true)

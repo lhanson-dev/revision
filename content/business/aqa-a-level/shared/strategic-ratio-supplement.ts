@@ -93,6 +93,7 @@ export const strategicRatioSupplement = learnCourseSchema.parse({
               'ROCE and gearing are percentages; current ratio is stated as x:1; supplier/customer days are days; inventory turnover is times per year.',
               'Payables days divides by cost of sales; receivables days divides by revenue; turnover divides cost of sales by average inventory.',
               'Before a strategic judgement, compare time trends and peers, explain the business context and identify missing evidence.',
+              'For these exact-answer practice examples, give the exact final value without rounding. Follow the specific rounding instructions if a separate exam question requires it.',
             ],
           },
         ],
