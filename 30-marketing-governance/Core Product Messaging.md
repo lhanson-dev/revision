@@ -14,6 +14,20 @@ Revision should be valuable in both situations.
 
 Its role is to reduce overwhelm by using exam timing, syllabus coverage, progress and learning evidence to make the next useful action clear.
 
+## Proposed marketing-site launch proposition — Founder direction 4 November 2026
+
+**Proposed pending specific PR approval and merge.** The public marketing website should be developed **in parallel with** the learner product, and tell one coherent product-launch story rather than freeze the marketing ambition to the current private-test feature set.
+
+**Leading headline:** **Less time planning your revision. More time actually learning.**
+
+The priority message is that Revision removes much of the burden of deciding **what, when and why to revise**. As students learn and practise, the integrated system uses *demonstrated* progress to improve recommendations, while REV serves as the personal AI study coach explaining priorities and supporting learning. The planning engine owns schedule calculation; do not claim REV alone calculates the plan.
+
+**Supporter proposition:** The intended public-launch product includes **permissioned parent progress insight** and **bounded teacher progress visibility**. Their purpose is appropriate intervention and reassurance, not surveillance. Teachers are a target supporting audience for this launch under the proposed update to `10-product-governance/Target Audience and Personas.md`; the wider FI-018 school/classroom-management product remains parked.
+
+**Two-stage wording:** A live waiting-list site may describe what Revision is **being built to deliver** while access remains limited. Do not state unfinished capabilities as currently available. The future product-launch site may use present-tense claims **only after the capabilities and relevant subject coverage are verified in production**, with the required public-launch approvals.
+
+The detailed copy, IA, visual rules, form states and claims acceptance matrix are in `Marketing Website Design and Content Specification.md`. That new specification must not override approved brand, education, privacy or release authority.
+
 ## No-shame principle
 
 Marketing must never weaponise missed work, lateness or being behind in order to create fear or urgency.
