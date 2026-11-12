@@ -1,6 +1,6 @@
 # Issue #698 — AQA Business 7132 §3.7.2 financial-ratio method and independent final-number candidates
 
-**Prepared 4 November; updated 10 November 2026. PR candidate, educational A2/A3 HOLD pending corrected-head re-review.** Canonical learner route: `/revision/app/` → Courses → Business → Learn/Practice. Shared `content/business/aqa-a-level/shared/` assets are assembled in all three actual published Business ContentPacks, not an alternate assessment engine.
+**Prepared 4 November; updated 12 November 2026. PR candidate; original scoped A2/A3 PASS at exact head `13e7bbe7b3c6f2161b25e9265fb3c4fdaf8713f7`; not yet Founder-approved, merged or live.** Canonical learner route: `/revision/app/` → Courses → Business → Learn/Practice. Shared `content/business/aqa-a-level/shared/` assets are assembled in all three actual published Business ContentPacks, not an alternate assessment engine.
 
 ## Source and bounded requirements
 
@@ -20,8 +20,8 @@ The existing three published packs already contain general ratio explanations (`
 
 | Capability | Existing or new supply | Independently educationally verified? |
 |---|---|---|
-| Six formula definitions and numeric method modelling | Existing formulas plus new original worked lesson | **No. A2 HOLD** until blind fresh-context review |
-| Six distinct single-target typed final-value calculations, two scenarios each | 12 new proposed questions with deterministic arithmetic checks | **No. A3 HOLD** until adversarial independent source/wording/distractor/feedback review |
+| Six formula definitions and numeric method modelling | Existing formulas plus new original worked lesson | **Scoped A2 PASS** on 12 November exact-head review; no full-section or human-expert claim |
+| Six distinct single-target typed final-value calculations, two scenarios each | 12 new proposed questions with deterministic arithmetic checks | **Scoped A3 PASS** on 12 November exact-head review; final-number evidence only |
 | Read and interpret complete balance sheets/income statements | General existing topic text and mixed existing question bank | **Unverified per independent skill** |
 | Interpret each ratio in distinct business contexts | New caveats and original worked comparisons plus previous mixed prompts | **Unverified; no separately scored written AO3 evidence** |
 | Compare performance over time and against competitors; defend judgement | Existing original mixed assessment stimuli and limited Learn guidance | **Unverified AO3/AO4/A4 marking** |
@@ -32,13 +32,20 @@ The existing three published packs already contain general ratio explanations (`
 
 The fresh approved-main reviewer ran against prior exact head `eff091879454b0cbe8dd63957281b595d321f805` in [GitHub Actions run 42919603566](https://github.com/lhanson-dev/revision/actions/runs/42919603566), with retained artifact `issue-698-business-a2a3-836-42919603566` (artifact ID `13811865086`). Reviewer returned **FAIL/HOLD**; preserve that historical result. All 12 answers, both worked examples, source rights, the three real ContentPacks and identity were reviewed positively within narrow final-number scope. The material finding was shared scorer over-crediting: an answer of `19.5` could earn the mark for an exact `20`, and a `1.45` could earn the mark for exact current ratio `1.5`, without an authorised rounding policy. Reviewer also noted that prompts should be explicit about precision.
 
-This correction opts only the twelve *new* ratio questions into an `exact-number` check (including decimal current-ratio values), keeps the older `exact-integer` statistic rule and all legacy rounding behavior, and adds actual published-path regression tests for false-positive boundaries, units and complete numeric tokens. It changes the shared scorer implementation and its content adapter wiring, but does not retroactively re-mark saved learner answers. The source method remains educational teaching, not an assessed written working. The corrected head **still requires fresh 9/9 CI, current-main integration and an independently returned A2/A3 PASS** before any approval request; a reviewed old head cannot license this new code.
+This correction opts only the twelve *new* ratio questions into an `exact-number` check (including decimal current-ratio values), keeps the older `exact-integer` statistic rule and all legacy rounding behavior, and adds actual published-path regression tests for false-positive boundaries, units and complete numeric tokens. It changes the shared scorer implementation and its content adapter wiring, but does not retroactively re-mark saved learner answers. The source method remains educational teaching, not an assessed written working. The corrected head completed fresh 9/9 CI and exact-main integration, then received the separately returned A2/A3 decision recorded below; a reviewed old head did not license the correction.
+
+
+## Revalidation receipt — 12 November 2026
+
+The installed approved-main reviewer rechecked exact PR #836 head `13e7bbe7b3c6f2161b25e9265fb3c4fdaf8713f7` against approved main `7da3ac9c205c77f1a51f6dd27cb78e9bc8b05255` in [GitHub Actions run 43301075298](https://github.com/lhanson-dev/revision/actions/runs/43301075298). The isolated fresh-context A2/A3 review returned **PASS**. Its 30-day machine-readable receipt is retained as artifact `issue-698-business-a2a3-836-43301075298` (artifact ID `13981712319`; expires 12 December 2026).
+
+The receipt independently recalculated both worked examples and all 12 final answers; verified the strict exact-number correction rejects the former false positives; confirmed source rights, unique identity and all three actual Business ContentPacks; and found no blocking or material issue. It records one non-blocking limitation: the final-number items do **not** independently evidence financial-statement extraction, comparative written interpretation, judgement, AO3/AO4, signed-in persistence/retest, Plan/Progress behaviour, full-course coverage or human-examiner approval. The historical 10 November FAIL/HOLD receipt remains preserved and is not superseded.
 
 ## Review and release gate
 
-1. Fresh independent A2 teaching review and A3 question/answer calibration against source and real published content, including formula conventions, accounting assumptions, decimals, cases, units, exact skill identity, independent second attempt and no accidental multiple-skill credit. Any material failure requires a fix and re-review of the changed head, preserving previous failure receipt.
-2. Pass current-head Revision CI across foundation, TypeScript/lint/build, database/RLS, signup, three device sizes, content tests, and clean main integration. Verify no duplicate bank IDs or changed existing 100-mark papers.
-3. Obtain **specific Founder approval** for this PR before recording the exact-head approved marker and merging. Only then verify release-lineage and production. Independently reproduce a signed-in original learner answer and wrong-answer feedback, reload, subsequent different ratio case and Progress/Plan handling under WS4/WS5.
+1. The scoped fresh independent A2/A3 review and all nine exact-head CI jobs are PASS on the documented head. Any later material head change, source/worker-contract change or educational defect must be re-reviewed; preserve prior receipts.
+2. Obtain **specific Founder approval** for this PR before recording the exact-head approved marker and merging. Because this documentation update creates a new exact head, regenerate CI and A2/A3 evidence first; this is an approval-readiness rule, not approval itself. Only then verify release-lineage and production.
+3. Independently reproduce a signed-in original learner answer and wrong-answer feedback, reload, subsequent different ratio case and Progress/Plan handling under WS4/WS5.
 4. Keep #698 open. The current content proposal is **not** a verified complete course, independently A2/A3 accepted, a method-marking feature, or a genuine 16/25-mark AO4 essay solution. LF-05 #706/#813 owns written-practice product readiness; original long-form Business content must separately pass A1/A2/A3/A4 and user review.
 
 ## Documentation impact
