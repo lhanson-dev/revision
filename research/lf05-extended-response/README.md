@@ -39,6 +39,16 @@ The six examples are intentionally labelled **relative-quality training hypothes
 
 **Counters unchanged:** 17 Psychology and 20 Business draft question-and-guide pairs; six *additional* response-calibration examples for two Psychology candidates; **0/37 independently A2/A3/A4 approved**, **0 live**. No new question IDs, published marks, course code, timed-paper totals or learner evidence. Documentation impact: new fixture + this README + INDEX in existing governed PR #834, dated evidence preserved.
 
+## Current learner-review packet — 12 November 2026
+
+The earlier seven-item external learner-review PDFs are now superseded for `PSY-LF05-02` and `PSY-LF05-08`. This branch contains a versioned, shareable Markdown packet using the exact current seven representative stems: three Psychology 16-mark-style and four Business 16-/25-mark candidates. It deliberately separates:
+
+1. `learner-review/questions-current-v1.md` — prompts only, for a first attempt or outline;
+2. `learner-review/guidance-current-v1.md` — Revision-authored indicative guidance to open only afterwards; and
+3. `learner-review/feedback-sheet-current-v1.md` — no-personal-data usability/face-validity observations.
+
+The pack is **not** an AQA paper or mark scheme, an independent review, a request for raw learner answers, a published learner asset or a change to any assurance counter: **0/37** question-and-guide candidates are independently approved and **0** are live. It is the correct-current-version material required for the Founder's pre-publication learner-review gate; record feedback against the immutable IDs and reissue any changed item before relying on feedback.
+
 ## Authenticity checklist — every item must pass independently
 
 1. **A1 source/legal:** compare the exact 2027 source material (not Psychology 2014/2020 and not Business 7138). Record source version, section/page, official sample/2027 Set 3 access status, provenance and rights. Distinguish exact applicable course from training analogue. No copying AQA text, cases or entire mark schemes.
