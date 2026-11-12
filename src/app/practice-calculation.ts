@@ -58,14 +58,18 @@ export function acceptedValuesFor(expected: number, unit: string | null | undefi
 export type CalculationCheck = { status: 'right' | 'wrong' | 'unreadable'; entered: number | null }
 
 /**
- * Right when the typed number matches an accepted value, allowing for the last decimal place. A bare number is read in
- * the answer's own unit (24.2 for "£m"), and a number with "m", "million" or in full (24,200,000) is read as typed.
+ * Normal questions retain their existing last-decimal-place tolerance and flexible units. Opt-in exact-integer and
+ * exact-number questions instead require one complete numeric token matching an accepted final value, with no
+ * implied rounding margin; exact-number also permits decimal values. Existing stored scores are not changed.
  */
-export function checkCalculation(typed: string, accepted: readonly number[], unit: string | null | undefined, exactInteger = false): CalculationCheck {
+export function checkCalculation(typed: string, accepted: readonly number[], unit: string | null | undefined, exactInteger = false, exactNumber = false): CalculationCheck {
   // A discrete statistic must be one complete numeric token, not a prefix of
   // an expression or prose. The general parser intentionally allows units and
   // context; do not change its behavior for existing Business calculations.
   if (exactInteger && !/^[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.0+)?$/.test(typed.trim())) {
+    return { status: 'unreadable', entered: null }
+  }
+  if (exactNumber && !/^[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$/.test(typed.trim())) {
     return { status: 'unreadable', entered: null }
   }
   const parsed = parseAnswer(typed)
@@ -78,6 +82,7 @@ export function checkCalculation(typed: string, accepted: readonly number[], uni
     // Sign-test S and other explicitly discrete statistics cannot be rounded.
     // Preserve the existing tolerance for all ordinary calculations.
     if (exactInteger) return Number.isInteger(expected) && candidates.some((candidate) => Number.isInteger(candidate) && candidate === expected)
+    if (exactNumber) return candidates.some((candidate) => candidate === expected)
     const tolerance = 0.5 * 10 ** -decimalPlaces(expected)
     return candidates.some((candidate) => Math.abs(candidate - expected) <= tolerance + 1e-9)
   })
