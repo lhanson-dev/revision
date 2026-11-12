@@ -2,7 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { businessDecisionTreeNumericalBank } from '../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
 import { businessOperationsPerformanceBank } from '../../content/business/aqa-a-level/shared/operations-performance-practice'
-import psychologyPaper1 from '../../content/psychology/aqa-a-level/paper-1'
+import { psychologySignTestPracticeBank } from '../../content/psychology/aqa-a-level/shared/sign-test-practice'
+import { psychologyStandardDeviationPracticeBank } from '../../content/psychology/aqa-a-level/shared/standard-deviation-practice'
+import { psychologySignCriticalPracticeBank } from '../../content/psychology/aqa-a-level/shared/sign-critical-practice'
 import { bankRecordToPractice, objectiveItemMappingForPractice, type CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { createCalculationEvidence } from '../../src/app/practice-evidence'
 import { markLearnPageReviewed, loadLearnExposures } from '../../src/services/progress/learn-exposure-service'
@@ -1502,8 +1504,14 @@ test('Psychology browser-entered sign-test weakness receives exact Plan repair a
   const skill = 'PSY-SRC-4233-IT03'
   const learnPageId = 'research-methods-psy0732'
   const moduleId = 'psychology-aqa-a-level-7182-paper-1'
-  const calcQuestions = psychologyPaper1.practiceBank!
-    .map(item => bankRecordToPractice(item, topicId))
+  // These are the same three authored numerical banks published by every
+  // Psychology course pack. Import the standalone banks, not the whole paper:
+  // Playwright's Node config cannot directly import Course Truth JSON files.
+  const calcQuestions = [
+    ...psychologyStandardDeviationPracticeBank,
+    ...psychologySignTestPracticeBank,
+    ...psychologySignCriticalPracticeBank,
+  ].map(item => bankRecordToPractice(item, topicId))
     .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation' && q.topicId === topicId)
   const originals = calcQuestions.filter(q => q.id.startsWith('rev7182-4.2.3-sign-test-'))
   expect(originals.map(q => q.id).sort()).toEqual([
