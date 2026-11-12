@@ -1576,7 +1576,10 @@ test('Psychology browser-entered sign-test weakness receives exact Plan repair a
       await page.getByRole('button', { name: 'Certain', exact: true }).click()
       await expect(page.getByText('Nice, that’s the one.', { exact: true })).toBeVisible()
       await page.getByRole('button', { name: 'Next question' }).click()
-      await expect(page.locator('.practice-question__context p').first()).not.toHaveText(context)
+      // Different authored standard-deviation questions intentionally share
+      // the same study context. The fresh question must reset the input;
+      // do not demand a different contextual paragraph.
+      await expect(page.getByLabel('Your answer')).toHaveValue('')
     }
     expect(first, 'A published sign-test S question must be reachable in normal Practice').toBeDefined()
     const second = originals.find(q => q.id !== first!.id)!
