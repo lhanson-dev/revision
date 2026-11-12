@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
+- Revision product reconciliation / controlled learner-runtime recovery sequence → `docs/technical/Revision Product Reconciliation Plan.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Course Overview activity tiles and duplicate Ask REV removal, visual-only approval → `docs/technical/Course Overview Exploration Visual Refresh.md`; `audits/2026-11-01-pr754-course-overview-visual-approval.md`
 - Issue #760 compact editorial Course Overview redesign, Founder-approved scope and guarded visual assurance → `docs/technical/Course Overview Compact Editorial Tiles.md`; `audits/2026-11-01-pr762-compact-course-overview-visual-approval.md`
@@ -289,6 +290,7 @@ Use this file to find the governing source before substantive work.
 - Bounded Issue #705 source-backed exact-skill repair and independent recheck candidate; safety and content supply limitations → `docs/technical/Issue 705 Source-Backed Skill Repair and Retest.md` (technical; not a normative status claim)
 
 ## Current implementation and history
+- 7 October 2026 product reconciliation baseline audit → `audits/2026-10-07-revision-product-reconciliation.md`
 - Current/target implementation documentation → `docs/technical/`
 - Prototype / Staging / Production path-to-live target → `docs/technical/Path to Live Environments.md`
 - Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
