@@ -1,0 +1,44 @@
+name: Engineering Continuation Proof (read only)
+
+on:
+  workflow_run:
+    workflows: [Revision CI]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: engineering-continuation-proof-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    name: Observe exact CI completion for opt-in pilot
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.pull_requests[0] != null }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted default branch only
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Observe opted-in PR without executing its code
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REVISION_WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: node scripts/assurance/engineering-continuation-proof.mjs
+      - name: Retain proof if pilot label is present
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-continuation-proof-${{ github.event.workflow_run.id }}-${{ github.run_attempt }}
+          path: engineering-continuation-proof.json
+          if-no-files-found: ignore
+          retention-days: 14
