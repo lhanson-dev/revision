@@ -1,0 +1,32 @@
+# LF-05 — First four original written-question candidates: restricted pilot evidence
+
+**Dated:** 14 November 2026. **Class:** historical item/education evidence only; **not** governing authority, an official AQA marking scheme, human examiner calibration, live-site publication or an LF-05 `Ready` approval. Existing owner: #698 (AQA source/content audit), #706 (LF-05 learner readiness).
+
+## Immutable source and independent review
+
+Founder-provided official PDFs were directly re-opened and their original SHA256 verified:
+- AQA Psychology **7182 v1.4 (1 September 2025), A-level exams 2027 onward**: `db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d`; §4.1.1 names social support and locus of control, §4.1.2 names central executive, phonological loop, visuo-spatial sketchpad and episodic buffer.
+- AQA Business **7132 v2.0 (14 June 2023)**: `3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332`; §3.2.1 names autocratic, paternalistic, democratic and laissez-faire styles, §3.3 covers marketing research and mix; A-level Paper 1 Sections C/D offer one of two **25-mark essays**, without a compulsory attached case.
+
+The independent fresh-context A3 reviewer examined draft research [PR #834](https://github.com/lhanson-dev/revision/pull/834) at immutable **head `675fdc8c53a224fe8fa9a81079b57b15dafef7af`**, corrected trusted runner [PR #847](https://github.com/lhanson-dev/revision/pull/847). [Original 39-item A3 receipt](https://github.com/lhanson-dev/revision/actions/runs/43620992688/artifacts/14124482254), 14 calls / `$1.868985` conservative *estimated* spend, 39/39 evaluated, overall bank HOLD because 17 other items had material issues. 22 had no material issues; **3 of the four below PASS/PASS and one PASS/MINOR.** Reviewer is an independent AI challenge for restricted *training only*, not an AQA examiner or guarantee of official 2027 question tariffs.
+
+| Exact original ID | Assessed training format | Current reviewed verdict A/B | AQA subject locator | Exact first-pilot disposition |
+| --- | --- | --- | --- | --- |
+| `PSY-LF05-01-S1` | Fictional sixth-form council; 16-mark-style Social Influence discussion | PASS / PASS | 7182 §4.1.1 | Eligible to proceed to A4 **candidate**, not published; retain caveat that Leila's stated preference is not a measured locus of control |
+| `PSY-LF05-02-S1` | Fictional digit-recall dual-task results (76%/49%); 16-mark-style Memory evaluation | PASS / MINOR on **older** source bytes | 7182 §4.1.2 | **HOLD changed bytes until targeted independent delta review**: original reviewer found unsupported convenience-sampling claim and overly broad causal wording |
+| `BUS-LF05-02-16` | Fictional Larch Medical Supplies democratic leadership decision; case-linked 16-mark-style | PASS / PASS | 7132 §3.2.1 | Eligible to proceed to A4 candidate; local problem solving is not necessarily faster without actual delegation |
+| `BUS-LF05-03-25` | Standalone new-product marketing research vs mix essay; 25-mark-style | PASS / PASS | 7132 §3.3 | Eligible to proceed to A4 candidate; student must invent *coherent* contexts, not assert fabricated brand facts |
+
+**Exact-per-item version reconciliation:** Business authoring research file blob `6cb78e847b3c9608adf3854acc100cad02a5c7ed` is unchanged since the reviewed SHA; the two `PSY-LF05-01-S1` question and marking sections were byte-for-byte unchanged when checked against the post-correction draft (the *whole* shared files changed only in the Memory section). The original first-pilot Memory sections were **edited in the same existing research PR** after the A3 receipt: "All participants completed both tasks, with Task A always first"; "24 sixth-form volunteers" with no unsupported precise sampling method; task B's lower accuracy must not be attributed specifically to a verbal subsystem because task order and difficulty are confounded. **Do not claim the historical pass/minor receipt reviewed these new bytes.** Require a source-specific independent version-delta check at release acceptance; no 39-item rerun is necessary just to resolve these minor editorial findings.
+
+## Source rights, mark meaning and unknowns
+
+All candidate questions and guidance are **original Revision work**, mapped to the user-supplied AQA PDFs for **REFERENCE_ONLY**. None reproduces an AQA live item or protected official mark scheme. The Psychology 16-mark format is **training-style**, not independently proven for each 2027 content topic. The Business 16/25 numbers are historical/practice-style, not independently verified official item AO allocations. Learner-facing question, preview, feedback and export must explicitly say **Revision original, extended-writing training, indicative self-assessment**; never claim “AQA examiner mark”, a predicted grade, automatically verified performance, or 39/39 educational readiness. Source exact-item risk and minors need transparent publication gate.
+
+## Conditional learner acceptance and remaining evidence
+
+**Do not publish even the 3 direct PASS/PASS questions until:** approved LF-05 human `Analyse → Ready` for the scoped first pilot; product/data controller risk decision and actual named-account deny-by-default pilot-only server access; exact question version + context linked catalogue; the initial written answer durably saved/frozen **before** any marking guide; honest self-assessment kept separate from objective skill mastery; recover/reload, save failure, 14-day expiry/deletion, RLS isolation, content fingerprint/change handling, mobile/tablet/desktop and screen-reader/200% zoom acceptance; specifically Founder-approved code/content merge and production evidence. An unverified A4 experience cannot inherit A3 from a draft research file.
+
+**Programme separation:** the remaining 35 candidates (including 17 material independent-review HOLDs at the earlier reviewed version) are a separate #698/#706 remediation queue. The four-item pilot does **not** prove complete course syllabus or written-answer bank coverage. Future improvement/retest must use independently attempted different questions rather than rewriting the first evidence as verified mastery.
+
+**Documentation impact:** this dated original-source/receipt evidence belongs in `audits/` without overwriting the actual GitHub Action receipt. Proposed normative pilot decisions belong separately in the existing Course Learning Blueprint and LF-05 feature backlog. Code and technical documentation change only in a later specifically approved implementation PR.
