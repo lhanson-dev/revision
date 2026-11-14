@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
-import {MARKER,IDS,PSY_IDS,BUS_IDS,founderHead,blobHash,parseAllCandidates,blind,rejectBadReview} from './lf05-pr834-all37-a3-review.mjs'
+import {MARKER,IDS,PSY_IDS,BUS_IDS,founderHead,blobHash,parseAllCandidates,parseScenarioVariants,CONTEXT_VARIANT_IDS,blind,rejectBadReview} from './lf05-pr834-all37-a3-review.mjs'
 const HEAD='a'.repeat(40)
 const trusted={issue:{number:834,pull_request:{}},comment:{user:{login:'lhanson-dev'},author_association:'OWNER',body:MARKER+'\nhead_sha: '+HEAD}}
 test('exact Founder-owned PR834 review, one immutable all37 SHA',()=>{
@@ -83,4 +83,22 @@ test('fail closed on missing credentials or untrusted content and bound provider
   assert.equal(source.includes(x),true,'missing security bound '+x)
  assert.equal(source.includes('eval('),false)
  assert.equal(source.includes('child_process'),false)
+})
+
+test('both separately proposed contextual Psychology variants remain independently versioned and held',()=>{
+ const q=CONTEXT_VARIANT_IDS.map((id,i)=>'## '+id+' — contextual topic\n'
+   +'**Course/source alignment candidate:** AQA Psychology §4.1.'+(i+1)+' 7182 v1.4\n'
+   +'**Original fictional scenario'+(i?' and illustrative results':'')+':** '+('A sufficiently detailed original student classroom situation showing a clear reason to apply theory and some limitations. '.repeat(4))+'\n'
+   +'**Question:** Discuss and evaluate using the situation above.\n'
+   +'**[16 marks — provisional training format]**\n').join('')
+ const g=CONTEXT_VARIANT_IDS.map(id=>'## '+id+' — guide\n'
+   +'**AO1:** '+('Specific accurate core theory and context distinction. '.repeat(7))+'\n'
+   +'**Alternative credit:** '+('Other valid reasoning can earn consideration. '.repeat(5))+'\n'
+   +'**Qualitative differentiation:** '+('Holistic bands distinguish partial from nuanced answers. '.repeat(5))+'\n').join('')
+ const v=parseScenarioVariants(q,g)
+ assert.equal(v.length,2)
+ assert.deepEqual(v.map(x=>x.id),CONTEXT_VARIANT_IDS)
+ assert.equal(v.every(x=>x.originalContext.length>180&&x.trainingOnly===true),true)
+ assert.equal(blind(v).every(x=>!('authoredGuide' in x)),true)
+ assert.throws(()=>parseScenarioVariants(q.replace(CONTEXT_VARIANT_IDS[0],'BROKEN'),g))
 })
