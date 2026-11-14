@@ -56,7 +56,7 @@ test('main-only reviewer source does not execute branch assets or declare public
   const s=readFileSync(new URL('./lf05-pr834-blind-a3-review.mjs',import.meta.url),'utf8')
   assert.match(s,/publicationAllowed:false/)
   assert.match(s,/officialAQA2027TariffVerified:false/)
-  assert.match(s,/originalQuestionBrief:blind/)
+  assert.match(s,/candidateQuestionBrief:blind/)
   assert.doesNotMatch(s,/checkout.*head|import\(.*candidate/i)
   assert.match(s,/store:false/)
 })
