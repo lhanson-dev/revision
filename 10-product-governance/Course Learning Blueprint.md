@@ -630,3 +630,34 @@ This document is active product authority for course learning design and fills t
 Content Factory production workflows must require blueprint derivation before learner-asset planning/generation. Technical Content Factory documentation and implementation must be updated when that production change is implemented.
 
 This authority does not itself claim that any particular Content Factory runtime implementation has passed its governed portability proof.
+
+## Proposed LF-05 extended-writing Practice / Exam Prep contract — restricted family pilot amendment (14 November 2026)
+
+> **Approval boundary:** This section is proposed by branch `product/lf05-family-practice-ready-gate`; it becomes active product authority **only if the relevant governed PR is specifically Founder-approved and merged**. It does **not** itself constitute LF-05 `Analyse → Ready`, source/educational sign-off, child-data processing approval or permission to implement. Refer to the existing #706 backlog for the explicit complete readiness decision.
+
+### Student-facing purpose and entry
+
+Students should be able to find **original, source-aligned extended-response Practice**, including Psychology long evaluative answers and Business applied 16-mark and broad 25-mark responses. One coherent catalogue supplies Course/topic → eligible question type/mark demand and Exam Prep → paper/mark demand → topic; no competing answer engine. Eligibility requires an exact versioned question, applicable qualification/year, topic/specification skill and paper/option, context/stimulus where demanded, genuine assessment skill, approved self-review guidance and recorded source/rights assurance.
+
+The actual 2027 tariff of an original practice question must not be inferred solely from a historic sample or AO totals. Where current authentic tariff is not proven but a clearly useful long-form practice item is otherwise independently assured for an explicitly restricted cohort, it may be shown only as **“16-mark-style extended-writing training”**, not an official or verified 2027 AQA paper item. Do not invent count or claim every Psychology topic will have a 16-marker. Psychology Research Methods 16 remains training-only without 2027 item-level source verification.
+
+### Scenario and response first
+
+Show all question-required **original** stimulus, tables, figures or case facts together with the prompt, command and displayed marks. A standalone AO1/AO3 extended essay or Business Paper 1-style broad essay **need not** have a fictitious scenario. Contextual AO2 prompts must have enough relevant, focused stimulus and may warrant different independently reviewed AO allocations.
+
+For independent question practice, the student must compose an initial answer **without** exposure to the related model, indicative guidance or rubric. A substantial first response must be explicitly **committed** and durably confirmed as a versioned immutable attempt **before** guidance reveals. Unsubmitted draft work creates no scored evidence. Subsequent revisions must retain distinct identities rather than overwrite the initial attempt.
+
+### Post-attempt educational support and evidence
+
+After the first-response commitment, show **question-specific Revision-authored** marking support: relevant assessment demands and AO meanings, indicative accurate content, direct application to stimulus where applicable, reasoning chains/evaluation, creditworthy alternatives, holistic level-quality distinctions, common mistakes and a meaningful next improvement. Guidance is non-exhaustive. It must not be represented as an official AQA mark scheme, examiner mark, independent AI-mark or a guaranteed method of earning a given grade. If exact per-item mark allocation is insufficiently assured, do not present pseudo-precise numbers as verified assessment.
+
+The learner may **self-assess** against independently checked criteria; record provenance explicitly as self-assessed, with quality/confidence limits. Viewing guidance, awarding oneself a mark or writing a revised answer after reading the model cannot independently demonstrate mastery, atom-level weakness repair, official grade or full exam readiness. Preserve previously saved attempts including zero; keep genuine retests independent and separately versioned.
+
+### Draft privacy, staged assurance and non-goals
+
+Substantial essays require an approved, authenticated, owner-only **draft-save/reload/discard** model with visible confirmation/failure, bounded retention and deletion, content-version scoping, conflict protection, child-appropriate processing notices and an accountable controller's prior private-pilot data clearance. Existing timed mock recovery cannot silently authorise persistent untimed drafts. Preserve paper totals/choice groups and the published 96-mark Psychology / 100-mark Business mocks.
+
+A **restricted family pilot** may proceed without an unavailable qualified-human benchmark reviewer **only** when individually applicable source-rights, deterministic, genuinely independent fresh-context educational/assessment checks and actual data-protection/learner integration acceptance have passed and a Founder-specific restricted-pilot and LF-05 Ready decision is on record. The qualified-human benchmark remains mandatory before broader commercial content-quality claims or public launch as governed by `Content Accuracy Assurance Gate`. This is not approval to replace independent A3 with the original author's own checklist.
+
+FI-007 assisted/automated marking, predictions, official awarding-body status and a second writing engine are **outside** this LF-05 scope. Core honest self-assessed written Practice should not be degraded or withheld merely by subscription tier. The only implementation target is the canonical signed-in learner application `/revision/app/` and its current Exam Prep/Practice integration.
+
