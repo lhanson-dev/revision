@@ -18,7 +18,7 @@
 
 **Course/source alignment candidate:** AQA A-level Psychology 7182, v1.4 (2027), §4.1.2, working-memory model (central executive, phonological loop, visuo-spatial sketchpad and episodic buffer). Paper 1 topic; proposed **16-mark-style training question**. **AO allocation and tariff unapproved.**
 
-**Original fictional scenario and illustrative results:** A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is **76% in Task A** and **49% in Task B**. Everyone completes Task A before Task B. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are **not real research findings**.
+**Original fictional scenario and illustrative results:** A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is **76% in Task A** and **49% in Task B**. All participants completed both tasks, with Task A always first. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are **not real research findings**.
 
 **Question:** Discuss how useful the working-memory model is for explaining the results of this investigation.
 
