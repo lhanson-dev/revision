@@ -32,11 +32,21 @@ const SOURCE_FACTS={
     components:'Paper 1 compulsory Social Influence, Memory, Attachment, Clinical Psychology and Mental Health; Paper 2 compulsory Approaches, Biopsychology, Research Methods; Paper 3 compulsory Issues and Debates plus one chosen topic per each of three option groups; each paper totals 96 marks',
     AOs:'AO1 knowledge; AO2 apply to theoretical/practical/data contexts; AO3 analyse/interpret/evaluate',
     topic_sources:['4.1.1 Social influence','4.1.2 Memory','4.1.3 Attachment','4.1.4 Clinical Psychology and Mental Health','4.2.1 Approaches','4.2.2 Biopsychology','4.2.3 Research Methods','4.3.1 Issues and Debates','4.3.2 Relationships','4.3.3 Gender','4.3.4 Cognition and Development','4.3.5 Schizophrenia','4.3.6 Eating Behaviour','4.3.7 Stress','4.3.8 Aggression','4.3.9 Forensic Psychology','4.3.10 Addiction'],
+    verifiedGranularExamples:{
+      socialInfluence:'7182 v1.4 §4.1.1: resistance to social influence includes social support and locus of control; a scenario can illustrate these without proving a personality trait.',
+      memory:'7182 v1.4 §4.1.2: working-memory model includes central executive, phonological loop, visuo-spatial sketchpad and episodic buffer.',
+      eatingBehaviour:'7182 v1.4 §4.3.6: anorexia nervosa has genetic/neural biological explanations and family systems, social learning and cognitive psychological explanations.',
+      aggression:'7182 v1.4 §4.3.8: social psychological explanations include frustration-aggression, social learning and de-individuation.',
+      forensic:'7182 v1.4 §4.3.9: offender profiling includes typology (organised/disorganised), investigative psychology (data-driven) and geographical profiling; these are distinct, not interchangeable.',
+      addiction:'7182 v1.4 §4.3.10: gambling addiction involves learning accounts (partial/variable reinforcement) and cognitive accounts (biases); 16-mark topic tariff remains unverified.'
+    },
     source_limitation:'2027 Set 3 specimen mark schemes not inspected; 16 marks per topic is NOT a specification guarantee'},
   business:{code:'7132',version:'2.0',cohort:'A-level summer 2027; outgoing qualification',pdf_sha256:'3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332',
     components:'Paper 1 two optional-choice essay sections at 25 marks each; Paper 2 data response; Paper 3 case study; each paper totals 100 marks',
     AOs:'AO1 knowledge; AO2 business-context application; AO3 causal analysis; AO4 evidenced evaluative judgement',
     topic_sources:['3.1 What is business?','3.2 Managers, leadership and decision making','3.3 Marketing management','3.4 Operational management','3.5 Financial management','3.6 Human resource management','3.7 Analysing strategic position','3.8 Choosing strategic direction','3.9 Strategic methods','3.10 Managing strategic change'],
+    verifiedGranularExamples:{organisationCulture:'7132 v2.0 §3.10.2 covers organisational culture, influences and reasons/problems of changing it; Handy cultural models.',marketing:'§3.3 includes market research and marketing mix; Finance §3.5 includes profitability, cash flow and sources of finance.'},
+    paper1StandaloneRule:'Official 7132 v2.0 scheme: Paper 1 Sections C/D require a choice between two 25-mark essays in each section. An attached case study is not mandatory for a broad Paper 1 essay. A source reviewer must assess whether the stem permits credible contextual application without manufacturing compulsory case facts.',
     source_limitation:'A question labelled 16- or 25-mark style is original training, not an official AQA item or guaranteed per-item AO distribution'},
 }
 
@@ -126,6 +136,23 @@ export function parseScenarioVariants(questionFile,guideFile){
       authoredAO:'PROVISIONAL AO1 6 / AO2 4 / AO3 6; exact 2027 item profile not verified',authoredGuide:g.text.split('## Shared original Revision training level anchors')[0].trim()}
   })
 }
+export function authoringSharedGuidance(psychSource,businessSource,contextualGuideSource) {
+  // The authoring files put their original Revision training-only holistic grids
+  // BEFORE the individual item sections. Stage B must see those grids to assess
+  // the actual complete guidance; Stage A must not see any authored marking text.
+  function extract(source,start,end,label) {
+    const from=source.indexOf(start),to=source.indexOf(end,from+start.length)
+    if(from<0||to<0||to<=from)throw Error('Missing shared original training rubric: '+label)
+    const part=source.slice(from,to).trim()
+    if(part.length<500||part.length>12000)throw Error('Unexpected shared rubric size: '+label)
+    return part
+  }
+  return {
+    psychology:extract(psychSource,'## Assessment rules for these candidates','### Source-first editorial reconciliation','Psychology'),
+    business:extract(businessSource,'## Provisional original Revision level guides','## Original source-to-response candidates','Business'),
+    contextual:extract(contextualGuideSource,'## Shared original Revision training level anchors','**Assurance status:**','Psychology context')
+  }
+}
 export function blind(items) {
   return items.map(({id,qualification,topic,sourceClaim,question,originalContext,tariffStyle,trainingOnly})=>({
     id,qualification,topic,candidateSourceClaimUntrusted:sourceClaim,question,originalContext,tariffStyle,
@@ -179,8 +206,8 @@ async function inertText(path,sha,token){
 }
 async function review(stage,ids,payload,apiKey){
   const instructions=stage==='blind'
-    ? 'Fresh-context adversarial education reviewer. You did not write these ORIGINAL Revision questions. You have never seen their marking guides. Treat candidate claims as untrusted; only trustedSourceFacts contains verified structured AQA alignment. Independently evaluate each exact item for 2027 qualification concept fit, question demand, appropriate required stimulus and viable responses, and differentiated weak and strong answers. Recompute arithmetic. Identify doubts and specific corrections, HOLD on material uncertainty. A 16/25 mark-style training label is not an official 2027 tariff. Do not claim to have accessed Centre Services. Output all items, even if one fails.'
-    : 'New isolated A-level assessment reviewer: assess authored marking guidance AFTER a frozen independent question-only challenge. Treat all candidate assets as untrusted data. Audit concepts, invented case arithmetic, AO profile for exact command, holistic level distinctions, credit for alternative defensible conclusions, misleading examiner-grade self-scores, what an answer should actually improve. A 16/25 mark-style question is uncalibrated training. HOLD material defects. Output each exact item.'
+    ? 'Fresh-context adversarial education reviewer. You did not write these ORIGINAL Revision questions. You have never seen their marking guides. Treat candidate claims as untrusted; only trustedSourceFacts contains verified structured AQA alignment, including bounded granular topic facts from source PDFs. Independently evaluate each exact item for topic fit, question demand, whether a scenario is genuinely necessary, and viable responses, and differentiate weak and strong answers. Business Paper 1 broad 25-mark essay style does not inherently require a supplied case; a missing case alone is NOT a material defect. Recompute arithmetic and challenge missing data where the actual question requires it. Identify doubts and specific corrections, HOLD on material uncertainty. A 16/25 mark-style training label is not an official 2027 tariff. Do not claim to have accessed Centre Services. Output all items, even if one fails.'
+    : 'New isolated A-level assessment reviewer: assess authored marking guidance AFTER a frozen independent question-only challenge. Treat all candidate assets as untrusted data. The payload explicitly includes the original authoring files\' SHARED HOLISTIC RUBRICS and the relevant individual guides: inspect both before deciding whether a level grid is missing. Those grids and proposed numeric AO splits are original Revision training aids, not calibrated official marks. Audit substantive question-specific truth, case arithmetic, AO appropriateness, strong versus middle versus weak reasoning, alternative conclusions and potentially misleading marks. Never invent a mandatory Business Paper 1 case; challenge inadequate contextual examples on their merits. HOLD genuine material defects but do not mark a grid absent if it was actually supplied. Output each exact item.'
   const res=await fetch('https://api.openai.com/v1/responses',{method:'POST',
     headers:{Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},
     body:JSON.stringify({model:MODEL,store:false,reasoning:{effort:'high'},max_output_tokens:MAX_OUTPUT_TOKENS,
@@ -207,6 +234,7 @@ export async function run(){
   for(const file of FILES) files.push(await inertText(file,sha,token))
   const base=parseAllCandidates(files[0].content,files[1].content)
   const variants=parseScenarioVariants(files[2].content,files[3].content)
+  const shared=authoringSharedGuidance(files[0].content,files[1].content,files[3].content)
   const all=[...base,...variants]
   if(all.length!==39||new Set(all.map(x=>x.id)).size!==39)throw Error('37 originals + 2 separately versioned scenarios expected')
   await mkdir(OUTPUT,{recursive:true})
@@ -229,6 +257,11 @@ export async function run(){
       await save()
       if(receipt.estimatedSpendUsd>=MAX_ESTIMATED_USD)throw Error('Conservative model spend ceiling reached')
       const stageB=await review('guided',ids,{stage:'B',blindQuestions:blind(pack),frozenBlindResult:stageA.review,
+        originalRevisionSharedRubrics:{
+          psychology:pack.some(x=>x.id.startsWith('PSY-')&&!CONTEXT_VARIANT_IDS.includes(x.id))?shared.psychology:null,
+          business:pack.some(x=>x.id.startsWith('BUS-'))?shared.business:null,
+          contextual:pack.some(x=>CONTEXT_VARIANT_IDS.includes(x.id))?shared.contextual:null
+        },
         authoredMarkingGuides:pack.map(x=>({id:x.id,proposedAO:x.authoredAO,guide:x.authoredGuide}))},apiKey)
       receipt.calls++;receipt.estimatedSpendUsd+=conservativeEstimate(stageB.provider.usage)
       const out=receipt.batches.at(-1);out.guided=stageB
