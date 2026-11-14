@@ -79,3 +79,7 @@ The pack is **not** an AQA paper or mark scheme, an independent review, a reques
 ## 14 November 2026 — governed implementation-readiness preflight (research only)
 
 See [`2026-11-14-governed-implementation-readiness-preflight.md`](2026-11-14-governed-implementation-readiness-preflight.md) for approved-main code seam findings, source/licensing and first-answer/untimed-draft boundaries, the **0/37 approved** item disposition, the current seven-item learner-review packet, and exact human Ready/educational/learner gates before any future application implementation. This note remains **Analyse** evidence, not authority, a publication approval or a product-code change.
+
+## 14 November 2026 — expedited 37-question structure and scenario check
+
+See [`2026-11-14-fast-structure-and-scenario-preflight.md`](2026-11-14-fast-structure-and-scenario-preflight.md) for the **37/37 basic authored-field inspection**, the Founder's preliminary learner feedback and quantified scenario split (**10/10** Business 16-mark contexts; **10/10** standalone Paper 1-style Business 25s; **16/17** Psychology standalone extended essays and one **training-only** Research Methods scenario). These are research counts, **not** independent education sign-off, publication eligibility or product Ready. The target correction is an independently reviewed, genuinely contextual Psychology AO2 variant, not rewriting every existing question.
