@@ -140,7 +140,7 @@
 **Indicative marking guide**
 
 - **AO1 selected knowledge:** Define segmentation, targeting, positioning and relevant product, price, promotion and place decisions. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
-- **AO2 plausible business contexts:** Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
+- **AO2 plausible business contexts:** This is a **standalone original Paper 1 25-mark-style training essay**; no supplied case is automatically compulsory. Credit **internally consistent, conditional** examples of launches (e.g. specialist unfamiliar versus established repeat-purchase markets), with realistic target buyers, research quality and marketing-mix execution. A famous brand name without causal case-specific application is not sufficient. Proposed numeric AOs are **historical authoring guidance only**, not an independently verified 2027 item-level mark scheme.
 - **AO3 developed analysis:** Explain how research reduces launch uncertainty yet sampling, extrapolation and reliability limit forecasts. Show how integrated product, price, place and promotion can succeed or fail even with accurate information.
 - **AO4 balanced judgement:** Judge whether information quality or execution is the binding constraint, with new versus established markets and launch budget considered.
 - **Valid alternatives:** A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
@@ -205,9 +205,9 @@
 **Indicative marking guide, with marks not automatically assigned per bullet**
 
 - **AO1 accurate concepts:** Distinguish internal/external finance, borrowing costs, liquidity and profitability measures.
-- **AO2 contextual selection and interpretation:** Use operating profit margin 8%, current ratio 0.875:1, negative working capital and £1m funding need; mention seasonal receipts.
+- **AO2 contextual selection and interpretation:** Calculate or correctly interpret operating profit margin **8%**, current ratio **0.875:1**, and net working capital **−£100,000** alongside the £1m funding requirement and seasonal receipts. The ratio may indicate liquidity pressure; it is not proof of insolvency.
 - **AO3 developed causal analysis:** Analyse finance access and ownership retention against interest, collateral and cash-outflow risk. Compare retained profit, equity or leasing with scale and timing of required expenditure.
-- **AO4 evaluation and judgement:** Offer a financing recommendation conditional on forecast cash flow, debt service and cost of capital; do not infer insolvency solely from one ratio.
+- **AO4 evaluation and judgement:** Credit a defensible loan-or-alternative decision conditional on forecast cash flow, repayment capacity and cost of capital. **Loan rate, term, repayment schedule, collateral capacity and incremental expansion cash flows are not supplied**, so neither affordability nor inevitable default can be established. Retained *profit* is not necessarily retained *available cash*. Do not infer insolvency from one ratio.
 - **Valid alternatives:** Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 - **Level discriminator:** A 13–16-quality response integrates *multiple actual facts from this specific case*, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
 
@@ -245,9 +245,9 @@
 **Indicative marking guide, with marks not automatically assigned per bullet**
 
 - **AO1 accurate concepts:** Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development.
-- **AO2 contextual selection and interpretation:** Use 32% turnover, £1,200 per recruit, rota concerns and satisfaction decline as real constraints.
+- **AO2 contextual selection and interpretation:** Use **180 employees × 32% annual turnover = 57.6**, about **58 leavers annually**. **57.6 × £1,200 = £69,120** is an illustrative annual training cost **only if** each leaver is replaced and each recruit incurs that cost; the actual replacement rate and existing training budget are unknown. Use the rota concerns and customer satisfaction change **86% to 77% (9 percentage points)**.
 - **AO3 developed causal analysis:** Link higher competence to service quality and recruitment costs, but distinguish inadequate training from poor scheduling and progression. Explain time and opportunity costs plus the risk trained employees still leave.
-- **AO4 evaluation and judgement:** Recommend a joined-up response combining appropriate training with rota/management reform, conditional on reasons for departure and measured service outcomes.
+- **AO4 evaluation and judgement:** Credit **either** targeted/phase-in training, **or** a justified rota/progression-first response, or a combination, if it weighs the case facts and trade-offs. The reported satisfaction decline does **not** establish that inadequate training caused it. Consider skills-gap and exit-reason evidence before committing substantial spending.
 - **Valid alternatives:** Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 - **Level discriminator:** A 13–16-quality response integrates *multiple actual facts from this specific case*, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
 
