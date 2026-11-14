@@ -1,0 +1,1409 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-14",
+  "status": "SOURCE-DECLARED STRUCTURE ONLY / EDUCATIONAL HOLD",
+  "baseline": "research PR #834; exact authored candidate sources in branch",
+  "source_inputs": [
+    {
+      "name": "AQA Psychology 7182 v1.4",
+      "sha256": "db561ba9c36a9109830bcb03bb16d138b85907f068620cce01eff70fdee6ad4d",
+      "use": "REFERENCE_ONLY source-alignment facts"
+    },
+    {
+      "name": "AQA Business 7132 v2.0",
+      "sha256": "3217d9dc75aedcf3be14fb95f3d11d536e0626cf10111bc058d9add8a5fce332",
+      "use": "REFERENCE_ONLY source-alignment facts"
+    }
+  ],
+  "summary": {
+    "base_candidates": 37,
+    "psychology": 17,
+    "business_16": 10,
+    "business_25": 10,
+    "mechanical_exceptions": [],
+    "independent_A3_passes": 0,
+    "published": 0,
+    "additional_contextual_psychology_variants_held": [
+      "PSY-LF05-01-S1",
+      "PSY-LF05-02-S1"
+    ],
+    "identified_marking_risks": [
+      "PSY-LF05-08: authored AO2=0 despite applying learned topics; independently resolve",
+      "Class-wide equal AO splits are hypotheses, not per-item AQA-approved scores",
+      "Psychology item-level 2027 tariff cannot be inferred from 16-mark style",
+      "Business 16 finance case missing actual debt-service cashflows; only conditional recommendation",
+      "Public ordinary self-registration cannot be represented as family-only admission"
+    ]
+  },
+  "records": [
+    {
+      "id": "PSY-LF05-01",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Social influence",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.1.1, p17 — resistance to social influence (social support; locus of control)",
+      "paper_option": "1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-02",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Memory",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.1.2, pp17–18 — working-memory model and its components",
+      "paper_option": "1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-03",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Attachment",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.1.3, p18 — Bowlby's monotropic theory, critical period and internal working model",
+      "paper_option": "1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-04",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Clinical Psychology and Mental Health",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.1.4, p18 — cognitive explanations and CBT treatment of depression",
+      "paper_option": "1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-05",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Approaches in Psychology",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.2.1, p19 — behaviourist approach and social learning theory; comparison of approaches",
+      "paper_option": "2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-06",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Biopsychology",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.2.2, p19 — ways of studying the brain; localisation/plasticity",
+      "paper_option": "2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-07",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Research methods",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.2.3 and §§4.2.3.1–3, pp19–21 — experimental design, sampling, ethics, validity and inference",
+      "paper_option": "2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 4,
+        "AO3": 6
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": true,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-08",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Issues and debates in Psychology",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.1, pp21–22 — nature–nurture debate and interactionist approach",
+      "paper_option": "3 compulsory",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-09",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Relationships",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.2, p22 — social exchange theory, equity theory, investment model",
+      "paper_option": "3 option group 1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-10",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Gender",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.3, p22 — cognitive explanations Kohlberg and gender schema theory",
+      "paper_option": "3 option group 1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-11",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Cognition and development",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.4, p22 — Piaget and Vygotsky; learning and development",
+      "paper_option": "3 option group 1",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-12",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Schizophrenia",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.5, pp22–23 — diathesis–stress and interactionist explanation/treatment",
+      "paper_option": "3 option group 2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-13",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Eating behaviour",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.6, p23 — biological and psychological explanations of anorexia nervosa",
+      "paper_option": "3 option group 2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-14",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Stress",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.7, p23 — stress inoculation therapy and biofeedback; managing stress",
+      "paper_option": "3 option group 2",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-15",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Aggression",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.8, p23 — frustration–aggression, social learning and de-individuation",
+      "paper_option": "3 option group 3",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-16",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Forensic Psychology",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.9, pp23–24 — offender profiling, typology, investigative and geographical profiling",
+      "paper_option": "3 option group 3",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "PSY-LF05-17",
+      "subject": "Psychology",
+      "qualification": "AQA 7182 v1.4",
+      "topic": "Addiction",
+      "source_locator": "AQA Psychology 7182 v1.4 §4.3.10, p24 — gambling addiction, reinforcement and cognitive bias",
+      "paper_option": "3 option group 3",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 6,
+        "AO2": 0,
+        "AO3": 10
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-01-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "What is business?",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-01-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "What is business?",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-02-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Managers, leadership and decision making",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-02-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Managers, leadership and decision making",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-03-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Marketing management",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-03-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Marketing management",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-04-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Operational management",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-04-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Operational management",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-05-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Financial management",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-05-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Financial management",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-06-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Human resource management",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-06-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Human resource management",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-07-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Analysing strategic position",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-07-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Analysing strategic position",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-08-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Choosing strategic direction",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-08-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Choosing strategic direction",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-09-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Strategic methods",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-09-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Strategic methods",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-10-16",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Managing strategic change",
+      "paper_style": "Applied contextual 16-mark style",
+      "tariff_style": 16,
+      "proposed_ao": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "proposed_ao_sum": 16,
+      "has_original_stimulus": true,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": true,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    },
+    {
+      "id": "BUS-LF05-10-25",
+      "subject": "Business",
+      "qualification": "AQA 7132 v2.0",
+      "topic_area": "Managing strategic change",
+      "paper_style": "Standalone Paper 1 25-mark style",
+      "tariff_style": 25,
+      "proposed_ao": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "proposed_ao_sum": 25,
+      "has_original_stimulus": false,
+      "has_guide": true,
+      "has_alternatives": true,
+      "has_quality_discriminator": true,
+      "scenario_is_required_by_stem": false,
+      "training_only": false,
+      "mechanical_checks": {
+        "valid_ao_sum": true,
+        "stimulus_present_if_required": true,
+        "has_guide": true,
+        "has_alternative_credit": true,
+        "has_quality_discriminator": true
+      },
+      "assurance": {
+        "source_rights": "REFERENCE_ONLY AQA alignment; Revision-owned original drafts",
+        "exact_2027_tariff_verified": false,
+        "fresh_context_A3_pass": false,
+        "qualified_human_mark_calibration": false,
+        "published": false,
+        "disposition": "HOLD",
+        "next": "Independent question-only A3 and separate guide/AO/level challenge; exact source/option and pilot Ready controls"
+      }
+    }
+  ]
+}
