@@ -11,6 +11,7 @@ export const MARKER = 'revision-run-lf05-pr834-all37-a3:v1'
 export const PSY_IDS = Array.from({length:17},(_,i)=>'PSY-LF05-'+String(i+1).padStart(2,'0'))
 export const BUS_IDS = Array.from({length:10},(_,i)=>['BUS-LF05-'+String(i+1).padStart(2,'0')+'-16','BUS-LF05-'+String(i+1).padStart(2,'0')+'-25']).flat()
 export const IDS = [...PSY_IDS,...BUS_IDS]
+export const CONTEXT_VARIANT_IDS=['PSY-LF05-01-S1','PSY-LF05-02-S1']
 const REPO='lhanson-dev/revision'
 const MODEL='gpt-5.6-terra'
 const OUTPUT='.artifacts/lf05-pr834-all37-a3'
@@ -22,6 +23,8 @@ const SOURCE='research/lf05-extended-response/'
 const FILES=[
   SOURCE+'psychology-7182-2027-17-topic-original-16-mark-candidates.md',
   SOURCE+'business-7132-2027-10-area-original-16-and-25-mark-candidates.md',
+  SOURCE+'learner-review/psychology-scenario-questions-proposed-v1.md',
+  SOURCE+'learner-review/psychology-scenario-marking-guidance-proposed-v1.md',
 ]
 const SOURCE_FACTS={
   source_use:'REFERENCE_ONLY: do not reproduce protected AQA text or official mark schemes',
@@ -104,6 +107,25 @@ export function parseAllCandidates(psychSource,businessSource) {
   if(items.length!==37||new Set(items.map(x=>x.id)).size!==37)throw Error('37 identity uniqueness failed')
   return items
 }
+export function parseScenarioVariants(questionFile,guideFile){
+  const questionRegions=regions(questionFile,/^## (PSY-LF05-0[12]-S1) — ([^\n]+)/gm)
+  const guideRegions=regions(guideFile,/^## (PSY-LF05-0[12]-S1) — ([^\n]+)/gm)
+  if(questionRegions.length!==2||guideRegions.length!==2)throw Error('Contextual variant pair denominator changed')
+  return questionRegions.map((q,i)=>{
+    const g=guideRegions[i]
+    if(q.id!==CONTEXT_VARIANT_IDS[i]||g.id!==q.id)throw Error('Contextual question/guide identity drift')
+    const sourceClaim=matched(q.text,'**Course/source alignment candidate:** ')
+    const question=matched(q.text,'**Question:** ')
+    const contextKey=i===0?'**Original fictional scenario:** ':'**Original fictional scenario and illustrative results:** '
+    const context=matched(q.text,contextKey)
+    if(context.length<180||g.text.length<750||!g.text.includes('**Alternative credit:**')||!g.text.includes('**Qualitative differentiation'))
+      throw Error('Unreviewed scenario missing actual context / alternatives '+q.id)
+    if(!/\*\*\[16 marks/.test(q.text)||!/§4\.1\.[12]/.test(sourceClaim))throw Error('Context training tariff/source absent '+q.id)
+    return {id:q.id,qualification:'Psychology 7182 v1.4',topic:q.title,sourceClaim,
+      question:question+' [16 marks — original training format]',originalContext:context,tariffStyle:16,trainingOnly:true,
+      authoredAO:'PROVISIONAL AO1 6 / AO2 4 / AO3 6; exact 2027 item profile not verified',authoredGuide:g.text.split('## Shared original Revision training level anchors')[0].trim()}
+  })
+}
 export function blind(items) {
   return items.map(({id,qualification,topic,sourceClaim,question,originalContext,tariffStyle,trainingOnly})=>({
     id,qualification,topic,candidateSourceClaimUntrusted:sourceClaim,question,originalContext,tariffStyle,
@@ -183,11 +205,14 @@ export async function run(){
     throw Error('Exact research PR head/owner moved: fail closed')
   const files=[]
   for(const file of FILES) files.push(await inertText(file,sha,token))
-  const all=parseAllCandidates(files[0].content,files[1].content)
+  const base=parseAllCandidates(files[0].content,files[1].content)
+  const variants=parseScenarioVariants(files[2].content,files[3].content)
+  const all=[...base,...variants]
+  if(all.length!==39||new Set(all.map(x=>x.id)).size!==39)throw Error('37 originals + 2 separately versioned scenarios expected')
   await mkdir(OUTPUT,{recursive:true})
   const receipt={schemaVersion:1,reviewedHeadSha:sha,files:files.map(x=>({path:x.path,sha:x.blobSha})),
     createdAt:new Date().toISOString(),reviewType:'two fresh-context model calls per bounded batch',
-    totalOriginalCandidates:37,additionalVariantsExcluded:true,qualifiedHumanReview:false,
+    totalOriginalCandidates:37,additionalScenarioVariants:2,qualifiedHumanReview:false,
     officialAQA2027MarkTariffsVerified:false,publicationAuthorised:false,
     cap:{batchSize:BATCH_SIZE,maxCalls:MAX_CALLS,maxOutputTokensPerCall:MAX_OUTPUT_TOKENS,conservativeEstimatedCostUsd:MAX_ESTIMATED_USD},
     estimatedSpendUsd:0,calls:0,reviewedItems:0,batches:[],decision:'HOLD',completed:false}
@@ -212,7 +237,7 @@ export async function run(){
       await save()
       if(receipt.estimatedSpendUsd>=MAX_ESTIMATED_USD)throw Error('Conservative model spend ceiling reached')
     }
-    receipt.completed=receipt.reviewedItems===37&&receipt.batches.length===7
+    receipt.completed=receipt.reviewedItems===39&&receipt.batches.length===7
     receipt.decision=receipt.completed&&receipt.batches.every(x=>x.decision==='PASS_TRAINING_ONLY')?'A3_PASS_TRAINING_ONLY':'HOLD'
     await save()
     if(receipt.decision!=='A3_PASS_TRAINING_ONLY')throw Error('Educational A3 all37 returned HOLD: see item-specific receipt')
