@@ -81,5 +81,6 @@ test('fail closed on missing credentials or untrusted content and bound provider
  const source=readFileSync(new URL('./lf05-pr834-all37-a3-review.mjs',import.meta.url),'utf8')
  for(const x of ['MAX_CALLS=14','MAX_ESTIMATED_USD=6','store:false','publicationAuthorised:false','officialAQA2027MarkTariffsVerified:false','source_use:','blobHash(content)!==data.sha','pr.head?.sha!==sha'])
   assert.equal(source.includes(x),true,'missing security bound '+x)
- assert.equal(source.includes('exec('),false)
+ assert.equal(source.includes('eval('),false)
+ assert.equal(source.includes('child_process'),false)
 })
