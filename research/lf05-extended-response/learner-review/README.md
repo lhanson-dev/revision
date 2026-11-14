@@ -30,3 +30,13 @@ Please do **not** post a learner's full answer, name, school, credentials or oth
 ## What happens after feedback
 
 Record the feedback against the immutable item IDs. Any material wording, stimulus or guidance change requires a fresh current-version review. This learner review does not replace independent A1/A2/A3/A4 review, LF-05 human Ready, durable draft/reveal/evidence design, production assurance or post-release learner acceptance.
+
+## 14 November — Additional contextual question and marking-support proposals (not in the seven-item approved review version)
+
+The original **seven** sample questions are unchanged. Separately, the Founder requested a mix of genuine standalone essays and scenario-based response items, with specific guidance shown **only after** the learner has answered. Two **additional, unapproved Psychology scenario variants** have been prepared:
+
+1. [Psychology contextual questions only](psychology-scenario-questions-proposed-v1.md): `PSY-LF05-01-S1` (resistance to social influence) and `PSY-LF05-02-S1` (working memory model).
+2. [Their separate post-answer marking guidance](psychology-scenario-marking-guidance-proposed-v1.md): proposed AO1/AO2/AO3 support, actual stimulus links, defensible alternatives, limitations, and qualitative evaluation rather than invented examiner grades.
+3. [Enhanced Business post-answer support](business-post-attempt-marking-support-proposed-v1.md) for the **existing** `BUS-LF05-05-16` (Harbour Furniture) and `BUS-LF05-03-25` (standalone Marketing essay) without rewriting the source questions.
+
+**Important:** the `-S1` items are **two extra proposed research-only variants**, distinct from the existing 37 source question-guide pairs. Neither has independent subject/assessment approval, a verified 2027 item-level tariff, learner-site publication or recorded human acceptance. A different proposed AO profile for applied scenarios is a *review hypothesis*, not a guaranteed authentic AQA distribution. Open **questions first**, then the separate guides only **after** an original attempt; private outlines are for usability only, never scored evidence.
