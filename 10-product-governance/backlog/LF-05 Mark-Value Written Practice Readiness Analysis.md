@@ -144,3 +144,54 @@ The later full Founder instruction explicitly requires **Subject → Topic → Q
 **Impact on readiness:** This expansion changes the previous tentative MVP assumptions. **LF-05 remains Analyse, not Ready**. The genuinely unresolved decision for the Founder is whether to approve the above **topic-first-with-paper/marks-alternative integrated product contract, durable untimed essay drafts and commit-before-model rule** as the Definition-of-Ready direction; approving that **does not** bypass the complete 17-point DoR, 2027 source/educational conditions, normative authority promotion or individual PR merge gates. After the evidence and authority changes complete, ask explicitly for **LF-05 Analyse → Ready**.
 
 **Documentation impact:** This is an additive candidate reconciliation and an audit link, not an active authority change or production implementation. Once the Founder approves Ready, the product Course Learning Blueprint / Exam Prep and recovery/retention/evidence authorities must be changed on a governed PR together with code, technical documentation, test/assurance records and index. Preserve historical sections above as dated candidates.
+
+## 11. 14 November 2026 — Founder requests accelerated restricted-family learner delivery (decision candidate, not Ready)
+
+**Founder instruction:** the existing original Psychology 16-mark-style and Business 16-/25-mark questions must be usable by their son soon, with correct scenarios/cases where relevant, and **clear marking support only after an initial written answer**. They do not have a professional teacher available; the Founder directs a source-led assistant review against the **two exact supplied AQA specifications** and private learner feedback. This **approves accelerated product direction**, **not** any specific PR merge, product Ready transition, independent/examiner assessment validation, an exception to source rights, or authority to start material implementation while this feature remains Analyse.
+
+### Conflict and proportionate restricted-pilot path
+
+The existing research #834 marks **37/37 unapproved**. The earlier LF-05 direction required independently reviewed source-assured questions and first-response/autosave before learner publication, and `Content Accuracy Assurance Gate` requires independent fresh-context A3 review. **The Founder’s new instruction does not itself negate those gates.** A QA self-review by the author/assistant is useful source checking but **cannot be falsely counted as independent A3**.
+
+The **qualified-human subject-expert benchmark** is different: the Content Accuracy Assurance Gate explicitly requires it **before positioning Revision beyond a limited restricted pilot as a serious commercial teaching product**. Therefore **no qualified teacher is a mandatory prerequisite for a deliberately restricted family pilot**, provided all applicable content gates, accountable controller/children-data safeguards and the limited-test product approval are satisfied. This is **not an exemption** for unvalidated teacher-equivalent AI marking or general publication.
+
+**Proposed scope (Founder Ready decision required):**
+1. A **restricted, accurate-training** release of independently AI-challenged, source-mapped **original Revision** answer practice in the existing canonical learner app. Clearly label every question as original exam-style practice; where exact 2027 AO/tariff applicability is not proved, state **“16-mark-style extended writing practice — not a confirmed AQA 2027 item tariff”**, rather than classify `exam_authentic`. Specifically exclude `PSY-LF05-07` Research Methods 16 from authentic tariff lists. For the first family release, use a **small independently checked** cross-subject subset, then add the rest individually with the same assurance rules. This is a pilot, *not* a complete 37-item or whole-syllabus approval.
+2. **One canonical answer interaction**, not a second engine: Course/topic Practice → type/available mark → exact approved question, plus Exam Prep paper/mark → topic for assured items. Respect Paper 3 options, existing paper/essay alternatives and 96/100-mark timed mock totals. Original stimuli travel with scenario-dependent questions. Standalone Psychology evaluation essays and Business Paper 1 25-mark essays need no fictitious extra case. Incorporate new scenario variants only after independent A3 and per-variant source review.
+3. **Private essay draft autosave/resume** must be genuinely owner-scoped, show last-confirmed state, preserve raw first-response version, handle failure/multiple tabs, expiry/deletion and child-specific privacy pre-use clearance. No assumed extension of REC-10 timed draft permission. A raw answer entered in a test account is **real learner data** and requires the restricted cohort controls even if no paying users are involved.
+4. **Commit first, reveal later:** no levels, model, mark checklist or mark guidance before a substantial initial answer is explicitly submitted and durably confirmed. Preserve immutable first attempt, distinct revised attempts and honest saved results including 0.
+5. **Clear after-answer marking support** must identify the item's exact demand and relevant AOs (only where per-item defensible), contextual/case evidence, non-exhaustive indicative points, level-quality distinctions, creditable alternatives, errors to avoid and a next independent practice action. Do **not** suggest examiner-calibrated numerical scores. Allow optional, clearly distinguished **learner self-assessment** only; don't infer atom-level mastery, grade prediction, independently verified skills or completed planner repairs from it.
+6. **Scope separation:** FI-007 automatic answer marking **excluded**, and no external paid marking service introduced in LF-05. Self-marked written practice should remain genuinely available at every tier. Restricted family activation is distinct from unrestricted public release.
+
+**Minimum independent review before a candidate is eligible:**
+- A1 source/rights/course/option/training-tariff check against the supplied Business 7132 v2.0 and Psychology 7182 v1.4, with `REFERENCE_ONLY` board source restrictions, plus current AQA public assessment guidance (protected AQA content never copied as questions/mark schemes);
+- deterministic unique ID, marks/AO sum, stimulus association, quantitative recomputation, version/choice/total checks;
+- a **genuinely fresh-context, blind-to-authored-guide** independent A3 question-demand and scenario challenge, followed separately by critique of the indicative guidance and alternatives; no blocking/material findings left open;
+- qualified-human mark calibration remains **not established**. If no qualifying reviewer is available, permit only **explicitly labelled self-assessment training without examiner-equivalent results** under a **specifically Founder-approved restricted pilot**, and preserve this outstanding commercial gate;
+- authenticated owner-only browser/database acceptance, draft-resume, submit-before-reveal, evidence provenance, zero history, option constraints, 200% zoom/responsive, and original learner experience.
+
+### 17-point Definition-of-Ready disposition for restricted family **candidate**
+
+| Criteria | Proposed status / exit condition |
+| --- | --- |
+| 1 Student problem | **Supported** by original learner request for realistic longer answers |
+| 2 Strategic case | **Supported** by core exam readiness loop; avoid second engine |
+| 3 Falsifiable value | **Supported**: learner can select, answer, review, save, repeat without lost work or false marks |
+| 4 Experience | **Proposed** topic/marks and paper/marks routes, submit-before-reveal, empty/recovery/accessibility; human confirmation needed |
+| 5 Evidence contract | **Proposed** self-assessed only; no verified mastery; implementation/evidence tests needed |
+| 6 REV role | **Proposed** explains options and next task, never silently awards marks |
+| 7 MVP boundary | **Proposed** restricted original practice/after-answer guides; no AI marking or guaranteed exam tariff |
+| 8 Tier ladder | **Proposed** tier-neutral educational self-assessment for Free/Paid/Premium |
+| 9 Upgrade hypothesis | **N/A** for the tier-neutral family pilot, no artificial scarcity |
+| 10 Measurement | **Prepared** eligible question counts, committed responses, guide-reveal, confirmed saved answers/retries, no raw identifiable analytics |
+| 11 Founder assurance | **Prepared** real availability and failed save, educational dispositions, pilot cohort/retention exceptions |
+| 12 Risks | **OPEN** child draft processing, AO mislabelling, erroneous levels, option leakage, lost raw answer |
+| 13 Technical feasibility | **Known existing seam**, but draft store/practice-only catalogue/versioned immutable submission **not implemented** |
+| 14 Acceptance/tests | **Defined but not passed** independent item challenge + browser/RLS/reload/device evidence |
+| 15 Governing authority | **OPEN** proposed Course Learning Blueprint amendment for pilot; no normative promotion yet |
+| 16 Material external dependencies | **OPEN** individual A3 review/2027 eligibility boundaries, pilot privacy data-owner approval, first-pass content minimum |
+| 17 Human Ready | **NOT APPROVED**; Founder must explicitly approve LF-05 `Analyse → Ready` for a defined subset *after* preceding applicable criteria are satisfied |
+
+**Proposed controlled sequence:** (a) finish first sample A1 plus independent separate-context A3 reviews under #698, not same-author validation; (b) resolve pilot private-answer retention/notification and first-attempt contract; (c) Founder approve the restricted pilot normative product boundary and **specific LF-05 Ready transition**; (d) implement canonical UI/data and exact-source practice-only assets via a separate governed PR and its own approval; (e) controlled learner production acceptance and expansion to other approved items. No production code change is authorised by this candidate.
+
+**Documentation impact:** this is a dated, non-normative extension of the existing LF-05 Analyse source. The companion proposed amendment to `Course Learning Blueprint` is an *unmerged authority change candidate* and has no force until Founder-approved merge. Update engineering docs, register/test proof and authority only with the governed implementation. #698 owns A1–A3, #706 DoR and release, #765 learner acceptance, #703 skill→repair/retest evidence truth. Prior dated records remain unchanged.
