@@ -2,6 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { businessDecisionTreeNumericalBank } from '../../content/business/aqa-a-level/shared/decision-tree-numeric-practice'
 import { businessOperationsPerformanceBank } from '../../content/business/aqa-a-level/shared/operations-performance-practice'
+import { psychologySignTestPracticeBank } from '../../content/psychology/aqa-a-level/shared/sign-test-practice'
+import { psychologyStandardDeviationPracticeBank } from '../../content/psychology/aqa-a-level/shared/standard-deviation-practice'
+import { psychologySignCriticalPracticeBank } from '../../content/psychology/aqa-a-level/shared/sign-critical-practice'
 import { bankRecordToPractice, objectiveItemMappingForPractice, type CalculationPracticeQuestion } from '../../src/app/practice-questions'
 import { createCalculationEvidence } from '../../src/app/practice-evidence'
 import { markLearnPageReviewed, loadLearnExposures } from '../../src/services/progress/learn-exposure-service'
@@ -1468,6 +1471,203 @@ test('Business Operations unit-cost source mistake leads to a real scored indepe
     if (userId) {
       const deleted = await admin.auth.admin.deleteUser(userId)
       expect(deleted.error, 'Synthetic learner must be removed').toBeNull()
+    }
+  }
+})
+
+
+/**
+ * #703 first Psychology source-specific complete loop. This is a genuine
+ * browser-entered wrong S answer through canonical Course Practice, followed
+ * by FI-001 selected inert teaching and a DIFFERENT saved scored answer.
+ * Never seed the incorrect observation or forge a planned task. Sign-test
+ * final-number evidence cannot prove test choice, critical values or method.
+ */
+test('Psychology browser-entered sign-test weakness receives exact Plan repair and independent S recheck', async ({ page }) => {
+  test.skip(!enabled, 'Requires isolated GoTrue/PostgREST learner browser integration.')
+  test.setTimeout(240_000)
+  const url = process.env.SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? ''
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+  const host = new URL(url)
+  if (host.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(host.hostname)
+    || host.port !== '54321' || !anon || !secret) {
+    throw new Error('Psychology learner loop must never use hosted child or learner accounts')
+  }
+  const admin = createClient(url, secret, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const learner = createClient(url, anon, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+  } })
+  const topicId = 'research-methods'
+  const skill = 'PSY-SRC-4233-IT03'
+  const learnPageId = 'research-methods-psy0732'
+  const moduleId = 'psychology-aqa-a-level-7182-paper-1'
+  // These are the same three authored numerical banks published by every
+  // Psychology course pack. Import the standalone banks, not the whole paper:
+  // Playwright's Node config cannot directly import Course Truth JSON files.
+  const calcQuestions = [
+    ...psychologyStandardDeviationPracticeBank,
+    ...psychologySignTestPracticeBank,
+    ...psychologySignCriticalPracticeBank,
+  ].map(item => bankRecordToPractice(item, topicId))
+    .filter((q): q is CalculationPracticeQuestion => q?.type === 'calculation' && q.topicId === topicId)
+  const originals = calcQuestions.filter(q => q.id.startsWith('rev7182-4.2.3-sign-test-'))
+  expect(originals.map(q => q.id).sort()).toEqual([
+    'rev7182-4.2.3-sign-test-01', 'rev7182-4.2.3-sign-test-02',
+  ])
+  expect(originals.every(q => q.exactInteger && objectiveItemMappingForPractice(q)?.singleTargetSpecItemId === skill)).toBe(true)
+  const email = 'psychology-sign-loop-' + crypto.randomUUID() + '@revision.invalid'
+  const password = 'Psychology-' + crypto.randomUUID() + '-A1!'
+  let userId: string | undefined
+  try {
+    const created = await admin.auth.admin.createUser({ email, password, email_confirm: true })
+    if (created.error || !created.data.user) throw new Error('Isolated Psychology account creation failed: ' + created.error?.message)
+    userId = created.data.user.id
+    const auth = await learner.auth.signInWithPassword({ email, password })
+    if (auth.error) throw auth.error
+    await establishStudentExperience(learner, userId)
+    await completeStudentFirstUse(learner, userId)
+    expect((await learner.from('learner_courses')
+      .insert({ user_id: userId, course_id: psychologyId })).error).toBeNull()
+    expect((await learner.from('revision_assessments').insert({
+      user_id: userId, course_id: psychologyId, subject_id: 'psychology', module_id: null,
+      assessment_type: 'public_exam', title: 'Psychology Research Methods',
+      assessment_date: '2027-05-20', relative_importance: 'high',
+      scope: { topicIds: [topicId] }, is_active: true,
+    })).error).toBeNull()
+    expect((await learner.from('revision_availability_profiles').upsert({
+      user_id: userId, timezone: 'Europe/London', weekday_minutes: 240, weekend_minutes: 240,
+      monday_minutes: 240, tuesday_minutes: 240, wednesday_minutes: 240,
+      thursday_minutes: 240, friday_minutes: 240, saturday_minutes: 240, sunday_minutes: 240,
+    })).error).toBeNull()
+    const store = createSupabaseEvidenceStore(learner)
+    expect(await loadLearningEvidence(store, userId, moduleId, topicId)).toEqual([])
+    await page.goto(appPath)
+    await page.getByLabel('Email').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toHaveCount(0)
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(psychologyId) + '/practice')
+    await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+    await page.getByRole('button', { name: 'Change topic' }).click()
+    await page.getByRole('region', { name: 'Test what you know' }).getByLabel('Topic').selectOption(topicId)
+    const kinds = page.locator('.practice-kinds')
+    await kinds.getByRole('button', { name: 'Calculations' }).click()
+    await kinds.getByRole('button', { name: 'Multiple choice' }).click()
+    await page.locator('.practice-lengths').getByRole('button', { name: /^15/ }).click()
+    await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
+
+    // Work through actual published non-sign-test calculations correctly.
+    // The first real sign-test item reached is deliberately answered wrong;
+    // its second, different paired-data case must remain unseen for FI-001.
+    let first: CalculationPracticeQuestion | undefined
+    for (let i = 0; i < Math.min(15, calcQuestions.length); i++) {
+      const prompt = await page.locator('.practice-question__prompt').innerText()
+      const context = await page.locator('.practice-question__context p').first().innerText()
+      const shown = calcQuestions.find(q => q.prompt === prompt && q.context === context)
+      expect(shown, 'Only an actual authored Psychology numeric item may appear').toBeDefined()
+      if (shown && originals.some(q => q.id === shown.id)) {
+        first = shown
+        break
+      }
+      await page.getByLabel('Your answer').fill(String(shown!.expected))
+      await page.getByRole('button', { name: 'Certain', exact: true }).click()
+      await expect(page.getByText('Nice, that’s the one.', { exact: true })).toBeVisible()
+      await page.getByRole('button', { name: 'Next question' }).click()
+      // Different authored standard-deviation questions intentionally share
+      // the same study context. The fresh question must reset the input;
+      // do not demand a different contextual paragraph.
+      await expect(page.getByLabel('Your answer')).toHaveValue('')
+    }
+    expect(first, 'A published sign-test S question must be reachable in normal Practice').toBeDefined()
+    const second = originals.find(q => q.id !== first!.id)!
+    expect(second.context).not.toBe(first!.context)
+    await page.getByLabel('Your answer').fill(String(first!.expected + 8))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Not quite.', { exact: true })).toBeVisible()
+    const inline = page.getByRole('region', { name: 'Guided repair: Count the sign-test statistic S' })
+    await expect(inline).toContainText('not marked and cannot clear a weakness')
+    await inline.getByText('Reveal the worked method after your attempt').click()
+    await expect(inline).toContainText('S = 3')
+    let miss: Awaited<ReturnType<typeof loadLearningEvidence>>[number] | undefined
+    await expect.poll(async () => {
+      const evidence = await loadLearningEvidence(store, userId!, moduleId, topicId)
+      miss = evidence.find(e => e.contentId === first!.id && e.source === 'calculation')
+      return miss?.correct === false
+    }).toBe(true)
+    expect(individualSpecItemObservation(miss!)).toMatchObject({
+      specItemId: skill, scoring: 'software-scored-final-number', correct: false,
+    })
+    expect((await loadLearningEvidence(store, userId, moduleId, topicId))
+      .some(e => e.contentId === second.id)).toBe(false)
+
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.locator('.pln-daypanel')).toBeVisible()
+    const repair = await startExactTaskAcrossSettledPlanDays(page, 'Review Sign-test statistic S after an incorrect answer')
+    expect(repair.started, 'Genuine FI-001 Psychology method must be scheduled. Dates: ' + repair.visited.join('; ')).toBe(true)
+    await expect(page).toHaveURL(/\/learn\/research-methods-psy0732/)
+    await expect(page.getByRole('region', { name: 'Guided repair: Count the sign-test statistic S' })).toBeVisible()
+    // Forging the URL cannot re-select guided teaching, and reading earns zero marks.
+    await page.reload()
+    await expect(page.locator('#learn-page-' + learnPageId)).toBeVisible()
+    await expect(page.getByRole('region', { name: /^Guided repair:/ })).toHaveCount(0)
+    const read = page.getByRole('region', { name: 'Learn page review' })
+    await read.getByRole('button', { name: 'I have read this page' }).click()
+    await expect(read).toContainText('reading, not understanding or exam readiness')
+    await expect.poll(async () => (await loadLearnExposures(learner, userId!))
+      .some(x => x.pageId === learnPageId && x.courseId === psychologyId)).toBe(true)
+    const before = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(before.some(e => e.id === miss!.id)).toBe(true)
+    expect(before.some(e => e.contentId === second.id)).toBe(false)
+
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(psychologyId) + '/practice')
+    await expect(page.getByRole('button', { name: 'Continue saved session' })).toBeVisible()
+    await page.getByRole('button', { name: 'Discard saved session and start again' }).click()
+    await page.goto(appPath + '#/plan?view=day')
+    await expect(page.locator('.pln-daypanel')).toBeVisible()
+    const recheck = await startExactTaskAcrossSettledPlanDays(page, 'Independent recheck: Sign-test statistic S')
+    expect(recheck.started, 'Genuine FI-001 must schedule a different S case. Dates: ' + recheck.visited.join('; ')).toBe(true)
+    await expect(page.getByText('Calculation recheck')).toBeVisible()
+    await expect(page.getByRole('heading', { name: second.prompt })).toBeVisible()
+    await page.getByLabel('Your final number').fill(String(second.expected))
+    await page.getByRole('button', { name: 'Certain', exact: true }).click()
+    await expect(page.getByText('Answer saved')).toBeVisible()
+    await expect.poll(async () => (await loadLearningEvidence(store, userId!, moduleId, topicId))
+      .some(e => e.contentId === second.id && e.correct
+        && individualSpecItemObservation(e)?.specItemId === skill)).toBe(true)
+    const after = await loadLearningEvidence(store, userId, moduleId, topicId)
+    expect(after.some(e => e.id === miss!.id)).toBe(true)
+    expect(findSkillRecheckOpportunities(originals, after, topicId, [moduleId], [learnPageId])).toEqual([])
+    await page.getByRole('button', { name: 'Back to today’s plan' }).click()
+    await page.reload()
+
+    // Four separate surfaces must reflect the shared FI-001 next action on
+    // reload; no fabricated mastery state or duplicate subject engine.
+    await page.goto(appPath + '#/home')
+    const hero = page.locator('.home-v3-next')
+    await expect(hero.locator('h2')).toBeVisible()
+    const nextTopic = await hero.locator('h2').innerText()
+    const reasons = await hero.locator('.home-v3-hero-reason').allInnerTexts()
+    await page.goto(appPath + '#/rev')
+    const opening = page.locator('.rev-chat__log .rev-chat__message--rev').first()
+    await expect(opening).toContainText(nextTopic)
+    for (const reason of reasons) if (/^(Independent recheck:|Independent check:|Review .* after an incorrect answer)/.test(reason))
+      await expect(opening).toContainText(reason)
+    await page.goto(appPath + '#/progress')
+    const globalNext = page.locator('.progress-intro__action')
+    await expect(globalNext).toContainText(nextTopic, { timeout: 20_000 })
+    await page.goto(appPath + '#/courses/' + encodeURIComponent(psychologyId) + '/progress')
+    const courseNext = page.locator('.progress-intro__action')
+    await expect(courseNext).toContainText(nextTopic, { timeout: 20_000 })
+    expect((await loadLearningEvidence(store, userId, moduleId, topicId)).map(e => e.id).sort())
+      .toEqual(after.map(e => e.id).sort())
+  } finally {
+    await learner.auth.signOut()
+    if (userId) {
+      const removed = await admin.auth.admin.deleteUser(userId)
+      expect(removed.error, 'Disposable user cleanup must succeed').toBeNull()
     }
   }
 })
