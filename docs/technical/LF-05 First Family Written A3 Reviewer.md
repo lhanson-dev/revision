@@ -1,6 +1,6 @@
 # LF-05 — First Family Original Written Question A3 Reviewer
 
-**Status:** proposed assurance-only infrastructure, unmerged until its own Founder-approved PR. **Not** LF-05 product `Ready`, **not** new learner content or app, and **not** an independent educational pass until a genuine provider review returns a retained result.
+**Status:** Reviewer infrastructure merged in Founder-approved PR #846 on 14 November 2026. First full-bank provider run #43599092313 completed with an educational **HOLD** (the original evidence is retained). An improved reviewer input packet is proposed in a separate governed PR and is **not effective before its own Founder-approved merge**. None of this makes LF-05 `Ready`, publishes learner content or creates examiner-verified marks.
 
 ## Scope
 
@@ -70,3 +70,19 @@ A `PASS_TRAINING_ONLY` item is eligible for **further governed publication decis
 **Updated dependency chain:** #834 contains authored research and must not be merged as if those drafts are published assets. #846 installs independent-review infrastructure only. #706 records LF-05 `Analyse → Ready` and the governed privacy/retention/access decisions. Only after the reviewed item versions are eligible and LF-05 has explicit human Ready may a governed full-bank learner content + code PR be implemented in the canonical `/revision/app/` Practice/Exam Prep route. That implementation PR must include current `main` integration, RLS/expiry/autosave/recovery/first-submission tests, accurate item counts, technical documentation/registers, and one separate specific Founder merge approval for the release.
 
 **Documentation impact:** This reviewer technical note, reviewer scripts, their tests, the workflow and INDEX in PR #846 describe the executable batch assurance. They do not change course authority, live questions, saved raw responses, scoring, registration or timed mock totals.
+
+## 14 November 2026 — first full-bank review failure and evidence-informed reviewer correction
+
+First real [run #43599092313](https://github.com/lhanson-dev/revision/actions/runs/43599092313) completed **39/39** candidate question+guide challenges across seven batches using 14 provider calls, with conservative estimated spend **$1.951475**. Its final review result was **HOLD**: blind stages **13 pass / 11 minor / 15 material**; guided stages **0 pass / 2 minor / 37 material**. The retained [full receipt artifact](https://github.com/lhanson-dev/revision/actions/runs/43599092313/artifacts/14116490885) is original evidence (30-day Actions retention). The dated [audit/triage](../../audits/2026-11-14-lf05-all39-initial-A3-hold-and-packet-triage.md) preserves all item verdicts and relevant root causes without rewriting the history.
+
+**Packet flaw:** the initial guided reviewer got only each per-item text from the authored research document, excluding the original **shared Psychology four-level training grid**, both **shared Business 16-/25-mark holistic training guides**, and the **shared contextual Psychology qualitative anchors**. Many comments therefore assert a missing grid which exists in the source. A generic source section list also left the reviewer uncertain about known granular Psychology and Business topics, while some Business Paper 1 25-mark questions were wrongly treated as automatically requiring a supplied case.
+
+**Proposed corrective runner change (not automatically a question fix):**
+- Supply source-extracted, bounded shared author grids only in **Stage B** together with individual question marking guidance. Maintain **Stage A question-only** blindness; assert all three shared guides are present and fail closed if they are missing.
+- Add precise, paraphrased and verified AQA 7182 v1.4 subject facts for §4.1.1 resistance to social influence, §4.1.2 WMM components, §4.3.6 anorexia explanations, §4.3.8 social psychological aggression, §4.3.9 forensic profiling and §4.3.10 addiction, plus AQA Business 7132 v2.0 §3.10.2 culture.
+- Tell the reviewer to evaluate rather than invent a compulsory case for standalone Paper 1 25-mark essays, consistent with the supplied 7132 v2.0 paper structure.
+- Continue flagging truly misleading AO allocations, flawed formulae, inadequate answerability and unfair alternative-credit guidance. **A shared training grid is not proof of examiner calibration or a 2027 per-item AQA tariff.**
+
+The unchanged A3 runner remains the authority for the original run; a corrected runner must land through a separately Founder-approved PR and have its own exact-head tests. A later review must be version-pinned and preserve **both** receipts without pretending the first HOLD never happened. The current student experience and raw essay data remain untouched. All 39 candidates are still **not approved for publication**.
+
+**Documentation-impact check:** reviewer technical note plus preserved historical audit and relevant INDEX pointer in the correction PR; no learner code, catalogues, rights classification, current evidence scores or active product authority changes.
