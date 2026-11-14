@@ -1,0 +1,67 @@
+name: LF-05 PR834 First-batch Blind Educational A3
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lf05-pr834-blind-a3.yml'
+      - 'scripts/assurance/lf05-pr834-blind-a3-review.mjs'
+      - 'scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs'
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: lf05-pr834-blind-a3
+  cancel-in-progress: false
+
+jobs:
+  reviewer-contract:
+    name: LF-05 reviewer authorization and blind parsing tests
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --test scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs
+
+  independent-first-batch-a3:
+    name: Trusted-main two-stage LF-05 independent educational challenge
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 834 &&
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, 'revision-run-lf05-pr834-blind-a3:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout approved main reviewer only, never the research PR
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Verify trusted-runner event guard without provider cost
+        run: node --test scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs
+      - name: Conduct independent question-only then separate guided A3
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/assurance/lf05-pr834-blind-a3-review.mjs
+      - name: Retain exact-head result and all HOLD findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lf05-pr834-blind-a3-${{ github.run_id }}
+          path: .artifacts/lf05-pr834-blind-a3/
+          if-no-files-found: warn
+          retention-days: 30
