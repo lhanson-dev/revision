@@ -71,7 +71,7 @@
 
 - **Paper/option:** 1; **exact source:** AQA Psychology 7182 v1.4 §4.1.2, pp17–18 — working-memory model and its components
 - **Publishing classification:** DRAFT — 16-mark exam-style candidate, 2027 item-level tariff not yet validated; **assurance:** A1 item tariff HOLD, A2/A3/A4 pending
-- **Original question:** Discuss the working-memory model as an explanation of how people can carry out different short-term memory tasks at the same time. [16 marks]
+- **Original question:** Discuss the working-memory model as an explanation of how people may carry out different short-term memory tasks at the same time. [16 marks]
 - **Provisional AO allocation:** AO1 6 / AO2 0 / AO3 10. This is an *item proposal*, not inferred from topic-section marks.
 
 **Indicative marking guidance — not exhaustive**
@@ -87,7 +87,7 @@
 3. Consider evidence from neuropsychological cases and laboratory settings without claiming one result proves the whole model.
 4. Conclude on explanatory value versus incompleteness of the model.
 
-**Alternative valid answer routes:** Credit theoretically accurate evidence from cognitive tasks or brain research, with appropriate limitations. Do not reward simply listing components without using them to address concurrent tasks.
+**Alternative valid answer routes:** Credit accurate evidence from cognitive tasks or brain research, with limitations. **Accurate explanation of WMM components can earn some knowledge credit even if the task link is thin; stronger answers connect processing demands, resource interference and evaluation to the command.** Concurrent success is conditional: different-component tasks may interfere less, but executive demands, task complexity and limited capacity can still constrain performance. Simply listing components does not demonstrate developed discussion.
 
 **Higher-band discrimination:** A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this *specific* command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
 
