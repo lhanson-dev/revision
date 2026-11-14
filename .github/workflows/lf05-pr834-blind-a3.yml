@@ -1,4 +1,4 @@
-name: LF-05 PR834 First-batch Blind Educational A3
+name: LF-05 PR834 Original Written Question A3
 
 on:
   pull_request:
@@ -6,6 +6,8 @@ on:
       - '.github/workflows/lf05-pr834-blind-a3.yml'
       - 'scripts/assurance/lf05-pr834-blind-a3-review.mjs'
       - 'scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs'
+      - 'scripts/assurance/lf05-pr834-all37-a3-review.mjs'
+      - 'scripts/assurance/lf05-pr834-all37-a3-review.node-check.mjs'
   issue_comment:
     types: [created]
 
@@ -15,7 +17,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: lf05-pr834-blind-a3
+  group: lf05-pr834-${{ github.event_name }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -28,7 +30,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
-      - run: node --test scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs
+      - run: node --test scripts/assurance/lf05-pr834-blind-a3-review.node-check.mjs scripts/assurance/lf05-pr834-all37-a3-review.node-check.mjs
 
   independent-first-batch-a3:
     name: Trusted-main two-stage LF-05 independent educational challenge
@@ -63,5 +65,41 @@ jobs:
         with:
           name: lf05-pr834-blind-a3-${{ github.run_id }}
           path: .artifacts/lf05-pr834-blind-a3/
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-all37-a3:
+    name: Trusted-main bounded all-37 blind and guided original A3 audit
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 834 &&
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, 'revision-run-lf05-pr834-all37-a3:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout trusted current main only
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Validate all 37 input/owner/issue contracts without secrets
+        run: node --test scripts/assurance/lf05-pr834-all37-a3-review.node-check.mjs
+      - name: Review original stems blind then independently critique their marking guides in seven bounded groups
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/assurance/lf05-pr834-all37-a3-review.mjs
+      - name: Retain exact-head all37 independent result including every HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lf05-pr834-all37-a3-${{ github.run_id }}
+          path: .artifacts/lf05-pr834-all37-a3/
           if-no-files-found: warn
           retention-days: 30
