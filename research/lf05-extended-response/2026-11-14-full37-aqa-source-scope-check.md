@@ -76,3 +76,19 @@ For every item, a separate A3 question-only blind review and fresh-context guide
 The Founder on 14 November instructs one managed path towards publication of the **entire 37-item original bank and applicable new scenario variants**, **without asking the Founder to approve each item**. This supersedes earlier *non-normative initial-small-batch recommendation*, but **does not supersede** A3 source/assessment evidence, LF-05 human `Ready`, privacy/owner protections, source-rights controls, or specific per-PR merge approval. A single QA batch can return one 37+2 item ledger and targeted correction queue; each question must independently pass or remain HOLD, with an accurate final available count. Never silently publish a failed item to meet a promised count.
 
 **Documentation impact:** source/QA-only additive record on draft research PR #834; existing questions, student accounts, approved `main`, first-response storage, exam mocks, scores and governing product authority are unchanged. The later material implementation PR must update technical docs, tests, register, normative source and INDEX alongside code, and preserve prior dated failures.
+
+## Direct bounded arithmetic recomputation of published-in-draft Business cases
+
+I separately inspected all **10** original Business 16-mark case texts and their authored AO2/AO4 guidance. Their context facts are present, and the quantitative results *actually stated in guidance* have the following deterministic checks:
+
+| ID | Original scenario data | Draft guided calculation | Independent arithmetic result |
+| --- | --- | --- | --- |
+| `BUS-LF05-01-16` | £1.80m revenue − £1.74m total costs | £60,000 accounting profit | **£60,000 correct** |
+| `BUS-LF05-05-16` | £480,000 operating profit / £6m sales | 8% operating margin | **8% correct** |
+| `BUS-LF05-05-16` | £700,000 current assets / £800,000 current liabilities | current ratio 0.875:1 | **0.875:1 correct** |
+| `BUS-LF05-05-16` | £700,000 current assets − £800,000 current liabilities | negative working capital | **−£100,000 correct** |
+| `BUS-LF05-07-16` | £2m operating profit / £25m revenue | 8% operating margin | **8% correct** |
+| `BUS-LF05-07-16` | £2m operating profit / £16m capital employed | ROCE 12.5% | **12.5% correct** |
+| `BUS-LF05-07-16` | £9m non-current liabilities / £16m capital employed | gearing 56.25% using stated convention | **56.25% correct with that denominator** |
+
+The remaining **seven** Business case guides make contextual references/conditional judgements without other authored derived numeric answers requiring an arithmetic key. **This check does not establish** that the original hypothetical cases are sufficiently rich for full 16-mark case evaluation, that a qualified examiner would use the same mark allocation, or that positive NPV and ratios alone justify a specific investment decision. All such judgement decisions remain A3 HOLD. In particular, no repayment schedule, actual post-investment cash-flow forecast or definitive success probability was supplied; never invent those facts.
