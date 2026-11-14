@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
-import {MARKER,IDS,PSY_IDS,BUS_IDS,founderHead,blobHash,parseAllCandidates,parseScenarioVariants,CONTEXT_VARIANT_IDS,blind,rejectBadReview} from './lf05-pr834-all37-a3-review.mjs'
+import {MARKER,IDS,PSY_IDS,BUS_IDS,founderHead,blobHash,parseAllCandidates,parseScenarioVariants,CONTEXT_VARIANT_IDS,blind,rejectBadReview,authoringSharedGuidance} from './lf05-pr834-all37-a3-review.mjs'
 const HEAD='a'.repeat(40)
 const trusted={issue:{number:834,pull_request:{}},comment:{user:{login:'lhanson-dev'},author_association:'OWNER',body:MARKER+'\nhead_sha: '+HEAD}}
 test('exact Founder-owned PR834 review, one immutable all37 SHA',()=>{
@@ -101,4 +101,28 @@ test('both separately proposed contextual Psychology variants remain independent
  assert.equal(v.every(x=>x.originalContext.length>180&&x.trainingOnly===true),true)
  assert.equal(blind(v).every(x=>!('authoredGuide' in x)),true)
  assert.throws(()=>parseScenarioVariants(q.replace(CONTEXT_VARIANT_IDS[0],'BROKEN'),g))
+})
+
+test('shared original training-only rubrics are complete guide-stage inputs, not blind-stage inputs',()=>{
+  const psych='## Assessment rules for these candidates\n'+('A provisional original training Psychology 4-level holistic rubric. '.repeat(12))+
+    '\n### Source-first editorial reconciliation\nOther metadata'
+  const business='## Provisional original Revision level guides\n'+('A provisional original Business 16 and 25 holistic quality descriptor. '.repeat(12))+
+    '\n## Original source-to-response candidates\nIndividual items'
+  const variants='## Shared original Revision training level anchors\n'+('A provisional context-first holistic guide, with defensible alternative credit. '.repeat(10))+
+    '\n**Assurance status:** not examiner calibrated'
+  const shared=authoringSharedGuidance(psych,business,variants)
+  assert.match(shared.psychology,/training Psychology/)
+  assert.match(shared.business,/Business 16 and 25/)
+  assert.match(shared.contextual,/context-first/)
+  const a=JSON.stringify(blind(parseAllCandidates(psychFixture(),bizFixture())))
+  assert.equal(a.includes('training Psychology'),false)
+  assert.equal(a.includes('originalRevisionSharedRubrics'),false)
+  assert.throws(()=>authoringSharedGuidance(psych.replace('### Source-first editorial reconciliation','### MISSING'),business,variants))
+  assert.throws(()=>authoringSharedGuidance(psych,business.replace('## Original source-to-response candidates','## MISSING'),variants))
+  assert.throws(()=>authoringSharedGuidance(psych,business,variants.replace('**Assurance status:**','**MISSING:**')))
+  const code=readFileSync(new URL('./lf05-pr834-all37-a3-review.mjs',import.meta.url),'utf8')
+  assert.match(code,/originalRevisionSharedRubrics:/)
+  assert.match(code,/authoredMarkingGuides:pack/)
+  assert.match(code,/paper1StandaloneRule:/)
+  assert.match(code,/verifiedGranularExamples:/)
 })
