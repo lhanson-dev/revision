@@ -327,7 +327,7 @@
 
 - **Paper/option:** 3 option group 1; **exact source:** AQA Psychology 7182 v1.4 §4.3.4, p22 — Piaget and Vygotsky; learning and development
 - **Publishing classification:** DRAFT — 16-mark exam-style candidate, 2027 item-level tariff not yet validated; **assurance:** A1 item tariff HOLD, A2/A3/A4 pending
-- **Original question:** Compare Piaget's and Vygotsky's explanations of cognitive development, including their implications for how children learn. [16 marks]
+- **Original question:** Compare and evaluate Piaget's and Vygotsky's explanations of cognitive development, including their implications for how children learn. [16 marks — original training format; 2027 item tariff unverified]
 - **Provisional AO allocation:** AO1 6 / AO2 0 / AO3 10. This is an *item proposal*, not inferred from topic-section marks.
 
 **Indicative marking guidance — not exhaustive**
@@ -341,7 +341,7 @@
 1. Evaluate research evidence on stages and task demands, including alternative interpretations of children's performance.
 2. Discuss the role of language, social interaction and culture as a strength or boundary of each theory.
 3. Assess educational implications with qualified claims and methodological safeguards.
-4. Make a reasoned comparison focused on development rather than a list of names.
+4. Make a reasoned **comparative evaluation** of what each account explains well and less well about cognitive development and classroom learning, with evidence-sensitive qualifications rather than a list of names.
 
 **Alternative valid answer routes:** Credit knowledge of object permanence or conservation when explicitly relevant. Avoid attributing all cognitive change only to age or only to instruction.
 
@@ -474,7 +474,7 @@
 
 **AO1 — accurate knowledge:** 
 1. Explain organised/disorganised categorisation in typology profiling.
-2. Describe principles of investigative psychology or geographical profiling as data-driven approaches.
+2. Explain **data-driven investigative psychology** as an offender-profiling approach using patterns in case data; distinguish it from **geographical profiling**, which considers patterns in offence locations. Both appear in 7182 §4.3.9 but are **not synonyms**.
 3. Identify the types of information available to investigators and distinguish hypotheses from proof.
 
 **AO3 — supported analysis, evaluation and judgement:** 
@@ -483,7 +483,7 @@
 3. Discuss ethical and practical risks when profiling directs limited resources.
 4. Develop a conditional judgement about investigative support versus forensic proof.
 
-**Alternative valid answer routes:** Credit either investigative or geographical profiling in detail as the data-driven comparison. Avoid claiming any profile establishes guilt or uniquely identifies an offender.
+**Alternative valid answer routes:** Credit detailed evidence-based investigative psychology as the data-driven approach named in the question. Geographical profiling may receive relevant comparative credit when accurately identified **as a distinct profiling approach**, not substituted as a synonym for investigative psychology. Do not claim a profile proves guilt or uniquely identifies an offender.
 
 **Higher-band discrimination:** A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this *specific* command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
 
