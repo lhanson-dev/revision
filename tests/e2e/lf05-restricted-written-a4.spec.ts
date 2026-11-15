@@ -47,7 +47,7 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     outsider=await isolatedUser(admin,'outsider')
     if(!/^[0-9a-f-]{36}$/.test(primary.user.id))throw new Error('Unexpected synthetic user ID')
     localSql(`insert into lf05_private.lf05_test_memberships(user_id,expires_at) values ('${primary.user.id}',now()+interval '1 day')`)
-    const six=await primary.client.from('lf05_written_questions').select('id')
+    const six=await primary.client.from('lf05_written_questions').select('id').eq('course_id',courseId)
     expect(six.error).toBeNull()
     expect(six.data).toHaveLength(5) // Five Business items; Psychology requires its own course route
     expect(six.data?.some(q=>q.id===itemId)).toBe(true)
