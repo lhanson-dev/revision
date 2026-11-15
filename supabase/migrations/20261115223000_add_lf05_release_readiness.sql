@@ -37,7 +37,9 @@ with entities as (
         and c.relname='lf05_test_memberships'
         and c.relrowsecurity
     ) as private_membership,
-    to_regprocedure('lf05_private.lf05_is_authorised()') is not null
+    exists(select 1 from pg_catalog.pg_proc p
+      join pg_catalog.pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='lf05_private' and p.proname='lf05_is_authorised')
       and to_regprocedure('public.guard_lf05_written_attempt()') is not null
       as server_guards,
     exists(select 1 from pg_catalog.pg_extension where extname='pg_cron')
