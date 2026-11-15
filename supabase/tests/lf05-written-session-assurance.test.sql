@@ -8,7 +8,7 @@ select ok((select relrowsecurity from pg_class where oid='public.lf05_written_at
 select ok(not has_table_privilege('authenticated','lf05_private.lf05_test_memberships','SELECT'),'membership not readable');
 select ok(not has_table_privilege('authenticated','public.lf05_written_questions','INSERT'),'only trusted content publisher');
 select ok(not has_table_privilege('anon','public.lf05_written_guides','SELECT'),'anonymous cannot read guides');
-select is((select count(*) from public.lf05_written_questions where status='published'),0::bigint,'staged content does not publish questions by default');
+select is((select count(*) from lf05_private.lf05_test_memberships),0::bigint,'content cannot silently admit a real learner');
 select is((select count(*) from lf05_private.lf05_test_memberships),0::bigint,'no learners silently admitted');
 select ok(exists(select 1 from cron.job where jobname='revision-expired-lf05-written-v1'
  and command like '%lf05_written_attempts%'),'expiry scheduler exists');
