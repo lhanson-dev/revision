@@ -47,7 +47,10 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     outsider=await isolatedUser(admin,'outsider')
     if(!/^[0-9a-f-]{36}$/.test(primary.user.id))throw new Error('Unexpected synthetic user ID')
     localSql(`insert into lf05_private.lf05_test_memberships(user_id,expires_at) values ('${primary.user.id}',now()+interval '1 day')`)
-    localSql(`update public.lf05_written_questions set status='published' where id='${itemId}'`)
+    const six=await primary.client.from('lf05_written_questions').select('id')
+    expect(six.error).toBeNull()
+    expect(six.data).toHaveLength(5) // Five Business items; Psychology requires its own course route
+    expect(six.data?.some(q=>q.id===itemId)).toBe(true)
 
     const otherList=await outsider.client.from('lf05_written_questions').select('id')
     expect(otherList.error).toBeNull()
@@ -111,10 +114,46 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     const scrubbed=await primary.client.from('lf05_written_attempts')
       .select('phase,first_answer_text,draft_text').eq('question_id',itemId).single()
     expect(scrubbed.data).toMatchObject({phase:'completed',first_answer_text:'',draft_text:''})
+    // All four Business broad essays must be discoverable under the same
+    // original, non-timed question selector, with no compulsory supplied case.
+    for(const essayId of ['BUS-LF05-01-25','BUS-LF05-02-25','BUS-LF05-03-25','BUS-LF05-10-25']) {
+      await resumed.getByRole('combobox',{name:'Question'}).selectOption(essayId)
+      await expect(resumed.getByText(/To what extent/).first()).toBeVisible()
+      await expect(resumed.getByText('Original question context')).toHaveCount(0)
+    }
+    // The Psychology core Paper 1 source route must also show the complete
+    // independently reviewed original council stimulus, not a Business case.
+    await addLearnerCourse(primary.client,primary.user.id,'aqa:aqa-a-level:7182')
+    await page.goto(`${appPath}#/courses`)
+    const psychology=page.locator('.course-card').filter({hasText:'AQA A-level Psychology'}).first()
+    await expect(psychology).toBeVisible()
+    await psychology.getByRole('button',{name:'Open course'}).click()
+    await page.getByRole('navigation',{name:/AQA A-level Psychology navigation/})
+      .getByRole('button',{name:'Exam Prep'}).click()
+    const psy=page.locator('.lf05-writing')
+    await expect(psy.getByRole('heading',{name:'Practise an extended answer'})).toBeVisible()
+    await psy.getByRole('combobox',{name:'Question'}).selectOption('PSY-LF05-01-S1')
+    await expect(psy.getByText(/At a sixth-form council meeting/)).toBeVisible()
+    await expect(psy.getByText(/Discuss explanations for resistance to social influence/)).toBeVisible()
+    await expect(psy.getByText('Self-review guidance (not official or examiner marked)')).toHaveCount(0)
+    await psy.getByRole('button',{name:'Start private written answer'}).click()
+    await psy.getByRole('textbox',{name:'Your independent answer'}).fill(
+      'Social support can allow somebody to resist conformity by showing that another student disagrees. '+
+      'Leila only objected after the ally spoke, which may reduce pressure to conform. '+
+      'A more internal locus of control may be consistent with independent choices, '+
+      'but this story cannot prove her personality or rule out social context.'
+    )
+    await expect(psy.getByText('Last change confirmed saved')).toBeVisible()
+    await psy.getByRole('button',{name:'Submit first answer and unlock guidance'}).click()
+    await expect(psy.getByText(/social support.*route to resisting conformity/i)).toBeVisible()
+    const psyGuide=await primary.client.from('lf05_written_guides')
+      .select('guidance').eq('question_id','PSY-LF05-01-S1').single()
+    expect(psyGuide.error).toBeNull()
+    expect(psyGuide.data?.guidance).toHaveLength(7)
+
   } finally {
     if(primary)await primary.client.auth.signOut()
     if(outsider)await outsider.client.auth.signOut()
-    localSql(`update public.lf05_written_questions set status='held' where id='${itemId}'`)
     if(primary)await admin.auth.admin.deleteUser(primary.user.id)
     if(outsider)await admin.auth.admin.deleteUser(outsider.user.id)
   }
