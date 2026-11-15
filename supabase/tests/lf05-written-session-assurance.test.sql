@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(13);
+select plan(19);
 select ok((select relrowsecurity from pg_class where oid='public.lf05_written_questions'::regclass),'question RLS');
 select ok((select relrowsecurity from pg_class where oid='public.lf05_written_guides'::regclass),'guide RLS');
 select ok((select relrowsecurity from pg_class where oid='public.lf05_written_attempts'::regclass),'essay RLS');
@@ -48,5 +48,30 @@ select is((select count(*) from public.lf05_written_guides),1::bigint,'guide unl
 select throws_ok($sql$update public.lf05_written_attempts
  set revision=4,phase='draft',first_answer_text='',draft_text='Forged answer'$sql$,
  '23514','LF-05 answer state is immutable after submission','submitted response cannot be undone');
+select lives_ok($sql$
+ update public.lf05_written_attempts set revision=4,phase='completed',first_answer_text=''
+ where question_id='BUS-LF05-02-16'
+$sql$,'completing an answer scrubs raw text');
+select ok((select first_answer_text='' and draft_text='' and submitted_at is not null
+ from public.lf05_written_attempts where question_id='BUS-LF05-02-16'),
+ 'completion preserves submission timestamp without raw essay');
+select is((select count(*) from public.lf05_written_guides),1::bigint,
+ 'already submitted and completed work keeps access to qualitative guide while eligible');
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d1","is_anonymous":true}';
+select is((select count(*) from public.lf05_written_guides),0::bigint,
+ 'anonymous Auth cannot access a guide despite matching owner user ID');
+set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d2';
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d2"}';
+select is((select count(*) from public.lf05_written_attempts),0::bigint,
+ 'another learner cannot read first-answer proof or draft');
+reset role;
+delete from lf05_private.lf05_test_memberships
+ where user_id='00000000-0000-4000-8000-0000000000d1';
+set local role authenticated;
+set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d1';
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d1"}';
+select is((select count(*) from public.lf05_written_guides),0::bigint,
+ 'revoked family pilot account immediately loses previously unlocked guide');
+
 select * from finish();
 rollback;
