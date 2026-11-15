@@ -4,34 +4,34 @@ begin;
 -- created by this migration: it is fail-closed until separately approved,
 -- individually source-reviewed content + controller-authorised cohort are seeded.
 -- Never put the child's account details or original answer in GitHub.
-create schema if not exists private;
+create schema if not exists lf05_private;
 
-create table private.lf05_test_memberships (
+create table lf05_private.lf05_test_memberships (
   user_id uuid primary key references auth.users(id) on delete cascade,
   expires_at timestamptz not null,
   created_at timestamptz not null default now(),
   check (expires_at > created_at)
 );
-alter table private.lf05_test_memberships enable row level security;
-revoke all on private.lf05_test_memberships from public, anon, authenticated;
+alter table lf05_private.lf05_test_memberships enable row level security;
+revoke all on lf05_private.lf05_test_memberships from public, anon, authenticated;
 -- Memberships can only be administered using privileged SQL after controller GO.
 -- Re-query the server-side membership on *every* request: a cached JWT app flag
 -- would not provide immediate revocation.
-create or replace function private.lf05_is_authorised()
+create or replace function lf05_private.lf05_is_authorised()
 returns boolean language sql stable security definer
 set search_path = ''
 as $$
   select auth.uid() is not null
     and coalesce((auth.jwt()->>'is_anonymous')::boolean,false) is false
     and exists (
-      select 1 from private.lf05_test_memberships m
+      select 1 from lf05_private.lf05_test_memberships m
       where m.user_id = auth.uid() and m.expires_at > now()
     );
 $$;
-revoke all on function private.lf05_is_authorised() from public, anon, authenticated;
-grant usage on schema private to authenticated;
-grant execute on function private.lf05_is_authorised() to authenticated;
-comment on function private.lf05_is_authorised() is
+revoke all on function lf05_private.lf05_is_authorised() from public, anon, authenticated;
+grant usage on schema lf05_private to authenticated;
+grant execute on function lf05_private.lf05_is_authorised() to authenticated;
+comment on function lf05_private.lf05_is_authorised() is
   'Restricted LF-05 entitlement check; private schema is not an exposed API. No accounts enabled at migration.';
 
 -- Metadata and original stimulus are distinct from assessment guidance.
@@ -57,7 +57,7 @@ alter table public.lf05_written_questions enable row level security;
 create index lf05_questions_course_idx on public.lf05_written_questions(course_id, status);
 create policy lf05_question_select on public.lf05_written_questions
   for select to authenticated
-  using (status='published' and (select private.lf05_is_authorised()));
+  using (status='published' and (select lf05_private.lf05_is_authorised()));
 revoke all on public.lf05_written_questions from public, anon, authenticated;
 grant select on public.lf05_written_questions to authenticated;
 
@@ -88,20 +88,20 @@ alter table public.lf05_written_attempts enable row level security;
 
 create policy lf05_attempt_select on public.lf05_written_attempts
   for select to authenticated
-  using (user_id=(select auth.uid()) and expires_at>now() and (select private.lf05_is_authorised()));
+  using (user_id=(select auth.uid()) and expires_at>now() and (select lf05_private.lf05_is_authorised()));
 create policy lf05_attempt_insert on public.lf05_written_attempts
   for insert to authenticated
-  with check (user_id=(select auth.uid()) and (select private.lf05_is_authorised())
+  with check (user_id=(select auth.uid()) and (select lf05_private.lf05_is_authorised())
     and exists (select 1 from public.lf05_written_questions q
       where q.id=question_id and q.course_id=course_id
       and q.content_fingerprint=content_fingerprint and q.status='published'));
 create policy lf05_attempt_update on public.lf05_written_attempts
   for update to authenticated
-  using (user_id=(select auth.uid()) and expires_at>now() and (select private.lf05_is_authorised()))
-  with check (user_id=(select auth.uid()) and expires_at>now() and (select private.lf05_is_authorised()));
+  using (user_id=(select auth.uid()) and expires_at>now() and (select lf05_private.lf05_is_authorised()))
+  with check (user_id=(select auth.uid()) and expires_at>now() and (select lf05_private.lf05_is_authorised()));
 create policy lf05_attempt_delete on public.lf05_written_attempts
   for delete to authenticated
-  using (user_id=(select auth.uid()) and (select private.lf05_is_authorised()));
+  using (user_id=(select auth.uid()) and (select lf05_private.lf05_is_authorised()));
 revoke all on public.lf05_written_attempts from public, anon, authenticated;
 grant select,insert,update,delete on public.lf05_written_attempts to authenticated;
 
@@ -181,7 +181,7 @@ create table public.lf05_written_guides (
 alter table public.lf05_written_guides enable row level security;
 create policy lf05_guide_after_first_answer on public.lf05_written_guides
   for select to authenticated
-  using ((select private.lf05_is_authorised())
+  using ((select lf05_private.lf05_is_authorised())
     and exists (select 1 from public.lf05_written_questions q
       where q.id=question_id and q.status='published'
       and q.content_fingerprint=lf05_written_guides.content_fingerprint)
