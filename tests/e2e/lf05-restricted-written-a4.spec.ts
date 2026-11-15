@@ -18,7 +18,7 @@ function localSql(query:string) {
   const url=new URL(localUrl)
   if(!enabled||url.protocol!=='http:'||url.hostname!=='127.0.0.1'||url.port!=='54321')
     throw new Error('LF-05 A4 fixture is limited to isolated CI localhost')
-  if(!/^[\w\s(),.'=;:-]+$/.test(query)) throw new Error('Unsafe fixture SQL')
+  if(!/^[\w\s(),.'=;:+-]+$/.test(query)) throw new Error('Unsafe fixture SQL')
   execFileSync('docker',['exec','supabase_db_revision','psql','-U','postgres','-d','postgres',
     '-v','ON_ERROR_STOP=1','-c',query],{encoding:'utf8',timeout:20000})
 }
