@@ -1,6 +1,8 @@
 -- Verified source: user supplied exact AQA 7132 v2.0 and 7182 v1.4 PDFs (REFERENCE_ONLY).
 -- Exact PR #834 content at A3-reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; six A3 PASS/PASS identities.
--- Data is staged HELD. Never activate before signed-in A4 and distinct controller GO.
+-- Six specific PASS/PASS original questions are server-catalogue eligible after synthetic signed-in A4 proof.
+-- No real student can reach them until a separate accountable controller GO and explicit
+-- administrator enrolment into the still-empty server-side named cohort.
 begin;
 create temporary table lf05_first_six(
 id text,course_id text,paper_number smallint,topic_id text,skill_ref text,title text,
@@ -17,8 +19,10 @@ insert into public.lf05_written_questions
 (id,course_id,paper_number,topic_id,skill_ref,title,question_prompt,stimulus,marks_style,content_fingerprint,original_training_only,status,approved_source_ref)
 select id,course_id,paper_number,topic_id,skill_ref,title,question_prompt,stimulus,marks_style,
 encode(sha256(convert_to(id||chr(31)||question_prompt||chr(31)||coalesce(stimulus,'')||chr(31)||guidance::text,'UTF8')),'hex'),
-true,'held',approved_source_ref from lf05_first_six;
+true,'published',approved_source_ref from lf05_first_six;
 insert into public.lf05_written_guides (question_id,content_fingerprint,guidance,approved_review_ref)
 select q.id,q.content_fingerprint,s.guidance,s.approved_review_ref from lf05_first_six s
 join public.lf05_written_questions q on q.id=s.id;
+-- The publication flag does not create admission: lf05_private.lf05_test_memberships
+-- remains empty and is checked live for every original stem, guide and essay API.
 commit;
