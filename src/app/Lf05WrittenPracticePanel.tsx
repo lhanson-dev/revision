@@ -34,19 +34,20 @@ export function Lf05WrittenPracticePanel({
   const [saveTick, setSaveTick] = useState(0)
   const [confirmDiscard, setConfirmDiscard] = useState(false)
   const writeInProgress = useRef(false)
-  const selected = questions.find(q=>q.id===choice)??null
+  const ctx = useMemo(() => ({client:context.client,userId:context.userId,courseId:context.courseId}),
+    [context.client,context.userId,context.courseId])
+  const selected = useMemo(() => questions.find(q=>q.id===choice)??null, [questions,choice])
   const eligible = useMemo(()=>questions.filter(q=>
     (markStyle==='all'||q.marks_style===markStyle) &&
     (!preferredTopicId||q.topic_id===preferredTopicId)
   ),[markStyle,preferredTopicId,questions])
-  const persisted = attempt?.phase==='draft'&&status!=='error'&&
-    answer===attempt.draft_text&&!writeInProgress.current
+  const persisted = attempt?.phase==='draft'&&status==='saved'&&
+    answer===attempt.draft_text
   const safeToLeave = !attempt||attempt.phase!=='draft'||persisted
 
   useEffect(()=>{
     let cancelled=false
-    setCatalogueState('loading')
-    void listLf05Questions(context).then(q=>{
+    void listLf05Questions(ctx).then(q=>{
       if(cancelled)return
       setQuestions(q)
       setCatalogueState('available')
@@ -57,15 +58,20 @@ export function Lf05WrittenPracticePanel({
       setCatalogueState('unavailable')
     })
     return()=>{cancelled=true}
-  },[context.client,context.userId,context.courseId])
+  },[ctx])
 
   useEffect(()=>{
     if(!choice||!selected)return
     let cancelled=false
-    setStatus('loading');setError('');setAttempt(null);setGuidance([]);setAnswer('')
-    void latestLf05Attempt(context,selected).then(async found=>{
+    // Reset after the effect's synchronous phase. Prior result data must not
+    // survive into another account/question's response.
+    void Promise.resolve().then(() => {
+      if(cancelled)return null
+      setStatus('loading');setError('');setAttempt(null);setGuidance([]);setAnswer('')
+      return latestLf05Attempt(ctx,selected)
+    }).then(async found=>{
       if(!found)return {row:null,guide:[] as string[]}
-      return {row:found,guide:found.phase==='draft'?[]:await loadLf05Guide(context,selected)}
+      return {row:found,guide:found.phase==='draft'?[]:await loadLf05Guide(ctx,selected)}
     }).then(({row,guide})=>{
       if(cancelled)return
       setAttempt(row)
@@ -78,7 +84,7 @@ export function Lf05WrittenPracticePanel({
       setStatus('error')
     })
     return()=>{cancelled=true}
-  },[context.client,context.courseId,context.userId,choice,selected?.content_fingerprint,reloadTick])
+  },[ctx,choice,selected,reloadTick])
 
   useEffect(()=>{
     if(!attempt||!selected||attempt.phase!=='draft'||status==='error'||status==='loading')return
@@ -88,7 +94,7 @@ export function Lf05WrittenPracticePanel({
       if(writeInProgress.current)return
       writeInProgress.current=true
       setStatus('saving')
-      void saveLf05Draft(context,selected,attempt,answer)
+      void saveLf05Draft(ctx,selected,attempt,answer)
         .then(row=>{setAttempt(row);setStatus('saved');setError('')})
         .catch(e=>{
           setStatus('error')
@@ -97,7 +103,7 @@ export function Lf05WrittenPracticePanel({
         .finally(()=>{writeInProgress.current=false;setSaveTick(x=>x+1)})
     },700)
     return()=>window.clearTimeout(timer)
-  },[answer,attempt,context.client,context.courseId,context.userId,selected?.id,status,saveTick])
+  },[answer,attempt,ctx,selected,status,saveTick])
 
   useEffect(()=>{
     if(safeToLeave)return
@@ -111,7 +117,7 @@ export function Lf05WrittenPracticePanel({
     setStatus('loading');setError('')
     try {
       const id=crypto.randomUUID()
-      const row=await startLf05Attempt(context,selected,id)
+      const row=await startLf05Attempt(ctx,selected,id)
       setAttempt(row);setAnswer(row.draft_text);setGuidance([]);setStatus('saved')
     } catch(e) {
       setStatus('error');setError(e instanceof Error?e.message:'The draft could not be started.')
@@ -121,8 +127,8 @@ export function Lf05WrittenPracticePanel({
     if(!selected||!attempt||!persisted||answer.trim().length<100)return
     setStatus('saving');setError('')
     try {
-      const row=await commitLf05FirstAnswer(context,selected,attempt)
-      const guide=await loadLf05Guide(context,selected)
+      const row=await commitLf05FirstAnswer(ctx,selected,attempt)
+      const guide=await loadLf05Guide(ctx,selected)
       setAttempt(row);setGuidance(guide);setStatus('submitted')
     } catch(e) {
       // A committed server response may have succeeded despite a lost guide
@@ -135,14 +141,14 @@ export function Lf05WrittenPracticePanel({
     if(!selected||!attempt||attempt.phase!=='submitted')return
     setStatus('saving')
     try {
-      const row=await completeLf05Attempt(context,selected,attempt)
+      const row=await completeLf05Attempt(ctx,selected,attempt)
       setAttempt(row);setAnswer('');setStatus('submitted')
     } catch(e) {setStatus('error');setError(e instanceof Error?e.message:'Could not confirm deletion of raw answer.')}
   }
   async function discard() {
     if(!selected||!attempt||status==='saving')return
     try {
-      await discardLf05Attempt(context,selected,attempt)
+      await discardLf05Attempt(ctx,selected,attempt)
       setAttempt(null);setAnswer('');setGuidance([]);setError('');setStatus('saved')
       setConfirmDiscard(false)
     } catch(e){setStatus('error');setError(e instanceof Error?e.message:'Unable to discard saved writing.')}
