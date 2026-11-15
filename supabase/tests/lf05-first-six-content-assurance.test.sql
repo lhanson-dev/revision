@@ -1,14 +1,14 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(14);
+select plan(16);
 
 select is((select count(*) from public.lf05_written_questions),6::bigint,
   'six exact reviewed item identities were staged');
 select is((select count(*) from public.lf05_written_guides),6::bigint,
   'each staged item has its independent authored marking guidance');
-select is((select count(*) from public.lf05_written_questions where status='held'),6::bigint,
-  'none of the six is prematurely published before A4');
+select is((select count(*) from public.lf05_written_questions where status='published'),6::bigint,
+  'six A3-reviewed originals are catalogue-eligible only to named entitled learners');
 select is((select count(*) from public.lf05_written_questions
   where course_id='aqa:aqa-a-level:7132'),5::bigint,'five Business originals');
 select is((select count(*) from public.lf05_written_questions
@@ -40,5 +40,13 @@ select ok((select bool_and(approved_source_ref like '%675fdc8c53a224fe8fa9a81079
    and approved_review_ref like '%43620992688%') from
   public.lf05_written_questions q join public.lf05_written_guides g on g.question_id=q.id),
  'every staged version cites exact independently checked head and review receipt');
+select is((select count(*) from lf05_private.lf05_test_memberships),0::bigint,
+  'no learner account is admitted by the content-only migration');
+set local role authenticated;
+set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d9';
+set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d9"}';
+select is((select count(*) from public.lf05_written_questions),0::bigint,
+  'ordinary signed-in learner cannot see any content without controller-approved admission');
+reset role;
 select * from finish();
 rollback;
