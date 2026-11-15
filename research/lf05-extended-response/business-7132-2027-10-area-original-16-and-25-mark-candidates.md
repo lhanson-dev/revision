@@ -259,7 +259,7 @@
 
 **Indicative marking guide**
 
-- **AO1 selected knowledge:** Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
+- **AO1 selected knowledge:** Explain **financial rewards** such as wages, salaries, bonuses, commission, profit-sharing and performance-related pay, and their plausible effects on motivation, retention, fairness and effort. Credit accurately applied motivation theories (for example Herzberg, Vroom or equity theory), and contrast **non-financial** approaches such as responsibility, autonomy, job design or recognition. Training is only one optional non-financial comparison; do not mistake training types for the question's main financial-reward demand.
 - **AO2 plausible business contexts:** Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 - **AO3 developed analysis:** Analyse pay as hygiene, fairness or retention influence without assuming it always changes motivation. Contrast job design, autonomy, recognition and progression using relevant motivation theories and the service context.
 - **AO4 balanced judgement:** Judge by worker needs, labour market, wage competitiveness and whether problems concern reward or working conditions.
@@ -284,8 +284,8 @@
 
 **Indicative marking guide, with marks not automatically assigned per bullet**
 
-- **AO1 accurate concepts:** Explain how profitability, ROCE, gearing and investment appraisal inform but do not determine decisions.
-- **AO2 contextual selection and interpretation:** Use margin 8%, ROCE 12.5%, gearing 56.25% and NPV +£900,000, with explicit forecast/supplier limitations.
+- **AO1 accurate concepts:** Explain how profit margin, ROCE, borrowing/gearing risk and investment appraisal can inform but not settle decisions. A precise gearing measure must use a stated and supported formula; the supplied liabilities alone do not establish every definition's debt and equity inputs.
+- **AO2 contextual selection and interpretation:** Credit **operating profit margin 8%** (£2m/£25m), **ROCE 12.5%** (£2m/£16m), **positive stated NPV £900,000** and sound use of the unresolved demand/supplier assumptions. Non-current liabilities are **£9m relative to £16m capital employed** (an arithmetic ratio of 56.25%); **do not require calling 56.25% gearing** without an explicit definition of borrowing, equity and denominator. Credit correctly stated alternative gearing conventions and the limits of the supplied data.
 - **AO3 developed causal analysis:** Analyse attractive returns against borrowing risk and forecast sensitivity. Consider market, competitor, operational and capability evidence beyond ratios.
 - **AO4 evaluation and judgement:** Recommend further due diligence or a conditional approval tied to key assumptions, rather than declaring that a positive NPV guarantees success.
 - **Valid alternatives:** Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
@@ -339,7 +339,7 @@
 
 **Indicative marking guide**
 
-- **AO1 selected knowledge:** Explain market development and product development in Ansoff's matrix and their distinct risk profiles. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
+- **AO1 selected knowledge:** Explain **differentiation** through distinctive value, quality, design, service or brand position, versus **low-cost/cost-leadership** approaches based on an efficient cost base that may support competitive prices or margin. Distinguish a firm's lower production cost from simply lowering selling prices. Ansoff's growth matrix is **not required** unless a student independently uses a relevant, accurate growth strategy to support their argument.
 - **AO2 plausible business contexts:** Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 - **AO3 developed analysis:** Explain how differentiation can sustain brand loyalty and pricing power; analyse its costs and imitation risks. Contrast scale/purchasing, efficiency and low-cost strategies, including vulnerability to price competition and quality loss.
 - **AO4 balanced judgement:** Judge by the nature of the market, elasticity, firm resources and customer needs; state when hybrid trade-offs are sensible.
