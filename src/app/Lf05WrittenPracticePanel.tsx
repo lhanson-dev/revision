@@ -30,7 +30,8 @@ export function Lf05WrittenPracticePanel({
   const [guidance, setGuidance] = useState<string[]>([])
   const [status, setStatus] = useState<'loading'|'saved'|'unsaved'|'saving'|'error'|'submitted'>('loading')
   const [error, setError] = useState('')
-  const [retry, setRetry] = useState(0)
+  const [reloadTick, setReloadTick] = useState(0)
+  const [saveTick, setSaveTick] = useState(0)
   const [confirmDiscard, setConfirmDiscard] = useState(false)
   const writeInProgress = useRef(false)
   const selected = questions.find(q=>q.id===choice)??null
@@ -77,7 +78,7 @@ export function Lf05WrittenPracticePanel({
       setStatus('error')
     })
     return()=>{cancelled=true}
-  },[context.client,context.courseId,context.userId,choice,selected?.content_fingerprint,retry])
+  },[context.client,context.courseId,context.userId,choice,selected?.content_fingerprint,reloadTick])
 
   useEffect(()=>{
     if(!attempt||!selected||attempt.phase!=='draft'||status==='error'||status==='loading')return
@@ -93,10 +94,10 @@ export function Lf05WrittenPracticePanel({
           setStatus('error')
           setError(e instanceof Error?e.message:'Latest draft is not confirmed saved.')
         })
-        .finally(()=>{writeInProgress.current=false;setRetry(x=>x+1)})
+        .finally(()=>{writeInProgress.current=false;setSaveTick(x=>x+1)})
     },700)
     return()=>window.clearTimeout(timer)
-  },[answer,attempt,context.client,context.courseId,context.userId,selected?.id,status,retry])
+  },[answer,attempt,context.client,context.courseId,context.userId,selected?.id,status,saveTick])
 
   useEffect(()=>{
     if(safeToLeave)return
@@ -205,7 +206,8 @@ export function Lf05WrittenPracticePanel({
           <Button disabled={!persisted||answer.trim().length<100} onClick={()=>void submit()}>
             Submit first answer and unlock guidance
           </Button>
-          {status==='error'&&<Button variant="secondary" onClick={()=>setRetry(x=>x+1)}>Retry / reload saved state</Button>}
+          {status==='error'&&<><Button variant="secondary" onClick={()=>{setStatus('unsaved');setSaveTick(x=>x+1)}}>Retry saving this text</Button>
+            <Button variant="secondary" onClick={()=>{setReloadTick(x=>x+1)}}>Reload last confirmed version</Button></>}
           {!confirmDiscard&&<Button variant="secondary" onClick={()=>setConfirmDiscard(true)}>Discard draft</Button>}
           {confirmDiscard&&<><span>Discard this private answer?</span>
             <Button variant="secondary" onClick={()=>void discard()}>Confirm discard</Button>
