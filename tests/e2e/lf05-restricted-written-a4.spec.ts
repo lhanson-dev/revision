@@ -123,8 +123,14 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     }
     // The Psychology core Paper 1 source route must also show the complete
     // independently reviewed original council stimulus, not a Business case.
-    await addLearnerCourse(primary.client,primary.user.id,'aqa:aqa-a-level:7182')
+    // Add Psychology through the real learner UI: a direct database insert
+    // would leave the already-mounted programme membership state stale.
     await page.goto(`${appPath}#/courses`)
+    await page.getByRole('button',{name:'Add course'}).first().click()
+    const availablePsychology=page.locator('.courses-add-item')
+      .filter({hasText:'AQA A-level Psychology'}).first()
+    await expect(availablePsychology).toBeVisible()
+    await availablePsychology.getByRole('button',{name:'Add course'}).click()
     const psychology=page.locator('.course-card').filter({hasText:'AQA A-level Psychology'}).first()
     await expect(psychology).toBeVisible()
     await psychology.getByRole('button',{name:'Open course'}).click()
