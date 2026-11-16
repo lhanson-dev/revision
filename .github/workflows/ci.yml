@@ -58,7 +58,7 @@ jobs:
           const fs = require('node:fs')
           const workflow = fs.readFileSync('.github/workflows/deploy-pages.yml', 'utf8')
           const begin = workflow.indexOf('lf05_response="$(curl')
-          const end = workflow.indexOf('echo "LF-05 private-writing backend capability contract ready."', begin)
+          const end = workflow.indexOf('echo "LF-05 signed-in writing backend capability contract ready."', begin)
           if (begin < 0 || end < 0) throw new Error('Missing LF-05 production readiness block')
           const block = workflow.slice(begin, end)
           if (!block.includes('revision_lf05_release_readiness') || !block.includes('EXPECTED_LF05_CONTRACT'))
