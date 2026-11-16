@@ -8,7 +8,7 @@ select is((select count(*) from public.lf05_written_questions),6::bigint,
 select is((select count(*) from public.lf05_written_guides),6::bigint,
   'each staged item has its independent authored marking guidance');
 select is((select count(*) from public.lf05_written_questions where status='published'),6::bigint,
-  'six A3-reviewed originals are catalogue-eligible only to named entitled learners');
+  'six A3-reviewed originals are eligible for signed-in learners');
 select is((select count(*) from public.lf05_written_questions
   where course_id='aqa:aqa-a-level:7132'),5::bigint,'five Business originals');
 select is((select count(*) from public.lf05_written_questions
@@ -45,8 +45,8 @@ select is((select count(*) from lf05_private.lf05_test_memberships),0::bigint,
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d9';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d9"}';
-select is((select count(*) from public.lf05_written_questions),0::bigint,
-  'ordinary signed-in learner cannot see any content without controller-approved admission');
+select is((select count(*) from public.lf05_written_questions),6::bigint,
+  'all signed-in learners can see six reviewed originals with no account allowlist');
 reset role;
 select * from finish();
 rollback;
