@@ -60,8 +60,10 @@ with entities as (
         and pg_catalog.pg_get_functiondef(p.oid) not ilike '%lf05_test_memberships%'
     ) as open_signed_in_eligibility,
     to_regprocedure('public.guard_lf05_written_attempt()') is not null as server_guard,
+    -- Public SECURITY INVOKER RPC may inspect pg_extension, not the private
+    -- cron.job catalogue. Active schedule is separately verified by the
+    -- privileged migration/release assurance (the original contract behaved so).
     exists(select 1 from pg_catalog.pg_extension where extname='pg_cron')
-      and exists (select 1 from cron.job where jobname='revision-expired-lf05-written-v1' and active)
       as expiry_scheduler
   from entities
 )
