@@ -106,13 +106,13 @@ jobs:
            echo "Ordinary-learner backend contract ready."
            # The LF-05 authored-writing release may only publish Pages once
            # its separately deployed RLS/guide/attempt backend has been verified.
-           lf05_response="$(curl --fail --silent --show-error \\
-             --request POST \\
-             --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \\
-             --header "Content-Type: application/json" \\
-             --data '{}' \\
+           lf05_response="$(curl --fail --silent --show-error \
+             --request POST \
+             --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+             --header "Content-Type: application/json" \
+             --data '{}' \
              "${SUPABASE_URL}/rest/v1/rpc/revision_lf05_release_readiness")"
-           if [ "$(jq -r '.contract // empty' <<<"$lf05_response")" != "$EXPECTED_LF05_CONTRACT" ] || \\
+           if [ "$(jq -r '.contract // empty' <<<"$lf05_response")" != "$EXPECTED_LF05_CONTRACT" ] || \
               [ "$(jq -r '.ready // false' <<<"$lf05_response")" != 'true' ]; then
              echo 'LF-05 private written-practice backend is not ready; do not deploy the new Pages build.' >&2
              echo "$lf05_response" >&2
