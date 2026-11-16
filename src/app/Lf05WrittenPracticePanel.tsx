@@ -158,9 +158,9 @@ export function Lf05WrittenPracticePanel({
     setChoice(id);setConfirmDiscard(false)
   }
 
-  // No cohort membership or no individually published reviewed questions:
-  // do not show a phantom 16/25-mark option, private-review claim or a prompt
-  // that someone else's course doesn't have access to.
+  // When no independently published originals exist for this course,
+  // do not show a phantom question or marks option. This is ordinary signed-in
+  // Practice; access is not determined by a per-account pilot allowlist.
   if(catalogueState==='loading'||catalogueState==='unavailable'||questions.length===0)return null
 
   return <section className="exam-simulator lf05-writing" aria-label="Original extended-writing practice">
