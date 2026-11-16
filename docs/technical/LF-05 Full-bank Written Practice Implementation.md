@@ -1,6 +1,6 @@
 # LF-05 — Full-bank written Practice implementation and restricted backend
 
-**Implementation status:** Draft PR #850, **In Progress**; **not merged, not deployed, not accepted for child data or public use**. Founder-approved expanded product direction and separate human Ready: [#706 decision #6899837860](https://github.com/lhanson-dev/revision/issues/706#issuecomment-6899837860), normative Course Learning Blueprint after merged PR #849. Course/option content assurance remains #698. No separate writing engine or new planner.
+**Current implementation status (16 November 2026):** PRs #850 (writing foundation) and #851 (first six reviewed original question/guide pairs) are merged and successfully deployed. Six question+guide pairs are available in the database; the original LF-05 named-account audience restriction remains in production until this separate access PR is approved, migrated and released. Founder-approved expanded product direction and separate human Ready: [#706 decision #6899837860](https://github.com/lhanson-dev/revision/issues/706#issuecomment-6899837860), normative Course Learning Blueprint after merged PR #849. Course/option content assurance remains #698. No separate writing engine or new planner.
 
 ## Canonical runtime and entry points
 
