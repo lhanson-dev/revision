@@ -10,6 +10,8 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+
+- LF-05 proposed standard signed-in writing access (Founder 16 November correction; removal of per-account gate without weakening RLS, guide-after-submit, or 14-day expiry) → `10-product-governance/Course Learning Blueprint.md`, `50-engineering-standards/Release & Deployment Standard.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md` and new `supabase/migrations/20261116220000_lf05_uniform_authenticated_access.sql`; tracked in #706; PR pending specific approval. 
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
 - LF-03 AQA Psychology Social Influence scored MCQ correction, versioned learner evidence and exact legacy checkpoint compatibility → `docs/technical/LF-03 Social Influence MCQ Validity.md`
 - LF-03 targeted published AQA Psychology/Business MCQ quality source audit and bounded exception queue → `audits/2026-11-02-lf03-mcq-bank-source-audit.md`
