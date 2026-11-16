@@ -23,7 +23,7 @@ env:
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: r2-exam-attempt-v1
   EXPECTED_LEARNER_FEATURE_CONTRACT: r2-exam-attempt-open-v2
-  EXPECTED_LF05_CONTRACT: lf05-original-writing-v1
+  EXPECTED_LF05_CONTRACT: lf05-original-writing-open-v2
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
   # Fifth explicit 2026-10-06 recovery checkpoint. During GitHub's
   # 2026-10-05 Actions/Pages incident, PR #534 merged as c2d82ecf... but its
@@ -114,11 +114,11 @@ jobs:
              "${SUPABASE_URL}/rest/v1/rpc/revision_lf05_release_readiness")"
            if [ "$(jq -r '.contract // empty' <<<"$lf05_response")" != "$EXPECTED_LF05_CONTRACT" ] || \
               [ "$(jq -r '.ready // false' <<<"$lf05_response")" != 'true' ]; then
-             echo 'LF-05 private written-practice backend is not ready; do not deploy the new Pages build.' >&2
+             echo 'LF-05 signed-in written-practice backend is not ready; do not deploy the new Pages build.' >&2
              echo "$lf05_response" >&2
              exit 1
            fi
-           echo "LF-05 private-writing backend capability contract ready."
+           echo "LF-05 signed-in writing backend capability contract ready."
 
       - name: Verify required protected Edge Functions are deployed
         run: |
