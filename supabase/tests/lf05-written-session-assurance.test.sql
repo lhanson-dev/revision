@@ -32,7 +32,7 @@ insert into public.lf05_written_guides(question_id,content_fingerprint,guidance,
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d2';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d2","app_metadata":{}}';
-select is((select count(*) from public.lf05_written_questions),1::bigint,'ordinary signed-in learner sees a published original without a cohort flag');
+select is((select count(*) from public.lf05_written_questions),7::bigint,'ordinary learner sees all six published originals and a synthetic test item without a cohort flag');
 
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d1';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d1","app_metadata":{}}';
