@@ -710,9 +710,9 @@ The first release must pass item/source/right checks, exact question-version and
 **Document control:** this section is the **proposed** product authority for the limited first-pilot MVP and must be read with the existing Course Learning Blueprint; `10-product-governance/backlog/LF-05 Mark-Value Written Practice Readiness Analysis.md` holds the separate proposed 17-point human Ready record. Item-specific evidence is dated in `audits/2026-11-14-lf05-first-four-restricted-pilot-item-evidence.md`. Detailed data/API/technical reality and any migration, ADR, consent, runbooks and release registers must be updated in the subsequent governed implementation PR, not silently described as implemented here.
 
 
-## LF-05 — proposed full Business and Psychology written-practice delivery expansion (15 November 2026)
+## LF-05 — approved full Business and Psychology written-practice delivery expansion (15 November 2026)
 
-> **Governance state:** This section proposes a change to the Founder-approved four-question family-pilot cap in PR #848, following the Founder’s explicit correction that their son needs the **full usable Business and Psychology question sets**. **Not effective until this separate normative PR is Founder-approved and merged.** The earlier explicit `Analyse → Ready` approval covers only the original four-item restricted pilot; it must not silently be reinterpreted as expanded 39-item Ready or a real-child-data GO. Existing privacy, assessment provenance and separate release-approval requirements continue to apply.
+> **Current approved authority:** Founder explicitly approved and merged the full-bank product expansion in PR #849 and separately granted expanded LF-05 human `Ready` ([#706 decision #6899837860](https://github.com/lhanson-dev/revision/issues/706#issuecomment-6899837860)). The four-item scope is an initial technical proving point, **not** the delivery endpoint. Only individually cleared source versions may be published; this approval is **not** 39/39 educational assurance, a code/PR merge approval, or the separate controller pre-use GO for real child data. Existing privacy, assessment provenance and release safeguards remain binding.
 
 ### Intended outcome: full learner testing, not a showcase
 

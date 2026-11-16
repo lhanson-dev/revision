@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { CatalogueCourse, ModuleLearningState } from './catalogue-model'
 import { ExamSimulator, type ExamSimulatorProps } from './ExamSimulator'
+import { Lf05WrittenPracticePanel } from './Lf05WrittenPracticePanel'
+import type { Lf05Context } from '../services/progress/lf05-written-practice-service'
 import { examDateLabel, examPapersFor, lastMockFrom, mockRowFor, suggestMock, topicsCoveredPhrase, weeksAwayPhrase, type MockRow } from './exam-prep'
 import { availableCourseMocks } from './course-mock-catalogue'
 import { resolveSubjectIdentity } from './subject-palette'
@@ -20,6 +22,8 @@ type ExamPrepSectionProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   /** Only supplied after the governed raw-answer retention and timing decision. */
   checkpointContext?: ExamSimulatorProps['checkpointContext']
+  /** Separate default-deny LF-05 question/data service; never tied to mock recovery eligibility. */
+  lf05Context?: Lf05Context
 }
 
 /**
@@ -27,7 +31,7 @@ type ExamPrepSectionProps = {
  * in-page, while a timed full paper uses ExamSimulator's dedicated viewport.
  * The presentation shell never owns exam timer, marks or saved evidence.
  */
-export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext }: ExamPrepSectionProps) {
+export function ExamPrepSection({ course, state, subjectId, subjectName, nextExam, saving, saveError, onRecordEvidence, checkpointContext, lf05Context }: ExamPrepSectionProps) {
   const [now] = useState(() => new Date())
   const [active, setActive] = useState<{ id: string; mode: ExamMockMode; retakeCompleted?: boolean; durableContext?: ExamSimulatorProps['checkpointContext'] } | null>(null)
   const [savedExams, setSavedExams] = useState<Array<{ id: string; phase: string }>>([])
@@ -131,6 +135,7 @@ export function ExamPrepSection({ course, state, subjectId, subjectName, nextExa
 
   return (
     <>
+      {lf05Context && <Lf05WrittenPracticePanel context={lf05Context} />}
       {checkpointContext && (savedExams.some((item) => item.phase !== 'submitted') || savedExamCheck === 'unavailable') && <section className="exam-prep-recovery" aria-label="Saved mock examinations">
         <p>Unfinished full mocks are saved privately for up to 14 days. You can continue from your last confirmed answers after leaving or refreshing. Draft answers are removed after your result is safely recorded.</p>
         {savedExamCheck === 'checking' && <p role="status">Checking unfinished exams…</p>}
