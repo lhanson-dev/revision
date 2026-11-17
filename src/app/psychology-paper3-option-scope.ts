@@ -96,3 +96,22 @@ export function psychologyPaper3SavedTopicScope(
   const result = psychologyPaper3TopicScope(contract, choice)
   return result && ids.every((id) => result.topicIds.includes(id)) ? result : null
 }
+
+
+/**
+ * Original writing questions must not silently become visible when the paper
+ * contract is missing, a topic is not in its recognised syllabus options, or
+ * the learner's saved selection cannot be validated. Paper 1/2 are compulsory.
+ */
+export function psychologyWrittenQuestionInSavedOptionScope(
+  contract: PsychologyPaper3OptionContract | null,
+  question: { paper_number: number; topic_id: string },
+  savedTopicIds: readonly string[] | null,
+): boolean {
+  if (question.paper_number !== 3) return true
+  if (!contract) return false
+  if (contract.compulsoryTopicIds.includes(question.topic_id)) return true
+  const knownOption = contract.groups.some(group =>
+    group.options.some(option => option.topicId === question.topic_id))
+  return knownOption && !!savedTopicIds?.includes(question.topic_id)
+}
