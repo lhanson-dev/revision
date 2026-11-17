@@ -8,15 +8,12 @@ import { Button } from './ui'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import {
   isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3SavedTopicScope,
+  psychologyWrittenQuestionInSavedOptionScope,
 } from './psychology-paper3-option-scope'
 
 const psychologyPaper3Adapter = listAvailableContentAdapters().find(isAqaPsychologyPaper3)
 const psychologyPaper3Contract = psychologyPaper3Adapter
   ? psychologyPaper3OptionContract(psychologyPaper3Adapter) : null
-const psychologyOptionalTopicIds = new Set(psychologyPaper3Contract?.groups.flatMap(
-  (group) => group.options.map((option) => option.topicId),
-) ?? [])
-
 /**
  * One source-backed LF-05 written Practice workspace, reused from both
  * Course Practice and Exam Prep. This does not change timed-paper sessions or
@@ -54,9 +51,10 @@ export function Lf05WrittenPracticePanel({
   const optionState = psychologyPaper3.key === paper3Key
     ? psychologyPaper3 : {phase:'loading' as const,topicIds:[] as string[]}
   const visibleQuestions = useMemo(() => questions.filter((q) =>
-    ctx.courseId !== 'aqa:aqa-a-level:7182' || q.paper_number !== 3
-    || !psychologyOptionalTopicIds.has(q.topic_id)
-    || (optionState.phase === 'selected' && optionState.topicIds.includes(q.topic_id))
+    ctx.courseId !== 'aqa:aqa-a-level:7182' ||
+    psychologyWrittenQuestionInSavedOptionScope(
+      psychologyPaper3Contract,q,optionState.phase === 'selected' ? optionState.topicIds : null,
+    )
   ),[ctx.courseId,optionState,questions])
   const selected = useMemo(() => visibleQuestions.find(q=>q.id===choice)??null, [visibleQuestions,choice])
   const eligible = useMemo(()=>visibleQuestions.filter(q=>
