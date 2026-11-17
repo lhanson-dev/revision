@@ -1,6 +1,6 @@
 # LF-05 — 33 unreleased original writing items: blind-question reviewer packet
 
-**Status: independently review required, NOT a release approval.** Built from PR #854 exact head `9a43412e17c3297b0e6f8c8a2906839972bf4b2e`. Source SQL Git blobs: `826f081a5005eefd656f95c8409b36e06f3bd497` + `d5b6299e263b2d32b4e7f5460fa61629baa8318e`. Any edits to questions, scenarios, mappings or guidance invalidate this packet and require re-extraction.
+**Status: independently review required, NOT a release approval.** Built from PR #854 source snapshot commit `9a43412e17c3297b0e6f8c8a2906839972bf4b2e`. Source SQL Git blobs: `826f081a5005eefd656f95c8409b36e06f3bd497` + `d5b6299e263b2d32b4e7f5460fa61629baa8318e`. Any edits to questions, scenarios, mappings or guidance invalidate this packet and require re-extraction.
 
 **Strict independence sequence:** Give reviewers **only this blind packet** first. For each question they must challenge specification fit, paper/option, single command, case accuracy, defensible alternative answers, and provisional 16/25-mark *style* (never claim a confirmed 2027 item tariff). Record independent expected answer reasoning before accessing `audits/2026-11-17-lf05-33-guided-review-packet.md`. All source sections are original Revision content and AQA PDFs remain reference-only. Retain material HOLD on any unsupported claim.
 
