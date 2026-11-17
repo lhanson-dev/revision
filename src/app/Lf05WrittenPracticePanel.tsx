@@ -68,10 +68,10 @@ export function Lf05WrittenPracticePanel({
     if (ctx.courseId !== 'aqa:aqa-a-level:7182') return
     let cancelled = false
     setPsychologyPaper3({phase:'loading',topicIds:[]})
-    void ctx.client.from('revision_assessments').select('scope')
+    void Promise.resolve(ctx.client.from('revision_assessments').select('scope')
       .eq('user_id',ctx.userId).eq('course_id',ctx.courseId)
       .eq('module_id','psychology-aqa-a-level-7182-paper-3')
-      .eq('assessment_type','public_exam').eq('is_active',true)
+      .eq('assessment_type','public_exam').eq('is_active',true))
       .then(({data,error}) => {
         if (cancelled) return
         if (error || !psychologyPaper3Contract) {
