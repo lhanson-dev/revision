@@ -7,6 +7,7 @@ export type CourseExamAssessment = {
   moduleId: string | null
   title: string
   assessmentDate: string
+  scope: Record<string, unknown>
 }
 
 type CourseExamAssessmentRow = {
@@ -25,7 +26,7 @@ export async function loadUpcomingPublicExamAssessments(
 ): Promise<CourseExamAssessment[]> {
   const { data, error } = await client
     .from('revision_assessments')
-    .select('assessment_id,subject_id,course_id,module_id,title,assessment_date')
+    .select('assessment_id,subject_id,course_id,module_id,title,assessment_date,scope')
     .eq('user_id', userId)
     .eq('is_active', true)
     .eq('assessment_type', 'public_exam')
@@ -41,5 +42,6 @@ export async function loadUpcomingPublicExamAssessments(
     moduleId: row.module_id,
     title: row.title,
     assessmentDate: row.assessment_date,
+    scope: row.scope && typeof row.scope === 'object' && !Array.isArray(row.scope) ? row.scope : {},
   }))
 }
