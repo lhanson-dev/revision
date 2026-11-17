@@ -86,6 +86,11 @@ test('LF-05 Psychology writing shows only saved Paper 3 choices and updates afte
       await expect(updatedOptions.locator(`option[value="${id}"]`)).toHaveCount(0)
     }
   } finally {
+    // Restore isolated fixture catalogue visibility even after a failed A4;
+    // the original educational hold is never promoted by this test.
+    const restored=await admin.from('lf05_written_questions')
+      .update({status:'held'}).in('id',paper3Ids)
+    if(restored.error)throw new Error('Could not restore disposable held questions: '+restored.error.message)
     await client.auth.signOut()
     await admin.auth.admin.deleteUser(userId)
   }
