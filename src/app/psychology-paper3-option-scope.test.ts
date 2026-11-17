@@ -3,7 +3,7 @@ import { listAvailableContentAdapters } from '../engine/content/content-registry
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
 import { scopeTopicIds } from './planner-model'
-import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope, psychologyPaper3SavedTopicScope } from './psychology-paper3-option-scope'
+import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope, psychologyWrittenQuestionInSavedOptionScope, psychologyPaper3SavedTopicScope } from './psychology-paper3-option-scope'
 
 const courses=allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
 const psychology=courses.find((course)=>course.course.id==='aqa:aqa-a-level:7182')!.course
@@ -87,5 +87,24 @@ describe('LF-05 — saved Paper 3 choices in original written Practice', () => {
     expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['issues-and-debates-in-psychology','relationships','schizophrenia','not-a-topic']})).toBeNull()
     expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['issues-and-debates-in-psychology','relationships','schizophrenia','schizophrenia']})).toBeNull()
     expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['relationships','schizophrenia','aggression','gender']})).toBeNull()
+  })
+})
+
+
+describe('LF-05 Paper 3 written-item visibility fails closed', () => {
+  const item = (paper_number: number, topic_id: string) => ({paper_number,topic_id})
+  const saved = ['issues-and-debates-in-psychology','relationships','schizophrenia','aggression']
+  it('keeps all compulsory Paper 1/2 training and only the known compulsory Paper 3 topic', () => {
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(1,'memory'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(2,'research-methods'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'issues-and-debates-in-psychology'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(null,item(3,'issues-and-debates-in-psychology'),null)).toBe(false)
+  })
+  it('rejects every unselected, unknown and unvalidated Paper 3 option', () => {
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'relationships'),saved)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'gender'),saved)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'schizophrenia'),null)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'not-a-published-option'),saved)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(null,item(3,'relationships'),saved)).toBe(false)
   })
 })
