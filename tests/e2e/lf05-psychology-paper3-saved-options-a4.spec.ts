@@ -14,9 +14,22 @@ const psychology='aqa:aqa-a-level:7182'
 const paper3='psychology-aqa-a-level-7182-paper-3'
 const app='/revision/app/'
 
-// All nine optional items and compulsory Issues/Debates are promoted as a
-// disposable UI test fixture only, NOT an educational approval/publication.
-const paper3Ids=Array.from({length:10},(_,i)=>'PSY-LF05-'+String(i+8).padStart(2,'0'))
+// Synthetic published-stem response is supplied ONLY to this browser test.
+// The real held source inventory is not promoted, even in isolated PostgreSQL.
+const paper3Topics=[
+  'issues-and-debates-in-psychology','relationships','gender','cognition-and-development',
+  'schizophrenia','eating-behaviour','stress','aggression','forensic-psychology','addiction',
+] as const
+const mockPaper3Rows=paper3Topics.map((topic_id,i)=>({
+  id:'PSY-LF05-'+String(i+8).padStart(2,'0'),
+  course_id:psychology,paper_number:3,topic_id,
+  skill_ref:'AQA 7182 v1.4 synthetic CI option test',
+  title:'Synthetic '+topic_id,
+  question_prompt:'Synthetic exam-style writing question to validate Paper 3 option visibility.',
+  stimulus:null,marks_style:16,content_fingerprint:'0'.repeat(64),
+  original_training_only:true,status:'published',
+  approved_source_ref:'Disposable browser test fixture only',
+}))
 const first=['issues-and-debates-in-psychology','relationships','schizophrenia','aggression']
 const second=['issues-and-debates-in-psychology','gender','eating-behaviour','forensic-psychology']
 
@@ -31,10 +44,12 @@ test('LF-05 Psychology writing shows only saved Paper 3 choices and updates afte
   const userId=created.data.user.id
   const client=createClient(localUrl,anonKey,{auth:{persistSession:false,autoRefreshToken:false}})
   try {
-    const status=await admin.from('lf05_written_questions').update({status:'published'})
-      .in('id',paper3Ids).select('id')
-    expect(status.error).toBeNull()
-    expect(status.data).toHaveLength(10)
+    await page.route('**/rest/v1/lf05_written_questions*', async(route) => {
+      const response=await route.fetch()
+      const published=await response.json()
+      if (!Array.isArray(published)) throw new Error('Unexpected authenticated published question response')
+      await route.fulfill({response,body:JSON.stringify([...published,...mockPaper3Rows])})
+    })
     const signIn=await client.auth.signInWithPassword({email,password})
     if(signIn.error)throw new Error(signIn.error.message)
     await establishStudentExperience(client,userId)
@@ -86,11 +101,8 @@ test('LF-05 Psychology writing shows only saved Paper 3 choices and updates afte
       await expect(updatedOptions.locator(`option[value="${id}"]`)).toHaveCount(0)
     }
   } finally {
-    // Restore isolated fixture catalogue visibility even after a failed A4;
-    // the original educational hold is never promoted by this test.
-    const restored=await admin.from('lf05_written_questions')
-      .update({status:'held'}).in('id',paper3Ids)
-    if(restored.error)throw new Error('Could not restore disposable held questions: '+restored.error.message)
+    // No database publication state was changed: the ten extra prompts
+    // existed only in this Playwright browser's intercepted list response.
     await client.auth.signOut()
     await admin.auth.admin.deleteUser(userId)
   }
