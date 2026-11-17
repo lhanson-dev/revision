@@ -45,16 +45,19 @@ export function Lf05WrittenPracticePanel({
   const [saveTick, setSaveTick] = useState(0)
   const [confirmDiscard, setConfirmDiscard] = useState(false)
   const [psychologyPaper3, setPsychologyPaper3] = useState<{
-    phase: 'loading'|'selected'|'missing'|'error'; topicIds: string[]
-  }>({phase:'loading',topicIds:[]})
+    key: string; phase: 'loading'|'selected'|'missing'|'error'; topicIds: string[]
+  }>({key:'',phase:'loading',topicIds:[]})
   const writeInProgress = useRef(false)
   const ctx = useMemo(() => ({client:context.client,userId:context.userId,courseId:context.courseId}),
     [context.client,context.userId,context.courseId])
+  const paper3Key = `${ctx.userId}:${ctx.courseId}`
+  const optionState = psychologyPaper3.key === paper3Key
+    ? psychologyPaper3 : {phase:'loading' as const,topicIds:[] as string[]}
   const visibleQuestions = useMemo(() => questions.filter((q) =>
     ctx.courseId !== 'aqa:aqa-a-level:7182' || q.paper_number !== 3
     || !psychologyOptionalTopicIds.has(q.topic_id)
-    || (psychologyPaper3.phase === 'selected' && psychologyPaper3.topicIds.includes(q.topic_id))
-  ),[ctx.courseId,psychologyPaper3,questions])
+    || (optionState.phase === 'selected' && optionState.topicIds.includes(q.topic_id))
+  ),[ctx.courseId,optionState,questions])
   const selected = useMemo(() => visibleQuestions.find(q=>q.id===choice)??null, [visibleQuestions,choice])
   const eligible = useMemo(()=>visibleQuestions.filter(q=>
     (markStyle==='all'||q.marks_style===markStyle) &&
@@ -67,7 +70,6 @@ export function Lf05WrittenPracticePanel({
   useEffect(() => {
     if (ctx.courseId !== 'aqa:aqa-a-level:7182') return
     let cancelled = false
-    setPsychologyPaper3({phase:'loading',topicIds:[]})
     void Promise.resolve(ctx.client.from('revision_assessments').select('scope')
       .eq('user_id',ctx.userId).eq('course_id',ctx.courseId)
       .eq('module_id','psychology-aqa-a-level-7182-paper-3')
@@ -75,17 +77,17 @@ export function Lf05WrittenPracticePanel({
       .then(({data,error}) => {
         if (cancelled) return
         if (error || !psychologyPaper3Contract) {
-          setPsychologyPaper3({phase:'error',topicIds:[]})
+          setPsychologyPaper3({key:paper3Key,phase:'error',topicIds:[]})
           return
         }
         const scope = data?.length === 1
           ? psychologyPaper3SavedTopicScope(psychologyPaper3Contract,data[0].scope) : null
         setPsychologyPaper3(scope
-          ? {phase:'selected',topicIds:scope.topicIds}
-          : {phase:'missing',topicIds:[]})
+          ? {key:paper3Key,phase:'selected',topicIds:scope.topicIds}
+          : {key:paper3Key,phase:'missing',topicIds:[]})
       })
       .catch(() => {
-        if (!cancelled) setPsychologyPaper3({phase:'error',topicIds:[]})
+        if (!cancelled) setPsychologyPaper3({key:paper3Key,phase:'error',topicIds:[]})
       })
     return () => { cancelled = true }
   },[ctx])
@@ -211,10 +213,10 @@ export function Lf05WrittenPracticePanel({
   return <section className="exam-simulator lf05-writing" aria-label="Original extended-writing practice">
     <p className="eyebrow">Original Revision written-answer training</p>
     <h2>Practise an extended answer</h2>
-    {ctx.courseId==='aqa:aqa-a-level:7182' && psychologyPaper3.phase!=='selected' &&
-      <p role="status">{psychologyPaper3.phase==='loading'
+    {ctx.courseId==='aqa:aqa-a-level:7182' && optionState.phase!=='selected' &&
+      <p role="status">{optionState.phase==='loading'
         ? 'Checking your saved Psychology Paper 3 choices…'
-        : psychologyPaper3.phase==='error'
+        : optionState.phase==='error'
           ? 'Your Paper 3 choices could not be checked. Optional-topic questions are temporarily hidden; retry by reopening this page.'
           : 'To see writing questions for your chosen Paper 3 options, select one topic from each section in Plan → Your exams. Compulsory-topic questions remain available.'}</p>}
     <p>These are original practice questions, not official AQA papers or confirmed 2027 mark tariffs.
