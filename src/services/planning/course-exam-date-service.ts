@@ -17,6 +17,7 @@ type CourseExamAssessmentRow = {
   module_id: string | null
   title: string
   assessment_date: string
+  scope: Record<string, unknown> | null
 }
 
 export async function loadUpcomingPublicExamAssessments(
