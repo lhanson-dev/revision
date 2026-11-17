@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process'
 import { expect, test } from '@playwright/test'
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js'
 import { establishStudentExperience, completeStudentFirstUse } from '../../src/services/onboarding/student-first-use-service'
@@ -12,16 +11,6 @@ const courseId = 'aqa:aqa-a-level:7132'
 const itemId = 'BUS-LF05-02-16'
 const appPath = '/revision/app/'
 
-// Never run privileged fixture changes on any remote, shared or live project.
-// This worker executes only in the disposable local Supabase GitHub CI stack.
-function localSql(query:string) {
-  const url=new URL(localUrl)
-  if(!enabled||url.protocol!=='http:'||url.hostname!=='127.0.0.1'||url.port!=='54321')
-    throw new Error('LF-05 A4 fixture is limited to isolated CI localhost')
-  if(!/^[\w\s(),.'=;:+-]+$/.test(query)) throw new Error('Unsafe fixture SQL')
-  execFileSync('docker',['exec','supabase_db_revision','psql','-U','postgres','-d','postgres',
-    '-v','ON_ERROR_STOP=1','-c',query],{encoding:'utf8',timeout:20000})
-}
 async function isolatedUser(admin:SupabaseClient, label:string) {
   const email=`lf05-a4-${label}-${crypto.randomUUID()}@revision.invalid`
   const password=`Revision-${crypto.randomUUID()}-A1!`
@@ -46,7 +35,6 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     primary=await isolatedUser(admin,'author')
     outsider=await isolatedUser(admin,'outsider')
     if(!/^[0-9a-f-]{36}$/.test(primary.user.id))throw new Error('Unexpected synthetic user ID')
-    localSql(`insert into lf05_private.lf05_test_memberships(user_id,expires_at) values ('${primary.user.id}',now()+interval '1 day')`)
     const six=await primary.client.from('lf05_written_questions').select('id').eq('course_id',courseId)
     expect(six.error).toBeNull()
     expect(six.data).toHaveLength(5) // Five Business items; Psychology requires its own course route
@@ -54,7 +42,7 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
 
     const otherList=await outsider.client.from('lf05_written_questions').select('id')
     expect(otherList.error).toBeNull()
-    expect(otherList.data).toEqual([])
+    expect(otherList.data).toHaveLength(6) // All registered learners see the reviewed bank
     const beforeGuide=await primary.client.from('lf05_written_guides')
       .select('guidance').eq('question_id',itemId)
     expect(beforeGuide.error).toBeNull()
@@ -106,6 +94,11 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
       .select('guidance').eq('question_id',itemId).single()
     expect(guide.error).toBeNull()
     expect(guide.data?.guidance).toHaveLength(6)
+    // Other learners see the question but not this student's draft or submitted answer.
+    const otherAttempts=await outsider.client.from('lf05_written_attempts')
+      .select('attempt_id').eq('question_id',itemId)
+    expect(otherAttempts.error).toBeNull()
+    expect(otherAttempts.data).toEqual([])
     const otherGuide=await outsider.client.from('lf05_written_guides').select('guidance')
     expect(otherGuide.error).toBeNull()
     expect(otherGuide.data).toEqual([])

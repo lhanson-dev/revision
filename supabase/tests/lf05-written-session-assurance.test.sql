@@ -32,7 +32,7 @@ insert into public.lf05_written_guides(question_id,content_fingerprint,guidance,
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d2';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d2","app_metadata":{}}';
-select is((select count(*) from public.lf05_written_questions),0::bigint,'not-entitled learner cannot view content');
+select is((select count(*) from public.lf05_written_questions),7::bigint,'ordinary learner sees all six published originals and a synthetic test item without a cohort flag');
 
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d1';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d1","app_metadata":{}}';
@@ -70,8 +70,8 @@ delete from lf05_private.lf05_test_memberships
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d1';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d1"}';
-select is((select count(*) from public.lf05_written_guides),0::bigint,
- 'revoked family pilot account immediately loses previously unlocked guide');
+select is((select count(*) from public.lf05_written_guides),1::bigint,
+ 'old membership table does not restrict an ordinary learner after submission');
 
 select * from finish();
 rollback;
