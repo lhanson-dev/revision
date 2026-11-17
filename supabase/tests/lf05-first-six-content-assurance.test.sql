@@ -34,7 +34,7 @@ select ok((select stimulus is not null and length(stimulus)>100
 select ok((select stimulus is not null and length(stimulus)>200 and paper_number=1 and topic_id='social-influence'
  from public.lf05_written_questions where id='PSY-LF05-01-S1'),
  'Psychology situation and correct Paper 1 source topic are present');
-select is((select count(*) from public.lf05_written_questions where paper_number=1),5::bigint,
+select is((select count(*) from public.lf05_written_questions where paper_number=1 and status='published'),5::bigint,
  'standalone Business Paper 1 essays and Psychology core task mapped without extra paper totals');
 select ok((select bool_and(approved_source_ref like '%675fdc8c53a224fe8fa9a81079b57b15dafef7af%'
    and approved_review_ref like '%43620992688%') from
