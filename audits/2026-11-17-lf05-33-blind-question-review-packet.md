@@ -12,7 +12,6 @@
 - **Paper/mark-style:** 1 / 16 (original training; not official tariff)
 - **Topic:** social-influence
 - **Source mapping to challenge:** AQA 7182 v1.4 §4.1.1 — resistance to social influence
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item PSY-LF05-01: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** Describe and evaluate the roles of social support and locus of control in explaining why people resist social influence.
 
@@ -24,7 +23,6 @@
 - **Paper/mark-style:** 1 / 16 (original training; not official tariff)
 - **Topic:** memory
 - **Source mapping to challenge:** AQA 7182 v1.4 §4.1.2 — working-memory model
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item PSY-LF05-02: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** Discuss the working-memory model as an explanation of how people may carry out different short-term memory tasks at the same time.
 
@@ -36,7 +34,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** research-methods
 - **Source mapping to challenge:** AQA 7182 v1.4 §§4.2.3–4.2.3.2 — experimental design and validity
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item PSY-LF05-07: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Design a suitable study and evaluate the main threats to the validity of the findings.
 
@@ -50,7 +47,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** marketing
 - **Source mapping to challenge:** AQA 7132 v2.0 §3.3 — market research and marketing decisions
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item BUS-LF05-03-16: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** Evaluate whether Mira Sports Drinks should introduce a sugar-free premium product rather than cut prices on its current range.
 
@@ -64,7 +60,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** operations
 - **Source mapping to challenge:** AQA 7132 v2.0 §3.4.3 — lean production and operational efficiency
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item BUS-LF05-04-25: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** To what extent is lean production the most effective way for a manufacturer to improve its competitiveness?
 
@@ -76,7 +71,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** strategic-position
 - **Source mapping to challenge:** AQA 7132 v2.0 §3.7 — analysing strategic position and quantitative information
-- **Historic review reference (not proof of new-version approval):** historical A3 43620992688 item BUS-LF05-07-25: no material findings; revised-guide A3/A4 HOLD
 
 **Original question:** To what extent are quantitative methods more valuable than qualitative assessment when managers analyse a business's strategic position?
 
@@ -88,7 +82,6 @@
 - **Paper/mark-style:** 1 / 16 (original training; not official tariff)
 - **Topic:** attachment
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.1.3, p18 — Bowlby's monotropic theory, critical period and internal working model
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-03: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Describe and evaluate Bowlby's monotropic theory as an explanation of the formation and later influence of infant attachments.
 
@@ -100,7 +93,6 @@
 - **Paper/mark-style:** 1 / 16 (original training; not official tariff)
 - **Topic:** clinical-psychology-and-mental-health
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.1.4, p18 — cognitive explanations and CBT treatment of depression
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-04: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Describe and evaluate cognitive explanations of depression and the use of cognitive behaviour therapy to treat depression.
 
@@ -112,7 +104,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** approaches-in-psychology
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.2.1, p19 — behaviourist approach and social learning theory; comparison of approaches
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-05: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Compare the behaviourist approach with social learning theory as explanations of how behaviour is acquired. Evaluate the value of each approach.
 
@@ -124,7 +115,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** biopsychology
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.2.2, p19 — ways of studying the brain; localisation/plasticity
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-06: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Discuss the usefulness and limitations of fMRI, EEG and post-mortem examinations for investigating localisation of brain function.
 
@@ -136,7 +126,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** issues-and-debates-in-psychology
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.1, pp21–22 — nature–nurture debate and interactionist approach
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-08: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Discuss the nature–nurture debate in psychology, using relevant examples from other topics of psychology you have studied.
 
@@ -148,7 +137,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** relationships
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.2, p22 — social exchange theory, equity theory, investment model
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-09: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Describe and evaluate explanations of why people remain in romantic relationships, referring to social exchange theory and Rusbult's investment model.
 
@@ -160,7 +148,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** gender
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.3, p22 — cognitive explanations Kohlberg and gender schema theory
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-10: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Discuss cognitive explanations of gender development, including Kohlberg's theory and Martin and Halverson's gender schema theory.
 
@@ -172,7 +159,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** cognition-and-development
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.4, p22 — Piaget and Vygotsky; learning and development
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-11: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Compare and evaluate Piaget's and Vygotsky's explanations of cognitive development, including their implications for how children learn.
 
@@ -184,7 +170,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** schizophrenia
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.5, pp22–23 — diathesis–stress and interactionist explanation/treatment
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-12: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Discuss the interactionist approach to explaining and treating schizophrenia, including the diathesis–stress model.
 
@@ -196,7 +181,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** eating-behaviour
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.6, p23 — biological and psychological explanations of anorexia nervosa
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-13: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Discuss biological and psychological explanations for anorexia nervosa, evaluating how well they explain its development.
 
@@ -208,7 +192,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** stress
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.7, p23 — stress inoculation therapy and biofeedback; managing stress
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-14: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Describe and evaluate stress inoculation therapy and biofeedback as ways of helping people manage stress.
 
@@ -220,7 +203,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** aggression
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.8, p23 — frustration–aggression, social learning and de-individuation
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-15: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Discuss social psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
 
@@ -232,7 +214,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** forensic-psychology
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.9, pp23–24 — offender profiling, typology, investigative and geographical profiling
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-16: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Compare typology-based and data-driven offender profiling, evaluating their usefulness to criminal investigations.
 
@@ -244,7 +225,6 @@
 - **Paper/mark-style:** 3 / 16 (original training; not official tariff)
 - **Topic:** addiction
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.10, p24 — gambling addiction, reinforcement and cognitive bias
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-17: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Discuss learning and cognitive explanations for gambling addiction, evaluating their relative usefulness.
 
@@ -256,7 +236,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** finance
 - **Source mapping to challenge:** AQA 7132 v2.0 §§3.1.1 (profit measurement/objectives), 3.5.1, 3.5.3–3.5.4 (cash, borrowing and financial decisions)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-01-16: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** To what extent should Marshbrook Bakery prioritise cash flow rather than profit when deciding whether to expand?
 
@@ -270,7 +249,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** operations
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.4
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-04-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Assess whether Pine Components should prioritise improving quality rather than increasing capacity.
 
@@ -284,7 +262,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** finance
 - **Source mapping to challenge:** AQA 7132 v2.0 §§3.5.2–3.5.4 (profitability, liquidity, sources of finance and expansion)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-05-16: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Evaluate whether a long-term bank loan is a suitable way for Harbour Furniture to finance its expansion.
 
@@ -298,7 +275,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** finance
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.5
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-05-25: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** To what extent should improving cash flow take priority over increasing profitability when a business is experiencing rapid growth?
 
@@ -310,7 +286,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** hr
 - **Source mapping to challenge:** AQA 7132 v2.0 §§3.6.2–3.6.3 (human resource data, labour turnover and training)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-06-16: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** To what extent should Orchid Care Services increase spending on training to improve staff performance?
 
@@ -324,7 +299,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** hr
 - **Source mapping to challenge:** AQA 7132 v2.0 §3.6.4 (financial/non-financial motivation and engagement)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-06-25: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** To what extent is financial reward the most effective way to improve employee motivation in a service business?
 
@@ -336,7 +310,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** strategic-position
 - **Source mapping to challenge:** AQA 7132 v2.0 §§3.7.2–3.7.3 and 3.7.8 (internal financial position and investment appraisal)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-07-16: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** Evaluate whether the financial indicators provide sufficient evidence for Kelton Mobility to approve its overseas investment.
 
@@ -350,7 +323,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** strategic-direction
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.8
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-08-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Evaluate whether market development is a better strategic direction for Nova Homecare than product development.
 
@@ -364,7 +336,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** strategic-direction
 - **Source mapping to challenge:** AQA 7132 v2.0 §3.8.2 (Porter low-cost, differentiation and focus positioning)
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-08-25: MATERIAL / revised HOLD; new A3/A4 required
 
 **Original question:** To what extent should a business prioritise differentiation rather than low cost when choosing how to compete?
 
@@ -376,7 +347,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** strategic-methods
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.9
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-09-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Evaluate whether acquiring the competitor is a better way for Briar Logistics to grow than opening depots organically.
 
@@ -390,7 +360,6 @@
 - **Paper/mark-style:** 1 / 25 (original training; not official tariff)
 - **Topic:** strategic-methods
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.9
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-09-25: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** To what extent is external growth the best strategic method for a business seeking rapid expansion?
 
@@ -402,7 +371,6 @@
 - **Paper/mark-style:** 2 / 16 (original training; not official tariff)
 - **Topic:** strategic-change
 - **Source mapping to challenge:** AQA 7132 v2.0: AQA 7132 v2.0 §3.10
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 BUS-LF05-10-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Assess whether Valen Foods should slow its digital change programme to consult employees more fully.
 
@@ -416,7 +384,6 @@
 - **Paper/mark-style:** 1 / 16 (original training; not official tariff)
 - **Topic:** memory
 - **Source mapping to challenge:** AQA 7182 v1.4: AQA A-level Psychology 7182, v1.4 (2027), §4.1.2, working-memory model (central executive, phonological loop, visuo-spatial sketchpad and episodic buffer). Paper 1 topic; proposed 16-mark-style training question. AO
-- **Historic review reference (not proof of new-version approval):** Historical A3 43620992688 PSY-LF05-02-S1: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 **Original question:** Discuss how useful the working-memory model is for explaining the results of this investigation.
 
