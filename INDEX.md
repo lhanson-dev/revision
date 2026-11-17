@@ -10,6 +10,8 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+
+- LF-05 full **39 authored question identities staged** only in stacked draft candidate branch (six live, six PR #853 held, further 27 held; source/held inventory **not yet learner publication**) → `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, `supabase/migrations/20261117222000_stage_lf05_remaining_27_review_candidates.sql`; #698/#706. 
 - LF-05 next-six Psychology-priority original writing candidates (three Psychology compulsory, three Business; **held**, revised guides awaiting fresh independent A3/A4 and governed release) → `audits/2026-11-17-lf05-next-six-source-staging.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, and `supabase/migrations/20261117212000_stage_lf05_next_six_review_candidates.sql`; #698/#706.
 
 - LF-05 proposed standard signed-in writing access (Founder 16 November correction; removal of per-account gate without weakening RLS, guide-after-submit, or 14-day expiry) → `10-product-governance/Course Learning Blueprint.md`, `50-engineering-standards/Release & Deployment Standard.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md` and new `supabase/migrations/20261116220000_lf05_uniform_authenticated_access.sql`; tracked in #706; PR #852 merged and deployed 17 November 2026. 
