@@ -1,6 +1,6 @@
 # LF-05 — 33 unreleased original writing items: guided-review second-stage packet
 
-**Do not open until the independent reviewer has committed their blind-question evaluations.** This contains the authored guide that must be challenged, not accepted by default. PR #854 exact head `9a43412e17c3297b0e6f8c8a2906839972bf4b2e`; source blobs `826f081a5005eefd656f95c8409b36e06f3bd497` + `d5b6299e263b2d32b4e7f5460fa61629baa8318e`. Re-extract after any source change.
+**Do not open until the independent reviewer has committed their blind-question evaluations.** This contains the authored guide that must be challenged, not accepted by default. PR #854 source snapshot commit `9a43412e17c3297b0e6f8c8a2906839972bf4b2e`; source blobs `826f081a5005eefd656f95c8409b36e06f3bd497` + `d5b6299e263b2d32b4e7f5460fa61629baa8318e`. Re-extract after any source change.
 
 **Review tasks:** Compare each guide with the independent expected response from stage 1. Identify scientific/financial factual errors, creditworthy alternative routes, mismatched scenario assumptions, copied generic level language, unsupported numerical AO distribution or promised examiner marking, over-strict conclusion requirements, and inaccurate Psychology option scope. A passing CI result is not independent educational A3. Return item-by-item PASS/MINOR/MATERIAL/BLOCKING and exact changes. Original 2027 AQA item tariff remains unverified; `marks_style` is labelled training-only.
 
