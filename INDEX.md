@@ -10,6 +10,7 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+- LF-05 full-bank signed-in Psychology Paper 3 option relevance: validated Plan `revision_assessments.scope.topicIds` for all 27 AQA 7182 combinations and browser-changed selections; source-first material A3 recheck → `src/app/psychology-paper3-option-scope.ts`, `src/app/Lf05WrittenPracticePanel.tsx`, `tests/e2e/lf05-psychology-paper3-saved-options-a4.spec.ts`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`; draft PR #854, no production change. 
 
 - LF-05 full **39 authored question identities staged** only in stacked draft candidate branch (six live, six PR #853 held, further 27 held; source/held inventory **not yet learner publication**) → `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, `supabase/migrations/20261117222000_stage_lf05_remaining_27_review_candidates.sql`; #698/#706. 
 - LF-05 next-six Psychology-priority original writing candidates (three Psychology compulsory, three Business; **held**, revised guides awaiting fresh independent A3/A4 and governed release) → `audits/2026-11-17-lf05-next-six-source-staging.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, and `supabase/migrations/20261117212000_stage_lf05_next_six_review_candidates.sql`; #698/#706.
