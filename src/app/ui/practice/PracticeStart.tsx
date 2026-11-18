@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 import { Button, SelectField } from '../controls'
 import { Icon } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
@@ -79,6 +79,9 @@ export function PracticeStart(props: PracticeStartProps) {
   const [selectedPath, setSelectedPath] = useState<'questions' | 'written' | null>(null)
   const [writtenAvailable, setWrittenAvailable] = useState(false)
   const [writtenSafeToLeave, setWrittenSafeToLeave] = useState(true)
+  useEffect(() => {
+    if (!writtenAvailable && selectedPath === 'written' && writtenSafeToLeave) setSelectedPath(null)
+  }, [writtenAvailable, selectedPath, writtenSafeToLeave])
   const changePath = (next: 'questions' | 'written') => {
     if (selectedPath === 'written' && !writtenSafeToLeave) return
     setSelectedPath(current => current === next ? null : next)
@@ -110,13 +113,13 @@ export function PracticeStart(props: PracticeStartProps) {
             {onRetrySavedTopics && <button type="button" className="practice-link" onClick={onRetrySavedTopics}>Try again</button>}
           </span>}
           {topics.length > 1 && (
-            <button type="button" className="practice-link" aria-expanded={choosingTopic} onClick={() => setChoosingTopic((open) => !open)}>
+            <button type="button" className="practice-link" disabled={selectedPath === 'written' && !writtenSafeToLeave} aria-expanded={choosingTopic} onClick={() => setChoosingTopic((open) => !open)}>
               Change topic
             </button>
           )}
         </div>
         {choosingTopic && (
-          <SelectField groupClassName="practice-start__topic-picker" label="Topic" value={topicId} onChange={(event) => { onChangeTopic(event.target.value); setChoosingTopic(false) }}>
+          <SelectField groupClassName="practice-start__topic-picker" label="Topic" value={topicId} onChange={(event) => { if (selectedPath === 'written' && !writtenSafeToLeave) return; onChangeTopic(event.target.value); setChoosingTopic(false) }}>
             {topics.map((item) => <option key={item.id} value={item.id}>{item.label}{savedTopicStatus === 'ready' && savedTopicIds.includes(item.id) ? ' · In progress' : ''}</option>)}
           </SelectField>
         )}
@@ -241,7 +244,7 @@ export function PracticeStart(props: PracticeStartProps) {
           </div>
           <div className="practice-warmups__grid">
             {warmups.map(row => (
-              <button key={row.id} type="button" className="practice-warmup" onClick={() => onOpenWarmup(row.id)}>
+              <button key={row.id} type="button" className="practice-warmup" disabled={selectedPath === 'written' && !writtenSafeToLeave} onClick={() => onOpenWarmup(row.id)}>
                 <strong>{row.name}</strong>
                 <span>{row.meta}</span>
                 <Icon name="arrow-right" size="inline" />
