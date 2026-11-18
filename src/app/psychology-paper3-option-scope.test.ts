@@ -3,7 +3,7 @@ import { listAvailableContentAdapters } from '../engine/content/content-registry
 import { buildCatalogue, createCourseLearningState } from './catalogue-model'
 import { allCatalogueCourses } from './learner-programme'
 import { scopeTopicIds } from './planner-model'
-import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope } from './psychology-paper3-option-scope'
+import { isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3TopicScope, psychologyWrittenQuestionInSavedOptionScope, psychologyPaper3SavedTopicScope } from './psychology-paper3-option-scope'
 
 const courses=allCatalogueCourses(buildCatalogue(listAvailableContentAdapters()))
 const psychology=courses.find((course)=>course.course.id==='aqa:aqa-a-level:7182')!.course
@@ -58,5 +58,53 @@ describe('Issue #698 — Psychology Paper 3 option selection for the real learne
     const state=createCourseLearningState(psychology,[])
     const noSelection=scopeTopicIds({moduleId:paper3.manifest.id,scope:{}},state)
     for(const group of contract!.groups) for(const option of group.options) expect(noSelection).not.toContain(option.topicId)
+  })
+})
+
+
+describe('LF-05 — saved Paper 3 choices in original written Practice', () => {
+  it('uses one saved choice from each of the three published option groups across all 27 combinations', () => {
+    let count = 0
+    for (const b of contract!.groups[0].options) for (const c of contract!.groups[1].options) {
+      for (const d of contract!.groups[2].options) {
+        const saved = {topicIds: ['issues-and-debates-in-psychology',b.topicId,c.topicId,d.topicId]}
+        expect(psychologyPaper3SavedTopicScope(contract,saved)).toEqual(saved)
+        count++
+      }
+    }
+    expect(count).toBe(27)
+  })
+
+  it('hides optional practice for absent, malformed, duplicate, forged or incomplete choices', () => {
+    const valid = {topicIds:['issues-and-debates-in-psychology','relationships','schizophrenia','aggression']}
+    expect(psychologyPaper3SavedTopicScope(null,valid)).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,null)).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:[]})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:valid.topicIds.slice(0,3)})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:[...valid.topicIds,'addiction']})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['issues-and-debates-in-psychology','relationships','gender','aggression']})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['issues-and-debates-in-psychology','relationships','schizophrenia','not-a-topic']})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['issues-and-debates-in-psychology','relationships','schizophrenia','schizophrenia']})).toBeNull()
+    expect(psychologyPaper3SavedTopicScope(contract,{topicIds:['relationships','schizophrenia','aggression','gender']})).toBeNull()
+  })
+})
+
+
+describe('LF-05 Paper 3 written-item visibility fails closed', () => {
+  const item = (paper_number: number, topic_id: string) => ({paper_number,topic_id})
+  const saved = ['issues-and-debates-in-psychology','relationships','schizophrenia','aggression']
+  it('keeps all compulsory Paper 1/2 training and only the known compulsory Paper 3 topic', () => {
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(1,'memory'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(2,'research-methods'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'issues-and-debates-in-psychology'),null)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(null,item(3,'issues-and-debates-in-psychology'),null)).toBe(false)
+  })
+  it('rejects every unselected, unknown and unvalidated Paper 3 option', () => {
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'relationships'),saved)).toBe(true)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'gender'),saved)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'schizophrenia'),null)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(contract,item(3,'not-a-published-option'),saved)).toBe(false)
+    expect(psychologyWrittenQuestionInSavedOptionScope(null,item(3,'relationships'),saved)).toBe(false)
   })
 })

@@ -5,7 +5,15 @@ import {
   startLf05Attempt, type Lf05Attempt, type Lf05Context, type Lf05Question,
 } from '../services/progress/lf05-written-practice-service'
 import { Button } from './ui'
+import { listAvailableContentAdapters } from '../engine/content/content-registry'
+import {
+  isAqaPsychologyPaper3, psychologyPaper3OptionContract, psychologyPaper3SavedTopicScope,
+  psychologyWrittenQuestionInSavedOptionScope,
+} from './psychology-paper3-option-scope'
 
+const psychologyPaper3Adapter = listAvailableContentAdapters().find(isAqaPsychologyPaper3)
+const psychologyPaper3Contract = psychologyPaper3Adapter
+  ? psychologyPaper3OptionContract(psychologyPaper3Adapter) : null
 /**
  * One source-backed LF-05 written Practice workspace, reused from both
  * Course Practice and Exam Prep. This does not change timed-paper sessions or
@@ -33,17 +41,54 @@ export function Lf05WrittenPracticePanel({
   const [reloadTick, setReloadTick] = useState(0)
   const [saveTick, setSaveTick] = useState(0)
   const [confirmDiscard, setConfirmDiscard] = useState(false)
+  const [psychologyPaper3, setPsychologyPaper3] = useState<{
+    key: string; phase: 'loading'|'selected'|'missing'|'error'; topicIds: string[]
+  }>({key:'',phase:'loading',topicIds:[]})
   const writeInProgress = useRef(false)
   const ctx = useMemo(() => ({client:context.client,userId:context.userId,courseId:context.courseId}),
     [context.client,context.userId,context.courseId])
-  const selected = useMemo(() => questions.find(q=>q.id===choice)??null, [questions,choice])
-  const eligible = useMemo(()=>questions.filter(q=>
+  const paper3Key = `${ctx.userId}:${ctx.courseId}`
+  const optionState = psychologyPaper3.key === paper3Key
+    ? psychologyPaper3 : {phase:'loading' as const,topicIds:[] as string[]}
+  const visibleQuestions = useMemo(() => questions.filter((q) =>
+    ctx.courseId !== 'aqa:aqa-a-level:7182' ||
+    psychologyWrittenQuestionInSavedOptionScope(
+      psychologyPaper3Contract,q,optionState.phase === 'selected' ? optionState.topicIds : null,
+    )
+  ),[ctx.courseId,optionState,questions])
+  const selected = useMemo(() => visibleQuestions.find(q=>q.id===choice)??null, [visibleQuestions,choice])
+  const eligible = useMemo(()=>visibleQuestions.filter(q=>
     (markStyle==='all'||q.marks_style===markStyle) &&
     (!preferredTopicId||q.topic_id===preferredTopicId)
-  ),[markStyle,preferredTopicId,questions])
+  ),[markStyle,preferredTopicId,visibleQuestions])
   const persisted = attempt?.phase==='draft'&&status==='saved'&&
     answer===attempt.draft_text
   const safeToLeave = !attempt||attempt.phase!=='draft'||persisted
+
+  useEffect(() => {
+    if (ctx.courseId !== 'aqa:aqa-a-level:7182') return
+    let cancelled = false
+    void Promise.resolve(ctx.client.from('revision_assessments').select('scope')
+      .eq('user_id',ctx.userId).eq('course_id',ctx.courseId)
+      .eq('module_id','psychology-aqa-a-level-7182-paper-3')
+      .eq('assessment_type','public_exam').eq('is_active',true))
+      .then(({data,error}) => {
+        if (cancelled) return
+        if (error || !psychologyPaper3Contract) {
+          setPsychologyPaper3({key:paper3Key,phase:'error',topicIds:[]})
+          return
+        }
+        const scope = data?.length === 1
+          ? psychologyPaper3SavedTopicScope(psychologyPaper3Contract,data[0].scope) : null
+        setPsychologyPaper3(scope
+          ? {key:paper3Key,phase:'selected',topicIds:scope.topicIds}
+          : {key:paper3Key,phase:'missing',topicIds:[]})
+      })
+      .catch(() => {
+        if (!cancelled) setPsychologyPaper3({key:paper3Key,phase:'error',topicIds:[]})
+      })
+    return () => { cancelled = true }
+  },[ctx])
 
   useEffect(()=>{
     let cancelled=false
@@ -161,11 +206,17 @@ export function Lf05WrittenPracticePanel({
   // When no independently published originals exist for this course,
   // do not show a phantom question or marks option. This is ordinary signed-in
   // Practice; access is not determined by a per-account pilot allowlist.
-  if(catalogueState==='loading'||catalogueState==='unavailable'||questions.length===0)return null
+  if(catalogueState==='loading'||catalogueState==='unavailable'||visibleQuestions.length===0)return null
 
   return <section className="exam-simulator lf05-writing" aria-label="Original extended-writing practice">
     <p className="eyebrow">Original Revision written-answer training</p>
     <h2>Practise an extended answer</h2>
+    {ctx.courseId==='aqa:aqa-a-level:7182' && optionState.phase!=='selected' &&
+      <p role="status">{optionState.phase==='loading'
+        ? 'Checking your saved Psychology Paper 3 choices…'
+        : optionState.phase==='error'
+          ? 'Your Paper 3 choices could not be checked. Optional-topic questions are temporarily hidden; retry by reopening this page.'
+          : 'To see writing questions for your chosen Paper 3 options, select one topic from each section in Plan → Your exams. Compulsory-topic questions remain available.'}</p>}
     <p>These are original practice questions, not official AQA papers or confirmed 2027 mark tariffs.
       Your first answer is private, saved for up to 14 days and must be submitted before guidance appears.
       Any self-review is not an examiner mark or independent proof of mastery.</p>
@@ -176,7 +227,7 @@ export function Lf05WrittenPracticePanel({
           setMarkStyle(e.target.value==='all'?'all':Number(e.target.value));setChoice('')
         }}>
           <option value="all">All verified available lengths</option>
-          {Array.from(new Set(questions.map(q=>q.marks_style))).sort((a,b)=>a-b)
+          {Array.from(new Set(visibleQuestions.map(q=>q.marks_style))).sort((a,b)=>a-b)
             .map(n=><option key={n} value={n}>{n}-mark-style training</option>)}
         </select>
       </label>

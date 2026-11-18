@@ -347,6 +347,8 @@ jobs:
           supabase test db supabase/tests/exam-attempt-assurance.test.sql
           supabase test db supabase/tests/lf05-written-session-assurance.test.sql
           supabase test db supabase/tests/lf05-first-six-content-assurance.test.sql
+          supabase test db supabase/tests/lf05-next-six-held-content-assurance.test.sql
+          supabase test db supabase/tests/lf05-remaining-27-held-content-assurance.test.sql
           supabase test db supabase/tests/private-admission-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
@@ -402,7 +404,11 @@ jobs:
       - name: Run isolated database-backed browser persistence and new-account first-use assurance
         env:
           REVISION_BROWSER_DB_INTEGRATION: '1'
-        run: npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts tests/e2e/plan-live-auth-configuration.spec.ts tests/e2e/learner-value-journey.spec.ts tests/e2e/lf05-restricted-written-a4.spec.ts --project=desktop
+        run: |
+          npx playwright test tests/e2e/database-persistence.spec.ts tests/e2e/first-use-real-service.spec.ts tests/e2e/plan-live-auth-configuration.spec.ts tests/e2e/learner-value-journey.spec.ts tests/e2e/lf05-restricted-written-a4.spec.ts --project=desktop
+          # Run alone: its temporary published Paper 3 questions are TEST fixtures,
+          # not approved content, and must never affect concurrent A4 assertions.
+          npx playwright test tests/e2e/lf05-psychology-paper3-saved-options-a4.spec.ts --project=desktop --workers=1
       - name: Stop isolated Supabase test stack
         if: always()
         run: |
