@@ -317,3 +317,119 @@
 .planner-runtime .practice-activity__close .ui-icon { transform: rotate(180deg); }
 
 .planner-runtime .practice-summary__read { align-self: flex-start; padding-inline: 0; text-align: left; white-space: normal; }
+
+
+/* Course Practice choice architecture: two equal entry points, one active workspace. */
+.planner-runtime .practice-start__intro {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font: 600 var(--type-body-size)/var(--type-body-line) var(--font-family-product);
+}
+.planner-runtime .practice-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.planner-runtime .practice-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: 252px;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--motion-ease-standard), box-shadow var(--motion-fast) var(--motion-ease-standard);
+}
+.planner-runtime .practice-choice:hover:not(:disabled),
+.planner-runtime .practice-choice[aria-pressed="true"] {
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+.planner-runtime .practice-choice:focus-visible,
+.planner-runtime .practice-warmup:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 3px;
+}
+.planner-runtime .practice-choice:disabled { opacity: .65; cursor: not-allowed; }
+.planner-runtime .practice-choice__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.planner-runtime .practice-choice > strong {
+  font: 800 25px/1.2 var(--font-family-display);
+  letter-spacing: -.02em;
+}
+.planner-runtime .practice-choice > span:not(.practice-choice__top):not(.practice-choice__action):not(.practice-choice__detail) {
+  font: 600 var(--type-body-size)/var(--type-body-line) var(--font-family-product);
+  color: var(--color-text-secondary);
+}
+.planner-runtime .practice-choice__detail {
+  margin-top: auto;
+  padding: var(--space-3);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font: 700 var(--type-body-s-size)/var(--type-body-s-line) var(--font-family-product);
+}
+.planner-runtime .practice-choice__action {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: var(--control-height-standard);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font: 800 var(--type-button-size)/var(--type-button-line) var(--font-family-product);
+}
+.planner-runtime .practice-focus {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+}
+.planner-runtime .practice-focus[hidden] { display: none; }
+.planner-runtime .practice-focus .practice-panel { width: 100%; }
+.planner-runtime .practice-focus--written > .lf05-writing { margin-top: 0; }
+.planner-runtime .practice-warmups { display: flex; flex-direction: column; gap: var(--space-4); }
+.planner-runtime .practice-warmups__head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); }
+.planner-runtime .practice-warmups__head h3 {
+  margin: 0;
+  color: var(--color-text);
+  font: 800 var(--type-h3-size)/var(--type-h3-line) var(--font-family-display);
+}
+.planner-runtime .practice-warmups__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.planner-runtime .practice-warmup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-content: center;
+  min-width: 0;
+  min-height: 108px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+.planner-runtime .practice-warmup:hover { border-color: var(--color-action); }
+.planner-runtime .practice-warmup strong { grid-column: 1 / -1; font: 800 var(--type-body-size)/var(--type-body-line) var(--font-family-product); }
+.planner-runtime .practice-warmup > span:not(.ui-icon) { min-width: 0; color: var(--color-text-secondary); font: 600 var(--type-body-s-size)/var(--type-body-s-line) var(--font-family-product); }
+.planner-runtime .practice-rev--compact { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-5); }
+.planner-runtime .practice-rev--compact .rev-suggestion-card__reason { margin: 0; }
+@media (max-width: 760px) {
+  .planner-runtime .practice-choice-grid { grid-template-columns: minmax(0, 1fr); }
+  .planner-runtime .practice-choice { min-height: 0; padding: var(--space-5); }
+  .planner-runtime .practice-warmups__grid { grid-template-columns: minmax(0, 1fr); }
+  .planner-runtime .practice-warmup { min-height: 76px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .practice-choice { transition: none; }
+}
