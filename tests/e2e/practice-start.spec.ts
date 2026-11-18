@@ -9,6 +9,8 @@ async function openPractice(page: Page, theme: 'light' | 'dark' = 'light') {
   await seedReturningStudent(page)
   const saved = await captureEvidence(page)
   await page.goto(practicePath)
+  await expect(page.getByRole('button', { name: /Choose quick questions/ })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(startButton(page)).toBeVisible()
   return saved
 }
@@ -18,10 +20,23 @@ async function expectNoSidewaysScroll(page: Page) {
   expect(overflow, 'the page must not scroll sideways').toBeLessThanOrEqual(0)
 }
 
-test('the start screen names the topic, not the course, and shows Scored, Warm-up and REV', async ({ page }) => {
+test('Practice presents choices before configuration, while warm-up remains optional', async ({ page }) => {
+  await seedReturningStudent(page)
+  await page.goto(practicePath)
+  await expect(page.getByRole('heading', { name: 'How would you like to practise?' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Choose quick questions/ })).toBeVisible()
+  await expect(startButton(page)).toHaveCount(0)
+  await expect(page.getByRole('region', { name: 'Warm-up' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
+  await expect(startButton(page)).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
+  await expect(startButton(page)).toHaveCount(0)
+})
+
+test('the start screen names the topic and separates scored questions from optional warm-up', async ({ page }) => {
   await openPractice(page)
-  const start = page.getByRole('region', { name: 'Test what you know' })
-  await expect(start.getByRole('heading', { name: 'Test what you know' })).toBeVisible()
+  const start = page.getByRole('region', { name: 'How would you like to practise?' })
+  await expect(start.getByRole('heading', { name: 'How would you like to practise?' })).toBeVisible()
   await expect(start.getByText(/^Practice · /)).toBeVisible()
   await expect(start.getByText(/Quick check · Business/)).toHaveCount(0)
 
