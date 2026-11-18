@@ -1,0 +1,68 @@
+name: LF-05 PR854 independently review all 33 original writing questions
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lf05-pr854-all33-a3.yml'
+      - 'scripts/assurance/lf05-pr854-all33-a3-review.mjs'
+      - 'scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs'
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: lf05-pr854-${{ github.event_name }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  contract:
+    name: Verify exact-head trusted reviewer contract
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --check scripts/assurance/lf05-pr854-all33-a3-review.mjs
+      - run: node --test scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs
+
+  independent-a3:
+    name: Owner-triggered trusted-main independent all-33 A3
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 854 &&
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, 'revision-run-lf05-pr854-all33-a3:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout trusted approved main only
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Test reviewer contract without provider keys
+        run: node --test scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs
+      - name: Run 33 blind question then separate guided source reviews
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/assurance/lf05-pr854-all33-a3-review.mjs
+      - name: Retain results including educational HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lf05-pr854-a3-${{ github.run_id }}
+          path: .artifacts/lf05-pr854-a3/
+          retention-days: 30
+          if-no-files-found: warn
