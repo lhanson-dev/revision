@@ -1,14 +1,14 @@
-# LF-05 — 33 unreleased original writing items: guided-review second-stage packet
+# LF-05 — 33 held questions: independent A3 guided challenge
 
-**Do not open until the independent reviewer has committed their blind-question evaluations.** This contains the authored guide that must be challenged, not accepted by default. PR #854 source snapshot commit `9a43412e17c3297b0e6f8c8a2906839972bf4b2e`; source blobs `826f081a5005eefd656f95c8409b36e06f3bd497` + `d5b6299e263b2d32b4e7f5460fa61629baa8318e`. Re-extract after any source change.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `0027a659e74cbd5aefee99c92de4fe6c530f562a` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
-**Review tasks:** Compare each guide with the independent expected response from stage 1. Identify scientific/financial factual errors, creditworthy alternative routes, mismatched scenario assumptions, copied generic level language, unsupported numerical AO distribution or promised examiner marking, over-strict conclusion requirements, and inaccurate Psychology option scope. A passing CI result is not independent educational A3. Return item-by-item PASS/MINOR/MATERIAL/BLOCKING and exact changes. Original 2027 AQA item tariff remains unverified; `marks_style` is labelled training-only.
+**Stage 2 only.** Challenge these authored suggestions against the independently recorded blind answers. Record exact-version PASS/MINOR/MATERIAL/BLOCKING separately for question and guide. Question-only and guided versions both need independent acceptance; author edits and CI do not confer a pass.
 
 ## PSY-LF05-01 — Social support and locus of control
 
 **Question:** Describe and evaluate the roles of social support and locus of control in explaining why people resist social influence.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 16-mark-style extended-writing practice; no confirmed item-level AQA 2027 mark tariff or examiner-calibrated numeric AO allocation.
 
@@ -26,7 +26,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7182 v1.4 §4.1.1 — resistance to social influence; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item PSY-LF05-01: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item PSY-LF05-01: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -34,7 +34,7 @@
 
 **Question:** Discuss the working-memory model as an explanation of how people may carry out different short-term memory tasks at the same time.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 16-mark-style extended-writing exercise; the precise AQA 2027 item tariff and per-item AO split are not established.
 
@@ -52,7 +52,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7182 v1.4 §4.1.2 — working-memory model; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item PSY-LF05-02: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item PSY-LF05-02: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -62,7 +62,7 @@
 
 **Scenario:** The same 40 volunteers complete both conditions. List difficulty, musical preferences and time of day could affect recall; the research is not yet underway.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 16-mark-style research-methods training task, NOT a verified 16-mark tariff for the 2027 AQA research-methods paper.
 
@@ -82,7 +82,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7182 v1.4 §§4.2.3–4.2.3.2 — experimental design and validity; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item PSY-LF05-07: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item PSY-LF05-07: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -92,7 +92,7 @@
 
 **Scenario:** Mira Sports Drinks has a 12% market share. Sales volume fell 8% after a £1 price rise. A survey of 80 urban athletes finds strong interest in a sugar-free version, but rivals now promote cheaper alternatives.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 16-mark-style contextual Business evaluation; AQA's exact 2027 item-level AO split is not verified and no official mark is awarded.
 
@@ -112,7 +112,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7132 v2.0 §3.3 — market research and marketing decisions; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item BUS-LF05-03-16: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item BUS-LF05-03-16: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -120,7 +120,7 @@
 
 **Question:** To what extent is lean production the most effective way for a manufacturer to improve its competitiveness?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 25-mark-style Paper 1 broad essay, not an official or independently examiner-calibrated AQA 2027 marking scheme; no supplied case is compulsory.
 
@@ -140,7 +140,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7132 v2.0 §3.4.3 — lean production and operational efficiency; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item BUS-LF05-04-25: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item BUS-LF05-04-25: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -148,7 +148,7 @@
 
 **Question:** To what extent are quantitative methods more valuable than qualitative assessment when managers analyse a business's strategic position?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
 1. Training classification: Original Revision 25-mark-style Paper 1 strategic analysis essay; the precise AQA 2027 item-level tariff and AO marks are not verified.
 
@@ -168,7 +168,7 @@
 
 **Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7132 v2.0 §3.7 — analysing strategic position and quantitative information; new guide A3 pending
 
-**Historic review state:** historical A3 43620992688 item BUS-LF05-07-25: no material findings; revised-guide A3/A4 HOLD
+**Historical finding:** historical A3 43620992688 item BUS-LF05-07-25: no material findings; revised-guide A3/A4 HOLD
 
 ---
 
@@ -176,31 +176,33 @@
 
 **Question:** Describe and evaluate Bowlby's monotropic theory as an explanation of the formation and later influence of infant attachments.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain monotropy, social releasers, the proposed critical period and evolutionary/adaptive role.
+2. Explain monotropy, social releasers, the proposed critical period and evolutionary/adaptive role.
 
-3. 2. Explain the internal working model as a proposed foundation for expectations of later relationships.
+3. Explain the internal working model as a proposed foundation for expectations of later relationships.
 
-4. 3. Distinguish Bowlby's claims from learning-theory accounts where useful.
+4. Distinguish Bowlby's claims from learning-theory accounts where useful.
 
-5. 1. Evaluate relevant research on early attachment and later relationships, avoiding causal overclaiming.
+5. Evaluate relevant research on early attachment and later relationships, avoiding causal overclaiming.
 
-6. 2. Question the universality of monotropy and the evidence for a strict critical rather than sensitive period.
+6. Question the universality of monotropy and the evidence for a strict critical rather than sensitive period.
 
-7. 3. Consider alternative explanations, including continuity of care and later experiences.
+7. Consider alternative explanations, including continuity of care and later experiences.
 
-8. 4. Make a judgement balancing the theory's explanatory reach against deterministic claims.
+8. Make a judgement balancing the theory's explanatory reach against deterministic claims.
 
 9. Alternative valid answer routes: Accept careful discussion of institutionalisation or early deprivation when causally qualified. Do not equate separation, deprivation and institutionalisation as the same construct.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: The strict critical period is a theoretical proposal, not an established universal cutoff; separate monotropy and later internal working models from maternal deprivation and institutionalisation.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-03; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-03: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-03: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -208,63 +210,67 @@
 
 **Question:** Describe and evaluate cognitive explanations of depression and the use of cognitive behaviour therapy to treat depression.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain Beck's negative triad and Ellis's ABC model, including irrational beliefs.
+2. Explain Beck's negative triad and Ellis's ABC model, including irrational beliefs.
 
-3. 2. Outline how CBT uses the challenge of unhelpful thoughts in treatment.
+3. Outline how CBT uses the challenge of unhelpful thoughts in treatment.
 
-4. 3. Distinguish an explanation of depression from evidence of treatment effectiveness.
+4. Distinguish an explanation of depression from evidence of treatment effectiveness.
 
-5. 1. Evaluate supportive treatment evidence while distinguishing effectiveness from proof of cause.
+5. Evaluate supportive treatment evidence while distinguishing effectiveness from proof of cause.
 
-6. 2. Discuss feasibility, engagement, relapse and whether cognitive interventions suit all presentations.
+6. Discuss feasibility, engagement, relapse and whether cognitive interventions suit all presentations.
 
-7. 3. Consider the direction of causality between negative thinking and symptoms, and relevant alternatives.
+7. Consider the direction of causality between negative thinking and symptoms, and relevant alternatives.
 
-8. 4. Develop a qualified judgement about explanatory usefulness and treatment appropriateness.
+8. Develop a qualified judgement about explanatory usefulness and treatment appropriateness.
 
 9. Alternative valid answer routes: Credit evidence-informed treatment comparisons if relevant, without inventing effect sizes. Avoid outdated 2027 content outside the specified Beck/Ellis/CBT requirements.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Beck's triad covers negative views of self, world and future; Ellis's ABC relates activating events, beliefs and consequences. A response to CBT does not prove cognitive beliefs caused the condition.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-04; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-04: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-04: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
 ## PSY-LF05-05 — Approaches in Psychology
 
-**Question:** Compare the behaviourist approach with social learning theory as explanations of how behaviour is acquired. Evaluate the value of each approach.
+**Question:** Discuss similarities and differences between the behaviourist approach and social learning theory in explaining how behaviour is acquired, and evaluate their usefulness.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Accurately explain classical conditioning, operant conditioning and reinforcement in behaviourism.
+2. Accurately explain classical conditioning, operant conditioning and reinforcement in behaviourism.
 
-3. 2. Explain imitation, identification, vicarious reinforcement and mediational processes in social learning theory.
+3. Explain imitation, identification, vicarious reinforcement and mediational processes in social learning theory.
 
-4. 3. Identify a meaningful distinction between direct reinforcement and observed learning.
+4. Identify a meaningful distinction between direct reinforcement and observed learning.
 
-5. 1. Use relevant research (such as Pavlov, Skinner or Bandura) to evaluate scientific control and ecological validity.
+5. Use relevant research (such as Pavlov, Skinner or Bandura) to evaluate scientific control and ecological validity.
 
-6. 2. Compare cognitive mediation in social learning theory with the relative emphasis on observable behaviour in behaviourism.
+6. Compare cognitive mediation in social learning theory with the relative emphasis on observable behaviour in behaviourism.
 
-7. 3. Evaluate determinism, explanatory scope and individual/cultural differences without treating labels as substitutes for reasoning.
+7. Evaluate determinism, explanatory scope and individual/cultural differences without treating labels as substitutes for reasoning.
 
-8. 4. Reach an argued comparative conclusion.
+8. Reach an argued comparative conclusion.
 
 9. Alternative valid answer routes: Credit alternative sound comparison of predictions, methods and practical applications. Avoid crediting inaccurate assertion that social learning theory rejects reinforcement.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Pavlov's classical and Skinner's operant conditioning differ from Bandura's imitation, identification, vicarious reinforcement and mediational processes. Social learning does not reject reinforcement.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-05; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-05: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-05: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -272,31 +278,33 @@
 
 **Question:** Discuss the usefulness and limitations of fMRI, EEG and post-mortem examinations for investigating localisation of brain function.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Identify the kind of evidence each technique provides: fMRI blood-oxygen-related activity, EEG electrical activity and examination of brain tissue.
+2. Identify the kind of evidence each technique provides: fMRI blood-oxygen-related activity, EEG electrical activity and examination of brain tissue.
 
-3. 2. Distinguish temporal and spatial information and the nature of evidence available from each method.
+3. Distinguish temporal and spatial information and the nature of evidence available from each method.
 
-4. 3. Connect these techniques to investigating localisation of function without presenting correlation as localisation proof.
+4. Connect these techniques to investigating localisation of function without presenting correlation as localisation proof.
 
-5. 1. Compare spatial versus temporal resolution and the inferential limits of fMRI.
+5. Compare spatial versus temporal resolution and the inferential limits of fMRI.
 
-6. 2. Evaluate EEG's temporal strengths and difficulties identifying precise deep locations.
+6. Evaluate EEG's temporal strengths and difficulties identifying precise deep locations.
 
-7. 3. Evaluate post-mortem structural insights alongside retrospective, confounding and causal limitations.
+7. Evaluate post-mortem structural insights alongside retrospective, confounding and causal limitations.
 
-8. 4. Draw a justified conclusion about combining methods for converging evidence.
+8. Draw a justified conclusion about combining methods for converging evidence.
 
 9. Alternative valid answer routes: Credit well-linked discussion of ERPs and split-brain evidence when relevant. Do not ask learners to evaluate the endocrine system as if it were a theory; this question targets methods.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: fMRI measures indirect blood-oxygen signal; EEG scalp activity, with time-locked ERP signals; post-mortem provides anatomy after death. Temporal, spatial and retrospective inference differ.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-06; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-06: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-06: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -304,31 +312,33 @@
 
 **Question:** Discuss the nature–nurture debate in psychology, using relevant examples from other topics of psychology you have studied.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain the distinction between heritable/biological and environmental influences.
+2. Explain the distinction between heritable/biological and environmental influences.
 
-3. 2. Define interactionism rather than portraying heredity and environment as mutually exclusive.
+3. Define interactionism rather than portraying heredity and environment as mutually exclusive.
 
-4. 3. Accurately select relevant examples from compulsory topics that students have studied; examples from an optional topic are also creditworthy if the learner has studied that option.
+4. Accurately select relevant examples from compulsory topics that students have studied; examples from an optional topic are also creditworthy if the learner has studied that option.
 
-5. 1. Evaluate explanatory limits of strictly nature-only or nurture-only accounts using connected psychological evidence.
+5. Evaluate explanatory limits of strictly nature-only or nurture-only accounts using connected psychological evidence.
 
-6. 2. Discuss how gene–environment interplay changes interpretation and practical intervention.
+6. Discuss how gene–environment interplay changes interpretation and practical intervention.
 
-7. 3. Evaluate scientific/ethical implications of deterministic oversimplification where pertinent.
+7. Evaluate scientific/ethical implications of deterministic oversimplification where pertinent.
 
-8. 4. Build a synoptic judgement grounded in appropriately selected studied topics and the quality of relevant evidence, rather than rewarding a fixed number of topic names.
+8. Build a synoptic judgement grounded in appropriately selected studied topics and the quality of relevant evidence, rather than rewarding a fixed number of topic names.
 
 9. Alternative valid answer routes: First illustrate valid links using common compulsory content, such as attachment, biopsychology, memory or approaches. Also credit sound examples from aggression, schizophrenia or any other relevant optional content where the learner has actually studied that option. No fixed named-study list or minimum topic count is an AQA-wide rule; award credit for accurate explicit links, developed evaluation and defensible alternatives.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Use accurately linked examples from compulsory and genuinely studied optional topics, not a fixed topic list. Explain interactionism, not just an either-or gene versus environment assertion.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-08; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-08: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-08: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -336,31 +346,33 @@
 
 **Question:** Describe and evaluate explanations of why people remain in romantic relationships, referring to social exchange theory and Rusbult's investment model.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain perceived rewards, costs and comparison levels in social exchange theory.
+2. Explain perceived rewards, costs and comparison levels in social exchange theory.
 
-3. 2. Describe satisfaction, alternatives, investment and commitment in the investment model.
+3. Describe satisfaction, alternatives, investment and commitment in the investment model.
 
-4. 3. Distinguish staying in a relationship from judging its short-term quality.
+4. Distinguish staying in a relationship from judging its short-term quality.
 
-5. 1. Evaluate supporting research and methodological limits of retrospective/self-report relationship measures.
+5. Evaluate supporting research and methodological limits of retrospective/self-report relationship measures.
 
-6. 2. Compare explanatory coverage of long-term commitment with short-term cost–reward calculation.
+6. Compare explanatory coverage of long-term commitment with short-term cost–reward calculation.
 
-7. 3. Discuss social/cultural and individual differences and whether rational calculations reflect actual relationship decisions.
+7. Discuss social/cultural and individual differences and whether rational calculations reflect actual relationship decisions.
 
-8. 4. Offer a balanced comparison tied to persistence in relationships.
+8. Offer a balanced comparison tied to persistence in relationships.
 
 9. Alternative valid answer routes: Credit appropriately used equity theory as comparative evaluation. Avoid mixing concepts of Duck's breakdown phases into a demand solely about maintenance without a reason.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Social exchange theory uses rewards/costs and comparison levels; Rusbult distinguishes satisfaction, alternatives, investment and commitment. Investment can sustain a relationship despite low satisfaction.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-09; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-09: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-09: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -368,31 +380,33 @@
 
 **Question:** Discuss cognitive explanations of gender development, including Kohlberg's theory and Martin and Halverson's gender schema theory.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Accurately describe gender identity, stability and constancy in Kohlberg's account.
+2. Accurately describe gender identity, stability and constancy in Kohlberg's account.
 
-3. 2. Explain schema-based information processing and attention to gender-related information in gender schema theory.
+3. Explain schema-based information processing and attention to gender-related information in gender schema theory.
 
-4. 3. Distinguish developmental stages from schema-based processes.
+4. Distinguish developmental stages from schema-based processes.
 
-5. 1. Consider relevant cognitive development evidence and how it supports or challenges age-related predictions.
+5. Consider relevant cognitive development evidence and how it supports or challenges age-related predictions.
 
-6. 2. Assess whether schemas explain variation and change, and how social learning/culture influences construction of schemas.
+6. Assess whether schemas explain variation and change, and how social learning/culture influences construction of schemas.
 
-7. 3. Evaluate methodological problems in measuring complex gender concepts sensitively and accurately.
+7. Evaluate methodological problems in measuring complex gender concepts sensitively and accurately.
 
-8. 4. Develop a careful judgement that does not assume all identities develop identically.
+8. Develop a careful judgement that does not assume all identities develop identically.
 
 9. Alternative valid answer routes: Credit specification-consistent discussion of non-binary and gender-fluid identities as evaluation of assumptions. Avoid obsolete stereotypes, causal overclaims and treating chromosomal sex as identical to gender identity.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Kohlberg's identity, stability and constancy should not be conflated with Martin and Halverson's schema processing. Biological sex is not identical to gender identity; do not assume binary-only experience.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-10; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-10: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-10: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -400,31 +414,33 @@
 
 **Question:** Compare and evaluate Piaget's and Vygotsky's explanations of cognitive development, including their implications for how children learn.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain schemas, assimilation, accommodation and equilibration in Piaget's account.
+2. Explain schemas, assimilation, accommodation and equilibration in Piaget's account.
 
-3. 2. Explain the zone of proximal development and scaffolding in Vygotsky's account.
+3. Explain the zone of proximal development and scaffolding in Vygotsky's account.
 
-4. 3. Contrast independent maturation/discovery with socially supported learning without caricaturing either view.
+4. Contrast independent maturation/discovery with socially supported learning without caricaturing either view.
 
-5. 1. Evaluate research evidence on stages and task demands, including alternative interpretations of children's performance.
+5. Evaluate research evidence on stages and task demands, including alternative interpretations of children's performance.
 
-6. 2. Discuss the role of language, social interaction and culture as a strength or boundary of each theory.
+6. Discuss the role of language, social interaction and culture as a strength or boundary of each theory.
 
-7. 3. Assess educational implications with qualified claims and methodological safeguards.
+7. Assess educational implications with qualified claims and methodological safeguards.
 
-8. 4. Make a reasoned comparative evaluation of what each account explains well and less well about cognitive development and classroom learning, with evidence-sensitive qualifications rather than a list of names.
+8. Make a reasoned comparative evaluation of what each account explains well and less well about cognitive development and classroom learning, with evidence-sensitive qualifications rather than a list of names.
 
 9. Alternative valid answer routes: Credit knowledge of object permanence or conservation when explicitly relevant. Avoid attributing all cognitive change only to age or only to instruction.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Contrast Piaget's schemas, assimilation, accommodation, equilibration and stages with Vygotsky's zone of proximal development and scaffolding. Neither theory claims maturation or instruction alone explains all development.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-11; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-11: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-11: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -432,31 +448,33 @@
 
 **Question:** Discuss the interactionist approach to explaining and treating schizophrenia, including the diathesis–stress model.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Define vulnerability/diathesis and stress and show how they can interact.
+2. Define vulnerability/diathesis and stress and show how they can interact.
 
-3. 2. Describe relevant biological and psychological influences on presentation.
+3. Describe relevant biological and psychological influences on presentation.
 
-4. 3. Explain implications for combining drug and psychological therapies.
+4. Explain implications for combining drug and psychological therapies.
 
-5. 1. Evaluate evidence for combined vulnerability-and-stress explanations rather than independent single causes.
+5. Evaluate evidence for combined vulnerability-and-stress explanations rather than independent single causes.
 
-6. 2. Consider merits and limits of treatment combinations and individual variation in response.
+6. Consider merits and limits of treatment combinations and individual variation in response.
 
-7. 3. Address methodological and ethical problems including heterogeneity of symptoms and difficulties inferring causation.
+7. Address methodological and ethical problems including heterogeneity of symptoms and difficulties inferring causation.
 
-8. 4. Reach a qualified conclusion about explanatory and clinical usefulness.
+8. Reach a qualified conclusion about explanatory and clinical usefulness.
 
 9. Alternative valid answer routes: Credit evidence about dopamine/genetic correlates or dysfunctional thinking when coherently linked. Avoid implying patients or families are personally responsible for illness.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: The diathesis–stress model proposes interacting vulnerability and environment, not a single certain cause. Combined treatments do not prove aetiology; no patient or family blame is warranted.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-12; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-12: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-12: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -464,31 +482,33 @@
 
 **Question:** Discuss biological and psychological explanations for anorexia nervosa, evaluating how well they explain its development.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain genetic/neural vulnerability at an appropriate conceptual level.
+2. Explain genetic/neural vulnerability at an appropriate conceptual level.
 
-3. 2. Describe at least one specified psychological explanation, such as family systems, social learning or cognitive distortions.
+3. Describe at least one specified psychological explanation, such as family systems, social learning or cognitive distortions.
 
-4. 3. Distinguish a proposed cause from a consequence or correlate of disordered eating.
+4. Distinguish a proposed cause from a consequence or correlate of disordered eating.
 
-5. 1. Evaluate relevant family, twin or neurobiological evidence with confounding cautions.
+5. Evaluate relevant family, twin or neurobiological evidence with confounding cautions.
 
-6. 2. Consider cultural, media and individual differences that challenge single-factor accounts.
+6. Consider cultural, media and individual differences that challenge single-factor accounts.
 
-7. 3. Assess bidirectional influences and limitations of retrospective or clinical samples.
+7. Assess bidirectional influences and limitations of retrospective or clinical samples.
 
-8. 4. Make an interactionist conclusion with careful attention to sensitivity.
+8. Make an interactionist conclusion with careful attention to sensitivity.
 
 9. Alternative valid answer routes: Credit well-supported comparison of family systems, social learning and cognitive approaches. Avoid implying a particular family pattern inevitably causes anorexia.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Anorexia options distinguish genetic and neural from family systems, social learning and cognitive explanations. Changes associated with malnutrition could be effects, not original causes. Avoid blaming families.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-13; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-13: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-13: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -496,31 +516,33 @@
 
 **Question:** Describe and evaluate stress inoculation therapy and biofeedback as ways of helping people manage stress.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain the phases and coping-skills emphasis of stress inoculation therapy.
+2. Explain the phases and coping-skills emphasis of stress inoculation therapy.
 
-3. 2. Explain biofeedback as monitoring physiological signals to learn control strategies.
+3. Explain biofeedback as monitoring physiological signals to learn control strategies.
 
-4. 3. Distinguish psychological coping training from physiological feedback mechanisms.
+4. Distinguish psychological coping training from physiological feedback mechanisms.
 
-5. 1. Evaluate evidence of effectiveness, considering outcome measures and durability.
+5. Evaluate evidence of effectiveness, considering outcome measures and durability.
 
-6. 2. Compare individual suitability, access, cost and skill maintenance rather than assuming equal benefit.
+6. Compare individual suitability, access, cost and skill maintenance rather than assuming equal benefit.
 
-7. 3. Consider broader stressors (such as workload or lack of control) that individual treatments may not remove.
+7. Consider broader stressors (such as workload or lack of control) that individual treatments may not remove.
 
-8. 4. Reach an argued conditional recommendation or comparative conclusion.
+8. Reach an argued conditional recommendation or comparative conclusion.
 
 9. Alternative valid answer routes: Credit relevant discussion of social support or workplace stressors as evaluation. Avoid implying that biofeedback removes the original stressor or that one therapy always works.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Stress inoculation therapy uses coping-skills phases; biofeedback gives physiological monitoring for self-regulation. Neither necessarily removes an external stressor.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-14; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-14: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-14: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -528,31 +550,33 @@
 
 **Question:** Discuss social psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain the proposed link between frustration and aggressive responses, including when it may not occur.
+2. Explain the proposed link between frustration and aggressive responses, including when it may not occur.
 
-3. 2. Explain imitation, identification, reinforcement and mediated processes in social learning.
+3. Explain imitation, identification, reinforcement and mediated processes in social learning.
 
-4. 3. Distinguish explanations based on immediate frustration from learned behavioural patterns.
+4. Distinguish explanations based on immediate frustration from learned behavioural patterns.
 
-5. 1. Evaluate the strength and limitations of supporting observational and experimental evidence.
+5. Evaluate the strength and limitations of supporting observational and experimental evidence.
 
-6. 2. Discuss why frustration need not lead to aggression and the roles of appraisal or alternative responses.
+6. Discuss why frustration need not lead to aggression and the roles of appraisal or alternative responses.
 
-7. 3. Compare cultural/contextual predictions and methodological/ethical limits.
+7. Compare cultural/contextual predictions and methodological/ethical limits.
 
-8. 4. Conclude on interaction with biological or situational influences.
+8. Conclude on interaction with biological or situational influences.
 
 9. Alternative valid answer routes: Credit de-individuation research as comparison if directly relevant. Do not claim media exposure inevitably causes violent behaviour.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Frustration does not always produce aggression, and observing aggression does not ensure imitation. Distinguish frustration hypotheses from Bandura-style learning.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-15; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-15: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-15: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -560,31 +584,33 @@
 
 **Question:** Compare typology-based and data-driven offender profiling, evaluating their usefulness to criminal investigations.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain organised/disorganised categorisation in typology profiling.
+2. Explain organised/disorganised categorisation in typology profiling.
 
-3. 2. Explain data-driven investigative psychology as an offender-profiling approach using patterns in case data; distinguish it from geographical profiling, which considers patterns in offence locations. Both appear in 7182 §4.3.9 but are not synonyms.
+3. Explain data-driven investigative psychology as an offender-profiling approach using patterns in case data; distinguish it from geographical profiling, which considers patterns in offence locations. Both appear in 7182 §4.3.9 but are not synonyms.
 
-4. 3. Identify the types of information available to investigators and distinguish hypotheses from proof.
+4. Identify the types of information available to investigators and distinguish hypotheses from proof.
 
-5. 1. Evaluate empirical validity, consistency and predictive usefulness of types.
+5. Evaluate empirical validity, consistency and predictive usefulness of types.
 
-6. 2. Assess strengths and biases of data-driven patterns, including sample representativeness and false positives.
+6. Assess strengths and biases of data-driven patterns, including sample representativeness and false positives.
 
-7. 3. Discuss ethical and practical risks when profiling directs limited resources.
+7. Discuss ethical and practical risks when profiling directs limited resources.
 
-8. 4. Develop a conditional judgement about investigative support versus forensic proof.
+8. Develop a conditional judgement about investigative support versus forensic proof.
 
 9. Alternative valid answer routes: Credit detailed evidence-based investigative psychology as the data-driven approach named in the question. Geographical profiling may receive relevant comparative credit when accurately identified as a distinct profiling approach, not substituted as a synonym for investigative psychology. Do not claim a profile proves guilt or uniquely identifies an offender.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Organised/disorganised typology differs from data-driven investigative psychology; geographical profiling separately concerns spatial offence patterns. A profile cannot prove guilt.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-16; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-16: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-16: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -592,31 +618,33 @@
 
 **Question:** Discuss learning and cognitive explanations for gambling addiction, evaluating their relative usefulness.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. 1. Explain partial/variable reinforcement and persistence of gambling behaviour.
+2. Explain partial/variable reinforcement and persistence of gambling behaviour.
 
-3. 2. Describe relevant cognitive biases in perceived probability or control.
+3. Describe relevant cognitive biases in perceived probability or control.
 
-4. 3. Relate these to persistence despite negative consequences without treating all gambling as addiction.
+4. Relate these to persistence despite negative consequences without treating all gambling as addiction.
 
-5. 1. Evaluate experimental/clinical evidence and limits of extrapolation to real gambling contexts.
+5. Evaluate experimental/clinical evidence and limits of extrapolation to real gambling contexts.
 
-6. 2. Compare the explanatory power of reinforcement schedules with belief-based accounts.
+6. Compare the explanatory power of reinforcement schedules with belief-based accounts.
 
-7. 3. Discuss vulnerability and situational factors that neither model explains completely.
+7. Discuss vulnerability and situational factors that neither model explains completely.
 
-8. 4. Reach a balanced conclusion on the value of combining cognitive and behavioural approaches.
+8. Reach a balanced conclusion on the value of combining cognitive and behavioural approaches.
 
 9. Alternative valid answer routes: Credit cautiously interpreted links to psychological or social risk factors. Avoid unsupported diagnostic claims or implying that all gamblers share the same cognitive biases.
 
-10. Higher-band discrimination: A strong answer selects relevant accurate explanations, builds evidence-based counterargument and makes an explicit judgement responsive to this specific command. A weaker response describes terminology, recites generic evaluation or lists studies without explaining their bearing. Use the provisional level grid above and independent exemplars before assigning any purportedly calibrated mark.
+10. Source-specific correction / alternative-credit safeguard: Gambling-related variable reinforcement and cognitive biases are distinct mechanisms. Neither proves every gambler has addiction, nor can all outcomes be attributed to one cause.
+
+11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-17; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-17: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-17: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -626,9 +654,9 @@
 
 **Scenario:** Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand but several owners prefer to retain profits.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Differentiate accounting profit, cash flow and business objectives, including survival, growth and social objectives.
 
@@ -640,11 +668,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: The simplified revenue-minus-total-cost surplus is £60,000 (about 3.3% of revenue), not the same as £90,000 cash. Neither figure is a cash-flow forecast or establishes affordability of £400,000 borrowing.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-01-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-01-16: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-01-16: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -652,11 +682,11 @@
 
 **Question:** Assess whether Pine Components should prioritise improving quality rather than increasing capacity.
 
-**Scenario:** Pine Components plc operates at 96% capacity utilisation and has a 7% rework rate. Deliveries are late on 14% of orders. A new machine costs £1.5m but managers fear that reducing buffer stock will increase interruptions.
+**Scenario:** Pine Components plc operates at 96% capacity utilisation, has a 7% rework rate and delivers 14% of orders late. A proposed machine costs £1.5m and could increase output capacity, but its effect on defects is unknown. Managers also fear that reducing buffer inventory could interrupt production.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Explain quality, capacity utilisation, unit cost and the role of inventory and lean methods.
 
@@ -668,11 +698,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: The proposed £1.5m machine might add capacity, but no defect reduction is established. 7% rework, 96% utilisation and 14% late delivery are real facts; causality and effective capacity gain remain unknown.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-04-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-04-16: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-04-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -682,9 +714,9 @@
 
 **Scenario:** Harbour Furniture Ltd reports operating profit of £480,000 on sales of £6m, current assets of £700,000 and current liabilities of £800,000. A £1m expansion could be financed by a secured loan at a variable rate, but orders are seasonal.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Distinguish internal/external finance, borrowing costs, liquidity and profitability measures.
 
@@ -696,11 +728,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: Operating margin is 8%, current ratio 0.875:1 and working capital −£100,000. One ratio cannot establish insolvency, refusal of a loan or its repayment capacity; interest is variable and demand seasonal.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-05-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-05-16: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-05-16: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -708,9 +742,9 @@
 
 **Question:** To what extent should improving cash flow take priority over increasing profitability when a business is experiencing rapid growth?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 25-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 selected knowledge: Distinguish internal/external finance, borrowing costs, liquidity and profitability measures. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
 
@@ -722,11 +756,13 @@
 
 6. Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
 
-7. Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages.
+7. Source-specific correction / alternative-credit safeguard: Fast-growing credit sales and inventory can absorb cash before profits convert into receipts; consider receivables, supplier payment terms and financial resilience, not just margin.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-05-25; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-05-25: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-05-25: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -736,9 +772,9 @@
 
 **Scenario:** Orchid Care Services has 180 employees and annual labour turnover of 32%. Training costs £1,200 per recruit. Staff survey responses cite inconsistent rotas and a lack of career progression; customer satisfaction fell from 86% to 77%.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development.
 
@@ -750,11 +786,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: 32% of 180 is approximately 58 leavers only if that headcount applies annually. £69,120 recruitment training is illustrative only if every leaver is replaced at £1,200. Satisfaction fell 9 percentage points but causation is unproven.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-06-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-06-16: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-06-16: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -762,11 +800,11 @@
 
 **Question:** To what extent is financial reward the most effective way to improve employee motivation in a service business?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 25-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 selected knowledge: Explain financial rewards such as wages, salaries, bonuses, commission, profit-sharing and performance-related pay, and their plausible effects on motivation, retention, fairness and effort. Credit accurately applied motivation theories (for example Herzberg, Vroom or equity theory), and contrast non-financial approaches such as responsibility, autonomy, job design or recognition. Training is only one optional non-financial comparison; do not mistake training types for the question's main financial-reward demand.
+2. AO1 selected knowledge: Explain the specified AQA Business §3.6.4 financial rewards (piece rate, commission, salary schemes, performance-related pay) and non-financial options (empowerment, team working, flexible working, job enrichment, job rotation). Use Taylor, Maslow and Herzberg; do not present Vroom or equity theory as required core.
 
 3. AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 
@@ -776,11 +814,13 @@
 
 6. Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
 
-7. Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages.
+7. Source-specific correction / alternative-credit safeguard: AQA 7132 §3.6.4 specifically names Taylor, Maslow, Herzberg; piece rates, commission, salaries, performance-related pay; empowerment, teams, flexibility, enrichment and rotation. Other theories are optional, not substitute core.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-06-25; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-06-25: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-06-25: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -790,13 +830,13 @@
 
 **Scenario:** Kelton Mobility plc has revenue £25m, operating profit £2m, capital employed £16m and non-current liabilities £9m. An overseas assembly proposal has a positive NPV of £900,000 but volatile demand and an unresolved supplier agreement.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Explain how profit margin, ROCE, borrowing/gearing risk and investment appraisal can inform but not settle decisions. A precise gearing measure must use a stated and supported formula; the supplied liabilities alone do not establish every definition's debt and equity inputs.
 
-3. AO2 contextual selection and interpretation: Credit operating profit margin 8% (£2m/£25m), ROCE 12.5% (£2m/£16m), positive stated NPV £900,000 and sound use of the unresolved demand/supplier assumptions. Non-current liabilities are £9m relative to £16m capital employed (an arithmetic ratio of 56.25%); do not require calling 56.25% gearing without an explicit definition of borrowing, equity and denominator. Credit correctly stated alternative gearing conventions and the limits of the supplied data.
+3. AO2 contextual selection: £2m/£25m = 8% operating margin and £2m/£16m = 12.5% ROCE; positive stated NPV £900,000 depends on forecast assumptions. Do not infer or require a uniquely defined gearing percentage from the £9m non-current liabilities.
 
 4. AO3 developed causal analysis: Analyse attractive returns against borrowing risk and forecast sensitivity. Consider market, competitor, operational and capability evidence beyond ratios.
 
@@ -804,11 +844,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: Profit margin 8% and ROCE 12.5% can be derived; £900,000 NPV depends on unsupplied forecasts. £9m non-current liabilities alone cannot yield an unambiguous gearing ratio.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-07-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-07-16: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-07-16: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -818,9 +860,9 @@
 
 **Scenario:** Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Explain market development and product development in Ansoff's matrix and their distinct risk profiles.
 
@@ -832,11 +874,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: Ansoff's market development concerns existing services in new regions; product development is a new offering to current customers. £400,000 and £1.1m are costs, not forecast returns.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-08-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-08-16: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-08-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -844,11 +888,11 @@
 
 **Question:** To what extent should a business prioritise differentiation rather than low cost when choosing how to compete?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 25-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 selected knowledge: Explain differentiation through distinctive value, quality, design, service or brand position, versus low-cost/cost-leadership approaches based on an efficient cost base that may support competitive prices or margin. Distinguish a firm's lower production cost from simply lowering selling prices. Ansoff's growth matrix is not required unless a student independently uses a relevant, accurate growth strategy to support their argument.
+2. AO1 selected knowledge: Explain Porter's differentiation and low-cost leadership, considering focus when relevant. Distinguish cost-base advantage from price cuts, and do not require an unrelated Ansoff matrix.
 
 3. AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 
@@ -858,11 +902,13 @@
 
 6. Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
 
-7. Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages.
+7. Source-specific correction / alternative-credit safeguard: Porter's low-cost advantage concerns cost base, not automatically lowest price; differentiation provides valued distinction. Focus concerns a narrow market; Ansoff is not required here.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-08-25; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-08-25: MATERIAL / revised HOLD; new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-08-25: MATERIAL / revised HOLD; new A3/A4 required
 
 ---
 
@@ -872,9 +918,9 @@
 
 **Scenario:** Briar Logistics Ltd can acquire a regional competitor for £8m or open three depots organically for £5m. The acquisition adds 240 drivers but has incompatible IT systems and two disputed contracts. Managers want a national network within 18 months.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Distinguish external growth/acquisition from organic growth and describe potential synergy.
 
@@ -886,11 +932,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: Acquisition £8m versus three new depots £5m are quoted option costs, not like-for-like lifetime net present values. Assess 240 drivers, IT incompatibility, disputed contracts and 18-month objective.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-09-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-09-16: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-09-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -898,9 +946,9 @@
 
 **Question:** To what extent is external growth the best strategic method for a business seeking rapid expansion?
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 25-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 selected knowledge: Distinguish external growth/acquisition from organic growth and describe potential synergy. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
 
@@ -912,11 +960,13 @@
 
 6. Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
 
-7. Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages.
+7. Source-specific correction / alternative-credit safeguard: Scale and synergy from external growth are potential, not guaranteed; compare organic growth, economies/diseconomies, financing and integration costs.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-09-25; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-09-25: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-09-25: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -926,9 +976,9 @@
 
 **Scenario:** Valen Foods plc plans a digital inventory system across 12 warehouses. The pilot reduced stockouts by 18%, but 46% of surveyed staff worry about job security. Two site managers resist the rollout; suppliers need three months to adapt.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 accurate concepts: Explain strategic change, resistance, consultation, organisational culture and implementation planning.
 
@@ -940,11 +990,13 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars.
+7. Source-specific correction / alternative-credit safeguard: An 18% stockout reduction in one pilot need not repeat across 12 warehouses; 46% surveyed staff concern has no stated sample size. Suppliers require three months to adapt.
+
+8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; BUS-LF05-10-16; AQA 7132 v2.0
 
-**Historic review state:** Historical A3 43620992688 BUS-LF05-10-16: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 BUS-LF05-10-16: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 
@@ -954,9 +1006,9 @@
 
 **Scenario:** A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is **76% in Task A** and **49% in Task B**. All participants completed both tasks, with Task A always first. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are **not real research findings**.
 
-**Author-written indicative guidance — challenge each claim:**
+**Authored indicative guidance, not an independently accepted mark scheme:**
 
-1. REVIEW HOLD: original Revision 16-mark-style training; NOT an official AQA 2027 item or examiner grade. Needs independent question and guide acceptance before publication.
+1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
 2. AO1 / knowledge: Explain the separate roles of the phonological loop (verbal/acoustic rehearsal), visuo-spatial sketchpad (visual/spatial processing), central executive (attentional control/coordination) and, where relevant, episodic buffer (integration). Distinguish their functions rather than presenting separate stores as a fixed proof of the model.
 
@@ -970,11 +1022,13 @@
 
 7. Useful self-review questions (only after attempt): Did I cite both accuracy values? Did I explain why the task pairing matters? Did I account for the fixed order or unmatched difficulty? Did I use evaluation rather than describe only component definitions?
 
-8. Qualitative differentiation, not a calibrated grade: A stronger answer links accurate mechanisms to both conditions, weighs the evidence against clear confounds and reaches a qualified judgement. A developing answer identifies the components but weakly connects the results. A limited answer merely lists memory stores or repeats percentages.
+8. Source-specific correction / alternative-credit safeguard: 76% versus 49% digit accuracy differs by 27 percentage points, but fixed order and unmatched second-task difficulty prevent attributing all of that difference to phonological-loop competition.
+
+9. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
 **Source metadata:** PR834 3b318fc53bce95195c8eef8b5771690c123f2a31; PSY-LF05-02-S1; AQA 7182 v1.4
 
-**Historic review state:** Historical A3 43620992688 PSY-LF05-02-S1: NO MATERIAL (old exact bytes only); new A3/A4 required
+**Historical finding:** Historical A3 43620992688 PSY-LF05-02-S1: NO MATERIAL (old exact bytes only); new A3/A4 required
 
 ---
 

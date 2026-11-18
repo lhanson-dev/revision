@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(18);
+select plan(19);
 select is((select count(*) from public.lf05_written_questions),39::bigint,
  'all 39 authored original question identities are stored once');
 select is((select count(*) from public.lf05_written_guides),39::bigint,
@@ -54,6 +54,10 @@ select is((select count(*) from public.lf05_written_questions
 select ok((select bool_and(stimulus is not null and length(stimulus)>45)
  from public.lf05_written_questions where id like 'BUS-LF05-%' and marks_style=16),
  'all ten Business contextual evaluations retain their complete fictional stimulus');
+select is((select count(*) from public.lf05_written_questions q join public.lf05_written_guides g on g.question_id=q.id
+where q.status='held' and exists (select 1 from jsonb_array_elements_text(g.guidance) as v(entry)
+where v.entry ~* 'REVIEW HOLD|provisional level grid|13.?16-quality|5.?8-quality')),0::bigint,
+'held learner guides exclude draft labels and invented grading bands');
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d9';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d9","is_anonymous":false}';
