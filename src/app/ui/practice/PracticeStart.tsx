@@ -159,7 +159,6 @@ export function PracticeStart(props: PracticeStartProps) {
             <span className="practice-choice__action">Practise writing <Icon name="arrow-right" size="inline" /></span>
           </button>
         )}
-      {selectedPath === 'written' && !writtenSafeToLeave && <p className="practice-panel__note" role="status">Your latest writing changes must be saved before switching activities.</p>}
       <div id={`${headingId}-questions`} className="practice-focus" hidden={selectedPath !== 'questions'}>
           <section className="practice-panel practice-panel--scored" aria-label="Scored questions">
             <div className="practice-panel__head">
@@ -237,6 +236,7 @@ export function PracticeStart(props: PracticeStartProps) {
         </div>
       )}
       </div>
+      {selectedPath === 'written' && !writtenSafeToLeave && <p className="practice-panel__note" role="status">Your latest writing changes must be saved before switching activities.</p>}
       {warmups.length > 0 && (
         <section className="practice-warmups" aria-label="Warm-up">
           <div className="practice-warmups__head">
