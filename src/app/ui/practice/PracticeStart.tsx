@@ -148,7 +148,7 @@ export function PracticeStart(props: PracticeStartProps) {
         {renderWrittenPractice && writtenAvailable && (
           <button type="button" className="practice-choice" aria-pressed={selectedPath === 'written'}
             aria-controls={`${headingId}-written`} onClick={() => changePath('written')}>
-            <span className="practice-choice__top"><Icon name="file-text" size="standard" /><span className="practice-chip">Self-review · not scored</span></span>
+            <span className="practice-choice__top"><Icon name="pencil" size="standard" /><span className="practice-chip">Self-review · not scored</span></span>
             <strong>Extended answers</strong>
             <span>Write an original response and unlock guidance after submitting your first answer.</span>
             <span className="practice-choice__detail">Private saved draft · self-review guidance</span>
