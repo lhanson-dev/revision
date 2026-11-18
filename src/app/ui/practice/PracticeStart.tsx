@@ -141,7 +141,7 @@ export function PracticeStart(props: PracticeStartProps) {
       )}
 
       <div className="practice-choice-grid" role="group" aria-label="Choose a practice activity">
-        <button type="button" className="practice-choice" aria-pressed={selectedPath === 'questions'}
+        <button type="button" className="practice-choice" aria-pressed={selectedPath === 'questions'} aria-expanded={selectedPath === 'questions'}
           aria-controls={`${headingId}-questions`} onClick={() => changePath('questions')} disabled={selectedPath === 'written' && !writtenSafeToLeave}>
           <span className="practice-choice__top"><Icon name="check" size="standard" /><span className="practice-chip">Scored</span></span>
           <strong>Quick questions</strong>
@@ -150,7 +150,7 @@ export function PracticeStart(props: PracticeStartProps) {
           <span className="practice-choice__action">Choose quick questions <Icon name="arrow-right" size="inline" /></span>
         </button>
         {renderWrittenPractice && writtenAvailable && (
-          <button type="button" className="practice-choice" aria-pressed={selectedPath === 'written'}
+          <button type="button" className="practice-choice" aria-pressed={selectedPath === 'written'} aria-expanded={selectedPath === 'written'}
             aria-controls={`${headingId}-written`} onClick={() => changePath('written')}>
             <span className="practice-choice__top"><Icon name="pencil" size="standard" /><span className="practice-chip">Self-review · not scored</span></span>
             <strong>Extended answers</strong>
@@ -159,7 +159,6 @@ export function PracticeStart(props: PracticeStartProps) {
             <span className="practice-choice__action">Practise writing <Icon name="arrow-right" size="inline" /></span>
           </button>
         )}
-      </div>
       {selectedPath === 'written' && !writtenSafeToLeave && <p className="practice-panel__note" role="status">Your latest writing changes must be saved before switching activities.</p>}
       <div id={`${headingId}-questions`} className="practice-focus" hidden={selectedPath !== 'questions'}>
           <section className="practice-panel practice-panel--scored" aria-label="Scored questions">
@@ -237,6 +236,7 @@ export function PracticeStart(props: PracticeStartProps) {
           {renderWrittenPractice(reportWrittenAvailable, setWrittenSafeToLeave)}
         </div>
       )}
+      </div>
       {warmups.length > 0 && (
         <section className="practice-warmups" aria-label="Warm-up">
           <div className="practice-warmups__head">
