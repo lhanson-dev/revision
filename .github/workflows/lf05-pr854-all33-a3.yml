@@ -15,7 +15,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: lf05-pr854-${{ github.event_name }-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }
+  group: lf05-pr854-${{ github.event_name }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout trusted approved main only
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.sha }
+          ref: ${{ github.sha }}
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
@@ -55,14 +55,14 @@ jobs:
         run: node --test scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs
       - name: Run 33 blind question then separate guided source reviews
         env:
-          GITHUB_TOKEN: ${{ github.token }
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node scripts/assurance/lf05-pr854-all33-a3-review.mjs
       - name: Retain results including educational HOLD
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lf05-pr854-a3-${{ github.run_id }
+          name: lf05-pr854-a3-${{ github.run_id }}
           path: .artifacts/lf05-pr854-a3/
           retention-days: 30
           if-no-files-found: warn
