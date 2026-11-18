@@ -108,3 +108,6 @@ Twenty-seven held source-candidate question/guide pairs now have case-specific e
 ### 18 November 2026 — reviewed source display and skill locator, held only
 
 Before independent A3, corrected PSY-LF05-02-S1 candidate-only plain text scenario percentages (76%/49%) to avoid exposing `**` Markdown in the existing plain-text learner component. Corrected the truncated `AO` suffix in its skill source mapping. Updated both all-33 reviewer packets against exact source Git blob and added database regression checks. No changes to the existing six published items, question engine, learner answers, status or release. New A3 and A4 remain mandatory.
+
+
+**18 November correction to preceding checkpoint:** The first CI regression test failed because the same memory scenario still contained `**not real research findings**` in its fictional-data disclaimer. Removed these final Markdown delimiters as well; regenerated both all-33 review packets for the new exact SQL blob. The prior failed CI result remains historical evidence and a new final-head CI is required. No learner-facing publication change.
