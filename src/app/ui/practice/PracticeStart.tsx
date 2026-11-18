@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId, useState, type ReactNode } from 'react'
 import { Button, SelectField } from '../controls'
 import { Icon } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
@@ -60,6 +60,8 @@ export interface PracticeStartProps {
   onOpenWarmup: (id: string) => void
   /** The existing recommendation reason for this topic. No reason, no REV card. */
   revReason?: string | null
+  /** Only mounted for course-level Practice: the verified LF-05 catalogue reports whether written work exists. */
+  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void) => ReactNode
 }
 
 /**
@@ -71,9 +73,16 @@ export function PracticeStart(props: PracticeStartProps) {
   const {
     topicTitle, status, lastPractised, topics, savedTopicIds = [], savedTopicStatus = 'ready', onRetrySavedTopics, topicId, onChangeTopic,
     length, onChangeLength, availableQuestions, sessionCount, questionTypes, selectedTypes, onToggleType, onStart, startDisabled = false,
-    carryOn, extraScored = [], onOpenExtraScored, warmups, onOpenWarmup, revReason,
+    carryOn, extraScored = [], onOpenExtraScored, warmups, onOpenWarmup, revReason, renderWrittenPractice,
   } = props
   const [choosingTopic, setChoosingTopic] = useState(false)
+  const [selectedPath, setSelectedPath] = useState<'questions' | 'written' | null>(null)
+  const [writtenAvailable, setWrittenAvailable] = useState(false)
+  const [writtenSafeToLeave, setWrittenSafeToLeave] = useState(true)
+  const changePath = (next: 'questions' | 'written') => {
+    if (selectedPath === 'written' && !writtenSafeToLeave) return
+    setSelectedPath(current => current === next ? null : next)
+  }
   const headingId = useId()
   const hasQuestions = availableQuestions > 0
   const capped = hasQuestions && sessionCount < length
@@ -83,7 +92,8 @@ export function PracticeStart(props: PracticeStartProps) {
     <div className="practice-start" aria-labelledby={headingId} role="region">
       <header className="practice-start__head">
         <p className="ui-eyebrow">Practice · {topicTitle}</p>
-        <h2 id={headingId} className="practice-start__title">{carryOn ? 'Your saved practice session' : 'Test what you know'}</h2>
+        <h2 id={headingId} className="practice-start__title">{carryOn ? 'Your saved practice session' : 'How would you like to practise?'}</h2>
+        <p className="practice-start__intro">Choose an activity to test or strengthen your understanding of this topic.</p>
         <div className="practice-start__now">
           {status && (
             <>
@@ -126,100 +136,121 @@ export function PracticeStart(props: PracticeStartProps) {
         </section>
       )}
 
-      <div className="practice-start__grid">
-        <section className="practice-panel practice-panel--scored" aria-label="Scored questions">
-          <div className="practice-panel__head">
-            <div className="practice-panel__tags">
-              <span className="ui-eyebrow">Scored</span>
-              <span className="practice-chip">Counts towards Understanding and Exam readiness</span>
-            </div>
-            <h3 className="practice-panel__title">Questions</h3>
-            <p className="practice-panel__lead">
-              {hasQuestions
-                ? 'Miss one and it comes back later in the session. Each answer is saved as evidence of what you know.'
-                : `There are no scored questions for ${topicTitle} yet. Try the warm-up, or choose another topic.`}
-            </p>
-          </div>
-
-          {hasQuestions && !carryOn && (
-            <>
-              <div className="practice-field">
-                <span className="practice-field__label" id={`${headingId}-length`}>How many?</span>
-                <div className="practice-lengths" role="group" aria-labelledby={`${headingId}-length`}>
-                  {PRACTICE_LENGTHS.map((option) => (
-                    <button key={option} type="button" className="practice-length" aria-pressed={length === option} onClick={() => onChangeLength(option)}>
-                      <span className="practice-length__number">{option}</span>
-                      <span className="practice-length__time">about {estimatedMinutes(option)} min</span>
-                    </button>
-                  ))}
-                </div>
+      <div className="practice-choice-grid" role="group" aria-label="Choose a practice activity">
+        <button type="button" className="practice-choice" aria-pressed={selectedPath === 'questions'}
+          aria-controls={`${headingId}-questions`} onClick={() => changePath('questions')} disabled={selectedPath === 'written' && !writtenSafeToLeave}>
+          <span className="practice-choice__top"><Icon name="check" size="standard" /><span className="practice-chip">Scored</span></span>
+          <strong>Quick questions</strong>
+          <span>Multiple choice and calculations. Answers contribute to Understanding and Exam readiness.</span>
+          <span className="practice-choice__detail">Choose 5, 10 or 15 questions</span>
+          <span className="practice-choice__action">Choose quick questions <Icon name="arrow-right" size="inline" /></span>
+        </button>
+        {renderWrittenPractice && writtenAvailable && (
+          <button type="button" className="practice-choice" aria-pressed={selectedPath === 'written'}
+            aria-controls={`${headingId}-written`} onClick={() => changePath('written')}>
+            <span className="practice-choice__top"><Icon name="file-text" size="standard" /><span className="practice-chip">Self-review · not scored</span></span>
+            <strong>Extended answers</strong>
+            <span>Write an original response and unlock guidance after submitting your first answer.</span>
+            <span className="practice-choice__detail">Private saved draft · self-review guidance</span>
+            <span className="practice-choice__action">Practise writing <Icon name="arrow-right" size="inline" /></span>
+          </button>
+        )}
+      </div>
+      {selectedPath === 'written' && !writtenSafeToLeave && <p className="practice-panel__note" role="status">Your latest writing changes must be saved before switching activities.</p>}
+      <div id={`${headingId}-questions`} className="practice-focus" hidden={selectedPath !== 'questions'}>
+          <section className="practice-panel practice-panel--scored" aria-label="Scored questions">
+            <div className="practice-panel__head">
+              <div className="practice-panel__tags">
+                <span className="ui-eyebrow">Scored</span>
+                <span className="practice-chip">Counts towards Understanding and Exam readiness</span>
               </div>
-
-              {questionTypes.length > 1 && (
+              <h3 className="practice-panel__title">Questions</h3>
+              <p className="practice-panel__lead">
+                {hasQuestions
+                  ? 'Miss one and it comes back later in the session. Each answer is saved as evidence of what you know.'
+                  : `There are no scored questions for ${topicTitle} yet. Try the warm-up, or choose another topic.`}
+              </p>
+            </div>
+  
+            {hasQuestions && !carryOn && (
+              <>
                 <div className="practice-field">
-                  <span className="practice-field__label" id={`${headingId}-kind`}>What kind?</span>
-                  <div className="practice-kinds" role="group" aria-labelledby={`${headingId}-kind`}>
-                    {questionTypes.map((type) => {
-                      const on = selectedTypes.includes(type)
-                      return (
-                        <button key={type} type="button" className={classNames('practice-kind', on && 'practice-kind--on')} aria-pressed={on} onClick={() => onToggleType(type)}>
-                          {on && <Icon name="check" size="inline" />}
-                          {practiceQuestionTypeLabels[type]}
-                        </button>
-                      )
-                    })}
+                  <span className="practice-field__label" id={`${headingId}-length`}>How many?</span>
+                  <div className="practice-lengths" role="group" aria-labelledby={`${headingId}-length`}>
+                    {PRACTICE_LENGTHS.map((option) => (
+                      <button key={option} type="button" className="practice-length" aria-pressed={length === option} onClick={() => onChangeLength(option)}>
+                        <span className="practice-length__number">{option}</span>
+                        <span className="practice-length__time">about {estimatedMinutes(option)} min</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
-              )}
-
-              <div className="practice-start__action">
-                <Button size="large" className="practice-start__button" disabled={startDisabled} onClick={onStart}>
-                  Start {sessionCount} {sessionCount === 1 ? 'question' : 'questions'}
-                  <Icon name="arrow-right" size="compact" />
-                </Button>
-                <span className="practice-start__time"><Icon name="clock" size="inline" />about {estimatedMinutes(sessionCount)} min</span>
-              </div>
-              {capped && <p className="practice-panel__note">There {availableQuestions === 1 ? 'is' : 'are'} {availableQuestions} {availableQuestions === 1 ? 'question' : 'questions'} available for this topic. Your session will use {availableQuestions === 1 ? 'it' : 'them all'}.</p>}
-            </>
-          )}
-
-          {carryOn && <p className="practice-panel__note">Finish or discard your saved session before starting a different question set.</p>}
-
-          {extraScored.length > 0 && (
-            <div className="practice-rows">
-              {extraScored.map((row) => (
-                <button key={row.id} type="button" className="practice-row" onClick={() => onOpenExtraScored?.(row.id)}>
-                  <span className="practice-row__copy"><span className="practice-row__name">{row.name}</span><span className="practice-row__meta">{row.meta}</span></span>
-                  <span className="practice-row__go" aria-hidden="true"><Icon name="arrow-right" size="inline" /></span>
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <div className="practice-start__side">
-          {warmups.length > 0 && (
-            <section className="practice-panel" aria-label="Warm-up">
-              <div className="practice-panel__head">
-                <div className="practice-panel__tags">
-                  <span className="ui-eyebrow">Warm-up</span>
-                  <span className="practice-chip">Doesn’t count towards Exam readiness</span>
+  
+                {questionTypes.length > 1 && (
+                  <div className="practice-field">
+                    <span className="practice-field__label" id={`${headingId}-kind`}>What kind?</span>
+                    <div className="practice-kinds" role="group" aria-labelledby={`${headingId}-kind`}>
+                      {questionTypes.map((type) => {
+                        const on = selectedTypes.includes(type)
+                        return (
+                          <button key={type} type="button" className={classNames('practice-kind', on && 'practice-kind--on')} aria-pressed={on} onClick={() => onToggleType(type)}>
+                            {on && <Icon name="check" size="inline" />}
+                            {practiceQuestionTypeLabels[type]}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+  
+                <div className="practice-start__action">
+                  <Button size="large" className="practice-start__button" disabled={startDisabled} onClick={onStart}>
+                    Start {sessionCount} {sessionCount === 1 ? 'question' : 'questions'}
+                    <Icon name="arrow-right" size="compact" />
+                  </Button>
+                  <span className="practice-start__time"><Icon name="clock" size="inline" />about {estimatedMinutes(sessionCount)} min</span>
                 </div>
-                <p className="practice-panel__lead">Quick recall to get going. It tells REV what you remember.</p>
-              </div>
+                {capped && <p className="practice-panel__note">There {availableQuestions === 1 ? 'is' : 'are'} {availableQuestions} {availableQuestions === 1 ? 'question' : 'questions'} available for this topic. Your session will use {availableQuestions === 1 ? 'it' : 'them all'}.</p>}
+              </>
+            )}
+  
+            {carryOn && <p className="practice-panel__note">Finish or discard your saved session before starting a different question set.</p>}
+  
+            {extraScored.length > 0 && (
               <div className="practice-rows">
-                {warmups.map((row) => (
-                  <button key={row.id} type="button" className="practice-row" onClick={() => onOpenWarmup(row.id)}>
+                {extraScored.map((row) => (
+                  <button key={row.id} type="button" className="practice-row" onClick={() => onOpenExtraScored?.(row.id)}>
                     <span className="practice-row__copy"><span className="practice-row__name">{row.name}</span><span className="practice-row__meta">{row.meta}</span></span>
                     <span className="practice-row__go" aria-hidden="true"><Icon name="arrow-right" size="inline" /></span>
                   </button>
                 ))}
               </div>
-            </section>
-          )}
-          {revReason && <RevSuggestionCard className="practice-rev" eyebrow="REV" reason={revReason} />}
-        </div>
+            )}
+          </section>
       </div>
+      {renderWrittenPractice && (
+        <div id={`${headingId}-written`} className="practice-focus practice-focus--written" hidden={selectedPath !== 'written'}>
+          {renderWrittenPractice(setWrittenAvailable, setWrittenSafeToLeave)}
+        </div>
+      )}
+      {warmups.length > 0 && (
+        <section className="practice-warmups" aria-label="Warm-up">
+          <div className="practice-warmups__head">
+            <h3>Warm up first</h3>
+            <span className="practice-chip">Optional · doesn’t count towards Exam readiness</span>
+          </div>
+          <div className="practice-warmups__grid">
+            {warmups.map(row => (
+              <button key={row.id} type="button" className="practice-warmup" onClick={() => onOpenWarmup(row.id)}>
+                <strong>{row.name}</strong>
+                <span>{row.meta}</span>
+                <Icon name="arrow-right" size="inline" />
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+      {revReason && <RevSuggestionCard className="practice-rev practice-rev--compact" eyebrow="REV suggests" reason={revReason} />}
     </div>
   )
 }
