@@ -33,6 +33,29 @@ test('Practice presents choices before configuration, while warm-up remains opti
   await expect(startButton(page)).toHaveCount(0)
 })
 
+test('selected activity shares a continuous surface with its controls on desktop and phone', async ({ page }) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 })
+    await seedReturningStudent(page)
+    await page.goto(practicePath)
+    const chooser = page.locator('.practice-choice-grid')
+    const quick = chooser.getByRole('button', { name: /Choose quick questions/ })
+    await quick.click()
+    await expect(quick).toHaveAttribute('aria-expanded', 'true')
+    const panel = chooser.locator('.practice-focus:not([hidden])')
+    await expect(panel).toBeVisible()
+    await expect(panel).toHaveCSS('border-top-width', '2px')
+    const cardBox = await quick.boundingBox()
+    const panelBox = await panel.boundingBox()
+    expect(cardBox).not.toBeNull()
+    expect(panelBox).not.toBeNull()
+    expect(panelBox!.y).toBeGreaterThan(cardBox!.y)
+    expect(panelBox!.y - (cardBox!.y + cardBox!.height)).toBeLessThanOrEqual(20)
+    await expect(page.getByRole('button', { name: /Choose quick questions/ })).toHaveAttribute('aria-pressed', 'true')
+    await expectNoSidewaysScroll(page)
+  }
+})
+
 test('the start screen names the topic and separates scored questions from optional warm-up', async ({ page }) => {
   await openPractice(page)
   const start = page.getByRole('region', { name: 'How would you like to practise?' })
