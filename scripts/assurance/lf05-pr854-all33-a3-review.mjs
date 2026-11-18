@@ -17,18 +17,61 @@ export function blobSha(s){let b=Buffer.from(s,'utf8');return createHash('sha1')
 export function sections(s){const m=[...s.matchAll(/^## ((?:PSY|BUS)-LF05-[\w-]+) —/gm)];
  const a=m.map((x,i)=>({id:x[1],text:s.slice(x.index,m[i+1]?.index||s.length).trim()}));
  if(a.length!==33||new Set(a.map(x=>x.id)).size!==33)throw Error('Must have 33 unique IDs');return a}
+export function parseSqlCandidateRow(line){
+ const raw=line.trim().replace(/[,;]$/,'');
+ if(!raw.startsWith("('")||!raw.endsWith(')'))throw Error('Invalid source SQL candidate row');
+ const source=raw.slice(1,-1);let cols=[],value='',quoted=false;
+ for(let i=0;i<source.length;i++){
+  const x=source[i];
+  if(x==="'"){
+   if(quoted&&source[i+1]==="'"){value+="''";i++;continue}
+   quoted=!quoted;value+=x;continue
+  }
+  if(x===','&&!quoted){cols.push(value.trim());value='';continue}value+=x
+ }
+ cols.push(value.trim());
+ if(quoted||cols.length!==12)throw Error('Invalid candidate SQL field count');
+ const decode=literal=>{
+  if(literal==='NULL')return null;
+  const m=/^'((?:[^']|'')*)'(?:\:\:jsonb)?$/.exec(literal);
+  if(!m)throw Error('Invalid candidate string literal');
+  return m[1].replaceAll("''","'")
+ };
+ return {
+  id:decode(cols[0]),course:decode(cols[1]),paper:Number(cols[2]),topic:decode(cols[3]),
+  skill:decode(cols[4]),question:decode(cols[6]),scenario:decode(cols[7]),
+  style:Number(cols[8]),guide:JSON.parse(decode(cols[9]))
+ }
+}
 export function verifyFiles(s){
  const found=s.slice(0,2).map(v=>[...v.matchAll(/^\('((?:PSY|BUS)-LF05-[\w-]+)'/gm)].map(m=>m[1]));
  if(found[0].length!==6||found[1].length!==27)throw Error('SQL candidate denominator wrong');
  if(s.slice(0,2).some(v=>!v.includes("true,'held'")))throw Error('Only held SQL input permitted');
  for(let i=0;i<2;i++)if(!s[2].includes(blobSha(s[i]))||!s[3].includes(blobSha(s[i])))throw Error('Packet SQL checksum stale');
  if(s[2].includes('Authored indicative guidance'))throw Error('Blind guide leakage');
+ const actual=s.slice(0,2).flatMap(src=>src.split('\n').filter(line=>line.startsWith("('")).map(parseSqlCandidateRow));
+ const candidates=new Map(actual.map(x=>[x.id,x]));
  const blind=sections(s[2]),guided=sections(s[3]),map=new Map(guided.map(x=>[x.id,x.text]));
  if(new Set(found.flat()).size!==33)throw Error('SQL duplicates');
  for(const b of blind){
   if(!found.flat().includes(b.id)||!map.has(b.id))throw Error('Unknown candidate');
   const q=b.text.match(/\*\*Question:\*\* ([^\n]+)/)?.[1],g=map.get(b.id).match(/\*\*Question:\*\* ([^\n]+)/)?.[1];
   if(!q||q!==g)throw Error('Guided mismatch '+b.id);
+  const expected=candidates.get(b.id);
+  const guide=map.get(b.id);
+  if(!expected||q!==expected.question)throw Error('Reviewed question differs from candidate SQL '+b.id);
+  const stimulus=expected.scenario?'**Scenario:** '+expected.scenario:null;
+  if(stimulus && (!b.text.includes(stimulus)||!guide.includes(stimulus)))
+   throw Error('Reviewed stimulus differs from candidate SQL '+b.id);
+  if(!expected.scenario && (b.text.includes('**Scenario:**')||guide.includes('**Scenario:**')))
+   throw Error('Invented review scenario '+b.id);
+  if(!b.text.includes('- **Course:** '+expected.course)||
+     !b.text.includes('- **Topic:** '+expected.topic)||
+     !b.text.includes('- **Paper/mark-style:** '+expected.paper+' / '+expected.style))
+   throw Error('Question paper/course/topic differs from candidate SQL '+b.id);
+  for(const criterion of expected.guide)if(!guide.includes(criterion))
+   throw Error('Reviewed guide differs from authored SQL JSON '+b.id);
+
   const topic=b.text.match(/- \*\*Topic:\*\* ([^\n]+)/)?.[1],course=b.text.includes('aqa:aqa-a-level:7182')?'psychology':'business';
   if(!facts[course][topic])throw Error('Unsupported topic '+b.id);
   b.source='AQA '+(course==='psychology'?'7182 v1.4 ':'7132 v2.0 ')+facts[course][topic];
