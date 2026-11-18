@@ -61,7 +61,7 @@ export interface PracticeStartProps {
   /** The existing recommendation reason for this topic. No reason, no REV card. */
   revReason?: string | null
   /** Only mounted for course-level Practice: the verified LF-05 catalogue reports whether written work exists. */
-  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void) => ReactNode
+  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void, topicId: string) => ReactNode
 }
 
 /**
@@ -234,7 +234,7 @@ export function PracticeStart(props: PracticeStartProps) {
       </div>
       {renderWrittenPractice && (
         <div id={`${headingId}-written`} className="practice-focus practice-focus--written" hidden={selectedPath !== 'written'}>
-          {renderWrittenPractice(reportWrittenAvailable, setWrittenSafeToLeave)}
+          {renderWrittenPractice(reportWrittenAvailable, setWrittenSafeToLeave, topicId)}
         </div>
       )}
       {warmups.length > 0 && (
