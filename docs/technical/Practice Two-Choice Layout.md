@@ -12,7 +12,7 @@ The revised start screen gives equal entry affordance to:
 - **Quick questions:** scored objective Practice, with existing selection of length and type, saved checkpoint and existing evidence semantics unchanged.
 - **Extended answers:** original LF-05 writing, explicitly labelled non-scored self-review. It only appears if the owner-scoped catalogue reports a published question for the course (or the explicit incoming topic filter). Its source/version, private draft, 14-day expiry, submitted-first-answer guidance, deletion and RLS constraints remain unchanged.
 
-After the choice, only its respective configuration/workspace is shown. Optional warm-ups (flashcards, formulas/guided exercises, case study where published) are below, not equal to a scored route; no warm-up counts towards Exam readiness. REV remains a supporting explanatory surface, not a competing launch card.
+After the choice, only its respective configuration/workspace is shown. The selected card and its configuration share a continuous bordered surface, with an uninterrupted vertical connector on desktop; on a phone the active card and controls appear adjacent, before the other choice. Optional warm-ups (flashcards, formulas/guided exercises, case study where published) are below, not equal to a scored route; no warm-up counts towards Exam readiness. REV remains a supporting explanatory surface, not a competing launch card.
 
 ## Source ownership and implementation
 
