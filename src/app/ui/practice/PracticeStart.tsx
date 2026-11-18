@@ -120,7 +120,7 @@ export function PracticeStart(props: PracticeStartProps) {
           )}
         </div>
         {choosingTopic && (
-          <SelectField groupClassName="practice-start__topic-picker" label="Topic" value={topicId} onChange={(event) => { if (selectedPath === 'written' && !writtenSafeToLeave) return; onChangeTopic(event.target.value); setChoosingTopic(false) }}>
+          <SelectField groupClassName="practice-start__topic-picker" label="Topic" value={topicId} onChange={(event) => { if (selectedPath === 'written' && !writtenSafeToLeave) return; setSelectedPath(null); setWrittenAvailable(false); onChangeTopic(event.target.value); setChoosingTopic(false) }}>
             {topics.map((item) => <option key={item.id} value={item.id}>{item.label}{savedTopicStatus === 'ready' && savedTopicIds.includes(item.id) ? ' · In progress' : ''}</option>)}
           </SelectField>
         )}
