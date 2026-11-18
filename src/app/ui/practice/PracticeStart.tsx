@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactNode } from 'react'
+import { useCallback, useId, useState, type ReactNode } from 'react'
 import { Button, SelectField } from '../controls'
 import { Icon } from '../Icon'
 import { RevSuggestionCard } from '../RevSuggestionCard'
@@ -79,9 +79,10 @@ export function PracticeStart(props: PracticeStartProps) {
   const [selectedPath, setSelectedPath] = useState<'questions' | 'written' | null>(null)
   const [writtenAvailable, setWrittenAvailable] = useState(false)
   const [writtenSafeToLeave, setWrittenSafeToLeave] = useState(true)
-  useEffect(() => {
-    if (!writtenAvailable && selectedPath === 'written' && writtenSafeToLeave) setSelectedPath(null)
-  }, [writtenAvailable, selectedPath, writtenSafeToLeave])
+  const reportWrittenAvailable = useCallback((available: boolean) => {
+    setWrittenAvailable(available)
+    if (!available && writtenSafeToLeave) setSelectedPath(current => current === 'written' ? null : current)
+  }, [writtenSafeToLeave])
   const changePath = (next: 'questions' | 'written') => {
     if (selectedPath === 'written' && !writtenSafeToLeave) return
     setSelectedPath(current => current === next ? null : next)
@@ -233,7 +234,7 @@ export function PracticeStart(props: PracticeStartProps) {
       </div>
       {renderWrittenPractice && (
         <div id={`${headingId}-written`} className="practice-focus practice-focus--written" hidden={selectedPath !== 'written'}>
-          {renderWrittenPractice(setWrittenAvailable, setWrittenSafeToLeave)}
+          {renderWrittenPractice(reportWrittenAvailable, setWrittenSafeToLeave)}
         </div>
       )}
       {warmups.length > 0 && (
