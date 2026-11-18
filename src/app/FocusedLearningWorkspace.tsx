@@ -95,7 +95,7 @@ export type FocusedLearningWorkspaceProps = {
   contextLabel?: string
   includeExamQuestions?: boolean
   /** Course-level original writing, shown as a separate non-scored activity when verified available. */
-  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void) => ReactNode
+  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void, topicId: string) => ReactNode
   /** Practice only: open this topic first (for example when arriving from a Learn page). */
   preferredTopicId?: string | null
   /** Practice only: each topic's status and when it was last practised, from the student's saved evidence. */
