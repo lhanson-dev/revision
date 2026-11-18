@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: independent A3 guided challenge
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `0027a659e74cbd5aefee99c92de4fe6c530f562a` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `6aa6930052caf647a929f9100ee53a589ee5a494` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 2 only.** Challenge these authored suggestions against the independently recorded blind answers. Record exact-version PASS/MINOR/MATERIAL/BLOCKING separately for question and guide. Question-only and guided versions both need independent acceptance; author edits and CI do not confer a pass.
 
@@ -1004,7 +1004,7 @@
 
 **Question:** Discuss how useful the working-memory model is for explaining the results of this investigation.
 
-**Scenario:** A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is **76% in Task A** and **49% in Task B**. All participants completed both tasks, with Task A always first. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are **not real research findings**.
+**Scenario:** A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is 76% in Task A and 49% in Task B. All participants completed both tasks, with Task A always first. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are **not real research findings**.
 
 **Authored indicative guidance, not an independently accepted mark scheme:**
 

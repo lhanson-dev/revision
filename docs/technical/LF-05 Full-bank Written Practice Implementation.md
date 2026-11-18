@@ -103,3 +103,8 @@ The published catalogue remains six. The additional 33 staged items are all `hel
 ### PR #854 — source-content correction checkpoint, 17 November 2026
 
 Twenty-seven held source-candidate question/guide pairs now have case-specific evidence safeguards and qualitative self-review without draft HOLD labels, invented numeric grading bands or unsupplied marking grids. An integrated Psychology comparison prompt and the Business Pine Components machine scenario have been clarified. The 33-item blinded and guided reviewer packets now match exact staged SQL blobs. Production's original six, learners' saved text, signed-in panel, RLS, fixed retention and self-marking contract are unchanged. This editing pass does not supply independent A3 verdicts or release any held content; after exact-version reviewer acceptance, authenticated A4, CI and a specific approved merge are needed. #698 still owns full-specification coverage.
+
+
+### 18 November 2026 — reviewed source display and skill locator, held only
+
+Before independent A3, corrected PSY-LF05-02-S1 candidate-only plain text scenario percentages (76%/49%) to avoid exposing `**` Markdown in the existing plain-text learner component. Corrected the truncated `AO` suffix in its skill source mapping. Updated both all-33 reviewer packets against exact source Git blob and added database regression checks. No changes to the existing six published items, question engine, learner answers, status or release. New A3 and A4 remain mandatory.
