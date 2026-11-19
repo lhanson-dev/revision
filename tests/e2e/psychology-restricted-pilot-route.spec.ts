@@ -231,7 +231,6 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
   await expect(page.getByRole('button', { name: 'Start 12 questions' })).toBeVisible()
-  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 12 questions' }).click()
   const positions = [1, 3, 0, 2]
   const expectedPrompts = [/Freya privately thinks/, /respected university/, /One other person openly disagrees/, /small campaign group/]
