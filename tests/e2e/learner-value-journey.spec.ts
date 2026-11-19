@@ -900,7 +900,6 @@ test('Business browser-entered net-gain weakness receives Plan method and indepe
     const kinds = page.locator('.practice-kinds')
     await kinds.getByRole('button', { name: 'Calculations' }).click()
     await kinds.getByRole('button', { name: 'Multiple choice' }).click()
-    await page.getByRole('button', { name: /Choose quick questions/ }).click()
     await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
 
     // Walk the app's genuine adaptive question order; never fabricate or
