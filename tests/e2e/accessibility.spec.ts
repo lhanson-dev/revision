@@ -168,6 +168,9 @@ test('critical course, learning, practice, exam and progress journey meets the a
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()
   await expect(page.locator('.practice-workspace')).toBeVisible()
+  await expect(page.getByRole('button', { name: /Choose quick questions/ })).toBeVisible()
+  await expectWcagBaseline(page, 'Practice activity choice')
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeVisible()
   await expectWcagBaseline(page, 'Practice start screen')
 
