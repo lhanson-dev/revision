@@ -407,6 +407,7 @@ test('SV-08: a real saved scored Practice answer refreshes Progress and the comm
   // This is an actual rendered scored question and confidence selection.
   // No synthetic evidence payload or score is inserted by the test.
   await page.goto(appPath + '#/courses/' + encodeURIComponent(business.id) + '/practice')
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await answerWith(page, 0, 'Certain')
