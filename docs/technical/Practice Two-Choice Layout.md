@@ -28,3 +28,6 @@ After the choice, only its respective configuration/workspace is shown. The sele
 No changes to objective scoring, mark tariffs, evidence calculation, official-paper claims, answer retention, authentication or database schema. The standalone HTML mock is **illustrative only**; browser assurance must evaluate the actual signed-in route, both light/dark themes, keyboard focus and mobile layout.
 
 CI and review evidence belong to PR #857. No merge or public release is implied by this document.
+## Regression adaptation (19 November 2026)
+
+The route now requires the visible **Choose quick questions** entry choice before configuring lengths/types or pressing Start. Existing authenticated learner-journey checks (independently recorded practice evidence, remediation, planner rechecks, persistence after reload and course removal/re-add) retain all underlying assertions; only the entry sequence is adjusted. Synthetic visual checks use the same selection step. These adaptations do not substitute for green exact-commit CI, real DB/browser assurance, or independent merge approval.
