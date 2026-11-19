@@ -40,7 +40,8 @@ test('selected activity shares a continuous surface with its controls on desktop
     await page.goto(practicePath)
     const chooser = page.locator('.practice-choice-grid')
     const quick = chooser.getByRole('button', { name: /Choose quick questions/ })
-    await quick.click()
+    // A prior same-route navigation can retain the open choice: do not toggle it closed.
+    if (await quick.getAttribute('aria-pressed') !== 'true') await quick.click()
     await expect(quick).toHaveAttribute('aria-expanded', 'true')
     const panel = chooser.locator('.practice-focus:not([hidden])')
     await expect(panel).toBeVisible()
