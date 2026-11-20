@@ -435,10 +435,10 @@ test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact key
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/issues-and-debates-in-psychology`)
   await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.locator('.practice-length').filter({
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
-  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 6 questions' }).click()
 
   const ids = [
@@ -513,10 +513,10 @@ test('LF-03 #787 Relationships V2 publishes four authentic one-mark cases and re
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/relationships`)
   await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.locator('.practice-length').filter({
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
-  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
 
   const ids = [1, 2, 3, 4].map(i => `psy-psy090${i}-check-v2`)
