@@ -11,7 +11,7 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
-- PR #854 proposed independent blind+guide original 33-item source reviewer infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; no educational A3 verdict yet, #698/#706.
+- LF-05 proposed 20 November reviewer source/completion correction (first PR #854 A3 run: 25/33 partial, six disputed material flags, eight missing; 33 still HELD) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; reviewer-only PR pending approval.\n- PR #854 proposed independent blind+guide original 33-item source reviewer infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; no educational A3 verdict yet, #698/#706.
 
 - LF-05 proposed standard signed-in writing access (Founder 16 November correction; removal of per-account gate without weakening RLS, guide-after-submit, or 14-day expiry) → `10-product-governance/Course Learning Blueprint.md`, `50-engineering-standards/Release & Deployment Standard.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md` and new `supabase/migrations/20261116220000_lf05_uniform_authenticated_access.sql`; tracked in #706; PR pending specific approval. 
 - LF-02 completed mock retakes and saved evidence safety → `docs/technical/LF-02 Completed Mock Retakes.md`
