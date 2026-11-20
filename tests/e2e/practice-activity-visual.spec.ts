@@ -46,6 +46,7 @@ for (const visualCase of cases) {
     await page.addInitScript((theme) => localStorage.setItem('revision:theme', theme), visualCase.theme)
     await seedReturningStudent(page)
     await page.goto(practicePath)
+    await page.getByRole('button', { name: /Choose quick questions/ }).click()
     const start = page.getByRole('button', { name: /^Start [0-9]+ questions?$/ })
     await expect(start).toBeVisible()
     await start.click()

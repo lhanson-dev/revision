@@ -91,6 +91,7 @@ test.describe('database-backed learner persistence', () => {
     await courseNav.getByRole('button', { name: 'Practice' }).click()
     await expect(page.locator('.practice-workspace')).toBeVisible()
 
+    await page.getByRole('button', { name: /Choose quick questions/ }).click()
     await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
     await page.locator('.practice-question__options button').first().click()
     await page.getByRole('button', { name: 'Fairly sure' }).click()

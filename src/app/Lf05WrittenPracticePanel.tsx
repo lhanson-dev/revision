@@ -16,10 +16,12 @@ import { Button } from './ui'
  * essay text is uploaded to model providers or general learning evidence.
  */
 export function Lf05WrittenPracticePanel({
-  context, preferredTopicId,
+  context, preferredTopicId, onAvailabilityChange, onSafeToLeaveChange,
 }: {
   context: Lf05Context
   preferredTopicId?: string | null
+  onAvailabilityChange?: (available: boolean) => void
+  onSafeToLeaveChange?: (safe: boolean) => void
 }) {
   const [questions, setQuestions] = useState<Lf05Question[]>([])
   const [catalogueState, setCatalogueState] = useState<'loading'|'available'|'unavailable'>('loading')
@@ -44,6 +46,19 @@ export function Lf05WrittenPracticePanel({
   const persisted = attempt?.phase==='draft'&&status==='saved'&&
     answer===attempt.draft_text
   const safeToLeave = !attempt||attempt.phase!=='draft'||persisted
+
+  // Report actual published, topic-eligible questions to the parent selector.
+  // An unavailable catalogue must not create an empty or misleading entry card.
+  useEffect(() => {
+    if (catalogueState !== 'loading') {
+      onAvailabilityChange?.(catalogueState === 'available' &&
+        questions.some(q => !preferredTopicId || q.topic_id === preferredTopicId))
+    }
+  }, [catalogueState, questions, preferredTopicId, onAvailabilityChange])
+
+  // A hidden written workspace remains mounted while switching activities.
+  // Keep unsaved answers on screen and do not allow that switch until confirmed saved.
+  useEffect(() => { onSafeToLeaveChange?.(safeToLeave) }, [safeToLeave, onSafeToLeaveChange])
 
   useEffect(()=>{
     let cancelled=false

@@ -100,6 +100,7 @@ test.beforeEach(({}, testInfo) => {
 test('scored Practice restores the exact next question after a refresh without another evidence write', async ({ page }, testInfo) => {
   await installRecoveryDatabase(page)
   await page.goto(practicePath)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await answerWith(page, 0)
@@ -123,7 +124,7 @@ test('scored Practice restores the exact next question after a refresh without a
   // On a different device or topic there is no local hint. The Practice
   // topic selector must identify the server-verified saved Business session.
   await page.goto('/revision/app/#/courses/aqa%3Aaqa-a-level%3A7132/practice/leadership')
-  await expect(page.getByRole('heading', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'How would you like to practise?' })).toBeVisible()
   await page.getByRole('button', { name: 'Change topic' }).click()
   const topicPicker = page.getByRole('combobox', { name: 'Topic' })
   await expect(topicPicker.locator('option[value="business"]')).toContainText('In progress')
@@ -163,6 +164,7 @@ test('scored Practice restores the exact next question after a refresh without a
 test('ambiguous answer checkpoint failure restores the same evidence id and completes by verified retry', async ({ page }) => {
   await installRecoveryDatabase(page)
   await page.goto(practicePath)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   checkpointSaveFailure = true
   await page.locator('.practice-question__options button').first().click()

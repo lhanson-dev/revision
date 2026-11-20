@@ -20,6 +20,7 @@ async function savedEvidence(page: Page) {
 /** Starts a session of written questions only. */
 async function startWritten(page: Page, query = '') {
   await page.goto(`${fixture}${query}`)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   const scored = page.getByRole('region', { name: 'Scored questions' })
   await scored.getByRole('button', { name: 'Written answers' }).click()
   await scored.getByRole('button', { name: 'Multiple choice' }).click()
@@ -39,6 +40,7 @@ async function writeAnswer(page: Page, count: number) {
 
 test('without a marker connected, written answers are not offered at all', async ({ page }) => {
   await page.goto(`${fixture}?marker=off`)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   const scored = page.getByRole('region', { name: 'Scored questions' })
   await expect(scored.getByRole('button', { name: 'Written answers' })).toHaveCount(0)
   await expect(scored.getByRole('button', { name: 'Calculations' })).toHaveCount(1) // calculations need no marker, so they are offered
@@ -49,6 +51,7 @@ test('without a marker connected, written answers are not offered at all', async
 
 test('with a marker, "Written answers" is a kind to choose, and at least one kind stays on', async ({ page }) => {
   await page.goto(fixture)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   const scored = page.getByRole('region', { name: 'Scored questions' })
   await expect(scored.getByRole('button', { name: 'Multiple choice' })).toHaveAttribute('aria-pressed', 'true')
   await expect(scored.getByRole('button', { name: 'Written answers' })).toHaveAttribute('aria-pressed', 'false')
