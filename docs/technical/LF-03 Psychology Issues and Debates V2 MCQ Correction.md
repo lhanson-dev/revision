@@ -1,6 +1,6 @@
 # #698 / #787 — Psychology Issues and Debates V2 single-decision checks
 
-**State:** revised educational candidate, 3 November 2026. The *earlier* exact-head AI A3 passed with minor distractor concerns; the **revised head requires its own independent A3**. PR #803 remains unmerged/not live. No full-course acceptance claim.
+**Current state (3 November 2026):** PR #803 **merged** into approved `main` at `0987a34aab82bb30c9debbe9471c108799784656` following full exact-head CI, two independent A3 passes with minor residual answer-clue concerns, and exact-head Founder approval. The release's production deployment and authentic learner acceptance require separate evidence. The earlier sections below preserve the dated candidate/review history; do not interpret historical pending gates as current blockers. **LF-03/#787 and complete course assurance remain open.**
 
 ## Source, routes, and bounded defect
 
@@ -55,3 +55,16 @@ The **first** independent [A3 run #41616254863](https://github.com/lhanson-dev/r
 ## Documentation impact
 
 Existing Course Learning Blueprint, source rights, assessment quality, evidence and planner authorities already cover this correction; **no normative amendment** is required. Implementation, this technical note, indexed pointer and tests live together on the same governed branch/PR. The dated 2 November audit remains unchanged and historically true. Update the primary #698/#787 trackers with the bounded candidate and its exact-head evidence, without prematurely marking full-course assurance complete.
+
+
+## Post-merge implementation and review reconciliation — 3 November 2026
+
+**Merged PR:** [#803](https://github.com/lhanson-dev/revision/pull/803), exact reviewed head `0b6e7047fe9da73b0950306cae95a5e2d076320d`, merge `0987a34aab82bb30c9debbe9471c108799784656`, founder status passed after exact two-line GitHub marker [approval comment 6601524033](https://github.com/lhanson-dev/revision/pull/803#issuecomment-6601524033). All nine exact-head Revision CI jobs passed in [#41617852240](https://github.com/lhanson-dev/revision/actions/runs/41617852240): static/unit/build, protected database/RLS, isolated Auth, desktop (two shards), tablet, phone, foundation quality/secret controls. The change was current with approved main and mechanically mergeable; no score migration was needed.
+
+**Fresh independent revised-content A3:** [#41617910853](https://github.com/lhanson-dev/revision/actions/runs/41617910853) and [#41617929203](https://github.com/lhanson-dev/revision/actions/runs/41617929203) both reviewed exact revised question source blob `eb057a2224d721c70bbca28ac804e1a77537b54d`, with matched blind answer keys (1 for `PSY-08-01`, 3 for `PSY-08-04`) and separate feedback passes. Both found **minor** lingering cue/distractor limitations, so approval is bounded to these two one-mark selected-response checks, not independent AO2/AO3, whole bank quality or genuine learner success. Previous pre-rewording A3 run #41616254863 remains preserved as separate historical evidence.
+
+**Production evidence (verified):** merged release workflow [#41621801576](https://github.com/lhanson-dev/revision/actions/runs/41621801576) completed **all six jobs successfully** — governed release lineage, production backend readiness, build, deployment, production smoke and durable publication of `revision/path-to-live=success` against exact merge `0987a34aab82bb30c9debbe9471c108799784656`. **Live release is verified; authenticated hosted original learner acceptance is not.**
+
+**Follow-up:** original LF-03 learner retest, four other Issues and Debates questions, broader #787 pattern inventory, complete #698 specification assurance and any qualified educator/examiner review remain open. Historical learner answers, scores, original 6-question checkpoint interpretation and old derived-evidence exclusion are unchanged.
+
+**Documentation impact:** this is a purely additive correction to technical *implementation status* following the governed merge; it does not alter past review evidence, substantive product authority, learner code, tests, data or production. The historical candidate review sections above are intentionally preserved for traceability.
