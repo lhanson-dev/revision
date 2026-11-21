@@ -1,6 +1,6 @@
 # LF-01 — Exam-date calendar viewport correction
 
-**Scope:** learner feedback #765, LF-01. **Status:** candidate, not merged or live.
+**Scope:** learner feedback #765, LF-01. **Status:** merged and deployed via [PR #766](https://github.com/lhanson-dev/revision/pull/766); Founder visual feedback positive on 1 November 2026; specific remaining learner-journey checks open.
 
 ## Actual surfaces
 
@@ -16,6 +16,8 @@ The shared calendar now measures its trigger and popover and anchors to availabl
 
 `tests/e2e/plan-screen-v22.spec.ts` asserts the short desktop exam manager calendar fits in the viewport, month navigation/date selection, keyboard Escape and parent-dialog survival. `tests/e2e/student-first-use.spec.ts` asserts short laptop/phone calendar visibility and dismissal. Existing Plan Day/Week/Month and first-use save/retry/legacy assessment coverage remain required.
 
-These tests need exact-head CI execution before their results may be called passing. Browser compatibility and 200% zoom, light/dark, date save/reload with actual authenticated state and real learner verification remain open until specifically evidenced. In particular, a screenshot of a simulated browser is not the original student's reproduction or production acceptance.
+**Verified release evidence (1 November 2026):** PR #766 exact head `c5b93834afd722841d23bda5d48d7d84b50e4037` passed [Revision CI run 41342064273](https://github.com/lhanson-dev/revision/actions/runs/41342064273), including static/typecheck/lint/unit/build, database/RLS, signup, protected services and desktop/tablet/phone responsive browser checks. Founder-approved merge `2f0b9030208654696396cf2d3a6b2a6f26a0c985` completed [Pages deployment, backend readiness and production smoke run 41342761469](https://github.com/lhanson-dev/revision/actions/runs/41342761469), publishing `revision/path-to-live = success`. The Founder subsequently reported **“looks good”**, accepted as a visual check of the deployed correction and recorded in [Issue #765](https://github.com/lhanson-dev/revision/issues/765).
+
+**Remaining limits:** The Founder statement does not establish a successful date-save/reopen/edit on the original student's account, the 200% browser-zoom scenario or each Chrome/Edge/Safari variation. These remain separately identified for closure; visual acceptance or a synthetic browser test is not evidence of the original student's complete workflow. The P1 defect record remains Open until those material checks are resolved or explicitly risk-accepted.
 
 **Documentation impact:** existing Product UX Principles, Learner Design System and Testing & Assurance Standard already require accessible responsive dialogs; there is no new normative product rule. Defect Register is updated as an open provisional P1; this technical implementation note records the fix without changing historical audits. No ADR or database migration is required.
