@@ -13,7 +13,7 @@ Use this file to find the governing source before substantive work.
 
 - Course Practice two-choice layout (scored questions versus original, self-review extended writing; optional warm-ups and compact REV; PR #857 draft) → `docs/technical/Practice Two-Choice Layout.md`.
 
-- LF-05 proposed 20 November reviewer source/completion correction (first PR #854 A3 run: 25/33 partial, six disputed material flags, eight missing; 33 still HELD) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; reviewer-only PR pending approval.
+- LF-05 21 November follow-up to merged reviewer PR #858: second exact-head original 33 A3 run #44904071213 accepted three Psychology blind+guided items, then failed on invalid response shape; 30 lacked accepted new reviews, 33 HELD; proposed fail-closed diagnostic and bounded retry infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.\n- LF-05 reviewer source and paper-format correction merged PR #858 (first 25/33 partial review remains historical, not item acceptance) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.
 - PR #854 proposed independent blind+guide original 33-item source reviewer infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; no educational A3 verdict yet, #698/#706.
 
 - LF-05 proposed standard signed-in writing access (Founder 16 November correction; removal of per-account gate without weakening RLS, guide-after-submit, or 14-day expiry) → `10-product-governance/Course Learning Blueprint.md`, `50-engineering-standards/Release & Deployment Standard.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md` and new `supabase/migrations/20261116220000_lf05_uniform_authenticated_access.sql`; tracked in #706; PR pending specific approval. 
