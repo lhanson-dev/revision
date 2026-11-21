@@ -119,7 +119,7 @@ async function call(stage,batch,payload,key,receipt,save){
  for(let attempt=1;attempt<=2;attempt++){
   if(receipt.calls>=MAX_CALLS)throw Error('Maximum provider calls reached');
   if(receipt.estimatedUsd>=6)throw Error('Cost ceiling reached');
-  const extra=attempt===2?' Previous response rejected by strict per-item validator: '+previousError+'. Reassess the whole batch in a new independent context, not merely reformat an unverified verdict. Return every requested ID once and explain source fit, reasoning and alternate credit substantively. If no correction is necessary, write "No correction required." in full.': '';
+  const extra=attempt===2?' A previous review response did not pass strict identity, completeness, verdict or substantive-reason validation. Independently reassess the whole batch in a fresh context; do not simply assert PASS. Return every requested ID exactly once and explain source fit, reasoning, alternative credit and corrections with meaningful detail. If no correction is necessary, write "No correction required." in full.': '';
   const r=await fetch('https://api.openai.com/v1/responses',{method:'POST',signal:AbortSignal.timeout(180000),
    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},
    body:JSON.stringify({model:MODEL,store:false,reasoning:{effort:'high'},max_output_tokens:11000,instructions:message+extra,input:JSON.stringify(payload),
