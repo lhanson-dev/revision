@@ -70,6 +70,26 @@ const decisionTreeGuidedRepairs: Record<string, Omit<GuidedMethodRepair, 'specIt
   },
 }
 
+/**
+ * AQA Psychology 7182 v1.4 §4.2.3.3, calculation component only
+ * (PSY-SRC-4233-IT03). This Revision-original worked exercise is different
+ * from both released scored sign-test pairs. It teaches counting direction
+ * and excluding ties; it cannot diagnose which step caused a wrong S.
+ * Reading/revealing the answer confers no score or independent improvement.
+ */
+const psychologySignStatisticRepair: Omit<GuidedMethodRepair, 'specItemId' | 'sourceLearnPageId'> = {
+  kind: 'unscored-guided-repair',
+  title: 'Count the sign-test statistic S',
+  challenge: 'Eight paired observations, before → after: 3→5, 7→8, 4→4, 9→6, 2→5, 6→4, 8→9, 10→7. Without using the scored Practice cases, work out the smaller direction count S.',
+  steps: [
+    'Compare each participant with themselves: four increases (+), three decreases (−) and one unchanged pair (tie).',
+    'Leave the tied pair out of the effective sample size: n = 4 + 3 = 7.',
+    'Take the smaller of the two non-tied direction counts: S = min(4, 3) = 3.',
+  ],
+  answer: 'S = 3. It is an integer count of directions after excluding ties, not a sum of score changes.',
+  caution: 'This calculation alone does not establish when to choose the sign test, whether the result is statistically significant, or the learner’s complete written method. Significance needs an appropriate critical-value table and a stated convention.',
+}
+
 /** Only select an authored treatment after the exact source-backed single-skill
  * question has resolved to the actually published Foundation Learn page.
  */
@@ -80,7 +100,7 @@ export function sourceBackedGuidedMethodRepair(
   if (question.type !== 'calculation') return null
   const page = sourceBackedPracticeRepairPage(question, adapter)
   const item = objectiveItemMappingForPractice(question)?.singleTargetSpecItemId
-  if (!page || page.id !== 'bus-evi-004' || page.topicId !== 'leadership' || !item) return null
+  if (!page || !item) return null
   return guidedMethodRepairForPublishedPage(item, page)
 }
 
@@ -94,7 +114,12 @@ export function guidedMethodRepairForPublishedPage(
   specItemId: string | null | undefined,
   page: { id: string; topicId: string },
 ): GuidedMethodRepair | null {
-  if (!specItemId || page.id !== 'bus-evi-004' || page.topicId !== 'leadership') return null
+  if (!specItemId) return null
+  if (page.id === 'research-methods-psy0732' && page.topicId === 'research-methods'
+    && specItemId === 'PSY-SRC-4233-IT03') {
+    return { ...psychologySignStatisticRepair, specItemId, sourceLearnPageId: page.id }
+  }
+  if (page.id !== 'bus-evi-004' || page.topicId !== 'leadership') return null
   const method = Object.prototype.hasOwnProperty.call(decisionTreeGuidedRepairs, specItemId)
     ? decisionTreeGuidedRepairs[specItemId] : null
   return method ? { ...method, specItemId, sourceLearnPageId: page.id } : null

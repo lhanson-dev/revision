@@ -8,7 +8,7 @@ const byId = labels as Record<string, string>
  * are not AQA wording or teaching copy). An unknown item falls back to its id's last part, made readable.
  */
 export function specItemLabel(itemId: string): string {
-  const known = byId[itemId]
+  const known = itemId === 'PSY-SRC-4233-IT03' ? 'Sign-test statistic S' : byId[itemId]
   if (known) return known
   const slug = itemId.split(':')[1] ?? itemId
   const words = slug.replace(/-/g, ' ')

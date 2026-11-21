@@ -30,7 +30,7 @@ function matchesPublishedMark(fact: LearningEvidence, question: ObjectiveSkillQu
   }
   if (fact.source !== 'calculation' || fact.expectedValue !== question.expected
     || (fact.unit ?? null) !== question.unit) return false
-  const checked = checkCalculation(String(fact.enteredValue), question.accepted, question.unit)
+  const checked = checkCalculation(String(fact.enteredValue), question.accepted, question.unit, question.exactInteger)
   return checked.status !== 'unreadable' && fact.correct === (checked.status === 'right')
 }
 
