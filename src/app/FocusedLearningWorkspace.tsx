@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createPracticeCheckpoint, discardPracticeCheckpoint, fingerprintPracticeContent,
   removePracticeCheckpoint, supabasePracticeCheckpointStore, updatePracticeCheckpoint,
@@ -94,6 +94,8 @@ export type FocusedLearningWorkspaceProps = {
   onRetrySavedTopics?: () => void
   contextLabel?: string
   includeExamQuestions?: boolean
+  /** Course-level original writing, shown as a separate non-scored activity when verified available. */
+  renderWrittenPractice?: (onAvailable: (available: boolean) => void, onSafeToLeave: (safe: boolean) => void) => ReactNode
   /** Practice only: open this topic first (for example when arriving from a Learn page). */
   preferredTopicId?: string | null
   /** Practice only: each topic's status and when it was last practised, from the student's saved evidence. */
@@ -172,6 +174,7 @@ export function FocusedLearningWorkspace({
   onRetrySavedTopics,
   contextLabel,
   includeExamQuestions = true,
+  renderWrittenPractice,
   preferredTopicId,
   topicProgress,
   lastAnsweredAt,
@@ -1135,6 +1138,7 @@ export function FocusedLearningWorkspace({
             warmups={warmups}
             onOpenWarmup={(id) => (id === 'flashcards' ? openFlashcards() : beginActivity(id as WorkspaceMode))}
             revReason={revReason}
+            renderWrittenPractice={renderWrittenPractice}
           />
         ) : (
           <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topicShort} yet. Try another topic.</p></div>

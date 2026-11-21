@@ -5,7 +5,7 @@ async function openBusinessPractice(page: Page) {
   await seedReturningStudent(page)
   const saved = await captureEvidence(page)
   await page.goto(practicePath)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
   return saved
 }
 
@@ -37,6 +37,7 @@ test('LF-04: absent Finance-specific case stays hidden rather than showing unrel
   await selectTopic(page, 'finance')
   const warmup = page.getByRole('region', { name: 'Warm-up' })
   await expect(warmup.getByRole('button', { name: /^Case study/ })).toHaveCount(0)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeVisible()
   expect(saved).toHaveLength(0)
 })

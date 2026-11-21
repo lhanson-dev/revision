@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- Course Practice two-choice layout (scored questions versus original, self-review extended writing; optional warm-ups and compact REV; PR #857 draft) → `docs/technical/Practice Two-Choice Layout.md`.
+
 - LF-05 proposed 20 November reviewer source/completion correction (first PR #854 A3 run: 25/33 partial, six disputed material flags, eight missing; 33 still HELD) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; reviewer-only PR pending approval.
 - PR #854 proposed independent blind+guide original 33-item source reviewer infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; no educational A3 verdict yet, #698/#706.
 
