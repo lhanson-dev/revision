@@ -54,6 +54,8 @@ export type CalculationPracticeQuestion = QuestionBase & {
   unit: string | null
   /** Exact discrete integer required; no nearest-whole-number tolerance. */
   exactInteger?: boolean
+  /** Opt-in exact final numeric value, including decimals, with no implicit tolerance. */
+  exactNumber?: boolean
   /** The answer as the exam writes it, e.g. "£24.2m". */
   answerText: string
   /** The worked answer from the mark scheme, shown after checking. */
@@ -210,6 +212,7 @@ function toCalculation(record: AqaBusinessQuestionRecord, topicId: string): Calc
     accepted: acceptedValuesFor(calc.stated_answer, unit, finalAccepts),
     unit,
     exactInteger: calc.answer_rule === 'exact-integer',
+    exactNumber: calc.answer_rule === 'exact-number',
     answerText: formatAnswer(calc.stated_answer, unit),
     workings: question.mark_scheme.model_answer?.trim() ?? '',
   }

@@ -3,6 +3,7 @@ import { learn as authoredLearn } from './authored-learn'
 import { marketingMixSupplement } from './marketing-mix-supplement'
 import { operationsPerformanceSupplement } from './operations-performance-supplement'
 import { operationsInventoryChartSupplement } from './operations-inventory-chart-supplement'
+import { strategicRatioSupplement } from './strategic-ratio-supplement'
 
 type FastPathAsset = {
   node_id: string
@@ -155,11 +156,12 @@ export const learn: LearnCourse = {
     const supplement = marketingMixSupplement.chapters.find((chapter) => chapter.topicId === topicId)
     const operationsSupplement = operationsPerformanceSupplement.chapters.find((chapter) => chapter.topicId === topicId)
     const inventoryChartSupplement = operationsInventoryChartSupplement.chapters.find((chapter) => chapter.topicId === topicId)
+    const ratioSupplement = strategicRatioSupplement.chapters.find((chapter) => chapter.topicId === topicId)
     return {
       id: topicId,
       topicId,
       title: fastPath?.title ?? authored?.title ?? topicTitles[topicId],
-      groups: [...(authored?.groups ?? []), ...(supplement?.groups ?? []), ...(operationsSupplement?.groups ?? []), ...(inventoryChartSupplement?.groups ?? []), ...(fastPath?.groups ?? [])],
+      groups: [...(authored?.groups ?? []), ...(supplement?.groups ?? []), ...(operationsSupplement?.groups ?? []), ...(inventoryChartSupplement?.groups ?? []), ...(ratioSupplement?.groups ?? []), ...(fastPath?.groups ?? [])],
     }
   }).filter((chapter) => chapter.groups.length > 0),
 }

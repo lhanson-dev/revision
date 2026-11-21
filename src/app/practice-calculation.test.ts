@@ -83,6 +83,30 @@ describe('checking a calculation', () => {
     expect(checkCalculation('-2.00', accepted, null, true).status).toBe('right')
     expect(checkCalculation('-2-1', accepted, null, true).status).toBe('unreadable')
   })
+  it('has an opt-in exact-number rule for whole and decimal final answers, without weakening discrete integer or changing legacy rounding', () => {
+    const whole = acceptedValuesFor(20, '%', ['20'])
+    for (const typed of ['20', '20.0', '+20', '020', ' 20 ']) {
+      expect(checkCalculation(typed, whole, '%', false, true).status, typed).toBe('right')
+    }
+    for (const typed of ['19.5', '20.5', '19.999', '20.01', '21']) {
+      expect(checkCalculation(typed, whole, '%', false, true).status, typed).toBe('wrong')
+    }
+    for (const typed of ['20%', '20+1', '20 days', 'about 20', '20e0', '20:1']) {
+      expect(checkCalculation(typed, whole, '%', false, true).status, typed).toBe('unreadable')
+    }
+    expect(checkCalculation('19.5', whole, '%').status).toBe('right') // Historical tolerance retained.
+    const ratio = acceptedValuesFor(1.5, 'ratio', ['1.5'])
+    for (const typed of ['1.5', '1.50', '01.500']) {
+      expect(checkCalculation(typed, ratio, 'ratio', false, true).status, typed).toBe('right')
+    }
+    for (const typed of ['1.45', '1.55', '1.499', '1.51']) {
+      expect(checkCalculation(typed, ratio, 'ratio', false, true).status, typed).toBe('wrong')
+    }
+    expect(checkCalculation('1.45', ratio, 'ratio').status).toBe('right')
+    expect(checkCalculation('1.5:1', ratio, 'ratio', false, true).status).toBe('unreadable')
+    expect(checkCalculation('1.5', ratio, 'ratio', true).status).toBe('unreadable') // Original exact-integer rule unchanged.
+  })
+
   it('accepts the rounded answers the mark scheme itself accepts', () => {
     expect(check('2.7', 2.67, 'years', ['2.67 years', '2 years 8 months', '2.7 years if rounded to one decimal place.'])).toBe('right')
     expect(check('37', 36.5, 'days', ['36.5 days', '36.50 days', 'approximately 37 days if rounded to a whole day'])).toBe('right')
