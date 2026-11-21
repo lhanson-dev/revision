@@ -13011,5 +13011,94 @@
     "adequate_claims": 0,
     "full_course_assurance": "not_established"
   },
-  "next_gate": "Externally verify source atomisation across all sections, review exact Learn/Practice/Exam Prep response quality and map WS5 authenticated acceptance per atom. Do not publish a coverage percentage."
+  "next_gate": "Externally verify source atomisation across all sections, review exact Learn/Practice/Exam Prep response quality and map WS5 authenticated acceptance per atom. Do not publish a coverage percentage.",
+  "exceptions_register": {
+    "updated_at": "2026-11-10",
+    "evidence_baseline": "approved main e5555706504dabb571131a44ef93e4c0c8982fa9",
+    "status": "OPEN — source denominator and educational assurance are not yet established",
+    "contract": "An exception is a documented risk/gap requiring closure evidence, not proof that source coverage is absent. Do not turn an unverified candidate into an adequate or absent claim without specific independent evaluation.",
+    "source_requirements_verified_full_denominator": null,
+    "provisional_candidate_count": 504,
+    "candidate_assurance_totals": {
+      "teaching_status": {
+        "unverified": 504
+      },
+      "practice_status": {
+        "unverified": 504
+      },
+      "exam_prep_status": {
+        "unverified": 504
+      },
+      "independent_skill_assessment_status": {
+        "unverified": 504
+      },
+      "learner_acceptance_status": {
+        "unverified": 504
+      }
+    },
+    "source_section_review_totals": {
+      "sections": 42,
+      "complete_atomic_sections": 0,
+      "incomplete_atomic_sections": 42
+    },
+    "exceptions": [
+      {
+        "id": "BUS-698-EX-001",
+        "severity": "blocking-claim",
+        "section": "whole course",
+        "type": "source-denominator-incomplete",
+        "status": "open",
+        "finding": "504 merged candidate checks are provisional; 42/42 sections are structurally present but all source section atomic reviews remain incomplete; quantitative Annex, AO1–AO4, three paper shapes and seven synoptic overlays are not independently atomised.",
+        "closure": "Independently decompose exact uploaded AQA v2.0 source into every observable requirement, reconcile each candidate identity including omissions and overlaps, explicitly map annex/AO/papers and freeze a versioned verified denominator."
+      },
+      {
+        "id": "BUS-698-EX-002",
+        "severity": "material",
+        "section": "3.7.1",
+        "type": "assessment-evidence-gap",
+        "status": "open",
+        "finding": "Three distinct internal, external and mission-to-strategy competencies were added as candidate checks; their current Learn candidate locators exist, but exact independently scored skill-specific Practice is not demonstrated.",
+        "closure": "Independently review actual published teaching and write original context-specific assessment/feedback; verify scoring evidence rather than assuming a general strategy question assesses each named competence."
+      },
+      {
+        "id": "BUS-698-EX-003",
+        "severity": "material",
+        "section": "3.7.2",
+        "type": "pending-educational-review",
+        "status": "open",
+        "finding": "The first exact-head independent A2/A3 review of draft #836 (run 42919603566, old head eff09187) returned FAIL/HOLD: twelve exact ratio values and both Learn worked examples recomputed correctly, but the shared calculation scorer silently credited inaccurate results (e.g. 19.5 for 20 and 1.45 for 1.5). Precision instructions were also unclear. The review and its historical receipt remain preserved. Draft #836 now proposes a scoped exact-number rule and explicit no-rounding instructions (head 13e7bbe7), not yet independently re-reviewed or released. Broader financial statement interpretation, peer/time comparison and AO3/AO4 remain unverified.",
+        "closure": "Require 9/9 CI and fresh independent A2/A3 exact-head PASS on the corrected published answer conversion/scorer/12 items with boundary tests; then specific Founder merge approval, production lineage and authenticated learner acceptance. Retain 42919603566 FAIL/HOLD evidence and do not misclassify final-number accuracy as method, written interpretation or complete financial-ratio proficiency.",
+        "evidence_receipt_url": "https://github.com/lhanson-dev/revision/actions/runs/42919603566",
+        "review_decision": "fail_hold",
+        "corrected_candidate_head_pending_ci": "13e7bbe7b3c6f2161b25e9265fb3c4fdaf8713f7"
+      },
+      {
+        "id": "BUS-698-EX-004",
+        "severity": "material",
+        "section": "3.10.3",
+        "type": "authentic-skill-acceptance-unverified",
+        "status": "open",
+        "finding": "Specification explicitly requires interpreting and amending network diagrams and identifying critical path and total float. An existing construction-drill supply reference alone does not establish independently demonstrated diagram amendment or marking.",
+        "closure": "Inspect current Learn and published Practice diagram interactions, then independently assess actual diagram alteration, critical path and total float with authentic feedback or mark the capability gap."
+      },
+      {
+        "id": "BUS-698-EX-005",
+        "severity": "material",
+        "section": "cross-cutting AO3/AO4 and Papers 1–3",
+        "type": "assessment-calibration-unverified",
+        "status": "open",
+        "finding": "Existing level-marked financial ratio questions 3.7:q15 (6 marks), q16 (9 marks), and q37 (25 marks) exist in the source bank, but the canonical Practice converter (`src/app/practice-questions.ts`) rejects these `levels` and `ESSAY` records rather than producing independently marked learner tasks. Their existence is not evidence of accessible assessed AO3/AO4. One-mark final-answer arithmetic and self-marked narrative do not verify extended analysis, evaluative judgement or calibrated application under the three real 100-mark paper structures. Exam Prep appearance/marking of these exact questions is separately unverified.",
+        "closure": "Check the actual published Exam Prep route, content identity and authentic 6/9/25-mark response availability before deciding what is truly absent; then independently review original written-question demands, rubrics, feedback and marking for each paper. Coordinate any new mark-value writing capability with #706/#813 and its Ready gate. Do not treat inert bank records as independently assessed skill evidence."
+      },
+      {
+        "id": "BUS-698-EX-006",
+        "severity": "material",
+        "section": "canonical learner route",
+        "type": "live-acceptance-unverified",
+        "status": "open",
+        "finding": "Current 504 records have no verified authenticated learner acceptance; published supply, isolated browser CI and arithmetic tests do not prove signed-in attempt, targeted feedback, independent recheck, persisted evidence and Plan/Progress behaviour.",
+        "closure": "After each specific Founder-approved release, test /revision/app/ with genuine saved sessions, wrong and correct responses, different recheck, reload and persisted Plan/Progress evidence; record release commit and observed results."
+      }
+    ]
+  }
 }
