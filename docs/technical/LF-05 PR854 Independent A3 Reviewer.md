@@ -10,3 +10,12 @@ Seven groups of up to five original items are sent to independent blind question
 
 
 **Integrity strengthening (18 November):** The reviewer now parses each of the 33 original candidate SQL rows (including escaped SQL literals and guide JSON) and checks each blind and guided question, scenario, course, topic, paper/style and each full authored guide criterion against the exact source row. Merely naming the same IDs or pinning a SQL blob SHA is no longer sufficient if packet text diverges. A reviewer-provided PASS cannot certify a question different from the item actually staged.
+
+
+## 20 November 2026 — proposed source and completion correction (unmerged)
+
+The 18 November first all-33 attempt #44409465096 completed blind and guided reviews for 25 candidates, then failed on an incomplete provider response; eight had no verdict. Six material flags include documented false-positive reviewer assertions about AQA 7132 Paper 1's Section D, §3.7.2 gearing, §3.7.8 NPV, AQA 7182 §4.1.4's exact title, and §4.3.9's data-driven investigative profiling. The earlier receipt remains HOLD evidence, not a pass.
+
+This reviewer-only branch adds exact-version AQA paper and section guardrails to each question payload and both review instructions; it reduces each review group to three items, allocates 11 groups/two independent contexts (22 maximum calls, limit 24) and raises each response budget to reduce incomplete structured outputs. Existing exact-head and SQL/packet equality controls remain unchanged. The revision will still fail closed on incomplete provider status or any material issue. Its final decision requires all 33 and separately reviewed guidance. It does **not** automatically accept or rewrite any candidate, and does not publish content. A rerun after approval should explicitly adjudicate each material finding against the actual AQA PDFs and authored guide, correcting only substantiated issues. The prior run's 25 verdicts will be retained as historical evidence, but this first correction presently re-reviews all 33 rather than unsafe partial receipt reuse.
+
+**Documentation impact:** this reviewer script, tests, technical record and INDEX change together in an infrastructure PR. No normative product authority, source candidates, learner data, migrations, or production visibility change. The reviewer update needs an explicit Founder-approved merge before it can run from trusted main, followed by a new owner-authored exact-head PR #854 trigger. Even then #854 requires its own independent A3/A4 and exact PR merge approval.
