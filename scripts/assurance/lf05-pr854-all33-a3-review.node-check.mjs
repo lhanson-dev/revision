@@ -23,3 +23,18 @@ test('review batches fit complete 33 denominator with source-grounded questions'
  assert.match(SOURCE_CONSTRAINTS.psychology,/§4\.1\.4/);
  assert.match(SOURCE_CONSTRAINTS.psychology,/data-driven approach/);
 });
+
+test('review failure identifies the exact invalid item and field without approving it',()=>{
+ const valid={id:'PSY-LF05-01',verdict:'pass',sourceFit:'Exact AQA source alignment',reasoning:'Consistent complete explanation',alternatives:'Accept supported alternatives',corrections:'No correction required.'};
+ assert.equal(verifyReview({items:[valid]},[valid.id]).items.length,1);
+ assert.throws(()=>verifyReview({items:[{...valid,corrections:'None'}]},[valid.id]),/Insufficient corrections for PSY-LF05-01/);
+ assert.throws(()=>verifyReview({items:[{...valid,id:'UNKNOWN'}]},[valid.id]),/Unknown review ID/);
+ assert.throws(()=>verifyReview({items:[valid,valid]},[valid.id, 'PSY-LF05-02']),/Duplicate review ID/);
+ assert.throws(()=>verifyReview({items:[]},[valid.id]),/Incomplete review/);
+ assert.throws(()=>verifyReview({items:[{...valid,verdict:'yes'}]},[valid.id]),/Invalid verdict/);
+});
+test('bounded retry budget allows eleven independent blind and guide batches without unbounded provider calls',()=>{
+ assert.equal(REVIEW_BATCH_SIZE,3);
+ assert.equal(Math.ceil(33/REVIEW_BATCH_SIZE)*2,22);
+ assert.ok(MAX_CALLS>=22 && MAX_CALLS<=36);
+});
