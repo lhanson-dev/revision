@@ -10,6 +10,8 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+- LF-05 25 November clean Marshbrook blind MINOR review upload, source adjudication and unresolved independent-session provenance; 33 held, 6 live, same PR #854 → `audits/2026-11-25-lf05-clean-marshbrook-review-adjudication.md` and `audits/lf05-fresh-chat-review/2026-11-25-clean-marshbrook-user-submitted-review.md`.
+
 
 - LF-05 25 November **13/13 updated-guide reviewer PASS claims, 21 unchanged guide PASS and 32 unchanged blind PASS verified per exact SQL row**; strict clean-context one-question Marshbrook blind recheck still required due previous-hint contamination; real local 39-question signed-in A4 and corrected pgTAP in PR #854, no release → `audits/2026-11-25-lf05-final-delta-review-adjudication.md`, `audits/lf05-fresh-chat-review/2026-11-25-clean-marshbrook-blind.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`.
 
