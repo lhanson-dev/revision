@@ -429,7 +429,7 @@ export function PlannerRuntime() {
           returnFocusSelector=".runtime-ask-rev, .ui-rail__ask-rev, .ui-tabbar__ask-rev"
         >
           <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={closeRev}><Icon name="close" size="compact" /></IconButton></div></header>
-          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} /></div>
+          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onStartLearnTask={startLearnFromPlanner} /></div>
         </DrawerShell>
       </>}
 

@@ -27,6 +27,7 @@ interface PlannerRevScreenProps {
   onOpenCourses: () => void
   onOpenCourse: (courseId: string) => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
+  onStartLearnTask?: (task: HomeTask) => void
 }
 
 type ConversationMessage = {
@@ -86,7 +87,7 @@ function mentionedProgrammeItems(programme: readonly LearnerProgrammeCourse[], t
   return programme.filter((item) => normalized.includes(item.subject.name.toLocaleLowerCase()))
 }
 
-export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection }: PlannerRevScreenProps) {
+export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpenCourses, onOpenCourse, onOpenCourseSection, onStartLearnTask }: PlannerRevScreenProps) {
   const now = useLocalDay()
   const [sessions, setSessions] = useState<PlannedSession[] | null>(null)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
@@ -202,7 +203,8 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
           metadata: { plannerVersion: 1, source: 'rev', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) },
         }).catch(() => { /* Evidence logging cannot block the supported activity. */ })
       }
-      setActiveTask(task)
+      if (task.activityType === 'flashcards' && onStartLearnTask) onStartLearnTask(task)
+      else setActiveTask(task)
     }
   }
 
