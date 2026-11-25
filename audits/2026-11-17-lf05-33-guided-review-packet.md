@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: independent A3 guided challenge
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `476df066bc2e13968e62abbc26a822127c323fe1` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b` (six) and `e58ac284a8114ae26dbe7e9253729def5521912e` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 2 only.** Challenge these authored suggestions against the independently recorded blind answers. Record exact-version PASS/MINOR/MATERIAL/BLOCKING separately for question and guide. Question-only and guided versions both need independent acceptance; author edits and CI do not confer a pass.
 
@@ -58,7 +58,7 @@
 
 ## PSY-LF05-07 — Design a memory-and-music investigation
 
-**Question:** A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Design a suitable study and evaluate the main threats to the validity of the findings.
+**Question:** A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Using the proposed repeated-measures design, describe how the researcher should conduct the study, including controls, and evaluate threats to its validity.
 
 **Scenario:** The same 40 volunteers complete both conditions. List difficulty, musical preferences and time of day could affect recall; the research is not yet underway.
 
@@ -80,7 +80,7 @@
 
 8. Self-review prompt: Did I counterbalance order AND list-condition assignment, and explain why each identified threat could change the results?
 
-**Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7182 v1.4 §§4.2.3–4.2.3.2 — experimental design and validity; new guide A3 pending
+**Source metadata:** PR834 original reviewed head 675fdc8c53a224fe8fa9a81079b57b15dafef7af; AQA 7182 v1.4 §4.2.3 (experimental method) and §4.2.3.1 (scientific processes: repeated-measures design, control and validity); new guide A3 pending
 
 **Historical finding:** historical A3 43620992688 item PSY-LF05-07: no material findings; revised-guide A3/A4 HOLD
 
