@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {MARKER,eventHead,blobSha,sections,verifyFiles,verifyReview,parseSqlCandidateRow,SOURCE_CONSTRAINTS,REVIEW_BATCH_SIZE,MAX_CALLS} from './lf05-pr854-all33-a3-review.mjs';
+import {MARKER,eventHead,blobSha,sections,verifyFiles,verifyReview,parseSqlCandidateRow,SOURCE_CONSTRAINTS,REVIEW_BATCH_SIZE,MAX_CALLS,RATE_LIMIT_RETRIES,rateLimitMeta} from './lf05-pr854-all33-a3-review.mjs';
 const event={repository:{full_name:'lhanson-dev/revision'},issue:{number:854,pull_request:{}},comment:{user:{login:'lhanson-dev'},author_association:'OWNER',body:MARKER+'\nhead_sha: '+'a'.repeat(40)}};
 test('owner exact PR and immutable head only',()=>{assert.equal(eventHead(event),'a'.repeat(40));assert.throws(()=>eventHead({...event,issue:{number:834,pull_request:{}}}));assert.throws(()=>eventHead({...event,comment:{...event.comment,body:'approve'}}));});
 test('real git blob checksum',()=>assert.equal(blobSha('hello\n'),'ce013625030ba8dba906f756967f9e9ca394464a'));
@@ -37,4 +37,22 @@ test('bounded retry budget allows eleven independent blind and guide batches wit
  assert.equal(REVIEW_BATCH_SIZE,3);
  assert.equal(Math.ceil(33/REVIEW_BATCH_SIZE)*2,22);
  assert.ok(MAX_CALLS>=22 && MAX_CALLS<=36);
+});
+
+test('429 response distinguishes retryable throttling from a hard provider quota',()=>{
+ const throttle=rateLimitMeta({error:{type:'rate_limit_exceeded',code:'rate_limit_exceeded'}},'45');
+ assert.equal(throttle.hardQuota,false);assert.equal(throttle.retryAfterSeconds,45);
+ assert.equal(RATE_LIMIT_RETRIES,2);
+ assert.equal(rateLimitMeta({error:{type:'insufficient_quota',code:'insufficient_quota'}},'30').hardQuota,true);
+ assert.equal(rateLimitMeta({error:{type:'some_type',code:'billing_hard_limit_reached'}},null).hardQuota,true);
+ assert.equal(rateLimitMeta({error:{type:'rate_limit_exceeded',code:'rate_limit_exceeded'}},'300').retryAfterSeconds,120);
+ assert.equal(rateLimitMeta({error:{type:'rate_limit_exceeded',code:'rate_limit_exceeded'}},'not-a-number').retryAfterSeconds,null);
+ const tainted=rateLimitMeta({error:{type:'rate_limit_exceeded',code:'secret: bearer token'}} ,'60');
+ assert.equal(tainted.code,null);
+});
+test('AQA exact subsection facts included so reviewer cannot substitute historical section headings',()=>{
+ assert.match(SOURCE_CONSTRAINTS.psychology,/§4\.2\.3\.1 is SCIENTIFIC PROCESSES/);
+ assert.match(SOURCE_CONSTRAINTS.psychology,/§4\.2\.3\.2 is DATA HANDLING AND ANALYSIS/);
+ assert.match(SOURCE_CONSTRAINTS.business,/§3\.6\.2 is Analysing human resource performance/);
+ assert.match(SOURCE_CONSTRAINTS.business,/§3\.6\.3 is organisational design/);
 });
