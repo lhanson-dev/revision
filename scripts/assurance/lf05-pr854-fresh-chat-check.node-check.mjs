@@ -3,8 +3,9 @@ import {checkManualReviewReceipt,SOURCE_PATHS} from './lf05-pr854-fresh-chat-che
 test('portable review never approves absent, incomplete or fake source and stage evidence',()=>{
  assert.equal(SOURCE_PATHS.length,4);
  assert.throws(()=>checkManualReviewReceipt({},[],[]),/Fresh-chat method/);
- assert.throws(()=>checkManualReviewReceipt({reviewMethod:'fresh-chat-outside-authoring-project',reviewedSourceCommit:'f'.repeat(40),sourceRightsBasis:'Allowed structured references only'},[],[]),/Four authoritative source files/);
- assert.throws(()=>checkManualReviewReceipt({reviewMethod:'fresh-chat-outside-authoring-project',reviewedSourceCommit:'f'.repeat(40),sourceRightsBasis:'Allowed structured references only',sourceBlobs:['a']},['a','b','c','d'],[]),/Source changed/);
+ assert.throws(()=>checkManualReviewReceipt({status:'submitted_for_review',reviewMethod:'fresh-chat-outside-authoring-project',reviewedSourceCommit:'f'.repeat(40),sourceRightsBasis:'Allowed structured references only'},[],[]),/Four authoritative source files/);
+ assert.throws(()=>checkManualReviewReceipt({status:'submitted_for_review',reviewMethod:'fresh-chat-outside-authoring-project',reviewedSourceCommit:'f'.repeat(40),sourceRightsBasis:'Allowed structured references only',sourceBlobs:['a']},['a','b','c','d'],[]),/Source changed/);
+ assert.throws(()=>checkManualReviewReceipt({status:'submitted_for_review',reviewMethod:'fresh-chat-outside-authoring-project',reviewedSourceCommit:'f'.repeat(40),sourceRightsBasis:'REPLACE WITH YOUR RIGHTS BASIS'},['a','b','c','d'],[]),/Source-rights basis/);
 });
 test('manual receipt checker has no network calls, external model requests or publication side effects',async()=>{
  const {readFile}=await import('node:fs/promises');
