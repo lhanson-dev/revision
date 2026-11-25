@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 02 of 11
+# LF-05 corrected candidate — batch 02/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `BUS-LF05-03-16`, `BUS-LF05-04-25`, `BUS-LF05-07-25`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -34,8 +32,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -54,15 +50,13 @@
 
 4. Developed analysis: Explain plausible cost, responsiveness, lead-time and quality benefits, alongside lean vulnerabilities such as stockouts, supplier disruption, employee capability and excessive pressure on quality.
 
-5. Comparison: Evaluate alternatives such as automation, process improvement, quality management or investment in flexible capacity, explaining the conditions in which each beats lean methods.
+5. Comparison: Recognise that continuous improvement (kaizen), process improvement and quality management may be part of lean production rather than rival strategies. Contrast genuine competing or complementary priorities such as automation, added flexible capacity or product differentiation; explain when these choices add value or complement lean methods.
 
 6. Balanced judgement: Weigh competitiveness as cost, reliability, quality and differentiation; reach a justified comparative position conditional on supply-chain stability and customer needs.
 
 7. Response quality: Strong answers sustain connected competing causal chains, specific illustration and a justified overall judgement. Lists of lean slogans or unsupported numerical claims are insufficient.
 
 8. Self-review prompt: Did I compare lean with genuine alternatives and explain why the best approach depends on the manufacturer's situation?
-
-
 
 
 
@@ -91,8 +85,6 @@
 7. Response quality: Strong answers develop competing chains with relevant examples, interrogate evidence limitations and sustain a conditional judgement, not a list of tools or an asserted universal ranking.
 
 8. Self-review prompt: Did I distinguish measurement from judgement, explain forecast uncertainty and consider genuinely qualitative factors in the specific strategic decision?
-
-
 
 
 

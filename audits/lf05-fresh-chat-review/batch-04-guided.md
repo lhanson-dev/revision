@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 04 of 11
+# LF-05 corrected candidate — batch 04/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `PSY-LF05-06`, `PSY-LF05-08`, `PSY-LF05-09`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -35,8 +33,6 @@
 10. Source-specific correction / alternative-credit safeguard: fMRI measures indirect blood-oxygen signal; EEG scalp activity, with time-locked ERP signals; post-mortem provides anatomy after death. Temporal, spatial and retrospective inference differ.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 
@@ -74,8 +70,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -107,8 +101,6 @@
 10. Source-specific correction / alternative-credit safeguard: Social exchange theory uses rewards/costs and comparison levels; Rusbult distinguishes satisfaction, alternatives, investment and commitment. Investment can sustain a relationship despite low satisfaction.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 

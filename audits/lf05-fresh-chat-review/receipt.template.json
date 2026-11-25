@@ -1,13 +1,13 @@
 {
   "status": "INCOMPLETE_TEMPLATE_NOT_REVIEW_EVIDENCE",
   "reviewMethod": "fresh-chat-outside-authoring-project",
-  "reviewedSourceCommit": "5af3a7da290551cc3489a67763a9e3527b83a300",
+  "reviewedSourceCommit": "REPLACE_WITH_EXACT_FINAL_REVIEWED_COMMIT_SHA",
   "sourceRightsBasis": "REPLACE WITH APPROVED SOURCE-LICENCE REGISTER CLASSIFICATION AND DATE",
   "sourceBlobs": [
-    "572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b",
-    "e58ac284a8114ae26dbe7e9253729def5521912e",
-    "8715ef0ba2bb10b167a86168763323a653a7812e",
-    "2ed2406698a681bd1036df950d9abbdbc6c565f6"
+    "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+    "b663a10f509e9009185329f23d44470b6f12c734",
+    "db3508dbe46f5d9f7fc35452bc3e4430f23b4f4c",
+    "ffaba7d9494f6e84a2c3979baae942f4a378d847"
   ],
   "batches": [
     {
@@ -231,5 +231,5 @@
       ]
     }
   ],
-  "notes": "Template ONLY. None of the 33 items have a new independent verdict on this version. DO NOT treat this file as an approved review."
+  "notes": "Template only, outdated statuses intentionally invalid. After corrected independently verified delta A3, record exact per-item verdicts and source rights without replacing historical Stage 1/2 reports."
 }

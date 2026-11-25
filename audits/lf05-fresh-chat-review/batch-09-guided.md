@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 09 of 11
+# LF-05 corrected candidate — batch 09/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `BUS-LF05-06-16`, `BUS-LF05-06-25`, `BUS-LF05-07-16`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -20,7 +18,7 @@
 
 2. AO1 accurate concepts: Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development.
 
-3. AO2 contextual selection and interpretation: Use 180 employees × 32% annual turnover = 57.6, about 58 leavers annually. 57.6 × £1,200 = £69,120 is an illustrative annual training cost only if each leaver is replaced and each recruit incurs that cost; the actual replacement rate and existing training budget are unknown. Use the rota concerns and customer satisfaction change 86% to 77% (9 percentage points).
+3. AO2 contextual selection and interpretation: If 180 represents the average workforce over the year, 180 × 32% annual labour turnover = 57.6, approximately 58 departures. If every leaver is replaced and trained at £1,200, costs could be £69,120 using the unrounded estimate or £69,600 using 58 rounded recruits; accept both well-explained estimates. Recruitment and training actually depend on replacements and needs, which are unknown. Customer satisfaction declined from 86% to 77% (9 percentage points).
 
 4. AO3 developed causal analysis: Link higher competence to service quality and recruitment costs, but distinguish inadequate training from poor scheduling and progression. Explain time and opportunity costs plus the risk trained employees still leave.
 
@@ -28,11 +26,9 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Source-specific correction / alternative-credit safeguard: 32% of 180 is approximately 58 leavers only if that headcount applies annually. £69,120 recruitment training is illustrative only if every leaver is replaced at £1,200. Satisfaction fell 9 percentage points but causation is unproven.
+7. Source-specific correction / alternative-credit safeguard: Estimated annual departures require average annual workforce size of 180. £69,120 (unrounded 57.6) and £69,600 (58 rounded replacements) are both illustrative if every leaver is replaced and each recruit requires £1,200 training. Do not imply that either is an actual budget. Satisfaction fell 9 percentage points; training causation is unproven.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 
@@ -64,8 +60,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -93,8 +87,6 @@
 7. Source-specific correction / alternative-credit safeguard: AQA gearing = £9m non-current liabilities / £16m capital employed × 100 = 56.25%; operating margin is 8% and ROCE is 12.5%. Reward accurate interpretation even without every calculation. The NPV relies on forecasts; no current ratio can be calculated without current assets and liabilities. Do not infer inevitable investment success or excessive gearing without comparisons.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 

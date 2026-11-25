@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 08 of 11
+# LF-05 corrected candidate — batch 08/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `BUS-LF05-04-16`, `BUS-LF05-05-16`, `BUS-LF05-05-25`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -22,17 +20,15 @@
 
 3. AO2 contextual selection and interpretation: Use 96% capacity, 7% rework and 14% late orders to identify quality and capacity pressures.
 
-4. AO3 developed causal analysis: Show how fewer defects could free productive capacity and reduce costs, but also how the near-full plant constrains output. Analyse spending on automation and the effect of delays on reputation and long-run sales.
+4. AO3 developed causal analysis: Show how fewer defects might free productive capacity and reduce costs, while near-full utilisation can constrain output. Analyse the proposed £1.5m machine as possible extra capacity; automation is only a possibility if verified, not an established feature. Explain how delays may affect reputation and future demand.
 
-5. AO4 evaluation and judgement: Prioritise the highest net cost of defects/delay, and condition the investment decision on verified throughput and demand forecasts.
+5. AO4 evaluation and judgement: Compare the potential costs of defects, capacity constraints and late deliveries without pretending their relative net costs are known; obtain throughput, demand and cost evidence before prioritising the £1.5m investment.
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
 7. Source-specific correction / alternative-credit safeguard: The proposed £1.5m machine might add capacity, but no defect reduction is established. 7% rework, 96% utilisation and 14% late delivery are real facts; causality and effective capacity gain remain unknown.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 
@@ -66,8 +62,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -93,8 +87,6 @@
 7. Source-specific correction / alternative-credit safeguard: Fast-growing credit sales and inventory can absorb cash before profits convert into receipts; consider receivables, supplier payment terms and financial resilience, not just margin.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 

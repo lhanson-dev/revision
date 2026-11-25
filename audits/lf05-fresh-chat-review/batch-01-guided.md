@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 01 of 11
+# LF-05 corrected candidate — batch 01/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `PSY-LF05-01`, `PSY-LF05-02`, `PSY-LF05-07`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -27,8 +25,6 @@
 6. Response quality: Strong answers develop accurate mechanisms, evidence-sensitive limitations and a justified answer-focused judgement. The judgement may be woven through the evaluation; do not require a separate final paragraph.
 
 7. Self-review prompt: Did I explain both mechanisms, evaluate the evidence rather than simply cite it, and distinguish tendencies from a proven cause of an individual's behaviour?
-
-
 
 
 
@@ -58,8 +54,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -76,7 +70,7 @@
 
 2. Research design: Operationalise music versus silence as the independent variable, a scored recall measure as the dependent variable, and an appropriate repeated-measures hypothesis; specify a practical procedure with standardised instructions.
 
-3. Critical list control: Counterbalance or otherwise equate which word list appears in which condition AND the order of music and silence; merely swapping the order without controlling list difficulty confounds condition with materials.
+3. Critical list control: Counterbalance both condition order and list assignment. For example, divide the 40 volunteers into four groups of ten: music/List A then silence/List B; silence/List A then music/List B; music/List B then silence/List A; silence/List B then music/List A. Other appropriately balanced assignments earn credit. Pilot-test word lists for similar difficulty; counterbalancing allocation does not itself demonstrate that lists are equally difficult.
 
 4. Applied procedure and ethics: Explain group/order allocation for the 40 volunteers, timing, consistent volume or music conditions, voluntary participation, informed consent and withdrawal, with measures that reduce demand or investigator effects.
 
@@ -87,8 +81,6 @@
 7. Response quality: Strong answers give replicable operational detail, relate each control/weakness to this specific sample and task, and weigh genuine trade-offs. No official examiner mark or numeric AO distribution is inferred.
 
 8. Self-review prompt: Did I counterbalance order AND list-condition assignment, and explain why each identified threat could change the results?
-
-
 
 
 

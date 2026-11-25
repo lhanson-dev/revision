@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 03 of 11
+# LF-05 corrected candidate — batch 03/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `PSY-LF05-03`, `PSY-LF05-04`, `PSY-LF05-05`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -38,8 +36,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -54,7 +50,7 @@
 
 2. Explain Beck's negative triad and Ellis's ABC model, including irrational beliefs.
 
-3. Outline how CBT uses the challenge of unhelpful thoughts in treatment.
+3. Explain CBT with practical mechanisms: collaboratively identify negative automatic thoughts and beliefs, test evidence for or against them, restructure unhelpful interpretations and use appropriate behavioural experiments or activity scheduling. Ellis's REBT can use disputation of irrational beliefs; these examples support, rather than exhaust, valid CBT explanations.
 
 4. Distinguish an explanation of depression from evidence of treatment effectiveness.
 
@@ -71,8 +67,6 @@
 10. Source-specific correction / alternative-credit safeguard: Beck's triad covers negative views of self, world and future; Ellis's ABC relates activating events, beliefs and consequences. A response to CBT does not prove cognitive beliefs caused the condition.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 
@@ -107,8 +101,6 @@
 10. Source-specific correction / alternative-credit safeguard: Pavlov's classical and Skinner's operant conditioning differ from Bandura's imitation, identification, vicarious reinforcement and mediational processes. Social learning does not reject reinforcement.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 

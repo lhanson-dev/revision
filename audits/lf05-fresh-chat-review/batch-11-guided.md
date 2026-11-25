@@ -1,10 +1,8 @@
-# LF-05 independent fresh-chat A3 — batch 11 of 11
+# LF-05 corrected candidate — batch 11/11
 
-**Candidate exact source SQL Git blobs:** six 572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b; remaining 27 e58ac284a8114ae26dbe7e9253729def5521912e.
-**Reference qualification:** AQA Business 7132 v2.0 and Psychology 7182 v1.4 (consult only source-rights-permitted published alignment facts; do not reproduce specification text). **These are ORIGINAL Revision training questions, not authentic AQA items, official mark schemes or guaranteed 2027 tariffs.**
-**Exact IDs:** `BUS-LF05-09-25`, `BUS-LF05-10-16`, `PSY-LF05-02-S1`.
+Exact source SHA blobs: six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; 27 `b663a10f509e9009185329f23d44470b6f12c734`. Earlier reviewer evidence stays pinned to the previous source commit. **Do not claim prior verdicts carry over to edited guides.**
 
-**STAGE 2 ONLY — guided marking-support review.** Do not disclose this packet to the reviewer until Stage 1 responses are frozen. Take the original blind findings as unchangeable. Challenge each Revision-authored rubric against the frozen blind scope and original AQA source claims, noting factual/calc errors, illegitimate restrictions on credit, false claim to official numeric marks, unsuitable context and missing evaluation. Return separate per-ID `pass/minor/material/blocking` GUIDE verdicts with source references. This is qualitative self-review support, NOT calibrated examiner marking.
+**GUIDED ANSWER INPUT ONLY:** Challenge the exact guide against the already frozen blind question verdict. These are self-review rubrics, not calibrated examiner marks.
 
 ---
 
@@ -16,11 +14,11 @@
 
 1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 selected knowledge: Distinguish external growth/acquisition from organic growth and describe potential synergy. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
+2. AO1 selected knowledge: Explain external growth through mergers and takeovers/acquisitions versus organic growth; describe possible synergy and economies of scale or scope. Do not treat international expansion as an independent method of growth: it is a geographic direction that can be pursued through several methods.
 
 3. AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 
-4. AO3 developed analysis: Develop economies of scale/scope and market share gains from acquisition; explain why synergy is not automatic. Contrast organic growth, alliances and international entry where context relevant, with financial/cultural control.
+4. AO3 developed analysis: Consider different forms of external growth, including mergers and takeovers, and assess speed, control, financing, integration risk and possible synergy. Compare organic growth, and assess collaborations according to whether their legal/organisational structure involves external growth. International entry is a possible direction of expansion, not a growth method in itself.
 
 5. AO4 balanced judgement: Reach a conditional conclusion based on urgency, capital, capability and integration risk; avoid assuming external growth always beats organic.
 
@@ -29,8 +27,6 @@
 7. Source-specific correction / alternative-credit safeguard: Scale and synergy from external growth are potential, not guaranteed; compare organic growth, economies/diseconomies, financing and integration costs.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 
@@ -64,8 +60,6 @@
 
 
 
-
-
 ---
 
 ---
@@ -84,7 +78,7 @@
 
 3. AO2 / actual data: The lower digit-task accuracy in Task B (49%) than Task A (76%) is consistent with greater interference when two concurrent tasks draw on verbal processing, compared with combining a verbal and a mainly visual/spatial task. The central executive may coordinate dual-task attention. The data do not isolate every component or measure capacity directly.
 
-4. AO3 / challenge: Because Task A always came first and the secondary tasks were not matched for difficulty, order, fatigue and difficulty could also contribute. Question the limits of inferring specific working-memory mechanisms from just 24 sixth-form volunteers, whose recruitment method is not fully specified, and the group averages alone. Use dual-task evidence as a general model strength, while considering competing explanations, the central executive's unclear boundaries and limitations of simplified laboratory tasks. Conclude cautiously.
+4. AO3 / challenge: Because Task A always came first and the secondary tasks were not matched for difficulty, order, fatigue and difficulty could also contribute. The 24 sixth-form volunteers are a known volunteer sample; their narrow population, possible volunteer bias and unspecified recruitment details limit generalisability. Group averages alone cannot isolate a working-memory mechanism. Use dual-task evidence as a general model strength, alongside competing explanations, unclear central-executive boundaries and limitations of simplified laboratory tasks; conclude cautiously.
 
 5. Alternative credit: A well-reasoned argument about attentional demands, task interference or rehearsal is valid if it fits the prompt and does not claim the data alone establish a specific component. The episodic buffer may receive credit if appropriately connected, but it is not mandatory for every answer about this dual-task pattern.
 
@@ -95,8 +89,6 @@
 8. Source-specific correction / alternative-credit safeguard: 76% versus 49% digit accuracy differs by 27 percentage points, but fixed order and unmatched second-task difficulty prevent attributing all of that difference to phonological-loop competition.
 
 9. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
-
-
 
 
 

@@ -1,25 +1,29 @@
-# LF-05 — portable independent review input manifest (33 held items)
+# LF-05 — updated held original question/guide review pack (25 November 2026)
 
-**Status:** Review packets only; NOT independent PASS or publication. 6 separate live items remain unchanged; these 33 original question-guide pairs remain HELD in PR #854.
+**Status: all 33 still HELD, six previously published originals unchanged.** Changes made after independent Stage 1 32 PASS/1 MINOR and Stage 2 21 PASS/11 MINOR/1 MATERIAL. The original reviewer reports and immutable old inputs at [old packet commit](https://github.com/lhanson-dev/revision/tree/5af3a7da290551cc3489a67763a9e3527b83a300/audits/lf05-fresh-chat-review) are retained unchanged.
 
-Generated from candidate commit `343e7a846c404ae4876641770b95b2daa1a66350` with immutable six-item SQL blob `572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b` and 27-item SQL blob `e58ac284a8114ae26dbe7e9253729def5521912e`, blind packet blob `8715ef0ba2bb10b167a86168763323a653a7812e` and guided packet blob `2ed2406698a681bd1036df950d9abbdbc6c565f6`. Every packet retains the question wording, case context and source metadata; previous reviewer verdicts and author notes about historical findings have been excluded from inputs. The matching full canonical packets remain at their original paths. Recreate all affected batch packets and invalidate earlier verdicts after any corresponding source-row change.
+**Corrected exact SQL source Git blobs:** first six `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`; remaining 27 `b663a10f509e9009185329f23d44470b6f12c734`. Updated original blind full-bank canonical blob `db3508dbe46f5d9f7fc35452bc3e4430f23b4f4c` and guided blob `ffaba7d9494f6e84a2c3979baae942f4a378d847`. All 33 candidate IDs, scenarios and every guide criterion were verified against their canonical SQL before generating these files.
 
-**Use:** start a fresh ChatGPT conversation **outside the Revision project**. Supply only each `blind` batch in order and permitted structured source references, not the `guided` files. Freeze Stage 1 findings per batch. Only then provide the matching `guided` packet and Stage 1 response. Record each stage separately. A fresh chat is not automatically proven independent by the existence of a link or transcript; capture method/context provenance and save dated evidence. Do not send copyrighted full AQA specifications into an AI context without the approved Source Licence Register permission basis. Prefer independently authored original source facts, reference section IDs and allowed source consultation.
+## Fastest valid independent delta route
 
-| Batch | Question IDs | Stage 1 | Stage 2 |
-| --- | --- | --- | --- |
-| 01 | PSY-LF05-01, PSY-LF05-02, PSY-LF05-07 | [Blind](batch-01-blind.md) | [Guided](batch-01-guided.md) |
-| 02 | BUS-LF05-03-16, BUS-LF05-04-25, BUS-LF05-07-25 | [Blind](batch-02-blind.md) | [Guided](batch-02-guided.md) |
-| 03 | PSY-LF05-03, PSY-LF05-04, PSY-LF05-05 | [Blind](batch-03-blind.md) | [Guided](batch-03-guided.md) |
-| 04 | PSY-LF05-06, PSY-LF05-08, PSY-LF05-09 | [Blind](batch-04-blind.md) | [Guided](batch-04-guided.md) |
-| 05 | PSY-LF05-10, PSY-LF05-11, PSY-LF05-12 | [Blind](batch-05-blind.md) | [Guided](batch-05-guided.md) |
-| 06 | PSY-LF05-13, PSY-LF05-14, PSY-LF05-15 | [Blind](batch-06-blind.md) | [Guided](batch-06-guided.md) |
-| 07 | PSY-LF05-16, PSY-LF05-17, BUS-LF05-01-16 | [Blind](batch-07-blind.md) | [Guided](batch-07-guided.md) |
-| 08 | BUS-LF05-04-16, BUS-LF05-05-16, BUS-LF05-05-25 | [Blind](batch-08-blind.md) | [Guided](batch-08-guided.md) |
-| 09 | BUS-LF05-06-16, BUS-LF05-06-25, BUS-LF05-07-16 | [Blind](batch-09-blind.md) | [Guided](batch-09-guided.md) |
-| 10 | BUS-LF05-08-16, BUS-LF05-08-25, BUS-LF05-09-16 | [Blind](batch-10-blind.md) | [Guided](batch-10-guided.md) |
-| 11 | BUS-LF05-09-25, BUS-LF05-10-16, PSY-LF05-02-S1 | [Blind](batch-11-blind.md) | [Guided](batch-11-guided.md) |
+1. Send **only** [corrected Marshbrook blind question](2026-11-25-delta-01-marshbrook-blind.md) to a **new independent chat with no prior guidance**; save the new exact-source question verdict. Original Stage 1 stays evidence for the other **32 unchanged question stems and scenarios**.
+2. After freezing that result, send the [12 corrected guided answer packets](2026-11-25-delta-12-guided.md) to an independent reviewer with the previous frozen Stage 1/2 issues and ask for item-by-item **new** guide judgments. The other 21 guides were unchanged, so preserve their earlier PASS on exactly unchanged per-item content; do not pretend all 33 were independently re-reviewed after edits.
+3. Record exact chat/session provenance and source-rights classification. Each material/blocking finding remains HELD pending resolution and new exact-version review. No auto-publication from this packet, structure checker, or any previous reviewer verdict.
 
-**Required result:** 33 unique Stage 1 question verdicts and 33 distinct Stage 2 guide verdicts. Record ID, severity `pass/minor/material/blocking`, `sourceFit`, `reasoning`, `alternatives`, `corrections`, cited official source section, recommended correction and session/date/method. No blanket PASS, no missing IDs, no auto-publishing. If context was contaminated, source rights cannot be proven, or any MATERIAL/BLOCKING issue remains unresolved, that item stays HELD.
+## Complete source review packets (fallback)
 
-**Historical evidence preserved:** independent provider failure receipts (#45663098981 exhausted credits, #45655713087 30/33 partial); these portable packets do not rewrite or upgrade prior verdicts.
+| Batch | Question IDs | Blind | Guided |
+|---|---|---|---|
+| 01 | PSY-LF05-01, PSY-LF05-02, PSY-LF05-07 | [Question only](batch-01-blind.md) | [Guidance](batch-01-guided.md) |
+| 02 | BUS-LF05-03-16, BUS-LF05-04-25, BUS-LF05-07-25 | [Question only](batch-02-blind.md) | [Guidance](batch-02-guided.md) |
+| 03 | PSY-LF05-03, PSY-LF05-04, PSY-LF05-05 | [Question only](batch-03-blind.md) | [Guidance](batch-03-guided.md) |
+| 04 | PSY-LF05-06, PSY-LF05-08, PSY-LF05-09 | [Question only](batch-04-blind.md) | [Guidance](batch-04-guided.md) |
+| 05 | PSY-LF05-10, PSY-LF05-11, PSY-LF05-12 | [Question only](batch-05-blind.md) | [Guidance](batch-05-guided.md) |
+| 06 | PSY-LF05-13, PSY-LF05-14, PSY-LF05-15 | [Question only](batch-06-blind.md) | [Guidance](batch-06-guided.md) |
+| 07 | PSY-LF05-16, PSY-LF05-17, BUS-LF05-01-16 | [Question only](batch-07-blind.md) | [Guidance](batch-07-guided.md) |
+| 08 | BUS-LF05-04-16, BUS-LF05-05-16, BUS-LF05-05-25 | [Question only](batch-08-blind.md) | [Guidance](batch-08-guided.md) |
+| 09 | BUS-LF05-06-16, BUS-LF05-06-25, BUS-LF05-07-16 | [Question only](batch-09-blind.md) | [Guidance](batch-09-guided.md) |
+| 10 | BUS-LF05-08-16, BUS-LF05-08-25, BUS-LF05-09-16 | [Question only](batch-10-blind.md) | [Guidance](batch-10-guided.md) |
+| 11 | BUS-LF05-09-25, BUS-LF05-10-16, PSY-LF05-02-S1 | [Question only](batch-11-blind.md) | [Guidance](batch-11-guided.md) |
+
+**Complete 33 review** can be rerun, if needed, using all blind files before revealing any guided files. This page is an input index, not an approved educational receipt or publication checklist. Do not upload substantial protected AQA PDFs to AI chats without the approved source-rights permission.
