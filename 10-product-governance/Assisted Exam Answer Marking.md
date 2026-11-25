@@ -62,7 +62,7 @@ The marking contract is conceptually:
 
 It is not a generic AI instruction to infer how an arbitrary answer should be marked.
 
-The first implementation should prove the approach on a narrow assured catalogue. The expected starting point is the existing AQA Business pilot, subject to the remaining technical/content feasibility gate.
+The first implementation should prove the approach on a narrow assured catalogue. The Founder-confirmed delivery priority (25 November 2026, #706 comment 7168114231) is AQA A-level Business 7132 for the 2027 cohort, followed by AQA A-level Psychology 7182, using a reusable marking architecture. This supersedes the historical AS-first feasibility sequence, subject to the remaining technical/content feasibility and human Ready gates.
 
 ### Deliberate MVP exclusions
 
