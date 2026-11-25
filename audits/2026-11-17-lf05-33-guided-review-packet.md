@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: independent A3 guided challenge
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `28f4eae6bcc045b47c5708e8e8b6a23d9047bd45` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `476df066bc2e13968e62abbc26a822127c323fe1` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 2 only.** Challenge these authored suggestions against the independently recorded blind answers. Record exact-version PASS/MINOR/MATERIAL/BLOCKING separately for question and guide. Question-only and guided versions both need independent acceptance; author edits and CI do not confer a pass.
 
@@ -194,7 +194,7 @@
 
 8. Make a judgement balancing the theory's explanatory reach against deterministic claims.
 
-9. Alternative valid answer routes: Accept careful discussion of institutionalisation or early deprivation when causally qualified. Do not equate separation, deprivation and institutionalisation as the same construct.
+9. Alternative valid answer routes: Credit carefully distinguished separation, deprivation or institutionalisation evidence only when linked explicitly to Bowlby and his proposed critical period, internal working model or later-relationship predictions. Do not reward tangential description or conflate these constructs.
 
 10. Source-specific correction / alternative-credit safeguard: The strict critical period is a theoretical proposal, not an established universal cutoff; separate monotropy and later internal working models from maternal deprivation and institutionalisation.
 
@@ -228,7 +228,7 @@
 
 8. Develop a qualified judgement about explanatory usefulness and treatment appropriateness.
 
-9. Alternative valid answer routes: Credit evidence-informed treatment comparisons if relevant, without inventing effect sizes. Avoid outdated 2027 content outside the specified Beck/Ellis/CBT requirements.
+9. Alternative valid answer routes: Credit accurate relevant evidence or treatment comparisons where used to evaluate cognitive explanations or CBT. Do not invent effect sizes or exclude relevant evidence because of an unsupported time-based content restriction.
 
 10. Source-specific correction / alternative-credit safeguard: Beck's triad covers negative views of self, world and future; Ellis's ABC relates activating events, beliefs and consequences. A response to CBT does not prove cognitive beliefs caused the condition.
 
@@ -318,7 +318,7 @@
 
 2. Explain the distinction between heritable/biological and environmental influences.
 
-3. Define interactionism rather than portraying heredity and environment as mutually exclusive.
+3. Credit well-explained interactionist accounts as a relevant way to connect heredity and environment, without requiring a separate definition where the answer otherwise addresses the nature-nurture debate accurately.
 
 4. Accurately select relevant examples from compulsory topics that students have studied; examples from an optional topic are also creditworthy if the learner has studied that option.
 
@@ -332,7 +332,7 @@
 
 9. Alternative valid answer routes: First illustrate valid links using common compulsory content, such as attachment, biopsychology, memory or approaches. Also credit sound examples from aggression, schizophrenia or any other relevant optional content where the learner has actually studied that option. No fixed named-study list or minimum topic count is an AQA-wide rule; award credit for accurate explicit links, developed evaluation and defensible alternatives.
 
-10. Source-specific correction / alternative-credit safeguard: Use accurately linked examples from compulsory and genuinely studied optional topics, not a fixed topic list. Explain interactionism, not just an either-or gene versus environment assertion.
+10. Source-specific correction / alternative-credit safeguard: Credit accurately linked examples from compulsory and genuinely studied optional topics, not a fixed list. Interactionism can strengthen evaluation, but do not withhold credit from a developed nature-nurture discussion solely because it omits a standalone definition of interactionism.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
@@ -358,7 +358,7 @@
 
 5. Evaluate supporting research and methodological limits of retrospective/self-report relationship measures.
 
-6. Compare explanatory coverage of long-term commitment with short-term cost–reward calculation.
+6. Compare how social exchange theory outcomes and comparison standards, and the investment model satisfaction, alternatives and investments, explain persistence and commitment over time.
 
 7. Discuss social/cultural and individual differences and whether rational calculations reflect actual relationship decisions.
 
@@ -454,9 +454,9 @@
 
 2. Define vulnerability/diathesis and stress and show how they can interact.
 
-3. Describe relevant biological and psychological influences on presentation.
+3. Describe relevant biological, psychological and social influences on presentation and treatment.
 
-4. Explain implications for combining drug and psychological therapies.
+4. Explain how drug, psychological and social interventions may contribute to integrated treatment, without assuming that any combination establishes a cause.
 
 5. Evaluate evidence for combined vulnerability-and-stress explanations rather than independent single causes.
 
@@ -468,7 +468,7 @@
 
 9. Alternative valid answer routes: Credit evidence about dopamine/genetic correlates or dysfunctional thinking when coherently linked. Avoid implying patients or families are personally responsible for illness.
 
-10. Source-specific correction / alternative-credit safeguard: The diathesis–stress model proposes interacting vulnerability and environment, not a single certain cause. Combined treatments do not prove aetiology; no patient or family blame is warranted.
+10. Source-specific correction / alternative-credit safeguard: The diathesis-stress model proposes interacting vulnerability and environment. Credit biological, psychological and social factors or interventions where relevant; combined treatments do not prove aetiology or justify patient or family blame.
 
 11. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
@@ -498,7 +498,7 @@
 
 7. Assess bidirectional influences and limitations of retrospective or clinical samples.
 
-8. Make an interactionist conclusion with careful attention to sensitivity.
+8. Reach an evidence-sensitive conclusion about the relative usefulness of biological and psychological explanations; an interactionist synthesis is a valid but not compulsory route.
 
 9. Alternative valid answer routes: Credit well-supported comparison of family systems, social learning and cognitive approaches. Avoid implying a particular family pattern inevitably causes anorexia.
 
@@ -548,7 +548,7 @@
 
 ## PSY-LF05-15 — Aggression
 
-**Question:** Discuss social psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
+**Question:** Discuss psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
 
 **Authored indicative guidance, not an independently accepted mark scheme:**
 
@@ -804,7 +804,7 @@
 
 1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 selected knowledge: Explain the specified AQA Business §3.6.4 financial rewards (piece rate, commission, salary schemes, performance-related pay) and non-financial options (empowerment, team working, flexible working, job enrichment, job rotation). Use Taylor, Maslow and Herzberg; do not present Vroom or equity theory as required core.
+2. AO1 selected knowledge: Explain the specified AQA Business §3.6.4 financial rewards (piece rate, commission, salary schemes, performance-related pay) and non-financial options (empowerment, team working, flexible working, job enrichment, job rotation). Candidates may use relevant aspects of Taylor, Maslow or Herzberg; other accurately applied theory may support analysis, but no specific combination of named theorists is required in this response.
 
 3. AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 
@@ -814,7 +814,7 @@
 
 6. Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.
 
-7. Source-specific correction / alternative-credit safeguard: AQA 7132 §3.6.4 specifically names Taylor, Maslow, Herzberg; piece rates, commission, salaries, performance-related pay; empowerment, teams, flexibility, enrichment and rotation. Other theories are optional, not substitute core.
+7. Source-specific correction / alternative-credit safeguard: AQA 7132 §3.6.4 specifically names Taylor, Maslow, Herzberg; piece rates, commission, salaries, performance-related pay; empowerment, teams, flexibility, enrichment and rotation. Other accurate relevant theory can enrich analysis; judge the quality of the answer rather than requiring a fixed list of named theories.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
@@ -834,9 +834,9 @@
 
 1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 accurate concepts: Explain how profit margin, ROCE, borrowing/gearing risk and investment appraisal can inform but not settle decisions. A precise gearing measure must use a stated and supported formula; the supplied liabilities alone do not establish every definition's debt and equity inputs.
+2. AO1 accurate concepts: Explain how operating profit margin, ROCE, AQA gearing and investment appraisal can inform but not settle decisions. The AQA gearing formula uses non-current liabilities divided by capital employed; use the named inputs, not an unrelated debt-to-equity definition.
 
-3. AO2 contextual selection: £2m/£25m = 8% operating margin and £2m/£16m = 12.5% ROCE; positive stated NPV £900,000 depends on forecast assumptions. Do not infer or require a uniquely defined gearing percentage from the £9m non-current liabilities.
+3. AO2 contextual selection: £2m/£25m = 8% operating margin, £2m/£16m = 12.5% ROCE and £9m/£16m × 100 = 56.25% AQA gearing. The stated positive NPV £900,000 depends on forecasts. Gearing may indicate funding risk, but its significance depends on trends, sector comparisons, cash flow and lender terms.
 
 4. AO3 developed causal analysis: Analyse attractive returns against borrowing risk and forecast sensitivity. Consider market, competitor, operational and capability evidence beyond ratios.
 
@@ -844,7 +844,7 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Source-specific correction / alternative-credit safeguard: Profit margin 8% and ROCE 12.5% can be derived; £900,000 NPV depends on unsupplied forecasts. £9m non-current liabilities alone cannot yield an unambiguous gearing ratio.
+7. Source-specific correction / alternative-credit safeguard: AQA gearing = £9m non-current liabilities / £16m capital employed × 100 = 56.25%; operating margin is 8% and ROCE is 12.5%. Reward accurate interpretation even without every calculation. The NPV relies on forecasts; no current ratio can be calculated without current assets and liabilities. Do not infer inevitable investment success or excessive gearing without comparisons.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
@@ -858,7 +858,7 @@
 
 **Question:** Evaluate whether market development is a better strategic direction for Nova Homecare than product development.
 
-**Scenario:** Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.
+**Scenario:** Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for its existing UK specialist-market customers for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.
 
 **Authored indicative guidance, not an independently accepted mark scheme:**
 
