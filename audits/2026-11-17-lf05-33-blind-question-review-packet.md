@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: blind independent A3 question review
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `28f4eae6bcc045b47c5708e8e8b6a23d9047bd45` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `476df066bc2e13968e62abbc26a822127c323fe1` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 1: do not read the guided packet until independent expected answers and question verdicts are committed.** Check precise AQA source, paper, selected Psychology option where applicable, fair alternatives and original training mark-style. No official 2027 item tariff is claimed.
 
@@ -202,7 +202,7 @@
 - **Topic:** aggression
 - **Specification mapping to verify:** AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.8, p23 — frustration–aggression, social learning and de-individuation
 
-**Question:** Discuss social psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
+**Question:** Discuss psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.
 
 ---
 
@@ -259,7 +259,7 @@
 - **Course:** aqa:aqa-a-level:7132
 - **Paper/mark-style:** 2 / 16 (original training)
 - **Topic:** finance
-- **Specification mapping to verify:** AQA 7132 v2.0 §§3.5.2–3.5.4 (profitability, liquidity, sources of finance and expansion)
+- **Specification mapping to verify:** AQA 7132 v2.0 §§3.5.2–3.5.4 and §3.7.2 (finance decisions, ratio analysis, liquidity and borrowing)
 
 **Question:** Evaluate whether a long-term bank loan is a suitable way for Harbour Furniture to finance its expansion.
 
@@ -283,7 +283,7 @@
 - **Course:** aqa:aqa-a-level:7132
 - **Paper/mark-style:** 2 / 16 (original training)
 - **Topic:** hr
-- **Specification mapping to verify:** AQA 7132 v2.0 §§3.6.2–3.6.3 (human resource data, labour turnover and training)
+- **Specification mapping to verify:** AQA 7132 v2.0 §3.6.2 (HR performance and labour turnover), with §3.6.3 relevant to workforce-flow or rota-design alternatives
 
 **Question:** To what extent should Orchid Care Services increase spending on training to improve staff performance?
 
@@ -324,7 +324,7 @@
 
 **Question:** Evaluate whether market development is a better strategic direction for Nova Homecare than product development.
 
-**Scenario:** Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.
+**Scenario:** Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for its existing UK specialist-market customers for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.
 
 ---
 
