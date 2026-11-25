@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '24.18.0'
       - run: node --check research/fi007-marking/run-business-comparison.mjs
-      - run: node --test research/fi007-marking/run-business-comparison.node-check.mjs
+      - run: node --test research/fi007-marking/run-business-comparison.node-check.mjs research/fi007-marking/full-bank-contract.node-check.mjs
 
   comparison:
     if: >-
