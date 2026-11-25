@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(27);
+select plan(28);
 select is((select count(*) from public.lf05_written_questions),39::bigint,
  'all 39 authored original question identities are stored once');
 select is((select count(*) from public.lf05_written_guides),39::bigint,
@@ -64,6 +64,9 @@ select ok((select stimulus not like '%**%' and stimulus like '%76% in Task A and
 select ok((select skill_ref not like '% AO' and skill_ref like '%4.1.2%'
   from public.lf05_written_questions where id='PSY-LF05-02-S1'),
  'memory dual-task specification skill mapping is complete');
+select ok((select skill_ref ilike '%§3.6.2 Analysing human resource performance%' and skill_ref ilike '%§3.6.3 Making human resource decisions:%'
+ from public.lf05_written_questions where id='BUS-LF05-06-16'),
+ 'Business §3.6.2 explicitly concerns HR performance/turnover, while §3.6.3 contains workforce flow and training');
 -- Source-adjudicated 25 November 2026 educational corrections (all still HELD).
 select ok((select g.guidance::text like '%56.25%' and
  g.guidance::text like '%£9m%' and
