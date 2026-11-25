@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {blobSha, verifyFiles, verifyReview} from './lf05-pr854-all33-a3-review.mjs';
+import {blobSha, verifyFiles, verifyReview, parseSqlCandidateRow} from './lf05-pr854-all33-a3-review.mjs';
 
 // This is deliberately a NO-NETWORK, NO-API, READ-ONLY evidence checker.
 // Educational correctness and fresh-chat independence are NOT proven by JSON structure.
@@ -16,12 +16,15 @@ function assert(value,msg){if(!value)throw Error(msg)}
 function date(value){const x=typeof value==='string'?Date.parse(value):NaN;assert(Number.isFinite(x),'Missing/invalid dated review stage');return x}
 export function checkManualReviewReceipt(receipt,sourceText,batchFiles){
  assert(receipt?.reviewMethod==='fresh-chat-outside-authoring-project','Fresh-chat method declaration missing');
+ assert(receipt?.status==='submitted_for_review','Review is an incomplete template or unsubmitted receipt');
  assert(hex40.test(receipt?.reviewedSourceCommit),'Exact candidate source commit SHA missing');
- assert(typeof receipt.sourceRightsBasis==='string'&&receipt.sourceRightsBasis.trim().length>=20,'Source-rights basis missing');
+ assert(typeof receipt.sourceRightsBasis==='string'&&receipt.sourceRightsBasis.trim().length>=20&&
+  !receipt.sourceRightsBasis.startsWith('REPLACE'),'Source-rights basis missing');
  assert(Array.isArray(sourceText)&&sourceText.length===4,'Four authoritative source files required');
  const sourceBlobs=sourceText.map(blobSha);
  assert(JSON.stringify(receipt.sourceBlobs)===JSON.stringify(sourceBlobs),'Source changed since review; invalidate evidence');
  const {blind,guided}=verifyFiles(sourceText);
+ const candidates=new Map(sourceText.slice(0,2).flatMap(s=>s.split('\n').filter(z=>z.startsWith("('")).map(parseSqlCandidateRow)).map(c=>[c.id,c]));
  assert(Array.isArray(receipt.batches)&&receipt.batches.length===11,'Exactly eleven review batches required');
  const allIds=new Set();
  let material=0,minor=0;
@@ -29,20 +32,25 @@ export function checkManualReviewReceipt(receipt,sourceText,batchFiles){
   const row=receipt.batches[k],ids=blind.slice(k*3,k*3+3).map(x=>x.id),n=String(k+1).padStart(2,'0');
   assert(row?.batch===n,'Incorrect batch order '+n);
   assert(row?.session?.outsideAuthoringProject===true,'Fresh context not attested for batch '+n);
-  assert(typeof row.session.reference==='string'&&row.session.reference.length>=12,'Missing reviewer session reference '+n);
-  assert(date(row.blindFrozenAt)<=date(row.guideRevealedAt),'Guidance disclosed before blind freeze in '+n);
+  assert(typeof row.session.reference==='string'&&row.session.reference.length>=12&&
+   !row.session.reference.startsWith('REPLACE'),'Missing reviewer session reference '+n);
+  assert(date(row.blindFrozenAt)<date(row.guideRevealedAt),'Guidance disclosed before blind freeze in '+n);
   const b=batchFiles[2*k],g=batchFiles[2*k+1];
   assert(typeof b==='string'&&typeof g==='string','Both sealed packets required for '+n);
   for(let h=0;h<3;h++){
-   const original=blind[k*3+h],id=original.id,guide=guided.get(id);
-   const foundGuide=sourceText[3].match(new RegExp('^## '+id+' —[\\s\\S]*?(?=^## (?:BUS|PSY)-LF05-|$)','m'))?.[0];
-   assert(b.includes(original.text.split('\n').filter(x=>!/^(\\*\\*Historical finding:|\\*\\*Source metadata:)/.test(x)).join('\n').trim()),
-    'Blind batch source text differs from trusted source '+id);
-   assert(g.includes(guide.split('\n').filter(x=>!/^(\\*\\*Historical finding:|\\*\\*Source metadata:)/.test(x)).join('\n').trim()),
-    'Guided batch source differs from trusted source '+id);
+   const id=ids[h],candidate=candidates.get(id),source=blind[k*3+h],guide=guided.get(id);
+   assert(candidate&&source.id===id&&typeof guide==='string','Missing exact source '+id);
+   const question='**Question:** '+candidate.question;
+   assert(b.includes(question)&&g.includes(question),'Reviewed question differs from staged SQL '+id);
+   if(candidate.scenario)assert(b.includes('**Scenario:** '+candidate.scenario)&&g.includes('**Scenario:** '+candidate.scenario),
+    'Reviewed case differs from staged SQL '+id);
+   assert(b.includes('- **Course:** '+candidate.course)&&
+    b.includes('- **Topic:** '+candidate.topic)&&b.includes('- **Paper/mark-style:** '+candidate.paper+' / '+candidate.style),
+    'Review qualification/mark-style differs from staged SQL '+id);
+   for(const criterion of candidate.guide)
+    assert(g.includes(criterion),'Guide criterion differs from staged SQL '+id);
    assert(!b.includes('Authored indicative guidance'),'Guidance leaked into blind packet '+id);
    assert(!allIds.has(id),'Duplicate reviewed identity '+id);allIds.add(id);
-   assert(guide.includes('**Question:**'),'Guided source mismatch '+id);
   }
   const bv=verifyReview(row.blind,ids).items;
   const gv=verifyReview(row.guided,ids).items;
