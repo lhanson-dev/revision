@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(28);
+select plan(40);
 select is((select count(*) from public.lf05_written_questions),39::bigint,
  'all 39 authored original question identities are stored once');
 select is((select count(*) from public.lf05_written_guides),39::bigint,
@@ -67,6 +67,55 @@ select ok((select skill_ref not like '% AO' and skill_ref like '%4.1.2%'
 select ok((select skill_ref ilike '%§3.6.2 Analysing human resource performance%' and skill_ref ilike '%§3.6.3 Making human resource decisions:%'
  from public.lf05_written_questions where id='BUS-LF05-06-16'),
  'Business §3.6.2 explicitly concerns HR performance/turnover, while §3.6.3 contains workforce flow and training');
+-- User-submitted independent Stage 2 guided findings: source changes remain HELD.
+select ok((select g.guidance::text ilike '%geographical profiling as legitimate data-driven%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-16'),
+ 'Offender-profile guide credits valid geographical profiling without mandatory investigative psychology');
+select ok((select g.guidance::text ilike '%not synonyms%' and
+ g.guidance::text ilike '%data-driven comparisons%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-16'),
+ 'Offender-profile rubric preserves method distinctions and inclusive answer routes');
+select ok((select q.stimulus ilike '%slower expansion funded internally%'
+ from public.lf05_written_questions q where q.id='BUS-LF05-01-16'),
+ 'Marshbrook case fixes the artificial borrowing-versus-retained-profit conflict');
+select ok((select g.guidance::text ilike '%mixed-finance%'
+ and g.guidance::text ilike '%cannot by itself establish whether the buffer is adequate%'
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-01-16'),
+ 'Marshbrook guide accepts mixed finance and qualifies adequacy of the cash balance');
+select ok((select g.guidance::text ilike '%behavioural experiments%'
+ and g.guidance::text ilike '%restructure unhelpful%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-04'),
+ 'CBT guidance includes practical treatment mechanisms as well as cognitive accounts');
+select ok((select g.guidance::text ilike '%antipsychotic%'
+ and g.guidance::text ilike '%family therapy%' and
+ g.guidance::text ilike '%not demand one fixed treatment%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-12'),
+ 'Schizophrenia interactionist guide provides source-aligned examples without mandatory combos');
+select ok((select g.guidance::text ilike '%conceptualisation%'
+ and g.guidance::text ilike '%skills acquisition and rehearsal%'
+ and g.guidance::text ilike '%muscle tension%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-14'),
+ 'Stress guide names the three inoculation phases and concrete biofeedback measure');
+select ok((select g.guidance::text ilike '%original frustration%'
+ and g.guidance::text ilike '%later revisions%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-15'),
+ 'Aggression guide distinguishes original frustration hypothesis from later evaluations');
+select ok((select g.guidance::text ilike '%automation is only a possibility%'
+ and g.guidance::text ilike '%relative net costs are known%'
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-04-16'),
+ 'Pine Components guide does not invent automation or financial rankings');
+select ok((select g.guidance::text ilike '%average workforce over the year%'
+ and g.guidance::text ilike '%£69,600%'
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-06-16'),
+ 'Orchid guide makes average employment conditional and accepts rounded costs');
+select ok((select g.guidance::text ilike '%mergers and takeovers%'
+ and g.guidance::text ilike '%not a growth method in itself%'
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-09-25'),
+ 'External growth guide separates growth method from geographic direction');
+select ok((select g.guidance::text ilike '%known volunteer sample%'
+ and g.guidance::text ilike '%volunteer bias%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-02-S1'),
+ 'Applied working memory guide recognises participant volunteers and unknown recruitment');
 -- Source-adjudicated 25 November 2026 educational corrections (all still HELD).
 select ok((select g.guidance::text like '%56.25%' and
  g.guidance::text like '%£9m%' and
