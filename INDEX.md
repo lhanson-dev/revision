@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 25 November **13/13 updated-guide reviewer PASS claims, 21 unchanged guide PASS and 32 unchanged blind PASS verified per exact SQL row**; strict clean-context one-question Marshbrook blind recheck still required due previous-hint contamination; real local 39-question signed-in A4 and corrected pgTAP in PR #854, no release → `audits/2026-11-25-lf05-final-delta-review-adjudication.md`, `audits/lf05-fresh-chat-review/2026-11-25-clean-marshbrook-blind.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`.
+
 - LF-05 **proposed fresh ChatGPT conversation A3 without API billing** (11 sealed 3-item blind/guide batches in draft PR #854, required provenance and read-only evidence check, no reduction of independent QA or publication gate) → `80-company-workflows/Content Accuracy Assurance Gate.md`, `docs/technical/LF-05 Fresh Chat Independent Review Route.md`; separate governance PR pending approval.
 
 - LF-05 proposed 25 November independent 33-item A3 reviewer HTTP 429 diagnostics, bounded retry and correct AQA section guardrails (unchanged 33 held) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; separate governed infrastructure PR requiring approval.

@@ -6,7 +6,7 @@
 
 ## Fastest valid independent delta route
 
-1. Send **only** [corrected Marshbrook blind question](2026-11-25-delta-01-marshbrook-blind.md) to a **new independent chat with no prior guidance**; save the new exact-source question verdict. Original Stage 1 stays evidence for the other **32 unchanged question stems and scenarios**.
+1. Send **only** [clean Marshbrook blind question](2026-11-25-clean-marshbrook-blind.md) to a **new conversation outside the Revision project with no prior reviewer concerns or guidance**; save the new exact-source question verdict. Original Stage 1 stays evidence for the other **32 unchanged question stems and scenarios**.
 2. After freezing that result, send the [12 corrected guided answer packets](2026-11-25-delta-12-guided.md) to an independent reviewer with the previous frozen Stage 1/2 issues and ask for item-by-item **new** guide judgments. The other 21 guides were unchanged, so preserve their earlier PASS on exactly unchanged per-item content; do not pretend all 33 were independently re-reviewed after edits.
 3. Record exact chat/session provenance and source-rights classification. Each material/blocking finding remains HELD pending resolution and new exact-version review. No auto-publication from this packet, structure checker, or any previous reviewer verdict.
 
@@ -27,3 +27,7 @@
 | 11 | BUS-LF05-09-25, BUS-LF05-10-16, PSY-LF05-02-S1 | [Question only](batch-11-blind.md) | [Guidance](batch-11-guided.md) |
 
 **Complete 33 review** can be rerun, if needed, using all blind files before revealing any guided files. This page is an input index, not an approved educational receipt or publication checklist. Do not upload substantial protected AQA PDFs to AI chats without the approved source-rights permission.
+
+## 25 November — corrected deltas reviewed, one method-level blind exception
+
+The [new 13/13 PASS delta-review report](2026-11-25-user-submitted-targeted-delta-review.md) was received and its exact revised guide-source packet verified. A [source equality and independence adjudication](../2026-11-25-lf05-final-delta-review-adjudication.md) confirms 12 revised guides plus 21 unchanged guides, and one updated scenario plus 32 unchanged blind question inputs. **Do not repeat the 12 guided reviews.** The earlier blind input disclosed a previous issue, contrary to approved separation, so only the [clean Marshbrook blind question](2026-11-25-clean-marshbrook-blind.md) must be re-assessed without that hint. The 33 questions remain HELD; this packet is not a publication instruction.
