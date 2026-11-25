@@ -11,6 +11,9 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 39 original written-question **student-readable distinct dropdown labels** (metadata-only migration, tested titles, unchanged question IDs/fingerprints and saved answers) → `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, `supabase/migrations/20261125220000_improve_lf05_question_selector_titles.sql`.
+
+
 - LF-05 PR #854 33-original **source-rights and exact-review disposition ledger** (15 Business + 18 Psychology additional held; final 39 target, remaining rights/method gates) → `audits/2026-11-25-lf05-33-rights-and-review-release-ledger.md`; guarded *review-only* promotion candidate → `docs/technical/release-candidates/lf05-33-promotion-review-only.sql.txt`.
 - LF-05 25 November clean Marshbrook blind MINOR review upload, source adjudication and unresolved independent-session provenance; 33 held, 6 live, same PR #854 → `audits/2026-11-25-lf05-clean-marshbrook-review-adjudication.md` and `audits/lf05-fresh-chat-review/2026-11-25-clean-marshbrook-user-submitted-review.md`.
 
