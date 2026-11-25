@@ -54,9 +54,11 @@ select ok((select bool_and(stimulus is not null and length(stimulus)>45)
  from public.lf05_written_questions where id like 'BUS-LF05-%' and marks_style=16),
  'all ten Business contextual evaluations retain their complete fictional stimulus');
 select is((select count(*) from public.lf05_written_questions q join public.lf05_written_guides g on g.question_id=q.id
-where q.status='published' and exists (select 1 from jsonb_array_elements_text(g.guidance) as v(entry)
+where q.status='published'
+  and q.approved_source_ref like '%3b318fc53bce95195c8eef8b5771690c123f2a31%'
+  and exists (select 1 from jsonb_array_elements_text(g.guidance) as v(entry)
 where v.entry ~* 'REVIEW HOLD|provisional level grid|13.?16-quality|5.?8-quality')),0::bigint,
-'held learner guides exclude draft labels and invented grading bands');
+'the 27 newly published source-specific guides exclude draft labels and invented grading bands');
 select ok((select stimulus not like '%**%' and stimulus like '%76% in Task A and 49% in Task B%'
   from public.lf05_written_questions where id='PSY-LF05-02-S1'),
  'memory case renders plain percentages without unparsed markdown markers');
