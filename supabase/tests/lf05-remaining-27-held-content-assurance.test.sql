@@ -119,7 +119,7 @@ select ok((select g.guidance::text ilike '%known volunteer sample%'
 -- Source-adjudicated 25 November 2026 educational corrections (all still HELD).
 select ok((select g.guidance::text like '%56.25%' and
  g.guidance::text like '%£9m%' and
- g.guidance::text not ilike '%cannot yield an unambiguous gearing%')
+ g.guidance::text not ilike '%cannot yield an unambiguous gearing%'
  from public.lf05_written_guides g where g.question_id='BUS-LF05-07-16'),
  'Kelton guidance applies AQA gearing 9/16 = 56.25 percent and removes false impossible-ratio claim');
 select ok((select g.guidance::text ilike '%do not withhold credit%'
