@@ -4,9 +4,8 @@ import { establishStudentExperience, completeStudentFirstUse } from '../../src/s
 import { addLearnerCourse } from '../../src/services/courses/learner-course-service'
 import { saveCourseAssessment } from '../../src/services/courses/course-planner-service'
 
-// WARNING: Disposably promotes 33 original held items ONLY in CI's local
-// isolated Supabase instance, and restores the original statuses in finally.
-// Never execute against production or any shared/non-local backend.
+// Verifies the published original catalogue with synthetic students using only
+// disposable localhost Supabase. Never execute against production.
 const enabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const url = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
 const anonKey = process.env.SUPABASE_ANON_KEY ?? ''
@@ -30,7 +29,7 @@ async function createSyntheticLearner(admin: SupabaseClient, label: string) {
   return {client,user:created.data.user,email,password}
 }
 
-test('LF-05 real signed-in 39-source rehearsal: Business and Psychology first answer, RLS and genuine Paper 3 options',async({page})=>{
+test('LF-05 real signed-in 39-source published catalogue: Business and Psychology first answer, RLS and genuine Paper 3 options',async({page})=>{
   test.skip(!enabled,'Only disposable local database-backed CI A4 runs')
   test.setTimeout(180000)
   if(!anonKey||!adminKey)throw new Error('Local synthetic Auth credentials missing')
@@ -42,15 +41,11 @@ test('LF-05 real signed-in 39-source rehearsal: Business and Psychology first an
   if(original.error)throw original.error
   const held=(original.data??[]).filter(q=>q.status==='held').map(q=>q.id)
   expect(original.data).toHaveLength(39)
-  expect(held).toHaveLength(33)
-  expect((original.data??[]).filter(q=>q.status==='published')).toHaveLength(6)
+  expect(held).toHaveLength(0)
+  expect((original.data??[]).filter(q=>q.status==='published')).toHaveLength(39)
   let learner:{client:SupabaseClient,user:User,email:string,password:string}|null=null
   let outsider:{client:SupabaseClient,user:User,email:string,password:string}|null=null
   try {
-    const promoted=await admin.from('lf05_written_questions').update({status:'published'})
-      .in('id',held).select('id')
-    if(promoted.error)throw promoted.error
-    expect(promoted.data).toHaveLength(33)
     learner=await createSyntheticLearner(admin,'author')
     outsider=await createSyntheticLearner(admin,'outsider')
     const allowed=await learner.client.from('lf05_written_questions').select('id,course_id')
@@ -142,11 +137,6 @@ test('LF-05 real signed-in 39-source rehearsal: Business and Psychology first an
   } finally {
     // On CI failure, clean up before the next integration test. The local
     // database is thrown away after the job; no production path exists.
-    if(held.length) {
-      const restore=await admin.from('lf05_written_questions').update({status:'held'})
-        .in('id',held)
-      if(restore.error)throw restore.error
-    }
     for(const v of [learner,outsider]){
       if(v) {
         await v.client.auth.signOut()
