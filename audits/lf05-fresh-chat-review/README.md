@@ -31,3 +31,9 @@
 ## 25 November — corrected deltas reviewed, one method-level blind exception
 
 The [new 13/13 PASS delta-review report](2026-11-25-user-submitted-targeted-delta-review.md) was received and its exact revised guide-source packet verified. A [source equality and independence adjudication](../2026-11-25-lf05-final-delta-review-adjudication.md) confirms 12 revised guides plus 21 unchanged guides, and one updated scenario plus 32 unchanged blind question inputs. **Do not repeat the 12 guided reviews.** The earlier blind input disclosed a previous issue, contrary to approved separation, so only the [clean Marshbrook blind question](2026-11-25-clean-marshbrook-blind.md) must be re-assessed without that hint. The 33 questions remain HELD; this packet is not a publication instruction.
+
+## 25 November — clean Marshbrook review received
+
+The Founder submitted a complete blind-question review with **MINOR** verdict (zero mandatory corrections), preserved verbatim in [the uploaded review](2026-11-25-clean-marshbrook-user-submitted-review.md). [Source adjudication](../2026-11-25-lf05-clean-marshbrook-review-adjudication.md) confirms the stated AQA Business mappings and arithmetic. The review reports no prior answer guidance or reviewer history, but no independent conversation ID or separate private attestation was supplied; **formal A3 provenance remains HOLD** until independently evidenced under the approved assurance gate. The already-reviewed 12 guided deltas need not be repeated.
+
+The new localhost-only full-bank signed-in A4 test passed in exact-head CI #45689169355, but that CI failed a protected tablet Exam Prep light visual digest (and the resulting foundation gate). No screenshot baseline has been overwritten or accepted. PR #854 remains draft, unmerged, six published and 33 held. Neither a MINOR review nor this A4 job alone authorises publication.
