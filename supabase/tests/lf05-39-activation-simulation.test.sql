@@ -1,7 +1,5 @@
--- Transactional release rehearsal against ONLY the disposable CI PostgreSQL.
--- Does not modify production or authorise learner publication.
--- The exact 33 held identities come from the reviewed source-stage SQL and
--- proposed release SQL. All modifications below roll back.
+-- Verify final 39-published original catalogue and RLS on disposable CI PostgreSQL.
+-- No publication or learner-data modification occurs here.
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
@@ -47,26 +45,26 @@ select is((select count(*) from public.lf05_written_questions),39::bigint,
  'the original catalogue has exactly 39 distinct questions');
 select is((select count(*) from public.lf05_written_guides),39::bigint,
  'the original catalogue has exactly 39 separately stored guides');
-select is((select count(*) from public.lf05_written_questions where status='held'),33::bigint,
- 'exactly 33 source-mapped candidates are held before simulation');
-select is((select count(*) from public.lf05_written_questions where status='published'),6::bigint,
- 'only the six previously released originals are published initially');
+select is((select count(*) from public.lf05_written_questions where status='held'),0::bigint,
+ 'no held original questions remain after approved publication');
+select is((select count(*) from public.lf05_written_questions where status='published'),39::bigint,
+ 'all 39 original questions are published');
 select is((select count(*) from lf05_promotion_ids),33::bigint,
  'the promotion manifest names 33 unique source identities');
 
 select is(
- (select array_agg(id order by id) from public.lf05_written_questions where status='held'),
+ (select array_agg(id order by id) from public.lf05_written_questions where status='published' and id in (select id from lf05_promotion_ids)),
  (select array_agg(id order by id) from lf05_promotion_ids),
- 'the proposed publication identity set matches EVERY held source and no other item'
+ 'the 33 additional published IDs exactly match the release manifest'
 );
 select is((select count(*) from public.lf05_written_questions q
   join lf05_promotion_ids p on q.id=p.id
-  where q.status='held' and q.course_id='aqa:aqa-a-level:7132'),15::bigint,
- 'exactly 15 held Business originals would be newly available');
+  where q.status='published' and q.course_id='aqa:aqa-a-level:7132'),15::bigint,
+ '15 additional Business originals are published');
 select is((select count(*) from public.lf05_written_questions q
   join lf05_promotion_ids p on q.id=p.id
-  where q.status='held' and q.course_id='aqa:aqa-a-level:7182'),18::bigint,
- 'exactly 18 held Psychology originals would be newly available');
+  where q.status='published' and q.course_id='aqa:aqa-a-level:7182'),18::bigint,
+ '18 additional Psychology originals are published');
 
 select ok((select count(*)=33 and bool_and(
   q.original_training_only
@@ -80,17 +78,14 @@ select ok((select count(*)=33 and bool_and(
   join public.lf05_written_guides g on g.question_id=q.id),
  'all 33 exact question+guide records retain matching content-derived fingerprints');
 
--- Rehearsal only: no change to authored source text or the six already live.
-update public.lf05_written_questions q set status='published'
-from lf05_promotion_ids p
-where q.id=p.id and q.status='held';
+-- Final released-state assertions are read-only.
 select is((select count(*) from public.lf05_written_questions where status='published'
   and id not in (select id from lf05_promotion_ids)),6::bigint,
- 'the pre-existing six published originals remain independently unchanged');
+ 'the previous six originals remain in the published catalogue');
 select is((select count(*) from public.lf05_written_questions where status='published'),39::bigint,
- 'the manifest would publish all 39 original identities');
+ 'all 39 original identities are published');
 select is((select count(*) from public.lf05_written_questions where status='held'),0::bigint,
- 'no held questions remain within the isolated rehearsal');
+ 'no held question remains after publication');
 select is((select count(*) from public.lf05_written_questions
   where course_id='aqa:aqa-a-level:7132' and status='published'),20::bigint,
  '20 Business originals would be available in the full catalogue');
