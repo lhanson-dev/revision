@@ -6,7 +6,7 @@
 -- Source staging Git blobs (25 November 2026):
 -- six held: 7f6304f49f4d736fb49387b7b11d6accdd2f7f3c
 -- twenty-seven held: b663a10f509e9009185329f23d44470b6f12c734
--- Identity registry: 33 unique IDs, exact-scope, 14 Business + 19 Psychology among held items is not assumed; verify from source IDs.
+-- Identity registry: exactly 33 IDs, 15 Business + 18 Psychology held, validated from the source migrations.
 -- The complete final catalogue must be 20 Business / 19 Psychology.
 -- Deliberately disabled until the release evidence/permission record exists.
 DO $not_authorised$
