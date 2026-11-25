@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: blind independent A3 question review
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b` (six) and `e58ac284a8114ae26dbe7e9253729def5521912e` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c` (six) and `b663a10f509e9009185329f23d44470b6f12c734` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 1: do not read the guided packet until independent expected answers and question verdicts are committed.** Check precise AQA source, paper, selected Psychology option where applicable, fair alternatives and original training mark-style. No official 2027 item tariff is claimed.
 
@@ -237,7 +237,7 @@
 
 **Question:** To what extent should Marshbrook Bakery prioritise cash flow rather than profit when deciding whether to expand?
 
-**Scenario:** Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand but several owners prefer to retain profits.
+**Scenario:** Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand, while several owners favour slower expansion funded internally to avoid substantial new borrowing.
 
 ---
 
