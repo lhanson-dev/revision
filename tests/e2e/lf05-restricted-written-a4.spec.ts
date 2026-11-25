@@ -37,12 +37,12 @@ test('LF-05 A4 real signed-in Business written answer saves, reloads, freezes an
     if(!/^[0-9a-f-]{36}$/.test(primary.user.id))throw new Error('Unexpected synthetic user ID')
     const six=await primary.client.from('lf05_written_questions').select('id').eq('course_id',courseId)
     expect(six.error).toBeNull()
-    expect(six.data).toHaveLength(5) // Five Business items; Psychology requires its own course route
+    expect(six.data).toHaveLength(20) // 20 released Business originals; Psychology requires its own course route
     expect(six.data?.some(q=>q.id===itemId)).toBe(true)
 
     const otherList=await outsider.client.from('lf05_written_questions').select('id')
     expect(otherList.error).toBeNull()
-    expect(otherList.data).toHaveLength(6) // All registered learners see the reviewed bank
+    expect(otherList.data).toHaveLength(39) // All signed-in learners see the complete original bank
     const beforeGuide=await primary.client.from('lf05_written_guides')
       .select('guidance').eq('question_id',itemId)
     expect(beforeGuide.error).toBeNull()
