@@ -1,0 +1,411 @@
+{
+  "status": "BLIND_COMPLETE_GUIDED_NOT_STARTED_HOLD",
+  "method": "USER_SUPPLIED_FRESH_CHAT_BLIND_REPORT_PENDING_INDEPENDENCE_VERIFICATION",
+  "submittedReportSha256": "6e95b4b65ef4c8733ef6f88d12a2f9dffbc3aa8c9b785b958f6441929e60a0b9",
+  "reportedModel": "ChatGPT GPT-6.2 (self-declared by reviewer report)",
+  "reportedReviewDate": "2026-11-25",
+  "sourceCommit": "5af3a7da290551cc3489a67763a9e3527b83a300",
+  "sourceBlobs": [
+    "572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b",
+    "e58ac284a8114ae26dbe7e9253729def5521912e",
+    "8715ef0ba2bb10b167a86168763323a653a7812e",
+    "2ed2406698a681bd1036df950d9abbdbc6c565f6"
+  ],
+  "sourceRightsVerified": false,
+  "conversationIndependenceVerified": false,
+  "blindGuideDisclosureClaim": "NO GUIDED files opened (self-declared in submitted report)",
+  "verdicts": {
+    "pass": 32,
+    "minor": 1,
+    "material": 0,
+    "blocking": 0
+  },
+  "normalization": "Only initial reviewer explanations (first paragraph), minor exact recommended replacement, and equivalent text for 'None required' are normalized. Refer to full verbatim report for complete alternative explanations and calculations. No issue or severity is upgraded.",
+  "batches": [
+    {
+      "batch": "01",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-01",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.1.1 (online §3.1.1).",
+            "reasoning": "Both explanations are explicitly within the curriculum. The question supports description and evaluation at an appropriate level of demand. Students should explain how social support reduces conformity or obedience pressures and how internal or external locus of control may influence resistance.",
+            "alternatives": "Asch's dissenting confederates, Milgram's disobedient peers, Holland's research, situational explanations, contradictory findings and limitations of personality-based explanations. Students should not be required to argue that internal locus of control invariably produces resistance.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-02",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.1.2 (online §3.1.2).",
+            "reasoning": "Concurrent task performance provides an appropriate way to examine the model's explanatory power. Students can explain specialised processing systems, attentional control and interference between tasks competing for limited resources.",
+            "alternatives": "Dual-task experiments, selective memory impairment, case-study evidence, limitations of the central executive and evidence concerning the episodic buffer. Students may legitimately concentrate their evaluation on the components most relevant to concurrent performance.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-07",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §§4.2.3–4.2.3.1 (online §§3.2.3–3.2.3.1).",
+            "reasoning": "The scenario supplies an appropriate experimental design, participant group and independent variable. Students are expected to operationalise recall, standardise procedures and assess threats to validity.",
+            "alternatives": "Other properly balanced designs, pilot-testing word-list difficulty, standardising volume and musical material, controlling time of day, using filler tasks and standardising recall duration. Discussion of volunteer bias, demand characteristics, fatigue and ecological validity is appropriate.",
+            "corrections": "None required. The 16-mark allocation is suitable for extended training, rather than a confirmed official AQA research-design tariff."
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "02",
+      "blind": {
+        "items": [
+          {
+            "id": "BUS-LF05-03-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.3.2–3.3.4.",
+            "reasoning": "The scenario creates a meaningful choice between product differentiation and price competition. The market research, falling sales volume and competitor activity support competing arguments.",
+            "alternatives": "Premium positioning, price reductions, targeted discounts, a limited product trial or further market research. Students can question whether 80 urban athletes represent the wider market and whether stated interest translates into purchases.",
+            "corrections": "None required. Do not require a numerical elasticity estimate or a definitive conclusion about revenue."
+          },
+          {
+            "id": "BUS-LF05-04-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.4.3, with relevant links to §§3.4.4–3.4.5.",
+            "reasoning": "The question provides sufficient scope for a broad evaluative essay. Students can analyse how reducing waste, inventory costs and inefficiency may improve competitiveness, while considering operational disruption and implementation costs.",
+            "alternatives": "Automation, innovation, workforce training, quality assurance, economies of scale, differentiation and improvements to supply-chain resilience.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-07-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.7, particularly §§3.7.2, 3.7.3 and 3.7.8.",
+            "reasoning": "The distinction between numerical evidence and qualitative strategic assessment is appropriate. Students have sufficient scope to evaluate reliability, comparability, forecasting uncertainty and information not adequately represented by numbers.",
+            "alternatives": "Financial ratios, investment appraisal, market data, core competencies, customer opinions, organisational culture, SWOT and competitive analysis.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "03",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-03",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.1.3 (online §3.1.3).",
+            "reasoning": "Formation of attachment and its subsequent influence are legitimate aspects of the theory. Students can address an evolved attachment system, monotropy, the importance of early development and the internal working model.",
+            "alternatives": "Multiple attachment findings, temperament explanations, cultural variation, continuity of relationships, sensitive-period interpretations and methodological criticism of attachment research.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-04",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.1.4 (online §3.1.4).",
+            "reasoning": "The combination of cognitive explanations and associated treatment is coherent. Beck's account, Ellis's account and cognitive therapy techniques provide sufficient material for description, analysis and evaluation.",
+            "alternatives": "Evidence about cognitive vulnerability, reverse causation, biological influences, therapy effectiveness, individual differences, therapeutic relationships and behavioural components of CBT.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-05",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.2.1 (online §3.2.1).",
+            "reasoning": "Comparing learning approaches is appropriate. The question allows students to explore environmental learning, direct reinforcement, observation and the role of cognitive processes.",
+            "alternatives": "Pavlov, Skinner, Bandura, differences in scientific methodology, practical applications, determinism, reductionism and biological constraints on learning.",
+            "corrections": "None required. The word “usefulness” is broad but sufficiently constrained by the acquisition-of-behaviour context."
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "04",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-06",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.2.2 (online §3.2.2).",
+            "reasoning": "All three named methods are legitimate specification content. The focus on localisation gives students an appropriate basis for comparing their strengths and limitations.",
+            "alternatives": "Discussion of spatial and temporal resolution, indirect measures of neural activity, causal limitations, brain pathology, compensatory changes and converging evidence from multiple methods.",
+            "corrections": "None required. ERPs may be relevant supporting material but are not an additional compulsory method in this question."
+          },
+          {
+            "id": "PSY-LF05-08",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.1 (online §3.3.1).",
+            "reasoning": "The requirement to draw on other psychology topics aligns particularly well with the interdisciplinary expectations of Issues and Debates.",
+            "alternatives": "Attachment, aggression, schizophrenia, gender development, addiction, learning approaches, genetic vulnerability, environmental influences and gene–environment interaction.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-09",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.2 (online §3.3.2).",
+            "reasoning": "Both theories explain aspects of relationship maintenance and commitment. Students can distinguish perceived rewards, costs and alternatives from the investment model's broader explanation of why someone remains committed.",
+            "alternatives": "Comparison levels, investments, satisfaction, cultural variation, difficulties measuring rewards and costs, longitudinal evidence and explanations of commitment in unsatisfying relationships.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "05",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-10",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.3 (online §3.3.3).",
+            "reasoning": "Both named theories remain within the revised curriculum. Their different accounts of when and how children acquire gender-related understanding offer an appropriate evaluative comparison.",
+            "alternatives": "Gender identity, stability, constancy, schema-driven attention and memory, developmental evidence, early gender-typed behaviour and cultural influences.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-11",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.4 (online §3.3.4).",
+            "reasoning": "The comparison is academically coherent. Students can contrast individual construction of knowledge with the influence of social interaction and supported learning.",
+            "alternatives": "Assimilation, accommodation, equilibration, developmental stages, scaffolding, the zone of proximal development, collaborative learning, discovery learning and research questioning children's supposed limitations.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-12",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.5 (online §3.3.5).",
+            "reasoning": "The question appropriately connects vulnerability–stress explanations with treatment incorporating biological and psychological approaches.",
+            "alternatives": "Genetic susceptibility, developmental vulnerability, environmental stressors, trauma, biological treatments combined with psychological support, research evidence and difficulties establishing causal relationships.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "06",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-13",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.6 (online §3.3.6).",
+            "reasoning": "Both biological and psychological explanations are relevant. The question permits a comparison of evidence, limitations and interactions between different explanatory mechanisms.",
+            "alternatives": "Genetic and neural explanations, family systems theory, observational learning, reinforcement, social influences, maladaptive beliefs and cognitive distortions.",
+            "corrections": "None required. A 16-mark answer should permit selective depth across both categories rather than requiring exhaustive coverage of every specified explanation."
+          },
+          {
+            "id": "PSY-LF05-14",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.7 (online §3.3.7).",
+            "reasoning": "Both interventions are explicitly relevant. Students can describe cognitive coping preparation and the use of physiological feedback to develop self-regulation.",
+            "alternatives": "Effectiveness, maintenance of benefits, accessibility, equipment requirements, individual differences, motivation and comparison with other stress-management approaches.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-15",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.8 (online §3.3.8).",
+            "reasoning": "Both approaches provide valid explanations of aggression and allow comparison between responses to frustration and acquired behaviour.",
+            "alternatives": "Revised frustration–aggression accounts, displacement, observational learning, modelling, vicarious reinforcement, experimental evidence and biological or situational moderators.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "07",
+      "blind": {
+        "items": [
+          {
+            "id": "PSY-LF05-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.9 (online §3.3.9).",
+            "reasoning": "The terminology is consistent with the updated specification. The comparison provides scope to examine classifications of offenders, empirical pattern analysis and the usefulness of profiling in investigations.",
+            "alternatives": "Investigative psychology, geographical profiling, methodological weaknesses in typologies, statistical evidence, consistency of classification and limitations of predicting individual characteristics.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-17",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.3.10 (online §3.3.10).",
+            "reasoning": "The question correctly combines reinforcement-based explanations with cognitive accounts. Students can examine persistence despite losses and biased interpretations of outcomes.",
+            "alternatives": "Intermittent reinforcement, conditioned cues, negative reinforcement, illusion of control, gambler's fallacy, cognitive distortions and limitations of explanations considered independently.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-01-16",
+            "verdict": "minor",
+            "sourceFit": "Correct. AQA 7132 §§3.1.1, 3.5.1, 3.5.3–3.5.4.",
+            "reasoning": "The central question is sound. The figures support discussion of profitability, liquidity, borrowing and expansion risk.",
+            "alternatives": "Prioritise liquidity, prioritise long-term profitability, postpone expansion, expand incrementally or use a combination of internally generated funds and borrowing. Competitive pressure may justify expansion despite short-term financial risk.",
+            "corrections": "Replace the ambiguous owner preference with: “Several owners favour a slower expansion funded from internally generated resources rather than substantial new borrowing.”"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "08",
+      "blind": {
+        "items": [
+          {
+            "id": "BUS-LF05-04-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.4.2–3.4.5.",
+            "reasoning": "The supplied information supports both proposed operational priorities. High utilisation and late deliveries indicate operational pressure, while rework may consume capacity and contribute to delays.",
+            "alternatives": "Improve quality to release effective capacity, invest in new machinery, use outsourcing or temporary resources, improve scheduling or combine interventions.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-05-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.5.2–3.5.4 and 3.7.2.",
+            "reasoning": "The question provides a useful tension between operating profitability and short-term liquidity. Seasonal orders and variable borrowing costs strengthen the evaluation.",
+            "alternatives": "Accept the loan subject to cash-flow forecasts and affordable repayments, negotiate fixed interest, use equity finance, phase the investment or combine different sources of finance.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-05-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.5.1–3.5.4, with links to §3.9.1.",
+            "reasoning": "Rapid growth provides a coherent context for analysing the difference between accounting profit and cash availability, including the risk of overtrading.",
+            "alternatives": "Managing working capital, borrowing, controlling costs, improving margins, renegotiating payment terms, limiting growth or using different priorities at different stages.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "09",
+      "blind": {
+        "items": [
+          {
+            "id": "BUS-LF05-06-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.6.2–3.6.4.",
+            "reasoning": "The question provides credible alternative causes of poor performance. Training may improve competence, but inconsistent rotas and limited progression suggest wider motivation and retention problems.",
+            "alternatives": "Greater training expenditure, targeted training, improved workforce planning, more predictable rotas, career development or improved financial and non-financial incentives.",
+            "corrections": "None required. If a future calculation task requires an exact number of departures, additional data would be necessary."
+          },
+          {
+            "id": "BUS-LF05-06-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.6.4.",
+            "reasoning": "This is a suitable broad evaluative question. The service-business context gives students scope to explore customer interactions, quality and the difficulties of measuring individual performance.",
+            "alternatives": "Salary increases, commission, performance-related pay, empowerment, flexible working, team working, recognition and job enrichment.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-07-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.7.2–3.7.3 and 3.7.8.",
+            "reasoning": "The question appropriately tests whether financial information is sufficient to justify a strategic investment when important uncertainties remain unresolved.",
+            "alternatives": "Approve, defer pending supplier negotiations, perform sensitivity analysis, phase the investment or reject it because of combined financial and operational risks.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "10",
+      "blind": {
+        "items": [
+          {
+            "id": "BUS-LF05-08-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.8.1.",
+            "reasoning": "The proposed strategies are correctly distinguished. Existing services offered in new geographical markets represent market development, while a new product for existing customers represents product development.",
+            "alternatives": "Geographic expansion, product development, partnership-led innovation, piloting the subscription product or sequential investment in both strategies.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-08-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.8.2.",
+            "reasoning": "The question correctly reflects competing approaches to strategic positioning and provides sufficient room for sustained evaluation.",
+            "alternatives": "Brand differentiation, innovation, customer experience, economies of scale, cost leadership, niche focus and circumstances in which elements of different approaches can coexist.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-09-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.9.1.",
+            "reasoning": "The strategic alternatives are clearly distinguishable. The acquisition offers immediate access to drivers and existing operations, while organic expansion may reduce integration difficulties.",
+            "alternatives": "Acquisition to support rapid expansion, organic growth to retain control, a partnership, phased expansion or an acquisition conditional on contract due diligence and IT integration planning.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    },
+    {
+      "batch": "11",
+      "blind": {
+        "items": [
+          {
+            "id": "BUS-LF05-09-25",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §3.9.1.",
+            "reasoning": "The question allows students to assess the speed and scale advantages of external growth against integration costs, finance requirements and organisational disruption.",
+            "alternatives": "Mergers, takeovers, organic expansion, joint ventures, franchising and other collaborative growth arrangements where relevant.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "BUS-LF05-10-16",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7132 §§3.10.1 and 3.10.3.",
+            "reasoning": "The scenario successfully creates competing pressures. The pilot demonstrates potential operational benefits, while staff concerns, management resistance and supplier readiness introduce implementation risks.",
+            "alternatives": "Slower implementation, continued implementation with additional communication, phased warehouse deployment, training, employee participation and targeted engagement with resistant managers.",
+            "corrections": "No correction required. (Reviewer reported none.)"
+          },
+          {
+            "id": "PSY-LF05-02-S1",
+            "verdict": "pass",
+            "sourceFit": "Correct. AQA 7182 §4.1.2 (online §3.1.2), with relevant research-methods application.",
+            "reasoning": "This is a particularly useful applied question because it requires students to distinguish between theoretical explanation and the strength of the evidence supporting that explanation.",
+            "alternatives": "Students may legitimately argue that the results are consistent with the working-memory model, but do not conclusively establish it, because:",
+            "corrections": "None required. A conclusion that the evidence is insufficient to isolate the working-memory mechanism should receive appropriate credit."
+          }
+        ]
+      },
+      "guided": {
+        "items": []
+      },
+      "status": "BLIND_FROZEN_GUIDE_NOT_REVIEWED"
+    }
+  ]
+}

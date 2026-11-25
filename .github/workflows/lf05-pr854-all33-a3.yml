@@ -6,6 +6,8 @@ on:
       - '.github/workflows/lf05-pr854-all33-a3.yml'
       - 'scripts/assurance/lf05-pr854-all33-a3-review.mjs'
       - 'scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs'
+      - 'scripts/assurance/lf05-pr854-fresh-chat-check.mjs'
+      - 'scripts/assurance/lf05-pr854-fresh-chat-check.node-check.mjs'
   issue_comment:
     types: [created]
 
@@ -30,6 +32,7 @@ jobs:
           node-version: '24.18.0'
       - run: node --check scripts/assurance/lf05-pr854-all33-a3-review.mjs
       - run: node --test scripts/assurance/lf05-pr854-all33-a3-review.node-check.mjs
+      - run: node --test scripts/assurance/lf05-pr854-fresh-chat-check.node-check.mjs
 
   independent-a3:
     name: Owner-triggered trusted-main independent all-33 A3

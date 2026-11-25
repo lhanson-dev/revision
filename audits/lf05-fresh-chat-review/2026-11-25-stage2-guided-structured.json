@@ -1,0 +1,366 @@
+{
+  "status": "GUIDED_REVIEW_SUBMITTED_CORRECTIONS_NOT_REVIEWED_HOLD",
+  "reviewMethod": "user-supplied-reported-independent-fresh-chat",
+  "reviewDate": "2026-11-25",
+  "reportSha256": "6ebbae987c497e496fb2d7047d7934549584b3dd6261641ecff9d13833a6aef6",
+  "sourceCommit": "5af3a7da290551cc3489a67763a9e3527b83a300",
+  "sourceBlobs": [
+    "572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b",
+    "e58ac284a8114ae26dbe7e9253729def5521912e",
+    "8715ef0ba2bb10b167a86168763323a653a7812e",
+    "2ed2406698a681bd1036df950d9abbdbc6c565f6"
+  ],
+  "sourceRightsVerified": false,
+  "chatIndependenceVerified": false,
+  "counts": {
+    "pass": 21,
+    "minor": 11,
+    "material": 1,
+    "blocking": 0
+  },
+  "sourceNarrative": "2026-11-25-user-submitted-guided-review.md",
+  "note": "Original reviewer claims preserved; narrow normalized fields are supplementary. This evidence applies only to the previous source bytes. No changed guide inherits the previous verdict.",
+  "batches": [
+    {
+      "batch": "01",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-01",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, social influence, online §3.1.1.",
+            "reasoning": "The guide accurately distinguishes situational and dispositional explanations of resistance. It acknowledges contextual variation and correctly avoids treating correlations involving locus of control as proof of causation.",
+            "alternatives": "Appropriately permits different research examples and does not require a particular named experiment or rigid essay structure.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-02",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, memory, online §3.1.2.",
+            "reasoning": "All four principal components are recognised. The guide correctly qualifies the model's prediction that tasks using different resources may interfere less. It does not imply unlimited parallel processing capacity.",
+            "alternatives": "Relevant research, neuropsychological evidence and counterexamples are accepted. Students can emphasise those components most relevant to their argument.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-07",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, research methods, online §§3.2.3–3.2.3.1.",
+            "reasoning": "The guide correctly identifies the variables, repeated-measures design, procedural controls, ethics and threats to validity. Its requirement to address both condition order and word-list allocation is particularly important. It does not give students a concrete example of how to allocate the 40 volunteers across the two conditions and two word lists. This reduces the usefulness of the guide for students independently checking their designs.",
+            "alternatives": "Correctly distinguishes discussing independent groups as an alternative from actually fulfilling the repeated-measures brief.",
+            "corrections": "Include this illustrative allocation:"
+          }
+        ]
+      }
+    },
+    {
+      "batch": "02",
+      "guided": {
+        "items": [
+          {
+            "id": "BUS-LF05-03-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §§3.3.2–3.3.4.",
+            "reasoning": "The guide makes appropriate use of the case figures, distinguishes product and price strategies and recognises limitations in the market research.",
+            "alternatives": "Both strategic choices and conditional recommendations are permitted. Neither is treated as inherently correct.",
+            "corrections": "None required. An additional helpful clarification would be that the observed sales decline following the price increase does not isolate price as its sole cause."
+          },
+          {
+            "id": "BUS-LF05-04-25",
+            "verdict": "minor",
+            "sourceFit": "AQA 7132 §§3.4.3–3.4.5.",
+            "reasoning": "The guide appropriately covers waste reduction, operational efficiency, inventory management and supply-chain vulnerability. Process improvement and quality management are presented as alternatives to lean production without explicitly recognising that both may form part of a lean approach.",
+            "alternatives": "The guide correctly allows context-dependent judgments and realistic manufacturer examples.",
+            "corrections": "Clarify that lean production can incorporate continuous improvement and quality management, while automation, additional capacity and other investment choices can represent distinct competing or complementary priorities."
+          },
+          {
+            "id": "BUS-LF05-07-25",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.7. (per review source-fit heading).",
+            "reasoning": "The guide accurately distinguishes types of evidence from the analytical tools containing that evidence. It recognises the limitations of ratios, forecasts and investment appraisals, alongside the importance of qualitative information.",
+            "alternatives": "Quantitatively weighted, qualitatively weighted and integrated conclusions are all legitimately accepted.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "03",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-03",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, attachment, online §3.1.3.",
+            "reasoning": "The guide correctly covers early attachment formation, evolutionary explanations and the internal working model. It distinguishes theoretical predictions from established causal findings.",
+            "alternatives": "Relevant deprivation research, multiple attachments, later experience and sensitive-period interpretations are available as legitimate evaluative routes.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-04",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, Clinical Psychology and Mental Health, online §3.1.4.",
+            "reasoning": "Beck's and Ellis's explanations are accurately distinguished. The guide correctly recognises that successful treatment does not establish the cause of a psychological condition. The description of CBT is relatively thin compared with the guidance on cognitive explanations. Students receive little practical support for checking their knowledge of how the treatment works beyond challenging thoughts.",
+            "alternatives": "Other relevant evidence and treatment comparisons are appropriately accepted.",
+            "corrections": "Add illustrative treatment mechanisms, including identifying and testing negative beliefs, collaborative cognitive restructuring and relevant behavioural techniques. Recognise Ellis's REBT-related disputation where accurately connected to treatment."
+          },
+          {
+            "id": "PSY-LF05-05",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, approaches, online §3.2.1.",
+            "reasoning": "The guide accurately covers conditioning, observational learning, reinforcement and cognitive mediation. It avoids the incorrect claim that social learning theory rejects reinforcement.",
+            "alternatives": "Research comparisons, practical applications, explanatory scope and relevant cultural or individual differences are appropriately recognised.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "04",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-06",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, biopsychology, online §3.2.2.",
+            "reasoning": "The descriptions of fMRI, EEG and post-mortem examinations are accurate. The guide distinguishes spatial and temporal resolution, direct and indirect measurements, and limitations of causal inference.",
+            "alternatives": "Related ERP and split-brain evidence can be used where relevant. Combining evidence from different methods is a legitimate conclusion, although not the only acceptable one.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-08",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, Issues and Debates, online §3.3.1.",
+            "reasoning": "The guide provides appropriate coverage of biological influences, environmental influences and interactionist explanations.",
+            "alternatives": "Particularly strong. The guide explicitly rejects compulsory named-study lists, fixed numbers of topic examples and unnecessary requirements for standalone definitions.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-09",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, relationships, online §3.3.2.",
+            "reasoning": "The theoretical distinctions are accurate. The guide correctly recognises that commitment may remain high even when relationship satisfaction is low.",
+            "alternatives": "Equity theory is appropriately accepted as comparative material. Relevant criticism of either theory is permitted.",
+            "corrections": "None required. Explicitly distinguishing the comparison level from the comparison level for alternatives would improve the guide's explanatory detail."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "05",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-10",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, gender, online §3.3.3.",
+            "reasoning": "The guide correctly distinguishes Kohlberg's developmental stages from Martin and Halverson's schema-based explanation. Its recognition of diverse gender identities is consistent with the updated specification.",
+            "alternatives": "Relevant developmental evidence, cultural differences and criticism of historical theoretical assumptions are accepted.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-11",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, cognition and development, online §3.3.4.",
+            "reasoning": "The principal theoretical concepts are correctly identified. The guide avoids reducing Piaget to maturation alone or Vygotsky to instruction alone.",
+            "alternatives": "Object permanence, conservation, task-based methodological criticism, social interaction and cultural influences are legitimate routes.",
+            "corrections": "None required. Illustrative classroom applications could make the guide more accessible but are not essential to its validity."
+          },
+          {
+            "id": "PSY-LF05-12",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, schizophrenia, online §3.3.5.",
+            "reasoning": "The explanation of vulnerability interacting with environmental stress is accurate. The guide appropriately avoids causal overclaims and recognises variation in treatment response. Treatment guidance is too generic. It refers to drug, psychological and social interventions without identifying the principal specification-relevant treatment examples.",
+            "alternatives": "Biological, psychological and social explanations are accepted when explicitly connected to the interactionist approach.",
+            "corrections": "Explicitly recognise antipsychotic medication combined with CBT or family therapy as illustrative interactionist treatment approaches. Explain that treatment combinations may address different aspects of the condition."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "06",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-13",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, eating behaviour, online §3.3.6.",
+            "reasoning": "The guide accurately identifies relevant biological and psychological explanations. It appropriately distinguishes proposed causal mechanisms from correlates or consequences of malnutrition.",
+            "alternatives": "Students can select appropriate explanations within both required categories. An interactionist conclusion is accepted but not compulsory.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "PSY-LF05-14",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, stress, online §3.3.7.",
+            "reasoning": "Both interventions are accurately distinguished. The evaluation covers durability, effectiveness, accessibility and individual suitability. The guide asks learners to explain the phases of stress inoculation therapy without identifying those phases. This makes it less useful as an independent answer-checking resource.",
+            "alternatives": "Different appropriate examples of coping strategies, physiological monitoring and treatment evaluation should remain acceptable.",
+            "corrections": "Add illustrative coverage of:"
+          },
+          {
+            "id": "PSY-LF05-15",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, aggression, online §3.3.8.",
+            "reasoning": "The social learning explanation is accurate. The guide correctly avoids claiming that observing aggression inevitably produces aggressive behaviour. The original frustration–aggression hypothesis is not clearly distinguished from its later revisions and evaluation. The original strong causal proposition needs to be identifiable before students assess its limitations.",
+            "alternatives": "Relevant revised theories, experimental evidence, de-individuation and biological comparisons should remain acceptable.",
+            "corrections": "Distinguish the original hypothesis linking frustration and aggression from later accounts recognising that frustration may produce other responses and that additional situational factors can influence aggression."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "07",
+      "guided": {
+        "items": [
+          {
+            "id": "PSY-LF05-16",
+            "verdict": "material",
+            "sourceFit": "AQA 7182, forensic psychology, online §3.3.9.",
+            "reasoning": "The guide accurately describes organised/disorganised typologies and distinguishes investigative psychology from geographical profiling. Its warnings about empirical validity and the limitations of profiling are appropriate. Point 9 explicitly privileges investigative psychology as the data-driven approach and limits geographical profiling to comparative credit.",
+            "alternatives": "A student could construct an accurate comparison between typology-based profiling and data-driven spatial analysis without confusing the two methods.",
+            "corrections": "Credit accurately explained investigative psychology and geographical profiling where they contribute to a developed comparison of typology-based and data-driven profiling. Distinguish their methods and limitations without treating the terms as synonyms. Assess the relevance and quality of the comparison rather than requiring one predetermined approach."
+          },
+          {
+            "id": "PSY-LF05-17",
+            "verdict": "pass",
+            "sourceFit": "AQA 7182, addiction, online §3.3.10.",
+            "reasoning": "The guide accurately identifies reinforcement schedules and cognitive biases as relevant explanatory mechanisms. It distinguishes gambling behaviour from addiction and recognises the limitations of single-factor explanations.",
+            "alternatives": "Relevant vulnerability factors, situational influences and competing explanations are accepted. The suggested combined conclusion does not prevent students from arguing that one explanation has greater explanatory value.",
+            "corrections": "None required. Examples such as the gambler's fallacy and illusion of control would provide additional revision support."
+          },
+          {
+            "id": "BUS-LF05-01-16",
+            "verdict": "minor",
+            "sourceFit": "AQA 7132 §§3.1.1 and 3.5.1–3.5.4.",
+            "reasoning": "The distinction between profit, liquidity and affordability is well handled. The guide does not confuse available cash with a cash-flow forecast. The guide does not address the ambiguity identified in Stage 1 concerning the owners' preference for retaining profits. Retained profits and external borrowing are not mutually exclusive.",
+            "alternatives": "Different expansion decisions are appropriately permitted.",
+            "corrections": "Explicitly recognise that the business may retain profits while borrowing, and credit internally financed, phased or mixed-finance expansion strategies."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "08",
+      "guided": {
+        "items": [
+          {
+            "id": "BUS-LF05-04-16",
+            "verdict": "minor",
+            "sourceFit": "AQA 7132 §§3.4.2–3.4.5.",
+            "reasoning": "The guide correctly recognises that reducing defects can release productive capacity and that high utilisation may constrain output. The supplied percentages are accurately reproduced. Point 4 refers to spending on automation, although the scenario only specifies a proposed machine. It is not established that the machine introduces automation.",
+            "alternatives": "Quality-first, capacity-first and combined approaches are all legitimate.",
+            "corrections": "Refer to investment in additional productive capacity, identifying automation only as a conditional possibility. Explain that further cost and throughput information is needed to establish the optimal priority."
+          },
+          {
+            "id": "BUS-LF05-05-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §§3.5.2–3.5.4 and 3.7.2.",
+            "reasoning": "All financial calculations are correct. The guide explicitly avoids inferring insolvency from the current ratio and recognises that retained profit is not necessarily available cash.",
+            "alternatives": "Bank borrowing, equity, retained profits, leasing and conditional financing decisions are recognised.",
+            "corrections": "None required. Accept appropriately rounded current ratios, such as 0.88:1."
+          },
+          {
+            "id": "BUS-LF05-05-25",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.5, with relevant links to growth in §3.9.1.",
+            "reasoning": "The guide correctly explains how business growth may increase working-capital requirements even when sales and reported profits increase.",
+            "alternatives": "Cash-flow-first, profitability-first and conditional combinations are valid. Relevant hypothetical business contexts are accepted without requiring invented financial data.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "09",
+      "guided": {
+        "items": [
+          {
+            "id": "BUS-LF05-06-16",
+            "verdict": "minor",
+            "sourceFit": "AQA 7132 §§3.6.2–3.6.4.",
+            "reasoning": "The guide acknowledges that the expenditure figure is illustrative, but its main calculation does not explicitly state that 180 must represent the average workforce size over the relevant period.",
+            "alternatives": "Correctly accepts training, workforce planning, rota improvements, career progression and combined responses.",
+            "corrections": "The estimate assumes average annual employment of 180. Approximately 58 employees leave under that assumption. Indicative replacement-training costs are £69,120 using the unrounded estimate, or £69,600 using 58 employees. Actual recruitment expenditure depends on replacement decisions and training requirements."
+          },
+          {
+            "id": "BUS-LF05-06-25",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.6.4.",
+            "reasoning": "The guide's named motivation theories and financial and non-financial techniques align with the specification.",
+            "alternatives": "Other relevant theories, different service-industry examples and competing conclusions are accepted. No fixed combination of theorists is imposed.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "BUS-LF05-07-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §§3.7.2–3.7.3 and 3.7.8.",
+            "reasoning": "All calculations are correct. The guide appropriately distinguishes current business performance from the proposed project's forecast returns.",
+            "alternatives": "Approval, rejection or delayed approval can be justified. Importantly, the guide accepts accurate interpretation without demanding every possible calculation.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "10",
+      "guided": {
+        "items": [
+          {
+            "id": "BUS-LF05-08-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.8.1.",
+            "reasoning": "Both Ansoff strategies are correctly classified. The guide appropriately considers geographical expansion, digital capabilities, customer demand and financial risk.",
+            "alternatives": "Either strategy can be justified, including conditional product development supported by additional technical expertise.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "BUS-LF05-08-25",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.8.2.",
+            "reasoning": "The guide correctly distinguishes cost leadership from low selling prices. Differentiation, focus, customer needs and potential cost advantages are accurately represented.",
+            "alternatives": "Cost leadership, differentiation, focus and appropriately justified hybrid strategies can receive credit.",
+            "corrections": "No correction required (as stated in the uploaded guide review)."
+          },
+          {
+            "id": "BUS-LF05-09-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.9.1.",
+            "reasoning": "The guide accurately distinguishes organic and external growth and correctly treats synergy as a potential benefit rather than a guaranteed outcome.",
+            "alternatives": "Either route can be justified, including conditional acquisition following due diligence.",
+            "corrections": "None required. Borrowing should be treated as a potential financing requirement, not a confirmed funding arrangement."
+          }
+        ]
+      }
+    },
+    {
+      "batch": "11",
+      "guided": {
+        "items": [
+          {
+            "id": "BUS-LF05-09-25",
+            "verdict": "minor",
+            "sourceFit": "AQA 7132 §3.9.1.",
+            "reasoning": "The guide correctly addresses speed, economies of scale, synergy, financing and integration risks. The guidance concentrates heavily on acquisitions when the question asks about external growth more broadly.",
+            "alternatives": "Organic expansion and other well-explained growth strategies remain legitimate.",
+            "corrections": "Distinguish the method of growth from the geographical direction of growth. Explicitly recognise mergers and takeovers, and consider collaborative arrangements according to their actual structure."
+          },
+          {
+            "id": "BUS-LF05-10-16",
+            "verdict": "pass",
+            "sourceFit": "AQA 7132 §3.10, particularly the management of strategic change and resistance.",
+            "reasoning": "The guide makes accurate use of all significant scenario facts. It distinguishes pilot performance from organisation-wide results and avoids generalising the staff survey without knowing its sample size.",
+            "alternatives": "Phased deployment, continued implementation, delayed implementation, consultation, communication and training are acceptable where justified.",
+            "corrections": "None required. Explicitly recognising Lewin and Kotter and Schlesinger as optional analytical frameworks would enhance revision value."
+          },
+          {
+            "id": "PSY-LF05-02-S1",
+            "verdict": "minor",
+            "sourceFit": "AQA 7182, memory and research methods, online §§3.1.2 and 3.2.3.",
+            "reasoning": "The theoretical explanation is accurate and appropriately applied. The guide recognises verbal interference, attentional demands, fixed task order and unmatched difficulty. Point 4 states that the recruitment method is not fully specified. While the recruitment procedure is not described in detail, the question explicitly identifies the participants as volunteers.",
+            "alternatives": "Correctly recognises rehearsal, attentional demands, competing interpretations and selective coverage of the episodic buffer.",
+            "corrections": "Replace that wording with:"
+          }
+        ]
+      }
+    }
+  ]
+}
