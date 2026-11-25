@@ -4,11 +4,21 @@ import {fileURLToPath} from 'node:url';
 export const MARKER='revision-run-lf05-pr854-all33-a3:v1';
 const REPO='lhanson-dev/revision',PR=854,MODEL='gpt-5.6-terra',OUT='.artifacts/lf05-pr854-a3';
 export const SOURCE_CONSTRAINTS={
- business:'AQA Business 7132 v2.0: A-level Paper 1 has BOTH Sections C and D, each a choice of one of two 25-mark essays. Broad essays need not have individual case stimuli. §3.7.2 explicitly covers return on capital employed (ROCE), gearing and liquidity; §3.7.8 explicitly covers payback, average rate of return and net present value (NPV). Do not claim Section D does not exist or that these are outside AQA.',
- psychology:'AQA Psychology 7182 v1.4: §4.1.4 is explicitly Clinical Psychology and Mental Health (including Beck, Ellis and CBT), not a different historic section title. §4.3.9 explicitly names the data-driven approach, including investigative Psychology, and geographical profiling. §4.3.1 explicitly requires nature–nurture and the interactionist approach. Paper 3 has one compulsory Issues and Debates section plus one selected option from each of its three optional groups. Do not require other options.'
+ business:'AQA Business 7132 v2.0: §3.6.2 is Analysing human resource performance (including labour turnover); §3.6.3 is organisational design and managing the HR flow (including training). §3.7.2 includes profitability and liquidity ratios; a current ratio below 1 does not by itself prove loan repayment is unsafe. A-level Paper 1 has BOTH Sections C and D, each a choice of one of two 25-mark essays. Broad essays need not have individual case stimuli. §3.7.2 explicitly covers return on capital employed (ROCE), gearing and liquidity; §3.7.8 explicitly covers payback, average rate of return and net present value (NPV). Do not claim Section D does not exist or that these are outside AQA.',
+ psychology:'AQA Psychology 7182 v1.4: §4.2.3 covers research methods including experimental method; §4.2.3.1 is SCIENTIFIC PROCESSES and covers experimental designs, controls and validity; §4.2.3.2 is DATA HANDLING AND ANALYSIS, not observational techniques. §4.1.4 is explicitly Clinical Psychology and Mental Health (including Beck, Ellis and CBT), not a different historic section title. §4.3.9 explicitly names the data-driven approach, including investigative Psychology, and geographical profiling. §4.3.1 explicitly requires nature–nurture and the interactionist approach. Paper 3 has one compulsory Issues and Debates section plus one selected option from each of its three optional groups. Do not require other options.'
 };
 export const REVIEW_BATCH_SIZE=3;
 export const MAX_CALLS=36;
+export const RATE_LIMIT_RETRIES=2;
+export function rateLimitMeta(payload,retryAfter){
+ const safe=value=>typeof value==='string'&&/^[a-zA-Z0-9_.-]{1,64}$/.test(value)?value:null;
+ const code=safe(payload?.error?.code),type=safe(payload?.error?.type);
+ const hardQuota=['insufficient_quota','billing_hard_limit_reached','quota_exceeded'].includes(code)||
+  ['insufficient_quota','billing_hard_limit_reached','quota_exceeded'].includes(type);
+ const seconds=typeof retryAfter==='string'&&/^\d{1,3}$/.test(retryAfter)?Number(retryAfter):null;
+ return {code,type,hardQuota,retryAfterSeconds:seconds===null?null:Math.min(120,Math.max(10,seconds))};
+}
+
 const paths=['supabase/migrations/20261117212000_stage_lf05_next_six_review_candidates.sql','supabase/migrations/20261117222000_stage_lf05_remaining_27_review_candidates.sql','audits/2026-11-17-lf05-33-blind-question-review-packet.md','audits/2026-11-17-lf05-33-guided-review-packet.md'];
 const facts={
 psychology:{'social-influence':'§4.1.1 social support and locus of control','memory':'§4.1.2 four working-memory subsystems','attachment':'§4.1.3 Bowlby monotropy, internal working models, later relationships','clinical-psychology-and-mental-health':'§4.1.4 Beck/Ellis/CBT depression','approaches-in-psychology':'§4.2.1 Pavlov/Skinner/Bandura learning theories','biopsychology':'§4.2.2 fMRI, EEG/ERP, post-mortem, localisation','research-methods':'§4.2.3 experimental design, sampling, controls, validity, ethics','issues-and-debates-in-psychology':'§4.3.1 compulsory nature-nurture and interactionism','relationships':'§4.3.2 section B option; SET and investment model','gender':'§4.3.3 section B option; Kohlberg and gender schemas','cognition-and-development':'§4.3.4 section B option; Piaget/Vygotsky','schizophrenia':'§4.3.5 section C option; diathesis-stress, integrated treatment','eating-behaviour':'§4.3.6 section C option; anorexia bio/psych explanations','stress':'§4.3.7 section C option; inoculation therapy, biofeedback','aggression':'§4.3.8 section D option; frustration and social learning','forensic-psychology':'§4.3.9 section D option; typology/investigative/geographic profiling','addiction':'§4.3.10 section D option; gambling partial reinforcement and cognitive bias'},
@@ -120,11 +130,26 @@ async function call(stage,batch,payload,key,receipt,save){
   if(receipt.calls>=MAX_CALLS)throw Error('Maximum provider calls reached');
   if(receipt.estimatedUsd>=6)throw Error('Cost ceiling reached');
   const extra=attempt===2?' A previous review response did not pass strict identity, completeness, verdict or substantive-reason validation. Independently reassess the whole batch in a fresh context; do not simply assert PASS. Return every requested ID exactly once and explain source fit, reasoning, alternative credit and corrections with meaningful detail. If no correction is necessary, write "No correction required." in full.': '';
-  const r=await fetch('https://api.openai.com/v1/responses',{method:'POST',signal:AbortSignal.timeout(180000),
-   headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},
-   body:JSON.stringify({model:MODEL,store:false,reasoning:{effort:'high'},max_output_tokens:11000,instructions:message+extra,input:JSON.stringify(payload),
-   text:{format:{type:'json_schema',name:'lf05_pr854_'+stage,strict:true,schema}}})});
-  receipt.calls++;
+  let r,throttles=0;
+  while(true){
+   if(receipt.calls>=MAX_CALLS)throw Error('Maximum provider calls reached');
+   r=await fetch('https://api.openai.com/v1/responses',{method:'POST',signal:AbortSignal.timeout(180000),
+    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},
+    body:JSON.stringify({model:MODEL,store:false,reasoning:{effort:'high'},max_output_tokens:11000,instructions:message+extra,input:JSON.stringify(payload),
+    text:{format:{type:'json_schema',name:'lf05_pr854_'+stage,strict:true,schema}}})});
+   receipt.calls++;
+   if(r.status!==429)break;
+   const response=await r.json().catch(()=>null);
+   const metadata=rateLimitMeta(response,r.headers.get('retry-after'));
+   receipt.invalidAttempts.push({stage,ids:batch.map(x=>x.id),attempt,error:'Provider HTTP 429',
+    providerCode:metadata.code,providerType:metadata.type,rateRetry:throttles,hardQuota:metadata.hardQuota});
+   await save();
+   if(metadata.hardQuota)throw Error('Provider quota unavailable (HTTP 429); no further billed calls attempted');
+   if(throttles>=RATE_LIMIT_RETRIES)throw Error('Provider HTTP 429: bounded rate-limit retries exhausted');
+   const delaySeconds=metadata.retryAfterSeconds??[30,90][throttles];
+   throttles++;
+   await new Promise(resolve=>setTimeout(resolve,delaySeconds*1000));
+  }
   if(!r.ok){
    const failure='Provider HTTP '+r.status;
    receipt.invalidAttempts.push({stage,ids:batch.map(x=>x.id),attempt,error:failure});
