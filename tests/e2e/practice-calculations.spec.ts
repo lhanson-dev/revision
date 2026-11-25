@@ -117,7 +117,13 @@ test('finishing a session of calculations shows the summary with each miss and t
   test.setTimeout(120_000)
   await startCalculations(page)
   const done = page.getByText(/^Session done · /)
-  for (let index = 0; index < 20 && !(await done.isVisible()); index += 1) {
+  const question = page.locator('.practice-question__prompt')
+  for (let index = 0; index < 20; index += 1) {
+    // After the last answer the question is replaced by the summary.
+    // Wait for either settled state before trying to read a question:
+    // an immediate isVisible() check can race that transition and hang.
+    await expect(question.or(done)).toBeVisible()
+    if (await done.isVisible()) break
     const answer = answerFor(await promptText(page))!
     // Every first go is wrong and sure; a retry is right, which ends the session.
     const retry = await page.getByText('Another go at one you missed').isVisible()
