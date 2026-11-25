@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(21);
+select plan(27);
 select is((select count(*) from public.lf05_written_questions),39::bigint,
  'all 39 authored original question identities are stored once');
 select is((select count(*) from public.lf05_written_guides),39::bigint,
@@ -64,6 +64,27 @@ select ok((select stimulus not like '%**%' and stimulus like '%76% in Task A and
 select ok((select skill_ref not like '% AO' and skill_ref like '%4.1.2%'
   from public.lf05_written_questions where id='PSY-LF05-02-S1'),
  'memory dual-task specification skill mapping is complete');
+-- Source-adjudicated 25 November 2026 educational corrections (all still HELD).
+select ok((select g.guidance::text like '%56.25%' and
+ g.guidance::text like '%£9m%' and
+ g.guidance::text not ilike '%cannot yield an unambiguous gearing%')
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-07-16'),
+ 'Kelton guidance applies AQA gearing 9/16 = 56.25 percent and removes false impossible-ratio claim');
+select ok((select g.guidance::text ilike '%do not withhold credit%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-08'),
+ 'nature-nurture answer guide does not require an independent interactionism definition');
+select ok((select g.guidance::text ilike '%not compulsory%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-13'),
+ 'anorexia evaluation can reach a valid non-interactionist conclusion');
+select ok((select q.skill_ref like '%§3.8.2%'
+ from public.lf05_written_questions q where q.id='BUS-LF05-08-25'),
+ 'Porter strategic positioning remains accurately mapped to §3.8.2 in original AQA 7132 v2.0');
+select ok((select q.stimulus ilike '%existing UK specialist-market customers%'
+ from public.lf05_written_questions q where q.id='BUS-LF05-08-16'),
+ 'Ansoff product-development option addresses the existing market, not ambiguous diversification');
+select ok((select g.guidance::text ilike '%biological, psychological and social%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-12'),
+ 'schizophrenia interactionist treatment credits biological, psychological and social factors');
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d9';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d9","is_anonymous":false}';
