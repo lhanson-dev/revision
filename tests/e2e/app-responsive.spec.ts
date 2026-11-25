@@ -381,6 +381,8 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()
   await expect(page.locator('.practice-workspace')).toBeVisible()
   // Practice opens on its start screen: scored questions and a warm-up card, not a tab row.
+  await expect(page.getByRole('button', { name: /Choose quick questions/ })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeVisible()
   const warmUp = page.getByRole('region', { name: 'Warm-up' })
   await expect(warmUp.getByRole('button', { name: /^Flashcards/ })).toBeVisible()

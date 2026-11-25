@@ -71,6 +71,7 @@ test('Back to Practice returns to the start screen', async ({ page }) => {
   await openSummary(page, mixed)
   await page.getByRole('button', { name: 'Back to Practice' }).click()
   await expect(page.getByText(/^Session done · /)).toHaveCount(0)
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeVisible()
 })
 

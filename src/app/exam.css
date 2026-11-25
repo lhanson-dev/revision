@@ -91,3 +91,148 @@
   .exam-stimulus { padding: 14px; }
   .exam-stimulus-table-wrap { margin-inline: -14px; padding-inline: 14px; }
 }
+
+
+/*
+ * LF-05 original extended-writing practice.
+ * Scoped to the learner panel, without affecting timed papers or mock controls.
+ */
+.planner-runtime .lf05-writing {
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .lf05-writing > h2 {
+  margin: var(--space-2) 0 var(--space-4);
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+}
+
+.planner-runtime .lf05-writing > p:not(.eyebrow) {
+  max-width: var(--layout-prose-measure);
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .lf05-writing > .practice-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0 var(--space-6);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.planner-runtime .lf05-writing > .practice-meta label {
+  display: block;
+  min-width: 0;
+  color: var(--color-text);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .lf05-writing > .practice-meta select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--field-height-standard);
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  cursor: pointer;
+}
+
+.planner-runtime .lf05-writing > .practice-meta select:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+}
+
+.planner-runtime .lf05-writing > .practice-meta select:focus-visible {
+  outline: none;
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .lf05-writing > .practice-meta select:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+.planner-runtime .lf05-writing .exam-prep-activity {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .lf05-writing .exam-prep-activity > h3 {
+  margin: var(--space-5) 0;
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+}
+
+.planner-runtime .lf05-writing .exam-prep-activity > p,
+.planner-runtime .lf05-writing .exam-stimulus p,
+.planner-runtime .lf05-writing .mark-guidance li {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .lf05-writing .exam-prep-activity > .practice-meta {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .lf05-writing .answer-label {
+  display: block;
+  margin-top: var(--space-5);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .lf05-writing .answer-label textarea {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .lf05-writing .answer-label textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .lf05-writing .mark-guidance {
+  border-color: var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+@media (max-width: 760px) {
+  .planner-runtime .lf05-writing > .practice-meta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

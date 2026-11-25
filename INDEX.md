@@ -11,6 +11,15 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 **proposed fresh ChatGPT conversation A3 without API billing** (11 sealed 3-item blind/guide batches in draft PR #854, required provenance and read-only evidence check, no reduction of independent QA or publication gate) → `80-company-workflows/Content Accuracy Assurance Gate.md`, `docs/technical/LF-05 Fresh Chat Independent Review Route.md`; separate governance PR pending approval.
+
+- LF-05 proposed 25 November independent 33-item A3 reviewer HTTP 429 diagnostics, bounded retry and correct AQA section guardrails (unchanged 33 held) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; separate governed infrastructure PR requiring approval.
+
+- Course Practice two-choice layout (scored questions versus original, self-review extended writing; optional warm-ups and compact REV; PR #857 draft) → `docs/technical/Practice Two-Choice Layout.md`.
+
+- LF-05 21 November follow-up to merged reviewer PR #858: second exact-head original 33 A3 run #44904071213 accepted three Psychology blind+guided items, then failed on invalid response shape; 30 lacked accepted new reviews, 33 HELD; proposed fail-closed diagnostic and bounded retry infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.\n- LF-05 reviewer source and paper-format correction merged PR #858 (first 25/33 partial review remains historical, not item acceptance) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.
+- PR #854 proposed independent blind+guide original 33-item source reviewer infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; no educational A3 verdict yet, #698/#706.
+
 - LF-05 25 November **complete fresh-chat Stage 2** (33 guided verdicts: 21 PASS/11 MINOR/1 MATERIAL; all 12 targeted corrections committed but still HELD pending exact-guide delta recheck; original Stage 1 32 PASS/1 MINOR, no blocked question); source-per-row verified 21 unchanged guides/32 unchanged blind questions → `audits/2026-11-25-lf05-stage2-fresh-chat-guided-adjudication.md`, `audits/lf05-fresh-chat-review/README.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; #854 DRAFT, no release.
 
 - LF-05 **25 November user-supplied blind fresh-chat review of all 33 held original questions** (32 PASS, 1 MINOR Marshbrook, 0 material; guidance UNREVIEWED; context/rights pending) → `audits/lf05-fresh-chat-review/2026-11-25-user-submitted-blind-review.md`, `audits/lf05-fresh-chat-review/2026-11-25-stage1-blind-structured.json`, and `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; draft PR #854, all 33 HELD.

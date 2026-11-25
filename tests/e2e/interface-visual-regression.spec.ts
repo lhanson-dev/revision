@@ -328,14 +328,14 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   ],
   'tablet:courses:light': 'a83933d230268106d7a94770cfa980d682cdbe278157d60e2ce6ff303645e82a',
   'tablet:courses:dark': '7409db404f76b82f42e366842f8942de4ebfda5921131659b48d8244c0566f92',
-  // Founder approval, 21 October 2026: only phone Practice light
-  // breadcrumb hit-area correction; CI #39626816583 (initial/retry).
-  // Provenance: audits/2026-10-21-pr655-practice-phone-light-visual-approval.md.
-  'phone:practice:light': [
-    '87dd606cdd1063eaa3844d9d5aa3e5940b213edfbf76b6f72cb922a63e8de425', // PR #655 Founder approval — CI #39626816583
-    '913382d155a8e55c3053dad2bee856050386fe89feb487e951adc507c0cc87f3', // Previously approved digest reappeared in CI #39651739221
-  ],
-  'phone:practice:dark': 'f692ff54a09b8649ebfd0f991335866988b885db19a24337bfe972d29a5f5a73',
+  // PR #857 redesign of Practice: selected-card layout with scored and written
+  // routes. Founder approved design direction (not separate merge approval).
+  // Actual phone light/dark CI screenshots inspected from run #44636624711,
+  // artifact #14583993664. Preserve historical PR #655 digests in its dated audit,
+  // but fail closed if the previous layout regresses back into the active app.
+  // Provenance: audits/2026-11-20-pr857-phone-practice-visual-capture.md.
+  'phone:practice:light': '6ca169c7d7d359b93cf375a7ee4dc9a1a3d1247e11a52bf7372949fe11e514c1',
+  'phone:practice:dark': '4907d030885732960c8129277f0f90f56b59579b8c27c3e566d3b8cdef17a0f3',
   'tablet:exam-prep:light': '056536438efc8557851de6ab6c32992856e177beb03e0e44f83b90e55a924bb3',
   'tablet:exam-prep:dark': 'b3ce313e32d4bf87dcd129d045f0c56b34e6d53ec2f6ed216a7035551a556a41',
   'tablet:timed-exam:light': 'd2c94a6d3fce080858c19a111a41c4fc75c09e2141bb923e9c210747918f61f6',
@@ -548,7 +548,7 @@ async function openState(page: Page, state: VisualState) {
     // loading indicator. Existing protected visual digests remain unchanged.
     await expect(page.getByText('Checking for saved Practice work…')).toHaveCount(0)
     await expect(page.locator('.practice-recovery-state')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeEnabled()
+    await expect(page.getByRole('button', { name: /Choose quick questions/ })).toBeEnabled()
   }
   if (state === 'course-overview') await expect(page.locator('.course-overview-decision')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') {

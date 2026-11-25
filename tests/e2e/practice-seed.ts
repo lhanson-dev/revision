@@ -124,6 +124,7 @@ export function bankCorrectIndex(prompt: string): number | null {
 export type Sure = 'Guessing' | 'Fairly sure' | 'Certain'
 
 export async function startQuestions(page: Page) {
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: /^Start \d+ questions?$/ }).click()
   await expect(page.getByRole('region', { name: /^Practice:/ })).toBeVisible()
   await expect(page.locator('.practice-question__prompt')).toBeVisible()

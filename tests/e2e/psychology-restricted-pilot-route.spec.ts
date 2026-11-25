@@ -136,7 +136,8 @@ test('restricted Psychology learner can traverse the canonical course journey on
   await courseNav.getByRole('button', { name: 'Practice' }).click()
   await expect(page).toHaveURL(new RegExp(`#/courses/${encodedCourseId}/practice$`))
   await expect(courseNav.getByRole('button', { name: 'Practice' })).toHaveAttribute('aria-current', 'page')
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await expect(page.getByRole('button', { name: /^Start \d+ questions?$/ })).toBeVisible()
 
   await courseNav.getByRole('button', { name: 'Exam Prep' }).click()
@@ -220,11 +221,12 @@ test('LF-03 canonical Psychology Practice independently marks four varied Social
   const saved = await captureEvidence(page)
   const course = encodeURIComponent(courseId)
   await page.goto(`${appPath}#/courses/${course}/practice/social-influence`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
   // Four LF-03 scored items remain first, and the eight #698 original
   // applied cases extend the same Course Practice session rather than replacing it.
   // The default is 5 questions, so select the supported 15-question length,
   // which correctly caps the session at the 12 available questions.
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.locator('.practice-length').filter({
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
@@ -275,7 +277,8 @@ test('LF-03 #787 canonical Memory Practice displays, scores and restores four di
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/memory`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
   const positions = [2, 0, 3, 1]
   const stems = [/briefly sees a grid/, /listening to spoken directions/, /After studying French verbs/, /Two witnesses discuss an accident/]
@@ -315,7 +318,8 @@ test('LF-03 #698 canonical Cognition and Development V2 Practice scores four dis
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/cognition-and-development`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
 
   const positions = [2, 0, 3, 1]
@@ -354,7 +358,8 @@ test('LF-03 #787 canonical Attachment Practice independently scores two V2 items
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/attachment`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 5 questions' }).click()
 
   const expectedIds = [
@@ -429,7 +434,8 @@ test('LF-03 #787 Issues and Debates V2 Practice retains six questions, exact key
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/issues-and-debates-in-psychology`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.locator('.practice-length').filter({
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
@@ -474,9 +480,9 @@ test('LF-04: Psychology Practice pairs the Social Influence case with its actual
     }
   })
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/social-influence`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
 
-  const caseRow = page.locator('.practice-row').filter({ hasText: 'Case study' })
+  const caseRow = page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Case study/ })
   await expect(caseRow).toContainText('2 written questions')
   await caseRow.click()
 
@@ -496,8 +502,8 @@ test('LF-04: Psychology Practice pairs the Social Influence case with its actual
   expect(scoredWrites).toHaveLength(0)
 
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/biopsychology`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
-  await expect(page.locator('.practice-row').filter({ hasText: 'Case study' })).toHaveCount(0)
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Warm-up' }).getByRole('button', { name: /^Case study/ })).toHaveCount(0)
   expect(scoredWrites).toHaveLength(0)
 })
 
@@ -506,7 +512,8 @@ test('LF-03 #787 Relationships V2 publishes four authentic one-mark cases and re
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/relationships`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.locator('.practice-length').filter({
     has: page.locator('.practice-length__number', { hasText: /^15$/ }),
   }).click()
@@ -545,7 +552,8 @@ test('LF-03 #787 Forensic Psychology V2 preserves scored answer and session afte
   await seedPracticeCheckpoints(page)
   const saved = await captureEvidence(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(courseId)}/practice/forensic-psychology`)
-  await expect(page.getByRole('region', { name: 'Test what you know' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'How would you like to practise?' })).toBeVisible()
+  await page.getByRole('button', { name: /Choose quick questions/ }).click()
   await page.getByRole('button', { name: 'Start 4 questions' }).click()
 
   const expectedStems = ['spatial distribution', 'inherited characteristics', 'queue', 'freely agree']
