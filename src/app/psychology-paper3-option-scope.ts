@@ -69,3 +69,49 @@ export function psychologyPaper3TopicScope(
   if (new Set(chosen).size !== 3) return null
   return { topicIds: [...contract.compulsoryTopicIds, ...chosen] }
 }
+
+
+/**
+ * LF-05 original-writing visibility uses the learner's saved Plan assessment,
+ * not a new or guessed Psychology option selection. Missing, extra, duplicated
+ * or stale choices never expand a learner's optional Paper 3 practice.
+ */
+export function psychologyPaper3SavedTopicScope(
+  contract: PsychologyPaper3OptionContract | null,
+  rawScope: unknown,
+): { topicIds: string[] } | null {
+  if (!contract || !rawScope || typeof rawScope !== 'object' || Array.isArray(rawScope)) return null
+  const ids = (rawScope as Record<string, unknown>).topicIds
+  if (!Array.isArray(ids) || ids.length !== 4
+    || ids.some((id) => typeof id !== 'string') || new Set(ids).size !== 4
+    || contract.compulsoryTopicIds.length !== 1
+    || !ids.includes(contract.compulsoryTopicIds[0])) return null
+
+  const choice: Record<string, string> = {}
+  for (const group of contract.groups) {
+    const selected = group.options.filter((option) => ids.includes(option.topicId))
+    if (selected.length !== 1) return null
+    choice[group.id] = selected[0].topicId
+  }
+  const result = psychologyPaper3TopicScope(contract, choice)
+  return result && ids.every((id) => result.topicIds.includes(id)) ? result : null
+}
+
+
+/**
+ * Original writing questions must not silently become visible when the paper
+ * contract is missing, a topic is not in its recognised syllabus options, or
+ * the learner's saved selection cannot be validated. Paper 1/2 are compulsory.
+ */
+export function psychologyWrittenQuestionInSavedOptionScope(
+  contract: PsychologyPaper3OptionContract | null,
+  question: { paper_number: number; topic_id: string },
+  savedTopicIds: readonly string[] | null,
+): boolean {
+  if (question.paper_number !== 3) return true
+  if (!contract) return false
+  if (contract.compulsoryTopicIds.includes(question.topic_id)) return true
+  const knownOption = contract.groups.some(group =>
+    group.options.some(option => option.topicId === question.topic_id))
+  return knownOption && !!savedTopicIds?.includes(question.topic_id)
+}
