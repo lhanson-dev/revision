@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 **proposed fresh ChatGPT conversation A3 without API billing** (11 sealed 3-item blind/guide batches in draft PR #854, required provenance and read-only evidence check, no reduction of independent QA or publication gate) → `80-company-workflows/Content Accuracy Assurance Gate.md`, `docs/technical/LF-05 Fresh Chat Independent Review Route.md`; separate governance PR pending approval.
+
 - LF-05 proposed 25 November independent 33-item A3 reviewer HTTP 429 diagnostics, bounded retry and correct AQA section guardrails (unchanged 33 held) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; separate governed infrastructure PR requiring approval.
 
 - Course Practice two-choice layout (scored questions versus original, self-review extended writing; optional warm-ups and compact REV; PR #857 draft) → `docs/technical/Practice Two-Choice Layout.md`.
