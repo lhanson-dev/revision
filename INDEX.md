@@ -10,6 +10,8 @@ Use this file to find the governing source before substantive work.
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
 ## Technical foundation
+
+- LF-05 25 November complete independent original 33-question A3 run (3 guided MATERIALs), actual source adjudication, corrected held guides and exact re-review obligation → `audits/2026-11-25-lf05-all33-a3-adjudication.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; PR #854 HELD pending new A3/A4 and Founder-approved publication.
 - LF-05 exact-source independent review inputs for **all 33 still-held original written items**, split into question-only blind packet and later guided challenge packet (not A3 verdicts or publication) → `audits/2026-11-17-lf05-33-blind-question-review-packet.md`, `audits/2026-11-17-lf05-33-guided-review-packet.md`, and `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`; #698/#706, draft PR #854.
 - LF-05 full-bank signed-in Psychology Paper 3 option relevance: validated Plan `revision_assessments.scope.topicIds` for all 27 AQA 7182 combinations and browser-changed selections; source-first material A3 recheck → `src/app/psychology-paper3-option-scope.ts`, `src/app/Lf05WrittenPracticePanel.tsx`, `tests/e2e/lf05-psychology-paper3-saved-options-a4.spec.ts`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`, `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`; draft PR #854, no production change. 
 
