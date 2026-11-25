@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-25",
+  "status": "synthetic_control_tests_only",
+  "sourcePacketBlob": "2f024c9aafd8195359bc9ab9dda1e5fe0d9aa4e1",
+  "tests": [
+    {
+      "name": "adjacent same-band estimates",
+      "expected": "provisional_range",
+      "actual": "provisional_range"
+    },
+    {
+      "name": "different levels despite close marks",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "large disagreement",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "duplicate context",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "invented quote",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "wrong packet",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "single assessment",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "mark outside band",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "provider failure",
+      "expected": "review_only",
+      "actual": "review_only"
+    },
+    {
+      "name": "missing feedback",
+      "expected": "review_only",
+      "actual": "review_only"
+    }
+  ],
+  "limitations": [
+    "Executed pure prototype function in chat tool using synthetic result fixtures, not actual independent model runs.",
+    "Threshold is a research hypothesis, not evidence of numeric accuracy or confidence calibration.",
+    "No runtime, student data or model calls; actual provider provenance, semantic review, cost and latency outstanding."
+  ]
+}
