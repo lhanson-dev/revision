@@ -412,6 +412,18 @@ jobs:
           # Only disposable localhost Supabase: temporarily expose the 33 held
           # originals to two synthetic accounts, prove both learner journeys,
           # then restore all HELD statuses; never touches production.
+          # The production LF-05 migration deliberately grants service_role NO
+          # table privileges. A synthetic CI fixture may seed status only after
+          # a LOCAL PostgreSQL session temporarily grants its controller role
+          # SELECT/UPDATE; always revoke these test-only privileges on exit.
+          # Fixed loopback database target; do not use hosted environment URLs.
+          local_lf05_psql() {
+            PGHOST=127.0.0.1 PGPORT=54322 PGDATABASE=postgres PGUSER=postgres \
+              PGPASSWORD=postgres PGSSLMODE=disable \
+              psql -X -v ON_ERROR_STOP=1 -q -c "$1"
+          }
+          local_lf05_psql 'GRANT SELECT, UPDATE ON public.lf05_written_questions TO service_role;'
+          trap 'local_lf05_psql "REVOKE SELECT, UPDATE ON public.lf05_written_questions FROM service_role;"' EXIT
           npx playwright test tests/e2e/lf05-all39-authenticated-a4.spec.ts --project=desktop --workers=1
       - name: Stop isolated Supabase test stack
         if: always()
