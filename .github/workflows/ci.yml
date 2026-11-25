@@ -409,6 +409,10 @@ jobs:
           # Run alone: its temporary published Paper 3 questions are TEST fixtures,
           # not approved content, and must never affect concurrent A4 assertions.
           npx playwright test tests/e2e/lf05-psychology-paper3-saved-options-a4.spec.ts --project=desktop --workers=1
+          # Only disposable localhost Supabase: temporarily expose the 33 held
+          # originals to two synthetic accounts, prove both learner journeys,
+          # then restore all HELD statuses; never touches production.
+          npx playwright test tests/e2e/lf05-all39-authenticated-a4.spec.ts --project=desktop --workers=1
       - name: Stop isolated Supabase test stack
         if: always()
         run: |
