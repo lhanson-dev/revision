@@ -4,8 +4,7 @@ import { establishStudentExperience, completeStudentFirstUse } from '../../src/s
 import { addLearnerCourse } from '../../src/services/courses/learner-course-service'
 import { saveCourseAssessment } from '../../src/services/courses/course-planner-service'
 
-// A disposable, isolated CI database only. The real six published items and
-// all 33 education-HOLD items stay unchanged on approved production.
+// Disposable CI DB contains 39 actually published originals; no synthetic question interception.
 const enabled=process.env.REVISION_BROWSER_DB_INTEGRATION==='1'
 const localUrl=process.env.SUPABASE_URL??'http://127.0.0.1:54321'
 const anonKey=process.env.SUPABASE_ANON_KEY??''
@@ -14,22 +13,6 @@ const psychology='aqa:aqa-a-level:7182'
 const paper3='psychology-aqa-a-level-7182-paper-3'
 const app='/revision/app/'
 
-// Synthetic published-stem response is supplied ONLY to this browser test.
-// The real held source inventory is not promoted, even in isolated PostgreSQL.
-const paper3Topics=[
-  'issues-and-debates-in-psychology','relationships','gender','cognition-and-development',
-  'schizophrenia','eating-behaviour','stress','aggression','forensic-psychology','addiction',
-] as const
-const mockPaper3Rows=paper3Topics.map((topic_id,i)=>({
-  id:'PSY-LF05-'+String(i+8).padStart(2,'0'),
-  course_id:psychology,paper_number:3,topic_id,
-  skill_ref:'AQA 7182 v1.4 synthetic CI option test',
-  title:'Synthetic '+topic_id,
-  question_prompt:'Synthetic exam-style writing question to validate Paper 3 option visibility.',
-  stimulus:null,marks_style:16,content_fingerprint:'0'.repeat(64),
-  original_training_only:true,status:'published',
-  approved_source_ref:'Disposable browser test fixture only',
-}))
 const first=['issues-and-debates-in-psychology','relationships','schizophrenia','aggression']
 const second=['issues-and-debates-in-psychology','gender','eating-behaviour','forensic-psychology']
 
@@ -44,12 +27,6 @@ test('LF-05 Psychology writing shows only saved Paper 3 choices and updates afte
   const userId=created.data.user.id
   const client=createClient(localUrl,anonKey,{auth:{persistSession:false,autoRefreshToken:false}})
   try {
-    await page.route('**/rest/v1/lf05_written_questions*', async(route) => {
-      const response=await route.fetch()
-      const published=await response.json()
-      if (!Array.isArray(published)) throw new Error('Unexpected authenticated published question response')
-      await route.fulfill({response,body:JSON.stringify([...published,...mockPaper3Rows])})
-    })
     const signIn=await client.auth.signInWithPassword({email,password})
     if(signIn.error)throw new Error(signIn.error.message)
     await establishStudentExperience(client,userId)
@@ -101,8 +78,7 @@ test('LF-05 Psychology writing shows only saved Paper 3 choices and updates afte
       await expect(updatedOptions.locator(`option[value="${id}"]`)).toHaveCount(0)
     }
   } finally {
-    // No database publication state was changed: the ten extra prompts
-    // existed only in this Playwright browser's intercepted list response.
+    // No database question publication state was changed; original rows are real.
     await client.auth.signOut()
     await admin.auth.admin.deleteUser(userId)
   }
