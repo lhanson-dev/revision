@@ -1,0 +1,28 @@
+# LF-05 — clean Marshbrook blind question review intake and adjudication (25 November 2026)
+
+**Scope:** single modified-scenario original `BUS-LF05-01-16` (Business 7132 v2.0, Paper 2, original 16-mark-style training). This is a follow-up to the earlier context-contaminated 13-item delta report, **not** a repeat or replacement for the other 12 guided rechecks.
+
+## Received evidence
+
+- Founder returned an uploaded plain-text review on 25 November 2026, after being directed to use only the [neutral question-only packet](lf05-fresh-chat-review/2026-11-25-clean-marshbrook-blind.md) in a new conversation outside the Revision authoring project. The complete reviewer output is preserved as [submitted clean Marshbrook review](lf05-fresh-chat-review/2026-11-25-clean-marshbrook-user-submitted-review.md) (Git blob `b0e450247b9f378a1de78ff08508457ce7abae4c`). The original uploaded text-file SHA256 is `d5ea98fa97deb8f2fe606d46df8c3cc5cdba66a8d724f0a80040e3cd8e146a69`; GitHub stores a text-normalised copy, so these are *different artifact identities* and must not be treated as matching byte-for-byte hashes.
+- Reviewed source packet Git blob: `052312212c16d9acd52656f60547106a1a9406c7`. Held six-candidate SQL source blob at intake: `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c`. Question/figures and review agree with that packet; the review does not independently certify per-byte source equality.
+- The reviewer states no previous guidance, reviewer findings or Revision project history were consulted. **The attachment does not supply a verifiable private conversation reference, URL or separate Founder session attestation.** The new-conversation isolation claim therefore remains attributed reviewer evidence, not independently proven method provenance. Do not silently mark all A3 provenance conditions fulfilled.
+
+## Reviewer verdict and source adjudication
+
+**Reviewer verdict: MINOR (Likely confidence); zero required educational corrections.** The review explicitly freezes the blind judgement and confirms it did **not** review answer guidance. This is the correct role: the twelve separately changed guides already have distinct 13/13 delta review evidence, and twenty-one unchanged guides retain their original exact-version Stage 2 results.
+
+- **AQA source fit:** the uploaded official AQA Business 7132 v2.0 source supports §3.1.1 (profit/objectives), §3.5.1 (cash flow versus profit), §3.5.3 (sources of finance), and supporting §3.5.4. The reviewer treats §3.5.1 as the primary claim and §3.5.4 as secondary; the source supports that distinction.
+- **Numerical check:** revenue £1.8m less total costs £1.74m = £60,000; the arithmetic profit-to-revenue percentage is 3.33%. £90,000 is a cash balance, **not** net-period cash flow. Neither loan affordability, operating-profit classification nor future expansion profitability can be inferred from the supplied figures.
+- **Question demand:** original 16-mark-*style* training only; no AQA 2027 examiner calibration, numeric AO allocation or official marking endorsement. The reviewer finds valid alternative evaluations about prioritising liquidity, profitability, timing or conditional forecasts.
+- **MINOR/editorial suggestions, not blockers:** specify the accounting period, label the incoming chain as bakery rivals, clarify current cash balance, optionally give a forward-looking cash indicator. Changing these bytes would invalidate the frozen clean question verdict. **No further content edit is authorised on the basis of these optional suggestions.**
+
+**Educational content finding:** no unresolved material/blocking **Marshbrook question** error is established by this new clean review. This does not imply the reviewer verified the guide, private session isolation, source rights, complete 33-item A3 provenance or learner acceptance.
+
+## Explicit remaining release gates
+
+1. The published independent-input protocol in `80-company-workflows/Content Accuracy Assurance Gate.md` requires reliable fresh-session provenance or private attestation. This upload contains an assertion of independence but no independent session reference. Until adequately evidenced, retain **formal A3 HOLD**, despite a clean educational verdict. Avoid asking for re-review of the 12 separately reviewed guides.
+2. The exact-head GitHub CI run [#45689169355](https://github.com/lhanson-dev/revision/actions/runs/45689169355) passed the new database/RLS protected-service job, including the isolated 39-source authenticated A4 rehearsal after a localhost-only permission fixture fix; it **failed** the tablet visual-regression job on a protected exam-prep light screenshot digest, which also failed the Foundation quality dependency. Do not recategorise the visual mismatch as PASS or reset screenshot hashes without visual adjudication. Other browser and static jobs passed.
+3. PR #854 is draft and retains **six production-published originals and 33 held candidates**. An exact-source, intentionally reviewed promotion migration, rights/controller checks, updated technical documentation, final current-main CI, backend-before-frontend readiness, explicit PR-specific Founder approval and production readback are separate release gates. The 39-question bank is *not* proof of whole-course specification coverage or calibrated automatic essay marking.
+
+**Documentation impact:** This dated intake and the submitted review stay in PR #854. Link it from the packet index, LF-05 technical note and root INDEX without modifying earlier source/reviewer receipts or normative authority. No product or governance rule is changed by receiving independent review evidence.
