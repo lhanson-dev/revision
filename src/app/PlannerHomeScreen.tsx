@@ -238,6 +238,7 @@ export function PlannerHomeScreen({
       return
     }
     await recordTaskStart(task)
+    if (task.activityType === 'flashcards') { onStartLearnTask(task); return }
     setActiveTask(task)
   }
 

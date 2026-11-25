@@ -1,3 +1,7 @@
+## Issue #864 — first candidate slice (not released)
+
+Home and Plan flashcard Starts route to the exact active course/component Practice topic and immediately render the shared PracticeActivityWorkspace and PracticeFlashcardView. The in-memory owner-scoped task retains exact planner card IDs, dose, evidence retry identity and explicit booking completion. Closing refreshes course evidence; reload returns to ordinary Practice rather than replaying a stale recommendation. Other focused activity types still use their prior entry points and remain open under #864. No schema changes. Exact-head CI and signed-in visual review remain required.
+
 # Returning Student Home Implementation
 
 **Current live state:** Issue #622 Home refinement shipped through specifically approved PR #623 (`ba33ef56bbdf5be35c25a7e9a010eb28b752c756`; merged as `b5dfdd9d0611ec46818f804b4ed33f9c455d8def`) on 13 October 2026. [Exact-head CI #38468098665](https://github.com/lhanson-dev/revision/actions/runs/38468098665) and [production deployment #38471897996](https://github.com/lhanson-dev/revision/actions/runs/38471897996), including backend readiness, smoke and path-to-live verification, passed. The earlier implementation and candidate assurance accounts below remain historical.
