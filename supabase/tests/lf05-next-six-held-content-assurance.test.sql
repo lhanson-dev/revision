@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(20);
+select plan(22);
 select is((select count(*) from public.lf05_written_questions where status='published' or id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),12::bigint,
   'six previously published plus exactly six held source-mapped candidates');
 select is((select count(*) from public.lf05_written_guides g join public.lf05_written_questions q on q.id=g.question_id where q.status='published' or q.id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),12::bigint,
@@ -62,6 +62,15 @@ select ok((select bool_and(g.guidance::text not ilike '%official 2027 marking sc
   from public.lf05_written_questions q join public.lf05_written_guides g on g.question_id=q.id
   where q.status='held' and q.id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),
   'each held guide expressly disclaims official examiner marking');
+-- Independent 25 November guided-review source corrections, still HELD.
+select ok((select g.guidance::text ilike '%four groups of ten%' and
+ g.guidance::text ilike '%pilot-test word lists%'
+ from public.lf05_written_guides g where g.question_id='PSY-LF05-07'),
+ 'The research-design guide illustrates four ten-person counterbalancing cells and list-equivalence checking');
+select ok((select g.guidance::text ilike '%part of lean production%' and
+ g.guidance::text ilike '%automation%'
+ from public.lf05_written_guides g where g.question_id='BUS-LF05-04-25'),
+ 'Lean comparison correctly treats quality/continuous improvement as potentially integral to lean');
 set local role authenticated;
 set local request.jwt.claim.sub='00000000-0000-4000-8000-0000000000d9';
 set local request.jwt.claims='{"sub":"00000000-0000-4000-8000-0000000000d9","is_anonymous":false}';
