@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 25 November **33 held originals now split into 11 exact-source three-item blind and guided packets** for independent new ChatGPT chat review without API billing; no educational approval, 6/39 published → `audits/lf05-fresh-chat-review/README.md`, `audits/lf05-fresh-chat-review/receipt.template.json`; proposed governed review-method PR #862.
+
 - LF-05 25 November **second** independent A3 on corrected exact head was **30/33 partial HOLD** (provider HTTP 429; 4 unique disputed material identities); verified primary PDFs show §4.2.3.1 scientific processes and §3.6.2 HR performance, with question/packet corrections pending fresh A3 → `audits/2026-11-25-lf05-all33-a3-adjudication.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`.
 - LF-05 25 November complete independent original 33-question A3 run (3 guided MATERIALs), actual source adjudication, corrected held guides and exact re-review obligation → `audits/2026-11-25-lf05-all33-a3-adjudication.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; PR #854 HELD pending new A3/A4 and Founder-approved publication.
 - LF-05 exact-source independent review inputs for **all 33 still-held original written items**, split into question-only blind packet and later guided challenge packet (not A3 verdicts or publication) → `audits/2026-11-17-lf05-33-blind-question-review-packet.md`, `audits/2026-11-17-lf05-33-guided-review-packet.md`, and `audits/2026-11-17-lf05-complete-39-candidate-disposition.md`; #698/#706, draft PR #854.
