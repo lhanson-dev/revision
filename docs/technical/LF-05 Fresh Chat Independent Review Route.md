@@ -20,6 +20,29 @@ The source SQL blobs are pinned in every packet: six-item `572840fc1c9e4dd0a0f07
 
 **Source rights:** The AQA documents are educational reference authorities, not automatically licensed for bulk AI ingestion. The fresh reviewer must consult only the approved source-use category, references and permitted *structured* alignment facts, or independently accessed public materials in a way permitted by the Source Licence Register. Do not paste or upload complete protected AQA PDFs just because they exist in this project. If the legal source-use gate is unresolved, mark the affected input HOLD rather than supplying it to a new external chat.
 
+## Fastest Founder handoff — one fresh chat, two messages
+
+Open a **new ChatGPT conversation outside the Revision project**. Copy the following kickoff. This process does not start another chat automatically, does not consume separate API billing credits, and does not provide a qualified-human expert.
+
+```text
+Act as an INDEPENDENT adversarial AQA A-level educational reviewer. This conversation is new and outside the Revision authoring project. Do not use old project memory, authored answer guides or historic reviewer verdicts. You must not assume the author was correct.
+
+Read the 33-item original question-only review materials by opening the 11 BLIND batch links in this immutable GitHub manifest:
+https://github.com/lhanson-dev/revision/blob/5af3a7da290551cc3489a67763a9e3527b83a300/audits/lf05-fresh-chat-review/README.md
+
+DO NOT open any GUIDED packet. Check against source-rights-permitted AQA Business 7132 v2.0 and Psychology 7182 v1.4 structured qualification references and publicly accessible official source sections. Do not reproduce long protected AQA text or invent source facts or official mark allocations. If source access/rights are insufficient, mark HOLD.
+
+Independently assess all 33 EXACT question IDs, in 11 consecutive batches of 3, for source fit, valid assessment demand, ambiguity, arithmetic, context, paper/option choice and legitimate answer routes. Return 11 JSON objects in the specified {"items":[...]} form, each with three IDs and distinct pass/minor/material/blocking verdicts and substantive sourceFit, reasoning, alternatives and corrections. Do not copy previous verdicts. Keep an issue register. If output must be split, continue until every blind item is independently addressed. Freeze your stage-1 answers and STOP; do not look at the guidance until I explicitly authorise Stage 2. Do not represent this review as examiner-calibrated marking.
+```
+
+Save the full 33 blind verdicts. Then send the same separate conversation:
+
+```text
+Stage 1 is frozen. You may now open ONLY the 11 matching GUIDED packet links in the same immutable manifest. Compare each authored guide against the exact frozen blind verdict for that ID and source references, without changing Stage 1. Produce 11 new three-ID JSON GUIDE verdict objects with separate pass/minor/material/blocking outcomes, full substantive reasons and fair-credit checks. Flag any error and stop if a packet cannot be accessed or matched. Do not publish or self-certify the questions. Return both frozen review stages as separate structured results.
+```
+
+If the reviewer cannot access the GitHub files, supply **only the 11 original blind packet files** in Stage 1, then **only their matched guided packets** after the blind outputs are frozen. This two-message fast path preserves the same independence requirements as the manual three-item workflow below.
+
 ## Stage 1 — paste this into a NEW ChatGPT conversation outside the Revision project
 
 ```text
