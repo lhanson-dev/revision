@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 proposed 25 November independent 33-item A3 reviewer HTTP 429 diagnostics, bounded retry and correct AQA section guardrails (unchanged 33 held) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`; separate governed infrastructure PR requiring approval.
+
 - Course Practice two-choice layout (scored questions versus original, self-review extended writing; optional warm-ups and compact REV; PR #857 draft) → `docs/technical/Practice Two-Choice Layout.md`.
 
 - LF-05 21 November follow-up to merged reviewer PR #858: second exact-head original 33 A3 run #44904071213 accepted three Psychology blind+guided items, then failed on invalid response shape; 30 lacked accepted new reviews, 33 HELD; proposed fail-closed diagnostic and bounded retry infrastructure → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.\n- LF-05 reviewer source and paper-format correction merged PR #858 (first 25/33 partial review remains historical, not item acceptance) → `docs/technical/LF-05 PR854 Independent A3 Reviewer.md`.
