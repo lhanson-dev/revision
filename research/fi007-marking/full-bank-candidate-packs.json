@@ -1,0 +1,1206 @@
+{
+  "schema": 1,
+  "status": "research_only_not_eligible_for_runtime",
+  "baseline": "c0503155d161792d54bff7ab96f0ff89e6dee4d5",
+  "sources": [
+    {
+      "path": "supabase/migrations/20261115221000_stage_lf05_first_six_original_questions.sql",
+      "blob": "0fd105a82cd656740018329e668d7b9b2113ac39"
+    },
+    {
+      "path": "supabase/migrations/20261117212000_stage_lf05_next_six_review_candidates.sql",
+      "blob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c"
+    },
+    {
+      "path": "supabase/migrations/20261117222000_stage_lf05_remaining_27_review_candidates.sql",
+      "blob": "b663a10f509e9009185329f23d44470b6f12c734"
+    }
+  ],
+  "sourceAlignment": {
+    "business": "AQA 7132 Paper 1/2 sample mark schemes, reference-only factual structures documented in source-and-smoke receipt",
+    "psychology": "https://www.aqa.org.uk/professional-development/inside-assessment/bringing-assessment-to-life/psychology ; typical 16-mark AO1 6, remaining 10 AO3 or split AO2/AO3. Contextual 6/4/6 is a candidate assumption from older sample format, not verified 2027 item-level allocation."
+  },
+  "limitations": [
+    "Revision original guide text and independently authored generic family signals, no official mark-scheme prose.",
+    "Structural conversion, not independent educational validation or model accuracy.",
+    "Question fingerprint computed from database version before any future production use; migration blob only pins source for research.",
+    "AO emphasis is not independently summed marks. No public or learner eligibility."
+  ],
+  "families": {
+    "business-contextual-16": {
+      "max": 16,
+      "bands": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          13,
+          16
+        ]
+      ],
+      "emphasis": {
+        "AO1": 2,
+        "AO2": 3,
+        "AO3": 4,
+        "AO4": 7
+      },
+      "signals": [
+        "No relevant credit.",
+        "Limited accurate business knowledge or assertion.",
+        "Some relevant case use and causal reasoning; limited comparison.",
+        "Developed case-linked reasoning and evaluation with a supported decision.",
+        "Sustained case-specific weighing of competing consequences and a defensible conditional judgement."
+      ],
+      "rules": [
+        "Use the supplied facts accurately; do not invent causal certainty.",
+        "Credit a defensible alternative decision; assess quality rather than agreement with the example."
+      ]
+    },
+    "business-standalone-25": {
+      "max": 25,
+      "bands": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          11,
+          15
+        ],
+        [
+          16,
+          20
+        ],
+        [
+          21,
+          25
+        ]
+      ],
+      "emphasis": {
+        "AO1": 5,
+        "AO2": 4,
+        "AO3": 6,
+        "AO4": 10
+      },
+      "signals": [
+        "No relevant credit.",
+        "Isolated relevant concepts or assertions.",
+        "Basic reasoning with limited contextualisation or judgement.",
+        "Relevant causal chains with uneven comparison or context.",
+        "Developed contextual arguments and supported comparison.",
+        "Sustained, coherent comparison and justified prioritisation responsive to the question."
+      ],
+      "rules": [
+        "A real named business is not compulsory; plausible, specific hypothetical contexts can earn credit.",
+        "Do not reward length or count keywords."
+      ]
+    },
+    "psychology-standalone-16": {
+      "max": 16,
+      "bands": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          13,
+          16
+        ]
+      ],
+      "emphasis": {
+        "AO1": 6,
+        "AO3": 10
+      },
+      "signals": [
+        "No relevant credit.",
+        "Fragmentary relevant knowledge, little effective evaluation.",
+        "Some accurate explanation with limited evaluation.",
+        "Mostly accurate explanation and developed relevant evaluation, with omissions.",
+        "Precise explanation and sustained evidence-sensitive evaluation of the exact topic."
+      ],
+      "rules": [
+        "Do not require a supplied scenario or separate conclusion for a standalone describe/evaluate essay.",
+        "Credit accurate alternative research and evaluation; do not invent study results."
+      ]
+    },
+    "psychology-contextual-16": {
+      "max": 16,
+      "bands": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          13,
+          16
+        ]
+      ],
+      "emphasis": {
+        "AO1": 6,
+        "AO2": 4,
+        "AO3": 6
+      },
+      "signals": [
+        "No relevant credit.",
+        "Fragmentary relevant knowledge or superficial scenario reference.",
+        "Some accurate explanation, application or evaluation but uneven integration.",
+        "Developed relevant explanation, scenario links and evaluation with some omissions.",
+        "Accurate explanation, specific scenario application and sustained critical evaluation."
+      ],
+      "rules": [
+        "Candidate 6/4/6 is a sample-based assumption for these two original questions, not a verified item allocation.",
+        "Do not treat scenario observations as controlled research evidence."
+      ]
+    },
+    "psychology-research-methods-training": {
+      "max": 16,
+      "bands": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          13,
+          16
+        ]
+      ],
+      "emphasis": null,
+      "signals": [
+        "No relevant credit.",
+        "Fragmentary procedure or unsupported validity claims.",
+        "Some operational detail and controls; important confounds unresolved.",
+        "Coherent practical design and relevant evaluation, but incomplete control or justification.",
+        "Replicable design with appropriate controls, counterbalancing, ethics and reasoned evaluation."
+      ],
+      "rules": [
+        "Revision training scale only; no verified AQA 16-mark Research Methods tariff or numeric AO split.",
+        "Reward balanced order AND list-condition assignment; distinguish alternative designs from fulfilling the repeated-measures brief."
+      ]
+    }
+  },
+  "packs": [
+    {
+      "id": "BUS-LF05-01-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "business",
+      "scope": "AQA 7132 v2.0 §3.1.1",
+      "prompt": "To what extent should survival be the most important objective for a small business operating in an increasingly competitive market?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 selected knowledge: Differentiate accounting profit, cash flow and business objectives, including survival, growth and social objectives. Extend accurately into the concepts named in the question, with appropriately precise business terminology.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Develop two coherent arguments: survival limits risk and safeguards stakeholder commitments; excessive caution can sacrifice scale, customers and long-run competitiveness. Compare survival, profit, cash flow and growth, explaining interrelationships rather than listing objectives.",
+        "AO4 balanced judgement: Judge using stage of life, competition, finance available, external shocks and owner preferences; explain conditions under which another objective should take precedence.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-02-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "leadership",
+      "scope": "AQA 7132 v2.0 §3.2.1",
+      "prompt": "Evaluate whether Larch Medical Supplies should adopt a more democratic leadership style.",
+      "stimulus": "Larch Medical Supplies employs 220 people across two sites. Staff turnover rose from 12% to 21% after its director introduced centralised shifts; orders are 15% late. Workers want consultation, but the director argues decisions must be fast.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 accurate concepts: Differentiate autocratic and democratic leadership and relate managerial decision making to goals.",
+        "AO2 contextual selection and interpretation: Use 21% turnover, late orders and the centralised shift change; show how consultation could change scheduling and commitment.",
+        "AO3 developed causal analysis: Analyse faster local problem solving and stronger motivation against consultation cost and decision delay. Explain why the optimal style may vary by urgency, expertise and organisational culture.",
+        "AO4 evaluation and judgement: Recommend a bounded more participative approach for shift planning while retaining clear authority during emergencies; identify success measures.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Level discriminator: A 13–16-quality response integrates multiple actual facts from this specific case, develops at least two competing causal chains and prioritises a qualified conclusion. A 5–8-quality response mainly describes an idea and cites a fact without analysing its consequences. The exact band decision requires calibrated reviewed exemplars."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-02-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "leadership",
+      "scope": "AQA 7132 v2.0 §3.2.1–3.2.3",
+      "prompt": "To what extent is effective leadership more important than formal decision-making methods for a growing business?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 selected knowledge: Differentiate autocratic and democratic leadership and relate managerial decision making to goals. Extend accurately into the concepts named in the question, with appropriately precise business terminology.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Explain mechanisms by which leadership enables execution, cultural change and stakeholder trust. Compare systematic decisions using data/decision trees and leader judgement under time pressure and uncertainty.",
+        "AO4 balanced judgement: Use qualification/context-sensitive judgement, not a universal leader-versus-method slogan; explain how a well-chosen style supports robust evidence-based decision making.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-03-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "marketing",
+      "scope": "AQA 7132 v2.0 §3.3.1–3.3.4",
+      "prompt": "To what extent is accurate marketing research more important than an effective marketing mix when launching a new product?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 selected knowledge: Define segmentation, targeting, positioning and relevant product, price, promotion and place decisions. Extend accurately into the concepts named in the question, with appropriately precise business terminology.",
+        "AO2 plausible business contexts: This is a standalone original Paper 1 25-mark-style training essay; no supplied case is automatically compulsory. Credit internally consistent, conditional examples of launches (e.g. specialist unfamiliar versus established repeat-purchase markets), with realistic target buyers, research quality and marketing-mix execution. A famous brand name without causal case-specific application is not sufficient. Proposed numeric AOs are historical authoring guidance only, not an independently verified 2027 item-level mark scheme.",
+        "AO3 developed analysis: Explain how research reduces launch uncertainty yet sampling, extrapolation and reliability limit forecasts. Show how integrated product, price, place and promotion can succeed or fail even with accurate information.",
+        "AO4 balanced judgement: Judge whether information quality or execution is the binding constraint, with new versus established markets and launch budget considered.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-10-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "strategic-change",
+      "scope": "AQA 7132 v2.0 §3.10",
+      "prompt": "To what extent is organisational culture the most important influence on successful strategic change?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 selected knowledge: Explain strategic change, resistance, consultation, organisational culture and implementation planning. Extend accurately into the concepts named in the question, with appropriately precise business terminology.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Develop how values/norms influence adoption, motivation and coordination during change. Compare leadership, resources, communication, technology readiness, stakeholder pressure and strategic fit.",
+        "AO4 balanced judgement: Judge when culture is dominant versus financial/resources or external market constraints; discuss interaction and time horizon.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Level discriminator: High-band answers sustain two or more developed competing arguments, refer consistently to realistic context, weigh their relative significance and reach a comparative conclusion responsive to To what extent. Mid-band answers may analyse well but reach a weak/conditional-but-unexplained overall judgement; low-band answers list general advantages and disadvantages."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-01-S1",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "social-influence",
+      "scope": "AQA 7182 v1.4 §4.1.1",
+      "prompt": "Discuss explanations for resistance to social influence, using the situation above in your answer.",
+      "stimulus": "At a sixth-form council meeting, seven student representatives are asked by the college organiser to support a proposed timetable change. Leila privately thinks the change is unfair. At first she stays silent while other representatives agree. When another student openly objects, Leila says that she also disagrees and explains why. Later Leila says that she prefers to make decisions based on her own judgement rather than simply following the group.",
+      "maxMark": 16,
+      "family": "psychology-contextual-16",
+      "sourceBlob": "0fd105a82cd656740018329e668d7b9b2113ac39",
+      "guide": [
+        "AO1 / knowledge: Explain social support as a route to resisting conformity and, if used, authority pressure. Explain locus of control as an account of perceived personal control and the tendency to take responsibility for choices. Correctly distinguish resistance from mere agreement and describe the two explanations without treating them as identical.",
+        "AO2 / the actual scenario: Leila initially stays silent despite disagreement, an ally speaks first, and Leila then objects: this supports possible social support reducing unanimity and fear of standing alone. Her later reported preference for independent judgement may be consistent with an internal locus of control; it is not proof of her measured locus of control. The organiser's request provides authority context but does not demonstrate why she originally complied.",
+        "AO3 / reasoned evaluation: Evaluate evidence and limits of experimental findings about allies, including controlled-setting generalisation. Examine whether locus of control explains resistance consistently or changes with setting and social norms. Compare situational and dispositional explanations and form a qualified judgement about their relative contributions.",
+        "Alternative credit: A supported explanation involving the visibility of dissent, changes in perceived group unanimity or confidence may be creditworthy when explicitly connected to social support. Some answers may distinguish conformity and obedience, provided the distinction stays anchored to this specific situation. Do not require one named classic study if a logically accurate and relevant explanation is supplied.",
+        "What would weaken the answer: claiming Leila's self-report proves high internal locus of control, stating that one dissenter always causes resistance, listing conformity/obedience experiments with no connection to her response, or giving generic evaluation that does not answer the command.",
+        "Useful self-review questions (only after attempt): Did I explain both named mechanisms correctly? Did I use specific facts from the council scene? Did I evaluate the explanations instead of only describing them? Did I avoid treating the scenario as experimental proof?",
+        "Qualitative differentiation, not a calibrated grade: A stronger answer integrates both mechanisms, precise scenario application, evidence-sensitive objections and a qualified overall judgement. A developing answer explains one mechanism well but offers little direct scenario use or evaluation. A limited answer mainly retells the story or lists unsupported keywords."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-01",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "social-influence",
+      "scope": "AQA 7182 v1.4 §4.1.1 — resistance to social influence",
+      "prompt": "Describe and evaluate the roles of social support and locus of control in explaining why people resist social influence.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 16-mark-style extended-writing practice; no confirmed item-level AQA 2027 mark tariff or examiner-calibrated numeric AO allocation.",
+        "Accurate subject knowledge: Explain how social support (including a dissenting ally) can reduce unanimity or obedience pressure, and how internal versus external locus of control relates to perceived personal control. Distinguish conformity and obedience where relevant.",
+        "Reasoned evaluation: Weigh controlled evidence about dissenting allies against generalisability and context. Discuss limitations of associations between locus of control and resistance; correlation does not show that perceived control alone causes resistance.",
+        "Comparative analysis: Contrast situational social support with dispositional locus of control; neither factor guarantees resistance. Address when each explanation is useful and how context changes its predictions.",
+        "Creditworthy alternatives: Relevant social-norm, legitimacy or experience arguments are creditworthy when explicitly connected to the named explanations. No one named classic experiment is mandatory for every valid explanation.",
+        "Response quality: Strong answers develop accurate mechanisms, evidence-sensitive limitations and a justified answer-focused judgement. The judgement may be woven through the evaluation; do not require a separate final paragraph.",
+        "Self-review prompt: Did I explain both mechanisms, evaluate the evidence rather than simply cite it, and distinguish tendencies from a proven cause of an individual's behaviour?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-02",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "memory",
+      "scope": "AQA 7182 v1.4 §4.1.2 — working-memory model",
+      "prompt": "Discuss the working-memory model as an explanation of how people may carry out different short-term memory tasks at the same time.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 16-mark-style extended-writing exercise; the precise AQA 2027 item tariff and per-item AO split are not established.",
+        "Accurate knowledge: Describe the central executive, phonological loop, visuo-spatial sketchpad and episodic buffer, addressing coding/processing differences and the model's limited-capacity resources.",
+        "Task linkage: Explain why concurrent tasks drawing on different subsystems may interfere less than tasks competing for the same resources; attentional demands, complexity and executive limits can still produce interference.",
+        "Evaluation: Use relevant dual-task research and, where accurate, neuropsychological cases as qualified support. Recognise the limitations of laboratory dual-task designs and difficulty specifying the central executive precisely.",
+        "Creditworthy alternatives: Relevant cognitive or neural findings are acceptable if their implications are explained. Correct component knowledge earns recognition even when the task link is weak, but it is not by itself a developed discussion.",
+        "Response quality: Strong answers connect processes to actual concurrent-task demands, evaluate counterexamples and reach a sustained, qualified judgement about what the model explains and leaves unresolved; a separate formal conclusion is not essential.",
+        "Self-review prompt: Did I apply the components to both compatible and conflicting concurrent tasks without asserting that different modalities never interfere?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-07",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 2,
+      "topic": "research-methods",
+      "scope": "AQA 7182 v1.4 §4.2.3 (experimental method) and §4.2.3.1 (scientific processes: repeated-measures design, control and validity)",
+      "prompt": "A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Using the proposed repeated-measures design, describe how the researcher should conduct the study, including controls, and evaluate threats to its validity.",
+      "stimulus": "The same 40 volunteers complete both conditions. List difficulty, musical preferences and time of day could affect recall; the research is not yet underway.",
+      "maxMark": 16,
+      "family": "psychology-research-methods-training",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 16-mark-style research-methods training task, NOT a verified 16-mark tariff for the 2027 AQA research-methods paper.",
+        "Research design: Operationalise music versus silence as the independent variable, a scored recall measure as the dependent variable, and an appropriate repeated-measures hypothesis; specify a practical procedure with standardised instructions.",
+        "Critical list control: Counterbalance both condition order and list assignment. For example, divide the 40 volunteers into four groups of ten: music/List A then silence/List B; silence/List A then music/List B; music/List B then silence/List A; silence/List B then music/List A. Other appropriately balanced assignments earn credit. Pilot-test word lists for similar difficulty; counterbalancing allocation does not itself demonstrate that lists are equally difficult.",
+        "Applied procedure and ethics: Explain group/order allocation for the 40 volunteers, timing, consistent volume or music conditions, voluntary participation, informed consent and withdrawal, with measures that reduce demand or investigator effects.",
+        "Evaluation: Assess order/practice/fatigue effects, list equivalence, musical preference, volunteer sampling, ecological/temporal validity and whether observed recall differences would support a causal inference.",
+        "Alternative credit: A fully specified independent-groups comparison may be evaluated as an alternative with its own individual-differences trade-off; do not treat a replacement design as satisfying the supplied repeated-measures brief without explaining the deviation.",
+        "Response quality: Strong answers give replicable operational detail, relate each control/weakness to this specific sample and task, and weigh genuine trade-offs. No official examiner mark or numeric AO distribution is inferred.",
+        "Self-review prompt: Did I counterbalance order AND list-condition assignment, and explain why each identified threat could change the results?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-03-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "marketing",
+      "scope": "AQA 7132 v2.0 §3.3 — market research and marketing decisions",
+      "prompt": "Evaluate whether Mira Sports Drinks should introduce a sugar-free premium product rather than cut prices on its current range.",
+      "stimulus": "Mira Sports Drinks has a 12% market share. Sales volume fell 8% after a £1 price rise. A survey of 80 urban athletes finds strong interest in a sugar-free version, but rivals now promote cheaper alternatives.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 16-mark-style contextual Business evaluation; AQA's exact 2027 item-level AO split is not verified and no official mark is awarded.",
+        "Accurate knowledge: Explain relevant segmentation, targeting and positioning alongside product and price elements of the marketing mix and price sensitivity.",
+        "Case application: Use Mira's 12% share, 8% sales-volume fall after a £1 price rise, interest in sugar-free products among 80 urban athletes, and cheaper rival offers. The survey is limited and may not represent the wider market.",
+        "Developed analysis: Explain plausible benefits of premium sugar-free differentiation versus reducing prices to defend sales volumes and share; connect customer demand, margins and brand position, using conditional causal reasoning.",
+        "Evidence boundaries: The stimulus does not supply contribution per unit, production capacity, launch cost or a reliable price elasticity estimate. Discuss these as unknown decision risks, not established facts or calculable certainties.",
+        "Reasoned judgement: Compare both choices and justify a conditional recommendation linked to contribution, representativeness of market testing and competitor response. Credit defensible alternatives on the same evidence.",
+        "Response quality: Strong answers use multiple real case facts, reason through competing consequences and support a qualified judgement; a generic list of four Ps or unsupported claims about profitability remains limited.",
+        "Self-review prompt: Did I make a genuine choice, treat sample and price-change evidence cautiously, and avoid inventing margin or production-capacity figures?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-04-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "operations",
+      "scope": "AQA 7132 v2.0 §3.4.3 — lean production and operational efficiency",
+      "prompt": "To what extent is lean production the most effective way for a manufacturer to improve its competitiveness?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 25-mark-style Paper 1 broad essay, not an official or independently examiner-calibrated AQA 2027 marking scheme; no supplied case is compulsory.",
+        "Selected knowledge: Explain lean production, waste reduction, just-in-time versus just-in-case inventory, and efficiency/productivity. Capacity utilisation or quality are useful where directly connected to a causal argument rather than listed as unrelated definitions.",
+        "Applied examples: Use coherent manufacturer examples (actual or plausible) to distinguish situations with reliable supply, variable demand or tight quality demands. No fictitious case data is provided or required.",
+        "Developed analysis: Explain plausible cost, responsiveness, lead-time and quality benefits, alongside lean vulnerabilities such as stockouts, supplier disruption, employee capability and excessive pressure on quality.",
+        "Comparison: Recognise that continuous improvement (kaizen), process improvement and quality management may be part of lean production rather than rival strategies. Contrast genuine competing or complementary priorities such as automation, added flexible capacity or product differentiation; explain when these choices add value or complement lean methods.",
+        "Balanced judgement: Weigh competitiveness as cost, reliability, quality and differentiation; reach a justified comparative position conditional on supply-chain stability and customer needs.",
+        "Response quality: Strong answers sustain connected competing causal chains, specific illustration and a justified overall judgement. Lists of lean slogans or unsupported numerical claims are insufficient.",
+        "Self-review prompt: Did I compare lean with genuine alternatives and explain why the best approach depends on the manufacturer's situation?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-07-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "strategic-position",
+      "scope": "AQA 7132 v2.0 §3.7 — analysing strategic position and quantitative information",
+      "prompt": "To what extent are quantitative methods more valuable than qualitative assessment when managers analyse a business's strategic position?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "7f6304f49f4d736fb49387b7b11d6accdd2f7f3c",
+      "guide": [
+        "Training classification: Original Revision 25-mark-style Paper 1 strategic analysis essay; the precise AQA 2027 item-level tariff and AO marks are not verified.",
+        "Selected knowledge: Explain how quantitative ratios, trend forecasts and selected investment-appraisal estimates differ from qualitative information about customers, management, culture and competitive context; distinguish a tool from the evidence it contains.",
+        "Relevant context: Illustrate comparisons using reasonable contrasting business situations, without inventing a compulsory supplied case or assuming a named company's private figures.",
+        "Developed analysis: Quantitative evidence can support comparison, measurement and prioritisation but ratios depend on accounts and definitions while forecasts/appraisals rest on uncertain assumptions. Explain which questions the numbers can and cannot answer.",
+        "Qualitative balance: Analyse how stakeholder insight, culture, SWOT/PEST-style judgements and strategic capabilities add context. SWOT and external-analysis tools may mix numeric and qualitative evidence; do not misclassify them as inherently quantitative.",
+        "Balanced judgement: Compare methods for distinct purposes, industry conditions, scale and uncertainty; a mixed approach may be strongest, but credit a reasoned quantitatively or qualitatively weighted judgement.",
+        "Response quality: Strong answers develop competing chains with relevant examples, interrogate evidence limitations and sustain a conditional judgement, not a list of tools or an asserted universal ranking.",
+        "Self-review prompt: Did I distinguish measurement from judgement, explain forecast uncertainty and consider genuinely qualitative factors in the specific strategic decision?"
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-03",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "attachment",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.1.3, p18 — Bowlby's monotropic theory, critical period and internal working model",
+      "prompt": "Describe and evaluate Bowlby's monotropic theory as an explanation of the formation and later influence of infant attachments.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain monotropy, social releasers, the proposed critical period and evolutionary/adaptive role.",
+        "Explain the internal working model as a proposed foundation for expectations of later relationships.",
+        "Distinguish Bowlby's claims from learning-theory accounts where useful.",
+        "Evaluate relevant research on early attachment and later relationships, avoiding causal overclaiming.",
+        "Question the universality of monotropy and the evidence for a strict critical rather than sensitive period.",
+        "Consider alternative explanations, including continuity of care and later experiences.",
+        "Make a judgement balancing the theory's explanatory reach against deterministic claims.",
+        "Alternative valid answer routes: Credit carefully distinguished separation, deprivation or institutionalisation evidence only when linked explicitly to Bowlby and his proposed critical period, internal working model or later-relationship predictions. Do not reward tangential description or conflate these constructs.",
+        "Source-specific correction / alternative-credit safeguard: The strict critical period is a theoretical proposal, not an established universal cutoff; separate monotropy and later internal working models from maternal deprivation and institutionalisation.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-04",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "clinical-psychology-and-mental-health",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.1.4, p18 — cognitive explanations and CBT treatment of depression",
+      "prompt": "Describe and evaluate cognitive explanations of depression and the use of cognitive behaviour therapy to treat depression.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain Beck's negative triad and Ellis's ABC model, including irrational beliefs.",
+        "Explain CBT with practical mechanisms: collaboratively identify negative automatic thoughts and beliefs, test evidence for or against them, restructure unhelpful interpretations and use appropriate behavioural experiments or activity scheduling. Ellis's REBT can use disputation of irrational beliefs; these examples support, rather than exhaust, valid CBT explanations.",
+        "Distinguish an explanation of depression from evidence of treatment effectiveness.",
+        "Evaluate supportive treatment evidence while distinguishing effectiveness from proof of cause.",
+        "Discuss feasibility, engagement, relapse and whether cognitive interventions suit all presentations.",
+        "Consider the direction of causality between negative thinking and symptoms, and relevant alternatives.",
+        "Develop a qualified judgement about explanatory usefulness and treatment appropriateness.",
+        "Alternative valid answer routes: Credit accurate relevant evidence or treatment comparisons where used to evaluate cognitive explanations or CBT. Do not invent effect sizes or exclude relevant evidence because of an unsupported time-based content restriction.",
+        "Source-specific correction / alternative-credit safeguard: Beck's triad covers negative views of self, world and future; Ellis's ABC relates activating events, beliefs and consequences. A response to CBT does not prove cognitive beliefs caused the condition.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-05",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 2,
+      "topic": "approaches-in-psychology",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.2.1, p19 — behaviourist approach and social learning theory; comparison of approaches",
+      "prompt": "Discuss similarities and differences between the behaviourist approach and social learning theory in explaining how behaviour is acquired, and evaluate their usefulness.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Accurately explain classical conditioning, operant conditioning and reinforcement in behaviourism.",
+        "Explain imitation, identification, vicarious reinforcement and mediational processes in social learning theory.",
+        "Identify a meaningful distinction between direct reinforcement and observed learning.",
+        "Use relevant research (such as Pavlov, Skinner or Bandura) to evaluate scientific control and ecological validity.",
+        "Compare cognitive mediation in social learning theory with the relative emphasis on observable behaviour in behaviourism.",
+        "Evaluate determinism, explanatory scope and individual/cultural differences without treating labels as substitutes for reasoning.",
+        "Reach an argued comparative conclusion.",
+        "Alternative valid answer routes: Credit alternative sound comparison of predictions, methods and practical applications. Avoid crediting inaccurate assertion that social learning theory rejects reinforcement.",
+        "Source-specific correction / alternative-credit safeguard: Pavlov's classical and Skinner's operant conditioning differ from Bandura's imitation, identification, vicarious reinforcement and mediational processes. Social learning does not reject reinforcement.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-06",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 2,
+      "topic": "biopsychology",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.2.2, p19 — ways of studying the brain; localisation/plasticity",
+      "prompt": "Discuss the usefulness and limitations of fMRI, EEG and post-mortem examinations for investigating localisation of brain function.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Identify the kind of evidence each technique provides: fMRI blood-oxygen-related activity, EEG electrical activity and examination of brain tissue.",
+        "Distinguish temporal and spatial information and the nature of evidence available from each method.",
+        "Connect these techniques to investigating localisation of function without presenting correlation as localisation proof.",
+        "Compare spatial versus temporal resolution and the inferential limits of fMRI.",
+        "Evaluate EEG's temporal strengths and difficulties identifying precise deep locations.",
+        "Evaluate post-mortem structural insights alongside retrospective, confounding and causal limitations.",
+        "Draw a justified conclusion about combining methods for converging evidence.",
+        "Alternative valid answer routes: Credit well-linked discussion of ERPs and split-brain evidence when relevant. Do not ask learners to evaluate the endocrine system as if it were a theory; this question targets methods.",
+        "Source-specific correction / alternative-credit safeguard: fMRI measures indirect blood-oxygen signal; EEG scalp activity, with time-locked ERP signals; post-mortem provides anatomy after death. Temporal, spatial and retrospective inference differ.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-08",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "issues-and-debates-in-psychology",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.1, pp21–22 — nature–nurture debate and interactionist approach",
+      "prompt": "Discuss the nature–nurture debate in psychology, using relevant examples from other topics of psychology you have studied.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain the distinction between heritable/biological and environmental influences.",
+        "Credit well-explained interactionist accounts as a relevant way to connect heredity and environment, without requiring a separate definition where the answer otherwise addresses the nature-nurture debate accurately.",
+        "Accurately select relevant examples from compulsory topics that students have studied; examples from an optional topic are also creditworthy if the learner has studied that option.",
+        "Evaluate explanatory limits of strictly nature-only or nurture-only accounts using connected psychological evidence.",
+        "Discuss how gene–environment interplay changes interpretation and practical intervention.",
+        "Evaluate scientific/ethical implications of deterministic oversimplification where pertinent.",
+        "Build a synoptic judgement grounded in appropriately selected studied topics and the quality of relevant evidence, rather than rewarding a fixed number of topic names.",
+        "Alternative valid answer routes: First illustrate valid links using common compulsory content, such as attachment, biopsychology, memory or approaches. Also credit sound examples from aggression, schizophrenia or any other relevant optional content where the learner has actually studied that option. No fixed named-study list or minimum topic count is an AQA-wide rule; award credit for accurate explicit links, developed evaluation and defensible alternatives.",
+        "Source-specific correction / alternative-credit safeguard: Credit accurately linked examples from compulsory and genuinely studied optional topics, not a fixed list. Interactionism can strengthen evaluation, but do not withhold credit from a developed nature-nurture discussion solely because it omits a standalone definition of interactionism.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-09",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "relationships",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.2, p22 — social exchange theory, equity theory, investment model",
+      "prompt": "Describe and evaluate explanations of why people remain in romantic relationships, referring to social exchange theory and Rusbult's investment model.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain perceived rewards, costs and comparison levels in social exchange theory.",
+        "Describe satisfaction, alternatives, investment and commitment in the investment model.",
+        "Distinguish staying in a relationship from judging its short-term quality.",
+        "Evaluate supporting research and methodological limits of retrospective/self-report relationship measures.",
+        "Compare how social exchange theory outcomes and comparison standards, and the investment model satisfaction, alternatives and investments, explain persistence and commitment over time.",
+        "Discuss social/cultural and individual differences and whether rational calculations reflect actual relationship decisions.",
+        "Offer a balanced comparison tied to persistence in relationships.",
+        "Alternative valid answer routes: Credit appropriately used equity theory as comparative evaluation. Avoid mixing concepts of Duck's breakdown phases into a demand solely about maintenance without a reason.",
+        "Source-specific correction / alternative-credit safeguard: Social exchange theory uses rewards/costs and comparison levels; Rusbult distinguishes satisfaction, alternatives, investment and commitment. Investment can sustain a relationship despite low satisfaction.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-10",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "gender",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.3, p22 — cognitive explanations Kohlberg and gender schema theory",
+      "prompt": "Discuss cognitive explanations of gender development, including Kohlberg's theory and Martin and Halverson's gender schema theory.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Accurately describe gender identity, stability and constancy in Kohlberg's account.",
+        "Explain schema-based information processing and attention to gender-related information in gender schema theory.",
+        "Distinguish developmental stages from schema-based processes.",
+        "Consider relevant cognitive development evidence and how it supports or challenges age-related predictions.",
+        "Assess whether schemas explain variation and change, and how social learning/culture influences construction of schemas.",
+        "Evaluate methodological problems in measuring complex gender concepts sensitively and accurately.",
+        "Develop a careful judgement that does not assume all identities develop identically.",
+        "Alternative valid answer routes: Credit specification-consistent discussion of non-binary and gender-fluid identities as evaluation of assumptions. Avoid obsolete stereotypes, causal overclaims and treating chromosomal sex as identical to gender identity.",
+        "Source-specific correction / alternative-credit safeguard: Kohlberg's identity, stability and constancy should not be conflated with Martin and Halverson's schema processing. Biological sex is not identical to gender identity; do not assume binary-only experience.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-11",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "cognition-and-development",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.4, p22 — Piaget and Vygotsky; learning and development",
+      "prompt": "Compare and evaluate Piaget's and Vygotsky's explanations of cognitive development, including their implications for how children learn.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain schemas, assimilation, accommodation and equilibration in Piaget's account.",
+        "Explain the zone of proximal development and scaffolding in Vygotsky's account.",
+        "Contrast independent maturation/discovery with socially supported learning without caricaturing either view.",
+        "Evaluate research evidence on stages and task demands, including alternative interpretations of children's performance.",
+        "Discuss the role of language, social interaction and culture as a strength or boundary of each theory.",
+        "Assess educational implications with qualified claims and methodological safeguards.",
+        "Make a reasoned comparative evaluation of what each account explains well and less well about cognitive development and classroom learning, with evidence-sensitive qualifications rather than a list of names.",
+        "Alternative valid answer routes: Credit knowledge of object permanence or conservation when explicitly relevant. Avoid attributing all cognitive change only to age or only to instruction.",
+        "Source-specific correction / alternative-credit safeguard: Contrast Piaget's schemas, assimilation, accommodation, equilibration and stages with Vygotsky's zone of proximal development and scaffolding. Neither theory claims maturation or instruction alone explains all development.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-12",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "schizophrenia",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.5, pp22–23 — diathesis–stress and interactionist explanation/treatment",
+      "prompt": "Discuss the interactionist approach to explaining and treating schizophrenia, including the diathesis–stress model.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Define vulnerability/diathesis and stress and show how they can interact.",
+        "Describe relevant biological, psychological and social influences on presentation and treatment.",
+        "Illustrate interactionist treatment using typical or atypical antipsychotic medication alongside CBT or family therapy where appropriate, with social support where relevant. Explain how biological and psychological components address different needs; do not demand one fixed treatment combination or infer that treatment success proves the cause of schizophrenia.",
+        "Evaluate evidence for combined vulnerability-and-stress explanations rather than independent single causes.",
+        "Consider merits and limits of treatment combinations and individual variation in response.",
+        "Address methodological and ethical problems including heterogeneity of symptoms and difficulties inferring causation.",
+        "Reach a qualified conclusion about explanatory and clinical usefulness.",
+        "Alternative valid answer routes: Credit evidence about dopamine/genetic correlates or dysfunctional thinking when coherently linked. Avoid implying patients or families are personally responsible for illness.",
+        "Source-specific correction / alternative-credit safeguard: The diathesis-stress model proposes interacting vulnerability and environment. Credit biological, psychological and social factors or interventions where relevant; combined treatments do not prove aetiology or justify patient or family blame.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-13",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "eating-behaviour",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.6, p23 — biological and psychological explanations of anorexia nervosa",
+      "prompt": "Discuss biological and psychological explanations for anorexia nervosa, evaluating how well they explain its development.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain genetic/neural vulnerability at an appropriate conceptual level.",
+        "Describe at least one specified psychological explanation, such as family systems, social learning or cognitive distortions.",
+        "Distinguish a proposed cause from a consequence or correlate of disordered eating.",
+        "Evaluate relevant family, twin or neurobiological evidence with confounding cautions.",
+        "Consider cultural, media and individual differences that challenge single-factor accounts.",
+        "Assess bidirectional influences and limitations of retrospective or clinical samples.",
+        "Reach an evidence-sensitive conclusion about the relative usefulness of biological and psychological explanations; an interactionist synthesis is a valid but not compulsory route.",
+        "Alternative valid answer routes: Credit well-supported comparison of family systems, social learning and cognitive approaches. Avoid implying a particular family pattern inevitably causes anorexia.",
+        "Source-specific correction / alternative-credit safeguard: Anorexia options distinguish genetic and neural from family systems, social learning and cognitive explanations. Changes associated with malnutrition could be effects, not original causes. Avoid blaming families.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-14",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "stress",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.7, p23 — stress inoculation therapy and biofeedback; managing stress",
+      "prompt": "Describe and evaluate stress inoculation therapy and biofeedback as ways of helping people manage stress.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain stress inoculation therapy using conceptualisation (identify stressors and responses), skills acquisition and rehearsal (practise coping skills) and application/follow-through (apply and review skills in increasingly realistic situations). Accept equivalent accurate names for these phases.",
+        "Explain biofeedback through physiological monitoring such as muscle tension or skin conductance and immediate feedback used to practise self-regulation; distinguish monitoring a response from removing the underlying stressor.",
+        "Distinguish psychological coping training from physiological feedback mechanisms.",
+        "Evaluate evidence of effectiveness, considering outcome measures and durability.",
+        "Compare individual suitability, access, cost and skill maintenance rather than assuming equal benefit.",
+        "Consider broader stressors (such as workload or lack of control) that individual treatments may not remove.",
+        "Reach an argued conditional recommendation or comparative conclusion.",
+        "Alternative valid answer routes: Credit relevant discussion of social support or workplace stressors as evaluation. Avoid implying that biofeedback removes the original stressor or that one therapy always works.",
+        "Source-specific correction / alternative-credit safeguard: Stress inoculation therapy uses coping-skills phases; biofeedback gives physiological monitoring for self-regulation. Neither necessarily removes an external stressor.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-15",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "aggression",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.8, p23 — frustration–aggression, social learning and de-individuation",
+      "prompt": "Discuss psychological explanations of human aggression, referring to the frustration–aggression hypothesis and social learning theory.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Distinguish the original frustration–aggression hypothesis's strong proposed link between blocked goals/frustration and aggression from later revisions recognising that frustration can produce non-aggressive responses and aggression depends on additional cues, interpretation and context. Do not assert that frustration inevitably causes aggression.",
+        "Explain imitation, identification, reinforcement and mediated processes in social learning.",
+        "Distinguish explanations based on immediate frustration from learned behavioural patterns.",
+        "Evaluate the strength and limitations of supporting observational and experimental evidence.",
+        "Discuss why frustration need not lead to aggression and the roles of appraisal or alternative responses.",
+        "Compare cultural/contextual predictions and methodological/ethical limits.",
+        "Conclude on interaction with biological or situational influences.",
+        "Alternative valid answer routes: Credit de-individuation research as comparison if directly relevant. Do not claim media exposure inevitably causes violent behaviour.",
+        "Source-specific correction / alternative-credit safeguard: Frustration does not always produce aggression, and observing aggression does not ensure imitation. Distinguish frustration hypotheses from Bandura-style learning.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-16",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "forensic-psychology",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.9, pp23–24 — offender profiling, typology, investigative and geographical profiling",
+      "prompt": "Compare typology-based and data-driven offender profiling, evaluating their usefulness to criminal investigations.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain organised/disorganised categorisation in typology profiling.",
+        "Explain data-driven offender profiling using investigative psychology (analysis of behavioural/case patterns) and/or geographical profiling (analysis of spatial offence patterns). These are distinct methods in AQA 7182 §4.3.9, not synonyms, but either can support an accurate comparison with organised/disorganised typology under this broadly worded question.",
+        "Identify the types of information available to investigators and distinguish hypotheses from proof.",
+        "Evaluate empirical validity, consistency and predictive usefulness of types.",
+        "Assess strengths and biases of data-driven patterns, including sample representativeness and false positives.",
+        "Discuss ethical and practical risks when profiling directs limited resources.",
+        "Develop a conditional judgement about investigative support versus forensic proof.",
+        "Alternative valid answer routes: Credit accurately developed investigative psychology and/or geographical profiling as legitimate data-driven comparisons with typology-based offender profiling. Distinguish behavioural and spatial methods and their limitations without requiring a predetermined approach or conflating terms. Assess the accuracy, relevance and quality of the student's comparison. A profile does not prove guilt or uniquely identify an offender.",
+        "Source-specific correction / alternative-credit safeguard: Organised/disorganised typology differs from data-driven investigative psychology; geographical profiling separately concerns spatial offence patterns. A profile cannot prove guilt.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-17",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 3,
+      "topic": "addiction",
+      "scope": "AQA 7182 v1.4: AQA Psychology 7182 v1.4 §4.3.10, p24 — gambling addiction, reinforcement and cognitive bias",
+      "prompt": "Discuss learning and cognitive explanations for gambling addiction, evaluating their relative usefulness.",
+      "stimulus": null,
+      "maxMark": 16,
+      "family": "psychology-standalone-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "Explain partial/variable reinforcement and persistence of gambling behaviour.",
+        "Describe relevant cognitive biases in perceived probability or control.",
+        "Relate these to persistence despite negative consequences without treating all gambling as addiction.",
+        "Evaluate experimental/clinical evidence and limits of extrapolation to real gambling contexts.",
+        "Compare the explanatory power of reinforcement schedules with belief-based accounts.",
+        "Discuss vulnerability and situational factors that neither model explains completely.",
+        "Reach a balanced conclusion on the value of combining cognitive and behavioural approaches.",
+        "Alternative valid answer routes: Credit cautiously interpreted links to psychological or social risk factors. Avoid unsupported diagnostic claims or implying that all gamblers share the same cognitive biases.",
+        "Source-specific correction / alternative-credit safeguard: Gambling-related variable reinforcement and cognitive biases are distinct mechanisms. Neither proves every gambler has addiction, nor can all outcomes be attributed to one cause.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-01-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "finance",
+      "scope": "AQA 7132 v2.0 §§3.1.1 (profit measurement/objectives), 3.5.1, 3.5.3–3.5.4 (cash, borrowing and financial decisions)",
+      "prompt": "To what extent should Marshbrook Bakery prioritise cash flow rather than profit when deciding whether to expand?",
+      "stimulus": "Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand, while several owners favour slower expansion funded internally to avoid substantial new borrowing.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Differentiate accounting profit, cash flow and business objectives, including survival, growth and social objectives.",
+        "AO2 contextual selection and interpretation: Use the £60,000 profit (revenue minus total costs), £90,000 cash and proposed £400,000 borrowing; distinguish profitability from liquidity.",
+        "AO3 developed causal analysis: Explain how insufficient cash buffers could constrain wages, suppliers or investment despite reported profit; the £90,000 cash balance cannot by itself establish whether the buffer is adequate without payment timings and obligations. Analyse competitive threats without treating borrowing and retaining profit as mutually exclusive.",
+        "AO4 evaluation and judgement: Weigh short-run cash resilience against profitable expansion and competitive positioning; credit slower internally funded, phased, mixed-finance or borrowing-led expansion when justified. Retained profits and borrowing can coexist; judge affordability only with debt-service terms, financial commitments and cash forecasts.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: The simplified revenue-minus-total-cost surplus is £60,000 (about 3.3% of revenue), not the same as £90,000 cash. Neither figure is a cash-flow forecast or establishes affordability of £400,000 borrowing.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-04-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "operations",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.4",
+      "prompt": "Assess whether Pine Components should prioritise improving quality rather than increasing capacity.",
+      "stimulus": "Pine Components plc operates at 96% capacity utilisation, has a 7% rework rate and delivers 14% of orders late. A proposed machine costs £1.5m and could increase output capacity, but its effect on defects is unknown. Managers also fear that reducing buffer inventory could interrupt production.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Explain quality, capacity utilisation, unit cost and the role of inventory and lean methods.",
+        "AO2 contextual selection and interpretation: Use 96% capacity, 7% rework and 14% late orders to identify quality and capacity pressures.",
+        "AO3 developed causal analysis: Show how fewer defects might free productive capacity and reduce costs, while near-full utilisation can constrain output. Analyse the proposed £1.5m machine as possible extra capacity; automation is only a possibility if verified, not an established feature. Explain how delays may affect reputation and future demand.",
+        "AO4 evaluation and judgement: Compare the potential costs of defects, capacity constraints and late deliveries without pretending their relative net costs are known; obtain throughput, demand and cost evidence before prioritising the £1.5m investment.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: The proposed £1.5m machine might add capacity, but no defect reduction is established. 7% rework, 96% utilisation and 14% late delivery are real facts; causality and effective capacity gain remain unknown.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-05-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "finance",
+      "scope": "AQA 7132 v2.0 §§3.5.2–3.5.4 and §3.7.2 (finance decisions, ratio analysis, liquidity and borrowing)",
+      "prompt": "Evaluate whether a long-term bank loan is a suitable way for Harbour Furniture to finance its expansion.",
+      "stimulus": "Harbour Furniture Ltd reports operating profit of £480,000 on sales of £6m, current assets of £700,000 and current liabilities of £800,000. A £1m expansion could be financed by a secured loan at a variable rate, but orders are seasonal.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Distinguish internal/external finance, borrowing costs, liquidity and profitability measures.",
+        "AO2 contextual selection and interpretation: Calculate or correctly interpret operating profit margin 8%, current ratio 0.875:1, and net working capital −£100,000 alongside the £1m funding requirement and seasonal receipts. The ratio may indicate liquidity pressure; it is not proof of insolvency.",
+        "AO3 developed causal analysis: Analyse finance access and ownership retention against interest, collateral and cash-outflow risk. Compare retained profit, equity or leasing with scale and timing of required expenditure.",
+        "AO4 evaluation and judgement: Credit a defensible loan-or-alternative decision conditional on forecast cash flow, repayment capacity and cost of capital. Loan rate, term, repayment schedule, collateral capacity and incremental expansion cash flows are not supplied, so neither affordability nor inevitable default can be established. Retained profit is not necessarily retained available cash. Do not infer insolvency from one ratio.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: Operating margin is 8%, current ratio 0.875:1 and working capital −£100,000. One ratio cannot establish insolvency, refusal of a loan or its repayment capacity; interest is variable and demand seasonal.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-05-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "finance",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.5",
+      "prompt": "To what extent should improving cash flow take priority over increasing profitability when a business is experiencing rapid growth?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 selected knowledge: Distinguish internal/external finance, borrowing costs, liquidity and profitability measures. Extend accurately into the concepts named in the question, with appropriately precise business terminology.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Develop the distinction between profitable transactions and money available to pay immediate commitments. Analyse how rapid sales growth may consume working capital; compare benefits of pricing/margins with cash conversion and stock/credit control.",
+        "AO4 balanced judgement: Assess when liquidity is the binding survival condition and when profit improvement enables sustainable finance, accounting for business model and credit terms.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Source-specific correction / alternative-credit safeguard: Fast-growing credit sales and inventory can absorb cash before profits convert into receipts; consider receivables, supplier payment terms and financial resilience, not just margin.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-06-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "hr",
+      "scope": "AQA 7132 v2.0 §3.6.2 Analysing human resource performance (labour turnover) and §3.6.3 Making human resource decisions: improving organisational design and managing the human resource flow (training and workforce planning)",
+      "prompt": "To what extent should Orchid Care Services increase spending on training to improve staff performance?",
+      "stimulus": "Orchid Care Services has 180 employees and annual labour turnover of 32%. Training costs £1,200 per recruit. Staff survey responses cite inconsistent rotas and a lack of career progression; customer satisfaction fell from 86% to 77%.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development.",
+        "AO2 contextual selection and interpretation: If 180 represents the average workforce over the year, 180 × 32% annual labour turnover = 57.6, approximately 58 departures. If every leaver is replaced and trained at £1,200, costs could be £69,120 using the unrounded estimate or £69,600 using 58 rounded recruits; accept both well-explained estimates. Recruitment and training actually depend on replacements and needs, which are unknown. Customer satisfaction declined from 86% to 77% (9 percentage points).",
+        "AO3 developed causal analysis: Link higher competence to service quality and recruitment costs, but distinguish inadequate training from poor scheduling and progression. Explain time and opportunity costs plus the risk trained employees still leave.",
+        "AO4 evaluation and judgement: Credit either targeted/phase-in training, or a justified rota/progression-first response, or a combination, if it weighs the case facts and trade-offs. The reported satisfaction decline does not establish that inadequate training caused it. Consider skills-gap and exit-reason evidence before committing substantial spending.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: Estimated annual departures require average annual workforce size of 180. £69,120 (unrounded 57.6) and £69,600 (58 rounded replacements) are both illustrative if every leaver is replaced and each recruit requires £1,200 training. Do not imply that either is an actual budget. Satisfaction fell 9 percentage points; training causation is unproven.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-06-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "hr",
+      "scope": "AQA 7132 v2.0 §3.6.4 (financial/non-financial motivation and engagement)",
+      "prompt": "To what extent is financial reward the most effective way to improve employee motivation in a service business?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 selected knowledge: Explain the specified AQA Business §3.6.4 financial rewards (piece rate, commission, salary schemes, performance-related pay) and non-financial options (empowerment, team working, flexible working, job enrichment, job rotation). Candidates may use relevant aspects of Taylor, Maslow or Herzberg; other accurately applied theory may support analysis, but no specific combination of named theorists is required in this response.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Analyse pay as hygiene, fairness or retention influence without assuming it always changes motivation. Contrast job design, autonomy, recognition and progression using relevant motivation theories and the service context.",
+        "AO4 balanced judgement: Judge by worker needs, labour market, wage competitiveness and whether problems concern reward or working conditions.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Source-specific correction / alternative-credit safeguard: AQA 7132 §3.6.4 specifically names Taylor, Maslow, Herzberg; piece rates, commission, salaries, performance-related pay; empowerment, teams, flexibility, enrichment and rotation. Other accurate relevant theory can enrich analysis; judge the quality of the answer rather than requiring a fixed list of named theories.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-07-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "strategic-position",
+      "scope": "AQA 7132 v2.0 §§3.7.2–3.7.3 and 3.7.8 (internal financial position and investment appraisal)",
+      "prompt": "Evaluate whether the financial indicators provide sufficient evidence for Kelton Mobility to approve its overseas investment.",
+      "stimulus": "Kelton Mobility plc has revenue £25m, operating profit £2m, capital employed £16m and non-current liabilities £9m. An overseas assembly proposal has a positive NPV of £900,000 but volatile demand and an unresolved supplier agreement.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Explain how operating profit margin, ROCE, AQA gearing and investment appraisal can inform but not settle decisions. The AQA gearing formula uses non-current liabilities divided by capital employed; use the named inputs, not an unrelated debt-to-equity definition.",
+        "AO2 contextual selection: £2m/£25m = 8% operating margin, £2m/£16m = 12.5% ROCE and £9m/£16m × 100 = 56.25% AQA gearing. The stated positive NPV £900,000 depends on forecasts. Gearing may indicate funding risk, but its significance depends on trends, sector comparisons, cash flow and lender terms.",
+        "AO3 developed causal analysis: Analyse attractive returns against borrowing risk and forecast sensitivity. Consider market, competitor, operational and capability evidence beyond ratios.",
+        "AO4 evaluation and judgement: Recommend further due diligence or a conditional approval tied to key assumptions, rather than declaring that a positive NPV guarantees success.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: AQA gearing = £9m non-current liabilities / £16m capital employed × 100 = 56.25%; operating margin is 8% and ROCE is 12.5%. Reward accurate interpretation even without every calculation. The NPV relies on forecasts; no current ratio can be calculated without current assets and liabilities. Do not infer inevitable investment success or excessive gearing without comparisons.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-08-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "strategic-direction",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.8",
+      "prompt": "Evaluate whether market development is a better strategic direction for Nova Homecare than product development.",
+      "stimulus": "Nova Homecare has a strong position in its UK specialist market. It could sell current services in two new regions for £400,000 or develop a subscription monitoring product for its existing UK specialist-market customers for £1.1m. Research suggests demand in both options but the firm has limited digital expertise.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Explain market development and product development in Ansoff's matrix and their distinct risk profiles.",
+        "AO2 contextual selection and interpretation: Use £400,000 regional entry, £1.1m new product and scarce digital capability rather than only generic matrix labels.",
+        "AO3 developed causal analysis: Link using an existing service to capability fit and geographical uncertainty. Compare subscription innovation's recurring value with product-development execution and cost risks.",
+        "AO4 evaluation and judgement: Recommend a choice justified by financial capacity, customer evidence and scarce capabilities, including circumstances favouring the alternative.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: Ansoff's market development concerns existing services in new regions; product development is a new offering to current customers. £400,000 and £1.1m are costs, not forecast returns.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-08-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "strategic-direction",
+      "scope": "AQA 7132 v2.0 §3.8.2 (Porter low-cost, differentiation and focus positioning)",
+      "prompt": "To what extent should a business prioritise differentiation rather than low cost when choosing how to compete?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 selected knowledge: Explain Porter's differentiation and low-cost leadership, considering focus when relevant. Distinguish cost-base advantage from price cuts, and do not require an unrelated Ansoff matrix.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Explain how differentiation can sustain brand loyalty and pricing power; analyse its costs and imitation risks. Contrast scale/purchasing, efficiency and low-cost strategies, including vulnerability to price competition and quality loss.",
+        "AO4 balanced judgement: Judge by the nature of the market, elasticity, firm resources and customer needs; state when hybrid trade-offs are sensible.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Source-specific correction / alternative-credit safeguard: Porter's low-cost advantage concerns cost base, not automatically lowest price; differentiation provides valued distinction. Focus concerns a narrow market; Ansoff is not required here.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-09-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "strategic-methods",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.9",
+      "prompt": "Evaluate whether acquiring the competitor is a better way for Briar Logistics to grow than opening depots organically.",
+      "stimulus": "Briar Logistics Ltd can acquire a regional competitor for £8m or open three depots organically for £5m. The acquisition adds 240 drivers but has incompatible IT systems and two disputed contracts. Managers want a national network within 18 months.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Distinguish external growth/acquisition from organic growth and describe potential synergy.",
+        "AO2 contextual selection and interpretation: Use £8m versus £5m, 240 drivers, IT incompatibility, disputed contracts and 18-month target.",
+        "AO3 developed causal analysis: Analyse faster capacity/customer access and synergies against debt, integration, culture and contract risk. Compare execution times, management stretch and predictability of greenfield depots.",
+        "AO4 evaluation and judgement: Judge whether speed premium outweighs integration risk; identify synergy evidence and delivery milestones to verify.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: Acquisition £8m versus three new depots £5m are quoted option costs, not like-for-like lifetime net present values. Assess 240 drivers, IT incompatibility, disputed contracts and 18-month objective.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-09-25",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 1,
+      "topic": "strategic-methods",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.9",
+      "prompt": "To what extent is external growth the best strategic method for a business seeking rapid expansion?",
+      "stimulus": null,
+      "maxMark": 25,
+      "family": "business-standalone-25",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 selected knowledge: Explain external growth through mergers and takeovers/acquisitions versus organic growth; describe possible synergy and economies of scale or scope. Do not treat international expansion as an independent method of growth: it is a geographic direction that can be pursued through several methods.",
+        "AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.",
+        "AO3 developed analysis: Consider different forms of external growth, including mergers and takeovers, and assess speed, control, financing, integration risk and possible synergy. Compare organic growth, and assess collaborations according to whether their legal/organisational structure involves external growth. International entry is a possible direction of expansion, not a growth method in itself.",
+        "AO4 balanced judgement: Reach a conditional conclusion based on urgency, capital, capability and integration risk; avoid assuming external growth always beats organic.",
+        "Valid alternatives: A well-argued counter-position can reach the highest level. Credit evidence-backed qualifications and alternative causal pathways; do not require a prewritten conclusion.",
+        "Source-specific correction / alternative-credit safeguard: Scale and synergy from external growth are potential, not guaranteed; compare organic growth, economies/diseconomies, financing and integration costs.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "BUS-LF05-10-16",
+      "course": "aqa:aqa-a-level:7132",
+      "paper": 2,
+      "topic": "strategic-change",
+      "scope": "AQA 7132 v2.0: AQA 7132 v2.0 §3.10",
+      "prompt": "Assess whether Valen Foods should slow its digital change programme to consult employees more fully.",
+      "stimulus": "Valen Foods plc plans a digital inventory system across 12 warehouses. The pilot reduced stockouts by 18%, but 46% of surveyed staff worry about job security. Two site managers resist the rollout; suppliers need three months to adapt.",
+      "maxMark": 16,
+      "family": "business-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 accurate concepts: Explain strategic change, resistance, consultation, organisational culture and implementation planning.",
+        "AO2 contextual selection and interpretation: Use the 18% stockout improvement, 46% concern, 12 warehouses, supplier lead time and resistant site managers.",
+        "AO3 developed causal analysis: Explain how consultation improves implementation and reduces resistance while delays risk foregone inventory gains. Analyse communication, training and supplier readiness as alternatives to blanket delay.",
+        "AO4 evaluation and judgement: Recommend a phased consultation/implementation plan keyed to readiness metrics rather than ignoring staff or indefinitely postponing.",
+        "Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.",
+        "Source-specific correction / alternative-credit safeguard: An 18% stockout reduction in one pilot need not repeat across 12 warehouses; 46% surveyed staff concern has no stated sample size. Suppliers require three months to adapt.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    },
+    {
+      "id": "PSY-LF05-02-S1",
+      "course": "aqa:aqa-a-level:7182",
+      "paper": 1,
+      "topic": "memory",
+      "scope": "AQA 7182 v1.4 §4.1.2 — working-memory model components and dual-task evaluation; Paper 1; original 16-mark-style training question",
+      "prompt": "Discuss how useful the working-memory model is for explaining the results of this investigation.",
+      "stimulus": "A researcher asks 24 sixth-form volunteers to remember six spoken digits while they complete a second task. In Task A, they track the changing positions of coloured shapes on a screen. In Task B, they repeat a sequence of spoken words. Average accuracy on the digit task is 76% in Task A and 49% in Task B. All participants completed both tasks, with Task A always first. The second tasks were not independently matched for difficulty. These figures are invented for the question; they are not real research findings.",
+      "maxMark": 16,
+      "family": "psychology-contextual-16",
+      "sourceBlob": "b663a10f509e9009185329f23d44470b6f12c734",
+      "guide": [
+        "Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.",
+        "AO1 / knowledge: Explain the separate roles of the phonological loop (verbal/acoustic rehearsal), visuo-spatial sketchpad (visual/spatial processing), central executive (attentional control/coordination) and, where relevant, episodic buffer (integration). Distinguish their functions rather than presenting separate stores as a fixed proof of the model.",
+        "AO2 / actual data: The lower digit-task accuracy in Task B (49%) than Task A (76%) is consistent with greater interference when two concurrent tasks draw on verbal processing, compared with combining a verbal and a mainly visual/spatial task. The central executive may coordinate dual-task attention. The data do not isolate every component or measure capacity directly.",
+        "AO3 / challenge: Because Task A always came first and the secondary tasks were not matched for difficulty, order, fatigue and difficulty could also contribute. The 24 sixth-form volunteers are a known volunteer sample; their narrow population, possible volunteer bias and unspecified recruitment details limit generalisability. Group averages alone cannot isolate a working-memory mechanism. Use dual-task evidence as a general model strength, alongside competing explanations, unclear central-executive boundaries and limitations of simplified laboratory tasks; conclude cautiously.",
+        "Alternative credit: A well-reasoned argument about attentional demands, task interference or rehearsal is valid if it fits the prompt and does not claim the data alone establish a specific component. The episodic buffer may receive credit if appropriately connected, but it is not mandatory for every answer about this dual-task pattern.",
+        "What would weaken the answer: stating the numbers prove the working-memory model, confusing the phonological loop with visual processing, or claiming that the Task B accuracy difference was specifically caused by competing verbal processing when task difficulty and fixed task order are confounded. Comparing the task conditions is reasonable; attributing the difference to one component with certainty is not. Also avoid ignoring the investigation's limitations.",
+        "Useful self-review questions (only after attempt): Did I cite both accuracy values? Did I explain why the task pairing matters? Did I account for the fixed order or unmatched difficulty? Did I use evaluation rather than describe only component definitions?",
+        "Source-specific correction / alternative-credit safeguard: 76% versus 49% digit accuracy differs by 27 percentage points, but fixed order and unmatched second-task difficulty prevent attributing all of that difference to phonological-loop competition.",
+        "Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts."
+      ],
+      "version": "candidate-v1",
+      "status": "unvalidated_research"
+    }
+  ]
+}
