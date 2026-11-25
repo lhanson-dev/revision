@@ -34,7 +34,7 @@ Return ONE valid JSON object and nothing else:
 Use severity "pass", "minor", "material", or "blocking" for EACH of the three IDs, and explain every material/blocking finding with accurate source verification. Do not invent missing items or return one group verdict.
 ```
 
-Freeze/copy the complete Stage 1 JSON and its date/time before sharing any guide. If the reviewer saw author guidance early, discard this chat and restart the blind stage in a fresh conversation.
+Freeze/copy the complete Stage 1 JSON and its date/time before sharing any guide. For the **fastest one-chat workflow**, repeat Stage 1 for all 11 blind batches first, saving 33 question verdicts, and only then move to the guided batches. This keeps every blind item unseen by the authored guidance. If the reviewer saw its own or another batch's authored guidance early, start a fresh conversation for the unreviewed blind items and record that session boundary.
 
 ## Stage 2 — only after Stage 1 is frozen
 
@@ -49,7 +49,7 @@ Here is the FROZEN Stage 1 JSON:
 Return ONE new valid JSON object of the same {"items":[...]} shape and exact ID order, with distinct GUIDE verdicts and 15+ character evidence/reasoning in every field. Do not average or silently promote an earlier question verdict. Do not accept misleading authored guidance merely because an original question is sound.
 ```
 
-Complete each of the **11 batches** by starting a genuinely new reviewer chat and using the correct batch pair. A fresh chat may be operated by the Founder; this is a necessary human transfer step, not a system capability to launch another chat automatically.
+Complete all **11 batches** in the independent fresh chat, recording both JSON outputs for each ID. One new ChatGPT conversation **outside the Revision project** is sufficient if all blind batches are completed before showing any guided batches. Separate new conversations per batch are also valid where capacity limits require it. A Founder-operated new chat is a necessary one-time handoff: this current authoring chat cannot itself create another independent ChatGPT conversation.
 
 ## Evidence intake, no extra API bill
 
