@@ -326,3 +326,11 @@ The approved FI-007 product behaviour and 5 / 30 / Unlimited marking rules are p
 This analysis update keeps the non-authoritative Definition-of-Ready record aligned while explicitly deferring the broader site-wide tier matrix to FI-002.
 
 No production code or technical implementation documentation changes are authorised by this analysis increment.
+
+## 25 November 2026 — Founder-directed private-test-first feasibility
+
+Founder direction in #706 comment 7169612983: no Business reviewer available; build a working site from source-grounded assumptions, then undertake independent human review. PR #860 proposes the narrow authority amendment to `Assisted Exam Answer Marking.md`; until merged, current main authority still applies. This does not approve private-test Ready or change the full calibrated/public release gate. Business 7132 first, Psychology 7182 second.
+
+Current proof: AQA-aligned candidate scale, 12 original Business response seeds, same-context exploratory feedback on 12, zero human references, zero genuinely independent provider runs. Research-only `research/fi007-marking/private-pilot-provisional-decision.mjs` and `2026-11-25-private-pilot-decision-tests.json` exercise a candidate same-level/within-one-mark provisional-range rule, with 10/10 synthetic control cases passing. This tests output handling, not mark accuracy. Actual separate model execution, qualified rubric checks where available, measured inference cost/latency, protected server processing and learner integration acceptance remain unproved. No real learner data and no change to the live site.
+
+Next: execute bounded independent model comparison on the two original Business packs, correct disagreements, satisfy the scoped private-test DoR and seek explicit human Ready after authority amendment approval. Public calibration remains tracked under #706, #649 and #668. Never treat provisional private-test marks as objective progress evidence. Keep existing LF-05 self-review delivery independent.
