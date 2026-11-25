@@ -3,7 +3,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
-select plan(18);
+select plan(20);
 select is((select count(*) from public.lf05_written_questions where status='published' or id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),12::bigint,
   'six previously published plus exactly six held source-mapped candidates');
 select is((select count(*) from public.lf05_written_guides g join public.lf05_written_questions q on q.id=g.question_id where q.status='published' or q.id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),12::bigint,
@@ -41,6 +41,12 @@ select ok((select bool_and(q.approved_source_ref like '%675fdc8c53a224fe8fa9a810
   join public.lf05_written_guides g on g.question_id=q.id
   where q.status='held' and q.id in ('PSY-LF05-01','PSY-LF05-02','PSY-LF05-07','BUS-LF05-03-16','BUS-LF05-04-25','BUS-LF05-07-25')),
   'source versions are preserved but the revised guide has no false independent A3 claim');
+select ok((select skill_ref like '%§4.2.3.1%' and skill_ref like '%scientific processes%' and skill_ref not like '%§4.2.3.2%'
+ from public.lf05_written_questions where id='PSY-LF05-07'),
+ 'research design and validity cite §4.2.3.1 scientific processes rather than §4.2.3.2 data handling');
+select ok((select question_prompt ilike '%Using the proposed repeated-measures design%' and question_prompt ilike '%including controls%'
+ from public.lf05_written_questions where id='PSY-LF05-07'),
+ 'Research Methods question asks for practical controls within the stipulated repeated-measures design');
 select ok((select stimulus is not null and length(stimulus)>120
   from public.lf05_written_questions where id='PSY-LF05-07'),
   'Psychology Research Methods retains original study design context');
