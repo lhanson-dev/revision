@@ -510,7 +510,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
         subjectId: entry.item.subjectId, courseId: entry.item.courseId, topicId: entry.item.topicId,
         activityType: entry.item.activityType, metadata: { plannerVersion: 1, source: 'plan', ...(task.activityType === 'quick-check' || task.activityType === 'flashcards' ? { completionMode: 'explicit_focused_session' } : {}) } })
     } catch { /* Recording failure must not block supported work. */ }
-    if (learnRoute) { onStartLearnTask(task); return }
+    if (learnRoute || task.activityType === 'flashcards') { onStartLearnTask(task); return }
     setActiveTask(task)
   }
 
@@ -520,7 +520,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenRev
     if (task.activityType === 'learn') {
       if (!learnRouteForTask(task)) { setMessage(ACCEPTED_ACTIVITY_UNAVAILABLE); return }
       onStartLearnTask(task)
-    } else setActiveTask(task)
+    } else if (task.activityType === 'flashcards') onStartLearnTask(task)
+    else setActiveTask(task)
   }
 
   function replaceSession(updated: PlannedSession) {

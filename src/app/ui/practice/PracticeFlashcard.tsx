@@ -21,13 +21,15 @@ export interface PracticeFlashcardViewProps {
   /** True for every card after the first, so the keyboard lands on "Show answer" as the next card appears. */
   focusOnMount: boolean
   busy?: boolean
+  /** Lock an uncertain save to its original rating. */
+  retryRating?: FlashRating | null
 }
 
 /**
  * One flashcard in the Practice warm-up (v2.2). The card turns over (the CSS does the turn, and skips it when the student
  * prefers reduced motion). Rating the card saves it and moves straight on. Warm-ups never count towards Exam readiness.
  */
-export function PracticeFlashcardView({ number, total, question, answer, flipped, onFlip, onRate, isLast, focusOnMount, busy }: PracticeFlashcardViewProps) {
+export function PracticeFlashcardView({ number, total, question, answer, flipped, onFlip, onRate, isLast, focusOnMount, busy, retryRating }: PracticeFlashcardViewProps) {
   const showRef = useRef<HTMLButtonElement>(null)
   const rateRef = useRef<HTMLButtonElement>(null)
 
@@ -92,7 +94,7 @@ export function PracticeFlashcardView({ number, total, question, answer, flipped
                 ref={index === 0 ? rateRef : undefined}
                 type="button"
                 className={`practice-flashcard__rate-button practice-flashcard__rate-button--${ratingTone[choice.rating]}`}
-                disabled={busy}
+                disabled={busy || (retryRating != null && retryRating !== choice.rating)}
                 onClick={() => onRate(choice.rating)}
               >
                 <Icon name={ratingIcon[choice.rating]} size="inline" />{choice.label}
