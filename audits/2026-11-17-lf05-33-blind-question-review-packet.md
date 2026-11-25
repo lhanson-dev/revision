@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: blind independent A3 question review
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `826f081a5005eefd656f95c8409b36e06f3bd497` (six) and `476df066bc2e13968e62abbc26a822127c323fe1` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b` (six) and `e58ac284a8114ae26dbe7e9253729def5521912e` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 1: do not read the guided packet until independent expected answers and question verdicts are committed.** Check precise AQA source, paper, selected Psychology option where applicable, fair alternatives and original training mark-style. No official 2027 item tariff is claimed.
 
@@ -31,9 +31,9 @@
 - **Course:** aqa:aqa-a-level:7182
 - **Paper/mark-style:** 2 / 16 (original training)
 - **Topic:** research-methods
-- **Specification mapping to verify:** AQA 7182 v1.4 §§4.2.3–4.2.3.2 — experimental design and validity
+- **Specification mapping to verify:** AQA 7182 v1.4 §4.2.3 (experimental method) and §4.2.3.1 (scientific processes: repeated-measures design, control and validity)
 
-**Question:** A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Design a suitable study and evaluate the main threats to the validity of the findings.
+**Question:** A researcher wants to test whether background music affects memory. Forty sixth-form volunteers will learn two different word lists, one in silence and one with music, in counterbalanced order. Using the proposed repeated-measures design, describe how the researcher should conduct the study, including controls, and evaluate threats to its validity.
 
 **Scenario:** The same 40 volunteers complete both conditions. List difficulty, musical preferences and time of day could affect recall; the research is not yet underway.
 
@@ -283,7 +283,7 @@
 - **Course:** aqa:aqa-a-level:7132
 - **Paper/mark-style:** 2 / 16 (original training)
 - **Topic:** hr
-- **Specification mapping to verify:** AQA 7132 v2.0 §3.6.2 (HR performance and labour turnover), with §3.6.3 relevant to workforce-flow or rota-design alternatives
+- **Specification mapping to verify:** AQA 7132 v2.0 §3.6.2 Analysing human resource performance (labour turnover) and §3.6.3 Making human resource decisions: improving organisational design and managing the human resource flow (training and workforce planning)
 
 **Question:** To what extent should Orchid Care Services increase spending on training to improve staff performance?
 
