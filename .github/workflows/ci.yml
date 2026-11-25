@@ -350,6 +350,7 @@ jobs:
           supabase test db supabase/tests/lf05-next-six-held-content-assurance.test.sql
           supabase test db supabase/tests/lf05-remaining-27-held-content-assurance.test.sql
           supabase test db supabase/tests/lf05-39-activation-simulation.test.sql
+          supabase test db supabase/tests/lf05-question-title-clarity.test.sql
           supabase test db supabase/tests/private-admission-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
