@@ -11,6 +11,8 @@ Use this file to find the governing source before substantive work.
 
 ## Technical foundation
 
+- LF-05 25 November **complete fresh-chat Stage 2** (33 guided verdicts: 21 PASS/11 MINOR/1 MATERIAL; all 12 targeted corrections committed but still HELD pending exact-guide delta recheck; original Stage 1 32 PASS/1 MINOR, no blocked question); source-per-row verified 21 unchanged guides/32 unchanged blind questions → `audits/2026-11-25-lf05-stage2-fresh-chat-guided-adjudication.md`, `audits/lf05-fresh-chat-review/README.md`, `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; #854 DRAFT, no release.
+
 - LF-05 **25 November user-supplied blind fresh-chat review of all 33 held original questions** (32 PASS, 1 MINOR Marshbrook, 0 material; guidance UNREVIEWED; context/rights pending) → `audits/lf05-fresh-chat-review/2026-11-25-user-submitted-blind-review.md`, `audits/lf05-fresh-chat-review/2026-11-25-stage1-blind-structured.json`, and `docs/technical/LF-05 Full-bank Written Practice Implementation.md`; draft PR #854, all 33 HELD.
 
 - LF-05 25 November **33 held originals now split into 11 exact-source three-item blind and guided packets** for independent new ChatGPT chat review without API billing; no educational approval, 6/39 published → `audits/lf05-fresh-chat-review/README.md`, `audits/lf05-fresh-chat-review/receipt.template.json`; proposed governed review-method PR #862.
