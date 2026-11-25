@@ -70,7 +70,7 @@ begin
        is distinct from
      (select array_agg(id order by id) from public.lf05_written_questions)
     or exists (
-      select display_title from lf05_question_title_updates
+      select 1 from lf05_question_title_updates
       group by lower(display_title) having count(*) > 1
     )
     or exists (
