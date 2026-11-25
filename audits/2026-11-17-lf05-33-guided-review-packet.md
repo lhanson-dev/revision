@@ -1,6 +1,6 @@
 # LF-05 — 33 held questions: independent A3 guided challenge
 
-**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `572840fc1c9e4dd0a0f07e1bccb387ee59b18d5b` (six) and `e58ac284a8114ae26dbe7e9253729def5521912e` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
+**17 November 2026 — revised held question versions, NOT independent educational approval.** Source Git blobs `7f6304f49f4d736fb49387b7b11d6accdd2f7f3c` (six) and `b663a10f509e9009185329f23d44470b6f12c734` (27). Exact-version review required; six already-published production originals are not part of this 33-item queue.
 
 **Stage 2 only.** Challenge these authored suggestions against the independently recorded blind answers. Record exact-version PASS/MINOR/MATERIAL/BLOCKING separately for question and guide. Question-only and guided versions both need independent acceptance; author edits and CI do not confer a pass.
 
@@ -68,7 +68,7 @@
 
 2. Research design: Operationalise music versus silence as the independent variable, a scored recall measure as the dependent variable, and an appropriate repeated-measures hypothesis; specify a practical procedure with standardised instructions.
 
-3. Critical list control: Counterbalance or otherwise equate which word list appears in which condition AND the order of music and silence; merely swapping the order without controlling list difficulty confounds condition with materials.
+3. Critical list control: Counterbalance both condition order and list assignment. For example, divide the 40 volunteers into four groups of ten: music/List A then silence/List B; silence/List A then music/List B; music/List B then silence/List A; silence/List B then music/List A. Other appropriately balanced assignments earn credit. Pilot-test word lists for similar difficulty; counterbalancing allocation does not itself demonstrate that lists are equally difficult.
 
 4. Applied procedure and ethics: Explain group/order allocation for the 40 volunteers, timing, consistent volume or music conditions, voluntary participation, informed consent and withdrawal, with measures that reduce demand or investigator effects.
 
@@ -130,7 +130,7 @@
 
 4. Developed analysis: Explain plausible cost, responsiveness, lead-time and quality benefits, alongside lean vulnerabilities such as stockouts, supplier disruption, employee capability and excessive pressure on quality.
 
-5. Comparison: Evaluate alternatives such as automation, process improvement, quality management or investment in flexible capacity, explaining the conditions in which each beats lean methods.
+5. Comparison: Recognise that continuous improvement (kaizen), process improvement and quality management may be part of lean production rather than rival strategies. Contrast genuine competing or complementary priorities such as automation, added flexible capacity or product differentiation; explain when these choices add value or complement lean methods.
 
 6. Balanced judgement: Weigh competitiveness as cost, reliability, quality and differentiation; reach a justified comparative position conditional on supply-chain stability and customer needs.
 
@@ -216,7 +216,7 @@
 
 2. Explain Beck's negative triad and Ellis's ABC model, including irrational beliefs.
 
-3. Outline how CBT uses the challenge of unhelpful thoughts in treatment.
+3. Explain CBT with practical mechanisms: collaboratively identify negative automatic thoughts and beliefs, test evidence for or against them, restructure unhelpful interpretations and use appropriate behavioural experiments or activity scheduling. Ellis's REBT can use disputation of irrational beliefs; these examples support, rather than exhaust, valid CBT explanations.
 
 4. Distinguish an explanation of depression from evidence of treatment effectiveness.
 
@@ -456,7 +456,7 @@
 
 3. Describe relevant biological, psychological and social influences on presentation and treatment.
 
-4. Explain how drug, psychological and social interventions may contribute to integrated treatment, without assuming that any combination establishes a cause.
+4. Illustrate interactionist treatment using typical or atypical antipsychotic medication alongside CBT or family therapy where appropriate, with social support where relevant. Explain how biological and psychological components address different needs; do not demand one fixed treatment combination or infer that treatment success proves the cause of schizophrenia.
 
 5. Evaluate evidence for combined vulnerability-and-stress explanations rather than independent single causes.
 
@@ -520,9 +520,9 @@
 
 1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. Explain the phases and coping-skills emphasis of stress inoculation therapy.
+2. Explain stress inoculation therapy using conceptualisation (identify stressors and responses), skills acquisition and rehearsal (practise coping skills) and application/follow-through (apply and review skills in increasingly realistic situations). Accept equivalent accurate names for these phases.
 
-3. Explain biofeedback as monitoring physiological signals to learn control strategies.
+3. Explain biofeedback through physiological monitoring such as muscle tension or skin conductance and immediate feedback used to practise self-regulation; distinguish monitoring a response from removing the underlying stressor.
 
 4. Distinguish psychological coping training from physiological feedback mechanisms.
 
@@ -554,7 +554,7 @@
 
 1. Original Revision 16-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. Explain the proposed link between frustration and aggressive responses, including when it may not occur.
+2. Distinguish the original frustration–aggression hypothesis's strong proposed link between blocked goals/frustration and aggression from later revisions recognising that frustration can produce non-aggressive responses and aggression depends on additional cues, interpretation and context. Do not assert that frustration inevitably causes aggression.
 
 3. Explain imitation, identification, reinforcement and mediated processes in social learning.
 
@@ -590,7 +590,7 @@
 
 2. Explain organised/disorganised categorisation in typology profiling.
 
-3. Explain data-driven investigative psychology as an offender-profiling approach using patterns in case data; distinguish it from geographical profiling, which considers patterns in offence locations. Both appear in 7182 §4.3.9 but are not synonyms.
+3. Explain data-driven offender profiling using investigative psychology (analysis of behavioural/case patterns) and/or geographical profiling (analysis of spatial offence patterns). These are distinct methods in AQA 7182 §4.3.9, not synonyms, but either can support an accurate comparison with organised/disorganised typology under this broadly worded question.
 
 4. Identify the types of information available to investigators and distinguish hypotheses from proof.
 
@@ -602,7 +602,7 @@
 
 8. Develop a conditional judgement about investigative support versus forensic proof.
 
-9. Alternative valid answer routes: Credit detailed evidence-based investigative psychology as the data-driven approach named in the question. Geographical profiling may receive relevant comparative credit when accurately identified as a distinct profiling approach, not substituted as a synonym for investigative psychology. Do not claim a profile proves guilt or uniquely identifies an offender.
+9. Alternative valid answer routes: Credit accurately developed investigative psychology and/or geographical profiling as legitimate data-driven comparisons with typology-based offender profiling. Distinguish behavioural and spatial methods and their limitations without requiring a predetermined approach or conflating terms. Assess the accuracy, relevance and quality of the student's comparison. A profile does not prove guilt or uniquely identify an offender.
 
 10. Source-specific correction / alternative-credit safeguard: Organised/disorganised typology differs from data-driven investigative psychology; geographical profiling separately concerns spatial offence patterns. A profile cannot prove guilt.
 
@@ -652,7 +652,7 @@
 
 **Question:** To what extent should Marshbrook Bakery prioritise cash flow rather than profit when deciding whether to expand?
 
-**Scenario:** Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand but several owners prefer to retain profits.
+**Scenario:** Marshbrook Bakery Ltd has revenue of £1.8m, total costs of £1.74m and £90,000 of cash available. A chain is opening three nearby shops; managers want to borrow £400,000 to expand, while several owners favour slower expansion funded internally to avoid substantial new borrowing.
 
 **Authored indicative guidance, not an independently accepted mark scheme:**
 
@@ -662,9 +662,9 @@
 
 3. AO2 contextual selection and interpretation: Use the £60,000 profit (revenue minus total costs), £90,000 cash and proposed £400,000 borrowing; distinguish profitability from liquidity.
 
-4. AO3 developed causal analysis: Explain how low cash buffers constrain finance, wages or suppliers despite reported profit. Develop how competition could change demand, pricing and fixed-cost exposure.
+4. AO3 developed causal analysis: Explain how insufficient cash buffers could constrain wages, suppliers or investment despite reported profit; the £90,000 cash balance cannot by itself establish whether the buffer is adequate without payment timings and obligations. Analyse competitive threats without treating borrowing and retaining profit as mutually exclusive.
 
-5. AO4 evaluation and judgement: Weigh short-run cash resilience against profitable expansion and competitive positioning; conditional decision depends on repayment timing and forecast receipts.
+5. AO4 evaluation and judgement: Weigh short-run cash resilience against profitable expansion and competitive positioning; credit slower internally funded, phased, mixed-finance or borrowing-led expansion when justified. Retained profits and borrowing can coexist; judge affordability only with debt-service terms, financial commitments and cash forecasts.
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
@@ -692,9 +692,9 @@
 
 3. AO2 contextual selection and interpretation: Use 96% capacity, 7% rework and 14% late orders to identify quality and capacity pressures.
 
-4. AO3 developed causal analysis: Show how fewer defects could free productive capacity and reduce costs, but also how the near-full plant constrains output. Analyse spending on automation and the effect of delays on reputation and long-run sales.
+4. AO3 developed causal analysis: Show how fewer defects might free productive capacity and reduce costs, while near-full utilisation can constrain output. Analyse the proposed £1.5m machine as possible extra capacity; automation is only a possibility if verified, not an established feature. Explain how delays may affect reputation and future demand.
 
-5. AO4 evaluation and judgement: Prioritise the highest net cost of defects/delay, and condition the investment decision on verified throughput and demand forecasts.
+5. AO4 evaluation and judgement: Compare the potential costs of defects, capacity constraints and late deliveries without pretending their relative net costs are known; obtain throughput, demand and cost evidence before prioritising the £1.5m investment.
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
@@ -778,7 +778,7 @@
 
 2. AO1 accurate concepts: Explain training, turnover, motivation, retention and the difference between on-the-job and off-the-job development.
 
-3. AO2 contextual selection and interpretation: Use 180 employees × 32% annual turnover = 57.6, about 58 leavers annually. 57.6 × £1,200 = £69,120 is an illustrative annual training cost only if each leaver is replaced and each recruit incurs that cost; the actual replacement rate and existing training budget are unknown. Use the rota concerns and customer satisfaction change 86% to 77% (9 percentage points).
+3. AO2 contextual selection and interpretation: If 180 represents the average workforce over the year, 180 × 32% annual labour turnover = 57.6, approximately 58 departures. If every leaver is replaced and trained at £1,200, costs could be £69,120 using the unrounded estimate or £69,600 using 58 rounded recruits; accept both well-explained estimates. Recruitment and training actually depend on replacements and needs, which are unknown. Customer satisfaction declined from 86% to 77% (9 percentage points).
 
 4. AO3 developed causal analysis: Link higher competence to service quality and recruitment costs, but distinguish inadequate training from poor scheduling and progression. Explain time and opportunity costs plus the risk trained employees still leave.
 
@@ -786,7 +786,7 @@
 
 6. Valid alternatives: Reward a different recommendation if its assumptions and analysis are coherent with the facts; do not require the example's suggested conclusion. Penalise unsupported inference and calculations not justified by the stimulus, not a different but defensible business choice.
 
-7. Source-specific correction / alternative-credit safeguard: 32% of 180 is approximately 58 leavers only if that headcount applies annually. £69,120 recruitment training is illustrative only if every leaver is replaced at £1,200. Satisfaction fell 9 percentage points but causation is unproven.
+7. Source-specific correction / alternative-credit safeguard: Estimated annual departures require average annual workforce size of 180. £69,120 (unrounded 57.6) and £69,600 (58 rounded replacements) are both illustrative if every leaver is replaced and each recruit requires £1,200 training. Do not imply that either is an actual budget. Satisfaction fell 9 percentage points; training causation is unproven.
 
 8. Qualitative answer-quality check, not a calibrated mark: strong work responds to the exact command and evidence, develops contrasting reasons and a qualified judgement; a list of unrelated definitions is not enough. Accept credible different conclusions supported by the question's facts.
 
@@ -950,11 +950,11 @@
 
 1. Original Revision 25-mark-style practice and qualitative self-review; not an official AQA question, confirmed item tariff, examiner-calibrated AO split, numeric mark or grade.
 
-2. AO1 selected knowledge: Distinguish external growth/acquisition from organic growth and describe potential synergy. Extend accurately into the concepts named in the question, with appropriately precise business terminology.
+2. AO1 selected knowledge: Explain external growth through mergers and takeovers/acquisitions versus organic growth; describe possible synergy and economies of scale or scope. Do not treat international expansion as an independent method of growth: it is a geographic direction that can be pursued through several methods.
 
 3. AO2 plausible business contexts: Illustrate the argument using contrasting relevant businesses or reasoned hypothetical contexts; Paper 1 does not necessarily supply an individual case. Specific, coherent application is preferable to an unsubstantiated named brand.
 
-4. AO3 developed analysis: Develop economies of scale/scope and market share gains from acquisition; explain why synergy is not automatic. Contrast organic growth, alliances and international entry where context relevant, with financial/cultural control.
+4. AO3 developed analysis: Consider different forms of external growth, including mergers and takeovers, and assess speed, control, financing, integration risk and possible synergy. Compare organic growth, and assess collaborations according to whether their legal/organisational structure involves external growth. International entry is a possible direction of expansion, not a growth method in itself.
 
 5. AO4 balanced judgement: Reach a conditional conclusion based on urgency, capital, capability and integration risk; avoid assuming external growth always beats organic.
 
@@ -1014,7 +1014,7 @@
 
 3. AO2 / actual data: The lower digit-task accuracy in Task B (49%) than Task A (76%) is consistent with greater interference when two concurrent tasks draw on verbal processing, compared with combining a verbal and a mainly visual/spatial task. The central executive may coordinate dual-task attention. The data do not isolate every component or measure capacity directly.
 
-4. AO3 / challenge: Because Task A always came first and the secondary tasks were not matched for difficulty, order, fatigue and difficulty could also contribute. Question the limits of inferring specific working-memory mechanisms from just 24 sixth-form volunteers, whose recruitment method is not fully specified, and the group averages alone. Use dual-task evidence as a general model strength, while considering competing explanations, the central executive's unclear boundaries and limitations of simplified laboratory tasks. Conclude cautiously.
+4. AO3 / challenge: Because Task A always came first and the secondary tasks were not matched for difficulty, order, fatigue and difficulty could also contribute. The 24 sixth-form volunteers are a known volunteer sample; their narrow population, possible volunteer bias and unspecified recruitment details limit generalisability. Group averages alone cannot isolate a working-memory mechanism. Use dual-task evidence as a general model strength, alongside competing explanations, unclear central-executive boundaries and limitations of simplified laboratory tasks; conclude cautiously.
 
 5. Alternative credit: A well-reasoned argument about attentional demands, task interference or rehearsal is valid if it fits the prompt and does not claim the data alone establish a specific component. The episodic buffer may receive credit if appropriately connected, but it is not mandatory for every answer about this dual-task pattern.
 
