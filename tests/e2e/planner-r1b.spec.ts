@@ -236,9 +236,15 @@ test('R1-07 accepted Flashcards Start opens the same supported activity on all s
     if (!hash) await page.locator('.home-v3-hero').getByRole('button', { name: /^Start/ }).click()
     else if (hash.startsWith('#/plan')) await page.getByRole('button', { name: /^Up next/ }).click()
     else await page.getByRole('button', { name: 'Start Finance', exact: true }).click()
-    await expect(page.locator('.home-focused-practice')).toContainText('Flashcard')
-    await expect(page.getByRole('button', { name: 'Show answer', exact: true })).toBeVisible()
-    await expect(page.locator('.home-focused-activity').getByRole('heading', { level: 1 })).toHaveText('Finance')
+    await expect(page).toHaveURL(/#\/courses\/[^/]+(?:\/components\/[^/]+)?\/practice\/finance$/)
+    const activity = page.getByRole('region', { name: 'Practice: Finance, warm-up · flashcards' })
+    await expect(activity).toBeVisible()
+    const card = activity.locator('.practice-flashcard__card')
+    await expect(card).toHaveAttribute('data-flipped', 'false')
+    await activity.getByRole('button', { name: 'Show answer', exact: true }).click()
+    await expect(card).toHaveAttribute('data-flipped', 'true')
+    await expect(activity.getByRole('button', { name: 'Yes', exact: true })).toBeVisible()
+    await expect(page.locator('.home-focused-activity')).toHaveCount(0)
   }
 })
 
