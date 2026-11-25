@@ -1,0 +1,63 @@
+name: FI-007 bounded Business marking feasibility
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/fi007-business-comparison.yml'
+      - 'research/fi007-marking/**'
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fi007-business-comparison-${{ github.event_name }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --check research/fi007-marking/run-business-comparison.mjs
+      - run: node --test research/fi007-marking/run-business-comparison.node-check.mjs
+
+  comparison:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.number == 860 &&
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == 'lhanson-dev' &&
+      github.event.comment.author_association == 'OWNER' &&
+      github.event.comment.body == 'revision-run-fi007-business:v1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - name: Checkout trusted main event commit only
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - run: node --test research/fi007-marking/run-business-comparison.node-check.mjs
+      - name: Compare two fresh-request marking passes
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node research/fi007-marking/run-business-comparison.mjs
+      - name: Retain partial or complete synthetic results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fi007-business-${{ github.run_id }}
+          path: .artifacts/fi007-business/
+          retention-days: 30
+          if-no-files-found: warn
