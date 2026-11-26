@@ -3,7 +3,8 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { createSupabaseEvidenceStore, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCalculationEvidence, createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 import { authoredCalculationForTask, authoredFlashcardsForTask, authoredQuestionsForTask, supportedActivityMinutes, type HomeTask } from './home-task'
-import { Button, Icon, Status } from './ui'
+import { Button, Icon, Status, PracticeActivityWorkspace, PracticeBarTitle, PracticeFlashcardView, accentStyle } from './ui'
+import { resolveSubjectIdentity } from './subject-palette'
 import { ExamSimulator } from './ExamSimulator'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { resolveHomeExamQuestion } from './home-exam-question'
@@ -288,6 +289,26 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
     }
   }
 
+  if (task.activityType === 'flashcards') {
+    const identity = resolveSubjectIdentity(task.subjectId, task.subjectName)
+    return (
+      <PracticeActivityWorkspace label={`Practice: ${task.topicLabel}, warm-up · flashcards`} subjectMark={identity.mark}
+        accentStyle={accentStyle(identity.hue)} onClose={saving ? () => {} : onBack}
+        bar={<PracticeBarTitle title={`${task.topicLabel} · Warm-up · Flashcards`} />}>
+        {error && <Status tone="error">{error}</Status>}
+        {task.source === 'planner' && actualMinutes !== task.estimatedMinutes && <p role="status">This topic has about {actualMinutes} minutes of supported practice. Your original {task.estimatedMinutes}-minute plan allocation is unchanged.</p>}
+        {completionPending ? <Button disabled={saving} onClick={() => void retryCompletion()}>Retry confirming session</Button>
+          : completed ? <div aria-live="polite"><h2>Useful revision recorded.</h2><p>Your flashcard ratings are saved.</p>{finishedBooking}<Button onClick={onFinish}>Back to Practice</Button></div>
+          : card ? <>
+            {retryRating !== null && !saving && <p role="status">The first save was not confirmed. Retry the same rating to protect your recorded progress.</p>}
+            <PracticeFlashcardView key={card.id} number={activityIndex + 1} total={cardCount} question={card.prompt} answer={card.answer}
+              flipped={showAnswer} onFlip={() => setShowAnswer(true)} onRate={rating => void saveFlashcard(rating)}
+              isLast={activityIndex + 1 === cardCount} focusOnMount={activityIndex > 0} busy={saving} retryRating={retryRating} />
+          </> : <Status tone="warning">This flashcard activity is no longer available for the recommended topic.</Status>}
+      </PracticeActivityWorkspace>
+    )
+  }
+
   if (task.activityType === 'quick-check' && calculation) return (
     <HomeCalculationCheck task={task} question={calculation} typedAnswer={typedAnswer}
       attemptConfidence={calculationAttemptConfidence}
@@ -314,7 +335,7 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
         <header className="home-focused-heading">
           <div className="home-focused-labels">
             <span className="home-subject-chip">{task.subjectName}</span>
-            <span className="home-neutral-chip">{focused ? 'Focused practice' : 'Recommended session'} · about {actualMinutes} min{focused ? ' · ' + totalItems + ' ' + (task.activityType === 'flashcards' ? (totalItems === 1 ? 'card' : 'cards') : (totalItems === 1 ? 'question' : 'questions')) : ''}</span>
+            <span className="home-neutral-chip">Recommended session · about {actualMinutes} min</span>
           </div>
           <h1 id="home-focused-activity-title">{task.topicLabel}</h1>
           <p>{task.courseLabel}</p>
@@ -329,42 +350,6 @@ export function HomeFocusedActivity({ client, userId, task, programme, backLabel
           <ExamSimulator key={examTarget.questionId} exam={examTarget.exam} moduleId={examTarget.moduleId} saving={saving} saveError={error} onRecordEvidence={saveExamEvidence} autoStart="untimed" preferredQuestionId={examTarget.questionId} />
         )}
         {task.activityType === 'exam-question' && !examTarget && <Status tone="warning">An assured exam question for this course and topic is not available yet. No activity or result has been recorded. Return to Home to choose another activity.</Status>}
-        {task.activityType === 'flashcards' && card && !completed && (
-          <div className="home-focused-practice">
-            {completionPending ? (
-              <Button disabled={saving} onClick={() => void retryCompletion()}>Retry confirming session</Button>
-            ) : (<>
-            <p className="eyebrow">Flashcard {activityIndex + 1} of {cardCount}</p>
-            <h2>{card.prompt}</h2>
-            {!showAnswer ? (
-              <Button onClick={() => setShowAnswer(true)}>Show answer</Button>
-            ) : (
-              <>
-                <div className="home-focused-answer"><strong>Answer</strong><p>{card.answer}</p></div>
-                <p className="home-focused-rating">How well did you know it?</p>
-                {retryRating !== null && !saving && <p role="status">The first save was not confirmed. Retry the same rating to protect your recorded progress.</p>}
-                <div className="home-focused-actions">
-                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 0} onClick={() => void saveFlashcard(0)}>Not yet</Button>
-                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 1} onClick={() => void saveFlashcard(1)}>Nearly</Button>
-                  <Button variant="secondary" disabled={saving || retryRating !== null && retryRating !== 2} onClick={() => void saveFlashcard(2)}>Knew it</Button>
-                </div>
-              </>
-            )}
-            </>)}
-          </div>
-        )}
-
-        {task.activityType === 'flashcards' && card && completed && (
-          <div className="home-focused-result" aria-live="polite">
-            <p className="eyebrow">Evidence saved</p>
-            <h2>Useful revision recorded.</h2>
-            <p>Revision will use this result with the rest of your evidence when it recalculates what matters next.</p>
-            {finishedBooking}
-            <Button onClick={onFinish}>Back to today’s plan</Button>
-          </div>
-        )}
-
-        {task.activityType === 'flashcards' && !card && <Status tone="warning">This flashcard activity is no longer available for the recommended topic.</Status>}
       </section>
     </main>
   )
