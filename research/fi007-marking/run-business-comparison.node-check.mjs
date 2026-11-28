@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {makePayload,verify,agreement} from './run-business-comparison.mjs';
+const packet=JSON.parse(readFileSync(new URL('./2026-11-25-business-review-packet.json',import.meta.url),'utf8'));
+const ids=packet.cases.slice(0,3).map(c=>c.reviewId);
+const payload=makePayload(packet,ids);
+const good={results:payload.map(c=>({reviewId:c.reviewId,mark:1,level:1,quote:c.answer.slice(0,20),rationale:'Synthetic check of a structurally valid result.',improvement:'Synthetic check only, not a marking result.'}))};
+test('input contains no reference marks, prior judgement or case key',()=>{assert.equal(payload.length,3);assert.ok(!JSON.stringify(payload).includes('referenceMark'));assert.ok(!JSON.stringify(payload).includes('referenceLevel'));assert.ok(!JSON.stringify(payload).includes('reviewState'));assert.throws(()=>makePayload(packet,[ids[0],ids[0]]));assert.throws(()=>makePayload(packet,['UNKNOWN']));});
+test('verify valid output, reject partial, duplicate, invented quote and invalid marks',()=>{assert.equal(verify(payload,good).length,3);assert.throws(()=>verify(payload,{results:good.results.slice(1)}));assert.throws(()=>verify(payload,{results:[good.results[0],good.results[0],good.results[2]]}));assert.throws(()=>verify(payload,{results:[{...good.results[0],quote:'not contained in any answer'},...good.results.slice(1)]}));assert.throws(()=>verify(payload,{results:[{...good.results[0],mark:99},...good.results.slice(1)]}));});
+test('agreement does not fabricate human calibration and reports missing pairs',()=>{const r=agreement(packet,good.results,good.results);assert.equal(r.paired,3);assert.equal(r.rows.filter(x=>x.status==='missing').length,9);assert.equal(r.humanAgreement,null);assert.equal(r.calibration,'NOT_ESTABLISHED');assert.equal(r.exact,3);});

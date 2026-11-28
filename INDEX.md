@@ -230,6 +230,8 @@ Use this file to find the governing source before substantive work.
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
 - Pre-commercial learner plan state / default-Free / manual test assignment / temporary all-access rule → `10-product-governance/Pre-Commercial Subscription Foundation.md`
 - Assisted exam-answer marking / FI-007 MVP, learner experience and marking allowance rules → `10-product-governance/Assisted Exam Answer Marking.md`
+- FI-007 proposed private-test full learner loop and bounded synthetic Business model comparison (Analyse; human calibration deferred; no live marker) → `research/fi007-marking/README.md`; #706 / #860.
+- FI-007 39-item published written bank automatic-marking gap inventory (25 November, not a numerical calibration or content review) → `research/fi007-marking/2026-11-25-live-bank-marking-inventory.json`.
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Student lifecycle journey screen-purpose / acceptance contracts (PR #590; effective only after Founder-approved merge) → `10-product-governance/Student Lifecycle Journey Contracts.md`
 - WP2 Student lifecycle experience / code-vs-contract / targeted assurance audit (12 October 2026; point-in-time evidence, not authority) → `audits/2026-10-12-student-lifecycle-experience-and-assurance-wp2.md`

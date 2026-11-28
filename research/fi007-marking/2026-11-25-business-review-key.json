@@ -1,0 +1,54 @@
+{
+  "status": "sealed_from_marker_and_reference_reviewer",
+  "seedBlob": "12c1e91ae52aa52f5685a062512447ff9ccae19d",
+  "cases": [
+    {
+      "reviewId": "R01",
+      "seedId": "B25-03"
+    },
+    {
+      "reviewId": "R02",
+      "seedId": "B16-03"
+    },
+    {
+      "reviewId": "R03",
+      "seedId": "B25-05"
+    },
+    {
+      "reviewId": "R04",
+      "seedId": "B16-06"
+    },
+    {
+      "reviewId": "R05",
+      "seedId": "B16-02"
+    },
+    {
+      "reviewId": "R06",
+      "seedId": "B25-01"
+    },
+    {
+      "reviewId": "R07",
+      "seedId": "B16-04"
+    },
+    {
+      "reviewId": "R08",
+      "seedId": "B25-06"
+    },
+    {
+      "reviewId": "R09",
+      "seedId": "B16-01"
+    },
+    {
+      "reviewId": "R10",
+      "seedId": "B25-02"
+    },
+    {
+      "reviewId": "R11",
+      "seedId": "B16-05"
+    },
+    {
+      "reviewId": "R12",
+      "seedId": "B25-04"
+    }
+  ]
+}
